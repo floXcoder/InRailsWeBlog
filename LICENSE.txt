@@ -1,0 +1,20 @@
++-=======================================================================-+
+|                          InRailsWeBlog                                  |
++-=======================================================================-+
+| InRailsWeBlog is a Blog engine.                                         |
+|                                                                         |
+| (c) 2015      FloXcoder.                                                |
+|                                                                         |
+| InRailsWeBlog is redistributed under the terms of the X11 / MIT Licence |
+|                                      http://opensource.org/licenses/MIT |
+|                                                                         |
+| InRailsWeBlog is based upon others ressources, that are listed below.   |
+|                                                                         |
+| Please, feel free to send bugs reports or questions to flo@l-x.fr       |
+|                                                                         |
++-------------------------------------------------------------------------+
+|                                                                    ...  |
++-------------------------------------------------------------------------+
+| ...                                                                     |
+|                                                                         |
++-------------------------------------------------------------------------+
