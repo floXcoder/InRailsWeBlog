@@ -41,6 +41,18 @@ group :development do
 
   # Turn off unnecessary log output
   gem 'quiet_assets',           '~> 1.1.0'
+
+  # Guard and its minions
+  gem 'guard',                  '~> 2.13.0'
+  gem 'guard-rails',            '~> 0.7.2'
+  gem 'guard-annotate',         '~> 2.2'
+  gem 'guard-bundler',          '~> 2.1.0'
+  gem 'guard-migrate',          '~> 1.2.1'
+  gem 'guard-rake',             '~> 1.0.0'
+  gem 'guard-rspec',            '~> 4.6.4',  require: false
+  gem 'guard-sidekiq',          '~> 0.1.0'
+  gem 'guard-process',          '~> 1.2.1'
+  gem 'libnotify',              '~> 0.9.1'
 end
 
 group :test do
