@@ -1,0 +1,40 @@
+# Gemfile.lock
+/Gemfile.lock
+
+# Ignore bundler config
+/.bundle
+
+# Ignore all logfiles, tempfiles, assets and upload files
+/log/*.log
+/tmp
+/public/assets
+/public/fonts
+/public/javascripts
+/public/stylesheets
+/public/uploads
+/public/vendor
+
+# Ignore application documentation
+/doc
+
+# Ignore SQL dump
+/db/*.sql
+
+# Ignore Rubymine files
+/.idea
+
+# Ignore OS specific files
+/.directory
+
+# Ignore node modules files
+/node_modules
+/vendor/components
+/npm-debug.log
+
+# Ignore environment variables file
+/config/application.yml
+/config/settings/local.rb
+
+# Ignore static analysis files
+/static_analysis/*
+/.validation/*
