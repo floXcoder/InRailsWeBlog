@@ -25,6 +25,17 @@ gem 'spring',                   '~> 1.4.0',     group: [:development, :test]
 group :development do
   # server
   gem 'thin', '~> 1.6.3'
+
+  # Debugging tool
+  gem 'pry-rails',              '~> 0.3.3'
+  gem 'awesome_print',          '~> 1.6.1'
+
+  # Improve errors
+  gem 'better_errors',          '~> 2.1.1'
+  gem 'binding_of_caller',      '~> 0.7.2'
+
+  # Turn off unnecessary log output
+  gem 'quiet_assets',           '~> 1.1.0'
 end
 
 group :test do

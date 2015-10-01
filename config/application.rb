@@ -45,6 +45,12 @@ module InRailsWeBlog
     # Debug mode disables concatenation and preprocessing of assets.
     config.assets.debug = false
 
+    # Log levels :debug, :info, :warn, :error, :fatal, et :unknown
+    config.log_level = :warn if Rails.env.production?
+
+    # Log file for development
+    config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/development.log')) if Rails.env.development?
+
     # "pretty" HTML format output
     Slim::Engine.set_options pretty: true
   end
