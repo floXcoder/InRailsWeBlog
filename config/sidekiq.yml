@@ -1,0 +1,11 @@
+---
+:concurrency: 5
+:pidfile: tmp/pids/sidekiq.pid
+demo:
+  :concurrency: 10
+production:
+  :concurrency: 20
+:queues:
+  - [high, 2]
+  - default
+  - carrierwave

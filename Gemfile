@@ -19,8 +19,10 @@ gem 'slim-rails',               '~> 3.0.1'
 # Internationalization
 gem 'http_accept_language',     '~> 2.0.2'
 
-# Speed up server and tests
-gem 'spring',                   '~> 1.4.0',     group: [:development, :test]
+# Run asynschronous process
+gem 'sidekiq',                  '~> 3.5.0'
+gem 'sinatra',                  '~> 1.4.5',     require: false
+gem 'whenever',                 '~> 0.9.4',     require: false
 
 group :development do
   # server
@@ -40,6 +42,11 @@ end
 
 group :test do
 
+end
+
+group :development, :test do
+  # Speed up server and tests
+  gem 'spring',   '~> 1.4.0'
 end
 
 group :production do
