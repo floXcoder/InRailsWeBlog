@@ -51,6 +51,11 @@ module InRailsWeBlog
     # Log file for development
     config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/development.log')) if Rails.env.development?
 
+    # I18n configuration
+    config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{ rb , yml }').to_s]
+    config.i18n.default_locale = :fr
+    config.i18n.fallbacks = true
+
     # "pretty" HTML format output
     Slim::Engine.set_options pretty: true
   end

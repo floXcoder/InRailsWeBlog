@@ -18,6 +18,9 @@ gem 'slim-rails',               '~> 3.0.1'
 
 # Internationalization
 gem 'http_accept_language',     '~> 2.0.2'
+gem 'globalize',                '~> 5.0.1'
+# 3.0.0.rc11 bugged, generate translations twice in the same file
+gem 'i18n-js',                  '= 3.0.0.rc9'
 
 # Run asynschronous process
 gem 'sidekiq',                  '~> 3.5.0'

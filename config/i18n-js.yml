@@ -1,0 +1,7 @@
+fallbacks: true
+
+translations:
+- file: "app/assets/javascripts/modules/translation/fr.js"
+  only: 'fr.js.*'
+- file: "app/assets/javascripts/modules/translation/en.js"
+  only: 'en.js.*'
