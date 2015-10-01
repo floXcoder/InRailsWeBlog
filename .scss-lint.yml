@@ -1,0 +1,26 @@
+scss_files: 'app/assets/stylesheets/**/*.scss'
+
+#exclude: 'app/assets/stylesheets/plugins/**'
+
+linters:
+  NestingDepth:
+    max_depth: 4
+
+  SelectorDepth:
+    max_depth: 4
+
+  ImportantRule:
+    enabled: false
+
+  ColorVariable:
+    enabled: false
+
+#  BorderZero:
+#    enabled: false
+#
+#  Indentation:
+#    exclude:
+#      - 'path/to/file.scss'
+#      - 'path/to/directory/**'
+#    severity: warning
+#    width: 2
