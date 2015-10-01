@@ -22,6 +22,10 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
-  # Raises error for missing translations
-  # config.action_view.raise_on_missing_translations = true
+  # Mails
+  config.action_mailer.default_url_options = { host: ENV['DOMAIN'] } # Use by devise for sending emails. Change to definitive name
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = false
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default charset: 'utf-8'
 end
