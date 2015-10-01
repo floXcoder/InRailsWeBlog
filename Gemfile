@@ -23,11 +23,15 @@ gem 'http_accept_language',     '~> 2.0.2'
 gem 'spring',                   '~> 1.4.0',     group: [:development, :test]
 
 group :development do
-
+  # server
+  gem 'thin', '~> 1.6.3'
 end
 
 group :test do
 
 end
 
-
+group :production do
+  # server
+  gem 'passenger', '~> 5.0.18'
+end
