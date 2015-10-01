@@ -24,6 +24,9 @@ gem 'sidekiq',                  '~> 3.5.0'
 gem 'sinatra',                  '~> 1.4.5',     require: false
 gem 'whenever',                 '~> 0.9.4',     require: false
 
+# Redis session store
+gem 'redis-session-store',      '~> 0.8.0'
+
 group :development do
   # server
   gem 'thin', '~> 1.6.3'

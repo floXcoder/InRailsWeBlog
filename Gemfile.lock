@@ -134,6 +134,9 @@ GEM
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
+    redis-session-store (0.8.0)
+      actionpack (>= 3, < 5)
+      redis
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     sidekiq (3.5.0)
@@ -192,6 +195,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.3)
   quiet_assets (~> 1.1.0)
   rails (= 4.2.4)
+  redis-session-store (~> 0.8.0)
   responders (~> 2.1.0)
   sidekiq (~> 3.5.0)
   sinatra (~> 1.4.5)
