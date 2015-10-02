@@ -1,0 +1,25 @@
+base_locale: fr
+
+data:
+  read:
+    - config/locales/%{locale}.yml
+    - config/locales/*.%{locale}.yml
+    - config/locales/**/*.%{locale}.yml
+
+  write:
+    - ['{devise, simple_form, js}.*', 'config/locales/\1.%{locale}.yml']
+    - config/locales/%{locale}.yml
+
+  yaml:
+    write:
+      line_width: -1
+  json:
+    write:
+      indent: '  '
+      space: ' '
+      object_nl: "\n"
+      array_nl: "\n"
+
+search:
+  paths:
+    - app/
