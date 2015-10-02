@@ -1,0 +1,54 @@
+Documentation:
+  Enabled: false
+
+LineLength:
+  Enabled: false
+
+##################### Metrics ##################################
+Metrics/AbcSize:
+  # The ABC size is a calculated magnitude, so this number can be a Fixnum or a Float.
+  Max: 30
+
+Metrics/ClassLength:
+  CountComments: false  # count full line comments?
+  Max: 200
+
+Metrics/MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 30
+
+Style/ExtraSpacing:
+  AllowForAlignment: true
+
+#Style/FirstParameterIndentation:
+#  EnforcedStyle: false
+
+Style/ColonMethodCall:
+  Enabled: false
+
+Style/LeadingCommentSpace:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/IndentHash:
+  Enabled: false
+
+Style/MultilineBlockLayout:
+  Enabled: false
+
+Style/MultilineOperationIndentation:
+  Enabled: false
+
+Style/AlignParameters:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Max: 4

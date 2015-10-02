@@ -68,7 +68,32 @@ group :development do
 end
 
 group :test do
+  # Test tools
+  gem 'rspec-rails',            '~> 3.3.3'
+  gem 'capybara',               '~> 2.5.0'
+  gem 'capybara-email',         '~> 2.4.0'
+  gem 'capybara-webkit',        '~> 1.7.0'
+  gem 'capybara-screenshot',    '~> 1.0.11'
+  gem 'launchy',                '~> 2.4.3'
+  gem 'shoulda-matchers',       '~> 2.8.0',   require: false
+  gem 'html_validation',        '~> 1.1.3'
+  gem 'spork',                  '~> 0.9.2'
+  gem 'simplecov',              '~> 0.10.0',  require: false
+  gem 'fuubar',                 '~> 2.0.0'
+  gem 'database_cleaner',       '~> 1.5.0'
+  gem 'spring-commands-rspec',  '~> 1.0.4'
 
+  # Dummy data
+  gem 'factory_girl_rails',     '~> 4.5.0'
+  gem 'faker',                  '~> 1.5.0'
+
+  # static analyzer
+  gem 'rubocop',                '~> 0.34.1',  require: false
+  gem 'rails_best_practices',   '~> 1.15.7',  require: false
+  gem 'brakeman',               '~> 3.0.5',   require: false
+  gem 'metric_fu',              '~> 4.12.0',  require: false
+  gem 'i18n-tasks',             '~> 0.8.6',   require: false
+  gem 'deadweight',             '~> 0.2.2',   require: false
 end
 
 group :development, :test do
