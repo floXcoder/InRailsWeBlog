@@ -51,8 +51,12 @@ en:
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
       updated: "Your account has been updated successfully."
       title: "Edit"
+      login_header: "Modification of connection parameters"
+      password_header: "Modification of password"
+      current_password_header: "Current password"
       password_hint: "leave it blank if you don't want to change it"
       current_password_hint: "we need your current password to confirm your changes"
+      password_confirmation_waiting: "Waiting for password confirmation"
       submit: "Update"
       cancel:
         title: "Cancel my account"

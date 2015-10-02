@@ -1,18 +1,15 @@
 var publicDir = './public';
 var assetDir = './app/assets';
 var vendorDir = './vendor/assets';
-var frontendDir = './vendor/components';
+var frontendDir = './node_modules';
 
 module.exports = {
-    bower: {
-        dest: frontendDir
-    },
     webpack: {
         context: './app/assets/javascripts',
         entries: {
-            home: [ './home/home.js' ],
             ie8: [ './modules/ie8.js' ],
-            ie9: [ './modules/ie9.js' ]
+            ie9: [ './modules/ie9.js' ],
+            home: [ './pages/home.js' ]
         },
 
         commons: [
@@ -57,12 +54,11 @@ module.exports = {
         open: false
     },
     sass: {
-        src: [assetDir + '/stylesheets/**/*.scss', '!**/*_scsslint_tmp*.scss'],
+        src: [ assetDir + '/stylesheets/**/*.scss', '!**/*_scsslint_tmp*.scss' ],
         dest: publicDir + '/assets',
         settings: {
             includePaths: [
                 frontendDir,
-                frontendDir + '/fontawesome/scss',
                 vendorDir + '/stylesheets'
             ],
             indentedSyntax: false // use cscc syntax and not sass
@@ -88,7 +84,10 @@ module.exports = {
     },
     fonts: {
         src: [
-            frontendDir + '/fontawesome/fonts/**.*',
+            frontendDir + '/font-awesome/fonts/**.*',
+            // Font in materialize or mdi packages are not working
+            //frontendDir + '/materialize-css/font/**/*',
+            // Use instead the last downloaded font from Google
             vendorDir + '/fonts/**/*',
             assetDir + '/fonts/**/*'
         ],

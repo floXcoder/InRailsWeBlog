@@ -1,5 +1,3 @@
-# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-
 fr:
   devise:
     confirmations:
@@ -59,7 +57,7 @@ fr:
       current_password_header: "Mot de passe actuel"
       password_hint: "laisser vide si vous ne voulez pas le changer"
       current_password_hint: "Nous avons besoin de votre mot de passe actuel pour appliquer les changements."
-      password_confirmation_waiting: "En attente de la confirmation du mot de passe."
+      password_confirmation_waiting: "En attente de la confirmation du mot de passe"
       submit: "Mise à jour"
       cancel:
         title: "Supprimer mon compte"

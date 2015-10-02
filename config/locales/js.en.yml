@@ -42,7 +42,6 @@ en:
       formats:
         default: "MM/DD/YYYY"
         display: "MMMM D"
-        editable: "The dd MM at hh:ii"
       separator: " to "
       label:
         from: "From"

@@ -1,0 +1,31 @@
+head
+  title
+    = full_title(yield(:title))
+
+  meta charset="utf-8"
+  meta content="width=device-width, initial-scale=1.0" name="viewport"
+  meta name="description" content= I18n.t('head.description')
+  meta name="author" content="lx"
+  meta name="keywords" content= I18n.t('head.keywords')
+
+  = favicon_link_tag '/assets/favicon.ico', rel: 'shortcut icon'
+
+  = stylesheet_link_tag 'application', media: 'all'
+  /[if lt IE 9]
+    = stylesheet_link_tag 'ie8'
+  = yield(:stylesheet)
+
+  = csrf_meta_tags
+
+  javascript:
+    window._rails_env = "#{Rails.env}";
+
+    I18n = {};
+    I18n.defaultLocale = "#{I18n.default_locale}";
+    I18n.locale = "#{I18n.locale}";
+
+    window.piwik_address = "#{ENV['PIWIK_ADDRESS']}";
+    window.piwik_site = "#{ENV['PIWIK_SITE']}";
+    var _paq = _paq || [];
+
+

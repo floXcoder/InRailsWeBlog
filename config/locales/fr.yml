@@ -1,12 +1,21 @@
 fr:
+  common:
+    website_name: "In Rails We Blog"
+    email: "blog@l-x.fr"
   head:
-    keywords:
-    description:
+    keywords: "Rails, blog, node, gulp, javascript, webpack, asset"
+    description: "Comment construire un blog avec Rails et Node"
+  header: ""
+  footer:
+    copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
+    links:
+      title: "Liens utiles"
+      contact: "Me contacter par email"
+      support: "Aide"
+      about: "A propos de nous"
+      github: "Source sous Github"
+      github_src: "https://github.com/floXcoder/InRailsWeBlog"
   views:
-    header:
-    homepage:
-    footer:
-    copyright: "Copyright 2015 - Airpur. tous droits réservés."
   popup:
     cancel: "Annuler"
   buttons:
@@ -14,9 +23,9 @@ fr:
     back: "Retour"
   delete:
     confirmation: "Êtes-vous sûr ?"
-  activerecord:
-    errors:
-      models:
+#  activerecord:
+#    errors:
+#      models:
   pundit:
     default: "Vous n'êtes pas autorisé(e) à réaliser cette action."
   date:

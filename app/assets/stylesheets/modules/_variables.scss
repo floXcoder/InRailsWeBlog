@@ -1,0 +1,26 @@
+// Colors
+// ------------------------------------
+$color-base: #3498db;
+$color-hover: #2980b9;
+$color-additional: #deeffc;
+$color-transparent: rgba(52, 152, 219, .3);
+$color-bg: #fff;
+
+$rgba-a: 0.8;
+$rgba-a-transparent: 0.3;
+$rgba-default: rgba(114, 192, 44, $rgba-a); // #72C02C
+$rgba-default-transparent: rgba(114, 192, 44, $rgba-a-transparent); // #72C02C
+$rgba-red: rgba(231, 76, 60, $rgba-a); // #E74C3C
+$rgba-red-transparent: rgba(231, 76, 60, $rgba-a-transparent); // #E74C3C
+$rgba-blue: rgba(52, 152, 219, $rgba-a); // #3498DB
+$rgba-blue-transparent: rgba(52, 152, 219, $rgba-a-transparent); // #3498DB
+$rgba-aqua: rgba(39, 215, 231, $rgba-a); // #27D7E7
+$rgba-aqua-transparent: rgba(39, 215, 231, $rgba-a-transparent); // #27D7E7
+$rgba-yellow: rgba(241, 196, 15, $rgba-a); // #F1C40F
+$rgba-yellow-transparent: rgba(241, 196, 15, $rgba-a-transparent); // #F1C40F
+$rgba-purple: rgba(155, 107, 204, $rgba-a); // #9B6BCC
+$rgba-purple-transparent: rgba(155, 107, 204, $rgba-a-transparent); // #9B6BCC
+
+// Materialize theme color
+$primary-color: $color-base;
+$card-link-color: $color-additional;

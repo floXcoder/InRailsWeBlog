@@ -23,18 +23,10 @@ webPackConfig.output = {
 webPackConfig.resolve = {
     // tell webpack which extensions to auto search when it resolves modules. With this,
     // you'll be able to do `require('./utils')` instead of `require('./utils.js')`
-    extensions: ['', '.js', '.coffee'],
-    // by default, webpack will search in `web_modules` and `node_modules`. Because we're using
-    // Bower, we want it to look in there too
-    modulesDirectories: config.modules.includes
+    extensions: ['', '.js', '.coffee']
 };
 
 webPackConfig.plugins = [
-    // we need this plugin to teach webpack how to find module entry points for bower files,
-    // as these may not have a package.json file
-    new webpack.ResolverPlugin([
-        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
-    ]),
     new webpack.ProvidePlugin(config.plugins),
     // Do not load all locales for moment.js
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fr/)

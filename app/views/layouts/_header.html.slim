@@ -1,0 +1,38 @@
+header.blog-header
+  .navbar-fixed
+    nav
+      .nav-wrapper
+        = link_to t('common.website_name'), root_path, class: 'brand-logo'
+
+        .right.hide-on-med-and-down
+          / Quick search
+          form
+            .input-field
+              input#search required="" type="search"
+              label for="search"
+                i.material-icons search
+              i.material-icons close
+
+          ul#nav-mobile
+            / Useful links
+            /li class="#{'active' if current_page?(articles_path)}"
+            /  = link_to 'All articles', articles_path
+            /li class="#{'active' if current_page?(queries_path)}"
+            /  = link_to 'Advanced search', queries_path
+
+            / User menu
+            /- if user_signed_in?
+            /  ul.nav.navbar-nav.navbar-right
+            /    li class="#{'active' if current_page?(user_path(current_user))}"
+            /      = link_to t('views.header.profile'), user_path(current_user)
+            /    /li class="#{'active' if current_page?(edit_user_path(current_user))}"
+            /    /  = link_to t('views.header.profile'), edit_user_path(current_user)
+            /    li class="#{'active' if current_page?(logout_path)}"
+            /      = link_to t('views.header.log_out'), logout_path, method: 'delete'
+            /- else
+            /  ul.nav.navbar-nav.navbar-right
+            /    li.first-nav
+            /      = link_to t('views.header.sign_up'), signup_path, remote: true
+            /    li
+            /      = link_to t('views.header.log_in'), login_path, remote: true
+

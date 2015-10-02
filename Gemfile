@@ -33,6 +33,9 @@ gem 'redis-session-store',      '~> 0.8.0'
 # Global variables
 gem 'simpleconfig',             '~> 2.0.1'
 
+# Authentification
+gem 'devise',                   '~> 3.5.2'
+
 # Authorization mechanism
 gem 'pundit',                   '~> 1.0.1'
 

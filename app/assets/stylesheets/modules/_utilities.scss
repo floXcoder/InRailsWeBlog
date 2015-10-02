@@ -1,0 +1,23 @@
+// Animate when visible
+.is-hidden {
+  opacity: 0;
+}
+
+.is-visible {
+  opacity: 1;
+}
+
+// Horizontal and vertical centered block
+.centered {
+  align-items: center;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Inline element
+.inline {
+  display: inline;
+}
+
+

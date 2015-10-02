@@ -42,8 +42,6 @@ fr:
       formats:
         default: "DD/MM/YYYY"
         display: "D MMMM"
-        editable: "Le dd MM à hh:ii"
-        editable_date: "Le dd MM"
       separator: " à "
       label:
         from: "De"

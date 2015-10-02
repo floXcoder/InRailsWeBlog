@@ -1,5 +1,5 @@
 # Limit directory being watched
-directories %w(app db config lib spec test)
+directories %w(app db config lib spec)
 # Clear console when launching guard
 clearing :on
 # Display notification in OS
