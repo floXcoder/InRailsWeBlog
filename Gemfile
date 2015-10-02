@@ -30,6 +30,15 @@ gem 'whenever',                 '~> 0.9.4',     require: false
 # Redis session store
 gem 'redis-session-store',      '~> 0.8.0'
 
+# Deployment
+gem 'capistrano',               '~> 3.4.0'
+gem 'capistrano-rails',         '~> 1.1.3'
+gem 'rvm1-capistrano3',         '~> 1.3.2.2', require: false
+gem 'capistrano-bundler',       '~> 1.1.4',   require: false
+gem 'capistrano-rails-console', '~> 1.0.0',   require: false
+gem 'capistrano-db-tasks',      '~> 0.4',     require: false
+gem 'capistrano-sidekiq',       '~> 0.5.3',   require: false
+
 group :development do
   # server
   gem 'thin', '~> 1.6.3'
