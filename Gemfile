@@ -30,6 +30,9 @@ gem 'whenever',                 '~> 0.9.4',     require: false
 # Redis session store
 gem 'redis-session-store',      '~> 0.8.0'
 
+# Global variables
+gem 'simpleconfig',             '~> 2.0.1'
+
 # Deployment
 gem 'capistrano',               '~> 3.4.0'
 gem 'capistrano-rails',         '~> 1.1.3'
@@ -75,7 +78,7 @@ group :test do
   gem 'capybara-webkit',        '~> 1.7.0'
   gem 'capybara-screenshot',    '~> 1.0.11'
   gem 'launchy',                '~> 2.4.3'
-  gem 'shoulda-matchers',       '~> 2.8.0',   require: false
+  gem 'shoulda-matchers',       '~> 3.0.0',   require: false
   gem 'html_validation',        '~> 1.1.3'
   gem 'spork',                  '~> 0.9.2'
   gem 'simplecov',              '~> 0.10.0',  require: false
@@ -90,9 +93,9 @@ group :test do
   # static analyzer
   gem 'rubocop',                '~> 0.34.1',  require: false
   gem 'rails_best_practices',   '~> 1.15.7',  require: false
-  gem 'brakeman',               '~> 3.0.5',   require: false
+  gem 'brakeman',               '~> 3.1.1',   require: false
   gem 'metric_fu',              '~> 4.12.0',  require: false
-  gem 'i18n-tasks',             '~> 0.8.6',   require: false
+  gem 'i18n-tasks',             '~> 0.8.7',   require: false
   gem 'deadweight',             '~> 0.2.2',   require: false
 end
 
