@@ -36,6 +36,9 @@ gem 'simpleconfig',             '~> 2.0.1'
 # Authorization mechanism
 gem 'pundit',                   '~> 1.0.1'
 
+# Human-friendly URLs
+gem 'friendly_id',              '~> 5.1.0'
+
 # Deployment
 gem 'capistrano',               '~> 3.4.0'
 gem 'capistrano-rails',         '~> 1.1.3'
