@@ -10,7 +10,7 @@ feature 'Home page' do
         {
             current_page: homepage,
             title: '',
-            file_name: 'home',
+            asset_name: 'home',
             common_js: ['commons']
         }
       }

@@ -4,16 +4,15 @@ fr:
       confirmed: "Votre email a été confirmé avec succès."
       send_instructions: "Vous allez recevoir un e-mail avec les instructions nécessaires à la confirmation de votre compte dans quelques minutes."
       send_paranoid_instructions: "Si votre e-mail existe dans notre base de données, vous allez bientôt recevoir un e-mail contenant les instructions de confirmation de votre compte."
-      resend: "Renvoyer les informations pour confirmation l'email"
       link_name: "Confirmer mon email"
     failure:
       already_authenticated: "Vous êtes déjà connecté"
       inactive: "Votre compte n'est pas encore activé."
-      invalid: "%{authentication_keys} ou mot de passe incorrect."
+      invalid: "Compte %{authentication_keys} ou mot de passe incorrect."
       locked: "Votre compte est verrouillé."
       last_attempt: "Vous avez droit à une tentative avant que votre compte ne soit verrouillé."
       locked: "Votre compte est verrouillé."
-      not_found_in_database: "%{authentication_keys} ou mot de passe incorrect."
+      not_found_in_database: "Compte %{authentication_keys} ou mot de passe incorrect."
       timeout: "Votre session est expirée. Veuillez vous reconnecter pour continuer."
       unauthenticated: "Vous devez vous connecter ou vous inscrire pour continuer."
       unconfirmed: "Vous devez confirmer votre adresse email pour continuer."
@@ -27,6 +26,11 @@ fr:
     omniauth_callbacks:
       failure: "Nous n'avons pas pu vous authentifier via %{kind} : '%{reason}'."
       success: 'Authentifié avec succès via %{kind}.'
+    resend:
+      page_title: "Renvoyer un email de confirmation"
+      title: "Renvoyer un email pour confirmer mon compte"
+      back_home: "Retourner à la page d'acceuil"
+      submit: "Renvoyer les informations pour confirmer l'email"
     passwords:
       no_token: "Vous ne pouvez accéder à cette page sans passer par un e-mail de réinitialisation de mot de passe. Si vous êtes passé par un e-mail de ce type, assurez-vous d'utiliser l'URL complète."
       send_instructions: 'Vous allez recevoir les instructions de réinitialisation du mot de passe dans quelques instants'
@@ -39,6 +43,7 @@ fr:
         title: "Changer votre mot de passe"
         submit: "Envoyez moi un nouveau mot de passe"
       edit:
+        page_title: "Mot de passe oublié ?"
         title: "Mot de passe oublié ?"
         new: "Nouveau mot de passe"
         confirm: "Confirmer votre nouveau mot de passe"
@@ -55,7 +60,7 @@ fr:
       login_header: "Modification des informations de connexion"
       password_header: "Modification du mot de passe"
       current_password_header: "Mot de passe actuel"
-      password_hint: "laisser vide si vous ne voulez pas le changer"
+      password_hint: "Laisser vide si vous ne voulez pas le changer"
       current_password_hint: "Nous avons besoin de votre mot de passe actuel pour appliquer les changements."
       password_confirmation_waiting: "En attente de la confirmation du mot de passe"
       submit: "Mise à jour"
@@ -73,6 +78,7 @@ fr:
       send_instructions: "Vous allez recevoir les instructions nécessaires au déverrouillage de votre compte dans quelques instants"
       send_paranoid_instructions: "Si votre compte existe, vous allez bientôt recevoir un email contenant les instructions pour le déverrouiller."
       unlocked: "Votre compte a été déverrouillé avec succès, veuillez vous connecter pour continuer."
+      page_title: "Renvoyer les instructions pour débloquer le compte"
       title: "Renvoyer les instructions pour débloquer le compte"
       submit: "Renvoyer les instructions pour débloquer le compte"
       link_name: "Débloquer mon compte"

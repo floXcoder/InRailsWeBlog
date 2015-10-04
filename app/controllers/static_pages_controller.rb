@@ -1,13 +1,12 @@
 class StaticPagesController < ApplicationController
 
   def home
-    # if current_user
-    #   redirect_to root_user_path(current_user)
-    # else
-    #   # render :home, locals: { recent_outings: recent_outings }
-    # end
-
-    render :home
+    if current_user
+      redirect_to root_user_path(current_user)
+    else
+      # render :home, locals: { recent_outings: recent_outings }
+      render :home
+    end
   end
 
   # def contact

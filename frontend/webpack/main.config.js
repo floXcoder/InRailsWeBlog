@@ -40,10 +40,6 @@ webPackConfig.module = {
         {
             test: /\.coffee$/, loader: 'coffee-loader',
             exclude: /node_modules/
-        },
-        {
-            test: path.resolve(config.context + '/app.js'),
-            loader: 'expose?$app'
         }
     ]
 };

@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
     # Rails.logger.ap msg, :warn if Rails.env.development? || Rails.env.test?
   end
 
-  # before_filter :configure_permitted_parameters, if: :devise_controller?
-  # before_action :set_locale
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_locale
 
   def set_locale
     I18n.locale =

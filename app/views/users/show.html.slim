@@ -1,0 +1,21 @@
+- provide(:title, t('views.user.show.page_title', pseudo: user.pseudo))
+
+- stylesheet 'users/show'
+
+- javascript 'commons'
+- javascript 'common-user'
+- javascript 'users/show'
+
+.card
+  .card-image
+    /img src="images/sample-1.jpg"
+    span.card-title Article Title
+
+  .card-content
+    h3
+      | Article title
+    p
+      | Article content
+
+  .card-action
+    a.waves-effect.waves-light.btn href="#" Link to article

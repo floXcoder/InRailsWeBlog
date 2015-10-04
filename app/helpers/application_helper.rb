@@ -9,7 +9,7 @@ module ApplicationHelper
     if page_title.empty?
       base_title
     else
-      "#{base_title} | #{page_title}"
+      "#{base_title} | #{page_title.html_safe}"
     end
   end
 
@@ -73,12 +73,16 @@ module ApplicationHelper
 
   # Assets with manifest management
   def javascript_include_tag(url, options={})
+    url = 'pages/' + url
+
     url = AssetManifest.javascript_path(url)
 
     super(url, options)
   end
 
   def stylesheet_link_tag(url, options={})
+    url = 'pages/' + url
+
     url = AssetManifest.stylesheet_path(url)
 
     super(url, options)

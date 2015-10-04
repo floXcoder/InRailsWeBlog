@@ -56,20 +56,31 @@ end
 #   let(:content) { {title: 'title'} }
 # end
 shared_examples 'a valid page' do
+  scenario 'is the correct page' do
+    expect(current_path).to eq(content[:current_page].path)
+  end
+
   scenario 'has the correct title' do
-    is_expected.to have_title(t('common.website_name') + content[:title])
+    is_expected.to have_title(full_title(content[:title]))
   end
 
   scenario 'contains the correct stylesheets' do
-    is_expected.to have_stylesheet 'application'
-    is_expected.to have_stylesheet content[:file_name]
+    if content[:asset_name]
+      is_expected.to have_stylesheet content[:asset_name]
+    elsif content[:stylesheet_name]
+      is_expected.to have_stylesheet content[:stylesheet_name]
+    end
   end
 
   scenario 'contains the correct javascripts' do
     content[:common_js].each do |common_file|
       is_expected.to have_javascript common_file
     end
-    is_expected.to have_javascript content[:file_name]
+    if content[:asset_name]
+      is_expected.to have_javascript content[:asset_name]
+    elsif content[:javascript_name]
+      is_expected.to have_javascript content[:javascript_name]
+    end
   end
 
   scenario 'page has no Javascript errors' do

@@ -1,7 +1,35 @@
+@import 'application';
+
 .blog-header {
 
 }
 
 .blog-footer {
 
+}
+
+.blog-flash {
+  .chip {
+    height: 52px;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 52px;
+    margin: 10px 10px;
+    background-color: color('blue', 'lighten-3');
+
+    i.material-icons {
+      font-size: 18px;
+      line-height: 52px;
+    }
+  }
+}
+
+.blog-form {
+  .form-error {
+    background-color: color('red', 'lighten-4');
+  }
+
+  .field-error {
+    color: color('red', 'darken-2');
+  }
 }

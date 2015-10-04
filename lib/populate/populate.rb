@@ -14,14 +14,7 @@ class Populate
   end
 
   def self.create_dummy_users
-    users = FactoryGirl.create_list(:user, 20, :confirmed,
-                                  locale: 'fr',
-                                  first_name: Faker::Name.first_name,
-                                  last_name: Faker::Name.last_name,
-                                  age: Random.rand(20..80),
-                                  additional_info: Faker::Lorem.paragraph,
-                                  city: Faker::Address.city,
-                                  phone_number: Faker::PhoneNumber.phone_number)
+    users = FactoryGirl.create_list(:user, 20, :confirmed, :faker)
 
     return users
   end

@@ -10,7 +10,6 @@ head
 
   = favicon_link_tag '/assets/favicon.ico', rel: 'shortcut icon'
 
-  = stylesheet_link_tag 'application', media: 'all'
   /[if lt IE 9]
     = stylesheet_link_tag 'ie8'
   = yield(:stylesheet)
@@ -27,5 +26,3 @@ head
     window.piwik_address = "#{ENV['PIWIK_ADDRESS']}";
     window.piwik_site = "#{ENV['PIWIK_SITE']}";
     var _paq = _paq || [];
-
-

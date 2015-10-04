@@ -42,6 +42,15 @@ gem 'pundit',                   '~> 1.0.1'
 # Human-friendly URLs
 gem 'friendly_id',              '~> 5.1.0'
 
+# Forms
+gem 'simple_form',              '~> 3.1.1'
+gem 'country_select',           '~> 2.3.0'
+
+# Upload pictures
+gem 'carrierwave',              '~> 0.10.0'
+gem 'carrierwave_backgrounder', '~> 0.4.2'
+gem 'mini_magick',              '~> 4.3.3'
+
 # Deployment
 gem 'capistrano',               '~> 3.4.0'
 gem 'capistrano-rails',         '~> 1.1.3'

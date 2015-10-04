@@ -1,0 +1,24 @@
+#login_module.modal
+  .modal-content
+    / Login header
+    h4.modal-title
+      = t('views.user.login.title')
+
+    / Login form
+    = simple_form_for(:user, remote: true, html: { id: 'login_user', class: 'blog-form' }) do |login_form|
+
+      / Login fields
+      = render 'devise/sessions/login_fields', login_form: login_form
+
+      / Helper links
+      = link_to t('devise.shared.links.forgot_password'), new_user_password_path
+      br
+      = link_to t('devise.shared.links.signup'), signup_path, remote: true, onClick: "$('#login_module').closeModal();"
+
+      .modal-footer
+
+        / Login button
+        .row
+          .col.s12
+            = link_to t('popup.cancel'), '#!', onClick: "$('#login_module').closeModal();"
+            = login_form.button :submit, t('views.user.login.submit')

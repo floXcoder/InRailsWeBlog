@@ -1,0 +1,38 @@
+- provide(:title, t('devise.resend.page_title'))
+
+- stylesheet 'users/new'
+
+- javascript 'commons'
+- javascript 'common-user'
+- javascript 'users/signup'
+
+/ Page content
+.card
+  = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { id: 'signup_user',  class: 'blog-form' }) do |resend_form|
+    .card-content
+      h2
+        = t('devise.resend.title')
+
+      .text-right.margin-bottom-20
+        = link_to t('devise.resend.back_home'), root_path
+
+      / Sign-up fields
+      = resend_form.error_notification
+      = resend_form.full_error :confirmation_token
+
+      / Email
+      .row.col.s12
+        = resend_form.input :email, label: t('user.email'), required: true, icon: 'mail', autofocus: true
+
+      / Helper links
+      .margin-bottom-20
+
+      = render 'devise/shared/links'
+
+
+    .card-action
+
+      / Resend button
+      .row
+        .col.s7.offset-s5
+          = resend_form.button :submit, t('devise.resend.submit')

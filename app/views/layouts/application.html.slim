@@ -10,6 +10,8 @@ html lang="en"
   body
     = render 'layouts/header'
 
+    = render 'layouts/flash_messages', flash: flash
+
     .container
       .row
         .col.s3
@@ -22,8 +24,6 @@ html lang="en"
 
     = render 'layouts/javascript'
 
-    /  = render 'layouts/flash_messages', flash: flash
-    /
     /  = yield :pre_content
     /
     /= render 'layouts/piwik'
