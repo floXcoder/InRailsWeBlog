@@ -1,0 +1,32 @@
+- provide(:title, t('views.user.login.page_title'))
+
+- stylesheet 'users/new'
+
+- javascript 'commons'
+- javascript 'common-user'
+- javascript 'users/login'
+
+/ Page content
+.card
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: 'login_user',  class: 'blog-form' }) do |login_form|
+    .card-content
+      h2
+        = t('views.user.login.title')
+
+      .text-right.margin-bottom-20
+        = link_to t('views.user.login.back_home'), root_path
+
+      / Sign-up fields
+      = render 'devise/sessions/login_fields', login_form: login_form
+
+      / Helper links
+      .margin-bottom-20
+
+      = render 'devise/shared/links'
+
+
+    .card-action
+      / Login button
+      .row
+        .col.s3.offset-s9
+          = login_form.button :submit, t('views.user.login.submit')

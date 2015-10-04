@@ -22,6 +22,10 @@ class UserPolicy
     correct_user?
   end
 
+  def destroy?
+    correct_user?
+  end
+
   private
 
   def correct_user?

@@ -1,0 +1,29 @@
+doctype html
+| <!--[if IE 8 ]><html class="ie-8" lang="en"><![endif]-->
+| <!--[if IE 9 ]><html class="ie-9" lang="en"><![endif]-->
+| <!--[if gt IE 9]><!-->
+html lang="en"
+  | <!--<![endif]-->
+
+  = render 'layouts/head'
+
+  body
+    = render 'layouts/header'
+
+    = render 'layouts/flash_messages', flash: flash
+
+    .container
+      .row
+        .col.s3
+          = render 'layouts/sidebar'
+
+        .col.s9
+          = yield
+
+    = render 'layouts/footer'
+
+    = render 'layouts/javascript'
+
+    /  = yield :pre_content
+    /
+    /= render 'layouts/piwik'

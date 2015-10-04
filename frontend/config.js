@@ -1,24 +1,27 @@
 var publicDir = './public';
 var assetDir = './app/assets';
 var vendorDir = './vendor/assets';
-var frontendDir = './vendor/components';
+var frontendDir = './node_modules';
 
 module.exports = {
-    bower: {
-        dest: frontendDir
-    },
     webpack: {
         context: './app/assets/javascripts',
         entries: {
-            home: [ './home/home.js' ],
             ie8: [ './modules/ie8.js' ],
-            ie9: [ './modules/ie9.js' ]
+            ie9: [ './modules/ie9.js' ],
+            home: [ './pages/home.js' ],
+            'users/main': [ './pages/users/main.js' ],
+            'users/show': [ './pages/users/show.js' ],
+            'users/edit': [ './pages/users/edit.js' ],
+            'users/login': [ './pages/users/login.js' ],
+            'users/signup': [ './pages/users/signup.js' ],
+            'users/password': [ './pages/users/password.js' ]
         },
 
         commons: [
             {
                 name: 'common-user',
-                files: []
+                files: ['users/main', 'users/show', 'users/edit', 'users/login', 'users/signup', 'users/password']
             },
             {
                 name: 'commons',
@@ -26,8 +29,8 @@ module.exports = {
             }
         ],
         output: {
-            path: './public/assets',
-            publicPath: '/assets/'
+            path: './public/assets/pages',
+            publicPath: '/assets/pages'
         },
         modules: {
             includes: [
@@ -39,8 +42,8 @@ module.exports = {
         plugins: {
             $: 'jquery',
             jQuery: 'jquery',
-            "window.jQuery": 'jquery'
-            //_: 'lodash'
+            "window.jQuery": 'jquery',
+            log: 'loglevel'
         },
         development: {
             filename: '[name].js',
@@ -54,15 +57,15 @@ module.exports = {
     },
     browserSync: {
         proxy: 'http://localhost:3001',
+        notify: false,
         open: false
     },
     sass: {
-        src: [assetDir + '/stylesheets/**/*.scss', '!**/*_scsslint_tmp*.scss'],
+        src: [ assetDir + '/stylesheets/**/*.scss', '!**/*_scsslint_tmp*.scss' ],
         dest: publicDir + '/assets',
         settings: {
             includePaths: [
                 frontendDir,
-                frontendDir + '/fontawesome/scss',
                 vendorDir + '/stylesheets'
             ],
             indentedSyntax: false // use cscc syntax and not sass
@@ -88,7 +91,10 @@ module.exports = {
     },
     fonts: {
         src: [
-            frontendDir + '/fontawesome/fonts/**.*',
+            frontendDir + '/font-awesome/fonts/**.*',
+            // Font in materialize or mdi packages are not working
+            //frontendDir + '/materialize-css/font/**/*',
+            // Use instead the last downloaded font from Google
             vendorDir + '/fonts/**/*',
             assetDir + '/fonts/**/*'
         ],

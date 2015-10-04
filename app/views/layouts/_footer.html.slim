@@ -1,0 +1,24 @@
+/ Footer : news, useful links, contact us and copyright
+footer.page-footer.blog-footer
+
+  .container
+    .row
+      .col.l6.s12
+        h5.white-text Footer Content
+        p.grey-text.text-lighten-4 You can use rows and columns here to organize your footer content.
+      .col.l4.offset-l2.s12
+        h5.white-text
+          = t('footer.links.title')
+        ul
+          li
+            = link_to t('footer.links.about'), '#', class: 'grey-text text-lighten-3'
+          li
+            = link_to t('footer.links.support'), '#', class: 'grey-text text-lighten-3'
+          li
+            = mail_to t('common.email'), t('footer.links.contact'), class: 'grey-text text-lighten-3'
+
+  / Copyright section
+  .footer-copyright
+    .container
+      | &copy; #{t('footer.copyright')}
+      = link_to t('footer.links.github'), t('footer.links.github_src'), class: 'grey-text text-lighten-4 right'

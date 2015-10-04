@@ -24,7 +24,7 @@ namespace :InRailsWeBlog do
       Populate::create_dummy_articles(users)
 
       # Reindex for ElasticSearch
-      %x{rake searchkick:reindex CLASS=Article}
+      # %x{rake searchkick:reindex CLASS=Article}
     end
   end
 

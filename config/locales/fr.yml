@@ -1,12 +1,77 @@
 fr:
+  common:
+    website_name: "In Rails We Blog"
+    email: "blog@l-x.fr"
   head:
-    keywords:
-    description:
+    keywords: "Rails, blog, node, gulp, javascript, webpack, asset"
+    description: "Comment construire un blog avec Rails et Node"
+  header: ""
+  footer:
+    copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
+    links:
+      title: "Liens utiles"
+      contact: "Me contacter par email"
+      support: "Aide"
+      about: "A propos de nous"
+      github: "Source sous Github"
+      github_src: "https://github.com/floXcoder/InRailsWeBlog"
   views:
     header:
-    homepage:
-    footer:
-    copyright: "Copyright 2015 - Airpur. tous droits réservés."
+      sign_up: "S'inscrire"
+      log_in: "Se connecter"
+      profile: "Mon compte"
+      log_out: "Déconnexion"
+    user:
+      flash:
+        successful_update: "Profil mise à jour"
+        error_update: "Le profil n'est pas été mise à jour, veuillez réessayer"
+      signup:
+        page_title: "Inscription"
+        title: "Créer un compte"
+        subtitle: "Rentrer les détails pour votre compte"
+        password_hint: "caractères minimums"
+        confirm_password: "Confirmer le mot de passe"
+        terms_of_use: "En vous inscrivant sur AirPur, vous acceptez les"
+        terms_of_use_name: "conditions d'utilisations"
+        back_home: "Retourner à la page d'accueil"
+        submit: "Créer mon compte"
+        tooltip:
+          pseudo: "Pseudo requis pour vous identifier"
+          email: "Email requis pour vérifier votre compte"
+          password: "N'oubliez pas votre mot de passe"
+          password_confirmation: "Vérification du mot de passe"
+      login:
+        page_title: "Connexion"
+        title: "Se connecter"
+        subtitle: "Merci de rentrer votre email et mot de passe"
+        remember: "Se souvenir de moi"
+        back_home: "Retourner à la page d'accueil"
+        submit: "Connexion"
+      main:
+        page_title: "%{pseudo} : Mes activités"
+        title: "Mes activités"
+      show:
+        page_title: "%{pseudo} : Mon profil"
+        title: "Mon profil"
+      edit:
+        page_title: "Éditer mon profil"
+        title: "Éditer mon profil"
+        login_header: "Informations de connexion"
+        connection_parameters: "Modifier vos paramètres de connexion"
+        personal_information_header: "Informations personnelles"
+        update_profile: "Mettre à jour mon profil"
+  user:
+    pseudo: "Pseudo"
+    by: "De"
+    email: "Email"
+    id: "Pseudo ou Email"
+    password: "Mot de passe"
+    first_name: "Prénom"
+    last_name: "Nom"
+    age: "Age"
+    city: "Ville"
+    additional_info: "Informations personnelles"
+    country: "Pays"
   popup:
     cancel: "Annuler"
   buttons:
@@ -14,11 +79,25 @@ fr:
     back: "Retour"
   delete:
     confirmation: "Êtes-vous sûr ?"
+  pundit:
+    default: "Vous n'êtes pas autorisé(e) à réaliser cette action."
   activerecord:
     errors:
       models:
-  pundit:
-    default: "Vous n'êtes pas autorisé(e) à réaliser cette action."
+        picture:
+          image_size: "doit être inférieur à 5Mo"
+  email:
+    hello: "Bonjour"
+    confirmation:
+      instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte."
+    reset_password:
+      instruction: "Une personne a demandé de changer votre mot de passe. Vous pouvez le faire en cliquant sur le lien ci-dessous."
+      comment: "Si vous n'avez pas demandé de renouveler votre mot de passe. Merci d'ignorer cet e-mail.
+               Votre mot de passe ne sera pas changé tant que vous n'avez pas cliqué sur le lien ci-dessus."
+    unlock:
+      instruction: "Votre compte a été bloqué suite à un nombre important de tentative d'accès avec un mauvais mot de passe.
+                   Cliquer sur le lien ci-dessus pour débloquer votre compte."
+    greeting: "Bonne journée de la part de l'équipe !"
   date:
     abbr_day_names:
       - dim

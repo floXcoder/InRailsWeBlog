@@ -4,7 +4,6 @@ en:
       confirmed: "Your email address has been successfully confirmed."
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
-      resend: "Resend confirmation instructions"
       link_name: "Confirm my account"
     failure:
       already_authenticated: "You are already signed in."
@@ -26,6 +25,11 @@ en:
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
+    resend:
+      page_title: "Resend confirmation instructions"
+      title: "Resend confirmation instructions"
+      back_home: "Back to the home page"
+      submit: "Resend confirmation instructions"
     passwords:
       no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
       send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
@@ -38,6 +42,7 @@ en:
         title: "Change your password"
         submit: "Send me reset password instructions"
       edit:
+        page_title: "Forgot your password?"
         title: "Forgot your password?"
         new: "New password"
         confirm: "Confirm your new password"
@@ -51,8 +56,12 @@ en:
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
       updated: "Your account has been updated successfully."
       title: "Edit"
-      password_hint: "leave it blank if you don't want to change it"
+      login_header: "Modification of connection parameters"
+      password_header: "Modification of password"
+      current_password_header: "Current password"
+      password_hint: "Leave it blank if you don't want to change it"
       current_password_hint: "we need your current password to confirm your changes"
+      password_confirmation_waiting: "Waiting for password confirmation"
       submit: "Update"
       cancel:
         title: "Cancel my account"
@@ -68,6 +77,7 @@ en:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+      page_title: "Resend unlock instructions"
       title: "Resend unlock instructions"
       submit: "Resend unlock instructions"
       link_name: "Unlock my account"

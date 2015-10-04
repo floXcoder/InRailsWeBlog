@@ -1,0 +1,27 @@
+- provide(:title, t('views.user.edit.page_title'))
+
+- stylesheet 'users/edit'
+
+- javascript 'commons'
+- javascript 'common-user'
+- javascript 'users/edit'
+
+.card
+
+  / Form to fill up user information
+  = simple_form_for(user, html: {class: 'blog-form'}) do |user_form|
+    .card-content
+      h3
+        = t('views.user.edit.title')
+      p
+        = user_form.error_notification
+        = user_form.full_error :confirmation_token
+
+        = render 'users/modules/update_profile', user_form: user_form, user: user
+
+    .card-action
+      .row
+        .col.s6.left-align
+          = link_to t('buttons.back'), :back, class: 'btn btn-default'
+        .col.s6.right-align
+          = user_form.button :submit, t('views.user.edit.update_profile')

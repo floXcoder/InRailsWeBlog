@@ -1,0 +1,35 @@
+- provide(:title, t('devise.unlocks.page_title'))
+
+- stylesheet 'users/new'
+
+- javascript 'commons'
+- javascript 'common-user'
+- javascript 'users/password'
+
+
+.card
+
+  / Form for new password
+  = simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: {method: :post, id: 'password_user', class: 'blog-form'}) do |user_form|
+    .card-content
+      h3
+        = t('devise.unlocks.title')
+      p
+        = user_form.error_notification
+        = user_form.full_error :unlock_token
+
+      p.right-align
+        = link_to t('views.user.signup.back_home'), root_path
+
+      .row.margin-bottom-40
+        / Email field
+        .col.s12
+          = user_form.input :email, label: t('user.email'), icon: 'mail', required: true, autofocus: true
+
+      hr
+
+      p
+        = render 'devise/shared/links'
+
+    .card-action.center-align
+      = user_form.button :submit, t('devise.unlocks.submit')

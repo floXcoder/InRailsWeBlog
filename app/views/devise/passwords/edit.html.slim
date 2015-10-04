@@ -1,0 +1,38 @@
+- provide(:title, t('devise.passwords.edit.page_title'))
+
+- stylesheet 'users/new'
+
+- javascript 'commons'
+- javascript 'common-user'
+- javascript 'users/password'
+
+.card
+
+  / Form for edit password
+  = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :put, id: 'password_user', class: 'blog-form'}) do |user_form|
+    .card-content
+      h3
+        = t('devise.passwords.edit.title')
+      p
+        = user_form.input :reset_password_token, as: :hidden
+        = user_form.error_notification
+        = user_form.full_error :reset_password_token
+
+      p.right-align
+        = link_to t('views.user.signup.back_home'), root_path
+
+      .row.margin-bottom-40
+        / Password
+        .col.s6
+          = user_form.input :password, label: t('devise.passwords.edit.new'), icon: 'mail', required: true, autofocus: true
+
+        .col.s6
+          = user_form.input :password_confirmation, label: t('devise.passwords.edit.confirm'), icon: 'lock', required: true
+
+      hr
+
+      p
+        = render 'devise/shared/links'
+
+    .card-action.center-align
+      = user_form.button :submit, t('devise.passwords.edit.submit')

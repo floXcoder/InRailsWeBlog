@@ -1,0 +1,40 @@
+- provide(:title, t('views.user.signup.page_title'))
+
+- stylesheet 'users/new'
+
+- javascript 'commons'
+- javascript 'common-user'
+- javascript 'users/signup'
+
+/ Page content
+.card
+  = simple_form_for(resource, html: { id: 'signup_user',  class: 'blog-form' }) do |signup_form|
+    .card-content
+      h2
+        = t('views.user.signup.title')
+
+      .text-right.margin-bottom-20
+        = link_to t('views.user.signup.back_home'), root_path
+
+      / Sign-up fields
+      = render 'devise/registrations/signup_fields', signup_form: signup_form
+
+      / Helper links
+      .margin-bottom-20
+
+      = render 'devise/shared/links'
+
+
+    .card-action
+      / Terms of use
+      p
+        = check_box_tag('terms', 'false', false)
+        = label_tag('terms', t('views.user.signup.terms_of_use'))
+        =< link_to t('views.user.signup.terms_of_use_name') + '.', terms_of_use_path, class: 'blue-text text-darken-2'
+
+      / Signup button
+      .row
+        .col.s3.offset-s9
+          = signup_form.button :submit, t('views.user.signup.submit')
+
+

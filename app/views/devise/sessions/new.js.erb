@@ -1,0 +1,16 @@
+var $loginModule = $("#login_module");
+
+if ($loginModule.length > 0) {
+    $loginModule.openModal({
+        dismissible: true,
+        ready: function() { return $("#user_login").focus(); }
+    });
+} else {
+    $("body").prepend("<%= j(render 'login_module') %>");
+    $loginModule = $("#login_module");
+
+    $loginModule.openModal({
+        dismissible: true,
+        ready: function() { return $("#user_login").focus(); }
+    });
+}

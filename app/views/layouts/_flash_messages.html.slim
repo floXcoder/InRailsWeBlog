@@ -1,0 +1,6 @@
+- flash.each do |message_type, message|
+  - if message
+    .blog-flash.center-align
+      .chip
+        = message.html_safe
+        i.material-icons close

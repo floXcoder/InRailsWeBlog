@@ -1,0 +1,13 @@
+= login_form.error_notification
+
+/ Login pseudo or email
+.row.col.s12
+  = login_form.input :login, label: t('user.id'), required: true, icon: 'account_circle'
+
+/ Password
+.row.col.s12
+  = login_form.input :password, label: t('user.password'), required: true, icon: 'lock'
+
+/ Remember me
+.row.col.s12
+  = login_form.input :remember_me, wrapper: :materialize_checkbox, label: t('views.user.login.remember') if devise_mapping.rememberable?

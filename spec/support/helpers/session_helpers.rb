@@ -6,16 +6,16 @@ module Features
       fill_in t('user.pseudo'), with: pseudo
       fill_in t('user.email'), with: email
       fill_in t('user.password'), with: password
-      fill_in t('views.user.signup.popup.confirm_password'), with: confirmation
+      fill_in t('views.user.signup.confirm_password'), with: confirmation
       check('terms')
-      click_button t('views.user.signup.page.submit')
+      click_button t('views.user.signup.submit')
     end
 
     def login_with(login, password)
       visit new_user_session_path
       fill_in t('user.id'), with: login
       fill_in t('user.password'), with: password
-      click_button t('views.user.login.page.submit')
+      click_button t('views.user.login.submit')
     end
 
     def log_out

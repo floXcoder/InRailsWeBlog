@@ -1,5 +1,5 @@
 # Limit directory being watched
-directories %w(app db config lib spec test)
+directories %w(app db config lib spec)
 # Clear console when launching guard
 clearing :on
 # Display notification in OS
@@ -25,11 +25,12 @@ end
 # Option "force_run: true" does not work on Windows
 guard 'rails', server: :thin, port: 3001, timeout: 60 do
   watch('Gemfile.lock')
+  watch(%r{^app/inputs/.+\.rb})
+  watch(%r{^app/mailers/.+\.rb})
+  watch(%r{^app/workers/.+\.rb})
   watch(%r{^config/.+(?<!locales)/.*})
   watch(%r{^config/*/[^.][^/]+\.(rb|yml)(?<!breadcrumbs\.rb)})
   watch(%r{^lib/.*})
-  watch(%r{^app/workers/.+\.rb})
-  watch(%r{^app/mailers/.+\.rb})
 end
 
 guard 'process', name: 'Gulp', command: 'gulp' do

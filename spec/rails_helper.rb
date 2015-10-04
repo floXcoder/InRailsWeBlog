@@ -1,9 +1,9 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 require 'simplecov'
-require File.expand_path('../../config/environment', __FILE__)
-abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
+require File.expand_path('../../config/environment', __FILE__)
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -30,7 +30,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # Since we’re doing our own db cleaning with Database Cleaner, turned it off:
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -39,4 +39,16 @@ RSpec.configure do |config|
 
   # Fuubar progression display
   config.fuubar_progress_bar_options = { format: 'Progress: <%B> %p%% %a' }
+end
+
+# Shoulda configuration
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    # Choose a test framework:
+    with.test_framework :rspec
+
+    # Choose one or more libraries:
+    with.library :active_record
+    with.library :active_model
+  end
 end

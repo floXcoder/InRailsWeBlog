@@ -1,0 +1,17 @@
+= signup_form.error_notification
+
+/ Pseudo
+.row.col.s12
+  = signup_form.input :pseudo, label: t('user.pseudo'), required: true, icon: 'account_circle'
+
+/ Email
+.row.col.s12
+  = signup_form.input :email, label: t('user.email'), required: true, icon: 'mail'
+
+/ Password
+.row.col.s12
+  = signup_form.input :password, label: t('user.password'), required: true, icon: 'lock'
+
+/ Confirm password
+.row.col.s12
+  = signup_form.input :password_confirmation, label: t('views.user.signup.confirm_password'), required: true, icon: 'lock'

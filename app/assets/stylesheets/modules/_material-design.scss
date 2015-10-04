@@ -1,0 +1,73 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("#{$icons-font-path}materialdesignicons-webfont.eot"); /* For IE6-8 */
+  //src: local('Material Icons'),
+  //local('MaterialIcons-Regular'),
+  //url('/assets/material-design-icons/Material-Design-Icons.woff2') format('woff2'),
+  //url('/assets/material-design-icons/Material-Design-Icons.woff') format('woff'),
+  //url('/assets/material-design-icons/Material-Design-Icons.ttf') format('truetype');
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url("#{$icons-font-path}materialdesignicons-webfont.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: local('Roboto Thin'),
+  url("#{$roboto-font-path}Roboto-Thin.ttf") format("truetype");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Roboto";
+  src: local('Roboto Light'),
+  url("#{$roboto-font-path}Roboto-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src:
+  local('Roboto Regular'),
+  url("#{$roboto-font-path}Roboto-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("#{$roboto-font-path}Roboto-Medium.ttf") format("truetype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("#{$roboto-font-path}Roboto-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}

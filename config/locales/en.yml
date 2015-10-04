@@ -1,19 +1,103 @@
 en:
+  common:
+    website_name: "In Rails We Blog"
+    email: "blog@l-x.fr"
+  head:
+    keywords: "Rails, blog, node, gulp, javascript, webpack, asset"
+    description: "How to build a Blog with Rails and Node"
+  header: ""
+  footer:
+    copyright: "Copyright 2015 - InRailsWeBlog. All rights reserved."
+    links:
+      title: "Useful links"
+      contact: "Contact me by email"
+      support: "Support"
+      about: "About Me"
+      github: "Project source with Github"
+      github_src: "https://github.com/floXcoder/InRailsWeBlog"
   views:
     header:
-    homepage:
-    footer:
-    copyright:
+      sign_up: "Sign Up"
+      log_in: "Log In"
+      profile: "My Profile"
+      log_out: "Log Out"
+    user:
+      flash:
+        successful_update: "Profile updated"
+        error_update: "Profile not updated. Please retry"
+      signup:
+        page_title: "Sign Up"
+        title: "Sign Up"
+        subtitle: "Add your details to create an account"
+        password_hint: "characters minimum"
+        confirm_password: "Confirm password"
+        terms_of_use: "By subscribing on AirPur, you accept our"
+        terms_of_use_name: "terms of use"
+        back_home: "Back to home page"
+        submit: "Create my account"
+        tooltip:
+          pseudo: "Pseudo needed to enter the website"
+          email: "Email needed to verify your account"
+          password: "Don't forget your password"
+          password_confirmation: "Password checking"
+      login:
+        page_title: "Log in"
+        title: "Log In"
+        subtitle: "Please fill in your email and password to log in"
+        remember: "Remember me"
+        back_home: "Back to home page"
+        submit: "Log in"
+      main:
+        page_title: "%{pseudo}: My activities"
+        title: "My activities"
+      show:
+        page_title: "%{pseudo}: My profile"
+        title: "My profile"
+      edit:
+        page_title: "Edit my profil"
+        title: "Edit my profil"
+        login_header: "Connection information"
+        connection_parameters: "Change your connection parameters"
+        personal_information_header: "Personal information"
+        update_profile: "Update my profil"
+  user:
+    pseudo: "Pseudo"
+    by: "By"
+    email: "Email"
+    id: "Pseudo or Email"
+    password: "Password"
+    first_name: "First name"
+    last_name: "Last name"
+    age: "Age"
+    city: "Ville"
+    additional_info: "Additional Info"
+    country: "Country"
   popup:
     cancel: "Cancel"
   buttons:
     cancel: "Cancel"
+    back: "Back"
+  delete:
+    confirmation: "Are you sure ?"
+  pundit:
+    default: "You are not authorized to perform this action."
   activerecord:
     errors:
       models:
-  pundit:
-    flash:
-      not_authorized: "You are not authorized to perform this action."
+        picture:
+          image_size: "must be less than 5Mb"
+  email:
+    hello: "Hello"
+    confirmation:
+      instruction: "You can confirm your account email through the link below"
+    reset_password:
+      instruction: "Someone has requested a link to change your password. You can do this through the link below."
+      comment: "If you didn't request this, please ignore this email.
+               Your password will not change until you access the link above and create a new one."
+    unlock:
+      instruction: "Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+                   Click the link below to unlock your account."
+    greeting: "Have a nice day :)"
   date:
     abbr_day_names:
     - Sun
@@ -207,6 +291,7 @@ en:
         delimiter: ""
   support:
     colon: ": "
+    or: " or "
     array:
       last_word_connector: ", and "
       two_words_connector: " and "
@@ -219,6 +304,7 @@ en:
       short: "%d %b %H:%M"
       custom: "%d %b at %H:%M"
       custom_date: "%d %b"
+      custom_full_date: "%d %B"
       custom_begin: "From %d %b at %Hh%M"
       custom_end: "To %d %b at %Hh%M"
     pm: "pm"
