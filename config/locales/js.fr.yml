@@ -1,36 +1,32 @@
 fr:
   js:
     user:
-      form:
-        errors:
-          login:
-            required: "Veuillez indiquer votre email ou pseudo"
-            invalid: "n'existe pas, merci d'indiquer une adresse email ou pseudo valide"
-          pseudo:
-            required: "Veuillez indiquer votre pseudo"
-            short: "Pseudo trop court (3 caractères minimum)"
-            long: "Pseudo trop long (50 caractères maximum)"
-            taken: "est déjà pris, merci de choisir un autre pseudo"
-          email:
-            required: "Veuillez indiquer une adresse email"
-            format: "L'adresse email est invalide"
-            taken: "est déjà pris, merci d'en choisir un autre email"
-          password:
-            required: "Veuillez indiquer un mot de passe"
-            short: "Le mot de passe est trop court (6 caractères minimum)"
-            long: "Le mot de passe est trop long (60 caractères maximum)"
-            mismatch: "Le password et sa confirmation ne correspondent pas"
-          policy: "Merci d'accepter d'abord les conditions d'utilisation"
-    form:
-      errors:
-        text: "Ce champ est requis"
-        select: "Choisissez une des options proposées"
-        date: "Indiquer une date valide"
-        datetime: "Indiquer une date et une heure valide"
-        duration: "Indiquer une durée entre 10 minutes et 100 heures"
-        picture:
-          title: "Image trop grande"
-          text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
+      display_mode: "Mode d'affichage"
+      display:
+        inline: "Afficher dans un seul article"
+        separated: "Afficher des articles séparés"
+    article:
+      new:
+        title: "Créer un nouvel article"
+        submit: "Créer l'article"
+      model:
+        title: "Titre"
+        summary: "Résumé"
+        content: "Contenu"
+        visibility: "Visibilité"
+        allow_comment: "Autoriser commentaires"
+      visibility:
+        title: "Visibilité de l'article"
+        enum:
+          everyone: "Tout le monde"
+          only_me: "Privé"
+          selected_group: "Groupes sélectionnées"
+    tag:
+      list: "Tous les labels"
+      associated: "Labels associés"
+    checkbox:
+      on: "Oui"
+      off: "Non"
     buttons:
       apply: "Valider"
       cancel: "Annuler"

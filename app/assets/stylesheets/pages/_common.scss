@@ -1,11 +1,12 @@
-@import 'application';
+@import 'modules/variables';
+@import 'modules/utilities';
 
 .blog-header {
 
 }
 
-.blog-footer {
-
+footer.blog-footer {
+  background-color: $color-base;
 }
 
 .blog-flash {
@@ -24,12 +25,39 @@
   }
 }
 
+.blog-sidebar {
+  position: sticky;
+  top: 60px;
+  padding-top: 10px;
+}
+
 .blog-form {
+
+  &.form-article {
+    padding: 20px;
+  }
+
   .form-error {
     background-color: color('red', 'lighten-4');
   }
 
   .field-error {
     color: color('red', 'darken-2');
+  }
+}
+
+.blog-tag-box {
+  .tag-active {
+    background-color: color('teal', 'darken-1');
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .tag-inactive {
+    background-color: color('grey', 'lighten-2');
+    color: white;
+    cursor: pointer;
+    margin: 5px;
   }
 }

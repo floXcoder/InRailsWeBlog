@@ -14,11 +14,13 @@ html lang="en"
 
     .container
       .row
-        .col.s3
+        .col.s3.blog-sidebar
           = render 'layouts/sidebar'
 
         .col.s9
           = yield
+
+      a.goto-top
 
     = render 'layouts/footer'
 

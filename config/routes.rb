@@ -28,7 +28,7 @@
 #              user_unlock POST   /users/unlock(.:format)           devise/unlocks#create
 #          new_user_unlock GET    /users/unlock/new(.:format)       devise/unlocks#new
 #                          GET    /users/unlock(.:format)           devise/unlocks#show
-#                root_user GET    /users/:id/main(.:format)         users#main {:has_many=>:comments}
+#                root_user GET    /users/:id(.:format)              users#show {:has_many=>:comments}
 #        notification_user GET    /users/:id/notification(.:format) users#notification {:has_many=>:comments}
 #                 id_users GET    /users/id(.:format)               users#check_id {:has_many=>:comments}
 #                    users GET    /users(.:format)                  users#index {:has_many=>:comments}
@@ -39,6 +39,22 @@
 #                          PATCH  /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          PUT    /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          DELETE /users/:id(.:format)              users#destroy {:has_many=>:comments}
+#                 articles GET    /articles(.:format)               articles#index {:has_many=>:comments}
+#                          POST   /articles(.:format)               articles#create {:has_many=>:comments}
+#              new_article GET    /articles/new(.:format)           articles#new {:has_many=>:comments}
+#             edit_article GET    /articles/:id/edit(.:format)      articles#edit {:has_many=>:comments}
+#                  article GET    /articles/:id(.:format)           articles#show {:has_many=>:comments}
+#                          PATCH  /articles/:id(.:format)           articles#update {:has_many=>:comments}
+#                          PUT    /articles/:id(.:format)           articles#update {:has_many=>:comments}
+#                          DELETE /articles/:id(.:format)           articles#destroy {:has_many=>:comments}
+#                     tags GET    /tags(.:format)                   tags#index
+#                          POST   /tags(.:format)                   tags#create
+#                  new_tag GET    /tags/new(.:format)               tags#new
+#                 edit_tag GET    /tags/:id/edit(.:format)          tags#edit
+#                      tag GET    /tags/:id(.:format)               tags#show
+#                          PATCH  /tags/:id(.:format)               tags#update
+#                          PUT    /tags/:id(.:format)               tags#update
+#                          DELETE /tags/:id(.:format)               tags#destroy
 #             terms_of_use GET    /terms_of_use(.:format)           static_pages#terms_of_use
 #              sidekiq_web        /sidekiq                          Sidekiq::Web
 #
@@ -64,7 +80,7 @@ Rails.application.routes.draw do
 
   resources :users, has_many: :comments do
     member do
-      get :main,          to: 'users#main',         as: :root
+      get :show,          to: 'users#show',         as: :root
       get :notification,  to: 'users#notification', as: :notification
     end
 
@@ -73,9 +89,16 @@ Rails.application.routes.draw do
     end
   end
 
+  # Articles
+  resources :articles, has_many: :comments do
+  end
+
+  # Tags
+  resources :tags do
+  end
+
   # Static pages
   get     :terms_of_use,  to: 'static_pages#terms_of_use'
-
 
   # Sidekiq interface
   mount Sidekiq::Web => '/sidekiq'

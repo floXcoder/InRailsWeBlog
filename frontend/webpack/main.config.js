@@ -23,7 +23,7 @@ webPackConfig.output = {
 webPackConfig.resolve = {
     // tell webpack which extensions to auto search when it resolves modules. With this,
     // you'll be able to do `require('./utils')` instead of `require('./utils.js')`
-    extensions: ['', '.js', '.coffee']
+    extensions: ['', '.js', '.jsx', '.coffee']
 };
 
 webPackConfig.plugins = [
@@ -40,6 +40,15 @@ webPackConfig.module = {
         {
             test: /\.coffee$/, loader: 'coffee-loader',
             exclude: /node_modules/
-        }
+        },
+        {
+            test: /\.jsx$/,
+            loader: 'babel-loader?stage=1&cacheDirectory',
+            exclude: /node_modules/
+        },
+        //{
+        //    test: /node_modules\/react-materializecss\/src\/.*\.js/,
+        //    loader: 'babel-loader?stage=0&cacheDirectory'
+        //}
     ]
 };

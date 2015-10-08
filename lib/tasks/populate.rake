@@ -21,7 +21,7 @@ namespace :InRailsWeBlog do
       # Create content
       admin ||= User.first
       users ||= User.all.offset(1)
-      Populate::create_dummy_articles(users)
+      Populate::create_dummy_articles_for(admin)
 
       # Reindex for ElasticSearch
       # %x{rake searchkick:reindex CLASS=Article}

@@ -61,6 +61,7 @@ feature 'Sign Up', :devise do
   scenario 'visitor can see a pop-up to sign up', js: true, basic: true do
     visit root_path
 
+    click_link t('views.header.profile')
     click_link t('views.header.sign_up')
     expect(page).to have_css '#signup_module.modal'
     expect(page).to have_content /#{t('views.user.signup.title')}/i

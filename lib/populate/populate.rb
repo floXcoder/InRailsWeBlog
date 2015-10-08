@@ -34,8 +34,16 @@ class Populate
     return groups
   end
 
-  def self.create_dummy_articles(users)
-    articles = []
+  def self.create_dummy_tags
+    tags = FactoryGirl.create_list(:tag, 10)
+
+    return tags
+  end
+
+  def self.create_dummy_articles_for(user)
+    tags = Populate::create_dummy_tags
+
+    articles = 30.times.map { FactoryGirl.create(:article, :with_tag, author: user, tags: tags.sample(3)) }
 
     return articles
   end

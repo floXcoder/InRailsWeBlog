@@ -3,7 +3,7 @@ en:
     website_name: "In Rails We Blog"
     email: "blog@l-x.fr"
   head:
-    keywords: "Rails, blog, node, gulp, javascript, webpack, asset"
+    keywords: "Rails, blog, node, gulp, javascript, webpack, asset, react, reflux"
     description: "How to build a Blog with Rails and Node"
   header: ""
   footer:
@@ -19,6 +19,7 @@ en:
     header:
       sign_up: "Sign Up"
       log_in: "Log In"
+      preferences: "Display modes"
       profile: "My Profile"
       log_out: "Log Out"
     user:
@@ -47,12 +48,9 @@ en:
         remember: "Remember me"
         back_home: "Back to home page"
         submit: "Log in"
-      main:
+      show:
         page_title: "%{pseudo}: My activities"
         title: "My activities"
-      show:
-        page_title: "%{pseudo}: My profile"
-        title: "My profile"
       edit:
         page_title: "Edit my profil"
         title: "Edit my profil"
@@ -60,6 +58,10 @@ en:
         connection_parameters: "Change your connection parameters"
         personal_information_header: "Personal information"
         update_profile: "Update my profil"
+    article:
+      index:
+        page_title: "All Articles"
+        title: "All Articles"
   user:
     pseudo: "Pseudo"
     by: "By"

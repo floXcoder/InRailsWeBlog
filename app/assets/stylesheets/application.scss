@@ -1,10 +1,34 @@
 @import 'modules/variables';
 @import 'modules/utilities';
 
-$fa-font-path: '/assets';
 @import 'font-awesome/scss/font-awesome';
-
-$roboto-font-path: '/assets/roboto/';
-$icons-font-path: '/assets/';
 @import 'materialize-css/sass/materialize';
 @import 'modules/material-design';
+
+// Large button
+.btn-small {
+  @extend .btn;
+  height: $button-height * 0.7;
+  line-height: 26px;
+
+  i {
+    font-size: $button-font-size-shared * 0.7;
+  }
+}
+
+// Important input label
+.input-field {
+  label.important {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+// Collection display
+.collection {
+  overflow: visible;
+}
+
+.collection.without-border {
+  border: 0;
+}

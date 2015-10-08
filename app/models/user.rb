@@ -36,6 +36,9 @@
 class User < ActiveRecord::Base
 
   # Associations
+  ## Articles
+  has_many :articles, class_name: 'Article', foreign_key: 'author_id', dependent: :destroy
+
   ## Comment
   # has_many :comments, as: :commentable
 
