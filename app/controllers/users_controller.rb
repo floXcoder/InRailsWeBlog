@@ -2,14 +2,6 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!, except: [:check_id]
   after_action :verify_authorized, except: [:index, :check_id]
 
-  def main
-    user = User.friendly.find(params[:id])
-    authorize user
-
-    render :main,
-           locals: { user: user }
-  end
-
   def index
     users = User.all
 

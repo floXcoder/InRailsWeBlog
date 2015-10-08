@@ -1,4 +1,20 @@
 header.blog-header
+  ul#user-dropdown.dropdown-content
+    - if user_signed_in?
+      li class="#{'active' if current_page?(user_path(current_user))}"
+        = link_to t('views.header.profile'), user_path(current_user)
+      li class="#{'active' if current_page?(logout_path)}"
+        = link_to t('views.header.log_out'), logout_path, method: 'delete'
+    - else
+      li.first-nav
+        /= link_to t('views.header.sign_up'), signup_path
+        = link_to t('views.header.sign_up'), signup_path, remote: true
+      li
+        = link_to t('views.header.log_in'), login_path, remote: true
+
+  #preferences-dropdown.dropdown-content
+    #user-pref
+
   .navbar-fixed
     nav
       .nav-wrapper
@@ -19,16 +35,14 @@ header.blog-header
           /li class="#{'active' if current_page?(queries_path)}"
           /  = link_to 'Advanced search', queries_path
 
-          / User menu
-          - if user_signed_in?
-            li class="#{'active' if current_page?(user_path(current_user))}"
-              = link_to t('views.header.profile'), user_path(current_user)
-            li class="#{'active' if current_page?(logout_path)}"
-              = link_to t('views.header.log_out'), logout_path, method: 'delete'
-          - else
-            li.first-nav
-              /= link_to t('views.header.sign_up'), signup_path
-              = link_to t('views.header.sign_up'), signup_path, remote: true
-            li
-              = link_to t('views.header.log_in'), login_path, remote: true
+          / User preferences
+          li
+            a.dropdown-button data-activates="preferences-dropdown" href="#!"
+              i.material-icons.right view_modules
+              = t('views.header.preferences')
 
+          / User account
+          li
+            a.dropdown-button data-activates="user-dropdown" href="#!"
+              i.material-icons.right account_circle
+              = t('views.header.profile')

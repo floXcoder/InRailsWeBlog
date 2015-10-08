@@ -61,7 +61,7 @@ feature 'Log in', :devise do
   scenario 'user can access to his account with a nice url format', advanced: true do
     user = FactoryGirl.create(:user, :confirmed)
     login_with(user.email, user.password)
-    expect(current_path).to match(/\/users\/person\-\d+\/main/)
+    expect(current_path).to match(/\/users\/person\-\d+/)
   end
 
   scenario 'user can log in with a not validated account but a flash message ask him to confirm his email', advanced: true do
@@ -81,6 +81,7 @@ feature 'Log in', :devise do
     I18n.locale = 'fr'
 
     visit root_path
+    click_link t('views.header.profile')
     click_link t('views.header.log_in')
     sleep 1
     expect(page).to have_css '#login_module.modal'

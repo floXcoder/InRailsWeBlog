@@ -33,8 +33,12 @@ guard 'rails', server: :thin, port: 3001, timeout: 60 do
   watch(%r{^lib/.*})
 end
 
+guard 'process', name: 'i18n-js', command: 'rake i18n:js:export' do
+  watch('config/locales/js.*.yml')
+end
+
 guard 'process', name: 'Gulp', command: 'gulp' do
-  watch('app/frontend/**/*.js')
+  watch('frontend/**/*.js')
 end
 
 guard 'annotate', routes: true do

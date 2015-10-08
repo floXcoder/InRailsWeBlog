@@ -1,3 +1,17 @@
+// Shared variables
+// ------------------------------------
+@import 'font-awesome/scss/variables';
+@import 'materialize-css/sass/components/prefixer';
+@import 'materialize-css/sass/components/mixins';
+@import 'materialize-css/sass/components/color';
+@import 'materialize-css/sass/components/variables';
+
+// Path
+// ------------------------------------
+$roboto-font-path: '/assets/roboto/';
+$icons-font-path: '/assets/';
+$fa-font-path: '/assets';
+
 // Colors
 // ------------------------------------
 $color-base: #3498db;

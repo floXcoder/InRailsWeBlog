@@ -1,0 +1,12 @@
+- provide(:title, t('views.article.index.page_title'))
+
+- stylesheet 'articles/index'
+
+- javascript 'commons'
+- javascript 'common-user'
+- javascript 'users/index'
+
+h2.center-align
+  = t('views.article.index.title')
+
+= render article

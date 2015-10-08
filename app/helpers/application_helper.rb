@@ -81,7 +81,7 @@ module ApplicationHelper
   end
 
   def stylesheet_link_tag(url, options={})
-    url = 'pages/' + url
+    url = 'pages/' + url if url != 'application'
 
     url = AssetManifest.stylesheet_path(url)
 

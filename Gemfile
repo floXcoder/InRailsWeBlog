@@ -42,6 +42,9 @@ gem 'pundit',                   '~> 1.0.1'
 # Human-friendly URLs
 gem 'friendly_id',              '~> 5.1.0'
 
+# Pagination
+gem 'will_paginate',            '~> 3.0.6'
+
 # Forms
 gem 'simple_form',              '~> 3.1.1'
 gem 'country_select',           '~> 2.3.0'

@@ -9,9 +9,8 @@ module.exports = {
         entries: {
             ie8: [ './modules/ie8.js' ],
             ie9: [ './modules/ie9.js' ],
-            home: [ './pages/home.js' ],
-            'users/main': [ './pages/users/main.js' ],
-            'users/show': [ './pages/users/show.js' ],
+            home: [ './pages/home.jsx' ],
+            'users/show': [ './pages/users/show.jsx' ],
             'users/edit': [ './pages/users/edit.js' ],
             'users/login': [ './pages/users/login.js' ],
             'users/signup': [ './pages/users/signup.js' ],
@@ -21,7 +20,7 @@ module.exports = {
         commons: [
             {
                 name: 'common-user',
-                files: ['users/main', 'users/show', 'users/edit', 'users/login', 'users/signup', 'users/password']
+                files: ['users/show', 'users/edit', 'users/login', 'users/signup', 'users/password']
             },
             {
                 name: 'commons',
@@ -68,7 +67,7 @@ module.exports = {
                 frontendDir,
                 vendorDir + '/stylesheets'
             ],
-            indentedSyntax: false // use cscc syntax and not sass
+            indentedSyntax: false // use scss syntax and not sass
         },
         autoPrefixer: ['last 2 version']
     },

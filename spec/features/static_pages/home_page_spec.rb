@@ -21,9 +21,9 @@ feature 'Home page' do
     end
   end
 
-  feature 'Sidebar', basic: true do
+  feature 'Sidebar', js: true, basic: true do
     scenario 'is displayed' do
-      is_expected.to have_css('.col.s3 > .card-panel')
+      is_expected.to have_css('.col.s3.blog-sidebar')
     end
   end
 

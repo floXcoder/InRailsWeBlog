@@ -4,7 +4,7 @@
         module.exports = factory();
     } else if (typeof define === 'function' && define.amd) {
         // AMD
-        define([], function ($) {
+        define([], function () {
             return (root.returnExportsGlobal = factory());
         });
     } else {
@@ -299,7 +299,7 @@
                 return true;
             },
 
-            axis: function() {
+            axis: function () {
                 var exports = {};
 
                 var types = 'Array Object String Date RegExp Function Boolean Number Null Undefined'.split(' ');
@@ -319,9 +319,15 @@
                 return exports;
             },
 
-            fullDomainName: function() {
+            fullDomainName: function () {
                 var full = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
                 return full;
+            },
+
+            goToTop: function () {
+                $( '.goto-top' ).on('click', function() {
+                    $(document).scrollTop(0);
+                });
             }
         };
 
