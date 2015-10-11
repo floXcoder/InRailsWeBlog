@@ -3,7 +3,7 @@ import marked from 'marked';
 var ArticleActions = require('../../actions/articleActions');
 
 var ArticleItem = React.createClass({
-    _displayArticleWithTag: function (tagId, event) {
+    _onArticleWithTag: function (tagId, event) {
         ArticleActions.loadArticles({tags: tagId});
     },
 
@@ -12,8 +12,33 @@ var ArticleItem = React.createClass({
         return {__html: rawMarkup};
     },
 
+    _renderVisibility: function () {
+        if(this.props.article.visibility === 'everyone') {
+            return (
+                <div className="right article-icon article-public">
+                    <i className="material-icons prefix">visibility</i>
+                </div>
+            );
+        } else {
+            return (
+                <div className="right article-icon article-private">
+                    <i className="material-icons prefix">visibility_off</i>
+                </div>
+            );
+        }
+    },
+
+    _renderAuthor: function () {
+        return (
+            <div className="right article-icon">
+                <i className="material-icons prefix">account_circle</i>
+                {this.props.article.author}
+            </div>
+        );
+    },
+
     render: function () {
-        if (this.props.displayType === 'inline') {
+        if (this.props.articleDisplayMode === 'inline') {
             return (
                 <div className="blog-article-item">
                     <h4>
@@ -22,38 +47,37 @@ var ArticleItem = React.createClass({
                     <span dangerouslySetInnerHTML={this._rawMarkup()}/>
                 </div>
             );
-        } else if (this.props.displayType === 'separated') {
+        } else if (this.props.articleDisplayMode === 'card') {
             var Tags = this.props.article.tags.map(function (tag) {
                 return (
                     <a key={tag.id}
-                       onClick={this._displayArticleWithTag.bind(this, tag.id)}
+                       onClick={this._onArticleWithTag.bind(this, tag.id)}
                        className="waves-effect waves-light btn-small grey lighten-5 black-text">
                         {tag.name}
                     </a>
                 );
             }.bind(this));
 
-            //- Article card, données à afficher : comments, creator
-
             return (
-                <div className="card">
+                <div className="card blog-article-item">
                     <div className="card-content">
-                        <div className="blog-article-item">
+                        <div>
                             <span className="card-title black-text">
                                 <h4>{this.props.article.title}</h4>
                             </span>
-                            <span dangerouslySetInnerHTML={this._rawMarkup()}/>
+                            <span dangerouslySetInnerHTML={{__html: this.props.children}}/>
                         </div>
                     </div>
                     <div className="card-action">
                         {Tags}
-                        <div className="right">
-                            <i className="material-icons prefix">account_circle</i>
-                            {this.props.article.author}
-                        </div>
+                        {this._renderVisibility()}
+                        {this._renderAuthor()}
                     </div>
                 </div>
             );
+        } else {
+            log.info('Article display mode unknown: ' + this.props.articleDisplayMode);
+            return null;
         }
     }
 });

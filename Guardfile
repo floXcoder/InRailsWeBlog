@@ -1,5 +1,5 @@
 # Limit directory being watched
-directories %w(app db config lib spec)
+directories %w(app db config frontend lib spec)
 # Clear console when launching guard
 clearing :on
 # Display notification in OS
@@ -34,16 +34,16 @@ guard 'rails', server: :thin, port: 3001, timeout: 60 do
 end
 
 guard 'process', name: 'i18n-js', command: 'rake i18n:js:export' do
-  watch('config/locales/js.*.yml')
+  watch(%r{^config/locales/js\..+\.yml})
 end
 
 guard 'process', name: 'Gulp', command: 'gulp' do
-  watch('frontend/**/*.js')
+  watch(%r{^frontend/.+\.js$})
 end
 
 guard 'annotate', routes: true do
   watch('db/schema.rb')
-  watch('app/models/**/*.rb')
+  watch(%r{^app/models/.+\.rb$})
 end
 
 # guard :rspec, cmd: 'spring rspec --format Fuubar --color --require spec_helper' do

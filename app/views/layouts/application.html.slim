@@ -7,17 +7,17 @@ html lang="en"
 
   = render 'layouts/head'
 
-  body
+  body.blog
     = render 'layouts/header'
 
     = render 'layouts/flash_messages', flash: flash
 
     .container
       .row
-        .col.s3.blog-sidebar
-          = render 'layouts/sidebar'
+        /.col.s3.blog-sidebar
+        /  = render 'layouts/sidebar'
 
-        .col.s9
+        .col.s12
           = yield
 
       a.goto-top

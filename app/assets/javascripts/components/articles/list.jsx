@@ -6,16 +6,13 @@ var ArticleList = React.createClass({
     getInitialState: function () {
         return {
             hasMore: true,
-            currentPage: 0,
             articleLength: 0
         };
     },
 
-    _loadMoreArticles: function (page) {
-        this.state.currentPage = page;
-
+    _loadNextArticles: function () {
         if (this.props.articles.length > 0 && this.props.articles.length !== this.state.articleLength) {
-            ArticleActions.loadMoreArticles({page: page});
+            ArticleActions.loadNextArticles();
             this.state.articleLength = this.props.articles.length;
         } else {
             this.state.hasMore = false;
@@ -24,29 +21,33 @@ var ArticleList = React.createClass({
 
     _displayMode: function () {
         var ArticleNodes = this.props.articles.map(function (article) {
+            var articleContent = this.props.highlightResults && !$utils.isEmpty(article.highlight_content) ?
+                article.highlight_content :
+                article.content;
+
             if(article.show) {
                 return (
-                    <ArticleItem key={article.id} article={article} displayType={this.props.displayType}>
-                        {article.content}
+                    <ArticleItem key={article.id} article={article} articleDisplayMode={this.props.articleDisplayMode}>
+                        {articleContent}
                     </ArticleItem>
                 );
             }
         }.bind(this));
 
-        if (this.props.displayType === 'inline') {
+        if (this.props.articleDisplayMode === 'inline') {
             return (
                 <div className="card-panel">
                     <div className="articleList">
-                        <InfiniteScroll pageStart={this.state.currentPage + 1} loadMore={this._loadMoreArticles} hasMore={this.state.hasMore}>
+                        <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.state.hasMore}>
                             {ArticleNodes}
                         </InfiniteScroll>
                     </div>
                 </div>
             );
-        } else if (this.props.displayType === 'separated') {
+        } else if (this.props.articleDisplayMode === 'card') {
             return (
                 <div className="blog-article-list">
-                    <InfiniteScroll pageStart={this.state.currentPage + 1} loadMore={this._loadMoreArticles} hasMore={this.state.hasMore}>
+                    <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.state.hasMore}>
                         {ArticleNodes}
                     </InfiniteScroll>
                 </div>

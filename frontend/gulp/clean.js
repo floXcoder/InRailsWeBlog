@@ -1,7 +1,9 @@
 var gulp   = require('gulp');
-var del    = require('del');
+var rimraf    = require('gulp-rimraf');
 var config = require('../config');
 
 gulp.task('clean', function (callback) {
-    del(config.clean, callback);
+    return gulp.src(config.clean, { read: false }) // much faster
+        //.pipe(ignore('node_modules/**'))
+        .pipe(rimraf());
 });

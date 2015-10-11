@@ -3,60 +3,95 @@ var ArticleActions = require('../actions/articleActions');
 var ArticleStore = Reflux.createStore({
     // auto-connects actions with stores
     listenables: [ArticleActions],
-    articleList: {},
+    articleData: {},
     activeTags: {},
+    autocompleteValues: {},
     url: '/articles',
+    lastRequest: {},
+    //lastPage: null,
 
     init: function () {
         this.onLoadArticles({page: 1});
     },
 
+    _resetSearch: function () {
+        this.lastRequest = {};
+    },
+
     _fetchArticles: function (data, callback) {
         var requestParam = {};
 
+        var url = this.url;
+
         if (data) {
             if (data.tags) {
-                requestParam.tag_ids = data.tags;
+                requestParam.tags = data.tags;
             }
 
             if (data.page) {
                 requestParam.page = data.page;
+            } else {
+                requestParam.page = 1;
+            }
+
+            if (data.query) {
+                requestParam.query = data.query;
+                url += '/search';
+
+                if (data.searchOptions) {
+                    requestParam.search_options = data.searchOptions;
+                }
+            }
+
+            if (data.autocompleteQuery) {
+                requestParam.autocompleteQuery = data.autocompleteQuery;
+                url += '/autocomplete';
             }
         }
 
+        this.lastRequest = data;
+
         jQuery.getJSON(
-            this.url,
+            url,
             requestParam,
             function (data) {
                 callback.bind(this, data)();
             }.bind(this));
     },
 
-    onLoadArticles: function (dataSent) {
-        this._fetchArticles(dataSent, function (dataReceived) {
-            this.articleList = dataReceived;
-            // Responsible for updating all subscribed component's states.
-            this.trigger(this.articleList);
+    onLoadArticles: function (data) {
+        this._resetSearch();
+
+        this._fetchArticles(data, function (dataReceived) {
+            // Manage in articles/box
+            this.articleData = dataReceived;
+            this.articleData.newArticles = true;
+            this.trigger(this.articleData);
         }.bind(this));
     },
 
-    onLoadMoreArticles: function (dataSent) {
-        this._fetchArticles(dataSent, function (dataReceived) {
+    onLoadNextArticles: function (data) {
+        if(this.lastRequest.page) {
+            this.lastRequest.page += 1;
+        } else {
+            this.lastRequest.page = 2;
+        }
+
+        this._fetchArticles(_.merge(this.lastRequest, data), function (dataReceived) {
             var uniqueArticles = [];
             var uniqueIds = {};
 
-            this.articleList.articles.concat(dataReceived.articles).map(function (article) {
+            this.articleData.articles.concat(dataReceived.articles).map(function (article) {
                 if (!uniqueIds[article.id]) {
                     uniqueArticles.push(article);
                     uniqueIds[article.id] = article;
                 }
             });
 
-            this.articleList.articles = uniqueArticles;
-
-            this._filterActiveTags();
-
-            this.trigger(this.articleList);
+            // Manage in articles/box
+            this.articleData.articles = uniqueArticles;
+            this._filterArticlesByTag();
+            this.trigger(this.articleData);
         });
     },
 
@@ -74,11 +109,11 @@ var ArticleStore = Reflux.createStore({
             data: requestParam,
             success: function (data) {
                 // Add to the current list
-                this.articleList.articles.unshift(data.articles[0]);
+                this.articleData.articles.unshift(data.articles[0]);
                 if (data.tags) {
-                    this.articleList.tags.unshift(data.tags[0]);
+                    this.articleData.tags.unshift(data.tags[0]);
                 }
-                this.trigger(this.articleList);
+                this.trigger(this.articleData);
             }.bind(this),
             error: function (xhr, status, err) {
                 console.error(this.url, status, err.toString());
@@ -86,9 +121,9 @@ var ArticleStore = Reflux.createStore({
         });
     },
 
-    _filterActiveTags: function () {
+    _filterArticlesByTag: function () {
         if (!$utils.isEmpty(this.activeTags)) {
-            this.articleList.articles.forEach(function (article, index, articles) {
+            this.articleData.articles.forEach(function (article, index, articles) {
                 var activeTagsByArticle = article.tags.filter(function (tag) {
                     if(!this.activeTags.hasOwnProperty(tag.id)) {
                         this.activeTags[tag.id] = true
@@ -104,8 +139,29 @@ var ArticleStore = Reflux.createStore({
 
     onFilterArticlesByTag: function (tagId, activeTag) {
         this.activeTags[tagId] = activeTag;
-        this._filterActiveTags();
-        this.trigger(this.articleList);
+        this._filterArticlesByTag();
+        this.trigger(this.articleData);
+    },
+
+    onSearchArticles: function (data) {
+        this._resetSearch();
+
+        //this.searchOptions = data.searchOptions;
+
+        this._fetchArticles(data, function (dataReceived) {
+            // Manage in articles/box
+            this.articleData = dataReceived;
+            this.trigger(this.articleData);
+        }.bind(this));
+    },
+
+    onAutocompleteArticles: function (data) {
+        if(!$utils.isEmpty(data.autocompleteQuery)) {
+            this._fetchArticles(data, function (dataReceived) {
+                this.autocompleteValues = dataReceived;
+                this.trigger({autocompletion: this.autocompleteValues});
+            }.bind(this));
+        }
     }
 });
 

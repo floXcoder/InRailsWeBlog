@@ -12,37 +12,38 @@ header.blog-header
       li
         = link_to t('views.header.log_in'), login_path, remote: true
 
-  #preferences-dropdown.dropdown-content
-    #user-pref
+  /#preferences-dropdown.dropdown-content
+  /  #user-pref.blog-user-pref
 
   .navbar-fixed
     nav
       .nav-wrapper
         = link_to t('common.website_name'), root_path, class: 'brand-logo'
 
-        / Quick search
-        /form
-        /  .input-field
-        /    input#search required="" type="search"
-        /    label for="search"
-        /      i.material-icons search
-        /    i.material-icons close
-
         ul#nav-mobile.right.hide-on-med-and-down
-          / Useful links
-          /li class="#{'active' if current_page?(articles_path)}"
-          /  = link_to 'All articles', articles_path
-          /li class="#{'active' if current_page?(queries_path)}"
-          /  = link_to 'Advanced search', queries_path
+          / Search
+          li
+            a#toggle-search href="#!"
+              i.material-icons search
 
           / User preferences
           li
-            a.dropdown-button data-activates="preferences-dropdown" href="#!"
+            a#toggle-user-pref href="#!"
               i.material-icons.right view_modules
               = t('views.header.preferences')
+
+            /a.dropdown-button data-activates="preferences-dropdown" href="#!"
+            /  i.material-icons.right view_modules
+            /  = t('views.header.preferences')
 
           / User account
           li
             a.dropdown-button data-activates="user-dropdown" href="#!"
               i.material-icons.right account_circle
               = t('views.header.profile')
+
+  .blog-search-nav.row.white-text.grey.darken-3
+    #search-nav-component
+
+  .blog-user-pref
+    #user-pref

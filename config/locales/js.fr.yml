@@ -1,10 +1,21 @@
 fr:
   js:
     user:
-      display_mode: "Mode d'affichage"
-      display:
-        inline: "Afficher dans un seul article"
-        separated: "Afficher des articles séparés"
+      preferences:
+        display:
+          title: "Affichage des articles"
+          mode:
+            inline: "Afficher dans un seul article"
+            card: "Afficher les articles indépendamment"
+        search:
+          title: "Recherche"
+          operator:
+            title: "Opérateur"
+            mode:
+              and: "Tous les mots"
+              or: "Au moins un mot"
+          highlight: "Sur-brillance"
+          exact: "Le(s) mot(s) précis"
     article:
       new:
         title: "Créer un nouvel article"
@@ -15,6 +26,11 @@ fr:
         content: "Contenu"
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
+      search:
+        placeholder: "Rechercher ..."
+        no_results:
+          title: "Pas d'articles trouvés"
+          content: "Essayer autre chose :)"
       visibility:
         title: "Visibilité de l'article"
         enum:

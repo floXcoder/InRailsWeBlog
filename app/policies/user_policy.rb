@@ -14,6 +14,14 @@ class UserPolicy
     correct_user?
   end
 
+  def preference?
+    correct_user?
+  end
+
+  def update_preference?
+    correct_user?
+  end
+
   def edit?
     correct_user?
   end

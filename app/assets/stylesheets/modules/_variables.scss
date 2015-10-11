@@ -14,7 +14,8 @@ $fa-font-path: '/assets';
 
 // Colors
 // ------------------------------------
-$color-base: #3498db;
+//$color-base: #3498db;
+$color-base: color('blue-grey', 'darken-3');
 $color-hover: #2980b9;
 $color-additional: #deeffc;
 $color-transparent: rgba(52, 152, 219, .3);

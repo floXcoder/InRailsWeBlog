@@ -7,14 +7,14 @@ module.exports = {
     webpack: {
         context: './app/assets/javascripts',
         entries: {
-            ie8: [ './modules/ie8.js' ],
-            ie9: [ './modules/ie9.js' ],
-            home: [ './pages/home.jsx' ],
-            'users/show': [ './pages/users/show.jsx' ],
-            'users/edit': [ './pages/users/edit.js' ],
-            'users/login': [ './pages/users/login.js' ],
-            'users/signup': [ './pages/users/signup.js' ],
-            'users/password': [ './pages/users/password.js' ]
+            ie8: ['./modules/ie8.js'],
+            ie9: ['./modules/ie9.js'],
+            home: ['./pages/home.jsx'],
+            'users/show': ['./pages/users/show.jsx'],
+            'users/edit': ['./pages/users/edit.js'],
+            'users/login': ['./pages/users/login.js'],
+            'users/signup': ['./pages/users/signup.js'],
+            'users/password': ['./pages/users/password.js']
         },
 
         commons: [
@@ -38,10 +38,22 @@ module.exports = {
                 'vendor/components'
             ]
         },
+        loaders: [
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader?stage=0&cacheDirectory'
+            }
+            //{
+            //    test: /node_modules\/react-typeahead\/lib\/.*\.js/,
+            //    loader: 'babel-loader?stage=0&cacheDirectory'
+            //}
+        ],
         plugins: {
             $: 'jquery',
             jQuery: 'jquery',
             "window.jQuery": 'jquery',
+            _: 'lodash',
             log: 'loglevel'
         },
         development: {
@@ -55,12 +67,12 @@ module.exports = {
         }
     },
     browserSync: {
-        proxy: 'http://localhost:3001',
+        proxy: { target: 'http://localhost:3001' },
         notify: false,
         open: false
     },
     sass: {
-        src: [ assetDir + '/stylesheets/**/*.scss', '!**/*_scsslint_tmp*.scss' ],
+        src: [assetDir + '/stylesheets/**/*.scss', '!**/*_scsslint_tmp*.scss'],
         dest: publicDir + '/assets',
         settings: {
             includePaths: [

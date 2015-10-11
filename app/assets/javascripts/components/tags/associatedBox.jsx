@@ -17,12 +17,12 @@ var AssociatedTagBox = React.createClass({
     },
 
     onArticleChange: function (articleStore) {
-        var tags = articleStore.tags;
-
-        this.setState({
-            tags: tags,
-            isLoading: false
-        });
+        if(!$utils.isEmpty(articleStore.tags)) {
+            this.setState({
+                tags: articleStore.tags,
+                isLoading: false
+            });
+        }
     },
 
     _onTagClick: function (tagId, activeTag) {

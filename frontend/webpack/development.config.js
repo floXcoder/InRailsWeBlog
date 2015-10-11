@@ -26,3 +26,7 @@ _.each(config.commons, function(common) {
         })
     );
 });
+
+webPackConfig.plugins.push(
+    new webpack.NoErrorsPlugin()
+);

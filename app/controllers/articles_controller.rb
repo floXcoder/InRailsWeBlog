@@ -7,9 +7,11 @@ class ArticlesController < ApplicationController
   def index
     articles = []
 
-    if params[:tag_ids]
-      tag_ids = params[:tag_ids]
-      articles = Article.with_translations(I18n.locale).joins(:tags).includes(:author, :tags).where(tags: { id: tag_ids }).order('articles.id DESC')
+    w params
+
+    if params[:tags]
+      tag_ids = params[:tags]
+      articles = Article.with_translations(I18n.locale).joins(:tags).includes(:author, :tags).where(tags: {id: tag_ids}).order('articles.id DESC')
     else
       articles = Article.with_translations(I18n.locale).joins(:tags).includes(:author, :tags).all.order('articles.id DESC')
     end
@@ -21,9 +23,7 @@ class ArticlesController < ApplicationController
     end
 
     respond_to do |format|
-      # format.html { render :index, locals: {articles: articles} }
       format.html { render :articles, formats: :json, locals: {articles: articles, tags: tags} }
-
       format.json { render :articles, locals: {articles: articles, tags: tags} }
     end
   end
@@ -36,10 +36,9 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    # article = current_user.articles.build(article_params)
+    article = current_user.articles.build(article_params)
     # authorize article
 
-    article = User.first.articles.build(article_params)
     tags = article.tags.pluck(:id, :name).uniq
 
     respond_to do |format|
@@ -54,6 +53,66 @@ class ArticlesController < ApplicationController
         # format.js { render :create }
         format.json { render json: article.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def search
+    search_options = {}
+    user_preferences = nil
+
+    w params
+
+    user_preferences = User.find(current_user.id) if current_user
+    params[:search_options] = {} unless params[:search_options]
+
+    if params[:search_options].is_a?(Hash) || user_preferences
+      if (highlight = params[:search_options][:search_highlight])
+        search_options[:highlight] = (highlight == 'false' ? false : true)
+      else
+        search_options[:highlight] = (user_preferences.read_preference(:search_highlight) == 'false' ? false : true)
+      end
+      search_options[:operator] = params[:search_options][:search_operator] || user_preferences.read_preference(:search_operator)
+      if (exact = params[:search_options][:search_exact])
+        search_options[:exact] = (exact == 'false' ? false : true)
+      else
+        search_options[:exact] = (user_preferences.read_preference(:search_exact) == 'false' ? false : true)
+      end
+    end
+
+    articles = Article.search_for(params[:query],
+                                  {
+                                      page: params[:page],
+                                      per_page: 5,
+                                      current_user_id: current_user ? current_user.id : nil,
+                                      tags: params[:tags],
+                                      highlight: search_options[:highlight],
+                                      operator: search_options[:operator],
+                                      exact: search_options[:exact]
+                                  })
+
+    suggestions = articles.suggestions
+
+    tags = Tag.joins(:articles).where(articles: {id: articles.results.map(&:id)}).order('name ASC').pluck(:id, :name).uniq
+
+    respond_to do |format|
+      format.html { render :articles, formats: :json, locals: {articles: articles.with_details, tags: tags, suggestions: suggestions} }
+      format.json { render :articles, locals: {articles: articles.with_details, tags: tags, suggestions: suggestions} }
+    end
+  end
+
+  def autocomplete
+    results = Article.user_related(current_user).search(params[:autocompleteQuery], autocomplete: true, limit: 6)
+
+    results = results.map { |result|
+      {
+          title: result.title,
+          tags: result.tags.pluck(:name)
+      }
+    }
+
+    respond_to do |format|
+      format.json { render json: results }
+      format.html { render json: results }
     end
   end
 
@@ -90,11 +149,11 @@ class ArticlesController < ApplicationController
 
   def article_params
     params.require(:articles).permit(:title,
-                                    :summary,
-                                    :content,
-                                    :visibility,
-                                    :notation,
-                                    :priority,
-                                    :allow_comment)
+                                     :summary,
+                                     :content,
+                                     :visibility,
+                                     :notation,
+                                     :priority,
+                                     :allow_comment)
   end
 end

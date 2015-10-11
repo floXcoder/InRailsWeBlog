@@ -1,5 +1,6 @@
 var userActions = Reflux.createActions([
-    'changeDisplay'
+    'changeDisplay',
+    'changeSearchOptions'
 ]);
 
 module.exports = userActions;

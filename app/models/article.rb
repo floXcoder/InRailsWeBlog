@@ -25,22 +25,26 @@ class Article < ActiveRecord::Base
   has_and_belongs_to_many :tags
 
   ## Picture
-  has_many  :picture, as: :imageable, autosave: true, dependent: :destroy
+  has_many :picture, as: :imageable, autosave: true, dependent: :destroy
   accepts_nested_attributes_for :picture, allow_destroy: true, reject_if: lambda {
                                             |picture| picture['image'].blank? && picture['image_tmp'].blank?
                                         }
 
+  # Scopes
+  scope :user_related, -> (user_id = nil) { where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
+                                               author_id: user_id).with_translations(I18n.locale).includes(:author, :tags) }
+
   # Parameters validation
   validates :author_id, presence: true
   validates :title,
-            length:     { minimum: 1, maximum: 128 },
+            length: {minimum: 1, maximum: 128},
             if: 'title.present?'
   validates :summary,
-            length:     { minimum: 1, maximum: 256 },
+            length: {minimum: 1, maximum: 256},
             if: 'summary.present?'
   validates :content,
-            presence:   true,
-            length:     { minimum: 3, maximum: 12_000 }
+            presence: true,
+            length: {minimum: 3, maximum: 12_000}
 
   # Translation
   translates :title, :summary, :content, fallbacks_for_empty_translations: true
@@ -54,11 +58,74 @@ class Article < ActiveRecord::Base
   include Shared::NiceUrlConcern
   friendly_id :slug_candidates, use: :slugged
 
-  # Search
-  # searchkick autocomplete: [:title],
-  #            suggest: [:title],
-  #            highlight: [:content],
-  #            language: (I18n.locale == :en) ? 'English' : 'French'
+  # Elastic Search
+  searchkick autocomplete: [:title, :tags],
+             suggest: [:title, :tags],
+             highlight: [:content],
+             language: (I18n.locale == :en) ? 'English' : 'French'
+  # wordnet: true,
+
+  # after_commit :reindex_product
+  # def reindex_product
+  #   tags.reindex # or reindex_async
+  # end
+
+  def search_data
+    {
+        author_id: author.id,
+        title: title,
+        content: content,
+        summary: summary,
+        tags: tags.pluck(:name)
+    }
+  end
+
+  # Article Search
+  # +query+ parameter: string to query
+  # +options+ parameter:
+  #  current_user_id (current user id)
+  #  page (page number for pagination)
+  #  per_page (number of articles per page for pagination)
+  #  exact (exact search or include misspellings, default: 2)
+  #  tags (array of tags associated with articles)
+  #  operator (array of tags associated with articles, default: AND)
+  #  highlight (highlight content, default: true)
+  #  exact (do not misspelling, default: false, 1 character)
+  def self.search_for(query, options = {})
+    article_request = Article.user_related(options[:current_user_id])
+
+    # If query not defined, search for everything
+    query_string = query ? query : '*'
+
+    # Misspelling, specify number of characters
+    misspellings_distance = options[:exact] ? 0 : 1
+
+    # Highlight results and select a fragment
+    highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
+
+    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
+    where_options = {}
+    where_options[:tags] = {all: options[:tags]} if options[:tags]
+
+    # Choose operator : 'and' or 'or'
+    operator = options[:operator] ? options[:operator] : 'and'
+
+    # Boost user articles first
+    boost_where = options[:current_user_id] ? {author_id: options[:current_user_id]} : nil
+
+    # Perform search
+    article_request.search(query_string,
+                           fields: ['title^3', :content],
+                           boost_where: boost_where,
+                           highlight: highlight,
+                           misspellings: {edit_distance: misspellings_distance},
+                           suggest: true,
+                           page: options[:page],
+                           per_page: options[:per_page],
+                           operator: operator,
+                           where: where_options
+    )
+  end
 
   # Friendly ID
   def slug_candidates
