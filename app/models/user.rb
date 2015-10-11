@@ -71,6 +71,14 @@ class User < ActiveRecord::Base
   include Shared::NiceUrlConcern
   friendly_id :pseudo,  use: :slugged
 
+  # Preferences
+  include Shared::PreferencesConcern
+
+  preference :article_display,    'inline'
+  preference :search_highlight,   'true'
+  preference :search_operator,    'and'
+  preference :search_exact,       'true'
+
 
   def to_s
     "I am #{pseudo}"

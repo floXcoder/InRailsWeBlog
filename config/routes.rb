@@ -29,7 +29,8 @@
 #          new_user_unlock GET    /users/unlock/new(.:format)       devise/unlocks#new
 #                          GET    /users/unlock(.:format)           devise/unlocks#show
 #                root_user GET    /users/:id(.:format)              users#show {:has_many=>:comments}
-#        notification_user GET    /users/:id/notification(.:format) users#notification {:has_many=>:comments}
+#          preference_user GET    /users/:id/preference(.:format)   users#preference {:has_many=>:comments}
+#   update_preference_user POST   /users/:id/preference(.:format)   users#update_preference {:has_many=>:comments}
 #                 id_users GET    /users/id(.:format)               users#check_id {:has_many=>:comments}
 #                    users GET    /users(.:format)                  users#index {:has_many=>:comments}
 #                          POST   /users(.:format)                  users#create {:has_many=>:comments}
@@ -39,6 +40,8 @@
 #                          PATCH  /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          PUT    /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          DELETE /users/:id(.:format)              users#destroy {:has_many=>:comments}
+#          search_articles GET    /articles/search(.:format)        articles#search {:has_many=>:comments}
+#    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete {:has_many=>:comments}
 #                 articles GET    /articles(.:format)               articles#index {:has_many=>:comments}
 #                          POST   /articles(.:format)               articles#create {:has_many=>:comments}
 #              new_article GET    /articles/new(.:format)           articles#new {:has_many=>:comments}
@@ -80,8 +83,9 @@ Rails.application.routes.draw do
 
   resources :users, has_many: :comments do
     member do
-      get :show,          to: 'users#show',         as: :root
-      get :notification,  to: 'users#notification', as: :notification
+      get   :show,          to: 'users#show',               as: :root
+      get   :preference,    to: 'users#preference',         as: :preference
+      post  :preference,    to: 'users#update_preference',  as: :update_preference
     end
 
     collection do
@@ -91,6 +95,10 @@ Rails.application.routes.draw do
 
   # Articles
   resources :articles, has_many: :comments do
+    collection do
+      get :search,        to: 'articles#search'
+      get :autocomplete,  to: 'articles#autocomplete'
+    end
   end
 
   # Tags

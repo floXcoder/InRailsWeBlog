@@ -2,9 +2,11 @@
 // whenever the action 'fetchList' is invoked, the 'fetchArticles()' function of ImageStore gets called.
 var ArticleActions = Reflux.createActions([
     'loadArticles',
-    'loadMoreArticles',
+    'loadNextArticles',
     'pushArticles',
-    'filterArticlesByTag'
+    'filterArticlesByTag',
+    'searchArticles',
+    'autocompleteArticles'
 ]);
 
 //ArticleActions.fetchArticles.preEmit = function() { console.log('fetchArticles'); };

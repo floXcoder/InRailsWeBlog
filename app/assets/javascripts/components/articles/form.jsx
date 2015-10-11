@@ -23,7 +23,6 @@ var ArticleForm = React.createClass({
 
         React.findDOMNode(this.refs.title.refs.title).value = '';
         React.findDOMNode(this.refs.content.refs.content).value = '';
-        return;
     },
 
     _handleChange: function (event) {
@@ -37,7 +36,7 @@ var ArticleForm = React.createClass({
 
     _createArticleForm: function () {
         return (
-            <form className="blog-form form-article" onSubmit={this._handleSubmit}>
+            <form className="blog-form article-form" onSubmit={this._handleSubmit}>
                 <Input ref="title" id="title" classType="important">
                     {I18n.t('js.article.model.title')}
                 </Input>
@@ -70,7 +69,7 @@ var ArticleForm = React.createClass({
 
     render: function () {
         return (
-            <ul data-collapsible="accordion" className="collapsible">
+            <ul data-collapsible="accordion" className="collapsible article-form-header">
                 <li>
                     <div className="collapsible-header"><i className="material-icons">mode_edit</i>
                         <h4 className="collection-header">{I18n.t('js.article.new.title')}</h4>
@@ -86,27 +85,5 @@ var ArticleForm = React.createClass({
         );
     }
 });
-//<div className="row">
-//    <div className="col s12">
-//        <div className="card-panel">
-//            <h3>Add a new article</h3>
-//
-//            <form className="articleForm" onSubmit={this._handleSubmit}>
-//                <Input ref="title" id="title" classType="important" icon="mode_edit">Title</Input>
-//                <Input ref="summary" id="summary">Summary</Input>
-//                <Textarea ref="content" id="content" text="Content" onChange={this._handleChange}/>
-//                <div className="row">
-//                    <div className="col s6">
-//                        <Select />
-//                    </div>
-//                    <div className="col s6 center">
-//                        <Checkbox />
-//                    </div>
-//                </div>
-//                <Button ref="submit" icon="send">New post</Button>
-//            </form>
-//        </div>
-//    </div>
-//</div>
 
 module.exports = ArticleForm;

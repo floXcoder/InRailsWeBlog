@@ -36,19 +36,5 @@ webPackConfig.module = {
     noParse: [
         //path.join(__dirname, 'vendor', 'assets', 'javascripts', 'revolution-slider')
     ],
-    loaders: [
-        {
-            test: /\.coffee$/, loader: 'coffee-loader',
-            exclude: /node_modules/
-        },
-        {
-            test: /\.jsx$/,
-            loader: 'babel-loader?stage=1&cacheDirectory',
-            exclude: /node_modules/
-        },
-        //{
-        //    test: /node_modules\/react-materializecss\/src\/.*\.js/,
-        //    loader: 'babel-loader?stage=0&cacheDirectory'
-        //}
-    ]
+    loaders: config.loaders
 };

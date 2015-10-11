@@ -41,7 +41,7 @@ var InfiniteScroll = React.createClass({
             return domElt.offsetTop + topPosition(domElt.offsetParent);
         };
 
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var scrollTop;
         if (window.pageYOffset !== undefined) {
             scrollTop = window.pageYOffset;

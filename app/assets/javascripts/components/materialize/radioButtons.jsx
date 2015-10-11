@@ -8,13 +8,13 @@ var RadioButtons = React.createClass({
         var radioButtons = Object.keys(this.props.buttons).map(function (key) {
             var button = this.props.buttons[key];
             return (
-                <li key={key} className="collection-item">
+                <div key={key}>
                     <input type="radio" id={key} name={this.props.group} checked={this.props.checkedButton === key}
                            onChange={this.props.onRadioChanged}/>
                     <label htmlFor={key}>
                         {button}
                     </label>
-                </li>
+                </div>
             );
         }.bind(this));
 

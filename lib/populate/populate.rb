@@ -40,10 +40,29 @@ class Populate
     return tags
   end
 
-  def self.create_dummy_articles_for(user)
-    tags = Populate::create_dummy_tags
-
-    articles = 30.times.map { FactoryGirl.create(:article, :with_tag, author: user, tags: tags.sample(3)) }
+  def self.create_dummy_articles_for(users, tags)
+    articles =
+        if users.is_a?(User)
+          30.times.map {
+            FactoryGirl.create(:article,
+                               :with_tag,
+                               author: users,
+                               tags: tags.sample(rand(1..3)),
+                               visibility: Article.visibilities.keys.sample
+            )
+          }
+        elsif users.is_a?(Array)
+          users.each do |user|
+            rand(10..20).times.map {
+              FactoryGirl.create(:article,
+                                 :with_tag,
+                                 author: user,
+                                 tags: tags.sample(rand(1..3)),
+                                 visibility: Article.visibilities.keys.sample
+              )
+            }
+          end
+        end
 
     return articles
   end

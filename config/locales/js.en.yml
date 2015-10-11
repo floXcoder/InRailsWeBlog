@@ -1,10 +1,21 @@
 en:
   js:
     user:
-      display_mode: "Display mode"
-      display:
-        inline: "Display only one article"
-        separated: "Display each articles separated"
+      preferences:
+        display:
+          title: "Article Display Modes"
+          mode:
+            inline: "Display only one article"
+            card: "Display each articles within cards"
+        search:
+          title: "Search"
+          operator:
+            title: "Operator"
+            mode:
+              and: "All words"
+              or: "At least one word"
+          highlight: "Highlight"
+          exact: "Exact word(s)"
     article:
       new:
         title: "Create a new article"
@@ -15,6 +26,11 @@ en:
         content: "Content"
         visibility: "Visibility"
         allow_comment: "Allow comments"
+      search:
+        placeholder: "Search..."
+        no_results:
+          title: "No articles found"
+          content: "Try something else :)"
       visibility:
         title: "Article visibility"
         enum:

@@ -16,6 +16,32 @@ class UsersController < ApplicationController
     render :show, locals: { user: user }
   end
 
+  def preference
+    user = User.find(params[:id])
+    authorize user
+
+    respond_to do |format|
+      format.html { render :preferences, formats: :json, locals: {user: user} }
+      format.json { render :preferences, locals: {user: user} }
+    end
+  end
+
+  def update_preference
+    user = User.find(params[:id])
+    authorize user
+
+    if params[:preferences]
+      params[:preferences].each do |pref_type, pref_value|
+        user.write_preference(pref_type, pref_value)
+      end
+    end
+
+    respond_to do |format|
+      format.html { render :preferences, formats: :json, locals: {user: user} }
+      format.json { render :preferences, locals: {user: user} }
+    end
+  end
+
   def edit
     user = User.friendly.find(params[:id])
     authorize user

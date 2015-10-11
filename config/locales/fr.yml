@@ -3,7 +3,7 @@ fr:
     website_name: "In Rails We Blog"
     email: "blog@l-x.fr"
   head:
-    keywords: "Rails, blog, node, gulp, javascript, webpack, asset, react, reflux"
+    keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
     description: "Comment construire un blog avec Rails et Node"
   header: ""
   footer:
@@ -19,7 +19,7 @@ fr:
     header:
       sign_up: "S'inscrire"
       log_in: "Se connecter"
-      preferences: "Modes d'affichage"
+      preferences: "Préférences"
       profile: "Mon compte"
       log_out: "Déconnexion"
     user:
