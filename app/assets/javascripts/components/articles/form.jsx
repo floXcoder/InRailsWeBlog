@@ -5,28 +5,89 @@ var Textarea = require('../../components/materialize/textarea');
 var Select = require('../../components/materialize/select');
 var Checkbox = require('../../components/materialize/checkbox');
 
+require('../../wysiwyg/summernote');
+require('../../wysiwyg/lang/summernote-fr-FR');
+
 var ArticleForm = React.createClass({
     getInitialState: function () {
         return {
-            text: ''
+            text: '',
+            editor: null
         };
+    },
+
+    componentDidMount: function () {
+        this.state.editor = $('#editor-summernote');
+
+        //var toolbar = [
+        //    ['style', ['style', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+        //    ['fonts', ['fontname', 'fontsize']],
+        //    ['color', ['color']],
+        //    ['undo', ['undo', 'redo']],
+        //    //['table', ['table']],
+        //    ['view', ['fullscreen', 'codeview']],
+        //    ['help', ['help']],
+        //    ['para', ['ul', 'ol', 'paragraph']],
+        //    ['height', ['hr', 'height', 'specialchar']],
+        //    ['insert', ['link', 'picture', 'video']]
+        //];
+
+        var toolbar = [
+            ['style', ['style', 'bold', 'italic', 'underline']],
+            ['undo', ['undo', 'redo']],
+            ['view', ['fullscreen', 'codeview']],
+            ['para', ['ul', 'ol']],
+            ['insert', ['link', 'picture', 'video']],
+            ['help', ['help']]
+        ];
+
+        var airToolbar = [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture']],
+            ['help', ['help']]
+        ];
+
+        this.state.editor.summernote({
+            //airMode: true,
+            //airPopover: airToolbar
+
+            lang: I18n.locale +'-' + I18n.locale.toUpperCase(),
+            toolbar: toolbar,
+            otherStaticBarClass: 'nav-wrapper',
+            followingToolbar: true,
+            height: 300,
+            callbacks: {
+                onKeyup: function (event) {
+                    this._handleChange(event);
+                }.bind(this)
+            }
+        });
     },
 
     _handleSubmit: function (event) {
         event.preventDefault();
-        var title = React.findDOMNode(this.refs.title.refs.title).value.trim();
-        var content = React.findDOMNode(this.refs.content.refs.content).value.trim();
-        if (!content || !title) {
+        var title = ReactDOM.findDOMNode(this.refs.title.refs.title).value.trim();
+        var content = this.state.editor.summernote('code');
+
+        if (!content && !title) {
             return;
         }
+
         ArticleActions.pushArticles({title: title, content: content});
 
-        React.findDOMNode(this.refs.title.refs.title).value = '';
-        React.findDOMNode(this.refs.content.refs.content).value = '';
+        ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
+        this.state.editor.summernote('code', '');
+        this.refs.submit.setState({disabled: true});
     },
 
     _handleChange: function (event) {
-        var text = event.target.value;
+        var text = event.currentTarget.textContent;
         if (text.length === 0) {
             this.refs.submit.setState({disabled: true});
         } else {
@@ -43,11 +104,12 @@ var ArticleForm = React.createClass({
                 <Input ref="summary" id="summary">
                     {I18n.t('js.article.model.summary')}
                 </Input>
-                <Textarea ref="content" id="content" onChange={this._handleChange}>
-                    {I18n.t('js.article.model.content')}
-                </Textarea>
 
-                <div className="row">
+                <div className="editor-reset">
+                    <div id="editor-summernote"/>
+                </div>
+
+                <div className="row margin-top-10">
                     <div className="col s6">
                         <Select title={I18n.t('js.article.visibility.title')}
                                 options={I18n.t('js.article.visibility.enum')}>
@@ -55,9 +117,8 @@ var ArticleForm = React.createClass({
                         </Select>
                     </div>
                     <div className="col s6 center">
-                        <Checkbox values={I18n.t('js.checkbox')}>
-                            {I18n.t('js.article.model.allow_comment')}
-                        </Checkbox>
+                        {I18n.t('js.article.model.allow_comment')}
+                        <Checkbox values={I18n.t('js.checkbox')}/>
                     </div>
                 </div>
                 <Button ref="submit" icon="send">
@@ -85,5 +146,9 @@ var ArticleForm = React.createClass({
         );
     }
 });
+
+//<Textarea ref="content" id="content" onChange={this._handleChange}>
+//                    {I18n.t('js.article.model.content')}
+//                </Textarea>
 
 module.exports = ArticleForm;

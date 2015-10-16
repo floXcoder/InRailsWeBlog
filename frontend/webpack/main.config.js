@@ -23,13 +23,14 @@ webPackConfig.output = {
 webPackConfig.resolve = {
     // tell webpack which extensions to auto search when it resolves modules. With this,
     // you'll be able to do `require('./utils')` instead of `require('./utils.js')`
-    extensions: ['', '.js', '.jsx', '.coffee']
+    extensions: ['', '.js', '.jsx', '.coffee'],
+    // by default, webpack will search in `web_modules` and `node_modules`. Because we're using
+    // vendor, we want it to look in there too
+    modulesDirectories: config.modules.includes
 };
 
 webPackConfig.plugins = [
-    new webpack.ProvidePlugin(config.plugins),
-    // Do not load all locales for moment.js
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fr/)
+    new webpack.ProvidePlugin(config.plugins)
 ];
 
 webPackConfig.module = {

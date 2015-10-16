@@ -4,23 +4,22 @@ class ArticlesController < ApplicationController
 
   respond_to :html, :js, :json
 
+  include ActionView::Helpers::SanitizeHelper
+
   def index
     articles = []
-
-    w params
+    current_user_id = current_user ? current_user.id : nil
 
     if params[:tags]
       tag_ids = params[:tags]
-      articles = Article.with_translations(I18n.locale).joins(:tags).includes(:author, :tags).where(tags: {id: tag_ids}).order('articles.id DESC')
+      articles = Article.user_related(current_user_id).joins(:tags).where(tags: {id: tag_ids}).order('articles.id DESC')
     else
-      articles = Article.with_translations(I18n.locale).joins(:tags).includes(:author, :tags).all.order('articles.id DESC')
+      articles = Article.user_related(current_user_id).all.order('articles.id DESC')
     end
 
     tags = Tag.joins(:articles).where(articles: {id: articles.ids}).order('name ASC').pluck(:id, :name).uniq
 
-    if params[:page]
-      articles = articles.paginate(page: params[:page], per_page: 5)
-    end
+    articles = articles.paginate(page: params[:page], per_page: 5) if params[:page]
 
     respond_to do |format|
       format.html { render :articles, formats: :json, locals: {articles: articles, tags: tags} }
@@ -40,6 +39,12 @@ class ArticlesController < ApplicationController
     # authorize article
 
     tags = article.tags.pluck(:id, :name).uniq
+
+    # Sanitize HTML content
+    content = article_params[:content]
+    content = content.sub(/^<p><br><\/p>/, '')
+    content = sanitize(content, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(href name target src alt center align))
+    article.content = content
 
     respond_to do |format|
       if article.save

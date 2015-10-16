@@ -36,7 +36,7 @@ var ArticleBox = React.createClass({
             }
         }
 
-        if(!$utils.isEmpty(newState)) {
+        if (!$utils.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -55,7 +55,7 @@ var ArticleBox = React.createClass({
             }
         }
 
-        if(!$utils.isEmpty(newState)) {
+        if (!$utils.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -87,6 +87,7 @@ var ArticleBox = React.createClass({
                                 <span className="card-title">
                                     {I18n.t('js.article.search.no_results.title')}
                                 </span>
+
                                 <p>
                                     {I18n.t('js.article.search.no_results.content')}
                                 </p>
@@ -102,6 +103,7 @@ var ArticleBox = React.createClass({
     render: function () {
         return (
             <div className="blog-article-box">
+                <div className="margin-bottom-20"/>
                 { this._displayFormIfUser() }
                 <div className={this.state.isLoading ? 'center': 'hide'}>
                     <Spinner size='big'/>

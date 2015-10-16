@@ -44,7 +44,7 @@ var ArticleItem = React.createClass({
                     <h4>
                         {this.props.article.title}
                     </h4>
-                    <span dangerouslySetInnerHTML={this._rawMarkup()}/>
+                    <span dangerouslySetInnerHTML={{__html: this.props.children}}/>
                 </div>
             );
         } else if (this.props.articleDisplayMode === 'card') {

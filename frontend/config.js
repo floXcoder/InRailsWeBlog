@@ -34,8 +34,7 @@ module.exports = {
         modules: {
             includes: [
                 'vendor/assets/javascripts',
-                'node_modules',
-                'vendor/components'
+                'node_modules'
             ]
         },
         loaders: [
@@ -49,7 +48,7 @@ module.exports = {
             //    loader: 'babel-loader?stage=0&cacheDirectory'
             //}
         ],
-        plugins: {
+            plugins: {
             $: 'jquery',
             jQuery: 'jquery',
             "window.jQuery": 'jquery',

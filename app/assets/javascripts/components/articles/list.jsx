@@ -37,7 +37,7 @@ var ArticleList = React.createClass({
         if (this.props.articleDisplayMode === 'inline') {
             return (
                 <div className="card-panel">
-                    <div className="articleList">
+                    <div className="blog-article-list">
                         <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.state.hasMore}>
                             {ArticleNodes}
                         </InfiniteScroll>
