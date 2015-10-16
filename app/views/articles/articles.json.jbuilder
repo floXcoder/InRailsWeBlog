@@ -26,7 +26,7 @@ if local_assigns[:suggestions] && !suggestions.empty?
   json.suggestions  suggestions
 end
 
-unless tags.empty?
+if local_assigns[:tags] && !tags.empty?
   json.tags do
     json.array! tags do |tag|
       json.id   tag[0]

@@ -73,6 +73,7 @@ var ArticleBox = React.createClass({
             return (
                 <ArticleList
                     ref="articlesList"
+                    userConnected={this.props.userConnected}
                     articles={this.state.articles}
                     highlightResults={this.state.highlightResults}
                     articleDisplayMode={this.state.articleDisplayMode}

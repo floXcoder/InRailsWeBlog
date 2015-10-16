@@ -100,6 +100,8 @@ var ArticleStore = Reflux.createStore({
 
         if (article) {
             requestParam.articles = article;
+        } else {
+            return;
         }
 
         $.ajax({
@@ -113,6 +115,44 @@ var ArticleStore = Reflux.createStore({
                 if (data.tags) {
                     this.articleData.tags.unshift(data.tags[0]);
                 }
+                this.trigger(this.articleData);
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(this.url, status, err.toString());
+            }.bind(this)
+        });
+    },
+
+    onUpdateArticles: function (article) {
+        var requestParam = {};
+        var url = this.url;
+
+        if (article && article.id) {
+            url += '/' + article.id;
+            requestParam._method = 'put';
+
+            requestParam.articles = article;
+        } else {
+            return;
+        }
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam,
+            success: function (data) {
+                // Update the articles
+                var updatedArticleList = [];
+                var updatedArticle = data.articles[0];
+                this.articleData.articles.forEach(function (article, index, articles) {
+                    if(updatedArticle.id === article.id) {
+                        updatedArticleList.push(updatedArticle);
+                    } else {
+                        updatedArticleList.push(article);
+                    }
+                }.bind(this));
+                this.articleData.articles = updatedArticleList;
                 this.trigger(this.articleData);
             }.bind(this),
             error: function (xhr, status, err) {

@@ -1,23 +1,26 @@
 /* variables
 =================================================================================*/
-$toolbarColor: color("grey", "darken-4") !default;
-$toolbarTextColor: color("grey", "lighten-5") !default;
+//$toolbarColor: color('grey', 'darken-4') !default;
+//$toolbarTextColor: color('grey', 'lighten-5') !default;
+//$borderColor: color('grey', 'base') !default;
 
-$borderColor: color("grey", "base") !default;
+$toolbarColor: color('blue-grey', 'darken-3') !default;
+$toolbarTextColor: color('grey', 'lighten-5') !default;
+$borderColor: color('blue-grey', 'darken-3') !default;
 
-$firstButtonColor: color("grey", "darken-4") !default;
-$firstButstonHoverColor: color("indigo", "base") !default;
-$secondButtonColor: color("red", "darken-4") !default;
-$secondButtonHoverColor: color("indigo", "base") !default;
-$thirdButtonColor: color("purple", "darken-4") !default;
-$thirdButtonHoverColor: color("indigo", "base") !default;
+$firstButtonColor: color('blue-grey', 'darken-4') !default;
+$firstButstonHoverColor: color('indigo', 'base') !default;
+$secondButtonColor: color('red', 'darken-4') !default;
+$secondButtonHoverColor: color('indigo', 'base') !default;
+$thirdButtonColor: color('purple', 'darken-4') !default;
+$thirdButtonHoverColor: color('indigo', 'base') !default;
 
-$firstFocusColor: color("purple", "base") !default;
-$secondFocusColor: color("red", "accent-3") !default;
+$firstFocusColor: color('purple', 'base') !default;
+$secondFocusColor: color('red', 'accent-3') !default;
 
-$selectionColor: color("grey", "darken-1") !default;
+$selectionColor: color('grey', 'darken-1') !default;
 
-$helpBackgroundColor: color("grey", "lighten-2") !default;
+$helpBackgroundColor: color('grey', 'lighten-2') !default;
 
 // base unit for table dimension picker
 $gridUnit: 26px;
@@ -118,9 +121,9 @@ $gridUnit: 26px;
 .note-editor {
   position: relative;
   border: {
-    left: 3px solid $toolbarColor;
-    bottom: 3px solid $toolbarColor;
-    right: 3px solid $toolbarColor;
+    left: 2px solid $toolbarColor;
+    bottom: 2px solid $toolbarColor;
+    right: 2px solid $toolbarColor;
   }
 
   .img-circle {
@@ -313,6 +316,7 @@ $gridUnit: 26px;
 
     ul {
       padding: 0;
+      margin-top: 15px;
     }
 
     .closeLeft {
@@ -330,7 +334,7 @@ $gridUnit: 26px;
   }
 
   .btn {
-    border-radius: 0 !important;
+    border-radius: 5px !important;
     box-shadow: none !important;
     padding: 0 9px !important;
     background-color: $firstButtonColor;
@@ -351,7 +355,7 @@ $gridUnit: 26px;
     text-transform: none;
   }
 
-  [type="checkbox"]:checked + label:before, [type="checkbox"]:checked + label:before {
+  [type='checkbox']:checked + label:before, [type='checkbox']:checked + label:before {
     border-right-color: $secondButtonColor !important;
     border-bottom-color: $secondButtonColor !important;
   }
@@ -393,7 +397,7 @@ $gridUnit: 26px;
         position: absolute;
         width: 30px;
         height: 30px;
-        content: "";
+        content: '';
         background-color: inherit;
         margin-top: -15px;
         margin-left: -15px;
@@ -422,13 +426,14 @@ $gridUnit: 26px;
   }
 
   ul.dropdown-menu {
-    position: absolute;
-    top: 20px;
-    background-color: lighten($toolbarColor, 10%);
+    position: absolute !important;
+    top: 20px !important;
+    background-color: lighten($firstButtonColor, 10%) !important;
+    margin-top: 15px !important;
     border: {
-      left: 3px solid $toolbarColor;
-      bottom: 3px solid $toolbarColor;
-      right: 3px solid $toolbarColor;
+      left: 3px solid $firstButtonColor !important;
+      bottom: 3px solid $firstButtonColor !important;
+      right: 3px solid $firstButtonColor !important;
     }
 
     &#colors {
@@ -462,12 +467,17 @@ $gridUnit: 26px;
 
     li {
       list-style-type: none !important;
-      padding: 3px 10px;
+      padding: 3px 10px !important;
+      margin: 5px !important;
 
       button {
         background-color: inherit;
         color: white;
         cursor: pointer;
+
+        h1, h2, h3, h4 {
+          margin: 0px 1px !important;
+        }
       }
     }
   }
@@ -481,6 +491,7 @@ $gridUnit: 26px;
   z-index: 960;
 
   .arrow {
+    position: relative;
     width: 0;
     height: 0;
     border-style: solid;
@@ -598,7 +609,7 @@ $gridUnit: 26px;
   outline: 0
 }
 
-.note-editor .note-editable[contenteditable="false"] {
+.note-editor .note-editable[contenteditable='false'] {
   background-color: #e5e5e5;
 }
 

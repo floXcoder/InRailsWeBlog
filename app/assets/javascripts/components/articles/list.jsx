@@ -27,7 +27,11 @@ var ArticleList = React.createClass({
 
             if(article.show) {
                 return (
-                    <ArticleItem key={article.id} article={article} articleDisplayMode={this.props.articleDisplayMode}>
+                    <ArticleItem
+                        key={article.id}
+                        userConnected={this.props.userConnected}
+                        article={article}
+                        articleDisplayMode={this.props.articleDisplayMode}>
                         {articleContent}
                     </ArticleItem>
                 );

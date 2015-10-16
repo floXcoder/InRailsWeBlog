@@ -4,8 +4,6 @@ class ArticlesController < ApplicationController
 
   respond_to :html, :js, :json
 
-  include ActionView::Helpers::SanitizeHelper
-
   def index
     articles = []
     current_user_id = current_user ? current_user.id : nil
@@ -28,10 +26,6 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article = Article.friendly.find(params[:id])
-    authorize article
-
-    render :show, locals: {article: article}
   end
 
   def create
@@ -39,12 +33,6 @@ class ArticlesController < ApplicationController
     # authorize article
 
     tags = article.tags.pluck(:id, :name).uniq
-
-    # Sanitize HTML content
-    content = article_params[:content]
-    content = content.sub(/^<p><br><\/p>/, '')
-    content = sanitize(content, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(href name target src alt center align))
-    article.content = content
 
     respond_to do |format|
       if article.save
@@ -122,23 +110,19 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    # user = User.friendly.find(params[:id])
-    # authorize user
-    #
-    # render :edit, locals: { user: user }
   end
 
   def update
-    # user = User.friendly.find(params[:id])
-    # authorize user
-    #
-    # if user.update_without_password(user_params)
-    #   flash[:success] = t('views.user.flash.successful_update')
-    #   redirect_to root_user_path(user)
-    # else
-    #   flash[:error] = t('views.user.flash.error_update')
-    #   render :edit, locals: { user: user }
-    # end
+    article = Article.find(params[:id])
+    # authorize article
+
+    respond_to do |format|
+      if article.update_attributes(article_params)
+        format.json { render :articles, locals: {articles: [article]}, status: :accepted, location: article }
+      else
+        format.json { render json: article.errors, status: :not_modified }
+      end
+    end
   end
 
   def destroy

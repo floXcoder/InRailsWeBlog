@@ -107,8 +107,6 @@ var TypeaheadTokenizer = React.createClass({
         return this.state.selected;
     },
 
-    // TODO: Support initialized tokens
-    //
     _renderTokens: function () {
         var tokenClasses = {};
         tokenClasses[this.props.customClasses.token] = !!this.props.customClasses.token;

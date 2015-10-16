@@ -31,7 +31,6 @@ var ArticleForm = React.createClass({
         //    ['height', ['hr', 'height', 'specialchar']],
         //    ['insert', ['link', 'picture', 'video']]
         //];
-
         var toolbar = [
             ['style', ['style', 'bold', 'italic', 'underline']],
             ['undo', ['undo', 'redo']],
@@ -41,22 +40,7 @@ var ArticleForm = React.createClass({
             ['help', ['help']]
         ];
 
-        var airToolbar = [
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture']],
-            ['help', ['help']]
-        ];
-
         this.state.editor.summernote({
-            //airMode: true,
-            //airPopover: airToolbar
-
             lang: I18n.locale +'-' + I18n.locale.toUpperCase(),
             toolbar: toolbar,
             otherStaticBarClass: 'nav-wrapper',

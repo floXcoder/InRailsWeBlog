@@ -197,117 +197,13 @@
   margin-right: 30px;
 }
 
-/*
-YUI 3.18.1 (build f7e7bcb)
-*/
-
-.css-reset div,
-.css-reset dl,
-.css-reset dt,
-.css-reset dd,
-.css-reset ul,
-.css-reset ol,
-.css-reset li,
-.css-reset h1,
-.css-reset h2,
-.css-reset h3,
-.css-reset h4,
-.css-reset h5,
-.css-reset h6,
-.css-reset pre,
-.css-reset code,
-.css-reset form,
-.css-reset fieldset,
-.css-reset legend,
-.css-reset input,
-.css-reset textarea,
-.css-reset p,
-.css-reset blockquote,
-.css-reset th,
-.css-reset td {
-  margin: 0;
-  padding: 0;
+// Use Clearfix instead of overflow hidden
+.clearfix:before,
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  overflow: hidden;
 }
-
-.css-reset table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-.css-reset fieldset,
-.css-reset img {
-  border: 0;
-}
-
-.css-reset address,
-.css-reset caption,
-.css-reset cite,
-.css-reset code,
-.css-reset dfn,
-.css-reset em,
-.css-reset strong,
-.css-reset th,
-.css-reset var {
-  font-style: normal;
-  font-weight: normal;
-}
-
-.css-reset ol,
-.css-reset ul {
-  list-style: none;
-}
-
-.css-reset caption,
-.css-reset th {
-  text-align: left;
-}
-
-.css-reset h1,
-.css-reset h2,
-.css-reset h3,
-.css-reset h4,
-.css-reset h5,
-.css-reset h6 {
-  font-size: 100%;
-  font-weight: normal;
-}
-
-.css-reset q:before,
-.css-reset q:after {
-  content: '';
-}
-
-.css-reset abbr,
-.css-reset acronym {
-  border: 0;
-  font-variant: normal;
-}
-
-/* to preserve line-height and selector appearance */
-.css-reset sup {
-  vertical-align: text-top;
-}
-
-.css-reset sub {
-  vertical-align: text-bottom;
-}
-
-.css-reset input,
-.css-reset textarea,
-.css-reset select {
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-}
-
-/*to enable resizing for IE*/
-.css-reset input,
-.css-reset textarea,
-.css-reset select {
-  *font-size: 100%;
-}
-
-/*because legend doesn't inherit in IE */
-.css-reset legend {
-  color: #000;
-}
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; } /* IE < 8 */

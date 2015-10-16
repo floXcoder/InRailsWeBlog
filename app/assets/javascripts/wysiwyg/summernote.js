@@ -521,10 +521,10 @@
                     toolbar = editor.find('.popover-content button.dropdown');
 
 
-                //    var id = $note.attr('id');
-                //    if (id) id = id.substring(id.lastIndexOf('-') + 1, id.length);
-                //
-                //    editor = $('#note-popover-' + id).find('.note-air-popover');
+                    //    var id = $note.attr('id');
+                    //    if (id) id = id.substring(id.lastIndexOf('-') + 1, id.length);
+                    //
+                    //    editor = $('#note-popover-' + id).find('.note-air-popover');
                 } else {
                     editor = $note.next('.note-editor');
                     toolbar = editor.find('.note-toolbar button.dropdown');
@@ -541,11 +541,11 @@
 
                     list.slideUp(0);
 
-                    $('.preventDropClose').click(function(event) {
+                    $('.preventDropClose').click(function (event) {
                         event.stopPropagation();
                     });
 
-                    $(select).click(function(event) {
+                    $(select).click(function (event) {
                         // calculate dropdown open position to avoid overflow from editor
                         var btnOffset = Math.round($(select).parent('.btn-group').offset().left - toolbar.offset().left);
                         var listBorderWidth = parseInt(list.css("border-left-width"));
@@ -579,18 +579,18 @@
                         event.stopPropagation();
                     });
 
-                    tabs.unbind().click(function(event) {
+                    tabs.unbind().click(function (event) {
                         go = false;
                     });
                 }
 
-                $(window).click(function(event) {
+                $(window).click(function (event) {
                     if (go) editor.find('ul.dropdown-menu').slideUp(200);
                     go = true;
                     event.stopPropagation();
                 });
 
-                toolbar.each(function(index, select) {
+                toolbar.each(function (index, select) {
                     handleDropdowns(select, editor);
                 });
 
@@ -687,7 +687,7 @@
     var dropdownMaterialize = renderer.create('<ul class="dropdown-menu">', function ($node, options) {
         var markup = $.isArray(options.items) ? options.items.map(function (item) {
             var innerItem = item;
-            if(options.lang) {
+            if (options.lang) {
                 var label = options.lang[item === 'p' ? 'normal' : item];
                 innerItem = ((item === 'p' || item === 'pre') ? label : '<' + item + ' data-value="' + item + '">' + label + '</' + item + '>');
             }
@@ -754,7 +754,6 @@
     ].join(''));
 
 
-
     var MaterializeUI = {
         editor: editorMaterialize,
         toolbar: toolbarMaterialize,
@@ -793,7 +792,7 @@
         },
 
         followingToolbar: function ($editor, options) {
-            $(window).scroll(function() {
+            $(window).scroll(function () {
                 var isFullscreen = $editor.hasClass('fullscreen');
                 if (isFullscreen) {
                     return false;
@@ -854,7 +853,7 @@
 
             $editor.insertAfter($note);
 
-            if(options.followingToolbar && !options.airMode) {
+            if (options.followingToolbar && !options.airMode) {
                 MaterializeUI.followingToolbar($editor, options);
             }
 
@@ -875,12 +874,6 @@
             $note.show();
         }
     };
-
-
-
-
-
-
 
 
     var isSupportAmd = typeof define === 'function' && define.amd;
@@ -1747,7 +1740,7 @@
          * @param {array} offsets - offsetPath
          */
         var fromOffsetPath = function (ancestor, offsets) {
-            if(!ancestor) {
+            if (!ancestor) {
                 return;
             }
 
@@ -1758,7 +1751,7 @@
                 } else {
                     current = current.childNodes[offsets[i]];
                 }
-                if(!current) {
+                if (!current) {
                     return ancestor;
                 }
             }
@@ -2363,7 +2356,6 @@
                 var includeAncestor = options && options.includeAncestor;
                 var fullyContains = options && options.fullyContains;
 
-                // TODO compare points and sort
                 var startPoint = this.getStartPoint();
                 var endPoint = this.getEndPoint();
 
@@ -4680,7 +4672,7 @@
 
         var representShortcut = this.representShortcut = function (editorMethod) {
             var shortcut = invertedKeyMap[editorMethod];
-            if(!shortcut) {
+            if (!shortcut) {
                 return '';
             }
 
@@ -5467,7 +5459,7 @@
                         }
                     }).val(linkInfo.url).trigger('focus').trigger('select');
 
-                    $closeBtn.click(function(event) {
+                    $closeBtn.click(function (event) {
                         event.preventDefault();
 
                         self.$dialog.closeModal();
@@ -5708,7 +5700,7 @@
                         ui.hideDialog(self.$dialog);
                     });
 
-                    $closeBtn.click(function(event) {
+                    $closeBtn.click(function (event) {
                         event.preventDefault();
 
                         ui.hideDialog(self.$dialog);
@@ -5912,7 +5904,7 @@
                         ui.hideDialog(self.$dialog);
                     });
 
-                    $closeBtn.click(function(event) {
+                    $closeBtn.click(function (event) {
                         event.preventDefault();
 
                         ui.hideDialog(self.$dialog);
@@ -5993,7 +5985,7 @@
         var options = summernote.options;
         var lang = options.langInfo;
 
-        var tplShortcut = function(title, keys) {
+        var tplShortcut = function (title, keys) {
             var keyClass = 'note-shortcut-col col s6 note-shortcut-';
             var body = [];
 
@@ -6009,70 +6001,70 @@
                 '<tbody>' + body.join('') + '</tbody>';
         };
 
-        var tplShortcutText = function(lang) {
+        var tplShortcutText = function (lang) {
             var keys = [
-                { kbd: '⌘ + B', text: lang.font.bold },
-                { kbd: '⌘ + I', text: lang.font.italic },
-                { kbd: '⌘ + U', text: lang.font.underline },
-                { kbd: '⌘ + \\', text: lang.font.clear }
+                {kbd: '⌘ + B', text: lang.font.bold},
+                {kbd: '⌘ + I', text: lang.font.italic},
+                {kbd: '⌘ + U', text: lang.font.underline},
+                {kbd: '⌘ + \\', text: lang.font.clear}
             ];
 
             return tplShortcut(lang.shortcut.textFormatting, keys);
         };
 
-        var tplShortcutAction = function(lang) {
+        var tplShortcutAction = function (lang) {
             var keys = [
-                { kbd: '⌘ + Z', text: lang.history.undo },
-                { kbd: '⌘ + ⇧ + Z', text: lang.history.redo },
-                { kbd: '⌘ + ]', text: lang.paragraph.indent },
-                { kbd: '⌘ + [', text: lang.paragraph.outdent },
-                { kbd: '⌘ + ENTER', text: lang.hr.insert }
+                {kbd: '⌘ + Z', text: lang.history.undo},
+                {kbd: '⌘ + ⇧ + Z', text: lang.history.redo},
+                {kbd: '⌘ + ]', text: lang.paragraph.indent},
+                {kbd: '⌘ + [', text: lang.paragraph.outdent},
+                {kbd: '⌘ + ENTER', text: lang.hr.insert}
             ];
 
             return tplShortcut(lang.shortcut.action, keys);
         };
 
-        var tplShortcutPara = function(lang) {
+        var tplShortcutPara = function (lang) {
             var keys = [
-                { kbd: '⌘ + ⇧ + L', text: lang.paragraph.left },
-                { kbd: '⌘ + ⇧ + E', text: lang.paragraph.center },
-                { kbd: '⌘ + ⇧ + R', text: lang.paragraph.right },
-                { kbd: '⌘ + ⇧ + J', text: lang.paragraph.justify },
-                { kbd: '⌘ + ⇧ + NUM7', text: lang.lists.ordered },
-                { kbd: '⌘ + ⇧ + NUM8', text: lang.lists.unordered }
+                {kbd: '⌘ + ⇧ + L', text: lang.paragraph.left},
+                {kbd: '⌘ + ⇧ + E', text: lang.paragraph.center},
+                {kbd: '⌘ + ⇧ + R', text: lang.paragraph.right},
+                {kbd: '⌘ + ⇧ + J', text: lang.paragraph.justify},
+                {kbd: '⌘ + ⇧ + NUM7', text: lang.lists.ordered},
+                {kbd: '⌘ + ⇧ + NUM8', text: lang.lists.unordered}
             ];
 
             return tplShortcut(lang.shortcut.paragraphFormatting, keys);
         };
 
-        var tplShortcutStyle = function(lang) {
+        var tplShortcutStyle = function (lang) {
             var keys = [
-                { kbd: '⌘ + NUM0', text: lang.style.normal },
-                { kbd: '⌘ + NUM1', text: lang.style.h1 },
-                { kbd: '⌘ + NUM2', text: lang.style.h2 },
-                { kbd: '⌘ + NUM3', text: lang.style.h3 },
-                { kbd: '⌘ + NUM4', text: lang.style.h4 },
-                { kbd: '⌘ + NUM5', text: lang.style.h5 },
-                { kbd: '⌘ + NUM6', text: lang.style.h6 }
+                {kbd: '⌘ + NUM0', text: lang.style.normal},
+                {kbd: '⌘ + NUM1', text: lang.style.h1},
+                {kbd: '⌘ + NUM2', text: lang.style.h2},
+                {kbd: '⌘ + NUM3', text: lang.style.h3},
+                {kbd: '⌘ + NUM4', text: lang.style.h4},
+                {kbd: '⌘ + NUM5', text: lang.style.h5},
+                {kbd: '⌘ + NUM6', text: lang.style.h6}
             ];
 
             return tplShortcut(lang.shortcut.documentStyle, keys);
         };
 
-        var tplExtraShortcuts = function(lang, options) {
+        var tplExtraShortcuts = function (lang, options) {
             var extraKeys = options.extraKeys;
             var keys = [];
 
             for (var key in extraKeys) {
                 if (extraKeys.hasOwnProperty(key)) {
-                    keys.push({ kbd: key, text: extraKeys[key] });
+                    keys.push({kbd: key, text: extraKeys[key]});
                 }
             }
 
             return tplShortcut(lang.shortcut.extraKeys, keys);
         };
 
-        var tplShortcutTable = function(lang, options) {
+        var tplShortcutTable = function (lang, options) {
             var template = [
                 '<table class="striped hoverable">' + tplShortcutAction(lang, options) + '</table>',
                 '<table class="striped hoverable">' + tplShortcutStyle(lang, options) + '</table>',
@@ -6086,7 +6078,7 @@
             return template;
         };
 
-        var replaceMacKeys = function(sHtml) {
+        var replaceMacKeys = function (sHtml) {
             return sHtml.replace(/⌘/g, 'Ctrl').replace(/⇧/g, 'Shift');
         };
 
@@ -6151,7 +6143,7 @@
         };
 
         this.initialize = function () {
-            if (!options.airMode) {
+            if (!options.airMode || !options.airToolbar) {
                 return;
             }
 
@@ -6159,7 +6151,7 @@
                 className: 'note-air-popover'
             }).render().appendTo($editingArea);
 
-            summernote.buildButtons(this.$popover.find('.popover-content'), options.popover.air);
+            summernote.buildButtons(this.$popover.find('.popover-content'), options.airToolbar);
             dom.attachEvents($note, this.events);
         };
 
@@ -6179,11 +6171,31 @@
                 if (rect) {
                     var bnd = func.rect2bnd(rect);
                     var posEditingArea = $editingArea.offset();
-                    this.$popover.css({
-                        display: 'block',
-                        left: Math.max(bnd.left + bnd.width / 2, 0) - posEditingArea.left - AIR_MODE_POPOVER_X_OFFSET,
-                        top: bnd.top + bnd.height - posEditingArea.top
-                    });
+
+                    var toolbarPosition = Math.max(bnd.left + bnd.width / 2, 0) - posEditingArea.left
+                    var $arrow = this.$popover.find('.arrow');
+
+                    if (toolbarPosition > ($editingArea.width() - this.$popover.width())) {
+                        this.$popover.css({
+                            display: 'block',
+                            left: 'auto',
+                            right: $editingArea.width() - toolbarPosition - AIR_MODE_POPOVER_X_OFFSET,
+                            top: bnd.top + bnd.height - posEditingArea.top
+                        });
+                        $arrow.css({
+                            left: this.$popover.width() - AIR_MODE_POPOVER_X_OFFSET
+                        });
+                    } else {
+                        this.$popover.css({
+                            display: 'block',
+                            left: toolbarPosition - AIR_MODE_POPOVER_X_OFFSET,
+                            right: 'auto',
+                            top: bnd.top + bnd.height - posEditingArea.top
+                        });
+                        $arrow.css({
+                            left: 0
+                        });
+                    }
                 }
             } else {
                 this.hide();
@@ -6797,7 +6809,7 @@
 
                 };
 
-                    var onCloseDialog = function () {
+                var onCloseDialog = function () {
                     $specialCharNode.off('click');
 
                     self.$dialog.find('button').tooltip('destroy');
@@ -6983,6 +6995,14 @@
                 ['help', ['help']]
             ],
 
+            airToolbar: [
+                ['color', ['color']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['para', ['ul', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']]
+            ],
+
             // popover
             popover: {
                 image: [
@@ -6992,13 +7012,6 @@
                 ],
                 link: [
                     ['link', ['linkDialogShow', 'unlink']]
-                ],
-                air: [
-                    ['color', ['color']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['para', ['ul', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']]
                 ]
             },
 
@@ -7049,15 +7062,15 @@
             colorTitles: [
                 //grey            brown             dpurple                 purple             indigo             blue             cyan             green             lgreen                  yellow             amber             orange             dorange                 red             pink
                 ['grey lighten5', 'brown lighten5', 'deep-purple lighten1', 'purple lighten1', 'indigo lighten1', 'blue lighten1', 'cyan lighten1', 'green lighten1', 'light-green lighten1', 'yellow lighten1', 'amber lighten1', 'orange lighten1', 'deep-orange lighten1', 'red lighten1', 'pink lighten1'],
-                ['grey lighten4', 'brown lighten4', 'deep-purple',          'purple',          'indigo',          'blue',          'cyan',          'green',          'light-green',          'yellow',          'amber',          'orange',          'deep-orange',          'red',          'pink'         ],
-                ['grey lighten3', 'brown lighten3', 'deep-purple darken1',  'purple darken1',  'indigo darken1',  'blue darken1',  'cyan darken1',  'green darken1',  'light-green darken1',  'yellow darken1',  'amber darken1',  'orange darken1',  'deep-orange darken1',  'red darken1',  'pink darken1' ],
-                ['grey lighten2', 'brown lighten2', 'deep-purple darken2',  'purple darken2',  'indigo darken2',  'blue darken2',  'cyan darken2',  'green darken2',  'light-green darken2',  'yellow darken2',  'amber darken2',  'orange darken2',  'deep-orange darken2',  'red darken2',  'pink darken2' ],
-                ['grey lighten1', 'brown lighten1', 'deep-purple darken3',  'purple darken3',  'indigo darken3',  'blue darken3',  'cyan darken3',  'green darken3',  'light-green darken3',  'yellow darken3',  'amber darken3',  'orange darken3',  'deep-orange darken3',  'red darken3',  'pink darken3' ],
-                ['grey',          'brown',          'deep-purple darken4',  'purple darken4',  'indigo darken4',  'blue darken4',  'cyan darken4',  'green darken4',  'light-green darken4',  'yellow darken4',  'amber darken4',  'orange darken4',  'deep-orange darken4',  'red darken4',  'pink darken4' ],
-                ['grey darken1',  'brown darken1',  'deep-purple accent1',  'purple accent1',  'indigo accent1',  'blue accent1',  'cyan accent1',  'green accent1',  'light-green accent1',  'yellow accent1',  'amber accent1',  'orange accent1',  'deep-orange accent1',  'red accent1',  'pink accent1' ],
-                ['grey darken2',  'brown darken2',  'deep-purple accent2',  'purple accent2',  'indigo accent2',  'blue accent2',  'cyan accent2',  'green accent2',  'light-green accent2',  'yellow accent2',  'amber accent2',  'orange accent2',  'deep-orange accent2',  'red accent2',  'pink accent2' ],
-                ['grey darken3',  'brown darken3',  'deep-purple accent3',  'purple accent3',  'indigo accent3',  'blue accent3',  'cyan accent3',  'green accent3',  'light-green accent3',  'yellow accent3',  'amber accent3',  'orange accent3',  'deep-orange accent3',  'red accent3',  'pink accent3' ],
-                ['grey darken4',  'brown darken4',  'deep-purple accent4',  'purple accent4',  'indigo accent4',  'blue accent4',  'cyan accent4',  'green accent4',  'light-green accent4',  'yellow accent4',  'amber accent4',  'orange accent4',  'deep-orange accent4',  'red accent4',  'pink accent4' ],
+                ['grey lighten4', 'brown lighten4', 'deep-purple', 'purple', 'indigo', 'blue', 'cyan', 'green', 'light-green', 'yellow', 'amber', 'orange', 'deep-orange', 'red', 'pink'],
+                ['grey lighten3', 'brown lighten3', 'deep-purple darken1', 'purple darken1', 'indigo darken1', 'blue darken1', 'cyan darken1', 'green darken1', 'light-green darken1', 'yellow darken1', 'amber darken1', 'orange darken1', 'deep-orange darken1', 'red darken1', 'pink darken1'],
+                ['grey lighten2', 'brown lighten2', 'deep-purple darken2', 'purple darken2', 'indigo darken2', 'blue darken2', 'cyan darken2', 'green darken2', 'light-green darken2', 'yellow darken2', 'amber darken2', 'orange darken2', 'deep-orange darken2', 'red darken2', 'pink darken2'],
+                ['grey lighten1', 'brown lighten1', 'deep-purple darken3', 'purple darken3', 'indigo darken3', 'blue darken3', 'cyan darken3', 'green darken3', 'light-green darken3', 'yellow darken3', 'amber darken3', 'orange darken3', 'deep-orange darken3', 'red darken3', 'pink darken3'],
+                ['grey', 'brown', 'deep-purple darken4', 'purple darken4', 'indigo darken4', 'blue darken4', 'cyan darken4', 'green darken4', 'light-green darken4', 'yellow darken4', 'amber darken4', 'orange darken4', 'deep-orange darken4', 'red darken4', 'pink darken4'],
+                ['grey darken1', 'brown darken1', 'deep-purple accent1', 'purple accent1', 'indigo accent1', 'blue accent1', 'cyan accent1', 'green accent1', 'light-green accent1', 'yellow accent1', 'amber accent1', 'orange accent1', 'deep-orange accent1', 'red accent1', 'pink accent1'],
+                ['grey darken2', 'brown darken2', 'deep-purple accent2', 'purple accent2', 'indigo accent2', 'blue accent2', 'cyan accent2', 'green accent2', 'light-green accent2', 'yellow accent2', 'amber accent2', 'orange accent2', 'deep-orange accent2', 'red accent2', 'pink accent2'],
+                ['grey darken3', 'brown darken3', 'deep-purple accent3', 'purple accent3', 'indigo accent3', 'blue accent3', 'cyan accent3', 'green accent3', 'light-green accent3', 'yellow accent3', 'amber accent3', 'orange accent3', 'deep-orange accent3', 'red accent3', 'pink accent3'],
+                ['grey darken4', 'brown darken4', 'deep-purple accent4', 'purple accent4', 'indigo accent4', 'blue accent4', 'cyan accent4', 'green accent4', 'light-green accent4', 'yellow accent4', 'amber accent4', 'orange accent4', 'deep-orange accent4', 'red accent4', 'pink accent4'],
             ],
 
             lineHeights: ['1.0', '1.2', '1.4', '1.5', '1.6', '1.8', '2.0', '3.0'],

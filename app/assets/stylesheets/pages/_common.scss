@@ -4,9 +4,12 @@
 @import 'codemirror/lib/codemirror';
 @import 'wysiwyg/summernote';
 
-
 .blog {
   background-color: color('blue-grey', 'lighten-4');
+
+  .card {
+    overflow: visible;
+  }
 
   .blog-header {
     .nav-wrapper {
@@ -178,12 +181,35 @@
           color: white;
         }
 
-        .article-private {
-          color: darkred;
+        .article-editing .note-editor {
+          box-shadow: 0px 0px 4px color('blue', 'darken-2');
         }
 
-        .article-icon {
-          padding: 0 10px;
+        .article-icons {
+          display: inline;
+          margin: 0 8px;
+
+          .material-icons {
+            margin: 0 20px;
+          }
+
+          .article-private {
+            color: darkred;
+          }
+
+          .article-edit {
+            cursor: pointer;
+          }
+
+          .article-cancel {
+            cursor: pointer;
+            color: color('deep-orange', 'darken-2');
+          }
+
+          .article-update {
+            cursor: pointer;
+            color: color('teal', 'darken-2');
+          }
         }
 
         h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
