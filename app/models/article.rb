@@ -22,16 +22,36 @@ class Article < ActiveRecord::Base
   # has_many :comments, as: :commentable
 
   ## Tags
-  has_and_belongs_to_many :tags, autosave: true
+  has_many :tags, through: :tagged_articles, autosave: true
+  has_many :tagged_articles
   accepts_nested_attributes_for :tags, reject_if: :all_blank, update_only: true, allow_destroy: false
+  has_many :parent_tags,
+           -> { where(tagged_articles: { parent: true }) },
+           through: :tagged_articles,
+           source: :tag
+  has_many :child_tags,
+           -> { where(tagged_articles: { child: true }) },
+           through: :tagged_articles,
+           source: :tag
 
   def tags_attributes=(tags_attrs)
     article_tags = []
+    parent_tags = []
+    child_tags = []
     tags_attrs.each do |_tagKey, tagValue|
       tag = Tag.find_or_initialize_by(id: tagValue.delete(:id))
+
+      parent = tagValue.delete(:parent)
+      child = tagValue.delete(:child)
+
       tag.attributes = tagValue
+
+      parent_tags << tag if parent && !parent.blank?
+      child_tags << tag if child && !child.blank?
       article_tags << tag
     end
+    self.parent_tags = parent_tags
+    self.child_tags = child_tags
     self.tags = article_tags
   end
 

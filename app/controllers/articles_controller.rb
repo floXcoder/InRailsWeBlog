@@ -36,14 +36,17 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if article.save
-        # format.html do
-        #     redirect_to article, flash: {success: t('views.article.flash.successful_creation')}
-        # end
-        # format.js { js_redirect_to(article_path(article) || root_path, :success, t('views.article.flash.successful_creation')) }
         format.json { render :articles, locals: {articles: [article], tags: tags}, status: :created, location: article }
+
+        # Save tag relationship
+        article.parent_tags.each do |parent|
+          article.child_tags.each do |child|
+            unless parent.children.exists?(child)
+              parent.children << child
+            end
+          end
+        end unless article.child_tags.empty?
       else
-        # format.html { render :new, locals: {article: article} }
-        # format.js { render :create }
         format.json { render json: article.errors, status: :unprocessable_entity }
       end
     end
@@ -144,6 +147,6 @@ class ArticlesController < ApplicationController
                                      :notation,
                                      :priority,
                                      :allow_comment,
-                                     tags_attributes: [:id, :name])
+                                     tags_attributes: [:id, :name, :parent, :child])
   end
 end

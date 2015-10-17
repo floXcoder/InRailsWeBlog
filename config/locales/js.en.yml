@@ -20,7 +20,8 @@ en:
       new:
         title: "Create a new article"
         tags:
-          placeholder: "Associate tags with article"
+          title: "Add tags (right click: parent tag / left click: children tag)"
+          placeholder: "Associate tags"
         submit: "Create article"
       model:
         title: "Title"

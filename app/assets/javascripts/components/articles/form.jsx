@@ -1,4 +1,5 @@
 var ArticleActions = require('../../actions/articleActions');
+var TagActions = require('../../actions/tagActions');
 var Input = require('../../components/materialize/input');
 var Button = require('../../components/materialize/button');
 var Textarea = require('../../components/materialize/textarea');
@@ -69,8 +70,9 @@ var ArticleForm = React.createClass({
 
         ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
         this.state.editor.summernote('code', '');
-        this.refs.tagsinput.state.selectedTags = [];
         this.refs.submit.setState({disabled: true});
+        this.refs.tagsinput.state.selectedTags = [];
+        TagActions.fetchTags();
     },
 
     _handleChange: function (event) {
@@ -98,6 +100,7 @@ var ArticleForm = React.createClass({
 
                 <div className="row margin-top-10">
                     <div className="col s6">
+                        {I18n.t('js.article.new.tags.title')}
                         <TagsInput ref="tagsinput"/>
                     </div>
 

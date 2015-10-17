@@ -31,13 +31,55 @@ var TagsInput = React.createClass({
         $existingTag.fadeOut(200).fadeIn(200);
     },
 
-    handleDelete: function(i) {
-        var selectedTags = this.state.selectedTags;
-        selectedTags.splice(i, 1);
+    _handleClick: function(tagClicked, event) {
+        if (!tagClicked) {
+            return;
+        }
+        event.preventDefault();
+
+        var selectedTags = [];
+        this.state.selectedTags.forEach(function (tag, index, tags) {
+            if(tagClicked.name === tag.name) {
+                if(tagClicked.parent || tagClicked.child) {
+                    tagClicked.parent = null;
+                    tagClicked.child = null;
+                } else {
+                    tagClicked.parent = true;
+                    tagClicked.child = null;
+                }
+                selectedTags.push(tagClicked);
+            } else {
+                selectedTags.push(tag);
+            }
+        }.bind(this));
         this.setState({selectedTags: selectedTags});
     },
 
-    handleAddition: function(tag) {
+    _handleContextMenu: function(tagClicked, event) {
+        if (!tagClicked) {
+            return;
+        }
+        event.preventDefault();
+
+        var selectedTags = [];
+        this.state.selectedTags.forEach(function (tag, index, tags) {
+            if(tagClicked.name === tag.name) {
+                if(tagClicked.child || tagClicked.parent) {
+                    tagClicked.child = null;
+                    tagClicked.parent = null;
+                } else {
+                    tagClicked.child = true;
+                    tagClicked.parent = null;
+                }
+                selectedTags.push(tagClicked);
+            } else {
+                selectedTags.push(tag);
+            }
+        }.bind(this));
+        this.setState({selectedTags: selectedTags});
+    },
+
+    _handleAddition: function(tag) {
         if (!tag) {
             return;
         }
@@ -70,43 +112,29 @@ var TagsInput = React.createClass({
         this.setState({selectedTags: selectedTags});
     },
 
-    //handleDrag: function(tag, currPos, newPos) {
-    //    var selectedTags = this.state.selectedTags;
-    //
-    //    // mutate array
-    //    selectedTags.splice(currPos, 1);
-    //    selectedTags.splice(newPos, 0, tag);
-    //
-    //    // re-render
-    //    this.setState({ selectedTags: selectedTags });
-    //},
-
-    //moveTag: function (id, afterId) {
-    //    var selectedTags = this.props.selectedTags;
-    //
-    //    // locate tags
-    //    var tag = selectedTags.filter(function (t) {
-    //        return t.id === id;
-    //    })[0];
-    //    var afterTag = selectedTags.filter(function (t) {
-    //        return t.id === afterId;
-    //    })[0];
-    //
-    //    // find their position in the array
-    //    var tagIndex = selectedTags.indexOf(tag);
-    //    var afterTagIndex = selectedTags.indexOf(afterTag);
-    //
-    //    // call handler with current position and after position
-    //    this.props.handleDrag(tag, tagIndex, afterTagIndex);
-    //},
+    _handleDelete: function(i) {
+        var selectedTags = this.state.selectedTags;
+        selectedTags.splice(i, 1);
+        this.setState({selectedTags: selectedTags});
+    },
 
     render: function() {
         var tagItems = this.state.selectedTags.map((function (tag, i) {
+            var labelClass = '';
+            if(tag.parent) {
+                labelClass = 'tag-parent';
+            } else if (tag.child) {
+                labelClass = 'tag-child';
+            }
+
             return (
                 <Tag key={i}
                      tag={tag}
+                     labelClass={labelClass}
                      labelField={this.props.labelField}
-                     onDelete={this.handleDelete.bind(this, i)}/>
+                     handleClick={this._handleClick.bind(this, tag)}
+                     handleContextMenu={this._handleContextMenu.bind(this, tag)}
+                     onDelete={this._handleDelete.bind(this, i)}/>
             );
         }).bind(this));
 
@@ -117,9 +145,10 @@ var TagsInput = React.createClass({
                     <ReactTags selectedTags={this.state.selectedTags}
                                tagList={this.state.tagList}
                                labelField={this.props.labelField}
-                               handleDelete={this.handleDelete}
-                               handleAddition={this.handleAddition}/>
+                               handleDelete={this._handleDelete}
+                               handleAddition={this._handleAddition}/>
                 </div>
+
             </div>
         )
     }

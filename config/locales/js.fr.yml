@@ -20,7 +20,8 @@ fr:
       new:
         title: "Créer un nouvel article"
         tags:
-          placeholder: "Associer des tags à l'article"
+          title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
+          placeholder: "Associer des labels"
         submit: "Créer l'article"
       model:
         title: "Titre"
