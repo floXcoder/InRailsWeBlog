@@ -19,6 +19,8 @@ fr:
     article:
       new:
         title: "Créer un nouvel article"
+        tags:
+          placeholder: "Associer des tags à l'article"
         submit: "Créer l'article"
       model:
         title: "Titre"

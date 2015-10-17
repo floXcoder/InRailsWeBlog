@@ -143,6 +143,7 @@ class ArticlesController < ApplicationController
                                      :visibility,
                                      :notation,
                                      :priority,
-                                     :allow_comment)
+                                     :allow_comment,
+                                     tags_attributes: [:id, :name])
   end
 end

@@ -4,6 +4,7 @@ var Button = require('../../components/materialize/button');
 var Textarea = require('../../components/materialize/textarea');
 var Select = require('../../components/materialize/select');
 var Checkbox = require('../../components/materialize/checkbox');
+var TagsInput = require('../../components/tagsinput/tagsinput');
 
 require('../../wysiwyg/summernote');
 require('../../wysiwyg/lang/summernote-fr-FR');
@@ -41,7 +42,7 @@ var ArticleForm = React.createClass({
         ];
 
         this.state.editor.summernote({
-            lang: I18n.locale +'-' + I18n.locale.toUpperCase(),
+            lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
             toolbar: toolbar,
             otherStaticBarClass: 'nav-wrapper',
             followingToolbar: true,
@@ -58,15 +59,17 @@ var ArticleForm = React.createClass({
         event.preventDefault();
         var title = ReactDOM.findDOMNode(this.refs.title.refs.title).value.trim();
         var content = this.state.editor.summernote('code');
+        var tags = this.refs.tagsinput.state.selectedTags;
 
         if (!content && !title) {
             return;
         }
 
-        ArticleActions.pushArticles({title: title, content: content});
+        ArticleActions.pushArticles({title: title, content: content, tags_attributes: tags});
 
         ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
         this.state.editor.summernote('code', '');
+        this.refs.tagsinput.state.selectedTags = [];
         this.refs.submit.setState({disabled: true});
     },
 
@@ -95,14 +98,18 @@ var ArticleForm = React.createClass({
 
                 <div className="row margin-top-10">
                     <div className="col s6">
+                        <TagsInput ref="tagsinput"/>
+                    </div>
+
+                    <div className="col s3 center">
+                        {I18n.t('js.article.model.allow_comment')}
+                        <Checkbox values={I18n.t('js.checkbox')}/>
+                    </div>
+                    <div className="col s3">
                         <Select title={I18n.t('js.article.visibility.title')}
                                 options={I18n.t('js.article.visibility.enum')}>
                             {I18n.t('js.article.model.visibility')}
                         </Select>
-                    </div>
-                    <div className="col s6 center">
-                        {I18n.t('js.article.model.allow_comment')}
-                        <Checkbox values={I18n.t('js.checkbox')}/>
                     </div>
                 </div>
                 <Button ref="submit" icon="send">
@@ -130,9 +137,5 @@ var ArticleForm = React.createClass({
         );
     }
 });
-
-//<Textarea ref="content" id="content" onChange={this._handleChange}>
-//                    {I18n.t('js.article.model.content')}
-//                </Textarea>
 
 module.exports = ArticleForm;

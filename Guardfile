@@ -43,7 +43,7 @@ end
 
 guard 'annotate', routes: true do
   watch('db/schema.rb')
-  watch(%r{^app/models/.+\.rb$})
+  # watch(%r{^app/models/.+\.rb$})
 end
 
 # guard :rspec, cmd: 'spring rspec --format Fuubar --color --require spec_helper' do

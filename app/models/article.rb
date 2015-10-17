@@ -22,7 +22,18 @@ class Article < ActiveRecord::Base
   # has_many :comments, as: :commentable
 
   ## Tags
-  has_and_belongs_to_many :tags
+  has_and_belongs_to_many :tags, autosave: true
+  accepts_nested_attributes_for :tags, reject_if: :all_blank, update_only: true, allow_destroy: false
+
+  def tags_attributes=(tags_attrs)
+    article_tags = []
+    tags_attrs.each do |_tagKey, tagValue|
+      tag = Tag.find_or_initialize_by(id: tagValue.delete(:id))
+      tag.attributes = tagValue
+      article_tags << tag
+    end
+    self.tags = article_tags
+  end
 
   ## Picture
   has_many :picture, as: :imageable, autosave: true, dependent: :destroy
@@ -32,7 +43,7 @@ class Article < ActiveRecord::Base
 
   # Scopes
   scope :user_related, -> (user_id = nil) { where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
-                                               author_id: user_id).with_translations(I18n.locale).includes(:author, :tags) }
+                                                  author_id: user_id).with_translations(I18n.locale).includes(:author, :tags) }
 
   # Parameters validation
   validates :author_id, presence: true
@@ -132,6 +143,7 @@ class Article < ActiveRecord::Base
 
   # Sanitize content
   include ActionView::Helpers::SanitizeHelper
+
   def sanitize_html
     content = self.content.sub(/^<p><br><\/p>/, '')
     content = sanitize(content, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(href name target src alt center align))

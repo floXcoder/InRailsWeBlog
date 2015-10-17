@@ -19,6 +19,8 @@ en:
     article:
       new:
         title: "Create a new article"
+        tags:
+          placeholder: "Associate tags with article"
         submit: "Create article"
       model:
         title: "Title"

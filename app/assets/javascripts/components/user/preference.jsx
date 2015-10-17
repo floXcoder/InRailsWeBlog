@@ -61,7 +61,7 @@ var UserPreference = React.createClass({
     },
 
     _onHighlightChanged: function (event) {
-        var search_highlight = this.refs.highlight.refs.checkbox.getDOMNode().checked;
+        var search_highlight = this.refs.highlight.refs.checkbox.checked;
         this.setState({search_highlight: search_highlight});
         UserActions.changeSearchOptions({search_highlight: search_highlight ? 'true' : 'false'});
     },
@@ -73,7 +73,7 @@ var UserPreference = React.createClass({
     },
 
     _onExactSearchChanged: function (event) {
-        var search_exact = this.refs.exact.refs.checkbox.getDOMNode().checked;
+        var search_exact = this.refs.exact.refs.checkbox.checked;
         this.setState({search_exact: search_exact});
         UserActions.changeSearchOptions({search_exact: search_exact ? 'true' : 'false'});
     },
