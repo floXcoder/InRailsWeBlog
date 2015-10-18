@@ -276,6 +276,18 @@
           margin-bottom: 20px;
         }
 
+        .secret {
+          @include special-style($secret-color);
+        }
+
+        .advice {
+          @include special-style($advice-color);
+        }
+
+        .deadend {
+          @include special-style($deadend-color);
+        }
+
 
       }
     }

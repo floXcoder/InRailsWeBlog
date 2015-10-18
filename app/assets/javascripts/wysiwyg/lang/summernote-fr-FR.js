@@ -68,6 +68,13 @@
                 h5: 'Titre 5',
                 h6: 'Titre 6'
             },
+            specialStyle: {
+                style: 'Style spécifique',
+                normal: 'Normal',
+                secret: 'Privé',
+                advice: 'Conseil',
+                deadend: 'Impasse'
+            },
             lists: {
                 unordered: 'Liste à puces',
                 ordered: 'Liste numérotée'

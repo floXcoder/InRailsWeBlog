@@ -169,7 +169,7 @@ class Article < ActiveRecord::Base
     # Remove empty beginning block
     content = content.sub(/^<p><br><\/p>/, '')
 
-    content = sanitize(content, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(href name target src alt center align))
+    content = sanitize(content, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(class href name target src alt center align))
 
     # Remplace pre by pre > code
     content = content.gsub(/<pre>/, '<pre><code>')

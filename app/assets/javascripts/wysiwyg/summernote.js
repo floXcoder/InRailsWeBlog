@@ -692,7 +692,7 @@
                 innerItem = ((item === 'p' || item === 'pre') ? label : '<' + item + ' data-value="' + item + '">' + label + '</' + item + '>');
             }
 
-            return '<li><button type="button" data-value="' + item + '">' + innerItem + '</button></li>';
+            return '<li><button type="button" data-value="' + item + '" class="' + item + '">' + innerItem + '</button></li>';
         }).join('') : options.items;
 
         $node.html(markup);
@@ -3469,7 +3469,6 @@
             }
 
             range.create(nextPara, 0).normalize().select();
-
         };
 
     };
@@ -3745,7 +3744,7 @@
         /* jshint ignore:start */
         // native commands(with execCommand), generate function for execCommand
         var commands = ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript',
-            'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'formatBlock', 'removeFormat',
+            'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'formatBlock', 'formatSpecialBlock', 'removeFormat',
             'backColor', 'foreColor', 'fontName'];
 
         for (var idx = 0, len = commands.length; idx < len; idx++) {
@@ -3878,7 +3877,6 @@
         });
 
         /**
-         * formatBlock
          *
          * @param {String} tagName
          */
@@ -3886,6 +3884,26 @@
             // [workaround] for MSIE, IE need `<`
             tagName = agent.isMSIE ? '<' + tagName + '>' : tagName;
             document.execCommand('FormatBlock', false, tagName);
+        });
+
+        this.formatSpecialBlock = this.wrapCommand(function (tagName) {
+            var rngSelected = range.create();
+            var rng = rngSelected.wrapBodyInlineWithPara();
+            var paras = rng.nodes(dom.isPara, {includeAncestor: true});
+            var clustereds = list.clusterBy(paras, func.peq2('parentNode'));
+
+            var className = '';
+            if(tagName !== 'normal') {
+                className = tagName;
+            }
+
+            beforeCommand();
+            $.each(rng.nodes(dom.isPara, {
+                includeAncestor: true
+            }), function (idx, para) {
+                $(para).removeClass().addClass(className);
+            });
+            afterCommand();
         });
 
         this.formatPara = function () {
@@ -4710,6 +4728,25 @@
                         items: summernote.options.styleTags,
                         lang: summernote.options.langInfo.style,
                         click: summernote.createInvokeHandler('editor.formatBlock')
+                    })
+                ]).render();
+            });
+
+            summernote.addButton('specialStyle', function () {
+                return ui.buttonGroup([
+                    ui.button({
+                        className: 'dropdown',
+                        contents: '<i class="material-icons">insert_comment</i> <i class="material-icons left">arrow_drop_down</i>',
+                        tooltip: lang.style.specialStyle,
+                        data: {
+                            toggle: 'dropdown'
+                        }
+                    }),
+                    ui.dropdown({
+                        className: 'largeDropdown',
+                        items: summernote.options.specialStyleTags,
+                        lang: summernote.options.langInfo.specialStyle,
+                        click: summernote.createInvokeHandler('editor.formatSpecialBlock')
                     })
                 ]).render();
             });
@@ -6906,6 +6943,13 @@
                     h5: 'Header 5',
                     h6: 'Header 6'
                 },
+                specialStyle: {
+                    style: 'Special Style',
+                    normal: 'normal',
+                    secret: 'Private',
+                    advice: 'Advice',
+                    deadend: 'Dead End'
+                },
                 lists: {
                     unordered: 'Unordered list',
                     ordered: 'Ordered list'
@@ -6983,6 +7027,7 @@
             // toolbar
             toolbar: [
                 ['style', ['style']],
+                ['specialStyle', ['specialStyle']],
                 ['font', ['bold', 'italic', 'underline', 'clear']],
                 ['fontname', ['fontname']],
                 ['fontsize', ['fontsize']],
@@ -7036,6 +7081,8 @@
             disableResizeEditor: false,   // disable resizing editor
 
             styleTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4'],
+
+            specialStyleTags: ['normal', 'secret', 'advice', 'deadend'],
 
             fontNames: [
                 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',

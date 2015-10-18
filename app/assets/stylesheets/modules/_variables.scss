@@ -48,3 +48,15 @@ $max-width-md: 991px;
 $min-width-md: 768px;
 $max-width-sm: 767px;
 $max-width-xs: 349px;
+
+
+// Special style colors
+// ------------------------------------
+$secret-color: color('red', 'lighten-3');
+$advice-color: color('light-blue', 'lighten-3');
+$deadend-color: color('brown', 'lighten-3');
+@mixin special-style($color) {
+  background-color: $color;
+  box-shadow: 0px 0px 4px $color;
+  padding-left: 10px;
+}

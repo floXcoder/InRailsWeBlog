@@ -21,20 +21,9 @@ var ArticleForm = React.createClass({
     componentDidMount: function () {
         this.state.editor = $('#editor-summernote');
 
-        //var toolbar = [
-        //    ['style', ['style', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
-        //    ['fonts', ['fontname', 'fontsize']],
-        //    ['color', ['color']],
-        //    ['undo', ['undo', 'redo']],
-        //    //['table', ['table']],
-        //    ['view', ['fullscreen', 'codeview']],
-        //    ['help', ['help']],
-        //    ['para', ['ul', 'ol', 'paragraph']],
-        //    ['height', ['hr', 'height', 'specialchar']],
-        //    ['insert', ['link', 'picture', 'video']]
-        //];
         var toolbar = [
             ['style', ['style', 'bold', 'italic', 'underline']],
+            ['specialStyle', ['specialStyle']],
             ['undo', ['undo', 'redo']],
             ['view', ['fullscreen', 'codeview']],
             ['para', ['ul', 'ol']],

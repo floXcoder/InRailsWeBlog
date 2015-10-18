@@ -56,6 +56,17 @@ $gridUnit: 26px;
     padding: 5px 10px;
   }
 
+  .secret {
+    @include special-style($secret-color);
+  }
+
+  .advice {
+    @include special-style($advice-color);
+  }
+
+  .deadend {
+    @include special-style($deadend-color);
+  }
 
 }
 
@@ -358,7 +369,6 @@ $gridUnit: 26px;
   note-toolbar button, button {
     background-color: $firstButtonColor;
     border: none;
-    height: 36px;
     text-transform: none;
   }
 
@@ -481,6 +491,33 @@ $gridUnit: 26px;
         background-color: inherit;
         color: white;
         cursor: pointer;
+
+        &.normal {
+          margin: 5px !important;
+          background-color: inherit;
+        }
+
+        &.secret {
+          margin: 5px !important;
+          font-size: 18px;
+          @include special-style($secret-color);
+        }
+
+        &.advice {
+          margin: 5px !important;
+          font-size: 18px;
+          @include special-style($advice-color);
+        }
+
+        &.deadend {
+          margin: 5px !important;
+          font-size: 18px;
+          @include special-style($deadend-color);
+        }
+
+        &.h1, &.h2, &.h3, &.h4 {
+          margin: 1px 0px !important;
+        }
 
         h1, h2, h3, h4 {
           margin: 0px 1px !important;
