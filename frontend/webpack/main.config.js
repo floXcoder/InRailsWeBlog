@@ -34,8 +34,6 @@ webPackConfig.plugins = [
 ];
 
 webPackConfig.module = {
-    noParse: [
-        //path.join(__dirname, 'vendor', 'assets', 'javascripts', 'revolution-slider')
-    ],
+    noParse: config.modules.noParse,
     loaders: config.loaders
 };

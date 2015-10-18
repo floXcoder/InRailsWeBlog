@@ -1,9 +1,9 @@
-import marked from 'marked';
-
 var ArticleActions = require('../../actions/articleActions');
 
 require('../../wysiwyg/summernote');
 require('../../wysiwyg/lang/summernote-fr-FR');
+
+var HighlightCode = require('highlight.js');
 
 var ArticleItem = React.createClass({
     getInitialState: function () {
@@ -11,6 +11,14 @@ var ArticleItem = React.createClass({
             editor: null,
             articleDisplayMode: this.props.articleDisplayMode
         };
+    },
+
+    componentDidMount: function () {
+        HighlightCode.configure({
+            tabReplace: '  ' // 4 spaces
+        });
+
+        this._highlightCode();
     },
 
     componentDidUpdate: function () {
@@ -30,16 +38,23 @@ var ArticleItem = React.createClass({
                 airToolbar: airToolbar,
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase()
             });
+        } else {
+            this._highlightCode();
+        }
+    },
+
+    _highlightCode: function() {
+        var domNode = ReactDOM.findDOMNode(this);
+        var nodes = domNode.querySelectorAll('pre code');
+        if (nodes.length > 0) {
+            for (var i = 0; i < nodes.length; i=i+1) {
+                HighlightCode.highlightBlock(nodes[i]);
+            }
         }
     },
 
     _onArticleWithTag: function (tagId, event) {
         ArticleActions.loadArticles({tags: tagId});
-    },
-
-    _rawMarkup: function () {
-        var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
-        return {__html: rawMarkup};
     },
 
     _renderVisibility: function () {

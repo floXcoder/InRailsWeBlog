@@ -77,7 +77,7 @@ class Article < ActiveRecord::Base
             presence: true,
             length: {minimum: 3, maximum: 12_000}
 
-  # Sanitize before save
+  # Sanitize and detect programming language if any before save
   before_save :sanitize_html
 
   # Translation
@@ -163,10 +163,18 @@ class Article < ActiveRecord::Base
 
   # Sanitize content
   include ActionView::Helpers::SanitizeHelper
-
   def sanitize_html
-    content = self.content.sub(/^<p><br><\/p>/, '')
+    content = self.content
+
+    # Remove empty beginning block
+    content = content.sub(/^<p><br><\/p>/, '')
+
     content = sanitize(content, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(href name target src alt center align))
+
+    # Remplace pre by pre > code
+    content = content.gsub(/<pre>/, '<pre><code>')
+    content = content.gsub(/<\/pre>/, '</code></pre>')
+
     self.content = content
   end
 

@@ -35,6 +35,9 @@ module.exports = {
             includes: [
                 'vendor/assets/javascripts',
                 'node_modules'
+            ],
+            noParse: [
+                /highlight\.js[\/\\]lib[\/\\]languages[\/\\]autoit.js/
             ]
         },
         loaders: [
@@ -101,10 +104,9 @@ module.exports = {
     },
     fonts: {
         src: [
-            frontendDir + '/font-awesome/fonts/**.*',
             // Font in materialize or mdi packages are not working
-            //frontendDir + '/materialize-css/font/**/*',
             // Use instead the last downloaded font from Google
+            //frontendDir + '/materialize-css/font/**/*',
             vendorDir + '/fonts/**/*',
             assetDir + '/fonts/**/*'
         ],

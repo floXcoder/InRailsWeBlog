@@ -10,6 +10,10 @@ var ArticleList = React.createClass({
         };
     },
 
+    componentDidMount: function () {
+
+    },
+
     _loadNextArticles: function () {
         if (this.props.articles.length > 0 && this.props.articles.length !== this.state.articleLength) {
             ArticleActions.loadNextArticles();

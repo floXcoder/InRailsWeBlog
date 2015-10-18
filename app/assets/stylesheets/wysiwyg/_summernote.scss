@@ -49,6 +49,13 @@ $gridUnit: 26px;
     }
   }
 
+  pre {
+    background-color: #FDFDFF;
+    border: 1px solid color('teal', 'lighten-2');
+    border-radius: 4px;
+    padding: 5px 10px;
+  }
+
 
 }
 
