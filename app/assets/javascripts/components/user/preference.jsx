@@ -28,6 +28,10 @@ var UserPreference = React.createClass({
                 });
             }.bind(this));
 
+            this.state.$userPrefDiv.mouseleave(function() {
+                this.state.$userPrefDiv.slideUp();
+            }.bind(this));
+
             return false;
         }.bind(this));
     },

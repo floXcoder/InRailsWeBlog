@@ -520,7 +520,6 @@
                     editor = $note.next('.note-air-editor').find('.note-air-popover');
                     toolbar = editor.find('.popover-content button.dropdown');
 
-
                     //    var id = $note.attr('id');
                     //    if (id) id = id.substring(id.lastIndexOf('-') + 1, id.length);
                     //
@@ -532,67 +531,6 @@
 
                 tabContainer = editor.find('ul.tabs');
                 tabs = editor.find('li.tab a');
-
-                var go = true;
-
-                function handleDropdowns(select, bar) {
-                    var list = $(select).next('ul.dropdown-menu');
-                    var container = $(select).parent('.btn-group');
-
-                    list.slideUp(0);
-
-                    $('.preventDropClose').click(function (event) {
-                        event.stopPropagation();
-                    });
-
-                    $(select).click(function (event) {
-                        // calculate dropdown open position to avoid overflow from editor
-                        var btnOffset = Math.round($(select).parent('.btn-group').offset().left - toolbar.offset().left);
-                        var listBorderWidth = parseInt(list.css("border-left-width"));
-                        var editorWidth = editor.outerWidth();
-                        var listOffset = listBorderWidth;
-
-                        list.css({'max-width': editorWidth + 'px'});
-
-                        var listWidth = list.outerWidth();
-                        var th = listWidth + btnOffset;
-
-                        if (th >= editorWidth) {
-                            listOffset = th - editorWidth;
-
-                            if (!options.airMode) {
-                                listOffset = listOffset + listBorderWidth;
-                            }
-                        }
-
-                        list.css({'left': '-' + listOffset + 'px'});
-
-                        var reopen = true;
-
-                        if (list.is(':visible')) reopen = false;
-
-                        bar.find('ul.dropdown-menu').slideUp(200);
-
-                        if (reopen) {
-                            list.slideToggle(200);
-                        }
-                        event.stopPropagation();
-                    });
-
-                    tabs.unbind().click(function (event) {
-                        go = false;
-                    });
-                }
-
-                $(window).click(function (event) {
-                    if (go) editor.find('ul.dropdown-menu').slideUp(200);
-                    go = true;
-                    event.stopPropagation();
-                });
-
-                toolbar.each(function (index, select) {
-                    handleDropdowns(select, editor);
-                });
 
                 tabContainer.tabs();
             });
@@ -684,7 +622,7 @@
         }
     });
 
-    var dropdownMaterialize = renderer.create('<ul class="dropdown-menu">', function ($node, options) {
+    var dropdownMaterialize = renderer.create('<ul class="dropdown-content">', function ($node, options) {
         var markup = $.isArray(options.items) ? options.items.map(function (item) {
             var innerItem = item;
             if (options.lang) {
@@ -692,16 +630,21 @@
                 innerItem = ((item === 'p' || item === 'pre') ? label : '<' + item + ' data-value="' + item + '">' + label + '</' + item + '>');
             }
 
-            return '<li><button type="button" data-value="' + item + '" class="' + item + '">' + innerItem + '</button></li>';
+            return '<li class="' + item + '"><button type="button" data-value="' + item + '" class="' + item + '">' + innerItem + '</button></li>';
         }).join('') : options.items;
+
+        $node.attr('id', options.id);
 
         $node.html(markup);
     });
 
-    var dropdownCheckMaterialize = renderer.create('<ul class="dropdown-menu note-check">', function ($node, options) {
+    var dropdownCheckMaterialize = renderer.create('<ul class="dropdown-content note-check">', function ($node, options) {
         var markup = $.isArray(options.items) ? options.items.map(function (item) {
             return '<li><button type="button" data-value="' + item + '"><i class="material-icons">check</i> ' + item + '</button></li>';
         }).join('') : options.items;
+
+        $node.attr('id', options.id);
+
         $node.html(markup);
     });
 
@@ -826,7 +769,7 @@
                     toolbar.css({'top': relativeOffset + 'px', 'z-index': 980});
                 } else {
                     if ((currentOffset < toolbarOffset) && (currentOffset < deactivateOffsetBottom)) {
-                        toolbar.css({'top': 0, 'z-index': 1052});
+                        toolbar.css({'top': 0, 'z-index': 980});
 
                         if (currentOffset > deactivateOffsetTop) {
                             relativeOffset = currentOffset - $editor.offset().top + otherBarHeight;
@@ -4716,15 +4659,16 @@
             summernote.addButton('style', function () {
                 return ui.buttonGroup([
                     ui.button({
-                        className: 'dropdown',
+                        className: 'dropdown-button btn',
                         contents: '<i class="material-icons">border_color</i> <i class="material-icons left">arrow_drop_down</i>',
                         tooltip: lang.style.style,
                         data: {
-                            toggle: 'dropdown'
+                            activates: 'dropdown-style',
+                            constrainwidth: false
                         }
                     }),
                     ui.dropdown({
-                        className: 'largeDropdown',
+                        id: 'dropdown-style',
                         items: summernote.options.styleTags,
                         lang: summernote.options.langInfo.style,
                         click: summernote.createInvokeHandler('editor.formatBlock')
@@ -4735,15 +4679,16 @@
             summernote.addButton('specialStyle', function () {
                 return ui.buttonGroup([
                     ui.button({
-                        className: 'dropdown',
+                        className: 'dropdown-button btn',
                         contents: '<i class="material-icons">insert_comment</i> <i class="material-icons left">arrow_drop_down</i>',
                         tooltip: lang.style.specialStyle,
                         data: {
-                            toggle: 'dropdown'
+                            activates: 'dropdown-specialStyle',
+                            constrainwidth: false
                         }
                     }),
                     ui.dropdown({
-                        className: 'largeDropdown',
+                        id: 'dropdown-specialStyle',
                         items: summernote.options.specialStyleTags,
                         lang: summernote.options.langInfo.specialStyle,
                         click: summernote.createInvokeHandler('editor.formatSpecialBlock')
@@ -4816,14 +4761,16 @@
             summernote.addButton('fontname', function () {
                 return ui.buttonGroup([
                     ui.button({
-                        className: 'dropdown',
+                        className: 'dropdown-button btn',
                         contents: '<span class="note-current-fontname"/> <i class="material-icons left">arrow_drop_down</i>',
                         tooltip: lang.font.name,
                         data: {
-                            toggle: 'dropdown'
+                            activates: 'dropdown-fontname',
+                            constrainwidth: false
                         }
                     }),
                     ui.dropdownCheck({
+                        id: 'dropdown-fontname',
                         className: 'dropdown-fontname',
                         items: options.fontNames.filter(function (name) {
                             return agent.isFontInstalled(name) ||
@@ -4837,14 +4784,16 @@
             summernote.addButton('fontsize', function () {
                 return ui.buttonGroup([
                     ui.button({
-                        className: 'dropdown',
+                        className: 'dropdown-button btn',
                         contents: '<span class="note-current-fontsize"/> <i class="material-icons left">arrow_drop_down</i>',
                         tooltip: lang.font.size,
                         data: {
-                            toggle: 'dropdown'
+                            activates: 'dropdown-fontsize',
+                            constrainwidth: false
                         }
                     }),
                     ui.dropdownCheck({
+                        id: 'dropdown-fontsize',
                         className: 'dropdown-fontsize',
                         items: options.fontSizes,
                         click: summernote.createInvokeHandler('editor.fontSize')
@@ -4876,14 +4825,17 @@
                             }
                         }),
                         ui.button({
-                            className: 'dropdown',
+                            className: 'dropdown-button btn',
                             contents: '<i class="material-icons left">arrow_drop_down</i>',
                             tooltip: lang.color.more,
                             data: {
-                                toggle: 'dropdown'
+                                activates: 'dropdown-color',
+                                constrainwidth: false
                             }
                         }),
                         ui.dropdown({
+                            id: 'dropdown-color',
+                            className: 'dropdown-color',
                             items: [
                                 '<li>',
                                 '<div class="col s12">',
@@ -4964,15 +4916,17 @@
 
                 return ui.buttonGroup([
                     ui.button({
-                        className: 'dropdown',
+                        className: 'dropdown-button btn',
                         contents: '<i class="material-icons">border_all</i> <i class="material-icons left">arrow_drop_down</i>',
                         tooltip: lang.table.table,
                         data: {
-                            toggle: 'dropdown'
+                            activates: 'dropdown-table',
+                            constrainwidth: false
                         }
                     }),
                     ui.dropdown({
-                        className: 'note-table',
+                        id: 'dropdown-table',
+                        className: 'dropdown-table',
                         items: [
                             '<div class="row">',
                             '<div class="col s6 preventDropClose"><input type="checkbox" id="' + labelUniqueId + '-bordered" checked="checked" /><label for="' + labelUniqueId + '-bordered">' + lang.table.bordered + '</label></div>',
@@ -5021,16 +4975,18 @@
             summernote.addButton('paragraph', function () {
                 return ui.buttonGroup([
                     ui.button({
-                        className: 'dropdown',
+                        className: 'dropdown-button btn',
                         contents: '<i class="material-icons">format_textdirection_l_to_r</i> <i class="material-icons left">arrow_drop_down</i>',
                         tooltip: lang.paragraph.paragraph,
                         data: {
-                            toggle: 'dropdown'
+                            activates: 'dropdown-align',
+                            constrainwidth: false
                         }
                     }),
                     ui.dropdown([
                         ui.buttonGroup({
-                            className: 'note-align',
+                            id: 'dropdown-align',
+                            className: 'dropdown-align',
                             children: [
                                 ui.button({
                                     contents: '<i class="material-icons">format_align_left</i>',
@@ -5076,16 +5032,18 @@
             summernote.addButton('height', function () {
                 return ui.buttonGroup([
                     ui.button({
-                        className: 'dropdown',
+                        className: 'dropdown-button btn',
                         contents: '<i class="material-icons">format_size</i> <i class="material-icons left">arrow_drop_down</i>',
                         tooltip: lang.font.height,
                         data: {
-                            toggle: 'dropdown'
+                            activates: 'dropdown-line-height',
+                            constrainwidth: false
                         }
                     }),
                     ui.dropdownCheck({
-                        items: options.lineHeights,
+                        id: 'dropdown-line-height',
                         className: 'dropdown-line-height',
+                        items: options.lineHeights,
                         click: summernote.createInvokeHandler('editor.lineHeight')
                     })
                 ]).render();

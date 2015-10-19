@@ -131,6 +131,12 @@
 
     .blog-search-suggestion {
       margin: 5px;
+
+      a {
+        background-color: color('blue', 'lighten-4');
+        color: black;
+        margin: 0 5px;
+      }
     }
   }
 

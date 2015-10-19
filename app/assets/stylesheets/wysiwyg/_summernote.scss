@@ -230,7 +230,7 @@ $gridUnit: 26px;
       opacity: 0.35;
     }
 
-    .dropdown {
+    .dropdown-button {
       cursor: pointer;
     }
 
@@ -426,12 +426,9 @@ $gridUnit: 26px;
     overflow: hidden;
   }
 
-  .largeDropdown {
-    width: 290px;
-  }
-
-  .dropdown-menu {
+  .dropdown-content {
     z-index: 1033;
+    overflow: hidden;
 
     &.note-check {
       min-width: 80px;
@@ -442,8 +439,8 @@ $gridUnit: 26px;
     }
   }
 
-  ul.dropdown-menu {
-    position: absolute !important;
+  ul.dropdown-content {
+    //position: absolute !important;
     top: 20px !important;
     background-color: lighten($firstButtonColor, 10%) !important;
     margin-top: 15px !important;
@@ -485,38 +482,44 @@ $gridUnit: 26px;
     li {
       list-style-type: none !important;
       padding: 3px 10px !important;
-      margin: 5px !important;
+      margin: 5px 0 !important;
 
       button {
         background-color: inherit;
         color: white;
         cursor: pointer;
+        min-width: 100%;
+        text-align: left;
 
         &.normal {
-          margin: 5px !important;
+          margin: 5px 0 !important;
           background-color: inherit;
         }
 
         &.secret {
-          margin: 5px !important;
+          margin: 5px 0 !important;
           font-size: 18px;
           @include special-style($secret-color);
         }
 
         &.advice {
-          margin: 5px !important;
+          margin: 5px 0 !important;
           font-size: 18px;
           @include special-style($advice-color);
         }
 
         &.deadend {
-          margin: 5px !important;
+          margin: 5px 0 !important;
           font-size: 18px;
           @include special-style($deadend-color);
         }
 
-        &.h1, &.h2, &.h3, &.h4 {
+        &.p, &.blockquote, &.pre, &.h1, &.h2, &.h3, &.h4 {
           margin: 1px 0px !important;
+
+          &:hover, &.active {
+            color: black;
+          }
         }
 
         h1, h2, h3, h4 {
@@ -576,12 +579,12 @@ $gridUnit: 26px;
   }
 }
 
-.note-popover.popover .popover-content .note-para .dropdown-menu, .note-toolbar .note-para .dropdown-menu {
+.note-popover.popover .popover-content .note-para .dropdown-content, .note-toolbar .note-para .dropdown-content {
   min-width: 172px;
   padding: 5px
 }
 
-.note-popover.popover .popover-content .note-para .dropdown-menu > div:first-child, .note-toolbar .note-para .dropdown-menu > div:first-child {
+.note-popover.popover .popover-content .note-para .dropdown-content > div:first-child, .note-toolbar .note-para .dropdown-content > div:first-child {
   margin-right: 5px
 }
 
@@ -761,26 +764,26 @@ $gridUnit: 26px;
   padding-left: 5px
 }
 
-.note-popover.popover .popover-content .note-color .dropdown-menu .btn-group,
-.note-toolbar .note-color .dropdown-menu .btn-group {
+.note-popover.popover .popover-content .note-color .dropdown-content .btn-group,
+.note-toolbar .note-color .dropdown-content .btn-group {
   margin: 0
 }
 
-.note-popover.popover .popover-content .note-color .dropdown-menu .btn-group:first-child,
-.note-toolbar .note-color .dropdown-menu .btn-group:first-child {
+.note-popover.popover .popover-content .note-color .dropdown-content .btn-group:first-child,
+.note-toolbar .note-color .dropdown-content .btn-group:first-child {
   margin: 0 5px
 }
 
-.note-popover.popover .popover-content .note-color .dropdown-menu .btn-group .note-palette-title,
-.note-toolbar .note-color .dropdown-menu .btn-group .note-palette-title {
+.note-popover.popover .popover-content .note-color .dropdown-content .btn-group .note-palette-title,
+.note-toolbar .note-color .dropdown-content .btn-group .note-palette-title {
   margin: 2px 7px;
   font-size: 12px;
   text-align: center;
   border-bottom: 1px solid #eee
 }
 
-.note-popover.popover .popover-content .note-color .dropdown-menu .btn-group .note-color-reset,
-.note-toolbar .note-color .dropdown-menu .btn-group .note-color-reset {
+.note-popover.popover .popover-content .note-color .dropdown-content .btn-group .note-color-reset,
+.note-toolbar .note-color .dropdown-content .btn-group .note-color-reset {
   padding: 0 3px;
   margin: 3px;
   font-size: 11px;
@@ -790,46 +793,46 @@ $gridUnit: 26px;
   border-radius: 5px
 }
 
-.note-popover.popover .popover-content .note-color .dropdown-menu .btn-group .note-color-row,
-.note-toolbar .note-color .dropdown-menu .btn-group .note-color-row {
+.note-popover.popover .popover-content .note-color .dropdown-content .btn-group .note-color-row,
+.note-toolbar .note-color .dropdown-content .btn-group .note-color-row {
   height: 20px
 }
 
-.note-popover.popover .popover-content .note-color .dropdown-menu .btn-group .note-color-reset:hover,
-.note-toolbar .note-color .dropdown-menu .btn-group .note-color-reset:hover {
+.note-popover.popover .popover-content .note-color .dropdown-content .btn-group .note-color-reset:hover,
+.note-toolbar .note-color .dropdown-content .btn-group .note-color-reset:hover {
   background: #eee
 }
 
-/*.note-popover.popover .popover-content .dropdown-menu,
-.note-toolbar .dropdown-menu {
+/*.note-popover.popover .popover-content .dropdown-content,
+.note-toolbar .dropdown-content {
     min-width: 90px
 }*/
-.note-popover.popover .popover-content .dropdown-menu.right,
-.note-toolbar .dropdown-menu.right {
+.note-popover.popover .popover-content .dropdown-content.right,
+.note-toolbar .dropdown-content.right {
   right: 0;
   left: auto
 }
 
-.note-popover.popover .popover-content .dropdown-menu.right::before,
-.note-toolbar .dropdown-menu.right::before {
+.note-popover.popover .popover-content .dropdown-content.right::before,
+.note-toolbar .dropdown-content.right::before {
   right: 9px;
   left: auto !important
 }
 
-.note-popover.popover .popover-content .dropdown-menu.right::after,
-.note-toolbar .dropdown-menu.right::after {
+.note-popover.popover .popover-content .dropdown-content.right::after,
+.note-toolbar .dropdown-content.right::after {
   right: 10px;
   left: auto !important
 }
 
-.note-popover.popover .popover-content .dropdown-menu.note-check li a i,
-.note-toolbar .dropdown-menu.note-check li a i {
+.note-popover.popover .popover-content .dropdown-content.note-check li a i,
+.note-toolbar .dropdown-content.note-check li a i {
   color: deepskyblue;
   visibility: hidden
 }
 
-.note-popover.popover .popover-content .dropdown-menu.note-check li a.checked i,
-.note-toolbar .dropdown-menu.note-check li a.checked i {
+.note-popover.popover .popover-content .dropdown-content.note-check li a.checked i,
+.note-toolbar .dropdown-content.note-check li a.checked i {
   visibility: visible
 }
 

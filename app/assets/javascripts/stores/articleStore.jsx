@@ -189,6 +189,9 @@ var ArticleStore = Reflux.createStore({
         //this.searchOptions = data.searchOptions;
 
         this._fetchArticles(data, function (dataReceived) {
+            log.info(dataReceived);
+
+
             // Manage in articles/box
             this.articleData = dataReceived;
             this.trigger(this.articleData);

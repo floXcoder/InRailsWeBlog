@@ -20,8 +20,20 @@ class ArticlesController < ApplicationController
     articles = articles.paginate(page: params[:page], per_page: 5) if params[:page]
 
     respond_to do |format|
-      format.html { render :articles, formats: :json, locals: {articles: articles, tags: tags} }
-      format.json { render :articles, locals: {articles: articles, tags: tags} }
+      format.html { render :articles, formats: :json,
+                           locals: {
+                               articles: articles,
+                               tags: tags,
+                               current_user_id: current_user_id
+                           }
+      }
+      format.json { render :articles,
+                           locals: {
+                               articles: articles,
+                               tags: tags,
+                               current_user_id: current_user_id
+                           }
+      }
     end
   end
 
@@ -32,11 +44,13 @@ class ArticlesController < ApplicationController
     article = current_user.articles.build(article_params)
     # authorize article
 
+    current_user_id = current_user ? current_user.id : nil
+
     tags = article.tags.pluck(:id, :name).uniq
 
     respond_to do |format|
       if article.save
-        format.json { render :articles, locals: {articles: [article], tags: tags}, status: :created, location: article }
+        format.json { render :articles, locals: {articles: [article], tags: tags, current_user_id: current_user_id}, status: :created, location: article }
 
         # Save tag relationship
         article.parent_tags.each do |parent|
@@ -54,45 +68,59 @@ class ArticlesController < ApplicationController
 
   def search
     search_options = {}
-    user_preferences = nil
 
-    w params
+    params[:search_options] = {} if !params[:search_options] || params[:search_options].is_a?(String)
 
-    user_preferences = User.find(current_user.id) if current_user
-    params[:search_options] = {} unless params[:search_options]
-
-    if params[:search_options].is_a?(Hash) || user_preferences
-      if (highlight = params[:search_options][:search_highlight])
-        search_options[:highlight] = (highlight == 'false' ? false : true)
-      else
-        search_options[:highlight] = (user_preferences.read_preference(:search_highlight) == 'false' ? false : true)
-      end
-      search_options[:operator] = params[:search_options][:search_operator] || user_preferences.read_preference(:search_operator)
-      if (exact = params[:search_options][:search_exact])
-        search_options[:exact] = (exact == 'false' ? false : true)
-      else
-        search_options[:exact] = (user_preferences.read_preference(:search_exact) == 'false' ? false : true)
-      end
+    if current_user && (user_preferences = User.find(current_user.id))
+      search_options[:highlight] = (user_preferences.read_preference(:search_highlight) == 'false' ? false : true)
+      search_options[:exact] = (user_preferences.read_preference(:search_exact) == 'false' ? false : true)
+      search_options[:operator] = user_preferences.read_preference(:search_operator)
     end
 
-    articles = Article.search_for(params[:query],
-                                  {
-                                      page: params[:page],
-                                      per_page: 5,
-                                      current_user_id: current_user ? current_user.id : nil,
-                                      tags: params[:tags],
-                                      highlight: search_options[:highlight],
-                                      operator: search_options[:operator],
-                                      exact: search_options[:exact]
-                                  })
+    unless params[:search_options].empty?
+      search_options[:highlight] = (params[:search_options][:search_highlight] == 'false' ? false : true)
+      search_options[:exact] = (params[:search_options][:search_exact] == 'false' ? false : true)
+      search_options[:operator] = params[:search_options][:search_operator]
+    end
 
-    suggestions = articles.suggestions
+    current_user_id = current_user ? current_user.id : nil
 
-    tags = Tag.joins(:articles).where(articles: {id: articles.results.map(&:id)}).order('name ASC').pluck(:id, :name).uniq
+    results = Article.search_for(params[:query],
+                                 {
+                                     page: params[:page],
+                                     per_page: 5,
+                                     current_user_id: current_user_id,
+                                     tags: params[:tags],
+                                     highlight: search_options[:highlight],
+                                     operator: search_options[:operator],
+                                     exact: search_options[:exact]
+                                 })
+
+    articles = results[:articles].includes(:author).user_related(current_user_id)
+
+    tags = articles.joins(:tags).order('name ASC').pluck('tags.id', 'tags.name').uniq
 
     respond_to do |format|
-      format.html { render :articles, formats: :json, locals: {articles: articles.with_details, tags: tags, suggestions: suggestions} }
-      format.json { render :articles, locals: {articles: articles.with_details, tags: tags, suggestions: suggestions} }
+      format.html {
+        render :articles, formats: :json,
+               locals: {
+                   articles: articles,
+                   tags: tags,
+                   highlight: results[:highlight],
+                   current_user_id: current_user_id,
+                   words: results[:words],
+                   suggestions: results[:suggestions]}
+      }
+      format.json {
+        render :articles,
+               locals: {
+                   articles: articles,
+                   tags: tags,
+                   highlight: results[:highlight],
+                   current_user_id: current_user_id,
+                   words: results[:words],
+                   suggestions: results[:suggestions]}
+      }
     end
   end
 

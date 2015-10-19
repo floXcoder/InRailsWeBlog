@@ -2,15 +2,16 @@
 #
 # Table name: articles
 #
-#  id            :integer          not null, primary key
-#  author_id     :integer          not null
-#  visibility    :integer          default(0), not null
-#  notation      :integer          default(0)
-#  priority      :integer          default(0)
-#  allow_comment :boolean          default(FALSE), not null
-#  slug          :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id              :integer          not null, primary key
+#  author_id       :integer          not null
+#  visibility      :integer          default(0), not null
+#  notation        :integer          default(0)
+#  priority        :integer          default(0)
+#  allow_comment   :boolean          default(FALSE), not null
+#  private_content :boolean          default(FALSE), not null
+#  slug            :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class Article < ActiveRecord::Base
@@ -26,11 +27,11 @@ class Article < ActiveRecord::Base
   has_many :tagged_articles
   accepts_nested_attributes_for :tags, reject_if: :all_blank, update_only: true, allow_destroy: false
   has_many :parent_tags,
-           -> { where(tagged_articles: { parent: true }) },
+           -> { where(tagged_articles: {parent: true}) },
            through: :tagged_articles,
            source: :tag
   has_many :child_tags,
-           -> { where(tagged_articles: { child: true }) },
+           -> { where(tagged_articles: {child: true}) },
            through: :tagged_articles,
            source: :tag
 
@@ -96,6 +97,7 @@ class Article < ActiveRecord::Base
   searchkick autocomplete: [:title, :tags],
              suggest: [:title, :tags],
              highlight: [:content],
+             include: [:tags],
              language: (I18n.locale == :en) ? 'English' : 'French'
   # wordnet: true,
 
@@ -108,10 +110,22 @@ class Article < ActiveRecord::Base
     {
         author_id: author.id,
         title: title,
-        content: content,
+        content: strip_content,
         summary: summary,
         tags: tags.pluck(:name)
     }
+  end
+
+  def strip_content
+    sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish
+  end
+
+  def public_content
+    self.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
+  end
+
+  def has_private_content?
+    self.content =~ /<(\w+) class="secret">.*?<\/\1>/im
   end
 
   # Article Search
@@ -126,8 +140,6 @@ class Article < ActiveRecord::Base
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
-    article_request = Article.user_related(options[:current_user_id])
-
     # If query not defined, search for everything
     query_string = query ? query : '*'
 
@@ -148,21 +160,31 @@ class Article < ActiveRecord::Base
     boost_where = options[:current_user_id] ? {author_id: options[:current_user_id]} : nil
 
     # Perform search
-    article_request.search(query_string,
-                           fields: ['title^3', :content],
-                           boost_where: boost_where,
-                           highlight: highlight,
-                           misspellings: {edit_distance: misspellings_distance},
-                           suggest: true,
-                           page: options[:page],
-                           per_page: options[:per_page],
-                           operator: operator,
-                           where: where_options
+    results = Article.search(query_string,
+                             fields: ['title^3', :content],
+                             boost_where: boost_where,
+                             highlight: highlight,
+                             misspellings: {edit_distance: misspellings_distance},
+                             suggest: true,
+                             page: options[:page],
+                             per_page: options[:per_page],
+                             operator: operator,
+                             where: where_options
     )
+
+    words = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
+
+    {
+        articles: results.records,
+        highlight: Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }],
+        suggestions: results.suggestions,
+        words: words.uniq
+    }
   end
 
   # Sanitize content
   include ActionView::Helpers::SanitizeHelper
+
   def sanitize_html
     content = self.content
 
@@ -172,10 +194,11 @@ class Article < ActiveRecord::Base
     content = sanitize(content, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(class href name target src alt center align))
 
     # Remplace pre by pre > code
-    content = content.gsub(/<pre>/, '<pre><code>')
-    content = content.gsub(/<\/pre>/, '</code></pre>')
+    content = content.gsub(/<pre>/i, '<pre><code>')
+    content = content.gsub(/<\/pre>/i, '</code></pre>')
 
     self.content = content
+    self.private_content = true if has_private_content?
   end
 
   # Friendly ID

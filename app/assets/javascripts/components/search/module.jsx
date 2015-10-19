@@ -34,6 +34,7 @@ var SearchModule = React.createClass({
 
     onSearchChange(userStore) {
         if (!$utils.isEmpty(userStore.search)) {
+            log.info(userStore.search);
 
             this._handleSubmit(null, userStore.search);
         }
@@ -73,7 +74,7 @@ var SearchModule = React.createClass({
         this.refs.typeahead.setEntryText(suggestion);
         this.refs.typeahead.refs.typeahead.setState({entryValue: suggestion, selection: suggestion});
         this.setState({suggestions: []});
-        this._handleSubmit();
+        this._handleSubmit(event, {});
     },
 
     _onKeyUp: function (event) {
@@ -87,13 +88,17 @@ var SearchModule = React.createClass({
         if (pressedKey === 'enter' || pressedKey === 'tab') {
             this.refs.typeahead.refs.typeahead.setState({entryValue: entryValue, selection: entryValue});
 
-            this._handleSubmit(event);
+            this._handleSubmit(event, {});
         }
     },
 
     _handleSubmit: function (event, searchOptions) {
         if (event) {
             event.preventDefault();
+        }
+
+        if(typeof searchOptions !== 'object') {
+            searchOptions = {};
         }
 
         var query = this.refs.typeahead.getEntryText().trim();
@@ -173,7 +178,7 @@ var SearchModule = React.createClass({
             return (
                 <a key={suggestion}
                    onClick={this._onSuggestionClick.bind(this, suggestion)}
-                   className="waves-effect waves-light btn-small grey lighten-5 black-text">
+                   className="waves-effect waves-light btn-small">
                     {suggestion}
                 </a>
             );

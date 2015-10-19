@@ -12,9 +12,6 @@ header.blog-header
       li
         = link_to t('views.header.log_in'), login_path, remote: true
 
-  /#preferences-dropdown.dropdown-content
-  /  #user-pref.blog-user-pref
-
   .navbar-fixed
     nav
       .nav-wrapper
@@ -31,10 +28,6 @@ header.blog-header
             a#toggle-user-pref href="#!"
               i.material-icons.right view_modules
               = t('views.header.preferences')
-
-            /a.dropdown-button data-activates="preferences-dropdown" href="#!"
-            /  i.material-icons.right view_modules
-            /  = t('views.header.preferences')
 
           / User account
           li

@@ -30,14 +30,15 @@ ActiveRecord::Schema.define(version: 20151017185225) do
   add_index "article_translations", ["locale"], name: "index_article_translations_on_locale", using: :btree
 
   create_table "articles", force: :cascade do |t|
-    t.integer  "author_id",                     null: false
-    t.integer  "visibility",    default: 0,     null: false
-    t.integer  "notation",      default: 0
-    t.integer  "priority",      default: 0
-    t.boolean  "allow_comment", default: false, null: false
+    t.integer  "author_id",                       null: false
+    t.integer  "visibility",      default: 0,     null: false
+    t.integer  "notation",        default: 0
+    t.integer  "priority",        default: 0
+    t.boolean  "allow_comment",   default: false, null: false
+    t.boolean  "private_content", default: false, null: false
     t.string   "slug"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   add_index "articles", ["author_id"], name: "index_articles_on_author_id", using: :btree

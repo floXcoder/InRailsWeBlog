@@ -2,10 +2,11 @@ class CreateArticles < ActiveRecord::Migration
   def up
     create_table :articles do |t|
       t.references  :author,                          null: false,    index: true
-      t.integer     :visibility,    default: 0,       null: false
-      t.integer     :notation,      default: 0
-      t.integer     :priority,      default: 0
-      t.boolean     :allow_comment, default: false,   null: false
+      t.integer     :visibility,      default: 0,     null: false
+      t.integer     :notation,        default: 0
+      t.integer     :priority,        default: 0
+      t.boolean     :allow_comment,   default: false, null: false
+      t.boolean     :private_content, default: false, null: false
       t.string      :slug
 
       t.timestamps null: false
