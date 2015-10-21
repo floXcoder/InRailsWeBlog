@@ -2,11 +2,15 @@ en:
   js:
     user:
       preferences:
-        display:
-          title: "Article Display Modes"
-          mode:
-            inline: "Display only one article"
-            card: "Display each articles within cards"
+        article:
+          title: "Articles"
+          multi_language:
+            title: "Write articles in several languages"
+          display:
+            title: "Articles"
+            mode:
+              inline: "Display only one article"
+              card: "Display each articles within cards"
         search:
           title: "Search"
           operator:

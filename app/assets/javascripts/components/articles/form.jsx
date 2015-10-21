@@ -1,5 +1,6 @@
 var ArticleActions = require('../../actions/articleActions');
 var TagActions = require('../../actions/tagActions');
+var UserStore = require('../../stores/userStore');
 var Input = require('../../components/materialize/input');
 var Button = require('../../components/materialize/button');
 var Textarea = require('../../components/materialize/textarea');
@@ -11,15 +12,65 @@ require('../../wysiwyg/summernote');
 require('../../wysiwyg/lang/summernote-fr-FR');
 
 var ArticleForm = React.createClass({
+    mixins: [
+        Reflux.listenTo(UserStore, 'onPreferenceChange')
+    ],
+
     getInitialState: function () {
         return {
+            initial: true,
             text: '',
-            editor: null
+            multiLanguage: false,
+            disabled: true,
+            editors: {}
         };
     },
 
     componentDidMount: function () {
-        this.state.editor = $('#editor-summernote');
+        if(this.state.initial) {
+            this.state.initial = false;
+            return;
+        }
+
+        if (this.state.multiLanguage) {
+            $('.article-form ul.tabs').tabs();
+
+            this._createEditor('#english-editor');
+            this._createEditor('#french-editor');
+        } else {
+            this._createEditor('#single-editor');
+        }
+    },
+
+    componentWillUpdate: function () {
+        if (this.state.multiLanguage) {
+            this._removeEditor('#english-editor');
+            this._removeEditor('#french-editor');
+        } else {
+            this._removeEditor('#single-editor');
+        }
+    },
+
+    componentDidUpdate: function () {
+        if (this.state.multiLanguage) {
+            $('.article-form ul.tabs').tabs();
+
+            this._createEditor("#english-editor");
+            this._createEditor('#french-editor');
+        } else {
+            this._createEditor("#single-editor");
+            $('.editor-reset').show();
+        }
+    },
+
+    _createEditor: function (id) {
+        if(this.state.editors[id]) {
+            return;
+        }
+
+        this.state.editors[id] = true;
+
+        var $editor = $(id);
 
         var toolbar = [
             ['style', ['style', 'bold', 'italic', 'underline']],
@@ -31,7 +82,7 @@ var ArticleForm = React.createClass({
             ['help', ['help']]
         ];
 
-        this.state.editor.summernote({
+        $editor.summernote({
             lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
             toolbar: toolbar,
             otherStaticBarClass: 'nav-wrapper',
@@ -45,20 +96,75 @@ var ArticleForm = React.createClass({
         });
     },
 
-    _handleSubmit: function (event) {
-        event.preventDefault();
-        var title = ReactDOM.findDOMNode(this.refs.title.refs.title).value.trim();
-        var content = this.state.editor.summernote('code');
-        var tags = this.refs.tagsinput.state.selectedTags;
+    _removeEditor: function (id) {
+        this.state.editors[id] = false;
 
-        if (!content && !title) {
-            return;
+        var $editor = $(id);
+
+        if($editor.length > 0) {
+            $editor.summernote('destroy');
+            $editor.empty();
+        }
+    },
+
+    onPreferenceChange: function (userStore) {
+        var newState = {};
+
+        if (!$utils.isEmpty(userStore.preferences)) {
+            newState.multiLanguage = !(userStore.preferences.multi_language === 'false' || !userStore.preferences.multi_language);
         }
 
-        ArticleActions.pushArticles({title: title, content: content, tags_attributes: tags});
+        if (!$utils.isEmpty(newState)) {
+            this.setState(newState);
+        }
+    },
 
-        ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
-        this.state.editor.summernote('code', '');
+    _handleSubmit: function (event) {
+        event.preventDefault();
+
+        var tags = this.refs.tagsinput.state.selectedTags;
+
+        if (this.state.multiLanguage) {
+            var englishTitle = ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value.trim();
+            var englishSummary = ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value.trim();
+            var englishContent = $('#english-editor').summernote('code');
+            var frenchTitle = ReactDOM.findDOMNode(this.refs.frenchTitle.refs.frenchTitle).value.trim();
+            var frenchSummary = ReactDOM.findDOMNode(this.refs.frenchSummary.refs.frenchSummary).value.trim();
+            var frenchContent = $('#french-editor').summernote('code');
+
+            if ((!englishTitle && !englishContent) && (!frenchTitle && !frenchContent)) {
+                return;
+            }
+
+            ArticleActions.pushArticles({
+                translations_attributes: [
+                    {locale: 'en', title: englishTitle, summary: englishSummary, content: englishContent},
+                    {locale: 'fr', title: frenchTitle, summary: frenchSummary, content: frenchContent}
+                ],
+                tags_attributes: tags});
+
+            ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value = '';
+            ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value = '';
+            ReactDOM.findDOMNode(this.refs.frenchTitle.refs.frenchTitle).value = '';
+            ReactDOM.findDOMNode(this.refs.frenchSummary.refs.frenchSummary).value = '';
+            $('#english-editor').summernote('code', '');
+            $('#french-editor').summernote('code', '');
+        } else {
+            var title = ReactDOM.findDOMNode(this.refs.title.refs.title).value.trim();
+            var summary = ReactDOM.findDOMNode(this.refs.summary.refs.summary).value.trim();
+            var content = $('#single-editor').summernote('code');
+
+            if (!content && !title) {
+                return;
+            }
+
+            ArticleActions.pushArticles({title: title, summary: summary, content: content, tags_attributes: tags});
+
+            ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
+            ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = '';
+            $('#single-editor').summernote('code', '');
+        }
+
         this.refs.submit.setState({disabled: true});
         this.refs.tagsinput.state.selectedTags = [];
         TagActions.fetchTags();
@@ -66,26 +172,89 @@ var ArticleForm = React.createClass({
 
     _handleChange: function (event) {
         var text = event.currentTarget.textContent;
-        if (text.length === 0) {
-            this.refs.submit.setState({disabled: true});
+
+        if (this.state.multiLanguage) {
+            if ($('#english-editor').summernote('code').length === 0 || $('#french-editor').summernote('code').length === 0) {
+                this.refs.submit.setState({disabled: true});
+            } else {
+                if(this.state.disabled) {
+                    this.refs.submit.setState({disabled: false});
+                }
+            }
         } else {
-            this.refs.submit.setState({disabled: false});
+            if (text.length === 0) {
+                this.refs.submit.setState({disabled: true});
+            } else {
+                if(this.state.disabled) {
+                    this.refs.submit.setState({disabled: false});
+                }
+            }
+        }
+    },
+
+    _createFields: function () {
+        if (this.state.multiLanguage) {
+            return (
+                <div className="row">
+                    <div className="col s12 margin-bottom-10">
+                        <ul className="tabs">
+                            <li className="tab col s6">
+                                <a href="#english-form">English</a>
+                            </li>
+                            <li className="tab col s6">
+                                <a href="#french-form">Français</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="col s12" id="english-form">
+                        <Input ref="englishTitle" id="englishTitle" classType="important">
+                            {I18n.t('js.article.model.title')}
+                        </Input>
+                        <Input ref="englishSummary" id="englishSummary">
+                            {I18n.t('js.article.model.summary')}
+                        </Input>
+
+                        <div className="editor-reset">
+                            <div id="english-editor"/>
+                        </div>
+                    </div>
+                    <div className="col s12" id="french-form">
+                        <Input ref="frenchTitle" id="frenchTitle" classType="important">
+                            {I18n.t('js.article.model.title')}
+                        </Input>
+                        <Input ref="frenchSummary" id="frenchSummary">
+                            {I18n.t('js.article.model.summary')}
+                        </Input>
+
+                        <div className="editor-reset">
+                            <div id="french-editor"/>
+                        </div>
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <Input ref="title" id="title" classType="important">
+                        {I18n.t('js.article.model.title')}
+                    </Input>
+                    <Input ref="summary" id="summary">
+                        {I18n.t('js.article.model.summary')}
+                    </Input>
+
+                    <div className="editor-reset">
+                        <div id="single-editor"/>
+                    </div>
+                </div>
+            )
         }
     },
 
     _createArticleForm: function () {
         return (
             <form className="blog-form article-form" onSubmit={this._handleSubmit}>
-                <Input ref="title" id="title" classType="important">
-                    {I18n.t('js.article.model.title')}
-                </Input>
-                <Input ref="summary" id="summary">
-                    {I18n.t('js.article.model.summary')}
-                </Input>
 
-                <div className="editor-reset">
-                    <div id="editor-summernote"/>
-                </div>
+                { this._createFields() }
 
                 <div className="row margin-top-10">
                     <div className="col s6">

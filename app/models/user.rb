@@ -75,6 +75,7 @@ class User < ActiveRecord::Base
   include Shared::PreferencesConcern
 
   preference :article_display,    'inline'
+  preference :multi_language,     'false'
   preference :search_highlight,   'true'
   preference :search_operator,    'and'
   preference :search_exact,       'true'

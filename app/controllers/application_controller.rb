@@ -21,9 +21,17 @@ class ApplicationController < ActionController::Base
           session[:locale]
         elsif current_user
           current_user.locale
+        elsif request.location.present? && !request.location.country_code.empty?
+          if %w(FR BE CH).any? { |country_code| request.location.country_code.upcase == country_code }
+            :fr
+          else
+            :en
+          end
         else
           http_accept_language.compatible_language_from(I18n.available_locales)
         end
+
+    current_user.locale = I18n.locale if current_user && current_user.locale.to_s != I18n.locale.to_s
   end
 
   # Redirection when Javascript is used.

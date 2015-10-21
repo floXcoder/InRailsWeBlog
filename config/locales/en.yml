@@ -5,8 +5,9 @@ en:
   head:
     keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
     description: "How to build a Blog with Rails and Node"
-  header: ""
   footer:
+    title: "In Rails We BLog"
+    description: "A blog optimized for programmer"
     copyright: "Copyright 2015 - InRailsWeBlog. All rights reserved."
     links:
       title: "Useful links"

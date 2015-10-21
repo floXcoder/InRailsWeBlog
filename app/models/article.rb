@@ -40,7 +40,11 @@ class Article < ActiveRecord::Base
     parent_tags = []
     child_tags = []
     tags_attrs.each do |_tagKey, tagValue|
-      tag = Tag.find_or_initialize_by(id: tagValue.delete(:id))
+      next unless tagValue
+      tag_id = tagValue.delete(:id)
+      next unless tag_id
+
+      tag = Tag.find_or_initialize_by(id: tag_id)
 
       parent = tagValue.delete(:parent)
       child = tagValue.delete(:child)
@@ -64,7 +68,7 @@ class Article < ActiveRecord::Base
 
   # Scopes
   scope :user_related, -> (user_id = nil) { where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
-                                                  author_id: user_id).with_translations(I18n.locale).includes(:author, :tags) }
+                                                  author_id: user_id).includes(:author, :tags, :translations) }
 
   # Parameters validation
   validates :author_id, presence: true
@@ -83,6 +87,7 @@ class Article < ActiveRecord::Base
 
   # Translation
   translates :title, :summary, :content, fallbacks_for_empty_translations: true
+  accepts_nested_attributes_for :translations
 
   # Enum
   include Shared::EnumsConcern
@@ -96,9 +101,9 @@ class Article < ActiveRecord::Base
   # Elastic Search
   searchkick autocomplete: [:title, :tags],
              suggest: [:title, :tags],
-             highlight: [:content],
-             include: [:tags],
-             language: (I18n.locale == :en) ? 'English' : 'French'
+             highlight: [:content_en, :content_fr, :public_content_en, :public_content_fr],
+             include: [:author, :tags, :translations],
+             language: (I18n.locale == :fr) ? 'French' : 'English'
   # wordnet: true,
 
   # after_commit :reindex_product
@@ -110,18 +115,33 @@ class Article < ActiveRecord::Base
     {
         author_id: author.id,
         title: title,
-        content: strip_content,
+
+        public_content_en: public_content('en'),
+        public_content_fr: public_content('fr'),
+
+        content_en: strip_content('en'),
+        content_fr: strip_content('fr'),
         summary: summary,
         tags: tags.pluck(:name)
     }
   end
 
-  def strip_content
-    sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish
+  def strip_content(language = nil)
+    if language
+      locale_article = self.translations.where(locale: language)[0]
+      sanitize(locale_article ? locale_article.content.gsub(/(<\/\w+>)/i, '\1 ') : '', tags: [], attributes: []).squish
+    else
+      sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish
+    end
   end
 
-  def public_content
-    self.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
+  def public_content(language = nil)
+    if language
+      locale_article = self.translations.where(locale: language)[0]
+      locale_article ? locale_article.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '') : ''
+    else
+      self.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
+    end
   end
 
   def has_private_content?
@@ -143,11 +163,16 @@ class Article < ActiveRecord::Base
     # If query not defined, search for everything
     query_string = query ? query : '*'
 
-    # Misspelling, specify number of characters
-    misspellings_distance = options[:exact] ? 0 : 1
+    # Fields with boost
+    fields = if I18n.locale == :fr
+               %w(title^10 content_fr^5 content_en public_content_fr public_content_en)
+             else
+               %w(title^10 content_en^5 content_fr public_content_en public_content_fr)
+             end
 
     # Highlight results and select a fragment
-    highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
+    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
+    highlight = true
 
     # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
     where_options = {}
@@ -159,9 +184,12 @@ class Article < ActiveRecord::Base
     # Boost user articles first
     boost_where = options[:current_user_id] ? {author_id: options[:current_user_id]} : nil
 
+    # Misspelling, specify number of characters
+    misspellings_distance = options[:exact] ? 0 : 1
+
     # Perform search
     results = Article.search(query_string,
-                             fields: ['title^3', :content],
+                             fields: fields,
                              boost_where: boost_where,
                              highlight: highlight,
                              misspellings: {edit_distance: misspellings_distance},
@@ -180,6 +208,34 @@ class Article < ActiveRecord::Base
         suggestions: results.suggestions,
         words: words.uniq
     }
+  end
+
+  def adapted_content(current_user_id, highlight)
+    content = self.content
+
+    if highlight
+
+      # Adapt current language
+      if I18n.locale == :fr && !highlight[:content_fr] && highlight[:content_en]
+        content = self.translations.where(locale: 'en')[0].content
+      elsif I18n.locale == :en && !highlight[:content_en] && highlight[:content_fr]
+        content = self.translations.where(locale: 'fr')[0].content
+      end
+
+      if self.private_content && self.author.id != current_user_id
+        if (highlight[:content_fr] && !highlight[:public_content_fr]) || (highlight[:content_en] && !highlight[:public_content_en])
+          content = nil
+        else
+          content = content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
+        end
+      end
+    else
+      if self.private_content && self.author.id != current_user_id
+        content = self.public_content
+      end
+    end
+
+    return content
   end
 
   # Sanitize content

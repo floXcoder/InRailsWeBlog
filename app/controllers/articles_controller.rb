@@ -41,8 +41,11 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    article = current_user.articles.build(article_params)
-    # authorize article
+    if current_user.read_preference(:multi_language) == 'true'
+      article = current_user.articles.build(article_translated_params)
+    else
+      article = current_user.articles.build(article_params)
+    end
 
     current_user_id = current_user ? current_user.id : nil
 
@@ -108,7 +111,6 @@ class ArticlesController < ApplicationController
                    tags: tags,
                    highlight: results[:highlight],
                    current_user_id: current_user_id,
-                   words: results[:words],
                    suggestions: results[:suggestions]}
       }
       format.json {
@@ -118,7 +120,6 @@ class ArticlesController < ApplicationController
                    tags: tags,
                    highlight: results[:highlight],
                    current_user_id: current_user_id,
-                   words: results[:words],
                    suggestions: results[:suggestions]}
       }
     end
@@ -147,9 +148,11 @@ class ArticlesController < ApplicationController
     article = Article.find(params[:id])
     # authorize article
 
+    current_user_id = current_user ? current_user.id : nil
+
     respond_to do |format|
       if article.update_attributes(article_params)
-        format.json { render :articles, locals: {articles: [article]}, status: :accepted, location: article }
+        format.json { render :articles, locals: {articles: [article], current_user_id: current_user_id}, status: :accepted, location: article }
       else
         format.json { render json: article.errors, status: :not_modified }
       end
@@ -175,6 +178,15 @@ class ArticlesController < ApplicationController
                                      :notation,
                                      :priority,
                                      :allow_comment,
+                                     tags_attributes: [:id, :name, :parent, :child])
+  end
+
+  def article_translated_params
+    params.require(:articles).permit(:visibility,
+                                     :notation,
+                                     :priority,
+                                     :allow_comment,
+                                     translations_attributes: [:locale, :title, :summary, :content],
                                      tags_attributes: [:id, :name, :parent, :child])
   end
 end

@@ -51,12 +51,14 @@
 
   .blog-flash {
     .chip {
-      background-color: color('blue', 'lighten-3');
-      color: rgba(0, 0, 0, 0.6);
+      background-color: color('blue-grey', 'darken-3');
+      color: white;
       font-size: 18px;
       height: 52px;
       line-height: 52px;
       margin: 10px;
+      border: 3px solid color('blue-grey', 'lighten-3');
+      box-shadow: 0px 0px 3px color('blue-grey', 'lighten-3');
 
       .material-icons {
         font-size: 18px;
@@ -76,6 +78,8 @@
     border-top: 1px solid #111;
     display: none;
     margin-bottom: 0;
+    color: white;
+    background-color: color('grey', 'darken-3');
   }
 
   .blog-search {
@@ -93,15 +97,38 @@
       width: 100%;
     }
 
-    li.hover {
-      background: #585858;
-    }
+    //h1 {
+    //  color: #f0f1f1;
+    //}
 
-    h1 {
-      color: #f0f1f1;
-    }
-    a {
-      color: #288edf;
+
+    .typeahead-selector {
+      position: absolute;
+      width: 100%;
+      border-top: 1px solid #333434;
+      padding: 0px;
+      margin: 0px;
+      list-style-type: none;
+      background-color: color('grey', 'darken-3');
+      box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.5), 0px 2px 10px 0px rgba(0, 0, 0, 0.5);
+      border-radius: 6px;
+
+      .typeahead-list-item {
+        padding: 1.25rem;
+        border-bottom: 1px solid #333434;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+        &.hover {
+          background: #585858;
+        }
+        &:hover {
+          background: #585858;
+        }
+
+        a {
+          color: color('grey', 'lighten-2');
+        }
+      }
     }
 
     .typeahead-token {

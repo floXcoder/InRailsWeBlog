@@ -34,8 +34,6 @@ var SearchModule = React.createClass({
 
     onSearchChange(userStore) {
         if (!$utils.isEmpty(userStore.search)) {
-            log.info(userStore.search);
-
             this._handleSubmit(null, userStore.search);
         }
     },
@@ -196,6 +194,7 @@ var SearchModule = React.createClass({
                         displayOption={this._displayOption}
                         maxVisible={6}
                         addTokenCondition="tag"
+                        customClasses={{listItem: 'typeahead-list-item'}}
                         onTokenAdd={this._onTokenAdd}
                         onTokenRemove={this._onTokenRemove}
                         />

@@ -5,14 +5,15 @@ fr:
   head:
     keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
     description: "Comment construire un blog avec Rails et Node"
-  header: ""
   footer:
+    title: "In Rails We BLog"
+    description: "Un blog pensé pour les développeurs"
     copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
     links:
       title: "Liens utiles"
       contact: "Me contacter par email"
       support: "Aide"
-      about: "A propos de nous"
+      about: "A propos de moi"
       github: "Source sous Github"
       github_src: "https://github.com/floXcoder/InRailsWeBlog"
   views:

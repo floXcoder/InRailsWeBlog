@@ -8,7 +8,7 @@ var ArticleStore = Reflux.createStore({
     autocompleteValues: {},
     url: '/articles',
     lastRequest: {},
-    //lastPage: null,
+    hasMore: true,
 
     init: function () {
         this.onLoadArticles({page: 1});
@@ -16,6 +16,7 @@ var ArticleStore = Reflux.createStore({
 
     _resetSearch: function () {
         this.lastRequest = {};
+        this.hasMore = true;
     },
 
     _fetchArticles: function (data, callback) {
@@ -65,12 +66,13 @@ var ArticleStore = Reflux.createStore({
         this._fetchArticles(data, function (dataReceived) {
             // Manage in articles/box
             this.articleData = dataReceived;
-            this.articleData.newArticles = true;
+            this.articleData.hasMore = true;
             this.trigger(this.articleData);
         }.bind(this));
     },
 
     onLoadNextArticles: function (data) {
+
         if(this.lastRequest.page) {
             this.lastRequest.page += 1;
         } else {
@@ -88,8 +90,13 @@ var ArticleStore = Reflux.createStore({
                 }
             });
 
+            if(dataReceived.articles.length === 0) {
+                this.hasMore = false;
+            }
+
             // Manage in articles/box
             this.articleData.articles = uniqueArticles;
+            this.articleData.hasMore = this.hasMore;
             this._filterArticlesByTag();
             this.trigger(this.articleData);
         });
@@ -186,12 +193,7 @@ var ArticleStore = Reflux.createStore({
     onSearchArticles: function (data) {
         this._resetSearch();
 
-        //this.searchOptions = data.searchOptions;
-
         this._fetchArticles(data, function (dataReceived) {
-            log.info(dataReceived);
-
-
             // Manage in articles/box
             this.articleData = dataReceived;
             this.trigger(this.articleData);

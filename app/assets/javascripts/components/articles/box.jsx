@@ -17,6 +17,7 @@ var ArticleBox = React.createClass({
         return {
             articles: null,
             isLoading: true,
+            hasMore: true,
             articleDisplayMode: 'inline',
             highlightResults: true
         };
@@ -49,11 +50,7 @@ var ArticleBox = React.createClass({
             newState.isLoading = false;
         }
 
-        if (articleStore.newArticles) {
-            if (this.refs.articlesList) {
-                this.refs.articlesList.state.articleLength = 0;
-            }
-        }
+        newState.hasMore = !!articleStore.hasMore;
 
         if (!$utils.isEmpty(newState)) {
             this.setState(newState);
@@ -75,6 +72,7 @@ var ArticleBox = React.createClass({
                     ref="articlesList"
                     userConnected={this.props.userConnected}
                     articles={this.state.articles}
+                    hasMore={this.state.hasMore}
                     highlightResults={this.state.highlightResults}
                     articleDisplayMode={this.state.articleDisplayMode}
                     />

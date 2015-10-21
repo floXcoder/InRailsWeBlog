@@ -2,11 +2,15 @@ fr:
   js:
     user:
       preferences:
-        display:
-          title: "Affichage des articles"
-          mode:
-            inline: "Afficher dans un seul article"
-            card: "Afficher les articles indépendamment"
+        article:
+          title: "Articles"
+          multi_language:
+            title: "Écrire les articles en plusieurs langues"
+          display:
+            title: "Articles"
+            mode:
+              inline: "Afficher dans un seul article"
+              card: "Afficher les articles indépendamment"
         search:
           title: "Recherche"
           operator:

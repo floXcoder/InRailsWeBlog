@@ -9,5 +9,8 @@ $(".dropdown-button").dropdown({
     belowOrigin: true
 });
 
-
-
+// Auto hide flash messages
+var flashCallback = function() {
+    return $(".blog-flash").fadeOut(1000);
+};
+setTimeout(flashCallback, 1000);

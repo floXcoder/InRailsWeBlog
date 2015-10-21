@@ -4,7 +4,13 @@ var UserStore = Reflux.createStore({
     listenables: [UserAction],
     user: {
         id: window.currentUserId,
-        preferences: {},
+        preferences: {
+            article_display: 'inline',
+            multi_language: 'false',
+            search_highlight: 'true',
+            search_operator: 'and',
+            search_exact: 'false'
+        },
         search: {}
     },
     url: '/users',
@@ -22,18 +28,32 @@ var UserStore = Reflux.createStore({
 
         var preferenceUrl = this.url + '/' + this.user.id + '/preference';
 
-        //if (data) {
-        //    if (data.user) {
-        //        url += '/' + this.userId + '/preference';
-        //    }
-        //}
-
         jQuery.getJSON(
             preferenceUrl,
             requestParam,
             function (data) {
+
+                var newPreferences = {};
+
+                if (data.article_display && data.article_display !== this.user.preferences.article_display) {
+                    newPreferences.article_display = data.article_display;
+                }
+                if (data.multi_language && data.multi_language !== this.user.preferences.multi_language) {
+                    newPreferences.multi_language = data.multi_language;
+                }
+                if (data.search_highlight && data.search_highlight !== this.user.preferences.search_highlight) {
+                    newPreferences.search_highlight = data.search_highlight;
+                }
+                if (data.search_operator && data.search_operator !== this.user.preferences.search_operator) {
+                    newPreferences.search_operator = data.search_operator;
+                }
+                if (data.search_exact && data.search_exact !== this.user.preferences.search_exact) {
+                    newPreferences.search_exact = data.search_exact;
+                }
+
+                // Manage in user/preference, articles/box and articles/form
                 this.user.preferences = data.preferences;
-                this.trigger(this.user);
+                this.trigger({preferences: newPreferences});
             }.bind(this));
     },
 
@@ -49,6 +69,10 @@ var UserStore = Reflux.createStore({
 
         if (data.article_display) {
             requestParam.preferences.article_display = data.article_display;
+        }
+
+        if (data.multi_language) {
+            requestParam.preferences.multi_language = data.multi_language;
         }
 
         if(data.search_highlight) {
@@ -86,6 +110,17 @@ var UserStore = Reflux.createStore({
 
         this.trigger({preferences: displayPreferences});
         this._pushUserPreferences(displayPreferences);
+    },
+
+    onChangeForm: function (formOptions) {
+        var formPreferences = {};
+
+        // Manage in articles/form
+        formPreferences.multi_language = formOptions.multi_language;
+        this.user.preferences.multi_language = formPreferences.multi_language;
+
+        this.trigger({preferences: formPreferences});
+        this._pushUserPreferences(formPreferences);
     },
 
     onChangeSearchOptions: function (searchOptions) {

@@ -11,6 +11,7 @@ var UserPreference = React.createClass({
     getInitialState: function () {
         return {
             article_display: 'inline',
+            multi_language: false,
             search_highlight: true,
             search_operator: 'and',
             search_exact: false,
@@ -22,11 +23,15 @@ var UserPreference = React.createClass({
         $('a#toggle-user-pref').click(function () {
             this.state.$userPrefDiv = $('.blog-user-pref');
 
-            this.state.$userPrefDiv.is(":visible") ? this.state.$userPrefDiv.slideUp() : this.state.$userPrefDiv.slideDown(function () {
-                $('.user-pref-collapsible').collapsible({
-                    accordion: true
-                });
-            }.bind(this));
+            if (this.state.$userPrefDiv.is(":visible")) {
+                this.state.$userPrefDiv.slideUp();
+            } else {
+                this.state.$userPrefDiv.slideDown(150, function () {
+                    $('.user-pref-collapsible').collapsible({
+                        accordion: true
+                    });
+                }.bind(this));
+            }
 
             this.state.$userPrefDiv.mouseleave(function() {
                 this.state.$userPrefDiv.slideUp();
@@ -44,14 +49,17 @@ var UserPreference = React.createClass({
             if (userPreferences.article_display) {
                 newState.article_display = userPreferences.article_display;
             }
+            if (userPreferences.multi_language) {
+                newState.multi_language = (userPreferences.multi_language !== 'false');
+            }
             if (userPreferences.search_highlight) {
-                newState.search_highlight = userPreferences.search_highlight !== 'false';
+                newState.search_highlight = (userPreferences.search_highlight !== 'false');
             }
             if (userPreferences.search_operator) {
                 newState.search_operator = userPreferences.search_operator;
             }
             if (userPreferences.search_exact) {
-                newState.search_exact = userPreferences.search_exact !== 'false';
+                newState.search_exact = (userPreferences.search_exact !== 'false');
             }
 
             this.setState(newState);
@@ -64,8 +72,14 @@ var UserPreference = React.createClass({
         UserActions.changeDisplay(article_display);
     },
 
+    _onMultiLanguageChanged: function (event) {
+        var multi_language = this.refs.multiLanguage.refs.checkbox.checked;
+        this.setState({multi_language: multi_language});
+        UserActions.changeForm({multi_language: multi_language ? 'true' : 'false'});
+    },
+
     _onHighlightChanged: function (event) {
-        var search_highlight = this.refs.highlight.refs.checkbox.checked;
+        var search_highlight = this.refs.searchHighlight.refs.checkbox.checked;
         this.setState({search_highlight: search_highlight});
         UserActions.changeSearchOptions({search_highlight: search_highlight ? 'true' : 'false'});
     },
@@ -77,7 +91,7 @@ var UserPreference = React.createClass({
     },
 
     _onExactSearchChanged: function (event) {
-        var search_exact = this.refs.exact.refs.checkbox.checked;
+        var search_exact = this.refs.searchExact.refs.checkbox.checked;
         this.setState({search_exact: search_exact});
         UserActions.changeSearchOptions({search_exact: search_exact ? 'true' : 'false'});
     },
@@ -88,16 +102,23 @@ var UserPreference = React.createClass({
                 <ul data-collapsible="accordion" className="collapsible popout user-pref-collapsible">
                     <li>
                         <div className="collapsible-header"><i className="material-icons">list</i>
-                            {I18n.t('js.user.preferences.display.title')}
+                            {I18n.t('js.user.preferences.article.title')}
                         </div>
                         <div className="collapsible-body">
                             <div className="row">
-                                <div className="col s12">
-                                    <h6>{I18n.t('js.user.preferences.display.title')}</h6>
-                                    <RadioButtons group="userDisplay"
-                                                  buttons={I18n.t('js.user.preferences.display.mode')}
+                                <div className="col s6">
+                                    <h6>{I18n.t('js.user.preferences.article.display.title')}</h6>
+                                    <RadioButtons group="articleDisplay"
+                                                  buttons={I18n.t('js.user.preferences.article.display.mode')}
                                                   checkedButton={this.state.article_display}
                                                   onRadioChanged={this._onDisplayChanged}/>
+                                </div>
+                                <div className="col s6">
+                                    <h6>{I18n.t('js.user.preferences.article.multi_language.title')}</h6>
+                                    <Checkbox ref="multiLanguage"
+                                              values={I18n.t('js.checkbox')}
+                                              checked={this.state.multi_language}
+                                              onCheckboxChanged={this._onMultiLanguageChanged}/>
                                 </div>
                             </div>
                         </div>
@@ -110,21 +131,21 @@ var UserPreference = React.createClass({
                             <div className="row">
                                 <div className="col s4">
                                     <h6>{I18n.t('js.user.preferences.search.operator.title')}</h6>
-                                    <RadioButtons group="userSearchOperator"
+                                    <RadioButtons group="searchOperator"
                                                   buttons={I18n.t('js.user.preferences.search.operator.mode')}
                                                   checkedButton={this.state.search_operator}
                                                   onRadioChanged={this._onOperatorSearchChanged}/>
                                 </div>
                                 <div className="col s4">
                                     <h6>{I18n.t('js.user.preferences.search.highlight')}</h6>
-                                    <Checkbox ref="highlight"
+                                    <Checkbox ref="searchHighlight"
                                               values={I18n.t('js.checkbox')}
                                               checked={this.state.search_highlight}
                                               onCheckboxChanged={this._onHighlightChanged}/>
                                 </div>
                                 <div className="col s4">
                                     <h6>{I18n.t('js.user.preferences.search.exact')}</h6>
-                                    <Checkbox ref="exact"
+                                    <Checkbox ref="searchExact"
                                               values={I18n.t('js.checkbox')}
                                               checked={this.state.search_exact}
                                               onCheckboxChanged={this._onExactSearchChanged}/>

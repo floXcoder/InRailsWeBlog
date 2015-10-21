@@ -3,23 +3,9 @@ var ArticleActions = require('../../actions/articleActions');
 var InfiniteScroll = require('../../components/materialize/infiniteScroll');
 
 var ArticleList = React.createClass({
-    getInitialState: function () {
-        return {
-            hasMore: true,
-            articleLength: 0
-        };
-    },
-
-    componentDidMount: function () {
-
-    },
-
     _loadNextArticles: function () {
-        if (this.props.articles.length > 0 && this.props.articles.length !== this.state.articleLength) {
+        if (this.props.hasMore) {
             ArticleActions.loadNextArticles();
-            this.state.articleLength = this.props.articles.length;
-        } else {
-            this.state.hasMore = false;
         }
     },
 
@@ -46,7 +32,7 @@ var ArticleList = React.createClass({
             return (
                 <div className="card-panel">
                     <div className="blog-article-list">
-                        <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.state.hasMore}>
+                        <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.props.hasMore}>
                             {ArticleNodes}
                         </InfiniteScroll>
                     </div>
@@ -55,7 +41,7 @@ var ArticleList = React.createClass({
         } else if (this.props.articleDisplayMode === 'card') {
             return (
                 <div className="blog-article-list">
-                    <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.state.hasMore}>
+                    <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.props.hasMore}>
                         {ArticleNodes}
                     </InfiniteScroll>
                 </div>

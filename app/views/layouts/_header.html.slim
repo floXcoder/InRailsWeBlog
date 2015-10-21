@@ -1,9 +1,18 @@
 header.blog-header
   ul#user-dropdown.dropdown-content
+    / Change language
+    li class="#{'active' if I18n.locale == :fr}"
+      = link_to 'French', url_for(locale: 'fr')
+    li class="#{'active' if I18n.locale == :en}"
+      = link_to 'English', url_for(locale: 'en')
+
+    li.divider
+
+    / User account
     - if user_signed_in?
-      li class="#{'active' if current_page?(user_path(current_user))}"
+      li
         = link_to t('views.header.profile'), user_path(current_user)
-      li class="#{'active' if current_page?(logout_path)}"
+      li
         = link_to t('views.header.log_out'), logout_path, method: 'delete'
     - else
       li.first-nav
@@ -35,8 +44,8 @@ header.blog-header
               i.material-icons.right account_circle
               = t('views.header.profile')
 
-  .blog-search-nav.row.white-text.grey.darken-3
-    #search-nav-component
-
   .blog-user-pref
     #user-pref
+
+  .blog-search-nav.row
+    #search-nav-component

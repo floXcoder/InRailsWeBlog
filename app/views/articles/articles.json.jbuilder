@@ -1,23 +1,13 @@
 json.articles do
   json.array! articles do |article|
-    if article.private_content
-      if local_assigns[:current_user_id] && (article.author.id == current_user_id)
-        json.content  article.content
-      else
-        if local_assigns[:words] && words.any? { |word| article.public_content.match(word) }
-          json.content  article.public_content
-        else
-          next
-        end
-      end
-    else
-      json.content  article.content
-    end
+    content = article.adapted_content(current_user_id, local_assigns[:highlight] ? highlight[article.id] : nil)
+    next unless content
 
     json.id         article.id
     json.author     article.author.pseudo
     json.title      article.title
     json.summary    article.summary
+    json.content    content
     json.visibility article.visibility
     json.show       true
 
