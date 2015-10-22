@@ -26,15 +26,12 @@ var ArticleBox = React.createClass({
     onPreferenceChange: function (userStore) {
         var newState = {};
 
-        if (!$utils.isEmpty(userStore.preferences)) {
+        if (!$utils.isEmpty(userStore.preferences) && userStore.preferences.article_display) {
             newState.articleDisplayMode = userStore.preferences.article_display;
         }
 
-        if (!$utils.isEmpty(userStore.search)) {
-            if (userStore.search.search_highlight) {
-                var highlightResults = userStore.search.search_highlight;
-                newState.highlightResults = (highlightResults !== 'false');
-            }
+        if (!$utils.isEmpty(userStore.search) && userStore.search.search_highlight) {
+            newState.highlightResults = (userStore.search.search_highlight !== 'false');
         }
 
         if (!$utils.isEmpty(newState)) {

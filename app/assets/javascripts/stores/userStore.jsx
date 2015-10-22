@@ -35,20 +35,25 @@ var UserStore = Reflux.createStore({
 
                 var newPreferences = {};
 
-                if (data.article_display && data.article_display !== this.user.preferences.article_display) {
-                    newPreferences.article_display = data.article_display;
+                if (data.preferences.article_display
+                    && data.preferences.article_display !== this.user.preferences.article_display) {
+                    newPreferences.article_display = data.preferences.article_display;
                 }
-                if (data.multi_language && data.multi_language !== this.user.preferences.multi_language) {
-                    newPreferences.multi_language = data.multi_language;
+                if (data.preferences.multi_language
+                    && data.preferences.multi_language !== this.user.preferences.multi_language) {
+                    newPreferences.multi_language = data.preferences.multi_language;
                 }
-                if (data.search_highlight && data.search_highlight !== this.user.preferences.search_highlight) {
-                    newPreferences.search_highlight = data.search_highlight;
+                if (data.preferences.search_highlight
+                    && data.preferences.search_highlight !== this.user.preferences.search_highlight) {
+                    newPreferences.search_highlight = data.preferences.search_highlight;
                 }
-                if (data.search_operator && data.search_operator !== this.user.preferences.search_operator) {
-                    newPreferences.search_operator = data.search_operator;
+                if (data.preferences.search_operator
+                    && data.preferences.search_operator !== this.user.preferences.search_operator) {
+                    newPreferences.search_operator = data.preferences.search_operator;
                 }
-                if (data.search_exact && data.search_exact !== this.user.preferences.search_exact) {
-                    newPreferences.search_exact = data.search_exact;
+                if (data.preferences.search_exact
+                    && data.preferences.search_exact !== this.user.preferences.search_exact) {
+                    newPreferences.search_exact = data.preferences.search_exact;
                 }
 
                 // Manage in user/preference, articles/box and articles/form

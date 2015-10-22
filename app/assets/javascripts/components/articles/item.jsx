@@ -53,8 +53,8 @@ var ArticleItem = React.createClass({
         }
     },
 
-    _onArticleWithTag: function (tagId, event) {
-        ArticleActions.loadArticles({tags: tagId});
+    _onArticleWithTag: function (tagName, event) {
+        ArticleActions.loadArticles({tags: [tagName]});
     },
 
     _renderVisibility: function () {
@@ -140,7 +140,7 @@ var ArticleItem = React.createClass({
             var Tags = this.props.article.tags.map(function (tag) {
                 return (
                     <a key={tag.id}
-                       onClick={this._onArticleWithTag.bind(this, tag.id)}
+                       onClick={this._onArticleWithTag.bind(this, tag.name)}
                        className="waves-effect waves-light btn-small grey lighten-5 black-text">
                         {tag.name}
                     </a>

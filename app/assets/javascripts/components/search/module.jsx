@@ -14,21 +14,38 @@ var SearchModule = React.createClass({
         return {
             autocompleteValues: [],
             selectedTags: [],
+            previousSelectedTags: [],
             $searchDiv: null,
-            suggestions: []
+            suggestions: [],
+            query: ''
         };
+    },
+
+    _activateSearch: function(state) {
+        this._toggleSearchNav();
+
+        if(!$utils.isEmpty(state.tags)) {
+            state.tags.forEach(function (tag) {
+                this.refs.typeahead._addTokenForValue({tag: tag}, true);
+            }.bind(this));
+        }
+
+        this.refs.typeahead.setEntryText(state.query);
     },
 
     componentDidMount: function () {
         $('a#toggle-search').click(function () {
-            //var search = $('.blog-search-nav');
-            this.state.$searchDiv = $('.blog-search-nav');
-
-            this.state.$searchDiv.is(":visible") ? this.state.$searchDiv.slideUp() : this.state.$searchDiv.slideDown(function () {
-                this.state.$searchDiv.find('input').focus();
-            }.bind(this));
+            this._toggleSearchNav();
 
             return false;
+        }.bind(this));
+    },
+
+    _toggleSearchNav: function() {
+        this.state.$searchDiv = $('.blog-search-nav');
+
+        this.state.$searchDiv.is(":visible") ? this.state.$searchDiv.slideUp() : this.state.$searchDiv.slideDown(function () {
+            this.state.$searchDiv.find('input').focus();
         }.bind(this));
     },
 
@@ -60,6 +77,12 @@ var SearchModule = React.createClass({
 
         if (!$utils.isEmpty(articleStore.suggestions)) {
             newState.suggestions = articleStore.suggestions;
+        } else if (!$utils.isEmpty(this.state.suggestions)) {
+            newState.suggestions = [];
+        }
+
+        if(articleStore.paramsFromUrl) {
+            this._activateSearch(articleStore.paramsFromUrl);
         }
 
         if(!$utils.isEmpty(newState)) {
@@ -83,9 +106,8 @@ var SearchModule = React.createClass({
         }
 
         var pressedKey = $utils.NAVIGATION_KEYMAP[event.which];
-        if (pressedKey === 'enter' || pressedKey === 'tab') {
+        if (pressedKey === 'tab' || pressedKey === 'enter') {
             this.refs.typeahead.refs.typeahead.setState({entryValue: entryValue, selection: entryValue});
-
             this._handleSubmit(event, {});
         }
     },
@@ -100,8 +122,13 @@ var SearchModule = React.createClass({
         }
 
         var query = this.refs.typeahead.getEntryText().trim();
-        if ($utils.isEmpty(query) && searchOptions && searchOptions.tagSearch) {
+
+        if ($utils.isEmpty(query) && !$utils.isEmpty(this.state.selectedTags)) {
             query = '*';
+        }
+
+        if(query === this.state.query && this.state.previousSelectedTags === this.state.selectedTags) {
+            return;
         }
 
         if (!$utils.isEmpty(query)) {
@@ -116,6 +143,9 @@ var SearchModule = React.createClass({
             }
 
             ArticleActions.searchArticles(request);
+
+            this.state.query = query;
+            this.state.previousSelectedTags = this.state.selectedTags;
         }
     },
 
@@ -147,12 +177,14 @@ var SearchModule = React.createClass({
         }
     },
 
-    _onTokenAdd: function (value) {
+    _onTokenAdd: function (value, noSubmit) {
         if (value.tag) {
             this.state.selectedTags.push(value.tag);
         }
 
-        this._handleSubmit(null, {tagSearch: true});
+        if(!noSubmit) {
+            this._handleSubmit(null, {tagSearch: true});
+        }
     },
 
     _onTokenRemove: function (value) {

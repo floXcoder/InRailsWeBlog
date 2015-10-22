@@ -61,6 +61,7 @@
     "fuzzy": "0.1.1",
     "hammerjs": "2.0.4",
     "highlight.js": "^8.8.0",
+    "history.js": "^1.8.0",
     "html5shiv": "3.7.3",
     "jquery": "2.1.4",
     "jquery-form": "3.50.0",

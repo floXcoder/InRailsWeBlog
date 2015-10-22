@@ -112,6 +112,7 @@
       background-color: color('grey', 'darken-3');
       box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.5), 0px 2px 10px 0px rgba(0, 0, 0, 0.5);
       border-radius: 6px;
+      z-index: 10;
 
       .typeahead-list-item {
         padding: 1.25rem;

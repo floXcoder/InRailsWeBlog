@@ -35,9 +35,12 @@ fr:
         allow_comment: "Autoriser commentaires"
       search:
         placeholder: "Rechercher ..."
+        url: "Recherche :"
         no_results:
           title: "Pas d'articles trouvés"
           content: "Essayer autre chose :)"
+      tag:
+        url: "Label :"
       visibility:
         title: "Visibilité de l'article"
         enum:

@@ -35,9 +35,12 @@ en:
         allow_comment: "Allow comments"
       search:
         placeholder: "Search..."
+        url: "Search:"
         no_results:
           title: "No articles found"
           content: "Try something else :)"
+      tag:
+        url: "Tag:"
       visibility:
         title: "Article visibility"
         enum:

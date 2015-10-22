@@ -1,4 +1,5 @@
 require('../common');
+
 var ArticleBox = require('../../components/articles/box');
 var AssociatedTagBox = require('../../components/tags/associatedBox');
 var IndexTagBox = require('../../components/tags/indexBox');

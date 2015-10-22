@@ -9,8 +9,8 @@ class ArticlesController < ApplicationController
     current_user_id = current_user ? current_user.id : nil
 
     if params[:tags]
-      tag_ids = params[:tags]
-      articles = Article.user_related(current_user_id).joins(:tags).where(tags: {id: tag_ids}).order('articles.id DESC')
+      tag_names = params[:tags]
+      articles = Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag_names}).order('articles.id DESC')
     else
       articles = Article.user_related(current_user_id).all.order('articles.id DESC')
     end

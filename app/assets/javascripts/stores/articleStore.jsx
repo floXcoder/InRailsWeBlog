@@ -1,6 +1,9 @@
 var ArticleActions = require('../actions/articleActions');
 
+var History = require('../mixins/history');
+
 var ArticleStore = Reflux.createStore({
+    mixins: [History],
     // auto-connects actions with stores
     listenables: [ArticleActions],
     articleData: {},
@@ -9,9 +12,44 @@ var ArticleStore = Reflux.createStore({
     url: '/articles',
     lastRequest: {},
     hasMore: true,
+    paramsFromUrl: {},
 
     init: function () {
-        this.onLoadArticles({page: 1});
+        this.bindToBrowserhistory();
+    },
+
+    deserializeParams: function (state) {
+        var tags = [];
+        if (!$utils.isEmpty(state.tags)) {
+            state.tags.split(',').forEach(function (tag) {
+                tags.push(tag);
+            });
+        }
+
+        if(state.query) {
+            return {
+                query: state.query,
+                tags: tags
+            };
+        } else if (state.tags) {
+            return {
+                tags: tags
+            };
+        }
+    },
+
+    handleParams: function (state) {
+        if (state) {
+            if (state.query) {
+                this.paramsFromUrl = {query: state.query, tags: state.tags};
+                this.onSearchArticles({query: state.query, tags: state.tags});
+            } else if (state.tags) {
+                this.paramsFromUrl = {tags: state.tags};
+                this.onLoadArticles({tags: state.tags});
+            }
+        } else {
+            this.onLoadArticles({page: 1});
+        }
     },
 
     _resetSearch: function () {
@@ -63,17 +101,29 @@ var ArticleStore = Reflux.createStore({
     onLoadArticles: function (data) {
         this._resetSearch();
 
+        if ($utils.isEmpty(this.paramsFromUrl) && data.tags) {
+            var tagParams = {
+                tags: data.tags.join(',')
+            };
+            this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.tags});
+        }
+
         this._fetchArticles(data, function (dataReceived) {
             // Manage in articles/box
             this.articleData = dataReceived;
             this.articleData.hasMore = true;
+
             this.trigger(this.articleData);
+
+            if (!$utils.isEmpty(this.paramsFromUrl)) {
+                this.paramsFromUrl = {};
+            }
+
         }.bind(this));
     },
 
     onLoadNextArticles: function (data) {
-
-        if(this.lastRequest.page) {
+        if (this.lastRequest.page) {
             this.lastRequest.page += 1;
         } else {
             this.lastRequest.page = 2;
@@ -90,14 +140,13 @@ var ArticleStore = Reflux.createStore({
                 }
             });
 
-            if(dataReceived.articles.length === 0) {
+            if (dataReceived.articles.length === 0) {
                 this.hasMore = false;
             }
 
             // Manage in articles/box
             this.articleData.articles = uniqueArticles;
             this.articleData.hasMore = this.hasMore;
-            this._filterArticlesByTag();
             this.trigger(this.articleData);
         });
     },
@@ -153,7 +202,7 @@ var ArticleStore = Reflux.createStore({
                 var updatedArticleList = [];
                 var updatedArticle = data.articles[0];
                 this.articleData.articles.forEach(function (article, index, articles) {
-                    if(updatedArticle.id === article.id) {
+                    if (updatedArticle.id === article.id) {
                         updatedArticleList.push(updatedArticle);
                     } else {
                         updatedArticleList.push(article);
@@ -168,46 +217,64 @@ var ArticleStore = Reflux.createStore({
         });
     },
 
-    _filterArticlesByTag: function () {
-        if (!$utils.isEmpty(this.activeTags)) {
-            this.articleData.articles.forEach(function (article, index, articles) {
-                var activeTagsByArticle = article.tags.filter(function (tag) {
-                    if(!this.activeTags.hasOwnProperty(tag.id)) {
-                        this.activeTags[tag.id] = true
-                    }
-                    return this.activeTags[tag.id];
-                }.bind(this));
-                if (activeTagsByArticle.length === 0) {
-                    articles[index].show = false;
-                }
-            }.bind(this));
-        }
-    },
-
-    onFilterArticlesByTag: function (tagId, activeTag) {
-        this.activeTags[tagId] = activeTag;
-        this._filterArticlesByTag();
-        this.trigger(this.articleData);
-    },
-
     onSearchArticles: function (data) {
         this._resetSearch();
+
+        if ($utils.isEmpty(this.paramsFromUrl)) {
+            var queryParams = {
+                query: data.query,
+                tags: data.tags ? data.tags.join(',') : null
+            };
+            this.saveState(queryParams, {title: I18n.t('js.article.search.url') + ' ' + queryParams.query});
+        }
 
         this._fetchArticles(data, function (dataReceived) {
             // Manage in articles/box
             this.articleData = dataReceived;
+            this.articleData.hasMore = true;
+
+            if (!$utils.isEmpty(this.paramsFromUrl)) {
+                this.articleData.paramsFromUrl = this.paramsFromUrl;
+            }
             this.trigger(this.articleData);
+
+            if (!$utils.isEmpty(this.paramsFromUrl)) {
+                delete this.articleData.paramsFromUrl;
+                this.paramsFromUrl = {};
+            }
         }.bind(this));
     },
 
     onAutocompleteArticles: function (data) {
-        if(!$utils.isEmpty(data.autocompleteQuery)) {
+        if (!$utils.isEmpty(data.autocompleteQuery)) {
             this._fetchArticles(data, function (dataReceived) {
                 this.autocompleteValues = dataReceived;
                 this.trigger({autocompletion: this.autocompleteValues});
             }.bind(this));
         }
     }
+
+    //_filterArticlesByTag: function () {
+    //    if (!$utils.isEmpty(this.activeTags)) {
+    //        this.articleData.articles.forEach(function (article, index, articles) {
+    //            var activeTagsByArticle = article.tags.filter(function (tag) {
+    //                if(!this.activeTags.hasOwnProperty(tag.id)) {
+    //                    this.activeTags[tag.id] = true
+    //                }
+    //                return this.activeTags[tag.id];
+    //            }.bind(this));
+    //            if (activeTagsByArticle.length === 0) {
+    //                articles[index].show = false;
+    //            }
+    //        }.bind(this));
+    //    }
+    //},
+    //
+    //onFilterArticlesByTag: function (tagId, activeTag) {
+    //    this.activeTags[tagId] = activeTag;
+    //    this._filterArticlesByTag();
+    //    this.trigger(this.articleData);
+    //},
 });
 
 module.exports = ArticleStore;

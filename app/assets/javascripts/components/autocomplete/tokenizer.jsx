@@ -167,7 +167,7 @@ var TypeaheadTokenizer = React.createClass({
         this.props.onTokenRemove(value);
     },
 
-    _addTokenForValue: function (value) {
+    _addTokenForValue: function (value, noSubmit) {
         var full_value = value;
         if(this.props.addTokenCondition) {
             if($utils.isEmpty(value[this.props.addTokenCondition])) {
@@ -183,7 +183,7 @@ var TypeaheadTokenizer = React.createClass({
         this.state.selected.push(value);
         this.setState({selected: this.state.selected});
         this.refs.typeahead.setEntryText("");
-        this.props.onTokenAdd(full_value);
+        this.props.onTokenAdd(full_value, noSubmit);
     },
 
     setEntryText: function (value) {
