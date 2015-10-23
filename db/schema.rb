@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20151017185225) do
     t.integer  "priority",        default: 0
     t.boolean  "allow_comment",   default: false, null: false
     t.boolean  "private_content", default: false, null: false
+    t.boolean  "is_link",         default: false, null: false
     t.string   "slug"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false

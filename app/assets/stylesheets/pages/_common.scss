@@ -1,6 +1,5 @@
 @import 'modules/variables';
 @import 'modules/utilities';
-
 @import 'codemirror/lib/codemirror';
 @import 'highlight.js/styles/zenburn';
 @import 'wysiwyg/summernote';
@@ -100,7 +99,6 @@
     //h1 {
     //  color: #f0f1f1;
     //}
-
 
     .typeahead-selector {
       position: absolute;
@@ -239,6 +237,15 @@
 
           .article-edit {
             cursor: pointer;
+
+            &:hover {
+              box-shadow: 0px 0px 3px color('blue-grey', 'lighten-3');
+              border-radius: 2px;
+            }
+          }
+
+          .article-link {
+
           }
 
           .article-cancel {
@@ -321,7 +328,6 @@
         .deadend {
           @include special-style($deadend-color);
         }
-
 
       }
     }

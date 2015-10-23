@@ -57,19 +57,33 @@ var ArticleItem = React.createClass({
         ArticleActions.loadArticles({tags: [tagName]});
     },
 
-    _renderVisibility: function () {
-        if (this.props.article.visibility === 'everyone') {
+    _renderIsLink: function () {
+        if (this.props.article.is_link) {
             return (
                 <div className="article-icons">
-                    <i className="material-icons article-public">visibility</i>
+                    <i className="material-icons article-link">link</i>
                 </div>
             );
         } else {
-            return (
-                <div className="article-icons">
-                    <i className="material-icons article-private">visibility_off</i>
-                </div>
-            );
+            return null;
+        }
+    },
+
+    _renderVisibility: function () {
+        if (this.props.userConnected) {
+            if (this.props.article.visibility === 'everyone') {
+                return (
+                    <div className="article-icons">
+                        <i className="material-icons article-public">visibility</i>
+                    </div>
+                );
+            } else {
+                return (
+                    <div className="article-icons">
+                        <i className="material-icons article-private">visibility_off</i>
+                    </div>
+                );
+            }
         }
     },
 
@@ -91,7 +105,6 @@ var ArticleItem = React.createClass({
     },
 
     _renderEdit: function () {
-        //log.info();
         if (this.props.userConnected) {
             if (this.state.articleDisplayMode === 'edit') {
                 return (
@@ -160,6 +173,7 @@ var ArticleItem = React.createClass({
                     <div className="card-action">
                         {Tags}
                         <div className="right">
+                            {this._renderIsLink()}
                             {this._renderVisibility()}
                             {this._renderEdit()}
                         </div>
@@ -192,6 +206,7 @@ var ArticleItem = React.createClass({
                     <div className="card-action">
                         {Tags}
                         <div className="right">
+                            {this._renderIsLink()}
                             {this._renderVisibility()}
                             {this._renderEdit()}
                         </div>

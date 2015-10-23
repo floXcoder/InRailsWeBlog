@@ -5,6 +5,7 @@ var Input = require('../../components/materialize/input');
 var Button = require('../../components/materialize/button');
 var Textarea = require('../../components/materialize/textarea');
 var Select = require('../../components/materialize/select');
+var Switch = require('../../components/materialize/switch');
 var Checkbox = require('../../components/materialize/checkbox');
 var TagsInput = require('../../components/tagsinput/tagsinput');
 
@@ -22,12 +23,13 @@ var ArticleForm = React.createClass({
             text: '',
             multiLanguage: false,
             disabled: true,
-            editors: {}
+            editors: {},
+            isLink: false
         };
     },
 
     componentDidMount: function () {
-        if(this.state.initial) {
+        if (this.state.initial) {
             this.state.initial = false;
             return;
         }
@@ -64,7 +66,7 @@ var ArticleForm = React.createClass({
     },
 
     _createEditor: function (id) {
-        if(this.state.editors[id]) {
+        if (this.state.editors[id]) {
             return;
         }
 
@@ -101,7 +103,7 @@ var ArticleForm = React.createClass({
 
         var $editor = $(id);
 
-        if($editor.length > 0) {
+        if ($editor.length > 0) {
             $editor.summernote('destroy');
             $editor.empty();
         }
@@ -119,10 +121,48 @@ var ArticleForm = React.createClass({
         }
     },
 
+    _handleChange: function (event) {
+        var text = event.currentTarget.textContent;
+
+        var newState = {};
+
+        if (this.state.multiLanguage) {
+            if ($('#english-editor').summernote('code').length === 0 || $('#french-editor').summernote('code').length === 0) {
+                this.refs.submit.setState({disabled: true});
+            } else {
+                if (this.state.disabled) {
+                    this.refs.submit.setState({disabled: false});
+                }
+            }
+        } else {
+            if (text.length === 0) {
+                this.refs.submit.setState({disabled: true});
+            } else {
+                if (this.state.disabled) {
+                    this.refs.submit.setState({disabled: false});
+                }
+            }
+        }
+
+        if ($utils.isURL(text.trim()) && !this.state.isLink) {
+            this.state.isLink = true;
+            this.refs.isLink.setState({checked: true});
+            $('#single-editor').summernote('code', '');
+            $('#single-editor').summernote("createLink", {
+                text : text.trim(),
+                url : text.trim(),
+                isNewWindow : true
+            });
+        } else if(this.state.isLink && !$utils.isURL(text.trim())) {
+            this.state.isLink = false;
+            this.refs.isLink.setState({checked: false});
+        }
+    },
+
     _handleSubmit: function (event) {
         event.preventDefault();
 
-        var tags = this.refs.tagsinput.state.selectedTags;
+        var submitData = {};
 
         if (this.state.multiLanguage) {
             var englishTitle = ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value.trim();
@@ -136,12 +176,12 @@ var ArticleForm = React.createClass({
                 return;
             }
 
-            ArticleActions.pushArticles({
+            submitData = {
                 translations_attributes: [
                     {locale: 'en', title: englishTitle, summary: englishSummary, content: englishContent},
                     {locale: 'fr', title: frenchTitle, summary: frenchSummary, content: frenchContent}
-                ],
-                tags_attributes: tags});
+                ]
+            };
 
             ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value = '';
             ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value = '';
@@ -158,38 +198,27 @@ var ArticleForm = React.createClass({
                 return;
             }
 
-            ArticleActions.pushArticles({title: title, summary: summary, content: content, tags_attributes: tags});
+            submitData = {title: title, summary: summary, content: content};
 
             ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
             ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = '';
             $('#single-editor').summernote('code', '');
         }
 
+        var tags = this.refs.tagsinput.state.selectedTags;
+        _.merge(submitData, {tags_attributes: tags});
+
+        if(this.state.isLink) {
+            _.merge(submitData, {is_link: this.state.isLink});
+        }
+
+        ArticleActions.pushArticles(submitData);
+
+        this.state.isLink = false;
+        this.refs.isLink.setState({checked: false});
         this.refs.submit.setState({disabled: true});
         this.refs.tagsinput.state.selectedTags = [];
         TagActions.fetchTags();
-    },
-
-    _handleChange: function (event) {
-        var text = event.currentTarget.textContent;
-
-        if (this.state.multiLanguage) {
-            if ($('#english-editor').summernote('code').length === 0 || $('#french-editor').summernote('code').length === 0) {
-                this.refs.submit.setState({disabled: true});
-            } else {
-                if(this.state.disabled) {
-                    this.refs.submit.setState({disabled: false});
-                }
-            }
-        } else {
-            if (text.length === 0) {
-                this.refs.submit.setState({disabled: true});
-            } else {
-                if(this.state.disabled) {
-                    this.refs.submit.setState({disabled: false});
-                }
-            }
-        }
     },
 
     _createFields: function () {
@@ -263,8 +292,9 @@ var ArticleForm = React.createClass({
                     </div>
 
                     <div className="col s3 center">
-                        {I18n.t('js.article.model.allow_comment')}
-                        <Checkbox values={I18n.t('js.checkbox')}/>
+                        <Checkbox ref="isLink" id="isLink" checked={this.state.isLink}>
+                            {I18n.t('js.article.model.is_link')}
+                        </Checkbox>
                     </div>
                     <div className="col s3">
                         <Select title={I18n.t('js.article.visibility.title')}
@@ -278,6 +308,11 @@ var ArticleForm = React.createClass({
                 </Button>
             </form>
         );
+
+        //<div className="col s3 center">
+        //    {I18n.t('js.article.model.allow_comment')}
+        //    <Switch values={I18n.t('js.checkbox')}/>
+        //</div>
     },
 
     render: function () {

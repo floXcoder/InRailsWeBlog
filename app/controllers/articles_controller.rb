@@ -51,6 +51,11 @@ class ArticlesController < ApplicationController
 
     tags = article.tags.pluck(:id, :name).uniq
 
+
+    w params
+    w article
+    w article_params
+
     respond_to do |format|
       if article.save
         format.json { render :articles, locals: {articles: [article], tags: tags, current_user_id: current_user_id}, status: :created, location: article }
@@ -178,6 +183,7 @@ class ArticlesController < ApplicationController
                                      :notation,
                                      :priority,
                                      :allow_comment,
+                                     :is_link,
                                      tags_attributes: [:id, :name, :parent, :child])
   end
 
@@ -186,6 +192,7 @@ class ArticlesController < ApplicationController
                                      :notation,
                                      :priority,
                                      :allow_comment,
+                                     :is_link,
                                      translations_attributes: [:locale, :title, :summary, :content],
                                      tags_attributes: [:id, :name, :parent, :child])
   end

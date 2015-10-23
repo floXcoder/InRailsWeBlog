@@ -33,6 +33,7 @@ en:
         content: "Content"
         visibility: "Visibility"
         allow_comment: "Allow comments"
+        is_link: "Is a link?"
       search:
         placeholder: "Search..."
         url: "Search:"

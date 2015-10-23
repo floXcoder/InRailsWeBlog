@@ -33,6 +33,7 @@ fr:
         content: "Contenu"
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
+        is_link: "Est un lien ?"
       search:
         placeholder: "Rechercher ..."
         url: "Recherche :"

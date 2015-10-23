@@ -1,7 +1,7 @@
 var UserActions = require('../../actions/userAction');
 var UserStore = require('../../stores/userStore');
 var RadioButtons = require('../../components/materialize/radioButtons');
-var Checkbox = require('../../components/materialize/checkbox');
+var Checkbox = require('../../components/materialize/switch');
 
 var UserPreference = React.createClass({
     mixins: [

@@ -7,6 +7,7 @@ class CreateArticles < ActiveRecord::Migration
       t.integer     :priority,        default: 0
       t.boolean     :allow_comment,   default: false, null: false
       t.boolean     :private_content, default: false, null: false
+      t.boolean     :is_link,         default: false, null: false
       t.string      :slug
 
       t.timestamps null: false

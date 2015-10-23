@@ -9,6 +9,7 @@ json.articles do
     json.summary    article.summary
     json.content    content
     json.visibility article.visibility
+    json.is_link    article.is_link
     json.show       true
 
     json.tags do

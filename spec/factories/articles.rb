@@ -9,6 +9,7 @@
 #  priority        :integer          default(0)
 #  allow_comment   :boolean          default(FALSE), not null
 #  private_content :boolean          default(FALSE), not null
+#  is_link         :boolean          default(FALSE), not null
 #  slug            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
