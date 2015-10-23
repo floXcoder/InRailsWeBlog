@@ -220,12 +220,19 @@
         }
 
         .article-editing .note-editor {
-          box-shadow: 0px 0px 4px color('blue', 'darken-2');
+          box-shadow: 0 0 4px color('blue', 'darken-2');
         }
 
         .article-icons {
           display: inline;
           margin: 0 8px;
+
+          @mixin article-hover() {
+            &:hover {
+              box-shadow: 0 0 3px color('blue-grey', 'lighten-3');
+              border-radius: 2px;
+            }
+          }
 
           .material-icons {
             margin: 0 20px;
@@ -237,25 +244,26 @@
 
           .article-edit {
             cursor: pointer;
-
-            &:hover {
-              box-shadow: 0px 0px 3px color('blue-grey', 'lighten-3');
-              border-radius: 2px;
-            }
+            @include article-hover;
           }
 
-          .article-link {
+          .article-link {}
 
+          .article-delete {
+            cursor: pointer;
+            @include article-hover;
           }
 
           .article-cancel {
             cursor: pointer;
             color: color('deep-orange', 'darken-2');
+            @include article-hover;
           }
 
           .article-update {
             cursor: pointer;
             color: color('teal', 'darken-2');
+            @include article-hover;
           }
         }
 

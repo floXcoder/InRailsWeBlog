@@ -22,6 +22,8 @@ en:
       log_in: "Log In"
       preferences: "Preferences"
       profile: "My Profile"
+      french: "Français"
+      english: "English"
       log_out: "Log Out"
     user:
       flash:

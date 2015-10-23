@@ -91,6 +91,12 @@ var ArticleItem = React.createClass({
         this.setState({articleDisplayMode: 'edit'});
     },
 
+    _onDeleteClick: function (event) {
+        this.state.editor.summernote('destroy');
+        ArticleActions.deleteArticles({id: this.props.article.id});
+        this.setState({articleDisplayMode: this.props.articleDisplayMode});
+    },
+
     _onCancelClick: function (event) {
         this.state.editor.summernote('destroy');
         this.setState({articleDisplayMode: this.props.articleDisplayMode});
@@ -109,6 +115,10 @@ var ArticleItem = React.createClass({
             if (this.state.articleDisplayMode === 'edit') {
                 return (
                     <div className="article-icons">
+                        <i className="material-icons article-delete"
+                           onClick={this._onDeleteClick}>
+                            delete
+                        </i>
                         <i className="material-icons article-cancel"
                            onClick={this._onCancelClick}>
                             clear

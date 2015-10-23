@@ -217,6 +217,40 @@ var ArticleStore = Reflux.createStore({
         });
     },
 
+    onDeleteArticles: function (article) {
+        var requestParam = {};
+        var url = this.url;
+
+        if (article && article.id) {
+            url += '/' + article.id;
+            requestParam._method = 'delete';
+        } else {
+            return;
+        }
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam,
+            success: function (data) {
+                // Remove the article
+                var updatedArticleList = [];
+                var removedArticleId = data.id;
+                this.articleData.articles.forEach(function (article, index, articles) {
+                    if (removedArticleId !== article.id) {
+                        updatedArticleList.push(article);
+                    }
+                }.bind(this));
+                this.articleData.articles = updatedArticleList;
+                this.trigger(this.articleData);
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(this.url, status, err.toString());
+            }.bind(this)
+        });
+    },
+
     onSearchArticles: function (data) {
         this._resetSearch();
 

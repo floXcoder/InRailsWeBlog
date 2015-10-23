@@ -51,11 +51,6 @@ class ArticlesController < ApplicationController
 
     tags = article.tags.pluck(:id, :name).uniq
 
-
-    w params
-    w article
-    w article_params
-
     respond_to do |format|
       if article.save
         format.json { render :articles, locals: {articles: [article], tags: tags, current_user_id: current_user_id}, status: :created, location: article }
@@ -165,12 +160,16 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    # article = article.find(params[:id])
+    article = Article.find(params[:id])
     # authorize article
-    #
-    # article.remove
-    #
-    # redirect_to root_user_path(current_user), flash: {success: t('views.article.flash.successful_deletion')}
+
+    respond_to do |format|
+      if article.destroy
+        format.json { render json: {id: article.id}, status: :accepted }
+      else
+        format.json { render json: article.errors, status: :not_modified }
+      end
+    end
   end
 
   private

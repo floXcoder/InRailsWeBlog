@@ -2,9 +2,9 @@ header.blog-header
   ul#user-dropdown.dropdown-content
     / Change language
     li class="#{'active' if I18n.locale == :fr}"
-      = link_to 'French', url_for(locale: 'fr')
+      = link_to t('views.header.french'), url_for(locale: 'fr')
     li class="#{'active' if I18n.locale == :en}"
-      = link_to 'English', url_for(locale: 'en')
+      = link_to t('views.header.french'), url_for(locale: 'en')
 
     li.divider
 
