@@ -1,0 +1,9 @@
+- provide(:title, t('views.tag.show.page_title', name: tag.name))
+
+- stylesheet 'tags/show'
+
+- javascript 'commons'
+- javascript 'common-react'
+- javascript 'tags/show'
+
+= content_tag :div, '', id: 'react-main', data: {tag: tag, articles: articles}

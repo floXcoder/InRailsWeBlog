@@ -37,9 +37,6 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def create
     if current_user.read_preference(:multi_language) == 'true'
       article = current_user.articles.build(article_translated_params)
@@ -141,17 +138,45 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def show
+    article = Article.friendly.find(params[:id])
+    # authorize article
+
+    current_user_id = current_user ? current_user.id : nil
+
+    respond_to do |format|
+      format.html { render :show, locals: {article: article, current_user_id: current_user_id} }
+    end
+  end
+
   def edit
+    article = Article.friendly.find(params[:id])
+    # authorize article
+
+    current_user_id = current_user ? current_user.id : nil
+    multi_language = (current_user.read_preference(:multi_language) == 'true')
+
+    respond_to do |format|
+      format.html { render :edit, locals: {article: article, current_user_id: current_user_id, multi_language: multi_language} }
+    end
   end
 
   def update
     article = Article.find(params[:id])
     # authorize article
 
+    w params
+
     current_user_id = current_user ? current_user.id : nil
 
     respond_to do |format|
-      if article.update_attributes(article_params)
+      if current_user.read_preference(:multi_language) == 'true' ?
+          article.update_attributes(article_translated_params) :
+          article.update_attributes(article_params)
+
+        w article.translations
+        w article.errors
+
         format.json { render :articles, locals: {articles: [article], current_user_id: current_user_id}, status: :accepted, location: article }
       else
         format.json { render json: article.errors, status: :not_modified }
@@ -192,7 +217,7 @@ class ArticlesController < ApplicationController
                                      :priority,
                                      :allow_comment,
                                      :is_link,
-                                     translations_attributes: [:locale, :title, :summary, :content],
+                                     translations_attributes: [:id, :locale, :title, :summary, :content],
                                      tags_attributes: [:id, :name, :parent, :child])
   end
 end

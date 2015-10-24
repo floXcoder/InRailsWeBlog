@@ -4,7 +4,9 @@ json.articles do
     next unless content
 
     json.id         article.id
+    json.slug       article.slug
     json.author     article.author.pseudo
+    json.author_id  article.author.id
     json.title      article.title
     json.summary    article.summary
     json.content    content
@@ -12,12 +14,7 @@ json.articles do
     json.is_link    article.is_link
     json.show       true
 
-    json.tags do
-      json.array! article.tags.pluck(:id, :name) do |tag|
-        json.id   tag[0]
-        json.name tag[1]
-      end
-    end
+    json.tags       article.tags, :id, :name
 
     if local_assigns[:highlight] && highlight[article.id]
       json.highlight_content highlight[article.id][:content]

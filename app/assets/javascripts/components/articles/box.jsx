@@ -1,4 +1,3 @@
-var ArticleForm = require('./form');
 var ArticleList = require('./list');
 var ArticleStore = require('../../stores/articleStore');
 var UserStore = require('../../stores/userStore');
@@ -21,6 +20,24 @@ var ArticleBox = React.createClass({
             articleDisplayMode: 'inline',
             highlightResults: true
         };
+    },
+
+    componentDidMount: function () {
+        $(ReactDOM.findDOMNode(this).className).ready(function(){
+            $('.tooltipped').tooltip({
+                position: "bottom",
+                delay: 50
+            });
+        });
+    },
+
+    componentDidUpdate: function () {
+        $(ReactDOM.findDOMNode(this).className).ready(function(){
+            $('.tooltipped').tooltip({
+                position: "bottom",
+                delay: 50
+            });
+        });
     },
 
     onPreferenceChange: function (userStore) {
@@ -54,20 +71,12 @@ var ArticleBox = React.createClass({
         }
     },
 
-    _displayFormIfUser: function () {
-        if (this.props.userConnected) {
-            return (
-                <ArticleForm/>
-            );
-        }
-    },
-
     _displayListIfArticles: function () {
         if (this.state.articles && this.state.articles.length > 0) {
             return (
                 <ArticleList
                     ref="articlesList"
-                    userConnected={this.props.userConnected}
+                    userId={this.props.userId}
                     articles={this.state.articles}
                     hasMore={this.state.hasMore}
                     highlightResults={this.state.highlightResults}
@@ -99,8 +108,6 @@ var ArticleBox = React.createClass({
     render: function () {
         return (
             <div className="blog-article-box">
-                <div className="margin-bottom-20"/>
-                { this._displayFormIfUser() }
                 <div className={this.state.isLoading ? 'center': 'hide'}>
                     <Spinner size='big'/>
                 </div>

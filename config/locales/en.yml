@@ -21,7 +21,9 @@ en:
       sign_up: "Sign Up"
       log_in: "Log In"
       preferences: "Preferences"
-      profile: "My Profile"
+      profile:
+       connected: "My Profile"
+       not_connected: "Connection"
       french: "Français"
       english: "English"
       log_out: "Log Out"
@@ -65,6 +67,13 @@ en:
       index:
         page_title: "All Articles"
         title: "All Articles"
+      show:
+        page_title: "%{title}"
+      edit:
+        page_title: "Update of %{title}"
+    tag:
+      show:
+        page_title: "%{name}"
   user:
     pseudo: "Pseudo"
     by: "By"

@@ -15,7 +15,11 @@ var Button = React.createClass({
 
     render: function () {
         return (
-            <button className="btn waves-effect waves-light" type="submit" method="post" disabled={this.state.disabled}>
+            <button className="btn waves-effect waves-light"
+                    type="submit"
+                    method="post"
+                    onClick={this.props.onClickButton}
+                    disabled={this.state.disabled}>
                 { this._displayIcon() }
                 {this.props.children}
             </button>

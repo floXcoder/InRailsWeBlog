@@ -9,7 +9,8 @@ var ArticleItem = React.createClass({
     getInitialState: function () {
         return {
             editor: null,
-            articleDisplayMode: this.props.articleDisplayMode
+            articleDisplayMode: this.props.articleDisplayMode,
+            isLink: this.props.article.is_link || false
         };
     },
 
@@ -36,7 +37,12 @@ var ArticleItem = React.createClass({
             this.state.editor.summernote({
                 airMode: true,
                 airToolbar: airToolbar,
-                lang: I18n.locale + '-' + I18n.locale.toUpperCase()
+                lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
+                callbacks: {
+                    onKeyup: function (event) {
+                        this._handleChange(event);
+                    }.bind(this)
+                }
             });
         } else {
             this._highlightCode();
@@ -53,14 +59,33 @@ var ArticleItem = React.createClass({
         }
     },
 
-    _onArticleWithTag: function (tagName, event) {
+    _handleChange: function (event) {
+        var text = event.currentTarget.textContent;
+
+        if ($utils.isURL(text.trim()) && !this.state.isLink) {
+            this.state.isLink = true;
+            this.setState({isLink: true});
+            this.state.editor.summernote('code', '');
+            this.state.editor.summernote("createLink", {
+                text : text.trim(),
+                url : text.trim(),
+                isNewWindow : true
+            });
+        } else if(this.state.isLink && !$utils.isURL(text.trim())) {
+            this.state.isLink = false;
+            this.setState({isLink: false});
+        }
+    },
+
+    _onClickTag: function (tagName, event) {
         ArticleActions.loadArticles({tags: [tagName]});
     },
 
     _renderIsLink: function () {
-        if (this.props.article.is_link) {
+        if (this.state.isLink) {
             return (
-                <div className="article-icons">
+                <div className="article-icons tooltipped"
+                    data-tooltip={I18n.t('js.article.tooltip.link')}>
                     <i className="material-icons article-link">link</i>
                 </div>
             );
@@ -70,16 +95,20 @@ var ArticleItem = React.createClass({
     },
 
     _renderVisibility: function () {
-        if (this.props.userConnected) {
+        if (this.props.userId) {
+            var viabilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: I18n.t('js.article.visibility.enum.' + this.props.article.visibility)});
+
             if (this.props.article.visibility === 'everyone') {
                 return (
-                    <div className="article-icons">
+                    <div className="article-icons tooltipped"
+                         data-tooltip={viabilityTooltip}>
                         <i className="material-icons article-public">visibility</i>
                     </div>
                 );
             } else {
                 return (
-                    <div className="article-icons">
+                    <div className="article-icons tooltipped"
+                         data-tooltip={viabilityTooltip}>
                         <i className="material-icons article-private">visibility_off</i>
                     </div>
                 );
@@ -111,8 +140,9 @@ var ArticleItem = React.createClass({
     },
 
     _renderEdit: function () {
-        if (this.props.userConnected) {
+        if (this.props.userId && this.props.userId === this.props.article.author_id) {
             if (this.state.articleDisplayMode === 'edit') {
+                $('.article-icons.tooltipped').tooltip('remove');
                 return (
                     <div className="article-icons">
                         <i className="material-icons article-delete"
@@ -131,7 +161,8 @@ var ArticleItem = React.createClass({
                 );
             } else {
                 return (
-                    <div className="article-icons"
+                    <div className="article-icons tooltipped"
+                         data-tooltip={I18n.t('js.article.tooltip.edit')}
                          onClick={this._onEditClick}>
                         <i className="material-icons article-edit">mode_edit</i>
                     </div>
@@ -153,17 +184,17 @@ var ArticleItem = React.createClass({
         if (this.state.articleDisplayMode === 'inline') {
             return (
                 <div className="blog-article-item">
-                    <h4>
+                    <h4 className="article-title-inline">
                         {this.props.article.title}
                     </h4>
                     <span dangerouslySetInnerHTML={{__html: this.props.children}}/>
                 </div>
             );
         } else if (this.state.articleDisplayMode === 'card') {
-            var Tags = this.props.article.tags.map(function (tag) {
+            var tags = this.props.article.tags.map(function (tag) {
                 return (
                     <a key={tag.id}
-                       onClick={this._onArticleWithTag.bind(this, tag.name)}
+                       onClick={this._onClickTag.bind(this, tag.name)}
                        className="waves-effect waves-light btn-small grey lighten-5 black-text">
                         {tag.name}
                     </a>
@@ -175,13 +206,17 @@ var ArticleItem = React.createClass({
                     <div className="card-content">
                         <div>
                             <span className="card-title black-text">
-                                <h4>{this.props.article.title}</h4>
+                                <h4 className="article-title-card">
+                                    <a href={"/articles/" + this.props.article.slug}>
+                                        {this.props.article.title}
+                                    </a>
+                                </h4>
                             </span>
                             <span dangerouslySetInnerHTML={{__html: this.props.children}}/>
                         </div>
                     </div>
                     <div className="card-action">
-                        {Tags}
+                        {!$utils.isEmpty(tags) ? tags : <a></a>}
                         <div className="right">
                             {this._renderIsLink()}
                             {this._renderVisibility()}
@@ -191,10 +226,10 @@ var ArticleItem = React.createClass({
                 </div>
             );
         } else if (this.state.articleDisplayMode === 'edit') {
-            var Tags = this.props.article.tags.map(function (tag) {
+            var tags = this.props.article.tags.map(function (tag) {
                 return (
                     <a key={tag.id}
-                       onClick={this._onArticleWithTag.bind(this, tag.id)}
+                       onClick={this._onClickTag.bind(this, tag.id)}
                        className="waves-effect waves-light btn-small grey lighten-5 black-text">
                         {tag.name}
                     </a>
@@ -206,7 +241,9 @@ var ArticleItem = React.createClass({
                     <div className="card-content article-editing">
                         <div>
                             <span className="card-title black-text">
-                                <h4>{this.props.article.title}</h4>
+                                <h4 className="article-title-card">
+                                    {this.props.article.title}
+                                </h4>
                             </span>
 
                             <div id={"editor-summernote-" + this.props.article.id}
@@ -214,7 +251,7 @@ var ArticleItem = React.createClass({
                         </div>
                     </div>
                     <div className="card-action">
-                        {Tags}
+                        {!$utils.isEmpty(tags) ? tags : <a></a>}
                         <div className="right">
                             {this._renderIsLink()}
                             {this._renderVisibility()}

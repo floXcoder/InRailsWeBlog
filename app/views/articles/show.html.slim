@@ -1,0 +1,9 @@
+- provide(:title, t('views.article.show.page_title', title: article.title))
+
+- stylesheet 'articles/show'
+
+- javascript 'commons'
+- javascript 'common-react'
+- javascript 'articles/show'
+
+= content_tag :div, '', id: 'react-main', data: {article: article.to_builder(current_user_id).target!}

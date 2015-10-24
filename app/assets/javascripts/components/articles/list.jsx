@@ -19,7 +19,7 @@ var ArticleList = React.createClass({
                 return (
                     <ArticleItem
                         key={article.id}
-                        userConnected={this.props.userConnected}
+                        userId={this.props.userId}
                         article={article}
                         articleDisplayMode={this.props.articleDisplayMode}>
                         {articleContent}

@@ -8,7 +8,6 @@ var Select = require('../../components/materialize/select');
 var Switch = require('../../components/materialize/switch');
 var Checkbox = require('../../components/materialize/checkbox');
 var TagsInput = require('../../components/tagsinput/tagsinput');
-
 require('../../wysiwyg/summernote');
 require('../../wysiwyg/lang/summernote-fr-FR');
 
@@ -19,9 +18,7 @@ var ArticleForm = React.createClass({
 
     getInitialState: function () {
         return {
-            initial: true,
-            text: '',
-            multiLanguage: false,
+            multiLanguage: this.props.multiLanguage || false,
             disabled: true,
             editors: {},
             isLink: false
@@ -29,11 +26,6 @@ var ArticleForm = React.createClass({
     },
 
     componentDidMount: function () {
-        if (this.state.initial) {
-            this.state.initial = false;
-            return;
-        }
-
         if (this.state.multiLanguage) {
             $('.article-form ul.tabs').tabs();
 
@@ -41,6 +33,10 @@ var ArticleForm = React.createClass({
             this._createEditor('#french-editor');
         } else {
             this._createEditor('#single-editor');
+        }
+
+        if(this.props.article) {
+            this._updateFields();
         }
     },
 
@@ -62,6 +58,25 @@ var ArticleForm = React.createClass({
         } else {
             this._createEditor("#single-editor");
             $('.editor-reset').show();
+        }
+
+        if(this.props.article) {
+            this._updateFields();
+        }
+    },
+
+    onPreferenceChange: function (userStore) {
+        var newState = {};
+
+        if (!$utils.isEmpty(userStore.preferences) && userStore.preferences.multi_language) {
+            var multiLanguage = (userStore.preferences.multi_language !== 'false');
+            if(multiLanguage !== this.state.multiLanguage) {
+                newState.multiLanguage = multiLanguage;
+            }
+        }
+
+        if (!$utils.isEmpty(newState)) {
+            this.setState(newState);
         }
     },
 
@@ -109,16 +124,25 @@ var ArticleForm = React.createClass({
         }
     },
 
-    onPreferenceChange: function (userStore) {
-        var newState = {};
-
-        if (!$utils.isEmpty(userStore.preferences)) {
-            newState.multiLanguage = !(userStore.preferences.multi_language === 'false' || !userStore.preferences.multi_language);
+    _updateFields: function() {
+        if (this.state.multiLanguage) {
+            ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value = this.props.article.title_en;
+            ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value = this.props.article.summary_en;
+            ReactDOM.findDOMNode(this.refs.frenchTitle.refs.frenchTitle).value = this.props.article.title_fr;
+            ReactDOM.findDOMNode(this.refs.frenchSummary.refs.frenchSummary).value = this.props.article.summary_fr;
+            $('#english-editor').summernote('code', this.props.article.content_en);
+            $('#french-editor').summernote('code', this.props.article.content_fr);
+        } else {
+            ReactDOM.findDOMNode(this.refs.title.refs.title).value = this.props.article.title;
+            ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = this.props.article.summary;
+            $('#single-editor').summernote('code', this.props.article.content);
         }
 
-        if (!$utils.isEmpty(newState)) {
-            this.setState(newState);
+        if(this.props.article.is_link) {
+            this.state.isLink = true;
         }
+
+        this.refs.submit.setState({disabled: false});
     },
 
     _handleChange: function (event) {
@@ -159,6 +183,11 @@ var ArticleForm = React.createClass({
         }
     },
 
+    _onBlurSummary: function(event) {
+        $('#single-editor').summernote('focus');
+        return true;
+    },
+
     _handleSubmit: function (event) {
         event.preventDefault();
 
@@ -178,8 +207,8 @@ var ArticleForm = React.createClass({
 
             submitData = {
                 translations_attributes: [
-                    {locale: 'en', title: englishTitle, summary: englishSummary, content: englishContent},
-                    {locale: 'fr', title: frenchTitle, summary: frenchSummary, content: frenchContent}
+                    {id: this.props.article.id_en, locale: 'en', title: englishTitle, summary: englishSummary, content: englishContent},
+                    {id: this.props.article.id_fr, locale: 'fr', title: frenchTitle, summary: frenchSummary, content: frenchContent}
                 ]
             };
 
@@ -212,13 +241,23 @@ var ArticleForm = React.createClass({
             _.merge(submitData, {is_link: this.state.isLink});
         }
 
-        ArticleActions.pushArticles(submitData);
+        if(this.props.article) {
+            _.merge(submitData, {id: this.props.article.id});
+            _.merge(submitData, {fromEditPage: true});
+            ArticleActions.updateArticles(submitData);
+            return true;
+        } else {
+            ArticleActions.pushArticles(submitData);
+            this.state.isLink = false;
+            this.refs.isLink.setState({checked: false});
+            this.refs.submit.setState({disabled: true});
+            this.refs.tagsinput.state.selectedTags = [];
+            TagActions.fetchTags();
+        }
 
-        this.state.isLink = false;
-        this.refs.isLink.setState({checked: false});
-        this.refs.submit.setState({disabled: true});
-        this.refs.tagsinput.state.selectedTags = [];
-        TagActions.fetchTags();
+        if(this.props.onSubmit) {
+            this.props.onSubmit();
+        }
     },
 
     _createFields: function () {
@@ -228,10 +267,14 @@ var ArticleForm = React.createClass({
                     <div className="col s12 margin-bottom-10">
                         <ul className="tabs">
                             <li className="tab col s6">
-                                <a href="#english-form">English</a>
+                                <a href="#english-form">
+                                    {I18n.t('js.language.english')}
+                                </a>
                             </li>
                             <li className="tab col s6">
-                                <a href="#french-form">Français</a>
+                                <a href="#french-form">
+                                    {I18n.t('js.language.french')}
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -267,7 +310,7 @@ var ArticleForm = React.createClass({
                     <Input ref="title" id="title" classType="important">
                         {I18n.t('js.article.model.title')}
                     </Input>
-                    <Input ref="summary" id="summary">
+                    <Input ref="summary" id="summary" onBlur={this._onBlurSummary}>
                         {I18n.t('js.article.model.summary')}
                     </Input>
 
@@ -279,57 +322,39 @@ var ArticleForm = React.createClass({
         }
     },
 
-    _createArticleForm: function () {
+    render: function () {
+        var article = this.props.article || {};
+
         return (
-            <form className="blog-form article-form" onSubmit={this._handleSubmit}>
+            <form className="article-form" onSubmit={this._handleSubmit}>
 
                 { this._createFields() }
 
                 <div className="row margin-top-10">
                     <div className="col s6">
                         {I18n.t('js.article.new.tags.title')}
-                        <TagsInput ref="tagsinput"/>
+                        <TagsInput ref="tagsinput" selectedTags={this.props.tags || []}/>
                     </div>
 
                     <div className="col s3 center">
-                        <Checkbox ref="isLink" id="isLink" checked={this.state.isLink}>
+                        <Checkbox ref="isLink"
+                                  id="isLink"
+                                  checked={article.is_link || this.state.isLink}>
                             {I18n.t('js.article.model.is_link')}
                         </Checkbox>
                     </div>
-                    <div className="col s3">
+                    <div ref="visibility" className="col s3">
                         <Select title={I18n.t('js.article.visibility.title')}
+                                defaultOption={article.visibility || "default"}
                                 options={I18n.t('js.article.visibility.enum')}>
                             {I18n.t('js.article.model.visibility')}
                         </Select>
                     </div>
                 </div>
                 <Button ref="submit" icon="send">
-                    {I18n.t('js.article.new.submit')}
+                    {this.props.article ? I18n.t('js.article.edit.submit') : I18n.t('js.article.new.submit')}
                 </Button>
             </form>
-        );
-
-        //<div className="col s3 center">
-        //    {I18n.t('js.article.model.allow_comment')}
-        //    <Switch values={I18n.t('js.checkbox')}/>
-        //</div>
-    },
-
-    render: function () {
-        return (
-            <ul data-collapsible="accordion" className="collapsible article-form-header">
-                <li>
-                    <div className="collapsible-header"><i className="material-icons">mode_edit</i>
-                        <h4 className="collection-header">{I18n.t('js.article.new.title')}</h4>
-                    </div>
-                    <div className="collapsible-body">
-                        <ul className="collection">
-                            { this._createArticleForm() }
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-
         );
     }
 });

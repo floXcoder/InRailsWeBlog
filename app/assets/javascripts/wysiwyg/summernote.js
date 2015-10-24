@@ -535,6 +535,8 @@
                 tabContainer.tabs();
             });
 
+            $('.dropdown-button').dropdown();
+
             var $note = this.first();
             if (isExternalAPICalled && $note.length) {
                 var summernote = $note.data('summernote');

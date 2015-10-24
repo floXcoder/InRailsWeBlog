@@ -11,7 +11,7 @@ var Input = React.createClass({
         return (
             <div className="input-field">
                 { this._displayIcon() }
-                <input id={this.props.id} type="text" ref={this.props.id}/>
+                <input id={this.props.id} type="text" ref={this.props.id} onBlur={this.props.onBlur}/>
                 <label htmlFor={this.props.id} className={this.props.classType}>
                     {this.props.children}
                 </label>

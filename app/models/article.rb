@@ -88,7 +88,7 @@ class Article < ActiveRecord::Base
 
   # Translation
   translates :title, :summary, :content, fallbacks_for_empty_translations: true
-  accepts_nested_attributes_for :translations
+  accepts_nested_attributes_for :translations, allow_destroy: true
 
   # Enum
   include Shared::EnumsConcern
@@ -98,6 +98,14 @@ class Article < ActiveRecord::Base
   # Nice url format
   include Shared::NiceUrlConcern
   friendly_id :slug_candidates, use: :slugged
+
+  # Friendly ID
+  def slug_candidates
+    [
+        :title,
+        [:title, :summary]
+    ]
+  end
 
   # Elastic Search
   searchkick autocomplete: [:title, :tags],
@@ -127,19 +135,18 @@ class Article < ActiveRecord::Base
     }
   end
 
-  def strip_content(language = nil)
-    if language
-      locale_article = self.translations.where(locale: language)[0]
+  def strip_content(locale = nil)
+    if locale
+      locale_article = self.translations.where(locale: locale)[0]
       sanitize(locale_article ? locale_article.content.gsub(/(<\/\w+>)/i, '\1 ') : '', tags: [], attributes: []).squish
     else
       sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish
     end
   end
 
-  def public_content(language = nil)
-    if language
-      locale_article = self.translations.where(locale: language)[0]
-      locale_article ? locale_article.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '') : ''
+  def public_content(locale = nil)
+    if locale && self.translations.find_by(locale: locale)
+      self.translations.find_by(locale: locale).content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
     else
       self.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
     end
@@ -211,16 +218,15 @@ class Article < ActiveRecord::Base
     }
   end
 
-  def adapted_content(current_user_id, highlight)
+  def adapted_content(current_user_id, highlight = nil, locale = nil)
     content = self.content
 
     if highlight
-
       # Adapt current language
       if I18n.locale == :fr && !highlight[:content_fr] && highlight[:content_en]
-        content = self.translations.where(locale: 'en')[0].content
+        content = self.translations.find_by(locale: 'en').content
       elsif I18n.locale == :en && !highlight[:content_en] && highlight[:content_fr]
-        content = self.translations.where(locale: 'fr')[0].content
+        content = self.translations.find_by(locale: 'fr').content
       end
 
       if self.private_content && self.author.id != current_user_id
@@ -232,7 +238,9 @@ class Article < ActiveRecord::Base
       end
     else
       if self.private_content && self.author.id != current_user_id
-        content = self.public_content
+        content = self.public_content(locale)
+      elsif locale
+        content = translations.find_by(locale: locale).content
       end
     end
 
@@ -258,12 +266,31 @@ class Article < ActiveRecord::Base
     self.private_content = true if has_private_content?
   end
 
-  # Friendly ID
-  def slug_candidates
-    [
-        :title,
-        [:title, :summary]
-    ]
+  def to_builder(current_user_id, multi_language = false)
+    Jbuilder.new do |article|
+      article.id id
+      article.author author.pseudo
+      article.author_id author.id
+      article.title title
+      article.summary summary
+      article.content adapted_content(current_user_id)
+      article.visibility visibility
+      article.is_link is_link
+
+      if multi_language
+        article.id_en translations.find_by(locale: 'en').id
+        article.title_en translations.find_by(locale: 'en').title
+        article.summary_en translations.find_by(locale: 'en').summary
+        article.content_en adapted_content(current_user_id, nil, 'en')
+
+        article.id_fr translations.find_by(locale: 'fr').id
+        article.title_fr translations.find_by(locale: 'fr').title
+        article.summary_fr translations.find_by(locale: 'fr').summary
+        article.content_fr adapted_content(current_user_id, nil, 'fr')
+      end
+
+      article.tags tags, :id, :name, :slug
+    end
   end
 
 end

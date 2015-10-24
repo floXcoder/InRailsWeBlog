@@ -17,7 +17,7 @@ var TagsInput = React.createClass({
 
     getInitialState: function() {
         return {
-            selectedTags: [],
+            selectedTags: this.props.selectedTags,
             tagList: []
         }
     },

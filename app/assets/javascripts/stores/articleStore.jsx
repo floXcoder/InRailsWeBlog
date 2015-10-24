@@ -182,6 +182,7 @@ var ArticleStore = Reflux.createStore({
     onUpdateArticles: function (article) {
         var requestParam = {};
         var url = this.url;
+        var fromEditPage = article.fromEditPage;
 
         if (article && article.id) {
             url += '/' + article.id;
@@ -198,18 +199,22 @@ var ArticleStore = Reflux.createStore({
             type: 'POST',
             data: requestParam,
             success: function (data) {
-                // Update the articles
-                var updatedArticleList = [];
-                var updatedArticle = data.articles[0];
-                this.articleData.articles.forEach(function (article, index, articles) {
-                    if (updatedArticle.id === article.id) {
-                        updatedArticleList.push(updatedArticle);
-                    } else {
-                        updatedArticleList.push(article);
-                    }
-                }.bind(this));
-                this.articleData.articles = updatedArticleList;
-                this.trigger(this.articleData);
+                if(fromEditPage && data.articles[0]) {
+                    window.location.replace("/articles/" + data.articles[0].id);
+                } else {
+                    // Update the articles
+                    var updatedArticleList = [];
+                    var updatedArticle = data.articles[0];
+                    this.articleData.articles.forEach(function (article, index, articles) {
+                        if (updatedArticle.id === article.id) {
+                            updatedArticleList.push(updatedArticle);
+                        } else {
+                            updatedArticleList.push(article);
+                        }
+                    }.bind(this));
+                    this.articleData.articles = updatedArticleList;
+                    this.trigger(this.articleData);
+                }
             }.bind(this),
             error: function (xhr, status, err) {
                 console.error(this.url, status, err.toString());

@@ -16,9 +16,14 @@ class TagsController < ApplicationController
 
   def show
     tag = Tag.friendly.find(params[:id])
-    authorize tag
 
-    render :show, locals: {tag: tag}
+    current_user_id = current_user ? current_user.id : nil
+
+    articles = Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag.name}).order('articles.id DESC')
+
+    respond_to do |format|
+      format.html { render :show, locals: {tag: tag, articles: articles, current_user_id: current_user_id} }
+    end
   end
 
   def create

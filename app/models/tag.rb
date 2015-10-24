@@ -4,6 +4,7 @@
 #
 #  id         :integer          not null, primary key
 #  name       :string           not null
+#  slug       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -29,12 +30,27 @@ class Tag < ActiveRecord::Base
            through: :child_relationship,
            source: :parent
 
-
-
   # Validations
   validates :name,
             presence: true,
             uniqueness: { case_sensitive: false },
             length:   { minimum: 1, maximum: 128 }
+
+  # Nice url format
+  include Shared::NiceUrlConcern
+  friendly_id :slug_candidates, use: :slugged
+
+  # Friendly ID
+  def slug_candidates
+    [
+        :name
+    ]
+  end
+
+  def to_builder
+    Jbuilder.new do |tag|
+      tag.(self, :id, :name)
+    end
+  end
 
 end

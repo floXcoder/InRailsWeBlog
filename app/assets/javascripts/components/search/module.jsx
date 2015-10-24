@@ -216,7 +216,7 @@ var SearchModule = React.createClass({
 
         return (
             <div className="container blog-search">
-                <form className="blog-form" onSubmit={this._handleSubmit}>
+                <form className="search-form" onSubmit={this._handleSubmit}>
                     <Tokenizer
                         ref="typeahead"
                         options={this.state.autocompleteValues}
@@ -230,7 +230,7 @@ var SearchModule = React.createClass({
                         onTokenAdd={this._onTokenAdd}
                         onTokenRemove={this._onTokenRemove}
                         />
-                    <a className="material-icons blog-form-close" onClick={this._onCloseForm} href="#">
+                    <a className="material-icons search-form-close" onClick={this._onCloseForm} href="#">
                         <i className="material-icons" onClick={this._onCloseForm}>close</i>
                     </a>
                 </form>

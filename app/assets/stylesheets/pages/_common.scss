@@ -6,6 +6,9 @@
 @import 'tagsinput/tagsinput';
 
 .blog {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   background-color: color('blue-grey', 'lighten-4');
 
   .card {
@@ -24,6 +27,10 @@
     *:focus {
       outline: none;
     }
+  }
+
+  .blog-main {
+    flex: 1 0 auto;
   }
 
   .blog-user-pref {
@@ -83,6 +90,13 @@
 
   .blog-search {
     position: relative;
+
+    .search-form-close {
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
 
     .badge {
       background-color: #26a69a;
@@ -166,11 +180,22 @@
     }
   }
 
-  .blog-form {
+  .article-form-header {
+    background-color: white;
+    border: 1px solid color('teal', 'darken-1');
+  }
 
-    &.article-form {
-      padding: 20px;
+  .blog-form {
+    margin-top: 20px;
+    background-color: white;
+
+    .blog-form-title {
+      padding: 20px 10px 0px 10px;
     }
+  }
+
+  .article-form {
+    padding: 20px;
 
     .form-error {
       background-color: color('red', 'lighten-4');
@@ -178,13 +203,6 @@
 
     .field-error {
       color: color('red', 'darken-2');
-    }
-
-    .blog-form-close {
-      cursor: pointer;
-      position: absolute;
-      right: 10px;
-      top: 10px;
     }
   }
 
@@ -205,139 +223,158 @@
   }
 
   .blog-article-box {
-    .article-form-header {
-      background-color: white;
-      border: 1px solid color('teal', 'darken-1');
+  }
+
+  .blog-article-list {
+  }
+
+  .blog-article-item {
+    word-wrap: break-word;
+
+    .article-title-inline {}
+
+    .article-title-card {
+      margin-top: 10px;
+      margin-bottom: 20px;
+
+      a {
+        color: $text-color-base;
+        &:hover {
+          //text-shadow: 0 0 3px color('blue-grey', 'lighten-3');
+          color: color('blue-grey', 'darken-1');
+        }
+      }
     }
 
-    .blog-article-list {
-      .blog-article-item {
-        word-wrap: break-word;
+    .article-summary {
+      margin-left: 15px;
+      margin-bottom: 10px;
+      color: color('grey', 'lighten-1');
+    }
 
-        .blog-highlight {
-          background-color: color('blue-grey', 'darken-1');
-          color: white;
+    .blog-highlight {
+      background-color: color('blue-grey', 'darken-1');
+      color: white;
+    }
+
+    .article-editing .note-editor {
+      box-shadow: 0 0 4px color('blue', 'darken-2');
+    }
+
+    .article-icons {
+      display: inline;
+      margin: 0 8px;
+      color: $text-color-base;
+
+      @mixin article-hover() {
+        &:hover {
+          box-shadow: 0 0 3px color('blue-grey', 'lighten-3');
+          border-radius: 2px;
         }
-
-        .article-editing .note-editor {
-          box-shadow: 0 0 4px color('blue', 'darken-2');
-        }
-
-        .article-icons {
-          display: inline;
-          margin: 0 8px;
-
-          @mixin article-hover() {
-            &:hover {
-              box-shadow: 0 0 3px color('blue-grey', 'lighten-3');
-              border-radius: 2px;
-            }
-          }
-
-          .material-icons {
-            margin: 0 20px;
-          }
-
-          .article-private {
-            color: darkred;
-          }
-
-          .article-edit {
-            cursor: pointer;
-            @include article-hover;
-          }
-
-          .article-link {}
-
-          .article-delete {
-            cursor: pointer;
-            @include article-hover;
-          }
-
-          .article-cancel {
-            cursor: pointer;
-            color: color('deep-orange', 'darken-2');
-            @include article-hover;
-          }
-
-          .article-update {
-            cursor: pointer;
-            color: color('teal', 'darken-2');
-            @include article-hover;
-          }
-        }
-
-        h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
-          margin: 0;
-        }
-
-        h1, h2 {
-          margin-top: 36px;
-        }
-
-        h3, h4, h5, h6 {
-          margin-top: 26px;
-        }
-
-        h1 {
-          font-weight: 700;
-          font-style: normal;
-          font-size: 36px;
-        }
-
-        h2 {
-          font-weight: 500;
-          font-style: normal;
-          font-size: 32px;
-        }
-
-        h3 {
-          font-weight: 400;
-          font-style: normal;
-          font-size: 26px;
-        }
-
-        ul {
-          padding: 0;
-          margin-top: 20px;
-
-          li {
-            list-style-type: disc;
-            margin-left: 30px;
-            margin-bottom: 14px;
-          }
-        }
-
-        blockquote {
-          border-left: 3px solid rgba(0, 0, 0, 0.8);
-          padding-left: 20px;
-          margin-left: -23px;
-          padding-bottom: 3px;
-          font-weight: 400;
-          font-style: italic;
-        }
-
-        pre {
-          padding: 0.5em 0.75em;
-          background-color: #F8F8F8;
-          border: 1px solid #CCC;
-          border-radius: 0.25em;
-          margin-bottom: 20px;
-        }
-
-        .secret {
-          @include special-style($secret-color);
-        }
-
-        .advice {
-          @include special-style($advice-color);
-        }
-
-        .deadend {
-          @include special-style($deadend-color);
-        }
-
       }
+
+      .material-icons {
+        margin: 0 20px;
+      }
+
+      .article-private {
+        color: darkred;
+      }
+
+      .article-edit {
+        cursor: pointer;
+        @include article-hover;
+      }
+
+      .article-link {
+      }
+
+      .article-delete {
+        cursor: pointer;
+        @include article-hover;
+      }
+
+      .article-cancel {
+        cursor: pointer;
+        color: color('deep-orange', 'darken-2');
+        @include article-hover;
+      }
+
+      .article-update {
+        cursor: pointer;
+        color: color('teal', 'darken-2');
+        @include article-hover;
+      }
+    }
+
+    h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
+      margin: 0;
+    }
+
+    h1, h2 {
+      margin-top: 36px;
+    }
+
+    h3, h4, h5, h6 {
+      margin-top: 26px;
+    }
+
+    h1 {
+      font-weight: 700;
+      font-style: normal;
+      font-size: 36px;
+    }
+
+    h2 {
+      font-weight: 500;
+      font-style: normal;
+      font-size: 32px;
+    }
+
+    h3 {
+      font-weight: 400;
+      font-style: normal;
+      font-size: 26px;
+    }
+
+    ul {
+      padding: 0;
+      margin-top: 20px;
+
+      li {
+        list-style-type: disc;
+        margin-left: 30px;
+        margin-bottom: 14px;
+      }
+    }
+
+    blockquote {
+      border-left: 3px solid rgba(0, 0, 0, 0.8);
+      padding-left: 20px;
+      margin-left: -23px;
+      padding-bottom: 3px;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    pre {
+      padding: 0.5em 0.75em;
+      background-color: #F8F8F8;
+      border: 1px solid #CCC;
+      border-radius: 0.25em;
+      margin-bottom: 20px;
+    }
+
+    .secret {
+      @include special-style($secret-color);
+    }
+
+    .advice {
+      @include special-style($advice-color);
+    }
+
+    .deadend {
+      @include special-style($deadend-color);
     }
   }
 }
