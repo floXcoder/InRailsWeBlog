@@ -1,19 +1,18 @@
 class ArticlesController < ApplicationController
-  # before_filter :authenticate_user!, except: [:index]
-  # after_action :verify_authorized, except: [:index, :check_id]
+  before_filter :authenticate_user!, except: [:index, :search, :autocomplete, :show]
+  after_action :verify_authorized, except: [:index, :search, :autocomplete]
 
   respond_to :html, :js, :json
 
   def index
-    articles = []
     current_user_id = current_user ? current_user.id : nil
 
-    if params[:tags]
-      tag_names = params[:tags]
-      articles = Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag_names}).order('articles.id DESC')
-    else
-      articles = Article.user_related(current_user_id).all.order('articles.id DESC')
-    end
+    articles = if params[:tags]
+                 tag_names = params[:tags]
+                 Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag_names}).order('articles.id DESC')
+               else
+                 Article.user_related(current_user_id).all.order('articles.id DESC')
+               end
 
     tags = Tag.joins(:articles).where(articles: {id: articles.ids}).order('name ASC').pluck(:id, :name).uniq
 
@@ -38,11 +37,12 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    if current_user.read_preference(:multi_language) == 'true'
-      article = current_user.articles.build(article_translated_params)
-    else
-      article = current_user.articles.build(article_params)
-    end
+    article = if current_user.read_preference(:multi_language) == 'true'
+                current_user.articles.build(article_translated_params)
+              else
+                current_user.articles.build(article_params)
+              end
+    authorize article
 
     current_user_id = current_user ? current_user.id : nil
 
@@ -123,7 +123,9 @@ class ArticlesController < ApplicationController
   end
 
   def autocomplete
-    results = Article.user_related(current_user).search(params[:autocompleteQuery], autocomplete: true, limit: 6)
+    current_user_id = current_user ? current_user.id : nil
+
+    results = Article.user_related(current_user_id).search(params[:autocompleteQuery], autocomplete: true, limit: 6)
 
     results = results.map { |result|
       {
@@ -140,7 +142,7 @@ class ArticlesController < ApplicationController
 
   def show
     article = Article.friendly.find(params[:id])
-    # authorize article
+    authorize article
 
     current_user_id = current_user ? current_user.id : nil
 
@@ -151,7 +153,7 @@ class ArticlesController < ApplicationController
 
   def edit
     article = Article.friendly.find(params[:id])
-    # authorize article
+    authorize article
 
     current_user_id = current_user ? current_user.id : nil
     multi_language = (current_user.read_preference(:multi_language) == 'true')
@@ -163,9 +165,7 @@ class ArticlesController < ApplicationController
 
   def update
     article = Article.find(params[:id])
-    # authorize article
-
-    w params
+    authorize article
 
     current_user_id = current_user ? current_user.id : nil
 
@@ -173,9 +173,6 @@ class ArticlesController < ApplicationController
       if current_user.read_preference(:multi_language) == 'true' ?
           article.update_attributes(article_translated_params) :
           article.update_attributes(article_params)
-
-        w article.translations
-        w article.errors
 
         format.json { render :articles, locals: {articles: [article], current_user_id: current_user_id}, status: :accepted, location: article }
       else
@@ -186,7 +183,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     article = Article.find(params[:id])
-    # authorize article
+    authorize article
 
     respond_to do |format|
       if article.destroy

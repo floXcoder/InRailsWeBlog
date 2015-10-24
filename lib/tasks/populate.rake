@@ -21,7 +21,7 @@ namespace :InRailsWeBlog do
       # Create content
       admin ||= User.first
       users ||= User.all.offset(1)
-      tags = Populate::create_dummy_tags
+      tags = Populate::create_dummy_tags(admin)
       Populate::create_dummy_articles_for(admin, tags)
       Populate::create_dummy_articles_for(users, tags)
 

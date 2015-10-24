@@ -25,6 +25,7 @@ FactoryGirl.define do
     notation        0
     priority        0
     allow_comment   false
+    is_link         false
   end
 
   # Add equipments if :with_tag

@@ -20,6 +20,10 @@ class Article < ActiveRecord::Base
   # Associations
   belongs_to :author, class_name: 'User'
 
+  def author?(user)
+    user.id == author.id
+  end
+
   ## Comment
   # has_many :comments, as: :commentable
 
@@ -40,12 +44,14 @@ class Article < ActiveRecord::Base
     article_tags = []
     parent_tags = []
     child_tags = []
+
     tags_attrs.each do |_tagKey, tagValue|
       next unless tagValue
       tag_id = tagValue.delete(:id)
       next unless tag_id
 
       tag = Tag.find_or_initialize_by(id: tag_id)
+      tag.tagger_id = self.author.id
 
       parent = tagValue.delete(:parent)
       child = tagValue.delete(:child)
@@ -56,6 +62,7 @@ class Article < ActiveRecord::Base
       child_tags << tag if child && !child.blank?
       article_tags << tag
     end
+
     self.parent_tags = parent_tags
     self.child_tags = child_tags
     self.tags = article_tags

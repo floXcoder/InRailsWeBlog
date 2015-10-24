@@ -3,6 +3,7 @@
 # Table name: tags
 #
 #  id         :integer          not null, primary key
+#  tagger_id  :integer          not null
 #  name       :string           not null
 #  slug       :string
 #  created_at :datetime         not null
@@ -10,6 +11,13 @@
 #
 
 class Tag < ActiveRecord::Base
+  # Associations
+  belongs_to :tagger, class_name: 'User'
+
+  def tagger?(user)
+    user.id == tagger.id
+  end
+
   # Associations
   has_many :articles, through: :tagged_articles
   has_many :tagged_articles
@@ -31,6 +39,7 @@ class Tag < ActiveRecord::Base
            source: :parent
 
   # Validations
+  validates :tagger_id, presence: true
   validates :name,
             presence: true,
             uniqueness: { case_sensitive: false },

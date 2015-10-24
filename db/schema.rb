@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20151017185225) do
   add_index "tagged_articles", ["tag_id"], name: "index_tagged_articles_on_tag_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
+    t.integer  "tagger_id",  null: false
     t.string   "name",       null: false
     t.string   "slug"
     t.datetime "created_at", null: false
@@ -97,6 +98,7 @@ ActiveRecord::Schema.define(version: 20151017185225) do
 
   add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
   add_index "tags", ["slug"], name: "index_tags_on_slug", unique: true, using: :btree
+  add_index "tags", ["tagger_id"], name: "index_tags_on_tagger_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "pseudo",                 default: "",   null: false

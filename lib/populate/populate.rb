@@ -34,8 +34,8 @@ class Populate
     return groups
   end
 
-  def self.create_dummy_tags
-    tags = FactoryGirl.create_list(:tag, 10)
+  def self.create_dummy_tags(user)
+    tags = FactoryGirl.create_list(:tag, 10, tagger: user)
 
     return tags
   end

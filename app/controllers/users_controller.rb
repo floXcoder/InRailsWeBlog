@@ -12,7 +12,6 @@ class UsersController < ApplicationController
     user = User.friendly.find(params[:id])
     authorize user
 
-
     render :show, locals: { user: user }
   end
 

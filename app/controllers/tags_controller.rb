@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
-  # before_filter :authenticate_user!, except: [:index]
-  # after_action :verify_authorized, except: [:index, :check_id]
+  before_filter :authenticate_user!, except: [:index, :show]
+  after_action :verify_authorized, except: [:index, :show]
 
   respond_to :html, :js, :json
 
