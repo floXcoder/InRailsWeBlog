@@ -293,6 +293,8 @@ var ArticleStore = Reflux.createStore({
                 delete this.articleData.paramsFromUrl;
                 this.paramsFromUrl = {};
             }
+
+            _paq.push(['trackSiteSearch', data.query, 'Search', this.articleData.length]);
         }.bind(this));
     },
 
@@ -326,6 +328,8 @@ var ArticleStore = Reflux.createStore({
         this.activeTags[tagId] = activeTag;
         this._filterArticlesByTag();
         this.trigger(this.articleData);
+
+        _paq.push(['trackSiteSearch', tagId, 'Tags']);
     }
 });
 
