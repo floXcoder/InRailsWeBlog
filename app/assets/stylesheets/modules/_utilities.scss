@@ -24,7 +24,14 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.27);
+  opacity: 0.3;
+  transition: opacity 0.6s, visibility 0.6s;
+
+  &:hover {
+    opacity: 1;
+    transition: opacity 0.6s, visibility 0.63s;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.27);
+  }
 }
 
 // Spaces
@@ -98,7 +105,7 @@
 }
 
 .margin-bottom-100 {
-  margin-bottom:100px;
+  margin-bottom: 100px;
 }
 
 @media (max-width: $max-width-sm) {
@@ -149,7 +156,19 @@
   }
 }
 
+.margin-top-5 {
+  margin-top: 20px;
+}
+
+.margin-top-10 {
+  margin-top: 20px;
+}
+
 .margin-top-20 {
+  margin-top: 20px;
+}
+
+.margin-top-30 {
   margin-top: 20px;
 }
 
@@ -185,10 +204,13 @@
   margin-right: 30px;
 }
 
-.padding-top-5 {
-  padding-top: 5px;
+// Use Clearfix instead of overflow hidden
+.clearfix:before,
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  overflow: hidden;
 }
-
-.padding-left-5 {
-  padding-left: 5px;
-}
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; } /* IE < 8 */

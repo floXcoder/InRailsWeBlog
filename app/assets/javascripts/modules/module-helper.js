@@ -4,7 +4,7 @@
         module.exports = factory();
     } else if (typeof define === 'function' && define.amd) {
         // AMD
-        define([], function ($) {
+        define([], function () {
             return (root.returnExportsGlobal = factory());
         });
     } else {

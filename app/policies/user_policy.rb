@@ -6,10 +6,6 @@ class UserPolicy
     @user = user
   end
 
-  def main?
-    correct_user?
-  end
-
   def show?
     correct_user?
   end

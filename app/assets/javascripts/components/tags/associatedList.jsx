@@ -9,11 +9,7 @@ var TagList = React.createClass({
         event.preventDefault();
 
         var classByTag = this.state.classByTag;
-        if(classByTag[tagId]) {
-            classByTag[tagId] = false;
-        } else {
-            classByTag[tagId] = true;
-        }
+        classByTag[tagId] = !classByTag[tagId];
         this.setState({classByTag: classByTag});
 
         this.props.onTagClick(tagId, !classByTag[tagId]);
@@ -21,7 +17,7 @@ var TagList = React.createClass({
 
     render: function () {
         var ArticleNodes = this.props.tags.map(function (tag) {
-            var tagClass = 'chip';
+            var tagClass = 'waves-light btn-small article-tag';
 
             if(this.state.classByTag[tag.id]) {
                 tagClass += ' tag-inactive';

@@ -19,7 +19,7 @@ head
 
   javascript:
     window._rails_env = "#{Rails.env}";
-    window.currentUserId = "#{current_user.id if current_user}";
+    window.currentUserId = "#{current_user ? current_user.id : 'null'}";
 
     window.defaultLocale = "#{I18n.default_locale}";
     window.locale = "#{I18n.locale}";

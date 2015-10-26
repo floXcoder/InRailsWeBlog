@@ -1,0 +1,9 @@
+- provide(:title, t('views.article.edit.page_title', title: article.title))
+
+- stylesheet 'articles/edit'
+
+- javascript 'commons'
+- javascript 'common-react'
+- javascript 'articles/edit'
+
+= content_tag :div, '', id: 'react-main', data: {article: article.to_builder(current_user_id, multi_language).target!, multiLanguage: multi_language}

@@ -4,6 +4,8 @@ var ArticleActions = Reflux.createActions([
     'loadArticles',
     'loadNextArticles',
     'pushArticles',
+    'updateArticles',
+    'deleteArticles',
     'filterArticlesByTag',
     'searchArticles',
     'autocompleteArticles'

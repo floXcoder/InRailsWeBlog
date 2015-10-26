@@ -1,19 +1,21 @@
 var Checkbox = React.createClass({
-
-    componentDidMount: function() {
+    getInitialState: function() {
+        return {
+            checked: false
+        };
     },
 
     render: function () {
         return (
-            <div className="switch">
-                <label>
-                    {this.props.values.false}
-                    <input type="checkbox"
-                           ref="checkbox"
-                           checked={this.props.checked}
-                           onChange={this.props.onCheckboxChanged} />
-                    <span className="lever" />
-                    {this.props.values.true}
+            <div>
+                <input ref="checkbox"
+                       id={this.props.id}
+                       className="filled-in"
+                       type="checkbox"
+                       checked={this.state.checked}
+                       onChange={this.props.onCheckboxChanged}/>
+                <label htmlFor={this.props.id}>
+                    {this.props.children}
                 </label>
             </div>
         );

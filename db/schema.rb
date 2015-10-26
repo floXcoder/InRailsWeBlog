@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151009172833) do
+ActiveRecord::Schema.define(version: 20151017185225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,26 +30,20 @@ ActiveRecord::Schema.define(version: 20151009172833) do
   add_index "article_translations", ["locale"], name: "index_article_translations_on_locale", using: :btree
 
   create_table "articles", force: :cascade do |t|
-    t.integer  "author_id",                     null: false
-    t.integer  "visibility",    default: 0,     null: false
-    t.integer  "notation",      default: 0
-    t.integer  "priority",      default: 0
-    t.boolean  "allow_comment", default: false, null: false
+    t.integer  "author_id",                       null: false
+    t.integer  "visibility",      default: 0,     null: false
+    t.integer  "notation",        default: 0
+    t.integer  "priority",        default: 0
+    t.boolean  "allow_comment",   default: false, null: false
+    t.boolean  "private_content", default: false, null: false
+    t.boolean  "is_link",         default: false, null: false
     t.string   "slug"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   add_index "articles", ["author_id"], name: "index_articles_on_author_id", using: :btree
   add_index "articles", ["slug"], name: "index_articles_on_slug", unique: true, using: :btree
-
-  create_table "articles_tags", id: false, force: :cascade do |t|
-    t.integer "article_id"
-    t.integer "tag_id"
-  end
-
-  add_index "articles_tags", ["article_id"], name: "index_articles_tags_on_article_id", using: :btree
-  add_index "articles_tags", ["tag_id"], name: "index_articles_tags_on_tag_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.integer  "imageable_id",   null: false
@@ -70,13 +64,41 @@ ActiveRecord::Schema.define(version: 20151009172833) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tag_relationships", force: :cascade do |t|
+    t.integer  "parent_id"
+    t.integer  "child_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "tag_relationships", ["child_id"], name: "index_tag_relationships_on_child_id", using: :btree
+  add_index "tag_relationships", ["parent_id", "child_id"], name: "index_tag_relationships_on_parent_id_and_child_id", unique: true, using: :btree
+  add_index "tag_relationships", ["parent_id"], name: "index_tag_relationships_on_parent_id", using: :btree
+
+  create_table "tagged_articles", force: :cascade do |t|
+    t.integer  "article_id"
+    t.integer  "tag_id"
+    t.boolean  "parent",     default: false, null: false
+    t.boolean  "child",      default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "tagged_articles", ["article_id", "tag_id"], name: "index_tagged_articles_on_article_id_and_tag_id", unique: true, using: :btree
+  add_index "tagged_articles", ["article_id"], name: "index_tagged_articles_on_article_id", using: :btree
+  add_index "tagged_articles", ["tag_id"], name: "index_tagged_articles_on_tag_id", using: :btree
+
   create_table "tags", force: :cascade do |t|
+    t.integer  "tagger_id",  null: false
     t.string   "name",       null: false
+    t.string   "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
+  add_index "tags", ["slug"], name: "index_tags_on_slug", unique: true, using: :btree
+  add_index "tags", ["tagger_id"], name: "index_tags_on_tagger_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "pseudo",                 default: "",   null: false

@@ -1,5 +1,4 @@
 var Select = React.createClass({
-
     componentDidMount: function () {
         $('select').material_select();
     },
@@ -16,7 +15,7 @@ var Select = React.createClass({
 
         return (
             <div className="input-field">
-                <select defaultValue="default">
+                <select defaultValue={this.props.defaultValue}>
                     <option value="default" disabled="true">
                         {this.props.title}
                     </option>

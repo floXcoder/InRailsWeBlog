@@ -14,27 +14,43 @@ var SearchModule = React.createClass({
         return {
             autocompleteValues: [],
             selectedTags: [],
+            previousSelectedTags: [],
             $searchDiv: null,
-            suggestions: []
+            suggestions: [],
+            query: ''
         };
+    },
+
+    _activateSearch: function(state) {
+        this._toggleSearchNav();
+
+        if(!$utils.isEmpty(state.tags)) {
+            state.tags.forEach(function (tag) {
+                this.refs.typeahead._addTokenForValue({tag: tag}, true);
+            }.bind(this));
+        }
+
+        this.refs.typeahead.setEntryText(state.query);
     },
 
     componentDidMount: function () {
         $('a#toggle-search').click(function () {
-            //var search = $('.blog-search-nav');
-            this.state.$searchDiv = $('.blog-search-nav');
-
-            this.state.$searchDiv.is(":visible") ? this.state.$searchDiv.slideUp() : this.state.$searchDiv.slideDown(function () {
-                this.state.$searchDiv.find('input').focus();
-            }.bind(this));
+            this._toggleSearchNav();
 
             return false;
         }.bind(this));
     },
 
+    _toggleSearchNav: function() {
+        this.state.$searchDiv = $('.blog-search-nav');
+
+        this.state.$searchDiv.is(":visible") ? this.state.$searchDiv.slideUp() : this.state.$searchDiv.slideDown(function () {
+            this.state.$searchDiv.find('input').focus();
+        }.bind(this));
+    },
+
     onSearchChange(userStore) {
         if (!$utils.isEmpty(userStore.search)) {
-
             this._handleSubmit(null, userStore.search);
         }
     },
@@ -61,6 +77,12 @@ var SearchModule = React.createClass({
 
         if (!$utils.isEmpty(articleStore.suggestions)) {
             newState.suggestions = articleStore.suggestions;
+        } else if (!$utils.isEmpty(this.state.suggestions)) {
+            newState.suggestions = [];
+        }
+
+        if(articleStore.paramsFromUrl) {
+            this._activateSearch(articleStore.paramsFromUrl);
         }
 
         if(!$utils.isEmpty(newState)) {
@@ -73,7 +95,7 @@ var SearchModule = React.createClass({
         this.refs.typeahead.setEntryText(suggestion);
         this.refs.typeahead.refs.typeahead.setState({entryValue: suggestion, selection: suggestion});
         this.setState({suggestions: []});
-        this._handleSubmit();
+        this._handleSubmit(event, {});
     },
 
     _onKeyUp: function (event) {
@@ -84,10 +106,9 @@ var SearchModule = React.createClass({
         }
 
         var pressedKey = $utils.NAVIGATION_KEYMAP[event.which];
-        if (pressedKey === 'enter' || pressedKey === 'tab') {
+        if (pressedKey === 'tab' || pressedKey === 'enter') {
             this.refs.typeahead.refs.typeahead.setState({entryValue: entryValue, selection: entryValue});
-
-            this._handleSubmit(event);
+            this._handleSubmit(event, {});
         }
     },
 
@@ -96,9 +117,18 @@ var SearchModule = React.createClass({
             event.preventDefault();
         }
 
+        if(typeof searchOptions !== 'object') {
+            searchOptions = {};
+        }
+
         var query = this.refs.typeahead.getEntryText().trim();
-        if ($utils.isEmpty(query) && searchOptions && searchOptions.tagSearch) {
+
+        if ($utils.isEmpty(query) && !$utils.isEmpty(this.state.selectedTags)) {
             query = '*';
+        }
+
+        if(query === this.state.query && this.state.previousSelectedTags === this.state.selectedTags) {
+            return;
         }
 
         if (!$utils.isEmpty(query)) {
@@ -113,6 +143,9 @@ var SearchModule = React.createClass({
             }
 
             ArticleActions.searchArticles(request);
+
+            this.state.query = query;
+            this.state.previousSelectedTags = this.state.selectedTags;
         }
     },
 
@@ -144,12 +177,14 @@ var SearchModule = React.createClass({
         }
     },
 
-    _onTokenAdd: function (value) {
+    _onTokenAdd: function (value, noSubmit) {
         if (value.tag) {
             this.state.selectedTags.push(value.tag);
         }
 
-        this._handleSubmit(null, {tagSearch: true});
+        if(!noSubmit) {
+            this._handleSubmit(null, {tagSearch: true});
+        }
     },
 
     _onTokenRemove: function (value) {
@@ -173,7 +208,7 @@ var SearchModule = React.createClass({
             return (
                 <a key={suggestion}
                    onClick={this._onSuggestionClick.bind(this, suggestion)}
-                   className="waves-effect waves-light btn-small grey lighten-5 black-text">
+                   className="waves-effect waves-light btn-small">
                     {suggestion}
                 </a>
             );
@@ -181,7 +216,7 @@ var SearchModule = React.createClass({
 
         return (
             <div className="container blog-search">
-                <form className="blog-form" onSubmit={this._handleSubmit}>
+                <form className="search-form" onSubmit={this._handleSubmit}>
                     <Tokenizer
                         ref="typeahead"
                         options={this.state.autocompleteValues}
@@ -191,10 +226,11 @@ var SearchModule = React.createClass({
                         displayOption={this._displayOption}
                         maxVisible={6}
                         addTokenCondition="tag"
+                        customClasses={{listItem: 'typeahead-list-item'}}
                         onTokenAdd={this._onTokenAdd}
                         onTokenRemove={this._onTokenRemove}
                         />
-                    <a className="material-icons blog-form-close" onClick={this._onCloseForm} href="#">
+                    <a className="material-icons search-form-close" onClick={this._onCloseForm} href="#">
                         <i className="material-icons" onClick={this._onCloseForm}>close</i>
                     </a>
                 </form>

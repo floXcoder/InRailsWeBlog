@@ -4,7 +4,7 @@ var revNapkin      = require('gulp-rev-napkin');
 var gulpSequence = require('gulp-sequence');
 var filter = require('gulp-filter');
 var revReplace = require('gulp-rev-replace');
-var combinemq = require('gulp-combine-mq');
+//var combinemq = require('gulp-combine-mq');
 var cssmin = require('gulp-cssmin');
 var autoPrefixer = require('gulp-autoprefixer');
 var sizereport   = require('gulp-sizereport');
@@ -41,7 +41,7 @@ gulp.task('rev-css', function(){
     return gulp.src(config.dest + '/**/*.css')
         .pipe(rev())
         .pipe(autoPrefixer({ browsers: config.autoPrefixer }))
-        .pipe(combinemq({beautify: false}))
+        //.pipe(combinemq({beautify: false}))
         .pipe(cssmin())
         .pipe(gulp.dest(config.dest))
         .pipe(revNapkin({verbose: false}))

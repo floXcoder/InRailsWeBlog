@@ -14,17 +14,24 @@ module.exports = {
             'users/edit': ['./pages/users/edit.js'],
             'users/login': ['./pages/users/login.js'],
             'users/signup': ['./pages/users/signup.js'],
-            'users/password': ['./pages/users/password.js']
+            'users/password': ['./pages/users/password.js'],
+            'articles/show': ['./pages/articles/show.jsx'],
+            'articles/edit': ['./pages/articles/edit.jsx'],
+            'tags/show': ['./pages/tags/show.jsx']
         },
 
         commons: [
             {
                 name: 'common-user',
-                files: ['users/show', 'users/edit', 'users/login', 'users/signup', 'users/password']
+                files: ['users/edit', 'users/login', 'users/signup', 'users/password', 'users/show']
+            },
+            {
+                name: 'common-react',
+                files: ['home', 'users/show', 'articles/show', 'articles/edit', 'tags/show']
             },
             {
                 name: 'commons',
-                files: ['ie8', 'ie9', 'home', 'common-user']
+                files: ['ie8', 'ie9', 'common-user', 'common-react']
             }
         ],
         output: {
@@ -34,8 +41,10 @@ module.exports = {
         modules: {
             includes: [
                 'vendor/assets/javascripts',
-                'node_modules',
-                'vendor/components'
+                'node_modules'
+            ],
+            noParse: [
+                /highlight\.js[\/\\]lib[\/\\]languages[\/\\]autoit.js/
             ]
         },
         loaders: [
@@ -49,7 +58,7 @@ module.exports = {
             //    loader: 'babel-loader?stage=0&cacheDirectory'
             //}
         ],
-        plugins: {
+            plugins: {
             $: 'jquery',
             jQuery: 'jquery',
             "window.jQuery": 'jquery',
@@ -102,10 +111,9 @@ module.exports = {
     },
     fonts: {
         src: [
-            frontendDir + '/font-awesome/fonts/**.*',
             // Font in materialize or mdi packages are not working
-            //frontendDir + '/materialize-css/font/**/*',
             // Use instead the last downloaded font from Google
+            //frontendDir + '/materialize-css/font/**/*',
             vendorDir + '/fonts/**/*',
             assetDir + '/fonts/**/*'
         ],

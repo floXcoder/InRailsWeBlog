@@ -1,9 +1,18 @@
 header.blog-header
   ul#user-dropdown.dropdown-content
+    / Change language
+    li class="#{'active' if I18n.locale == :fr}"
+      = link_to t('views.header.french'), url_for(locale: 'fr')
+    li class="#{'active' if I18n.locale == :en}"
+      = link_to t('views.header.english'), url_for(locale: 'en')
+
+    li.divider
+
+    / User account
     - if user_signed_in?
-      li class="#{'active' if current_page?(user_path(current_user))}"
-        = link_to t('views.header.profile'), user_path(current_user)
-      li class="#{'active' if current_page?(logout_path)}"
+      li
+        = link_to t('views.header.profile.connected'), edit_user_path(current_user)
+      li
         = link_to t('views.header.log_out'), logout_path, method: 'delete'
     - else
       li.first-nav
@@ -11,9 +20,6 @@ header.blog-header
         = link_to t('views.header.sign_up'), signup_path, remote: true
       li
         = link_to t('views.header.log_in'), login_path, remote: true
-
-  /#preferences-dropdown.dropdown-content
-  /  #user-pref.blog-user-pref
 
   .navbar-fixed
     nav
@@ -26,24 +32,36 @@ header.blog-header
             a#toggle-search href="#!"
               i.material-icons search
 
+          / New article
+          li
+            a#toggle-article-creation href="#!"
+              i.material-icons edit
+
+          / Tags
+          li
+            a.button-collapse.show-on-large data-activates="slide-out" href="#"
+              i.material-icons local_offer
+
           / User preferences
           li
             a#toggle-user-pref href="#!"
               i.material-icons.right view_modules
               = t('views.header.preferences')
 
-            /a.dropdown-button data-activates="preferences-dropdown" href="#!"
-            /  i.material-icons.right view_modules
-            /  = t('views.header.preferences')
-
           / User account
           li
             a.dropdown-button data-activates="user-dropdown" href="#!"
               i.material-icons.right account_circle
-              = t('views.header.profile')
-
-  .blog-search-nav.row.white-text.grey.darken-3
-    #search-nav-component
+              - if user_signed_in?
+                = t('views.header.profile.connected')
+              - else
+                = t('views.header.profile.not_connected')
 
   .blog-user-pref
     #user-pref
+
+  .blog-search-nav.row
+    #search-nav-component
+
+  .blog-sidebar
+    #tag-sidebar-component

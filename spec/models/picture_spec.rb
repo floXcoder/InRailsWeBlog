@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: pictures
+#
+#  id             :integer          not null, primary key
+#  imageable_id   :integer          not null
+#  imageable_type :string           not null
+#  image          :string
+#  image_tmp      :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
 RSpec.describe Picture, type: :model do
 
   before do

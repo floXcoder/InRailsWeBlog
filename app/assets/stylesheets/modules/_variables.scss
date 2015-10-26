@@ -1,6 +1,5 @@
 // Shared variables
 // ------------------------------------
-@import 'font-awesome/scss/variables';
 @import 'materialize-css/sass/components/prefixer';
 @import 'materialize-css/sass/components/mixins';
 @import 'materialize-css/sass/components/color';
@@ -14,7 +13,7 @@ $fa-font-path: '/assets';
 
 // Colors
 // ------------------------------------
-//$color-base: #3498db;
+$text-color-base: $off-black;
 $color-base: color('blue-grey', 'darken-3');
 $color-hover: #2980b9;
 $color-additional: #deeffc;
@@ -49,3 +48,15 @@ $max-width-md: 991px;
 $min-width-md: 768px;
 $max-width-sm: 767px;
 $max-width-xs: 349px;
+
+
+// Special style colors
+// ------------------------------------
+$secret-color: color('red', 'lighten-3');
+$advice-color: color('light-blue', 'lighten-3');
+$deadend-color: color('brown', 'lighten-3');
+@mixin special-style($color) {
+  background-color: $color;
+  box-shadow: 0px 0px 4px $color;
+  padding-left: 10px;
+}

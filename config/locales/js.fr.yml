@@ -2,11 +2,15 @@ fr:
   js:
     user:
       preferences:
-        display:
-          title: "Affichage des articles"
-          mode:
-            inline: "Afficher dans un seul article"
-            card: "Afficher les articles indépendamment"
+        article:
+          title: "Articles"
+          multi_language:
+            title: "Écrire les articles en plusieurs langues"
+          display:
+            title: "Articles"
+            mode:
+              inline: "Afficher dans un seul article"
+              card: "Afficher les articles indépendamment"
         search:
           title: "Recherche"
           operator:
@@ -17,20 +21,37 @@ fr:
           highlight: "Sur-brillance"
           exact: "Le(s) mot(s) précis"
     article:
-      new:
-        title: "Créer un nouvel article"
-        submit: "Créer l'article"
       model:
         title: "Titre"
         summary: "Résumé"
         content: "Contenu"
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
+        is_link: "Est un lien ?"
+      tooltip:
+        edit: "Édition rapide"
+        visibility: "Visibilité : %{visibility}"
+        link: "C'est un lien"
+      flash:
+        write_article: "Connectez-vous pour écrire un article"
+      new:
+        title: "Créer un nouvel article"
+        tags:
+          title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
+          placeholder: "Associer des labels"
+        submit: "Créer l'article"
+      edit:
+        title: "Modification d'un article"
+        form_title: "Modification de %{title}"
+        submit: "Mettre à jour l'article"
       search:
         placeholder: "Rechercher ..."
+        url: "Recherche :"
         no_results:
           title: "Pas d'articles trouvés"
           content: "Essayer autre chose :)"
+      tag:
+        url: "Label :"
       visibility:
         title: "Visibilité de l'article"
         enum:
@@ -40,6 +61,7 @@ fr:
     tag:
       list: "Tous les labels"
       associated: "Labels associés"
+      filter: "Filtrer par labels ..."
     checkbox:
       on: "Oui"
       off: "Non"
@@ -47,6 +69,9 @@ fr:
       apply: "Valider"
       cancel: "Annuler"
       custom: "Personnaliser"
+    language:
+      french: "Français"
+      english: "Anglais"
     time:
       abbr_hour: "h"
       abbr_minute: "m"

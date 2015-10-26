@@ -1,4 +1,3 @@
-var ArticleForm = require('./form');
 var ArticleList = require('./list');
 var ArticleStore = require('../../stores/articleStore');
 var UserStore = require('../../stores/userStore');
@@ -17,26 +16,42 @@ var ArticleBox = React.createClass({
         return {
             articles: null,
             isLoading: true,
+            hasMore: true,
             articleDisplayMode: 'inline',
             highlightResults: true
         };
     },
 
+    componentDidMount: function () {
+        $(ReactDOM.findDOMNode(this).className).ready(function(){
+            $('.tooltipped').tooltip({
+                position: "bottom",
+                delay: 50
+            });
+        });
+    },
+
+    componentDidUpdate: function () {
+        $(ReactDOM.findDOMNode(this).className).ready(function(){
+            $('.tooltipped').tooltip({
+                position: "bottom",
+                delay: 50
+            });
+        });
+    },
+
     onPreferenceChange: function (userStore) {
         var newState = {};
 
-        if (!$utils.isEmpty(userStore.preferences)) {
+        if (!$utils.isEmpty(userStore.preferences) && userStore.preferences.article_display) {
             newState.articleDisplayMode = userStore.preferences.article_display;
         }
 
-        if (!$utils.isEmpty(userStore.search)) {
-            if (userStore.search.search_highlight) {
-                var highlightResults = userStore.search.search_highlight;
-                newState.highlightResults = (highlightResults !== 'false');
-            }
+        if (!$utils.isEmpty(userStore.search) && userStore.search.search_highlight) {
+            newState.highlightResults = (userStore.search.search_highlight !== 'false');
         }
 
-        if(!$utils.isEmpty(newState)) {
+        if (!$utils.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -49,22 +64,10 @@ var ArticleBox = React.createClass({
             newState.isLoading = false;
         }
 
-        if (articleStore.newArticles) {
-            if (this.refs.articlesList) {
-                this.refs.articlesList.state.articleLength = 0;
-            }
-        }
+        newState.hasMore = !!articleStore.hasMore;
 
-        if(!$utils.isEmpty(newState)) {
+        if (!$utils.isEmpty(newState)) {
             this.setState(newState);
-        }
-    },
-
-    _displayFormIfUser: function () {
-        if (this.props.userConnected) {
-            return (
-                <ArticleForm/>
-            );
         }
     },
 
@@ -73,7 +76,9 @@ var ArticleBox = React.createClass({
             return (
                 <ArticleList
                     ref="articlesList"
+                    userId={this.props.userId}
                     articles={this.state.articles}
+                    hasMore={this.state.hasMore}
                     highlightResults={this.state.highlightResults}
                     articleDisplayMode={this.state.articleDisplayMode}
                     />
@@ -87,6 +92,7 @@ var ArticleBox = React.createClass({
                                 <span className="card-title">
                                     {I18n.t('js.article.search.no_results.title')}
                                 </span>
+
                                 <p>
                                     {I18n.t('js.article.search.no_results.content')}
                                 </p>
@@ -102,8 +108,7 @@ var ArticleBox = React.createClass({
     render: function () {
         return (
             <div className="blog-article-box">
-                { this._displayFormIfUser() }
-                <div className={this.state.isLoading ? 'center': 'hide'}>
+                <div className={this.state.isLoading ? 'center': 'hide' + ' margin-top-20'}>
                     <Spinner size='big'/>
                 </div>
                 { this._displayListIfArticles() }

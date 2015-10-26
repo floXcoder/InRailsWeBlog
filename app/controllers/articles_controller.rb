@@ -1,56 +1,65 @@
 class ArticlesController < ApplicationController
-  # before_filter :authenticate_user!, except: [:index]
-  # after_action :verify_authorized, except: [:index, :check_id]
+  before_filter :authenticate_user!, except: [:index, :search, :autocomplete, :show]
+  after_action :verify_authorized, except: [:index, :search, :autocomplete]
 
   respond_to :html, :js, :json
 
   def index
-    articles = []
+    current_user_id = current_user ? current_user.id : nil
 
-    w params
-
-    if params[:tags]
-      tag_ids = params[:tags]
-      articles = Article.with_translations(I18n.locale).joins(:tags).includes(:author, :tags).where(tags: {id: tag_ids}).order('articles.id DESC')
-    else
-      articles = Article.with_translations(I18n.locale).joins(:tags).includes(:author, :tags).all.order('articles.id DESC')
-    end
+    articles = if params[:tags]
+                 tag_names = params[:tags].map { |tag| tag.downcase }
+                 Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag_names}).order('articles.id DESC')
+               elsif params[:relation_tags]
+                 parent_tag, child_tag = params[:relation_tags].map { |tag| tag.downcase }
+                 parent_articles = Article.joins(:tags).where(tagged_articles: {parent: true}, tags: {name: parent_tag})
+                 children_articles = Article.joins(:tags).where(tagged_articles: {child: true}, tags: {name: child_tag})
+                 Article.user_related(current_user_id).joins(:tags).where(id: parent_articles.ids & children_articles.ids).order('articles.id DESC').distinct
+               else
+                 Article.user_related(current_user_id).all.order('articles.id DESC')
+               end
 
     tags = Tag.joins(:articles).where(articles: {id: articles.ids}).order('name ASC').pluck(:id, :name).uniq
 
-    if params[:page]
-      articles = articles.paginate(page: params[:page], per_page: 5)
-    end
+    articles = articles.paginate(page: params[:page], per_page: 5) if params[:page]
 
     respond_to do |format|
-      format.html { render :articles, formats: :json, locals: {articles: articles, tags: tags} }
-      format.json { render :articles, locals: {articles: articles, tags: tags} }
+      format.html { render :articles, formats: :json,
+                           locals: {
+                               articles: articles,
+                               tags: tags,
+                               current_user_id: current_user_id
+                           }
+      }
+      format.json { render :articles,
+                           locals: {
+                               articles: articles,
+                               tags: tags,
+                               current_user_id: current_user_id
+                           }
+      }
     end
-  end
-
-  def show
-    article = Article.friendly.find(params[:id])
-    authorize article
-
-    render :show, locals: {article: article}
   end
 
   def create
-    article = current_user.articles.build(article_params)
-    # authorize article
+    article = current_user.articles.build
+
+    if current_user.read_preference(:multi_language) == 'true'
+      article.assign_attributes(article_translated_params)
+    else
+      article.assign_attributes(article_params)
+    end
+    authorize article
 
     tags = article.tags.pluck(:id, :name).uniq
 
     respond_to do |format|
       if article.save
-        # format.html do
-        #     redirect_to article, flash: {success: t('views.article.flash.successful_creation')}
-        # end
-        # format.js { js_redirect_to(article_path(article) || root_path, :success, t('views.article.flash.successful_creation')) }
-        format.json { render :articles, locals: {articles: [article], tags: tags}, status: :created, location: article }
+        article.build_tag_relationships
+        article = article.reload
+
+        format.json { render :articles, locals: {articles: [article], tags: tags, current_user_id: current_user.id}, status: :created, location: article }
       else
-        # format.html { render :new, locals: {article: article} }
-        # format.js { render :create }
         format.json { render json: article.errors, status: :unprocessable_entity }
       end
     end
@@ -58,50 +67,64 @@ class ArticlesController < ApplicationController
 
   def search
     search_options = {}
-    user_preferences = nil
 
-    w params
+    params[:search_options] = {} if !params[:search_options] || params[:search_options].is_a?(String)
 
-    user_preferences = User.find(current_user.id) if current_user
-    params[:search_options] = {} unless params[:search_options]
-
-    if params[:search_options].is_a?(Hash) || user_preferences
-      if (highlight = params[:search_options][:search_highlight])
-        search_options[:highlight] = (highlight == 'false' ? false : true)
-      else
-        search_options[:highlight] = (user_preferences.read_preference(:search_highlight) == 'false' ? false : true)
-      end
-      search_options[:operator] = params[:search_options][:search_operator] || user_preferences.read_preference(:search_operator)
-      if (exact = params[:search_options][:search_exact])
-        search_options[:exact] = (exact == 'false' ? false : true)
-      else
-        search_options[:exact] = (user_preferences.read_preference(:search_exact) == 'false' ? false : true)
-      end
+    if current_user && (user_preferences = User.find(current_user.id))
+      search_options[:highlight] = (user_preferences.read_preference(:search_highlight) == 'false' ? false : true)
+      search_options[:exact] = (user_preferences.read_preference(:search_exact) == 'false' ? false : true)
+      search_options[:operator] = user_preferences.read_preference(:search_operator)
     end
 
-    articles = Article.search_for(params[:query],
-                                  {
-                                      page: params[:page],
-                                      per_page: 5,
-                                      current_user_id: current_user ? current_user.id : nil,
-                                      tags: params[:tags],
-                                      highlight: search_options[:highlight],
-                                      operator: search_options[:operator],
-                                      exact: search_options[:exact]
-                                  })
+    unless params[:search_options].empty?
+      search_options[:highlight] = (params[:search_options][:search_highlight] == 'false' ? false : true)
+      search_options[:exact] = (params[:search_options][:search_exact] == 'false' ? false : true)
+      search_options[:operator] = params[:search_options][:search_operator]
+    end
 
-    suggestions = articles.suggestions
+    current_user_id = current_user ? current_user.id : nil
 
-    tags = Tag.joins(:articles).where(articles: {id: articles.results.map(&:id)}).order('name ASC').pluck(:id, :name).uniq
+    results = Article.search_for(params[:query],
+                                 {
+                                     page: params[:page],
+                                     per_page: 5,
+                                     current_user_id: current_user_id,
+                                     tags: params[:tags],
+                                     highlight: search_options[:highlight],
+                                     operator: search_options[:operator],
+                                     exact: search_options[:exact]
+                                 })
+
+    articles = results[:articles].includes(:author).user_related(current_user_id)
+
+    tags = articles.joins(:tags).order('name ASC').pluck('tags.id', 'tags.name').uniq
 
     respond_to do |format|
-      format.html { render :articles, formats: :json, locals: {articles: articles.with_details, tags: tags, suggestions: suggestions} }
-      format.json { render :articles, locals: {articles: articles.with_details, tags: tags, suggestions: suggestions} }
+      format.html {
+        render :articles, formats: :json,
+               locals: {
+                   articles: articles,
+                   tags: tags,
+                   highlight: results[:highlight],
+                   current_user_id: current_user_id,
+                   suggestions: results[:suggestions]}
+      }
+      format.json {
+        render :articles,
+               locals: {
+                   articles: articles,
+                   tags: tags,
+                   highlight: results[:highlight],
+                   current_user_id: current_user_id,
+                   suggestions: results[:suggestions]}
+      }
     end
   end
 
   def autocomplete
-    results = Article.user_related(current_user).search(params[:autocompleteQuery], autocomplete: true, limit: 6)
+    current_user_id = current_user ? current_user.id : nil
+
+    results = Article.user_related(current_user_id).search(params[:autocompleteQuery], autocomplete: true, limit: 6)
 
     results = results.map { |result|
       {
@@ -116,33 +139,58 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def show
+    article = Article.friendly.find(params[:id])
+    authorize article
+
+    current_user_id = current_user ? current_user.id : nil
+
+    respond_to do |format|
+      format.html { render :show, locals: {article: article, current_user_id: current_user_id} }
+    end
+  end
+
   def edit
-    # user = User.friendly.find(params[:id])
-    # authorize user
-    #
-    # render :edit, locals: { user: user }
+    article = Article.friendly.find(params[:id])
+    authorize article
+
+    current_user_id = current_user ? current_user.id : nil
+    multi_language = (current_user.read_preference(:multi_language) == 'true')
+
+    respond_to do |format|
+      format.html { render :edit, locals: {article: article, current_user_id: current_user_id, multi_language: multi_language} }
+    end
   end
 
   def update
-    # user = User.friendly.find(params[:id])
-    # authorize user
-    #
-    # if user.update_without_password(user_params)
-    #   flash[:success] = t('views.user.flash.successful_update')
-    #   redirect_to root_user_path(user)
-    # else
-    #   flash[:error] = t('views.user.flash.error_update')
-    #   render :edit, locals: { user: user }
-    # end
+    article = Article.find(params[:id])
+    authorize article
+
+    current_user_id = current_user ? current_user.id : nil
+
+    respond_to do |format|
+      if current_user.read_preference(:multi_language) == 'true' ?
+          article.update_attributes(article_translated_params) :
+          article.update_attributes(article_params)
+
+        format.json { render :articles, locals: {articles: [article], current_user_id: current_user_id}, status: :accepted, location: article }
+      else
+        format.json { render json: article.errors, status: :not_modified }
+      end
+    end
   end
 
   def destroy
-    # article = article.find(params[:id])
-    # authorize article
-    #
-    # article.remove
-    #
-    # redirect_to root_user_path(current_user), flash: {success: t('views.article.flash.successful_deletion')}
+    article = Article.find(params[:id])
+    authorize article
+
+    respond_to do |format|
+      if article.destroy
+        format.json { render json: {id: article.id}, status: :accepted }
+      else
+        format.json { render json: article.errors, status: :not_modified }
+      end
+    end
   end
 
   private
@@ -154,6 +202,18 @@ class ArticlesController < ApplicationController
                                      :visibility,
                                      :notation,
                                      :priority,
-                                     :allow_comment)
+                                     :allow_comment,
+                                     :is_link,
+                                     tags_attributes: [:id, :tagger_id, :name, :parent, :child])
+  end
+
+  def article_translated_params
+    params.require(:articles).permit(:visibility,
+                                     :notation,
+                                     :priority,
+                                     :allow_comment,
+                                     :is_link,
+                                     translations_attributes: [:id, :locale, :title, :summary, :content],
+                                     tags_attributes: [:id, :tagger_id, :name, :parent, :child])
   end
 end

@@ -5,8 +5,9 @@ en:
   head:
     keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
     description: "How to build a Blog with Rails and Node"
-  header: ""
   footer:
+    title: "In Rails We BLog"
+    description: "A blog optimized for programmer"
     copyright: "Copyright 2015 - InRailsWeBlog. All rights reserved."
     links:
       title: "Useful links"
@@ -20,7 +21,11 @@ en:
       sign_up: "Sign Up"
       log_in: "Log In"
       preferences: "Preferences"
-      profile: "My Profile"
+      profile:
+       connected: "My Profile"
+       not_connected: "Connection"
+      french: "Français"
+      english: "English"
       log_out: "Log Out"
     user:
       flash:
@@ -62,6 +67,13 @@ en:
       index:
         page_title: "All Articles"
         title: "All Articles"
+      show:
+        page_title: "%{title}"
+      edit:
+        page_title: "Update of %{title}"
+    tag:
+      show:
+        page_title: "%{name}"
   user:
     pseudo: "Pseudo"
     by: "By"

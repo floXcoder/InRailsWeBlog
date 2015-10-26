@@ -12,11 +12,8 @@ html lang="en"
 
     = render 'layouts/flash_messages', flash: flash
 
-    .container
+    .container.blog-main
       .row
-        /.col.s3.blog-sidebar
-        /  = render 'layouts/sidebar'
-
         .col.s12
           = yield
 
@@ -26,6 +23,4 @@ html lang="en"
 
     = render 'layouts/javascript'
 
-    /  = yield :pre_content
-    /
     /= render 'layouts/piwik'
