@@ -51,21 +51,35 @@ class Article < ActiveRecord::Base
       next unless tag_id
 
       tag = Tag.find_or_initialize_by(id: tag_id)
-      tag.tagger_id = self.author.id
+      tag.tagger_id = self.author.id unless tag.tagger_id
 
       parent = tagValue.delete(:parent)
       child = tagValue.delete(:child)
 
       tag.attributes = tagValue
 
-      parent_tags << tag if parent && !parent.blank?
-      child_tags << tag if child && !child.blank?
-      article_tags << tag
+      if parent && !parent.blank?
+        parent_tags << tag
+      elsif child && !child.blank?
+        child_tags << tag
+      else
+        article_tags << tag
+      end
     end
 
     self.parent_tags = parent_tags
     self.child_tags = child_tags
     self.tags = article_tags
+  end
+
+  def build_tag_relationships
+    self.parent_tags.each do |parent|
+      self.child_tags.each do |child|
+        unless parent.children.exists?(child.id)
+          parent.children << child
+        end
+      end
+    end unless self.child_tags.empty?
   end
 
   ## Picture
@@ -76,7 +90,7 @@ class Article < ActiveRecord::Base
 
   # Scopes
   scope :user_related, -> (user_id = nil) { where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
-                                                  author_id: user_id).includes(:author, :tags, :translations) }
+                                                  author_id: user_id) }
 
   # Parameters validation
   validates :author_id, presence: true

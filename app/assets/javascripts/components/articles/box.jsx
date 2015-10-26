@@ -108,7 +108,7 @@ var ArticleBox = React.createClass({
     render: function () {
         return (
             <div className="blog-article-box">
-                <div className={this.state.isLoading ? 'center': 'hide'}>
+                <div className={this.state.isLoading ? 'center': 'hide' + ' margin-top-20'}>
                     <Spinner size='big'/>
                 </div>
                 { this._displayListIfArticles() }

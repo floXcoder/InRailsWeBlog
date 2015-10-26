@@ -61,6 +61,7 @@ en:
     tag:
       list: "All tags"
       associated: "Associated tags"
+      filter: "Filter by Tag..."
     checkbox:
       on: "On"
       off: "Off"

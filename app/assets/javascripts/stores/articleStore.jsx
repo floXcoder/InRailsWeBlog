@@ -26,7 +26,7 @@ var ArticleStore = Reflux.createStore({
             });
         }
 
-        if(state.query) {
+        if (state.query) {
             return {
                 query: state.query,
                 tags: tags
@@ -67,6 +67,10 @@ var ArticleStore = Reflux.createStore({
                 requestParam.tags = data.tags;
             }
 
+            if (data.relationTags) {
+                requestParam.relation_tags = data.relationTags;
+            }
+
             if (data.page) {
                 requestParam.page = data.page;
             } else {
@@ -101,11 +105,19 @@ var ArticleStore = Reflux.createStore({
     onLoadArticles: function (data) {
         this._resetSearch();
 
-        if ($utils.isEmpty(this.paramsFromUrl) && data.tags) {
-            var tagParams = {
-                tags: data.tags.join(',')
-            };
-            this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.tags});
+        if ($utils.isEmpty(this.paramsFromUrl)) {
+            if (data.tags) {
+                var tagParams = {
+                    tags: data.tags.join(',')
+                };
+                this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.tags});
+            }
+            if (data.relationTags) {
+                var tagParams = {
+                    relation_tags: data.relationTags.join(',')
+                };
+                this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.relation_tags});
+            }
         }
 
         this._fetchArticles(data, function (dataReceived) {
@@ -199,7 +211,7 @@ var ArticleStore = Reflux.createStore({
             type: 'POST',
             data: requestParam,
             success: function (data) {
-                if(fromEditPage && data.articles[0]) {
+                if (fromEditPage && data.articles[0]) {
                     window.location.replace("/articles/" + data.articles[0].id);
                 } else {
                     // Update the articles
@@ -291,29 +303,30 @@ var ArticleStore = Reflux.createStore({
                 this.trigger({autocompletion: this.autocompleteValues});
             }.bind(this));
         }
-    }
+    },
 
-    //_filterArticlesByTag: function () {
-    //    if (!$utils.isEmpty(this.activeTags)) {
-    //        this.articleData.articles.forEach(function (article, index, articles) {
-    //            var activeTagsByArticle = article.tags.filter(function (tag) {
-    //                if(!this.activeTags.hasOwnProperty(tag.id)) {
-    //                    this.activeTags[tag.id] = true
-    //                }
-    //                return this.activeTags[tag.id];
-    //            }.bind(this));
-    //            if (activeTagsByArticle.length === 0) {
-    //                articles[index].show = false;
-    //            }
-    //        }.bind(this));
-    //    }
-    //},
-    //
-    //onFilterArticlesByTag: function (tagId, activeTag) {
-    //    this.activeTags[tagId] = activeTag;
-    //    this._filterArticlesByTag();
-    //    this.trigger(this.articleData);
-    //},
+    _filterArticlesByTag: function () {
+        if (!$utils.isEmpty(this.activeTags)) {
+            this.articleData.articles.forEach(function (article, index, articles) {
+                articles[index].show = true;
+                var activeTagsByArticle = article.tags.filter(function (tag) {
+                    if (!this.activeTags.hasOwnProperty(tag.id)) {
+                        this.activeTags[tag.id] = true
+                    }
+                    return this.activeTags[tag.id];
+                }.bind(this));
+                if (activeTagsByArticle.length === 0) {
+                    articles[index].show = false;
+                }
+            }.bind(this));
+        }
+    },
+
+    onFilterArticlesByTag: function (tagId, activeTag) {
+        this.activeTags[tagId] = activeTag;
+        this._filterArticlesByTag();
+        this.trigger(this.articleData);
+    }
 });
 
 module.exports = ArticleStore;

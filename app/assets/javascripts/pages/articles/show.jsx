@@ -1,5 +1,4 @@
 require('../common');
-require('../../components/user/navigation');
 
 var ArticleElement = require('../../components/articles/element');
 

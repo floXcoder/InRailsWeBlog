@@ -14,7 +14,9 @@ json.articles do
     json.is_link    article.is_link
     json.show       true
 
-    json.tags       article.tags, :id, :name
+    json.tags         article.tags, :id, :tagger_id, :name
+    json.parent_tags  article.parent_tags, :id, :tagger_id, :name
+    json.child_tags   article.child_tags, :id, :tagger_id, :name
 
     if local_assigns[:highlight] && highlight[article.id]
       json.highlight_content highlight[article.id][:content]

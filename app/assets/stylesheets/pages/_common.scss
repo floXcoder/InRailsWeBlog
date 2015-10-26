@@ -74,9 +74,9 @@
   }
 
   .blog-sidebar {
-    padding-top: 10px;
-    position: sticky;
-    top: 60px;
+    //padding-top: 10px;
+    //position: sticky;
+    //top: 60px;
   }
 
   .blog-search-nav {
@@ -206,19 +206,76 @@
     }
   }
 
-  .blog-tag-box {
-    .tag-active {
-      background-color: color('teal', 'darken-1');
-      color: white;
-      cursor: pointer;
-      margin: 5px;
+  .blog-index-tag {
+    .tag-search {
+      padding: 5px 0;
     }
 
-    .tag-inactive {
-      background-color: color('grey', 'lighten-2');
-      color: white;
-      cursor: pointer;
+    a {
+      height: 46px;
+      line-height: 46px;
+    }
+
+    li {
+      background-color: inherit;
+
+      &:hover {
+        background-color: inherit;
+        border: 1px solid color('blue', 'darken-2');
+        box-shadow: 0 0 2px color('blue', 'darken-2');
+      }
+
+      &.active{
+        background-color: inherit;
+      }
+
+      span {
+        cursor: pointer;
+      }
+    }
+
+    .collapsible-header {
+      i {
+        float: right;
+
+        &.tag-parent-icon{
+          float: left;
+          color: color('blue-grey', 'darken-3');
+        }
+
+        &.tag-dropdown {
+          padding: 5px;
+        }
+      }
+    }
+
+    .collapsible-body i {
+      width: 2rem;
+      font-size: 1.6rem;
+      line-height: 3rem;
+      display: block;
+      float: left;
+      text-align: center;
+      margin-right: 1rem;
+    }
+
+    .tag-children {}
+  }
+
+  .blog-associated-tag {
+    padding: 5px;
+
+    .article-tag {
+      color: black;
+      background-color: color('grey', 'lighten-5');
       margin: 5px;
+
+      &.tag-active {}
+
+      &.tag-inactive {
+        background-color: color('grey', 'lighten-2');
+        color: white;
+      }
     }
   }
 
@@ -250,6 +307,19 @@
       margin-left: 15px;
       margin-bottom: 10px;
       color: color('grey', 'lighten-1');
+    }
+
+    .article-tag {
+      color: black;
+      background-color: color('grey', 'lighten-5');
+
+      &.tag-parent {
+        box-shadow: 0 0 4px darkred !important;
+      }
+
+      &.tag-child {
+        box-shadow: 0 0 4px darkgreen !important;
+      }
     }
 
     .blog-highlight {

@@ -1,5 +1,4 @@
 require('../common');
-require('../../components/user/navigation');
 
 var ArticleUpdate = require('../../components/articles/update');
 

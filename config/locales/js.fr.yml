@@ -61,6 +61,7 @@ fr:
     tag:
       list: "Tous les labels"
       associated: "Labels associés"
+      filter: "Filtrer par labels ..."
     checkbox:
       on: "Oui"
       off: "Non"

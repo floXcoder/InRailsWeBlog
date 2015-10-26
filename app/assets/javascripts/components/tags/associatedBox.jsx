@@ -39,15 +39,10 @@ var AssociatedTagBox = React.createClass({
 
     render: function () {
         return (
-            <div className="card-panel">
-                <div className="blog-tag-box center-align">
-                    <h4>
-                        {I18n.t('js.tag.associated')}
-                    </h4>
-                    { this._displayTagsIfExist() }
-                    <div className={this.state.isLoading ? 'center': 'hide'}>
-                        <Spinner />
-                    </div>
+            <div className="blog-associated-tag center-align">
+                { this._displayTagsIfExist() }
+                <div className={this.state.isLoading ? 'center': 'hide'}>
+                    <Spinner />
                 </div>
             </div>
         );

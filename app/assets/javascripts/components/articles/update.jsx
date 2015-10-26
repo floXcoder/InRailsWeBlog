@@ -1,4 +1,3 @@
-var ArticleActions = require('../../actions/articleActions');
 var ArticleForm = require('../../components/articles/form');
 
 var ArticleUpdate = React.createClass({

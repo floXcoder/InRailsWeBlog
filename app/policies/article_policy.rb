@@ -1,4 +1,4 @@
-class UserPolicy
+class ArticlePolicy
   attr_reader :current_user, :article
 
   def initialize(current_user, article)

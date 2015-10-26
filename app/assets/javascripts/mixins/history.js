@@ -1,15 +1,15 @@
 require('imports?require=>false!imports?define=>false!history.js/history');
 
-(function(window,undefined){
+(function (window, undefined) {
     "use strict";
 
     // Localise Globals
     var
-        History = window.History = window.History||{},
+        History = window.History = window.History || {},
         jQuery = window.jQuery;
 
     // Check Existence
-    if ( typeof History.Adapter !== 'undefined' ) {
+    if (typeof History.Adapter !== 'undefined') {
         throw new Error('History.js Adapter has already been loaded...');
     }
 
@@ -22,8 +22,8 @@ require('imports?require=>false!imports?define=>false!history.js/history');
          * @param {function} callback
          * @return {void}
          */
-        bind: function(el,event,callback){
-            jQuery(el).bind(event,callback);
+        bind: function (el, event, callback) {
+            jQuery(el).bind(event, callback);
         },
 
         /**
@@ -33,8 +33,8 @@ require('imports?require=>false!imports?define=>false!history.js/history');
          * @param {Object=} extra - a object of extra event data (optional)
          * @return {void}
          */
-        trigger: function(el,event,extra){
-            jQuery(el).trigger(event,extra);
+        trigger: function (el, event, extra) {
+            jQuery(el).trigger(event, extra);
         },
 
         /**
@@ -44,7 +44,7 @@ require('imports?require=>false!imports?define=>false!history.js/history');
          * @param {Object=} extra - a object of extra event data (optional)
          * @return {mixed}
          */
-        extractEventData: function(key,event,extra){
+        extractEventData: function (key, event, extra) {
             // jQuery Native then jQuery Custom
             var result = (event && event.originalEvent && event.originalEvent[key]) || (extra && extra[key]) || undefined;
 
@@ -57,39 +57,38 @@ require('imports?require=>false!imports?define=>false!history.js/history');
          * @param {function} callback
          * @return {void}
          */
-        onDomLoad: function(callback) {
+        onDomLoad: function (callback) {
             jQuery(callback);
         }
     };
 
     // Try and Initialise History
-    if ( typeof History.init !== 'undefined' ) {
+    if (typeof History.init !== 'undefined') {
         History.init();
     }
 
 })(window);
 
-$.urlParam = function(name){
+$.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     return results[1] || 0;
 };
 
 
 var HistoryJSMixin = {
-
-    _historyjs_recoverState: function(state) {
+    _historyjs_recoverState: function (state) {
         var receivedStateSerialized, receivedState;
         receivedStateSerialized = state.data;
 
         if ($.isEmptyObject(receivedStateSerialized)) {
             var params = $(location).attr('search');
 
-            if(!$utils.isEmpty(params)) {
+            if (!$utils.isEmpty(params)) {
                 receivedStateSerialized = JSON.parse('{"' + decodeURI(decodeURIComponent(params)
                         .replace(/^\?/, '')
                         .replace(/&/g, '","')
                         .replace(/\+/g, ' ')
-                        .replace(/=/g,'":"')) + '"}');
+                        .replace(/=/g, '":"')) + '"}');
             }
         }
 
@@ -103,19 +102,21 @@ var HistoryJSMixin = {
         this.handleParams(receivedState);
     },
 
-    saveState: function(states, options) {
+    saveState: function (states, options) {
         var serializedState = _.pick(states, _.identity);
+
+        this._historyjs_localUpdate = true;
 
         if (!this._historyjs_has_saved) {
             this._historyjs_has_saved = true;
-            if(options) {
+            if (options) {
                 History.replaceState(serializedState, options.title, encodeURI($(location).attr('pathname') + '?' + $.param(serializedState)));
             } else {
                 History.replaceState(serializedState);
             }
         }
         else {
-            if(options) {
+            if (options) {
                 History.pushState(serializedState, options.title, encodeURI($(location).attr('pathname') + '?' + $.param(serializedState)));
             } else {
                 History.pushState(serializedState);
@@ -123,27 +124,19 @@ var HistoryJSMixin = {
         }
     },
 
-    bindToBrowserhistory: function() {
+    bindToBrowserhistory: function () {
         this._historyjs_has_saved = false;
+        this._historyjs_localUpdate = false;
 
-        History.Adapter.bind(window,'statechange',function(){
-            this._historyjs_recoverState(History.getState());
+        History.Adapter.bind(window, 'statechange', function () {
+            if(!this._historyjs_localUpdate) {
+                this._historyjs_recoverState(History.getState());
+            }
+
+            this._historyjs_localUpdate = false;
         }.bind(this));
         this._historyjs_recoverState(History.getState());
     }
-
-    //getInitialState: function() {
-    //    return { _historyjs_has_saved: false };
-    //},
-
-    //patchSavedState: function(data, callback) {
-    //    var old_state = History.getState();
-    //    $.extend(old_state.data, data);
-    //    History.replaceState(old_state.data);
-    //    if (callback !== undefined) {
-    //        callback();
-    //    }
-    //}
 };
 
 module.exports = HistoryJSMixin;

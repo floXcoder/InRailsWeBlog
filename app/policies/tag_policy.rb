@@ -1,4 +1,4 @@
-class UserPolicy
+class TagPolicy
   attr_reader :current_user, :tag
 
   def initialize(current_user, tag)

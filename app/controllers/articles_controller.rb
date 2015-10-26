@@ -8,8 +8,13 @@ class ArticlesController < ApplicationController
     current_user_id = current_user ? current_user.id : nil
 
     articles = if params[:tags]
-                 tag_names = params[:tags]
+                 tag_names = params[:tags].map { |tag| tag.downcase }
                  Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag_names}).order('articles.id DESC')
+               elsif params[:relation_tags]
+                 parent_tag, child_tag = params[:relation_tags].map { |tag| tag.downcase }
+                 parent_articles = Article.joins(:tags).where(tagged_articles: {parent: true}, tags: {name: parent_tag})
+                 children_articles = Article.joins(:tags).where(tagged_articles: {child: true}, tags: {name: child_tag})
+                 Article.user_related(current_user_id).joins(:tags).where(id: parent_articles.ids & children_articles.ids).order('articles.id DESC').distinct
                else
                  Article.user_related(current_user_id).all.order('articles.id DESC')
                end
@@ -37,29 +42,23 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    article = if current_user.read_preference(:multi_language) == 'true'
-                current_user.articles.build(article_translated_params)
-              else
-                current_user.articles.build(article_params)
-              end
-    authorize article
+    article = current_user.articles.build
 
-    current_user_id = current_user ? current_user.id : nil
+    if current_user.read_preference(:multi_language) == 'true'
+      article.assign_attributes(article_translated_params)
+    else
+      article.assign_attributes(article_params)
+    end
+    authorize article
 
     tags = article.tags.pluck(:id, :name).uniq
 
     respond_to do |format|
       if article.save
-        format.json { render :articles, locals: {articles: [article], tags: tags, current_user_id: current_user_id}, status: :created, location: article }
+        article.build_tag_relationships
+        article = article.reload
 
-        # Save tag relationship
-        article.parent_tags.each do |parent|
-          article.child_tags.each do |child|
-            unless parent.children.exists?(child)
-              parent.children << child
-            end
-          end
-        end unless article.child_tags.empty?
+        format.json { render :articles, locals: {articles: [article], tags: tags, current_user_id: current_user.id}, status: :created, location: article }
       else
         format.json { render json: article.errors, status: :unprocessable_entity }
       end
@@ -205,7 +204,7 @@ class ArticlesController < ApplicationController
                                      :priority,
                                      :allow_comment,
                                      :is_link,
-                                     tags_attributes: [:id, :name, :parent, :child])
+                                     tags_attributes: [:id, :tagger_id, :name, :parent, :child])
   end
 
   def article_translated_params
@@ -215,6 +214,6 @@ class ArticlesController < ApplicationController
                                      :allow_comment,
                                      :is_link,
                                      translations_attributes: [:id, :locale, :title, :summary, :content],
-                                     tags_attributes: [:id, :name, :parent, :child])
+                                     tags_attributes: [:id, :tagger_id, :name, :parent, :child])
   end
 end

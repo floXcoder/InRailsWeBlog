@@ -79,11 +79,21 @@ var ArticleElement = React.createClass({
     },
 
     render: function () {
+        var childTags = _.indexBy(this.props.article.child_tags, 'id');
+        var parentTags = _.indexBy(this.props.article.parent_tags, 'id');
+
         var Tags = this.props.article.tags.map(function (tag) {
+            var relationshipClass = '';
+            if(parentTags[tag.id]) {
+                relationshipClass = 'tag-parent';
+            } else if(childTags[tag.id]) {
+                relationshipClass = 'tag-child';
+            }
+
             return (
                 <a key={tag.id}
                    href={"/tags/" + tag.slug}
-                   className="waves-effect waves-light btn-small grey lighten-5 black-text">
+                   className={"waves-effect waves-light btn-small article-tag " + relationshipClass}>
                     {tag.name}
                 </a>
             );

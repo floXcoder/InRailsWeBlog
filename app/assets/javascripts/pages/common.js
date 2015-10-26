@@ -1,5 +1,8 @@
 require('../application');
 
+require('../components/user/navigation');
+require('../components/tags/sidebar');
+
 // Got to top button
 $utils.goToTop();
 
