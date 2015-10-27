@@ -28,6 +28,9 @@ fr:
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
         is_link: "Est un lien ?"
+        errors:
+          not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
+          unprocessable: "Impossible de créer l'article !"
       tooltip:
         edit: "Édition rapide"
         visibility: "Visibilité : %{visibility}"
@@ -50,6 +53,11 @@ fr:
         no_results:
           title: "Pas d'articles trouvés"
           content: "Essayer autre chose :)"
+      history:
+        changed_at: "Version modifiée"
+        restore: "Restaurer cette version"
+        none: "Aucun historique pour cet article !"
+        restored: "Version restaurée"
       tag:
         url: "Label :"
       visibility:

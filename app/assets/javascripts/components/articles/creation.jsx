@@ -23,6 +23,8 @@ var ArticleCreation = React.createClass({
         this.state.$articleNewForm.is(":visible") ?
             this.state.$articleNewForm.fadeOut() :
             this.state.$articleNewForm.fadeIn(function () {
+                $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
+
                 this.state.$articleNewForm.find('input#title').focus();
 
                 $('.blog-form .collapsible').collapsible();
@@ -30,6 +32,7 @@ var ArticleCreation = React.createClass({
     },
 
     _onSubmit: function () {
+        $('html, body').animate( { scrollTop: 0 }, 750 );
         this._toggleNewForm();
     },
 

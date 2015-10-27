@@ -75,6 +75,8 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.js   { js_redirect_to(request.referrer || root_path) }
       format.html { redirect_to(request.referrer || root_path) }
+      format.json { render json: {error: I18n.t('pundit.default')}.to_json,
+                           status: :forbidden }
     end
   end
 

@@ -48,7 +48,18 @@ var ArticleStore = Reflux.createStore({
                 this.onLoadArticles({tags: state.tags});
             }
         } else {
-            this.onLoadArticles({page: 1});
+            // By default, components fetch what they need
+            //this.onLoadArticles({page: 1});
+        }
+    },
+
+    _handleJsonErrors: function(xhr, status, error) {
+        if(status === 'error'){
+            if(error === 'Forbidden') {
+                Materialize.toast(I18n.t('js.article.model.errors.not_authorized'));
+            } else if(error === 'Unprocessable Entity') {
+                Materialize.toast(I18n.t('js.article.model.errors.unprocessable'));
+            }
         }
     },
 
@@ -63,6 +74,12 @@ var ArticleStore = Reflux.createStore({
         var url = this.url;
 
         if (data) {
+            if (data.page) {
+                requestParam.page = data.page;
+            } else {
+                requestParam.page = 1;
+            }
+
             if (data.tags) {
                 requestParam.tags = data.tags;
             }
@@ -71,10 +88,8 @@ var ArticleStore = Reflux.createStore({
                 requestParam.relation_tags = data.relationTags;
             }
 
-            if (data.page) {
-                requestParam.page = data.page;
-            } else {
-                requestParam.page = 1;
+            if (data.userId) {
+                requestParam.user_id = data.userId;
             }
 
             if (data.query) {
@@ -90,6 +105,15 @@ var ArticleStore = Reflux.createStore({
                 requestParam.autocompleteQuery = data.autocompleteQuery;
                 url += '/autocomplete';
             }
+
+            if(data.history) {
+                url += '/' + data.history + '/history';
+            }
+
+            if(data.restore) {
+                requestParam.version_id = data.restore.versionId;
+                url += '/' + data.restore.articleId + '/restore';
+            }
         }
 
         this.lastRequest = data;
@@ -99,6 +123,9 @@ var ArticleStore = Reflux.createStore({
             requestParam,
             function (data) {
                 callback.bind(this, data)();
+            }.bind(this))
+            .fail(function(xhr, status, error){
+                this._handleJsonErrors(xhr, status, error);
             }.bind(this));
     },
 
@@ -185,8 +212,8 @@ var ArticleStore = Reflux.createStore({
                 }
                 this.trigger(this.articleData);
             }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.url, status, err.toString());
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(xhr, status, error);
             }.bind(this)
         });
     },
@@ -228,8 +255,8 @@ var ArticleStore = Reflux.createStore({
                     this.trigger(this.articleData);
                 }
             }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.url, status, err.toString());
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(xhr, status, error);
             }.bind(this)
         });
     },
@@ -262,8 +289,8 @@ var ArticleStore = Reflux.createStore({
                 this.articleData.articles = updatedArticleList;
                 this.trigger(this.articleData);
             }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.url, status, err.toString());
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(xhr, status, error);
             }.bind(this)
         });
     },
@@ -330,6 +357,22 @@ var ArticleStore = Reflux.createStore({
         this.trigger(this.articleData);
 
         _paq.push(['trackSiteSearch', tagId, 'Tags']);
+    },
+
+    onLoadArticleHistory: function (data) {
+        if (!$utils.isEmpty(data.history)) {
+            this._fetchArticles(data, function (dataReceived) {
+                this.trigger({articleVersions: dataReceived.article_versions});
+            }.bind(this));
+        }
+    },
+
+    onRestoreArticle: function (data) {
+        if (!$utils.isEmpty(data.restore)) {
+            this._fetchArticles(data, function (dataReceived) {
+                this.trigger({articleRestored: dataReceived.articles[0]});
+            }.bind(this));
+        }
     }
 });
 

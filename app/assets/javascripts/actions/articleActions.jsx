@@ -8,7 +8,9 @@ var ArticleActions = Reflux.createActions([
     'deleteArticles',
     'filterArticlesByTag',
     'searchArticles',
-    'autocompleteArticles'
+    'autocompleteArticles',
+    'loadArticleHistory',
+    'restoreArticle'
 ]);
 
 //ArticleActions.fetchArticles.preEmit = function() { console.log('fetchArticles'); };

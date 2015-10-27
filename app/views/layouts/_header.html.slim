@@ -1,5 +1,12 @@
 header.blog-header
   ul#user-dropdown.dropdown-content
+    / User articles
+    - if user_signed_in?
+      li
+        = link_to t('views.header.user_articles'), user_path(current_user)
+
+    li.divider
+
     / Change language
     li class="#{'active' if I18n.locale == :fr}"
       = link_to t('views.header.french'), url_for(locale: 'fr')
@@ -29,17 +36,18 @@ header.blog-header
         ul#nav-mobile.right.hide-on-med-and-down
           / Search
           li
-            a#toggle-search href="#!"
+            a#toggle-search.tooltipped href="#!" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
               i.material-icons search
 
           / New article
-          li
-            a#toggle-article-creation href="#!"
-              i.material-icons edit
+          - if user_signed_in?
+            li
+              a#toggle-article-creation.tooltipped href="#!" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.article_creation_tooltip')}"
+                i.material-icons edit
 
           / Tags
           li
-            a.button-collapse.show-on-large data-activates="slide-out" href="#"
+            a.button-collapse.show-on-large.tooltipped data-activates="slide-out" href="#!" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
               i.material-icons local_offer
 
           / User preferences

@@ -21,7 +21,8 @@ var ArticleForm = React.createClass({
             multiLanguage: this.props.multiLanguage || false,
             disabled: true,
             editors: {},
-            isLink: false
+            isLink: false,
+            sendTooltip: null
         };
     },
 
@@ -148,22 +149,20 @@ var ArticleForm = React.createClass({
     _handleChange: function (event) {
         var text = event.currentTarget.textContent;
 
-        var newState = {};
-
         if (this.state.multiLanguage) {
-            if ($('#english-editor').summernote('code').length === 0 || $('#french-editor').summernote('code').length === 0) {
+            if ($('#english-editor').summernote('code').length < 3 || $('#french-editor').summernote('code').length < 3) {
                 this.refs.submit.setState({disabled: true});
             } else {
                 if (this.state.disabled) {
-                    this.refs.submit.setState({disabled: false});
+                    this.refs.submit.setState({disabled: false, tooltip: null});
                 }
             }
         } else {
-            if (text.length === 0) {
+            if (text.length < 3) {
                 this.refs.submit.setState({disabled: true});
             } else {
                 if (this.state.disabled) {
-                    this.refs.submit.setState({disabled: false});
+                    this.refs.submit.setState({disabled: false, tooltip: null});
                 }
             }
         }

@@ -40,6 +40,7 @@
 #                          PATCH  /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          PUT    /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          DELETE /users/:id(.:format)              users#destroy {:has_many=>:comments}
+#          history_article GET    /articles/:id/history(.:format)   articles#history {:has_many=>:comments}
 #          search_articles GET    /articles/search(.:format)        articles#search {:has_many=>:comments}
 #    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete {:has_many=>:comments}
 #                 articles GET    /articles(.:format)               articles#index {:has_many=>:comments}
@@ -95,6 +96,11 @@ Rails.application.routes.draw do
 
   # Articles
   resources :articles, has_many: :comments do
+    member do
+      get :history,       to: 'articles#history'
+      get :restore,       to: 'articles#restore'
+    end
+
     collection do
       get :search,        to: 'articles#search'
       get :autocomplete,  to: 'articles#autocomplete'

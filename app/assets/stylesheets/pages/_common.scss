@@ -279,10 +279,20 @@
     }
   }
 
-  .blog-article-box {
-  }
+  .blog-article-box {}
 
-  .blog-article-list {
+  .blog-article-list {}
+
+  .blog-article-history {
+
+    .article-history-item {
+      background-color: white;
+      padding: 20px;
+    }
+
+    .article-history-item-divider {
+      margin: 25px -20px;
+    }
   }
 
   .blog-article-item {
@@ -356,8 +366,12 @@
         @include article-hover;
       }
 
-      .article-link {
+      .article-history {
+        cursor: pointer;
+        @include article-hover;
       }
+
+      .article-link {}
 
       .article-delete {
         cursor: pointer;
@@ -379,6 +393,7 @@
 
     h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
       margin: 0;
+      padding: 0;
     }
 
     h1, h2 {

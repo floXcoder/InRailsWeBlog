@@ -81,41 +81,6 @@ var ArticleItem = React.createClass({
         ArticleActions.loadArticles({tags: [tagName]});
     },
 
-    _renderIsLink: function () {
-        if (this.state.isLink) {
-            return (
-                <div className="article-icons tooltipped"
-                    data-tooltip={I18n.t('js.article.tooltip.link')}>
-                    <i className="material-icons article-link">link</i>
-                </div>
-            );
-        } else {
-            return null;
-        }
-    },
-
-    _renderVisibility: function () {
-        if (this.props.userId) {
-            var viabilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: I18n.t('js.article.visibility.enum.' + this.props.article.visibility)});
-
-            if (this.props.article.visibility === 'everyone') {
-                return (
-                    <div className="article-icons tooltipped"
-                         data-tooltip={viabilityTooltip}>
-                        <i className="material-icons article-public">visibility</i>
-                    </div>
-                );
-            } else {
-                return (
-                    <div className="article-icons tooltipped"
-                         data-tooltip={viabilityTooltip}>
-                        <i className="material-icons article-private">visibility_off</i>
-                    </div>
-                );
-            }
-        }
-    },
-
     _onEditClick: function (event) {
         this.setState({articleDisplayMode: 'edit'});
     },
@@ -139,7 +104,7 @@ var ArticleItem = React.createClass({
         this.setState({articleDisplayMode: this.props.articleDisplayMode});
     },
 
-    _renderEdit: function () {
+    _renderEditIcon: function () {
         if (this.props.userId && this.props.userId === this.props.article.author_id) {
             if (this.state.articleDisplayMode === 'edit') {
                 $('.article-icons.tooltipped').tooltip('remove');
@@ -171,7 +136,42 @@ var ArticleItem = React.createClass({
         }
     },
 
-    _renderAuthor: function () {
+    _renderIsLinkIcon: function () {
+        if (this.state.isLink) {
+            return (
+                <div className="article-icons tooltipped"
+                     data-tooltip={I18n.t('js.article.tooltip.link')}>
+                    <i className="material-icons article-link">link</i>
+                </div>
+            );
+        } else {
+            return null;
+        }
+    },
+
+    _renderVisibilityIcon: function () {
+        if (this.props.userId) {
+            var viabilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: I18n.t('js.article.visibility.enum.' + this.props.article.visibility)});
+
+            if (this.props.article.visibility === 'everyone') {
+                return (
+                    <div className="article-icons tooltipped"
+                         data-tooltip={viabilityTooltip}>
+                        <i className="material-icons article-public">visibility</i>
+                    </div>
+                );
+            } else {
+                return (
+                    <div className="article-icons tooltipped"
+                         data-tooltip={viabilityTooltip}>
+                        <i className="material-icons article-private">visibility_off</i>
+                    </div>
+                );
+            }
+        }
+    },
+
+    _renderAuthorIcon: function () {
         return (
             <div className="article-icons">
                 <i className="material-icons">account_circle</i>
@@ -226,12 +226,11 @@ var ArticleItem = React.createClass({
                             <span dangerouslySetInnerHTML={{__html: this.props.children}}/>
                         </div>
                     </div>
-                    <div className="card-action">
-                        {!$utils.isEmpty(tags) ? tags : <a></a>}
+                    <div className="card-action clearfix">
                         <div className="right">
-                            {this._renderIsLink()}
-                            {this._renderVisibility()}
-                            {this._renderEdit()}
+                            {this._renderIsLinkIcon()}
+                            {this._renderVisibilityIcon()}
+                            {this._renderEditIcon()}
                         </div>
                     </div>
                 </div>
@@ -261,12 +260,11 @@ var ArticleItem = React.createClass({
                                  dangerouslySetInnerHTML={{__html: this.props.children}}/>
                         </div>
                     </div>
-                    <div className="card-action">
-                        {!$utils.isEmpty(tags) ? tags : <a></a>}
+                    <div className="card-action clearfix">
                         <div className="right">
-                            {this._renderIsLink()}
-                            {this._renderVisibility()}
-                            {this._renderEdit()}
+                            {this._renderIsLinkIcon()}
+                            {this._renderVisibilityIcon()}
+                            {this._renderEditIcon()}
                         </div>
                     </div>
                 </div>

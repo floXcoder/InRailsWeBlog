@@ -7,6 +7,8 @@ class ArticlesController < ApplicationController
   def index
     current_user_id = current_user ? current_user.id : nil
 
+    w params
+
     articles = if params[:tags]
                  tag_names = params[:tags].map { |tag| tag.downcase }
                  Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag_names}).order('articles.id DESC')
@@ -19,12 +21,16 @@ class ArticlesController < ApplicationController
                  Article.user_related(current_user_id).all.order('articles.id DESC')
                end
 
+    if params[:user_id]
+      articles = articles.where(author_id: params[:user_id])
+    end
+
     tags = Tag.joins(:articles).where(articles: {id: articles.ids}).order('name ASC').pluck(:id, :name).uniq
 
     articles = articles.paginate(page: params[:page], per_page: 5) if params[:page]
 
     respond_to do |format|
-      format.html { render :articles, formats: :json,
+      format.html { render :articles, formats: :json, content_type: 'application/json',
                            locals: {
                                articles: articles,
                                tags: tags,
@@ -58,7 +64,12 @@ class ArticlesController < ApplicationController
         article.build_tag_relationships
         article = article.reload
 
-        format.json { render :articles, locals: {articles: [article], tags: tags, current_user_id: current_user.id}, status: :created, location: article }
+        format.json { render :articles,
+                             locals: {
+                                 articles: [article],
+                                 tags: tags, current_user_id: current_user.id
+                             },
+                             status: :created, location: article }
       else
         format.json { render json: article.errors, status: :unprocessable_entity }
       end
@@ -100,24 +111,26 @@ class ArticlesController < ApplicationController
     tags = articles.joins(:tags).order('name ASC').pluck('tags.id', 'tags.name').uniq
 
     respond_to do |format|
-      format.html {
-        render :articles, formats: :json,
+      format.html do
+        render :articles, formats: :json, content_type: 'application/json',
                locals: {
                    articles: articles,
                    tags: tags,
                    highlight: results[:highlight],
                    current_user_id: current_user_id,
-                   suggestions: results[:suggestions]}
-      }
-      format.json {
+                   suggestions: results[:suggestions]
+               }
+      end
+      format.json do
         render :articles,
                locals: {
                    articles: articles,
                    tags: tags,
                    highlight: results[:highlight],
                    current_user_id: current_user_id,
-                   suggestions: results[:suggestions]}
-      }
+                   suggestions: results[:suggestions]
+               }
+      end
     end
   end
 
@@ -146,7 +159,71 @@ class ArticlesController < ApplicationController
     current_user_id = current_user ? current_user.id : nil
 
     respond_to do |format|
-      format.html { render :show, locals: {article: article, current_user_id: current_user_id} }
+      format.html { render :show,
+                           locals: {
+                               article: article,
+                               current_user_id: current_user_id
+                           }
+      }
+    end
+  end
+
+  def history
+    article = Article.friendly.find(params[:id])
+    authorize article
+
+    article_versions = article.translation.versions
+
+    current_user_id = current_user ? current_user.id : nil
+
+    respond_to do |format|
+      format.html { render :history, formats: :json, content_type: 'application/json',
+                           locals: {
+                               article_versions: article_versions,
+                               current_user_id: current_user_id
+                           }
+      }
+      format.json { render :history,
+                           locals: {
+                               article_versions: article_versions,
+                               current_user_id: current_user_id
+                           }
+      }
+    end
+  end
+
+  def restore
+    article = Article.friendly.find(params[:id])
+    authorize article
+
+    article_version = PaperTrail::Version.find_by_id(params[:version_id])
+
+    if article_version.reify
+      article_version.reify.save
+    else
+      # For undoing the create action
+      article_version.item.destroy
+    end
+
+    article.reload
+    tags = article.tags.pluck(:id, :name).uniq
+
+    respond_to do |format|
+      format.html { render :articles, formats: :json, content_type: 'application/json',
+                           locals: {
+                               articles: [article],
+                               tags: tags,
+                               current_user_id: current_user.id
+                           }
+      }
+      format.json { render :articles,
+                           locals: {
+                               articles: [article],
+                               tags: tags,
+                               current_user_id: current_user.id
+                           },
+                           status: :accepted, location: article
+      }
     end
   end
 

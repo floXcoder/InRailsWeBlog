@@ -28,6 +28,9 @@ en:
         visibility: "Visibility"
         allow_comment: "Allow comments"
         is_link: "Is a link?"
+        errors:
+          not_authorized: "You are not authorized to access to this resource"
+          unprocessable: "Can not create article!"
       tooltip:
         edit: "Quick edit"
         visibility: "Visibility: %{visibility}"
@@ -50,6 +53,11 @@ en:
         no_results:
           title: "No articles found"
           content: "Try something else :)"
+      history:
+        changed_at: "Version changed"
+        restore: "Restore this version"
+        none: "No history for this article!"
+        restored: "Version restored"
       tag:
         url: "Tag:"
       visibility:

@@ -108,7 +108,8 @@ class Article < ActiveRecord::Base
   before_save :sanitize_html
 
   # Translation
-  translates :title, :summary, :content, fallbacks_for_empty_translations: true
+  translates :title, :summary, :content, fallbacks_for_empty_translations: true,
+             versioning: { gem: :paper_trail, options: { on: [ :update ] } }
   accepts_nested_attributes_for :translations, allow_destroy: true
 
   # Enum

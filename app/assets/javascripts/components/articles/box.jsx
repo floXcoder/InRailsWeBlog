@@ -1,7 +1,7 @@
-var ArticleList = require('./list');
 var ArticleStore = require('../../stores/articleStore');
+var ArticleActions = require('../../actions/articleActions');
 var UserStore = require('../../stores/userStore');
-
+var ArticleList = require('./list');
 var Spinner = require('../../components/materialize/spinner');
 
 var ArticleBox = React.createClass({
@@ -23,6 +23,12 @@ var ArticleBox = React.createClass({
     },
 
     componentDidMount: function () {
+        if(this.props.userConnected) {
+            ArticleActions.loadArticles({page: 1, userId: this.props.userId});
+        } else {
+            ArticleActions.loadArticles({page: 1});
+        }
+
         $(ReactDOM.findDOMNode(this).className).ready(function(){
             $('.tooltipped').tooltip({
                 position: "bottom",

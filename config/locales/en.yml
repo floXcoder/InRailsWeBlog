@@ -20,7 +20,11 @@ en:
     header:
       sign_up: "Sign Up"
       log_in: "Log In"
+      search_tooltip: "Search"
+      article_creation_tooltip: "Create a new article"
+      tags_tooltip: "Tags list"
       preferences: "Preferences"
+      user_articles: "My articles"
       profile:
        connected: "My Profile"
        not_connected: "Connection"

@@ -24,6 +24,10 @@ gem 'i18n-js',                  '= 3.0.0.rc9'
 gem 'geocoder',                 '~> 1.2.11'
 gem 'maxminddb',                '~> 0.1.8'
 
+# Model versioning
+gem 'paper_trail',              '~> 4.0.0'
+gem 'globalize-versioning',     git: 'https://github.com/globalize/globalize-versioning.git'
+
 # Run asynschronous process
 gem 'sidekiq',                  '~> 3.5.0'
 gem 'sinatra',                  '~> 1.4.5',     require: false
