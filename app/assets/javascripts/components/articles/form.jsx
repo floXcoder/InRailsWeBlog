@@ -154,7 +154,7 @@ var ArticleForm = React.createClass({
                 this.refs.submit.setState({disabled: true});
             } else {
                 if (this.state.disabled) {
-                    this.refs.submit.setState({disabled: false, tooltip: null});
+                    this.refs.submit.setState({disabled: false});
                 }
             }
         } else {
@@ -162,7 +162,7 @@ var ArticleForm = React.createClass({
                 this.refs.submit.setState({disabled: true});
             } else {
                 if (this.state.disabled) {
-                    this.refs.submit.setState({disabled: false, tooltip: null});
+                    this.refs.submit.setState({disabled: false});
                 }
             }
         }

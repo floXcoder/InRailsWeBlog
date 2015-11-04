@@ -12,7 +12,7 @@ var ArticleElement = React.createClass({
     getInitialState: function () {
         return {
             articleVersions: null,
-            article: this.props.article,
+            article: this.props.article.article,
             isHistoryDisplayed: false
         };
     },
@@ -110,7 +110,7 @@ var ArticleElement = React.createClass({
     },
 
     _renderHistoryIcon: function () {
-        if (this.props.userId && this.props.userId === this.state.article.author_id) {
+        if (this.props.userId && this.props.userId === this.state.article.author.id) {
             return (
                 <div className="article-icons" onClick={this._showHistory}>
                     <i className="material-icons article-history">history</i>
@@ -120,7 +120,7 @@ var ArticleElement = React.createClass({
     },
 
     _renderEditIcon: function () {
-        if (this.props.userId && this.props.userId === this.state.article.author_id) {
+        if (this.props.userId && this.props.userId === this.state.article.author.id) {
             return (
                 <a className="article-icons" href={"/articles/" + this.state.article.id + "/edit"}>
                     <i className="material-icons article-edit">mode_edit</i>

@@ -2,7 +2,7 @@ development:
   adapter: postgresql
   encoding: unicode
   database: inrailsweblog_dev
-  pool: 5
+  pool: 15
   username: <%= ENV['DATABASE_DEV_USERNAME'] %>
   password: <%= ENV['DATABASE_DEV_PASSWORD'] %>
 
@@ -10,7 +10,7 @@ test:
   adapter: postgresql
   encoding: unicode
   database: inrailsweblog_test
-  pool: 5
+  pool: 15
   username: <%= ENV['DATABASE_TEST_USERNAME'] %>
   password: <%= ENV['DATABASE_TEST_PASSWORD'] %>
 
@@ -18,6 +18,6 @@ production:
   adapter: postgresql
   encoding: unicode
   database: inrailsweblog
-  pool: 5
+  pool: 15
   username: <%= ENV['DATABASE_PROD_USERNAME'] %>
   password: <%= ENV['DATABASE_PROD_PASSWORD'] %>

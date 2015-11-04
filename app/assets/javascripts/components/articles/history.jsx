@@ -24,7 +24,7 @@ var ArticleHistory = React.createClass({
     render: function () {
         if (this.props.articleVersions) {
             var Versions = this.props.articleVersions.map(function (version) {
-                if(!$utils.isEmpty(version.object.content)) {
+                if(!$utils.isEmpty(version.article.content)) {
                     return (
                         <li className="" key={version.id}>
                             <div className="collapsible-header">
@@ -32,19 +32,21 @@ var ArticleHistory = React.createClass({
                                 {I18n.t('js.article.history.changed_at') + ' ' + version.changed_at}
                             </div>
                             <div className="collapsible-body article-history-item blog-article-item">
-                                <span dangerouslySetInnerHTML={{__html: version.object.content}}/>
+                                <span dangerouslySetInnerHTML={{__html: version.article.content}}/>
                                 <hr className="article-history-item-divider"/>
                                 <a className="waves-effect waves-light btn-small"
-                                   onClick={this._restoreArticle.bind(this, version.object.id, version.id)}>
+                                   onClick={this._restoreArticle.bind(this, version.article.id, version.id)}>
                                     {I18n.t('js.article.history.restore')}
                                 </a>
                             </div>
                         </li>
                     );
-                } else {
-                    Materialize.toast(I18n.t('js.article.history.none'));
                 }
             }.bind(this));
+
+            if($utils.isEmpty(Versions)) {
+                Materialize.toast(I18n.t('js.article.history.none'));
+            }
 
             return (
                 <ul className="blog-article-history collapsible popout" data-collapsible="accordion">

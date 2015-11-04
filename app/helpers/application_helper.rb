@@ -38,19 +38,6 @@ module ApplicationHelper
     (distance / 1000.0).round(2)
   end
 
-  # noinspection RubyArgCount
-  def present(model, options = {})
-    return unless model
-
-    klass = options[:presenter_class] || "#{model.class}Presenter".constantize
-    presenter = klass.new(model, self)
-    if block_given?
-      yield(presenter)
-    else
-      presenter
-    end
-  end
-
   def shorten_text(text, length = 60)
     return '' unless text
 

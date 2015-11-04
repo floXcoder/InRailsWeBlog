@@ -221,8 +221,8 @@
 
       &:hover {
         background-color: inherit;
-        border: 1px solid color('blue', 'darken-2');
-        box-shadow: 0 0 2px color('blue', 'darken-2');
+        //border: 1px solid color('blue', 'darken-2');
+        //box-shadow: 0 0 2px color('blue', 'darken-2');
       }
 
       &.active{
@@ -238,14 +238,15 @@
       i {
         float: right;
 
-        &.tag-parent-icon{
-          float: left;
-          color: color('blue-grey', 'darken-3');
-        }
-
         &.tag-dropdown {
           padding: 5px;
         }
+      }
+
+      .tag-parent {
+        color: black;
+        background-color: color('grey', 'lighten-5');
+        padding: 0 1em;
       }
     }
 
@@ -259,7 +260,12 @@
       margin-right: 1rem;
     }
 
-    .tag-children {}
+    .tag-children {
+      color: black;
+      background-color: color('grey', 'lighten-5');
+      margin-left: 40px;
+      padding: 0 1em;
+    }
   }
 
   .blog-associated-tag {

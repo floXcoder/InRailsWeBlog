@@ -58,5 +58,15 @@ module InRailsWeBlog
 
     # "pretty" HTML format output
     Slim::Engine.set_options pretty: true
+
+    # Json adapter for serializers
+    ActiveModel::Serializer.config.adapter = :json
+
+    # Cache with Redis
+    config.cache_store = :readthis_store, {
+        expires_in: 90.minutes,
+        namespace: 'rails_cache',
+        redis: { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis }
+    }
   end
 end

@@ -28,9 +28,8 @@ class Article < ActiveRecord::Base
   # has_many :comments, as: :commentable
 
   ## Tags
-  has_many :tags, through: :tagged_articles, autosave: true
   has_many :tagged_articles
-  accepts_nested_attributes_for :tags, reject_if: :all_blank, update_only: true, allow_destroy: false
+  has_many :tags, through: :tagged_articles, autosave: true
   has_many :parent_tags,
            -> { where(tagged_articles: {parent: true}) },
            through: :tagged_articles,
@@ -39,6 +38,7 @@ class Article < ActiveRecord::Base
            -> { where(tagged_articles: {child: true}) },
            through: :tagged_articles,
            source: :tag
+  accepts_nested_attributes_for :tags, reject_if: :all_blank, update_only: true, allow_destroy: false
 
   def tags_attributes=(tags_attrs)
     article_tags = []
@@ -82,15 +82,11 @@ class Article < ActiveRecord::Base
     end unless self.child_tags.empty?
   end
 
-  ## Picture
-  has_many :picture, as: :imageable, autosave: true, dependent: :destroy
-  accepts_nested_attributes_for :picture, allow_destroy: true, reject_if: lambda {
-                                            |picture| picture['image'].blank? && picture['image_tmp'].blank?
-                                        }
-
   # Scopes
-  scope :user_related, -> (user_id = nil) { where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
-                                                  author_id: user_id) }
+  scope :user_related, -> (user_id = nil) {
+    where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
+                                                  author_id: user_id)
+  }
 
   # Parameters validation
   validates :author_id, presence: true
@@ -133,7 +129,7 @@ class Article < ActiveRecord::Base
   searchkick autocomplete: [:title, :tags],
              suggest: [:title, :tags],
              highlight: [:content_en, :content_fr, :public_content_en, :public_content_fr],
-             include: [:author, :tags, :translations],
+             include: [:author, :tags, :translations, :parent_tags, :child_tags],
              language: (I18n.locale == :fr) ? 'French' : 'English'
   # wordnet: true,
 
@@ -240,33 +236,14 @@ class Article < ActiveRecord::Base
     }
   end
 
-  def adapted_content(current_user_id, highlight = nil, locale = nil)
-    content = self.content
-
-    if highlight
-      # Adapt current language
-      if I18n.locale == :fr && !highlight[:content_fr] && highlight[:content_en]
-        content = self.translations.find_by(locale: 'en').content
-      elsif I18n.locale == :en && !highlight[:content_en] && highlight[:content_fr]
-        content = self.translations.find_by(locale: 'fr').content
-      end
-
-      if self.private_content && self.author.id != current_user_id
-        if (highlight[:content_fr] && !highlight[:public_content_fr]) || (highlight[:content_en] && !highlight[:public_content_en])
-          content = nil
-        else
-          content = content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
-        end
-      end
+  def adapted_content(current_user_id, locale = nil)
+    if self.private_content && self.author.id != current_user_id
+      self.public_content(locale)
+    elsif locale
+      translations.find_by(locale: locale).content
     else
-      if self.private_content && self.author.id != current_user_id
-        content = self.public_content(locale)
-      elsif locale
-        content = translations.find_by(locale: locale).content
-      end
+      self.content
     end
-
-    return content
   end
 
   # Sanitize content
@@ -286,33 +263,6 @@ class Article < ActiveRecord::Base
 
     self.content = content
     self.private_content = true if has_private_content?
-  end
-
-  def to_builder(current_user_id, multi_language = false)
-    Jbuilder.new do |article|
-      article.id id
-      article.author author.pseudo
-      article.author_id author.id
-      article.title title
-      article.summary summary
-      article.content adapted_content(current_user_id)
-      article.visibility visibility
-      article.is_link is_link
-
-      if multi_language
-        article.id_en translations.find_by(locale: 'en').id
-        article.title_en translations.find_by(locale: 'en').title
-        article.summary_en translations.find_by(locale: 'en').summary
-        article.content_en adapted_content(current_user_id, nil, 'en')
-
-        article.id_fr translations.find_by(locale: 'fr').id
-        article.title_fr translations.find_by(locale: 'fr').title
-        article.summary_fr translations.find_by(locale: 'fr').summary
-        article.content_fr adapted_content(current_user_id, nil, 'fr')
-      end
-
-      article.tags tags, :id, :name, :slug
-    end
   end
 
 end

@@ -307,7 +307,7 @@ var ArticleStore = Reflux.createStore({
         }
 
         this._fetchArticles(data, function (dataReceived) {
-            // Manage in articles/box
+            // Manage in articles/box and search/module
             this.articleData = dataReceived;
             this.articleData.hasMore = true;
 
@@ -328,7 +328,7 @@ var ArticleStore = Reflux.createStore({
     onAutocompleteArticles: function (data) {
         if (!$utils.isEmpty(data.autocompleteQuery)) {
             this._fetchArticles(data, function (dataReceived) {
-                this.autocompleteValues = dataReceived;
+                this.autocompleteValues = dataReceived.articles;
                 this.trigger({autocompletion: this.autocompleteValues});
             }.bind(this));
         }
@@ -362,7 +362,7 @@ var ArticleStore = Reflux.createStore({
     onLoadArticleHistory: function (data) {
         if (!$utils.isEmpty(data.history)) {
             this._fetchArticles(data, function (dataReceived) {
-                this.trigger({articleVersions: dataReceived.article_versions});
+                this.trigger({articleVersions: dataReceived['paper_trail/versions']});
             }.bind(this));
         }
     },
@@ -370,7 +370,7 @@ var ArticleStore = Reflux.createStore({
     onRestoreArticle: function (data) {
         if (!$utils.isEmpty(data.restore)) {
             this._fetchArticles(data, function (dataReceived) {
-                this.trigger({articleRestored: dataReceived.articles[0]});
+                this.trigger({articleRestored: dataReceived.article});
             }.bind(this));
         }
     }

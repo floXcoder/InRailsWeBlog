@@ -41,6 +41,7 @@
 #                          PUT    /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          DELETE /users/:id(.:format)              users#destroy {:has_many=>:comments}
 #          history_article GET    /articles/:id/history(.:format)   articles#history {:has_many=>:comments}
+#          restore_article GET    /articles/:id/restore(.:format)   articles#restore {:has_many=>:comments}
 #          search_articles GET    /articles/search(.:format)        articles#search {:has_many=>:comments}
 #    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete {:has_many=>:comments}
 #                 articles GET    /articles(.:format)               articles#index {:has_many=>:comments}
@@ -59,7 +60,6 @@
 #                          PATCH  /tags/:id(.:format)               tags#update
 #                          PUT    /tags/:id(.:format)               tags#update
 #                          DELETE /tags/:id(.:format)               tags#destroy
-#             terms_of_use GET    /terms_of_use(.:format)           static_pages#terms_of_use
 #              sidekiq_web        /sidekiq                          Sidekiq::Web
 #
 
@@ -110,9 +110,6 @@ Rails.application.routes.draw do
   # Tags
   resources :tags do
   end
-
-  # Static pages
-  get     :terms_of_use,  to: 'static_pages#terms_of_use'
 
   # Sidekiq interface
   mount Sidekiq::Web => '/sidekiq'

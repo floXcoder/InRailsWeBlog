@@ -18,6 +18,7 @@ class CreateArticles < ActiveRecord::Migration
                                       content: { type: :text,   default: '', null: false }
 
     add_index :articles, :slug, unique: true
+    add_index :articles, [:author_id, :visibility]
   end
 
   def down

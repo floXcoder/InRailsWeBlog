@@ -65,18 +65,18 @@ var SearchModule = React.createClass({
             articleStore.autocompletion.forEach(function (autocompleteValue) {
                 autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
                 autocompleteValue.tags.forEach(function (tag) {
-                    tags.push(tag);
+                    tags.push(tag.name);
                 });
             });
-            _.uniq(tags).forEach(function (tag) {
+            _.uniq(tags, function (tag) {return tag.id}).forEach(function (tag) {
                 autocompletionValues.push({entry: tag, tag: tag});
             });
 
             newState.autocompleteValues = autocompletionValues;
         }
 
-        if (!$utils.isEmpty(articleStore.suggestions)) {
-            newState.suggestions = articleStore.suggestions;
+        if (!$utils.isEmpty(articleStore.articles) && !$utils.isEmpty(articleStore.articles.first.suggestions)) {
+            newState.suggestions = articleStore.articles.first.suggestions;
         } else if (!$utils.isEmpty(this.state.suggestions)) {
             newState.suggestions = [];
         }

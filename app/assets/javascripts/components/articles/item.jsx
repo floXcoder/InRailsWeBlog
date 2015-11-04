@@ -105,7 +105,7 @@ var ArticleItem = React.createClass({
     },
 
     _renderEditIcon: function () {
-        if (this.props.userId && this.props.userId === this.props.article.author_id) {
+        if (this.props.userId && this.props.userId === this.props.article.author.id) {
             if (this.state.articleDisplayMode === 'edit') {
                 $('.article-icons.tooltipped').tooltip('remove');
                 return (
@@ -195,7 +195,7 @@ var ArticleItem = React.createClass({
             var childTags = _.indexBy(this.props.article.child_tags, 'id');
             var parentTags = _.indexBy(this.props.article.parent_tags, 'id');
 
-            var tags = this.props.article.tags.map(function (tag) {
+            var Tags = this.props.article.tags.map(function (tag) {
                 var relationshipClass = '';
                 if(parentTags[tag.id]) {
                     relationshipClass = 'tag-parent';
@@ -227,6 +227,7 @@ var ArticleItem = React.createClass({
                         </div>
                     </div>
                     <div className="card-action clearfix">
+                        {Tags}
                         <div className="right">
                             {this._renderIsLinkIcon()}
                             {this._renderVisibilityIcon()}
@@ -236,7 +237,7 @@ var ArticleItem = React.createClass({
                 </div>
             );
         } else if (this.state.articleDisplayMode === 'edit') {
-            var tags = this.props.article.tags.map(function (tag) {
+            var Tags = this.props.article.tags.map(function (tag) {
                 return (
                     <a key={tag.id}
                        onClick={this._onClickTag.bind(this, tag.id)}
@@ -261,6 +262,7 @@ var ArticleItem = React.createClass({
                         </div>
                     </div>
                     <div className="card-action clearfix">
+                        {Tags}
                         <div className="right">
                             {this._renderIsLinkIcon()}
                             {this._renderVisibilityIcon()}

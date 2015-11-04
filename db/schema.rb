@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20151026193554) do
     t.datetime "updated_at",                      null: false
   end
 
+  add_index "articles", ["author_id", "visibility"], name: "index_articles_on_author_id_and_visibility", using: :btree
   add_index "articles", ["author_id"], name: "index_articles_on_author_id", using: :btree
   add_index "articles", ["slug"], name: "index_articles_on_slug", unique: true, using: :btree
 
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(version: 20151026193554) do
     t.datetime "updated_at",     null: false
   end
 
+  add_index "pictures", ["imageable_id", "imageable_type"], name: "index_pictures_on_imageable_id_and_imageable_type", using: :btree
   add_index "pictures", ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id", using: :btree
 
   create_table "preferences", force: :cascade do |t|
@@ -63,6 +65,8 @@ ActiveRecord::Schema.define(version: 20151026193554) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "preferences", ["user_id"], name: "index_preferences_on_user_id", using: :btree
 
   create_table "tag_relationships", force: :cascade do |t|
     t.integer  "parent_id"

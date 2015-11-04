@@ -121,17 +121,4 @@ class ApplicationController < ActionController::Base
 
     session[:previous_url] = previous_url(request.path) unless request.xhr? # don't store ajax calls
   end
-
-  def get_coordinates_from_IP
-    result = request.location
-    distance = 100
-    ip_coordinates = result.coordinates
-
-    if ip_coordinates != [0,0]
-      Geocoder::Calculations.bounding_box(ip_coordinates, distance)
-    else
-      nil
-    end
-  end
-
 end

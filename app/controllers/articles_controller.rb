@@ -7,43 +7,24 @@ class ArticlesController < ApplicationController
   def index
     current_user_id = current_user ? current_user.id : nil
 
-    w params
-
     articles = if params[:tags]
                  tag_names = params[:tags].map { |tag| tag.downcase }
-                 Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag_names}).order('articles.id DESC')
+                 Article.includes(:translations, :author).user_related(current_user_id).joins(:tags).where(tags: {name: tag_names}).order('articles.id DESC')
                elsif params[:relation_tags]
                  parent_tag, child_tag = params[:relation_tags].map { |tag| tag.downcase }
                  parent_articles = Article.joins(:tags).where(tagged_articles: {parent: true}, tags: {name: parent_tag})
                  children_articles = Article.joins(:tags).where(tagged_articles: {child: true}, tags: {name: child_tag})
-                 Article.user_related(current_user_id).joins(:tags).where(id: parent_articles.ids & children_articles.ids).order('articles.id DESC').distinct
+                 Article.user_related(current_user_id).joins(:tags).where(id: parent_articles.ids & children_articles.ids).order('articles.id DESC')
                else
-                 Article.user_related(current_user_id).all.order('articles.id DESC')
+                 Article.includes(:translations, :author, :tags).user_related(current_user_id).all.order('articles.id DESC')
                end
 
-    if params[:user_id]
-      articles = articles.where(author_id: params[:user_id])
-    end
-
-    tags = Tag.joins(:articles).where(articles: {id: articles.ids}).order('name ASC').pluck(:id, :name).uniq
-
+    articles = articles.where(author_id: params[:user_id]) if params[:user_id]
     articles = articles.paginate(page: params[:page], per_page: 5) if params[:page]
 
     respond_to do |format|
-      format.html { render :articles, formats: :json, content_type: 'application/json',
-                           locals: {
-                               articles: articles,
-                               tags: tags,
-                               current_user_id: current_user_id
-                           }
-      }
-      format.json { render :articles,
-                           locals: {
-                               articles: articles,
-                               tags: tags,
-                               current_user_id: current_user_id
-                           }
-      }
+      format.html { render json: articles, formats: :json, content_type: 'application/json' }
+      format.json { render json: articles }
     end
   end
 
@@ -57,22 +38,29 @@ class ArticlesController < ApplicationController
     end
     authorize article
 
-    tags = article.tags.pluck(:id, :name).uniq
-
     respond_to do |format|
       if article.save
         article.build_tag_relationships
         article = article.reload
 
-        format.json { render :articles,
-                             locals: {
-                                 articles: [article],
-                                 tags: tags, current_user_id: current_user.id
-                             },
-                             status: :created, location: article }
+        format.json { render json: article, status: :created, location: article }
       else
         format.json { render json: article.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def autocomplete
+    current_user_id = current_user ? current_user.id : nil
+
+    results = Article.search(params[:autocompleteQuery], autocomplete: true, limit: 6)
+                  .records
+                  .includes(:translations, :tags)
+                  .user_related(current_user_id)
+
+    respond_to do |format|
+      format.html { render json: results, each_serializer: AutocompleteSerializer, content_type: 'application/json' }
+      format.json { render json: results, each_serializer: AutocompleteSerializer }
     end
   end
 
@@ -106,49 +94,17 @@ class ArticlesController < ApplicationController
                                      exact: search_options[:exact]
                                  })
 
-    articles = results[:articles].includes(:author).user_related(current_user_id)
-
-    tags = articles.joins(:tags).order('name ASC').pluck('tags.id', 'tags.name').uniq
+    articles = results[:articles].includes(:translations, :author, :tags).user_related(current_user_id)
 
     respond_to do |format|
-      format.html do
-        render :articles, formats: :json, content_type: 'application/json',
-               locals: {
-                   articles: articles,
-                   tags: tags,
-                   highlight: results[:highlight],
-                   current_user_id: current_user_id,
-                   suggestions: results[:suggestions]
-               }
-      end
-      format.json do
-        render :articles,
-               locals: {
-                   articles: articles,
-                   tags: tags,
-                   highlight: results[:highlight],
-                   current_user_id: current_user_id,
-                   suggestions: results[:suggestions]
-               }
-      end
-    end
-  end
-
-  def autocomplete
-    current_user_id = current_user ? current_user.id : nil
-
-    results = Article.user_related(current_user_id).search(params[:autocompleteQuery], autocomplete: true, limit: 6)
-
-    results = results.map { |result|
-      {
-          title: result.title,
-          tags: result.tags.pluck(:name)
-      }
-    }
-
-    respond_to do |format|
-      format.json { render json: results }
-      format.html { render json: results }
+      format.html { render json: articles,
+                           highlight: results[:highlight],
+                           suggestions: results[:suggestions],
+                           each_serializer: SearchSerializer, content_type: 'application/json' }
+      format.json { render json: articles,
+                           highlight: results[:highlight],
+                           suggestions: results[:suggestions],
+                           each_serializer: SearchSerializer }
     end
   end
 
@@ -156,15 +112,8 @@ class ArticlesController < ApplicationController
     article = Article.friendly.find(params[:id])
     authorize article
 
-    current_user_id = current_user ? current_user.id : nil
-
     respond_to do |format|
-      format.html { render :show,
-                           locals: {
-                               article: article,
-                               current_user_id: current_user_id
-                           }
-      }
+      format.html { render :show, locals: { article: article } }
     end
   end
 
@@ -174,21 +123,9 @@ class ArticlesController < ApplicationController
 
     article_versions = article.translation.versions
 
-    current_user_id = current_user ? current_user.id : nil
-
     respond_to do |format|
-      format.html { render :history, formats: :json, content_type: 'application/json',
-                           locals: {
-                               article_versions: article_versions,
-                               current_user_id: current_user_id
-                           }
-      }
-      format.json { render :history,
-                           locals: {
-                               article_versions: article_versions,
-                               current_user_id: current_user_id
-                           }
-      }
+      format.html { render json: article_versions, each_serializer: HistorySerializer, content_type: 'application/json' }
+      format.json { render json: article_versions, each_serializer: HistorySerializer }
     end
   end
 
@@ -206,24 +143,10 @@ class ArticlesController < ApplicationController
     end
 
     article.reload
-    tags = article.tags.pluck(:id, :name).uniq
 
     respond_to do |format|
-      format.html { render :articles, formats: :json, content_type: 'application/json',
-                           locals: {
-                               articles: [article],
-                               tags: tags,
-                               current_user_id: current_user.id
-                           }
-      }
-      format.json { render :articles,
-                           locals: {
-                               articles: [article],
-                               tags: tags,
-                               current_user_id: current_user.id
-                           },
-                           status: :accepted, location: article
-      }
+      format.html { render json: article, formats: :json, content_type: 'application/json' }
+      format.json { render json: article, status: :accepted, location: article }
     end
   end
 
@@ -235,7 +158,12 @@ class ArticlesController < ApplicationController
     multi_language = (current_user.read_preference(:multi_language) == 'true')
 
     respond_to do |format|
-      format.html { render :edit, locals: {article: article, current_user_id: current_user_id, multi_language: multi_language} }
+      format.html { render :edit, locals: {
+                                    article: article,
+                                    current_user_id: current_user_id,
+                                    multi_language: multi_language
+                                }
+      }
     end
   end
 
@@ -243,14 +171,12 @@ class ArticlesController < ApplicationController
     article = Article.find(params[:id])
     authorize article
 
-    current_user_id = current_user ? current_user.id : nil
-
     respond_to do |format|
       if current_user.read_preference(:multi_language) == 'true' ?
           article.update_attributes(article_translated_params) :
           article.update_attributes(article_params)
 
-        format.json { render :articles, locals: {articles: [article], current_user_id: current_user_id}, status: :accepted, location: article }
+        format.json { render json: article, status: :accepted, location: article }
       else
         format.json { render json: article.errors, status: :not_modified }
       end
@@ -263,7 +189,7 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if article.destroy
-        format.json { render json: {id: article.id}, status: :accepted }
+        format.json { render json: { id: article.id }, status: :accepted }
       else
         format.json { render json: article.errors, status: :not_modified }
       end

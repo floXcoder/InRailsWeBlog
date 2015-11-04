@@ -56,10 +56,4 @@ class Tag < ActiveRecord::Base
     ]
   end
 
-  def to_builder
-    Jbuilder.new do |tag|
-      tag.(self, :id, :tagger_id, :name)
-    end
-  end
-
 end
