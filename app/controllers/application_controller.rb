@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  ensure_security_headers
 
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -73,8 +74,8 @@ class ApplicationController < ActionController::Base
     flash.now[:alert] = t "#{policy_name}.#{policy_type}", scope: 'pundit', default: :default
 
     respond_to do |format|
-      format.js   { js_redirect_to(request.referrer || root_path) }
-      format.html { redirect_to(request.referrer || root_path) }
+      format.js   { js_redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
+      format.html { redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
       format.json { render json: {error: I18n.t('pundit.default')}.to_json,
                            status: :forbidden }
     end

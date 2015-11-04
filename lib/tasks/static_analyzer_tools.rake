@@ -17,15 +17,20 @@ namespace :InRailsWeBlog do
         t.rspec_opts << ' --out static_analysis/rspec.html'
       end
 
-      Rake.application.invoke_task('spec')
-      %x{mv #{Rails.root}/static_analysis/index.html #{Rails.root}/static_analysis/code_coverage.html}
+      begin
+        Rake.application.invoke_task('spec')
+      ensure
+        output_file = Rails.root.join('static_analysis', 'code_coverage.html')
+        %x{mv #{Rails.root}/static_analysis/index.html #{output_file}}
+      end
     end
 
     desc 'Rails Best Practices'
     task best_pratices: :environment do
       Rails.env = 'test'
 
-      %x{mkdir -p static_analysis && rails_best_practices -f html --output-file static_analysis/rails_best_practices.html --with-git --silent --spec .}
+      output_file = Rails.root.join('static_analysis', 'rails_best_practices.html')
+      %x{mkdir -p static_analysis && rails_best_practices -f html --output-file #{output_file} --with-git --silent --spec .}
     end
 
     desc 'Rubocop'
@@ -34,7 +39,8 @@ namespace :InRailsWeBlog do
 
       require 'rubocop'
       cli = RuboCop::CLI.new
-      cli.run(%w(--rails --format html -o static_analysis/rubocop.html))
+      output_file = Rails.root.join('static_analysis', 'rubocop.html')
+      cli.run(%W(--rails --format html -o #{output_file}))
     end
 
     desc 'Brakeman'
@@ -51,37 +57,47 @@ namespace :InRailsWeBlog do
     task metric_fu: :environment do
       Rails.env = 'test'
 
+      output_file = Rails.root.join('static_analysis', 'metric_fu.html')
       %x{metric_fu --format html --out #{Rails.root}/static_analysis/metric_fu --no-open --no-rcov --no-rails-best-practices}
       %x{rm #{Rails.root}/static_analysis/metric_fu.html}
-      %x{ln -s #{Rails.root}/static_analysis/metric_fu/index.html #{Rails.root}/static_analysis/metric_fu.html}
+      %x{ln -s #{Rails.root}/static_analysis/metric_fu/index.html #{output_file}}
     end
 
     desc 'i18n'
     task i18n: :environment do
       Rails.env = 'test'
 
-      %x{i18n-tasks health > #{Rails.root}/static_analysis/i18n.txt}
+      output_file = Rails.root.join('static_analysis', 'i18n.html')
+      %x{i18n-tasks missing > #{output_file}}
     end
 
-    desc 'Find unused CSS. IMPORTANT: Rails server must be running on port 3000.'
-    task unused_CSS: :environment do
-      require 'deadweight'
+    # desc 'Find unused CSS. IMPORTANT: Rails server must be running on port 3000.'
+    # task unused_CSS: :environment do
+    #   require 'deadweight'
+    #
+    #   dw = Deadweight.new
+    #   dw.root = 'http://localhost:3000'
+    #
+    #   dw.stylesheets = %w( /assets/application.css /assets/home/home.css )
+    #   dw.pages = %w( / /rides /outings )
+    #
+    #   static_path = Rails.root.join('static_analysis')
+    #   FileUtils.mkdir_p(static_path) unless File.directory?(static_path)
+    #
+    #   output_file = Rails.root.join('static_analysis', 'unused_css.txt')
+    #   File.open(output_file, 'w') { |file| file.write dw.run }
+    # end
 
-      dw = Deadweight.new
-      dw.root = 'http://localhost:3000'
+    desc 'Dawn'
+    task dawn: :environment do
+      # require 'dawn/tasks'
+      # Rake.application.invoke_task('dawn:run')
 
-      dw.stylesheets = %w( /assets/application.css /assets/home/home.css )
-      dw.pages = %w( / /rides /outings )
-
-      static_path = Rails.root.join('static_analysis')
-      FileUtils.mkdir_p(static_path) unless File.directory?(static_path)
-
-      output_file = Rails.root.join('static_analysis', 'unused_css.txt')
-      File.open(output_file, 'w') { |file| file.write dw.run }
+      output_file = Rails.root.join('static_analysis', 'dawn.html')
+      %x{dawn --html -F #{output_file} .}
     end
 
     desc 'Generate all reports'
-    # task all: [:best_pratices, :rubocop, :brakeman, :rspec_coverage, :metric_fu, :i18n, :unused_CSS]
-    task all: [:best_pratices, :rubocop, :brakeman, :rspec_coverage, :metric_fu, :i18n]
+    task all: [:best_pratices, :rubocop, :brakeman, :metric_fu, :i18n, :dawn, :rspec_coverage]
   end
 end

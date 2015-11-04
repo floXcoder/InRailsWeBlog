@@ -49,6 +49,9 @@ gem 'devise',                   '~> 3.5.2'
 # Authorization mechanism
 gem 'pundit',                   '~> 1.0.1'
 
+# Secure headers
+gem 'secure_headers',           '~> 2.4.3'
+
 # Human-friendly URLs
 gem 'friendly_id',              '~> 5.1.0'
 
@@ -149,6 +152,9 @@ group :test do
   gem 'metric_fu',              '~> 4.12.0',  require: false
   gem 'i18n-tasks',             '~> 0.9.0',   require: false
   gem 'deadweight',             '~> 0.2.2',   require: false
+
+  # Security
+  gem 'dawnscanner',            '~> 1.4.2',   require: false
 end
 
 group :development, :test do
