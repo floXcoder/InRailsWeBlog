@@ -17,6 +17,7 @@
 
 # Ignore SQL dump
 /db/*.sql
+/db/dump
 
 # Ignore Rubymine files
 /.idea

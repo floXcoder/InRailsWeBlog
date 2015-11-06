@@ -71,6 +71,9 @@ gem 'mini_magick',              '~> 4.3.5'
 # Search in database
 gem 'searchkick',               '~> 0.9.1'
 
+# Dump database
+gem 'seed_dump',                '~> 3.2.2'
+
 # Deployment
 gem 'capistrano',               '~> 3.4.0'
 gem 'capistrano-rails',         '~> 1.1.5'
