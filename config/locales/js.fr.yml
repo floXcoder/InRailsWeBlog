@@ -35,6 +35,7 @@ fr:
         edit: "Édition rapide"
         visibility: "Visibilité : %{visibility}"
         link: "C'est un lien"
+        updated_at: "Dernière modification"
       flash:
         write_article: "Connectez-vous pour écrire un article"
       new:

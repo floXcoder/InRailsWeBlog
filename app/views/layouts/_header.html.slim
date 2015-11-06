@@ -57,7 +57,7 @@ header.blog-header
                 = t('views.header.preferences')
           - else
             li
-              = link_to signup_path, remote: true, class: 'tooltipped', data: {tooltip: 'Connectez-vous pour changer les préférences'}
+              = link_to signup_path, remote: true, class: 'tooltipped', data: {tooltip: t('views.header.preferences_not_connected')}
                 i.material-icons.right view_modules
                 = t('views.header.preferences')
 

@@ -24,6 +24,7 @@ en:
       article_creation_tooltip: "Create a new article"
       tags_tooltip: "Tags list"
       preferences: "Preferences"
+      preferences_not_connected: "Connect to change preferences"
       user_articles: "My articles"
       profile:
        connected: "My Profile"

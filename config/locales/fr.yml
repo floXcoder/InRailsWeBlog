@@ -24,6 +24,7 @@ fr:
       article_creation_tooltip: "Créer un nouvel article"
       tags_tooltip: "Liste des labels"
       preferences: "Préférences"
+      preferences_not_connected: "Connectez-vous pour changer les préférences"
       user_articles: "Mes articles"
       profile:
        connected: "Mon compte"

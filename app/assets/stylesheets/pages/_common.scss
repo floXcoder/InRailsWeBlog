@@ -306,9 +306,13 @@
 
     .article-title-inline {}
 
-    .article-title-card {
+    .article-title {
       margin-top: 10px;
       margin-bottom: 20px;
+    }
+
+    .article-title-card {
+      display: inline;
 
       a {
         color: $text-color-base;
@@ -316,6 +320,12 @@
           //text-shadow: 0 0 3px color('blue-grey', 'lighten-3');
           color: color('blue-grey', 'darken-1');
         }
+      }
+
+      h1 {
+        font-weight: 500;
+        font-style: normal;
+        font-size: 32px;
       }
     }
 
@@ -347,6 +357,17 @@
       box-shadow: 0 0 4px color('blue', 'darken-2');
     }
 
+    .article-time {
+      float: right;
+      font-weight: 300;
+      font-style: normal;
+      font-size: 16px;
+      vertical-align: middle;
+      line-height: 16px;
+      position: relative;
+      display: inline-block;
+    }
+
     .article-icons {
       display: inline;
       margin: 0 8px;
@@ -360,7 +381,8 @@
       }
 
       .material-icons {
-        margin: 0 20px;
+        margin: 0 15px;
+        top: -5px;
       }
 
       .article-private {

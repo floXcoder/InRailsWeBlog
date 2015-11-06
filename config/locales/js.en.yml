@@ -35,6 +35,7 @@ en:
         edit: "Quick edit"
         visibility: "Visibility: %{visibility}"
         link: "This is a link"
+        updated_at: "Last modification"
       flash:
         write_article: "Please connect before writing an article"
       new:

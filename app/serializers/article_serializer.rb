@@ -18,7 +18,7 @@
 class ArticleSerializer < ActiveModel::Serializer
   cache key: 'article', expires_in: 12.hours
 
-  attributes :id, :slug, :title, :summary, :content, :visibility, :is_link, :show
+  attributes :id, :slug, :title, :summary, :content, :visibility, :is_link, :updated_at, :show
 
   belongs_to :author, serializer: UserSerializer
   has_many :tags, serializer: SimpleTagSerializer
@@ -33,6 +33,10 @@ class ArticleSerializer < ActiveModel::Serializer
                       end
 
     object.adapted_content(current_user_id)
+  end
+
+  def updated_at
+    I18n.l(object.updated_at, format: :custom).downcase
   end
 
   def show

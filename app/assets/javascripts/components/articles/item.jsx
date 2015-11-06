@@ -49,11 +49,11 @@ var ArticleItem = React.createClass({
         }
     },
 
-    _highlightCode: function() {
+    _highlightCode: function () {
         var domNode = ReactDOM.findDOMNode(this);
         var nodes = domNode.querySelectorAll('pre code');
         if (nodes.length > 0) {
-            for (var i = 0; i < nodes.length; i=i+1) {
+            for (var i = 0; i < nodes.length; i = i + 1) {
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
@@ -62,16 +62,16 @@ var ArticleItem = React.createClass({
     _handleChange: function (event) {
         var text = event.currentTarget.textContent;
 
-        if ($.isURL(text.trim()) && !this.state.isLink) {
+        if ($utils.isURL(text.trim()) && !this.state.isLink) {
             this.state.isLink = true;
             this.setState({isLink: true});
             this.state.editor.summernote('code', '');
             this.state.editor.summernote("createLink", {
-                text : text.trim(),
-                url : text.trim(),
-                isNewWindow : true
+                text: text.trim(),
+                url: text.trim(),
+                isNewWindow: true
             });
-        } else if(this.state.isLink && !$.isURL(text.trim())) {
+        } else if (this.state.isLink && !$utils.isURL(text.trim())) {
             this.state.isLink = false;
             this.setState({isLink: false});
         }
@@ -136,6 +136,16 @@ var ArticleItem = React.createClass({
         }
     },
 
+    _renderTime: function () {
+        return (
+            <div className="article-icons tooltipped article-time"
+                 data-tooltip={I18n.t('js.article.tooltip.updated_at')}>
+                <i className="material-icons">access_time</i>
+                {this.props.article.updated_at}
+            </div>
+        );
+    },
+
     _renderIsLinkIcon: function () {
         if (this.state.isLink) {
             return (
@@ -155,15 +165,13 @@ var ArticleItem = React.createClass({
 
             if (this.props.article.visibility === 'everyone') {
                 return (
-                    <div className="article-icons tooltipped"
-                         data-tooltip={viabilityTooltip}>
+                    <div className="article-icons tooltipped" data-tooltip={viabilityTooltip}>
                         <i className="material-icons article-public">visibility</i>
                     </div>
                 );
             } else {
                 return (
-                    <div className="article-icons tooltipped"
-                         data-tooltip={viabilityTooltip}>
+                    <div className="article-icons tooltipped" data-tooltip={viabilityTooltip}>
                         <i className="material-icons article-private">visibility_off</i>
                     </div>
                 );
@@ -175,7 +183,7 @@ var ArticleItem = React.createClass({
         return (
             <div className="article-icons">
                 <i className="material-icons">account_circle</i>
-                {this.props.article.author}
+                {this.props.article.author.pseudo}
             </div>
         );
     },
@@ -191,15 +199,14 @@ var ArticleItem = React.createClass({
                 </div>
             );
         } else if (this.state.articleDisplayMode === 'card') {
-
             var childTags = _.indexBy(this.props.article.child_tags, 'id');
             var parentTags = _.indexBy(this.props.article.parent_tags, 'id');
 
             var Tags = this.props.article.tags.map(function (tag) {
                 var relationshipClass = '';
-                if(parentTags[tag.id]) {
+                if (parentTags[tag.id]) {
                     relationshipClass = 'tag-parent';
-                } else if(childTags[tag.id]) {
+                } else if (childTags[tag.id]) {
                     relationshipClass = 'tag-child';
                 }
 
@@ -215,16 +222,15 @@ var ArticleItem = React.createClass({
             return (
                 <div className="card clearfix blog-article-item">
                     <div className="card-content">
-                        <div>
-                            <span className="card-title black-text">
-                                <h4 className="article-title-card">
-                                    <a href={"/articles/" + this.props.article.slug}>
-                                        {this.props.article.title}
-                                    </a>
-                                </h4>
-                            </span>
-                            <span dangerouslySetInnerHTML={{__html: this.props.children}}/>
+                        <div className="card-title article-title">
+                            <h1 className="article-title-card">
+                                <a href={"/articles/" + this.props.article.slug}>
+                                    {this.props.article.title}
+                                </a>
+                            </h1>
+                            {this._renderTime()}
                         </div>
+                        <div dangerouslySetInnerHTML={{__html: this.props.children}}/>
                     </div>
                     <div className="card-action clearfix">
                         {Tags}
@@ -232,6 +238,7 @@ var ArticleItem = React.createClass({
                             {this._renderIsLinkIcon()}
                             {this._renderVisibilityIcon()}
                             {this._renderEditIcon()}
+                            {this._renderAuthorIcon()}
                         </div>
                     </div>
                 </div>
