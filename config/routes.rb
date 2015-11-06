@@ -111,6 +111,9 @@ Rails.application.routes.draw do
   resources :tags do
   end
 
+  # Static pages
+  get :terms_of_use,      to: 'static_pages#terms_of_use'
+
   # Sidekiq interface
   mount Sidekiq::Web => '/sidekiq'
 

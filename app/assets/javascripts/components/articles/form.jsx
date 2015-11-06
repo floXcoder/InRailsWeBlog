@@ -69,14 +69,14 @@ var ArticleForm = React.createClass({
     onPreferenceChange: function (userStore) {
         var newState = {};
 
-        if (!$utils.isEmpty(userStore.preferences) && userStore.preferences.multi_language) {
+        if (!$.isEmpty(userStore.preferences) && userStore.preferences.multi_language) {
             var multiLanguage = (userStore.preferences.multi_language !== 'false');
             if(multiLanguage !== this.state.multiLanguage) {
                 newState.multiLanguage = multiLanguage;
             }
         }
 
-        if (!$utils.isEmpty(newState)) {
+        if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -167,7 +167,7 @@ var ArticleForm = React.createClass({
             }
         }
 
-        if ($utils.isURL(text.trim()) && !this.state.isLink) {
+        if ($.isURL(text.trim()) && !this.state.isLink) {
             this.state.isLink = true;
             this.refs.isLink.setState({checked: true});
             $('#single-editor').summernote('code', '');
@@ -176,7 +176,7 @@ var ArticleForm = React.createClass({
                 url : text.trim(),
                 isNewWindow : true
             });
-        } else if(this.state.isLink && !$utils.isURL(text.trim())) {
+        } else if(this.state.isLink && !$.isURL(text.trim())) {
             this.state.isLink = false;
             this.refs.isLink.setState({checked: false});
         }

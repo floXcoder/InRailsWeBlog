@@ -17,7 +17,7 @@ var ArticleBox = React.createClass({
             articles: null,
             isLoading: true,
             hasMore: true,
-            articleDisplayMode: 'inline',
+            articleDisplayMode: 'card',
             highlightResults: true
         };
     },
@@ -49,15 +49,15 @@ var ArticleBox = React.createClass({
     onPreferenceChange: function (userStore) {
         var newState = {};
 
-        if (!$utils.isEmpty(userStore.preferences) && userStore.preferences.article_display) {
+        if (!$.isEmpty(userStore.preferences) && userStore.preferences.article_display) {
             newState.articleDisplayMode = userStore.preferences.article_display;
         }
 
-        if (!$utils.isEmpty(userStore.search) && userStore.search.search_highlight) {
+        if (!$.isEmpty(userStore.search) && userStore.search.search_highlight) {
             newState.highlightResults = (userStore.search.search_highlight !== 'false');
         }
 
-        if (!$utils.isEmpty(newState)) {
+        if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -72,7 +72,7 @@ var ArticleBox = React.createClass({
 
         newState.hasMore = !!articleStore.hasMore;
 
-        if (!$utils.isEmpty(newState)) {
+        if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },

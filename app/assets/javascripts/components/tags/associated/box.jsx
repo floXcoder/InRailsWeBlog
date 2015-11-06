@@ -17,11 +17,11 @@ var AssociatedTagBox = React.createClass({
     },
 
     onArticleChange: function (articleStore) {
-        if(!$utils.isEmpty(articleStore.articles)) {
+        if(!$.isEmpty(articleStore.articles)) {
             var associatedTags = [];
 
             articleStore.articles.forEach(function (article) {
-                if(!$utils.isEmpty(article.tags)) {
+                if(!$.isEmpty(article.tags)) {
                     associatedTags = associatedTags.concat(article.tags);
                 }
             });

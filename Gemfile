@@ -30,6 +30,7 @@ gem 'globalize-versioning',     git: 'https://github.com/globalize/globalize-ver
 
 # Run asynschronous process
 gem 'sidekiq',                  '~> 3.5.0'
+gem 'sidekiq-statistic',        '~> 1.1'
 gem 'sinatra',                  '~> 1.4.5',     require: false
 gem 'whenever',                 '~> 0.9.4',     require: false
 

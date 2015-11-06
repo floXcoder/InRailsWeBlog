@@ -11,7 +11,7 @@ var ArticleList = React.createClass({
 
     _displayMode: function () {
         var ArticleNodes = this.props.articles.map(function (article) {
-            var articleContent = this.props.highlightResults && !$utils.isEmpty(article.highlight_content) ?
+            var articleContent = this.props.highlightResults && !$.isEmpty(article.highlight_content) ?
                 article.highlight_content :
                 article.content;
 

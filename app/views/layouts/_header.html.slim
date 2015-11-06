@@ -23,7 +23,6 @@ header.blog-header
         = link_to t('views.header.log_out'), logout_path, method: 'delete'
     - else
       li.first-nav
-        /= link_to t('views.header.sign_up'), signup_path
         = link_to t('views.header.sign_up'), signup_path, remote: true
       li
         = link_to t('views.header.log_in'), login_path, remote: true
@@ -36,29 +35,35 @@ header.blog-header
         ul#nav-mobile.right.hide-on-med-and-down
           / Search
           li
-            a#toggle-search.tooltipped href="#!" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
+            a#toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
               i.material-icons search
 
           / New article
           - if user_signed_in?
             li
-              a#toggle-article-creation.tooltipped href="#!" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.article_creation_tooltip')}"
+              a#toggle-article-creation.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.article_creation_tooltip')}"
                 i.material-icons edit
 
           / Tags
           li
-            a.button-collapse.show-on-large.tooltipped data-activates="slide-out" href="#!" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
+            a.button-collapse.show-on-large.tooltipped data-activates="slide-out" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
               i.material-icons local_offer
 
           / User preferences
-          li
-            a#toggle-user-pref href="#!"
-              i.material-icons.right view_modules
-              = t('views.header.preferences')
+          - if user_signed_in?
+            li
+              a#toggle-user-pref
+                i.material-icons.right view_modules
+                = t('views.header.preferences')
+          - else
+            li
+              = link_to signup_path, remote: true, class: 'tooltipped', data: {tooltip: 'Connectez-vous pour changer les préférences'}
+                i.material-icons.right view_modules
+                = t('views.header.preferences')
 
           / User account
           li
-            a.dropdown-button data-activates="user-dropdown" href="#!"
+            a.dropdown-button data-activates="user-dropdown"
               i.material-icons.right account_circle
               - if user_signed_in?
                 = t('views.header.profile.connected')

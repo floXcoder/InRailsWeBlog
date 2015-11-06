@@ -12,7 +12,7 @@ require("expose?Reflux!reflux");
 
 // Expose global variables
 var $app = require('expose?$app!./modules/app');
-var $utils = require('expose?$utils!./modules/utils');
+require('expose?$utils!./modules/utils');
 
 // Materialize
 require('expose?Hammer!hammerjs');

@@ -24,7 +24,7 @@ var ArticleHistory = React.createClass({
     render: function () {
         if (this.props.articleVersions) {
             var Versions = this.props.articleVersions.map(function (version) {
-                if(!$utils.isEmpty(version.article.content)) {
+                if(!$.isEmpty(version.article.content)) {
                     return (
                         <li className="" key={version.id}>
                             <div className="collapsible-header">
@@ -44,7 +44,7 @@ var ArticleHistory = React.createClass({
                 }
             }.bind(this));
 
-            if($utils.isEmpty(Versions)) {
+            if($.isEmpty(Versions)) {
                 Materialize.toast(I18n.t('js.article.history.none'));
             }
 

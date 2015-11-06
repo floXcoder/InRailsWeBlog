@@ -20,7 +20,7 @@ var ArticleStore = Reflux.createStore({
 
     deserializeParams: function (state) {
         var tags = [];
-        if (!$utils.isEmpty(state.tags)) {
+        if (!$.isEmpty(state.tags)) {
             state.tags.split(',').forEach(function (tag) {
                 tags.push(tag);
             });
@@ -132,7 +132,7 @@ var ArticleStore = Reflux.createStore({
     onLoadArticles: function (data) {
         this._resetSearch();
 
-        if ($utils.isEmpty(this.paramsFromUrl)) {
+        if ($.isEmpty(this.paramsFromUrl)) {
             if (data.tags) {
                 var tagParams = {
                     tags: data.tags.join(',')
@@ -154,7 +154,7 @@ var ArticleStore = Reflux.createStore({
 
             this.trigger(this.articleData);
 
-            if (!$utils.isEmpty(this.paramsFromUrl)) {
+            if (!$.isEmpty(this.paramsFromUrl)) {
                 this.paramsFromUrl = {};
             }
 
@@ -298,7 +298,7 @@ var ArticleStore = Reflux.createStore({
     onSearchArticles: function (data) {
         this._resetSearch();
 
-        if ($utils.isEmpty(this.paramsFromUrl)) {
+        if ($.isEmpty(this.paramsFromUrl)) {
             var queryParams = {
                 query: data.query,
                 tags: data.tags ? data.tags.join(',') : null
@@ -311,12 +311,12 @@ var ArticleStore = Reflux.createStore({
             this.articleData = dataReceived;
             this.articleData.hasMore = true;
 
-            if (!$utils.isEmpty(this.paramsFromUrl)) {
+            if (!$.isEmpty(this.paramsFromUrl)) {
                 this.articleData.paramsFromUrl = this.paramsFromUrl;
             }
             this.trigger(this.articleData);
 
-            if (!$utils.isEmpty(this.paramsFromUrl)) {
+            if (!$.isEmpty(this.paramsFromUrl)) {
                 delete this.articleData.paramsFromUrl;
                 this.paramsFromUrl = {};
             }
@@ -326,7 +326,7 @@ var ArticleStore = Reflux.createStore({
     },
 
     onAutocompleteArticles: function (data) {
-        if (!$utils.isEmpty(data.autocompleteQuery)) {
+        if (!$.isEmpty(data.autocompleteQuery)) {
             this._fetchArticles(data, function (dataReceived) {
                 this.autocompleteValues = dataReceived.articles;
                 this.trigger({autocompletion: this.autocompleteValues});
@@ -335,7 +335,7 @@ var ArticleStore = Reflux.createStore({
     },
 
     _filterArticlesByTag: function () {
-        if (!$utils.isEmpty(this.activeTags)) {
+        if (!$.isEmpty(this.activeTags)) {
             this.articleData.articles.forEach(function (article, index, articles) {
                 articles[index].show = true;
                 var activeTagsByArticle = article.tags.filter(function (tag) {
@@ -360,7 +360,7 @@ var ArticleStore = Reflux.createStore({
     },
 
     onLoadArticleHistory: function (data) {
-        if (!$utils.isEmpty(data.history)) {
+        if (!$.isEmpty(data.history)) {
             this._fetchArticles(data, function (dataReceived) {
                 this.trigger({articleVersions: dataReceived['paper_trail/versions']});
             }.bind(this));
@@ -368,7 +368,7 @@ var ArticleStore = Reflux.createStore({
     },
 
     onRestoreArticle: function (data) {
-        if (!$utils.isEmpty(data.restore)) {
+        if (!$.isEmpty(data.restore)) {
             this._fetchArticles(data, function (dataReceived) {
                 this.trigger({articleRestored: dataReceived.article});
             }.bind(this));

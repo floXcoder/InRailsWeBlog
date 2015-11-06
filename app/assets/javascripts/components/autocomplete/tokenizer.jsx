@@ -170,7 +170,7 @@ var TypeaheadTokenizer = React.createClass({
     _addTokenForValue: function (value, noSubmit) {
         var full_value = value;
         if(this.props.addTokenCondition) {
-            if($utils.isEmpty(value[this.props.addTokenCondition])) {
+            if($.isEmpty(value[this.props.addTokenCondition])) {
                 return;
             }
 

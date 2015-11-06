@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  ensure_security_headers
+  ensure_security_headers(csp: false)
 
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized

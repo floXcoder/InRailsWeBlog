@@ -83,7 +83,7 @@ var HistoryJSMixin = {
         if ($.isEmptyObject(receivedStateSerialized)) {
             var params = $(location).attr('search');
 
-            if (!$utils.isEmpty(params)) {
+            if (!$.isEmpty(params)) {
                 receivedStateSerialized = JSON.parse('{"' + decodeURI(decodeURIComponent(params)
                         .replace(/^\?/, '')
                         .replace(/&/g, '","')

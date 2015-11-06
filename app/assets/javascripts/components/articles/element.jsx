@@ -40,7 +40,7 @@ var ArticleElement = React.createClass({
     },
 
     _showHistory: function () {
-        if(this.state.isHistoryDisplayed) {
+        if (this.state.isHistoryDisplayed) {
             this.setState({isHistoryDisplayed: false})
         } else {
             ArticleActions.loadArticleHistory({history: this.state.article.id});
@@ -54,7 +54,7 @@ var ArticleElement = React.createClass({
 
         if (typeof(articleStore.articleVersions) !== 'undefined') {
             newState.articleVersions = articleStore.articleVersions;
-            if(articleStore.articleVersions.length === 0) {
+            if (articleStore.articleVersions.length === 0) {
                 Materialize.toast(I18n.t('js.article.history.none'));
             }
         }
@@ -65,7 +65,7 @@ var ArticleElement = React.createClass({
             this._showHistory();
         }
 
-        if (!$utils.isEmpty(newState)) {
+        if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -162,17 +162,21 @@ var ArticleElement = React.createClass({
             <div>
                 <div className="card clearfix blog-article-item">
                     <div className="card-content">
-                        <div>
-                        <span className="card-title black-text">
-                            <h4 className="article-title-card">
-                                {this.state.article.title}
-                            </h4>
-                            <h6 className="article-summary">
-                                {this.state.article.summary}
-                            </h6>
-                        </span>
-                            <span dangerouslySetInnerHTML={{__html: this.state.article.content}}/>
-                        </div>
+                        <section className="card-title cd-intro">
+                            <div className="cd-intro-content mask">
+                                <h1 className="" data-content={this.state.article.title}>
+                                    <span>
+                                        {this.state.article.title}
+                                    </span>
+                                </h1>
+                                <div className="action-wrapper">
+                                    <p className="article-summary">
+                                        {this.state.article.summary}
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                        <span dangerouslySetInnerHTML={{__html: this.state.article.content}}/>
                     </div>
                     <div className="card-action clearfix">
                         {Tags}

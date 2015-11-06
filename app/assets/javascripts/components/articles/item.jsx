@@ -62,7 +62,7 @@ var ArticleItem = React.createClass({
     _handleChange: function (event) {
         var text = event.currentTarget.textContent;
 
-        if ($utils.isURL(text.trim()) && !this.state.isLink) {
+        if ($.isURL(text.trim()) && !this.state.isLink) {
             this.state.isLink = true;
             this.setState({isLink: true});
             this.state.editor.summernote('code', '');
@@ -71,7 +71,7 @@ var ArticleItem = React.createClass({
                 url : text.trim(),
                 isNewWindow : true
             });
-        } else if(this.state.isLink && !$utils.isURL(text.trim())) {
+        } else if(this.state.isLink && !$.isURL(text.trim())) {
             this.state.isLink = false;
             this.setState({isLink: false});
         }

@@ -16,11 +16,11 @@ var IndexTagList = React.createClass({
 
     _onTagClick: function (parentTagName, childTagName) {
         var tags = [];
-        if (!$utils.isEmpty(childTagName)) {
+        if (!$.isEmpty(childTagName)) {
             tags.push(parentTagName);
             tags.push(childTagName);
             ArticleActions.loadArticles({relationTags: tags});
-        } else if (!$utils.isEmpty(parentTagName)) {
+        } else if (!$.isEmpty(parentTagName)) {
             tags.push(parentTagName);
             ArticleActions.loadArticles({tags: tags});
         }
@@ -49,7 +49,7 @@ var IndexTagList = React.createClass({
             }, this);
         }
 
-        if (!$utils.isEmpty(TagItems)) {
+        if (!$.isEmpty(TagItems)) {
             return (
                 <ul className="collapsible collapsible-accordion" data-collapsible="expandable">
                     {TagItems}

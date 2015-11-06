@@ -20,7 +20,7 @@ var UserStore = Reflux.createStore({
     },
 
     _loadUserPreferences: function (data) {
-        if($utils.isEmpty(this.user.id)) {
+        if($.isEmpty(this.user.id)) {
             return;
         }
 
@@ -63,7 +63,7 @@ var UserStore = Reflux.createStore({
     },
 
     _pushUserPreferences: function (data) {
-        if($utils.isEmpty(this.user.id)) {
+        if($.isEmpty(this.user.id)) {
             return;
         }
 
