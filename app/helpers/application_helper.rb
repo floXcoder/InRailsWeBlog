@@ -60,7 +60,7 @@ module ApplicationHelper
 
   # Assets with manifest management
   def javascript_include_tag(url, options={})
-    url = 'pages/' + url
+    # url = 'pages/' + url
 
     url = AssetManifest.javascript_path(url)
 
