@@ -44,6 +44,7 @@
 #                          DELETE /users/:id(.:format)              users#destroy {:has_many=>:comments}
 #          history_article GET    /articles/:id/history(.:format)   articles#history {:has_many=>:comments}
 #          restore_article GET    /articles/:id/restore(.:format)   articles#restore {:has_many=>:comments}
+#         bookmark_article POST   /articles/:id/bookmark(.:format)  articles#bookmark {:has_many=>:comments}
 #          search_articles GET    /articles/search(.:format)        articles#search {:has_many=>:comments}
 #    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete {:has_many=>:comments}
 #                 articles GET    /articles(.:format)               articles#index {:has_many=>:comments}

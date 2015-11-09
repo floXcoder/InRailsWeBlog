@@ -35,8 +35,8 @@ module.exports = {
             }
         ],
         output: {
-            path: './public/assets/pages',
-            publicPath: '/assets/pages'
+            path: './public/assets',
+            publicPath: '/assets'
         },
         modules: {
             includes: [
