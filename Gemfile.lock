@@ -102,6 +102,9 @@ GEM
       capistrano-bundler (~> 1.1)
     capistrano-rails-console (1.0.0)
       capistrano (>= 3.1.0, < 4.0.0)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
     capistrano-sidekiq (0.5.3)
       capistrano
       sidekiq
@@ -516,9 +519,6 @@ GEM
       sexp_processor (~> 4.0)
     ruby_parser (3.7.1)
       sexp_processor (~> 4.1)
-    rvm1-capistrano3 (1.4.0)
-      capistrano (~> 3.0)
-      sshkit (>= 1.2)
     sass (3.4.19)
     searchkick (0.9.1)
       activemodel
@@ -639,6 +639,7 @@ DEPENDENCIES
   capistrano-db-tasks (~> 0.4)
   capistrano-rails (~> 1.1.5)
   capistrano-rails-console (~> 1.0.0)
+  capistrano-rvm
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.5.0)
   capybara-email (~> 2.4.0)
@@ -698,7 +699,6 @@ DEPENDENCIES
   responders (~> 2.1.0)
   rspec-rails (~> 3.3.3)
   rubocop (~> 0.34.1)
-  rvm1-capistrano3 (~> 1.4.0)
   searchkick (~> 0.9.1)
   secure_headers (~> 2.4.3)
   seed_dump (~> 3.2.2)
