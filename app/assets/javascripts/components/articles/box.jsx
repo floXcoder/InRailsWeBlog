@@ -23,23 +23,17 @@ var ArticleBox = React.createClass({
     },
 
     componentDidMount: function () {
-        if(this.props.userConnected) {
-            ArticleActions.loadArticles({page: 1, userId: this.props.userId});
-        } else {
-            ArticleActions.loadArticles({page: 1});
-        }
-
-        $(ReactDOM.findDOMNode(this).className).ready(function(){
-            $('.tooltipped').tooltip({
-                position: "bottom",
-                delay: 50
-            });
-        });
+        this._activateTooltip();
     },
 
     componentDidUpdate: function () {
-        $(ReactDOM.findDOMNode(this).className).ready(function(){
-            $('.tooltipped').tooltip({
+        this._activateTooltip();
+    },
+
+    _activateTooltip: function() {
+        var $currentElement = $(ReactDOM.findDOMNode(this).className);
+        $currentElement.ready(function(){
+            $currentElement.find('.tooltipped').tooltip({
                 position: "bottom",
                 delay: 50
             });

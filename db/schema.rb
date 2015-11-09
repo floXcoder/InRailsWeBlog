@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151026193554) do
+ActiveRecord::Schema.define(version: 20151109154017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20151026193554) do
     t.boolean  "allow_comment",   default: false, null: false
     t.boolean  "private_content", default: false, null: false
     t.boolean  "is_link",         default: false, null: false
+    t.boolean  "temporary",       default: false, null: false
     t.string   "slug"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
@@ -45,6 +46,17 @@ ActiveRecord::Schema.define(version: 20151026193554) do
   add_index "articles", ["author_id", "visibility"], name: "index_articles_on_author_id_and_visibility", using: :btree
   add_index "articles", ["author_id"], name: "index_articles_on_author_id", using: :btree
   add_index "articles", ["slug"], name: "index_articles_on_slug", unique: true, using: :btree
+
+  create_table "bookmarked_articles", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "article_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "bookmarked_articles", ["article_id"], name: "index_bookmarked_articles_on_article_id", using: :btree
+  add_index "bookmarked_articles", ["user_id", "article_id"], name: "index_bookmarked_articles_on_user_id_and_article_id", unique: true, using: :btree
+  add_index "bookmarked_articles", ["user_id"], name: "index_bookmarked_articles_on_user_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.integer  "imageable_id",   null: false

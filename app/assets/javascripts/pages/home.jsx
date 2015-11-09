@@ -2,8 +2,13 @@ require('./common');
 
 var ArticleBox = require('../components/articles/box');
 var ArticleCreation = require('../components/articles/creation');
+var ArticleActions = require('../actions/articleActions');
 
 var currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+
+ArticleActions.initStore({
+    page: 1
+});
 
 // Main
 if(currentUserId) {

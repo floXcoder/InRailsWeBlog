@@ -1,8 +1,13 @@
 var Checkbox = React.createClass({
     getInitialState: function() {
         return {
-            checked: false
+            checked: false,
+            disabled: this.props.disabled || false
         };
+    },
+
+    onChange: function () {
+        this.setState({checked: !this.state.checked});
     },
 
     render: function () {
@@ -13,7 +18,8 @@ var Checkbox = React.createClass({
                        className="filled-in"
                        type="checkbox"
                        checked={this.state.checked}
-                       onChange={this.props.onCheckboxChanged}/>
+                       disabled={this.state.disabled}
+                       onChange={this.props.onCheckboxChanged || this.onChange}/>
                 <label htmlFor={this.props.id}>
                     {this.props.children}
                 </label>

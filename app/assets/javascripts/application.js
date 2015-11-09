@@ -12,7 +12,7 @@ require("expose?Reflux!reflux");
 
 // Expose global variables
 var $app = require('expose?$app!./modules/app');
-require('expose?$utils!./modules/utils');
+require('./modules/utils');
 
 // Materialize
 require('expose?Hammer!hammerjs');
@@ -30,11 +30,8 @@ $app.start();
 $app.moduleHelper = require('./modules/module-helper');
 
 // Configure log level
-if(window._rails_env === 'development') {
+if (window._rails_env === 'development') {
     log.setLevel('info');
 } else {
     log.setLevel('warn');
 }
-
-
-

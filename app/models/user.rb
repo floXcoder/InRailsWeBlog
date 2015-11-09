@@ -37,7 +37,18 @@ class User < ActiveRecord::Base
 
   # Associations
   ## Articles
-  has_many :articles, class_name: 'Article', foreign_key: 'author_id', dependent: :destroy
+  has_many :articles,
+           class_name: 'Article',
+           foreign_key: 'author_id',
+           dependent: :destroy
+  has_many :temporary_articles,
+           -> { where temporary: true },
+           class_name: 'Article',
+           foreign_key: 'author_id'
+  has_many :bookmarked_articles
+  has_many :bookmarks,
+           through: :bookmarked_articles,
+           source: :article
 
   ## Comment
   # has_many :comments, as: :commentable

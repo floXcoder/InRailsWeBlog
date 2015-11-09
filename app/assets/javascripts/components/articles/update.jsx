@@ -10,7 +10,7 @@ var ArticleUpdate = React.createClass({
             I18n.t('js.article.edit.form_title', {title: this.props.article.title}) :
             I18n.t('js.article.edit.title');
         return (
-            <div className="blog-form">
+            <div className="blog-form blog-article-edit">
                 <h4 className="blog-form-title">
                     {title}
                 </h4>

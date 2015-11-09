@@ -16,13 +16,15 @@ var Button = React.createClass({
 
     componentDidMount: function () {
         if(this.state.tooltip) {
-            $('.tooltipped').tooltip();
+            var selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
+            $(selector).tooltip();
         }
     },
 
     componentDidUpdate: function () {
         if(this.state.tooltip) {
-            $('.tooltipped').tooltip();
+            var selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
+            $(selector).tooltip();
         }
     },
 
@@ -30,6 +32,7 @@ var Button = React.createClass({
         if(this.state.tooltip) {
             return (
                 <button className="btn waves-effect waves-light tooltipped"
+                        id={this.props.id}
                         type="submit"
                         method="post"
                         onClick={this.props.onClickButton}

@@ -30,6 +30,10 @@ class ArticlePolicy
     @current_user && @article.author?(@current_user)
   end
 
+  def bookmark?
+    @current_user
+  end
+
   def destroy?
     @current_user && @article.author?(@current_user)
   end

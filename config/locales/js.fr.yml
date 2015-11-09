@@ -27,6 +27,7 @@ fr:
         content: "Contenu"
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
+        temporary: "Note temporaire ?"
         is_link: "Est un lien ?"
         errors:
           not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
@@ -44,10 +45,12 @@ fr:
           title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
           placeholder: "Associer des labels"
         submit: "Créer l'article"
+        exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       edit:
         title: "Modification d'un article"
         form_title: "Modification de %{title}"
         submit: "Mettre à jour l'article"
+        exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       search:
         placeholder: "Rechercher ..."
         url: "Recherche :"

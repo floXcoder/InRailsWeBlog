@@ -31,6 +31,8 @@
 #                root_user GET    /users/:id(.:format)              users#show {:has_many=>:comments}
 #          preference_user GET    /users/:id/preference(.:format)   users#preference {:has_many=>:comments}
 #   update_preference_user POST   /users/:id/preference(.:format)   users#update_preference {:has_many=>:comments}
+#           temporary_user GET    /users/:id/temporary(.:format)    users#temporary {:has_many=>:comments}
+#            bookmark_user GET    /users/:id/bookmark(.:format)     users#bookmark {:has_many=>:comments}
 #                 id_users GET    /users/id(.:format)               users#check_id {:has_many=>:comments}
 #                    users GET    /users(.:format)                  users#index {:has_many=>:comments}
 #                          POST   /users(.:format)                  users#create {:has_many=>:comments}
@@ -60,6 +62,7 @@
 #                          PATCH  /tags/:id(.:format)               tags#update
 #                          PUT    /tags/:id(.:format)               tags#update
 #                          DELETE /tags/:id(.:format)               tags#destroy
+#             terms_of_use GET    /terms_of_use(.:format)           static_pages#terms_of_use
 #              sidekiq_web        /sidekiq                          Sidekiq::Web
 #
 
@@ -87,6 +90,8 @@ Rails.application.routes.draw do
       get   :show,          to: 'users#show',               as: :root
       get   :preference,    to: 'users#preference',         as: :preference
       post  :preference,    to: 'users#update_preference',  as: :update_preference
+      get   :temporary,     to: 'users#temporary',          as: :temporary
+      get   :bookmark,      to: 'users#bookmark',           as: :bookmark
     end
 
     collection do
@@ -99,6 +104,7 @@ Rails.application.routes.draw do
     member do
       get :history,       to: 'articles#history'
       get :restore,       to: 'articles#restore'
+      post :bookmark,     to: 'articles#bookmark'
     end
 
     collection do

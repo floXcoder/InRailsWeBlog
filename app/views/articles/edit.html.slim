@@ -6,4 +6,4 @@
 - javascript 'common-react'
 - javascript 'articles/edit'
 
-= content_tag :div, '', id: 'react-main', data: {article: article.to_builder(current_user_id, multi_language).target!, multiLanguage: multi_language}
+= content_tag :div, '', id: 'article-element-component', data: {article: ActiveModel::SerializableResource.new(article, {scope: current_user}).serializable_hash, multiLanguage: multi_language}

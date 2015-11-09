@@ -10,7 +10,8 @@ var ArticleItem = React.createClass({
         return {
             editor: null,
             articleDisplayMode: this.props.articleDisplayMode,
-            isLink: this.props.article.is_link || false
+            isLink: this.props.article.is_link || false,
+            isBookmarked: this.props.article.is_bookmarked || false
         };
     },
 
@@ -62,7 +63,7 @@ var ArticleItem = React.createClass({
     _handleChange: function (event) {
         var text = event.currentTarget.textContent;
 
-        if ($utils.isURL(text.trim()) && !this.state.isLink) {
+        if ($.isURL(text.trim()) && !this.state.isLink) {
             this.state.isLink = true;
             this.setState({isLink: true});
             this.state.editor.summernote('code', '');
@@ -71,7 +72,7 @@ var ArticleItem = React.createClass({
                 url: text.trim(),
                 isNewWindow: true
             });
-        } else if (this.state.isLink && !$utils.isURL(text.trim())) {
+        } else if (this.state.isLink && !$.isURL(text.trim())) {
             this.state.isLink = false;
             this.setState({isLink: false});
         }
@@ -79,6 +80,11 @@ var ArticleItem = React.createClass({
 
     _onClickTag: function (tagName, event) {
         ArticleActions.loadArticles({tags: [tagName]});
+    },
+
+    _onClickBookmark: function (articleId, event) {
+        ArticleActions.bookmarkArticle({articleId: articleId});
+        this.setState({isBookmarked: !this.state.isBookmarked});
     },
 
     _onEditClick: function (event) {
@@ -106,33 +112,35 @@ var ArticleItem = React.createClass({
 
     _renderEditIcon: function () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
-            if (this.state.articleDisplayMode === 'edit') {
-                $('.article-icons.tooltipped').tooltip('remove');
-                return (
-                    <div className="article-icons">
-                        <i className="material-icons article-delete"
-                           onClick={this._onDeleteClick}>
-                            delete
-                        </i>
-                        <i className="material-icons article-cancel"
-                           onClick={this._onCancelClick}>
-                            clear
-                        </i>
-                        <i className="material-icons article-update"
-                           onClick={this._onSaveClick}>
-                            check
-                        </i>
-                    </div>
-                );
-            } else {
-                return (
-                    <div className="article-icons tooltipped"
-                         data-tooltip={I18n.t('js.article.tooltip.edit')}
-                         onClick={this._onEditClick}>
-                        <i className="material-icons article-edit">mode_edit</i>
-                    </div>
-                );
-            }
+            return (
+                <div className="article-icons tooltipped"
+                     data-tooltip={I18n.t('js.article.tooltip.edit')}
+                     onClick={this._onEditClick} >
+                    <i className="material-icons article-edit">mode_edit</i>
+                </div>
+            );
+        }
+    },
+
+    _renderEditionIcons: function () {
+        if (this.props.userId && this.props.userId === this.props.article.author.id) {
+            $('.article-edition .article-icons.tooltipped').tooltip('remove');
+            return (
+                <div className="article-icons">
+                    <i className="material-icons article-delete"
+                       onClick={this._onDeleteClick}>
+                        delete
+                    </i>
+                    <i className="material-icons article-cancel"
+                       onClick={this._onCancelClick}>
+                        clear
+                    </i>
+                    <i className="material-icons article-update"
+                       onClick={this._onSaveClick} >
+                        check
+                    </i>
+                </div>
+            );
         }
     },
 
@@ -140,9 +148,17 @@ var ArticleItem = React.createClass({
         return (
             <div className="article-icons tooltipped article-time"
                  data-tooltip={I18n.t('js.article.tooltip.updated_at')}>
-                <i className="material-icons">access_time</i>
                 {this.props.article.updated_at}
             </div>
+        );
+    },
+
+    _renderGotoArticle: function () {
+        return (
+            <a className="article-icons article-goto"
+               href={"/articles/" + this.props.article.slug} >
+                <i className="material-icons">forward</i>
+            </a>
         );
     },
 
@@ -188,6 +204,16 @@ var ArticleItem = React.createClass({
         );
     },
 
+    _renderBookmarkIcon: function () {
+        var bookmarkClass = "material-icons" + (this.state.isBookmarked ? " article-bookmarked" : '');
+        return (
+            <div className="article-icons"
+                 onClick={this._onClickBookmark.bind(this, this.props.article.id)} >
+                <i className={bookmarkClass} >bookmark</i>
+            </div>
+        );
+    },
+
     render: function () {
         if (this.state.articleDisplayMode === 'inline') {
             return (
@@ -222,7 +248,7 @@ var ArticleItem = React.createClass({
             return (
                 <div className="card clearfix blog-article-item">
                     <div className="card-content">
-                        <div className="card-title article-title">
+                        <div className="card-title article-title center clearfix">
                             <h1 className="article-title-card">
                                 <a href={"/articles/" + this.props.article.slug}>
                                     {this.props.article.title}
@@ -235,10 +261,12 @@ var ArticleItem = React.createClass({
                     <div className="card-action clearfix">
                         {Tags}
                         <div className="right">
+                            {this._renderEditIcon()}
                             {this._renderIsLinkIcon()}
                             {this._renderVisibilityIcon()}
-                            {this._renderEditIcon()}
                             {this._renderAuthorIcon()}
+                            {this._renderBookmarkIcon()}
+                            {this._renderGotoArticle()}
                         </div>
                     </div>
                 </div>
@@ -255,15 +283,15 @@ var ArticleItem = React.createClass({
             }.bind(this));
 
             return (
-                <div className="card clearfix blog-article-item">
-                    <div className="card-content article-editing">
-                        <div>
-                            <span className="card-title black-text">
-                                <h4 className="article-title-card">
-                                    {this.props.article.title}
-                                </h4>
-                            </span>
+                <div className="card clearfix blog-article-item article-edition">
+                    <div className="card-content">
+                        <div className="card-title article-title center clearfix">
+                            <h1 className="article-title-card">
+                                {this.props.article.title}
+                            </h1>
+                        </div>
 
+                        <div className="article-editing">
                             <div id={"editor-summernote-" + this.props.article.id}
                                  dangerouslySetInnerHTML={{__html: this.props.children}}/>
                         </div>
@@ -271,9 +299,9 @@ var ArticleItem = React.createClass({
                     <div className="card-action clearfix">
                         {Tags}
                         <div className="right">
+                            {this._renderEditionIcons()}
                             {this._renderIsLinkIcon()}
                             {this._renderVisibilityIcon()}
-                            {this._renderEditIcon()}
                         </div>
                     </div>
                 </div>

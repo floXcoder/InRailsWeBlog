@@ -1,5 +1,6 @@
 var ChildTag = React.createClass({
-    _onTagClick: function (tagName) {
+    _onTagClick: function (tagName, event) {
+        event.preventDefault();
         this.props.onTagClick(this.props.parentTag.name, tagName);
         return true;
     },

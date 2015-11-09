@@ -1,17 +1,17 @@
 (function (root, factory) {
     if (typeof exports === 'object') {
         // CommonJS
-        module.exports = factory();
+        module.exports = factory(require('jquery'));
     } else if (typeof define === 'function' && define.amd) {
         // AMD
-        define([], function () {
-            return (root.returnExportsGlobal = factory());
+        define(['jquery'], function ($) {
+            return (root.returnExportsGlobal = factory($));
         });
     } else {
         // Global Variables
-        root.returnExportsGlobal = factory();
+        root.returnExportsGlobal = factory(root.$);
     }
-}(this, function () {
+}(this, function ($) {
     'use strict';
 
     String.prototype.capitalize = function () {
@@ -59,7 +59,7 @@
 
     // Refresh JQuery selector, but only for non-chained elements !
     jQuery.fn.extend({
-        update: function() {
+        update: function () {
             var newElements = jQuery(this.selector), i;
             for (i = 0; i < newElements.length; i++) {
                 this[i] = newElements[i];
@@ -83,14 +83,14 @@
         }
     });
 
-    jQuery.extend({
+    $.extend({
         isEmpty: function (obj) {
             // null and undefined are "empty"
             if (obj == null) return true;
             if (obj === 'undefined' || obj === 'null' || obj === 'false') return true;
 
             // Check if is a Integer
-            if (jQuery.isNumber(obj)) return false;
+            if ($.isNumber(obj)) return false;
 
             // Assume if it has a length property with a non-zero value
             // that that property is correct.
@@ -145,6 +145,19 @@
             return exports;
         },
 
+
+        isSafari: function () {
+            return navigator.appVersion.search('Safari') != -1
+                && navigator.appVersion.search('Chrome') == -1
+                && navigator.appVersion.search('CrMo') == -1
+                && navigator.appVersion.search('CriOS') == -1;
+        },
+
+        isIe: function () {
+            return navigator.userAgent.toLowerCase().indexOf("msie") != -1
+                || navigator.userAgent.toLowerCase().indexOf("trident") != -1;
+        },
+
         arraySearchForValue: function (arr, val, key) {
             for (var i = 0; i < arr.length; i++)
                 if (arr[i][key] === val)
@@ -157,7 +170,7 @@
         },
 
         valuesInRange: function (arr, min, max) {
-            arr = arr.sort(jQuery.compareNumbers);
+            arr = arr.sort($.compareNumbers);
 
             var len = arr.length,
                 up = -1,
@@ -279,9 +292,14 @@
             }
         },
 
+        urlParam: function (name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            return results[1] || 0;
+        },
+
         // Array must be sorted
         getClosestValues: function (array, value) {
-            if (jQuery.isEmpty(array)) return;
+            if ($.isEmpty(array)) return;
 
             var lo = -1, hi = array.length;
             while (hi - lo > 1) {
@@ -298,7 +316,7 @@
 
         // Array must be sorted
         getClosestValue: function (array, value) {
-            if (jQuery.isEmpty(array)) return;
+            if ($.isEmpty(array)) return;
 
             var lo = -1, hi = array.length;
             while (hi - lo > 1) {

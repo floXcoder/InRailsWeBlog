@@ -144,6 +144,8 @@ var TagsInput = React.createClass({
                     {tagItems}
                     <ReactTags selectedTags={this.state.selectedTags}
                                tagList={this.state.tagList}
+                               tagMinLength={window.parameters.tag_min_length}
+                               tagMaxLength={window.parameters.tag_max_length}
                                labelField={this.props.labelField}
                                handleDelete={this._handleDelete}
                                handleAddition={this._handleAddition}/>

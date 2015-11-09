@@ -10,6 +10,7 @@
 #  allow_comment   :boolean          default(FALSE), not null
 #  private_content :boolean          default(FALSE), not null
 #  is_link         :boolean          default(FALSE), not null
+#  temporary       :boolean          default(FALSE), not null
 #  slug            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -18,7 +19,7 @@
 class ArticleSerializer < ActiveModel::Serializer
   cache key: 'article', expires_in: 12.hours
 
-  attributes :id, :slug, :title, :summary, :content, :visibility, :is_link, :updated_at, :show
+  attributes :id, :slug, :title, :summary, :content, :visibility, :temporary, :is_link, :is_bookmarked, :updated_at, :show
 
   belongs_to :author, serializer: UserSerializer
   has_many :tags, serializer: SimpleTagSerializer
@@ -33,6 +34,10 @@ class ArticleSerializer < ActiveModel::Serializer
                       end
 
     object.adapted_content(current_user_id)
+  end
+
+  def is_bookmarked
+    current_user.bookmarks.exists?(object.id)
   end
 
   def updated_at

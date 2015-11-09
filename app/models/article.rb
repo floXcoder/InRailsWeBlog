@@ -10,6 +10,7 @@
 #  allow_comment   :boolean          default(FALSE), not null
 #  private_content :boolean          default(FALSE), not null
 #  is_link         :boolean          default(FALSE), not null
+#  temporary       :boolean          default(FALSE), not null
 #  slug            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -27,9 +28,14 @@ class Article < ActiveRecord::Base
   ## Comment
   # has_many :comments, as: :commentable
 
+  # Enum
+  include Shared::EnumsConcern
+  enum visibility: VISIBILITY
+  enums_to_tr('article', [:visibility])
+
   ## Tags
   has_many :tagged_articles
-  has_many :tags, through: :tagged_articles, autosave: true
+  has_many :tags, through: :tagged_articles
   has_many :parent_tags,
            -> { where(tagged_articles: {parent: true}) },
            through: :tagged_articles,
@@ -85,33 +91,32 @@ class Article < ActiveRecord::Base
   # Scopes
   scope :user_related, -> (user_id = nil) {
     where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
-                                                  author_id: user_id)
+          author_id: user_id)
   }
 
   # Parameters validation
   validates :author_id, presence: true
   validates :title,
-            length: {minimum: 1, maximum: 128},
+            length: {minimum: CONFIG.title_min_length, maximum: CONFIG.title_max_length},
             if: 'title.present?'
   validates :summary,
-            length: {minimum: 1, maximum: 256},
+            length: {minimum: CONFIG.summary_min_length, maximum: CONFIG.summary_max_length},
             if: 'summary.present?'
   validates :content,
             presence: true,
-            length: {minimum: 3, maximum: 12_000}
+            length: {minimum: CONFIG.content_min_length, maximum: CONFIG.content_max_length}
 
   # Sanitize and detect programming language if any before save
   before_save :sanitize_html
 
   # Translation
-  translates :title, :summary, :content, fallbacks_for_empty_translations: true,
-             versioning: { gem: :paper_trail, options: { on: [ :update ] } }
+  translates :title, :summary, :content,
+             fallbacks_for_empty_translations: true,
+             versioning: {gem: :paper_trail, options: {on: [:update, :destroy]}}
   accepts_nested_attributes_for :translations, allow_destroy: true
 
-  # Enum
-  include Shared::EnumsConcern
-  enum visibility: VISIBILITY
-  enums_to_tr('article', [:visibility])
+  # Versionning
+  has_paper_trail on: [:destroy], ignore: [:title, :summary, :content]
 
   # Nice url format
   include Shared::NiceUrlConcern

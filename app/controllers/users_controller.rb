@@ -12,7 +12,21 @@ class UsersController < ApplicationController
     user = User.friendly.find(params[:id])
     authorize user
 
-    render :show, locals: { user: user }
+    render :show, locals: { user: user, mode: nil }
+  end
+
+  def bookmark
+    user = User.friendly.find(params[:id])
+    authorize user
+
+    render :show, locals: { user: user, mode: 'bookmark' }
+  end
+
+  def temporary
+    user = User.friendly.find(params[:id])
+    authorize user
+
+    render :show, locals: { user: user, mode: 'temporary' }
   end
 
   def preference

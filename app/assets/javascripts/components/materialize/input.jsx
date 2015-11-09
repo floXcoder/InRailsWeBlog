@@ -15,6 +15,8 @@ var Input = React.createClass({
                 <input ref={this.props.id}
                        id={this.props.id}
                        type="text"
+                       minLength={this.props.minLength}
+                       maxLength={this.props.maxLength}
                        onBlur={this.props.onBlur}
                        onChange={this.props.onChange} />
 

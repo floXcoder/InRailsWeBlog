@@ -1,5 +1,6 @@
-var ArticleActions = require('../../actions/articleActions');
 var ArticleForm = require('../../components/articles/form');
+var ClipboardManager = require('../../modules/clipboard');
+var SanitizePaste = require('../../wysiwyg/sanitizePaste');
 
 var ArticleCreation = React.createClass({
     getInitialState: function () {
@@ -12,10 +13,29 @@ var ArticleCreation = React.createClass({
         this.state.$articleNewForm = $('#article-creation-component');
         this.state.$articleNewForm.hide();
 
-        $('a#toggle-article-creation').click(function () {
+        $('a#toggle-article-creation').click(function (event) {
+            event.preventDefault();
             this._toggleNewForm();
-
             return false;
+        }.bind(this));
+
+        ClipboardManager.initialize(this._onPaste);
+
+        $(".blog").dblclick(function(event) {
+            if ($(event.target).is("input:visible,textarea:visible") || $(event.target).hasClass('note-editable')) {
+                return;
+            }
+
+            // Abort if it looks like they've selected some text
+            if (window.getSelection && !$.isEmpty(window.getSelection().toString())) {
+                return;
+            }
+            if (document.selection && !$.isEmpty(document.selection.createRange().text)) {
+                return;
+            }
+
+            event.preventDefault();
+            this._toggleNewForm();
         }.bind(this));
     },
 
@@ -24,11 +44,26 @@ var ArticleCreation = React.createClass({
             this.state.$articleNewForm.fadeOut() :
             this.state.$articleNewForm.fadeIn(function () {
                 $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
+                $('.blog-form .collapsible').collapsible();
 
                 this.state.$articleNewForm.find('input#title').focus();
-
-                $('.blog-form .collapsible').collapsible();
             }.bind(this));
+    },
+
+    _onPaste: function (content) {
+        var $singleEditor = $('#single-editor');
+        var singleContent = $singleEditor.summernote('code');
+        if(content && $singleEditor && $.isEmpty(singleContent)) {
+            this.state.$articleNewForm.fadeIn(function () {
+                var pasteContent = SanitizePaste.parse(content);
+                $singleEditor.summernote('code', pasteContent);
+                $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
+                $('.blog-form .collapsible').collapsible();
+                $singleEditor.summernote('focus');
+                this.refs.articleForm.refs.temporary.setState({checked: true});
+                this.refs.articleForm.refs.visibility.setState({value: 'only_me'});
+            }.bind(this));
+        }
     },
 
     _onSubmit: function () {
@@ -47,7 +82,7 @@ var ArticleCreation = React.createClass({
                         </div>
                         <div className="collapsible-body">
                             <ul className="collection">
-                                <ArticleForm onSubmit={this._onSubmit}/>
+                                <ArticleForm ref="articleForm" onSubmit={this._onSubmit}/>
                             </ul>
                         </div>
                     </li>

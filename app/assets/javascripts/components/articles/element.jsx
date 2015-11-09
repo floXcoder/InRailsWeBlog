@@ -70,6 +70,15 @@ var ArticleElement = React.createClass({
         }
     },
 
+    _onDeleteClick: function (event) {
+        ArticleActions.deleteArticles({id: this.state.article.id, showMode: true});
+    },
+
+    _onClickBookmark: function (articleId, event) {
+        ArticleActions.bookmarkArticle({articleId: articleId});
+        this.setState({isBookmarked: !this.state.isBookmarked});
+    },
+
     _renderIsLinkIcon: function () {
         if (this.state.article.is_link) {
             return (
@@ -129,6 +138,26 @@ var ArticleElement = React.createClass({
         }
     },
 
+    _renderBookmarkIcon: function () {
+        var bookmarkClass = "material-icons" + (this.state.isBookmarked ? " article-bookmarked" : '');
+        return (
+            <div className="article-icons"
+                 onClick={this._onClickBookmark.bind(this, this.props.article.id)} >
+                <i className={bookmarkClass} >bookmark</i>
+            </div>
+        );
+    },
+
+    _renderDeleteIcon: function () {
+        if (this.props.userId && this.props.userId === this.state.article.author.id) {
+            return (
+                <div className="article-icons" onClick={this._onDeleteClick}>
+                    <i className="material-icons article-delete">delete</i>
+                </div>
+            );
+        }
+    },
+
     _renderHistory: function () {
         if (this.state.isHistoryDisplayed) {
             return (
@@ -183,8 +212,10 @@ var ArticleElement = React.createClass({
                         <div className="right">
                             {this._renderIsLinkIcon()}
                             {this._renderVisibilityIcon()}
+                            {this._renderBookmarkIcon()}
                             {this._renderHistoryIcon()}
                             {this._renderEditIcon()}
+                            {this._renderDeleteIcon()}
                         </div>
                     </div>
                 </div>

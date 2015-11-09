@@ -22,10 +22,16 @@ en:
       log_in: "Log In"
       search_tooltip: "Search"
       article_creation_tooltip: "Create a new article"
+      tags: "Tags"
       tags_tooltip: "Tags list"
       preferences: "Preferences"
       preferences_not_connected: "Connect to change preferences"
-      user_articles: "My articles"
+      articles:
+        title: "Articles"
+        user: "My articles"
+        new: "New article"
+        bookmark: "Articles bookmarked"
+        temporary: "Temporary"
       profile:
        connected: "My Profile"
        not_connected: "Connection"
@@ -69,6 +75,11 @@ en:
         personal_information_header: "Personal information"
         update_profile: "Update my profil"
     article:
+      flash:
+        deletion_successful: "Article deleted. <a href='%{restore_link}'>Cancel deletion</a>"
+        deletion_error: "Problem during article deletion: %{errors}"
+        undeletion_successful: "Article restored"
+        not_found: "Article not found"
       index:
         page_title: "All Articles"
         title: "All Articles"

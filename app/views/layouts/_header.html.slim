@@ -1,12 +1,31 @@
 header.blog-header
-  ul#user-dropdown.dropdown-content
-    / User articles
-    - if user_signed_in?
+
+  / User articles dropdown
+  - if user_signed_in?
+    ul#article-dropdown.dropdown-content
       li
-        = link_to t('views.header.user_articles'), user_path(current_user)
+        = link_to t('views.header.articles.user'), user_path(current_user)
+      li.divider
 
-    li.divider
+      li
+        a#toggle-article-creation
+          i.material-icons.right add_box
+          = t('views.header.articles.new')
 
+      li
+        = link_to bookmark_user_path(current_user)
+          i.material-icons.right bookmark
+          = t('views.header.articles.bookmark')
+      li.divider
+
+      li
+        = link_to temporary_user_path(current_user)
+          = t('views.header.articles.temporary')
+          span.badge-count
+            = current_user.temporary_articles.count
+
+  / User dropdown
+  ul#user-dropdown.dropdown-content
     / Change language
     li class="#{'active' if I18n.locale == :fr}"
       = link_to t('views.header.french'), url_for(locale: 'fr')
@@ -38,16 +57,17 @@ header.blog-header
             a#toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
               i.material-icons search
 
-          / New article
-          - if user_signed_in?
-            li
-              a#toggle-article-creation.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.article_creation_tooltip')}"
-                i.material-icons edit
-
           / Tags
           li
             a.button-collapse.show-on-large.tooltipped data-activates="slide-out" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
               i.material-icons local_offer
+
+          / Articles
+          - if user_signed_in?
+            li
+              a.dropdown-button data-activates="article-dropdown" data-constrainwidth="false"
+                i.material-icons.right message
+                = t('views.header.articles.title')
 
           / User preferences
           - if user_signed_in?
@@ -78,3 +98,7 @@ header.blog-header
 
   .blog-sidebar
     #tag-sidebar-component
+
+  - if user_signed_in?
+    #clipboardArea.hidden
+      textarea#clipboard title="clipboard"
