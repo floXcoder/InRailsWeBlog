@@ -10,7 +10,8 @@ var ArticleItem = React.createClass({
         return {
             editor: null,
             articleDisplayMode: this.props.articleDisplayMode,
-            isLink: this.props.article.is_link || false
+            isLink: this.props.article.is_link || false,
+            isBookmarked: this.props.article.is_bookmarked || false
         };
     },
 
@@ -49,11 +50,11 @@ var ArticleItem = React.createClass({
         }
     },
 
-    _highlightCode: function() {
+    _highlightCode: function () {
         var domNode = ReactDOM.findDOMNode(this);
         var nodes = domNode.querySelectorAll('pre code');
         if (nodes.length > 0) {
-            for (var i = 0; i < nodes.length; i=i+1) {
+            for (var i = 0; i < nodes.length; i = i + 1) {
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
@@ -62,16 +63,16 @@ var ArticleItem = React.createClass({
     _handleChange: function (event) {
         var text = event.currentTarget.textContent;
 
-        if ($utils.isURL(text.trim()) && !this.state.isLink) {
+        if ($.isURL(text.trim()) && !this.state.isLink) {
             this.state.isLink = true;
             this.setState({isLink: true});
             this.state.editor.summernote('code', '');
             this.state.editor.summernote("createLink", {
-                text : text.trim(),
-                url : text.trim(),
-                isNewWindow : true
+                text: text.trim(),
+                url: text.trim(),
+                isNewWindow: true
             });
-        } else if(this.state.isLink && !$utils.isURL(text.trim())) {
+        } else if (this.state.isLink && !$.isURL(text.trim())) {
             this.state.isLink = false;
             this.setState({isLink: false});
         }
@@ -81,39 +82,9 @@ var ArticleItem = React.createClass({
         ArticleActions.loadArticles({tags: [tagName]});
     },
 
-    _renderIsLink: function () {
-        if (this.state.isLink) {
-            return (
-                <div className="article-icons tooltipped"
-                    data-tooltip={I18n.t('js.article.tooltip.link')}>
-                    <i className="material-icons article-link">link</i>
-                </div>
-            );
-        } else {
-            return null;
-        }
-    },
-
-    _renderVisibility: function () {
-        if (this.props.userId) {
-            var viabilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: I18n.t('js.article.visibility.enum.' + this.props.article.visibility)});
-
-            if (this.props.article.visibility === 'everyone') {
-                return (
-                    <div className="article-icons tooltipped"
-                         data-tooltip={viabilityTooltip}>
-                        <i className="material-icons article-public">visibility</i>
-                    </div>
-                );
-            } else {
-                return (
-                    <div className="article-icons tooltipped"
-                         data-tooltip={viabilityTooltip}>
-                        <i className="material-icons article-private">visibility_off</i>
-                    </div>
-                );
-            }
-        }
+    _onClickBookmark: function (articleId, event) {
+        ArticleActions.bookmarkArticle({articleId: articleId});
+        this.setState({isBookmarked: !this.state.isBookmarked});
     },
 
     _onEditClick: function (event) {
@@ -139,43 +110,106 @@ var ArticleItem = React.createClass({
         this.setState({articleDisplayMode: this.props.articleDisplayMode});
     },
 
-    _renderEdit: function () {
-        if (this.props.userId && this.props.userId === this.props.article.author_id) {
-            if (this.state.articleDisplayMode === 'edit') {
-                $('.article-icons.tooltipped').tooltip('remove');
+    _renderEditIcon: function () {
+        if (this.props.userId && this.props.userId === this.props.article.author.id) {
+            return (
+                <div className="article-icons tooltipped"
+                     data-tooltip={I18n.t('js.article.tooltip.edit')}
+                     onClick={this._onEditClick} >
+                    <i className="material-icons article-edit">mode_edit</i>
+                </div>
+            );
+        }
+    },
+
+    _renderEditionIcons: function () {
+        if (this.props.userId && this.props.userId === this.props.article.author.id) {
+            $('.article-edition .article-icons.tooltipped').tooltip('remove');
+            return (
+                <div className="article-icons">
+                    <i className="material-icons article-delete"
+                       onClick={this._onDeleteClick}>
+                        delete
+                    </i>
+                    <i className="material-icons article-cancel"
+                       onClick={this._onCancelClick}>
+                        clear
+                    </i>
+                    <i className="material-icons article-update"
+                       onClick={this._onSaveClick} >
+                        check
+                    </i>
+                </div>
+            );
+        }
+    },
+
+    _renderTime: function () {
+        return (
+            <div className="article-icons tooltipped article-time"
+                 data-tooltip={I18n.t('js.article.tooltip.updated_at')}>
+                {this.props.article.updated_at}
+            </div>
+        );
+    },
+
+    _renderGotoArticle: function () {
+        return (
+            <a className="article-icons article-goto"
+               href={"/articles/" + this.props.article.slug} >
+                <i className="material-icons">forward</i>
+            </a>
+        );
+    },
+
+    _renderIsLinkIcon: function () {
+        if (this.state.isLink) {
+            return (
+                <div className="article-icons tooltipped"
+                     data-tooltip={I18n.t('js.article.tooltip.link')}>
+                    <i className="material-icons article-link">link</i>
+                </div>
+            );
+        } else {
+            return null;
+        }
+    },
+
+    _renderVisibilityIcon: function () {
+        if (this.props.userId) {
+            var viabilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: I18n.t('js.article.visibility.enum.' + this.props.article.visibility)});
+
+            if (this.props.article.visibility === 'everyone') {
                 return (
-                    <div className="article-icons">
-                        <i className="material-icons article-delete"
-                           onClick={this._onDeleteClick}>
-                            delete
-                        </i>
-                        <i className="material-icons article-cancel"
-                           onClick={this._onCancelClick}>
-                            clear
-                        </i>
-                        <i className="material-icons article-update"
-                           onClick={this._onSaveClick}>
-                            check
-                        </i>
+                    <div className="article-icons tooltipped" data-tooltip={viabilityTooltip}>
+                        <i className="material-icons article-public">visibility</i>
                     </div>
                 );
             } else {
                 return (
-                    <div className="article-icons tooltipped"
-                         data-tooltip={I18n.t('js.article.tooltip.edit')}
-                         onClick={this._onEditClick}>
-                        <i className="material-icons article-edit">mode_edit</i>
+                    <div className="article-icons tooltipped" data-tooltip={viabilityTooltip}>
+                        <i className="material-icons article-private">visibility_off</i>
                     </div>
                 );
             }
         }
     },
 
-    _renderAuthor: function () {
+    _renderAuthorIcon: function () {
         return (
             <div className="article-icons">
                 <i className="material-icons">account_circle</i>
-                {this.props.article.author}
+                {this.props.article.author.pseudo}
+            </div>
+        );
+    },
+
+    _renderBookmarkIcon: function () {
+        var bookmarkClass = "material-icons" + (this.state.isBookmarked ? " article-bookmarked" : '');
+        return (
+            <div className="article-icons"
+                 onClick={this._onClickBookmark.bind(this, this.props.article.id)} >
+                <i className={bookmarkClass} >bookmark</i>
             </div>
         );
     },
@@ -191,15 +225,14 @@ var ArticleItem = React.createClass({
                 </div>
             );
         } else if (this.state.articleDisplayMode === 'card') {
-
             var childTags = _.indexBy(this.props.article.child_tags, 'id');
             var parentTags = _.indexBy(this.props.article.parent_tags, 'id');
 
-            var tags = this.props.article.tags.map(function (tag) {
+            var Tags = this.props.article.tags.map(function (tag) {
                 var relationshipClass = '';
-                if(parentTags[tag.id]) {
+                if (parentTags[tag.id]) {
                     relationshipClass = 'tag-parent';
-                } else if(childTags[tag.id]) {
+                } else if (childTags[tag.id]) {
                     relationshipClass = 'tag-child';
                 }
 
@@ -215,29 +248,31 @@ var ArticleItem = React.createClass({
             return (
                 <div className="card clearfix blog-article-item">
                     <div className="card-content">
-                        <div>
-                            <span className="card-title black-text">
-                                <h4 className="article-title-card">
-                                    <a href={"/articles/" + this.props.article.slug}>
-                                        {this.props.article.title}
-                                    </a>
-                                </h4>
-                            </span>
-                            <span dangerouslySetInnerHTML={{__html: this.props.children}}/>
+                        <div className="card-title article-title center clearfix">
+                            <h1 className="article-title-card">
+                                <a href={"/articles/" + this.props.article.slug}>
+                                    {this.props.article.title}
+                                </a>
+                            </h1>
+                            {this._renderTime()}
                         </div>
+                        <div dangerouslySetInnerHTML={{__html: this.props.children}}/>
                     </div>
-                    <div className="card-action">
-                        {!$utils.isEmpty(tags) ? tags : <a></a>}
+                    <div className="card-action clearfix">
+                        {Tags}
                         <div className="right">
-                            {this._renderIsLink()}
-                            {this._renderVisibility()}
-                            {this._renderEdit()}
+                            {this._renderEditIcon()}
+                            {this._renderIsLinkIcon()}
+                            {this._renderVisibilityIcon()}
+                            {this._renderAuthorIcon()}
+                            {this._renderBookmarkIcon()}
+                            {this._renderGotoArticle()}
                         </div>
                     </div>
                 </div>
             );
         } else if (this.state.articleDisplayMode === 'edit') {
-            var tags = this.props.article.tags.map(function (tag) {
+            var Tags = this.props.article.tags.map(function (tag) {
                 return (
                     <a key={tag.id}
                        onClick={this._onClickTag.bind(this, tag.id)}
@@ -248,25 +283,25 @@ var ArticleItem = React.createClass({
             }.bind(this));
 
             return (
-                <div className="card clearfix blog-article-item">
-                    <div className="card-content article-editing">
-                        <div>
-                            <span className="card-title black-text">
-                                <h4 className="article-title-card">
-                                    {this.props.article.title}
-                                </h4>
-                            </span>
+                <div className="card clearfix blog-article-item article-edition">
+                    <div className="card-content">
+                        <div className="card-title article-title center clearfix">
+                            <h1 className="article-title-card">
+                                {this.props.article.title}
+                            </h1>
+                        </div>
 
+                        <div className="article-editing">
                             <div id={"editor-summernote-" + this.props.article.id}
                                  dangerouslySetInnerHTML={{__html: this.props.children}}/>
                         </div>
                     </div>
-                    <div className="card-action">
-                        {!$utils.isEmpty(tags) ? tags : <a></a>}
+                    <div className="card-action clearfix">
+                        {Tags}
                         <div className="right">
-                            {this._renderIsLink()}
-                            {this._renderVisibility()}
-                            {this._renderEdit()}
+                            {this._renderEditionIcons()}
+                            {this._renderIsLinkIcon()}
+                            {this._renderVisibilityIcon()}
                         </div>
                     </div>
                 </div>

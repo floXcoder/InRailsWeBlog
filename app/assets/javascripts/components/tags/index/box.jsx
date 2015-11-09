@@ -1,30 +1,8 @@
-var IndexTagList = require('./indexList');
-var TagStore = require('../../stores/tagStore');
-var Input = require('../../components/materialize/input');
-var Spinner = require('../../components/materialize/spinner');
+var IndexTagList = require('./list');
+var SearchBar = require('./search');
+var TagStore = require('../../../stores/tagStore');
+var Spinner = require('../../../components/materialize/spinner');
 var fuzzy = require('fuzzy');
-
-var SearchBar = React.createClass({
-    handleChange: function () {
-        this.props.onUserInput(ReactDOM.findDOMNode(this.refs.filterTextInput.refs.filterTextInput).value);
-    },
-
-    _onSubmit: function () {
-        return false;
-    },
-
-    render: function () {
-        //value={this.props.filterText}
-        return (
-            <form className="tag-search" onSubmit={this._onSubmit}>
-                <Input ref="filterTextInput" id="filterTextInput" onChange={this.handleChange}>
-                    {I18n.t('js.tag.filter')}
-                </Input>
-            </form>
-        );
-    }
-});
-
 
 var IndexTagBox = React.createClass({
     mixins: [Reflux.listenTo(TagStore, 'onLoadTag')],

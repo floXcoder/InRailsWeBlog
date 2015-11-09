@@ -69,28 +69,10 @@ require('imports?require=>false!imports?define=>false!history.js/history');
 
 })(window);
 
-$.urlParam = function (name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    return results[1] || 0;
-};
-
-
 var HistoryJSMixin = {
     _historyjs_recoverState: function (state) {
         var receivedStateSerialized, receivedState;
         receivedStateSerialized = state.data;
-
-        if ($.isEmptyObject(receivedStateSerialized)) {
-            var params = $(location).attr('search');
-
-            if (!$utils.isEmpty(params)) {
-                receivedStateSerialized = JSON.parse('{"' + decodeURI(decodeURIComponent(params)
-                        .replace(/^\?/, '')
-                        .replace(/&/g, '","')
-                        .replace(/\+/g, ' ')
-                        .replace(/=/g, '":"')) + '"}');
-            }
-        }
 
         if (this.deserializeParams !== undefined) {
             receivedState = this.deserializeParams(receivedStateSerialized);
@@ -107,24 +89,29 @@ var HistoryJSMixin = {
 
         this._historyjs_localUpdate = true;
 
+        var urlParams = $(location).attr('pathname');
+        if(!$.isEmpty($.param(serializedState))) {
+            urlParams += '?' + $.param(serializedState);
+        }
+
         if (!this._historyjs_has_saved) {
             this._historyjs_has_saved = true;
             if (options) {
-                History.replaceState(serializedState, options.title, encodeURI($(location).attr('pathname') + '?' + $.param(serializedState)));
+                History.replaceState(serializedState, options.title, encodeURI(urlParams));
             } else {
                 History.replaceState(serializedState);
             }
         }
         else {
             if (options) {
-                History.pushState(serializedState, options.title, encodeURI($(location).attr('pathname') + '?' + $.param(serializedState)));
+                History.pushState(serializedState, options.title, encodeURI(urlParams));
             } else {
                 History.pushState(serializedState);
             }
         }
     },
 
-    bindToBrowserhistory: function () {
+    bindToBrowser: function () {
         this._historyjs_has_saved = false;
         this._historyjs_localUpdate = false;
 
@@ -135,7 +122,25 @@ var HistoryJSMixin = {
 
             this._historyjs_localUpdate = false;
         }.bind(this));
-        this._historyjs_recoverState(History.getState());
+
+        var params = $(location).attr('search');
+        if (!$.isEmpty(params)) {
+            var receivedStateSerialized, receivedState;
+            receivedStateSerialized = JSON.parse('{"' + decodeURI(decodeURIComponent(params)
+                    .replace(/^\?/, '')
+                    .replace(/&/g, '","')
+                    .replace(/\+/g, ' ')
+                    .replace(/=/g, '":"')) + '"}');
+
+            if (this.deserializeParams !== undefined) {
+                receivedState = this.deserializeParams(receivedStateSerialized);
+            }
+            else {
+                receivedState = receivedStateSerialized;
+            }
+        }
+
+        this.handleParams(receivedState);
     }
 };
 

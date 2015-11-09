@@ -6,4 +6,6 @@
 - javascript 'common-react'
 - javascript 'articles/show'
 
-= content_tag :div, '', id: 'react-main', data: {article: article.to_builder(current_user_id).target!}
+#article-creation-component
+
+= content_tag :div, '', id: 'article-element-component', data: {article: ActiveModel::SerializableResource.new(article, {scope: current_user}).serializable_hash}

@@ -12,7 +12,21 @@ class UsersController < ApplicationController
     user = User.friendly.find(params[:id])
     authorize user
 
-    render :show, locals: { user: user }
+    render :show, locals: { user: user, mode: nil }
+  end
+
+  def bookmark
+    user = User.friendly.find(params[:id])
+    authorize user
+
+    render :show, locals: { user: user, mode: 'bookmark' }
+  end
+
+  def temporary
+    user = User.friendly.find(params[:id])
+    authorize user
+
+    render :show, locals: { user: user, mode: 'temporary' }
   end
 
   def preference
@@ -20,8 +34,8 @@ class UsersController < ApplicationController
     authorize user
 
     respond_to do |format|
-      format.html { render :preferences, formats: :json, locals: {user: user} }
-      format.json { render :preferences, locals: {user: user} }
+      format.html { render json: user, serializer: PreferenceSerializer, content_type: 'application/json' }
+      format.json { render json: user, serializer: PreferenceSerializer }
     end
   end
 
@@ -36,8 +50,8 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :preferences, formats: :json, locals: {user: user} }
-      format.json { render :preferences, locals: {user: user} }
+      format.html { render json: user, serializer: PreferenceSerializer, content_type: 'application/json' }
+      format.json { render json: user, serializer: PreferenceSerializer }
     end
   end
 

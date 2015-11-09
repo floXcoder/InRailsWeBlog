@@ -1,7 +1,7 @@
-var ArticleList = require('./list');
 var ArticleStore = require('../../stores/articleStore');
+var ArticleActions = require('../../actions/articleActions');
 var UserStore = require('../../stores/userStore');
-
+var ArticleList = require('./list');
 var Spinner = require('../../components/materialize/spinner');
 
 var ArticleBox = React.createClass({
@@ -17,23 +17,23 @@ var ArticleBox = React.createClass({
             articles: null,
             isLoading: true,
             hasMore: true,
-            articleDisplayMode: 'inline',
+            articleDisplayMode: 'card',
             highlightResults: true
         };
     },
 
     componentDidMount: function () {
-        $(ReactDOM.findDOMNode(this).className).ready(function(){
-            $('.tooltipped').tooltip({
-                position: "bottom",
-                delay: 50
-            });
-        });
+        this._activateTooltip();
     },
 
     componentDidUpdate: function () {
-        $(ReactDOM.findDOMNode(this).className).ready(function(){
-            $('.tooltipped').tooltip({
+        this._activateTooltip();
+    },
+
+    _activateTooltip: function() {
+        var $currentElement = $(ReactDOM.findDOMNode(this).className);
+        $currentElement.ready(function(){
+            $currentElement.find('.tooltipped').tooltip({
                 position: "bottom",
                 delay: 50
             });
@@ -43,15 +43,15 @@ var ArticleBox = React.createClass({
     onPreferenceChange: function (userStore) {
         var newState = {};
 
-        if (!$utils.isEmpty(userStore.preferences) && userStore.preferences.article_display) {
+        if (!$.isEmpty(userStore.preferences) && userStore.preferences.article_display) {
             newState.articleDisplayMode = userStore.preferences.article_display;
         }
 
-        if (!$utils.isEmpty(userStore.search) && userStore.search.search_highlight) {
+        if (!$.isEmpty(userStore.search) && userStore.search.search_highlight) {
             newState.highlightResults = (userStore.search.search_highlight !== 'false');
         }
 
-        if (!$utils.isEmpty(newState)) {
+        if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -66,7 +66,7 @@ var ArticleBox = React.createClass({
 
         newState.hasMore = !!articleStore.hasMore;
 
-        if (!$utils.isEmpty(newState)) {
+        if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },

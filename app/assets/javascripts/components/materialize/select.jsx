@@ -1,6 +1,22 @@
 var Select = React.createClass({
+    getInitialState: function () {
+        return {
+            value: this.props.value
+        };
+    },
+
     componentDidMount: function () {
-        $('select').material_select();
+        var selector = 'select' + (this.props.id ? '#' + this.props.id : '');
+        $(selector).material_select();
+    },
+
+    componentDidUpdate: function () {
+        var selector = 'select' + (this.props.id ? '#' + this.props.id : '');
+        $(selector).material_select();
+    },
+
+    handleChange: function (event) {
+        this.setState({value: event.target.value});
     },
 
     render: function () {
@@ -15,7 +31,7 @@ var Select = React.createClass({
 
         return (
             <div className="input-field">
-                <select defaultValue={this.props.defaultValue}>
+                <select id={this.props.id} value={this.state.value} onChange={this.handleChange} >
                     <option value="default" disabled="true">
                         {this.props.title}
                     </option>

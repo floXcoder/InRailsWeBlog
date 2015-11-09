@@ -10,17 +10,42 @@ var ArticleStore = Reflux.createStore({
     activeTags: {},
     autocompleteValues: {},
     url: '/articles',
+    initRequest: {},
     lastRequest: {},
     hasMore: true,
     paramsFromUrl: {},
+    browserState: {},
 
     init: function () {
-        this.bindToBrowserhistory();
+        // Will call handleParams
+        this.bindToBrowser();
+    },
+
+    onInitStore: function (initialRequest) {
+        this.initRequest = initialRequest;
+
+        if (!$.isEmpty(this.browserState)) {
+            if (this.browserState.query) {
+                this.paramsFromUrl = {query: this.browserState.query, tags: this.browserState.tags};
+                this.onSearchArticles({query: this.browserState.query, tags: this.browserState.tags});
+            } else {
+                this.paramsFromUrl = this.browserState;
+                this.onLoadArticles(this.browserState);
+            }
+        } else {
+            var request = this.initRequest;
+            if(!$.isEmpty(this.initRequest.pseudo) || !$.isEmpty(this.initRequest.mode)) {
+                request = _.omit(request, 'userId');
+                request = _.omit(request, 'pseudo');
+            }
+
+            this.onLoadArticles(request);
+        }
     },
 
     deserializeParams: function (state) {
         var tags = [];
-        if (!$utils.isEmpty(state.tags)) {
+        if (!$.isEmpty(state.tags)) {
             state.tags.split(',').forEach(function (tag) {
                 tags.push(tag);
             });
@@ -35,20 +60,51 @@ var ArticleStore = Reflux.createStore({
             return {
                 tags: tags
             };
+        } else if (state.relation_tags) {
+            state.relation_tags.split(',').forEach(function (tag) {
+                tags.push(tag);
+            });
+            return {
+                relationTags: tags
+            };
+        } else if (!$.isEmpty(state)) {
+            return state;
         }
     },
 
     handleParams: function (state) {
-        if (state) {
-            if (state.query) {
-                this.paramsFromUrl = {query: state.query, tags: state.tags};
-                this.onSearchArticles({query: state.query, tags: state.tags});
-            } else if (state.tags) {
-                this.paramsFromUrl = {tags: state.tags};
-                this.onLoadArticles({tags: state.tags});
-            }
+        if (!$.isEmpty(state)) {
+            this.browserState = state;
+        }
+    },
+
+    _saveRequest: function (data) {
+        if ($.isEmpty(data)) {
+            return;
+        }
+
+        if (data.tags) {
+            var tagParams = {
+                tags: data.tags.join(',')
+            };
+            this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.tags});
+        } else if (data.relationTags) {
+            var tagParams = {
+                relation_tags: data.relationTags.join(',')
+            };
+            this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.relation_tags});
         } else {
-            this.onLoadArticles({page: 1});
+            this.saveState(_.omit(data, 'userId'), {title: 'Articles'});
+        }
+    },
+
+    _handleJsonErrors: function (xhr, status, error) {
+        if (status === 'error') {
+            if (error === 'Forbidden') {
+                Materialize.toast(I18n.t('js.article.model.errors.not_authorized'));
+            } else if (error === 'Unprocessable Entity') {
+                Materialize.toast(I18n.t('js.article.model.errors.unprocessable'));
+            }
         }
     },
 
@@ -63,6 +119,12 @@ var ArticleStore = Reflux.createStore({
         var url = this.url;
 
         if (data) {
+            if (data.page) {
+                requestParam.page = data.page;
+            } else {
+                requestParam.page = 1;
+            }
+
             if (data.tags) {
                 requestParam.tags = data.tags;
             }
@@ -71,10 +133,16 @@ var ArticleStore = Reflux.createStore({
                 requestParam.relation_tags = data.relationTags;
             }
 
-            if (data.page) {
-                requestParam.page = data.page;
-            } else {
-                requestParam.page = 1;
+            if (data.userId) {
+                requestParam.user_id = data.userId;
+            }
+
+            if (data.pseudo) {
+                requestParam.user_pseudo = data.pseudo;
+            }
+
+            if (data.mode) {
+                requestParam.mode = data.mode;
             }
 
             if (data.query) {
@@ -90,6 +158,15 @@ var ArticleStore = Reflux.createStore({
                 requestParam.autocompleteQuery = data.autocompleteQuery;
                 url += '/autocomplete';
             }
+
+            if (data.history) {
+                url += '/' + data.history + '/history';
+            }
+
+            if (data.restore) {
+                requestParam.translation_version_id = data.restore.versionId;
+                url += '/' + data.restore.articleId + '/restore';
+            }
         }
 
         this.lastRequest = data;
@@ -99,26 +176,16 @@ var ArticleStore = Reflux.createStore({
             requestParam,
             function (data) {
                 callback.bind(this, data)();
+            }.bind(this))
+            .fail(function (xhr, status, error) {
+                this._handleJsonErrors(xhr, status, error);
             }.bind(this));
     },
 
     onLoadArticles: function (data) {
         this._resetSearch();
 
-        if ($utils.isEmpty(this.paramsFromUrl)) {
-            if (data.tags) {
-                var tagParams = {
-                    tags: data.tags.join(',')
-                };
-                this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.tags});
-            }
-            if (data.relationTags) {
-                var tagParams = {
-                    relation_tags: data.relationTags.join(',')
-                };
-                this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.relation_tags});
-            }
-        }
+        this._saveRequest(data);
 
         this._fetchArticles(data, function (dataReceived) {
             // Manage in articles/box
@@ -127,10 +194,9 @@ var ArticleStore = Reflux.createStore({
 
             this.trigger(this.articleData);
 
-            if (!$utils.isEmpty(this.paramsFromUrl)) {
+            if (!$.isEmpty(this.paramsFromUrl)) {
                 this.paramsFromUrl = {};
             }
-
         }.bind(this));
     },
 
@@ -140,6 +206,8 @@ var ArticleStore = Reflux.createStore({
         } else {
             this.lastRequest.page = 2;
         }
+
+        this._saveRequest(_.merge(this.lastRequest, data));
 
         this._fetchArticles(_.merge(this.lastRequest, data), function (dataReceived) {
             var uniqueArticles = [];
@@ -179,14 +247,11 @@ var ArticleStore = Reflux.createStore({
             data: requestParam,
             success: function (data) {
                 // Add to the current list
-                this.articleData.articles.unshift(data.articles[0]);
-                if (data.tags) {
-                    this.articleData.tags.unshift(data.tags[0]);
-                }
+                this.articleData.articles.unshift(data.article);
                 this.trigger(this.articleData);
             }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.url, status, err.toString());
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(xhr, status, error);
             }.bind(this)
         });
     },
@@ -211,12 +276,12 @@ var ArticleStore = Reflux.createStore({
             type: 'POST',
             data: requestParam,
             success: function (data) {
-                if (fromEditPage && data.articles[0]) {
-                    window.location.replace("/articles/" + data.articles[0].id);
+                if (fromEditPage && data.article) {
+                    window.location.replace("/articles/" + data.article.id);
                 } else {
                     // Update the articles
                     var updatedArticleList = [];
-                    var updatedArticle = data.articles[0];
+                    var updatedArticle = data.article;
                     this.articleData.articles.forEach(function (article, index, articles) {
                         if (updatedArticle.id === article.id) {
                             updatedArticleList.push(updatedArticle);
@@ -228,8 +293,8 @@ var ArticleStore = Reflux.createStore({
                     this.trigger(this.articleData);
                 }
             }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.url, status, err.toString());
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(xhr, status, error);
             }.bind(this)
         });
     },
@@ -237,10 +302,16 @@ var ArticleStore = Reflux.createStore({
     onDeleteArticles: function (article) {
         var requestParam = {};
         var url = this.url;
+        var showMode = false;
 
-        if (article && article.id) {
-            url += '/' + article.id;
-            requestParam._method = 'delete';
+        if (article) {
+            if (article.id) {
+                url += '/' + article.id;
+                requestParam._method = 'delete';
+            }
+            if (article.showMode) {
+                showMode = true;
+            }
         } else {
             return;
         }
@@ -251,19 +322,23 @@ var ArticleStore = Reflux.createStore({
             type: 'POST',
             data: requestParam,
             success: function (data) {
-                // Remove the article
-                var updatedArticleList = [];
-                var removedArticleId = data.id;
-                this.articleData.articles.forEach(function (article, index, articles) {
-                    if (removedArticleId !== article.id) {
-                        updatedArticleList.push(article);
-                    }
-                }.bind(this));
-                this.articleData.articles = updatedArticleList;
-                this.trigger(this.articleData);
+                if (showMode && data.id) {
+                    window.location.replace("/");
+                } else {
+                    // Remove the article
+                    var updatedArticleList = [];
+                    var removedArticleId = data.id;
+                    this.articleData.articles.forEach(function (article, index, articles) {
+                        if (removedArticleId !== article.id) {
+                            updatedArticleList.push(article);
+                        }
+                    }.bind(this));
+                    this.articleData.articles = updatedArticleList;
+                    this.trigger(this.articleData);
+                }
             }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.url, status, err.toString());
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(xhr, status, error);
             }.bind(this)
         });
     },
@@ -271,7 +346,7 @@ var ArticleStore = Reflux.createStore({
     onSearchArticles: function (data) {
         this._resetSearch();
 
-        if ($utils.isEmpty(this.paramsFromUrl)) {
+        if ($.isEmpty(this.paramsFromUrl)) {
             var queryParams = {
                 query: data.query,
                 tags: data.tags ? data.tags.join(',') : null
@@ -280,33 +355,35 @@ var ArticleStore = Reflux.createStore({
         }
 
         this._fetchArticles(data, function (dataReceived) {
-            // Manage in articles/box
+            // Manage in articles/box and search/module
             this.articleData = dataReceived;
             this.articleData.hasMore = true;
 
-            if (!$utils.isEmpty(this.paramsFromUrl)) {
+            if (!$.isEmpty(this.paramsFromUrl)) {
                 this.articleData.paramsFromUrl = this.paramsFromUrl;
             }
             this.trigger(this.articleData);
 
-            if (!$utils.isEmpty(this.paramsFromUrl)) {
+            if (!$.isEmpty(this.paramsFromUrl)) {
                 delete this.articleData.paramsFromUrl;
                 this.paramsFromUrl = {};
             }
+
+            _paq.push(['trackSiteSearch', data.query, 'Search', this.articleData.length]);
         }.bind(this));
     },
 
     onAutocompleteArticles: function (data) {
-        if (!$utils.isEmpty(data.autocompleteQuery)) {
+        if (!$.isEmpty(data.autocompleteQuery)) {
             this._fetchArticles(data, function (dataReceived) {
-                this.autocompleteValues = dataReceived;
+                this.autocompleteValues = dataReceived.articles;
                 this.trigger({autocompletion: this.autocompleteValues});
             }.bind(this));
         }
     },
 
     _filterArticlesByTag: function () {
-        if (!$utils.isEmpty(this.activeTags)) {
+        if (!$.isEmpty(this.activeTags)) {
             this.articleData.articles.forEach(function (article, index, articles) {
                 articles[index].show = true;
                 var activeTagsByArticle = article.tags.filter(function (tag) {
@@ -326,6 +403,46 @@ var ArticleStore = Reflux.createStore({
         this.activeTags[tagId] = activeTag;
         this._filterArticlesByTag();
         this.trigger(this.articleData);
+
+        _paq.push(['trackSiteSearch', tagId, 'Tags']);
+    },
+
+    onLoadArticleHistory: function (data) {
+        if (!$.isEmpty(data.history)) {
+            this._fetchArticles(data, function (dataReceived) {
+                this.trigger({articleVersions: dataReceived['paper_trail/versions']});
+            }.bind(this));
+        }
+    },
+
+    onRestoreArticle: function (data) {
+        if (!$.isEmpty(data.restore)) {
+            this._fetchArticles(data, function (dataReceived) {
+                this.trigger({articleRestored: dataReceived.article});
+            }.bind(this));
+        }
+    },
+
+    onBookmarkArticle: function (data) {
+        if (!$.isEmpty(data.articleId)) {
+            var requestParam = {};
+
+            requestParam.article_id = data.articleId;
+            var url = this.url + '/' + data.articleId + '/bookmark';
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'POST',
+                data: requestParam,
+                success: function (data) {
+                    return true;
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    this._handleJsonErrors(xhr, status, error);
+                }.bind(this)
+            });
+        }
     }
 });
 

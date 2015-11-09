@@ -4,7 +4,7 @@ require('../components/user/navigation');
 require('../components/tags/sidebar');
 
 // Got to top button
-$utils.goToTop();
+$('.goto-top').goToTop();
 
 // Automatic dropdown on hover
 $(".dropdown-button").dropdown({

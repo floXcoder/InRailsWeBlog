@@ -3,9 +3,7 @@ var TagActions = require('../../actions/tagActions');
 var UserStore = require('../../stores/userStore');
 var Input = require('../../components/materialize/input');
 var Button = require('../../components/materialize/button');
-var Textarea = require('../../components/materialize/textarea');
 var Select = require('../../components/materialize/select');
-var Switch = require('../../components/materialize/switch');
 var Checkbox = require('../../components/materialize/checkbox');
 var TagsInput = require('../../components/tagsinput/tagsinput');
 require('../../wysiwyg/summernote');
@@ -21,7 +19,9 @@ var ArticleForm = React.createClass({
             multiLanguage: this.props.multiLanguage || false,
             disabled: true,
             editors: {},
-            isLink: false
+            temporary: this.props.temporaryNote || false,
+            isLink: false,
+            sendTooltip: null
         };
     },
 
@@ -37,6 +37,28 @@ var ArticleForm = React.createClass({
 
         if(this.props.article) {
             this._updateFields();
+        }
+
+        if(this.props.article) {
+            window.onbeforeunload = function (event) {
+                var message;
+                event = event || window.event;
+                message = I18n.t('js.article.edit.exit');
+                if (event) {
+                    event.returnValue = message;
+                }
+                return message;
+            }.bind(this);
+        } else {
+            window.onunload = function (event) {
+                if(!$.isEmpty($('#single-editor').summernote('code'))
+                    || !$.isEmpty($('#ennglish-editor').summernote('code'))
+                    || !$.isEmpty($('#french-editor').summernote('code'))) {
+                    this.refs.temporary.state.checked = true;
+                    this._submitNow(event);
+                    return true;
+                }
+            }.bind(this);
         }
     },
 
@@ -68,14 +90,14 @@ var ArticleForm = React.createClass({
     onPreferenceChange: function (userStore) {
         var newState = {};
 
-        if (!$utils.isEmpty(userStore.preferences) && userStore.preferences.multi_language) {
+        if (!$.isEmpty(userStore.preferences) && userStore.preferences.multi_language) {
             var multiLanguage = (userStore.preferences.multi_language !== 'false');
             if(multiLanguage !== this.state.multiLanguage) {
                 newState.multiLanguage = multiLanguage;
             }
         }
 
-        if (!$utils.isEmpty(newState)) {
+        if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -136,6 +158,7 @@ var ArticleForm = React.createClass({
             ReactDOM.findDOMNode(this.refs.title.refs.title).value = this.props.article.title;
             ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = this.props.article.summary;
             $('#single-editor').summernote('code', this.props.article.content);
+            $('#single-editor').summernote('focus');
         }
 
         if(this.props.article.is_link) {
@@ -148,36 +171,27 @@ var ArticleForm = React.createClass({
     _handleChange: function (event) {
         var text = event.currentTarget.textContent;
 
-        var newState = {};
-
-        if (this.state.multiLanguage) {
-            if ($('#english-editor').summernote('code').length === 0 || $('#french-editor').summernote('code').length === 0) {
-                this.refs.submit.setState({disabled: true});
-            } else {
-                if (this.state.disabled) {
-                    this.refs.submit.setState({disabled: false});
-                }
-            }
+        if (text.length < window.parameters.content_min_length) {
+            this.refs.submit.setState({disabled: true});
+        } else if(text.length > window.parameters.content_max_length) {
+            this.refs.submit.setState({disabled: true});
         } else {
-            if (text.length === 0) {
-                this.refs.submit.setState({disabled: true});
-            } else {
-                if (this.state.disabled) {
-                    this.refs.submit.setState({disabled: false});
-                }
+            if (this.state.disabled) {
+                this.refs.submit.setState({disabled: false});
             }
         }
 
-        if ($utils.isURL(text.trim()) && !this.state.isLink) {
+        if (!this.state.isLink && $.isURL(text.trim())) {
             this.state.isLink = true;
             this.refs.isLink.setState({checked: true});
-            $('#single-editor').summernote('code', '');
-            $('#single-editor').summernote("createLink", {
+            var $singleEditor = $('#single-editor');
+            $singleEditor.summernote('code', '');
+            $singleEditor.summernote('createLink', {
                 text : text.trim(),
                 url : text.trim(),
                 isNewWindow : true
             });
-        } else if(this.state.isLink && !$utils.isURL(text.trim())) {
+        } else if(this.state.isLink && !$.isURL(text.trim())) {
             this.state.isLink = false;
             this.refs.isLink.setState({checked: false});
         }
@@ -188,9 +202,7 @@ var ArticleForm = React.createClass({
         return true;
     },
 
-    _handleSubmit: function (event) {
-        event.preventDefault();
-
+    _serializeEditor: function() {
         var submitData = {};
 
         if (this.state.multiLanguage) {
@@ -219,9 +231,10 @@ var ArticleForm = React.createClass({
             $('#english-editor').summernote('code', '');
             $('#french-editor').summernote('code', '');
         } else {
+            var $singleEditor = $('#single-editor');
             var title = ReactDOM.findDOMNode(this.refs.title.refs.title).value.trim();
             var summary = ReactDOM.findDOMNode(this.refs.summary.refs.summary).value.trim();
-            var content = $('#single-editor').summernote('code');
+            var content = $singleEditor.summernote('code');
 
             if (!content && !title) {
                 return;
@@ -231,12 +244,30 @@ var ArticleForm = React.createClass({
 
             ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
             ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = '';
-            $('#single-editor').summernote('code', '');
+            $singleEditor.summernote('code', '');
         }
+
+        return submitData;
+    },
+
+    _serializeTag: function() {
+        var submitData = {};
 
         var tags = this.refs.tagsinput.state.selectedTags;
         _.merge(submitData, {tags_attributes: tags});
 
+        return submitData;
+    },
+
+    _handleSubmit: function (event) {
+        event.preventDefault();
+
+        var submitData = {};
+
+        _.merge(submitData, this._serializeEditor());
+        _.merge(submitData, this._serializeTag());
+
+        _.merge(submitData, {temporary: this.refs.temporary.state.checked});
         if(this.state.isLink) {
             _.merge(submitData, {is_link: this.state.isLink});
         }
@@ -260,6 +291,37 @@ var ArticleForm = React.createClass({
         }
     },
 
+    _submitNow: function (event) {
+        event.preventDefault();
+
+        var submitData = {};
+
+        _.merge(submitData, this._serializeEditor());
+        _.merge(submitData, this._serializeTag());
+
+        _.merge(submitData, {temporary: this.refs.temporary.state.checked});
+        if(this.state.isLink) {
+            _.merge(submitData, {is_link: this.state.isLink});
+        }
+
+        var requestParam = {};
+        requestParam.articles = submitData;
+
+        $.ajax({
+            url: '/articles',
+            async: false,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam,
+            success: function (data) {
+                return true;
+            },
+            error: function (xhr, status, error) {
+                return false;
+            }
+        });
+    },
+
     _createFields: function () {
         if (this.state.multiLanguage) {
             return (
@@ -279,10 +341,14 @@ var ArticleForm = React.createClass({
                         </ul>
                     </div>
                     <div className="col s12" id="english-form">
-                        <Input ref="englishTitle" id="englishTitle" classType="important">
+                        <Input ref="englishTitle" id="englishTitle" classType="important"
+                               minLength={window.parameters.title_min_length}
+                               maxLength={window.parameters.title_max_length} >
                             {I18n.t('js.article.model.title')}
                         </Input>
-                        <Input ref="englishSummary" id="englishSummary">
+                        <Input ref="englishSummary" id="englishSummary"
+                               minLength={window.parameters.summary_min_length}
+                               maxLength={window.parameters.summary_max_length} >
                             {I18n.t('js.article.model.summary')}
                         </Input>
 
@@ -291,10 +357,14 @@ var ArticleForm = React.createClass({
                         </div>
                     </div>
                     <div className="col s12" id="french-form">
-                        <Input ref="frenchTitle" id="frenchTitle" classType="important">
+                        <Input ref="frenchTitle" id="frenchTitle" classType="important"
+                               minLength={window.parameters.title_min_length}
+                               maxLength={window.parameters.title_max_length} >
                             {I18n.t('js.article.model.title')}
                         </Input>
-                        <Input ref="frenchSummary" id="frenchSummary">
+                        <Input ref="frenchSummary" id="frenchSummary"
+                               minLength={window.parameters.summary_min_length}
+                               maxLength={window.parameters.summary_max_length} >
                             {I18n.t('js.article.model.summary')}
                         </Input>
 
@@ -307,10 +377,14 @@ var ArticleForm = React.createClass({
         } else {
             return (
                 <div>
-                    <Input ref="title" id="title" classType="important">
+                    <Input ref="title" id="title" classType="important"
+                           minLength={window.parameters.title_min_length}
+                           maxLength={window.parameters.title_max_length} >
                         {I18n.t('js.article.model.title')}
                     </Input>
-                    <Input ref="summary" id="summary" onBlur={this._onBlurSummary}>
+                    <Input ref="summary" id="summary" onBlur={this._onBlurSummary}
+                           minLength={window.parameters.summary_min_length}
+                           maxLength={window.parameters.summary_max_length} >
                         {I18n.t('js.article.model.summary')}
                     </Input>
 
@@ -333,19 +407,28 @@ var ArticleForm = React.createClass({
                 <div className="row margin-top-10">
                     <div className="col s6">
                         {I18n.t('js.article.new.tags.title')}
-                        <TagsInput ref="tagsinput" selectedTags={this.props.tags || []}/>
+                        <TagsInput ref="tagsinput" selectedTags={this.props.tags || []} />
                     </div>
 
-                    <div className="col s3 center">
+                    <div className="col s3">
+                        <Checkbox ref="temporary"
+                                  id="temporary"
+                                  checked={article.temporary || this.state.temporary} >
+                            {I18n.t('js.article.model.temporary')}
+                        </Checkbox>
+                        <div className="margin-bottom-20"/>
                         <Checkbox ref="isLink"
                                   id="isLink"
-                                  checked={article.is_link || this.state.isLink}>
+                                  disabled="true"
+                                  checked={article.is_link || this.state.isLink} >
                             {I18n.t('js.article.model.is_link')}
                         </Checkbox>
                     </div>
-                    <div ref="visibility" className="col s3">
-                        <Select title={I18n.t('js.article.visibility.title')}
-                                defaultOption={article.visibility || "default"}
+                    <div className="col s3">
+                        <Select ref="visibility"
+                                id="visibility"
+                                title={I18n.t('js.article.visibility.title')}
+                                value={article.visibility || "default"}
                                 options={I18n.t('js.article.visibility.enum')}>
                             {I18n.t('js.article.model.visibility')}
                         </Select>

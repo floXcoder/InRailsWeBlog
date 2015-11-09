@@ -17,10 +17,6 @@
     var SanitizePaste = (function () {
 
         var SanitizePaste = {
-            _model: {
-              agent: null
-            },
-
             _replaceParagraphsToBr: function (html) {
                 html = html.replace(/<p\s(.*?)>/gi, '<p>');
                 html = html.replace(/<p><br\s?\/?><\/p>/gi, '');
@@ -66,7 +62,9 @@
                         return (spaces.length > 0) ? spaces.replace(/./, " ").slice(Math.floor(spaces.length / 2)).split("").join("\u00a0") : '';
                     });
 
-                    if(this._model.agent.isIE) {
+                    var userAgent = navigator.userAgent;
+                    var isMSIE = /MSIE|Trident/i.test(userAgent);
+                    if(isMSIE) {
                         var tmp = trim(html.trim());
                         if (tmp.search(/^<a(.*?)>(.*?)<\/a>$/i) === 0)
                         {
@@ -200,7 +198,8 @@
                 html = html.replace(/<p>•([\w\W]*?)<\/p>/gi, '<li>$1</li>');
 
                 // FF fix
-                if (this._model.agent.isFF) {
+                var userAgent = navigator.userAgent;
+                if (/firefox/i.test(userAgent)) {
                     html = html.replace(/<br\s?\/?>$/gi, '');
                 }
 
@@ -219,9 +218,7 @@
                 return html;
             },
 
-            parse: function (html, agent) {
-                this._model.agent = agent;
-
+            parse: function (html) {
                 html = $.trim(html);
 
                 html = html.replace(/\$/g, '&#36;');

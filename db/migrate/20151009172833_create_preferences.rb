@@ -8,5 +8,7 @@ class CreatePreferences < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_index :preferences, :user_id
   end
 end

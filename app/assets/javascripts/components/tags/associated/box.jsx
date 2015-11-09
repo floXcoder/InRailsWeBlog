@@ -1,8 +1,8 @@
-var AssociatedTagList = require('./associatedList');
-var ArticleActions = require('../../actions/articleActions');
-var ArticleStore = require('../../stores/articleStore');
+var AssociatedTagList = require('./list');
+var ArticleActions = require('../../../actions/articleActions');
+var ArticleStore = require('../../../stores/articleStore');
 
-var Spinner = require('../../components/materialize/spinner');
+var Spinner = require('../../../components/materialize/spinner');
 
 var AssociatedTagBox = React.createClass({
     // With specifying mixins we say that we'd like to connect this component's state with the ImageStore.
@@ -11,15 +11,27 @@ var AssociatedTagBox = React.createClass({
 
     getInitialState: function () {
         return {
-            tags: null,
+            associatedTags: null,
             isLoading: true
         };
     },
 
     onArticleChange: function (articleStore) {
-        if(!$utils.isEmpty(articleStore.tags)) {
+        if(!$.isEmpty(articleStore.articles)) {
+            var associatedTags = [];
+
+            articleStore.articles.forEach(function (article) {
+                if(!$.isEmpty(article.tags)) {
+                    associatedTags = associatedTags.concat(article.tags);
+                }
+            });
+
+            associatedTags = _.uniq(associatedTags, function(tag) {
+                return tag.id;
+            });
+
             this.setState({
-                tags: articleStore.tags,
+                associatedTags: associatedTags,
                 isLoading: false
             });
         }
@@ -30,9 +42,9 @@ var AssociatedTagBox = React.createClass({
     },
 
     _displayTagsIfExist: function () {
-        if (this.state.tags) {
+        if (this.state.associatedTags) {
             return (
-                <AssociatedTagList tags={this.state.tags} onTagClick={this._onTagClick}/>
+                <AssociatedTagList tags={this.state.associatedTags} onTagClick={this._onTagClick}/>
             );
         }
     },

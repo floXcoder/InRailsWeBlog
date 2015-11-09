@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151017185225) do
+ActiveRecord::Schema.define(version: 20151109154017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,13 +37,26 @@ ActiveRecord::Schema.define(version: 20151017185225) do
     t.boolean  "allow_comment",   default: false, null: false
     t.boolean  "private_content", default: false, null: false
     t.boolean  "is_link",         default: false, null: false
+    t.boolean  "temporary",       default: false, null: false
     t.string   "slug"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
   end
 
+  add_index "articles", ["author_id", "visibility"], name: "index_articles_on_author_id_and_visibility", using: :btree
   add_index "articles", ["author_id"], name: "index_articles_on_author_id", using: :btree
   add_index "articles", ["slug"], name: "index_articles_on_slug", unique: true, using: :btree
+
+  create_table "bookmarked_articles", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "article_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "bookmarked_articles", ["article_id"], name: "index_bookmarked_articles_on_article_id", using: :btree
+  add_index "bookmarked_articles", ["user_id", "article_id"], name: "index_bookmarked_articles_on_user_id_and_article_id", unique: true, using: :btree
+  add_index "bookmarked_articles", ["user_id"], name: "index_bookmarked_articles_on_user_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.integer  "imageable_id",   null: false
@@ -54,6 +67,7 @@ ActiveRecord::Schema.define(version: 20151017185225) do
     t.datetime "updated_at",     null: false
   end
 
+  add_index "pictures", ["imageable_id", "imageable_type"], name: "index_pictures_on_imageable_id_and_imageable_type", using: :btree
   add_index "pictures", ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id", using: :btree
 
   create_table "preferences", force: :cascade do |t|
@@ -63,6 +77,8 @@ ActiveRecord::Schema.define(version: 20151017185225) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "preferences", ["user_id"], name: "index_preferences_on_user_id", using: :btree
 
   create_table "tag_relationships", force: :cascade do |t|
     t.integer  "parent_id"
@@ -136,5 +152,18 @@ ActiveRecord::Schema.define(version: 20151017185225) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
+
+  create_table "versions", force: :cascade do |t|
+    t.string   "item_type",      null: false
+    t.integer  "item_id",        null: false
+    t.string   "event",          null: false
+    t.string   "whodunnit"
+    t.string   "locale"
+    t.text     "object"
+    t.text     "object_changes"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
 end

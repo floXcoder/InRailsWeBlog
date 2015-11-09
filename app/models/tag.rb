@@ -42,8 +42,8 @@ class Tag < ActiveRecord::Base
   validates :tagger_id, presence: true
   validates :name,
             presence: true,
-            uniqueness: { case_sensitive: false },
-            length:   { minimum: 1, maximum: 128 }
+            uniqueness: {case_sensitive: false},
+            length: {minimum: CONFIG.tag_min_length, maximum: CONFIG.tag_max_length}
 
   # Nice url format
   include Shared::NiceUrlConcern
@@ -54,12 +54,6 @@ class Tag < ActiveRecord::Base
     [
         :name
     ]
-  end
-
-  def to_builder
-    Jbuilder.new do |tag|
-      tag.(self, :id, :tagger_id, :name)
-    end
   end
 
 end

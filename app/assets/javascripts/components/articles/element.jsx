@@ -1,10 +1,20 @@
 var ArticleActions = require('../../actions/articleActions');
+var ArticleStore = require('../../stores/articleStore');
+var ArticleHistory = require('./history');
 
 var HighlightCode = require('highlight.js');
 
 var ArticleElement = React.createClass({
+    mixins: [
+        Reflux.listenTo(ArticleStore, 'onArticleChange')
+    ],
+
     getInitialState: function () {
-        return {};
+        return {
+            articleVersions: null,
+            article: this.props.article.article,
+            isHistoryDisplayed: false
+        };
     },
 
     componentDidMount: function () {
@@ -29,8 +39,48 @@ var ArticleElement = React.createClass({
         }
     },
 
-    _renderIsLink: function () {
-        if (this.props.article.is_link) {
+    _showHistory: function () {
+        if (this.state.isHistoryDisplayed) {
+            this.setState({isHistoryDisplayed: false})
+        } else {
+            ArticleActions.loadArticleHistory({history: this.state.article.id});
+        }
+
+        this.state.isHistoryDisplayed = !this.state.isHistoryDisplayed;
+    },
+
+    onArticleChange: function (articleStore) {
+        var newState = {};
+
+        if (typeof(articleStore.articleVersions) !== 'undefined') {
+            newState.articleVersions = articleStore.articleVersions;
+            if (articleStore.articleVersions.length === 0) {
+                Materialize.toast(I18n.t('js.article.history.none'));
+            }
+        }
+
+        if (typeof(articleStore.articleRestored) !== 'undefined') {
+            newState.article = articleStore.articleRestored;
+            Materialize.toast(I18n.t('js.article.history.restored'));
+            this._showHistory();
+        }
+
+        if (!$.isEmpty(newState)) {
+            this.setState(newState);
+        }
+    },
+
+    _onDeleteClick: function (event) {
+        ArticleActions.deleteArticles({id: this.state.article.id, showMode: true});
+    },
+
+    _onClickBookmark: function (articleId, event) {
+        ArticleActions.bookmarkArticle({articleId: articleId});
+        this.setState({isBookmarked: !this.state.isBookmarked});
+    },
+
+    _renderIsLinkIcon: function () {
+        if (this.state.article.is_link) {
             return (
                 <div className="article-icons">
                     <i className="material-icons article-link">link</i>
@@ -41,9 +91,9 @@ var ArticleElement = React.createClass({
         }
     },
 
-    _renderVisibility: function () {
-        if (this.props.userId && this.props.userId === this.props.article.id) {
-            if (this.props.article.visibility === 'everyone') {
+    _renderVisibilityIcon: function () {
+        if (this.props.userId && this.props.userId === this.state.article.id) {
+            if (this.state.article.visibility === 'everyone') {
                 return (
                     <div className="article-icons">
                         <i className="material-icons article-public">visibility</i>
@@ -59,34 +109,72 @@ var ArticleElement = React.createClass({
         }
     },
 
-    _renderAuthor: function () {
+    _renderAuthorIcon: function () {
         return (
             <div className="article-icons">
                 <i className="material-icons">account_circle</i>
-                {this.props.article.author}
+                {this.state.article.author}
             </div>
         );
     },
 
-    _renderEdit: function () {
-        if (this.props.userId && this.props.userId === this.props.article.author_id) {
+    _renderHistoryIcon: function () {
+        if (this.props.userId && this.props.userId === this.state.article.author.id) {
             return (
-                <a className="article-icons" href={"/articles/" + this.props.article.id + "/edit"}>
+                <div className="article-icons" onClick={this._showHistory}>
+                    <i className="material-icons article-history">history</i>
+                </div>
+            );
+        }
+    },
+
+    _renderEditIcon: function () {
+        if (this.props.userId && this.props.userId === this.state.article.author.id) {
+            return (
+                <a className="article-icons" href={"/articles/" + this.state.article.id + "/edit"}>
                     <i className="material-icons article-edit">mode_edit</i>
                 </a>
             );
         }
     },
 
-    render: function () {
-        var childTags = _.indexBy(this.props.article.child_tags, 'id');
-        var parentTags = _.indexBy(this.props.article.parent_tags, 'id');
+    _renderBookmarkIcon: function () {
+        var bookmarkClass = "material-icons" + (this.state.isBookmarked ? " article-bookmarked" : '');
+        return (
+            <div className="article-icons"
+                 onClick={this._onClickBookmark.bind(this, this.props.article.id)} >
+                <i className={bookmarkClass} >bookmark</i>
+            </div>
+        );
+    },
 
-        var Tags = this.props.article.tags.map(function (tag) {
+    _renderDeleteIcon: function () {
+        if (this.props.userId && this.props.userId === this.state.article.author.id) {
+            return (
+                <div className="article-icons" onClick={this._onDeleteClick}>
+                    <i className="material-icons article-delete">delete</i>
+                </div>
+            );
+        }
+    },
+
+    _renderHistory: function () {
+        if (this.state.isHistoryDisplayed) {
+            return (
+                <ArticleHistory articleVersions={this.state.articleVersions}/>
+            );
+        }
+    },
+
+    render: function () {
+        var childTags = _.indexBy(this.state.article.child_tags, 'id');
+        var parentTags = _.indexBy(this.state.article.parent_tags, 'id');
+
+        var Tags = this.state.article.tags.map(function (tag) {
             var relationshipClass = '';
-            if(parentTags[tag.id]) {
+            if (parentTags[tag.id]) {
                 relationshipClass = 'tag-parent';
-            } else if(childTags[tag.id]) {
+            } else if (childTags[tag.id]) {
                 relationshipClass = 'tag-child';
             }
 
@@ -100,28 +188,39 @@ var ArticleElement = React.createClass({
         }.bind(this));
 
         return (
-            <div className="card clearfix blog-article-item">
-                <div className="card-content">
-                    <div>
-                        <span className="card-title black-text">
-                            <h4 className="article-title-card">
-                                {this.props.article.title}
-                            </h4>
-                            <h6 className="article-summary">
-                                {this.props.article.summary}
-                            </h6>
-                        </span>
-                        <span dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+            <div>
+                <div className="card clearfix blog-article-item">
+                    <div className="card-content">
+                        <section className="card-title cd-intro">
+                            <div className="cd-intro-content mask">
+                                <h1 className="" data-content={this.state.article.title}>
+                                    <span>
+                                        {this.state.article.title}
+                                    </span>
+                                </h1>
+                                <div className="action-wrapper">
+                                    <p className="article-summary">
+                                        {this.state.article.summary}
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                        <span dangerouslySetInnerHTML={{__html: this.state.article.content}}/>
+                    </div>
+                    <div className="card-action clearfix">
+                        {Tags}
+                        <div className="right">
+                            {this._renderIsLinkIcon()}
+                            {this._renderVisibilityIcon()}
+                            {this._renderBookmarkIcon()}
+                            {this._renderHistoryIcon()}
+                            {this._renderEditIcon()}
+                            {this._renderDeleteIcon()}
+                        </div>
                     </div>
                 </div>
-                <div className="card-action">
-                    {Tags}
-                    <div className="right">
-                        {this._renderIsLink()}
-                        {this._renderVisibility()}
-                        {this._renderEdit()}
-                    </div>
-                </div>
+
+                {this._renderHistory()}
             </div>
         );
     }

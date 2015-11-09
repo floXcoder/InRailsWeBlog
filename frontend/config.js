@@ -102,10 +102,8 @@ module.exports = {
     views: {
         src: [
             './app/views/**/*.slim',
-            './app/presenters/**/*.rb',
             './app/helpers/**/*.rb',
             './app/inputs/**/*.rb',
-            './app/presenters/**/*.rb',
             './config/locales/**/*.yml'
         ]
     },

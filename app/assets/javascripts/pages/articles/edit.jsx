@@ -2,11 +2,12 @@ require('../common');
 
 var ArticleUpdate = require('../../components/articles/update');
 
-// Main
+var currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+
 ReactDOM.render(
     <ArticleUpdate
-        userId={window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10)}
-        multiLanguage={document.getElementById('react-main').getAttribute('data-multiLanguage') === 'true'}
-        article={JSON.parse(document.getElementById('react-main').getAttribute('data-article'))} />,
-    document.getElementById('react-main')
+        userId={currentUserId}
+        article={JSON.parse(document.getElementById('article-element-component').getAttribute('data-article')).article}
+        multiLanguage={document.getElementById('article-element-component').getAttribute('data-multiLanguage') === 'true'} />,
+    document.getElementById('article-element-component')
 );

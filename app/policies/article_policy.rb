@@ -14,12 +14,24 @@ class ArticlePolicy
     @article.everyone? || (@current_user && @article.only_me? && @article.author?(@current_user))
   end
 
+  def history?
+    @current_user && @article.author?(@current_user)
+  end
+
+  def restore?
+    @current_user && @article.author?(@current_user)
+  end
+
   def edit?
     @current_user && @article.author?(@current_user)
   end
 
   def update?
     @current_user && @article.author?(@current_user)
+  end
+
+  def bookmark?
+    @current_user
   end
 
   def destroy?

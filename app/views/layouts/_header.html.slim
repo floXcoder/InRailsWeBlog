@@ -1,4 +1,30 @@
 header.blog-header
+
+  / User articles dropdown
+  - if user_signed_in?
+    ul#article-dropdown.dropdown-content
+      li
+        = link_to t('views.header.articles.user'), user_path(current_user)
+      li.divider
+
+      li
+        a#toggle-article-creation
+          i.material-icons.right add_box
+          = t('views.header.articles.new')
+
+      li
+        = link_to bookmark_user_path(current_user)
+          i.material-icons.right bookmark
+          = t('views.header.articles.bookmark')
+      li.divider
+
+      li
+        = link_to temporary_user_path(current_user)
+          = t('views.header.articles.temporary')
+          span.badge-count
+            = current_user.temporary_articles.count
+
+  / User dropdown
   ul#user-dropdown.dropdown-content
     / Change language
     li class="#{'active' if I18n.locale == :fr}"
@@ -16,7 +42,6 @@ header.blog-header
         = link_to t('views.header.log_out'), logout_path, method: 'delete'
     - else
       li.first-nav
-        /= link_to t('views.header.sign_up'), signup_path
         = link_to t('views.header.sign_up'), signup_path, remote: true
       li
         = link_to t('views.header.log_in'), login_path, remote: true
@@ -29,28 +54,36 @@ header.blog-header
         ul#nav-mobile.right.hide-on-med-and-down
           / Search
           li
-            a#toggle-search href="#!"
+            a#toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
               i.material-icons search
-
-          / New article
-          li
-            a#toggle-article-creation href="#!"
-              i.material-icons edit
 
           / Tags
           li
-            a.button-collapse.show-on-large data-activates="slide-out" href="#"
+            a.button-collapse.show-on-large.tooltipped data-activates="slide-out" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
               i.material-icons local_offer
 
+          / Articles
+          - if user_signed_in?
+            li
+              a.dropdown-button data-activates="article-dropdown" data-constrainwidth="false"
+                i.material-icons.right message
+                = t('views.header.articles.title')
+
           / User preferences
-          li
-            a#toggle-user-pref href="#!"
-              i.material-icons.right view_modules
-              = t('views.header.preferences')
+          - if user_signed_in?
+            li
+              a#toggle-user-pref
+                i.material-icons.right view_modules
+                = t('views.header.preferences')
+          - else
+            li
+              = link_to signup_path, remote: true, class: 'tooltipped', data: {tooltip: t('views.header.preferences_not_connected')}
+                i.material-icons.right view_modules
+                = t('views.header.preferences')
 
           / User account
           li
-            a.dropdown-button data-activates="user-dropdown" href="#!"
+            a.dropdown-button data-activates="user-dropdown"
               i.material-icons.right account_circle
               - if user_signed_in?
                 = t('views.header.profile.connected')
@@ -65,3 +98,7 @@ header.blog-header
 
   .blog-sidebar
     #tag-sidebar-component
+
+  - if user_signed_in?
+    #clipboardArea.hidden
+      textarea#clipboard title="clipboard"

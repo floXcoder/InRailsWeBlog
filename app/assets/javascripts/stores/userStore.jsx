@@ -20,7 +20,7 @@ var UserStore = Reflux.createStore({
     },
 
     _loadUserPreferences: function (data) {
-        if($utils.isEmpty(this.user.id)) {
+        if($.isEmpty(this.user.id)) {
             return;
         }
 
@@ -31,39 +31,39 @@ var UserStore = Reflux.createStore({
         jQuery.getJSON(
             preferenceUrl,
             requestParam,
-            function (data) {
+            function (dataReceived) {
 
                 var newPreferences = {};
 
-                if (data.preferences.article_display
-                    && data.preferences.article_display !== this.user.preferences.article_display) {
-                    newPreferences.article_display = data.preferences.article_display;
+                if (dataReceived.user.article_display
+                    && dataReceived.user.article_display !== this.user.preferences.article_display) {
+                    newPreferences.article_display = dataReceived.user.article_display;
                 }
-                if (data.preferences.multi_language
-                    && data.preferences.multi_language !== this.user.preferences.multi_language) {
-                    newPreferences.multi_language = data.preferences.multi_language;
+                if (dataReceived.user.multi_language
+                    && dataReceived.user.multi_language !== this.user.preferences.multi_language) {
+                    newPreferences.multi_language = dataReceived.user.multi_language;
                 }
-                if (data.preferences.search_highlight
-                    && data.preferences.search_highlight !== this.user.preferences.search_highlight) {
-                    newPreferences.search_highlight = data.preferences.search_highlight;
+                if (dataReceived.user.search_highlight
+                    && dataReceived.user.search_highlight !== this.user.preferences.search_highlight) {
+                    newPreferences.search_highlight = dataReceived.user.search_highlight;
                 }
-                if (data.preferences.search_operator
-                    && data.preferences.search_operator !== this.user.preferences.search_operator) {
-                    newPreferences.search_operator = data.preferences.search_operator;
+                if (dataReceived.user.search_operator
+                    && dataReceived.user.search_operator !== this.user.preferences.search_operator) {
+                    newPreferences.search_operator = dataReceived.user.search_operator;
                 }
-                if (data.preferences.search_exact
-                    && data.preferences.search_exact !== this.user.preferences.search_exact) {
-                    newPreferences.search_exact = data.preferences.search_exact;
+                if (dataReceived.user.search_exact
+                    && dataReceived.user.search_exact !== this.user.preferences.search_exact) {
+                    newPreferences.search_exact = dataReceived.user.search_exact;
                 }
 
                 // Manage in user/preference, articles/box and articles/form
-                this.user.preferences = data.preferences;
+                this.user.preferences = dataReceived.user;
                 this.trigger({preferences: newPreferences});
             }.bind(this));
     },
 
     _pushUserPreferences: function (data) {
-        if($utils.isEmpty(this.user.id)) {
+        if($.isEmpty(this.user.id)) {
             return;
         }
 

@@ -27,11 +27,16 @@ fr:
         content: "Contenu"
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
+        temporary: "Note temporaire ?"
         is_link: "Est un lien ?"
+        errors:
+          not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
+          unprocessable: "Impossible de créer l'article !"
       tooltip:
         edit: "Édition rapide"
         visibility: "Visibilité : %{visibility}"
         link: "C'est un lien"
+        updated_at: "Dernière modification"
       flash:
         write_article: "Connectez-vous pour écrire un article"
       new:
@@ -40,16 +45,23 @@ fr:
           title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
           placeholder: "Associer des labels"
         submit: "Créer l'article"
+        exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       edit:
         title: "Modification d'un article"
         form_title: "Modification de %{title}"
         submit: "Mettre à jour l'article"
+        exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       search:
         placeholder: "Rechercher ..."
         url: "Recherche :"
         no_results:
           title: "Pas d'articles trouvés"
           content: "Essayer autre chose :)"
+      history:
+        changed_at: "Version modifiée"
+        restore: "Restaurer cette version"
+        none: "Aucun historique pour cet article !"
+        restored: "Version restaurée"
       tag:
         url: "Label :"
       visibility:

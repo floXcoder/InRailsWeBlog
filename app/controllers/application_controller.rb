@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  ensure_security_headers(csp: false)
 
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -73,8 +74,10 @@ class ApplicationController < ActionController::Base
     flash.now[:alert] = t "#{policy_name}.#{policy_type}", scope: 'pundit', default: :default
 
     respond_to do |format|
-      format.js   { js_redirect_to(request.referrer || root_path) }
-      format.html { redirect_to(request.referrer || root_path) }
+      format.js   { js_redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
+      format.html { redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
+      format.json { render json: {error: I18n.t('pundit.default')}.to_json,
+                           status: :forbidden }
     end
   end
 
@@ -119,17 +122,4 @@ class ApplicationController < ActionController::Base
 
     session[:previous_url] = previous_url(request.path) unless request.xhr? # don't store ajax calls
   end
-
-  def get_coordinates_from_IP
-    result = request.location
-    distance = 100
-    ip_coordinates = result.coordinates
-
-    if ip_coordinates != [0,0]
-      Geocoder::Calculations.bounding_box(ip_coordinates, distance)
-    else
-      nil
-    end
-  end
-
 end

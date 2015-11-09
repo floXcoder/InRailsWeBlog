@@ -1,5 +1,5 @@
 #signup_form
-  = simple_form_for(resource, remote: true, html: { id: 'signup_user',  class: 'blog-form' }) do |signup_form|
+  = simple_form_for(resource, remote: true, html: { id: 'signup_user',  class: '' }) do |signup_form|
 
     / Sign-up fields
     = render 'devise/registrations/signup_fields', signup_form: signup_form

@@ -43,7 +43,7 @@ var UserPreference = React.createClass({
 
     onChangePreference(userStore) {
         var userPreferences = userStore.preferences;
-        if (!$utils.isEmpty(userPreferences)) {
+        if (!$.isEmpty(userPreferences)) {
             var newState = {};
 
             if (userPreferences.article_display) {

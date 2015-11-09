@@ -1,5 +1,5 @@
-var AssociatedTagBox = require('../../components/tags/associatedBox');
-var IndexTagBox = require('../../components/tags/indexBox');
+var AssociatedTagBox = require('../../components/tags/associated/box');
+var IndexTagBox = require('../../components/tags/index/box');
 
 var TagSidebar = React.createClass({
     getInitialState: function () {

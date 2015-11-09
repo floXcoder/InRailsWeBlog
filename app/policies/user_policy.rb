@@ -10,6 +10,14 @@ class UserPolicy
     correct_user?
   end
 
+  def bookmark?
+    correct_user?
+  end
+
+  def temporary?
+    correct_user?
+  end
+
   def preference?
     correct_user?
   end

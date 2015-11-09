@@ -27,11 +27,16 @@ en:
         content: "Content"
         visibility: "Visibility"
         allow_comment: "Allow comments"
+        temporary: "Temporary note?"
         is_link: "Is a link?"
+        errors:
+          not_authorized: "You are not authorized to access to this resource"
+          unprocessable: "Can not create article!"
       tooltip:
         edit: "Quick edit"
         visibility: "Visibility: %{visibility}"
         link: "This is a link"
+        updated_at: "Last modification"
       flash:
         write_article: "Please connect before writing an article"
       new:
@@ -40,16 +45,23 @@ en:
           title: "Add tags (right click: parent tag / left click: children tag)"
           placeholder: "Associate tags"
         submit: "Create article"
+        exit: "Are you sure to exit without saving?"
       edit:
         title: "Article update"
         form_title: "Update of %{title}"
         submit: "Update article"
+        exit: "Are you sure to exit without saving?"
       search:
         placeholder: "Search..."
         url: "Search:"
         no_results:
           title: "No articles found"
           content: "Try something else :)"
+      history:
+        changed_at: "Version changed"
+        restore: "Restore this version"
+        none: "No history for this article!"
+        restored: "Version restored"
       tag:
         url: "Tag:"
       visibility:

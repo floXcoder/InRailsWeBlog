@@ -24,7 +24,7 @@ var SearchModule = React.createClass({
     _activateSearch: function(state) {
         this._toggleSearchNav();
 
-        if(!$utils.isEmpty(state.tags)) {
+        if(!$.isEmpty(state.tags)) {
             state.tags.forEach(function (tag) {
                 this.refs.typeahead._addTokenForValue({tag: tag}, true);
             }.bind(this));
@@ -50,7 +50,7 @@ var SearchModule = React.createClass({
     },
 
     onSearchChange(userStore) {
-        if (!$utils.isEmpty(userStore.search)) {
+        if (!$.isEmpty(userStore.search)) {
             this._handleSubmit(null, userStore.search);
         }
     },
@@ -58,26 +58,26 @@ var SearchModule = React.createClass({
     onArticleChange(articleStore) {
         var newState = {};
 
-        if (!$utils.isEmpty(articleStore.autocompletion)) {
+        if (!$.isEmpty(articleStore.autocompletion)) {
             var autocompletionValues = [];
             var tags = [];
 
             articleStore.autocompletion.forEach(function (autocompleteValue) {
                 autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
                 autocompleteValue.tags.forEach(function (tag) {
-                    tags.push(tag);
+                    tags.push(tag.name);
                 });
             });
-            _.uniq(tags).forEach(function (tag) {
+            _.uniq(tags, function (tag) {return tag.id}).forEach(function (tag) {
                 autocompletionValues.push({entry: tag, tag: tag});
             });
 
             newState.autocompleteValues = autocompletionValues;
         }
 
-        if (!$utils.isEmpty(articleStore.suggestions)) {
-            newState.suggestions = articleStore.suggestions;
-        } else if (!$utils.isEmpty(this.state.suggestions)) {
+        if (!$.isEmpty(articleStore.articles) && !$.isEmpty(articleStore.articles.first.suggestions)) {
+            newState.suggestions = articleStore.articles.first.suggestions;
+        } else if (!$.isEmpty(this.state.suggestions)) {
             newState.suggestions = [];
         }
 
@@ -85,7 +85,7 @@ var SearchModule = React.createClass({
             this._activateSearch(articleStore.paramsFromUrl);
         }
 
-        if(!$utils.isEmpty(newState)) {
+        if(!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },
@@ -101,11 +101,11 @@ var SearchModule = React.createClass({
     _onKeyUp: function (event) {
         var entryValue = this.refs.typeahead.getEntryText().trim();
 
-        if (!$utils.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
+        if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
             ArticleActions.autocompleteArticles({autocompleteQuery: entryValue});
         }
 
-        var pressedKey = $utils.NAVIGATION_KEYMAP[event.which];
+        var pressedKey = $.NAVIGATION_KEYMAP[event.which];
         if (pressedKey === 'tab' || pressedKey === 'enter') {
             this.refs.typeahead.refs.typeahead.setState({entryValue: entryValue, selection: entryValue});
             this._handleSubmit(event, {});
@@ -123,7 +123,7 @@ var SearchModule = React.createClass({
 
         var query = this.refs.typeahead.getEntryText().trim();
 
-        if ($utils.isEmpty(query) && !$utils.isEmpty(this.state.selectedTags)) {
+        if ($.isEmpty(query) && !$.isEmpty(this.state.selectedTags)) {
             query = '*';
         }
 
@@ -131,11 +131,11 @@ var SearchModule = React.createClass({
             return;
         }
 
-        if (!$utils.isEmpty(query)) {
+        if (!$.isEmpty(query)) {
             var request = {};
             request.query = query;
 
-            if (!$utils.isEmpty(this.state.selectedTags)) {
+            if (!$.isEmpty(this.state.selectedTags)) {
                 request.tags = this.state.selectedTags;
             }
             if (searchOptions) {
@@ -150,7 +150,7 @@ var SearchModule = React.createClass({
     },
 
     _filterOption: function (inputValue, option) {
-        if (!$utils.isEmpty(option.entry)) {
+        if (!$.isEmpty(option.entry)) {
             var regOption = new RegExp(inputValue, 'gi');
             return option.entry.match(regOption);
         } else {
@@ -159,13 +159,13 @@ var SearchModule = React.createClass({
     },
 
     _displayOption: function (option) {
-        if (!$utils.isEmpty(option.title)) {
+        if (!$.isEmpty(option.title)) {
             return (
                 <div ref={option.entry}>
                     {option.title}
                 </div>
             );
-        } else if (!$utils.isEmpty(option.tag)) {
+        } else if (!$.isEmpty(option.tag)) {
             return (
                 <div ref={option.entry}>
                     {option.tag}

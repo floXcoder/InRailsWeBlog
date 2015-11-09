@@ -73,4 +73,22 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+
+  # ==> Configuration for :lockable
+  # Defines which strategy will be used to lock an account.
+  config.lock_strategy = :failed_attempts
+
+  # Defines which key will be used when locking and unlocking an account
+  config.unlock_keys = [ :email ]
+
+  # Defines which strategy will be used to unlock an account.
+  # :time  = Re-enables login after a certain amount of time (see :unlock_in below)
+  config.unlock_strategy = :email
+
+  # Number of authentication tries before locking an account if lock_strategy
+  # is failed attempts.
+  config.maximum_attempts = 5
+
+  # Time interval to unlock the account if :time is enabled as unlock_strategy.
+  config.unlock_in = 3.hours
 end

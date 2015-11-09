@@ -21,8 +21,8 @@ var TagStore = Reflux.createStore({
         jQuery.getJSON(
             this.url,
             requestParam,
-            function (data) {
-                this.tagList = data.tags;
+            function (dataReceived) {
+                this.tagList = dataReceived.tags;
                 this.trigger(this.tagList);
             }.bind(this));
     }

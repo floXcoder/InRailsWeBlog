@@ -5,12 +5,11 @@ class TagsController < ApplicationController
   respond_to :html, :js, :json
 
   def index
-    tags = Tag.all.order('name ASC')
+    tags = Tag.includes(:children).all.order('name ASC')
 
     respond_to do |format|
-      format.html { render :tags, formats: :json, locals: {tags: tags} }
-
-      format.json { render :tags, locals: {tags: tags} }
+      format.html { render json: tags, formats: :json, content_type: 'application/json' }
+      format.json { render json: tags }
     end
   end
 
@@ -19,10 +18,16 @@ class TagsController < ApplicationController
 
     current_user_id = current_user ? current_user.id : nil
 
-    articles = Article.user_related(current_user_id).joins(:tags).where(tags: {name: tag.name}).order('articles.id DESC')
+    articles = Article.includes(:translations).user_related(current_user_id).joins(:tags).where(tags: {name: tag.name}).order('articles.id DESC')
 
     respond_to do |format|
-      format.html { render :show, locals: {tag: tag, articles: articles, current_user_id: current_user_id} }
+      format.html { render :show,
+                           locals: {
+                               tag: tag,
+                               articles: articles,
+                               current_user_id: current_user_id
+                           }
+      }
     end
   end
 

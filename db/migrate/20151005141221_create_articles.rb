@@ -8,6 +8,7 @@ class CreateArticles < ActiveRecord::Migration
       t.boolean     :allow_comment,   default: false, null: false
       t.boolean     :private_content, default: false, null: false
       t.boolean     :is_link,         default: false, null: false
+      t.boolean     :temporary,       default: false, null: false
       t.string      :slug
 
       t.timestamps null: false
@@ -18,6 +19,7 @@ class CreateArticles < ActiveRecord::Migration
                                       content: { type: :text,   default: '', null: false }
 
     add_index :articles, :slug, unique: true
+    add_index :articles, [:author_id, :visibility]
   end
 
   def down

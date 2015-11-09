@@ -34,6 +34,28 @@
   }
 }
 
+// Hidden textarea for clipboard
+.hidden {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 100;
+  //display: none;
+  opacity: 0;
+  bottom: 0;
+  font-size: 1px;
+  color: transparent;
+  background: transparent;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  resize: none;
+  outline: none;
+  user-select: text; /* Because for user-select:none, Safari won't allow input */
+}
+
 // Spaces
 .margin-bottom-5,
 .margin-bottom-10,
