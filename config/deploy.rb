@@ -1,7 +1,7 @@
 lock '3.4.0'
 
 set :application, 'InRailsWeBlog'
-set :repo_url, 'ssh://git@gitlab.l-x.fr:Flo/InRailsWeBlog.git'
+set :repo_url, 'git@gitlab.l-x.fr:Flo/InRailsWeBlog.git'
 
 # rvm properties
 set :rvm_type, :user
@@ -24,9 +24,9 @@ set :deploy_via, :remote_cache
 
 # SSH options : use an "agent forwarding" to connect to the remote repository
 set :ssh_options, {
-                    forward_agent: true,
-                    port: 7070
-                }
+    forward_agent: true,
+    port: 7070
+}
 
 # Specify how many releases Capistrano should store on your server
 set :keep_releases, 5
@@ -66,14 +66,10 @@ set :db_local_clean, true
 set :db_remote_clean, true
 
 # if you want to work on a specific local environment (default = ENV['RAILS_ENV'] || 'development')
-set :locals_rails_env, 'demo'
+set :locals_rails_env, 'production'
 
 # if you are highly paranoid and want to prevent any push operation to the server
 set :disallow_pushing, false
-
-
-SSHKit.config.command_map[:rake] = 'bundle exec rake'
-SSHKit.config.command_map[:rails] = 'bundle exec rails'
 
 # namespace :apache do
 #   [:stop, :start, :restart, :reload].each do |action|
@@ -133,9 +129,9 @@ namespace :deploy do
     end
   end
 
-  before :deploy, 'rvm1:install:rvm'
-  before :deploy, 'rvm1:install:ruby'
-  before :deploy, 'rvm1:install:gems'
+  # before :deploy, 'rvm1:install:rvm'
+  # before :deploy, 'rvm1:install:ruby'
+  # before :deploy, 'rvm1:install:gems'
 
   # after :publishing, :prepare_database
   # after :publishing, :elasticSearch

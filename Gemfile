@@ -74,10 +74,15 @@ gem 'searchkick',               '~> 0.9.1'
 # Dump database
 gem 'seed_dump',                '~> 3.2.2'
 
+# Dummy data
+gem 'factory_girl_rails',     '~> 4.5.0'
+gem 'faker',                  '~> 1.5.0'
+
 # Deployment
 gem 'capistrano',               '~> 3.4.0'
 gem 'capistrano-rails',         '~> 1.1.5'
-gem 'rvm1-capistrano3',         '~> 1.4.0',   require: false
+# gem 'rvm1-capistrano3',         '~> 1.4.0',   require: false
+gem 'capistrano-rvm'
 gem 'capistrano-bundler',       '~> 1.1.4',   require: false
 gem 'capistrano-rails-console', '~> 1.0.0',   require: false
 gem 'capistrano-db-tasks',      '~> 0.4',     require: false
@@ -144,10 +149,6 @@ group :test do
   gem 'fuubar',                 '~> 2.0.0'
   gem 'database_cleaner',       '~> 1.5.1'
   gem 'spring-commands-rspec',  '~> 1.0.4'
-
-  # Dummy data
-  gem 'factory_girl_rails',     '~> 4.5.0'
-  gem 'faker',                  '~> 1.5.0'
 
   # static analyzer
   gem 'rubocop',                '~> 0.34.1',  require: false
