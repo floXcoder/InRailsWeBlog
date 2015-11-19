@@ -105,18 +105,18 @@ namespace :deploy do
     end
   end
 
-  # desc 'Initialize and seed the database'
-  # task :prepare_database do
-  #   on roles(:demo) do
-  #     on primary :db do
-  #       within release_path do
-  #         with rails_env: fetch(:rails_env) do
-  #           execute :rake, 'airpur:prepare[server,reset,imported]'
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
+  desc 'Reset database'
+  task :reset_database do
+    on roles(:app) do
+      on primary :db do
+        within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute :rake, 'db:migrate:reset'
+          end
+        end
+      end
+    end
+  end
 
   desc 'Populate elastic search'
   task :elasticSearch do
@@ -129,16 +129,9 @@ namespace :deploy do
     end
   end
 
-  # before :deploy, 'rvm1:install:rvm'
-  # before :deploy, 'rvm1:install:ruby'
-  # before :deploy, 'rvm1:install:gems'
-
-  # after :publishing, :prepare_database
+  # after :publishing, :reset_database
   # after :publishing, :elasticSearch
   after :publishing, :restart
-
-  # Capistrano executes only the second argument. So it won't works :
-  # after 'deploy:finishing', 'deploy:cleanup', 'deploy:prepare_database', 'deploy:elasticSearch'
 
   after :finishing, :cleanup
 end
