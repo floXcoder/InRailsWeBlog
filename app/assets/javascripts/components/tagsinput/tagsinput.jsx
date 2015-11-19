@@ -1,5 +1,5 @@
 var ReactTags = require('./reactTags');
-var Tag = require('./Tag');
+var Tag = require('./tag');
 var TagStore = require('../../stores/tagStore');
 
 var TagsInput = React.createClass({
@@ -31,7 +31,7 @@ var TagsInput = React.createClass({
         $existingTag.fadeOut(200).fadeIn(200);
     },
 
-    _handleClick: function(tagClicked, event) {
+    _onClickTag: function(tagClicked, event) {
         if (!tagClicked) {
             return;
         }
@@ -132,7 +132,7 @@ var TagsInput = React.createClass({
                      tag={tag}
                      labelClass={labelClass}
                      labelField={this.props.labelField}
-                     handleClick={this._handleClick.bind(this, tag)}
+                     onClickTag={this._onClickTag.bind(this, tag)}
                      handleContextMenu={this._handleContextMenu.bind(this, tag)}
                      onDelete={this._handleDelete.bind(this, i)}/>
             );

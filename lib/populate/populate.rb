@@ -8,7 +8,7 @@ class Populate
   def self.create_admin
     FactoryGirl.create(:user, :confirmed,
                        pseudo: 'Admin',
-                       email: 'blog@l-x.fr',
+                       email: 'blog@inrailsweblog.com',
                        password: 'flofloflo',
                        password_confirmation: 'flofloflo')
   end
@@ -92,10 +92,13 @@ class Populate
         article.tagged_articles.find_by(tag_id: parent_tag.id).update(parent: true)
         article.tagged_articles.find_by(tag_id: child_tag.id).update(child: true)
 
-        unless parent_tag.children.exists?(child_tag.id)
-          parent_tag.children << child_tag
-          parent_tag.save
+        if parent_tag.children.exists?(child_tag.id)
+          previous_article_ids = parent_tag.parent_relationship.find_by(child_id: child_tag.id).article_ids
+          parent_tag.parent_relationship.find_by(child_id: child_tag.id).update_attribute(:article_ids, previous_article_ids + [article.id])
+        else
+          parent_tag.parent_relationship.build(child_id: child_tag.id, article_ids: [article.id])
         end
+        parent_tag.save
       end
     end
   end

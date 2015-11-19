@@ -1,16 +1,29 @@
-var ArticleStore = require('../../stores/articleStore');
-var ArticleActions = require('../../actions/articleActions');
-var UserStore = require('../../stores/userStore');
-var ArticleList = require('./list');
 var Spinner = require('../../components/materialize/spinner');
 
-var ArticleBox = React.createClass({
+var UserStore = require('../../stores/userStore');
+
+var ArticleStore = require('../../stores/articleStore');
+var ArticleActions = require('../../actions/articleActions');
+var ArticleListDisplay = require('./display/list');
+var ArticleNone = require('../../components/articles/display/none');
+
+var ArticleIndex = React.createClass({
     // With specifying mixins we say that we'd like to connect this component's state with the ArticleStore.
     // What this means is that whenever the store reacts to the action the component's state will be updated.
     mixins: [
         Reflux.listenTo(ArticleStore, 'onArticleChange'),
         Reflux.listenTo(UserStore, 'onPreferenceChange')
     ],
+
+    propTypes: {
+        userId: React.PropTypes.number
+    },
+
+    getDefaultProps: function () {
+        return {
+            userId: null
+        };
+    },
 
     getInitialState: function () {
         return {
@@ -30,9 +43,9 @@ var ArticleBox = React.createClass({
         this._activateTooltip();
     },
 
-    _activateTooltip: function() {
+    _activateTooltip: function () {
         var $currentElement = $(ReactDOM.findDOMNode(this).className);
-        $currentElement.ready(function(){
+        $currentElement.ready(function () {
             $currentElement.find('.tooltipped').tooltip({
                 position: "bottom",
                 delay: 50
@@ -48,7 +61,7 @@ var ArticleBox = React.createClass({
         }
 
         if (!$.isEmpty(userStore.search) && userStore.search.search_highlight) {
-            newState.highlightResults = (userStore.search.search_highlight !== 'false');
+            newState.highlightResults = userStore.search.search_highlight;
         }
 
         if (!$.isEmpty(newState)) {
@@ -74,33 +87,17 @@ var ArticleBox = React.createClass({
     _displayListIfArticles: function () {
         if (this.state.articles && this.state.articles.length > 0) {
             return (
-                <ArticleList
+                <ArticleListDisplay
                     ref="articlesList"
                     userId={this.props.userId}
                     articles={this.state.articles}
                     hasMore={this.state.hasMore}
                     highlightResults={this.state.highlightResults}
-                    articleDisplayMode={this.state.articleDisplayMode}
-                    />
+                    articleDisplayMode={this.state.articleDisplayMode}/>
             );
         } else if (this.state.articles && this.state.articles.length === 0) {
             return (
-                <div className="row">
-                    <div className="col s6 offset-s3">
-                        <div className="card blue-grey darken-1">
-                            <div className="card-content white-text">
-                                <span className="card-title">
-                                    {I18n.t('js.article.search.no_results.title')}
-                                </span>
-
-                                <p>
-                                    {I18n.t('js.article.search.no_results.content')}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <ArticleNone/>
             );
         }
     },
@@ -117,4 +114,4 @@ var ArticleBox = React.createClass({
     }
 });
 
-module.exports = ArticleBox;
+module.exports = ArticleIndex;

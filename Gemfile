@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
 
+# Specify exact Ruby version (mandatory)
 ruby '2.2.3'
 
+# Rails version
 gem 'rails',                    '4.2.4'
 
 # Use postgresql as the database for Active Record
@@ -21,7 +23,7 @@ gem 'http_accept_language',     '~> 2.0.2'
 gem 'globalize',                '~> 5.0.1'
 # 3.0.0.rc11 bugged, generate translations twice in the same file
 gem 'i18n-js',                  '= 3.0.0.rc9'
-gem 'geocoder',                 '~> 1.2.11'
+gem 'geocoder',                 '~> 1.2.12'
 gem 'maxminddb',                '~> 0.1.8'
 
 # Model versioning
@@ -29,7 +31,7 @@ gem 'paper_trail',              '~> 4.0.0'
 gem 'globalize-versioning',     git: 'https://github.com/globalize/globalize-versioning.git'
 
 # Run asynschronous process
-gem 'sidekiq',                  '~> 3.5.0'
+gem 'sidekiq',                  '~> 3.5.3'
 gem 'sidekiq-statistic',        '~> 1.1'
 gem 'sinatra',                  '~> 1.4.5',     require: false
 gem 'whenever',                 '~> 0.9.4',     require: false
@@ -61,7 +63,7 @@ gem 'will_paginate',            '~> 3.0.6'
 
 # Forms
 gem 'simple_form',              '~> 3.2.0'
-gem 'country_select',           '~> 2.4.0'
+gem 'country_select',           '~> 2.5.1'
 
 # Upload pictures
 gem 'carrierwave',              '~> 0.10.0'
@@ -69,7 +71,7 @@ gem 'carrierwave_backgrounder', '~> 0.4.2'
 gem 'mini_magick',              '~> 4.3.5'
 
 # Search in database
-gem 'searchkick',               '~> 0.9.1'
+gem 'searchkick',               '~> 1.0.1'
 
 # Dump database
 gem 'seed_dump',                '~> 3.2.2'
@@ -86,7 +88,7 @@ gem 'capistrano-rvm'
 gem 'capistrano-bundler',       '~> 1.1.4',   require: false
 gem 'capistrano-rails-console', '~> 1.0.0',   require: false
 gem 'capistrano-db-tasks',      '~> 0.4',     require: false
-gem 'capistrano-sidekiq',       '~> 0.5.3',   require: false
+gem 'capistrano-sidekiq',       '~> 0.5.4',   require: false
 
 # Website analysis
 gem 'newrelic_rpm',             '~> 3.14.0.305'
@@ -151,11 +153,11 @@ group :test do
   gem 'spring-commands-rspec',  '~> 1.0.4'
 
   # static analyzer
-  gem 'rubocop',                '~> 0.34.1',  require: false
+  gem 'rubocop',                '~> 0.35.1',  require: false
   gem 'rails_best_practices',   '~> 1.15.7',  require: false
-  gem 'brakeman',               '~> 3.1.1',   require: false
+  gem 'brakeman',               '~> 3.1.2',   require: false
   gem 'metric_fu',              '~> 4.12.0',  require: false
-  gem 'i18n-tasks',             '~> 0.9.0',   require: false
+  gem 'i18n-tasks',             '~> 0.9.1',   require: false
   gem 'deadweight',             '~> 0.2.2',   require: false
 
   # Security
@@ -164,12 +166,12 @@ end
 
 group :development, :test do
   # Speed up server and tests
-  gem 'spring',   '~> 1.4.0'
+  gem 'spring',   '~> 1.4.1'
 end
 
 group :production do
   # server
-  gem 'passenger', '~> 5.0.21'
+  gem 'passenger', '~> 5'
 
   # Improve Json generation (Oj not working with rack-mini-profiler)
   gem 'oj',                       '~> 2.13.0'

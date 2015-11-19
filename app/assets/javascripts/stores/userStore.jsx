@@ -5,11 +5,11 @@ var UserStore = Reflux.createStore({
     user: {
         id: window.currentUserId,
         preferences: {
-            article_display: 'inline',
-            multi_language: 'false',
-            search_highlight: 'true',
-            search_operator: 'and',
-            search_exact: 'false'
+            article_display: window.parameters.article_display,
+            multi_language: window.parameters.multi_language,
+            search_highlight: window.parameters.search_highlight,
+            search_operator: window.parameters.search_operator,
+            search_exact: window.parameters.search_exact
         },
         search: {}
     },
@@ -72,25 +72,11 @@ var UserStore = Reflux.createStore({
 
         var preferenceUrl = this.url + '/' + this.user.id + '/preference';
 
-        if (data.article_display) {
-            requestParam.preferences.article_display = data.article_display;
-        }
-
-        if (data.multi_language) {
-            requestParam.preferences.multi_language = data.multi_language;
-        }
-
-        if(data.search_highlight) {
-            requestParam.preferences.search_highlight = data.search_highlight;
-        }
-
-        if(data.search_operator) {
-            requestParam.preferences.search_operator = data.search_operator;
-        }
-
-        if(data.search_exact) {
-            requestParam.preferences.search_exact = data.search_exact;
-        }
+        requestParam.preferences.article_display = data.article_display;
+        requestParam.preferences.multi_language = data.multi_language;
+        requestParam.preferences.search_highlight = data.search_highlight;
+        requestParam.preferences.search_operator = data.search_operator;
+        requestParam.preferences.search_exact = data.search_exact;
 
         $.ajax({
             url: preferenceUrl ,

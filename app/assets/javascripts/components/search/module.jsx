@@ -34,7 +34,7 @@ var SearchModule = React.createClass({
     },
 
     componentDidMount: function () {
-        $('a#toggle-search').click(function () {
+        $('a.toggle-search').click(function () {
             this._toggleSearchNav();
 
             return false;
@@ -90,7 +90,7 @@ var SearchModule = React.createClass({
         }
     },
 
-    _onSuggestionClick: function (suggestion, event) {
+    _onClickSuggestion: function (suggestion, event) {
         event.preventDefault();
         this.refs.typeahead.setEntryText(suggestion);
         this.refs.typeahead.refs.typeahead.setState({entryValue: suggestion, selection: suggestion});
@@ -207,7 +207,7 @@ var SearchModule = React.createClass({
         var Suggestions = this.state.suggestions.map(function (suggestion) {
             return (
                 <a key={suggestion}
-                   onClick={this._onSuggestionClick.bind(this, suggestion)}
+                   onClick={this._onClickSuggestion.bind(this, suggestion)}
                    className="waves-effect waves-light btn-small">
                     {suggestion}
                 </a>

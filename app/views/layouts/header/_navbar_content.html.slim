@@ -1,0 +1,38 @@
+/ Search
+li.hide-on-med-and-down
+  a.toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
+    i.material-icons search
+
+/ Tags
+li
+  a#toggle-tags.header-collapse.button-collapse.show-on-large.tooltipped data-activates="tag-sidebar" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
+    i.material-icons.right local_offer
+    = t('views.header.tags')
+
+/ Articles
+- if user_signed_in?
+  li
+    a.dropdown-button data-activates="article-dropdown" data-constrainwidth="false"
+      i.material-icons.right message
+      = t('views.header.articles.title')
+
+/ User preferences
+- if user_signed_in?
+  li
+    a#toggle-user-pref
+      i.material-icons.right view_modules
+      = t('views.header.preferences')
+- else
+  li
+    = link_to login_path, remote: true, class: 'tooltipped', data: {tooltip: t('views.header.preferences_not_connected')}
+      i.material-icons.right view_modules
+      = t('views.header.preferences')
+
+/ User account
+li
+  a.dropdown-button data-activates="user-dropdown"
+    i.material-icons.right account_circle
+    - if user_signed_in?
+      = t('views.header.profile.connected')
+    - else
+      = t('views.header.profile.not_connected')

@@ -1,7 +1,12 @@
 var ChildTag = React.createClass({
-    _onTagClick: function (tagName, event) {
+    propTypes: {
+        tag: React.PropTypes.object.isRequired,
+        onClickTag: React.PropTypes.func.isRequired
+    },
+
+    _onClickTag: function (tagName, event) {
         event.preventDefault();
-        this.props.onTagClick(this.props.parentTag.name, tagName);
+        this.props.onClickTag(this.props.parentTag.name, tagName);
         return true;
     },
 
@@ -9,7 +14,7 @@ var ChildTag = React.createClass({
         return (
             <li className="">
                 <span className="waves-light btn-small tag-children"
-                      onClick={this._onTagClick.bind(this, this.props.tag.name)} >
+                      onClick={this._onClickTag.bind(this, this.props.tag.name)} >
                     {this.props.tag.name}
                 </span>
             </li>

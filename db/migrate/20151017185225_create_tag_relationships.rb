@@ -4,6 +4,8 @@ class CreateTagRelationships < ActiveRecord::Migration
       t.integer :parent_id, index: true
       t.integer :child_id,  index: true
 
+      t.text    :article_ids, null: false
+
       t.timestamps null: false
     end
 

@@ -70,21 +70,12 @@ ActiveRecord::Schema.define(version: 20151109154017) do
   add_index "pictures", ["imageable_id", "imageable_type"], name: "index_pictures_on_imageable_id_and_imageable_type", using: :btree
   add_index "pictures", ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id", using: :btree
 
-  create_table "preferences", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "name",       null: false
-    t.string   "value",      null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "preferences", ["user_id"], name: "index_preferences_on_user_id", using: :btree
-
   create_table "tag_relationships", force: :cascade do |t|
     t.integer  "parent_id"
     t.integer  "child_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "article_ids", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "tag_relationships", ["child_id"], name: "index_tag_relationships_on_child_id", using: :btree
@@ -125,6 +116,7 @@ ActiveRecord::Schema.define(version: 20151109154017) do
     t.string   "country",                default: ""
     t.string   "additional_info",        default: ""
     t.string   "locale",                 default: "fr"
+    t.text     "preferences",            default: "",   null: false
     t.string   "slug"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false

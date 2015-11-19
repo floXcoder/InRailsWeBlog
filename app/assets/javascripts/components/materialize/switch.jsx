@@ -1,4 +1,16 @@
 var Switch = React.createClass({
+    propTypes: {
+        values: React.PropTypes.object.isRequired,
+        checked: React.PropTypes.bool,
+        onCheckboxChanged: React.PropTypes.func
+    },
+
+    getDefaultProps: function () {
+        return {
+            checked: false,
+            onCheckboxChanged: null
+        };
+    },
 
     render: function () {
         return (

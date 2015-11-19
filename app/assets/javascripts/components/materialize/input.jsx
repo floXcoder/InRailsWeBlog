@@ -1,4 +1,24 @@
 var Input = React.createClass({
+    propTypes: {
+        id: React.PropTypes.string.isRequired,
+        classType: React.PropTypes.string,
+        icon: React.PropTypes.string,
+        minLength: React.PropTypes.number,
+        maxLength: React.PropTypes.number,
+        onBlur: React.PropTypes.func,
+        onChange: React.PropTypes.func
+    },
+
+    getDefaultProps: function () {
+        return {
+            icon: null,
+            minLength: null,
+            maxLength: null,
+            onBlur: null,
+            onChange: null
+        };
+    },
+
     _displayIcon: function () {
         if (this.props.icon) {
             return (

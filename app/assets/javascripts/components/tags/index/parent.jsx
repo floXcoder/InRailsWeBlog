@@ -1,12 +1,16 @@
 var ChildTag = require('./child');
 
 var ParentTag = React.createClass({
+    propTypes: {
+        tag: React.PropTypes.object.isRequired,
+        onClickTag: React.PropTypes.func.isRequired
+    },
 
-    _onTagClick: function (parentTagName, childTagName, event) {
+    _onClickTag: function (parentTagName, childTagName, event) {
         if (event) {
             event.preventDefault();
         }
-        this.props.onTagClick(parentTagName, childTagName);
+        this.props.onClickTag(parentTagName, childTagName);
         return false;
     },
 
@@ -28,7 +32,7 @@ var ParentTag = React.createClass({
                     <ChildTag key={childTag.id + '-' + tag.id}
                               tag={childTag}
                               parentTag={this.props.tag}
-                              onTagClick={this._onTagClick}/>
+                              onClickTag={this._onClickTag}/>
                 );
             }
         }, this);
@@ -37,9 +41,9 @@ var ParentTag = React.createClass({
     render: function () {
         return (
             <li>
-                <a className={(this.props.textFiltered ? 'active ' : '') + 'collapsible-header'}>
+                <a className={'collapsible-header' + (this.props.textFiltered ? ' active' : '')}>
                     <span className="waves-light btn-small tag-parent"
-                          onClick={this._onTagClick.bind(this, this.props.tag.name, null)}>
+                          onClick={this._onClickTag.bind(this, this.props.tag.name, null)}>
                         {this.props.tag.name}
                     </span>
                     {this._renderArrow()}

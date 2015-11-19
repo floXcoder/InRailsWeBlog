@@ -33,12 +33,18 @@ fr:
           not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
           unprocessable: "Impossible de créer l'article !"
       tooltip:
-        edit: "Édition rapide"
+        edit: "Modifier l'article"
         visibility: "Visibilité : %{visibility}"
+        bookmark: "Ajouter aux favoris"
+        history: "Voir les anciennes révisions de l'article"
         link: "C'est un lien"
+        delete: "Supprimer cet article"
         updated_at: "Dernière modification"
       flash:
-        write_article: "Connectez-vous pour écrire un article"
+        creation_unpermitted: "Connectez-vous pour écrire un article"
+        deletion_successful: "L'article a été supprimé."
+        undelete_link: "Annuler la suppression."
+      url: "Liste des articles"
       new:
         title: "Créer un nouvel article"
         tags:

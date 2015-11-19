@@ -1,6 +1,6 @@
 'use strict';
 
-var Suggestions = require('./Suggestions');
+var Suggestions = require('./suggestions');
 
 //var DragDropContext = require('react-dnd').DragDropContext;
 //var HTML5Backend = require('react-dnd-html5-backend');
@@ -58,7 +58,7 @@ var ReactTags = React.createClass({
         this.setState({query: ''});
     },
 
-    handleChange: function (e) {
+    _handleInputChange: function (e) {
         var query = e.target.value.trim();
         var suggestions = this.props.tagList.filter(function (item) {
             if (this.props.labelField) {
@@ -74,7 +74,7 @@ var ReactTags = React.createClass({
         });
     },
 
-    handleKeyDown: function (e) {
+    _handleKeyDown: function (e) {
         var _state = this.state;
         var query = _state.query;
         var selectedIndex = _state.selectedIndex;
@@ -151,11 +151,11 @@ var ReactTags = React.createClass({
         input.focus();
     },
 
-    handleSuggestionClick: function (i, e) {
+    _onClickSuggestion: function (i, e) {
         this.addTag(this.state.tagList[i]);
     },
 
-    handleSuggestionHover: function (i, e) {
+    _handleSuggestionHover: function (i, e) {
         this.setState({
             selectedIndex: i,
             selectionMode: true
@@ -178,14 +178,14 @@ var ReactTags = React.createClass({
                        minLength={this.props.tagMinLength}
                        maxLength={this.props.tagMaxLength}
                        placeholder={placeholder}
-                       onChange={this.handleChange}
-                       onKeyDown={this.handleKeyDown}/>
+                       onChange={this._handleInputChange}
+                       onKeyDown={this._handleKeyDown}/>
                 <Suggestions query={query}
                              tags={tags}
                              labelField={this.props.labelField}
                              selectedIndex={selectedIndex}
-                             handleClick={this.handleSuggestionClick}
-                             handleHover={this.handleSuggestionHover}/>
+                             onClickSuggestion={this._onClickSuggestion}
+                             handleHover={this._handleSuggestionHover}/>
             </div>
         );
     }

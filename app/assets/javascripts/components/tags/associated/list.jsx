@@ -1,18 +1,23 @@
 var TagList = React.createClass({
+    propTypes: {
+        tags: React.PropTypes.array.isRequired,
+        onClickTag: React.PropTypes.func.isRequired
+    },
+
     getInitialState: function() {
         return {
             classByTag: {}
         };
     },
 
-    _onTagClick: function (tagId, event) {
+    _onClickTag: function (tagId, event) {
         event.preventDefault();
 
         var classByTag = this.state.classByTag;
         classByTag[tagId] = !classByTag[tagId];
         this.setState({classByTag: classByTag});
 
-        this.props.onTagClick(tagId, !classByTag[tagId]);
+        this.props.onClickTag(tagId, !classByTag[tagId]);
     },
 
     render: function () {
@@ -26,7 +31,7 @@ var TagList = React.createClass({
             }
 
             return (
-                <div key={tag.id} className={tagClass} onClick={this._onTagClick.bind(this, tag.id)}>
+                <div key={tag.id} className={tagClass} onClick={this._onClickTag.bind(this, tag.id)}>
                     {tag.name}
                 </div>
             );

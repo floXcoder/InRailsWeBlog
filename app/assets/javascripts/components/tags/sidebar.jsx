@@ -23,7 +23,7 @@ var TagSidebar = React.createClass({
 
     render: function () {
         return (
-            <div id="slide-out" className="side-nav">
+            <div id="tag-sidebar" className="side-nav">
                 <div className="row">
                     <div className="col s12">
                         <ul className="tabs">

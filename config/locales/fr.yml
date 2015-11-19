@@ -1,7 +1,7 @@
 fr:
   common:
     website_name: "In Rails We Blog"
-    email: "blog@l-x.fr"
+    email: "blog@inrailsweblog.com"
   head:
     keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
     description: "Comment construire un blog avec Rails et Node"
@@ -76,7 +76,8 @@ fr:
         update_profile: "Mettre à jour mon profil"
     article:
       flash:
-        deletion_successful: "L'article a été supprimée. <a href='%{restore_link}'>Annuler la suppression</a>"
+        deletion_successful: "L'article a été supprimé."
+        undelete_link: "Annuler la suppression."
         deletion_error: "Problème lors de la suppression de l'article : %{errors}"
         undeletion_successful: "Article restoré"
         not_found: "L'article n'a pas été trouvé"

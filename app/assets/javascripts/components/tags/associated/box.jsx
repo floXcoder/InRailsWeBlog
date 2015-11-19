@@ -37,14 +37,14 @@ var AssociatedTagBox = React.createClass({
         }
     },
 
-    _onTagClick: function (tagId, activeTag) {
+    _onClickTag: function (tagId, activeTag) {
         ArticleActions.filterArticlesByTag(tagId, activeTag);
     },
 
     _displayTagsIfExist: function () {
         if (this.state.associatedTags) {
             return (
-                <AssociatedTagList tags={this.state.associatedTags} onTagClick={this._onTagClick}/>
+                <AssociatedTagList tags={this.state.associatedTags} onClickTag={this._onClickTag}/>
             );
         }
     },

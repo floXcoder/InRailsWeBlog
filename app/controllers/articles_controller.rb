@@ -40,7 +40,7 @@ class ArticlesController < ApplicationController
                else
                  Article.includes(:translations, :author, :tags)
                      .user_related(current_user_id)
-                     .all
+                     .published
                      .order('articles.id DESC')
                end
 
@@ -58,7 +58,7 @@ class ArticlesController < ApplicationController
   def create
     article = current_user.articles.build
 
-    if current_user.read_preference(:multi_language) == 'true'
+    if current_user.preferences[:multi_language]
       article.assign_attributes(article_translated_params)
     else
       article.assign_attributes(article_params)
@@ -67,7 +67,7 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if article.save
-        article.build_tag_relationships
+        article.create_tag_relationships
         article = article.reload
 
         format.json { render json: article, status: :created, location: article }
@@ -97,9 +97,9 @@ class ArticlesController < ApplicationController
     params[:search_options] = {} if !params[:search_options] || params[:search_options].is_a?(String)
 
     if current_user && (user_preferences = User.find(current_user.id))
-      search_options[:highlight] = (user_preferences.read_preference(:search_highlight) == 'false' ? false : true)
-      search_options[:exact] = (user_preferences.read_preference(:search_exact) == 'false' ? false : true)
-      search_options[:operator] = user_preferences.read_preference(:search_operator)
+      search_options[:highlight] = user_preferences.preferences[:search_highlight]
+      search_options[:exact] = user_preferences.preferences[:search_exact]
+      search_options[:operator] = user_preferences.preferences[:search_operator]
     end
 
     unless params[:search_options].empty?
@@ -161,14 +161,14 @@ class ArticlesController < ApplicationController
     authorize article
 
     current_user_id = current_user ? current_user.id : nil
-    multi_language = (current_user.read_preference(:multi_language) == 'true')
+    multi_language = current_user.preferences[:multi_language]
 
     respond_to do |format|
       format.html { render :edit, locals: {
-          article: article,
-          current_user_id: current_user_id,
-          multi_language: multi_language
-      }
+                                    article: article,
+                                    current_user_id: current_user_id,
+                                    multi_language: multi_language
+                                }
       }
     end
   end
@@ -177,10 +177,14 @@ class ArticlesController < ApplicationController
     article = Article.find(params[:id])
     authorize article
 
+    previous_parent_tags = Tag.where(id: article.parent_tags.ids)
+    previous_child_tags = Tag.where(id: article.child_tags.ids)
+
     respond_to do |format|
-      if current_user.read_preference(:multi_language) == 'true' ?
+      if current_user.preferences[:multi_language] ?
           article.update_attributes(article_translated_params) :
           article.update_attributes(article_params)
+        article.update_tag_relationships(previous_parent_tags, previous_child_tags)
 
         format.json { render json: article, status: :accepted, location: article }
       else
@@ -212,9 +216,7 @@ class ArticlesController < ApplicationController
     article = if params[:article_version_id]
                 if params[:from_deletion]
                   article_version = PaperTrail::Version.find_by_id(params[:article_version_id])
-                  if article_version
-                    article_version.reify
-                  end
+                  article_version.reify if article_version
                 end
               else
                 Article.find(params[:id])
@@ -231,6 +233,7 @@ class ArticlesController < ApplicationController
       end
 
       article.reload
+      article.create_tag_relationships
 
       respond_to do |format|
         flash[:success] = t('views.article.flash.undeletion_successful') if params[:from_deletion]
@@ -241,7 +244,7 @@ class ArticlesController < ApplicationController
       skip_authorization
       # For undoing the create action
       translation_version.item.destroy
-      article_version.item.destroy if params[:article_version_id] && params[:from_deletion]
+      article_version.item.destroy if article_version && params[:article_version_id] && params[:from_deletion]
       respond_to do |format|
         flash[:error] = t('views.article.flash.not_found')
         format.html { render json: {}, formats: :json, content_type: 'application/json' }
@@ -256,19 +259,26 @@ class ArticlesController < ApplicationController
 
     translation_item_id = article.translation.versions.last.item_id
 
+    previous_parent_tags = Tag.where(id: article.parent_tags.ids)
+    previous_child_tags = Tag.where(id: article.child_tags.ids)
+
     respond_to do |format|
       if article.destroy
+        article.delete_tag_relationships(previous_parent_tags, previous_child_tags)
+
         last_article_version = article.versions.last
         last_translation_version = PaperTrail::Version.where(item_id: translation_item_id, event: 'destroy').last
+        undelete_url = nil
         if last_article_version && last_translation_version
           undelete_url = restore_article_path(article_version_id: last_article_version.id,
                                               translation_version_id: last_translation_version.id,
                                               from_deletion: true)
 
-          flash[:success] = t('views.article.flash.deletion_successful',
-                              restore_link: undelete_url)
+          flash[:success] = t('views.article.flash.deletion_successful') +
+              ' ' +
+              "<a href='#{undelete_url}'>#{t('views.article.flash.undelete_link')}</a>"
         end
-        format.json { render json: {id: article.id}, status: :accepted }
+        format.json { render json: {id: article.id, url: undelete_url}, status: :accepted }
       else
         flash[:error] = t('views.article.flash.deletion_error', errors: article.errors.to_s)
         format.json { render json: article.errors, status: :not_modified }

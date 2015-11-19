@@ -2,6 +2,11 @@ var ArticleActions = require('../../../actions/articleActions');
 var ParentTag = require('./parent');
 
 var IndexTagList = React.createClass({
+    propTypes: {
+        filteredTags: React.PropTypes.object.isRequired,
+        filterText: React.PropTypes.string.isRequired
+    },
+
     getInitialState: function () {
         return {};
     },
@@ -14,15 +19,15 @@ var IndexTagList = React.createClass({
         $('.blog-index-tag .collapsible').collapsible();
     },
 
-    _onTagClick: function (parentTagName, childTagName) {
+    _onClickTag: function (parentTagName, childTagName) {
         var tags = [];
         if (!$.isEmpty(childTagName)) {
             tags.push(parentTagName);
             tags.push(childTagName);
-            ArticleActions.loadArticles({relationTags: tags});
+            ArticleActions.loadArticlesByTag({relationTags: tags});
         } else if (!$.isEmpty(parentTagName)) {
             tags.push(parentTagName);
-            ArticleActions.loadArticles({tags: tags});
+            ArticleActions.loadArticlesByTag({tags: tags});
         }
         return true;
     },
@@ -44,7 +49,7 @@ var IndexTagList = React.createClass({
                                tag={tag}
                                filteredTags={this.props.filteredTags}
                                textFiltered={this.props.filterText !== ''}
-                               onTagClick={this._onTagClick} />
+                               onClickTag={this._onClickTag} />
                 );
             }, this);
         }

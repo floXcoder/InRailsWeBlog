@@ -4,7 +4,7 @@ var revNapkin      = require('gulp-rev-napkin');
 var gulpSequence = require('gulp-sequence');
 var filter = require('gulp-filter');
 var revReplace = require('gulp-rev-replace');
-//var combinemq = require('gulp-combine-mq');
+var cssnano = require('gulp-cssnano');
 var cssmin = require('gulp-cssmin');
 var autoPrefixer = require('gulp-autoprefixer');
 var sizereport   = require('gulp-sizereport');
@@ -16,7 +16,7 @@ var config     = require('../config').production;
 // 1) Add md5 hashes to assets referenced by CSS and JS files
 gulp.task('rev-assets', function() {
     // Ignore what we dont want to hash in this step
-    var notThese = '!' + config.dest + '/**/*+(css|js|json|html)';
+    var notThese = '!' + config.dest + '/**/*+(css|js|json|html|ico)';
 
     return gulp.src([config.dest + '/**/*.*', notThese])
         .pipe(rev())
@@ -41,7 +41,7 @@ gulp.task('rev-css', function(){
     return gulp.src(config.dest + '/**/*.css')
         .pipe(rev())
         .pipe(autoPrefixer({ browsers: config.autoPrefixer }))
-        //.pipe(combinemq({beautify: false}))
+        .pipe(cssnano())
         .pipe(cssmin())
         .pipe(gulp.dest(config.dest))
         .pipe(revNapkin({verbose: false}))

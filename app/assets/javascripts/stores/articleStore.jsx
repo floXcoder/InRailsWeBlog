@@ -24,39 +24,40 @@ var ArticleStore = Reflux.createStore({
     onInitStore: function (initialRequest) {
         this.initRequest = initialRequest;
 
-        if (!$.isEmpty(this.browserState)) {
-            if (this.browserState.query) {
-                this.paramsFromUrl = {query: this.browserState.query, tags: this.browserState.tags};
-                this.onSearchArticles({query: this.browserState.query, tags: this.browserState.tags});
+        _.defer(function () {
+            if (!$.isEmpty(this.browserState)) {
+                if (this.browserState.query) {
+                    this.paramsFromUrl = {query: this.browserState.query, tags: this.browserState.tags};
+                    this.onSearchArticles({query: this.browserState.query, tags: this.browserState.tags});
+                } else {
+                    this.paramsFromUrl = this.browserState;
+                    this.onLoadArticles(this.browserState);
+                }
             } else {
-                this.paramsFromUrl = this.browserState;
-                this.onLoadArticles(this.browserState);
-            }
-        } else {
-            var request = this.initRequest;
-            if(!$.isEmpty(this.initRequest.pseudo) || !$.isEmpty(this.initRequest.mode)) {
-                request = _.omit(request, 'userId');
-                request = _.omit(request, 'pseudo');
-            }
+                var request = this.initRequest;
 
-            this.onLoadArticles(request);
-        }
+                // No need of user id or pseudo if mode used
+                if (!$.isEmpty(this.initRequest.pseudo) && !$.isEmpty(this.initRequest.mode)) {
+                    request = _.omit(request, 'userId');
+                    request = _.omit(request, 'pseudo');
+                }
+
+                this.onLoadArticles(request);
+            }
+        }.bind(this));
     },
 
     deserializeParams: function (state) {
         var tags = [];
-        if (!$.isEmpty(state.tags)) {
-            state.tags.split(',').forEach(function (tag) {
-                tags.push(tag);
-            });
-        }
-
         if (state.query) {
             return {
                 query: state.query,
                 tags: tags
             };
         } else if (state.tags) {
+            state.tags.split(',').forEach(function (tag) {
+                tags.push(tag);
+            });
             return {
                 tags: tags
             };
@@ -83,19 +84,24 @@ var ArticleStore = Reflux.createStore({
             return;
         }
 
+        var title = I18n.t('js.article.url');
+        var savedParams = {};
+
         if (data.tags) {
-            var tagParams = {
-                tags: data.tags.join(',')
-            };
-            this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.tags});
-        } else if (data.relationTags) {
-            var tagParams = {
-                relation_tags: data.relationTags.join(',')
-            };
-            this.saveState(tagParams, {title: I18n.t('js.article.tag.url') + ' ' + tagParams.relation_tags});
-        } else {
-            this.saveState(_.omit(data, 'userId'), {title: 'Articles'});
+            savedParams.tags = data.tags.join(',');
+            title = I18n.t('js.article.tag.url') + ' ' + data.tags;
         }
+        if (data.relationTags) {
+            savedParams.relation_tags = data.relationTags.join(',');
+            title = I18n.t('js.article.tag.url') + ' ' + data.relationTags;
+        }
+        if (data.page && (data.page === '1' || data.page === 1)) {
+            savedParams = _.omit(data, 'page')
+        }
+
+        savedParams = _.omit(savedParams, 'userId');
+
+        this.saveState(savedParams, {title: title});
     },
 
     _handleJsonErrors: function (xhr, status, error) {
@@ -185,8 +191,6 @@ var ArticleStore = Reflux.createStore({
     onLoadArticles: function (data) {
         this._resetSearch();
 
-        this._saveRequest(data);
-
         this._fetchArticles(data, function (dataReceived) {
             // Manage in articles/box
             this.articleData = dataReceived;
@@ -197,6 +201,8 @@ var ArticleStore = Reflux.createStore({
             if (!$.isEmpty(this.paramsFromUrl)) {
                 this.paramsFromUrl = {};
             }
+
+            this._saveRequest(data);
         }.bind(this));
     },
 
@@ -206,8 +212,6 @@ var ArticleStore = Reflux.createStore({
         } else {
             this.lastRequest.page = 2;
         }
-
-        this._saveRequest(_.merge(this.lastRequest, data));
 
         this._fetchArticles(_.merge(this.lastRequest, data), function (dataReceived) {
             var uniqueArticles = [];
@@ -222,6 +226,8 @@ var ArticleStore = Reflux.createStore({
 
             if (dataReceived.articles.length === 0) {
                 this.hasMore = false;
+            } else {
+                this._saveRequest(_.merge(this.lastRequest, data));
             }
 
             // Manage in articles/box
@@ -229,6 +235,25 @@ var ArticleStore = Reflux.createStore({
             this.articleData.hasMore = this.hasMore;
             this.trigger(this.articleData);
         });
+    },
+
+    onLoadArticlesByTag: function (data) {
+        if(!$.isEmpty(data)) {
+            var url = '';
+
+            if (data.tags) {
+                url = 'tags=' + data.tags.join(',');
+            }
+            if (data.relationTags) {
+                url = 'relationTags=' + data.relationTags.join(',');
+            }
+
+            if($(location).attr('pathname') !== '/' && !/\/users\//i.test($(location).attr('pathname'))) {
+                window.location.replace('/?' + url);
+            }
+
+            this.onLoadArticles(data);
+        }
     },
 
     onPushArticles: function (article) {
@@ -335,6 +360,10 @@ var ArticleStore = Reflux.createStore({
                     }.bind(this));
                     this.articleData.articles = updatedArticleList;
                     this.trigger(this.articleData);
+
+                    if(data.url) {
+                        Materialize.toast(I18n.t('js.article.flash.deletion_successful') + ' ' + '<a href=' + data.url + '>' + I18n.t('js.article.flash.undelete_link')+ '</a>');
+                    }
                 }
             }.bind(this),
             error: function (xhr, status, error) {
