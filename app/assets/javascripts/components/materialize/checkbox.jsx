@@ -1,4 +1,17 @@
 var Checkbox = React.createClass({
+    propTypes: {
+        onCheckboxChanged: React.PropTypes.func,
+        disabled: React.PropTypes.bool,
+        id: React.PropTypes.string
+    },
+
+    getDefaultProps: function () {
+        return {
+            onCheckboxChanged: null,
+            id: null
+        };
+    },
+
     getInitialState: function() {
         return {
             checked: false,

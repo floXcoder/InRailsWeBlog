@@ -1,6 +1,6 @@
 require('../common');
 
-var ArticleBox = require('../../components/articles/box');
+var ArticleIndex = require('../../components/articles/index');
 var ArticleCreation = require('../../components/articles/creation');
 var ArticleActions = require('../../actions/articleActions');
 
@@ -20,7 +20,7 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-    <ArticleBox userId={currentUserId} />,
+    <ArticleIndex userId={currentUserId} />,
     document.getElementById('article-box-component')
 );
 

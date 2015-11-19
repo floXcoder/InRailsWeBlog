@@ -13,7 +13,7 @@
 class TagSerializer < ActiveModel::Serializer
   cache key: 'tag', expires_in: 12.hours
 
-  attributes :id, :tagger_id, :name
+  attributes :id, :tagger_id, :name, :slug
 
   has_many :children, serializer: SimpleTagSerializer
 

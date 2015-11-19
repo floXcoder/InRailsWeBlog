@@ -1,8 +1,24 @@
-var ArticleItem = require('./item');
-var ArticleActions = require('../../actions/articleActions');
-var InfiniteScroll = require('../../components/materialize/infiniteScroll');
+var InfiniteScroll = require('../../../components/materialize/infiniteScroll');
 
-var ArticleList = React.createClass({
+var ArticleActions = require('../../../actions/articleActions');
+var ArticleItem = require('../item');
+
+var ArticleListDisplay = React.createClass({
+    propTypes: {
+        articles: React.PropTypes.array.isRequired,
+        hasMore: React.PropTypes.bool.isRequired,
+        articleDisplayMode: React.PropTypes.string.isRequired,
+        highlightResults: React.PropTypes.bool,
+        userId: React.PropTypes.number
+    },
+
+    getDefaultProps: function () {
+        return {
+            userId: null,
+            highlightResults: false
+        };
+    },
+
     _loadNextArticles: function () {
         if (this.props.hasMore) {
             ArticleActions.loadNextArticles();
@@ -60,4 +76,4 @@ var ArticleList = React.createClass({
     }
 });
 
-module.exports = ArticleList;
+module.exports = ArticleListDisplay;

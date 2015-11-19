@@ -1,9 +1,11 @@
 require('../common');
 
-var ArticleElement = require('../../components/articles/element');
+var ArticleShow = require('../../components/articles/show');
 var ArticleCreation = require('../../components/articles/creation');
 
 var currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+var article = JSON.parse(document.getElementById('article-element-component').getAttribute('data-article'));
+var tags = JSON.parse(document.getElementById('article-element-component').getAttribute('data-tags'));
 
 // Main
 if(currentUserId) {
@@ -15,9 +17,9 @@ if(currentUserId) {
 
 // Main
 ReactDOM.render(
-    <ArticleElement
+    <ArticleShow
         userId={currentUserId}
-        article={JSON.parse(document.getElementById('article-element-component').getAttribute('data-article'))}
-        tags={JSON.parse(document.getElementById('article-element-component').getAttribute('data-tags'))} />,
+        article={article.article}
+        tags={tags} />,
     document.getElementById('article-element-component')
 );

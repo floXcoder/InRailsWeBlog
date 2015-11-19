@@ -1,4 +1,18 @@
 var RadioButtons = React.createClass({
+    propTypes: {
+        buttons: React.PropTypes.object.isRequired,
+        group: React.PropTypes.string.isRequired,
+        checkedButton: React.PropTypes.string,
+        onRadioChanged: React.PropTypes.func
+    },
+
+    getDefaultProps: function () {
+        return {
+            checkedButton: null,
+            onRadioChanged: null
+        };
+    },
+
     getInitialState: function () {
         return {
         };

@@ -47,16 +47,19 @@ class Article < ActiveRecord::Base
   accepts_nested_attributes_for :tags, reject_if: :all_blank, update_only: true, allow_destroy: false
 
   def tags_attributes=(tags_attrs)
-    article_tags = []
-    parent_tags = []
-    child_tags = []
+    self.tags = article_tags = []
+    self.parent_tags = parent_tags = []
+    self.child_tags = child_tags = []
 
     tags_attrs.each do |_tagKey, tagValue|
       next unless tagValue
-      tag_id = tagValue.delete(:id)
-      next unless tag_id
 
-      tag = Tag.find_or_initialize_by(id: tag_id)
+      tag_id = tagValue.delete(:id)
+      tag = if !tag_id.blank?
+              Tag.find_or_initialize_by(id: tag_id)
+            else
+              Tag.find_or_initialize_by(name: tagValue[:name])
+            end
       tag.tagger_id = self.author.id unless tag.tagger_id
 
       parent = tagValue.delete(:parent)
@@ -73,19 +76,63 @@ class Article < ActiveRecord::Base
       end
     end
 
+    self.tags = article_tags
     self.parent_tags = parent_tags
     self.child_tags = child_tags
-    self.tags = article_tags
   end
 
-  def build_tag_relationships
+  def create_tag_relationships
     self.parent_tags.each do |parent|
       self.child_tags.each do |child|
-        unless parent.children.exists?(child.id)
-          parent.children << child
+        if parent.children.exists?(child.id)
+          tag_relationship = parent.parent_relationship.find_by(child_id: child.id)
+          previous_article_ids = tag_relationship.article_ids
+          tag_relationship.update_attribute(:article_ids, previous_article_ids + [self.id])
+        else
+          parent.parent_relationship.create!(child_id: child.id, article_ids: [self.id])
         end
       end
     end unless self.child_tags.empty?
+  end
+
+  def update_tag_relationships(previous_parent_tags, previous_child_tags)
+    previous_parent_tags.each do |previous_parent|
+      previous_child_tags.each do |previous_child|
+        if self.parent_tags.exists?(previous_parent.id)
+          unless self.child_tags.exists?(previous_child.id)
+            tag_relationship = previous_parent.parent_relationship.find_by(child_id: previous_child.id)
+            new_article_ids = tag_relationship.article_ids - [self.id]
+            if new_article_ids.empty?
+              tag_relationship.destroy
+            else
+              tag_relationship.update_attribute(:article_ids, new_article_ids)
+            end
+          end
+        else
+          tag_relationship = previous_child.child_relationship.find_by(parent_id: previous_parent.id)
+          new_article_ids = tag_relationship.article_ids - [self.id]
+          if new_article_ids.empty?
+            tag_relationship.destroy
+          else
+            tag_relationship.update_attribute(:article_ids, new_article_ids)
+          end
+        end
+      end
+    end unless previous_child_tags.empty?
+  end
+
+  def delete_tag_relationships(previous_parent_tags, previous_child_tags)
+    previous_parent_tags.each do |previous_parent|
+      previous_child_tags.each do |previous_child|
+        tag_relationship = previous_parent.parent_relationship.find_by(child_id: previous_child.id)
+        new_article_ids = tag_relationship.article_ids - [self.id]
+        if new_article_ids.empty?
+          tag_relationship.destroy
+        else
+          tag_relationship.update_attribute(:article_ids, new_article_ids)
+        end
+      end
+    end unless previous_child_tags.empty?
   end
 
   # Scopes
@@ -93,6 +140,7 @@ class Article < ActiveRecord::Base
     where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
           author_id: user_id)
   }
+  scope :published, -> { where(temporary: false) }
 
   # Parameters validation
   validates :author_id, presence: true
@@ -115,7 +163,7 @@ class Article < ActiveRecord::Base
              versioning: {gem: :paper_trail, options: {on: [:update, :destroy]}}
   accepts_nested_attributes_for :translations, allow_destroy: true
 
-  # Versionning
+  # Versioning
   has_paper_trail on: [:destroy], ignore: [:title, :summary, :content]
 
   # Nice url format
@@ -130,18 +178,21 @@ class Article < ActiveRecord::Base
     ]
   end
 
+  def should_generate_new_friendly_id?
+    translation = translations.where(locale: I18n.locale).first
+    if translation
+      (translation.title != self.title)
+    else
+      super
+    end
+  end
+
   # Elastic Search
   searchkick autocomplete: [:title, :tags],
              suggest: [:title, :tags],
              highlight: [:content_en, :content_fr, :public_content_en, :public_content_fr],
              include: [:author, :tags, :translations, :parent_tags, :child_tags],
              language: (I18n.locale == :fr) ? 'French' : 'English'
-  # wordnet: true,
-
-  # after_commit :reindex_product
-  # def reindex_product
-  #   tags.reindex # or reindex_async
-  # end
 
   def search_data
     {

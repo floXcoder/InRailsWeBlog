@@ -2,17 +2,17 @@
 
 // determines the min query length for which
 // suggestions are displayed
-var MIN_QUERY_LENGTH = 2;
+var MIN_QUERY_LENGTH = 1;
 
 var Suggestions = React.createClass({
-    displayName: "Suggestions",
+    displayName: 'Suggestions',
 
     propTypes: {
         query: React.PropTypes.string.isRequired,
         labelField: React.PropTypes.string,
         selectedIndex: React.PropTypes.number.isRequired,
         tags: React.PropTypes.array.isRequired,
-        handleClick: React.PropTypes.func.isRequired,
+        onClickSuggestion: React.PropTypes.func.isRequired,
         handleHover: React.PropTypes.func.isRequired
     },
 
@@ -25,20 +25,19 @@ var Suggestions = React.createClass({
     },
 
     render: function () {
-        var props = this.props;
         var suggestions = this.props.tags.map((function (item, i) {
             var itemName = this.props.labelField ? item[this.props.labelField] : item;
             return (
                 <li key={i}
-                    onClick={props.handleClick.bind(null, i)}
-                    onMouseOver={props.handleHover.bind(null, i)}
-                    className={i == props.selectedIndex ? "active" : ""}>
-                    <span dangerouslySetInnerHTML={this.markIt(itemName, props.query)} />
+                    onClick={this.props.onClickSuggestion.bind(null, i)}
+                    onMouseOver={this.props.handleHover.bind(null, i)}
+                    className={i == this.props.selectedIndex ? "active" : ""}>
+                    <span dangerouslySetInnerHTML={this.markIt(itemName, this.props.query)} />
                 </li>
             )
         }).bind(this));
 
-        if (suggestions.length === 0 || props.query.length < MIN_QUERY_LENGTH) {
+        if (suggestions.length === 0 || this.props.query.length < MIN_QUERY_LENGTH) {
             return <div className="tagsinput-suggestions"> </div>
         }
 

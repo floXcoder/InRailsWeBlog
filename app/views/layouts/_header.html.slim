@@ -1,94 +1,34 @@
 header.blog-header
 
   / User articles dropdown
-  - if user_signed_in?
-    ul#article-dropdown.dropdown-content
-      li
-        = link_to t('views.header.articles.user'), user_path(current_user)
-      li.divider
-
-      li
-        a#toggle-article-creation
-          i.material-icons.right add_box
-          = t('views.header.articles.new')
-
-      li
-        = link_to bookmark_user_path(current_user)
-          i.material-icons.right bookmark
-          = t('views.header.articles.bookmark')
-      li.divider
-
-      li
-        = link_to temporary_user_path(current_user)
-          = t('views.header.articles.temporary')
-          span.badge-count
-            = current_user.temporary_articles.count
+  ul#article-dropdown.dropdown-content
+    = render 'layouts/header/article_dropdown'
 
   / User dropdown
   ul#user-dropdown.dropdown-content
-    / Change language
-    li class="#{'active' if I18n.locale == :fr}"
-      = link_to t('views.header.french'), url_for(locale: 'fr')
-    li class="#{'active' if I18n.locale == :en}"
-      = link_to t('views.header.english'), url_for(locale: 'en')
-
-    li.divider
-
-    / User account
-    - if user_signed_in?
-      li
-        = link_to t('views.header.profile.connected'), edit_user_path(current_user)
-      li
-        = link_to t('views.header.log_out'), logout_path, method: 'delete'
-    - else
-      li.first-nav
-        = link_to t('views.header.sign_up'), signup_path, remote: true
-      li
-        = link_to t('views.header.log_in'), login_path, remote: true
+    = render 'layouts/header/user_dropdown'
 
   .navbar-fixed
     nav
       .nav-wrapper
+        / Title
         = link_to t('common.website_name'), root_path, class: 'brand-logo'
 
-        ul#nav-mobile.right.hide-on-med-and-down
+        / Menu icon for small screens
+        a.button-collapse data-activates="mobile-demo" href="#"
+          i.material-icons menu
+
+        ul.right.hide-on-med-and-down
+          = render 'layouts/header/navbar_content'
+
+        ul.side-nav id="mobile-demo"
+          = render 'layouts/header/navbar_mobile'
+
+        ul.right.hide-on-large-only
           / Search
           li
-            a#toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
+            a.toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
               i.material-icons search
-
-          / Tags
-          li
-            a.button-collapse.show-on-large.tooltipped data-activates="slide-out" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
-              i.material-icons local_offer
-
-          / Articles
-          - if user_signed_in?
-            li
-              a.dropdown-button data-activates="article-dropdown" data-constrainwidth="false"
-                i.material-icons.right message
-                = t('views.header.articles.title')
-
-          / User preferences
-          - if user_signed_in?
-            li
-              a#toggle-user-pref
-                i.material-icons.right view_modules
-                = t('views.header.preferences')
-          - else
-            li
-              = link_to signup_path, remote: true, class: 'tooltipped', data: {tooltip: t('views.header.preferences_not_connected')}
-                i.material-icons.right view_modules
-                = t('views.header.preferences')
-
-          / User account
-          li
-            a.dropdown-button data-activates="user-dropdown"
-              i.material-icons.right account_circle
-              - if user_signed_in?
-                = t('views.header.profile.connected')
-              - else
-                = t('views.header.profile.not_connected')
 
   .blog-user-pref
     #user-pref

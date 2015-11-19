@@ -33,7 +33,11 @@ webPackConfig.plugins.push(
         fileName: config.production.manifestFilename,
         stripSrc: '-[chunkhash].js'
     }),
-    // Remove duplicate code
+    new webpack.DefinePlugin({
+        'process.env':{
+            'NODE_ENV': JSON.stringify('production')
+        }
+    }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),

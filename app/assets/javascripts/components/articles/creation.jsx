@@ -5,7 +5,8 @@ var SanitizePaste = require('../../wysiwyg/sanitizePaste');
 var ArticleCreation = React.createClass({
     getInitialState: function () {
         return {
-            $articleNewForm: null
+            $articleNewForm: null,
+            isActive: false
         };
     },
 
@@ -43,53 +44,86 @@ var ArticleCreation = React.createClass({
         this.state.$articleNewForm.is(":visible") ?
             this.state.$articleNewForm.fadeOut() :
             this.state.$articleNewForm.fadeIn(function () {
-                $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
-                $('.blog-form .collapsible').collapsible();
+                require.ensure([], () => {
+                    require('../../wysiwyg/summernote');
+                    require('../../wysiwyg/lang/summernote-en-US');
+                    require('../../wysiwyg/lang/summernote-fr-FR');
+                    this.setState({isActive: true});
 
-                this.state.$articleNewForm.find('input#title').focus();
+                    $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
+                    $('.blog-form .collapsible').collapsible();
+
+                    this.state.$articleNewForm.find('input#title').focus();
+                });
             }.bind(this));
     },
 
     _onPaste: function (content) {
-        var $singleEditor = $('#single-editor');
-        var singleContent = $singleEditor.summernote('code');
-        if(content && $singleEditor && $.isEmpty(singleContent)) {
-            this.state.$articleNewForm.fadeIn(function () {
-                var pasteContent = SanitizePaste.parse(content);
-                $singleEditor.summernote('code', pasteContent);
-                $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
-                $('.blog-form .collapsible').collapsible();
-                $singleEditor.summernote('focus');
-                this.refs.articleForm.refs.temporary.setState({checked: true});
-                this.refs.articleForm.refs.visibility.setState({value: 'only_me'});
-            }.bind(this));
-        }
+        require.ensure([], () => {
+            require('../../wysiwyg/summernote');
+            require('../../wysiwyg/lang/summernote-en-US');
+            require('../../wysiwyg/lang/summernote-fr-FR');
+            this.setState({isActive: true});
+
+            var $singleEditor = $('#single-editor');
+            var singleContent = $singleEditor.summernote('code');
+            if(content && $singleEditor && $.isEmpty(singleContent)) {
+                this.state.$articleNewForm.fadeIn(function () {
+                    var pasteContent = SanitizePaste.parse(content);
+                    $singleEditor.summernote('code', pasteContent);
+                    $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
+                    $('.blog-form .collapsible').collapsible();
+                    $singleEditor.summernote('focus');
+                    this.refs.articleForm.refs.temporary.setState({checked: true});
+                    this.refs.articleForm.refs.visibility.setState({value: 'only_me'});
+                    this.refs.articleForm.refs.submit.setState({disabled: false});
+                }.bind(this));
+            }
+        });
+    },
+
+    _onCancel: function () {
+        this._toggleNewForm();
+        return true;
     },
 
     _onSubmit: function () {
         $('html, body').animate( { scrollTop: 0 }, 750 );
         this._toggleNewForm();
+        return true;
     },
 
     render: function () {
-        return (
-            <div className="blog-form">
-                <div className="margin-bottom-20"/>
-                <ul data-collapsible="accordion" className="collapsible article-form-header">
-                    <li>
-                        <div className="collapsible-header active"><i className="material-icons">mode_edit</i>
-                            <h4 className="collection-header">{I18n.t('js.article.new.title')}</h4>
-                        </div>
-                        <div className="collapsible-body">
-                            <ul className="collection">
-                                <ArticleForm ref="articleForm" onSubmit={this._onSubmit}/>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+        if(this.state.isActive) {
+            return (
+                <div className="blog-form">
+                    <div className="margin-bottom-20"/>
+                    <ul data-collapsible="accordion"
+                        className="collapsible article-form-header">
+                        <li>
+                            <div className="collapsible-header active">
+                                <i className="material-icons">mode_edit</i>
+                                <h4 className="collection-header">
+                                    {I18n.t('js.article.new.title')}
+                                </h4>
+                            </div>
+                            <div className="collapsible-body">
+                                <ul className="collection">
+                                    <ArticleForm ref="articleForm"
+                                                 onCancel={this._onCancel}
+                                                 onSubmit={this._onSubmit}/>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-        );
+            );
+        } else {
+            return null;
+        }
+
+
     }
 });
 

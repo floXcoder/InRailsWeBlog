@@ -35,7 +35,7 @@ var Tag = React.createClass({
 
         return (
             <span className={"tagsinput-tag waves-effect waves-light btn-small grey lighten-5 black-text " + this.props.labelClass}
-                  onClick={this.props.handleClick}
+                  onClick={this.props.onClickTag}
                   onContextMenu={this.props.handleContextMenu}
                   data-name={label}>
                 {label}

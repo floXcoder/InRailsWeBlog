@@ -12,28 +12,6 @@
   display: inline;
 }
 
-// Go to top
-.goto-top {
-  position: fixed;
-  right: 100px;
-  text-decoration: underline;
-  bottom: 40px;
-  display: block;
-  cursor: pointer;
-  background: $color-base url('/assets/up_arrow.png') no-repeat scroll 6px 5px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  opacity: 0.3;
-  transition: opacity 0.6s, visibility 0.6s;
-
-  &:hover {
-    opacity: 1;
-    transition: opacity 0.6s, visibility 0.63s;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.27);
-  }
-}
-
 // Hidden textarea for clipboard
 .hidden {
   position: absolute;
@@ -54,6 +32,22 @@
   resize: none;
   outline: none;
   user-select: text; /* Because for user-select:none, Safari won't allow input */
+}
+
+.adaptative-text {
+  font-weight: 300;
+  $i: 0;
+  @while $i <= $intervals {
+    @media only screen and (min-width : 360 + ($i * $interval-size)) {
+      font-size: 0.9rem * (1 + (.02 * $i));
+    }
+    $i: $i + 1;
+  }
+
+  // Handle below 360px screen
+  @media only screen and (max-width: 360px) {
+    font-size: 1.2rem;
+  }
 }
 
 // Spaces

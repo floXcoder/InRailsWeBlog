@@ -9,6 +9,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string  :country,         default: ''
       t.string  :additional_info, default: ''
       t.string  :locale,          default: 'fr'
+      t.text    :preferences,     default: '', null: false
       t.string  :slug
 
       t.timestamps null: false

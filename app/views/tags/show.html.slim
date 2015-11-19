@@ -3,7 +3,6 @@
 - stylesheet 'tags/show'
 
 - javascript 'commons'
-- javascript 'common-react'
 - javascript 'tags/show'
 
 = content_tag :div, '', id: 'react-main', data: {tag: ActiveModel::SerializableResource.new(tag, {scope: current_user}).serializable_hash, articles: ActiveModel::SerializableResource.new(articles, {scope: current_user}).serializable_hash}

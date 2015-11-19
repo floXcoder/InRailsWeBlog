@@ -20,12 +20,15 @@ var UserPreference = React.createClass({
     },
 
     componentDidMount: function () {
-        $('a#toggle-user-pref').click(function () {
+        $('a#toggle-user-pref').click(function (event) {
+            event.preventDefault();
+
             this.state.$userPrefDiv = $('.blog-user-pref');
 
             if (this.state.$userPrefDiv.is(":visible")) {
                 this.state.$userPrefDiv.slideUp();
             } else {
+                $('.button-collapse').sideNav('hide');
                 this.state.$userPrefDiv.slideDown(150, function () {
                     $('.user-pref-collapsible').collapsible({
                         accordion: true
@@ -50,16 +53,16 @@ var UserPreference = React.createClass({
                 newState.article_display = userPreferences.article_display;
             }
             if (userPreferences.multi_language) {
-                newState.multi_language = (userPreferences.multi_language !== 'false');
+                newState.multi_language = userPreferences.multi_language;
             }
             if (userPreferences.search_highlight) {
-                newState.search_highlight = (userPreferences.search_highlight !== 'false');
+                newState.search_highlight = userPreferences.search_highlight;
             }
             if (userPreferences.search_operator) {
                 newState.search_operator = userPreferences.search_operator;
             }
             if (userPreferences.search_exact) {
-                newState.search_exact = (userPreferences.search_exact !== 'false');
+                newState.search_exact = userPreferences.search_exact;
             }
 
             this.setState(newState);
@@ -75,13 +78,13 @@ var UserPreference = React.createClass({
     _onMultiLanguageChanged: function (event) {
         var multi_language = this.refs.multiLanguage.refs.checkbox.checked;
         this.setState({multi_language: multi_language});
-        UserActions.changeForm({multi_language: multi_language ? 'true' : 'false'});
+        UserActions.changeForm({multi_language: multi_language});
     },
 
     _onHighlightChanged: function (event) {
         var search_highlight = this.refs.searchHighlight.refs.checkbox.checked;
         this.setState({search_highlight: search_highlight});
-        UserActions.changeSearchOptions({search_highlight: search_highlight ? 'true' : 'false'});
+        UserActions.changeSearchOptions({search_highlight: search_highlight});
     },
 
     _onOperatorSearchChanged: function (event) {
@@ -93,7 +96,7 @@ var UserPreference = React.createClass({
     _onExactSearchChanged: function (event) {
         var search_exact = this.refs.searchExact.refs.checkbox.checked;
         this.setState({search_exact: search_exact});
-        UserActions.changeSearchOptions({search_exact: search_exact ? 'true' : 'false'});
+        UserActions.changeSearchOptions({search_exact: search_exact});
     },
 
     render: function () {

@@ -9,8 +9,8 @@
                 height: 'Interligne',
                 name: 'Famille de police',
                 strikethrough: 'Barré',
-                superscript: 'Exposant',
                 subscript: 'Indice',
+                superscript: 'Exposant',
                 size: 'Taille de police'
             },
             image: {
@@ -112,11 +112,43 @@
                 documentStyle: 'Style du document',
                 extraKeys: 'Touches supplémentaires'
             },
+            help: {
+                'insertParagraph': 'Insérer Paragraphe',
+                'undo': 'Annuler la dernière commande',
+                'redo': 'Refaire la dernière commande',
+                'tab': 'Tabulation',
+                'untab': 'Tabulation arrière',
+                'bold': 'Mettre en gras',
+                'italic': 'Mettre en italique',
+                'underline': 'Souligner le texte',
+                'strikethrough': 'Barrer le texte',
+                'removeFormat': 'Style par défaut',
+                'justifyLeft': 'Aligner le texte à gauche',
+                'justifyCenter': 'Center le texte',
+                'justifyRight': 'Aligner le texte à droite',
+                'justifyFull': 'Aligner le texte complet',
+                'insertUnorderedList': 'Liste simple',
+                'insertOrderedList': 'Liste numéroté',
+                'outdent': 'Désindenter le paragraphe courant',
+                'indent': 'Indenter le paragraphe courant',
+                'formatPara': 'Changer la sélection courante en paragraphe',
+                'formatH1': 'Changer la sélection courante en H1',
+                'formatH2': 'Changer la sélection courante en H2',
+                'formatH3': 'Changer la sélection courante en H3',
+                'formatH4': 'Changer la sélection courante en H4',
+                'formatH5': 'Changer la sélection courante en H5',
+                'formatH6': 'Changer la sélection courante en H6',
+                'insertHorizontalRule': 'Insérer une ligne horizontale',
+                'linkDialog.show': 'Afficher la fenêtre d\'ajout de lien'
+            },
             history: {
                 undo: 'Annuler la dernière action',
                 redo: 'Restaurer la dernière action annulée'
+            },
+            specialChar: {
+                specialChar: 'SPECIAL CHARACTERS',
+                select: 'Select Special characters'
             }
-
         }
     });
 })(jQuery);

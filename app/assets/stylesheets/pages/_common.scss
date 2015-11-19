@@ -6,10 +6,10 @@
 @import 'tagsinput/tagsinput';
 
 .blog {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
   background-color: color('blue-grey', 'lighten-4');
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 
   .material-icons {
     cursor: pointer;
@@ -24,17 +24,26 @@
   }
 
   .badge-count {
-    font-weight: 400;
-    color: #fff;
     background-color: #26a69a;
     border-radius: 2px;
+    color: #fff;
     float: right;
-    padding: 0 6px;
-    text-align: center;
-    line-height: inherit;
     font-size: 1rem;
+    font-weight: 400;
+    line-height: inherit;
+    padding: 0 6px;
     position: absolute;
     right: 20px;
+    text-align: center;
+  }
+
+  @media #{$medium-and-down} {
+    .badge-count {
+      background-color: #444444;
+      line-height: 32px;
+      //top: 5px;
+      right: 30px;
+    }
   }
 
   .blog-header {
@@ -70,13 +79,25 @@
     margin-bottom: 0;
     position: fixed;
     right: 0;
-    width: 800px;
+    min-width: 800px;
     z-index: 992;
 
     .collapsible-body .row {
       background-color: white;
       margin: 0;
       padding: 1.2rem;
+    }
+  }
+
+  @media #{$medium-and-down} {
+    .blog-user-pref {
+      min-width: 640px;
+    }
+  }
+
+  @media #{$small-and-down} {
+    .blog-user-pref {
+      min-width: 360px;
     }
   }
 
@@ -87,13 +108,13 @@
   .blog-flash {
     .chip {
       background-color: color('blue-grey', 'darken-3');
+      border: 3px solid color('blue-grey', 'lighten-3');
+      box-shadow: 0px 0px 3px color('blue-grey', 'lighten-3');
       color: white;
       font-size: 18px;
       height: 52px;
       line-height: 52px;
       margin: 10px;
-      border: 3px solid color('blue-grey', 'lighten-3');
-      box-shadow: 0px 0px 3px color('blue-grey', 'lighten-3');
 
       .material-icons {
         font-size: 18px;
@@ -232,6 +253,10 @@
     .field-error {
       color: color('red', 'darken-2');
     }
+
+    .col {
+      margin: 10px 0;
+    }
   }
 
   .blog-index-tag {
@@ -369,6 +394,12 @@
       }
     }
 
+    .article-action {
+      .col {
+        margin: 10px 0;
+      }
+    }
+
     .article-summary {
       margin-left: 15px;
       margin-bottom: 10px;
@@ -425,7 +456,6 @@
       }
 
       &.article-goto {
-        float: right;
         margin: 0px;
         line-height: 12px;
         font-size: 12px;
@@ -449,8 +479,7 @@
         @include article-hover;
       }
 
-      .article-link {
-      }
+      .article-link {}
 
       .article-delete {
         cursor: pointer;

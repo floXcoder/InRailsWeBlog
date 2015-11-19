@@ -3,11 +3,6 @@
   font-style: normal;
   font-weight: 400;
   src: url("#{$icons-font-path}materialdesignicons-webfont.eot"); /* For IE6-8 */
-  //src: local('Material Icons'),
-  //local('MaterialIcons-Regular'),
-  //url('/assets/material-design-icons/Material-Design-Icons.woff2') format('woff2'),
-  //url('/assets/material-design-icons/Material-Design-Icons.woff') format('woff'),
-  //url('/assets/material-design-icons/Material-Design-Icons.ttf') format('truetype');
   src: local('Material Icons'), local('MaterialIcons-Regular'), url("#{$icons-font-path}materialdesignicons-webfont.woff2") format('woff2');
 }
 
@@ -40,112 +35,112 @@
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Thin.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Thin.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Thin.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-thin"), url("#{$roboto-font-path}Roboto-Thin.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Thin.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Thin.ttf?v=1.1.0") format("truetype");
   font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-ThinItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-ThinItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-ThinItalic.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-thinitalic"), url("#{$roboto-font-path}Roboto-ThinItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-ThinItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-ThinItalic.ttf?v=1.1.0") format("truetype");
   font-weight: 100;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Light.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Light.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Light.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-light"), url("#{$roboto-font-path}Roboto-Light.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Light.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Light.ttf?v=1.1.0") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-LightItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-LightItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-LightItalic.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-lightitalic"), url("#{$roboto-font-path}Roboto-LightItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-LightItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-LightItalic.ttf?v=1.1.0") format("truetype");
   font-weight: 300;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Regular.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Regular.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Regular.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-regular"), url("#{$roboto-font-path}Roboto-Regular.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Regular.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Regular.ttf?v=1.1.0") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Regular.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Regular.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Regular.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-regular"), url("#{$roboto-font-path}Roboto-Regular.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Regular.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Regular.ttf?v=1.1.0") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Italic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Italic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Italic.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-italic"), url("#{$roboto-font-path}Roboto-Italic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Italic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Italic.ttf?v=1.1.0") format("truetype");
   font-weight: 400;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Italic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Italic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Italic.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-italic"), url("#{$roboto-font-path}Roboto-Italic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Italic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Italic.ttf?v=1.1.0") format("truetype");
   font-weight: normal;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Medium.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Medium.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Medium.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-medium"), url("#{$roboto-font-path}Roboto-Medium.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Medium.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Medium.ttf?v=1.1.0") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-MediumItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-MediumItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-MediumItalic.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-mediumitalic"), url("#{$roboto-font-path}Roboto-MediumItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-MediumItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-MediumItalic.ttf?v=1.1.0") format("truetype");
   font-weight: 500;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Bold.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Bold.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Bold.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-bold"), url("#{$roboto-font-path}Roboto-Bold.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Bold.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Bold.ttf?v=1.1.0") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Bold.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Bold.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Bold.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-bold"), url("#{$roboto-font-path}Roboto-Bold.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Bold.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Bold.ttf?v=1.1.0") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-BoldItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-BoldItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-BoldItalic.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-bolditalic"), url("#{$roboto-font-path}Roboto-BoldItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-BoldItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-BoldItalic.ttf?v=1.1.0") format("truetype");
   font-weight: 700;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-BoldItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-BoldItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-BoldItalic.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-bolditalic"), url("#{$roboto-font-path}Roboto-BoldItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-BoldItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-BoldItalic.ttf?v=1.1.0") format("truetype");
   font-weight: bold;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-Black.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Black.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Black.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-black"), url("#{$roboto-font-path}Roboto-Black.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-Black.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-Black.ttf?v=1.1.0") format("truetype");
   font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("#{$roboto-font-path}Roboto-BlackItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-BlackItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-BlackItalic.ttf?v=1.1.0") format("truetype");
+  src: local("roboto"), local("roboto-blackitalic"), url("#{$roboto-font-path}Roboto-BlackItalic.woff2?v=1.1.0") format("woff2"), url("#{$roboto-font-path}Roboto-BlackItalic.woff?v=1.1.0") format("woff"), url("#{$roboto-font-path}Roboto-BlackItalic.ttf?v=1.1.0") format("truetype");
   font-weight: 900;
   font-style: italic;
 }

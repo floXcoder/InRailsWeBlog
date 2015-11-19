@@ -12,12 +12,6 @@ var TagStore = Reflux.createStore({
     onFetchTags: function () {
         var requestParam = {};
 
-        //if (data) {
-        //    if (data.tags) {
-        //        requestParam.tag_ids = data.tags;
-        //    }
-        //}
-
         jQuery.getJSON(
             this.url,
             requestParam,
@@ -26,7 +20,6 @@ var TagStore = Reflux.createStore({
                 this.trigger(this.tagList);
             }.bind(this));
     }
-
 });
 
 module.exports = TagStore;

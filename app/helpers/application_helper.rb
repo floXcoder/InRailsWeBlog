@@ -60,16 +60,12 @@ module ApplicationHelper
 
   # Assets with manifest management
   def javascript_include_tag(url, options={})
-    # url = 'pages/' + url
-
     url = AssetManifest.javascript_path(url)
 
     super(url, options)
   end
 
   def stylesheet_link_tag(url, options={})
-    url = 'pages/' + url if url != 'application'
-
     url = AssetManifest.stylesheet_path(url)
 
     super(url, options)

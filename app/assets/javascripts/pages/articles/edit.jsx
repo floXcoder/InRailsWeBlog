@@ -1,13 +1,15 @@
 require('../common');
 
-var ArticleUpdate = require('../../components/articles/update');
+var ArticleEdit = require('../../components/articles/edit');
 
 var currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+var article = JSON.parse(document.getElementById('article-element-component').getAttribute('data-article'));
+var multiLanguage = (document.getElementById('article-element-component').getAttribute('data-multiLanguage') === 'true');
 
 ReactDOM.render(
-    <ArticleUpdate
+    <ArticleEdit
         userId={currentUserId}
-        article={JSON.parse(document.getElementById('article-element-component').getAttribute('data-article')).article}
-        multiLanguage={document.getElementById('article-element-component').getAttribute('data-multiLanguage') === 'true'} />,
+        article={article.article}
+        multiLanguage={multiLanguage} />,
     document.getElementById('article-element-component')
 );

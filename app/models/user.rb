@@ -11,6 +11,7 @@
 #  country                :string           default("")
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
+#  preferences            :text             default({}), not null
 #  slug                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -83,14 +84,15 @@ class User < ActiveRecord::Base
   friendly_id :pseudo,  use: :slugged
 
   # Preferences
-  include Shared::PreferencesConcern
+  store :preferences, accessors: [ :article_display, :multi_language, :search_highlight, :search_operator, :search_exact ], coder: JSON
 
-  preference :article_display,    'card'
-  preference :multi_language,     'false'
-  preference :search_highlight,   'true'
-  preference :search_operator,    'and'
-  preference :search_exact,       'true'
-
+  before_create do
+    self.preferences[:article_display] = CONFIG.article_display if preferences[:article_display].blank?
+    self.preferences[:multi_language] = CONFIG.multi_language if preferences[:multi_language].blank?
+    self.preferences[:search_highlight] = CONFIG.search_highlight if preferences[:search_highlight].blank?
+    self.preferences[:search_operator] = CONFIG.search_operator if preferences[:search_operator].blank?
+    self.preferences[:search_exact] = CONFIG.search_exact if preferences[:search_exact].blank?
+  end
 
   def to_s
     "I am #{pseudo}"

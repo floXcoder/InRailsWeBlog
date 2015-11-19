@@ -22,21 +22,13 @@ module.exports = {
 
         commons: [
             {
-                name: 'common-user',
-                files: ['users/edit', 'users/login', 'users/signup', 'users/password', 'users/show']
-            },
-            {
-                name: 'common-react',
-                files: ['home', 'users/show', 'articles/show', 'articles/edit', 'tags/show']
-            },
-            {
                 name: 'commons',
-                files: ['ie8', 'ie9', 'common-user', 'common-react']
+                files: ['home', 'users/show', 'articles/show', 'articles/edit', 'tags/show', 'users/edit', 'users/login', 'users/signup', 'users/password', 'users/show']
             }
         ],
         output: {
             path: './public/assets',
-            publicPath: '/assets'
+            publicPath: '/assets/'
         },
         modules: {
             includes: [
@@ -51,12 +43,12 @@ module.exports = {
             {
                 test: /\.jsx$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader?stage=0&cacheDirectory'
+                loader: 'babel',
+                query: {
+                    cacheDirectory: true,
+                    presets: ['es2015', 'react']
+                }
             }
-            //{
-            //    test: /node_modules\/react-typeahead\/lib\/.*\.js/,
-            //    loader: 'babel-loader?stage=0&cacheDirectory'
-            //}
         ],
             plugins: {
             $: 'jquery',
@@ -81,7 +73,7 @@ module.exports = {
         open: false
     },
     sass: {
-        src: [assetDir + '/stylesheets/**/*.scss', '!**/*_scsslint_tmp*.scss'],
+        src: [assetDir + '/stylesheets/*.scss', assetDir + '/stylesheets/pages/**/*.scss', '!**/*_scsslint_tmp*.scss'],
         dest: publicDir + '/assets',
         settings: {
             includePaths: [

@@ -27,17 +27,17 @@ class ArticleSerializer < ActiveModel::Serializer
   has_many :child_tags, serializer: SimpleTagSerializer
 
   def content
-    current_user_id = if scope
-                        scope.id
-                      else
-                        current_user ? current_user.id : nil
-                      end
+    current_user_id = defined?(current_user) && current_user ? current_user.id : nil
 
     object.adapted_content(current_user_id)
   end
 
   def is_bookmarked
-    current_user.bookmarks.exists?(object.id)
+    if defined?(current_user) && current_user
+      current_user.bookmarks.exists?(object.id)
+    else
+      false
+    end
   end
 
   def updated_at

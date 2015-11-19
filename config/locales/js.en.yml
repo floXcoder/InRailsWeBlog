@@ -33,12 +33,18 @@ en:
           not_authorized: "You are not authorized to access to this resource"
           unprocessable: "Can not create article!"
       tooltip:
-        edit: "Quick edit"
+        edit: "Modify article"
         visibility: "Visibility: %{visibility}"
+        bookmark: "Add to bookmarks"
+        history: "See article history"
         link: "This is a link"
+        delete: "Remove this article"
         updated_at: "Last modification"
       flash:
-        write_article: "Please connect before writing an article"
+        creation_unpermitted: "Please connect before writing an article"
+        deletion_successful: "Article deleted."
+        undelete_link: "Cancel deletion."
+      url: "Articles list"
       new:
         title: "Create a new article"
         tags:

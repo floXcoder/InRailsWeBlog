@@ -1,12 +1,18 @@
 var Spinner = require('./spinner');
 
 var InfiniteScroll = React.createClass({
+    propTypes: {
+        pageStart: React.PropTypes.number,
+        hasMore: React.PropTypes.bool,
+        loadMore: React.PropTypes.func,
+        threshold: React.PropTypes.number
+    },
+
     getDefaultProps: function () {
         return {
             pageStart: 1,
             hasMore: false,
-            loadMore: function () {
-            },
+            loadMore: function () {},
             threshold: 250
         };
     },

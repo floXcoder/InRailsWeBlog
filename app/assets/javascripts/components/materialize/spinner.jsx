@@ -1,6 +1,19 @@
 var Spinner = React.createClass({
+    propTypes: {
+        size: React.PropTypes.string
+    },
+
+    getDefaultProps: function () {
+        return {
+            size: null
+        };
+    },
+
     render: function () {
-        var preloaderClasses = "preloader-wrapper active " + this.props.size;
+        var preloaderClasses = "preloader-wrapper active";
+        if(this.props.size) {
+            preloaderClasses += " " + this.props.size;
+        }
 
         return (
             <div className={preloaderClasses}>

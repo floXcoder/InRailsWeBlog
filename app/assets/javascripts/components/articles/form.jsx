@@ -1,27 +1,43 @@
-var ArticleActions = require('../../actions/articleActions');
-var TagActions = require('../../actions/tagActions');
-var UserStore = require('../../stores/userStore');
 var Input = require('../../components/materialize/input');
 var Button = require('../../components/materialize/button');
 var Select = require('../../components/materialize/select');
 var Checkbox = require('../../components/materialize/checkbox');
 var TagsInput = require('../../components/tagsinput/tagsinput');
-require('../../wysiwyg/summernote');
-require('../../wysiwyg/lang/summernote-fr-FR');
+
+var TagActions = require('../../actions/tagActions');
+
+var UserStore = require('../../stores/userStore');
+
+var ArticleActions = require('../../actions/articleActions');
 
 var ArticleForm = React.createClass({
     mixins: [
         Reflux.listenTo(UserStore, 'onPreferenceChange')
     ],
 
+    propTypes: {
+        article: React.PropTypes.object,
+        multiLanguage: React.PropTypes.bool,
+        temporary: React.PropTypes.bool,
+        onSubmit: React.PropTypes.func
+    },
+
+    getDefaultProps: function () {
+        return {
+            article: null,
+            tags: null,
+            multiLanguage: false,
+            temporary: false,
+            onSubmit: null
+        };
+    },
+
     getInitialState: function () {
         return {
-            multiLanguage: this.props.multiLanguage || false,
-            disabled: true,
+            multiLanguage: this.props.multiLanguage || false,
             editors: {},
-            temporary: this.props.temporaryNote || false,
             isLink: false,
-            sendTooltip: null
+            isSubmitted: false
         };
     },
 
@@ -35,31 +51,34 @@ var ArticleForm = React.createClass({
             this._createEditor('#single-editor');
         }
 
-        if(this.props.article) {
+        if (this.props.article) {
             this._updateFields();
         }
 
-        if(this.props.article) {
+        if (this.props.article) {
             window.onbeforeunload = function (event) {
-                var message;
-                event = event || window.event;
-                message = I18n.t('js.article.edit.exit');
-                if (event) {
-                    event.returnValue = message;
+                if (!this.state.isSubmitted) {
+                    var message;
+                    event = event || window.event;
+                    message = I18n.t('js.article.edit.exit');
+                    if (event) {
+                        event.returnValue = message;
+                    }
+                    return message;
                 }
-                return message;
             }.bind(this);
         } else {
             window.onunload = function (event) {
-                if(!$.isEmpty($('#single-editor').summernote('code'))
-                    || !$.isEmpty($('#ennglish-editor').summernote('code'))
-                    || !$.isEmpty($('#french-editor').summernote('code'))) {
+                if (!this.state.isSubmitted && !this.refs.submit.disabled) {
                     this.refs.temporary.state.checked = true;
                     this._submitNow(event);
                     return true;
                 }
             }.bind(this);
         }
+
+        // Fetch tags to populate TagsInput
+        TagActions.fetchTags();
     },
 
     componentWillUpdate: function () {
@@ -82,7 +101,7 @@ var ArticleForm = React.createClass({
             $('.editor-reset').show();
         }
 
-        if(this.props.article) {
+        if (this.props.article) {
             this._updateFields();
         }
     },
@@ -90,10 +109,9 @@ var ArticleForm = React.createClass({
     onPreferenceChange: function (userStore) {
         var newState = {};
 
-        if (!$.isEmpty(userStore.preferences) && userStore.preferences.multi_language) {
-            var multiLanguage = (userStore.preferences.multi_language !== 'false');
-            if(multiLanguage !== this.state.multiLanguage) {
-                newState.multiLanguage = multiLanguage;
+        if (!$.isEmpty(userStore.preferences)) {
+            if (userStore.preferences.multi_language !== this.state.multiLanguage) {
+                newState.multiLanguage = userStore.preferences.multi_language;
             }
         }
 
@@ -129,7 +147,8 @@ var ArticleForm = React.createClass({
             height: 300,
             callbacks: {
                 onKeyup: function (event) {
-                    this._handleChange(event);
+                    this._handleEditorChange(event);
+                    return true;
                 }.bind(this)
             }
         });
@@ -146,7 +165,7 @@ var ArticleForm = React.createClass({
         }
     },
 
-    _updateFields: function() {
+    _updateFields: function () {
         if (this.state.multiLanguage) {
             ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value = this.props.article.title_en;
             ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value = this.props.article.summary_en;
@@ -161,24 +180,22 @@ var ArticleForm = React.createClass({
             $('#single-editor').summernote('focus');
         }
 
-        if(this.props.article.is_link) {
+        if (this.props.article.is_link) {
             this.state.isLink = true;
         }
 
         this.refs.submit.setState({disabled: false});
     },
 
-    _handleChange: function (event) {
+    _handleEditorChange: function (event) {
         var text = event.currentTarget.textContent;
 
         if (text.length < window.parameters.content_min_length) {
             this.refs.submit.setState({disabled: true});
-        } else if(text.length > window.parameters.content_max_length) {
+        } else if (text.length > window.parameters.content_max_length) {
             this.refs.submit.setState({disabled: true});
         } else {
-            if (this.state.disabled) {
-                this.refs.submit.setState({disabled: false});
-            }
+            this.refs.submit.setState({disabled: false});
         }
 
         if (!this.state.isLink && $.isURL(text.trim())) {
@@ -187,22 +204,22 @@ var ArticleForm = React.createClass({
             var $singleEditor = $('#single-editor');
             $singleEditor.summernote('code', '');
             $singleEditor.summernote('createLink', {
-                text : text.trim(),
-                url : text.trim(),
-                isNewWindow : true
+                text: text.trim(),
+                url: text.trim(),
+                isNewWindow: true
             });
-        } else if(this.state.isLink && !$.isURL(text.trim())) {
+        } else if (this.state.isLink && !$.isURL(text.trim())) {
             this.state.isLink = false;
             this.refs.isLink.setState({checked: false});
         }
     },
 
-    _onBlurSummary: function(event) {
+    _onBlurSummary: function (event) {
         $('#single-editor').summernote('focus');
         return true;
     },
 
-    _serializeEditor: function() {
+    _serializeEditor: function () {
         var submitData = {};
 
         if (this.state.multiLanguage) {
@@ -219,17 +236,22 @@ var ArticleForm = React.createClass({
 
             submitData = {
                 translations_attributes: [
-                    {id: this.props.article.id_en, locale: 'en', title: englishTitle, summary: englishSummary, content: englishContent},
-                    {id: this.props.article.id_fr, locale: 'fr', title: frenchTitle, summary: frenchSummary, content: frenchContent}
+                    {
+                        id: this.props.article.id_en,
+                        locale: 'en',
+                        title: englishTitle,
+                        summary: englishSummary,
+                        content: englishContent
+                    },
+                    {
+                        id: this.props.article.id_fr,
+                        locale: 'fr',
+                        title: frenchTitle,
+                        summary: frenchSummary,
+                        content: frenchContent
+                    }
                 ]
             };
-
-            ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value = '';
-            ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value = '';
-            ReactDOM.findDOMNode(this.refs.frenchTitle.refs.frenchTitle).value = '';
-            ReactDOM.findDOMNode(this.refs.frenchSummary.refs.frenchSummary).value = '';
-            $('#english-editor').summernote('code', '');
-            $('#french-editor').summernote('code', '');
         } else {
             var $singleEditor = $('#single-editor');
             var title = ReactDOM.findDOMNode(this.refs.title.refs.title).value.trim();
@@ -239,18 +261,13 @@ var ArticleForm = React.createClass({
             if (!content && !title) {
                 return;
             }
-
             submitData = {title: title, summary: summary, content: content};
-
-            ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
-            ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = '';
-            $singleEditor.summernote('code', '');
         }
 
         return submitData;
     },
 
-    _serializeTag: function() {
+    _serializeTag: function () {
         var submitData = {};
 
         var tags = this.refs.tagsinput.state.selectedTags;
@@ -259,34 +276,65 @@ var ArticleForm = React.createClass({
         return submitData;
     },
 
+    _resetForm: function () {
+        if (this.state.multiLanguage) {
+            ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value = '';
+            ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value = '';
+            ReactDOM.findDOMNode(this.refs.frenchTitle.refs.frenchTitle).value = '';
+            ReactDOM.findDOMNode(this.refs.frenchSummary.refs.frenchSummary).value = '';
+            $('#english-editor').summernote('code', '');
+            $('#french-editor').summernote('code', '');
+        } else {
+            ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
+            ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = '';
+            $('#single-editor').summernote('code', '');
+        }
+        this.state.isLink = false;
+        this.refs.isLink.setState({checked: false});
+        this.refs.temporary.setState({checked: false});
+        this.refs.submit.setState({disabled: true});
+        this.refs.tagsinput.state.selectedTags = [];
+    },
+
+    _cancelForm: function (event) {
+        event.preventDefault();
+
+        this.props.onCancel();
+        this._resetForm();
+        this.setState({isSubmitted: false});
+    },
+
     _handleSubmit: function (event) {
         event.preventDefault();
+        this.state.isSubmitted = true;
 
         var submitData = {};
 
+        // Editor content
         _.merge(submitData, this._serializeEditor());
+        // Tags
         _.merge(submitData, this._serializeTag());
-
+        // Temporary checkbox
         _.merge(submitData, {temporary: this.refs.temporary.state.checked});
-        if(this.state.isLink) {
-            _.merge(submitData, {is_link: this.state.isLink});
+        // isLink checkbox
+        _.merge(submitData, {is_link: this.state.isLink});
+        // Visibility
+        if (this.refs.visibility.state.value !== 'default') {
+            _.merge(submitData, {visibility: this.refs.visibility.state.value});
         }
 
-        if(this.props.article) {
+        // Article id and fromEditPage if article exist
+        if (this.props.article) {
             _.merge(submitData, {id: this.props.article.id});
             _.merge(submitData, {fromEditPage: true});
             ArticleActions.updateArticles(submitData);
-            return true;
         } else {
             ArticleActions.pushArticles(submitData);
-            this.state.isLink = false;
-            this.refs.isLink.setState({checked: false});
-            this.refs.submit.setState({disabled: true});
-            this.refs.tagsinput.state.selectedTags = [];
             TagActions.fetchTags();
+            this._resetForm();
         }
 
-        if(this.props.onSubmit) {
+        if (this.props.onSubmit) {
             this.props.onSubmit();
         }
     },
@@ -300,7 +348,7 @@ var ArticleForm = React.createClass({
         _.merge(submitData, this._serializeTag());
 
         _.merge(submitData, {temporary: this.refs.temporary.state.checked});
-        if(this.state.isLink) {
+        if (this.state.isLink) {
             _.merge(submitData, {is_link: this.state.isLink});
         }
 
@@ -343,12 +391,12 @@ var ArticleForm = React.createClass({
                     <div className="col s12" id="english-form">
                         <Input ref="englishTitle" id="englishTitle" classType="important"
                                minLength={window.parameters.title_min_length}
-                               maxLength={window.parameters.title_max_length} >
+                               maxLength={window.parameters.title_max_length}>
                             {I18n.t('js.article.model.title')}
                         </Input>
                         <Input ref="englishSummary" id="englishSummary"
                                minLength={window.parameters.summary_min_length}
-                               maxLength={window.parameters.summary_max_length} >
+                               maxLength={window.parameters.summary_max_length}>
                             {I18n.t('js.article.model.summary')}
                         </Input>
 
@@ -359,12 +407,12 @@ var ArticleForm = React.createClass({
                     <div className="col s12" id="french-form">
                         <Input ref="frenchTitle" id="frenchTitle" classType="important"
                                minLength={window.parameters.title_min_length}
-                               maxLength={window.parameters.title_max_length} >
+                               maxLength={window.parameters.title_max_length}>
                             {I18n.t('js.article.model.title')}
                         </Input>
                         <Input ref="frenchSummary" id="frenchSummary"
                                minLength={window.parameters.summary_min_length}
-                               maxLength={window.parameters.summary_max_length} >
+                               maxLength={window.parameters.summary_max_length}>
                             {I18n.t('js.article.model.summary')}
                         </Input>
 
@@ -379,12 +427,12 @@ var ArticleForm = React.createClass({
                 <div>
                     <Input ref="title" id="title" classType="important"
                            minLength={window.parameters.title_min_length}
-                           maxLength={window.parameters.title_max_length} >
+                           maxLength={window.parameters.title_max_length}>
                         {I18n.t('js.article.model.title')}
                     </Input>
                     <Input ref="summary" id="summary" onBlur={this._onBlurSummary}
                            minLength={window.parameters.summary_min_length}
-                           maxLength={window.parameters.summary_max_length} >
+                           maxLength={window.parameters.summary_max_length}>
                         {I18n.t('js.article.model.summary')}
                     </Input>
 
@@ -397,6 +445,20 @@ var ArticleForm = React.createClass({
     },
 
     render: function () {
+        if (this.props.article) {
+            var childTags = _.indexBy(this.props.article.child_tags, 'id');
+            var parentTags = _.indexBy(this.props.article.parent_tags, 'id');
+            var tags = this.props.article.tags.map(function (tag) {
+                var tagWithRelation = tag;
+                if (parentTags[tag.id]) {
+                    tagWithRelation.parent = true;
+                } else if (childTags[tag.id]) {
+                    tagWithRelation.child = true;
+                }
+                return tagWithRelation;
+            }.bind(this));
+        }
+
         var article = this.props.article || {};
 
         return (
@@ -405,26 +467,27 @@ var ArticleForm = React.createClass({
                 { this._createFields() }
 
                 <div className="row margin-top-10">
-                    <div className="col s6">
+                    <div className="col l6 m6 s12">
                         {I18n.t('js.article.new.tags.title')}
-                        <TagsInput ref="tagsinput" selectedTags={this.props.tags || []} />
+                        <TagsInput ref="tagsinput"
+                                   selectedTags={tags || []}/>
                     </div>
 
-                    <div className="col s3">
+                    <div className="col s6 m6 l3">
                         <Checkbox ref="temporary"
                                   id="temporary"
-                                  checked={article.temporary || this.state.temporary} >
+                                  checked={article.temporary || this.props.temporary}>
                             {I18n.t('js.article.model.temporary')}
                         </Checkbox>
                         <div className="margin-bottom-20"/>
                         <Checkbox ref="isLink"
                                   id="isLink"
-                                  disabled="true"
-                                  checked={article.is_link || this.state.isLink} >
+                                  disabled={true}
+                                  checked={article.is_link || this.state.isLink}>
                             {I18n.t('js.article.model.is_link')}
                         </Checkbox>
                     </div>
-                    <div className="col s3">
+                    <div className="col s6 m6 l3">
                         <Select ref="visibility"
                                 id="visibility"
                                 title={I18n.t('js.article.visibility.title')}
@@ -434,9 +497,19 @@ var ArticleForm = React.createClass({
                         </Select>
                     </div>
                 </div>
-                <Button ref="submit" icon="send">
-                    {this.props.article ? I18n.t('js.article.edit.submit') : I18n.t('js.article.new.submit')}
-                </Button>
+                <div className="row">
+                    <div className="col s6">
+                        <Button ref="submit" icon="send">
+                            {this.props.article ? I18n.t('js.article.edit.submit') : I18n.t('js.article.new.submit')}
+                        </Button>
+                    </div>
+                    <div className="col s6 right-align">
+                        <a className="waves-effect waves-teal btn-flat"
+                           onClick={this._cancelForm}>
+                            {I18n.t('js.buttons.cancel')}
+                        </a>
+                    </div>
+                </div>
             </form>
         );
     }

@@ -1,6 +1,10 @@
 var ArticleActions = require('../../actions/articleActions');
 
 var ArticleHistory = React.createClass({
+    propTypes: {
+        articleVersions: React.PropTypes.object.isRequired
+    },
+
     getInitialState: function () {
         return {};
     },

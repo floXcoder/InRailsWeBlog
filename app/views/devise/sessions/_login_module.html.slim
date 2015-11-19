@@ -10,12 +10,13 @@
       / Login fields
       = render 'devise/sessions/login_fields', login_form: login_form
 
-      / Helper links
-      = link_to t('devise.shared.links.forgot_password'), new_user_password_path
-      br
-      = link_to t('devise.shared.links.signup'), signup_path, remote: true, onClick: "$('#login_module').closeModal();"
-
       .modal-footer
+        /.row
+        /  .col.s12
+        /    / Helper links
+        /    = link_to t('devise.shared.links.forgot_password'), new_user_password_path
+        /    br
+        /    = link_to t('devise.shared.links.signup'), signup_path, remote: true, onClick: "$('#login_module').closeModal();"
 
         / Login button
         .row
