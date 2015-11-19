@@ -644,7 +644,7 @@ DEPENDENCIES
   capistrano-db-tasks (~> 0.4)
   capistrano-rails (~> 1.1.5)
   capistrano-rails-console (~> 1.0.0)
-  capistrano-rvm
+  capistrano-rvm (~> 0.1.1)
   capistrano-sidekiq (~> 0.5.4)
   capybara (~> 2.5.0)
   capybara-email (~> 2.4.0)

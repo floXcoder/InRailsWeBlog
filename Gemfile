@@ -83,8 +83,7 @@ gem 'faker',                  '~> 1.5.0'
 # Deployment
 gem 'capistrano',               '~> 3.4.0'
 gem 'capistrano-rails',         '~> 1.1.5'
-# gem 'rvm1-capistrano3',         '~> 1.4.0',   require: false
-gem 'capistrano-rvm'
+gem 'capistrano-rvm',           '~> 0.1.1',   require: false
 gem 'capistrano-bundler',       '~> 1.1.4',   require: false
 gem 'capistrano-rails-console', '~> 1.0.0',   require: false
 gem 'capistrano-db-tasks',      '~> 0.4',     require: false
