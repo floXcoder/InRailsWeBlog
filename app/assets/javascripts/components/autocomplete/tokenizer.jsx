@@ -1,3 +1,5 @@
+"use strict";
+
 var Token = require('./token');
 var Typeahead = require('./typeahead');
 var classNames = require('classnames');

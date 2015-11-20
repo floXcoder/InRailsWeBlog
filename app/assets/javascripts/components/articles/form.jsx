@@ -1,3 +1,5 @@
+"use strict";
+
 var Input = require('../../components/materialize/input');
 var Button = require('../../components/materialize/button');
 var Select = require('../../components/materialize/select');
@@ -482,7 +484,6 @@ var ArticleForm = React.createClass({
                         <div className="margin-bottom-20"/>
                         <Checkbox ref="isLink"
                                   id="isLink"
-                                  disabled={true}
                                   checked={article.is_link || this.state.isLink}>
                             {I18n.t('js.article.model.is_link')}
                         </Checkbox>

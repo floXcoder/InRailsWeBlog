@@ -1,3 +1,5 @@
+"use strict";
+
 var HighlightCode = require('highlight.js');
 
 var ArticleActions = require('../../actions/articleActions');

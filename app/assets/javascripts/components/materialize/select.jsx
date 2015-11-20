@@ -1,3 +1,5 @@
+"use strict";
+
 var Select = React.createClass({
     propTypes: {
         options: React.PropTypes.object.isRequired,

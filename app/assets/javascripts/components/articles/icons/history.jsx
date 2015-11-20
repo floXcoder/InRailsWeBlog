@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleHistoryIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,

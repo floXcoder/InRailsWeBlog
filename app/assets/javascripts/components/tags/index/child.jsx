@@ -1,3 +1,5 @@
+"use strict";
+
 var ChildTag = React.createClass({
     propTypes: {
         tag: React.PropTypes.object.isRequired,

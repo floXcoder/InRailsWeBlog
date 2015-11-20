@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleActions = require('../../actions/articleActions');
 
 var ArticleHistory = React.createClass({

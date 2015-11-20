@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleForm = require('../../components/articles/form');
 var ClipboardManager = require('../../modules/clipboard');
 var SanitizePaste = require('../../wysiwyg/sanitizePaste');

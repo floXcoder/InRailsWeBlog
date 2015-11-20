@@ -1,3 +1,5 @@
+"use strict";
+
 var Button = React.createClass({
     propTypes: {
         onClickButton: React.PropTypes.func,

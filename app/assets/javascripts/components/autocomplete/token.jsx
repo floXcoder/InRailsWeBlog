@@ -1,3 +1,5 @@
+"use strict";
+
 var classNames = require('classnames');
 
 /**

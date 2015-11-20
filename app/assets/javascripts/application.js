@@ -1,3 +1,5 @@
+"use strict";
+
 // jQuery
 require('expose?$!expose?jQuery!jquery');
 require('jquery-ujs');

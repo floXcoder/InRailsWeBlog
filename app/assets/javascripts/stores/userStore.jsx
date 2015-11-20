@@ -1,3 +1,5 @@
+"use strict";
+
 var UserAction = require('../actions/userAction');
 
 var UserStore = Reflux.createStore({

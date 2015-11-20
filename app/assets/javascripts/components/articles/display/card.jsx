@@ -1,5 +1,6 @@
+"use strict";
+
 var ArticleEditIcon = require('../icons/edit');
-var ArticleEditionIcons = require('../icons/edition');
 var ArticleLinkIcon = require('../icons/link');
 var ArticleVisibilityIcon = require('../icons/visibility');
 var ArticleAuthorIcon = require('../icons/author');

@@ -1,3 +1,5 @@
+"use strict";
+
 // Navigation bar
 var UserPreference = require('../../components/user/preference');
 var SearchModule = require('../../components/search/module');

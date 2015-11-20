@@ -1,3 +1,5 @@
+"use strict";
+
 var AssociatedTagBox = require('../../components/tags/associated/box');
 var IndexTagBox = require('../../components/tags/index/box');
 
@@ -7,18 +9,14 @@ var TagSidebar = React.createClass({
     },
 
     componentDidMount: function () {
-        $('.navbar-fixed .button-collapse').sideNav({
-                menuWidth: 350, // Default is 240
-                edge: 'left' // Choose the horizontal origin
-            }
-        );
+        if(window.innerWidth > window.parameters.large_screen) {
+            $('.navbar-fixed #toggle-tags').click(function () {
+                $('.blog-sidebar').find('input').focus();
+                return true;
+            });
+        }
 
-        $('.navbar-fixed .button-collapse').click(function () {
-            $('.blog-sidebar').find('input').focus();
-            return true;
-        });
-
-        $('.blog-sidebar ul.tabs').tabs();
+        $('#tag-sidebar ul.tabs').tabs();
     },
 
     render: function () {

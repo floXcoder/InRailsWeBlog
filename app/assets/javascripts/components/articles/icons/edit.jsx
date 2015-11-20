@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleEditIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,

@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleActions = require('../../actions/articleActions');
 var ArticleCardDisplay = require('./display/card');
 var ArticleInlineDisplay = require('./display/inline');

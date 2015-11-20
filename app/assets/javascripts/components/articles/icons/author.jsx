@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleLinkIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired

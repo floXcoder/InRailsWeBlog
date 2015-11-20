@@ -1,3 +1,5 @@
+"use strict";
+
 var TypeaheadOption = require('./option');
 var classNames = require('classnames');
 

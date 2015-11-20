@@ -1,3 +1,5 @@
+"use strict";
+
 var UserActions = require('../../actions/userAction');
 var UserStore = require('../../stores/userStore');
 var RadioButtons = require('../../components/materialize/radioButtons');
@@ -10,11 +12,11 @@ var UserPreference = React.createClass({
 
     getInitialState: function () {
         return {
-            article_display: 'inline',
-            multi_language: false,
-            search_highlight: true,
-            search_operator: 'and',
-            search_exact: false,
+            article_display: window.parameters.article_display,
+            multi_language: window.parameters.multi_language,
+            search_highlight: window.parameters.search_highlight,
+            search_operator: window.parameters.search_operator,
+            search_exact: window.parameters.search_exact,
             $userPrefDiv: null
         };
     },

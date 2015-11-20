@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleNone = React.createClass({
     render: function () {
         return (

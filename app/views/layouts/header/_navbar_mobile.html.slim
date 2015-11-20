@@ -11,25 +11,20 @@ li
 
 / Articles
 - if user_signed_in?
-li.no-padding
-  ul.collapsible.collapsible-accordion
-    li
-      a.collapsible-header
-        i.material-icons.right message
-        = t('views.header.articles.title')
-      .collapsible-body
-        ul
-          = render 'layouts/header/article_dropdown'
+  li.no-padding
+    ul.collapsible.collapsible-accordion
+      li
+        a.collapsible-header
+          i.material-icons.right message
+          = t('views.header.articles.title')
+        .collapsible-body
+          ul
+            = render 'layouts/header/article_dropdown'
 
 / User preferences
 - if user_signed_in?
   li
     a#toggle-user-pref
-      i.material-icons.right view_modules
-      = t('views.header.preferences')
-- else
-  li
-    = link_to login_path, remote: true, class: 'tooltipped', data: {tooltip: t('views.header.preferences_not_connected')}
       i.material-icons.right view_modules
       = t('views.header.preferences')
 
