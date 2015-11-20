@@ -1,3 +1,5 @@
+"use strict";
+
 var Checkbox = React.createClass({
     propTypes: {
         onCheckboxChanged: React.PropTypes.func,

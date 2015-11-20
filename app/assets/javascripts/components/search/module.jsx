@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleActions = require('../../actions/articleActions');
 var ArticleStore = require('../../stores/articleStore');
 var UserStore = require('../../stores/userStore');

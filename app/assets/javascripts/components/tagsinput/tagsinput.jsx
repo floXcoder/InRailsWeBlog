@@ -1,3 +1,5 @@
+"use strict";
+
 var ReactTags = require('./reactTags');
 var Tag = require('./tag');
 var TagStore = require('../../stores/tagStore');

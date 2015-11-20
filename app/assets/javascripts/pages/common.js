@@ -1,3 +1,5 @@
+"use strict";
+
 require('../application');
 
 require('../components/user/navigation');
@@ -5,9 +7,17 @@ require('../components/tags/sidebar');
 
 // Automatic dropdown on hover
 $(".dropdown-button").dropdown({
-    hover: true,
+    hover: false,
+    gutter: 0,
     belowOrigin: true
 });
+
+// Initialize SideNav
+$('.navbar-fixed .button-collapse').sideNav({
+        menuWidth: 350, // Default is 240
+        edge: 'left' // Choose the horizontal origin
+    }
+);
 
 // Header : close side nav on click for preferences and tags
 $('.button-collapse').click(function (event) {

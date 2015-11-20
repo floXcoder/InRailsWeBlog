@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleActions = require('../actions/articleActions');
 
 var History = require('../mixins/history');

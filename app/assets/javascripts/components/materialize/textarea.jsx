@@ -1,3 +1,5 @@
+"use strict";
+
 var Textarea = React.createClass({
     propTypes: {
         id: React.PropTypes.string.isRequired,

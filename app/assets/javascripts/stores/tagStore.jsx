@@ -1,3 +1,5 @@
+"use strict";
+
 var TagActions = require('../actions/tagActions');
 
 var TagStore = Reflux.createStore({

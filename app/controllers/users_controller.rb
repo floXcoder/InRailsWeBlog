@@ -43,8 +43,6 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     authorize user
 
-    w params
-
     if params[:preferences]
       params[:preferences].each do |pref_type, pref_value|
         if pref_value == 'true'
@@ -56,8 +54,6 @@ class UsersController < ApplicationController
       end
       user.save
     end
-
-    w user.preferences
 
     respond_to do |format|
       format.html { render json: user, serializer: PreferenceSerializer, content_type: 'application/json' }

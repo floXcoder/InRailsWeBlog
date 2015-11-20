@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleBookmarkIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,

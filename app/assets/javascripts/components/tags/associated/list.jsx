@@ -1,3 +1,5 @@
+"use strict";
+
 var TagList = React.createClass({
     propTypes: {
         tags: React.PropTypes.array.isRequired,

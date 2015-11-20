@@ -1,3 +1,5 @@
+"use strict";
+
 var ArticleForm = require('./form');
 
 require('../../wysiwyg/summernote');

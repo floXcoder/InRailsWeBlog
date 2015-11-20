@@ -1,3 +1,5 @@
+"use strict";
+
 var TypeaheadSelector = require('./selector');
 var fuzzy = require('fuzzy');
 var classNames = require('classnames');

@@ -1,3 +1,5 @@
+"use strict";
+
 var Spinner = React.createClass({
     propTypes: {
         size: React.PropTypes.string

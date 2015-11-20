@@ -1,3 +1,5 @@
+"use strict";
+
 var Spinner = require('./spinner');
 
 var InfiniteScroll = React.createClass({

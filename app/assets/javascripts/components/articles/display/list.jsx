@@ -1,3 +1,5 @@
+"use strict";
+
 var InfiniteScroll = require('../../../components/materialize/infiniteScroll');
 
 var ArticleActions = require('../../../actions/articleActions');

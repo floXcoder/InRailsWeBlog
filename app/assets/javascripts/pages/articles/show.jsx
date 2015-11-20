@@ -1,3 +1,5 @@
+"use strict";
+
 require('../common');
 
 var ArticleShow = require('../../components/articles/show');

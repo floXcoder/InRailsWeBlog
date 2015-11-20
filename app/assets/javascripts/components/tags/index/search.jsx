@@ -1,3 +1,5 @@
+"use strict";
+
 var Input = require('../../../components/materialize/input');
 
 var SearchBar = React.createClass({

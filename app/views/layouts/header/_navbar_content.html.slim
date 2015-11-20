@@ -24,7 +24,7 @@ li
       = t('views.header.preferences')
 - else
   li
-    = link_to login_path, remote: true, class: 'tooltipped', data: {tooltip: t('views.header.preferences_not_connected')}
+    a.tooltipped data-tooltip="#{t('views.header.preferences_not_connected')}"
       i.material-icons.right view_modules
       = t('views.header.preferences')
 

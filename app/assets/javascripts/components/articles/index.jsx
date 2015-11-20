@@ -1,3 +1,5 @@
+"use strict";
+
 var Spinner = require('../../components/materialize/spinner');
 
 var UserStore = require('../../stores/userStore');

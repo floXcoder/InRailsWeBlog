@@ -1,3 +1,5 @@
+"use strict";
+
 var Switch = React.createClass({
     propTypes: {
         values: React.PropTypes.object.isRequired,

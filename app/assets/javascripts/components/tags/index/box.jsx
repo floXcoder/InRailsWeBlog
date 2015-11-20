@@ -1,3 +1,5 @@
+"use strict";
+
 var IndexTagList = require('./list');
 var SearchBar = require('./search');
 var TagStore = require('../../../stores/tagStore');

@@ -1,3 +1,5 @@
+"use strict";
+
 require('imports?require=>false!imports?define=>false!history.js/history');
 
 (function (window, undefined) {

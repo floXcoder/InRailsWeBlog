@@ -1,12 +1,10 @@
+"use strict";
+
 var HighlightCode = require('highlight.js');
 
 var ArticleInlineDisplay = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired
-    },
-
-    componentDidMount: function () {
-        this._setupEditor();
     },
 
     componentDidMount: function () {

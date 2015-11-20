@@ -1,4 +1,12 @@
 SimpleConfig.for :application do
+  # Screen size
+  set :small_screen_up, 601
+  set :medium_screen_up, 993
+  set :large_screen_up, 1201
+  set :small_screen, 600
+  set :medium_screen, 992
+  set :large_screen, 1200
+
   # Default user preferences
   set :article_display,   'card'
   set :multi_language,    false

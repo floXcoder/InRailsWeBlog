@@ -1,3 +1,5 @@
+"use strict";
+
 var AssociatedTagList = require('./list');
 var ArticleActions = require('../../../actions/articleActions');
 var ArticleStore = require('../../../stores/articleStore');

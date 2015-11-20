@@ -1,3 +1,5 @@
+"use strict";
+
 var RadioButtons = React.createClass({
     propTypes: {
         buttons: React.PropTypes.object.isRequired,

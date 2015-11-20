@@ -80,6 +80,13 @@
   }
 }
 
+// Tooltip : do not show for small screen
+@media #{$medium-and-down} {
+  .material-tooltip {
+    display: none !important;
+  }
+}
+
 
 // Go to top
 .goto-top {

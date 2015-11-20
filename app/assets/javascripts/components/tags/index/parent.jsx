@@ -1,3 +1,5 @@
+"use strict";
+
 var ChildTag = require('./child');
 
 var ParentTag = React.createClass({
