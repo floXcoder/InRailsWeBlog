@@ -19,11 +19,11 @@
 // Large button
 .btn-small {
   @extend .btn;
-  height: $button-height * 0.7;
-  line-height: 26px;
+  height: 2rem;
+  line-height: 2rem;
 
   i {
-    font-size: $button-font-size-shared * 0.7;
+    font-size: 2rem;
   }
 }
 
@@ -113,13 +113,13 @@
   position: fixed;
   right: 40px;
   text-decoration: underline;
-  transition: opacity 0.6s, visibility 0.6s;
+  transition: opacity .6s, visibility .6s;
   width: 60px;
 
   &:hover {
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.27);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.27);
     opacity: 1;
-    transition: opacity 0.6s, visibility 0.63s;
+    transition: opacity .6s, visibility .63s;
   }
 }
 
