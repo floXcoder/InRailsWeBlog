@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var App = function() {
     //this.views = {

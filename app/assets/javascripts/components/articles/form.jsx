@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var Input = require('../../components/materialize/input');
 var Button = require('../../components/materialize/button');
@@ -21,10 +21,11 @@ var ArticleForm = React.createClass({
         article: React.PropTypes.object,
         multiLanguage: React.PropTypes.bool,
         temporary: React.PropTypes.bool,
+        onCancel: React.PropTypes.func,
         onSubmit: React.PropTypes.func
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             article: null,
             tags: null,
@@ -34,7 +35,7 @@ var ArticleForm = React.createClass({
         };
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {
             multiLanguage: this.props.multiLanguage || false,
             editors: {},
@@ -43,7 +44,7 @@ var ArticleForm = React.createClass({
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         if (this.state.multiLanguage) {
             $('.article-form ul.tabs').tabs();
 
@@ -60,9 +61,8 @@ var ArticleForm = React.createClass({
         if (this.props.article) {
             window.onbeforeunload = function (event) {
                 if (!this.state.isSubmitted) {
-                    var message;
                     event = event || window.event;
-                    message = I18n.t('js.article.edit.exit');
+                    let message = I18n.t('js.article.edit.exit');
                     if (event) {
                         event.returnValue = message;
                     }
@@ -83,7 +83,7 @@ var ArticleForm = React.createClass({
         TagActions.fetchTags();
     },
 
-    componentWillUpdate: function () {
+    componentWillUpdate () {
         if (this.state.multiLanguage) {
             this._removeEditor('#english-editor');
             this._removeEditor('#french-editor');
@@ -92,7 +92,7 @@ var ArticleForm = React.createClass({
         }
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate () {
         if (this.state.multiLanguage) {
             $('.article-form ul.tabs').tabs();
 
@@ -108,7 +108,7 @@ var ArticleForm = React.createClass({
         }
     },
 
-    onPreferenceChange: function (userStore) {
+    onPreferenceChange (userStore) {
         var newState = {};
 
         if (!$.isEmpty(userStore.preferences)) {
@@ -122,16 +122,16 @@ var ArticleForm = React.createClass({
         }
     },
 
-    _createEditor: function (id) {
+    _createEditor (id) {
         if (this.state.editors[id]) {
             return;
         }
 
         this.state.editors[id] = true;
 
-        var $editor = $(id);
+        let $editor = $(id);
 
-        var toolbar = [
+        let toolbar = [
             ['style', ['style', 'bold', 'italic', 'underline']],
             ['specialStyle', ['specialStyle']],
             ['undo', ['undo', 'redo']],
@@ -148,15 +148,15 @@ var ArticleForm = React.createClass({
             followingToolbar: true,
             height: 300,
             callbacks: {
-                onKeyup: function (event) {
+                onKeyup: (event) => {
                     this._handleEditorChange(event);
                     return true;
-                }.bind(this)
+                }
             }
         });
     },
 
-    _removeEditor: function (id) {
+    _removeEditor (id) {
         this.state.editors[id] = false;
 
         var $editor = $(id);
@@ -167,17 +167,17 @@ var ArticleForm = React.createClass({
         }
     },
 
-    _updateFields: function () {
+    _updateFields () {
         if (this.state.multiLanguage) {
-            ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value = this.props.article.title_en;
-            ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value = this.props.article.summary_en;
-            ReactDOM.findDOMNode(this.refs.frenchTitle.refs.frenchTitle).value = this.props.article.title_fr;
-            ReactDOM.findDOMNode(this.refs.frenchSummary.refs.frenchSummary).value = this.props.article.summary_fr;
+            this.refs.englishTitle.setValue(this.props.article.title_en);
+            this.refs.englishSummary.setValue(this.props.article.summary_en);
+            this.refs.frenchTitle.setValue(this.props.article.title_fr);
+            this.refs.frenchSummary.setValue(this.props.article.summary_fr);
             $('#english-editor').summernote('code', this.props.article.content_en);
             $('#french-editor').summernote('code', this.props.article.content_fr);
         } else {
-            ReactDOM.findDOMNode(this.refs.title.refs.title).value = this.props.article.title;
-            ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = this.props.article.summary;
+            this.refs.title.setValue(this.props.article.title);
+            this.refs.summary.setValue(this.props.article.summary);
             $('#single-editor').summernote('code', this.props.article.content);
             $('#single-editor').summernote('focus');
         }
@@ -189,7 +189,7 @@ var ArticleForm = React.createClass({
         this.refs.submit.setState({disabled: false});
     },
 
-    _handleEditorChange: function (event) {
+    _handleEditorChange (event) {
         var text = event.currentTarget.textContent;
 
         if (text.length < window.parameters.content_min_length) {
@@ -203,7 +203,7 @@ var ArticleForm = React.createClass({
         if (!this.state.isLink && $.isURL(text.trim())) {
             this.state.isLink = true;
             this.refs.isLink.setState({checked: true});
-            var $singleEditor = $('#single-editor');
+            let $singleEditor = $('#single-editor');
             $singleEditor.summernote('code', '');
             $singleEditor.summernote('createLink', {
                 text: text.trim(),
@@ -216,20 +216,21 @@ var ArticleForm = React.createClass({
         }
     },
 
-    _onBlurSummary: function (event) {
+    _onBlurSummary (event) {
         $('#single-editor').summernote('focus');
         return true;
     },
 
-    _serializeEditor: function () {
+    _serializeEditor () {
         var submitData = {};
 
         if (this.state.multiLanguage) {
-            var englishTitle = ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value.trim();
-            var englishSummary = ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value.trim();
+            var englishTitle = this.refs.englishTitle.value().trim();
+            var englishSummary = this.refs.englishSummary.value().trim();
             var englishContent = $('#english-editor').summernote('code');
-            var frenchTitle = ReactDOM.findDOMNode(this.refs.frenchTitle.refs.frenchTitle).value.trim();
-            var frenchSummary = ReactDOM.findDOMNode(this.refs.frenchSummary.refs.frenchSummary).value.trim();
+
+            var frenchTitle = this.refs.frenchTitle.value().trim();
+            var frenchSummary = this.refs.frenchSummary.value().trim();
             var frenchContent = $('#french-editor').summernote('code');
 
             if ((!englishTitle && !englishContent) && (!frenchTitle && !frenchContent)) {
@@ -256,9 +257,9 @@ var ArticleForm = React.createClass({
             };
         } else {
             var $singleEditor = $('#single-editor');
-            var title = ReactDOM.findDOMNode(this.refs.title.refs.title).value.trim();
-            var summary = ReactDOM.findDOMNode(this.refs.summary.refs.summary).value.trim();
-            var content = $singleEditor.summernote('code');
+            let title = this.refs.title.value().trim();
+            let summary = this.refs.summary.value().trim();
+            let content = $singleEditor.summernote('code');
 
             if (!content && !title) {
                 return;
@@ -269,36 +270,36 @@ var ArticleForm = React.createClass({
         return submitData;
     },
 
-    _serializeTag: function () {
-        var submitData = {};
+    _serializeTag () {
+        let submitData = {};
 
-        var tags = this.refs.tagsinput.state.selectedTags;
+        let tags = this.refs.tagsinput.selectedTags();
         _.merge(submitData, {tags_attributes: tags});
 
         return submitData;
     },
 
-    _resetForm: function () {
+    _resetForm () {
         if (this.state.multiLanguage) {
-            ReactDOM.findDOMNode(this.refs.englishTitle.refs.englishTitle).value = '';
-            ReactDOM.findDOMNode(this.refs.englishSummary.refs.englishSummary).value = '';
-            ReactDOM.findDOMNode(this.refs.frenchTitle.refs.frenchTitle).value = '';
-            ReactDOM.findDOMNode(this.refs.frenchSummary.refs.frenchSummary).value = '';
+            this.refs.englishTitle.setValue('');
+            this.refs.englishSummary.setValue('');
+            this.refs.frenchTitle.setValue('');
             $('#english-editor').summernote('code', '');
+            this.refs.frenchSummary.setValue('');
             $('#french-editor').summernote('code', '');
         } else {
-            ReactDOM.findDOMNode(this.refs.title.refs.title).value = '';
-            ReactDOM.findDOMNode(this.refs.summary.refs.summary).value = '';
+            this.refs.title.setValue('');
+            this.refs.summary.setValue('');
             $('#single-editor').summernote('code', '');
         }
         this.state.isLink = false;
         this.refs.isLink.setState({checked: false});
         this.refs.temporary.setState({checked: false});
         this.refs.submit.setState({disabled: true});
-        this.refs.tagsinput.state.selectedTags = [];
+        this.refs.tagsinput.resetSelectedTags();
     },
 
-    _cancelForm: function (event) {
+    _handleCancelClick (event) {
         event.preventDefault();
 
         this.props.onCancel();
@@ -306,23 +307,23 @@ var ArticleForm = React.createClass({
         this.setState({isSubmitted: false});
     },
 
-    _handleSubmit: function (event) {
+    _handleSubmit (event) {
         event.preventDefault();
         this.state.isSubmitted = true;
 
-        var submitData = {};
+        let submitData = {};
 
         // Editor content
         _.merge(submitData, this._serializeEditor());
         // Tags
         _.merge(submitData, this._serializeTag());
         // Temporary checkbox
-        _.merge(submitData, {temporary: this.refs.temporary.state.checked});
+        _.merge(submitData, {temporary: this.refs.temporary.isChecked()});
         // isLink checkbox
         _.merge(submitData, {is_link: this.state.isLink});
         // Visibility
-        if (this.refs.visibility.state.value !== 'default') {
-            _.merge(submitData, {visibility: this.refs.visibility.state.value});
+        if (this.refs.visibility.value() !== 'default') {
+            _.merge(submitData, {visibility: this.refs.visibility.value()});
         }
 
         // Article id and fromEditPage if article exist
@@ -341,7 +342,7 @@ var ArticleForm = React.createClass({
         }
     },
 
-    _submitNow: function (event) {
+    _submitNow (event) {
         event.preventDefault();
 
         var submitData = {};
@@ -354,25 +355,23 @@ var ArticleForm = React.createClass({
             _.merge(submitData, {is_link: this.state.isLink});
         }
 
-        var requestParam = {};
+        let requestParam = {};
         requestParam.articles = submitData;
 
-        $.ajax({
-            url: '/articles',
-            async: false,
-            dataType: 'json',
-            type: 'POST',
-            data: requestParam,
-            success: function (data) {
-                return true;
-            },
-            error: function (xhr, status, error) {
-                return false;
-            }
-        });
+        if(submitData.content && submitData.content.length > 3) {
+            $.ajax({
+                url: '/articles',
+                async: false,
+                dataType: 'json',
+                type: 'POST',
+                data: requestParam,
+                success: (data) => { return true },
+                error: (xhr, status, error) => { return false }
+            });
+        }
     },
 
-    _createFields: function () {
+    _createFields () {
         if (this.state.multiLanguage) {
             return (
                 <div className="row">
@@ -391,7 +390,8 @@ var ArticleForm = React.createClass({
                         </ul>
                     </div>
                     <div className="col s12" id="english-form">
-                        <Input ref="englishTitle" id="englishTitle" classType="important"
+                        <Input ref="englishTitle" id="englishTitle"
+                               classType="important"
                                minLength={window.parameters.title_min_length}
                                maxLength={window.parameters.title_max_length}>
                             {I18n.t('js.article.model.title')}
@@ -446,12 +446,12 @@ var ArticleForm = React.createClass({
         }
     },
 
-    render: function () {
+    render () {
         if (this.props.article) {
-            var childTags = _.indexBy(this.props.article.child_tags, 'id');
-            var parentTags = _.indexBy(this.props.article.parent_tags, 'id');
+            let childTags = _.indexBy(this.props.article.child_tags, 'id');
+            let parentTags = _.indexBy(this.props.article.parent_tags, 'id');
             var tags = this.props.article.tags.map(function (tag) {
-                var tagWithRelation = tag;
+                let tagWithRelation = tag;
                 if (parentTags[tag.id]) {
                     tagWithRelation.parent = true;
                 } else if (childTags[tag.id]) {
@@ -461,7 +461,7 @@ var ArticleForm = React.createClass({
             }.bind(this));
         }
 
-        var article = this.props.article || {};
+        let article = this.props.article || {};
 
         return (
             <form className="article-form" onSubmit={this._handleSubmit}>
@@ -472,7 +472,7 @@ var ArticleForm = React.createClass({
                     <div className="col l6 m6 s12">
                         {I18n.t('js.article.new.tags.title')}
                         <TagsInput ref="tagsinput"
-                                   selectedTags={tags || []}/>
+                                   initialSelectedTags={tags}/>
                     </div>
 
                     <div className="col s6 m6 l3">
@@ -506,7 +506,7 @@ var ArticleForm = React.createClass({
                     </div>
                     <div className="col s6 right-align">
                         <a className="waves-effect waves-teal btn-flat"
-                           onClick={this._cancelForm}>
+                           onClick={this._handleCancelClick}>
                             {I18n.t('js.buttons.cancel')}
                         </a>
                     </div>

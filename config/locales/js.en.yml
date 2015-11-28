@@ -1,6 +1,43 @@
 en:
   js:
+    common:
+      website_name: "In Rails We Blog"
+      email: "blog@inrailsweblog.com"
     user:
+      login:
+        title: "Log In"
+        login: "Pseudo or Email"
+        password: "Password"
+        remember_me: "Remember me"
+        cancel: "Cancel"
+        submit: "Log in"
+      signup:
+        title: "Create an account"
+        pseudo: "Pseudo"
+        email: "Email"
+        password: "Password"
+        confirm_password: "Password checking"
+        terms_of_use: "By subscribing on InRailsWeBlog, you accept our"
+        terms_of_use_name: "terms of use."
+        cancel: "Cancel"
+        submit: "Create my account"
+      errors:
+        login:
+          required: "Please enter your email or pseudo"
+          invalid: "doesn't exist, please enter a valid email address or pseudo"
+        pseudo:
+          required: "Please enter a pseudo"
+          size: "Your Pseudo must be %{min} and %{max} characters"
+          already_taken: "is already taken, please choose another"
+        email:
+          required: "Please enter an email address"
+          format: "Your email address is invalid"
+          already_taken: "is already taken, please choose another"
+        password:
+          required: "Please enter a password"
+          size: "Your Password must be %{min} and %{max} characters"
+          mismatch: "Password and password confirmation mismatch"
+        policy: "Please agree to our policy"
       preferences:
         article:
           title: "Articles"
@@ -68,6 +105,8 @@ en:
         restore: "Restore this version"
         none: "No history for this article!"
         restored: "Version restored"
+      clipboard:
+        toast: "You pasted some text, a new temporary article has been created."
       tag:
         url: "Tag:"
       visibility:
@@ -80,6 +119,7 @@ en:
       list: "All tags"
       associated: "Associated tags"
       filter: "Filter by Tag..."
+      no_results: "No tags found for:"
     checkbox:
       on: "On"
       off: "Off"

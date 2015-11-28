@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var ArticleEditIcon = React.createClass({
     propTypes: {
@@ -7,13 +7,13 @@ var ArticleEditIcon = React.createClass({
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null
         };
     },
 
-    render: function () {
+    render () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
             return (
                 <div className="article-icons tooltipped"

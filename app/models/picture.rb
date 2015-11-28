@@ -20,8 +20,8 @@ class Picture < ActiveRecord::Base
   store_in_background :image
 
   # Parameters validation
-  validates   :imageable_type,  presence: true
-  validate    :image_size
+  validates :imageable_type, presence: true
+  validate :image_size
 
   private
 

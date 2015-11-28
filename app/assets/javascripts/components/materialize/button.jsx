@@ -1,14 +1,15 @@
-"use strict";
+'use strict';
 
 var Button = React.createClass({
     propTypes: {
+        children: React.PropTypes.string.isRequired,
         onClickButton: React.PropTypes.func,
         tooltip: React.PropTypes.string,
         icon: React.PropTypes.string,
         id: React.PropTypes.string
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             onClickButton: null,
             tooltip: null,
@@ -17,13 +18,31 @@ var Button = React.createClass({
         };
     },
 
-    getInitialState: function() {
+    getInitialState() {
         return {
             disabled: true
         };
     },
 
-    _displayIcon: function () {
+    componentDidMount () {
+        if(this.state.tooltip) {
+            let selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
+            $(selector).tooltip();
+        }
+    },
+
+    componentDidUpdate () {
+        if(this.props.tooltip) {
+            let selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
+            $(selector).tooltip();
+        }
+    },
+
+    toggleButton() {
+        this.setState({disabled: !this.state.disabled});
+    },
+
+    renderIcon () {
         if (this.props.icon) {
             return (
                 <i className="material-icons right">{this.props.icon}</i>
@@ -31,21 +50,7 @@ var Button = React.createClass({
         }
     },
 
-    componentDidMount: function () {
-        if(this.state.tooltip) {
-            var selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
-            $(selector).tooltip();
-        }
-    },
-
-    componentDidUpdate: function () {
-        if(this.props.tooltip) {
-            var selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
-            $(selector).tooltip();
-        }
-    },
-
-    render: function () {
+    render () {
         if(this.props.tooltip) {
             return (
                 <button className="btn waves-effect waves-light tooltipped"
@@ -57,7 +62,7 @@ var Button = React.createClass({
                         data-delay="50"
                         data-tooltip={this.props.tooltip}
                         disabled={this.state.disabled} >
-                    { this._displayIcon() }
+                    { this.renderIcon() }
                     {this.props.children}
                 </button>
             );
@@ -68,7 +73,7 @@ var Button = React.createClass({
                         method="post"
                         onClick={this.props.onClickButton}
                         disabled={this.state.disabled} >
-                    { this._displayIcon() }
+                    { this.renderIcon() }
                     {this.props.children}
                 </button>
             );

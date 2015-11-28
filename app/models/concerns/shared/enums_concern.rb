@@ -1,7 +1,7 @@
 module Shared::EnumsConcern
   extend ActiveSupport::Concern
 
-  VISIBILITY            = [ :everyone, :only_me ]
+  VISIBILITY = [:everyone, :only_me]
   # VISIBILITY            = [ :everyone, :only_me, :selected_group ]
 
   included do

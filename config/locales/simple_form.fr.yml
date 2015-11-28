@@ -1,10 +1,10 @@
 fr:
   simple_form:
-    yes: 'Oui'
-    no: 'Non'
+    yes: "Oui"
+    no: "Non"
     required:
-      text: 'obligatoire'
-      mark: '*'
+      text: "obligatoire"
+      mark: "*"
     error_notification:
       default_message: "Merci de corriger les problèmes ci-dessous :"
     labels:

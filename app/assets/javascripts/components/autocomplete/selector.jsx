@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var TypeaheadOption = require('./option');
 var classNames = require('classnames');
@@ -19,27 +19,31 @@ var TypeaheadSelector = React.createClass({
         defaultClassNames: React.PropTypes.bool
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             selectionIndex: null,
             customClasses: {},
             customValue: null,
-            onOptionSelected: function (option) {
+            onOptionSelected (option) {
             },
             defaultClassNames: true
         };
     },
 
-    render: function () {
-        var classes = {
+    _handleItemClick (result, event) {
+        return this.props.onOptionSelected(result, event);
+    },
+
+    render () {
+        let classes = {
             "typeahead-selector": this.props.defaultClassNames
         };
         classes[this.props.customClasses.results] = this.props.customClasses.results;
-        var classList = classNames(classes);
+        let classList = classNames(classes);
 
         // CustomValue should be added to top of results list with different class name
-        var customValue = null;
-        var customValueOffset = 0;
+        let customValue = null;
+        let customValueOffset = 0;
         if (this.props.customValue !== null) {
             customValueOffset++;
             customValue = (
@@ -48,16 +52,16 @@ var TypeaheadSelector = React.createClass({
                         hover: this.props.selectionIndex === 0,
                         customClasses: this.props.customClasses,
                         customValue: this.props.customValue,
-                        onClick: this._onClick.bind(this, this.props.customValue)
+                        onClick: this._handleItemClick.bind(this, this.props.customValue)
                     },
                     this.props.customValue
                 )
             );
         }
 
-        var results = this.props.options.map(function (result, i) {
-            var displayString = this.props.displayOption(result, i);
-            var uniqueKey = (displayString.ref || displayString) + '_' + i;
+        let results = this.props.options.map(function (result, i) {
+            let displayString = this.props.displayOption(result, i);
+            let uniqueKey = (displayString.ref || displayString) + '_' + i;
             return (
                 React.createElement(TypeaheadOption, {
                         ref: uniqueKey, key: uniqueKey,
@@ -77,12 +81,7 @@ var TypeaheadSelector = React.createClass({
                 results
             )
         );
-    },
-
-    _onClick: function (result, event) {
-        return this.props.onOptionSelected(result, event);
     }
-
 });
 
 module.exports = TypeaheadSelector;

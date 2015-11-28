@@ -73,7 +73,7 @@ $gridUnit: 26px;
 .editorDialogs .modal, .note-editor .modal {
   background-color: $toolbarColor;
   color: $toolbarTextColor;
-  z-index: 1057 !important;
+  //z-index: 30 !important;
   backface-visibility: hidden;
   margin: auto;
 
@@ -217,7 +217,7 @@ $gridUnit: 26px;
     color: $toolbarTextColor;
     background-color: $toolbarColor;
     margin: 0;
-    z-index: 980;
+    z-index: 20;
 
     ul {
       padding: 0;
@@ -343,7 +343,7 @@ $gridUnit: 26px;
   }
 
   .dropdown-content {
-    z-index: 1033;
+    z-index: 25;
     overflow: hidden;
 
     &.note-check {
@@ -451,7 +451,7 @@ $gridUnit: 26px;
   max-width: none;
   color: $toolbarTextColor;
   display: none;
-  z-index: 960;
+  z-index: 26;
 
   .arrow {
     position: relative;
@@ -626,7 +626,7 @@ $gridUnit: 26px;
 .note-editor {
   .note-dropzone {
     position: absolute;
-    z-index: 100;
+    z-index: 26;
     display: none;
     color: #87cefa;
     background-color: white;
@@ -652,7 +652,7 @@ $gridUnit: 26px;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 2021;
+    z-index: 15;
     width: 100%;
 
     .note-editable {

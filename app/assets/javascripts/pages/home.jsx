@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 require('./common');
 
@@ -24,3 +24,4 @@ ReactDOM.render(
     <ArticleIndex userId={currentUserId} />,
     document.getElementById('react-main')
 );
+

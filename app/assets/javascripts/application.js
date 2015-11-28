@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // jQuery
 require('expose?$!expose?jQuery!jquery');
@@ -32,8 +32,30 @@ $app.start();
 $app.moduleHelper = require('./modules/module-helper');
 
 // Configure log level
-if (window._rails_env === 'development') {
+if (window.railsEnv === 'development') {
     log.setLevel('info');
+    var screenLog = require('./modules/screenLog');
+    screenLog.init({freeConsole: true});
+    log.now = function (data, colorStyle) {
+        screenLog.log(data, colorStyle);
+    };
+    window.onerror = function (msg, url, linenumber) {
+        log.now('Error: ' + msg + ' (File: ' + url + ' ; ' + linenumber + ')', 'red');
+        return false;
+    }.bind(log);
 } else {
     log.setLevel('warn');
+    log.now = function () {
+    };
+}
+
+// IE10 viewport hack for Surface/desktop Windows 8 bug
+if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+    var msViewportStyle = document.createElement('style');
+    msViewportStyle.appendChild(
+        document.createTextNode(
+            '@-ms-viewport{width:auto!important}'
+        )
+    );
+    document.querySelector('head').appendChild(msViewportStyle);
 }

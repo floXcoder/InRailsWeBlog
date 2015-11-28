@@ -28,12 +28,12 @@
 #              user_unlock POST   /users/unlock(.:format)           devise/unlocks#create
 #          new_user_unlock GET    /users/unlock/new(.:format)       devise/unlocks#new
 #                          GET    /users/unlock(.:format)           devise/unlocks#show
+#         validation_users GET    /users/validation(.:format)       users#validation {:has_many=>:comments}
 #                root_user GET    /users/:id(.:format)              users#show {:has_many=>:comments}
 #          preference_user GET    /users/:id/preference(.:format)   users#preference {:has_many=>:comments}
 #   update_preference_user POST   /users/:id/preference(.:format)   users#update_preference {:has_many=>:comments}
 #           temporary_user GET    /users/:id/temporary(.:format)    users#temporary {:has_many=>:comments}
 #            bookmark_user GET    /users/:id/bookmark(.:format)     users#bookmark {:has_many=>:comments}
-#                 id_users GET    /users/id(.:format)               users#check_id {:has_many=>:comments}
 #                    users GET    /users(.:format)                  users#index {:has_many=>:comments}
 #                          POST   /users(.:format)                  users#create {:has_many=>:comments}
 #                 new_user GET    /users/new(.:format)              users#new {:has_many=>:comments}
@@ -42,11 +42,11 @@
 #                          PATCH  /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          PUT    /users/:id(.:format)              users#update {:has_many=>:comments}
 #                          DELETE /users/:id(.:format)              users#destroy {:has_many=>:comments}
+#          search_articles GET    /articles/search(.:format)        articles#search {:has_many=>:comments}
+#    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete {:has_many=>:comments}
 #          history_article GET    /articles/:id/history(.:format)   articles#history {:has_many=>:comments}
 #          restore_article GET    /articles/:id/restore(.:format)   articles#restore {:has_many=>:comments}
 #         bookmark_article POST   /articles/:id/bookmark(.:format)  articles#bookmark {:has_many=>:comments}
-#          search_articles GET    /articles/search(.:format)        articles#search {:has_many=>:comments}
-#    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete {:has_many=>:comments}
 #                 articles GET    /articles(.:format)               articles#index {:has_many=>:comments}
 #                          POST   /articles(.:format)               articles#create {:has_many=>:comments}
 #              new_article GET    /articles/new(.:format)           articles#new {:has_many=>:comments}
@@ -72,7 +72,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
 
   # Root path
-  root                  'static_pages#home'
+  root  'static_pages#home'
 
   # User with devise
   devise_scope :user do
@@ -87,6 +87,10 @@ Rails.application.routes.draw do
                                     passwords: 'users/passwords' }
 
   resources :users, has_many: :comments do
+    collection do
+      get :validation,      to: 'users#validation'
+    end
+
     member do
       get   :show,          to: 'users#show',               as: :root
       get   :preference,    to: 'users#preference',         as: :preference
@@ -94,23 +98,19 @@ Rails.application.routes.draw do
       get   :temporary,     to: 'users#temporary',          as: :temporary
       get   :bookmark,      to: 'users#bookmark',           as: :bookmark
     end
-
-    collection do
-      get :id,            to: 'users#check_id'
-    end
   end
 
   # Articles
   resources :articles, has_many: :comments do
-    member do
-      get :history,       to: 'articles#history'
-      get :restore,       to: 'articles#restore'
-      post :bookmark,     to: 'articles#bookmark'
+    collection do
+      get   :search,        to: 'articles#search'
+      get   :autocomplete,  to: 'articles#autocomplete'
     end
 
-    collection do
-      get :search,        to: 'articles#search'
-      get :autocomplete,  to: 'articles#autocomplete'
+    member do
+      get   :history,   to: 'articles#history'
+      get   :restore,   to: 'articles#restore'
+      post  :bookmark,  to: 'articles#bookmark'
     end
   end
 
@@ -119,7 +119,7 @@ Rails.application.routes.draw do
   end
 
   # Static pages
-  get :terms_of_use,      to: 'static_pages#terms_of_use'
+  get   :terms_of_use,  to: 'static_pages#terms_of_use'
 
   # Sidekiq interface
   mount Sidekiq::Web => '/sidekiq'

@@ -1,1 +1,1 @@
-module.exports = require('./frontend/webpack/development.config.js');
+export require('./frontend/webpack/development.config.js');

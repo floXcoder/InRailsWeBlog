@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var ArticleHistoryIcon = React.createClass({
     propTypes: {
@@ -7,13 +7,13 @@ var ArticleHistoryIcon = React.createClass({
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null
         };
     },
 
-    render: function () {
+    render () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
             var historyTooltip = I18n.t('js.article.tooltip.history');
 

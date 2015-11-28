@@ -18,8 +18,8 @@ class TagRelationship < ActiveRecord::Base
   serialize :article_ids, Array
 
   # Parameters validation
-  validates :parent_id,  presence: true, on: :update
-  validates :child_id,   presence: true, on: :update
+  validates :parent_id, presence: true, on: :update
+  validates :child_id, presence: true, on: :update
 
   validates_uniqueness_of :parent_id, scope: :child_id, allow_nil: true
 end

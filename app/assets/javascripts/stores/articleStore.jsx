@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 var ArticleActions = require('../actions/articleActions');
 
-var History = require('../mixins/history');
+var History = require('../modules/mixins/history');
 
 var ArticleStore = Reflux.createStore({
     mixins: [History],
@@ -98,11 +98,12 @@ var ArticleStore = Reflux.createStore({
             title = I18n.t('js.article.tag.url') + ' ' + data.relationTags;
         }
         if (data.page && (data.page === '1' || data.page === 1)) {
-            savedParams = _.omit(data, 'page')
+            savedParams = _.omit(data, 'page');
         }
 
         savedParams = _.omit(savedParams, 'userId');
 
+        title = `${I18n.t('js.common.website_name')} | ${title}`;
         this.saveState(savedParams, {title: title});
     },
 
@@ -113,6 +114,8 @@ var ArticleStore = Reflux.createStore({
             } else if (error === 'Unprocessable Entity') {
                 Materialize.toast(I18n.t('js.article.model.errors.unprocessable'));
             }
+        } else {
+            log.error('Unknown Error in JSON request: ' + error);
         }
     },
 

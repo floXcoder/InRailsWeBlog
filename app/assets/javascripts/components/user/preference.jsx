@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var UserActions = require('../../actions/userAction');
+var UserActions = require('../../actions/userActions');
 var UserStore = require('../../stores/userStore');
 var RadioButtons = require('../../components/materialize/radioButtons');
 var Checkbox = require('../../components/materialize/switch');
@@ -10,46 +10,38 @@ var UserPreference = React.createClass({
         Reflux.listenTo(UserStore, 'onChangePreference')
     ],
 
-    getInitialState: function () {
+    getInitialState () {
         return {
             article_display: window.parameters.article_display,
             multi_language: window.parameters.multi_language,
             search_highlight: window.parameters.search_highlight,
             search_operator: window.parameters.search_operator,
-            search_exact: window.parameters.search_exact,
-            $userPrefDiv: null
+            search_exact: window.parameters.search_exact
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         $('a#toggle-user-pref').click(function (event) {
             event.preventDefault();
 
-            this.state.$userPrefDiv = $('.blog-user-pref');
+            var $userPrefDiv = $('.blog-user-pref');
 
-            if (this.state.$userPrefDiv.is(":visible")) {
-                this.state.$userPrefDiv.slideUp();
+            if ($userPrefDiv.is(":visible")) {
+                $userPrefDiv.slideUp();
             } else {
-                $('.button-collapse').sideNav('hide');
-                this.state.$userPrefDiv.slideDown(150, function () {
-                    $('.user-pref-collapsible').collapsible({
-                        accordion: true
-                    });
-                }.bind(this));
+                $('#toggle-navbar').sideNav('hide');
+                $userPrefDiv.slideDown(150);
             }
-
-            this.state.$userPrefDiv.mouseleave(function() {
-                this.state.$userPrefDiv.slideUp();
-            }.bind(this));
+            $userPrefDiv.mouseleave(() => $userPrefDiv.slideUp());
 
             return false;
         }.bind(this));
     },
 
     onChangePreference(userStore) {
-        var userPreferences = userStore.preferences;
+        let userPreferences = userStore.preferences;
         if (!$.isEmpty(userPreferences)) {
-            var newState = {};
+            let newState = {};
 
             if (userPreferences.article_display) {
                 newState.article_display = userPreferences.article_display;
@@ -71,42 +63,44 @@ var UserPreference = React.createClass({
         }
     },
 
-    _onDisplayChanged: function (event) {
-        var article_display = event.target.id;
+    _onDisplayChanged (event) {
+        let article_display = event.target.id;
         this.setState({article_display: event.target.id});
         UserActions.changeDisplay(article_display);
     },
 
-    _onMultiLanguageChanged: function (event) {
-        var multi_language = this.refs.multiLanguage.refs.checkbox.checked;
+    _onMultiLanguageChanged (event) {
+        let multi_language = this.refs.multiLanguage.refs.checkbox.checked;
         this.setState({multi_language: multi_language});
         UserActions.changeForm({multi_language: multi_language});
     },
 
-    _onHighlightChanged: function (event) {
-        var search_highlight = this.refs.searchHighlight.refs.checkbox.checked;
+    _onHighlightChanged (event) {
+        let search_highlight = this.refs.searchHighlight.refs.checkbox.checked;
         this.setState({search_highlight: search_highlight});
         UserActions.changeSearchOptions({search_highlight: search_highlight});
     },
 
-    _onOperatorSearchChanged: function (event) {
-        var search_operator = event.target.id;
+    _onOperatorSearchChanged (event) {
+        let search_operator = event.target.id;
         this.setState({search_operator: search_operator});
         UserActions.changeSearchOptions({search_operator: search_operator});
     },
 
-    _onExactSearchChanged: function (event) {
-        var search_exact = this.refs.searchExact.refs.checkbox.checked;
+    _onExactSearchChanged (event) {
+        let search_exact = this.refs.searchExact.refs.checkbox.checked;
         this.setState({search_exact: search_exact});
         UserActions.changeSearchOptions({search_exact: search_exact});
     },
 
-    render: function () {
+    render () {
         return (
             <div className="container center">
-                <ul data-collapsible="accordion" className="collapsible popout user-pref-collapsible">
+                <ul data-collapsible="accordion"
+                    className="collapsible popout user-pref-collapsible">
                     <li>
-                        <div className="collapsible-header"><i className="material-icons">list</i>
+                        <div className="collapsible-header">
+                            <i className="material-icons">list</i>
                             {I18n.t('js.user.preferences.article.title')}
                         </div>
                         <div className="collapsible-body">
@@ -129,7 +123,8 @@ var UserPreference = React.createClass({
                         </div>
                     </li>
                     <li>
-                        <div className="collapsible-header"><i className="material-icons">view_modules</i>
+                        <div className="collapsible-header">
+                            <i className="material-icons">view_modules</i>
                             {I18n.t('js.user.preferences.search.title')}
                         </div>
                         <div className="collapsible-body">

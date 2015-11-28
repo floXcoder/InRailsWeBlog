@@ -1963,14 +1963,14 @@
 
                 if ((currentOffset > activateOffset) && (currentOffset < deactivateOffsetBottom)) {
                     relativeOffset = currentOffset - $editor.offset().top + otherBarHeight;
-                    toolbar.css({'top': relativeOffset + 'px', 'z-index': 980});
+                    toolbar.css({'top': relativeOffset + 'px'});
                 } else {
                     if ((currentOffset < toolbarOffset) && (currentOffset < deactivateOffsetBottom)) {
-                        toolbar.css({'top': 0, 'z-index': 980});
+                        toolbar.css({'top': 0});
 
                         if (currentOffset > deactivateOffsetTop) {
                             relativeOffset = currentOffset - $editor.offset().top + otherBarHeight;
-                            toolbar.css({'top': relativeOffset + 'px', 'z-index': 980});
+                            toolbar.css({'top': relativeOffset + 'px'});
                         }
                     }
                 }
@@ -4631,6 +4631,10 @@
         var $editable = context.layoutInfo.editable;
         var $codable = context.layoutInfo.codable;
 
+        var options = context.options;
+        var otherBarHeight = $("." + options.otherStaticBarClass).outerHeight() - 1;
+        if (!otherBarHeight) otherBarHeight = 0;
+
         var $window = $(window);
         var $scrollbar = $('html, body');
 
@@ -4658,6 +4662,7 @@
                 }).trigger('resize');
 
                 $scrollbar.css('overflow', 'hidden');
+                $editor.css({'top': otherBarHeight + 'px'});
             } else {
                 $window.off('resize');
                 resize({

@@ -1,13 +1,14 @@
-"use strict";
+'use strict';
 
 var HighlightCode = require('highlight.js');
 
 var ArticleInlineDisplay = React.createClass({
     propTypes: {
+        children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         HighlightCode.configure({
             tabReplace: '  ' // 4 spaces
         });
@@ -15,21 +16,21 @@ var ArticleInlineDisplay = React.createClass({
         this._highlightCode();
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate () {
         this._highlightCode();
     },
 
-    _highlightCode: function () {
-        var domNode = ReactDOM.findDOMNode(this);
-        var nodes = domNode.querySelectorAll('pre code');
+    _highlightCode () {
+        let domNode = ReactDOM.findDOMNode(this);
+        let nodes = domNode.querySelectorAll('pre code');
         if (nodes.length > 0) {
-            for (var i = 0; i < nodes.length; i = i + 1) {
+            for (let i = 0; i < nodes.length; i = i + 1) {
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
     },
 
-    render: function () {
+    render () {
         return (
             <div className="blog-article-item">
                 <h4 className="article-title-inline">

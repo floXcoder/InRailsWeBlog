@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 var ArticleLinkIcon = React.createClass({
     propTypes: {
         isLink: React.PropTypes.bool.isRequired
     },
 
-    render: function () {
+    render () {
         if (this.props.isLink) {
             return (
                 <div className="article-icons tooltipped"

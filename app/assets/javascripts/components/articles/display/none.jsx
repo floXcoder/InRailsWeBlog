@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
 var ArticleNone = React.createClass({
-    render: function () {
+    render () {
         return (
             <div className="row">
                 <div className="col s6 offset-s3">

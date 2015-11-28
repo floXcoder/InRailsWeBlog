@@ -1,22 +1,23 @@
-"use strict";
+'use strict';
 
 var ChildTag = React.createClass({
     propTypes: {
         tag: React.PropTypes.object.isRequired,
-        onClickTag: React.PropTypes.func.isRequired
+        onClickTag: React.PropTypes.func.isRequired,
+        parentTagName: React.PropTypes.string.isRequired
     },
 
-    _onClickTag: function (tagName, event) {
+    _handleTagClick (tagName, event) {
         event.preventDefault();
-        this.props.onClickTag(this.props.parentTag.name, tagName);
+        this.props.onClickTag(this.props.parentTagName, tagName);
         return true;
     },
 
-    render: function () {
+    render () {
         return (
             <li className="">
                 <span className="waves-light btn-small tag-children"
-                      onClick={this._onClickTag.bind(this, this.props.tag.name)} >
+                      onClick={this._handleTagClick.bind(this, this.props.tag.name)}>
                     {this.props.tag.name}
                 </span>
             </li>

@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, except: [:check_id]
-  after_action :verify_authorized, except: [:index, :check_id]
+  before_filter :authenticate_user!, except: [:validation]
+  after_action :verify_authorized, except: [:index, :validation]
+
+  respond_to :html, :json
 
   def index
     users = User.all
@@ -81,32 +83,22 @@ class UsersController < ApplicationController
     end
   end
 
-  def check_id
-    result = 'false'
+  def validation
+    user = {}
 
-    if params[:pseudo]
-      pseudo = User.pseudo?(params[:pseudo])
-      result = 'true' unless pseudo
-    end
-
-    if params[:email]
-      email = User.email?(params[:email])
-      result = 'true' unless email
-    end
-
-    if params[:login]
-      login = User.login?(params[:login])
-      result = 'true' if login
+    if params[:user]
+      user[:pseudo] = User.pseudo?(user_validation_params[:pseudo]) if user_validation_params[:pseudo]
+      user[:email] = User.email?(user_validation_params[:email]) if user_validation_params[:email]
+      user[:login] = User.login?(user_validation_params[:login]) if user_validation_params[:login]
     end
 
     respond_to do |format|
-      format.json { render json: result }
-      format.html { render json: result }
+      format.json { render json: { user: user } }
+      format.html { render json: { user: user } }
     end
   end
 
   private
-
   def user_params
     params.require(:user).permit(:first_name,
                                  :last_name,
@@ -114,5 +106,13 @@ class UsersController < ApplicationController
                                  :city,
                                  :country,
                                  :additional_info)
+  end
+
+  def user_validation_params
+    params.require(:user).permit(:login,
+                                 :pseudo,
+                                 :email,
+                                 :password,
+                                 :remember_me)
   end
 end

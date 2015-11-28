@@ -4,13 +4,22 @@ source 'https://rubygems.org'
 ruby '2.2.3'
 
 # Rails version
-gem 'rails',                    '4.2.4'
+gem 'rails',                    '4.2.5'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '~> 0.18.3'
+gem 'pg',                       '~> 0.18.4'
 
-# Responders format
+# Dump database
+gem 'seed_dump',                '~> 3.2.2'
+
+# Dummy data
+gem 'factory_girl_rails',     '~> 4.5.0'
+gem 'faker',                  '~> 1.6.1'
+
+# HTTP Response
 gem 'responders',               '~> 2.1.0'
+gem 'http_accept_language',     '~> 2.0.2'
+gem 'secure_headers',           '~> 2.4.3'
 
 # JSON
 gem 'active_model_serializers', '~> 0.10.0.rc3'
@@ -19,7 +28,6 @@ gem 'active_model_serializers', '~> 0.10.0.rc3'
 gem 'slim-rails',               '~> 3.0.1'
 
 # Internationalization
-gem 'http_accept_language',     '~> 2.0.2'
 gem 'globalize',                '~> 5.0.1'
 # 3.0.0.rc11 bugged, generate translations twice in the same file
 gem 'i18n-js',                  '= 3.0.0.rc9'
@@ -31,15 +39,13 @@ gem 'paper_trail',              '~> 4.0.0'
 gem 'globalize-versioning',     git: 'https://github.com/globalize/globalize-versioning.git'
 
 # Run asynschronous process
-gem 'sidekiq',                  '~> 3.5.3'
+gem 'sidekiq',                  '~> 4.0.1'
 gem 'sidekiq-statistic',        '~> 1.1'
 gem 'sinatra',                  '~> 1.4.5',     require: false
 gem 'whenever',                 '~> 0.9.4',     require: false
 
-# Redis session store
+# Redis session store and cache
 gem 'redis-session-store',      '~> 0.8.0'
-
-# Redis cache
 gem 'readthis',                 '~> 1.0.0'
 gem 'hiredis',                  '~> 0.6.0'
 
@@ -52,14 +58,11 @@ gem 'devise',                   '~> 3.5.2'
 # Authorization mechanism
 gem 'pundit',                   '~> 1.0.1'
 
-# Secure headers
-gem 'secure_headers',           '~> 2.4.3'
-
 # Human-friendly URLs
 gem 'friendly_id',              '~> 5.1.0'
 
 # Pagination
-gem 'will_paginate',            '~> 3.0.6'
+gem 'will_paginate',            '~> 3.0.7'
 
 # Forms
 gem 'simple_form',              '~> 3.2.0'
@@ -71,21 +74,14 @@ gem 'carrierwave_backgrounder', '~> 0.4.2'
 gem 'mini_magick',              '~> 4.3.5'
 
 # Search in database
-gem 'searchkick',               '~> 1.0.1'
-
-# Dump database
-gem 'seed_dump',                '~> 3.2.2'
-
-# Dummy data
-gem 'factory_girl_rails',     '~> 4.5.0'
-gem 'faker',                  '~> 1.5.0'
+gem 'searchkick',               '~> 1.0.2'
 
 # Deployment
 gem 'capistrano',               '~> 3.4.0'
 gem 'capistrano-rails',         '~> 1.1.5'
 gem 'capistrano-rvm',           '~> 0.1.1',   require: false
 gem 'capistrano-bundler',       '~> 1.1.4',   require: false
-gem 'capistrano-rails-console', '~> 1.0.0',   require: false
+gem 'capistrano-rails-console', '~> 1.0.1',   require: false
 gem 'capistrano-db-tasks',      '~> 0.4',     require: false
 gem 'capistrano-sidekiq',       '~> 0.5.4',   require: false
 
@@ -94,7 +90,7 @@ gem 'newrelic_rpm',             '~> 3.14.0.305'
 
 group :development do
   # server
-  gem 'thin', '~> 1.6.3'
+  gem 'thin',                   '~> 1.6.4'
 
   # Debugging tool
   gem 'pry-rails',              '~> 0.3.3'
@@ -122,13 +118,13 @@ group :development do
   # Benchmarks and performance analysis
   gem 'flamegraph',             '~> 0.1.0'
   gem 'stackprof',              '~> 0.2.7'
-  gem 'rack-mini-profiler',     '~> 0.9.7'
+  gem 'rack-mini-profiler',     '~> 0.9.8'
   gem 'memory_profiler',        '~> 0.9.6'
 
-  # # N+1 database query
+  # N+1 database query
   gem 'bullet',                 '~> 4.14.10'
 
-  # # Find index to add
+  # Find index to add
   gem 'lol_dba',                '~> 2.0.1'
 
   # Faster ruby code
@@ -137,7 +133,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',            '~> 3.3.3'
+  gem 'rspec-rails',            '~> 3.4.0'
   gem 'capybara',               '~> 2.5.0'
   gem 'capybara-email',         '~> 2.4.0'
   gem 'capybara-webkit',        '~> 1.7.0'
@@ -152,11 +148,10 @@ group :test do
   gem 'spring-commands-rspec',  '~> 1.0.4'
 
   # static analyzer
-  gem 'rubocop',                '~> 0.35.1',  require: false
   gem 'rails_best_practices',   '~> 1.15.7',  require: false
   gem 'brakeman',               '~> 3.1.2',   require: false
   gem 'metric_fu',              '~> 4.12.0',  require: false
-  gem 'i18n-tasks',             '~> 0.9.1',   require: false
+  gem 'i18n-tasks',             '~> 0.9.2',   require: false
   gem 'deadweight',             '~> 0.2.2',   require: false
 
   # Security
@@ -165,7 +160,10 @@ end
 
 group :development, :test do
   # Speed up server and tests
-  gem 'spring',   '~> 1.4.1'
+  gem 'spring',                 '~> 1.4.1'
+
+  # Check errors
+  gem 'rubocop',                '~> 0.35.1',  require: false
 end
 
 group :production do

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var ArticleVisibilityIcon = React.createClass({
     propTypes: {
@@ -6,17 +6,17 @@ var ArticleVisibilityIcon = React.createClass({
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null
         };
     },
 
-    render: function () {
-        var visibilityName = I18n.t('js.article.visibility.enum.' + this.props.article.visibility);
+    render () {
+        let visibilityName = I18n.t('js.article.visibility.enum.' + this.props.article.visibility);
 
         if (this.props.userId) {
-            var visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
+            let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
             if (this.props.article.visibility === 'everyone') {
                 return (

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var TagActions = require('../actions/tagActions');
 

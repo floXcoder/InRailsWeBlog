@@ -1,60 +1,59 @@
-"use strict";
+'use strict';
 
 var ArticleActions = require('../../actions/articleActions');
 var ArticleCardDisplay = require('./display/card');
 var ArticleInlineDisplay = require('./display/inline');
 var ArticleEditionDisplay = require('./display/edition');
 
-var HighlightCode = require('highlight.js');
-
 var ArticleItem = React.createClass({
     propTypes: {
+        children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
+        initialDisplayMode: React.PropTypes.string.isRequired,
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null
         };
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {
-            articleDisplayMode: this.props.articleDisplayMode
+            articleDisplayMode: this.props.initialDisplayMode
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function() {
             $(this).tooltip();
         });
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate () {
         $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function() {
             $(this).tooltip();
         });
     },
 
-    _setDefaultDisplay: function (tagName, event) {
-        this.setState({articleDisplayMode: this.props.articleDisplayMode});
+    _setDefaultDisplay (tagName, event) {
+        this.setState({articleDisplayMode: this.props.initialDisplayMode});
     },
 
-    _onClickTag: function (tagName, event) {
+    _handleTagClick (tagName, event) {
         ArticleActions.loadArticles({tags: [tagName]});
     },
 
-    _onClickBookmark: function (articleId, event) {
+    _handleBookmarkClick (articleId, event) {
         ArticleActions.bookmarkArticle({articleId: articleId});
     },
 
-    _onClickEdit: function (event) {
-        require.ensure([], () => {
-            require('../../wysiwyg/summernote');
-            require('../../wysiwyg/lang/summernote-en-US');
-            require('../../wysiwyg/lang/summernote-fr-FR');
+    _handleEditClick (event) {
+        event.preventDefault();
 
+        let editorLoader = require('../../loaders/editor');
+        editorLoader().then(({}) => {
             $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function() {
                 $(this).tooltip('remove');
             });
@@ -62,7 +61,7 @@ var ArticleItem = React.createClass({
         });
     },
 
-    render: function () {
+    render () {
         if (this.state.articleDisplayMode === 'inline') {
             return (
                 <ArticleInlineDisplay article={this.props.article}
@@ -74,9 +73,9 @@ var ArticleItem = React.createClass({
             return (
                 <ArticleCardDisplay article={this.props.article}
                                     userId={this.props.userId}
-                                    onClickTag={this._onClickTag}
-                                    onClickEdit={this._onClickEdit}
-                                    onClickBookmark={this._onClickBookmark}>
+                                    onClickTag={this._handleTagClick}
+                                    onClickEdit={this._handleEditClick}
+                                    onClickBookmark={this._handleBookmarkClick}>
                     {this.props.children}
                 </ArticleCardDisplay>
             );
@@ -84,7 +83,7 @@ var ArticleItem = React.createClass({
             return (
                 <ArticleEditionDisplay article={this.props.article}
                                        userId={this.props.userId}
-                                       onClickTag={this._onClickTag}
+                                       onClickTag={this._handleTagClick}
                                        setDefaultDisplay={this._setDefaultDisplay}>
                     {this.props.children}
                 </ArticleEditionDisplay>

@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 var ArticleLinkIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired
     },
 
-    render: function () {
+    render () {
         return (
             <div className="article-icons">
                 <i className="material-icons">account_circle</i>

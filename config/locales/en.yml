@@ -35,8 +35,9 @@ en:
       profile:
        connected: "My Profile"
        not_connected: "Connection"
-      french: "Français"
-      english: "English"
+      language:
+        french: "Français"
+        english: "English"
       log_out: "Log Out"
     user:
       flash:

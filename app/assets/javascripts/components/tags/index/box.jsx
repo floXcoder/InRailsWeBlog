@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+var classNames = require('classnames');
 
 var IndexTagList = require('./list');
 var SearchBar = require('./search');
@@ -7,9 +9,21 @@ var Spinner = require('../../../components/materialize/spinner');
 var fuzzy = require('fuzzy');
 
 var IndexTagBox = React.createClass({
-    mixins: [Reflux.listenTo(TagStore, 'onLoadTag')],
+    propTypes: {
+        hasMore: React.PropTypes.bool
+    },
 
-    getInitialState: function () {
+    mixins: [
+        Reflux.listenTo(TagStore, 'onLoadTag')
+    ],
+
+    getDefaultProps () {
+        return {
+            hasMore: false
+        };
+    },
+
+    getInitialState () {
         return {
             tags: {},
             filteredTags: {},
@@ -18,7 +32,7 @@ var IndexTagBox = React.createClass({
         };
     },
 
-    onLoadTag(tagStore) {
+    onLoadTag (tagStore) {
         this.setState({
             tags: _.indexBy(tagStore, 'id'),
             filteredTags: _.indexBy(tagStore, 'id'),
@@ -26,16 +40,16 @@ var IndexTagBox = React.createClass({
         });
     },
 
-    handleUserInput: function (filterText) {
-        var filteredTags = {};
+    _handleUserInput (filterText) {
+        let filteredTags = {};
 
-        var tagsArray = _.toArray(this.state.tags);
+        let tagsArray = _.toArray(this.state.tags);
         fuzzy.filter(filterText, tagsArray, {
-            extract: function (tag) {
+            extract (tag) {
                 return tag.name;
             }
         }).forEach(function (tag) {
-            var tagId = tagsArray[tag.index].id;
+            let tagId = tagsArray[tag.index].id;
             filteredTags[tagId] = this.state.tags[tagId];
         }.bind(this));
 
@@ -45,17 +59,24 @@ var IndexTagBox = React.createClass({
         });
     },
 
-    render: function () {
+    render () {
+        let loaderClass = classNames(
+            {
+                'center': this.props.hasMore,
+                'hide': !this.props.hasMore
+            }
+        );
+
         return (
             <div className="blog-index-tag">
                 <SearchBar filterText={this.state.filterText}
-                           onUserInput={this.handleUserInput} />
+                           onUserInput={this._handleUserInput} />
 
                 <IndexTagList tags={this.state.tags}
                               filteredTags={this.state.filteredTags}
                               filterText={this.state.filterText} />
 
-                <div className={this.state.isLoading ? 'center': 'hide'}>
+                <div className={loaderClass}>
                     <Spinner />
                 </div>
             </div>

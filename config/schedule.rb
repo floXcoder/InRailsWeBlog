@@ -1,9 +1,11 @@
 set :output, './log/cron.log'
 
-every 3.days do
+# noinspection RubyArgCount
+every 3.days, at: '8pm' do
   rake 'InRailsWeBlog:static_analysis:all'
 end
 
-every :month do
+# noinspection RubyArgCount
+every :month, at: '8pm' do
   rake 'InRailsWeBlog:update_geolite'
 end

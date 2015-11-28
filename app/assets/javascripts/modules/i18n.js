@@ -15,7 +15,7 @@
 ;(function(factory) {
   if (typeof module !== 'undefined' && module.exports) {
     // Node/CommonJS
-    module.exports = factory(this);
+      module.exports = factory(this);
   } else if (typeof define === 'function' && define.amd) {
     // AMD
     define('i18n', (function(global){ return function(){ return factory(global); }})(this));
@@ -24,7 +24,7 @@
     this.I18n = factory(this);
   }
 }(function(global) {
-  "use strict";
+  'use strict';
 
   // Use previously defined object if exists in current scope
   var I18n = global && global.I18n || {};

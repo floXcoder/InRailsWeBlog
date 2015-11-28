@@ -1,19 +1,17 @@
-"use strict";
+'use strict';
 
 var HighlightCode = require('highlight.js');
+var AnimatedText = require('../modules/animatedText');
 
 var ArticleActions = require('../../actions/articleActions');
 var ArticleStore = require('../../stores/articleStore');
 var ArticleHistory = require('./history');
 var ArticleLinkIcon = require('./icons/link');
 var ArticleVisibilityIcon = require('./icons/visibility');
-var ArticleAuthorIcon = require('./icons/author');
 var ArticleBookmarkIcon = require('./icons/bookmark');
 var ArticleHistoryIcon = require('./icons/history');
 var ArticleDeleteIcon = require('./icons/delete');
 var ArticleTags = require('./properties/tags');
-var ArticleTime = require('./properties/time');
-var ArticleLink = require('./properties/link');
 
 var ArticleShow = React.createClass({
     mixins: [
@@ -25,21 +23,21 @@ var ArticleShow = React.createClass({
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null
         };
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {
             articleVersions: null,
             isHistoryDisplayed: false
         };
     },
 
-    componentDidMount: function () {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function() {
+    componentDidMount () {
+        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
             $(this).tooltip();
         });
         HighlightCode.configure({
@@ -48,35 +46,25 @@ var ArticleShow = React.createClass({
         this._highlightCode();
     },
 
-    componentDidUpdate: function () {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function() {
+    componentDidUpdate () {
+        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
             $(this).tooltip();
         });
         this._highlightCode();
     },
 
-    _highlightCode: function () {
-        var domNode = ReactDOM.findDOMNode(this);
-        var nodes = domNode.querySelectorAll('pre code');
+    _highlightCode () {
+        let domNode = ReactDOM.findDOMNode(this);
+        let nodes = domNode.querySelectorAll('pre code');
         if (nodes.length > 0) {
-            for (var i = 0; i < nodes.length; i = i + 1) {
+            for (let i = 0; i < nodes.length; i = i + 1) {
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
     },
 
-    _showHistory: function () {
-        if (this.state.isHistoryDisplayed) {
-            this.setState({isHistoryDisplayed: false})
-        } else {
-            ArticleActions.loadArticleHistory({history: this.props.article.id});
-        }
-
-        this.state.isHistoryDisplayed = !this.state.isHistoryDisplayed;
-    },
-
-    onArticleChange: function (articleStore) {
-        var newState = {};
+    onArticleChange (articleStore) {
+        let newState = {};
 
         if (typeof(articleStore.articleVersions) !== 'undefined') {
             newState.articleVersions = articleStore.articleVersions;
@@ -96,39 +84,36 @@ var ArticleShow = React.createClass({
         }
     },
 
-    _onClickDelete: function (event) {
+    _handleHistoryClick () {
+        if (this.state.isHistoryDisplayed) {
+            this.setState({isHistoryDisplayed: false})
+        } else {
+            ArticleActions.loadArticleHistory({history: this.props.article.id});
+        }
+
+        this.state.isHistoryDisplayed = !this.state.isHistoryDisplayed;
+    },
+
+    _handleDeleteClick (event) {
         event.preventDefault();
         ArticleActions.deleteArticles({id: this.props.article.id, showMode: true});
     },
 
-    _onClickBookmark: function (articleId, event) {
+    _handleBookmarkClick (articleId, event) {
         event.preventDefault();
         ArticleActions.bookmarkArticle({articleId: articleId});
     },
 
-    _renderTitle: function () {
+    _renderTitle () {
         if (!$.isEmpty(this.props.article.title) || !$.isEmpty(this.props.article.summary)) {
             return (
-                <section className="card-title cd-intro">
-                    <div className="cd-intro-content mask">
-                        <h1 className="" data-content={this.props.article.title}>
-                            <span>
-                                {this.props.article.title}
-                            </span>
-                        </h1>
-
-                        <div className="action-wrapper">
-                            <p className="article-summary">
-                                {this.props.article.summary}
-                            </p>
-                        </div>
-                    </div>
-                </section>
+                <AnimatedText title={this.props.article.title}
+                              subtitle={this.props.article.summary}/>
             );
         }
     },
 
-    _renderEditIcon: function () {
+    _renderEditIcon () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
             return (
                 <a className="article-icons tooltipped"
@@ -140,7 +125,7 @@ var ArticleShow = React.createClass({
         }
     },
 
-    _renderHistory: function () {
+    _renderHistory () {
         if (this.state.isHistoryDisplayed) {
             return (
                 <ArticleHistory articleVersions={this.state.articleVersions}/>
@@ -148,7 +133,7 @@ var ArticleShow = React.createClass({
         }
     },
 
-    render: function () {
+    render () {
         return (
             <div>
                 <div className="card clearfix blog-article-item">
@@ -167,14 +152,14 @@ var ArticleShow = React.createClass({
                                                    userId={this.props.userId}/>
                             <ArticleBookmarkIcon article={this.props.article}
                                                  userId={this.props.userId}
-                                                 onClickBookmark={this._onClickBookmark}/>
+                                                 onClickBookmark={this._handleBookmarkClick}/>
                             <ArticleHistoryIcon article={this.props.article}
                                                 userId={this.props.userId}
-                                                onClickHistory={this._showHistory}/>
+                                                onClickHistory={this._handleHistoryClick}/>
                             {this._renderEditIcon()}
                             <ArticleDeleteIcon article={this.props.article}
                                                userId={this.props.userId}
-                                               onClickDelete={this._onClickDelete}/>
+                                               onClickDelete={this._handleDeleteClick}/>
                         </div>
                     </div>
                 </div>

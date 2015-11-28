@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 var ArticleForm = require('./form');
 
-require('../../wysiwyg/summernote');
-require('../../wysiwyg/lang/summernote-en-US');
-require('../../wysiwyg/lang/summernote-fr-FR');
+require('../../modules/wysiwyg/summernote');
+require('../../modules/wysiwyg/lang/summernote-en-US');
+require('../../modules/wysiwyg/lang/summernote-fr-FR');
 
 var ArticleEdit = React.createClass({
     propTypes: {
@@ -12,13 +12,13 @@ var ArticleEdit = React.createClass({
         multiLanguage: React.PropTypes.bool.isRequired
     },
 
-    _onCancel: function () {
+    _onCancel () {
         window.location.replace("/articles/" + this.props.article.id);
         return true;
     },
 
-    render: function () {
-        var title = this.props.article.title ?
+    render () {
+        let title = this.props.article.title ?
             I18n.t('js.article.edit.form_title', {title: this.props.article.title}) :
             I18n.t('js.article.edit.title');
         return (

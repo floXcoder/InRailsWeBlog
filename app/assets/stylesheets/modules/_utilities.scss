@@ -124,7 +124,7 @@
   margin-bottom: 100px;
 }
 
-@media (max-width: $max-width-sm) {
+@media (max-width: $small-screen) {
   .sm-margin-bottom-10 {
     margin-bottom: 10px;
   }
@@ -148,7 +148,7 @@
   }
 }
 
-@media (max-width: $max-width-md) {
+@media (max-width: $medium-screen) {
   .md-margin-bottom-10 {
     margin-bottom: 10px;
   }

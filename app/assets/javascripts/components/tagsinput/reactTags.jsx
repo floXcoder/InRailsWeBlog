@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 var Suggestions = require('./suggestions');
 
-//var DragDropContext = require('react-dnd').DragDropContext;
+//var DragDropContext = require('react-dnd'.DragDropContext);
 //var HTML5Backend = require('react-dnd-html5-backend');
 
 // Constants
@@ -19,26 +19,30 @@ var ReactTags = React.createClass({
     displayName: 'ReactTags',
 
     propTypes: {
+        handleDelete: React.PropTypes.func.isRequired,
+        handleAddition: React.PropTypes.func.isRequired,
         selectedTags: React.PropTypes.array,
         placeholder: React.PropTypes.string,
-        inputId: React.PropTypes.string,
         tagList: React.PropTypes.array,
         labelField: React.PropTypes.string,
         autofocus: React.PropTypes.bool,
-        handleDelete: React.PropTypes.func.isRequired,
-        handleAddition: React.PropTypes.func.isRequired
+        tagMinLength: React.PropTypes.number,
+        tagMaxLength: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
-            placeholder: null,
             selectedTags: [],
+            placeholder: null,
             tagList: [],
-            autofocus: true
+            labelField: null,
+            autofocus: true,
+            tagMinLength: null,
+            tagMaxLength: null
         };
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {
             tagList: this.props.tagList,
             query: '',
@@ -47,19 +51,19 @@ var ReactTags = React.createClass({
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         if (this.props.autofocus) {
             this.refs.input.focus();
         }
     },
 
-    handleDelete: function (i, e) {
+    handleDelete (i, event) {
         this.props.handleDelete(i);
         this.setState({query: ''});
     },
 
-    _handleInputChange: function (e) {
-        var query = e.target.value.trim();
+    _handleInputChange (event) {
+        var query = event.target.value.trim();
         var suggestions = this.props.tagList.filter(function (item) {
             if (this.props.labelField) {
                 return item[this.props.labelField].toLowerCase().search(query.toLowerCase()) === 0;
@@ -74,15 +78,13 @@ var ReactTags = React.createClass({
         });
     },
 
-    _handleKeyDown: function (e) {
-        var _state = this.state;
-        var query = _state.query;
-        var selectedIndex = _state.selectedIndex;
-        var tags = _state.tagList;
+    _handleKeyDown (event) {
+        let query = this.state.query;
+        let tags = this.state.tagList;
 
         // hide tags menu on escape
-        if (e.keyCode === Keys.ESCAPE) {
-            e.preventDefault();
+        if (event.keyCode === Keys.ESCAPE) {
+            event.preventDefault();
             this.setState({
                 selectedIndex: -1,
                 selectionMode: false,
@@ -91,8 +93,8 @@ var ReactTags = React.createClass({
         }
 
         // when enter or tab is pressed add query to tags
-        if ((e.keyCode === Keys.ENTER || e.keyCode === Keys.TAB) && query != '') {
-            e.preventDefault();
+        if ((event.keyCode === Keys.ENTER || event.keyCode === Keys.TAB) && query != '') {
+            event.preventDefault();
             if (this.state.selectionMode) {
                 query = this.state.tagList[this.state.selectedIndex];
             }
@@ -100,15 +102,15 @@ var ReactTags = React.createClass({
         }
 
         // when backspace key is pressed and query is blank, delete tag
-        if (e.keyCode === Keys.BACKSPACE && query == '') {
+        if (event.keyCode === Keys.BACKSPACE && query == '') {
             //
             this.handleDelete(this.props.selectedTags.length - 1);
         }
 
         // up arrow
-        if (e.keyCode === Keys.UP_ARROW) {
-            e.preventDefault();
-            var selectedIndex = this.state.selectedIndex;
+        if (event.keyCode === Keys.UP_ARROW) {
+            event.preventDefault();
+            let selectedIndex = this.state.selectedIndex;
             // last item, cycle to the top
             if (selectedIndex <= 0) {
                 this.setState({
@@ -124,8 +126,8 @@ var ReactTags = React.createClass({
         }
 
         // down arrow
-        if (e.keyCode === Keys.DOWN_ARROW) {
-            e.preventDefault();
+        if (event.keyCode === Keys.DOWN_ARROW) {
+            event.preventDefault();
             this.setState({
                 selectedIndex: (this.state.selectedIndex + 1) % tags.length,
                 selectionMode: true
@@ -133,7 +135,7 @@ var ReactTags = React.createClass({
         }
     },
 
-    addTag: function (tag) {
+    addTag (tag) {
         var input = this.refs.input;
 
         // call method to add
@@ -151,18 +153,18 @@ var ReactTags = React.createClass({
         input.focus();
     },
 
-    _onClickSuggestion: function (i, e) {
-        this.addTag(this.state.tagList[i]);
+    _handleSuggestionClick (index, event) {
+        this.addTag(this.state.tagList[index]);
     },
 
-    _handleSuggestionHover: function (i, e) {
+    _handleSuggestionHover (index, event) {
         this.setState({
-            selectedIndex: i,
+            selectedIndex: index,
             selectionMode: true
         });
     },
 
-    render: function () {
+    render () {
         // get the tags for the given query
         var query = this.state.query.trim(),
             selectedIndex = this.state.selectedIndex,
@@ -184,7 +186,7 @@ var ReactTags = React.createClass({
                              tags={tags}
                              labelField={this.props.labelField}
                              selectedIndex={selectedIndex}
-                             onClickSuggestion={this._onClickSuggestion}
+                             onClickSuggestion={this._handleSuggestionClick}
                              handleHover={this._handleSuggestionHover}/>
             </div>
         );

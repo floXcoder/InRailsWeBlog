@@ -1,9 +1,8 @@
-"use strict";
+'use strict';
 
 var ArticleActions = require('../../actions/articleActions');
 var ArticleStore = require('../../stores/articleStore');
 var UserStore = require('../../stores/userStore');
-var Typeahead = require('../../components/autocomplete/typeahead');
 var Tokenizer = require('../../components/autocomplete/tokenizer');
 
 var SearchModule = React.createClass({
@@ -12,7 +11,7 @@ var SearchModule = React.createClass({
         Reflux.listenTo(UserStore, 'onSearchChange')
     ],
 
-    getInitialState: function () {
+    getInitialState () {
         return {
             autocompleteValues: [],
             selectedTags: [],
@@ -23,10 +22,17 @@ var SearchModule = React.createClass({
         };
     },
 
-    _activateSearch: function(state) {
+    componentDidMount () {
+        $('#toggle-search').click(function () {
+            this._toggleSearchNav();
+            return false;
+        }.bind(this));
+    },
+
+    _activateSearch (state) {
         this._toggleSearchNav();
 
-        if(!$.isEmpty(state.tags)) {
+        if (!$.isEmpty(state.tags)) {
             state.tags.forEach(function (tag) {
                 this.refs.typeahead._addTokenForValue({tag: tag}, true);
             }.bind(this));
@@ -35,20 +41,12 @@ var SearchModule = React.createClass({
         this.refs.typeahead.setEntryText(state.query);
     },
 
-    componentDidMount: function () {
-        $('a.toggle-search').click(function () {
-            this._toggleSearchNav();
+    _toggleSearchNav () {
+        let $searchDiv = $('.blog-search-nav');
 
-            return false;
-        }.bind(this));
-    },
-
-    _toggleSearchNav: function() {
-        this.state.$searchDiv = $('.blog-search-nav');
-
-        this.state.$searchDiv.is(":visible") ? this.state.$searchDiv.slideUp() : this.state.$searchDiv.slideDown(function () {
-            this.state.$searchDiv.find('input').focus();
-        }.bind(this));
+        $searchDiv.is(":visible") ? $searchDiv.slideUp() : $searchDiv.slideDown(() => {
+            $searchDiv.find('input').focus()
+        });
     },
 
     onSearchChange(userStore) {
@@ -58,11 +56,11 @@ var SearchModule = React.createClass({
     },
 
     onArticleChange(articleStore) {
-        var newState = {};
+        let newState = {};
 
         if (!$.isEmpty(articleStore.autocompletion)) {
-            var autocompletionValues = [];
-            var tags = [];
+            let autocompletionValues = [];
+            let tags = [];
 
             articleStore.autocompletion.forEach(function (autocompleteValue) {
                 autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
@@ -70,7 +68,9 @@ var SearchModule = React.createClass({
                     tags.push(tag.name);
                 });
             });
-            _.uniq(tags, function (tag) {return tag.id}).forEach(function (tag) {
+            _.uniq(tags, function (tag) {
+                return tag.id
+            }).forEach(function (tag) {
                 autocompletionValues.push({entry: tag, tag: tag});
             });
 
@@ -83,16 +83,16 @@ var SearchModule = React.createClass({
             newState.suggestions = [];
         }
 
-        if(articleStore.paramsFromUrl) {
+        if (articleStore.paramsFromUrl) {
             this._activateSearch(articleStore.paramsFromUrl);
         }
 
-        if(!$.isEmpty(newState)) {
+        if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },
 
-    _onClickSuggestion: function (suggestion, event) {
+    _handleSuggestionClick (suggestion, event) {
         event.preventDefault();
         this.refs.typeahead.setEntryText(suggestion);
         this.refs.typeahead.refs.typeahead.setState({entryValue: suggestion, selection: suggestion});
@@ -100,41 +100,41 @@ var SearchModule = React.createClass({
         this._handleSubmit(event, {});
     },
 
-    _onKeyUp: function (event) {
-        var entryValue = this.refs.typeahead.getEntryText().trim();
+    _onKeyUp (event) {
+        let entryValue = this.refs.typeahead.getEntryText().trim();
 
         if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
             ArticleActions.autocompleteArticles({autocompleteQuery: entryValue});
         }
 
-        var pressedKey = $.NAVIGATION_KEYMAP[event.which];
+        let pressedKey = $.NAVIGATION_KEYMAP[event.which];
         if (pressedKey === 'tab' || pressedKey === 'enter') {
             this.refs.typeahead.refs.typeahead.setState({entryValue: entryValue, selection: entryValue});
             this._handleSubmit(event, {});
         }
     },
 
-    _handleSubmit: function (event, searchOptions) {
+    _handleSubmit (event, searchOptions) {
         if (event) {
             event.preventDefault();
         }
 
-        if(typeof searchOptions !== 'object') {
+        if (typeof searchOptions !== 'object') {
             searchOptions = {};
         }
 
-        var query = this.refs.typeahead.getEntryText().trim();
+        let query = this.refs.typeahead.getEntryText().trim();
 
         if ($.isEmpty(query) && !$.isEmpty(this.state.selectedTags)) {
             query = '*';
         }
 
-        if(query === this.state.query && this.state.previousSelectedTags === this.state.selectedTags) {
+        if (query === this.state.query && this.state.previousSelectedTags === this.state.selectedTags) {
             return;
         }
 
         if (!$.isEmpty(query)) {
-            var request = {};
+            let request = {};
             request.query = query;
 
             if (!$.isEmpty(this.state.selectedTags)) {
@@ -148,19 +148,20 @@ var SearchModule = React.createClass({
 
             this.state.query = query;
             this.state.previousSelectedTags = this.state.selectedTags;
+            this._toggleSearchNav();
         }
     },
 
-    _filterOption: function (inputValue, option) {
+    _filterOption (inputValue, option) {
         if (!$.isEmpty(option.entry)) {
-            var regOption = new RegExp(inputValue, 'gi');
+            let regOption = new RegExp(inputValue, 'gi');
             return option.entry.match(regOption);
         } else {
             return false;
         }
     },
 
-    _displayOption: function (option) {
+    _displayOption (option) {
         if (!$.isEmpty(option.title)) {
             return (
                 <div ref={option.entry}>
@@ -179,17 +180,17 @@ var SearchModule = React.createClass({
         }
     },
 
-    _onTokenAdd: function (value, noSubmit) {
+    _onTokenAdd (value, noSubmit) {
         if (value.tag) {
             this.state.selectedTags.push(value.tag);
         }
 
-        if(!noSubmit) {
+        if (!noSubmit) {
             this._handleSubmit(null, {tagSearch: true});
         }
     },
 
-    _onTokenRemove: function (value) {
+    _onTokenRemove(value) {
         _.remove(this.state.selectedTags, function (tag) {
             return tag === value;
         });
@@ -197,19 +198,19 @@ var SearchModule = React.createClass({
         this._handleSubmit(null, {tagSearch: true});
     },
 
-    _onCloseForm: function (event) {
+    _handleCloseClick(event) {
         event.preventDefault();
+        $('.blog-search-nav').slideUp();
         this.refs.typeahead.setEntryText('');
-        this.state.$searchDiv.slideUp();
         this.setState({selectedTags: []});
         this.refs.typeahead.setState({selected: []});
     },
 
-    render: function () {
-        var Suggestions = this.state.suggestions.map(function (suggestion) {
+    render () {
+        let Suggestions = this.state.suggestions.map(function (suggestion) {
             return (
                 <a key={suggestion}
-                   onClick={this._onClickSuggestion.bind(this, suggestion)}
+                   onClick={this._handleSuggestionClick.bind(this, suggestion)}
                    className="waves-effect waves-light btn-small">
                     {suggestion}
                 </a>
@@ -231,9 +232,11 @@ var SearchModule = React.createClass({
                         customClasses={{listItem: 'typeahead-list-item'}}
                         onTokenAdd={this._onTokenAdd}
                         onTokenRemove={this._onTokenRemove}
-                        />
-                    <a className="material-icons search-form-close" onClick={this._onCloseForm} href="#">
-                        <i className="material-icons" onClick={this._onCloseForm}>close</i>
+                    />
+                    <a className="material-icons search-form-close"
+                       onClick={this._handleCloseClick}
+                       href="#">
+                        <i className="material-icons">close</i>
                     </a>
                 </form>
                 <div className="blog-search-suggestion">

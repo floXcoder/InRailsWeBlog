@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 var ArticleTime = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired
     },
 
-    render: function () {
+    render () {
         return (
             <div className="article-icons tooltipped article-time"
                  data-tooltip={I18n.t('js.article.tooltip.updated_at')}>

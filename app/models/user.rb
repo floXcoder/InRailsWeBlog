@@ -39,26 +39,30 @@ class User < ActiveRecord::Base
   # Associations
   ## Articles
   has_many :articles,
-           class_name: 'Article',
+           class_name:  'Article',
            foreign_key: 'author_id',
-           dependent: :destroy
+           dependent:   :destroy
   has_many :temporary_articles,
            -> { where temporary: true },
-           class_name: 'Article',
+           class_name:  'Article',
            foreign_key: 'author_id'
   has_many :bookmarked_articles
   has_many :bookmarks,
            through: :bookmarked_articles,
-           source: :article
+           source:  :article
 
   ## Comment
   # has_many :comments, as: :commentable
 
   ## Picture
-  has_one  :picture, as: :imageable, autosave: true, dependent: :destroy
-  accepts_nested_attributes_for :picture, allow_destroy: true, reject_if: lambda {
-                                            |picture| picture['image'].blank? && picture['image_tmp'].blank?
-                                        }
+  has_one :picture, as: :imageable,
+          autosave:     true,
+          dependent:    :destroy
+  accepts_nested_attributes_for :picture,
+                                allow_destroy: true,
+                                reject_if:     lambda {
+                                  |picture| picture['image'].blank? && picture['image_tmp'].blank?
+                                }
 
   # Authentification
   attr_accessor :login
@@ -77,21 +81,22 @@ class User < ActiveRecord::Base
             presence:   true,
             uniqueness: { case_sensitive: false },
             length:     { minimum: 3, maximum: 50 }
-  validates :email,     length: { maximum: 128 }
+  validates :email,
+            length: { maximum: 128 }
 
   # Nice url format
   include Shared::NiceUrlConcern
-  friendly_id :pseudo,  use: :slugged
+  friendly_id :pseudo, use: :slugged
 
   # Preferences
-  store :preferences, accessors: [ :article_display, :multi_language, :search_highlight, :search_operator, :search_exact ], coder: JSON
+  store :preferences, accessors: [:article_display, :multi_language, :search_highlight, :search_operator, :search_exact], coder: JSON
 
   before_create do
-    self.preferences[:article_display] = CONFIG.article_display if preferences[:article_display].blank?
-    self.preferences[:multi_language] = CONFIG.multi_language if preferences[:multi_language].blank?
+    self.preferences[:article_display]  = CONFIG.article_display if preferences[:article_display].blank?
+    self.preferences[:multi_language]   = CONFIG.multi_language if preferences[:multi_language].blank?
     self.preferences[:search_highlight] = CONFIG.search_highlight if preferences[:search_highlight].blank?
-    self.preferences[:search_operator] = CONFIG.search_operator if preferences[:search_operator].blank?
-    self.preferences[:search_exact] = CONFIG.search_exact if preferences[:search_exact].blank?
+    self.preferences[:search_operator]  = CONFIG.search_operator if preferences[:search_operator].blank?
+    self.preferences[:search_exact]     = CONFIG.search_exact if preferences[:search_exact].blank?
   end
 
   def to_s
@@ -99,24 +104,26 @@ class User < ActiveRecord::Base
   end
 
   def self.recent(up_to_range, limit = 10)
-    User.where(created_at: up_to_range).limit(limit).pluck_to_hash(:id, :created_at, :pseudo)
+    User.where(created_at: up_to_range)
+      .limit(limit)
+      .pluck_to_hash(:id, :created_at, :pseudo)
   end
 
   def self.pseudo?(pseudo)
-    User.where('lower(pseudo) =?', pseudo.downcase).first
+    User.exists?(['lower(pseudo) = ?', pseudo.downcase])
   end
 
   def self.email?(email)
-    User.where('lower(email) =?', email.downcase).first
+    User.exists?(['lower(email) = ?', email.downcase])
   end
 
   def self.login?(login)
-    true if User.pseudo?(login) || User.email?(login)
+    User.pseudo?(login) || User.email?(login)
   end
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
-    login = conditions.delete(:login)
+    login      = conditions.delete(:login)
     if login
       where(conditions.to_h).where(['lower(pseudo) = :value OR lower(email) = :value', { value: login.downcase }]).first
     else

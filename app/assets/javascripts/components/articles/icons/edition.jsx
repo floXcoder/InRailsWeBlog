@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var ArticleEditionIcons = React.createClass({
     propTypes: {
@@ -9,7 +9,7 @@ var ArticleEditionIcons = React.createClass({
         onClickSave: React.PropTypes.func.isRequired
     },
 
-    render: function () {
+    render () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
             $('.article-edition .article-icons.tooltipped').tooltip('remove');
             return (

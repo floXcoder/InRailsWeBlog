@@ -2,8 +2,8 @@
 @import 'modules/utilities';
 @import 'codemirror/lib/codemirror';
 @import 'highlight.js/styles/zenburn';
-@import 'wysiwyg/summernote';
-@import 'tagsinput/tagsinput';
+@import 'modules/wysiwyg/summernote';
+@import 'modules/tagsinput/tagsinput';
 
 .blog {
   background-color: color('blue-grey', 'lighten-4');
@@ -47,6 +47,8 @@
   }
 
   .blog-header {
+    position: relative;
+
     *:focus {
       outline: none;
     }
@@ -65,6 +67,109 @@
         }
       }
     }
+
+    .blog-search-nav {
+      border-bottom: 1px solid #111;
+      border-top: 1px solid #111;
+      display: none;
+      margin-bottom: 0;
+      color: white;
+      background-color: color('grey', 'darken-3');
+      width: 100%;
+      position: fixed;
+    }
+
+    .blog-search {
+      position: relative;
+
+      .search-form-close {
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+
+      .badge {
+        background-color: #26a69a;
+        border-radius: 2px;
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 300;
+      }
+
+      .topcoat-text-input {
+        width: 100%;
+      }
+
+      //h1 {
+      //  color: #f0f1f1;
+      //}
+
+      .typeahead-selector {
+        position: absolute;
+        width: 100%;
+        border-top: 1px solid #333434;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        background-color: color('grey', 'darken-3');
+        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.5), 0px 2px 10px 0px rgba(0, 0, 0, 0.5);
+        border-radius: 6px;
+        z-index: 10;
+
+        .typeahead-list-item {
+          padding: 1.25rem;
+          border-bottom: 1px solid #333434;
+          border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+          &.hover {
+            background: #585858;
+          }
+          &:hover {
+            background: #585858;
+          }
+
+          a {
+            color: color('grey', 'lighten-2');
+          }
+        }
+      }
+
+      .typeahead-token {
+        background-color: #595b5b;
+        border: 1px solid #333434;
+        border-radius: 6px;
+        box-shadow: 0 1px #737373 inset;
+        color: #C6C8C8;
+        display: inline-block;
+        font-size: 16px;
+        letter-spacing: 1px;
+        line-height: 3rem;
+        padding: 0 1.25rem;
+        position: relative;
+        text-shadow: 0px -1px rgba(0, 0, 0, 0.69);
+        vertical-align: top;
+
+        span {
+          margin: 0 5px;
+        }
+
+        .typeahead-token-close {
+          position: absolute;
+          right: 5px;
+        }
+      }
+
+      .blog-search-suggestion {
+        margin: 5px;
+
+        a {
+          background-color: color('blue', 'lighten-4');
+          color: black;
+          margin: 0 5px;
+        }
+      }
+    }
   }
 
   .blog-main {
@@ -74,13 +179,13 @@
   .blog-user-pref {
     background-color: color('blue-grey', 'darken-1');
     border-top: 1px solid #111;
-    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.5), 0px 2px 10px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .5), 0 2px 10px 0 rgba(0, 0, 0, .5);
     display: none;
     margin-bottom: 0;
     position: fixed;
     right: 0;
     min-width: 800px;
-    z-index: 992;
+    z-index: 100;
 
     .collapsible-body .row {
       background-color: white;
@@ -123,112 +228,7 @@
     }
   }
 
-  .blog-sidebar {
-    //padding-top: 10px;
-    //position: sticky;
-    //top: 60px;
-  }
-
-  .blog-search-nav {
-    border-bottom: 1px solid #111;
-    border-top: 1px solid #111;
-    display: none;
-    margin-bottom: 0;
-    color: white;
-    background-color: color('grey', 'darken-3');
-  }
-
-  .blog-search {
-    position: relative;
-
-    .search-form-close {
-      cursor: pointer;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-    }
-
-    .badge {
-      background-color: #26a69a;
-      border-radius: 2px;
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 300;
-    }
-
-    .topcoat-text-input {
-      width: 100%;
-    }
-
-    //h1 {
-    //  color: #f0f1f1;
-    //}
-
-    .typeahead-selector {
-      position: absolute;
-      width: 100%;
-      border-top: 1px solid #333434;
-      padding: 0px;
-      margin: 0px;
-      list-style-type: none;
-      background-color: color('grey', 'darken-3');
-      box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.5), 0px 2px 10px 0px rgba(0, 0, 0, 0.5);
-      border-radius: 6px;
-      z-index: 10;
-
-      .typeahead-list-item {
-        padding: 1.25rem;
-        border-bottom: 1px solid #333434;
-        border-top: 1px solid rgba(0, 0, 0, 0.05);
-
-        &.hover {
-          background: #585858;
-        }
-        &:hover {
-          background: #585858;
-        }
-
-        a {
-          color: color('grey', 'lighten-2');
-        }
-      }
-    }
-
-    .typeahead-token {
-      background-color: #595b5b;
-      border: 1px solid #333434;
-      border-radius: 6px;
-      box-shadow: 0 1px #737373 inset;
-      color: #C6C8C8;
-      display: inline-block;
-      font-size: 16px;
-      letter-spacing: 1px;
-      line-height: 3rem;
-      padding: 0 1.25rem;
-      position: relative;
-      text-shadow: 0px -1px rgba(0, 0, 0, 0.69);
-      vertical-align: top;
-
-      span {
-        margin: 0 5px;
-      }
-
-      .typeahead-token-close {
-        position: absolute;
-        right: 5px;
-      }
-    }
-
-    .blog-search-suggestion {
-      margin: 5px;
-
-      a {
-        background-color: color('blue', 'lighten-4');
-        color: black;
-        margin: 0 5px;
-      }
-    }
-  }
+  .blog-sidebar {}
 
   .article-form-header {
     background-color: white;
@@ -395,6 +395,8 @@
     }
 
     .article-action {
+      padding-bottom: 0;
+
       .col {
         margin: 10px 0;
       }

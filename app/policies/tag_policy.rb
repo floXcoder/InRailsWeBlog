@@ -3,7 +3,7 @@ class TagPolicy
 
   def initialize(current_user, tag)
     @current_user = current_user
-    @tag = tag
+    @tag          = tag
   end
 
   def create?

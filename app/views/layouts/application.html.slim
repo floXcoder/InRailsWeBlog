@@ -23,4 +23,5 @@ html lang="en"
 
     = render 'layouts/javascript'
 
-    = render 'layouts/piwik'
+    - if ENV['METRICS_ADDRESS']
+      = render 'layouts/metrics'

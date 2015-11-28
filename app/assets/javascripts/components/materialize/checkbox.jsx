@@ -1,40 +1,69 @@
-"use strict";
+'use strict';
+
+var classNames = require('classnames');
 
 var Checkbox = React.createClass({
     propTypes: {
-        onCheckboxChanged: React.PropTypes.func,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.array
+        ]),
+        onCheckboxChange: React.PropTypes.func,
         disabled: React.PropTypes.bool,
         id: React.PropTypes.string
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             onCheckboxChanged: null,
             id: null
         };
     },
 
-    getInitialState: function() {
+    getInitialState () {
         return {
             checked: false,
-            disabled: this.props.disabled || false
+            disabled: this.props.disabled || false,
+            valid: true
         };
     },
 
-    onChange: function () {
+    toggleCheckbox () {
         this.setState({checked: !this.state.checked});
+        return !this.state.checked;
     },
 
-    render: function () {
+    isChecked () {
+      return this.state.checked;
+    },
+
+    setValid () {
+        this.setState({
+            valid: true
+        });
+    },
+
+    setInvalid () {
+        this.setState({
+            valid: false
+        });
+    },
+
+    render () {
+        let checkboxClass = classNames({
+            'filled-in': true,
+            'invalid': !this.state.valid
+        });
+
         return (
             <div>
-                <input ref="checkbox"
+                <input ref={this.props.id}
                        id={this.props.id}
-                       className="filled-in"
+                       className={checkboxClass}
                        type="checkbox"
                        checked={this.state.checked}
                        disabled={this.state.disabled}
-                       onChange={this.props.onCheckboxChanged || this.onChange}/>
+                       onChange={this.props.onCheckboxChange || this.toggleCheckbox}/>
                 <label htmlFor={this.props.id}>
                     {this.props.children}
                 </label>

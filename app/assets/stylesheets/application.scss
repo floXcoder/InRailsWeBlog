@@ -3,6 +3,19 @@
 @import 'materialize-css/sass/materialize';
 @import 'modules/material-design';
 
+// Bugs Materialize
+.input-field label {
+  width: 90%;
+}
+
+// Filled in Style
+[type="checkbox"].invalid {
+  + label:after {
+    border: 2px solid $input-error-color !important;
+    //content: attr(data-error);
+  }
+}
+
 // Large button
 .btn-small {
   @extend .btn;
@@ -32,7 +45,7 @@
 }
 
 // Header
-@media #{$medium-and-down} {
+@media #{$medium-only} {
   nav .nav-wrapper {
     i {
       height: 64px;

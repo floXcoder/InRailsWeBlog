@@ -10,38 +10,38 @@ class ArticlesController < ApplicationController
     articles = if params[:tags]
                  tag_names = params[:tags].map { |tag| tag.downcase }
                  Article.includes(:translations, :author)
-                     .user_related(current_user_id)
-                     .joins(:tags)
-                     .where(tags: {name: tag_names})
-                     .order('articles.id DESC')
+                   .user_related(current_user_id)
+                   .joins(:tags)
+                   .where(tags: { name: tag_names })
+                   .order('articles.id DESC')
                elsif params[:relation_tags]
                  parent_tag, child_tag = params[:relation_tags].map { |tag| tag.downcase }
-                 parent_articles = Article
-                                       .joins(:tags)
-                                       .where(tagged_articles: {parent: true}, tags: {name: parent_tag})
-                 children_articles = Article
-                                         .joins(:tags)
-                                         .where(tagged_articles: {child: true}, tags: {name: child_tag})
+                 parent_articles       = Article
+                                           .joins(:tags)
+                                           .where(tagged_articles: { parent: true }, tags: { name: parent_tag })
+                 children_articles     = Article
+                                           .joins(:tags)
+                                           .where(tagged_articles: { child: true }, tags: { name: child_tag })
                  Article.includes(:translations, :author)
-                     .user_related(current_user_id)
-                     .joins(:tags)
-                     .where(id: parent_articles.ids & children_articles.ids)
-                     .order('articles.id DESC')
+                   .user_related(current_user_id)
+                   .joins(:tags)
+                   .where(id: parent_articles.ids & children_articles.ids)
+                   .order('articles.id DESC')
                elsif params[:mode] == 'bookmark'
                  Article.includes(:translations, :author, :tags)
-                     .user_related(current_user_id)
-                     .where(id: current_user.bookmarks.ids)
-                     .order('articles.id DESC')
+                   .user_related(current_user_id)
+                   .where(id: current_user.bookmarks.ids)
+                   .order('articles.id DESC')
                elsif params[:mode] == 'temporary'
                  Article.includes(:translations, :author, :tags)
-                     .user_related(current_user_id)
-                     .where(temporary: true)
-                     .order('articles.id DESC')
+                   .user_related(current_user_id)
+                   .where(temporary: true)
+                   .order('articles.id DESC')
                else
                  Article.includes(:translations, :author, :tags)
-                     .user_related(current_user_id)
-                     .published
-                     .order('articles.id DESC')
+                   .user_related(current_user_id)
+                   .published
+                   .order('articles.id DESC')
                end
 
     articles = articles.where(author_id: params[:user_id]) if params[:user_id]
@@ -81,9 +81,9 @@ class ArticlesController < ApplicationController
     current_user_id = current_user ? current_user.id : nil
 
     results = Article.search(params[:autocompleteQuery], autocomplete: true, limit: 6)
-                  .records
-                  .includes(:translations, :tags)
-                  .user_related(current_user_id)
+                .records
+                .includes(:translations, :tags)
+                .user_related(current_user_id)
 
     respond_to do |format|
       format.html { render json: results, each_serializer: AutocompleteSerializer, content_type: 'application/json' }
@@ -92,45 +92,45 @@ class ArticlesController < ApplicationController
   end
 
   def search
-    search_options = {}
+    search_options          = {}
 
     params[:search_options] = {} if !params[:search_options] || params[:search_options].is_a?(String)
 
     if current_user && (user_preferences = User.find(current_user.id))
       search_options[:highlight] = user_preferences.preferences[:search_highlight]
-      search_options[:exact] = user_preferences.preferences[:search_exact]
-      search_options[:operator] = user_preferences.preferences[:search_operator]
+      search_options[:exact]     = user_preferences.preferences[:search_exact]
+      search_options[:operator]  = user_preferences.preferences[:search_operator]
     end
 
     unless params[:search_options].empty?
       search_options[:highlight] = (params[:search_options][:search_highlight] == 'false' ? false : true)
-      search_options[:exact] = (params[:search_options][:search_exact] == 'false' ? false : true)
-      search_options[:operator] = params[:search_options][:search_operator]
+      search_options[:exact]     = (params[:search_options][:search_exact] == 'false' ? false : true)
+      search_options[:operator]  = params[:search_options][:search_operator]
     end
 
     current_user_id = current_user ? current_user.id : nil
 
     results = Article.search_for(params[:query],
                                  {
-                                     page: params[:page],
-                                     per_page: 5,
-                                     current_user_id: current_user_id,
-                                     tags: params[:tags],
-                                     highlight: search_options[:highlight],
-                                     operator: search_options[:operator],
-                                     exact: search_options[:exact]
+                                   page:            params[:page],
+                                   per_page:        5,
+                                   current_user_id: current_user_id,
+                                   tags:            params[:tags],
+                                   highlight:       search_options[:highlight],
+                                   operator:        search_options[:operator],
+                                   exact:           search_options[:exact]
                                  })
 
     articles = results[:articles].includes(:translations, :author, :tags).user_related(current_user_id)
 
     respond_to do |format|
-      format.html { render json: articles,
-                           highlight: results[:highlight],
-                           suggestions: results[:suggestions],
+      format.html { render json:            articles,
+                           highlight:       results[:highlight],
+                           suggestions:     results[:suggestions],
                            each_serializer: SearchSerializer, content_type: 'application/json' }
-      format.json { render json: articles,
-                           highlight: results[:highlight],
-                           suggestions: results[:suggestions],
+      format.json { render json:            articles,
+                           highlight:       results[:highlight],
+                           suggestions:     results[:suggestions],
                            each_serializer: SearchSerializer }
     end
   end
@@ -140,7 +140,7 @@ class ArticlesController < ApplicationController
     authorize article
 
     respond_to do |format|
-      format.html { render :show, locals: {article: article} }
+      format.html { render :show, locals: { article: article } }
     end
   end
 
@@ -161,14 +161,15 @@ class ArticlesController < ApplicationController
     authorize article
 
     current_user_id = current_user ? current_user.id : nil
-    multi_language = current_user.preferences[:multi_language]
+    multi_language  = current_user.preferences[:multi_language]
 
     respond_to do |format|
-      format.html { render :edit, locals: {
-                                    article: article,
-                                    current_user_id: current_user_id,
-                                    multi_language: multi_language
-                                }
+      format.html { render :edit, locals:
+        {
+          article:         article,
+          current_user_id: current_user_id,
+          multi_language:  multi_language
+        }
       }
     end
   end
@@ -178,12 +179,12 @@ class ArticlesController < ApplicationController
     authorize article
 
     previous_parent_tags = Tag.where(id: article.parent_tags.ids)
-    previous_child_tags = Tag.where(id: article.child_tags.ids)
+    previous_child_tags  = Tag.where(id: article.child_tags.ids)
 
     respond_to do |format|
       if current_user.preferences[:multi_language] ?
-          article.update_attributes(article_translated_params) :
-          article.update_attributes(article_params)
+        article.update_attributes(article_translated_params) :
+        article.update_attributes(article_params)
         article.update_tag_relationships(previous_parent_tags, previous_child_tags)
 
         format.json { render json: article, status: :accepted, location: article }
@@ -260,25 +261,25 @@ class ArticlesController < ApplicationController
     translation_item_id = article.translation.versions.last.item_id
 
     previous_parent_tags = Tag.where(id: article.parent_tags.ids)
-    previous_child_tags = Tag.where(id: article.child_tags.ids)
+    previous_child_tags  = Tag.where(id: article.child_tags.ids)
 
     respond_to do |format|
       if article.destroy
         article.delete_tag_relationships(previous_parent_tags, previous_child_tags)
 
-        last_article_version = article.versions.last
+        last_article_version     = article.versions.last
         last_translation_version = PaperTrail::Version.where(item_id: translation_item_id, event: 'destroy').last
-        undelete_url = nil
+        undelete_url             = nil
         if last_article_version && last_translation_version
-          undelete_url = restore_article_path(article_version_id: last_article_version.id,
+          undelete_url = restore_article_path(article_version_id:     last_article_version.id,
                                               translation_version_id: last_translation_version.id,
-                                              from_deletion: true)
+                                              from_deletion:          true)
 
           flash[:success] = t('views.article.flash.deletion_successful') +
-              ' ' +
-              "<a href='#{undelete_url}'>#{t('views.article.flash.undelete_link')}</a>"
+            ' ' +
+            "<a href='#{undelete_url}'>#{t('views.article.flash.undelete_link')}</a>"
         end
-        format.json { render json: {id: article.id, url: undelete_url}, status: :accepted }
+        format.json { render json: { id: article.id, url: undelete_url }, status: :accepted }
       else
         flash[:error] = t('views.article.flash.deletion_error', errors: article.errors.to_s)
         format.json { render json: article.errors, status: :not_modified }
@@ -308,6 +309,6 @@ class ArticlesController < ApplicationController
                                      :allow_comment,
                                      :is_link,
                                      translations_attributes: [:id, :locale, :title, :summary, :content],
-                                     tags_attributes: [:id, :tagger_id, :name, :parent, :child])
+                                     tags_attributes:         [:id, :tagger_id, :name, :parent, :child])
   end
 end

@@ -1,31 +1,32 @@
-"use strict";
+'use strict';
 
 var ArticleForm = require('../../components/articles/form');
 var ClipboardManager = require('../../modules/clipboard');
-var SanitizePaste = require('../../wysiwyg/sanitizePaste');
+var SanitizePaste = require('../../modules/wysiwyg/sanitizePaste');
 
 var ArticleCreation = React.createClass({
-    getInitialState: function () {
+    getInitialState () {
         return {
-            $articleNewForm: null,
             isActive: false
         };
     },
 
-    componentDidMount: function () {
-        this.state.$articleNewForm = $('#article-creation-component');
-        this.state.$articleNewForm.hide();
+    componentDidMount () {
+        let $articleNewForm = $('#article-creation-component');
+        $articleNewForm.hide();
 
-        $('a#toggle-article-creation').click(function (event) {
+        $('a#toggle-article-creation').click((event) => {
+
+            $('#toggle-navbar').sideNav('hide');
+
             event.preventDefault();
             this._toggleNewForm();
-            return false;
-        }.bind(this));
+        });
 
         ClipboardManager.initialize(this._onPaste);
 
-        $(".blog").dblclick(function(event) {
-            if ($(event.target).is("input:visible,textarea:visible") || $(event.target).hasClass('note-editable')) {
+        $(".blog").dblclick(function (event) {
+            if ($(event.target).is("input:visible,textarea:visible") || $(event.target).hasClass('note-editable')) {
                 return;
             }
 
@@ -42,61 +43,65 @@ var ArticleCreation = React.createClass({
         }.bind(this));
     },
 
-    _toggleNewForm: function () {
-        this.state.$articleNewForm.is(":visible") ?
-            this.state.$articleNewForm.fadeOut() :
-            this.state.$articleNewForm.fadeIn(function () {
-                require.ensure([], () => {
-                    require('../../wysiwyg/summernote');
-                    require('../../wysiwyg/lang/summernote-en-US');
-                    require('../../wysiwyg/lang/summernote-fr-FR');
+    _toggleNewForm () {
+        var $articleNewForm = $('#article-creation-component');
+        $articleNewForm.is(":visible") ?
+            $articleNewForm.fadeOut() :
+            $articleNewForm.fadeIn(() => {
+                let editorLoader = require('../../loaders/editor');
+                editorLoader().then(({}) => {
                     this.setState({isActive: true});
 
-                    $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
+                    $('html, body').animate({scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64}, 750);
                     $('.blog-form .collapsible').collapsible();
 
-                    this.state.$articleNewForm.find('input#title').focus();
+                    $articleNewForm.find('input#title').focus();
                 });
-            }.bind(this));
+            });
     },
 
-    _onPaste: function (content) {
-        require.ensure([], () => {
-            require('../../wysiwyg/summernote');
-            require('../../wysiwyg/lang/summernote-en-US');
-            require('../../wysiwyg/lang/summernote-fr-FR');
+    _onPaste (content) {
+        let editorLoader = require('../../loaders/editor');
+        editorLoader().then(({}) => {
+            var wasActive = this.state.isActive;
             this.setState({isActive: true});
 
             var $singleEditor = $('#single-editor');
-            var singleContent = $singleEditor.summernote('code');
-            if(content && $singleEditor && $.isEmpty(singleContent)) {
-                this.state.$articleNewForm.fadeIn(function () {
-                    var pasteContent = SanitizePaste.parse(content);
+            let singleContent = $singleEditor.summernote('code');
+            if (content && $singleEditor && $.isEmpty(singleContent)) {
+                let $articleNewForm = $('#article-creation-component');
+                $articleNewForm.fadeIn(() => {
+                    let pasteContent = SanitizePaste.parse(content);
                     $singleEditor.summernote('code', pasteContent);
-                    $('html, body').animate( { scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64 }, 750 );
-                    $('.blog-form .collapsible').collapsible();
+                    $('html, body').animate({scrollTop: $(ReactDOM.findDOMNode(this)).offset().top - 64}, 750);
                     $singleEditor.summernote('focus');
                     this.refs.articleForm.refs.temporary.setState({checked: true});
                     this.refs.articleForm.refs.visibility.setState({value: 'only_me'});
                     this.refs.articleForm.refs.submit.setState({disabled: false});
-                }.bind(this));
+
+                    if(!wasActive) {
+                        $('.blog-form .collapsible').collapsible();
+                    }
+
+                    Materialize.toast(I18n.t('js.article.clipboard.toast'), 5000);
+                });
             }
         });
     },
 
-    _onCancel: function () {
+    _onCancel () {
         this._toggleNewForm();
         return true;
     },
 
-    _onSubmit: function () {
-        $('html, body').animate( { scrollTop: 0 }, 750 );
+    _onSubmit () {
+        $('html, body').animate({scrollTop: 0}, 750);
         this._toggleNewForm();
         return true;
     },
 
-    render: function () {
-        if(this.state.isActive) {
+    render () {
+        if (this.state.isActive) {
             return (
                 <div className="blog-form">
                     <div className="margin-bottom-20"/>

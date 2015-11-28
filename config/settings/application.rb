@@ -20,7 +20,15 @@ SimpleConfig.for :application do
   # Articles per page
   set :per_page, 10
 
-  # Articles properties
+  # User validation parameters
+  set :user_pseudo_min_length, 3
+  set :user_pseudo_max_length, 60
+  set :user_email_min_length, 5
+  set :user_email_max_length, 128
+  set :user_password_min_length, 8
+  set :user_password_max_length, 128
+
+  # Article validation parameters
   set :title_min_length,    3
   set :title_max_length,    128
   set :summary_min_length,  3
@@ -28,7 +36,7 @@ SimpleConfig.for :application do
   set :content_min_length,  3
   set :content_max_length,  8_000_000
 
-  # Tag properties
+  # Tag validation parameters
   set :tag_min_length, 1
   set :tag_max_length, 32
 end
