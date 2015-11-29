@@ -2,11 +2,11 @@
 
 require('./common');
 
-var ArticleIndex = require('../components/articles/index');
-var ArticleCreation = require('../components/articles/creation');
-var ArticleActions = require('../actions/articleActions');
+let ArticleIndex = require('../components/articles/index');
+let ArticleCreation = require('../components/articles/creation');
+let ArticleActions = require('../actions/articleActions');
 
-var currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+let currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
 
 ArticleActions.initStore({
     page: 1
@@ -22,6 +22,5 @@ if(currentUserId) {
 
 ReactDOM.render(
     <ArticleIndex userId={currentUserId} />,
-    document.getElementById('react-main')
+    document.getElementById('article-list-component')
 );
-

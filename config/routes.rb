@@ -63,6 +63,15 @@
 #                          PATCH  /tags/:id(.:format)               tags#update
 #                          PUT    /tags/:id(.:format)               tags#update
 #                          DELETE /tags/:id(.:format)               tags#destroy
+#                   errors GET    /errors(.:format)                 errors#index
+#                          POST   /errors(.:format)                 errors#create
+#                new_error GET    /errors/new(.:format)             errors#new
+#               edit_error GET    /errors/:id/edit(.:format)        errors#edit
+#                    error GET    /errors/:id(.:format)             errors#show
+#                          PATCH  /errors/:id(.:format)             errors#update
+#                          PUT    /errors/:id(.:format)             errors#update
+#                          DELETE /errors/:id(.:format)             errors#destroy
+#                    admin GET    /admin(.:format)                  admins#show
 #             terms_of_use GET    /terms_of_use(.:format)           static_pages#terms_of_use
 #              sidekiq_web        /sidekiq                          Sidekiq::Web
 #
@@ -117,6 +126,13 @@ Rails.application.routes.draw do
   # Tags
   resources :tags do
   end
+
+  # Errors
+  resources :errors do
+  end
+
+  # Admin
+  get :admin, to: 'admins#show'
 
   # Static pages
   get   :terms_of_use,  to: 'static_pages#terms_of_use'

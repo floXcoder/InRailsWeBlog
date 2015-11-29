@@ -76,6 +76,9 @@ gem 'mini_magick',              '~> 4.3.5'
 # Search in database
 gem 'searchkick',               '~> 1.0.2'
 
+# Errors management
+gem 'rails_exception_handler',  git: 'https://github.com/Sharagoz/rails_exception_handler.git'
+
 # Deployment
 gem 'capistrano',               '~> 3.4.0'
 gem 'capistrano-rails',         '~> 1.1.5'

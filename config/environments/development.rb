@@ -37,10 +37,10 @@ Rails.application.configure do
   # N + 1 Queries
   config.after_initialize do
     Bullet.enable = true
-    Bullet.alert = true
-    Bullet.bullet_logger = true
+    Bullet.alert = false
     Bullet.console = true
-    Bullet.rails_logger = true
+    Bullet.bullet_logger = true
+    Bullet.rails_logger = false
     Bullet.add_footer = false
   end
 end

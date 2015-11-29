@@ -120,6 +120,10 @@ fr:
       associated: "Labels associés"
       filter: "Filtrer par labels ..."
       no_results: "Aucun label trouvé pour :"
+    error:
+      url: "URL :"
+      message: "Message :"
+      trace: "Trace :"
     checkbox:
       on: "Oui"
       off: "Non"

@@ -38,6 +38,10 @@ class UserPolicy
     correct_user?
   end
 
+  def admin?
+    correct_user? && @current_user.admin?
+  end
+
   private
 
   def correct_user?

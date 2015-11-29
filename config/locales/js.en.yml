@@ -120,6 +120,10 @@ en:
       associated: "Associated tags"
       filter: "Filter by Tag..."
       no_results: "No tags found for:"
+    error:
+      url: "URL:"
+      message: "Message:"
+      trace: "Trace:"
     checkbox:
       on: "On"
       off: "Off"

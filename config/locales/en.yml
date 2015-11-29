@@ -32,6 +32,8 @@ en:
         new: "New article"
         bookmark: "Articles bookmarked"
         temporary: "Temporary"
+      admin:
+        errors: "Erreurs"
       profile:
        connected: "My Profile"
        not_connected: "Connection"
@@ -104,6 +106,16 @@ en:
     city: "Ville"
     additional_info: "Additional Info"
     country: "Country"
+  article:
+    enums:
+      visibility:
+        everyone: "Everyone"
+        only_me: "Only me"
+  error_message:
+    enums:
+      origin:
+        server: "Serveur"
+        client: "Client"
   popup:
     cancel: "Cancel"
   buttons:

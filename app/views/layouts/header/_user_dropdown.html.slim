@@ -6,6 +6,13 @@ li class="#{'active' if I18n.locale == :en}"
 
 li.divider
 
+/ Administration
+- if user_signed_in? && current_user.admin?
+  li
+    = link_to t('views.header.admin.errors'), admin_path
+
+li.divider
+
 / User account
 - if user_signed_in?
   li

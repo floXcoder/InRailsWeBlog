@@ -1,6 +1,7 @@
 'use strict';
 
 var ArticleActions = require('../actions/articleActions');
+var ErrorActions = require('../actions/errorActions');
 
 var History = require('../modules/mixins/history');
 
@@ -107,7 +108,7 @@ var ArticleStore = Reflux.createStore({
         this.saveState(savedParams, {title: title});
     },
 
-    _handleJsonErrors: function (xhr, status, error) {
+    _handleJsonErrors: function (url, xhr, status, error) {
         if (status === 'error') {
             if (error === 'Forbidden') {
                 Materialize.toast(I18n.t('js.article.model.errors.not_authorized'));
@@ -117,6 +118,13 @@ var ArticleStore = Reflux.createStore({
         } else {
             log.error('Unknown Error in JSON request: ' + error);
         }
+
+        ErrorActions.pushError({
+            message: error,
+            url: url,
+            trace: xhr.responseText,
+            origin: 'communication'
+        });
     },
 
     _resetSearch: function () {
@@ -189,7 +197,7 @@ var ArticleStore = Reflux.createStore({
                 callback.bind(this, data)();
             }.bind(this))
             .fail(function (xhr, status, error) {
-                this._handleJsonErrors(xhr, status, error);
+                this._handleJsonErrors(url, xhr, status, error);
             }.bind(this));
     },
 
@@ -281,7 +289,7 @@ var ArticleStore = Reflux.createStore({
                 this.trigger(this.articleData);
             }.bind(this),
             error: function (xhr, status, error) {
-                this._handleJsonErrors(xhr, status, error);
+                this._handleJsonErrors(this.url, xhr, status, error);
             }.bind(this)
         });
     },
@@ -324,7 +332,7 @@ var ArticleStore = Reflux.createStore({
                 }
             }.bind(this),
             error: function (xhr, status, error) {
-                this._handleJsonErrors(xhr, status, error);
+                this._handleJsonErrors(url, xhr, status, error);
             }.bind(this)
         });
     },
@@ -372,7 +380,7 @@ var ArticleStore = Reflux.createStore({
                 }
             }.bind(this),
             error: function (xhr, status, error) {
-                this._handleJsonErrors(xhr, status, error);
+                this._handleJsonErrors(url, xhr, status, error);
             }.bind(this)
         });
     },
@@ -473,7 +481,7 @@ var ArticleStore = Reflux.createStore({
                     return true;
                 }.bind(this),
                 error: function (xhr, status, error) {
-                    this._handleJsonErrors(xhr, status, error);
+                    this._handleJsonErrors(url, xhr, status, error);
                 }.bind(this)
             });
         }

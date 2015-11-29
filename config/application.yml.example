@@ -13,8 +13,8 @@ DATABASE_TEST_USERNAME: ''
 DATABASE_TEST_PASSWORD: ''
 
 # Database account and password for production environment
-DATABASE_PRODUCTION_USERNAME: ''
-DATABASE_PRODUCTION_PASSWORD: ''
+DATABASE_PROD_USERNAME: ''
+DATABASE_PROD_PASSWORD: ''
 
 # Website domain name, use when sending emails
 DOMAIN: 'inrailsweblog.com'

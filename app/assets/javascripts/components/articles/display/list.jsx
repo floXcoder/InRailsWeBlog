@@ -28,7 +28,7 @@ var ArticleListDisplay = React.createClass({
     },
 
     _renderArticles () {
-        var ArticleNodes = this.props.articles.map(function (article) {
+        let ArticleNodes = this.props.articles.map(function (article) {
             var articleContent = this.props.highlightResults && !$.isEmpty(article.highlight_content) ?
                 article.highlight_content :
                 article.content;

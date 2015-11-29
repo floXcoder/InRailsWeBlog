@@ -39,15 +39,28 @@ if (window.railsEnv === 'development') {
     log.now = function (data, colorStyle) {
         screenLog.log(data, colorStyle);
     };
-    window.onerror = function (msg, url, linenumber) {
-        log.now('Error: ' + msg + ' (File: ' + url + ' ; ' + linenumber + ')', 'red');
-        return false;
-    }.bind(log);
 } else {
     log.setLevel('warn');
     log.now = function () {
     };
 }
+
+// Error management
+var ErrorActions = require('./actions/errorActions');
+require('./stores/errorStore');
+window.onerror = function (message, url, lineNumber, columnNumber, trace) {
+    ErrorActions.pushError({
+        message: message,
+        url: url,
+        lineNumber: lineNumber,
+        columnNumber: columnNumber,
+        trace: trace.stack,
+        origin: 'client'
+    });
+    if (window.railsEnv === 'development') {
+        log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'red');
+    }
+};
 
 // IE10 viewport hack for Surface/desktop Windows 8 bug
 if (navigator.userAgent.match(/IEMobile\/10\.0/)) {

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151109154017) do
+ActiveRecord::Schema.define(version: 20151128164513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,25 @@ ActiveRecord::Schema.define(version: 20151109154017) do
   add_index "bookmarked_articles", ["article_id"], name: "index_bookmarked_articles_on_article_id", using: :btree
   add_index "bookmarked_articles", ["user_id", "article_id"], name: "index_bookmarked_articles_on_user_id_and_article_id", unique: true, using: :btree
   add_index "bookmarked_articles", ["user_id"], name: "index_bookmarked_articles_on_user_id", using: :btree
+
+  create_table "error_messages", force: :cascade do |t|
+    t.text     "class_name"
+    t.text     "message"
+    t.text     "trace"
+    t.text     "line_number"
+    t.text     "column_number"
+    t.text     "params"
+    t.text     "target_url"
+    t.text     "referer_url"
+    t.text     "user_agent"
+    t.string   "user_info"
+    t.string   "app_name"
+    t.string   "doc_root"
+    t.string   "ip"
+    t.integer  "origin",        default: 0, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "pictures", force: :cascade do |t|
     t.integer  "imageable_id",   null: false
@@ -108,7 +127,7 @@ ActiveRecord::Schema.define(version: 20151109154017) do
   add_index "tags", ["tagger_id"], name: "index_tags_on_tagger_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "pseudo",                 default: "",   null: false
+    t.string   "pseudo",                 default: "",    null: false
     t.string   "first_name",             default: ""
     t.string   "last_name",              default: ""
     t.integer  "age",                    default: 0
@@ -116,16 +135,17 @@ ActiveRecord::Schema.define(version: 20151109154017) do
     t.string   "country",                default: ""
     t.string   "additional_info",        default: ""
     t.string   "locale",                 default: "fr"
-    t.text     "preferences",            default: "",   null: false
+    t.text     "preferences",            default: "",    null: false
+    t.boolean  "admin",                  default: false, null: false
     t.string   "slug"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -134,7 +154,7 @@ ActiveRecord::Schema.define(version: 20151109154017) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",        default: 0,    null: false
+    t.integer  "failed_attempts",        default: 0,     null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
   end

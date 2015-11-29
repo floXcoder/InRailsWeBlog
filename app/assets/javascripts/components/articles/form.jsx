@@ -13,10 +13,6 @@ var UserStore = require('../../stores/userStore');
 var ArticleActions = require('../../actions/articleActions');
 
 var ArticleForm = React.createClass({
-    mixins: [
-        Reflux.listenTo(UserStore, 'onPreferenceChange')
-    ],
-
     propTypes: {
         article: React.PropTypes.object,
         multiLanguage: React.PropTypes.bool,
@@ -24,6 +20,10 @@ var ArticleForm = React.createClass({
         onCancel: React.PropTypes.func,
         onSubmit: React.PropTypes.func
     },
+
+    mixins: [
+        Reflux.listenTo(UserStore, 'onPreferenceChange')
+    ],
 
     getDefaultProps () {
         return {

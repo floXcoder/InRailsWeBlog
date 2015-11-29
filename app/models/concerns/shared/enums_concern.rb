@@ -2,7 +2,8 @@ module Shared::EnumsConcern
   extend ActiveSupport::Concern
 
   VISIBILITY = [:everyone, :only_me]
-  # VISIBILITY            = [ :everyone, :only_me, :selected_group ]
+
+  ORIGIN     = [:server, :client, :communication]
 
   included do
     def self.enums_to_tr(klass, enums)

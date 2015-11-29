@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/Sharagoz/rails_exception_handler.git
+  revision: f18ab423345d1f85f70938354c27506841f2c14d
+  specs:
+    rails_exception_handler (2.3.4)
+
+GIT
   remote: https://github.com/globalize/globalize-versioning.git
   revision: 10ae04a77d765134f7d527b70693637d5937fba6
   specs:
@@ -677,6 +683,7 @@ DEPENDENCIES
   rack-mini-profiler (~> 0.9.8)
   rails (= 4.2.5)
   rails_best_practices (~> 1.15.7)
+  rails_exception_handler!
   readthis (~> 1.0.0)
   redis-session-store (~> 0.8.0)
   responders (~> 2.1.0)

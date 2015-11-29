@@ -12,6 +12,7 @@
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
 #  preferences            :text             default({}), not null
+#  admin                  :boolean          default(FALSE), not null
 #  slug                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
