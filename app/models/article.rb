@@ -168,14 +168,14 @@ class Article < ActiveRecord::Base
 
   # Nice url format
   include Shared::NiceUrlConcern
-  friendly_id :slug_candidates, use: :slugged
+  friendly_id :article_at_user, use: :slugged
 
-  # Friendly ID
-  def slug_candidates
-    [
-      :title,
-      [:title, :summary]
-    ]
+  def article_at_user
+    "#{title}_at_#{author.pseudo}"
+  end
+
+  def normalize_friendly_id(_string)
+    super.gsub('-', '_').gsub('_at_', '@')
   end
 
   def should_generate_new_friendly_id?
