@@ -8,14 +8,14 @@ class ArticlesController < ApplicationController
     current_user_id = current_user ? current_user.id : nil
 
     articles = if params[:tags]
-                 tag_names = params[:tags].map { |tag| tag.downcase }
+                 tag_names = params[:tags]
                  Article.includes(:translations, :author)
                    .user_related(current_user_id)
                    .joins(:tags)
                    .where(tags: { name: tag_names })
                    .order('articles.id DESC')
                elsif params[:relation_tags]
-                 parent_tag, child_tag = params[:relation_tags].map { |tag| tag.downcase }
+                 parent_tag, child_tag = params[:relation_tags]
                  parent_articles       = Article
                                            .joins(:tags)
                                            .where(tagged_articles: { parent: true }, tags: { name: parent_tag })

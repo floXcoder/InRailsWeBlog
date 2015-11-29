@@ -1,5 +1,7 @@
 'use strict';
 
+var classNames = require('classnames');
+
 var ArticleBookmarkIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
@@ -26,15 +28,17 @@ var ArticleBookmarkIcon = React.createClass({
 
     render () {
         if(this.props.userId) {
-            let bookmarkClass = "material-icons" + (this.state.isBookmarked ? " article-bookmarked" : '');
-            let bookmarkTooltip = I18n.t('js.article.tooltip.bookmark');
+            let bookmarkClasses = classNames('material-icons', { 'article-bookmarked': this.state.isBookmarked });
+            let bookmarkTooltip = this.state.isBookmarked ?
+                I18n.t('js.article.tooltip.remove_bookmark') :
+                I18n.t('js.article.tooltip.add_bookmark');
 
             return (
-                <div className="article-icons tooltipped"
+                <a className="tooltipped btn-floating"
                      data-tooltip={bookmarkTooltip}
                      onClick={this._onClickBookmark.bind(this, this.props.article.id)} >
-                    <i className={bookmarkClass} >bookmark</i>
-                </div>
+                    <i className={bookmarkClasses}>bookmark</i>
+                </a>
             );
         } else {
             return null;

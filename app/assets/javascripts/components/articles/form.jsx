@@ -464,9 +464,9 @@ var ArticleForm = React.createClass({
         let article = this.props.article || {};
 
         return (
-            <form className="article-form" onSubmit={this._handleSubmit}>
-
-                { this._createFields() }
+            <form className="article-form"
+                  onSubmit={this._handleSubmit}>
+                {this._createFields()}
 
                 <div className="row margin-top-10">
                     <div className="col l6 m6 s12">

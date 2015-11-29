@@ -16,11 +16,11 @@ var ArticleDeleteIcon = React.createClass({
     render () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
             return (
-                <div className="article-icons tooltipped"
+                <a className="article-delete tooltipped btn-floating"
                      data-tooltip={I18n.t('js.article.tooltip.delete')}
                      onClick={this.props.onClickDelete}>
-                    <i className="material-icons article-delete">delete</i>
-                </div>
+                    <i className="material-icons">delete</i>
+                </a>
             );
         } else {
             return null;

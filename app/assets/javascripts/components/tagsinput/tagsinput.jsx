@@ -152,7 +152,8 @@ var TagsInput = React.createClass({
         }).bind(this));
 
         return (
-            <div ref="tagsSelection" className="tagsinput-tags">
+            <div ref="tagsSelection"
+                 className="tagsinput-tags">
                 <div className="tagsinput-selected">
                     {tagItems}
                     <ReactTags selectedTags={this.state.selectedTags}

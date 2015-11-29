@@ -20,17 +20,17 @@ var ArticleVisibilityIcon = React.createClass({
 
             if (this.props.article.visibility === 'everyone') {
                 return (
-                    <div className="article-icons tooltipped hide-on-small-only"
+                    <a className="article-public tooltipped btn-floating"
                          data-tooltip={visibilityTooltip}>
-                        <i className="material-icons article-public">visibility</i>
-                    </div>
+                        <i className="material-icons">visibility</i>
+                    </a>
                 );
             } else {
                 return (
-                    <div className="article-icons tooltipped hide-on-small-only"
+                    <a className="article-private tooltipped btn-floating"
                          data-tooltip={visibilityTooltip}>
-                        <i className="material-icons article-private">visibility_off</i>
-                    </div>
+                        <i className="material-icons">visibility_off</i>
+                    </a>
                 );
             }
         } else {

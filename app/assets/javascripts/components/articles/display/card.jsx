@@ -59,6 +59,7 @@ var ArticleCardDisplay = React.createClass({
             <div className="card clearfix blog-article-item">
                 <div className="card-content">
                     <div className="card-title article-title center clearfix">
+                        <ArticleAuthorIcon article={this.props.article}/>
                         <h1 className="article-title-card">
                             <a href={"/articles/" + this.props.article.slug}>
                                 {this.props.article.title}
@@ -74,7 +75,7 @@ var ArticleCardDisplay = React.createClass({
                         <ArticleTags article={this.props.article}
                                      onClickTag={this._handleTagClick}/>
                     </div>
-                    <div className="col s12 m12 l6 right-align">
+                    <div className="col s12 m12 l6 offset-l6 right-align">
                         <FixedActionButton>
                             <ArticleLinkIcon isLink={this.props.article.is_link}/>
                             <ArticleBookmarkIcon article={this.props.article}
@@ -82,7 +83,6 @@ var ArticleCardDisplay = React.createClass({
                                                  onClickBookmark={this.props.onClickBookmark}/>
                             <ArticleVisibilityIcon article={this.props.article}
                                                    userId={this.props.userId}/>
-                            <ArticleAuthorIcon article={this.props.article}/>
                             <ArticleEditIcon article={this.props.article}
                                              userId={this.props.userId}
                                              onClickEdit={this.props.onClickEdit}/>

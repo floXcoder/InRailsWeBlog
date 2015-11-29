@@ -5,6 +5,12 @@ var FixedActionButton = React.createClass({
         children: React.PropTypes.array.isRequired
     },
 
+    componentDidMount () {
+    },
+
+    componentWillUpdate () {
+    },
+
     _renderButton () {
         return React.Children.map(this.props.children, function (button) {
             return (

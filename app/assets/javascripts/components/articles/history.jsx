@@ -4,7 +4,7 @@ var ArticleActions = require('../../actions/articleActions');
 
 var ArticleHistory = React.createClass({
     propTypes: {
-        articleVersions: React.PropTypes.object.isRequired
+        articleVersions: React.PropTypes.array.isRequired
     },
 
     getInitialState () {
@@ -56,7 +56,8 @@ var ArticleHistory = React.createClass({
             }
 
             return (
-                <ul className="blog-article-history collapsible popout" data-collapsible="accordion">
+                <ul className="blog-article-history collapsible popout"
+                    data-collapsible="accordion">
                     {Versions}
                 </ul>
             );

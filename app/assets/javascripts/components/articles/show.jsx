@@ -14,14 +14,14 @@ var ArticleDeleteIcon = require('./icons/delete');
 var ArticleTags = require('./properties/tags');
 
 var ArticleShow = React.createClass({
-    mixins: [
-        Reflux.listenTo(ArticleStore, 'onArticleChange')
-    ],
-
     propTypes: {
         article: React.PropTypes.object.isRequired,
         userId: React.PropTypes.number
     },
+
+    mixins: [
+        Reflux.listenTo(ArticleStore, 'onArticleChange')
+    ],
 
     getDefaultProps () {
         return {
@@ -68,7 +68,8 @@ var ArticleShow = React.createClass({
 
         if (typeof(articleStore.articleVersions) !== 'undefined') {
             newState.articleVersions = articleStore.articleVersions;
-            if (articleStore.articleVersions.length === 0) {
+            if (articleStore.articleVersions.length === 0
+                || (articleStore.articleVersions.length === 1 && articleStore.articleVersions[0].article.content === '')) {
                 Materialize.toast(I18n.t('js.article.history.none'));
             }
         }
@@ -76,7 +77,7 @@ var ArticleShow = React.createClass({
         if (typeof(articleStore.articleRestored) !== 'undefined') {
             newState.article = articleStore.articleRestored;
             Materialize.toast(I18n.t('js.article.history.restored'));
-            this._showHistory();
+            this._handleHistoryClick();
         }
 
         if (!$.isEmpty(newState)) {
@@ -116,10 +117,10 @@ var ArticleShow = React.createClass({
     _renderEditIcon () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
             return (
-                <a className="article-icons tooltipped"
+                <a className="article-edit btn-floating tooltipped"
                    data-tooltip={I18n.t('js.article.tooltip.edit')}
                    href={"/articles/" + this.props.article.id + "/edit"}>
-                    <i className="material-icons article-edit">mode_edit</i>
+                    <i className="material-icons">mode_edit</i>
                 </a>
             );
         }

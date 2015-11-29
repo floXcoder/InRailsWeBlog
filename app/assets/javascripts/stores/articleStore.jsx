@@ -90,14 +90,16 @@ var ArticleStore = Reflux.createStore({
         var title = I18n.t('js.article.url');
         var savedParams = {};
 
-        if (data.tags) {
-            savedParams.tags = data.tags.join(',');
-            title = I18n.t('js.article.tag.url') + ' ' + data.tags;
-        }
         if (data.relationTags) {
             savedParams.relation_tags = data.relationTags.join(',');
             title = I18n.t('js.article.tag.url') + ' ' + data.relationTags;
+        } else if (data.tags) {
+            savedParams.tags = data.tags.join(',');
+            title = I18n.t('js.article.tag.url') + ' ' + data.tags;
+        } else {
+            savedParams = data;
         }
+
         if (data.page && (data.page === '1' || data.page === 1)) {
             savedParams = _.omit(data, 'page');
         }

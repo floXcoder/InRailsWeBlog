@@ -24,8 +24,9 @@ $('.blog-flash').each(function() {
     Materialize.toast($this.html(), 3000);
 });
 
-// Header : close side nav on click for preferences and tags
-$('#toggle-navbar').click(function (event) {
+// Header : close side nav on click for preferences or tags
+$('.button-collapse').click(function (event) {
+    log.info(event.target);
     if(event && (event.target.id === 'toggle-tags' || event.target.id === 'toggle-user-pref')) {
         $('#toggle-navbar').sideNav('hide');
     }

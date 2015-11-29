@@ -13,16 +13,28 @@ var ArticleHistoryIcon = React.createClass({
         };
     },
 
+    componentDidMount () {
+        $('.article-history.tooltipped').tooltip();
+    },
+
+    componentWillUpdate () {
+        $('.article-history.tooltipped').tooltip('remove');
+    },
+
+    componentDidUpdate () {
+        $('.article-history.tooltipped').tooltip();
+    },
+
     render () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
             var historyTooltip = I18n.t('js.article.tooltip.history');
 
             return (
-                <div className="article-icons tooltipped"
+                <a className="article-history tooltipped btn-floating"
                      data-tooltip={historyTooltip}
                      onClick={this.props.onClickHistory}>
-                    <i className="material-icons article-history">history</i>
-                </div>
+                    <i className="material-icons">history</i>
+                </a>
             );
         } else {
             return null;

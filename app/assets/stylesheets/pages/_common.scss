@@ -397,6 +397,10 @@
         right: 0;
         position: relative;
         z-index: inherit;
+
+        a {
+          margin-right: 0;
+        }
       }
 
       //.col {
@@ -447,67 +451,57 @@
       display: inline-block;
     }
 
-    .article-icons {
-      display: inline;
-      margin: 0 8px;
-      color: $text-color-base;
+    .article-author {
+      float: left;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 1.1rem;
+      line-height: 1.1rem;
+      vertical-align: middle;
+      position: relative;
+      display: inline-block;
+    }
 
-      @mixin article-hover() {
-        &:hover {
-          box-shadow: 0 0 3px color('blue-grey', 'lighten-3');
-          border-radius: 2px;
-        }
-      }
+    .article-goto {
+      background-color: color('deep-orange', 'darken-4');
+    }
 
-      .material-icons {
-        margin: 0 15px;
-      }
+    .article-private {
+      background-color: color('orange', 'darken-4');
+    }
 
-      .article-goto {
-        color: color('deep-orange', 'darken-4');
-      }
+    .article-public {
+      background-color: color('orange', 'darken-4');
+    }
 
-      .article-private {
-        color: color('orange', 'darken-4');
-      }
+    .article-edit {
+      cursor: pointer;
+      background-color: color('green', 'darken-4');
+    }
 
-      .article-public {
-        color: color('orange', 'darken-4');
-      }
+    .article-history {
+      cursor: pointer;
+      background-color: color('deep-purple', 'darken-2');
+    }
 
-      .article-edit {
-        cursor: pointer;
-        color: color('green', 'darken-4');
-        @include article-hover;
-      }
+    .article-link {
 
-      .article-history {
-        cursor: pointer;
-        color: color('deep-purple', 'darken-2');
-        @include article-hover;
-      }
+    }
 
-      .article-link {
+    .article-delete {
+      margin-right: 4rem;
+      cursor: pointer;
+      background-color: color('teal', 'darken-1');
+    }
 
-      }
+    .article-cancel {
+      cursor: pointer;
+      background-color: color('deep-orange', 'darken-2');
+    }
 
-      .article-delete {
-        cursor: pointer;
-        color: color('teal', 'darken-1');
-        @include article-hover;
-      }
-
-      .article-cancel {
-        cursor: pointer;
-        color: color('deep-orange', 'darken-2');
-        @include article-hover;
-      }
-
-      .article-update {
-        cursor: pointer;
-        color: color('teal', 'darken-2');
-        @include article-hover;
-      }
+    .article-update {
+      cursor: pointer;
+      background-color: color('teal', 'darken-2');
     }
   }
 

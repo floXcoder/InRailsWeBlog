@@ -72,9 +72,13 @@ fr:
       tooltip:
         edit: "Modifier l'article"
         visibility: "Visibilité : %{visibility}"
-        bookmark: "Ajouter aux favoris"
+        add_bookmark: "Ajouter aux favoris"
+        remove_bookmark: "Enlever des favoris"
         history: "Voir les anciennes révisions de l'article"
-        link: "C'est un lien"
+        is_link: "C'est un lien"
+        link_to: "Aller vers l'article"
+        cancel: "Annuler"
+        update: "Mettre à jour l'article"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
       flash:
@@ -91,7 +95,7 @@ fr:
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       edit:
         title: "Modification d'un article"
-        form_title: "Modification de %{title}"
+        form_title: "Modification de : %{title}"
         submit: "Mettre à jour l'article"
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       search:

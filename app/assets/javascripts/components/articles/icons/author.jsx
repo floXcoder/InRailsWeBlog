@@ -7,7 +7,7 @@ var ArticleLinkIcon = React.createClass({
 
     render () {
         return (
-            <div className="article-icons">
+            <div className="article-author">
                 <i className="material-icons">account_circle</i>
                 {this.props.article.author.pseudo}
             </div>

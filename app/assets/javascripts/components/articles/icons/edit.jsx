@@ -16,11 +16,11 @@ var ArticleEditIcon = React.createClass({
     render () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
             return (
-                <div className="article-icons tooltipped"
+                <a className="article-edit tooltipped btn-floating"
                      data-tooltip={I18n.t('js.article.tooltip.edit')}
                      onClick={this.props.onClickEdit} >
-                    <i className="material-icons article-edit">mode_edit</i>
-                </div>
+                    <i className="material-icons">mode_edit</i>
+                </a>
             );
         } else {
             return null;

@@ -173,7 +173,9 @@ var ReactTags = React.createClass({
 
         return (
             <div className="input-field tagsinput-tagInput">
-                <label htmlFor="tagSelection">{I18n.t('js.article.new.tags.placeholder')}</label>
+                <label htmlFor="tagSelection">
+                    {I18n.t('js.article.new.tags.placeholder')}
+                </label>
                 <input ref="input"
                        id="tagSelection"
                        type="text"

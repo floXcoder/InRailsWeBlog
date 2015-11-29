@@ -21,16 +21,21 @@ var ArticleEdit = React.createClass({
         let title = this.props.article.title ?
             I18n.t('js.article.edit.form_title', {title: this.props.article.title}) :
             I18n.t('js.article.edit.title');
+
         return (
             <div className="blog-form blog-article-edit">
-                <h4 className="blog-form-title">
-                    {title}
-                </h4>
-                <hr/>
-                <ArticleForm article={this.props.article}
-                             multiLanguage={this.props.multiLanguage}
-                             onCancel={this._onCancel}>
-                </ArticleForm>
+                <div className="card">
+                    <div className="card-content blue-grey darken-3 white-text">
+                        <span className="card-title">
+                            {title}
+                        </span>
+                    </div>
+                    <div className="card-action">
+                        <ArticleForm article={this.props.article}
+                                     multiLanguage={this.props.multiLanguage}
+                                     onCancel={this._onCancel}/>
+                    </div>
+                </div>
             </div>
 
         );

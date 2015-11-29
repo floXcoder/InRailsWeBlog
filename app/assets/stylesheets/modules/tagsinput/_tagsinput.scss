@@ -28,14 +28,13 @@
   float: left;
   padding-top: 10px;
 
-  span.tagsinput-tag {
+  .tagsinput-tag {
     //border: 1px solid #ddd;
     //background: #eee;
-    //font-size: 12px;
-    display: inline-block;
-    padding: 0 15px;
-    margin: 0 5px;
     cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+    padding: 0 15px;
     //border-radius: 2px;
 
     &.tag-parent {
@@ -47,9 +46,10 @@
     }
   }
 
-  a.tagsinput-remove {
+  .tagsinput-remove {
     color: #aaa;
-    margin-left: 5px;
+    margin-left: 10px;
+    margin-right: 0;
     cursor: pointer;
   }
 }
