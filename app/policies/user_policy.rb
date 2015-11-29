@@ -3,7 +3,7 @@ class UserPolicy
 
   def initialize(current_user, user)
     @current_user = current_user
-    @user = user
+    @user         = user
   end
 
   def show?
@@ -36,6 +36,10 @@ class UserPolicy
 
   def destroy?
     correct_user?
+  end
+
+  def admin?
+    correct_user? && @current_user.admin?
   end
 
   private

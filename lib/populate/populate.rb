@@ -9,6 +9,7 @@ class Populate
     FactoryGirl.create(:user, :confirmed,
                        pseudo: 'Admin',
                        email: 'blog@inrailsweblog.com',
+                       admin: true,
                        password: 'flofloflo',
                        password_confirmation: 'flofloflo')
   end

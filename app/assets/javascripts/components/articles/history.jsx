@@ -1,47 +1,48 @@
-"use strict";
+'use strict';
 
 var ArticleActions = require('../../actions/articleActions');
 
 var ArticleHistory = React.createClass({
     propTypes: {
-        articleVersions: React.PropTypes.object.isRequired
+        articleVersions: React.PropTypes.array.isRequired
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {};
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         $('.blog-article-history.collapsible').collapsible();
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate () {
         $('.blog-article-history.collapsible').collapsible();
     },
 
-    _restoreArticle: function (articleId, versionId) {
-        var articleToRestore = {
+    _handleRestoreClick (articleId, versionId) {
+        let articleToRestore = {
             articleId: articleId,
             versionId: versionId
         };
         ArticleActions.restoreArticle({restore: articleToRestore});
     },
 
-    render: function () {
+    render () {
         if (this.props.articleVersions) {
-            var Versions = this.props.articleVersions.map(function (version) {
+            let Versions = this.props.articleVersions.map(function (version) {
                 if(!$.isEmpty(version.article.content)) {
                     return (
-                        <li className="" key={version.id}>
+                        <li key={version.id}>
                             <div className="collapsible-header">
                                 <i className="material-icons">change_history</i>
                                 {I18n.t('js.article.history.changed_at') + ' ' + version.changed_at}
                             </div>
                             <div className="collapsible-body article-history-item blog-article-item">
-                                <span dangerouslySetInnerHTML={{__html: version.article.content}}/>
+                                <span className="blog-article-content"
+                                      dangerouslySetInnerHTML={{__html: version.article.content}}/>
                                 <hr className="article-history-item-divider"/>
                                 <a className="waves-effect waves-light btn-small"
-                                   onClick={this._restoreArticle.bind(this, version.article.id, version.id)}>
+                                   onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>
                                     {I18n.t('js.article.history.restore')}
                                 </a>
                             </div>
@@ -55,7 +56,8 @@ var ArticleHistory = React.createClass({
             }
 
             return (
-                <ul className="blog-article-history collapsible popout" data-collapsible="accordion">
+                <ul className="blog-article-history collapsible popout"
+                    data-collapsible="accordion">
                     {Versions}
                 </ul>
             );

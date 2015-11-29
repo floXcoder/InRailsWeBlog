@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+var classNames = require('classnames');
 
 // determines the min query length for which
 // suggestions are displayed
@@ -16,7 +18,7 @@ var Suggestions = React.createClass({
         handleHover: React.PropTypes.func.isRequired
     },
 
-    markIt: function (input, query) {
+    markIt (input, query) {
         var escapedRegex = query.trim().replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
         var r = new RegExp(escapedRegex, "gi");
         return {
@@ -24,14 +26,19 @@ var Suggestions = React.createClass({
         };
     },
 
-    render: function () {
+    render () {
         var suggestions = this.props.tags.map((function (item, i) {
             var itemName = this.props.labelField ? item[this.props.labelField] : item;
+            var SuggestionClass = classNames(
+                {
+                    'active': i == this.props.selectedIndex
+                }
+            );
             return (
                 <li key={i}
                     onClick={this.props.onClickSuggestion.bind(null, i)}
                     onMouseOver={this.props.handleHover.bind(null, i)}
-                    className={i == this.props.selectedIndex ? "active" : ""}>
+                    className={SuggestionClass}>
                     <span dangerouslySetInnerHTML={this.markIt(itemName, this.props.query)} />
                 </li>
             )

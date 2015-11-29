@@ -1,14 +1,14 @@
-"use strict";
+'use strict';
 
 var AssociatedTagBox = require('../../components/tags/associated/box');
 var IndexTagBox = require('../../components/tags/index/box');
 
 var TagSidebar = React.createClass({
-    getInitialState: function () {
+    getInitialState () {
         return {};
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         if(window.innerWidth > window.parameters.large_screen) {
             $('.navbar-fixed #toggle-tags').click(function () {
                 $('.blog-sidebar').find('input').focus();
@@ -19,14 +19,16 @@ var TagSidebar = React.createClass({
         $('#tag-sidebar ul.tabs').tabs();
     },
 
-    render: function () {
+    render () {
         return (
-            <div id="tag-sidebar" className="side-nav">
+            <div id="tag-sidebar"
+                 className="side-nav">
                 <div className="row">
                     <div className="col s12">
                         <ul className="tabs">
                             <li className="tab col s3">
-                                <a href="#tag-list" className="active">
+                                <a href="#tag-list"
+                                   className="active">
                                     {I18n.t('js.tag.list')}
                                 </a>
                             </li>
@@ -37,10 +39,12 @@ var TagSidebar = React.createClass({
                             </li>
                         </ul>
                     </div>
-                    <div className="col s12" id="tag-list">
+                    <div id="tag-list"
+                         className="col s12">
                         <IndexTagBox/>
                     </div>
-                    <div className="col s12" id="tag-associated">
+                    <div id="tag-associated"
+                         className="col s12">
                         <AssociatedTagBox/>
                     </div>
                 </div>

@@ -1,28 +1,29 @@
-"use strict";
+'use strict';
 
 var ArticleActions = require('../../../actions/articleActions');
 var ParentTag = require('./parent');
 
 var IndexTagList = React.createClass({
     propTypes: {
+        tags: React.PropTypes.object.isRequired,
         filteredTags: React.PropTypes.object.isRequired,
         filterText: React.PropTypes.string.isRequired
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {};
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         $('.blog-index-tag .collapsible').collapsible();
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate () {
         $('.blog-index-tag .collapsible').collapsible();
     },
 
-    _onClickTag: function (parentTagName, childTagName) {
-        var tags = [];
+    _handleTagClick (parentTagName, childTagName) {
+        let tags = [];
         if (!$.isEmpty(childTagName)) {
             tags.push(parentTagName);
             tags.push(childTagName);
@@ -34,13 +35,14 @@ var IndexTagList = React.createClass({
         return true;
     },
 
-    render: function () {
+    render () {
         var TagItems = null;
 
         if (this.props.filteredTags) {
-            var parentFilteredTags = [];
+            let parentFilteredTags = [];
             _.map(_.toArray(this.props.tags), function (tag) {
-                if (this.props.filteredTags[tag.id] || _.intersection(_.pluck(this.props.filteredTags, 'id'), _.pluck(tag.children, 'id')).length > 0) {
+                if (this.props.filteredTags[tag.id]
+                    || _.intersection(_.pluck(this.props.filteredTags, 'id'), _.pluck(tag.children, 'id')).length > 0) {
                     parentFilteredTags.push(tag);
                 }
             }, this);
@@ -51,14 +53,15 @@ var IndexTagList = React.createClass({
                                tag={tag}
                                filteredTags={this.props.filteredTags}
                                textFiltered={this.props.filterText !== ''}
-                               onClickTag={this._onClickTag} />
+                               onClickTag={this._handleTagClick} />
                 );
             }, this);
         }
 
         if (!$.isEmpty(TagItems)) {
             return (
-                <ul className="collapsible collapsible-accordion" data-collapsible="expandable">
+                <ul className="collapsible collapsible-accordion"
+                    data-collapsible="expandable">
                     {TagItems}
                 </ul>
             );
@@ -66,7 +69,7 @@ var IndexTagList = React.createClass({
         else {
             return (
                 <div>
-                    No tags found for {this.props.filterText}
+                    {I18n.t('js.tag.no_results') + ' ' + this.props.filterText}
                 </div>
             );
         }

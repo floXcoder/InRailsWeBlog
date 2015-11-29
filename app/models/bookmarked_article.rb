@@ -14,8 +14,8 @@ class BookmarkedArticle < ActiveRecord::Base
   belongs_to :article
 
   # Parameters validation
-  validates :user_id,     presence: true
-  validates :article_id,  presence: true
+  validates :user_id, presence: true
+  validates :article_id, presence: true
 
   validates_uniqueness_of :user_id, scope: :article_id, allow_nil: false
 end

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var InfiniteScroll = require('../../../components/materialize/infiniteScroll');
 
@@ -14,21 +14,21 @@ var ArticleListDisplay = React.createClass({
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null,
             highlightResults: false
         };
     },
 
-    _loadNextArticles: function () {
+    _loadNextArticles () {
         if (this.props.hasMore) {
             ArticleActions.loadNextArticles();
         }
     },
 
-    _displayMode: function () {
-        var ArticleNodes = this.props.articles.map(function (article) {
+    _renderArticles () {
+        let ArticleNodes = this.props.articles.map(function (article) {
             var articleContent = this.props.highlightResults && !$.isEmpty(article.highlight_content) ?
                 article.highlight_content :
                 article.content;
@@ -39,7 +39,7 @@ var ArticleListDisplay = React.createClass({
                         key={article.id}
                         userId={this.props.userId}
                         article={article}
-                        articleDisplayMode={this.props.articleDisplayMode}>
+                        initialDisplayMode={this.props.articleDisplayMode}>
                         {articleContent}
                     </ArticleItem>
                 );
@@ -50,7 +50,8 @@ var ArticleListDisplay = React.createClass({
             return (
                 <div className="card-panel">
                     <div className="blog-article-list">
-                        <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.props.hasMore}>
+                        <InfiniteScroll loadMore={this._loadNextArticles}
+                                        hasMore={this.props.hasMore}>
                             {ArticleNodes}
                         </InfiniteScroll>
                     </div>
@@ -59,7 +60,8 @@ var ArticleListDisplay = React.createClass({
         } else if (this.props.articleDisplayMode === 'card') {
             return (
                 <div className="blog-article-list">
-                    <InfiniteScroll loadMore={this._loadNextArticles} hasMore={this.props.hasMore}>
+                    <InfiniteScroll loadMore={this._loadNextArticles}
+                                    hasMore={this.props.hasMore}>
                         {ArticleNodes}
                     </InfiniteScroll>
                 </div>
@@ -67,11 +69,11 @@ var ArticleListDisplay = React.createClass({
         }
     },
 
-    render: function () {
+    render () {
         return (
             <div className="row">
                 <div className="col s12">
-                    { this._displayMode() }
+                    {this._renderArticles()}
                 </div>
             </div>
         );

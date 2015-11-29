@@ -9,6 +9,11 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
+  config.assets.debug = false
+
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -32,10 +37,10 @@ Rails.application.configure do
   # N + 1 Queries
   config.after_initialize do
     Bullet.enable = true
-    Bullet.alert = true
-    Bullet.bullet_logger = true
+    Bullet.alert = false
     Bullet.console = true
-    Bullet.rails_logger = true
+    Bullet.bullet_logger = true
+    Bullet.rails_logger = false
     Bullet.add_footer = false
   end
 end

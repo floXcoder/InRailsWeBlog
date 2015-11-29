@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var ArticleEditionIcons = React.createClass({
     propTypes: {
@@ -9,24 +9,33 @@ var ArticleEditionIcons = React.createClass({
         onClickSave: React.PropTypes.func.isRequired
     },
 
-    render: function () {
+    componentDidMount () {
+        $('.article-edition .tooltipped').tooltip('remove');
+    },
+
+    componentWillUnmount () {
+        $('.article-editing .tooltipped').tooltip('remove');
+    },
+
+    render () {
         if (this.props.userId && this.props.userId === this.props.article.author.id) {
-            $('.article-edition .article-icons.tooltipped').tooltip('remove');
             return (
-                <div className="article-icons">
-                    <i className="material-icons article-delete tooltipped"
+                <div className="article-editing">
+                    <a className="article-delete tooltipped btn-floating"
                        data-tooltip={I18n.t('js.article.tooltip.delete')}
-                       onClick={this.props.onClickDelete}>
-                        delete
-                    </i>
-                    <i className="material-icons article-cancel"
-                       onClick={this.props.onClickCancel}>
-                        clear
-                    </i>
-                    <i className="material-icons article-update"
+                       onClick={this.props.onClickDelete} >
+                        <i className="material-icons">delete</i>
+                    </a>
+                    <a className="article-cancel tooltipped btn-floating"
+                       data-tooltip={I18n.t('js.article.tooltip.cancel')}
+                       onClick={this.props.onClickCancel} >
+                        <i className="material-icons">clear</i>
+                    </a>
+                    <a className="article-update tooltipped btn-floating"
+                       data-tooltip={I18n.t('js.article.tooltip.update')}
                        onClick={this.props.onClickSave} >
-                        check
-                    </i>
+                        <i className="material-icons">check</i>
+                    </a>
                 </div>
             );
         }

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 require('../application');
 
@@ -6,30 +6,17 @@ require('../components/user/navigation');
 require('../components/tags/sidebar');
 
 // Automatic dropdown on hover
-$(".dropdown-button").dropdown({
+$('.dropdown-button').dropdown({
     hover: false,
-    gutter: 0,
     belowOrigin: true
 });
 
-// Initialize SideNav
-$('.navbar-fixed .button-collapse').sideNav({
-        menuWidth: 350, // Default is 240
-        edge: 'left' // Choose the horizontal origin
+// Initialize all SideNav
+$('header .button-collapse').sideNav({
+        menuWidth: 350,
+        edge: 'left'
     }
 );
-
-// Header : close side nav on click for preferences and tags
-$('.button-collapse').click(function (event) {
-    if(event && (event.target.id === 'toggle-tags' || event.target.id === 'toggle-user-pref')) {
-        $('.button-collapse').sideNav('hide');
-    }
-    return true;
-});
-
-// Got to top button
-$('.goto-top').goToTop();
-
 
 // Flash messages
 $('.blog-flash').each(function() {
@@ -37,10 +24,19 @@ $('.blog-flash').each(function() {
     Materialize.toast($this.html(), 3000);
 });
 
+// Header : close side nav on click for preferences or tags
+$('.button-collapse').click(function (event) {
+    log.info(event.target);
+    if(event && (event.target.id === 'toggle-tags' || event.target.id === 'toggle-user-pref')) {
+        $('#toggle-navbar').sideNav('hide');
+    }
+    return true;
+});
+
 // Activate article creation
 if(window.currentUserId === 'null') {
-    $('a#toggle-article-creation').click(function () {
+    $('a#toggle-article-creation').click(function (event) {
+        event.preventDefault();
         Materialize.toast(I18n.t('js.article.flash.creation_unpermitted'), 5000);
-        return false;
-    }.bind(this));
+    });
 }

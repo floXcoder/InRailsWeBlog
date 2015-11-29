@@ -15,19 +15,19 @@ header.blog-header
         = link_to t('common.website_name'), root_path, class: 'brand-logo'
 
         / Menu icon for small screens
-        a.button-collapse data-activates="mobile-demo" href="#"
+        a#toggle-navbar.button-collapse data-activates="navbar-mobile" href="#"
           i.material-icons menu
 
         ul.right.hide-on-med-and-down
           = render 'layouts/header/navbar_content'
 
-        ul.side-nav id="mobile-demo"
+        ul#navbar-mobile.side-nav
           = render 'layouts/header/navbar_mobile'
 
-        ul.right.hide-on-large-only
-          / Search
+        / Search
+        ul.right
           li
-            a.toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
+            a#toggle-search.header-icon.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
               i.material-icons search
 
   .blog-user-pref
@@ -42,3 +42,6 @@ header.blog-header
   - if user_signed_in?
     #clipboardArea.hidden
       textarea#clipboard title="clipboard"
+
+  #login-modal-component
+  #signup-modal-component

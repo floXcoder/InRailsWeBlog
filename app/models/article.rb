@@ -22,7 +22,7 @@ class Article < ActiveRecord::Base
   belongs_to :author, class_name: 'User'
 
   def author?(user)
-    user.id == author.id
+    user.id == self.author_id
   end
 
   ## Comment
@@ -37,33 +37,33 @@ class Article < ActiveRecord::Base
   has_many :tagged_articles
   has_many :tags, through: :tagged_articles
   has_many :parent_tags,
-           -> { where(tagged_articles: {parent: true}) },
+           -> { where(tagged_articles: { parent: true }) },
            through: :tagged_articles,
-           source: :tag
+           source:  :tag
   has_many :child_tags,
-           -> { where(tagged_articles: {child: true}) },
+           -> { where(tagged_articles: { child: true }) },
            through: :tagged_articles,
-           source: :tag
+           source:  :tag
   accepts_nested_attributes_for :tags, reject_if: :all_blank, update_only: true, allow_destroy: false
 
   def tags_attributes=(tags_attrs)
-    self.tags = article_tags = []
+    self.tags        = article_tags = []
     self.parent_tags = parent_tags = []
-    self.child_tags = child_tags = []
+    self.child_tags  = child_tags = []
 
     tags_attrs.each do |_tagKey, tagValue|
       next unless tagValue
 
-      tag_id = tagValue.delete(:id)
-      tag = if !tag_id.blank?
-              Tag.find_or_initialize_by(id: tag_id)
-            else
-              Tag.find_or_initialize_by(name: tagValue[:name])
-            end
+      tag_id        = tagValue.delete(:id)
+      tag           = if !tag_id.blank?
+                        Tag.find_or_initialize_by(id: tag_id)
+                      else
+                        Tag.find_or_initialize_by(name: tagValue[:name])
+                      end
       tag.tagger_id = self.author.id unless tag.tagger_id
 
       parent = tagValue.delete(:parent)
-      child = tagValue.delete(:child)
+      child  = tagValue.delete(:child)
 
       tag.attributes = tagValue
 
@@ -76,16 +76,16 @@ class Article < ActiveRecord::Base
       end
     end
 
-    self.tags = article_tags
+    self.tags        = article_tags
     self.parent_tags = parent_tags
-    self.child_tags = child_tags
+    self.child_tags  = child_tags
   end
 
   def create_tag_relationships
     self.parent_tags.each do |parent|
       self.child_tags.each do |child|
         if parent.children.exists?(child.id)
-          tag_relationship = parent.parent_relationship.find_by(child_id: child.id)
+          tag_relationship     = parent.parent_relationship.find_by(child_id: child.id)
           previous_article_ids = tag_relationship.article_ids
           tag_relationship.update_attribute(:article_ids, previous_article_ids + [self.id])
         else
@@ -101,7 +101,7 @@ class Article < ActiveRecord::Base
         if self.parent_tags.exists?(previous_parent.id)
           unless self.child_tags.exists?(previous_child.id)
             tag_relationship = previous_parent.parent_relationship.find_by(child_id: previous_child.id)
-            new_article_ids = tag_relationship.article_ids - [self.id]
+            new_article_ids  = tag_relationship.article_ids - [self.id]
             if new_article_ids.empty?
               tag_relationship.destroy
             else
@@ -110,7 +110,7 @@ class Article < ActiveRecord::Base
           end
         else
           tag_relationship = previous_child.child_relationship.find_by(parent_id: previous_parent.id)
-          new_article_ids = tag_relationship.article_ids - [self.id]
+          new_article_ids  = tag_relationship.article_ids - [self.id]
           if new_article_ids.empty?
             tag_relationship.destroy
           else
@@ -125,7 +125,7 @@ class Article < ActiveRecord::Base
     previous_parent_tags.each do |previous_parent|
       previous_child_tags.each do |previous_child|
         tag_relationship = previous_parent.parent_relationship.find_by(child_id: previous_child.id)
-        new_article_ids = tag_relationship.article_ids - [self.id]
+        new_article_ids  = tag_relationship.article_ids - [self.id]
         if new_article_ids.empty?
           tag_relationship.destroy
         else
@@ -145,14 +145,14 @@ class Article < ActiveRecord::Base
   # Parameters validation
   validates :author_id, presence: true
   validates :title,
-            length: {minimum: CONFIG.title_min_length, maximum: CONFIG.title_max_length},
-            if: 'title.present?'
+            length: { minimum: CONFIG.title_min_length, maximum: CONFIG.title_max_length },
+            if:     'title.present?'
   validates :summary,
-            length: {minimum: CONFIG.summary_min_length, maximum: CONFIG.summary_max_length},
-            if: 'summary.present?'
+            length: { minimum: CONFIG.summary_min_length, maximum: CONFIG.summary_max_length },
+            if:     'summary.present?'
   validates :content,
             presence: true,
-            length: {minimum: CONFIG.content_min_length, maximum: CONFIG.content_max_length}
+            length:   { minimum: CONFIG.content_min_length, maximum: CONFIG.content_max_length }
 
   # Sanitize and detect programming language if any before save
   before_save :sanitize_html
@@ -160,7 +160,7 @@ class Article < ActiveRecord::Base
   # Translation
   translates :title, :summary, :content,
              fallbacks_for_empty_translations: true,
-             versioning: {gem: :paper_trail, options: {on: [:update, :destroy]}}
+             versioning:                       { gem: :paper_trail, options: { on: [:update, :destroy] } }
   accepts_nested_attributes_for :translations, allow_destroy: true
 
   # Versioning
@@ -168,14 +168,14 @@ class Article < ActiveRecord::Base
 
   # Nice url format
   include Shared::NiceUrlConcern
-  friendly_id :slug_candidates, use: :slugged
+  friendly_id :article_at_user, use: :slugged
 
-  # Friendly ID
-  def slug_candidates
-    [
-        :title,
-        [:title, :summary]
-    ]
+  def article_at_user
+    "#{title}_at_#{author.pseudo}"
+  end
+
+  def normalize_friendly_id(_string)
+    super.gsub('-', '_').gsub('_at_', '@')
   end
 
   def should_generate_new_friendly_id?
@@ -189,23 +189,82 @@ class Article < ActiveRecord::Base
 
   # Elastic Search
   searchkick autocomplete: [:title, :tags],
-             suggest: [:title, :tags],
-             highlight: [:content_en, :content_fr, :public_content_en, :public_content_fr],
-             include: [:author, :tags, :translations, :parent_tags, :child_tags],
-             language: (I18n.locale == :fr) ? 'French' : 'English'
+             suggest:      [:title, :tags],
+             highlight:    [:content_en, :content_fr, :public_content_en, :public_content_fr],
+             include:      [:author, :tags, :translations, :parent_tags, :child_tags],
+             language:     (I18n.locale == :fr) ? 'French' : 'English'
 
   def search_data
     {
-        author_id: author.id,
-        title: title,
+      author_id:         author_id,
+      title:             title,
+      summary:           summary,
+      public_content_en: public_content('en'),
+      public_content_fr: public_content('fr'),
+      content_en:        strip_content('en'),
+      content_fr:        strip_content('fr'),
+      tags:              tags.pluck(:name)
+    }
+  end
 
-        public_content_en: public_content('en'),
-        public_content_fr: public_content('fr'),
+  # Article Search
+  # +query+ parameter: string to query
+  # +options+ parameter:
+  #  current_user_id (current user id)
+  #  page (page number for pagination)
+  #  per_page (number of articles per page for pagination)
+  #  exact (exact search or include misspellings, default: 2)
+  #  tags (array of tags associated with articles)
+  #  operator (array of tags associated with articles, default: AND)
+  #  highlight (highlight content, default: true)
+  #  exact (do not misspelling, default: false, 1 character)
+  def self.search_for(query, options = {})
+    # If query not defined, search for everything
+    query_string          = query ? query : '*'
 
-        content_en: strip_content('en'),
-        content_fr: strip_content('fr'),
-        summary: summary,
-        tags: tags.pluck(:name)
+    # Fields with boost
+    fields                = if I18n.locale == :fr
+                              %w(title^10 content_fr^5 content_en public_content_fr public_content_en)
+                            else
+                              %w(title^10 content_en^5 content_fr public_content_en public_content_fr)
+                            end
+
+    # Misspelling, specify number of characters
+    misspellings_distance = options[:exact] ? 0 : 1
+
+    # Operator type: 'and' or 'or'
+    operator              = options[:operator] ? options[:operator] : 'and'
+
+    # Highlight results and select a fragment
+    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
+    highlight             = true
+
+    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
+    where_options         = {}
+    where_options[:tags]  = { all: options[:tags] } if options[:tags]
+
+    # Boost user articles first
+    boost_where           = options[:current_user_id] ? { author_id: options[:current_user_id] } : nil
+
+    # Perform search
+    results               = Article.search(query_string,
+                                           fields:       fields,
+                                           boost_where:  boost_where,
+                                           highlight:    highlight,
+                                           misspellings: { edit_distance: misspellings_distance },
+                                           suggest:      true,
+                                           page:         options[:page],
+                                           per_page:     options[:per_page],
+                                           operator:     operator,
+                                           where:        where_options)
+
+    words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
+
+    {
+      articles:    results.records,
+      highlight:   Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }],
+      suggestions: results.suggestions,
+      words:       words_search.uniq
     }
   end
 
@@ -228,68 +287,6 @@ class Article < ActiveRecord::Base
 
   def has_private_content?
     self.content =~ /<(\w+) class="secret">.*?<\/\1>/im
-  end
-
-  # Article Search
-  # +query+ parameter: string to query
-  # +options+ parameter:
-  #  current_user_id (current user id)
-  #  page (page number for pagination)
-  #  per_page (number of articles per page for pagination)
-  #  exact (exact search or include misspellings, default: 2)
-  #  tags (array of tags associated with articles)
-  #  operator (array of tags associated with articles, default: AND)
-  #  highlight (highlight content, default: true)
-  #  exact (do not misspelling, default: false, 1 character)
-  def self.search_for(query, options = {})
-    # If query not defined, search for everything
-    query_string = query ? query : '*'
-
-    # Fields with boost
-    fields = if I18n.locale == :fr
-               %w(title^10 content_fr^5 content_en public_content_fr public_content_en)
-             else
-               %w(title^10 content_en^5 content_fr public_content_en public_content_fr)
-             end
-
-    # Highlight results and select a fragment
-    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight = true
-
-    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options = {}
-    where_options[:tags] = {all: options[:tags]} if options[:tags]
-
-    # Choose operator : 'and' or 'or'
-    operator = options[:operator] ? options[:operator] : 'and'
-
-    # Boost user articles first
-    boost_where = options[:current_user_id] ? {author_id: options[:current_user_id]} : nil
-
-    # Misspelling, specify number of characters
-    misspellings_distance = options[:exact] ? 0 : 1
-
-    # Perform search
-    results = Article.search(query_string,
-                             fields: fields,
-                             boost_where: boost_where,
-                             highlight: highlight,
-                             misspellings: {edit_distance: misspellings_distance},
-                             suggest: true,
-                             page: options[:page],
-                             per_page: options[:per_page],
-                             operator: operator,
-                             where: where_options
-    )
-
-    words = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
-
-    {
-        articles: results.records,
-        highlight: Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }],
-        suggestions: results.suggestions,
-        words: words.uniq
-    }
   end
 
   def adapted_content(current_user_id, locale = nil)
@@ -317,7 +314,7 @@ class Article < ActiveRecord::Base
     content = content.gsub(/<pre>/i, '<pre><code>')
     content = content.gsub(/<\/pre>/i, '</code></pre>')
 
-    self.content = content
+    self.content         = content
     self.private_content = true if has_private_content?
   end
 

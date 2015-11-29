@@ -1,10 +1,5 @@
-/ Search
-li.hide-on-med-and-down
-  a.toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
-    i.material-icons search
-
 / Tags
-li
+li.no-padding
   a#toggle-tags.header-collapse.button-collapse.show-on-large.tooltipped data-activates="tag-sidebar" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
     i.material-icons.right local_offer
     = t('views.header.tags')
@@ -23,7 +18,7 @@ li
 
 / User preferences
 - if user_signed_in?
-  li
+  li.no-padding
     a#toggle-user-pref
       i.material-icons.right view_modules
       = t('views.header.preferences')

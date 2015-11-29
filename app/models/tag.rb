@@ -25,25 +25,25 @@ class Tag < ActiveRecord::Base
   has_many :tag_relationships
 
   has_many :parent_relationship,
-           class_name: 'TagRelationship',
+           class_name:  'TagRelationship',
            foreign_key: 'parent_id'
   has_many :children,
            through: :parent_relationship,
-           source: :child
+           source:  :child
 
   has_many :child_relationship,
-           class_name: 'TagRelationship',
+           class_name:  'TagRelationship',
            foreign_key: 'child_id'
   has_many :parents,
            through: :child_relationship,
-           source: :parent
+           source:  :parent
 
   # Validations
   validates :tagger_id, presence: true
   validates :name,
-            presence: true,
-            uniqueness: {case_sensitive: false},
-            length: {minimum: CONFIG.tag_min_length, maximum: CONFIG.tag_max_length}
+            presence:   true,
+            uniqueness: { case_sensitive: false },
+            length:     { minimum: CONFIG.tag_min_length, maximum: CONFIG.tag_max_length }
 
   # Nice url format
   include Shared::NiceUrlConcern
@@ -52,7 +52,7 @@ class Tag < ActiveRecord::Base
   # Friendly ID
   def slug_candidates
     [
-        :name
+      :name
     ]
   end
 

@@ -1,5 +1,6 @@
-"use strict";
+'use strict';
 
+var classNames = require('classnames');
 var Spinner = require('./spinner');
 
 var InfiniteScroll = React.createClass({
@@ -10,47 +11,54 @@ var InfiniteScroll = React.createClass({
         threshold: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             pageStart: 1,
             hasMore: false,
-            loadMore: function () {},
+            loadMore () {},
             threshold: 250
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         this.pageLoaded = this.props.pageStart;
         this._attachScrollListener();
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate () {
         this._attachScrollListener();
     },
 
-    _loader: function () {
+    _loader () {
+        let loaderClass = classNames(
+            {
+                'center': this.props.hasMore,
+                'hide': !this.props.hasMore
+            }
+        );
+
         return (
-            <div className={this.props.hasMore ? 'center': 'hide'}>
+            <div className={loaderClass}>
                 <Spinner/>
             </div>
         );
     },
 
-    render: function () {
-        var props = this.props;
+    render () {
+        let props = this.props;
         return React.DOM.div(null, props.children, props.hasMore && (this._loader));
     },
 
-    _scrollListener: function () {
-        var topPosition = function (domElt) {
+    _scrollListener () {
+        let topPosition = function (domElt) {
             if (!domElt) {
                 return 0;
             }
             return domElt.offsetTop + topPosition(domElt.offsetParent);
         };
 
-        var el = ReactDOM.findDOMNode(this);
-        var scrollTop;
+        let el = ReactDOM.findDOMNode(this);
+        let scrollTop;
         if (window.pageYOffset !== undefined) {
             scrollTop = window.pageYOffset;
         } else {
@@ -63,7 +71,7 @@ var InfiniteScroll = React.createClass({
         }
     },
 
-    _attachScrollListener: function () {
+    _attachScrollListener () {
         if (!this.props.hasMore) {
             return;
         }
@@ -72,12 +80,12 @@ var InfiniteScroll = React.createClass({
         this._scrollListener();
     },
 
-    _detachScrollListener: function () {
+    _detachScrollListener () {
         window.removeEventListener('scroll', this._scrollListener);
         window.removeEventListener('resize', this._scrollListener);
     },
 
-    componentWillUnmount: function () {
+    componentWillUnmount () {
         this._detachScrollListener();
     }
 });

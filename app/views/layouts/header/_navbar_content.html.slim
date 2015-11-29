@@ -1,18 +1,13 @@
-/ Search
-li.hide-on-med-and-down
-  a.toggle-search.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
-    i.material-icons search
-
 / Tags
 li
-  a#toggle-tags.header-collapse.button-collapse.show-on-large.tooltipped data-activates="tag-sidebar" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
+  a#toggle-tags.button-collapse.show-on-large.tooltipped data-activates="tag-sidebar" data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.tags_tooltip')}"
     i.material-icons.right local_offer
     = t('views.header.tags')
 
 / Articles
 - if user_signed_in?
   li
-    a.dropdown-button data-activates="article-dropdown" data-constrainwidth="false"
+    a.dropdown-button data-activates="article-dropdown" data-constrainwidth="false" data-beloworigin="true"
       i.material-icons.right message
       = t('views.header.articles.title')
 
@@ -30,8 +25,8 @@ li
 
 / User account
 li
-  a.dropdown-button data-activates="user-dropdown"
-    i.material-icons.right account_circle
+  a#user-dropdown-link.dropdown-button data-activates="user-dropdown" data-beloworigin="true"
+    i.material-icons.left account_circle
     - if user_signed_in?
       = t('views.header.profile.connected')
     - else

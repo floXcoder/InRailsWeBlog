@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var ArticleVisibilityIcon = React.createClass({
     propTypes: {
@@ -6,31 +6,31 @@ var ArticleVisibilityIcon = React.createClass({
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null
         };
     },
 
-    render: function () {
-        var visibilityName = I18n.t('js.article.visibility.enum.' + this.props.article.visibility);
+    render () {
+        let visibilityName = I18n.t('js.article.visibility.enum.' + this.props.article.visibility);
 
         if (this.props.userId) {
-            var visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
+            let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
             if (this.props.article.visibility === 'everyone') {
                 return (
-                    <div className="article-icons tooltipped hide-on-small-only"
+                    <a className="article-public tooltipped btn-floating"
                          data-tooltip={visibilityTooltip}>
-                        <i className="material-icons article-public">visibility</i>
-                    </div>
+                        <i className="material-icons">visibility</i>
+                    </a>
                 );
             } else {
                 return (
-                    <div className="article-icons tooltipped hide-on-small-only"
+                    <a className="article-private tooltipped btn-floating"
                          data-tooltip={visibilityTooltip}>
-                        <i className="material-icons article-private">visibility_off</i>
-                    </div>
+                        <i className="material-icons">visibility_off</i>
+                    </a>
                 );
             }
         } else {

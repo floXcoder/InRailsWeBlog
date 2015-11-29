@@ -1,8 +1,9 @@
-"use strict";
+'use strict';
 
 var ArticleActions = require('../actions/articleActions');
+var ErrorActions = require('../actions/errorActions');
 
-var History = require('../mixins/history');
+var History = require('../modules/mixins/history');
 
 var ArticleStore = Reflux.createStore({
     mixins: [History],
@@ -89,31 +90,43 @@ var ArticleStore = Reflux.createStore({
         var title = I18n.t('js.article.url');
         var savedParams = {};
 
-        if (data.tags) {
-            savedParams.tags = data.tags.join(',');
-            title = I18n.t('js.article.tag.url') + ' ' + data.tags;
-        }
         if (data.relationTags) {
             savedParams.relation_tags = data.relationTags.join(',');
             title = I18n.t('js.article.tag.url') + ' ' + data.relationTags;
+        } else if (data.tags) {
+            savedParams.tags = data.tags.join(',');
+            title = I18n.t('js.article.tag.url') + ' ' + data.tags;
+        } else {
+            savedParams = data;
         }
+
         if (data.page && (data.page === '1' || data.page === 1)) {
-            savedParams = _.omit(data, 'page')
+            savedParams = _.omit(data, 'page');
         }
 
         savedParams = _.omit(savedParams, 'userId');
 
+        title = `${I18n.t('js.common.website_name')} | ${title}`;
         this.saveState(savedParams, {title: title});
     },
 
-    _handleJsonErrors: function (xhr, status, error) {
+    _handleJsonErrors: function (url, xhr, status, error) {
         if (status === 'error') {
             if (error === 'Forbidden') {
                 Materialize.toast(I18n.t('js.article.model.errors.not_authorized'));
             } else if (error === 'Unprocessable Entity') {
                 Materialize.toast(I18n.t('js.article.model.errors.unprocessable'));
             }
+        } else {
+            log.error('Unknown Error in JSON request: ' + error);
         }
+
+        ErrorActions.pushError({
+            message: error,
+            url: url,
+            trace: xhr.responseText,
+            origin: 'communication'
+        });
     },
 
     _resetSearch: function () {
@@ -186,7 +199,7 @@ var ArticleStore = Reflux.createStore({
                 callback.bind(this, data)();
             }.bind(this))
             .fail(function (xhr, status, error) {
-                this._handleJsonErrors(xhr, status, error);
+                this._handleJsonErrors(url, xhr, status, error);
             }.bind(this));
     },
 
@@ -278,7 +291,7 @@ var ArticleStore = Reflux.createStore({
                 this.trigger(this.articleData);
             }.bind(this),
             error: function (xhr, status, error) {
-                this._handleJsonErrors(xhr, status, error);
+                this._handleJsonErrors(this.url, xhr, status, error);
             }.bind(this)
         });
     },
@@ -321,7 +334,7 @@ var ArticleStore = Reflux.createStore({
                 }
             }.bind(this),
             error: function (xhr, status, error) {
-                this._handleJsonErrors(xhr, status, error);
+                this._handleJsonErrors(url, xhr, status, error);
             }.bind(this)
         });
     },
@@ -369,7 +382,7 @@ var ArticleStore = Reflux.createStore({
                 }
             }.bind(this),
             error: function (xhr, status, error) {
-                this._handleJsonErrors(xhr, status, error);
+                this._handleJsonErrors(url, xhr, status, error);
             }.bind(this)
         });
     },
@@ -470,7 +483,7 @@ var ArticleStore = Reflux.createStore({
                     return true;
                 }.bind(this),
                 error: function (xhr, status, error) {
-                    this._handleJsonErrors(xhr, status, error);
+                    this._handleJsonErrors(url, xhr, status, error);
                 }.bind(this)
             });
         }

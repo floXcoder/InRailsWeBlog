@@ -11,17 +11,20 @@ Metrics/AbcSize:
 
 Metrics/ClassLength:
   CountComments: false  # count full line comments?
-  Max: 200
+  Max: 300
 
 Metrics/MethodLength:
   CountComments: false  # count full line comments?
-  Max: 30
+  Max: 40
 
 Style/ExtraSpacing:
   AllowForAlignment: true
 
 #Style/FirstParameterIndentation:
 #  EnforcedStyle: false
+
+Style/ExtraSpacing:
+  Enabled: false
 
 Style/ColonMethodCall:
   Enabled: false

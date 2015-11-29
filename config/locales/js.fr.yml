@@ -1,6 +1,43 @@
 fr:
   js:
+    common:
+      website_name: "In Rails We Blog"
+      email: "blog@inrailsweblog.com"
     user:
+      login:
+        title: "Connection"
+        login: "Pseudo ou Email"
+        password: "Mot de passe"
+        remember_me: "Se souvenir de moi"
+        cancel: "Annuler"
+        submit: "Connexion"
+      signup:
+        title: "Créer un compte"
+        pseudo: "Pseudo"
+        email: "Email"
+        password: "Mot de passe"
+        confirm_password: "Confirmer le mot de passe"
+        terms_of_use: "En vous inscrivant sur InRailsWeBlog, vous acceptez les"
+        terms_of_use_name: "conditions d'utilisations."
+        cancel: "Annuler"
+        submit: "Créer mon compte"
+      errors:
+        login:
+          required: "Veuillez indiquer votre email ou pseudo"
+          invalid: "n'existe pas, merci d'indiquer une adresse email ou pseudo valide"
+        pseudo:
+          required: "Veuillez indiquer votre pseudo"
+          size: "Le Pseudo doit être compris entre %{min} et %{max} caractères"
+          already_taken: "est déjà pris, merci de choisir un autre pseudo"
+        email:
+          required: "Veuillez indiquer une adresse email"
+          invalid: "L'adresse email est invalide"
+          already_taken: "est déjà pris, merci d'en choisir une autre adresse email"
+        password:
+          required: "Veuillez indiquer un mot de passe"
+          size: "Le mot de passe doit être compris entre %{min} et %{max} caractères"
+          mismatch: "Le password et sa confirmation ne correspondent pas"
+        policy: "Merci d'accepter d'abord les conditions d'utilisation"
       preferences:
         article:
           title: "Articles"
@@ -35,9 +72,13 @@ fr:
       tooltip:
         edit: "Modifier l'article"
         visibility: "Visibilité : %{visibility}"
-        bookmark: "Ajouter aux favoris"
+        add_bookmark: "Ajouter aux favoris"
+        remove_bookmark: "Enlever des favoris"
         history: "Voir les anciennes révisions de l'article"
-        link: "C'est un lien"
+        is_link: "C'est un lien"
+        link_to: "Aller vers l'article"
+        cancel: "Annuler"
+        update: "Mettre à jour l'article"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
       flash:
@@ -54,7 +95,7 @@ fr:
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       edit:
         title: "Modification d'un article"
-        form_title: "Modification de %{title}"
+        form_title: "Modification de : %{title}"
         submit: "Mettre à jour l'article"
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       search:
@@ -68,6 +109,8 @@ fr:
         restore: "Restaurer cette version"
         none: "Aucun historique pour cet article !"
         restored: "Version restaurée"
+      clipboard:
+        toast: "Vous avez copié du texte sur le site, un nouvel article temporaire a été créé."
       tag:
         url: "Label :"
       visibility:
@@ -80,6 +123,11 @@ fr:
       list: "Tous les labels"
       associated: "Labels associés"
       filter: "Filtrer par labels ..."
+      no_results: "Aucun label trouvé pour :"
+    error:
+      url: "URL :"
+      message: "Message :"
+      trace: "Trace :"
     checkbox:
       on: "Oui"
       off: "Non"

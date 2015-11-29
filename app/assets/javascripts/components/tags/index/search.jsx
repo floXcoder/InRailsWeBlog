@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var Input = require('../../../components/materialize/input');
 
@@ -7,18 +7,21 @@ var SearchBar = React.createClass({
         onUserInput: React.PropTypes.func.isRequired
     },
 
-    _handleSearchChange: function () {
-        this.props.onUserInput(ReactDOM.findDOMNode(this.refs.filterTextInput.refs.filterTextInput).value);
+    _handleSearchChange () {
+        this.props.onUserInput(this.refs.filterTextInput.value());
     },
 
-    _onSubmit: function () {
+    _handleSubmit () {
         return false;
     },
 
-    render: function () {
+    render () {
         return (
-            <form className="tag-search" onSubmit={this._onSubmit}>
-                <Input ref="filterTextInput" id="filterTextInput" onChange={this._handleSearchChange}>
+            <form className="tag-search"
+                  onSubmit={this._handleSubmit}>
+                <Input ref="filterTextInput"
+                       id="filterTextInput"
+                       onChange={this._handleSearchChange}>
                     {I18n.t('js.tag.filter')}
                 </Input>
             </form>

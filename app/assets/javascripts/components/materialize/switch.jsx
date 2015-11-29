@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var Switch = React.createClass({
     propTypes: {
@@ -7,14 +7,14 @@ var Switch = React.createClass({
         onCheckboxChanged: React.PropTypes.func
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             checked: false,
             onCheckboxChanged: null
         };
     },
 
-    render: function () {
+    render () {
         return (
             <div className="switch">
                 <label>

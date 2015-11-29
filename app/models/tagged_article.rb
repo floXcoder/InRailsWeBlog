@@ -16,8 +16,8 @@ class TaggedArticle < ActiveRecord::Base
   belongs_to :tag
 
   # Parameters validation
-  validates :article_id,  presence: true, on: :update
-  validates :tag_id,      presence: true, on: :update
+  validates :article_id, presence: true, on: :update
+  validates :tag_id, presence: true, on: :update
 
   validates_uniqueness_of :article_id, scope: :tag_id, allow_nil: true
 end

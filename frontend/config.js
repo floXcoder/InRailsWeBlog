@@ -10,6 +10,7 @@ module.exports = {
             ie8: ['./modules/ie8.js'],
             ie9: ['./modules/ie9.js'],
             home: ['./pages/home.jsx'],
+            admin: ['./pages/admin.jsx'],
             'users/show': ['./pages/users/show.jsx'],
             'users/edit': ['./pages/users/edit.js'],
             'users/login': ['./pages/users/login.js'],
@@ -23,7 +24,7 @@ module.exports = {
         commons: [
             {
                 name: 'commons',
-                files: ['home', 'users/show', 'articles/show', 'articles/edit', 'tags/show', 'users/edit', 'users/login', 'users/signup', 'users/password', 'users/show']
+                files: ['home', 'admin', 'users/show', 'articles/show', 'articles/edit', 'tags/show', 'users/edit', 'users/login', 'users/signup', 'users/password', 'users/show']
             }
         ],
         output: {

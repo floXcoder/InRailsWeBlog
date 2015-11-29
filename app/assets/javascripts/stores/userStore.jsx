@@ -1,9 +1,10 @@
-"use strict";
+'use strict';
 
-var UserAction = require('../actions/userAction');
+var UserActions = require('../actions/userActions');
+var ErrorActions = require('../actions/errorActions');
 
 var UserStore = Reflux.createStore({
-    listenables: [UserAction],
+    listenables: [UserActions],
     user: {
         id: window.currentUserId,
         preferences: {
@@ -19,6 +20,17 @@ var UserStore = Reflux.createStore({
 
     init: function () {
         this._loadUserPreferences();
+    },
+
+    _handleJsonErrors: function (url, xhr, status, error) {
+        log.error('Error in JSON request: ' + error);
+
+        ErrorActions.pushError({
+            message: error,
+            url: url,
+            trace: xhr.responseText,
+            origin: 'communication'
+        });
     },
 
     _loadUserPreferences: function (data) {
@@ -139,8 +151,24 @@ var UserStore = Reflux.createStore({
 
         this.trigger({search: searchPreferences});
         this._pushUserPreferences(searchPreferences);
-    }
+    },
 
+    onValidation: function (data) {
+        var validationUrl = this.url + '/validation';
+        var requestParam = data;
+
+        jQuery.getJSON(
+            validationUrl,
+            requestParam,
+            function (data) {
+                if(!$.isEmpty(data)) {
+                    this.trigger(data);
+                }
+            }.bind(this))
+            .fail(function (xhr, status, error) {
+                this._handleJsonErrors(validationUrl, xhr, status, error);
+            }.bind(this));
+    }
 });
 
 module.exports = UserStore;

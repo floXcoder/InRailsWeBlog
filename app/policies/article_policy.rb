@@ -3,7 +3,7 @@ class ArticlePolicy
 
   def initialize(current_user, article)
     @current_user = current_user
-    @article = article
+    @article      = article
   end
 
   def create?

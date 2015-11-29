@@ -22,7 +22,7 @@ module ApplicationHelper
   end
 
   def navbar_link(link_name, link_path, options = {})
-    options = {class: "#{'active' if current_page?(link_path)}"}.merge(options)
+    options = { class: "#{'active' if current_page?(link_path)}" }.merge(options)
     link_to link_name, link_path, options
   end
 

@@ -18,14 +18,14 @@ class TagsController < ApplicationController
 
     current_user_id = current_user ? current_user.id : nil
 
-    articles = Article.includes(:translations).user_related(current_user_id).joins(:tags).where(tags: {name: tag.name}).order('articles.id DESC')
+    articles = Article.includes(:translations).user_related(current_user_id).joins(:tags).where(tags: { name: tag.name }).order('articles.id DESC')
 
     respond_to do |format|
       format.html { render :show,
                            locals: {
-                               tag: tag,
-                               articles: articles,
-                               current_user_id: current_user_id
+                             tag:             tag,
+                             articles:        articles,
+                             current_user_id: current_user_id
                            }
       }
     end

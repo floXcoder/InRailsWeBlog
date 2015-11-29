@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+var classNames = require('classnames');
 
 var ArticleBookmarkIcon = React.createClass({
     propTypes: {
@@ -7,34 +9,36 @@ var ArticleBookmarkIcon = React.createClass({
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null
         };
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {
             isBookmarked: this.props.article.is_bookmarked
         };
     },
 
-    _onClickBookmark: function (articleId, event) {
+    _onClickBookmark (articleId, event) {
         this.props.onClickBookmark(articleId, event);
         this.setState({isBookmarked: !this.state.isBookmarked})
     },
 
-    render: function () {
+    render () {
         if(this.props.userId) {
-            var bookmarkClass = "material-icons" + (this.state.isBookmarked ? " article-bookmarked" : '');
-            var bookmarkTooltip = I18n.t('js.article.tooltip.bookmark');
+            let bookmarkClasses = classNames('material-icons', { 'article-bookmarked': this.state.isBookmarked });
+            let bookmarkTooltip = this.state.isBookmarked ?
+                I18n.t('js.article.tooltip.remove_bookmark') :
+                I18n.t('js.article.tooltip.add_bookmark');
 
             return (
-                <div className="article-icons tooltipped"
+                <a className="tooltipped btn-floating"
                      data-tooltip={bookmarkTooltip}
                      onClick={this._onClickBookmark.bind(this, this.props.article.id)} >
-                    <i className={bookmarkClass} >bookmark</i>
-                </div>
+                    <i className={bookmarkClasses}>bookmark</i>
+                </a>
             );
         } else {
             return null;

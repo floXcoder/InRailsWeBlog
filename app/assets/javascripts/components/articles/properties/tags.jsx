@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+var classNames = require('classnames');
 
 var ArticleTags = React.createClass({
     propTypes: {
@@ -7,42 +9,41 @@ var ArticleTags = React.createClass({
         linkTag: React.PropTypes.string
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             onClickTag: null,
             linkTag: null
         };
     },
 
-    _onClickTag: function (tagName, event) {
+    _handleTagClick (tagName, event) {
         event.preventDefault();
         this.props.onClickTag(tagName);
     },
 
-    render: function () {
-        var parentTags = _.indexBy(this.props.article.parent_tags, 'id');
-        var childTags = _.indexBy(this.props.article.child_tags, 'id');
-        var tagList = this.props.article.parent_tags.concat(
+    render () {
+        let parentTags = _.indexBy(this.props.article.parent_tags, 'id');
+        let childTags = _.indexBy(this.props.article.child_tags, 'id');
+        let tagList = this.props.article.parent_tags.concat(
             this.props.article.child_tags.concat(
                 _.filter(this.props.article.tags, function (tag) {
                     return !parentTags[tag.id] && !childTags[tag.id]
                 })
             ));
-        var Tags = tagList.map(function (tag) {
-            var relationshipClass = '';
-            if (parentTags[tag.id]) {
-                relationshipClass = 'tag-parent';
-            } else if (childTags[tag.id]) {
-                relationshipClass = 'tag-child';
-            }
+        let Tags = tagList.map(function (tag) {
+            let tagClasses = classNames(
+                'waves-effect', 'waves-light', 'btn-small', 'article-tag',
+                {
+                    'tag-parent': parentTags[tag.id],
+                    'tag-child': childTags[tag.id]
+                }
+            );
 
-            var tagClassNames = "waves-effect waves-light btn-small article-tag " + relationshipClass;
-
-            if(this.props.onClickTag) {
+            if (this.props.onClickTag) {
                 return (
                     <a key={tag.id}
-                       onClick={this._onClickTag.bind(this, tag.name)}
-                       className={tagClassNames}>
+                       onClick={this._handleTagClick.bind(this, tag.name)}
+                       className={tagClasses}>
                         {tag.name}
                     </a>
                 );
@@ -50,7 +51,7 @@ var ArticleTags = React.createClass({
                 return (
                     <a key={tag.id}
                        href={"/?tags=" + tag.name}
-                       className={tagClassNames}>
+                       className={tagClasses}>
                         {tag.name}
                     </a>
                 );

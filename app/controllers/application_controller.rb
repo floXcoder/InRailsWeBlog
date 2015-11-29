@@ -7,30 +7,29 @@ class ApplicationController < ActionController::Base
 
   def w(msg)
     Rails.logger.ap msg, :warn
-    # Rails.logger.ap msg, :warn if Rails.env.development? || Rails.env.test?
   end
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
 
   def set_locale
-    I18n.locale =
-        if params[:locale].present?
-          session[:locale] = params[:locale]
-          params[:locale]
-        elsif session[:locale].present?
-          session[:locale]
-        elsif current_user
-          current_user.locale
-        elsif request.location.present? && !request.location.country_code.empty?
-          if %w(FR BE CH).any? { |country_code| request.location.country_code.upcase == country_code }
-            :fr
-          else
-            :en
-          end
+    I18n.locale         =
+      if params[:locale].present?
+        session[:locale] = params[:locale]
+        params[:locale]
+      elsif session[:locale].present?
+        session[:locale]
+      elsif current_user
+        current_user.locale
+      elsif request.location.present? && !request.location.country_code.empty?
+        if %w(FR BE CH).any? { |country_code| request.location.country_code.upcase == country_code }
+          :fr
         else
-          http_accept_language.compatible_language_from(I18n.available_locales)
+          :en
         end
+      else
+        http_accept_language.compatible_language_from(I18n.available_locales)
+      end
 
     current_user.locale = I18n.locale if current_user && current_user.locale.to_s != I18n.locale.to_s
   end
@@ -57,7 +56,7 @@ class ApplicationController < ActionController::Base
       u.permit :pseudo, :email, :password, :password_confirmation
     end
     devise_parameter_sanitizer.for(:sign_in) do |u|
-      u.permit(:login, :name, :email, :password, :remember_me)
+      u.permit(:login, :pseudo, :email, :password, :remember_me)
     end
     devise_parameter_sanitizer.for(:account_update) do |u|
       u.permit(:pseudo, :email, :password, :password_confirmation, :current_password)
@@ -74,10 +73,9 @@ class ApplicationController < ActionController::Base
     flash.now[:alert] = t "#{policy_name}.#{policy_type}", scope: 'pundit', default: :default
 
     respond_to do |format|
-      format.js   { js_redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
+      format.js { js_redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
       format.html { redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
-      format.json { render json: {error: I18n.t('pundit.default')}.to_json,
-                           status: :forbidden }
+      format.json { render json: { error: I18n.t('pundit.default') }.to_json, status: :forbidden }
     end
   end
 
@@ -94,15 +92,16 @@ class ApplicationController < ActionController::Base
 
   def previous_url(url)
     if url &&
-        !url.include?('/users/sign_in') &&
-        !url.include?('/login') &&
-        !url.include?('/users/sign_up') &&
-        !url.include?('/signup') &&
-        !url.include?('/users/password/new') &&
-        !url.include?('/users/password/edit') &&
-        !url.include?('/users/confirmation') &&
-        !url.include?('/users/logout') &&
-        !url.include?('/users/sign_out')
+      !url.include?('/users/sign_in') &&
+      !url.include?('/login') &&
+      !url.include?('/users/sign_up') &&
+      !url.include?('/signup') &&
+      !url.include?('/users/password/new') &&
+      !url.include?('/users/password/edit') &&
+      !url.include?('/users/confirmation') &&
+      !url.include?('/users/validation') &&
+      !url.include?('/users/logout') &&
+      !url.include?('/users/sign_out')
       return url
     end
   end

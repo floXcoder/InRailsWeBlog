@@ -1,5 +1,5 @@
 javascript:
-  window._rails_env = "#{Rails.env}";
+  window.railsEnv = "#{Rails.env}";
   window.parameters = JSON.parse('#{raw CONFIG.to_json}');
 
   window.currentUserId = "#{current_user ? current_user.id : 'null'}";

@@ -1,8 +1,15 @@
 / Change language
 li class="#{'active' if I18n.locale == :fr}"
-  = link_to t('views.header.french'), url_for(locale: 'fr')
+  = link_to t('views.header.language.french'), url_for(locale: 'fr')
 li class="#{'active' if I18n.locale == :en}"
-  = link_to t('views.header.english'), url_for(locale: 'en')
+  = link_to t('views.header.language.english'), url_for(locale: 'en')
+
+li.divider
+
+/ Administration
+- if user_signed_in? && current_user.admin?
+  li
+    = link_to t('views.header.admin.errors'), admin_path
 
 li.divider
 
@@ -14,6 +21,6 @@ li.divider
     = link_to t('views.header.log_out'), logout_path, method: 'delete'
 - else
   li.first-nav
-    = link_to t('views.header.sign_up'), signup_path, remote: true
+    = link_to t('views.header.sign_up'), signup_path, id: 'signup-link'
   li
-    = link_to t('views.header.log_in'), login_path, remote: true
+    = link_to t('views.header.log_in'), login_path, id: 'login-link'

@@ -1,15 +1,16 @@
-"use strict";
+'use strict';
 
 var ArticleLink = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired
     },
 
-    render: function () {
+    render () {
         return (
-            <a className="article-icons article-goto"
+            <a className="article-goto tooltipped btn-floating"
+               data-tooltip={I18n.t('js.article.tooltip.link_to')}
                href={"/articles/" + this.props.article.slug} >
-                <i className="material-icons">forward</i>
+                <i className="material-icons">home</i>
             </a>
         );
     }

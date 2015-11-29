@@ -3,14 +3,40 @@
 @import 'materialize-css/sass/materialize';
 @import 'modules/material-design';
 
-// Large button
+// Bugs Materialize
+.input-field label {
+  width: 90%;
+}
+
+.row {
+  .col {
+    $i: 1;
+    @while $i <= $num-cols {
+      $perc: unquote((100 / ($num-cols / $i)) + "%");
+      &.offset-s#{$i} {
+        margin-left: $perc !important;
+      }
+      $i: $i + 1;
+    }
+  }
+}
+
+// Filled in Style
+[type="checkbox"].invalid {
+  + label:after {
+    border: 2px solid $input-error-color !important;
+    //content: attr(data-error);
+  }
+}
+
+// Small button
 .btn-small {
   @extend .btn;
-  height: $button-height * 0.7;
+  height: $button-height * 0.8;
   line-height: 26px;
 
   i {
-    font-size: $button-font-size-shared * 0.7;
+    font-size: $button-font-size-shared * 0.8;
   }
 }
 
@@ -33,48 +59,35 @@
 
 // Header
 @media #{$medium-and-down} {
-  nav .nav-wrapper {
-    i {
-      height: 64px;
-      line-height: 64px;
-    }
-
-    .header-collapse {
-      float: none;
-    }
-
-    .header-icon {
-      float: left;
-      height: 64px;
-      line-height: 64px;
-      padding: 0;
-      position: relative;
-      z-index: 1;
+  .nav-wrapper {
+    .side-nav {
+      .collapsible-header {
+        margin: 0;
+      }
 
       i {
-        font-size: 2.2rem;
+        height: 64px;
+        line-height: 64px;
+        position: absolute;
+        right: 1rem;
+        margin-right: 1rem;
+        font-size: 2.3rem;
+      }
+
+      .header-collapse {
+        float: none;
       }
     }
-  }
-}
-
-@media #{$small-and-down} {
-  nav .nav-wrapper {
-    i {
-      height: 56px;
-      line-height: 56px;
-    }
 
     .header-icon {
-      float: left;
-      height: 56px;
-      line-height: 56px;
-      padding: 0;
       position: relative;
       z-index: 1;
+      height: 56px;
 
-      i {
-        font-size: 2.2rem;
+      .material-icons {
+        font-size: 2.5rem;
+        height: 56px;
+        line-height: 56px;
       }
     }
   }
@@ -86,7 +99,6 @@
     display: none !important;
   }
 }
-
 
 // Go to top
 .goto-top {
@@ -100,13 +112,13 @@
   position: fixed;
   right: 40px;
   text-decoration: underline;
-  transition: opacity 0.6s, visibility 0.6s;
+  transition: opacity .6s, visibility .6s;
   width: 60px;
 
   &:hover {
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.27);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.27);
     opacity: 1;
-    transition: opacity 0.6s, visibility 0.63s;
+    transition: opacity .6s, visibility .63s;
   }
 }
 

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var RadioButtons = React.createClass({
     propTypes: {
@@ -8,21 +8,21 @@ var RadioButtons = React.createClass({
         onRadioChanged: React.PropTypes.func
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             checkedButton: null,
             onRadioChanged: null
         };
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {
         };
     },
 
-    render: function () {
-        var radioButtons = Object.keys(this.props.buttons).map(function (key) {
-            var button = this.props.buttons[key];
+    render () {
+        let radioButtons = Object.keys(this.props.buttons).map(function (key) {
+            let button = this.props.buttons[key];
             return (
                 <div key={key}>
                     <input type="radio" id={key} name={this.props.group} checked={this.props.checkedButton === key}

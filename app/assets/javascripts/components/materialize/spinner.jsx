@@ -1,21 +1,22 @@
-"use strict";
+'use strict';
+
+var classNames = require('classnames');
 
 var Spinner = React.createClass({
     propTypes: {
         size: React.PropTypes.string
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             size: null
         };
     },
 
-    render: function () {
-        var preloaderClasses = "preloader-wrapper active";
-        if(this.props.size) {
-            preloaderClasses += " " + this.props.size;
-        }
+    render () {
+        let sizeProperties = {};
+        sizeProperties[this.props.size] = this.props.size;
+        let preloaderClasses = classNames('preloader-wrapper', 'active',sizeProperties);
 
         return (
             <div className={preloaderClasses}>

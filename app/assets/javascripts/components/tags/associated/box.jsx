@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+var classNames = require('classnames');
 
 var AssociatedTagList = require('./list');
 var ArticleActions = require('../../../actions/articleActions');
@@ -7,28 +9,38 @@ var ArticleStore = require('../../../stores/articleStore');
 var Spinner = require('../../../components/materialize/spinner');
 
 var AssociatedTagBox = React.createClass({
-    // With specifying mixins we say that we'd like to connect this component's state with the ImageStore.
-    // What this means is that whenever the store reacts to the action the component's state will be updated.
-    mixins: [Reflux.listenTo(ArticleStore, 'onArticleChange')],
+    propTypes: {
+        hasMore: React.PropTypes.bool
+    },
 
-    getInitialState: function () {
+    mixins: [
+        Reflux.listenTo(ArticleStore, 'onArticleChange')
+    ],
+
+    getDefaultProps () {
+        return {
+            hasMore: false
+        };
+    },
+
+    getInitialState () {
         return {
             associatedTags: null,
             isLoading: true
         };
     },
 
-    onArticleChange: function (articleStore) {
-        if(!$.isEmpty(articleStore.articles)) {
-            var associatedTags = [];
+    onArticleChange (articleStore) {
+        if (!$.isEmpty(articleStore.articles)) {
+            let associatedTags = [];
 
             articleStore.articles.forEach(function (article) {
-                if(!$.isEmpty(article.tags)) {
+                if (!$.isEmpty(article.tags)) {
                     associatedTags = associatedTags.concat(article.tags);
                 }
             });
 
-            associatedTags = _.uniq(associatedTags, function(tag) {
+            associatedTags = _.uniq(associatedTags, function (tag) {
                 return tag.id;
             });
 
@@ -39,23 +51,31 @@ var AssociatedTagBox = React.createClass({
         }
     },
 
-    _onClickTag: function (tagId, activeTag) {
+    _handleTagClick (tagId, activeTag) {
         ArticleActions.filterArticlesByTag(tagId, activeTag);
     },
 
-    _displayTagsIfExist: function () {
+    _renderTags () {
         if (this.state.associatedTags) {
             return (
-                <AssociatedTagList tags={this.state.associatedTags} onClickTag={this._onClickTag}/>
+                <AssociatedTagList tags={this.state.associatedTags}
+                                   onClickTag={this._handleTagClick}/>
             );
         }
     },
 
-    render: function () {
+    render () {
+        let loaderClass = classNames(
+            {
+                'center': this.props.hasMore,
+                'hide': !this.props.hasMore
+            }
+        );
+
         return (
             <div className="blog-associated-tag center-align">
-                { this._displayTagsIfExist() }
-                <div className={this.state.isLoading ? 'center': 'hide'}>
+                {this._renderTags()}
+                <div className={loaderClass}>
                     <Spinner />
                 </div>
             </div>

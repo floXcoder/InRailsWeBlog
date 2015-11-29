@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var Spinner = require('../../components/materialize/spinner');
 
@@ -21,13 +21,13 @@ var ArticleIndex = React.createClass({
         userId: React.PropTypes.number
     },
 
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             userId: null
         };
     },
 
-    getInitialState: function () {
+    getInitialState () {
         return {
             articles: null,
             isLoading: true,
@@ -37,16 +37,16 @@ var ArticleIndex = React.createClass({
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         this._activateTooltip();
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate () {
         this._activateTooltip();
     },
 
-    _activateTooltip: function () {
-        var $currentElement = $(ReactDOM.findDOMNode(this).className);
+    _activateTooltip () {
+        let $currentElement = $(ReactDOM.findDOMNode(this).className);
         $currentElement.ready(function () {
             $currentElement.find('.tooltipped').tooltip({
                 position: "bottom",
@@ -55,8 +55,8 @@ var ArticleIndex = React.createClass({
         });
     },
 
-    onPreferenceChange: function (userStore) {
-        var newState = {};
+    onPreferenceChange (userStore) {
+        let newState = {};
 
         if (!$.isEmpty(userStore.preferences) && userStore.preferences.article_display) {
             newState.articleDisplayMode = userStore.preferences.article_display;
@@ -71,8 +71,8 @@ var ArticleIndex = React.createClass({
         }
     },
 
-    onArticleChange: function (articleStore) {
-        var newState = {};
+    onArticleChange (articleStore) {
+        let newState = {};
 
         if (typeof(articleStore.articles) !== 'undefined') {
             newState.articles = articleStore.articles;
@@ -86,7 +86,7 @@ var ArticleIndex = React.createClass({
         }
     },
 
-    _displayListIfArticles: function () {
+    _renderArticleList () {
         if (this.state.articles && this.state.articles.length > 0) {
             return (
                 <ArticleListDisplay
@@ -104,13 +104,13 @@ var ArticleIndex = React.createClass({
         }
     },
 
-    render: function () {
+    render () {
         return (
             <div className="blog-article-box">
                 <div className={this.state.isLoading ? 'center': 'hide' + ' margin-top-20'}>
                     <Spinner size='big'/>
                 </div>
-                { this._displayListIfArticles() }
+                { this._renderArticleList() }
             </div>
         );
     }

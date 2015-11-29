@@ -71,17 +71,6 @@ set :locals_rails_env, 'production'
 # if you are highly paranoid and want to prevent any push operation to the server
 set :disallow_pushing, false
 
-# namespace :apache do
-#   [:stop, :start, :restart, :reload].each do |action|
-#     desc "#{action.to_s.capitalize} Apache"
-#     task action do
-#       on roles(:web), in: :sequence, wait: 5 do
-#         execute :sudo, "/etc/init.d/apache2 #{action.to_s}"
-#       end
-#     end
-#   end
-# end
-
 namespace :assets do
   desc 'Publish assets'
   task :publish do

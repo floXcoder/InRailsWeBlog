@@ -3,8 +3,6 @@ class Users::SessionsController < Devise::SessionsController
 
   respond_to :html, :js
 
-  # include ActionView::Helpers::DateHelper
-  include ActionView::Helpers::TagHelper
   include ApplicationHelper
 
   def create
@@ -21,7 +19,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def failure
-    error_msg = I18n.t('devise.failure.invalid', authentication_keys: params[resource_name][:login])
+    error_msg = I18n.t('devise.failure.invalid', authentication_keys: params[resource_name] ? params[resource_name][:login] : '')
     redirect_after_failure(error_msg)
   end
 

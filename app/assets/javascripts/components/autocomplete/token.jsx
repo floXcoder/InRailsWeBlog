@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var classNames = require('classnames');
 
@@ -18,8 +18,8 @@ var Token = React.createClass({
         onRemove: React.PropTypes.func
     },
 
-    render: function () {
-        var className = classNames([
+    render () {
+        let className = classNames([
             "typeahead-token",
             this.props.className
         ]);
@@ -33,7 +33,7 @@ var Token = React.createClass({
         );
     },
 
-    _renderHiddenInput: function () {
+    _renderHiddenInput () {
         // If no name was set, don't create a hidden input
         if (!this.props.name) {
             return null;
@@ -48,7 +48,7 @@ var Token = React.createClass({
         );
     },
 
-    _renderCloseButton: function () {
+    _renderCloseButton () {
         if (!this.props.onRemove) {
             return "";
         }

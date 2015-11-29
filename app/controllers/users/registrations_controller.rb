@@ -1,8 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :js
 
-  include ActionView::Helpers::DateHelper
-  include ActionView::Helpers::TagHelper
   include ApplicationHelper
 
   def create
@@ -15,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_flashing_format? || request.format.js?
         sign_up(resource_name, resource)
-        @location = after_sign_up_path_for(resource)
+        @location         = after_sign_up_path_for(resource)
         session[:sign_up] = true
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format? || request.format.js?

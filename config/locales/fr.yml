@@ -32,11 +32,14 @@ fr:
         new: "Nouvel article"
         bookmark: "Articles favoris"
         temporary: "Temporaires"
+      admin:
+        errors: "Erreurs"
       profile:
        connected: "Mon compte"
        not_connected: "Connexion"
-      french: "Français"
-      english: "English"
+      language:
+        french: "Français"
+        english: "English"
       log_out: "Déconnexion"
     user:
       flash:
@@ -103,6 +106,16 @@ fr:
     city: "Ville"
     additional_info: "Informations personnelles"
     country: "Pays"
+  article:
+    enums:
+      visibility:
+        everyone: "Tout le monde"
+        only_me: "Seulement moi"
+  error_message:
+    enums:
+      origin:
+        server: "Serveur"
+        client: "Client"
   popup:
     cancel: "Annuler"
   buttons:
