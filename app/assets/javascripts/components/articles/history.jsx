@@ -32,13 +32,14 @@ var ArticleHistory = React.createClass({
             let Versions = this.props.articleVersions.map(function (version) {
                 if(!$.isEmpty(version.article.content)) {
                     return (
-                        <li className="" key={version.id}>
+                        <li key={version.id}>
                             <div className="collapsible-header">
                                 <i className="material-icons">change_history</i>
                                 {I18n.t('js.article.history.changed_at') + ' ' + version.changed_at}
                             </div>
                             <div className="collapsible-body article-history-item blog-article-item">
-                                <span dangerouslySetInnerHTML={{__html: version.article.content}}/>
+                                <span className="blog-article-content"
+                                      dangerouslySetInnerHTML={{__html: version.article.content}}/>
                                 <hr className="article-history-item-divider"/>
                                 <a className="waves-effect waves-light btn-small"
                                    onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>

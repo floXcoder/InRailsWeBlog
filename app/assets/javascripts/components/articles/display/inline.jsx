@@ -36,7 +36,8 @@ var ArticleInlineDisplay = React.createClass({
                 <h4 className="article-title-inline">
                     {this.props.article.title}
                 </h4>
-                <span dangerouslySetInnerHTML={{__html: this.props.children}}/>
+                <span className="blog-article-content"
+                      dangerouslySetInnerHTML={{__html: this.props.children}}/>
             </div>
         );
     }

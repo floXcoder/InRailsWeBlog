@@ -7,7 +7,7 @@ var ArticleVisibilityIcon = require('../icons/visibility');
 
 var ArticleEditionDisplay = React.createClass({
     propTypes: {
-        children: React.PropTypes.element.isRequired,
+        children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
         userId: React.PropTypes.number.isRequired,
         onClickTag: React.PropTypes.func.isRequired,
@@ -114,6 +114,7 @@ var ArticleEditionDisplay = React.createClass({
 
                     <div className="article-editing">
                         <div id={"editor-summernote-" + this.props.article.id}
+                             className="blog-article-content"
                              dangerouslySetInnerHTML={{__html: this.props.children}}/>
                     </div>
                 </div>
@@ -126,7 +127,6 @@ var ArticleEditionDisplay = React.createClass({
                                              onClickCancel={this._handleCancelClick}
                                              onClickSave={this._handleSaveClick}/>
                         <ArticleLinkIcon isLink={this.state.isLink}/>
-                        <ArticleVisibilityIcon article={this.props.article} userId={this.props.userId}/>
                     </div>
                 </div>
             </div>

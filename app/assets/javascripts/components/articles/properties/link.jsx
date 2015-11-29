@@ -7,9 +7,9 @@ var ArticleLink = React.createClass({
 
     render () {
         return (
-            <a className="article-icons article-goto"
+            <a className="article-icons"
                href={"/articles/" + this.props.article.slug} >
-                <i className="material-icons">forward</i>
+                <i className="material-icons article-goto">home</i>
             </a>
         );
     }

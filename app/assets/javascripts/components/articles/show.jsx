@@ -139,7 +139,8 @@ var ArticleShow = React.createClass({
                 <div className="card clearfix blog-article-item">
                     <div className="card-content">
                         {this._renderTitle()}
-                        <span dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                        <span className="blog-article-content"
+                              dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                     </div>
                     <div className="card-action article-action row clearfix">
 
@@ -147,19 +148,19 @@ var ArticleShow = React.createClass({
                             <ArticleTags article={this.props.article}/>
                         </div>
                         <div className="col s12 m12 l6 right-align">
-                            <ArticleLinkIcon isLink={this.props.article.is_link}/>
-                            <ArticleVisibilityIcon article={this.props.article}
-                                                   userId={this.props.userId}/>
                             <ArticleBookmarkIcon article={this.props.article}
                                                  userId={this.props.userId}
                                                  onClickBookmark={this._handleBookmarkClick}/>
+                            <ArticleLinkIcon isLink={this.props.article.is_link}/>
+                            <ArticleVisibilityIcon article={this.props.article}
+                                                   userId={this.props.userId}/>
+                            <ArticleDeleteIcon article={this.props.article}
+                                               userId={this.props.userId}
+                                               onClickDelete={this._handleDeleteClick}/>
                             <ArticleHistoryIcon article={this.props.article}
                                                 userId={this.props.userId}
                                                 onClickHistory={this._handleHistoryClick}/>
                             {this._renderEditIcon()}
-                            <ArticleDeleteIcon article={this.props.article}
-                                               userId={this.props.userId}
-                                               onClickDelete={this._handleDeleteClick}/>
                         </div>
                     </div>
                 </div>

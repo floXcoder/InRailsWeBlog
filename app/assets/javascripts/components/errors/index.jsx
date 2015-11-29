@@ -29,9 +29,9 @@ var ErrorIndex = React.createClass({
         if(error.origin === 'communication') {
             return (<i className="material-icons blue-text text-darken-4">compare_arrows</i>);
         } else if(error.origin === 'client') {
-            return (<i className="material-icons red-text text-darken-4">desktop_windows</i>);
+            return (<i className="material-icons red-text text-darken-4">phone_android</i>);
         } else {
-            return (<i className="material-icons blue-text text-darken-4">phone_android</i>);
+            return (<i className="material-icons blue-text text-darken-4">desktop_windows</i>);
         }
     },
 
@@ -51,14 +51,20 @@ var ErrorIndex = React.createClass({
                     </div>
 
                     <div className="collapsible-body">
-                        <h5>{I18n.t('js.error.url')}</h5>
+                        <h5>
+                            {I18n.t('js.error.url')}
+                        </h5>
                         <blockquote>
                             {error.target_url}
                         </blockquote>
-                        <h5>{I18n.t('js.error.message')}</h5>
-                        <blockquote dangerouslySetInnerHTML={{__html: error.message.replace(/\n/g, "<br />")}}/>
-                        <h5>{I18n.t('js.error.trace')}</h5>
-                        <blockquote dangerouslySetInnerHTML={{__html: error.trace.replace(/\n/g, "<br />")}}/>
+                        <h5>
+                            {I18n.t('js.error.message')}
+                        </h5>
+                        { error.trace ? <blockquote dangerouslySetInnerHTML={{__html: error.message.replace(/\n/g, "<br />")}}/> : ''}
+                        <h5>
+                            {I18n.t('js.error.trace')}
+                        </h5>
+                        { error.trace ? <blockquote dangerouslySetInnerHTML={{__html: error.trace.replace(/\n/g, "<br />")}}/> : ''}
                     </div>
                 </li>
             );

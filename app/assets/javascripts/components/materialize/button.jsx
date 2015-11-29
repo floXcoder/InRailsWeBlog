@@ -42,7 +42,7 @@ var Button = React.createClass({
         this.setState({disabled: !this.state.disabled});
     },
 
-    renderIcon () {
+    _renderIcon () {
         if (this.props.icon) {
             return (
                 <i className="material-icons right">{this.props.icon}</i>
@@ -62,7 +62,7 @@ var Button = React.createClass({
                         data-delay="50"
                         data-tooltip={this.props.tooltip}
                         disabled={this.state.disabled} >
-                    { this.renderIcon() }
+                    {this._renderIcon()}
                     {this.props.children}
                 </button>
             );
@@ -73,7 +73,7 @@ var Button = React.createClass({
                         method="post"
                         onClick={this.props.onClickButton}
                         disabled={this.state.disabled} >
-                    { this.renderIcon() }
+                    {this._renderIcon()}
                     {this.props.children}
                 </button>
             );

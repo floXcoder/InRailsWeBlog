@@ -392,9 +392,16 @@
     .article-action {
       padding-bottom: 0;
 
-      .col {
-        margin: 10px 0;
+      .fixed-action-btn {
+        bottom: 0;
+        right: 0;
+        position: relative;
+        z-index: inherit;
       }
+
+      //.col {
+      //  margin: 10px 0;
+      //}
     }
 
     .article-summary {
@@ -452,34 +459,41 @@
         }
       }
 
-      &.article-goto {
-        margin: 0;
-        line-height: 12px;
-        font-size: 12px;
-      }
-
       .material-icons {
         margin: 0 15px;
       }
 
+      .article-goto {
+        color: color('deep-orange', 'darken-4');
+      }
+
       .article-private {
-        color: darkred;
+        color: color('orange', 'darken-4');
+      }
+
+      .article-public {
+        color: color('orange', 'darken-4');
       }
 
       .article-edit {
         cursor: pointer;
+        color: color('green', 'darken-4');
         @include article-hover;
       }
 
       .article-history {
         cursor: pointer;
+        color: color('deep-purple', 'darken-2');
         @include article-hover;
       }
 
-      .article-link {}
+      .article-link {
+
+      }
 
       .article-delete {
         cursor: pointer;
+        color: color('teal', 'darken-1');
         @include article-hover;
       }
 
@@ -495,7 +509,31 @@
         @include article-hover;
       }
     }
+  }
 
+  .blog-error-box {
+    .collapsible-header {
+      font-size: 1.2rem;
+    }
+
+    .collapsible-body {
+      background-color: #fcfcfc;
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .error-time {
+      float: right;
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: normal;
+      vertical-align: middle;
+      position: relative;
+      display: inline-block;
+    }
+  }
+
+  .blog-article-content {
     h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
       margin: 0;
       padding: 0;
@@ -575,28 +613,6 @@
 
     .deadend {
       @include special-style($deadend-color);
-    }
-  }
-
-  .blog-error-box {
-    .collapsible-header {
-      font-size: 1.2rem;
-    }
-
-    .collapsible-body {
-      background-color: #fcfcfc;
-      padding: 1rem;
-      font-size: 1.1rem;
-    }
-
-    .error-time {
-      float: right;
-      font-size: 1rem;
-      font-weight: 300;
-      font-style: normal;
-      vertical-align: middle;
-      position: relative;
-      display: inline-block;
     }
   }
 }
