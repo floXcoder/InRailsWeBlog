@@ -39,7 +39,10 @@ webPackConfig.plugins.push(
         }
     }),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+        sourceMap: false,
+        mangle: false,
+        minimize: true}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin()
 );
