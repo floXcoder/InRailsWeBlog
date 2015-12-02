@@ -9,7 +9,7 @@
 .card
   = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: 'login_user',  class: 'blog-form' }) do |login_form|
     .card-content
-      h2
+      h2.adaptative-title
         = t('views.user.login.title')
 
       .text-right.margin-bottom-20
@@ -27,5 +27,5 @@
     .card-action
       / Login button
       .row
-        .col.l2.offset-l10.m4.offset-m8.s6.offset-s6
+        .col.s12.right-align
           = login_form.button :submit, t('views.user.login.submit')

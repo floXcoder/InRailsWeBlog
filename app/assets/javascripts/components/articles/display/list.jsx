@@ -1,5 +1,7 @@
 'use strict';
 
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+var classNames = require('classnames');
 var InfiniteScroll = require('../../../components/materialize/infiniteScroll');
 
 var ArticleActions = require('../../../actions/articleActions');
@@ -11,12 +13,12 @@ var ArticleListDisplay = React.createClass({
         hasMore: React.PropTypes.bool.isRequired,
         articleDisplayMode: React.PropTypes.string.isRequired,
         highlightResults: React.PropTypes.bool,
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
-            userId: null,
+            currentUserId: null,
             highlightResults: false
         };
     },
@@ -28,23 +30,23 @@ var ArticleListDisplay = React.createClass({
     },
 
     _renderArticles () {
-        let ArticleNodes = this.props.articles.map(function (article) {
-            var articleContent = this.props.highlightResults && !$.isEmpty(article.highlight_content) ?
+        let ArticleNodes = this.props.articles.map((article) => {
+            let articleContent = this.props.highlightResults && !$.isEmpty(article.highlight_content) ?
                 article.highlight_content :
                 article.content;
 
-            if(article.show) {
+            if (article.show) {
                 return (
                     <ArticleItem
                         key={article.id}
-                        userId={this.props.userId}
+                        currentUserId={this.props.currentUserId}
                         article={article}
                         initialDisplayMode={this.props.articleDisplayMode}>
                         {articleContent}
                     </ArticleItem>
                 );
             }
-        }.bind(this));
+        });
 
         if (this.props.articleDisplayMode === 'inline') {
             return (
@@ -52,7 +54,14 @@ var ArticleListDisplay = React.createClass({
                     <div className="blog-article-list">
                         <InfiniteScroll loadMore={this._loadNextArticles}
                                         hasMore={this.props.hasMore}>
-                            {ArticleNodes}
+                            <ReactCSSTransitionGroup transitionName="article"
+                                                     transitionAppear={true}
+                                                     transitionAppearTimeout={500}
+                                                     transitionAppearTimeout={500}
+                                                     transitionEnterTimeout={500}
+                                                     transitionLeaveTimeout={300}>
+                                {ArticleNodes}
+                            </ReactCSSTransitionGroup>
                         </InfiniteScroll>
                     </div>
                 </div>
@@ -62,7 +71,13 @@ var ArticleListDisplay = React.createClass({
                 <div className="blog-article-list">
                     <InfiniteScroll loadMore={this._loadNextArticles}
                                     hasMore={this.props.hasMore}>
-                        {ArticleNodes}
+                        <ReactCSSTransitionGroup transitionName="article"
+                                                 transitionAppear={true}
+                                                 transitionAppearTimeout={500}
+                                                 transitionEnterTimeout={500}
+                                                 transitionLeaveTimeout={300}>
+                            {ArticleNodes}
+                        </ReactCSSTransitionGroup>
                     </InfiniteScroll>
                 </div>
             );
@@ -73,7 +88,13 @@ var ArticleListDisplay = React.createClass({
         return (
             <div className="row">
                 <div className="col s12">
-                    {this._renderArticles()}
+                    <ReactCSSTransitionGroup transitionName="article"
+                                             transitionAppear={true}
+                                             transitionAppearTimeout={500}
+                                             transitionEnterTimeout={500}
+                                             transitionLeaveTimeout={300}>
+                        {this._renderArticles()}
+                    </ReactCSSTransitionGroup>
                 </div>
             </div>
         );

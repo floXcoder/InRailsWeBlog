@@ -2,9 +2,6 @@
 
 var Suggestions = require('./suggestions');
 
-//var DragDropContext = require('react-dnd'.DragDropContext);
-//var HTML5Backend = require('react-dnd-html5-backend');
-
 // Constants
 var Keys = {
     ENTER: 13,
@@ -172,12 +169,12 @@ var ReactTags = React.createClass({
             placeholder = this.props.placeholder;
 
         return (
-            <div className="input-field tagsinput-tagInput">
-                <label htmlFor="tagSelection">
+            <div className="input-field tagsinput-input">
+                <label htmlFor="tag-selection">
                     {I18n.t('js.article.new.tags.placeholder')}
                 </label>
                 <input ref="input"
-                       id="tagSelection"
+                       id="tag-selection"
                        type="text"
                        minLength={this.props.tagMinLength}
                        maxLength={this.props.tagMaxLength}
@@ -196,7 +193,3 @@ var ReactTags = React.createClass({
 });
 
 module.exports = ReactTags;
-//module.exports = {
-//    WithContext: DragDropContext(HTML5Backend)(ReactTags),
-//    WithOutContext: ReactTags
-//};

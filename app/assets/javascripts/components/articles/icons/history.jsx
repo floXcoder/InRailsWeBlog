@@ -4,12 +4,12 @@ var ArticleHistoryIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
         onClickHistory: React.PropTypes.func.isRequired,
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
-            userId: null
+            currentUserId: null
         };
     },
 
@@ -26,7 +26,7 @@ var ArticleHistoryIcon = React.createClass({
     },
 
     render () {
-        if (this.props.userId && this.props.userId === this.props.article.author.id) {
+        if (this.props.currentUserId && this.props.currentUserId === this.props.article.author.id) {
             var historyTooltip = I18n.t('js.article.tooltip.history');
 
             return (

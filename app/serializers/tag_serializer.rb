@@ -16,9 +16,4 @@ class TagSerializer < ActiveModel::Serializer
   attributes :id, :tagger_id, :name, :slug
 
   has_many :children, serializer: SimpleTagSerializer
-
-  def name
-    object.name.capitalize
-  end
-
 end

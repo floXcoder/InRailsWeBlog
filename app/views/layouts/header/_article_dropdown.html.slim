@@ -4,9 +4,16 @@
   li.divider
 
   li
-    a#toggle-article-creation
-      i.material-icons.right add_box
-      = t('views.header.articles.new')
+    - w controller?('admins')
+    - w action?('edit')
+    - if controller?('admins') || action?('edit')
+      = link_to root_path(article_new: true) do
+        i.material-icons.right add_box
+        = t('views.header.articles.new')
+    - else
+      a#toggle-article-creation
+        i.material-icons.right add_box
+        = t('views.header.articles.new')
 
   li
     = link_to bookmark_user_path(current_user)

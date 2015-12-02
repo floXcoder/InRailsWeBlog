@@ -67,7 +67,7 @@ var TypeaheadSelector = React.createClass({
                         ref: uniqueKey, key: uniqueKey,
                         hover: this.props.selectionIndex === i + customValueOffset,
                         customClasses: this.props.customClasses,
-                        onClick: this._onClick.bind(this, result)
+                        onClick: this._handleItemClick.bind(this, result)
                     },
                     displayString
                 )

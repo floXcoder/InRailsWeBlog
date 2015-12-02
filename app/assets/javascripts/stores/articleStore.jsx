@@ -7,7 +7,6 @@ var History = require('../modules/mixins/history');
 
 var ArticleStore = Reflux.createStore({
     mixins: [History],
-    // auto-connects actions with stores
     listenables: [ArticleActions],
     articleData: {},
     activeTags: {},

@@ -16,12 +16,15 @@ var ArticleCreation = React.createClass({
         $articleNewForm.hide();
 
         $('a#toggle-article-creation').click((event) => {
-
-            $('#toggle-navbar').sideNav('hide');
-
             event.preventDefault();
+            $('#toggle-navbar').sideNav('hide');
             this._toggleNewForm();
         });
+
+        Mousetrap.bind('alt+s', function () {
+            this._toggleNewForm();
+            return false;
+        }.bind(this), 'keydown');
 
         ClipboardManager.initialize(this._onPaste);
 
@@ -41,13 +44,21 @@ var ArticleCreation = React.createClass({
             event.preventDefault();
             this._toggleNewForm();
         }.bind(this));
+
+        if ($.getUrlParameter('article_new')) {
+            this._toggleNewForm();
+        }
     },
 
     _toggleNewForm () {
         var $articleNewForm = $('#article-creation-component');
-        $articleNewForm.is(":visible") ?
-            $articleNewForm.fadeOut() :
+        if($articleNewForm.is(":visible")) {
+            $articleNewForm.fadeOut(() => {
+                //window.history.pushState({articleNew: false}, '', '');
+            });
+        } else {
             $articleNewForm.fadeIn(() => {
+                //window.history.pushState({articleNew: true}, '', '?article_new=true');
                 let editorLoader = require('../../loaders/editor');
                 editorLoader().then(({}) => {
                     this.setState({isActive: true});
@@ -58,15 +69,20 @@ var ArticleCreation = React.createClass({
                     $articleNewForm.find('input#title').focus();
                 });
             });
+        }
     },
 
     _onPaste (content) {
+        if (!$('#single-editor').summernote) {
+            Materialize.toast(I18n.t('js.article.clipboard.toast.init'), 3000);
+        }
+
         let editorLoader = require('../../loaders/editor');
         editorLoader().then(({}) => {
             var wasActive = this.state.isActive;
             this.setState({isActive: true});
 
-            var $singleEditor = $('#single-editor');
+            let $singleEditor = $('#single-editor');
             let singleContent = $singleEditor.summernote('code');
             if (content && $singleEditor && $.isEmpty(singleContent)) {
                 let $articleNewForm = $('#article-creation-component');
@@ -79,11 +95,11 @@ var ArticleCreation = React.createClass({
                     this.refs.articleForm.refs.visibility.setState({value: 'only_me'});
                     this.refs.articleForm.refs.submit.setState({disabled: false});
 
-                    if(!wasActive) {
+                    if (!wasActive) {
                         $('.blog-form .collapsible').collapsible();
                     }
 
-                    Materialize.toast(I18n.t('js.article.clipboard.toast'), 5000);
+                    Materialize.toast(I18n.t('js.article.clipboard.toast.done'), 5000);
                 });
             }
         });
@@ -104,13 +120,12 @@ var ArticleCreation = React.createClass({
         if (this.state.isActive) {
             return (
                 <div className="blog-form">
-                    <div className="margin-bottom-20"/>
                     <ul data-collapsible="accordion"
                         className="collapsible article-form-header">
                         <li>
-                            <div className="collapsible-header active">
+                            <div className="collapsible-header active blue-grey darken-3 white-text">
                                 <i className="material-icons">mode_edit</i>
-                                <h4 className="collection-header">
+                                <h4 className="collection-header blog-form-title">
                                     {I18n.t('js.article.new.title')}
                                 </h4>
                             </div>

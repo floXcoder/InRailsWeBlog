@@ -39,7 +39,7 @@
   $i: 0;
   @while $i <= $intervals {
     @media only screen and (min-width : 360 + ($i * $interval-size)) {
-      font-size: 0.9rem * (1 + (.02 * $i));
+      font-size: .9rem * (1 + (.02 * $i));
     }
     $i: $i + 1;
   }
@@ -47,6 +47,22 @@
   // Handle below 360px screen
   @media only screen and (max-width: 360px) {
     font-size: 1.2rem;
+  }
+}
+
+.adaptative-title {
+  font-weight: 400;
+  $i: 0;
+  @while $i <= $intervals {
+    @media only screen and (min-width : 360 + ($i * $interval-size)) {
+      font-size: 2.5rem * (1 + (.02 * $i));
+    }
+    $i: $i + 1;
+  }
+
+  // Handle below 360px screen
+  @media only screen and (max-width: 360px) {
+    font-size: 2rem;
   }
 }
 

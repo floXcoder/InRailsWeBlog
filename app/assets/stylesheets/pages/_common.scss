@@ -4,6 +4,7 @@
 @import 'highlight.js/styles/zenburn';
 @import 'modules/wysiwyg/summernote';
 @import 'modules/tagsinput/tagsinput';
+@import 'modules/react-animation';
 
 .blog {
   background-color: color('blue-grey', 'lighten-4');
@@ -52,6 +53,12 @@
       outline: none;
     }
 
+    @media #{$medium-and-down} {
+      nav ul a {
+        padding: 0 0 0 10px;
+      }
+    }
+
     .nav-wrapper {
       padding: 0 30px;
 
@@ -68,14 +75,15 @@
     }
 
     .blog-search-nav {
+      background-color: color('grey', 'darken-3');
       border-bottom: 1px solid #111;
       border-top: 1px solid #111;
+      color: white;
       display: none;
       margin-bottom: 0;
-      color: white;
-      background-color: color('grey', 'darken-3');
-      width: 100%;
       position: fixed;
+      width: 100%;
+      z-index: 40;
     }
 
     .blog-search {
@@ -173,6 +181,12 @@
 
   .blog-main {
     flex: 1 0 auto;
+
+    @media #{$small-and-down} {
+      &.container {
+        width: 98%;
+      }
+    }
   }
 
   .blog-user-pref {
@@ -238,7 +252,11 @@
     margin-top: 20px;
 
     .blog-form-title {
-      padding: 20px 10px 0 10px;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: 6px 10px 0 10px;
+      font-size: 26px;
+      font-weight: 300;
     }
   }
 
@@ -355,6 +373,10 @@
 
   .blog-article-edit {
     background-color: white;
+
+    .btn-flat {
+      color: #343434;
+    }
   }
 
   .blog-article-item {
@@ -488,7 +510,14 @@
 
     }
 
+    .article-visibility {
+      .material-icons {
+        cursor: default;
+      }
+    }
+
     .article-delete {
+      margin-left: 4rem;
       margin-right: 4rem;
       cursor: pointer;
       background-color: color('teal', 'darken-1');

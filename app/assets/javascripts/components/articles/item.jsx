@@ -10,12 +10,12 @@ var ArticleItem = React.createClass({
         children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
         initialDisplayMode: React.PropTypes.string.isRequired,
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
-            userId: null
+            currentUserId: null
         };
     },
 
@@ -38,6 +38,7 @@ var ArticleItem = React.createClass({
     },
 
     _setDefaultDisplay (tagName, event) {
+        event.preventDefault();
         this.setState({articleDisplayMode: this.props.initialDisplayMode});
     },
 
@@ -46,6 +47,7 @@ var ArticleItem = React.createClass({
     },
 
     _handleBookmarkClick (articleId, event) {
+        event.preventDefault();
         ArticleActions.bookmarkArticle({articleId: articleId});
     },
 
@@ -65,16 +67,17 @@ var ArticleItem = React.createClass({
         if (this.state.articleDisplayMode === 'inline') {
             return (
                 <ArticleInlineDisplay article={this.props.article}
-                                      userId={this.props.userId}>
+                                      currentUserId={this.props.currentUserId}>
                     {this.props.children}
                 </ArticleInlineDisplay>
             );
         } else if (this.state.articleDisplayMode === 'card') {
             return (
                 <ArticleCardDisplay article={this.props.article}
-                                    userId={this.props.userId}
+                                    currentUserId={this.props.currentUserId}
                                     onClickTag={this._handleTagClick}
                                     onClickEdit={this._handleEditClick}
+                                    onClickVisibility={this._handleVisibilityClick}
                                     onClickBookmark={this._handleBookmarkClick}>
                     {this.props.children}
                 </ArticleCardDisplay>
@@ -82,7 +85,7 @@ var ArticleItem = React.createClass({
         } else if (this.state.articleDisplayMode === 'edit') {
             return (
                 <ArticleEditionDisplay article={this.props.article}
-                                       userId={this.props.userId}
+                                       currentUserId={this.props.currentUserId}
                                        onClickTag={this._handleTagClick}
                                        setDefaultDisplay={this._setDefaultDisplay}>
                     {this.props.children}

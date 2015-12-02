@@ -131,15 +131,26 @@ var ArticleForm = React.createClass({
 
         let $editor = $(id);
 
-        let toolbar = [
-            ['style', ['style', 'bold', 'italic', 'underline']],
-            ['specialStyle', ['specialStyle']],
-            ['undo', ['undo', 'redo']],
-            ['view', ['fullscreen', 'codeview']],
-            ['para', ['ul', 'ol']],
-            ['insert', ['link', 'picture', 'video']],
-            ['help', ['help']]
-        ];
+        let toolbar = [];
+        if(window.innerWidth > window.parameters.medium_screen_up) {
+            toolbar = [
+                ['style', ['style', 'bold', 'italic', 'underline']],
+                ['specialStyle', ['specialStyle']],
+                ['undo', ['undo', 'redo']],
+                ['view', ['fullscreen', 'codeview']],
+                ['para', ['ul', 'ol']],
+                ['insert', ['link', 'picture', 'video']],
+                ['help', ['help']]
+            ];
+        } else {
+            toolbar = [
+                ['style', ['style', 'bold', 'italic', 'underline']],
+                ['specialStyle', ['specialStyle']],
+                ['view', ['fullscreen']],
+                ['para', ['ul', 'ol']],
+                ['insert', ['link', 'picture', 'video']]
+            ];
+        }
 
         $editor.summernote({
             lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
@@ -389,14 +400,17 @@ var ArticleForm = React.createClass({
                             </li>
                         </ul>
                     </div>
-                    <div className="col s12" id="english-form">
-                        <Input ref="englishTitle" id="englishTitle"
+                    <div id="english-form"
+                         className="col s12">
+                        <Input ref="englishTitle"
+                               id="english-title"
                                classType="important"
                                minLength={window.parameters.title_min_length}
                                maxLength={window.parameters.title_max_length}>
                             {I18n.t('js.article.model.title')}
                         </Input>
-                        <Input ref="englishSummary" id="englishSummary"
+                        <Input ref="englishSummary"
+                               id="english-summary"
                                minLength={window.parameters.summary_min_length}
                                maxLength={window.parameters.summary_max_length}>
                             {I18n.t('js.article.model.summary')}
@@ -406,13 +420,17 @@ var ArticleForm = React.createClass({
                             <div id="english-editor"/>
                         </div>
                     </div>
-                    <div className="col s12" id="french-form">
-                        <Input ref="frenchTitle" id="frenchTitle" classType="important"
+                    <div id="french-form"
+                         className="col s12">
+                        <Input ref="frenchTitle"
+                               id="french-title"
+                               classType="important"
                                minLength={window.parameters.title_min_length}
                                maxLength={window.parameters.title_max_length}>
                             {I18n.t('js.article.model.title')}
                         </Input>
-                        <Input ref="frenchSummary" id="frenchSummary"
+                        <Input ref="frenchSummary"
+                               id="french-summary"
                                minLength={window.parameters.summary_min_length}
                                maxLength={window.parameters.summary_max_length}>
                             {I18n.t('js.article.model.summary')}
@@ -427,12 +445,16 @@ var ArticleForm = React.createClass({
         } else {
             return (
                 <div>
-                    <Input ref="title" id="title" classType="important"
+                    <Input ref="title"
+                           id="title"
+                           classType="important"
                            minLength={window.parameters.title_min_length}
                            maxLength={window.parameters.title_max_length}>
                         {I18n.t('js.article.model.title')}
                     </Input>
-                    <Input ref="summary" id="summary" onBlur={this._onBlurSummary}
+                    <Input ref="summary"
+                           id="summary"
+                           onBlur={this._onBlurSummary}
                            minLength={window.parameters.summary_min_length}
                            maxLength={window.parameters.summary_max_length}>
                         {I18n.t('js.article.model.summary')}
@@ -469,13 +491,13 @@ var ArticleForm = React.createClass({
                 {this._createFields()}
 
                 <div className="row margin-top-10">
-                    <div className="col l6 m6 s12">
+                    <div className="col s12 m6 l6">
                         {I18n.t('js.article.new.tags.title')}
                         <TagsInput ref="tagsinput"
                                    initialSelectedTags={tags}/>
                     </div>
 
-                    <div className="col s6 m6 l3">
+                    <div className="col s12 m6 l3">
                         <Checkbox ref="temporary"
                                   id="temporary"
                                   checked={article.temporary || this.props.temporary}>
@@ -488,7 +510,7 @@ var ArticleForm = React.createClass({
                             {I18n.t('js.article.model.is_link')}
                         </Checkbox>
                     </div>
-                    <div className="col s6 m6 l3">
+                    <div className="col s12 m6 l3">
                         <Select ref="visibility"
                                 id="visibility"
                                 title={I18n.t('js.article.visibility.title')}
@@ -499,16 +521,17 @@ var ArticleForm = React.createClass({
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col s6">
-                        <Button ref="submit" icon="send">
-                            {this.props.article ? I18n.t('js.article.edit.submit') : I18n.t('js.article.new.submit')}
-                        </Button>
-                    </div>
-                    <div className="col s6 right-align">
+                    <div className="col s6 left-align">
                         <a className="waves-effect waves-teal btn-flat"
                            onClick={this._handleCancelClick}>
                             {I18n.t('js.buttons.cancel')}
                         </a>
+                    </div>
+                    <div className="col s6 right-align">
+                        <Button ref="submit"
+                                icon="send">
+                            {this.props.article ? I18n.t('js.article.edit.submit') : I18n.t('js.article.new.submit')}
+                        </Button>
                     </div>
                 </div>
             </form>

@@ -10,7 +10,7 @@ var multiLanguage = (document.getElementById('article-element-component').getAtt
 
 ReactDOM.render(
     <ArticleEdit
-        userId={currentUserId}
+        currentUserId={currentUserId}
         article={article.article}
         multiLanguage={multiLanguage} />,
     document.getElementById('article-element-component')

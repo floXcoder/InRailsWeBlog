@@ -13,8 +13,8 @@ gem 'pg',                       '~> 0.18.4'
 gem 'seed_dump',                '~> 3.2.2'
 
 # Dummy data
-gem 'factory_girl_rails',     '~> 4.5.0'
-gem 'faker',                  '~> 1.6.1'
+gem 'factory_girl_rails',       '~> 4.5.0'
+gem 'faker',                    '~> 1.6.1'
 
 # HTTP Response
 gem 'responders',               '~> 2.1.0'
@@ -74,7 +74,7 @@ gem 'carrierwave_backgrounder', '~> 0.4.2'
 gem 'mini_magick',              '~> 4.3.5'
 
 # Search in database
-gem 'searchkick',               '~> 1.0.2'
+gem 'searchkick',               '~> 1.0.3'
 
 # Errors management
 gem 'rails_exception_handler',  git: 'https://github.com/Sharagoz/rails_exception_handler.git'
@@ -105,6 +105,9 @@ group :development do
 
   # Turn off unnecessary log output
   gem 'quiet_assets',           '~> 1.1.0'
+
+  # Scss lint
+  gem 'scss-lint',              '~> 0.38.0', require: false
 
   # Guard and its minions
   gem 'guard',                  '~> 2.13.0'
@@ -163,7 +166,7 @@ end
 
 group :development, :test do
   # Speed up server and tests
-  gem 'spring',                 '~> 1.4.1'
+  gem 'spring',                 '~> 1.5.0'
 
   # Check errors
   gem 'rubocop',                '~> 0.35.1',  require: false

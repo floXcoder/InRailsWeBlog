@@ -1,7 +1,7 @@
 RailsExceptionHandler.configure do |config|
 
   # Defaults to [:production]
-  config.environments           = [:development, :production]
+  config.environments           = [:production]
 
   # config.fallback_layout = 'home'                                         # Defaults to 'application'
   # config.after_initialize do

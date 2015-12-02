@@ -110,7 +110,9 @@ en:
         none: "No history for this article!"
         restored: "Version restored"
       clipboard:
-        toast: "You pasted some text, a new temporary article has been created."
+        toast:
+          init: "Paste on website detected, new temporary article creation in progress..."
+          done: "A new temporary article has been created!"
       tag:
         url: "Tag:"
       visibility:

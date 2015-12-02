@@ -12,11 +12,19 @@ $('.dropdown-button').dropdown({
 });
 
 // Initialize all SideNav
-$('header .button-collapse').sideNav({
-        menuWidth: 350,
-        edge: 'left'
-    }
-);
+if(window.innerWidth > window.parameters.medium_screen_up) {
+    $('header .button-collapse').sideNav({
+            menuWidth: 350,
+            edge: 'left'
+        }
+    );
+} else {
+    $('header .button-collapse').sideNav({
+            menuWidth: 260,
+            edge: 'left'
+        }
+    );
+}
 
 // Flash messages
 $('.blog-flash').each(function() {
@@ -26,7 +34,6 @@ $('.blog-flash').each(function() {
 
 // Header : close side nav on click for preferences or tags
 $('.button-collapse').click(function (event) {
-    log.info(event.target);
     if(event && (event.target.id === 'toggle-tags' || event.target.id === 'toggle-user-pref')) {
         $('#toggle-navbar').sideNav('hide');
     }
@@ -40,3 +47,30 @@ if(window.currentUserId === 'null') {
         Materialize.toast(I18n.t('js.article.flash.creation_unpermitted'), 5000);
     });
 }
+
+// Common url shortcuts
+// All articles
+Mousetrap.bind('alt+a', function () {
+    if(window.currentUserId !== 'null') {
+        window.location.pathname = '/users/' + window.currentUserId;
+    }
+    return false;
+}.bind(this), 'keydown');
+
+// Temporary articles
+Mousetrap.bind('alt+v', function () {
+    if(window.currentUserId !== 'null') {
+        window.location.pathname = '/users/' + window.currentUserId + '/temporary';
+    }
+    return false;
+}.bind(this), 'keydown');
+
+// Bookmarked articles
+Mousetrap.bind('alt+b', function () {
+    if(window.currentUserId !== 'null') {
+        window.location.pathname = '/users/' + window.currentUserId + '/bookmark';
+    }
+    return false;
+}.bind(this), 'keydown');
+
+

@@ -28,17 +28,17 @@ class ArticlesController < ApplicationController
                    .where(id: parent_articles.ids & children_articles.ids)
                    .order('articles.id DESC')
                elsif params[:mode] == 'bookmark'
-                 Article.includes(:translations, :author, :tags)
+                 Article.includes(:translations, :author, :parent_tags, :child_tags, :tags)
                    .user_related(current_user_id)
                    .where(id: current_user.bookmarks.ids)
                    .order('articles.id DESC')
                elsif params[:mode] == 'temporary'
-                 Article.includes(:translations, :author, :tags)
+                 Article.includes(:translations, :author, :parent_tags, :child_tags, :tags)
                    .user_related(current_user_id)
                    .where(temporary: true)
                    .order('articles.id DESC')
                else
-                 Article.includes(:translations, :author, :tags)
+                 Article.includes(:translations, :author, :parent_tags, :child_tags, :tags, user_bookmarks: [{ bookmarked_articles: :user }, :user])
                    .user_related(current_user_id)
                    .published
                    .order('articles.id DESC')
@@ -124,14 +124,13 @@ class ArticlesController < ApplicationController
     articles = results[:articles].includes(:translations, :author, :tags).user_related(current_user_id)
 
     respond_to do |format|
-      format.html { render json:            articles,
-                           highlight:       results[:highlight],
-                           suggestions:     results[:suggestions],
-                           each_serializer: SearchSerializer, content_type: 'application/json' }
-      format.json { render json:            articles,
-                           highlight:       results[:highlight],
-                           suggestions:     results[:suggestions],
-                           each_serializer: SearchSerializer }
+      format.json { render json: {
+        articles:    ActiveModel::SerializableResource.new(articles,
+                                                           { highlight:       results[:highlight],
+                                                             each_serializer: ArticleResultSerializer })
+                       .serializable_hash[:articles],
+        suggestions: results[:suggestions] }
+      }
     end
   end
 

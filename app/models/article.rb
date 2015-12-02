@@ -135,6 +135,12 @@ class Article < ActiveRecord::Base
     end unless previous_child_tags.empty?
   end
 
+  # Bookmarks
+  has_many :bookmarked_articles
+  has_many :user_bookmarks,
+           through: :bookmarked_articles,
+           source:  :user
+
   # Scopes
   scope :user_related, -> (user_id = nil) {
     where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
@@ -219,8 +225,8 @@ class Article < ActiveRecord::Base
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
-    # If query not defined, search for everything
-    query_string          = query ? query : '*'
+    # If query not defined or blank, search for everything
+    query_string             = !query || query.blank? ? '*' : query
 
     # Fields with boost
     fields                = if I18n.locale == :fr
@@ -237,7 +243,7 @@ class Article < ActiveRecord::Base
 
     # Highlight results and select a fragment
     # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight             = true
+    highlight             = {tag: '<span class="blog-highlight">'}
 
     # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
     where_options         = {}

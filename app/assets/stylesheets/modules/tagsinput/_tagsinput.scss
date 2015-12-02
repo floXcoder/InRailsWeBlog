@@ -2,8 +2,8 @@
   position: relative;
 }
 
-.tagsinput-tagInput {
-  width: 200px;
+.tagsinput-input {
+  width: 240px;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 2px;
   display: inline-block;
@@ -33,7 +33,7 @@
     //background: #eee;
     cursor: pointer;
     display: inline-block;
-    margin: 0 5px;
+    margin: 5px;
     padding: 0 15px;
     //border-radius: 2px;
 

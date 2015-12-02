@@ -10,7 +10,8 @@
     "ReactDOM": true,
     "Reflux": true,
     "$app": true,
-    "Hammer": true,
+    "Mousetrap": true,
+    "Materialize": true,
     "I18n": true
   },
   "parser": "babel-eslint",
@@ -92,7 +93,7 @@
     "radix": 0,
     "react/display-name": 0,
     "react/forbid-prop-types": 0,
-    "react/jsx-boolean-value": 1,
+    "react/jsx-boolean-value": 0,
     "react/jsx-closing-bracket-location": 0,
     "react/jsx-curly-spacing": 1,
     "react/jsx-indent-props": 0,

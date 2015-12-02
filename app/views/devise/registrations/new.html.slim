@@ -9,7 +9,7 @@
 .card
   = simple_form_for(resource, html: { id: 'signup_user',  class: 'blog-form' }) do |signup_form|
     .card-content
-      h2
+      h2.adaptative-title
         = t('views.user.signup.title')
 
       .text-right.margin-bottom-20
@@ -33,7 +33,7 @@
 
       / Signup button
       .row
-        .col.m4.offset-m8.offset-s4
+        .col.s12.right-align
           = signup_form.button :submit, t('views.user.signup.submit')
 
 

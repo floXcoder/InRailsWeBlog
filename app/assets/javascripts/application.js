@@ -20,6 +20,9 @@ require('./modules/utils');
 require('expose?Hammer!hammerjs');
 require('materialize-css/dist/js/materialize');
 
+// Keyboard inputs
+require('expose?Mousetrap!mousetrap');
+
 // Translation
 require('expose?I18n!./modules/i18n');
 require('./modules/translation/fr.js');

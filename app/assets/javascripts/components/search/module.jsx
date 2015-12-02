@@ -23,6 +23,11 @@ var SearchModule = React.createClass({
     },
 
     componentDidMount () {
+        Mousetrap.bind('alt+r', function () {
+            this._toggleSearchNav();
+            return false;
+        }.bind(this), 'keydown');
+
         $('#toggle-search').click(function () {
             this._toggleSearchNav();
             return false;
@@ -77,8 +82,8 @@ var SearchModule = React.createClass({
             newState.autocompleteValues = autocompletionValues;
         }
 
-        if (!$.isEmpty(articleStore.articles) && !$.isEmpty(articleStore.articles.first.suggestions)) {
-            newState.suggestions = articleStore.articles.first.suggestions;
+        if (!$.isEmpty(articleStore.suggestions)) {
+            newState.suggestions = articleStore.suggestions;
         } else if (!$.isEmpty(this.state.suggestions)) {
             newState.suggestions = [];
         }

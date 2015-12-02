@@ -9,7 +9,7 @@ var ArticleEditionDisplay = React.createClass({
     propTypes: {
         children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
-        userId: React.PropTypes.number.isRequired,
+        currentUserId: React.PropTypes.number.isRequired,
         onClickTag: React.PropTypes.func.isRequired,
         setDefaultDisplay: React.PropTypes.func.isRequired
     },
@@ -122,7 +122,7 @@ var ArticleEditionDisplay = React.createClass({
                     {Tags}
                     <div className="right">
                         <ArticleEditionIcons article={this.props.article}
-                                             userId={this.props.userId}
+                                             currentUserId={this.props.currentUserId}
                                              onClickDelete={this._handleDeleteClick}
                                              onClickCancel={this._handleCancelClick}
                                              onClickSave={this._handleSaveClick}/>

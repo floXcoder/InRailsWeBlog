@@ -2349,7 +2349,6 @@
                 var includeAncestor = options && options.includeAncestor;
                 var fullyContains = options && options.fullyContains;
 
-                // TODO compare points and sort
                 var startPoint = this.getStartPoint();
                 var endPoint = this.getEndPoint();
 
@@ -5233,7 +5232,7 @@
             context.memo('button.undo', function () {
                 return ui.button({
                     contents: '<i class="material-icons">undo</i>',
-                    tooltip: lang.lists.undo + representShortcut('undo'),
+                    tooltip: lang.help.undo + representShortcut('undo'),
                     click: context.createInvokeHandler('editor.undo')
                 }).render();
             });
@@ -5241,7 +5240,7 @@
             context.memo('button.redo', function () {
                 return ui.button({
                     contents: '<i class="material-icons">redo</i>',
-                    tooltip: lang.lists.redo + representShortcut('redo'),
+                    tooltip: lang.help.redo + representShortcut('redo'),
                     click: context.createInvokeHandler('editor.redo')
                 }).render();
             });

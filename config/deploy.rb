@@ -100,15 +100,15 @@ namespace :deploy do
       on primary :db do
         within release_path do
           with rails_env: fetch(:rails_env) do
-            execute :rake, 'db:migrate:reset'
+            execute :rake, 'InRailsWeBlog:populate[reset]'
           end
         end
       end
     end
   end
 
-  desc 'Populate elastic search'
-  task :elasticSearch do
+  desc 'Index elastic search'
+  task :index_elasticsearch do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
@@ -119,8 +119,13 @@ namespace :deploy do
   end
 
   # after :publishing, :reset_database
-  # after :publishing, :elasticSearch
+  # after :publishing, :index_elasticsearch
   after :publishing, :restart
 
   after :finishing, :cleanup
 end
+
+# Commands:
+# cap production deploy
+# <stop apache>
+# cap production deploy:reset_database
