@@ -23,7 +23,7 @@ webPackConfig.output = {
 webPackConfig.resolve = {
     // tell webpack which extensions to auto search when it resolves modules. With this,
     // you'll be able to do `require('./utils')` instead of `require('./utils.js')`
-    extensions: ['', '.js', '.jsx', '.coffee'],
+    extensions: ['', '.js', '.jsx'],
     // by default, webpack will search in `web_modules` and `node_modules`. Because we're using
     // vendor, we want it to look in there too
     modulesDirectories: config.modules.includes
