@@ -43,7 +43,6 @@ var ArticleItem = React.createClass({
     },
 
     _handleTagClick (tagName, event) {
-        event.preventDefault();
         ArticleActions.loadArticles({tags: [tagName]});
     },
 

@@ -17,10 +17,14 @@ var ArticleCreation = React.createClass({
 
         $('a#toggle-article-creation').click((event) => {
             event.preventDefault();
-            $.setUrlParameter('article_new', true);
             $('#toggle-navbar').sideNav('hide');
             this._toggleNewForm();
         });
+
+        Mousetrap.bind('alt+s', function () {
+            this._toggleNewForm();
+            return false;
+        }.bind(this), 'keydown');
 
         ClipboardManager.initialize(this._onPaste);
 
@@ -41,16 +45,20 @@ var ArticleCreation = React.createClass({
             this._toggleNewForm();
         }.bind(this));
 
-        if($.getUrlParameter('article_new')) {
+        if ($.getUrlParameter('article_new')) {
             this._toggleNewForm();
         }
     },
 
     _toggleNewForm () {
         var $articleNewForm = $('#article-creation-component');
-        $articleNewForm.is(":visible") ?
-            $articleNewForm.fadeOut() :
+        if($articleNewForm.is(":visible")) {
+            $articleNewForm.fadeOut(() => {
+                //window.history.pushState({articleNew: false}, '', '');
+            });
+        } else {
             $articleNewForm.fadeIn(() => {
+                //window.history.pushState({articleNew: true}, '', '?article_new=true');
                 let editorLoader = require('../../loaders/editor');
                 editorLoader().then(({}) => {
                     this.setState({isActive: true});
@@ -61,6 +69,7 @@ var ArticleCreation = React.createClass({
                     $articleNewForm.find('input#title').focus();
                 });
             });
+        }
     },
 
     _onPaste (content) {
@@ -86,7 +95,7 @@ var ArticleCreation = React.createClass({
                     this.refs.articleForm.refs.visibility.setState({value: 'only_me'});
                     this.refs.articleForm.refs.submit.setState({disabled: false});
 
-                    if(!wasActive) {
+                    if (!wasActive) {
                         $('.blog-form .collapsible').collapsible();
                     }
 

@@ -4,6 +4,8 @@
   li.divider
 
   li
+    - w controller?('admins')
+    - w action?('edit')
     - if controller?('admins') || action?('edit')
       = link_to root_path(article_new: true) do
         i.material-icons.right add_box

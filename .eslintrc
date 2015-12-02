@@ -10,7 +10,8 @@
     "ReactDOM": true,
     "Reflux": true,
     "$app": true,
-    "Hammer": true,
+    "Mousetrap": true,
+    "Materialize": true,
     "I18n": true
   },
   "parser": "babel-eslint",

@@ -26,7 +26,6 @@ if(window.innerWidth > window.parameters.medium_screen_up) {
     );
 }
 
-
 // Flash messages
 $('.blog-flash').each(function() {
     var $this = $(this);
@@ -48,3 +47,30 @@ if(window.currentUserId === 'null') {
         Materialize.toast(I18n.t('js.article.flash.creation_unpermitted'), 5000);
     });
 }
+
+// Common url shortcuts
+// All articles
+Mousetrap.bind('alt+a', function () {
+    if(window.currentUserId !== 'null') {
+        window.location.pathname = '/users/' + window.currentUserId;
+    }
+    return false;
+}.bind(this), 'keydown');
+
+// Temporary articles
+Mousetrap.bind('alt+v', function () {
+    if(window.currentUserId !== 'null') {
+        window.location.pathname = '/users/' + window.currentUserId + '/temporary';
+    }
+    return false;
+}.bind(this), 'keydown');
+
+// Bookmarked articles
+Mousetrap.bind('alt+b', function () {
+    if(window.currentUserId !== 'null') {
+        window.location.pathname = '/users/' + window.currentUserId + '/bookmark';
+    }
+    return false;
+}.bind(this), 'keydown');
+
+

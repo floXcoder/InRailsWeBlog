@@ -17,8 +17,13 @@ var TagSidebar = React.createClass({
             }
         };
 
+        Mousetrap.bind('alt+t', function () {
+            $('#toggle-tags').sideNav('show');
+            return false;
+        }.bind(this), 'keydown');
+
         $('.navbar-fixed #toggle-tags').click(function () {
-            history.pushState({tagNavBar: true}, '', '');
+            window.history.pushState({tagNavBar: true}, '', '');
 
             if(window.innerWidth > window.parameters.large_screen) {
                 $('.blog-sidebar').find('input').focus();

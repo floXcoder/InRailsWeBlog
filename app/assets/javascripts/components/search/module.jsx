@@ -23,6 +23,11 @@ var SearchModule = React.createClass({
     },
 
     componentDidMount () {
+        Mousetrap.bind('alt+r', function () {
+            this._toggleSearchNav();
+            return false;
+        }.bind(this), 'keydown');
+
         $('#toggle-search').click(function () {
             this._toggleSearchNav();
             return false;
