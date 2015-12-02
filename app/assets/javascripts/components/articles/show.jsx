@@ -12,11 +12,13 @@ var ArticleBookmarkIcon = require('./icons/bookmark');
 var ArticleHistoryIcon = require('./icons/history');
 var ArticleDeleteIcon = require('./icons/delete');
 var ArticleTags = require('./properties/tags');
+var ArticleAuthorIcon = require('./icons/author');
+var ArticleTime = require('./properties/time');
 
 var ArticleShow = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     mixins: [
@@ -25,7 +27,7 @@ var ArticleShow = React.createClass({
 
     getDefaultProps () {
         return {
-            userId: null
+            currentUserId: null
         };
     },
 
@@ -115,7 +117,7 @@ var ArticleShow = React.createClass({
     },
 
     _renderEditIcon () {
-        if (this.props.userId && this.props.userId === this.props.article.author.id) {
+        if (this.props.currentUserId && this.props.currentUserId === this.props.article.author.id) {
             return (
                 <a className="article-edit btn-floating tooltipped"
                    data-tooltip={I18n.t('js.article.tooltip.edit')}
@@ -139,27 +141,28 @@ var ArticleShow = React.createClass({
             <div>
                 <div className="card clearfix blog-article-item">
                     <div className="card-content">
+                        <ArticleAuthorIcon article={this.props.article}/>
+                        <ArticleTime article={this.props.article}/>
                         {this._renderTitle()}
                         <span className="blog-article-content"
                               dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                     </div>
                     <div className="card-action article-action row clearfix">
-
                         <div className="col s12 m12 l6">
                             <ArticleTags article={this.props.article}/>
                         </div>
                         <div className="col s12 m12 l6 right-align">
                             <ArticleDeleteIcon article={this.props.article}
-                                               userId={this.props.userId}
+                                               currentUserId={this.props.currentUserId}
                                                onClickDelete={this._handleDeleteClick}/>
                             <ArticleBookmarkIcon article={this.props.article}
-                                                 userId={this.props.userId}
+                                                 currentUserId={this.props.currentUserId}
                                                  onClickBookmark={this._handleBookmarkClick}/>
                             <ArticleLinkIcon isLink={this.props.article.is_link}/>
                             <ArticleVisibilityIcon article={this.props.article}
-                                                   userId={this.props.userId}/>
+                                                   currentUserId={this.props.currentUserId}/>
                             <ArticleHistoryIcon article={this.props.article}
-                                                userId={this.props.userId}
+                                                currentUserId={this.props.currentUserId}
                                                 onClickHistory={this._handleHistoryClick}/>
                             {this._renderEditIcon()}
                         </div>

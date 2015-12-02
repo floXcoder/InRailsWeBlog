@@ -17,12 +17,12 @@ ArticleActions.initStore({
 
 // Main
 ReactDOM.render(
-    <ArticleCreation userId={currentUserId} />,
+    <ArticleCreation currentUserId={currentUserId} />,
     document.getElementById('article-creation-component')
 );
 
 ReactDOM.render(
-    <ArticleIndex userId={currentUserId} />,
+    <ArticleIndex currentUserId={currentUserId} />,
     document.getElementById('article-box-component')
 );
 

@@ -10,7 +10,7 @@ var ArticleNone = require('../../components/articles/display/none');
 
 var ArticleIndex = React.createClass({
     propTypes: {
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     mixins: [
@@ -20,7 +20,7 @@ var ArticleIndex = React.createClass({
 
     getDefaultProps () {
         return {
-            userId: null
+            currentUserId: null
         };
     },
 
@@ -88,7 +88,7 @@ var ArticleIndex = React.createClass({
             return (
                 <ArticleListDisplay
                     ref="articlesList"
-                    userId={this.props.userId}
+                    currentUserId={this.props.currentUserId}
                     articles={this.state.articles}
                     hasMore={this.state.hasMore}
                     highlightResults={this.state.highlightResults}

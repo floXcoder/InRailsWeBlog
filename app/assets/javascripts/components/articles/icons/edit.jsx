@@ -4,17 +4,17 @@ var ArticleEditIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
         onClickEdit: React.PropTypes.func.isRequired,
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
-            userId: null
+            currentUserId: null
         };
     },
 
     render () {
-        if (this.props.userId && this.props.userId === this.props.article.author.id) {
+        if (this.props.currentUserId && this.props.currentUserId === this.props.article.author.id) {
             return (
                 <a className="article-edit tooltipped btn-floating"
                      data-tooltip={I18n.t('js.article.tooltip.edit')}

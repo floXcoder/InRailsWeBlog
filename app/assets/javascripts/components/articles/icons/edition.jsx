@@ -3,7 +3,7 @@
 var ArticleEditionIcons = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
-        userId: React.PropTypes.number.isRequired,
+        currentUserId: React.PropTypes.number.isRequired,
         onClickDelete: React.PropTypes.func.isRequired,
         onClickCancel: React.PropTypes.func.isRequired,
         onClickSave: React.PropTypes.func.isRequired
@@ -18,7 +18,7 @@ var ArticleEditionIcons = React.createClass({
     },
 
     render () {
-        if (this.props.userId && this.props.userId === this.props.article.author.id) {
+        if (this.props.currentUserId && this.props.currentUserId === this.props.article.author.id) {
             return (
                 <div className="article-editing">
                     <a className="article-delete tooltipped btn-floating"

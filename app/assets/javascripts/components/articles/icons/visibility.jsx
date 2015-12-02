@@ -5,17 +5,17 @@ var classNames = require('classnames');
 var ArticleVisibilityIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
-            userId: null
+            currentUserId: null
         };
     },
 
     render () {
-        if (this.props.userId) {
+        if (this.props.currentUserId && this.props.currentUserId === this.props.article.author.id) {
             let visibilityClasses = classNames(
                 'article-visibility',
                 'tooltipped',

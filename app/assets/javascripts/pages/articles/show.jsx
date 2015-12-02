@@ -12,7 +12,7 @@ var tags = JSON.parse(document.getElementById('article-element-component').getAt
 // Main
 if(currentUserId) {
     ReactDOM.render(
-        <ArticleCreation userId={currentUserId} />,
+        <ArticleCreation currentUserId={currentUserId} />,
         document.getElementById('article-creation-component')
     );
 }
@@ -20,7 +20,7 @@ if(currentUserId) {
 // Main
 ReactDOM.render(
     <ArticleShow
-        userId={currentUserId}
+        currentUserId={currentUserId}
         article={article.article}
         tags={tags} />,
     document.getElementById('article-element-component')

@@ -20,12 +20,12 @@ var ArticleCardDisplay = React.createClass({
         onClickTag: React.PropTypes.func.isRequired,
         onClickEdit: React.PropTypes.func.isRequired,
         onClickBookmark: React.PropTypes.func.isRequired,
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
-            userId: null
+            currentUserId: null
         };
     },
 
@@ -79,13 +79,13 @@ var ArticleCardDisplay = React.createClass({
                         <FixedActionButton>
                             <ArticleLinkIcon isLink={this.props.article.is_link}/>
                             <ArticleBookmarkIcon article={this.props.article}
-                                                 userId={this.props.userId}
+                                                 currentUserId={this.props.currentUserId}
                                                  onClickBookmark={this.props.onClickBookmark}/>
                             <ArticleVisibilityIcon article={this.props.article}
-                                                   userId={this.props.userId}
+                                                   currentUserId={this.props.currentUserId}
                                                    onClickVisibility={this.props.onClickVisibility}/>
                             <ArticleEditIcon article={this.props.article}
-                                             userId={this.props.userId}
+                                             currentUserId={this.props.currentUserId}
                                              onClickEdit={this.props.onClickEdit}/>
                             <ArticleLink article={this.props.article}/>
                         </FixedActionButton>

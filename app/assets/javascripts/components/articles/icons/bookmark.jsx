@@ -6,12 +6,12 @@ var ArticleBookmarkIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
         onClickBookmark: React.PropTypes.func.isRequired,
-        userId: React.PropTypes.number
+        currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
-            userId: null
+            currentUserId: null
         };
     },
 
@@ -27,7 +27,7 @@ var ArticleBookmarkIcon = React.createClass({
     },
 
     render () {
-        if (this.props.userId) {
+        if (this.props.currentUserId) {
             let bookmarkClasses = classNames('material-icons', {'article-bookmarked': this.state.isBookmarked});
             let bookmarkTooltip = this.state.isBookmarked ?
                 I18n.t('js.article.tooltip.remove_bookmark') :
