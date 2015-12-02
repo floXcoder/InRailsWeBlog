@@ -75,14 +75,15 @@ var ArticleCardDisplay = React.createClass({
                         <ArticleTags article={this.props.article}
                                      onClickTag={this._handleTagClick}/>
                     </div>
-                    <div className="col s12 m12 l6 offset-l6 right-align">
+                    <div className="col s12 m12 l6 right-align">
                         <FixedActionButton>
                             <ArticleLinkIcon isLink={this.props.article.is_link}/>
                             <ArticleBookmarkIcon article={this.props.article}
                                                  userId={this.props.userId}
                                                  onClickBookmark={this.props.onClickBookmark}/>
                             <ArticleVisibilityIcon article={this.props.article}
-                                                   userId={this.props.userId}/>
+                                                   userId={this.props.userId}
+                                                   onClickVisibility={this.props.onClickVisibility}/>
                             <ArticleEditIcon article={this.props.article}
                                              userId={this.props.userId}
                                              onClickEdit={this.props.onClickEdit}/>

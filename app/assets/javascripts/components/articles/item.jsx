@@ -38,14 +38,17 @@ var ArticleItem = React.createClass({
     },
 
     _setDefaultDisplay (tagName, event) {
+        event.preventDefault();
         this.setState({articleDisplayMode: this.props.initialDisplayMode});
     },
 
     _handleTagClick (tagName, event) {
+        event.preventDefault();
         ArticleActions.loadArticles({tags: [tagName]});
     },
 
     _handleBookmarkClick (articleId, event) {
+        event.preventDefault();
         ArticleActions.bookmarkArticle({articleId: articleId});
     },
 
@@ -75,6 +78,7 @@ var ArticleItem = React.createClass({
                                     userId={this.props.userId}
                                     onClickTag={this._handleTagClick}
                                     onClickEdit={this._handleEditClick}
+                                    onClickVisibility={this._handleVisibilityClick}
                                     onClickBookmark={this._handleBookmarkClick}>
                     {this.props.children}
                 </ArticleCardDisplay>

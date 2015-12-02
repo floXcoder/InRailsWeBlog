@@ -12,11 +12,20 @@ $('.dropdown-button').dropdown({
 });
 
 // Initialize all SideNav
-$('header .button-collapse').sideNav({
-        menuWidth: 350,
-        edge: 'left'
-    }
-);
+if(window.innerWidth > window.parameters.medium_screen_up) {
+    $('header .button-collapse').sideNav({
+            menuWidth: 350,
+            edge: 'left'
+        }
+    );
+} else {
+    $('header .button-collapse').sideNav({
+            menuWidth: 260,
+            edge: 'left'
+        }
+    );
+}
+
 
 // Flash messages
 $('.blog-flash').each(function() {
@@ -26,7 +35,6 @@ $('.blog-flash').each(function() {
 
 // Header : close side nav on click for preferences or tags
 $('.button-collapse').click(function (event) {
-    log.info(event.target);
     if(event && (event.target.id === 'toggle-tags' || event.target.id === 'toggle-user-pref')) {
         $('#toggle-navbar').sideNav('hide');
     }

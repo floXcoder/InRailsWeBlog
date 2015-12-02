@@ -34,7 +34,8 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def is_bookmarked
     if defined?(current_user) && current_user
-      current_user.bookmarks.exists?(object.id)
+      # current_user.bookmarks.exists?(object.id)
+      object.user_bookmarks.exists?(current_user.id)
     else
       false
     end

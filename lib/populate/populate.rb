@@ -8,10 +8,10 @@ class Populate
   def self.create_admin
     FactoryGirl.create(:user, :confirmed,
                        pseudo: 'Admin',
-                       email: 'blog@inrailsweblog.com',
+                       email: 'admin@inrailsweblog.com',
                        admin: true,
-                       password: 'flofloflo',
-                       password_confirmation: 'flofloflo')
+                       password: 'admin4blog',
+                       password_confirmation: 'admin4blog')
   end
 
   def self.create_dummy_users

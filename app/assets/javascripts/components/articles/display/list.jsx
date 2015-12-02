@@ -28,8 +28,8 @@ var ArticleListDisplay = React.createClass({
     },
 
     _renderArticles () {
-        let ArticleNodes = this.props.articles.map(function (article) {
-            var articleContent = this.props.highlightResults && !$.isEmpty(article.highlight_content) ?
+        let ArticleNodes = this.props.articles.map((article) => {
+            let articleContent = this.props.highlightResults && !$.isEmpty(article.highlight_content) ?
                 article.highlight_content :
                 article.content;
 
@@ -44,7 +44,7 @@ var ArticleListDisplay = React.createClass({
                     </ArticleItem>
                 );
             }
-        }.bind(this));
+        });
 
         if (this.props.articleDisplayMode === 'inline') {
             return (

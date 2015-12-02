@@ -54,7 +54,6 @@
     "gulp-util": "3.0.7",
     "gulp-watch": "4.3.5",
     "imports-loader": "0.6.5",
-    "jshint": "2.8.0",
     "pretty-hrtime": "1.0.1",
     "require-dir": "0.3.0",
     "webpack": "1.12.9",

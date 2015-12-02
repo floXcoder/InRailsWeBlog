@@ -1,18 +1,22 @@
 'use strict';
 
-var ArticleLinkIcon = React.createClass({
+var ArticleAuthorIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired
     },
 
     render () {
-        return (
-            <div className="article-author">
-                <i className="material-icons">account_circle</i>
-                {this.props.article.author.pseudo}
-            </div>
-        );
+        if(this.props.article.author) {
+            return (
+                <div className="article-author">
+                    <i className="material-icons">account_circle</i>
+                    {this.props.article.author.pseudo}
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 });
 
-module.exports = ArticleLinkIcon;
+module.exports = ArticleAuthorIcon;

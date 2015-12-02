@@ -5,21 +5,18 @@ var Spinner = require('../../components/materialize/spinner');
 var UserStore = require('../../stores/userStore');
 
 var ArticleStore = require('../../stores/articleStore');
-var ArticleActions = require('../../actions/articleActions');
 var ArticleListDisplay = require('./display/list');
 var ArticleNone = require('../../components/articles/display/none');
 
 var ArticleIndex = React.createClass({
-    // With specifying mixins we say that we'd like to connect this component's state with the ArticleStore.
-    // What this means is that whenever the store reacts to the action the component's state will be updated.
+    propTypes: {
+        userId: React.PropTypes.number
+    },
+
     mixins: [
         Reflux.listenTo(ArticleStore, 'onArticleChange'),
         Reflux.listenTo(UserStore, 'onPreferenceChange')
     ],
-
-    propTypes: {
-        userId: React.PropTypes.number
-    },
 
     getDefaultProps () {
         return {
@@ -101,6 +98,8 @@ var ArticleIndex = React.createClass({
             return (
                 <ArticleNone/>
             );
+        } else {
+            return null;
         }
     },
 
@@ -110,7 +109,7 @@ var ArticleIndex = React.createClass({
                 <div className={this.state.isLoading ? 'center': 'hide' + ' margin-top-20'}>
                     <Spinner size='big'/>
                 </div>
-                { this._renderArticleList() }
+                {this._renderArticleList()}
             </div>
         );
     }

@@ -15,11 +15,11 @@ var IndexTagList = React.createClass({
     },
 
     componentDidMount () {
-        $('.blog-index-tag .collapsible').collapsible();
+        //$('.blog-index-tag .collapsible').collapsible();
     },
 
     componentDidUpdate () {
-        $('.blog-index-tag .collapsible').collapsible();
+        //$('.blog-index-tag .collapsible').collapsible();
     },
 
     _handleTagClick (parentTagName, childTagName) {

@@ -16,10 +16,9 @@ var ArticleCreation = React.createClass({
         $articleNewForm.hide();
 
         $('a#toggle-article-creation').click((event) => {
-
-            $('#toggle-navbar').sideNav('hide');
-
             event.preventDefault();
+            $.setUrlParameter('article_new', true);
+            $('#toggle-navbar').sideNav('hide');
             this._toggleNewForm();
         });
 
@@ -41,6 +40,10 @@ var ArticleCreation = React.createClass({
             event.preventDefault();
             this._toggleNewForm();
         }.bind(this));
+
+        if($.getUrlParameter('article_new')) {
+            this._toggleNewForm();
+        }
     },
 
     _toggleNewForm () {
@@ -61,12 +64,16 @@ var ArticleCreation = React.createClass({
     },
 
     _onPaste (content) {
+        if (!$('#single-editor').summernote) {
+            Materialize.toast(I18n.t('js.article.clipboard.toast.init'), 3000);
+        }
+
         let editorLoader = require('../../loaders/editor');
         editorLoader().then(({}) => {
             var wasActive = this.state.isActive;
             this.setState({isActive: true});
 
-            var $singleEditor = $('#single-editor');
+            let $singleEditor = $('#single-editor');
             let singleContent = $singleEditor.summernote('code');
             if (content && $singleEditor && $.isEmpty(singleContent)) {
                 let $articleNewForm = $('#article-creation-component');
@@ -83,7 +90,7 @@ var ArticleCreation = React.createClass({
                         $('.blog-form .collapsible').collapsible();
                     }
 
-                    Materialize.toast(I18n.t('js.article.clipboard.toast'), 5000);
+                    Materialize.toast(I18n.t('js.article.clipboard.toast.done'), 5000);
                 });
             }
         });
@@ -104,13 +111,12 @@ var ArticleCreation = React.createClass({
         if (this.state.isActive) {
             return (
                 <div className="blog-form">
-                    <div className="margin-bottom-20"/>
                     <ul data-collapsible="accordion"
                         className="collapsible article-form-header">
                         <li>
-                            <div className="collapsible-header active">
+                            <div className="collapsible-header active blue-grey darken-3 white-text">
                                 <i className="material-icons">mode_edit</i>
-                                <h4 className="collection-header">
+                                <h4 className="collection-header blog-form-title">
                                     {I18n.t('js.article.new.title')}
                                 </h4>
                             </div>

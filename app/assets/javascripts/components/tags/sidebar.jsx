@@ -9,12 +9,23 @@ var TagSidebar = React.createClass({
     },
 
     componentDidMount () {
-        if(window.innerWidth > window.parameters.large_screen) {
-            $('.navbar-fixed #toggle-tags').click(function () {
+        window.onpopstate = function(event) {
+            if(event.state && event.state.tagNavBar) {
+                $('#toggle-tags').sideNav('show');
+            } else {
+                $('#toggle-tags').sideNav('hide');
+            }
+        };
+
+        $('.navbar-fixed #toggle-tags').click(function () {
+            history.pushState({tagNavBar: true}, '', '');
+
+            if(window.innerWidth > window.parameters.large_screen) {
                 $('.blog-sidebar').find('input').focus();
-                return true;
-            });
-        }
+            }
+
+            return true;
+        });
 
         $('#tag-sidebar ul.tabs').tabs();
     },

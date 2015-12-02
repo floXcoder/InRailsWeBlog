@@ -110,7 +110,9 @@ fr:
         none: "Aucun historique pour cet article !"
         restored: "Version restaurée"
       clipboard:
-        toast: "Vous avez copié du texte sur le site, un nouvel article temporaire a été créé."
+        toast:
+          init: "Copie sur le site détectée, création d'un article temporaire en cours ..."
+          done: "Un nouvel article temporaire a été créé !"
       tag:
         url: "Label :"
       visibility:
