@@ -8,9 +8,9 @@
     "npm": "2.14.7"
   },
   "scripts": {
-    "deploy": "npm install --silent --no-spin && gulp production",
+    "deploy": "npm install --silent --no-spin && node --stack-size=32000 ./node_modules/gulp/bin/gulp production",
     "development": "gulp",
-    "production": "gulp production",
+    "production": "node --stack-size=32000 ./node_modules/gulp/bin/gulp production",
     "start": "bundle exec guard",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

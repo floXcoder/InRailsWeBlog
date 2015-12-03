@@ -7,10 +7,17 @@ class Populate
 
   def self.create_admin
     FactoryGirl.create(:user, :confirmed,
-                       pseudo: 'Admin',
-                       email: 'admin@inrailsweblog.com',
-                       admin: true,
-                       password: 'admin4blog',
+                       pseudo:                'Admin',
+                       email:                 'admin@inrailsweblog.com',
+                       admin:                 true,
+                       locale:                'fr',
+                       first_name:            'Admin',
+                       last_name:             'Administrator',
+                       additional_info:       'Administrator',
+                       age:                   0,
+                       city:                  '',
+                       country:               'France',
+                       password:              'admin4blog',
                        password_confirmation: 'admin4blog')
   end
 
@@ -47,7 +54,7 @@ class Populate
     tags = 30.times.map { |n|
       FactoryGirl.create(:tag,
                          tagger: user,
-                         name: tag_name[n]
+                         name:   tag_name[n]
       )
     }
 
@@ -61,8 +68,8 @@ class Populate
       30.times.map {
         articles << FactoryGirl.create(:article,
                                        :with_tag,
-                                       author: users,
-                                       tags: tags.sample(rand(1..3)),
+                                       author:     users,
+                                       tags:       tags.sample(rand(1..3)),
                                        visibility: Article.visibilities.keys.sample
         )
       }
@@ -71,8 +78,8 @@ class Populate
         rand(10..20).times.map {
           articles << FactoryGirl.create(:article,
                                          :with_tag,
-                                         author: user,
-                                         tags: tags.sample(rand(1..3)),
+                                         author:     user,
+                                         tags:       tags.sample(rand(1..3)),
                                          visibility: Article.visibilities.keys.sample
           )
         }
@@ -88,7 +95,7 @@ class Populate
 
       if tagged_articles.length > 2
         parent_tag = tagged_articles.first
-        child_tag = tagged_articles.last
+        child_tag  = tagged_articles.last
 
         article.tagged_articles.find_by(tag_id: parent_tag.id).update(parent: true)
         article.tagged_articles.find_by(tag_id: child_tag.id).update(child: true)
