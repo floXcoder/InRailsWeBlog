@@ -3,7 +3,7 @@ var manifestPlugin = require('webpack-manifest-plugin');
 var _ = require('lodash');
 var path = require('path');
 
-var config   = require('../config').webpack;
+var config = require('../config').webpack;
 var webPackConfig = module.exports = require('./main.config.js');
 
 webPackConfig.output = _.merge(config.output, {
@@ -18,7 +18,7 @@ webPackConfig = _.merge(webPackConfig, {
 });
 
 // Common chuncks
-_.each(config.commons, function(common) {
+_.each(config.commons, function (common) {
     webPackConfig.plugins.push(
         new webpack.optimize.CommonsChunkPlugin({
             name: common.name,
@@ -34,15 +34,19 @@ webPackConfig.plugins.push(
         stripSrc: '-[chunkhash].js'
     }),
     new webpack.DefinePlugin({
-        'process.env':{
+        'process.env': {
             'NODE_ENV': JSON.stringify('production')
         }
     }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
         sourceMap: false,
-        mangle: false,
-        minimize: true}),
+        mangle: true,
+        minimize: true,
+        compress: {
+            warnings: false
+        }
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin()
 );

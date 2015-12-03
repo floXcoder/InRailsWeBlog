@@ -1,7 +1,9 @@
 module ApplicationHelper
 
   def w(msg)
-    Rails.logger.ap msg, :warn
+    if defined?(Rails.logger.ap)
+      Rails.logger.ap msg, :warn
+    end
   end
 
   def full_title(page_title)

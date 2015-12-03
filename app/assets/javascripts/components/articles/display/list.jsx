@@ -57,7 +57,6 @@ var ArticleListDisplay = React.createClass({
                             <ReactCSSTransitionGroup transitionName="article"
                                                      transitionAppear={true}
                                                      transitionAppearTimeout={500}
-                                                     transitionAppearTimeout={500}
                                                      transitionEnterTimeout={500}
                                                      transitionLeaveTimeout={300}>
                                 {ArticleNodes}

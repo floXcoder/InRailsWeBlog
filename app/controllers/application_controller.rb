@@ -6,7 +6,9 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def w(msg)
-    Rails.logger.ap msg, :warn
+    if defined?(Rails.logger.ap)
+      Rails.logger.ap msg, :warn
+    end
   end
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
