@@ -74,7 +74,12 @@ module.exports = {
         open: false
     },
     sass: {
-        src: [assetDir + '/stylesheets/*.scss', assetDir + '/stylesheets/pages/**/*.scss', '!**/*_scsslint_tmp*.scss'],
+        src: [
+            assetDir + '/stylesheets/*.scss',
+            assetDir + '/stylesheets/**/_*.scss',
+            assetDir + '/stylesheets/pages/**/*.scss', // generate css files directly in public/assets
+            '!**/*_scsslint_tmp*.scss'
+        ],
         dest: publicDir + '/assets',
         settings: {
             includePaths: [

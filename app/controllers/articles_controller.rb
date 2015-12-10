@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :search, :autocomplete, :show]
-  after_action :verify_authorized, except: [:index, :search, :autocomplete]
+  before_filter :authenticate_user!, except: [:index, :search, :autocomplete, :show, :comments]
+  after_action :verify_authorized, except: [:index, :search, :autocomplete, :comments]
 
   respond_to :html, :js, :json
 
@@ -135,7 +135,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article = Article.friendly.find(params[:id])
+    article = Article.includes(comment_threads: [:user]).friendly.find(params[:id])
     authorize article
 
     respond_to do |format|
@@ -188,7 +188,7 @@ class ArticlesController < ApplicationController
 
         format.json { render json: article, status: :accepted, location: article }
       else
-        format.json { render json: article.errors, status: :not_modified }
+        format.json { render json: article.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -207,7 +207,7 @@ class ArticlesController < ApplicationController
       if current_user.save
         format.json { render json: article, status: :accepted, location: article }
       else
-        format.json { render json: article.errors, status: :not_modified }
+        format.json { render json: article.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -281,7 +281,71 @@ class ArticlesController < ApplicationController
         format.json { render json: { id: article.id, url: undelete_url }, status: :accepted }
       else
         flash[:error] = t('views.article.flash.deletion_error', errors: article.errors.to_s)
-        format.json { render json: article.errors, status: :not_modified }
+        format.json { render json: article.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def comments
+    article = Article.find(params[:id])
+
+    article_comments = article.comments.order('comments.created_at ASC')
+
+    respond_to do |format|
+      format.html { render json: article_comments, each_serializer: CommentSerializer, content_type: 'application/json' }
+      format.json { render json: article_comments, each_serializer: CommentSerializer }
+    end
+  end
+
+  def add_comment
+    article = Article.find(params[:id])
+    authorize article
+
+    comment = article.comment_threads.build
+    authorize comment, :create?
+
+    comment.assign_attributes(comment_params)
+    comment.assign_attributes(user_id: current_user.id)
+
+    article.add_comment(comment)
+
+    respond_to do |format|
+      if article.save
+        format.json { render json: comment, status: :accepted, location: article }
+      else
+        format.json { render json: comment.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update_comment
+    article = Article.find(params[:id])
+    authorize article
+
+    comment = article.comments.find(params[:comments][:id])
+    authorize comment, :update?
+
+    respond_to do |format|
+      if comment.update_attributes(comment_update_params)
+        format.json { render json: comment, status: :accepted, location: article }
+      else
+        format.json { render json: comment.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def delete_comment
+    article = Article.find(params[:id])
+    authorize article
+
+    comment = article.comments.find(params[:comments][:id])
+    authorize comment, :destroy?
+
+    respond_to do |format|
+      if (destroyed_comment_ids = comment.destroy_with_children)
+        format.json { render json: { id: destroyed_comment_ids }, status: :accepted }
+      else
+        format.json { render json: comment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -309,5 +373,17 @@ class ArticlesController < ApplicationController
                                      :is_link,
                                      translations_attributes: [:id, :locale, :title, :summary, :content],
                                      tags_attributes:         [:id, :tagger_id, :name, :parent, :child])
+  end
+
+  def comment_params
+    params.require(:comments).permit(:id,
+                                     :title,
+                                     :body,
+                                     :parent_id)
+  end
+
+  def comment_update_params
+    params.require(:comments).permit(:title,
+                                     :body)
   end
 end

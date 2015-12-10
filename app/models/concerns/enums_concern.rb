@@ -1,4 +1,4 @@
-module Shared::EnumsConcern
+module EnumsConcern
   extend ActiveSupport::Concern
 
   VISIBILITY = [:everyone, :only_me]

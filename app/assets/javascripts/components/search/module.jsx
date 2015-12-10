@@ -61,6 +61,10 @@ var SearchModule = React.createClass({
     },
 
     onArticleChange(articleStore) {
+        if ($.isEmpty(articleStore)) {
+            return;
+        }
+
         let newState = {};
 
         if (!$.isEmpty(articleStore.autocompletion)) {

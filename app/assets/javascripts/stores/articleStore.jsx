@@ -112,12 +112,35 @@ var ArticleStore = Reflux.createStore({
     _handleJsonErrors: function (url, xhr, status, error) {
         if (status === 'error') {
             if (error === 'Forbidden') {
-                Materialize.toast(I18n.t('js.article.model.errors.not_authorized'));
+                Materialize.toast(I18n.t('js.article.model.errors.not_authorized'), 10000);
             } else if (error === 'Unprocessable Entity') {
-                Materialize.toast(I18n.t('js.article.model.errors.unprocessable'));
+                let errorMessage = JSON.parse(xhr.responseText);
+                if (url.includes('comments')) {
+                    Object.keys(errorMessage).forEach(function (errorField) {
+                        Materialize.toast(
+                            I18n.t('js.comment.model.errors.' + errorField,
+                                {
+                                    message: errorMessage[errorField],
+                                    defaults: [{scope: 'js.comment.model.errors.default'}]
+                                })
+                        );
+                    });
+                } else {
+                    Object.keys(errorMessage).forEach(function (errorField) {
+                        Materialize.toast(
+                            I18n.t('js.article.model.errors.' + errorField,
+                            {
+                                message: errorMessage[errorField],
+                                defaults: [{scope: 'js.article.model.errors.default'}]
+                            })
+                        );
+                    });
+                }
+            } else if (error === 'Internal Server Error') {
+                Materialize.toast(I18n.t('js.errors.server'), 10000);
             }
         } else {
-            log.error('Unknown Error in JSON request: ' + error);
+            log.error('Unknown Error in JSON request: ' + error + ', status:' + status);
         }
 
         ErrorActions.pushError({
@@ -194,8 +217,8 @@ var ArticleStore = Reflux.createStore({
         jQuery.getJSON(
             url,
             requestParam,
-            function (data) {
-                callback.bind(this, data)();
+            function (dataReceived) {
+                callback.bind(this, dataReceived)();
             }.bind(this))
             .fail(function (xhr, status, error) {
                 this._handleJsonErrors(url, xhr, status, error);
@@ -252,7 +275,7 @@ var ArticleStore = Reflux.createStore({
     },
 
     onLoadArticlesByTag: function (data) {
-        if(!$.isEmpty(data)) {
+        if (!$.isEmpty(data)) {
             var url = '';
 
             if (data.tags) {
@@ -262,7 +285,7 @@ var ArticleStore = Reflux.createStore({
                 url = 'relationTags=' + data.relationTags.join(',');
             }
 
-            if($(location).attr('pathname') !== '/' && !/\/users\//i.test($(location).attr('pathname'))) {
+            if ($(location).attr('pathname') !== '/' && !/\/users\//i.test($(location).attr('pathname'))) {
                 window.location.replace('/?' + url);
             }
 
@@ -284,9 +307,9 @@ var ArticleStore = Reflux.createStore({
             dataType: 'json',
             type: 'POST',
             data: requestParam,
-            success: function (data) {
+            success: function (dataReceived) {
                 // Add to the current list
-                this.articleData.articles.unshift(data.article);
+                this.articleData.articles.unshift(dataReceived.article);
                 this.trigger(this.articleData);
             }.bind(this),
             error: function (xhr, status, error) {
@@ -314,13 +337,13 @@ var ArticleStore = Reflux.createStore({
             dataType: 'json',
             type: 'POST',
             data: requestParam,
-            success: function (data) {
-                if (fromEditPage && data.article) {
-                    window.location.replace("/articles/" + data.article.id);
+            success: function (dataReceived) {
+                if (fromEditPage && dataReceived.article) {
+                    window.location.replace("/articles/" + dataReceived.article.id);
                 } else {
                     // Update the articles
                     var updatedArticleList = [];
-                    var updatedArticle = data.article;
+                    var updatedArticle = dataReceived.article;
                     this.articleData.articles.forEach(function (article, index, articles) {
                         if (updatedArticle.id === article.id) {
                             updatedArticleList.push(updatedArticle);
@@ -360,13 +383,13 @@ var ArticleStore = Reflux.createStore({
             dataType: 'json',
             type: 'POST',
             data: requestParam,
-            success: function (data) {
-                if (showMode && data.id) {
+            success: function (dataReceived) {
+                if (showMode && dataReceived.id) {
                     window.location.replace("/");
                 } else {
                     // Remove the article
                     var updatedArticleList = [];
-                    var removedArticleId = data.id;
+                    var removedArticleId = dataReceived.id;
                     this.articleData.articles.forEach(function (article, index, articles) {
                         if (removedArticleId !== article.id) {
                             updatedArticleList.push(article);
@@ -375,8 +398,8 @@ var ArticleStore = Reflux.createStore({
                     this.articleData.articles = updatedArticleList;
                     this.trigger(this.articleData);
 
-                    if(data.url) {
-                        Materialize.toast(I18n.t('js.article.flash.deletion_successful') + ' ' + '<a href=' + data.url + '>' + I18n.t('js.article.flash.undelete_link')+ '</a>');
+                    if (dataReceived.url) {
+                        Materialize.toast(I18n.t('js.article.flash.deletion_successful') + ' ' + '<a href=' + dataReceived.url + '>' + I18n.t('js.article.flash.undelete_link') + '</a>');
                     }
                 }
             }.bind(this),
@@ -478,7 +501,7 @@ var ArticleStore = Reflux.createStore({
                 dataType: 'json',
                 type: 'POST',
                 data: requestParam,
-                success: function (data) {
+                success: function (dataReceived) {
                     return true;
                 }.bind(this),
                 error: function (xhr, status, error) {
@@ -486,6 +509,100 @@ var ArticleStore = Reflux.createStore({
                 }.bind(this)
             });
         }
+    },
+
+    onCommentArticle: function (comment, articleId) {
+        if ($.isEmpty(comment) || $.isEmpty(articleId)) {
+            log.error('Tried to post a comment without comment or article id');
+            return;
+        }
+
+        let url = this.url + '/' + articleId + '/comments';
+        let requestParam = {};
+        requestParam.comments = {
+            title: comment.title,
+            body: comment.message,
+            parent_id: comment.parentCommentId
+        };
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam,
+            success: function (dataReceived) {
+                if (!$.isEmpty(dataReceived)) {
+                    // Manage in article/show
+                    this.trigger(dataReceived);
+                }
+            }.bind(this),
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(url, xhr, status, error);
+            }.bind(this)
+        });
+    },
+
+    updateCommentArticle: function (comment, articleId) {
+        if ($.isEmpty(comment) || $.isEmpty(comment.id) || $.isEmpty(articleId)) {
+            log.error('Tried to update a comment without comment id or article id');
+            return;
+        }
+
+        let url = this.url + '/' + articleId + '/comments';
+        let requestParam = {};
+        requestParam.comments = {
+            id: comment.id,
+            title: comment.title,
+            body: comment.message,
+            parent_id: comment.parentCommentId
+        };
+        requestParam._method = 'put';
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam,
+            success: function (dataReceived) {
+                if (!$.isEmpty(dataReceived)) {
+                    // Manage in article/show
+                    this.trigger({updatedComment: dataReceived.comment});
+                }
+            }.bind(this),
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(url, xhr, status, error);
+            }.bind(this)
+        });
+    },
+
+    deleteCommentArticle: function (commentId, articleId) {
+        if ($.isEmpty(commentId) || $.isEmpty(articleId)) {
+            log.error('Tried to remove a comment without comment id or article id');
+            return;
+        }
+
+        let url = this.url + '/' + articleId + '/comments';
+        let requestParam = {};
+        requestParam.comments = {
+            id: commentId
+        };
+        requestParam._method = 'delete';
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam,
+            success: function (dataReceived) {
+                if (!$.isEmpty(dataReceived)) {
+                    // Manage in article/show
+                    this.trigger({deletedComment: dataReceived});
+                }
+            }.bind(this),
+            error: function (xhr, status, error) {
+                this._handleJsonErrors(url, xhr, status, error);
+            }.bind(this)
+        });
     }
 });
 

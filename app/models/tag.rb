@@ -46,7 +46,7 @@ class Tag < ActiveRecord::Base
             length:     { minimum: CONFIG.tag_min_length, maximum: CONFIG.tag_max_length }
 
   # Nice url format
-  include Shared::NiceUrlConcern
+  include NiceUrlConcern
   friendly_id :slug_candidates, use: :slugged
 
   # Friendly ID

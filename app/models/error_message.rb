@@ -23,7 +23,7 @@
 
 class ErrorMessage < ActiveRecord::Base
   # Enum
-  include Shared::EnumsConcern
+  include EnumsConcern
   enum origin: ORIGIN
   enums_to_tr('error_message', [:origin])
 

@@ -46,7 +46,7 @@ gem 'whenever',                 '~> 0.9.4',     require: false
 
 # Redis session store and cache
 gem 'redis-session-store',      '~> 0.8.0'
-gem 'readthis',                 '~> 1.0.0'
+gem 'readthis',                 '~> 1.1.0'
 gem 'hiredis',                  '~> 0.6.0'
 
 # Global variables
@@ -74,7 +74,10 @@ gem 'carrierwave_backgrounder', '~> 0.4.2'
 gem 'mini_magick',              '~> 4.3.5'
 
 # Search in database
-gem 'searchkick',               '~> 1.0.3'
+gem 'searchkick',               '~> 1.1.0'
+
+# Comments
+gem 'acts_as_commentable_with_threading', '~> 2.0'
 
 # Errors management
 gem 'rails_exception_handler',  git: 'https://github.com/Sharagoz/rails_exception_handler.git'
@@ -148,7 +151,7 @@ group :test do
   gem 'shoulda-matchers',       '~> 3.0.1',   require: false
   gem 'html_validation',        '~> 1.1.3'
   gem 'spork',                  '~> 0.9.2'
-  gem 'simplecov',              '~> 0.10.0',  require: false
+  gem 'simplecov',              '~> 0.11.1',  require: false
   gem 'fuubar',                 '~> 2.0.0'
   gem 'database_cleaner',       '~> 1.5.1'
   gem 'spring-commands-rspec',  '~> 1.0.4'
@@ -161,7 +164,7 @@ group :test do
   gem 'deadweight',             '~> 0.2.2',   require: false
 
   # Security
-  gem 'dawnscanner',            '~> 1.4.2',   require: false
+  gem 'dawnscanner',            '~> 1.5.0',   require: false
 end
 
 group :development, :test do
@@ -177,6 +180,6 @@ group :production do
   gem 'passenger', '~> 5'
 
   # Improve Json generation (Oj not working with rack-mini-profiler)
-  gem 'oj',                       '~> 2.13.0'
+  gem 'oj',                       '~> 2.14.0'
   gem 'oj_mimic_json',            '~> 1.0.1'
 end

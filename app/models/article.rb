@@ -7,7 +7,7 @@
 #  visibility      :integer          default(0), not null
 #  notation        :integer          default(0)
 #  priority        :integer          default(0)
-#  allow_comment   :boolean          default(FALSE), not null
+#  allow_comment   :boolean          default(TRUE), not null
 #  private_content :boolean          default(FALSE), not null
 #  is_link         :boolean          default(FALSE), not null
 #  temporary       :boolean          default(FALSE), not null
@@ -25,11 +25,8 @@ class Article < ActiveRecord::Base
     user.id == self.author_id
   end
 
-  ## Comment
-  # has_many :comments, as: :commentable
-
   # Enum
-  include Shared::EnumsConcern
+  include EnumsConcern
   enum visibility: VISIBILITY
   enums_to_tr('article', [:visibility])
 
@@ -172,8 +169,20 @@ class Article < ActiveRecord::Base
   # Versioning
   has_paper_trail on: [:destroy], ignore: [:title, :summary, :content]
 
+  # Comments
+  acts_as_commentable
+  def comments
+    self.comment_threads
+  end
+
+  def comments_tree
+    self.root_comments.order('comments.created_at ASC').map do |root_comment|
+      root_comment.self_and_descendants
+    end
+  end
+
   # Nice url format
-  include Shared::NiceUrlConcern
+  include NiceUrlConcern
   friendly_id :article_at_user, use: :slugged
 
   def article_at_user

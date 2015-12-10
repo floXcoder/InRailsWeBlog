@@ -1,5 +1,6 @@
 'use strict';
 
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var HighlightCode = require('highlight.js');
 var AnimatedText = require('../modules/animatedText');
 
@@ -14,6 +15,11 @@ var ArticleDeleteIcon = require('./icons/delete');
 var ArticleTags = require('./properties/tags');
 var ArticleAuthorIcon = require('./icons/author');
 var ArticleTime = require('./properties/time');
+
+var Button = require('../materialize/button');
+
+var CommentList = require('../comments/list');
+var CommentForm = require('../comments/form');
 
 var ArticleShow = React.createClass({
     propTypes: {
@@ -34,16 +40,21 @@ var ArticleShow = React.createClass({
     getInitialState () {
         return {
             articleVersions: null,
-            isHistoryDisplayed: false
+            isHistoryDisplayed: false,
+            comments: this.props.article.comments,
+            showCommentForm: false
         };
     },
 
     componentDidMount () {
+        // Display tooltips
         $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
             $(this).tooltip();
         });
+
+        // Highlight code in article content
         HighlightCode.configure({
-            tabReplace: '  ' // 4 spaces
+            tabReplace: '  ' // 2 spaces
         });
         this._highlightCode();
     },
@@ -66,6 +77,10 @@ var ArticleShow = React.createClass({
     },
 
     onArticleChange (articleStore) {
+        if ($.isEmpty(articleStore)) {
+            return;
+        }
+
         let newState = {};
 
         if (typeof(articleStore.articleVersions) !== 'undefined') {
@@ -80,6 +95,48 @@ var ArticleShow = React.createClass({
             newState.article = articleStore.articleRestored;
             Materialize.toast(I18n.t('js.article.history.restored'));
             this._handleHistoryClick();
+        }
+
+        if (typeof(articleStore.comment) !== 'undefined') {
+            if (articleStore.comment.parent_id) {
+                let comments = [];
+                this.state.comments.forEach(function (comment) {
+                    if (comment.id === articleStore.comment.parent_id) {
+                        comments.push(comment);
+                        comments.push(articleStore.comment);
+                    } else {
+                        comments.push(comment);
+                    }
+                });
+                newState.comments = comments;
+            } else {
+                newState.comments = this.state.comments.concat([articleStore.comment]);
+            }
+            Materialize.toast(I18n.t('js.comment.flash.creation_successful'), 5000);
+        }
+
+        if (typeof(articleStore.updatedComment) !== 'undefined') {
+            let comments = [];
+            this.state.comments.forEach(function (comment) {
+                if (articleStore.updatedComment.id === comment.id) {
+                    comments.push(articleStore.updatedComment);
+                } else {
+                    comments.push(comment);
+                }
+            });
+            newState.comments = comments;
+            Materialize.toast(I18n.t('js.comment.flash.update_successful'), 5000);
+        }
+
+        if (typeof(articleStore.deletedComment) !== 'undefined') {
+            let comments = [];
+            this.state.comments.forEach(function (comment) {
+                if (articleStore.deletedComment.id.indexOf(comment.id) === -1) {
+                    comments.push(comment);
+                }
+            });
+            newState.comments = comments;
+            Materialize.toast(I18n.t('js.comment.flash.deletion_successful'), 5000);
         }
 
         if (!$.isEmpty(newState)) {
@@ -107,6 +164,42 @@ var ArticleShow = React.createClass({
         ArticleActions.bookmarkArticle({articleId: articleId});
     },
 
+    _handleAddCommentButton (event) {
+        event.preventDefault();
+        if (!this.props.currentUserId) {
+            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
+        } else {
+            this.setState({showCommentForm: true});
+        }
+    },
+
+    _handleCommentCancel (event) {
+        event.preventDefault();
+        this.setState({showCommentForm: false});
+    },
+
+    _handleCommentDelete (commentId) {
+        if (!this.props.currentUserId) {
+            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
+        } else {
+            if (commentId) {
+                ArticleActions.deleteCommentArticle(commentId, this.props.article.id);
+            }
+        }
+    },
+
+    _handleCommentSubmit (commentData) {
+        if (!this.props.currentUserId) {
+            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
+        } else {
+            if (commentData.id) {
+                ArticleActions.updateCommentArticle(commentData, this.props.article.id);
+            } else {
+                ArticleActions.commentArticle(commentData, this.props.article.id);
+            }
+        }
+    },
+
     _renderTitle () {
         if (!$.isEmpty(this.props.article.title) || !$.isEmpty(this.props.article.summary)) {
             return (
@@ -124,14 +217,6 @@ var ArticleShow = React.createClass({
                    href={"/articles/" + this.props.article.id + "/edit"}>
                     <i className="material-icons">mode_edit</i>
                 </a>
-            );
-        }
-    },
-
-    _renderHistory () {
-        if (this.state.isHistoryDisplayed) {
-            return (
-                <ArticleHistory articleVersions={this.state.articleVersions}/>
             );
         }
     },
@@ -169,7 +254,34 @@ var ArticleShow = React.createClass({
                     </div>
                 </div>
 
-                {this._renderHistory()}
+                {this.state.isHistoryDisplayed &&
+                <ArticleHistory articleVersions={this.state.articleVersions}/>}
+
+                <div className="blog-article-comments">
+                    <CommentList comments={this.state.comments}
+                                 currentUserId={this.props.currentUserId}
+                                 onDelete={this._handleCommentDelete}
+                                 onSubmit={this._handleCommentSubmit}/>
+                    {!this.state.showCommentForm &&
+                    <div className="center-align">
+                        <Button icon="comment"
+                                iconPosition="left"
+                                onClickButton={this._handleAddCommentButton}>
+                            {I18n.t('js.comment.new.button')}
+                        </Button>
+                    </div>}
+                    {this.state.showCommentForm &&
+                    <ReactCSSTransitionGroup transitionName="comment-form"
+                                             transitionAppear={true}
+                                             transitionAppearTimeout={600}
+                                             transitionEnterTimeout={500}
+                                             transitionLeaveTimeout={300}>
+                        <CommentForm refs="commentForm"
+                                     onCancel={this._handleCommentCancel}
+                                     onSubmit={this._handleCommentSubmit}/>
+                    </ReactCSSTransitionGroup>}
+                </div>
+
             </div>
         );
     }

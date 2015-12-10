@@ -1,4 +1,4 @@
-module Shared::NiceUrlConcern
+module NiceUrlConcern
   extend ActiveSupport::Concern
 
   included do

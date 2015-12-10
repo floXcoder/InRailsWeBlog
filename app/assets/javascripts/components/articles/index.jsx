@@ -69,6 +69,10 @@ var ArticleIndex = React.createClass({
     },
 
     onArticleChange (articleStore) {
+        if ($.isEmpty(articleStore)) {
+            return;
+        }
+
         let newState = {};
 
         if (typeof(articleStore.articles) !== 'undefined') {

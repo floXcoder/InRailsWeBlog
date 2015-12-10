@@ -239,10 +239,11 @@
 // Use Clearfix instead of overflow hidden
 .clearfix:before,
 .clearfix:after {
-  content: ".";
+  content: '.';
   display: block;
   height: 0;
   overflow: hidden;
 }
+
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; } /* IE < 8 */

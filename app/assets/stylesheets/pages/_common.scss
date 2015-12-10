@@ -4,7 +4,7 @@
 @import 'highlight.js/styles/zenburn';
 @import 'modules/wysiwyg/summernote';
 @import 'modules/tagsinput/tagsinput';
-@import 'modules/react-animation';
+@import 'modules/animation/article';
 
 .blog {
   background-color: color('blue-grey', 'lighten-4');
@@ -241,7 +241,8 @@
     }
   }
 
-  .blog-sidebar {}
+  .blog-sidebar {
+  }
 
   .article-form-header {
     background-color: white;
@@ -357,6 +358,73 @@
   }
 
   .blog-article-list {
+  }
+
+  .blog-article-comments {
+    .collection {
+      border: 0;
+
+      .collection-item {
+        margin-bottom: 10px;
+        padding-right: 50px;
+
+        .secondary-content {
+          right: 0;
+        }
+      }
+
+      @for $i from 1 through 5 {
+        .comment-child-item-#{$i} {
+          margin-top: -5px;
+
+          @media #{$medium-and-up} {
+            margin-left: $i * 40px;
+          }
+          @media #{$medium-and-down} {
+            margin-left: $i * 10px;
+          }
+        }
+      }
+
+      .comment-date {
+        margin-left: 20px;
+        color: #6d7a97;
+      }
+
+      .comment-title {
+        line-height: 1.6rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+    }
+
+    .comment-form-title {
+      line-height: 48px;
+      font-size: 24px;
+      font-weight: 300;
+    }
+
+    .comment-form-explanation {
+      margin-left: 15px;
+      color: #6d7a97;
+
+      @media #{$small-and-down} {
+        margin-left: 0;
+        display: block;
+      }
+    }
+
+    @media #{$small-and-down} {
+      .comment-reply {
+        margin-left: -50px;
+        margin-right: -25px;
+      }
+
+      .comment-modify {
+        margin-left: -50px;
+        margin-right: -25px;
+      }
+    }
   }
 
   .blog-article-history {

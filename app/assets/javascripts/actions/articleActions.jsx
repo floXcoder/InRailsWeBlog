@@ -15,7 +15,10 @@ var ArticleActions = Reflux.createActions([
     'autocompleteArticles',
     'loadArticleHistory',
     'bookmarkArticle',
-    'restoreArticle'
+    'restoreArticle',
+    'commentArticle',
+    'updateCommentArticle',
+    'deleteCommentArticle'
 ]);
 
 //ArticleActions.fetchArticles.preEmit = function() { console.log('fetchArticles'); };

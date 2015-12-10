@@ -21,16 +21,15 @@ class Populate
                        password_confirmation: 'admin4blog')
   end
 
-  def self.create_dummy_users
-    users = FactoryGirl.create_list(:user, 20, :confirmed, :faker)
+  def self.create_dummy_users(user_number)
+    users = FactoryGirl.create_list(:user, user_number, :confirmed, :faker)
 
     return users
   end
 
-  def self.create_dummy_groups(users)
-    groups = Array.new(30)
-
-    FactoryGirl.create_list(:group, 10, captain: users.sample)
+  def self.create_dummy_groups(users, group_number)
+    # groups = Array.new(group_number)
+    # FactoryGirl.create_list(:group, group_number, captain: users.sample)
 
     # teammates = users[200..210]
     # teammates.each { |teammate| groups[0..9].each { |group| group.add_teammate(teammate) } }
@@ -39,19 +38,17 @@ class Populate
     # teammates = users[240..250]
     # teammates.each { |teammate| groups[20..29].each { |group| group.add_teammate(teammate) } }
 
-    return groups
+    # return groups
   end
 
-  def self.create_dummy_tags(user)
-    # tags = FactoryGirl.create_list(:tag, 20, tagger: user)
-
+  def self.create_dummy_tags(user, tag_number)
     tag_name = []
-    while tag_name.size < 30
+    while tag_name.size < tag_number
       tag_name << [Faker::Hacker.adjective, Faker::Hacker.verb, Faker::Hacker.noun].sample
       tag_name.uniq!
     end
 
-    tags = 30.times.map { |n|
+    tags = tag_number.times.map { |n|
       FactoryGirl.create(:tag,
                          tagger: user,
                          name:   tag_name[n]
@@ -61,36 +58,28 @@ class Populate
     return tags
   end
 
-  def self.create_dummy_articles_for(users, tags)
+  def self.create_dummy_articles_for(users, tags, articles_by_user_number)
     articles = []
+    users = [users] if users.is_a?(User)
 
-    if users.is_a?(User)
-      30.times.map {
+    users.each do |user|
+      articles_number = articles_by_user_number
+      articles_number = rand(articles_number) if articles_by_user_number.is_a?(Range)
+      articles_number.times.map {
         articles << FactoryGirl.create(:article,
                                        :with_tag,
-                                       author:     users,
+                                       author:     user,
                                        tags:       tags.sample(rand(1..3)),
                                        visibility: Article.visibilities.keys.sample
         )
       }
-    elsif users.is_a?(Array)
-      users.each do |user|
-        rand(10..20).times.map {
-          articles << FactoryGirl.create(:article,
-                                         :with_tag,
-                                         author:     user,
-                                         tags:       tags.sample(rand(1..3)),
-                                         visibility: Article.visibilities.keys.sample
-          )
-        }
-      end
     end
 
     return articles.flatten
   end
 
   def self.create_tag_relationships_for(articles)
-    articles.sample(120).each do |article|
+    articles.each do |article|
       tagged_articles = article.tags
 
       if tagged_articles.length > 2
@@ -107,6 +96,29 @@ class Populate
           parent_tag.parent_relationship.build(child_id: child_tag.id, article_ids: [article.id])
         end
         parent_tag.save
+      end
+    end
+  end
+
+  def self.create_comments_for(articles, users, comment_number)
+    users = [users] if users.is_a?(User)
+
+    articles.each do |article|
+      previous_comment = nil
+      comments_number = comment_number
+      comments_number = rand(comment_number) if comment_number.is_a?(Range)
+      rand(comments_number).times.each do |i|
+        if i % 5 == 0
+          if previous_comment
+            child_comment = Comment.build_from(article, users.sample.id, Faker::Hipster.paragraph(2, true, 1))
+            child_comment.save
+            child_comment.move_to_child_of(previous_comment)
+          end
+        else
+          parent_comment = Comment.build_from(article, users.sample.id, Faker::Hipster.paragraph(2, true, 3))
+          parent_comment.save
+          previous_comment = parent_comment
+        end
       end
     end
   end

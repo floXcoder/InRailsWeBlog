@@ -53,7 +53,8 @@ class User < ActiveRecord::Base
            source:  :article
 
   ## Comment
-  # has_many :comments, as: :commentable
+  has_many :comments, as: :commentable,
+           dependent:   :destroy
 
   ## Picture
   has_one :picture, as: :imageable,
@@ -86,7 +87,7 @@ class User < ActiveRecord::Base
             length: { maximum: 128 }
 
   # Nice url format
-  include Shared::NiceUrlConcern
+  include NiceUrlConcern
   friendly_id :pseudo, use: :slugged
 
   # Preferences

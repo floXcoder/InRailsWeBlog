@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151128164513) do
+ActiveRecord::Schema.define(version: 20151204133222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20151128164513) do
     t.integer  "visibility",      default: 0,     null: false
     t.integer  "notation",        default: 0
     t.integer  "priority",        default: 0
-    t.boolean  "allow_comment",   default: false, null: false
+    t.boolean  "allow_comment",   default: true,  null: false
     t.boolean  "private_content", default: false, null: false
     t.boolean  "is_link",         default: false, null: false
     t.boolean  "temporary",       default: false, null: false
@@ -57,6 +57,23 @@ ActiveRecord::Schema.define(version: 20151128164513) do
   add_index "bookmarked_articles", ["article_id"], name: "index_bookmarked_articles_on_article_id", using: :btree
   add_index "bookmarked_articles", ["user_id", "article_id"], name: "index_bookmarked_articles_on_user_id_and_article_id", unique: true, using: :btree
   add_index "bookmarked_articles", ["user_id"], name: "index_bookmarked_articles_on_user_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.string   "title"
+    t.text     "body"
+    t.string   "subject"
+    t.integer  "user_id",          null: false
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "error_messages", force: :cascade do |t|
     t.text     "class_name"

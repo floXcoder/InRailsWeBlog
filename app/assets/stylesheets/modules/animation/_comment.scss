@@ -1,0 +1,38 @@
+.comment-enter {
+  opacity: .01;
+
+  &.comment-enter-active {
+    transition: opacity 500ms ease-in;
+  }
+}
+
+.comment-leave {
+  opacity: 1;
+
+  &.comment-leave-active {
+    opacity: .01;
+    transition: opacity 300ms ease-in;
+  }
+}
+
+.comment-appear {
+  opacity: .01;
+  transform: scaleY(0);
+
+  &.comment-appear-active {
+    opacity: 1;
+    transform: scaleY(1);
+    transition-property: transform, opacity;
+    transition-duration: 900ms;
+    transition-timing-function: cubic-bezier(.175, .665, .320, 1), linear;
+  }
+}
+
+.comment-form-appear {
+  transform: scaleY(0);
+
+  &.comment-form-appear-active {
+    transform: scaleY(1);
+    transition: transform 600ms ease;
+  }
+}

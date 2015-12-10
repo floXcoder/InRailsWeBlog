@@ -56,9 +56,7 @@ var ArticleForm = React.createClass({
 
         if (this.props.article) {
             this._updateFields();
-        }
 
-        if (this.props.article) {
             window.onbeforeunload = function (event) {
                 if (!this.state.isSubmitted) {
                     event = event || window.event;
@@ -405,14 +403,12 @@ var ArticleForm = React.createClass({
                         <Input ref="englishTitle"
                                id="english-title"
                                classType="important"
-                               minLength={window.parameters.title_min_length}
-                               maxLength={window.parameters.title_max_length}>
+                               characterCount={window.parameters.title_max_length}>
                             {I18n.t('js.article.model.title')}
                         </Input>
                         <Input ref="englishSummary"
                                id="english-summary"
-                               minLength={window.parameters.summary_min_length}
-                               maxLength={window.parameters.summary_max_length}>
+                               characterCount={window.parameters.summary_max_length}>
                             {I18n.t('js.article.model.summary')}
                         </Input>
 
@@ -425,14 +421,12 @@ var ArticleForm = React.createClass({
                         <Input ref="frenchTitle"
                                id="french-title"
                                classType="important"
-                               minLength={window.parameters.title_min_length}
-                               maxLength={window.parameters.title_max_length}>
+                               characterCount={window.parameters.title_max_length}>
                             {I18n.t('js.article.model.title')}
                         </Input>
                         <Input ref="frenchSummary"
                                id="french-summary"
-                               minLength={window.parameters.summary_min_length}
-                               maxLength={window.parameters.summary_max_length}>
+                               characterCount={window.parameters.summary_max_length}>
                             {I18n.t('js.article.model.summary')}
                         </Input>
 
@@ -448,15 +442,13 @@ var ArticleForm = React.createClass({
                     <Input ref="title"
                            id="title"
                            classType="important"
-                           minLength={window.parameters.title_min_length}
-                           maxLength={window.parameters.title_max_length}>
+                           characterCount={window.parameters.title_max_length}>
                         {I18n.t('js.article.model.title')}
                     </Input>
                     <Input ref="summary"
                            id="summary"
                            onBlur={this._onBlurSummary}
-                           minLength={window.parameters.summary_min_length}
-                           maxLength={window.parameters.summary_max_length}>
+                           characterCount={window.parameters.summary_max_length}>
                         {I18n.t('js.article.model.summary')}
                     </Input>
 

@@ -34,6 +34,18 @@ class ArticlePolicy
     @current_user
   end
 
+  def add_comment?
+    @current_user && @article.allow_comment?
+  end
+
+  def update_comment?
+    @current_user && @article.allow_comment?
+  end
+
+  def delete_comment?
+    @current_user && @article.allow_comment?
+  end
+
   def destroy?
     @current_user && @article.author?(@current_user)
   end

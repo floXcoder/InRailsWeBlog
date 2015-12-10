@@ -28,33 +28,37 @@
 #              user_unlock POST   /users/unlock(.:format)           devise/unlocks#create
 #          new_user_unlock GET    /users/unlock/new(.:format)       devise/unlocks#new
 #                          GET    /users/unlock(.:format)           devise/unlocks#show
-#         validation_users GET    /users/validation(.:format)       users#validation {:has_many=>:comments}
-#                root_user GET    /users/:id(.:format)              users#show {:has_many=>:comments}
-#          preference_user GET    /users/:id/preference(.:format)   users#preference {:has_many=>:comments}
-#   update_preference_user POST   /users/:id/preference(.:format)   users#update_preference {:has_many=>:comments}
-#           temporary_user GET    /users/:id/temporary(.:format)    users#temporary {:has_many=>:comments}
-#            bookmark_user GET    /users/:id/bookmark(.:format)     users#bookmark {:has_many=>:comments}
-#                    users GET    /users(.:format)                  users#index {:has_many=>:comments}
-#                          POST   /users(.:format)                  users#create {:has_many=>:comments}
-#                 new_user GET    /users/new(.:format)              users#new {:has_many=>:comments}
-#                edit_user GET    /users/:id/edit(.:format)         users#edit {:has_many=>:comments}
-#                     user GET    /users/:id(.:format)              users#show {:has_many=>:comments}
-#                          PATCH  /users/:id(.:format)              users#update {:has_many=>:comments}
-#                          PUT    /users/:id(.:format)              users#update {:has_many=>:comments}
-#                          DELETE /users/:id(.:format)              users#destroy {:has_many=>:comments}
-#          search_articles GET    /articles/search(.:format)        articles#search {:has_many=>:comments}
-#    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete {:has_many=>:comments}
-#          history_article GET    /articles/:id/history(.:format)   articles#history {:has_many=>:comments}
-#          restore_article GET    /articles/:id/restore(.:format)   articles#restore {:has_many=>:comments}
-#         bookmark_article POST   /articles/:id/bookmark(.:format)  articles#bookmark {:has_many=>:comments}
-#                 articles GET    /articles(.:format)               articles#index {:has_many=>:comments}
-#                          POST   /articles(.:format)               articles#create {:has_many=>:comments}
-#              new_article GET    /articles/new(.:format)           articles#new {:has_many=>:comments}
-#             edit_article GET    /articles/:id/edit(.:format)      articles#edit {:has_many=>:comments}
-#                  article GET    /articles/:id(.:format)           articles#show {:has_many=>:comments}
-#                          PATCH  /articles/:id(.:format)           articles#update {:has_many=>:comments}
-#                          PUT    /articles/:id(.:format)           articles#update {:has_many=>:comments}
-#                          DELETE /articles/:id(.:format)           articles#destroy {:has_many=>:comments}
+#         validation_users GET    /users/validation(.:format)       users#validation
+#                root_user GET    /users/:id(.:format)              users#show
+#          preference_user GET    /users/:id/preference(.:format)   users#preference
+#   update_preference_user POST   /users/:id/preference(.:format)   users#update_preference
+#           temporary_user GET    /users/:id/temporary(.:format)    users#temporary
+#            bookmark_user GET    /users/:id/bookmark(.:format)     users#bookmark
+#                    users GET    /users(.:format)                  users#index
+#                          POST   /users(.:format)                  users#create
+#                 new_user GET    /users/new(.:format)              users#new
+#                edit_user GET    /users/:id/edit(.:format)         users#edit
+#                     user GET    /users/:id(.:format)              users#show
+#                          PATCH  /users/:id(.:format)              users#update
+#                          PUT    /users/:id(.:format)              users#update
+#                          DELETE /users/:id(.:format)              users#destroy
+#          search_articles GET    /articles/search(.:format)        articles#search
+#    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete
+#          history_article GET    /articles/:id/history(.:format)   articles#history
+#          restore_article GET    /articles/:id/restore(.:format)   articles#restore
+#         bookmark_article POST   /articles/:id/bookmark(.:format)  articles#bookmark
+#         comments_article GET    /articles/:id/comments(.:format)  articles#comments
+#                          POST   /articles/:id/comments(.:format)  articles#add_comment
+#                          PUT    /articles/:id/comments(.:format)  articles#update_comment
+#                          DELETE /articles/:id/comments(.:format)  articles#delete_comment
+#                 articles GET    /articles(.:format)               articles#index
+#                          POST   /articles(.:format)               articles#create
+#              new_article GET    /articles/new(.:format)           articles#new
+#             edit_article GET    /articles/:id/edit(.:format)      articles#edit
+#                  article GET    /articles/:id(.:format)           articles#show
+#                          PATCH  /articles/:id(.:format)           articles#update
+#                          PUT    /articles/:id(.:format)           articles#update
+#                          DELETE /articles/:id(.:format)           articles#destroy
 #                     tags GET    /tags(.:format)                   tags#index
 #                          POST   /tags(.:format)                   tags#create
 #                  new_tag GET    /tags/new(.:format)               tags#new
@@ -91,11 +95,11 @@ Rails.application.routes.draw do
     post    'login',  to: 'users/sessions#create'
     delete  'logout', to: 'users/sessions#destroy',     as: :logout
   end
-  devise_for :users, controllers: { registrations: 'users/registrations',
-                                    sessions: 'users/sessions',
-                                    passwords: 'users/passwords' }
+  devise_for :users, controllers: { registrations:  'users/registrations',
+                                    sessions:       'users/sessions',
+                                    passwords:      'users/passwords' }
 
-  resources :users, has_many: :comments do
+  resources :users do
     collection do
       get :validation,      to: 'users#validation'
     end
@@ -110,16 +114,20 @@ Rails.application.routes.draw do
   end
 
   # Articles
-  resources :articles, has_many: :comments do
+  resources :articles do
     collection do
       get   :search,        to: 'articles#search'
       get   :autocomplete,  to: 'articles#autocomplete'
     end
 
     member do
-      get   :history,   to: 'articles#history'
-      get   :restore,   to: 'articles#restore'
-      post  :bookmark,  to: 'articles#bookmark'
+      get     :history,   to: 'articles#history'
+      get     :restore,   to: 'articles#restore'
+      post    :bookmark,  to: 'articles#bookmark'
+      get     :comments,  to: 'articles#comments'
+      post    :comments,  to: 'articles#add_comment'
+      put     :comments,  to: 'articles#update_comment'
+      delete  :comments,  to: 'articles#delete_comment'
     end
   end
 

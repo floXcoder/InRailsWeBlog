@@ -5,7 +5,7 @@ class CreateArticles < ActiveRecord::Migration
       t.integer     :visibility,      default: 0,     null: false
       t.integer     :notation,        default: 0
       t.integer     :priority,        default: 0
-      t.boolean     :allow_comment,   default: false, null: false
+      t.boolean     :allow_comment,   default: true,  null: false
       t.boolean     :private_content, default: false, null: false
       t.boolean     :is_link,         default: false, null: false
       t.boolean     :temporary,       default: false, null: false
