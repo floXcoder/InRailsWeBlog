@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151204133222) do
+ActiveRecord::Schema.define(version: 20151210183607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,12 +59,15 @@ ActiveRecord::Schema.define(version: 20151204133222) do
   add_index "bookmarked_articles", ["user_id"], name: "index_bookmarked_articles_on_user_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
-    t.integer  "commentable_id"
-    t.string   "commentable_type"
+    t.integer  "commentable_id",               null: false
+    t.string   "commentable_type",             null: false
+    t.integer  "user_id",                      null: false
     t.string   "title"
     t.text     "body"
     t.string   "subject"
-    t.integer  "user_id",          null: false
+    t.integer  "rating",           default: 0
+    t.integer  "positive_reviews", default: 0
+    t.integer  "negative_reviews", default: 0
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
@@ -143,6 +146,21 @@ ActiveRecord::Schema.define(version: 20151204133222) do
   add_index "tags", ["slug"], name: "index_tags_on_slug", unique: true, using: :btree
   add_index "tags", ["tagger_id"], name: "index_tags_on_tagger_id", using: :btree
 
+  create_table "trackers", force: :cascade do |t|
+    t.integer  "tracked_id",                  null: false
+    t.string   "tracked_type",                null: false
+    t.integer  "views_count",     default: 0, null: false
+    t.integer  "queries_count",   default: 0, null: false
+    t.integer  "searches_count",  default: 0, null: false
+    t.integer  "comments_count",  default: 0, null: false
+    t.integer  "clicks_count",    default: 0, null: false
+    t.integer  "bookmarks_count", default: 0, null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "trackers", ["tracked_type", "tracked_id"], name: "index_trackers_on_tracked_type_and_tracked_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "pseudo",                 default: "",    null: false
     t.string   "first_name",             default: ""
@@ -152,7 +170,7 @@ ActiveRecord::Schema.define(version: 20151204133222) do
     t.string   "country",                default: ""
     t.string   "additional_info",        default: ""
     t.string   "locale",                 default: "fr"
-    t.text     "preferences",            default: "",    null: false
+    t.text     "preferences",            default: "{}",  null: false
     t.boolean  "admin",                  default: false, null: false
     t.string   "slug"
     t.datetime "created_at",                             null: false

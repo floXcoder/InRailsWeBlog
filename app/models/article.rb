@@ -30,7 +30,30 @@ class Article < ActiveRecord::Base
   enum visibility: VISIBILITY
   enums_to_tr('article', [:visibility])
 
-  ## Tags
+  # Scopes
+  scope :user_related, -> (user_id = nil) {
+    where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.author_id = :author_id)',
+          author_id: user_id)
+  }
+  scope :published, -> { where(temporary: false) }
+
+  # Parameters validation
+  validates :author_id, presence: true
+  validates :title,
+            length: { minimum: CONFIG.title_min_length, maximum: CONFIG.title_max_length },
+            if:     'title.present?'
+  validates :summary,
+            length: { minimum: CONFIG.summary_min_length, maximum: CONFIG.summary_max_length },
+            if:     'summary.present?'
+  validates :content,
+            presence: true,
+            length:   { minimum: CONFIG.content_min_length, maximum: CONFIG.content_max_length }
+  validates :notation, inclusion: 0..5
+
+  # Sanitize and detect programming language if any before save
+  before_save :sanitize_html
+
+  # Tags
   has_many :tagged_articles
   has_many :tags, through: :tagged_articles
   has_many :parent_tags,
@@ -138,27 +161,22 @@ class Article < ActiveRecord::Base
            through: :bookmarked_articles,
            source:  :user
 
-  # Scopes
-  scope :user_related, -> (user_id = nil) {
-    where('articles.visibility = 0 OR (articles.visibility = 1 AND author_id = :author_id)',
-          author_id: user_id)
-  }
-  scope :published, -> { where(temporary: false) }
+  def add_bookmark(user)
+    if self.user_bookmarks.exists?(user.id)
+      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.already_bookmarked'))
+      return false
+    else
+      return self.user_bookmarks.push(user)
+    end
+  end
 
-  # Parameters validation
-  validates :author_id, presence: true
-  validates :title,
-            length: { minimum: CONFIG.title_min_length, maximum: CONFIG.title_max_length },
-            if:     'title.present?'
-  validates :summary,
-            length: { minimum: CONFIG.summary_min_length, maximum: CONFIG.summary_max_length },
-            if:     'summary.present?'
-  validates :content,
-            presence: true,
-            length:   { minimum: CONFIG.content_min_length, maximum: CONFIG.content_max_length }
-
-  # Sanitize and detect programming language if any before save
-  before_save :sanitize_html
+  def remove_bookmark(user)
+    if !self.user_bookmarks.exists?(user.id)
+      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.no_bookmarked'))
+    else
+      return self.user_bookmarks.delete(user)
+    end
+  end
 
   # Translation
   translates :title, :summary, :content,
@@ -170,18 +188,13 @@ class Article < ActiveRecord::Base
   has_paper_trail on: [:destroy], ignore: [:title, :summary, :content]
 
   # Comments
-  acts_as_commentable
-  def comments
-    self.comment_threads
-  end
+  include CommentableConcern
 
-  def comments_tree
-    self.root_comments.order('comments.created_at ASC').map do |root_comment|
-      root_comment.self_and_descendants
-    end
-  end
+  # Track activities
+  include ActAsTrackedConcern
+  acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views
 
-  # Nice url format
+    # Nice url format
   include NiceUrlConcern
   friendly_id :article_at_user, use: :slugged
 
@@ -274,6 +287,9 @@ class Article < ActiveRecord::Base
                                            where:        where_options)
 
     words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
+
+    # Track search results
+    Article.track_searches(results.records.ids)
 
     {
       articles:    results.records,

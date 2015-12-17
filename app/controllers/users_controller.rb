@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, except: [:validation]
-  after_action :verify_authorized, except: [:index, :validation]
+  before_action :authenticate_user!, except: [:show, :validation]
+  after_action :verify_authorized, except: [:index, :show, :validation]
+
+  skip_before_action :set_locale, only: [:validation]
+
+  include TrackerConcern
 
   respond_to :html, :json
 
@@ -12,12 +16,13 @@ class UsersController < ApplicationController
 
   def show
     user = User.friendly.find(params[:id])
-    authorize user
+
+    User.track_views(user.id)
 
     render :show, locals: { user: user, mode: nil }
   end
 
-  def bookmark
+  def bookmarks
     user = User.friendly.find(params[:id])
     authorize user
 
@@ -31,7 +36,7 @@ class UsersController < ApplicationController
     render :show, locals: { user: user, mode: 'temporary' }
   end
 
-  def preference
+  def preferences
     user = User.find(params[:id])
     authorize user
 
@@ -41,7 +46,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def update_preference
+  def update_preferences
     user = User.find(params[:id])
     authorize user
 
@@ -75,10 +80,10 @@ class UsersController < ApplicationController
     authorize user
 
     if user.update_without_password(user_params)
-      flash[:success] = t('views.user.flash.successful_update')
+      flash.now[:success] = t('views.user.flash.successful_update')
       redirect_to root_user_path(user)
     else
-      flash[:error] = t('views.user.flash.error_update')
+      flash.now[:error] = t('views.user.flash.error_update')
       render :edit, locals: { user: user }
     end
   end

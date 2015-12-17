@@ -1,12 +1,15 @@
 'use strict';
 
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var HighlightCode = require('highlight.js');
-var AnimatedText = require('../modules/animatedText');
+
+var AnimatedText = require('../theme/animated-text');
+
+var UserStore = require('../../stores/userStore');
 
 var ArticleActions = require('../../actions/articleActions');
 var ArticleStore = require('../../stores/articleStore');
 var ArticleHistory = require('./history');
+var ArticleCommentIcon = require('./icons/comment');
 var ArticleLinkIcon = require('./icons/link');
 var ArticleVisibilityIcon = require('./icons/visibility');
 var ArticleBookmarkIcon = require('./icons/bookmark');
@@ -16,10 +19,7 @@ var ArticleTags = require('./properties/tags');
 var ArticleAuthorIcon = require('./icons/author');
 var ArticleTime = require('./properties/time');
 
-var Button = require('../materialize/button');
-
-var CommentList = require('../comments/list');
-var CommentForm = require('../comments/form');
+var CommentBox = require('../comments/box');
 
 var ArticleShow = React.createClass({
     propTypes: {
@@ -39,6 +39,7 @@ var ArticleShow = React.createClass({
 
     getInitialState () {
         return {
+            article: this.props.article,
             articleVersions: null,
             isHistoryDisplayed: false,
             comments: this.props.article.comments,
@@ -76,50 +77,50 @@ var ArticleShow = React.createClass({
         }
     },
 
-    onArticleChange (articleStore) {
-        if ($.isEmpty(articleStore)) {
+    onArticleChange (articleData) {
+        if ($.isEmpty(articleData)) {
             return;
         }
 
         let newState = {};
 
-        if (typeof(articleStore.articleVersions) !== 'undefined') {
-            newState.articleVersions = articleStore.articleVersions;
-            if (articleStore.articleVersions.length === 0
-                || (articleStore.articleVersions.length === 1 && articleStore.articleVersions[0].article.content === '')) {
+        if (typeof(articleData.articleVersions) !== 'undefined') {
+            newState.articleVersions = articleData.articleVersions;
+            if (articleData.articleVersions.length === 0
+                || (articleData.articleVersions.length === 1 && articleData.articleVersions[0].article.content === '')) {
                 Materialize.toast(I18n.t('js.article.history.none'));
             }
         }
 
-        if (typeof(articleStore.articleRestored) !== 'undefined') {
-            newState.article = articleStore.articleRestored;
+        if (typeof(articleData.articleRestored) !== 'undefined') {
+            newState.article = articleData.articleRestored;
             Materialize.toast(I18n.t('js.article.history.restored'));
             this._handleHistoryClick();
         }
 
-        if (typeof(articleStore.comment) !== 'undefined') {
-            if (articleStore.comment.parent_id) {
+        if (typeof(articleData.comment) !== 'undefined') {
+            if (articleData.comment.parent_id) {
                 let comments = [];
                 this.state.comments.forEach(function (comment) {
-                    if (comment.id === articleStore.comment.parent_id) {
+                    if (comment.id === articleData.comment.parent_id) {
                         comments.push(comment);
-                        comments.push(articleStore.comment);
+                        comments.push(articleData.comment);
                     } else {
                         comments.push(comment);
                     }
                 });
                 newState.comments = comments;
             } else {
-                newState.comments = this.state.comments.concat([articleStore.comment]);
+                newState.comments = this.state.comments.concat([articleData.comment]);
             }
             Materialize.toast(I18n.t('js.comment.flash.creation_successful'), 5000);
         }
 
-        if (typeof(articleStore.updatedComment) !== 'undefined') {
+        if (typeof(articleData.updatedComment) !== 'undefined') {
             let comments = [];
             this.state.comments.forEach(function (comment) {
-                if (articleStore.updatedComment.id === comment.id) {
-                    comments.push(articleStore.updatedComment);
+                if (articleData.updatedComment.id === comment.id) {
+                    comments.push(articleData.updatedComment);
                 } else {
                     comments.push(comment);
                 }
@@ -128,10 +129,10 @@ var ArticleShow = React.createClass({
             Materialize.toast(I18n.t('js.comment.flash.update_successful'), 5000);
         }
 
-        if (typeof(articleStore.deletedComment) !== 'undefined') {
+        if (typeof(articleData.deletedComment) !== 'undefined') {
             let comments = [];
             this.state.comments.forEach(function (comment) {
-                if (articleStore.deletedComment.id.indexOf(comment.id) === -1) {
+                if (articleData.deletedComment.id.indexOf(comment.id) === -1) {
                     comments.push(comment);
                 }
             });
@@ -144,11 +145,16 @@ var ArticleShow = React.createClass({
         }
     },
 
+    _handleAuthorClick (userId, event) {
+        UserStore.onTrackClick(userId);
+        return event;
+    },
+
     _handleHistoryClick () {
         if (this.state.isHistoryDisplayed) {
             this.setState({isHistoryDisplayed: false})
         } else {
-            ArticleActions.loadArticleHistory({history: this.props.article.id});
+            ArticleActions.loadArticleHistory({history: this.state.article.id});
         }
 
         this.state.isHistoryDisplayed = !this.state.isHistoryDisplayed;
@@ -156,12 +162,11 @@ var ArticleShow = React.createClass({
 
     _handleDeleteClick (event) {
         event.preventDefault();
-        ArticleActions.deleteArticles({id: this.props.article.id, showMode: true});
+        ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
     },
 
-    _handleBookmarkClick (articleId, event) {
-        event.preventDefault();
-        ArticleActions.bookmarkArticle({articleId: articleId});
+    _handleBookmarkClick (articleId, isBookmarked) {
+        ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
     },
 
     _handleAddCommentButton (event) {
@@ -183,7 +188,7 @@ var ArticleShow = React.createClass({
             Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
         } else {
             if (commentId) {
-                ArticleActions.deleteCommentArticle(commentId, this.props.article.id);
+                ArticleActions.deleteComment(commentId, this.state.article.id);
             }
         }
     },
@@ -193,63 +198,55 @@ var ArticleShow = React.createClass({
             Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
         } else {
             if (commentData.id) {
-                ArticleActions.updateCommentArticle(commentData, this.props.article.id);
+                ArticleActions.updateComment(commentData, this.state.article.id);
             } else {
-                ArticleActions.commentArticle(commentData, this.props.article.id);
+                ArticleActions.addComment(commentData, this.state.article.id);
             }
-        }
-    },
-
-    _renderTitle () {
-        if (!$.isEmpty(this.props.article.title) || !$.isEmpty(this.props.article.summary)) {
-            return (
-                <AnimatedText title={this.props.article.title}
-                              subtitle={this.props.article.summary}/>
-            );
-        }
-    },
-
-    _renderEditIcon () {
-        if (this.props.currentUserId && this.props.currentUserId === this.props.article.author.id) {
-            return (
-                <a className="article-edit btn-floating tooltipped"
-                   data-tooltip={I18n.t('js.article.tooltip.edit')}
-                   href={"/articles/" + this.props.article.id + "/edit"}>
-                    <i className="material-icons">mode_edit</i>
-                </a>
-            );
         }
     },
 
     render () {
         return (
             <div>
-                <div className="card clearfix blog-article-item">
+                <div className="card blog-article-item clearfix">
                     <div className="card-content">
                         <ArticleAuthorIcon article={this.props.article}/>
-                        <ArticleTime article={this.props.article}/>
-                        {this._renderTitle()}
-                        <span className="blog-article-content"
-                              dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
-                    </div>
-                    <div className="card-action article-action row clearfix">
-                        <div className="col s12 m12 l6">
-                            <ArticleTags article={this.props.article}/>
+                        <div className="article-info right-align">
+                            <ArticleTime article={this.props.article}/>
+                            <ArticleCommentIcon articleLink={'/articles/' + this.state.article.slug}
+                                                commentsNumber={this.props.article.comments_number}/>
                         </div>
-                        <div className="col s12 m12 l6 right-align">
-                            <ArticleDeleteIcon article={this.props.article}
-                                               currentUserId={this.props.currentUserId}
-                                               onClickDelete={this._handleDeleteClick}/>
-                            <ArticleBookmarkIcon article={this.props.article}
-                                                 currentUserId={this.props.currentUserId}
-                                                 onClickBookmark={this._handleBookmarkClick}/>
-                            <ArticleLinkIcon isLink={this.props.article.is_link}/>
-                            <ArticleVisibilityIcon article={this.props.article}
-                                                   currentUserId={this.props.currentUserId}/>
-                            <ArticleHistoryIcon article={this.props.article}
-                                                currentUserId={this.props.currentUserId}
-                                                onClickHistory={this._handleHistoryClick}/>
-                            {this._renderEditIcon()}
+                        {(!$.isEmpty(this.props.article.title) || !$.isEmpty(this.props.article.summary)) &&
+                        <AnimatedText title={this.props.article.title}
+                                      subtitle={this.props.article.summary}/>}
+                        <span className="blog-article-content"
+                              dangerouslySetInnerHTML={{__html: this.state.article.content}}/>
+                    </div>
+                    <div className="card-action article-action clearfix">
+                        <div className="row">
+                            <div className="col s12 m12 l6 md-margin-bottom-20">
+                                <ArticleTags article={this.props.article}/>
+                            </div>
+                            <div className="col s12 m12 l6 right-align">
+                                <ArticleDeleteIcon article={this.props.article}
+                                                   currentUserId={this.props.currentUserId}
+                                                   onClickDelete={this._handleDeleteClick}/>
+                                <ArticleBookmarkIcon article={this.props.article}
+                                                     currentUserId={this.props.currentUserId}
+                                                     onClickBookmark={this._handleBookmarkClick}/>
+                                <ArticleLinkIcon isLink={this.props.article.is_link}/>
+                                <ArticleVisibilityIcon article={this.props.article}
+                                                       currentUserId={this.props.currentUserId}/>
+                                <ArticleHistoryIcon article={this.props.article}
+                                                    currentUserId={this.props.currentUserId}
+                                                    onClickHistory={this._handleHistoryClick}/>
+                                {(this.props.currentUserId && this.props.currentUserId === this.state.article.author.id) &&
+                                <a className="article-edit btn-floating tooltipped"
+                                   data-tooltip={I18n.t('js.article.tooltip.edit')}
+                                   href={"/articles/" + this.state.article.id + "/edit"}>
+                                    <i className="material-icons">mode_edit</i>
+                                </a>}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -257,31 +254,14 @@ var ArticleShow = React.createClass({
                 {this.state.isHistoryDisplayed &&
                 <ArticleHistory articleVersions={this.state.articleVersions}/>}
 
-                <div className="blog-article-comments">
-                    <CommentList comments={this.state.comments}
-                                 currentUserId={this.props.currentUserId}
-                                 onDelete={this._handleCommentDelete}
-                                 onSubmit={this._handleCommentSubmit}/>
-                    {!this.state.showCommentForm &&
-                    <div className="center-align">
-                        <Button icon="comment"
-                                iconPosition="left"
-                                onClickButton={this._handleAddCommentButton}>
-                            {I18n.t('js.comment.new.button')}
-                        </Button>
-                    </div>}
-                    {this.state.showCommentForm &&
-                    <ReactCSSTransitionGroup transitionName="comment-form"
-                                             transitionAppear={true}
-                                             transitionAppearTimeout={600}
-                                             transitionEnterTimeout={500}
-                                             transitionLeaveTimeout={300}>
-                        <CommentForm refs="commentForm"
-                                     onCancel={this._handleCommentCancel}
-                                     onSubmit={this._handleCommentSubmit}/>
-                    </ReactCSSTransitionGroup>}
-                </div>
-
+                {this.props.article.allow_comment &&
+                <div id="comments">
+                    <CommentBox comments={this.state.comments}
+                                currentUserId={this.props.currentUserId}
+                                isRated={false}
+                                onDelete={this._handleCommentDelete}
+                                onSubmit={this._handleCommentSubmit}/>
+                </div>}
             </div>
         );
     }

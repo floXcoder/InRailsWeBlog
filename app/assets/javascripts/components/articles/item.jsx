@@ -1,6 +1,10 @@
 'use strict';
 
+var Tracker = require('../../modules/tracker');
+var UserActions = require('../../actions/userActions');
+var TagActions = require('../../actions/tagActions');
 var ArticleActions = require('../../actions/articleActions');
+
 var ArticleCardDisplay = require('./display/card');
 var ArticleInlineDisplay = require('./display/inline');
 var ArticleEditionDisplay = require('./display/edition');
@@ -26,13 +30,19 @@ var ArticleItem = React.createClass({
     },
 
     componentDidMount () {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function() {
+        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
             $(this).tooltip();
+        });
+
+        Tracker.trackViews($(ReactDOM.findDOMNode(this)), () => {
+            ArticleActions.trackView(this.props.article.id);
+            UserActions.trackView(this.props.article.author.id);
+            TagActions.trackView(_.pluck(this.props.article.tags, 'id'));
         });
     },
 
     componentDidUpdate () {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function() {
+        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
             $(this).tooltip();
         });
     },
@@ -42,13 +52,12 @@ var ArticleItem = React.createClass({
         this.setState({articleDisplayMode: this.props.initialDisplayMode});
     },
 
-    _handleTagClick (tagName, event) {
+    _handleTagClick (tagName) {
         ArticleActions.loadArticles({tags: [tagName]});
     },
 
-    _handleBookmarkClick (articleId, event) {
-        event.preventDefault();
-        ArticleActions.bookmarkArticle({articleId: articleId});
+    _handleBookmarkClick (articleId, isBookmarked) {
+        ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
     },
 
     _handleEditClick (event) {
@@ -56,7 +65,7 @@ var ArticleItem = React.createClass({
 
         let editorLoader = require('../../loaders/editor');
         editorLoader().then(({}) => {
-            $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function() {
+            $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
                 $(this).tooltip('remove');
             });
             this.setState({articleDisplayMode: 'edit'});
@@ -77,7 +86,6 @@ var ArticleItem = React.createClass({
                                     currentUserId={this.props.currentUserId}
                                     onClickTag={this._handleTagClick}
                                     onClickEdit={this._handleEditClick}
-                                    onClickVisibility={this._handleVisibilityClick}
                                     onClickBookmark={this._handleBookmarkClick}>
                     {this.props.children}
                 </ArticleCardDisplay>

@@ -49,11 +49,14 @@ class Tag < ActiveRecord::Base
   include NiceUrlConcern
   friendly_id :slug_candidates, use: :slugged
 
-  # Friendly ID
   def slug_candidates
     [
       :name
     ]
   end
+
+  # Track activities
+  include ActAsTrackedConcern
+  acts_as_tracked :queries, :clicks, :views
 
 end

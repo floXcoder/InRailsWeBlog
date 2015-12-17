@@ -39,6 +39,15 @@ namespace :InRailsWeBlog do
         # Create comments for articles
         Populate::create_comments_for(articles, admin, 1..10)
         Populate::create_comments_for(articles, users, 1..15)
+
+        # Create bookmarks for articles
+        Populate::create_bookmarks_for(articles, admin, 1..10)
+        Populate::create_bookmarks_for(articles, users, 1..10)
+
+        # Create activities for article, users and tags
+        Populate::create_activities_for_articles(articles)
+        Populate::create_activities_for_users(users)
+        Populate::create_activities_for_tags(tags)
       end
     end
 

@@ -6,11 +6,7 @@ class UserPolicy
     @user         = user
   end
 
-  def show?
-    correct_user?
-  end
-
-  def bookmark?
+  def bookmarks?
     correct_user?
   end
 
@@ -18,11 +14,11 @@ class UserPolicy
     correct_user?
   end
 
-  def preference?
+  def preferences?
     correct_user?
   end
 
-  def update_preference?
+  def update_preferences?
     correct_user?
   end
 

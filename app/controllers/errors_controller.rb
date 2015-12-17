@@ -1,6 +1,8 @@
 class ErrorsController < ApplicationController
-  before_filter :authenticate_user!, except: [:create]
+  before_action :authenticate_user!, except: [:create]
   after_action :verify_authorized, except: [:create]
+
+  skip_before_action :set_locale, only: [:create]
 
   respond_to :json
 
@@ -20,13 +22,16 @@ class ErrorsController < ApplicationController
     error.ip         = request.remote_ip
     error.user_info  = current_user.pseudo if current_user
 
-    respond_to do |format|
-      if error.save
-        format.json { render json: error, status: :created }
-      else
-        format.json { render json: error.errors, status: :unprocessable_entity }
-      end
-    end
+    error.save
+
+    # respond_to do |format|
+    #   if error.save
+    #     format.json { render json: error, status: :created }
+    #   else
+    #     format.json { render json: error.errors, status: :unprocessable_entity }
+    #   end
+    # end
+    render nothing: true
   end
 
   private

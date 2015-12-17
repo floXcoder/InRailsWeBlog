@@ -103,7 +103,6 @@ namespace :deploy do
           with rails_env: fetch(:rails_env) do
             execute :sudo, '/etc/init.d/apache2 stop'
             execute :sudo, '/etc/init.d/postgresql restart'
-            sleep 5
             execute :rake, 'InRailsWeBlog:populate[reset]'
             execute :sudo, '/etc/init.d/apache2 start'
           end
@@ -132,5 +131,4 @@ end
 
 # Commands:
 # cap production deploy
-# <stop apache>
 # cap production deploy:reset_database

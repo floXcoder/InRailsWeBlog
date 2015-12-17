@@ -32,12 +32,6 @@ $rgba-yellow-transparent: rgba(241, 196, 15, $rgba-a-transparent); // #F1C40F
 $rgba-purple: rgba(155, 107, 204, $rgba-a); // #9B6BCC
 $rgba-purple-transparent: rgba(155, 107, 204, $rgba-a-transparent); // #9B6BCC
 
-// Materialize theme color
-// ------------------------------------
-$primary-color: $color-base;
-$card-link-color: $color-additional;
-$dropdown-color: $color-base;
-
 // Special style colors
 // ------------------------------------
 $secret-color: color('red', 'lighten-3');
@@ -49,6 +43,12 @@ $deadend-color: color('brown', 'lighten-3');
   padding-left: 10px;
 }
 
-// Shared variables
+
+// Materialize theme
 // ------------------------------------
+$primary-color: $color-base;
+$card-link-color: $color-additional;
+$dropdown-color: $color-base;
 @import 'materialize-css/sass/components/variables';
+$extra-large-and-up: "only screen and (min-width : #{$large-screen})";
+$large-only: "only screen and (min-width : #{$medium-screen}) and (max-width : #{$large-screen})";

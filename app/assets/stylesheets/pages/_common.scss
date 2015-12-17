@@ -3,7 +3,7 @@
 @import 'codemirror/lib/codemirror';
 @import 'highlight.js/styles/zenburn';
 @import 'modules/wysiwyg/summernote';
-@import 'modules/tagsinput/tagsinput';
+@import 'modules/components/tagsinput';
 @import 'modules/animation/article';
 
 .blog {
@@ -53,12 +53,6 @@
       outline: none;
     }
 
-    @media #{$medium-and-down} {
-      nav ul a {
-        padding: 0 0 0 10px;
-      }
-    }
-
     .nav-wrapper {
       padding: 0 30px;
 
@@ -70,6 +64,41 @@
             display: inline;
             margin-left: 20px;
           }
+        }
+      }
+    }
+
+    @media #{$medium-and-down} {
+      .side-nav {
+        line-height: 56px;
+
+        .collapsible-header {
+          margin: 0;
+        }
+
+        i {
+          height: 64px;
+          line-height: 64px;
+          position: absolute;
+          right: 1rem;
+          margin-right: 1rem;
+          font-size: 2.3rem;
+        }
+
+        .header-collapse {
+          float: none;
+        }
+      }
+
+      .header-icon {
+        position: relative;
+        z-index: 1;
+        height: 56px;
+
+        .material-icons {
+          font-size: 2.5rem;
+          height: 56px;
+          line-height: 56px;
         }
       }
     }
@@ -272,6 +301,13 @@
       color: color('red', 'darken-2');
     }
 
+    .form-editor-title {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-left: 10px;
+      color: color('grey', 'darken-1');
+    }
+
     .col {
       margin: 10px 0;
     }
@@ -360,73 +396,6 @@
   .blog-article-list {
   }
 
-  .blog-article-comments {
-    .collection {
-      border: 0;
-
-      .collection-item {
-        margin-bottom: 10px;
-        padding-right: 50px;
-
-        .secondary-content {
-          right: 0;
-        }
-      }
-
-      @for $i from 1 through 5 {
-        .comment-child-item-#{$i} {
-          margin-top: -5px;
-
-          @media #{$medium-and-up} {
-            margin-left: $i * 40px;
-          }
-          @media #{$medium-and-down} {
-            margin-left: $i * 10px;
-          }
-        }
-      }
-
-      .comment-date {
-        margin-left: 20px;
-        color: #6d7a97;
-      }
-
-      .comment-title {
-        line-height: 1.6rem;
-        font-size: 1.3rem;
-        font-weight: 600;
-      }
-    }
-
-    .comment-form-title {
-      line-height: 48px;
-      font-size: 24px;
-      font-weight: 300;
-    }
-
-    .comment-form-explanation {
-      margin-left: 15px;
-      color: #6d7a97;
-
-      @media #{$small-and-down} {
-        margin-left: 0;
-        display: block;
-      }
-    }
-
-    @media #{$small-and-down} {
-      .comment-reply {
-        margin-left: -50px;
-        margin-right: -25px;
-      }
-
-      .comment-modify {
-        margin-left: -50px;
-        margin-right: -25px;
-      }
-    }
-  }
-
   .blog-article-history {
 
     .article-history-item {
@@ -465,6 +434,10 @@
       font-size: 2.5rem;
       color: black;
 
+      @media #{$medium-and-down} {
+        display: block;
+      }
+
       a {
         color: $text-color-base;
         &:hover {
@@ -499,9 +472,9 @@
     }
 
     .article-summary {
-      margin-left: 15px;
-      margin-bottom: 10px;
       color: color('grey', 'lighten-1');
+      margin-bottom: 10px;
+      margin-left: 15px;
     }
 
     .article-bookmarked {
@@ -509,8 +482,9 @@
     }
 
     .article-tag {
-      color: black;
       background-color: color('grey', 'lighten-5');
+      color: black;
+      margin: 5px;
 
       &.tag-parent {
         box-shadow: 0 0 4px darkred !important;
@@ -519,6 +493,10 @@
       &.tag-child {
         box-shadow: 0 0 4px darkgreen !important;
       }
+    }
+
+    .article-tag-empty {
+      visibility: hidden;
     }
 
     .blog-highlight {
@@ -530,26 +508,47 @@
       box-shadow: 0 0 4px color('blue', 'darken-2');
     }
 
-    .article-time {
+    .article-info {
       float: right;
-      font-weight: 300;
-      font-style: normal;
       font-size: 1rem;
       line-height: 1rem;
-      vertical-align: middle;
-      position: relative;
-      display: inline-block;
+    }
+
+    .article-time {
+      font-weight: 300;
+      font-style: normal;
+    }
+
+    .article-comment-number {
+      color: $color-additional;
+      font-size: 1.1rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.1rem;
+
+      i {
+        margin-left: 5px;
+        font-size: 1.2rem;
+        line-height: 2rem;
+      }
     }
 
     .article-author {
-      float: left;
-      font-weight: 400;
-      font-style: normal;
-      font-size: 1.1rem;
-      line-height: 1.1rem;
-      vertical-align: middle;
-      position: relative;
+      color: $color-additional;
       display: inline-block;
+      float: left;
+      font-size: 1.2rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.2rem;
+      position: relative;
+
+      i {
+        font-size: 1.5rem;
+        line-height: 1.2rem;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
     }
 
     .article-goto {
@@ -621,6 +620,65 @@
       vertical-align: middle;
       position: relative;
       display: inline-block;
+    }
+  }
+
+  .blog-separator {
+    color: #e0e0e0;
+    font-size: 0;
+    text-align: center;
+    overflow: hidden;
+    clear: both;
+    line-height: 18px;
+    height: 20px;
+    padding: 2px 0;
+    margin: 25px 0;
+
+    &-h {
+      display: inline-block;
+      vertical-align: top;
+      line-height: inherit;
+      position: relative;
+      border-color: inherit;
+      color: inherit;
+
+      &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: top;
+        position: absolute;
+        height: 0;
+        width: 2000px;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-color: inherit;
+        right: 100%;
+        margin-right: 15px;
+        top: 8px;
+      }
+
+      &:after {
+        content: '';
+        display: inline-block;
+        vertical-align: top;
+        position: absolute;
+        height: 0;
+        width: 2000px;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-color: inherit;
+        left: 100%;
+        margin-left: 15px;
+        top: 8px;
+      }
+
+      i {
+        font-size: 16px;
+        line-height: 16px;
+        height: 16px;
+        width: 20px;
+        vertical-align: top;
+      }
     }
   }
 

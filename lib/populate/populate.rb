@@ -79,23 +79,25 @@ class Populate
   end
 
   def self.create_tag_relationships_for(articles)
-    articles.each do |article|
-      tagged_articles = article.tags
+    Article.transaction do
+      articles.each do |article|
+        tagged_articles = article.tags
 
-      if tagged_articles.length > 2
-        parent_tag = tagged_articles.first
-        child_tag  = tagged_articles.last
+        if tagged_articles.length > 2
+          parent_tag = tagged_articles.first
+          child_tag  = tagged_articles.last
 
-        article.tagged_articles.find_by(tag_id: parent_tag.id).update(parent: true)
-        article.tagged_articles.find_by(tag_id: child_tag.id).update(child: true)
+          article.tagged_articles.find_by(tag_id: parent_tag.id).update(parent: true)
+          article.tagged_articles.find_by(tag_id: child_tag.id).update(child: true)
 
-        if parent_tag.children.exists?(child_tag.id)
-          previous_article_ids = parent_tag.parent_relationship.find_by(child_id: child_tag.id).article_ids
-          parent_tag.parent_relationship.find_by(child_id: child_tag.id).update_attribute(:article_ids, previous_article_ids + [article.id])
-        else
-          parent_tag.parent_relationship.build(child_id: child_tag.id, article_ids: [article.id])
+          if parent_tag.children.exists?(child_tag.id)
+            previous_article_ids = parent_tag.parent_relationship.find_by(child_id: child_tag.id).article_ids
+            parent_tag.parent_relationship.find_by(child_id: child_tag.id).update_attribute(:article_ids, previous_article_ids + [article.id])
+          else
+            parent_tag.parent_relationship.build(child_id: child_tag.id, article_ids: [article.id])
+          end
+          parent_tag.save
         end
-        parent_tag.save
       end
     end
   end
@@ -103,22 +105,74 @@ class Populate
   def self.create_comments_for(articles, users, comment_number)
     users = [users] if users.is_a?(User)
 
-    articles.each do |article|
-      previous_comment = nil
-      comments_number = comment_number
-      comments_number = rand(comment_number) if comment_number.is_a?(Range)
-      rand(comments_number).times.each do |i|
-        if i % 5 == 0
-          if previous_comment
-            child_comment = Comment.build_from(article, users.sample.id, Faker::Hipster.paragraph(2, true, 1))
-            child_comment.save
-            child_comment.move_to_child_of(previous_comment)
+    Article.transaction do
+      articles.each do |article|
+        previous_comment = nil
+        comments_number = comment_number
+        comments_number = rand(comment_number) if comment_number.is_a?(Range)
+        rand(comments_number).times.each do |i|
+          if i % 5 == 0
+            if previous_comment
+              child_comment = Comment.build_from(article, users.sample.id, Faker::Hipster.paragraph(2, true, 1))
+              child_comment.save
+              child_comment.move_to_child_of(previous_comment)
+            end
+          else
+            parent_comment = Comment.build_from(article, users.sample.id, Faker::Hipster.paragraph(2, true, 3))
+            parent_comment.save
+            previous_comment = parent_comment
           end
-        else
-          parent_comment = Comment.build_from(article, users.sample.id, Faker::Hipster.paragraph(2, true, 3))
-          parent_comment.save
-          previous_comment = parent_comment
         end
+      end
+    end
+  end
+
+  def self.create_bookmarks_for(articles, users, bookmark_number)
+    users = [users] if users.is_a?(User)
+
+    Article.transaction do
+      users.each do |user|
+        articles.sample(rand(bookmark_number)).each do |article|
+          article.add_bookmark(user)
+        end
+      end
+    end
+  end
+
+  def self.create_activities_for_articles(articles)
+    Article.transaction do
+      articles.each do |article|
+        article.tracker.queries_count = rand(1..100)
+        article.tracker.searches_count = rand(1..20)
+        article.tracker.comments_count = article.comment_threads.count
+        article.tracker.bookmarks_count = article.user_bookmarks.count
+        article.tracker.clicks_count = rand(1..60)
+        article.tracker.views_count = rand(1..200)
+        article.save
+      end
+    end
+  end
+
+  def self.create_activities_for_users(users)
+    User.transaction do
+      users.each do |user|
+        user.tracker.queries_count = rand(1..100)
+        user.tracker.comments_count = user.comments.count
+        user.tracker.bookmarks_count = user.bookmarks.count
+        user.tracker.clicks_count = rand(1..60)
+        user.tracker.views_count = rand(1..200)
+        user.save
+      end
+    end
+  end
+
+  def self.create_activities_for_tags(tags)
+    Tag.transaction do
+      tags.each do |tag|
+        tag.tracker.queries_count = rand(1..100)
+        tag.tracker.clicks_count = rand(1..60)
+        tag.tracker.views_count = rand(1..200)
+        tag.save
       end
     end
   end

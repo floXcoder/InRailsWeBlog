@@ -54,24 +54,24 @@ var SearchModule = React.createClass({
         });
     },
 
-    onSearchChange(userStore) {
-        if (!$.isEmpty(userStore.search)) {
-            this._handleSubmit(null, userStore.search);
+    onSearchChange(userData) {
+        if (!$.isEmpty(userData.search)) {
+            this._handleSubmit(null, userData.search);
         }
     },
 
-    onArticleChange(articleStore) {
-        if ($.isEmpty(articleStore)) {
+    onArticleChange(articleData) {
+        if ($.isEmpty(articleData)) {
             return;
         }
 
         let newState = {};
 
-        if (!$.isEmpty(articleStore.autocompletion)) {
+        if (!$.isEmpty(articleData.autocompletion)) {
             let autocompletionValues = [];
             let tags = [];
 
-            articleStore.autocompletion.forEach(function (autocompleteValue) {
+            articleData.autocompletion.forEach(function (autocompleteValue) {
                 autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
                 autocompleteValue.tags.forEach(function (tag) {
                     tags.push(tag.name);
@@ -86,14 +86,14 @@ var SearchModule = React.createClass({
             newState.autocompleteValues = autocompletionValues;
         }
 
-        if (!$.isEmpty(articleStore.suggestions)) {
-            newState.suggestions = articleStore.suggestions;
+        if (!$.isEmpty(articleData.suggestions)) {
+            newState.suggestions = articleData.suggestions;
         } else if (!$.isEmpty(this.state.suggestions)) {
             newState.suggestions = [];
         }
 
-        if (articleStore.paramsFromUrl) {
-            this._activateSearch(articleStore.paramsFromUrl);
+        if (articleData.paramsFromUrl) {
+            this._activateSearch(articleData.paramsFromUrl);
         }
 
         if (!$.isEmpty(newState)) {

@@ -38,6 +38,8 @@
 class UserSerializer < ActiveModel::Serializer
   cache key: 'user', expires_in: 12.hours
 
-  attributes :id, :pseudo
+  attributes :id,
+             :pseudo,
+             :slug
 
 end

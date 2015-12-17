@@ -3,7 +3,7 @@
 var UserActions = require('../../actions/userActions');
 var UserStore = require('../../stores/userStore');
 var RadioButtons = require('../../components/materialize/radioButtons');
-var Checkbox = require('../../components/materialize/switch');
+var Switch = require('../../components/materialize/switch');
 
 var UserPreference = React.createClass({
     mixins: [
@@ -38,8 +38,8 @@ var UserPreference = React.createClass({
         }.bind(this));
     },
 
-    onChangePreference(userStore) {
-        let userPreferences = userStore.preferences;
+    onChangePreference(userData) {
+        let userPreferences = userData.preferences;
         if (!$.isEmpty(userPreferences)) {
             let newState = {};
 
@@ -70,15 +70,15 @@ var UserPreference = React.createClass({
     },
 
     _onMultiLanguageChanged (event) {
-        let multi_language = this.refs.multiLanguage.refs.checkbox.checked;
+        let multi_language = this.refs.multiLanguage.value();
         this.setState({multi_language: multi_language});
-        UserActions.changeForm({multi_language: multi_language});
+        UserActions.changeForm({multi_language: !multi_language});
     },
 
     _onHighlightChanged (event) {
-        let search_highlight = this.refs.searchHighlight.refs.checkbox.checked;
+        let search_highlight = this.refs.searchHighlight.value();
         this.setState({search_highlight: search_highlight});
-        UserActions.changeSearchOptions({search_highlight: search_highlight});
+        UserActions.changeSearchOptions({search_highlight: !search_highlight});
     },
 
     _onOperatorSearchChanged (event) {
@@ -88,9 +88,9 @@ var UserPreference = React.createClass({
     },
 
     _onExactSearchChanged (event) {
-        let search_exact = this.refs.searchExact.refs.checkbox.checked;
+        let search_exact = this.refs.searchExact.value();
         this.setState({search_exact: search_exact});
-        UserActions.changeSearchOptions({search_exact: search_exact});
+        UserActions.changeSearchOptions({search_exact: !search_exact});
     },
 
     render () {
@@ -113,11 +113,13 @@ var UserPreference = React.createClass({
                                                   onRadioChanged={this._onDisplayChanged}/>
                                 </div>
                                 <div className="col s6">
-                                    <h6>{I18n.t('js.user.preferences.article.multi_language.title')}</h6>
-                                    <Checkbox ref="multiLanguage"
-                                              values={I18n.t('js.checkbox')}
-                                              checked={this.state.multi_language}
-                                              onCheckboxChanged={this._onMultiLanguageChanged}/>
+                                    <Switch ref="multiLanguage"
+                                            id="multi-language"
+                                            values={I18n.t('js.checkbox')}
+                                            checked={this.state.multi_language}
+                                            onSwitchChange={this._onMultiLanguageChanged}>
+                                        {I18n.t('js.user.preferences.article.multi_language.title')}
+                                    </Switch>
                                 </div>
                             </div>
                         </div>
@@ -137,18 +139,22 @@ var UserPreference = React.createClass({
                                                   onRadioChanged={this._onOperatorSearchChanged}/>
                                 </div>
                                 <div className="col s4">
-                                    <h6>{I18n.t('js.user.preferences.search.highlight')}</h6>
-                                    <Checkbox ref="searchHighlight"
-                                              values={I18n.t('js.checkbox')}
-                                              checked={this.state.search_highlight}
-                                              onCheckboxChanged={this._onHighlightChanged}/>
+                                    <Switch ref="searchHighlight"
+                                            id="search-highlight"
+                                            values={I18n.t('js.checkbox')}
+                                            checked={this.state.search_highlight}
+                                            onSwitchChange={this._onHighlightChanged}>
+                                        {I18n.t('js.user.preferences.search.highlight')}
+                                    </Switch>
                                 </div>
                                 <div className="col s4">
-                                    <h6>{I18n.t('js.user.preferences.search.exact')}</h6>
-                                    <Checkbox ref="searchExact"
-                                              values={I18n.t('js.checkbox')}
-                                              checked={this.state.search_exact}
-                                              onCheckboxChanged={this._onExactSearchChanged}/>
+                                    <Switch ref="searchExact"
+                                            id="search-exact"
+                                            values={I18n.t('js.checkbox')}
+                                            checked={this.state.search_exact}
+                                            onSwitchChange={this._onExactSearchChanged}>
+                                        {I18n.t('js.user.preferences.search.exact')}
+                                    </Switch>
                                 </div>
                             </div>
                         </div>

@@ -41,10 +41,12 @@ gem 'globalize-versioning',     git: 'https://github.com/globalize/globalize-ver
 # Run asynschronous process
 gem 'sidekiq',                  '~> 4.0.1'
 gem 'sidekiq-statistic',        '~> 1.1'
+gem 'sidekiq-cron',             '~> 0.4.0'
 gem 'sinatra',                  '~> 1.4.5',     require: false
 gem 'whenever',                 '~> 0.9.4',     require: false
 
 # Redis session store and cache
+gem 'redis-namespace',          '~> 1.5.2'
 gem 'redis-session-store',      '~> 0.8.0'
 gem 'readthis',                 '~> 1.1.0'
 gem 'hiredis',                  '~> 0.6.0'

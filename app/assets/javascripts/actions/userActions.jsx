@@ -6,7 +6,9 @@ var UserActions = Reflux.createActions([
     'changeDisplay',
     'changeForm',
     'changeSearchOptions',
-    'validation'
+    'validation',
+    'trackClick',
+    'trackView'
 ]);
 
 module.exports = UserActions;

@@ -125,9 +125,14 @@ fr:
     confirmation: "Êtes-vous sûr ?"
   pundit:
     default: "Vous n'êtes pas autorisé(e) à réaliser cette action."
+    user_policy:
+      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs."
   activerecord:
     errors:
       models:
+        bookmark:
+          already_bookmarked: "Article déjà ajouté aux favoris !"
+          no_bookmarked: "Article non existant dans les favoris !"
         picture:
           image_size: "doit être inférieur à 5Mo"
   email:

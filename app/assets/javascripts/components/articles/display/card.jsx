@@ -1,10 +1,14 @@
 'use strict';
 
+var ArticleActions = require('../../../actions/articleActions');
+var ArticleStore = require('../../../stores/articleStore');
+
 var ArticleEditIcon = require('../icons/edit');
 var ArticleLinkIcon = require('../icons/link');
 var ArticleVisibilityIcon = require('../icons/visibility');
 var ArticleAuthorIcon = require('../icons/author');
 var ArticleBookmarkIcon = require('../icons/bookmark');
+var ArticleCommentIcon = require('../icons/comment');
 var ArticleTags = require('../properties/tags');
 var ArticleTime = require('../properties/time');
 var ArticleLink = require('../properties/link');
@@ -20,11 +24,13 @@ var ArticleCardDisplay = React.createClass({
         onClickTag: React.PropTypes.func.isRequired,
         onClickEdit: React.PropTypes.func.isRequired,
         onClickBookmark: React.PropTypes.func.isRequired,
+        onClickVisibility: React.PropTypes.func,
         currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
+            onClickVisibility: null,
             currentUserId: null
         };
     },
@@ -50,45 +56,58 @@ var ArticleCardDisplay = React.createClass({
         }
     },
 
-    _handleTagClick (tagName, event) {
-        this.props.onClickTag(tagName, event);
+    _handleTagClick (tagId, tagName) {
+        this.props.onClickTag(tagName);
+    },
+
+    _handleArticleClick (articleId, event) {
+        ArticleStore.onTrackClick(articleId);
+        return event;
     },
 
     render () {
         return (
-            <div className="card clearfix blog-article-item">
+            <div className="card blog-article-item clearfix">
                 <div className="card-content">
                     <div className="card-title article-title center clearfix">
-                        <ArticleAuthorIcon article={this.props.article}/>
                         <h1 className="article-title-card">
-                            <a href={"/articles/" + this.props.article.slug}>
+                            <a href={'/articles/' + this.props.article.slug}
+                               onClick={this._handleArticleClick.bind(this, this.props.article.id)}>
                                 {this.props.article.title}
                             </a>
                         </h1>
-                        <ArticleTime article={this.props.article}/>
+                        <ArticleAuthorIcon article={this.props.article}/>
+                        <div className="article-info right-align">
+                            <ArticleTime article={this.props.article}/>
+                            <ArticleCommentIcon articleLink={'/articles/' + this.props.article.slug}
+                                                commentsNumber={this.props.article.comments_number}/>
+                        </div>
                     </div>
                     <div className="blog-article-content"
                          dangerouslySetInnerHTML={{__html: this.props.children}}/>
                 </div>
-                <div className="card-action article-action row clearfix">
-                    <div className="col s12 m12 l6">
-                        <ArticleTags article={this.props.article}
-                                     onClickTag={this._handleTagClick}/>
-                    </div>
-                    <div className="col s12 m12 l6 right-align">
-                        <FixedActionButton>
-                            <ArticleLinkIcon isLink={this.props.article.is_link}/>
-                            <ArticleBookmarkIcon article={this.props.article}
+                <div className="card-action article-action clearfix">
+                    <div className="row">
+                        <div className="col s12 m12 l6 md-margin-bottom-20">
+                            <ArticleTags article={this.props.article}
+                                         onClickTag={this._handleTagClick}/>
+                        </div>
+                        <div className="col s12 m12 l6 right-align">
+                            <FixedActionButton>
+                                <ArticleLinkIcon isLink={this.props.article.is_link}/>
+                                <ArticleBookmarkIcon article={this.props.article}
+                                                     currentUserId={this.props.currentUserId}
+                                                     onClickBookmark={this.props.onClickBookmark}/>
+                                <ArticleVisibilityIcon article={this.props.article}
+                                                       currentUserId={this.props.currentUserId}
+                                                       onClickVisibility={this.props.onClickVisibility}/>
+                                <ArticleEditIcon article={this.props.article}
                                                  currentUserId={this.props.currentUserId}
-                                                 onClickBookmark={this.props.onClickBookmark}/>
-                            <ArticleVisibilityIcon article={this.props.article}
-                                                   currentUserId={this.props.currentUserId}
-                                                   onClickVisibility={this.props.onClickVisibility}/>
-                            <ArticleEditIcon article={this.props.article}
-                                             currentUserId={this.props.currentUserId}
-                                             onClickEdit={this.props.onClickEdit}/>
-                            <ArticleLink article={this.props.article}/>
-                        </FixedActionButton>
+                                                 onClickEdit={this.props.onClickEdit}/>
+                                <ArticleLink article={this.props.article}
+                                             onArticleClick={this._handleArticleClick}/>
+                            </FixedActionButton>
+                        </div>
                     </div>
                 </div>
             </div>

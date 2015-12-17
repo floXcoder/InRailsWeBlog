@@ -5,9 +5,9 @@ require('../common');
 var ArticleShow = require('../../components/articles/show');
 var ArticleCreation = require('../../components/articles/creation');
 
-var currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
-var article = JSON.parse(document.getElementById('article-element-component').getAttribute('data-article'));
-var tags = JSON.parse(document.getElementById('article-element-component').getAttribute('data-tags'));
+let currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+let article = JSON.parse(document.getElementById('article-element-component').getAttribute('data-article'));
+let tags = JSON.parse(document.getElementById('article-element-component').getAttribute('data-tags'));
 
 // Main
 if(currentUserId) {

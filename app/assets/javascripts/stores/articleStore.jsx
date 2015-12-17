@@ -1,12 +1,14 @@
 'use strict';
 
-var ArticleActions = require('../actions/articleActions');
-var ErrorActions = require('../actions/errorActions');
+var History = require('../mixins/history');
+var Errors = require('../mixins/errors');
+var Comments = require('../mixins/comments');
+var Tracker = require('../mixins/tracker');
 
-var History = require('../modules/mixins/history');
+var ArticleActions = require('../actions/articleActions');
 
 var ArticleStore = Reflux.createStore({
-    mixins: [History],
+    mixins: [History, Errors, Comments, Tracker],
     listenables: [ArticleActions],
     articleData: {},
     activeTags: {},
@@ -18,15 +20,15 @@ var ArticleStore = Reflux.createStore({
     paramsFromUrl: {},
     browserState: {},
 
-    init: function () {
+    init () {
         // Will call handleParams
         this.bindToBrowser();
     },
 
-    onInitStore: function (initialRequest) {
+    onInitStore (initialRequest) {
         this.initRequest = initialRequest;
 
-        _.defer(function () {
+        _.defer(() => {
             if (!$.isEmpty(this.browserState)) {
                 if (this.browserState.query) {
                     this.paramsFromUrl = {query: this.browserState.query, tags: this.browserState.tags};
@@ -46,10 +48,10 @@ var ArticleStore = Reflux.createStore({
 
                 this.onLoadArticles(request);
             }
-        }.bind(this));
+        });
     },
 
-    deserializeParams: function (state) {
+    deserializeParams (state) {
         var tags = [];
         if (state.query) {
             return {
@@ -57,14 +59,14 @@ var ArticleStore = Reflux.createStore({
                 tags: tags
             };
         } else if (state.tags) {
-            state.tags.split(',').forEach(function (tag) {
+            state.tags.split(',').forEach((tag) => {
                 tags.push(tag);
             });
             return {
                 tags: tags
             };
         } else if (state.relation_tags) {
-            state.relation_tags.split(',').forEach(function (tag) {
+            state.relation_tags.split(',').forEach((tag) => {
                 tags.push(tag);
             });
             return {
@@ -75,13 +77,13 @@ var ArticleStore = Reflux.createStore({
         }
     },
 
-    handleParams: function (state) {
+    handleParams (state) {
         if (!$.isEmpty(state)) {
             this.browserState = state;
         }
     },
 
-    _saveRequest: function (data) {
+    _saveRequest (data) {
         if ($.isEmpty(data)) {
             return;
         }
@@ -109,54 +111,52 @@ var ArticleStore = Reflux.createStore({
         this.saveState(savedParams, {title: title});
     },
 
-    _handleJsonErrors: function (url, xhr, status, error) {
-        if (status === 'error') {
-            if (error === 'Forbidden') {
-                Materialize.toast(I18n.t('js.article.model.errors.not_authorized'), 10000);
-            } else if (error === 'Unprocessable Entity') {
-                let errorMessage = JSON.parse(xhr.responseText);
-                if (url.includes('comments')) {
-                    Object.keys(errorMessage).forEach(function (errorField) {
-                        Materialize.toast(
-                            I18n.t('js.comment.model.errors.' + errorField,
-                                {
-                                    message: errorMessage[errorField],
-                                    defaults: [{scope: 'js.comment.model.errors.default'}]
-                                })
-                        );
-                    });
-                } else {
-                    Object.keys(errorMessage).forEach(function (errorField) {
-                        Materialize.toast(
-                            I18n.t('js.article.model.errors.' + errorField,
-                            {
-                                message: errorMessage[errorField],
-                                defaults: [{scope: 'js.article.model.errors.default'}]
-                            })
-                        );
-                    });
-                }
-            } else if (error === 'Internal Server Error') {
-                Materialize.toast(I18n.t('js.errors.server'), 10000);
-            }
-        } else {
-            log.error('Unknown Error in JSON request: ' + error + ', status:' + status);
-        }
-
-        ErrorActions.pushError({
-            message: error,
-            url: url,
-            trace: xhr.responseText,
-            origin: 'communication'
-        });
+    // Called by handleErrors function of Errors mixin
+    displayUnauthorizedMessage () {
+        Materialize.toast(I18n.t('js.article.model.errors.not_authorized'), 10000);
     },
 
-    _resetSearch: function () {
+    // Called by handleErrors function of Errors mixin
+    displayErrorsMessage (url, errorMessage) {
+        if (url.includes('comments')) {
+            Object.keys(errorMessage).forEach((errorField) => {
+                Materialize.toast(
+                    I18n.t('js.comment.model.errors.' + errorField,
+                        {
+                            message: errorMessage[errorField],
+                            defaults: [{scope: 'js.comment.model.errors.default'}]
+                        })
+                );
+            });
+        } else if (url.includes('bookmark')) {
+            Object.keys(errorMessage).forEach((errorField) => {
+                Materialize.toast(
+                    I18n.t('js.article.model.errors.bookmark.' + errorField,
+                        {
+                            message: errorMessage[errorField],
+                            defaults: [{scope: 'js.article.model.errors.bookmark.default'}]
+                        })
+                );
+            });
+        } else {
+            Object.keys(errorMessage).forEach((errorField) => {
+                Materialize.toast(
+                    I18n.t('js.article.model.errors.' + errorField,
+                        {
+                            message: errorMessage[errorField],
+                            defaults: [{scope: 'js.article.model.errors.default'}]
+                        })
+                );
+            });
+        }
+    },
+
+    _resetSearch () {
         this.lastRequest = {};
         this.hasMore = true;
     },
 
-    _fetchArticles: function (data, callback) {
+    _fetchArticles (data, callback) {
         var requestParam = {};
 
         var url = this.url;
@@ -218,17 +218,21 @@ var ArticleStore = Reflux.createStore({
             url,
             requestParam,
             function (dataReceived) {
-                callback.bind(this, dataReceived)();
+                if (!$.isEmpty(dataReceived)) {
+                    callback.bind(this, dataReceived)();
+                } else {
+                    log.error('No data received from fetch articles');
+                }
             }.bind(this))
             .fail(function (xhr, status, error) {
-                this._handleJsonErrors(url, xhr, status, error);
+                this.handleErrors(url, xhr, status, error);
             }.bind(this));
     },
 
-    onLoadArticles: function (data) {
+    onLoadArticles (data) {
         this._resetSearch();
 
-        this._fetchArticles(data, function (dataReceived) {
+        this._fetchArticles(data, (dataReceived) => {
             // Manage in articles/box
             this.articleData = dataReceived;
             this.articleData.hasMore = true;
@@ -240,21 +244,21 @@ var ArticleStore = Reflux.createStore({
             }
 
             this._saveRequest(data);
-        }.bind(this));
+        });
     },
 
-    onLoadNextArticles: function (data) {
+    onLoadNextArticles (data) {
         if (this.lastRequest.page) {
             this.lastRequest.page += 1;
         } else {
             this.lastRequest.page = 2;
         }
 
-        this._fetchArticles(_.merge(this.lastRequest, data), function (dataReceived) {
+        this._fetchArticles(_.merge(this.lastRequest, data), (dataReceived) => {
             var uniqueArticles = [];
             var uniqueIds = {};
 
-            this.articleData.articles.concat(dataReceived.articles).map(function (article) {
+            this.articleData.articles.concat(dataReceived.articles).map((article) => {
                 if (!uniqueIds[article.id]) {
                     uniqueArticles.push(article);
                     uniqueIds[article.id] = article;
@@ -274,26 +278,34 @@ var ArticleStore = Reflux.createStore({
         });
     },
 
-    onLoadArticlesByTag: function (data) {
-        if (!$.isEmpty(data)) {
-            var url = '';
-
-            if (data.tags) {
-                url = 'tags=' + data.tags.join(',');
-            }
-            if (data.relationTags) {
-                url = 'relationTags=' + data.relationTags.join(',');
-            }
-
-            if ($(location).attr('pathname') !== '/' && !/\/users\//i.test($(location).attr('pathname'))) {
-                window.location.replace('/?' + url);
-            }
-
-            this.onLoadArticles(data);
+    onLoadArticlesByTag (data) {
+        if ($.isEmpty(data)) {
+            log.error('Tried to load articles by tag without tag data');
+            return;
         }
+
+        var url = '';
+
+        if (data.tags) {
+            url = 'tags=' + data.tags.join(',');
+        }
+        if (data.relationTags) {
+            url = 'relationTags=' + data.relationTags.join(',');
+        }
+
+        if ($(location).attr('pathname') !== '/' && !/\/users\//i.test($(location).attr('pathname'))) {
+            window.location.replace('/?' + url);
+        }
+
+        this.onLoadArticles(data);
     },
 
-    onPushArticles: function (article) {
+    onAddArticle (article) {
+        if ($.isEmpty(article)) {
+            log.error('Tried to push article without article');
+            return;
+        }
+
         var requestParam = {};
 
         if (article) {
@@ -307,18 +319,27 @@ var ArticleStore = Reflux.createStore({
             dataType: 'json',
             type: 'POST',
             data: requestParam,
-            success: function (dataReceived) {
-                // Add to the current list
-                this.articleData.articles.unshift(dataReceived.article);
-                this.trigger(this.articleData);
-            }.bind(this),
-            error: function (xhr, status, error) {
-                this._handleJsonErrors(this.url, xhr, status, error);
-            }.bind(this)
+            success: (dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    // Add to the current list
+                    this.articleData.articles.unshift(dataReceived.article);
+                    this.trigger(this.articleData);
+                } else {
+                    log.error('No data received from add article');
+                }
+            },
+            error: (xhr, status, error) => {
+                this.handleErrors(this.url, xhr, status, error);
+            }
         });
     },
 
-    onUpdateArticles: function (article) {
+    onUpdateArticle (article) {
+        if ($.isEmpty(article)) {
+            log.error('Tried to update article without article');
+            return;
+        }
+
         var requestParam = {};
         var url = this.url;
         var fromEditPage = article.fromEditPage;
@@ -337,31 +358,40 @@ var ArticleStore = Reflux.createStore({
             dataType: 'json',
             type: 'POST',
             data: requestParam,
-            success: function (dataReceived) {
-                if (fromEditPage && dataReceived.article) {
-                    window.location.replace("/articles/" + dataReceived.article.id);
+            success: (dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    if (fromEditPage && dataReceived.article) {
+                        window.location.replace("/articles/" + dataReceived.article.id);
+                    } else {
+                        // Update the articles
+                        var updatedArticleList = [];
+                        var updatedArticle = dataReceived.article;
+                        this.articleData.articles.forEach((article, index, articles) => {
+                            if (updatedArticle.id === article.id) {
+                                updatedArticleList.push(updatedArticle);
+                            } else {
+                                updatedArticleList.push(article);
+                            }
+                        });
+                        this.articleData.articles = updatedArticleList;
+                        this.trigger(this.articleData);
+                    }
                 } else {
-                    // Update the articles
-                    var updatedArticleList = [];
-                    var updatedArticle = dataReceived.article;
-                    this.articleData.articles.forEach(function (article, index, articles) {
-                        if (updatedArticle.id === article.id) {
-                            updatedArticleList.push(updatedArticle);
-                        } else {
-                            updatedArticleList.push(article);
-                        }
-                    }.bind(this));
-                    this.articleData.articles = updatedArticleList;
-                    this.trigger(this.articleData);
+                    log.error('No data received from update article');
                 }
-            }.bind(this),
-            error: function (xhr, status, error) {
-                this._handleJsonErrors(url, xhr, status, error);
-            }.bind(this)
+            },
+            error: (xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            }
         });
     },
 
-    onDeleteArticles: function (article) {
+    onDeleteArticle (article) {
+        if ($.isEmpty(article)) {
+            log.error('Tried to delete article without article');
+            return;
+        }
+
         var requestParam = {};
         var url = this.url;
         var showMode = false;
@@ -383,33 +413,42 @@ var ArticleStore = Reflux.createStore({
             dataType: 'json',
             type: 'POST',
             data: requestParam,
-            success: function (dataReceived) {
-                if (showMode && dataReceived.id) {
-                    window.location.replace("/");
-                } else {
-                    // Remove the article
-                    var updatedArticleList = [];
-                    var removedArticleId = dataReceived.id;
-                    this.articleData.articles.forEach(function (article, index, articles) {
-                        if (removedArticleId !== article.id) {
-                            updatedArticleList.push(article);
-                        }
-                    }.bind(this));
-                    this.articleData.articles = updatedArticleList;
-                    this.trigger(this.articleData);
+            success: (dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    if (showMode && dataReceived.id) {
+                        window.location.replace("/");
+                    } else {
+                        // Remove the article
+                        var updatedArticleList = [];
+                        var removedArticleId = dataReceived.id;
+                        this.articleData.articles.forEach((article, index, articles) => {
+                            if (removedArticleId !== article.id) {
+                                updatedArticleList.push(article);
+                            }
+                        });
+                        this.articleData.articles = updatedArticleList;
+                        this.trigger(this.articleData);
 
-                    if (dataReceived.url) {
-                        Materialize.toast(I18n.t('js.article.flash.deletion_successful') + ' ' + '<a href=' + dataReceived.url + '>' + I18n.t('js.article.flash.undelete_link') + '</a>');
+                        if (dataReceived.url) {
+                            Materialize.toast(I18n.t('js.article.flash.deletion_successful') + ' ' + '<a href=' + dataReceived.url + '>' + I18n.t('js.article.flash.undelete_link') + '</a>');
+                        }
                     }
+                } else {
+                    log.error('No data received from delete article');
                 }
-            }.bind(this),
-            error: function (xhr, status, error) {
-                this._handleJsonErrors(url, xhr, status, error);
-            }.bind(this)
+            },
+            error: (xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            }
         });
     },
 
-    onSearchArticles: function (data) {
+    onSearchArticles (data) {
+        if ($.isEmpty(data)) {
+            log.error('Tried to search for articles without data');
+            return;
+        }
+
         this._resetSearch();
 
         if ($.isEmpty(this.paramsFromUrl)) {
@@ -420,7 +459,7 @@ var ArticleStore = Reflux.createStore({
             this.saveState(queryParams, {title: I18n.t('js.article.search.url') + ' ' + queryParams.query});
         }
 
-        this._fetchArticles(data, function (dataReceived) {
+        this._fetchArticles(data, (dataReceived) => {
             // Manage in articles/box and search/module
             this.articleData = dataReceived;
             this.articleData.hasMore = true;
@@ -436,36 +475,71 @@ var ArticleStore = Reflux.createStore({
             }
 
             _paq.push(['trackSiteSearch', data.query, 'Search', this.articleData.length]);
-        }.bind(this));
+        });
     },
 
-    onAutocompleteArticles: function (data) {
-        if (!$.isEmpty(data.autocompleteQuery)) {
-            this._fetchArticles(data, function (dataReceived) {
-                this.autocompleteValues = dataReceived.articles;
-                this.trigger({autocompletion: this.autocompleteValues});
-            }.bind(this));
+    onAutosaveArticle (data) {
+        if ($.isEmpty(data)) {
+            log.error('Tried to autosave article without data');
+            return;
         }
+
+        let requestParam = {};
+        requestParam.articles = data;
+
+        $.ajax({
+            url: this.url,
+            async: false,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam,
+            success: (data) => {
+                return true
+            },
+            error: (xhr, status, error) => {
+                return false
+            }
+        });
     },
 
-    _filterArticlesByTag: function () {
-        if (!$.isEmpty(this.activeTags)) {
-            this.articleData.articles.forEach(function (article, index, articles) {
-                articles[index].show = true;
-                var activeTagsByArticle = article.tags.filter(function (tag) {
-                    if (!this.activeTags.hasOwnProperty(tag.id)) {
-                        this.activeTags[tag.id] = true
-                    }
-                    return this.activeTags[tag.id];
-                }.bind(this));
-                if (activeTagsByArticle.length === 0) {
-                    articles[index].show = false;
+    onAutocompleteArticles (data) {
+        if ($.isEmpty(data) || $.isEmpty(data.autocompleteQuery)) {
+            log.error('Tried to autocomplete articles without data');
+            return;
+        }
+
+        this._fetchArticles(data, (dataReceived) => {
+            this.autocompleteValues = dataReceived.articles;
+            this.trigger({autocompletion: this.autocompleteValues});
+        });
+    },
+
+    _filterArticlesByTag () {
+        if ($.isEmpty(this.activeTags)) {
+            log.error('Tried to filter articles but active tags is null');
+            return;
+        }
+
+        this.articleData.articles.forEach((article, index, articles) => {
+            articles[index].show = true;
+            var activeTagsByArticle = article.tags.filter((tag) => {
+                if (!this.activeTags.hasOwnProperty(tag.id)) {
+                    this.activeTags[tag.id] = true
                 }
-            }.bind(this));
-        }
+                return this.activeTags[tag.id];
+            });
+            if (activeTagsByArticle.length === 0) {
+                articles[index].show = false;
+            }
+        });
     },
 
-    onFilterArticlesByTag: function (tagId, activeTag) {
+    onFilterArticlesByTag (tagId, activeTag) {
+        if ($.isEmpty(tagId) || $.isEmpty(activeTag)) {
+            log.error('Tried to filter articles without tag id or active tag');
+            return;
+        }
+
         this.activeTags[tagId] = activeTag;
         this._filterArticlesByTag();
         this.trigger(this.articleData);
@@ -473,135 +547,59 @@ var ArticleStore = Reflux.createStore({
         _paq.push(['trackSiteSearch', tagId, 'Tags']);
     },
 
-    onLoadArticleHistory: function (data) {
-        if (!$.isEmpty(data.history)) {
-            this._fetchArticles(data, function (dataReceived) {
-                this.trigger({articleVersions: dataReceived['paper_trail/versions']});
-            }.bind(this));
-        }
-    },
-
-    onRestoreArticle: function (data) {
-        if (!$.isEmpty(data.restore)) {
-            this._fetchArticles(data, function (dataReceived) {
-                this.trigger({articleRestored: dataReceived.article});
-            }.bind(this));
-        }
-    },
-
-    onBookmarkArticle: function (data) {
-        if (!$.isEmpty(data.articleId)) {
-            var requestParam = {};
-
-            requestParam.article_id = data.articleId;
-            var url = this.url + '/' + data.articleId + '/bookmark';
-
-            $.ajax({
-                url: url,
-                dataType: 'json',
-                type: 'POST',
-                data: requestParam,
-                success: function (dataReceived) {
-                    return true;
-                }.bind(this),
-                error: function (xhr, status, error) {
-                    this._handleJsonErrors(url, xhr, status, error);
-                }.bind(this)
-            });
-        }
-    },
-
-    onCommentArticle: function (comment, articleId) {
-        if ($.isEmpty(comment) || $.isEmpty(articleId)) {
-            log.error('Tried to post a comment without comment or article id');
+    onLoadArticleHistory (data) {
+        if ($.isEmpty(data.history)) {
+            log.error('Tried to load article history without data');
             return;
         }
 
-        let url = this.url + '/' + articleId + '/comments';
-        let requestParam = {};
-        requestParam.comments = {
-            title: comment.title,
-            body: comment.message,
-            parent_id: comment.parentCommentId
-        };
-
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            type: 'POST',
-            data: requestParam,
-            success: function (dataReceived) {
-                if (!$.isEmpty(dataReceived)) {
-                    // Manage in article/show
-                    this.trigger(dataReceived);
-                }
-            }.bind(this),
-            error: function (xhr, status, error) {
-                this._handleJsonErrors(url, xhr, status, error);
-            }.bind(this)
+        this._fetchArticles(data, (dataReceived) => {
+            this.trigger({articleVersions: dataReceived['paper_trail/versions']});
         });
     },
 
-    updateCommentArticle: function (comment, articleId) {
-        if ($.isEmpty(comment) || $.isEmpty(comment.id) || $.isEmpty(articleId)) {
-            log.error('Tried to update a comment without comment id or article id');
+    onRestoreArticle (data) {
+        if ($.isEmpty(data.restore)) {
+            log.error('Tried to restore article without data');
             return;
         }
 
-        let url = this.url + '/' + articleId + '/comments';
-        let requestParam = {};
-        requestParam.comments = {
-            id: comment.id,
-            title: comment.title,
-            body: comment.message,
-            parent_id: comment.parentCommentId
-        };
-        requestParam._method = 'put';
-
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            type: 'POST',
-            data: requestParam,
-            success: function (dataReceived) {
-                if (!$.isEmpty(dataReceived)) {
-                    // Manage in article/show
-                    this.trigger({updatedComment: dataReceived.comment});
-                }
-            }.bind(this),
-            error: function (xhr, status, error) {
-                this._handleJsonErrors(url, xhr, status, error);
-            }.bind(this)
+        this._fetchArticles(data, (dataReceived) => {
+            this.trigger({articleRestored: dataReceived.article});
         });
     },
 
-    deleteCommentArticle: function (commentId, articleId) {
-        if ($.isEmpty(commentId) || $.isEmpty(articleId)) {
-            log.error('Tried to remove a comment without comment id or article id');
+    onBookmarkArticle (data) {
+        if ($.isEmpty(data.articleId)) {
+            log.error('Tried to bookmark an article article id');
             return;
         }
 
-        let url = this.url + '/' + articleId + '/comments';
-        let requestParam = {};
-        requestParam.comments = {
-            id: commentId
-        };
-        requestParam._method = 'delete';
+        var requestParam = {};
+
+        requestParam.article_id = data.articleId;
+        var url = this.url + '/' + data.articleId + '/bookmark';
+
+        if (data.isBookmarked) {
+            requestParam._method = 'delete';
+        }
 
         $.ajax({
             url: url,
             dataType: 'json',
             type: 'POST',
             data: requestParam,
-            success: function (dataReceived) {
-                if (!$.isEmpty(dataReceived)) {
-                    // Manage in article/show
-                    this.trigger({deletedComment: dataReceived});
+            success: (dataReceived) => {
+                if (data.isBookmarked) {
+                    Materialize.toast(I18n.t('js.article.bookmark.removed'), 3000);
+                } else {
+                    Materialize.toast(I18n.t('js.article.bookmark.added'), 3000);
                 }
-            }.bind(this),
-            error: function (xhr, status, error) {
-                this._handleJsonErrors(url, xhr, status, error);
-            }.bind(this)
+                return true;
+            },
+            error: (xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            }
         });
     }
 });

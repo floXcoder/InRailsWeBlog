@@ -63,15 +63,22 @@ en:
         summary: "Summary"
         content: "Content"
         visibility: "Visibility"
-        allow_comment: "Allow comments"
+        allow_comment: "Allow comments ?"
+        comment:
+          true: "Activated"
+          false: "Deactivated"
         temporary: "Temporary note?"
         is_link: "Is a link?"
         errors:
-          not_authorized: "You are not authorized to access to this article"
           default: "Can not create article! Please retry."
+          not_authorized: "You are not authorized to access to this article"
           title: "Article title is %{message}"
           summary: "Article summary is %{message}"
           content: "Article content is %{message}"
+          bookmark:
+            not_authorized: "You are not authorized to bookmark this article !"
+            default: "Can not add to bookmarks ! Please try to reconnect."
+            bookmark: "%{message}"
       tooltip:
         edit: "Modify article"
         visibility: "Visibility: %{visibility}"
@@ -79,6 +86,7 @@ en:
         remove_bookmark: "Remove from bookmarks"
         history: "See article history"
         is_link: "This is a link"
+        comment_number: "%{number} comments"
         link_to: "Go to article"
         cancel: "Cancel"
         update: "Update article"
@@ -112,6 +120,9 @@ en:
         restore: "Restore this version"
         none: "No history for this article!"
         restored: "Version restored"
+      bookmark:
+        added: "Article added to bookmarks"
+        removed: "Article removed from bookmarks"
       clipboard:
         toast:
           init: "Paste on website detected, new temporary article creation in progress..."
@@ -130,6 +141,8 @@ en:
       filter: "Filter by Tag..."
       no_results: "No tags found for:"
     comment:
+      title: "Comments"
+      empty: "No comments yet"
       form:
         title:
           default: "Add a comment"
@@ -140,13 +153,28 @@ en:
         comment:
           title: "Comment title"
           message: "Your comment..."
+          notation: "Notation:"
         submit: "Post"
+      new:
+        button: "Add a comment"
+      reply:
+        button: "Reply"
+      modify:
+        button: "Modify"
+      delete:
+        button: "Delete"
+        action: "To remove a comment, shift me!"
+      flash:
+        creation_unpermitted: "You must login to post a comment"
+        creation_successful: "Comment added"
+        update_successful: "Comment updated"
+        deletion_successful: "Comment removed"
       model:
         title: "Title"
         body: "Message"
         errors:
-          not_authorized: "You are not authorized to access to this comment"
           default: "Can not create comment! Please retry."
+          not_authorized: "You are not authorized to access to this comment"
           title: "Comment title is %{message}"
           body: "Comment message is %{message}"
     error_message:
@@ -154,6 +182,7 @@ en:
       message: "Message:"
       trace: "Trace:"
     errors:
+      not_authorized: "You are not authorized to access to this resource"
       server: "A server error happened, please retry later."
     checkbox:
       on: "On"

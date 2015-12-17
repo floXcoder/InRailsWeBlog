@@ -102,6 +102,8 @@ module.exports = {
             './app/views/**/*.slim',
             './app/helpers/**/*.rb',
             './app/inputs/**/*.rb',
+            './app/controllers/**/*.rb',
+            './app/serializers/**/*.rb',
             './config/locales/**/*.yml'
         ]
     },

@@ -22,8 +22,8 @@
   &.comment-appear-active {
     opacity: 1;
     transform: scaleY(1);
-    transition-property: transform, opacity;
     transition-duration: 900ms;
+    transition-property: transform, opacity;
     transition-timing-function: cubic-bezier(.175, .665, .320, 1), linear;
   }
 }

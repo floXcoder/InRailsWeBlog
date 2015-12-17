@@ -68,7 +68,7 @@ Mousetrap.bind('alt+v', function () {
 // Bookmarked articles
 Mousetrap.bind('alt+b', function () {
     if(window.currentUserId !== 'null') {
-        window.location.pathname = '/users/' + window.currentUserId + '/bookmark';
+        window.location.pathname = '/users/' + window.currentUserId + '/bookmarks';
     }
     return false;
 }.bind(this), 'keydown');

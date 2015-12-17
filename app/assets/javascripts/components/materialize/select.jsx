@@ -6,13 +6,15 @@ var Select = React.createClass({
         options: React.PropTypes.object.isRequired,
         title: React.PropTypes.string.isRequired,
         value: React.PropTypes.string,
-        id: React.PropTypes.string
+        id: React.PropTypes.string,
+        onSelectChange: React.PropTypes.func
     },
 
     getDefaultProps () {
         return {
             value: null,
-            id: null
+            id: null,
+            onSelectChange: null
         };
     },
 
@@ -42,13 +44,18 @@ var Select = React.createClass({
 
     _handleSelectChange (event) {
         this.setState({value: event.target.value});
+        if(this.props.onSelectChange) {
+            this.props.onSelectChange(event.target.value);
+        }
+        return event;
     },
 
     render () {
         let SelectOptions = Object.keys(this.props.options).map(function (key) {
             let option = this.props.options[key];
             return (
-                <option key={key} value={key}>
+                <option key={key}
+                        value={key}>
                     {option}
                 </option>
             );
@@ -56,8 +63,11 @@ var Select = React.createClass({
 
         return (
             <div className="input-field">
-                <select id={this.props.id} value={this.state.value} onChange={this._handleSelectChange}>
-                    <option value="default" disabled="true">
+                <select id={this.props.id}
+                        value={this.state.value}
+                        onChange={this._handleSelectChange}>
+                    <option value="default"
+                            disabled="true">
                         {this.props.title}
                     </option>
                     {SelectOptions}

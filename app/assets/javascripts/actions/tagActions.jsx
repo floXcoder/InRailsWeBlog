@@ -1,7 +1,9 @@
 'use strict';
 
 var TagActions = Reflux.createActions([
-    'fetchTags'
+    'fetchTags',
+    'trackClick',
+    'trackView'
 ]);
 
 module.exports = TagActions;

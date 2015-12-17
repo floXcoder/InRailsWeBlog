@@ -30,10 +30,12 @@
 #                          GET    /users/unlock(.:format)           devise/unlocks#show
 #         validation_users GET    /users/validation(.:format)       users#validation
 #                root_user GET    /users/:id(.:format)              users#show
-#          preference_user GET    /users/:id/preference(.:format)   users#preference
-#   update_preference_user POST   /users/:id/preference(.:format)   users#update_preference
+#         preferences_user GET    /users/:id/preferences(.:format)  users#preferences
+#  update_preferences_user POST   /users/:id/preferences(.:format)  users#update_preferences
 #           temporary_user GET    /users/:id/temporary(.:format)    users#temporary
-#            bookmark_user GET    /users/:id/bookmark(.:format)     users#bookmark
+#           bookmarks_user GET    /users/:id/bookmarks(.:format)    users#bookmarks
+#             clicked_user POST   /users/:id/clicked(.:format)      users#clicked
+#              viewed_user POST   /users/:id/viewed(.:format)       users#viewed
 #                    users GET    /users(.:format)                  users#index
 #                          POST   /users(.:format)                  users#create
 #                 new_user GET    /users/new(.:format)              users#new
@@ -46,11 +48,14 @@
 #    autocomplete_articles GET    /articles/autocomplete(.:format)  articles#autocomplete
 #          history_article GET    /articles/:id/history(.:format)   articles#history
 #          restore_article GET    /articles/:id/restore(.:format)   articles#restore
-#         bookmark_article POST   /articles/:id/bookmark(.:format)  articles#bookmark
+#         bookmark_article POST   /articles/:id/bookmark(.:format)  articles#add_bookmark
+#                          DELETE /articles/:id/bookmark(.:format)  articles#remove_bookmark
 #         comments_article GET    /articles/:id/comments(.:format)  articles#comments
 #                          POST   /articles/:id/comments(.:format)  articles#add_comment
 #                          PUT    /articles/:id/comments(.:format)  articles#update_comment
-#                          DELETE /articles/:id/comments(.:format)  articles#delete_comment
+#                          DELETE /articles/:id/comments(.:format)  articles#remove_comment
+#          clicked_article POST   /articles/:id/clicked(.:format)   articles#clicked
+#           viewed_article POST   /articles/:id/viewed(.:format)    articles#viewed
 #                 articles GET    /articles(.:format)               articles#index
 #                          POST   /articles(.:format)               articles#create
 #              new_article GET    /articles/new(.:format)           articles#new
@@ -59,6 +64,8 @@
 #                          PATCH  /articles/:id(.:format)           articles#update
 #                          PUT    /articles/:id(.:format)           articles#update
 #                          DELETE /articles/:id(.:format)           articles#destroy
+#              clicked_tag POST   /tags/:id/clicked(.:format)       tags#clicked
+#               viewed_tag POST   /tags/:id/viewed(.:format)        tags#viewed
 #                     tags GET    /tags(.:format)                   tags#index
 #                          POST   /tags(.:format)                   tags#create
 #                  new_tag GET    /tags/new(.:format)               tags#new
@@ -81,13 +88,14 @@
 #
 
 require 'sidekiq/web'
+require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
 
   # Root path
   root  'static_pages#home'
 
-  # User with devise
+  # Users (devise)
   devise_scope :user do
     get     'signup', to: 'users/registrations#new',    as: :signup
     post    'signup', to: 'users/registrations#create'
@@ -99,6 +107,7 @@ Rails.application.routes.draw do
                                     sessions:       'users/sessions',
                                     passwords:      'users/passwords' }
 
+  # Users
   resources :users do
     collection do
       get :validation,      to: 'users#validation'
@@ -106,10 +115,13 @@ Rails.application.routes.draw do
 
     member do
       get   :show,          to: 'users#show',               as: :root
-      get   :preference,    to: 'users#preference',         as: :preference
-      post  :preference,    to: 'users#update_preference',  as: :update_preference
+      get   :preferences,   to: 'users#preferences',        as: :preferences
+      post  :preferences,   to: 'users#update_preferences', as: :update_preferences
       get   :temporary,     to: 'users#temporary',          as: :temporary
-      get   :bookmark,      to: 'users#bookmark',           as: :bookmark
+      get   :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
+
+      post    :clicked,     to: 'users#clicked'
+      post    :viewed,      to: 'users#viewed'
     end
   end
 
@@ -123,16 +135,25 @@ Rails.application.routes.draw do
     member do
       get     :history,   to: 'articles#history'
       get     :restore,   to: 'articles#restore'
-      post    :bookmark,  to: 'articles#bookmark'
+      post    :bookmark,  to: 'articles#add_bookmark'
+      delete  :bookmark,  to: 'articles#remove_bookmark'
+
       get     :comments,  to: 'articles#comments'
       post    :comments,  to: 'articles#add_comment'
       put     :comments,  to: 'articles#update_comment'
-      delete  :comments,  to: 'articles#delete_comment'
+      delete  :comments,  to: 'articles#remove_comment'
+
+      post    :clicked,   to: 'articles#clicked'
+      post    :viewed,    to: 'articles#viewed'
     end
   end
 
   # Tags
   resources :tags do
+    member do
+      post    :clicked,   to: 'tags#clicked'
+      post    :viewed,    to: 'tags#viewed'
+    end
   end
 
   # Errors

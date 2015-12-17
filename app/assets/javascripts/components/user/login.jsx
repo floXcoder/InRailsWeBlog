@@ -96,7 +96,6 @@ var Login = React.createClass({
                         <Input id="user_password"
                                type="password"
                                classType="important"
-                               characterCount={window.parameters.user_password_max_length}
                                icon="lock">
                             {I18n.t('js.user.login.password')}
                         </Input>

@@ -15,12 +15,12 @@ ArticleActions.initStore({
 // Main
 if(currentUserId) {
     ReactDOM.render(
-        <ArticleCreation userId={currentUserId} />,
+        <ArticleCreation/>,
         document.getElementById('article-creation-component')
     );
 }
 
 ReactDOM.render(
-    <ArticleIndex userId={currentUserId} />,
+    <ArticleIndex currentUserId={currentUserId}/>,
     document.getElementById('article-list-component')
 );

@@ -11,6 +11,7 @@ var CommentList = React.createClass({
         comments: React.PropTypes.array.isRequired,
         onSubmit: React.PropTypes.func.isRequired,
         onDelete: React.PropTypes.func.isRequired,
+        isRated: React.PropTypes.bool.isRequired,
         currentUserId: React.PropTypes.number
     },
 
@@ -131,6 +132,7 @@ var CommentList = React.createClass({
                         <CommentForm refs="commentForm"
                                      formTitle={I18n.t('js.comment.form.title.reply')}
                                      parentCommentId={commentId}
+                                     isRated={this.props.isRated}
                                      onCancel={this._handleReplyCancel}
                                      onSubmit={this._handleReplySubmit}/>
                     </div>
@@ -157,6 +159,7 @@ var CommentList = React.createClass({
                                          authorUrl={comment.user.slug}
                                          date={comment.posted_at}
                                          title={comment.title}
+                                         rating={this.props.isRated ? comment.rating : null}
                                          commentId={comment.id}
                                          parentCommentId={comment.parent_id}
                                          isModifying={this.state.modifyCommentIndex === index}

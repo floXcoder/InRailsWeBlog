@@ -1,0 +1,38 @@
+.star-rating-input {
+  display: block;
+  height: 2rem;
+
+  a.star-rating-clear {
+    text-decoration: underline;
+  }
+
+  .star-rating-clear-container {
+    float: left;
+    margin-right: 4px;
+  }
+
+  .star-rating-star-container {
+    float: left;
+    overflow: hidden;
+
+    .star-rating-star {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: color('yellow', 'accent-4');
+    }
+
+    .star-rating-star-size {
+      line-height: 2rem;
+      font-size: 2rem;
+    }
+
+    .on {
+    }
+
+    .suggested {
+    }
+  }
+}
+
+

@@ -1,7 +1,7 @@
 'use strict';
 
 var marked = require('marked');
-
+var Rating = require('../theme/rating');
 var CommentForm = require('./form');
 
 var CommentItem = React.createClass({
@@ -13,6 +13,7 @@ var CommentItem = React.createClass({
         commentId: React.PropTypes.number,
         parentCommentId: React.PropTypes.number,
         title: React.PropTypes.string,
+        rating: React.PropTypes.number,
         isModifying: React.PropTypes.bool,
         onCancel: React.PropTypes.func,
         onSubmit: React.PropTypes.func
@@ -23,7 +24,9 @@ var CommentItem = React.createClass({
             commentId: null,
             parentCommentId: null,
             title: null,
+            rating: null,
             isModifying: false,
+            onCancel: null,
             onSubmit: null
         };
     },
@@ -43,6 +46,8 @@ var CommentItem = React.createClass({
                                  parentCommentId={this.props.parentCommentId}
                                  title={this.props.title}
                                  message={this.props.children}
+                                 isRated={!!this.props.rating}
+                                 rating={this.props.rating}
                                  onCancel={this.props.onCancel}
                                  onSubmit={this.props.onSubmit}/>
                 </div>
@@ -50,14 +55,21 @@ var CommentItem = React.createClass({
         } else {
             return (
                 <div className="comment-item">
-                <span className="title">
-                    <a href={`/users/${this.props.authorUrl}`}>
-                        {this.props.author}
-                    </a>
-                </span>
-                <span className="comment-date">
-                    {this.props.date}
-                </span>
+                    <span className="title comment-user">
+                        <a href={`/users/${this.props.authorUrl}`}>
+                            {this.props.author}
+                        </a>
+                    </span>
+                    <span className="comment-date">
+                        {this.props.date}
+                    </span>
+
+                    {this.props.rating &&
+                    <div className="comment-rating">
+                        <Rating initialRating={this.props.rating}
+                                readOnly={true}/>
+                    </div>}
+
                     <div className="comment-title">
                         {this.props.title}
                     </div>

@@ -3,6 +3,7 @@
 var Input = require('../../components/materialize/input');
 var Button = require('../../components/materialize/button');
 var Select = require('../../components/materialize/select');
+var Switch = require('../../components/materialize/switch');
 var Checkbox = require('../../components/materialize/checkbox');
 var TagsInput = require('../../components/tagsinput/tagsinput');
 
@@ -11,6 +12,7 @@ var TagActions = require('../../actions/tagActions');
 var UserStore = require('../../stores/userStore');
 
 var ArticleActions = require('../../actions/articleActions');
+var ArticleStore = require('../../stores/articleStore');
 
 var ArticleForm = React.createClass({
     propTypes: {
@@ -106,12 +108,12 @@ var ArticleForm = React.createClass({
         }
     },
 
-    onPreferenceChange (userStore) {
+    onPreferenceChange (userData) {
         var newState = {};
 
-        if (!$.isEmpty(userStore.preferences)) {
-            if (userStore.preferences.multi_language !== this.state.multiLanguage) {
-                newState.multiLanguage = userStore.preferences.multi_language;
+        if (!$.isEmpty(userData.preferences)) {
+            if (userData.preferences.multi_language !== this.state.multiLanguage) {
+                newState.multiLanguage = userData.preferences.multi_language;
             }
         }
 
@@ -198,6 +200,28 @@ var ArticleForm = React.createClass({
         this.refs.submit.setState({disabled: false});
     },
 
+    _handleInputChange (event) {
+        if (this.state.multiLanguage) {
+            if ((this.refs.englishTitle.value().length < window.parameters.title_min_length ||
+                this.refs.frenchTitle.value().length < window.parameters.title_min_length) &&
+                (this.refs.englishSummary.value().length < window.parameters.summary_min_length ||
+                this.refs.frenchSummary.value().length < window.parameters.summary_min_length)) {
+                this.refs.submit.setState({disabled: true});
+            } else {
+                this.refs.submit.setState({disabled: false});
+            }
+        } else {
+            if (this.refs.title.value().length < window.parameters.title_min_length &&
+                this.refs.summary.value().length < window.parameters.summary_min_length) {
+                this.refs.submit.setState({disabled: true});
+            } else {
+                this.refs.submit.setState({disabled: false});
+            }
+        }
+
+        return event;
+    },
+
     _handleEditorChange (event) {
         var text = event.currentTarget.textContent;
 
@@ -223,11 +247,13 @@ var ArticleForm = React.createClass({
             this.state.isLink = false;
             this.refs.isLink.setState({checked: false});
         }
+
+        return event;
     },
 
     _onBlurSummary (event) {
         $('#single-editor').summernote('focus');
-        return true;
+        return event;
     },
 
     _serializeEditor () {
@@ -326,6 +352,8 @@ var ArticleForm = React.createClass({
         _.merge(submitData, this._serializeEditor());
         // Tags
         _.merge(submitData, this._serializeTag());
+        // Comment switch
+        _.merge(submitData, {allow_comment: this.refs.comment.value()});
         // Temporary checkbox
         _.merge(submitData, {temporary: this.refs.temporary.isChecked()});
         // isLink checkbox
@@ -339,9 +367,9 @@ var ArticleForm = React.createClass({
         if (this.props.article) {
             _.merge(submitData, {id: this.props.article.id});
             _.merge(submitData, {fromEditPage: true});
-            ArticleActions.updateArticles(submitData);
+            ArticleActions.updateArticle(submitData);
         } else {
-            ArticleActions.pushArticles(submitData);
+            ArticleActions.addArticle(submitData);
             TagActions.fetchTags();
             this._resetForm();
         }
@@ -364,19 +392,11 @@ var ArticleForm = React.createClass({
             _.merge(submitData, {is_link: this.state.isLink});
         }
 
-        let requestParam = {};
-        requestParam.articles = submitData;
-
-        if(submitData.content && submitData.content.length > 3) {
-            $.ajax({
-                url: '/articles',
-                async: false,
-                dataType: 'json',
-                type: 'POST',
-                data: requestParam,
-                success: (data) => { return true },
-                error: (xhr, status, error) => { return false }
-            });
+        if(submitData.content &&
+            submitData.title.length > window.parameters.title_min_length &&
+            submitData.summary.length > window.parameters.summary_min_length &&
+            submitData.content.length > window.parameters.content_min_length) {
+            ArticleStore.onAutosaveArticle(submitData);
         }
     },
 
@@ -403,12 +423,14 @@ var ArticleForm = React.createClass({
                         <Input ref="englishTitle"
                                id="english-title"
                                classType="important"
-                               characterCount={window.parameters.title_max_length}>
+                               characterCount={window.parameters.title_max_length}
+                               onInput={this._handleInputChange}>
                             {I18n.t('js.article.model.title')}
                         </Input>
                         <Input ref="englishSummary"
                                id="english-summary"
-                               characterCount={window.parameters.summary_max_length}>
+                               characterCount={window.parameters.summary_max_length}
+                               onInput={this._handleInputChange}>
                             {I18n.t('js.article.model.summary')}
                         </Input>
 
@@ -421,12 +443,14 @@ var ArticleForm = React.createClass({
                         <Input ref="frenchTitle"
                                id="french-title"
                                classType="important"
-                               characterCount={window.parameters.title_max_length}>
+                               characterCount={window.parameters.title_max_length}
+                               onInput={this._handleInputChange}>
                             {I18n.t('js.article.model.title')}
                         </Input>
                         <Input ref="frenchSummary"
                                id="french-summary"
-                               characterCount={window.parameters.summary_max_length}>
+                               characterCount={window.parameters.summary_max_length}
+                               onInput={this._handleInputChange}>
                             {I18n.t('js.article.model.summary')}
                         </Input>
 
@@ -442,16 +466,21 @@ var ArticleForm = React.createClass({
                     <Input ref="title"
                            id="title"
                            classType="important"
-                           characterCount={window.parameters.title_max_length}>
+                           characterCount={window.parameters.title_max_length}
+                           onInput={this._handleInputChange}>
                         {I18n.t('js.article.model.title')}
                     </Input>
                     <Input ref="summary"
                            id="summary"
                            onBlur={this._onBlurSummary}
-                           characterCount={window.parameters.summary_max_length}>
+                           characterCount={window.parameters.summary_max_length}
+                           onInput={this._handleInputChange}>
                         {I18n.t('js.article.model.summary')}
                     </Input>
 
+                    <div className="form-editor-title">
+                        {I18n.t('js.article.model.content')}
+                    </div>
                     <div className="editor-reset">
                         <div id="single-editor"/>
                     </div>
@@ -503,6 +532,15 @@ var ArticleForm = React.createClass({
                         </Checkbox>
                     </div>
                     <div className="col s12 m6 l3">
+                        <Switch ref="comment"
+                                id="comment"
+                                values={I18n.t('js.article.model.comment')}
+                                checked={true}>
+                            {I18n.t('js.article.model.allow_comment')}
+                        </Switch>
+
+                        <div className="margin-bottom-40"/>
+
                         <Select ref="visibility"
                                 id="visibility"
                                 title={I18n.t('js.article.visibility.title')}

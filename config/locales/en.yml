@@ -128,6 +128,9 @@ en:
   activerecord:
     errors:
       models:
+        bookmark:
+          already_bookmarked: "Article already bookmarked!"
+          no_bookmarked: "Article no bookmarked!"
         picture:
           image_size: "must be less than 5Mb"
   email:

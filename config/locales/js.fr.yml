@@ -63,15 +63,22 @@ fr:
         summary: "Résumé"
         content: "Contenu"
         visibility: "Visibilité"
-        allow_comment: "Autoriser commentaires"
+        allow_comment: "Autoriser commentaires ?"
+        comment:
+          true: "Activé"
+          false: "Désactivé"
         temporary: "Note temporaire ?"
         is_link: "Est un lien ?"
         errors:
-          not_authorized: "Vous n'avez pas la permission d'accéder à cet article !"
           default: "Impossible de créer l'article ! Merci de réessayer."
+          not_authorized: "Vous n'avez pas la permission d'accéder à cet article !"
           title: "Le titre de l'article est %{message}"
           summary: "Le résumé de l'article est %{message}"
           content: "Le contenu de l'article est %{message}"
+          bookmark:
+            not_authorized: "Vous n'avez pas la permission d'ajouter aux favoris cet article !"
+            default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
+            bookmark: "%{message}"
       tooltip:
         edit: "Modifier l'article"
         visibility: "Visibilité : %{visibility}"
@@ -79,6 +86,7 @@ fr:
         remove_bookmark: "Enlever des favoris"
         history: "Voir les anciennes révisions de l'article"
         is_link: "C'est un lien"
+        comment_number: "%{number} commentaires"
         link_to: "Aller vers l'article"
         cancel: "Annuler"
         update: "Mettre à jour l'article"
@@ -112,6 +120,9 @@ fr:
         restore: "Restaurer cette version"
         none: "Aucun historique pour cet article !"
         restored: "Version restaurée"
+      bookmark:
+        added: "Article ajouté aux favoris"
+        removed: "Article supprimé des favoris"
       clipboard:
         toast:
           init: "Copie sur le site détectée, création d'un article temporaire en cours ..."
@@ -130,6 +141,8 @@ fr:
       filter: "Filtrer par labels ..."
       no_results: "Aucun label trouvé pour :"
     comment:
+      title: "Commentaires"
+      empty: "Pas encore de commentaires"
       form:
         title:
           default: "Ajouter un commentaire"
@@ -140,6 +153,7 @@ fr:
         comment:
           title: "Titre du message"
           message: "Votre commentaire ..."
+          notation: "Note :"
         submit: "Poster"
       new:
         button: "Ajouter un commentaire"
@@ -149,18 +163,18 @@ fr:
         button: "Modifier"
       delete:
         button: "Supprimer"
-        action: "Pour supprimer le commentaire, déplacez-moi."
+        action: "Pour supprimer le commentaire, déplacez-moi!"
       flash:
-        creation_unpermitted: "Vous devez vous connecter pour poster un commentaire."
-        creation_successful: "Commentaire ajouté."
-        update_successful: "Commentaire mis à jour."
-        deletion_successful: "Commentaire supprimé."
+        creation_unpermitted: "Vous devez vous connecter pour poster un commentaire"
+        creation_successful: "Commentaire ajouté"
+        update_successful: "Commentaire mis à jour"
+        deletion_successful: "Commentaire supprimé"
       model:
         title: "Titre"
         body: "Message"
         errors:
-          not_authorized: "Vous n'avez pas la permission d'accéder à ce commentaire !"
           default: "Impossible de créer le commentaire ! Merci de réessayer."
+          not_authorized: "Vous n'avez pas la permission d'accéder à ce commentaire !"
           title: "Le titre du commentaire est %{message}"
           body: "Le message du commentaire est %{message}"
     error_message:
@@ -168,6 +182,7 @@ fr:
       message: "Message :"
       trace: "Trace :"
     errors:
+      not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
       server: "Une erreur serveur s'est produite, merci de réessayer plus tard."
     checkbox:
       on: "Oui"

@@ -21,14 +21,14 @@ header.blog-header
         ul.right.hide-on-med-and-down
           = render 'layouts/header/navbar_content'
 
-        ul#navbar-mobile.side-nav
-          = render 'layouts/header/navbar_mobile'
-
         / Search
         ul.right
           li
             a#toggle-search.header-icon.tooltipped data-position="bottom" data-delay="50" data-tooltip="#{t('views.header.search_tooltip')}"
               i.material-icons search
+
+  ul#navbar-mobile.side-nav
+    = render 'layouts/header/navbar_mobile'
 
   .blog-user-pref
     #user-pref

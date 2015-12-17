@@ -19,7 +19,19 @@
 class ArticleSerializer < ActiveModel::Serializer
   cache key: 'article', expires_in: 12.hours
 
-  attributes :id, :slug, :title, :summary, :content, :visibility, :temporary, :is_link, :is_bookmarked, :updated_at, :show
+  attributes :id,
+             :slug,
+             :title,
+             :summary,
+             :content,
+             :visibility,
+             :temporary,
+             :is_link,
+             :is_bookmarked,
+             :allow_comment,
+             :comments_number,
+             :updated_at,
+             :show
 
   belongs_to :author, serializer: UserSerializer
   has_many :tags, serializer: SimpleTagSerializer
@@ -29,7 +41,6 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def content
     current_user_id = defined?(current_user) && current_user ? current_user.id : nil
-
     object.adapted_content(current_user_id)
   end
 
@@ -43,6 +54,10 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def updated_at
     I18n.l(object.updated_at, format: :custom).downcase
+  end
+
+  def comments_number
+    object.tracker.comments_count
   end
 
   def comments

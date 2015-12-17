@@ -3,16 +3,19 @@
 var Input = require('../../components/materialize/input');
 var Textarea = require('../../components/materialize/textarea');
 var Submit = require('../../components/materialize/submit');
+var Rating = require('../theme/rating');
 
 var CommentForm = React.createClass({
     propTypes: {
         onSubmit: React.PropTypes.func.isRequired,
         onCancel: React.PropTypes.func.isRequired,
+        isRated: React.PropTypes.bool.isRequired,
         parentCommentId: React.PropTypes.number,
         commentId: React.PropTypes.number,
         formTitle: React.PropTypes.string,
         title: React.PropTypes.string,
-        message: React.PropTypes.string
+        message: React.PropTypes.string,
+        rating: React.PropTypes.number
     },
 
     getDefaultProps () {
@@ -21,7 +24,8 @@ var CommentForm = React.createClass({
             parentCommentId: null,
             commentId: null,
             title: null,
-            message: null
+            message: null,
+            rating: 0
         };
     },
 
@@ -36,20 +40,43 @@ var CommentForm = React.createClass({
         this.refs.title.focus();
     },
 
+    _handleRatingChange (value) {
+        this.refs.rating.value = value;
+    },
+
     _handleSubmit (event) {
         event.preventDefault();
 
         let title = this.refs.title.value().trim();
         let message = this.refs.message.value().trim();
+
         if (!title || !message) {
             return;
         }
-        this.props.onSubmit({
-            title: title,
-            message: message,
-            parentCommentId: this.props.parentCommentId,
-            id: this.props.commentId
-        });
+
+        let submitData = {};
+
+        if(this.props.isRated) {
+            let rating = this.refs.rating.value;
+            submitData = {
+                title: title,
+                message: message,
+                rating: rating,
+                parentCommentId: this.props.parentCommentId,
+                id: this.props.commentId
+            };
+            this.refs.rating.value = 0;
+        } else {
+            submitData = {
+                title: title,
+                message: message,
+                parentCommentId: this.props.parentCommentId,
+                id: this.props.commentId
+            };
+        }
+
+        this.props.onSubmit(submitData);
+
         this.refs.title.setValue('');
         this.refs.message.setValue('');
     },
@@ -81,6 +108,18 @@ var CommentForm = React.createClass({
                                       characterCount={window.parameters.comment_body_max_length}>
                                 {I18n.t('js.comment.form.comment.message')}
                             </Textarea>
+
+                            {this.props.isRated &&
+                            <div className="margin-top-20 margin-bottom-30">
+                                <label htmlFor="comment-rating">
+                                    {I18n.t('js.comment.form.comment.notation')}
+                                </label>
+                                <Rating initialRating={this.props.rating}
+                                        onChange={this._handleRatingChange}/>
+                                <input ref="rating"
+                                       id="comment-rating"
+                                       type="hidden"/>
+                            </div>}
 
                             <div className="row margin-top-10">
                                 <div className="col s6">

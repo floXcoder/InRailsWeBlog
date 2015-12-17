@@ -82,6 +82,7 @@
     "react-dom": "0.14.3",
     "reflux": "0.3.0",
     "respond.js": "1.4.2",
-    "validator": "4.4.0"
+    "validator": "4.4.0",
+    "waypoints": "4.0.0"
   }
 }
