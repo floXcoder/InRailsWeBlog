@@ -1,0 +1,34 @@
+doctype html
+| <!--[if IE 8 ]><html class="ie-8" lang="en"><![endif]-->
+| <!--[if IE 9 ]><html class="ie-9" lang="en"><![endif]-->
+| <!--[if gt IE 9]><!-->
+html lang="en"
+  | <!--<![endif]-->
+
+  head
+    meta charset="utf-8"
+    meta content="width=device-width, initial-scale=1.0" name="viewport"
+    meta name="description" content= I18n.t('head.description')
+    meta name="author" content="lx"
+    meta name="keywords" content= I18n.t('head.keywords')
+    = favicon_link_tag '/assets/favicon.ico', rel: 'shortcut icon'
+    = csrf_meta_tags
+
+    = stylesheet_link_tag 'application', media: 'all'
+    = stylesheet_link_tag 'errors/error', media: 'all'
+
+    title
+      = t('views.error.page_title') + ' | ' + t('common.website_name')
+
+  body.blog
+    header.blog-header
+      .navbar-fixed
+        nav
+          .nav-wrapper
+            / Title
+            = link_to t('common.website_name'), root_path, class: 'brand-logo'
+
+    .container.blog-main
+      = yield
+
+    = render 'layouts/footer'

@@ -1,0 +1,12 @@
+@import 'pages/common';
+
+.nav-wrapper {
+  ul,
+  .button-collapse {
+    visibility: hidden;
+  }
+}
+
+.card .card-action .btn {
+  margin: 5px 0;
+}

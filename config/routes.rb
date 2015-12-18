@@ -74,6 +74,9 @@
 #                          PATCH  /tags/:id(.:format)               tags#update
 #                          PUT    /tags/:id(.:format)               tags#update
 #                          DELETE /tags/:id(.:format)               tags#destroy
+#                    admin GET    /admin(.:format)                  admins#show
+#             terms_of_use GET    /terms_of_use(.:format)           static_pages#terms_of_use
+#              sidekiq_web        /sidekiq                          Sidekiq::Web
 #                   errors GET    /errors(.:format)                 errors#index
 #                          POST   /errors(.:format)                 errors#create
 #                new_error GET    /errors/new(.:format)             errors#new
@@ -82,16 +85,15 @@
 #                          PATCH  /errors/:id(.:format)             errors#update
 #                          PUT    /errors/:id(.:format)             errors#update
 #                          DELETE /errors/:id(.:format)             errors#destroy
-#                    admin GET    /admin(.:format)                  admins#show
-#             terms_of_use GET    /terms_of_use(.:format)           static_pages#terms_of_use
-#              sidekiq_web        /sidekiq                          Sidekiq::Web
+#                          GET    /404(.:format)                    errors#error {:code=>"404"}
+#                          GET    /422(.:format)                    errors#error {:code=>"422"}
+#                          GET    /500(.:format)                    errors#error {:code=>"500"}
 #
 
 require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
-
   # Root path
   root  'static_pages#home'
 
@@ -156,10 +158,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Errors
-  resources :errors do
-  end
-
   # Admin
   get :admin, to: 'admins#show'
 
@@ -169,4 +167,7 @@ Rails.application.routes.draw do
   # Sidekiq interface
   mount Sidekiq::Web => '/sidekiq'
 
+  # Errors
+  resources :errors do
+  end
 end

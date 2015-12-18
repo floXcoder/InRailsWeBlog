@@ -4,7 +4,7 @@ class ErrorsController < ApplicationController
 
   skip_before_action :set_locale, only: [:create]
 
-  respond_to :json
+  respond_to :json, :html
 
   def index
     authorize current_user, :admin?
@@ -21,20 +21,16 @@ class ErrorsController < ApplicationController
     error.user_agent = request.user_agent
     error.ip         = request.remote_ip
     error.user_info  = current_user.pseudo if current_user
-
     error.save
 
-    # respond_to do |format|
-    #   if error.save
-    #     format.json { render json: error, status: :created }
-    #   else
-    #     format.json { render json: error.errors, status: :unprocessable_entity }
-    #   end
-    # end
     render nothing: true
   end
 
   private
+
+  def status_code
+    params[:code] || 500
+  end
 
   def error_params
     params.require(:error).permit(:message,
@@ -45,6 +41,4 @@ class ErrorsController < ApplicationController
                                   :target_url,
                                   :origin)
   end
-
-
 end

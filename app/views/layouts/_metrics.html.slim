@@ -8,7 +8,7 @@ javascript:
               nowTs = Math.round(now.getTime() / 1000),
               visitorInfo = self.getVisitorInfo();
       var createTs = parseInt(visitorInfo[2]);
-      var cookieTimeout = 33696000; // 13 mois en secondes
+      var cookieTimeout = 33696000; // 13 months
       var originalTimeout = createTs + cookieTimeout - nowTs;
       return originalTimeout;
     }

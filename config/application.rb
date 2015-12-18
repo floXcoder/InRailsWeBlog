@@ -58,6 +58,9 @@ module InRailsWeBlog
     config.i18n.default_locale = :fr
     config.i18n.fallbacks = true
 
+    # Configure routes for exceptions handling
+    config.exceptions_app = self.routes
+
     # "pretty" HTML format output
     Slim::Engine.set_options pretty: true
 

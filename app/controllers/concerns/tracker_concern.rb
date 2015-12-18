@@ -16,9 +16,6 @@ module TrackerConcern
   def viewed
     class_model = params[:controller].classify.constantize
     class_model.track_views(params[:id].split(','))
-
-    w current_user
-
     render nothing: true
   end
 
