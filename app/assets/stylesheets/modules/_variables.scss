@@ -1,9 +1,6 @@
-// Shared variables
-// ------------------------------------
 @import 'materialize-css/sass/components/prefixer';
 @import 'materialize-css/sass/components/mixins';
 @import 'materialize-css/sass/components/color';
-@import 'materialize-css/sass/components/variables';
 
 // Path
 // ------------------------------------
@@ -13,15 +10,15 @@ $fa-font-path: '/assets';
 
 // Colors
 // ------------------------------------
-$text-color-base: $off-black;
+$text-color-base: rgba(0, 0, 0, 0.87);
 $color-base: color('blue-grey', 'darken-3');
 $color-hover: #2980b9;
-$color-additional: #deeffc;
+$color-additional: color('blue-grey', 'darken-2');
 $color-transparent: rgba(52, 152, 219, .3);
 $color-bg: #fff;
 
-$rgba-a: 0.8;
-$rgba-a-transparent: 0.3;
+$rgba-a: .8;
+$rgba-a-transparent: .3;
 $rgba-default: rgba(114, 192, 44, $rgba-a); // #72C02C
 $rgba-default-transparent: rgba(114, 192, 44, $rgba-a-transparent); // #72C02C
 $rgba-red: rgba(231, 76, 60, $rgba-a); // #E74C3C
@@ -35,11 +32,6 @@ $rgba-yellow-transparent: rgba(241, 196, 15, $rgba-a-transparent); // #F1C40F
 $rgba-purple: rgba(155, 107, 204, $rgba-a); // #9B6BCC
 $rgba-purple-transparent: rgba(155, 107, 204, $rgba-a-transparent); // #9B6BCC
 
-// Materialize theme color
-// ------------------------------------
-$primary-color: $color-base;
-$card-link-color: $color-additional;
-
 // Special style colors
 // ------------------------------------
 $secret-color: color('red', 'lighten-3');
@@ -50,3 +42,13 @@ $deadend-color: color('brown', 'lighten-3');
   box-shadow: 0px 0px 4px $color;
   padding-left: 10px;
 }
+
+
+// Materialize theme
+// ------------------------------------
+$primary-color: $color-base;
+$card-link-color: $color-additional;
+$dropdown-color: $color-base;
+@import 'materialize-css/sass/components/variables';
+$extra-large-and-up: "only screen and (min-width : #{$large-screen})";
+$large-only: "only screen and (min-width : #{$medium-screen}) and (max-width : #{$large-screen})";

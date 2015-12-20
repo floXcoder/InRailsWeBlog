@@ -8,11 +8,11 @@ SimpleConfig.for :application do
   set :large_screen, 1200
 
   # Default user preferences
-  set :article_display,   'card'
-  set :multi_language,    false
-  set :search_highlight,  true
-  set :search_operator,   'and'
-  set :search_exact,      true
+  set :article_display, 'card'
+  set :multi_language, false
+  set :search_highlight, true
+  set :search_operator, 'and'
+  set :search_exact, true
 
   # Maximum upload image size
   set :image_size, 5.megabytes
@@ -29,12 +29,18 @@ SimpleConfig.for :application do
   set :user_password_max_length, 128
 
   # Article validation parameters
-  set :title_min_length,    3
-  set :title_max_length,    128
-  set :summary_min_length,  3
-  set :summary_max_length,  256
-  set :content_min_length,  3
-  set :content_max_length,  8_000_000
+  set :title_min_length, 3
+  set :title_max_length, 128
+  set :summary_min_length, 3
+  set :summary_max_length, 256
+  set :content_min_length, 3
+  set :content_max_length, 8_000_000
+
+  # Comment validation parameters
+  set :comment_title_min_length, 1
+  set :comment_title_max_length, 256
+  set :comment_body_min_length, 1
+  set :comment_body_max_length, 1_024
 
   # Tag validation parameters
   set :tag_min_length, 1

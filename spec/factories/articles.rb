@@ -7,7 +7,7 @@
 #  visibility      :integer          default(0), not null
 #  notation        :integer          default(0)
 #  priority        :integer          default(0)
-#  allow_comment   :boolean          default(FALSE), not null
+#  allow_comment   :boolean          default(TRUE), not null
 #  private_content :boolean          default(FALSE), not null
 #  is_link         :boolean          default(FALSE), not null
 #  temporary       :boolean          default(FALSE), not null
@@ -25,7 +25,7 @@ FactoryGirl.define do
     visibility      'everyone'
     notation        0
     priority        0
-    allow_comment   false
+    allow_comment   true
     is_link         false
   end
 

@@ -52,15 +52,15 @@ var ArticleIndex = React.createClass({
         });
     },
 
-    onPreferenceChange (userStore) {
+    onPreferenceChange (userData) {
         let newState = {};
 
-        if (!$.isEmpty(userStore.preferences) && userStore.preferences.article_display) {
-            newState.articleDisplayMode = userStore.preferences.article_display;
+        if (!$.isEmpty(userData.preferences) && userData.preferences.article_display) {
+            newState.articleDisplayMode = userData.preferences.article_display;
         }
 
-        if (!$.isEmpty(userStore.search) && userStore.search.search_highlight) {
-            newState.highlightResults = userStore.search.search_highlight;
+        if (!$.isEmpty(userData.search) && userData.search.search_highlight) {
+            newState.highlightResults = userData.search.search_highlight;
         }
 
         if (!$.isEmpty(newState)) {
@@ -68,15 +68,19 @@ var ArticleIndex = React.createClass({
         }
     },
 
-    onArticleChange (articleStore) {
+    onArticleChange (articleData) {
+        if ($.isEmpty(articleData)) {
+            return;
+        }
+
         let newState = {};
 
-        if (typeof(articleStore.articles) !== 'undefined') {
-            newState.articles = articleStore.articles;
+        if (typeof(articleData.articles) !== 'undefined') {
+            newState.articles = articleData.articles;
             newState.isLoading = false;
         }
 
-        newState.hasMore = !!articleStore.hasMore;
+        newState.hasMore = !!articleData.hasMore;
 
         if (!$.isEmpty(newState)) {
             this.setState(newState);

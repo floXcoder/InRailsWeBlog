@@ -7,4 +7,4 @@
 
 #article-creation-component
 
-= content_tag :div, '', id: 'article-element-component', data: {article: ActiveModel::SerializableResource.new(article, {scope: current_user}).serializable_hash}
+= content_tag :div, '', id: 'article-element-component', data: {article: ActiveModel::SerializableResource.new(article, {scope: current_user, comments: true}).serializable_hash}

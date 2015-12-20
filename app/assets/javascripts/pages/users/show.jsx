@@ -10,8 +10,8 @@ var currentUserId = (window.currentUserId === 'null' ? null : parseInt(window.cu
 
 ArticleActions.initStore({
     page: 1,
-    userId: currentUserId,
-    pseudo: window.currentUserPseudo,
+    userId: document.getElementById('article-box-component').dataset.userId,
+    pseudo: document.getElementById('article-box-component').dataset.userPseudo,
     mode: document.getElementById('article-box-component').dataset.mode
 });
 

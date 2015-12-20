@@ -15,10 +15,10 @@
 // Hidden textarea for clipboard
 .hidden {
   position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 0px;
-  height: 0px;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
   z-index: 100;
   //display: none;
   opacity: 0;
@@ -39,7 +39,7 @@
   $i: 0;
   @while $i <= $intervals {
     @media only screen and (min-width : 360 + ($i * $interval-size)) {
-      font-size: .9rem * (1 + (.02 * $i));
+      font-size: 0.9rem * (1 + (.02 * $i));
     }
     $i: $i + 1;
   }
@@ -66,183 +66,129 @@
   }
 }
 
-// Spaces
-.margin-bottom-5,
-.margin-bottom-10,
-.margin-bottom-15,
-.margin-bottom-20,
-.margin-bottom-25,
-.margin-bottom-30,
-.margin-bottom-35,
-.margin-bottom-40,
-.margin-bottom-45,
-.margin-bottom-50,
-.margin-bottom-55,
-.margin-bottom-60,
-.margin-bottom-80,
-.margin-bottom-100 {
-  clear: both;
-}
-
-.margin-bottom-5 {
-  margin-bottom: 5px;
-}
-
-.margin-bottom-10 {
-  margin-bottom: 10px;
-}
-
-.margin-bottom-15 {
-  margin-bottom: 15px;
-}
-
-.margin-bottom-20 {
-  margin-bottom: 20px;
-}
-
-.margin-bottom-25 {
-  margin-bottom: 25px;
-}
-
-.margin-bottom-30 {
-  margin-bottom: 30px;
-}
-
-.margin-bottom-35 {
-  margin-bottom: 35px;
-}
-
-.margin-bottom-40 {
-  margin-bottom: 40px;
-}
-
-.margin-bottom-45 {
-  margin-bottom: 45px;
-}
-
-.margin-bottom-50 {
-  margin-bottom: 50px;
-}
-
-.margin-bottom-55 {
-  margin-bottom: 55px;
-}
-
-.margin-bottom-60 {
-  margin-bottom: 60px;
-}
-
-.margin-bottom-80 {
-  margin-bottom: 80px;
-}
-
-.margin-bottom-100 {
-  margin-bottom: 100px;
-}
-
-@media (max-width: $small-screen) {
-  .sm-margin-bottom-10 {
-    margin-bottom: 10px;
+@for $i from 1 through 20 {
+  .margin-bottom-#{$i*5} {
+    clear: both;
+    margin-bottom: $i*5px;
   }
-  .sm-margin-bottom-20 {
-    margin-bottom: 20px;
-  }
-  .sm-margin-bottom-30 {
-    margin-bottom: 30px;
-  }
-  .sm-margin-bottom-40 {
-    margin-bottom: 40px;
-  }
-  .sm-margin-bottom-50 {
-    margin-bottom: 50px;
-  }
-  .sm-margin-bottom-60 {
-    margin-bottom: 60px;
-  }
-  .sm-margin-bottom-80 {
-    margin-bottom: 80px;
+
+  .margin-top-#{$i*5} {
+    clear: both;
+    margin-top: $i*5px;
   }
 }
 
-@media (max-width: $medium-screen) {
-  .md-margin-bottom-10 {
-    margin-bottom: 10px;
+@for $i from 1 through 10 {
+  @media (max-width: $small-screen) {
+    .sm-margin-top-#{$i*10} {
+      margin-top: $i*10px;
+    }
+
+    .sm-margin-bottom-#{$i*10} {
+      margin-bottom: $i*10px;
+    }
   }
-  .md-margin-bottom-20 {
-    margin-bottom: 20px;
-  }
-  .md-margin-bottom-30 {
-    margin-bottom: 30px;
-  }
-  .md-margin-bottom-40 {
-    margin-bottom: 40px;
-  }
-  .md-margin-bottom-50 {
-    margin-bottom: 50px;
-  }
-  .md-margin-bottom-60 {
-    margin-bottom: 60px;
-  }
-  .md-margin-bottom-80 {
-    margin-bottom: 80px;
+
+  @media (max-width: $medium-screen) {
+    .md-margin-top-#{$i*10} {
+      margin-top: $i*10px;
+    }
+
+    .md-margin-bottom-#{$i*10} {
+      margin-bottom: $i*10px;
+    }
   }
 }
 
-.margin-top-5 {
-  margin-top: 20px;
+@media #{$extra-large-and-up} {
+  .row .col {
+    $i: 1;
+    @while $i <= $num-cols {
+      $perc: unquote((100 / ($num-cols / $i)) + '%');
+      &.xl#{$i} {
+        width: $perc;
+        margin-left: 0;
+      }
+      &.offset-xl#{$i} {
+        margin-left: $perc;
+      }
+      &.pull-xl#{$i} {
+        right: $perc;
+      }
+      &.push-xl#{$i} {
+        left: $perc;
+      }
+      $i: $i + 1;
+    }
+  }
 }
 
-.margin-top-10 {
-  margin-top: 20px;
-}
-
-.margin-top-20 {
-  margin-top: 20px;
-}
-
-.margin-top-30 {
-  margin-top: 20px;
-}
-
-.margin-left-5 {
-  margin-left: 5px;
-}
-
-.margin-left-10 {
-  margin-left: 10px;
-}
-
-.margin-left-20 {
-  margin-left: 20px;
-}
-
-.margin-left-30 {
-  margin-left: 30px;
-}
-
-.margin-right-5 {
-  margin-right: 5px;
-}
-
-.margin-right-10 {
-  margin-right: 10px;
-}
-
-.margin-right-20 {
-  margin-right: 20px;
-}
-
-.margin-right-30 {
-  margin-right: 30px;
-}
-
-// Use Clearfix instead of overflow hidden
 .clearfix:before,
 .clearfix:after {
-  content: ".";
+  content: '.';
   display: block;
   height: 0;
   overflow: hidden;
 }
 .clearfix:after { clear: both; }
-.clearfix { zoom: 1; } /* IE < 8 */
+.clearfix { zoom: 1; } // IE < 8
+
+@media #{$small-and-down} {
+  .row .s2-clearfix:nth-child(6n+1) {
+    clear: both;
+  }
+  .row .s3-clearfix:nth-child(4n+1) {
+    clear: both;
+  }
+  .row .s4-clearfix:nth-child(3n+1) {
+    clear: both;
+  }
+  .row .s6-clearfix:nth-child(2n+1) {
+    clear: both;
+  }
+}
+
+@media #{$medium-only} {
+  .row .m2-clearfix:nth-child(6n+1) {
+    clear: both;
+  }
+  .row .m3-clearfix:nth-child(4n+1) {
+    clear: both;
+  }
+  .row .m4-clearfix:nth-child(3n+1) {
+    clear: both;
+  }
+  .row .m6-clearfix:nth-child(2n+1) {
+    clear: both;
+  }
+}
+
+@media #{$large-and-up} {
+  .row .l2-clearfix:nth-child(6n+1) {
+    clear: both;
+  }
+  .row .l3-clearfix:nth-child(4n+1) {
+    clear: both;
+  }
+  .row .l4-clearfix:nth-child(3n+1) {
+    clear: both;
+  }
+  .row .l6-clearfix:nth-child(2n+1) {
+    clear: both;
+  }
+}
+
+@media #{$extra-large-and-up} {
+  .row .xl2-clearfix:nth-child(6n+1) {
+    clear: both;
+  }
+  .row .xl3-clearfix:nth-child(4n+1) {
+    clear: both;
+  }
+  .row .xl4-clearfix:nth-child(3n+1) {
+    clear: both;
+  }
+  .row .xl6-clearfix:nth-child(2n+1) {
+    clear: both;
+  }
+}

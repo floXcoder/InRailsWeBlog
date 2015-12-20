@@ -3,7 +3,6 @@
 var ArticleActions = require('../../../actions/articleActions');
 var ArticleEditionIcons = require('../icons/edition');
 var ArticleLinkIcon = require('../icons/link');
-var ArticleVisibilityIcon = require('../icons/visibility');
 
 var ArticleEditionDisplay = React.createClass({
     propTypes: {
@@ -76,7 +75,7 @@ var ArticleEditionDisplay = React.createClass({
 
     _handleDeleteClick (event) {
         this.state.editor.summernote('destroy');
-        ArticleActions.deleteArticles({id: this.props.article.id});
+        ArticleActions.deleteArticle({id: this.props.article.id});
         this.props.setDefaultDisplay();
     },
 
@@ -87,7 +86,7 @@ var ArticleEditionDisplay = React.createClass({
 
     _handleSaveClick (event) {
         let content = this.state.editor.summernote('code');
-        ArticleActions.updateArticles({id: this.props.article.id, content: content});
+        ArticleActions.updateArticle({id: this.props.article.id, content: content});
         this.state.editor.summernote('destroy');
         this.props.setDefaultDisplay();
     },
@@ -104,7 +103,7 @@ var ArticleEditionDisplay = React.createClass({
         }.bind(this));
 
         return (
-            <div className="card clearfix blog-article-item article-edition">
+            <div className="card blog-article-item article-edition clearfix">
                 <div className="card-content">
                     <div className="card-title article-title center clearfix">
                         <h1 className="article-title-card">

@@ -1,9 +1,13 @@
 'use strict';
 
+var Errors = require('../mixins/errors');
+var Tracker = require('../mixins/tracker');
+
 var UserActions = require('../actions/userActions');
 var ErrorActions = require('../actions/errorActions');
 
 var UserStore = Reflux.createStore({
+    mixins: [Errors, Tracker],
     listenables: [UserActions],
     user: {
         id: window.currentUserId,
@@ -18,65 +22,58 @@ var UserStore = Reflux.createStore({
     },
     url: '/users',
 
-    init: function () {
+    init () {
         this._loadUserPreferences();
+        return true;
     },
 
-    _handleJsonErrors: function (url, xhr, status, error) {
-        log.error('Error in JSON request: ' + error);
-
-        ErrorActions.pushError({
-            message: error,
-            url: url,
-            trace: xhr.responseText,
-            origin: 'communication'
-        });
-    },
-
-    _loadUserPreferences: function (data) {
+    _loadUserPreferences (data) {
         if($.isEmpty(this.user.id)) {
             return;
         }
 
         var requestParam = {};
 
-        var preferenceUrl = this.url + '/' + this.user.id + '/preference';
+        var preferenceUrl = this.url + '/' + this.user.id + '/preferences';
 
         jQuery.getJSON(
             preferenceUrl,
             requestParam,
             function (dataReceived) {
+                if (!$.isEmpty(dataReceived)) {
+                    var newPreferences = {};
 
-                var newPreferences = {};
+                    if (dataReceived.user.article_display
+                        && dataReceived.user.article_display !== this.user.preferences.article_display) {
+                        newPreferences.article_display = dataReceived.user.article_display;
+                    }
+                    if (dataReceived.user.multi_language
+                        && dataReceived.user.multi_language !== this.user.preferences.multi_language) {
+                        newPreferences.multi_language = dataReceived.user.multi_language;
+                    }
+                    if (dataReceived.user.search_highlight
+                        && dataReceived.user.search_highlight !== this.user.preferences.search_highlight) {
+                        newPreferences.search_highlight = dataReceived.user.search_highlight;
+                    }
+                    if (dataReceived.user.search_operator
+                        && dataReceived.user.search_operator !== this.user.preferences.search_operator) {
+                        newPreferences.search_operator = dataReceived.user.search_operator;
+                    }
+                    if (dataReceived.user.search_exact
+                        && dataReceived.user.search_exact !== this.user.preferences.search_exact) {
+                        newPreferences.search_exact = dataReceived.user.search_exact;
+                    }
 
-                if (dataReceived.user.article_display
-                    && dataReceived.user.article_display !== this.user.preferences.article_display) {
-                    newPreferences.article_display = dataReceived.user.article_display;
+                    // Manage in user/preference, articles/box and articles/form
+                    this.user.preferences = dataReceived.user;
+                    this.trigger({preferences: newPreferences});
+                } else {
+                    log.error('No data received from load user preferences');
                 }
-                if (dataReceived.user.multi_language
-                    && dataReceived.user.multi_language !== this.user.preferences.multi_language) {
-                    newPreferences.multi_language = dataReceived.user.multi_language;
-                }
-                if (dataReceived.user.search_highlight
-                    && dataReceived.user.search_highlight !== this.user.preferences.search_highlight) {
-                    newPreferences.search_highlight = dataReceived.user.search_highlight;
-                }
-                if (dataReceived.user.search_operator
-                    && dataReceived.user.search_operator !== this.user.preferences.search_operator) {
-                    newPreferences.search_operator = dataReceived.user.search_operator;
-                }
-                if (dataReceived.user.search_exact
-                    && dataReceived.user.search_exact !== this.user.preferences.search_exact) {
-                    newPreferences.search_exact = dataReceived.user.search_exact;
-                }
-
-                // Manage in user/preference, articles/box and articles/form
-                this.user.preferences = dataReceived.user;
-                this.trigger({preferences: newPreferences});
             }.bind(this));
     },
 
-    _pushUserPreferences: function (data) {
+    _pushUserPreferences (data) {
         if($.isEmpty(this.user.id)) {
             return;
         }
@@ -84,7 +81,7 @@ var UserStore = Reflux.createStore({
         var requestParam = {};
         requestParam.preferences = {};
 
-        var preferenceUrl = this.url + '/' + this.user.id + '/preference';
+        var preferenceUrl = this.url + '/' + this.user.id + '/preferences';
 
         requestParam.preferences.article_display = data.article_display;
         requestParam.preferences.multi_language = data.multi_language;
@@ -97,16 +94,21 @@ var UserStore = Reflux.createStore({
             dataType: 'json',
             type: 'POST',
             data: requestParam,
-            success: function (data) {
-
-            }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.url, status, err.toString());
-            }.bind(this)
+            success: (_dataReceived) => {
+                return true;
+            },
+            error: (xhr, status, error) => {
+                this.handleErrors(preferenceUrl, xhr, status, error);
+            }
         });
     },
 
-    onChangeDisplay: function (displayType) {
+    onChangeDisplay (displayType) {
+        if ($.isEmpty(displayType)) {
+            log.error('Tried to change display without display type');
+            return;
+        }
+
         var displayPreferences = {};
 
         // Manage in articles/box
@@ -117,7 +119,12 @@ var UserStore = Reflux.createStore({
         this._pushUserPreferences(displayPreferences);
     },
 
-    onChangeForm: function (formOptions) {
+    onChangeForm (formOptions) {
+        if ($.isEmpty(formOptions)) {
+            log.error('Tried to change form options without options');
+            return;
+        }
+
         var formPreferences = {};
 
         // Manage in articles/form
@@ -128,7 +135,12 @@ var UserStore = Reflux.createStore({
         this._pushUserPreferences(formPreferences);
     },
 
-    onChangeSearchOptions: function (searchOptions) {
+    onChangeSearchOptions (searchOptions) {
+        if ($.isEmpty(formOptions)) {
+            log.error('Tried to change search options without options');
+            return;
+        }
+
         var searchPreferences = {};
 
         // Manage in search/module
@@ -153,20 +165,27 @@ var UserStore = Reflux.createStore({
         this._pushUserPreferences(searchPreferences);
     },
 
-    onValidation: function (data) {
+    onValidation (data) {
+        if ($.isEmpty(data)) {
+            log.error('Tried to validate user without data');
+            return;
+        }
+
         var validationUrl = this.url + '/validation';
         var requestParam = data;
 
         jQuery.getJSON(
             validationUrl,
             requestParam,
-            function (data) {
-                if(!$.isEmpty(data)) {
-                    this.trigger(data);
+            function (dataReceived) {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger(dataReceived);
+                } else {
+                    log.error('No data received from user validation');
                 }
             }.bind(this))
             .fail(function (xhr, status, error) {
-                this._handleJsonErrors(validationUrl, xhr, status, error);
+                this.handleErrors(validationUrl, xhr, status, error);
             }.bind(this));
     }
 });

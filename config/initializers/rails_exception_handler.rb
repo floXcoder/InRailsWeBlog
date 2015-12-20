@@ -3,33 +3,21 @@ RailsExceptionHandler.configure do |config|
   # Defaults to [:production]
   config.environments           = [:production]
 
-  # config.fallback_layout = 'home'                                         # Defaults to 'application'
-  # config.after_initialize do
-  #   # This block will be called after the initialization is done.
-  #   # Usefull for interaction with authentication mechanisms, which should
-  #   # only happen when the exception handler is enabled.
-  # end
-  # config.filters = [                                                      # No filters are  enabled by default
-  #   :all_404s,
-  #   :no_referer_404s,
-  #   :anon_404s,
-  #   {:user_agent_regxp => /\b(ApptusBot|TurnitinBot|DotBot|SiteBot)\b/i},
-  #   {:target_url_regxp => /\.php/i},
-  #   {:referer_url_regxp => /problematicreferer/i}
-  # ]
+  # Layout for error pages
+  config.fallback_layout  = 'errors'
 
-  # !!! IMPORTANT !!!
-  # You must remove public/500.html and public/404.html for these to have any effect
-  # config.responses = {
-  #   default:   "<h1>500</h1><p>Internal server error</p>",
-  #   not_found: "<h1>404</h1><p>Page not found</p>"
-  # }
-  # # All errors are mapped to the :default response unless overridden here
-  # config.response_mapping       = {
-  #   'ActiveRecord::RecordNotFound'       => :not_found,
-  #   'ActionController::RoutingError'     => :not_found,
-  #   'AbstractController::ActionNotFound' => :not_found
-  # }
+  config.responses        = {
+    :default     => '500',
+    :not_found   => '404',
+    :wrong_token => '422',
+  }
+
+  config.response_mapping = {
+    'ActionController::RoutingError'             => :not_found,
+    'ActiveRecord::RecordNotFound'               => :not_found,
+    'AbstractController::ActionNotFound'         => :not_found,
+    'ActionController::InvalidAuthenticityToken' => :wrong_token
+  }
 
   # Available options: [:active_record, :rails_log, :remote_url => {:target => 'http://example.com'}]
   config.storage_strategies     = [:active_record, :rails_log]
@@ -39,7 +27,6 @@ RailsExceptionHandler.configure do |config|
     database:     Rails.env.to_sym,
     record_table: 'error_messages'
   }
-
 
   config.store_request_info do |storage, request|
     storage[:target_url]  = request.url
@@ -60,7 +47,7 @@ RailsExceptionHandler.configure do |config|
 
   config.store_global_info do |storage|
     storage[:app_name]   = Rails.application.class.parent_name
-    storage[:created_at] = Time.now
+    storage[:created_at] = Time.zone.now
   end
 
   # Helper method for easier access to current_user

@@ -19,22 +19,22 @@ common: &default_settings
 # Environment-specific settings are in this section.
 # RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
 # If your application has other named environments, configure them here.
-development:
-  <<: *default_settings
-  app_name: In Rails We Blog (Development)
-
-  # NOTE: There is substantial overhead when running in developer mode.
-  # Do not use for production or load testing.
-  developer_mode: true
-
-test:
-  <<: *default_settings
-  # It doesn't make sense to report to New Relic from automated test runs.
-  monitor_mode: false
-
-staging:
-  <<: *default_settings
-  app_name: In Rails We Blog (Staging)
+#development:
+#  <<: *default_settings
+#  app_name: In Rails We Blog (Development)
+#
+#  # NOTE: There is substantial overhead when running in developer mode.
+#  # Do not use for production or load testing.
+#  developer_mode: true
+#
+#test:
+#  <<: *default_settings
+#  # It doesn't make sense to report to New Relic from automated test runs.
+#  monitor_mode: false
+#
+#staging:
+#  <<: *default_settings
+#  app_name: In Rails We Blog (Staging)
 
 production:
   <<: *default_settings

@@ -22,7 +22,8 @@ var ArticleBookmarkIcon = React.createClass({
     },
 
     _onClickBookmark (articleId, event) {
-        this.props.onClickBookmark(articleId, event);
+        event.preventDefault();
+        this.props.onClickBookmark(articleId, this.state.isBookmarked);
         this.setState({isBookmarked: !this.state.isBookmarked})
     },
 

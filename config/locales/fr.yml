@@ -82,7 +82,7 @@ fr:
         deletion_successful: "L'article a été supprimé."
         undelete_link: "Annuler la suppression."
         deletion_error: "Problème lors de la suppression de l'article : %{errors}"
-        undeletion_successful: "Article restoré"
+        undeletion_successful: "Article restauré"
         not_found: "L'article n'a pas été trouvé"
       index:
         page_title: "Tous les articles"
@@ -94,6 +94,21 @@ fr:
     tag:
       show:
         page_title: "%{name}"
+    error:
+      page_title: "Oups ..."
+      status:
+        title:
+          default: "Une erreur est arrivée :("
+          '404': "Page introuvable"
+          '422': "Requêtes non permises !"
+          '500': "Ah ! Erreur interne !"
+        explanation:
+          default: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
+          '404': "La page n'a pas été trouvée sur le serveur, l'erreur est humaine !"
+          '422': "Impossible de satisfaire votre requête"
+          '500': "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
+      back_button: "Page précédente"
+      home_button: "Retour maison !"
   user:
     pseudo: "Pseudo"
     by: "De"
@@ -125,9 +140,14 @@ fr:
     confirmation: "Êtes-vous sûr ?"
   pundit:
     default: "Vous n'êtes pas autorisé(e) à réaliser cette action."
+    user_policy:
+      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs."
   activerecord:
     errors:
       models:
+        bookmark:
+          already_bookmarked: "Article déjà ajouté aux favoris !"
+          no_bookmarked: "Article non existant dans les favoris !"
         picture:
           image_size: "doit être inférieur à 5Mo"
   email:

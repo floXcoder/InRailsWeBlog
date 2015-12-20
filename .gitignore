@@ -19,9 +19,6 @@
 /db/*.sql
 /db/dump
 
-# Ignore Rubymine files
-/.idea
-
 # Ignore OS specific files
 /.directory
 
@@ -37,3 +34,7 @@
 # Ignore static analysis files
 /static_analysis/*
 /.validation/*
+
+# Ignore user specific Rubymine files
+/.idea/workspace.xml
+/.idea/tasks.xml

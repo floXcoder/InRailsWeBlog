@@ -37,6 +37,19 @@
 
 class User < ActiveRecord::Base
 
+  # User
+  def to_s
+    "I am #{pseudo}"
+  end
+
+  # Parameters validation
+  validates :pseudo,
+            presence:   true,
+            uniqueness: { case_sensitive: false },
+            length:     { minimum: 3, maximum: 50 }
+  validates :email,
+            length: { maximum: 128 }
+
   # Associations
   ## Articles
   has_many :articles,
@@ -53,7 +66,8 @@ class User < ActiveRecord::Base
            source:  :article
 
   ## Comment
-  # has_many :comments, as: :commentable
+  has_many :comments, as: :commentable,
+           dependent:   :destroy
 
   ## Picture
   has_one :picture, as: :imageable,
@@ -77,39 +91,6 @@ class User < ActiveRecord::Base
          :confirmable,
          authentication_keys: [:login]
 
-  # Parameters validation
-  validates :pseudo,
-            presence:   true,
-            uniqueness: { case_sensitive: false },
-            length:     { minimum: 3, maximum: 50 }
-  validates :email,
-            length: { maximum: 128 }
-
-  # Nice url format
-  include Shared::NiceUrlConcern
-  friendly_id :pseudo, use: :slugged
-
-  # Preferences
-  store :preferences, accessors: [:article_display, :multi_language, :search_highlight, :search_operator, :search_exact], coder: JSON
-
-  before_create do
-    self.preferences[:article_display]  = CONFIG.article_display if preferences[:article_display].blank?
-    self.preferences[:multi_language]   = CONFIG.multi_language if preferences[:multi_language].blank?
-    self.preferences[:search_highlight] = CONFIG.search_highlight if preferences[:search_highlight].blank?
-    self.preferences[:search_operator]  = CONFIG.search_operator if preferences[:search_operator].blank?
-    self.preferences[:search_exact]     = CONFIG.search_exact if preferences[:search_exact].blank?
-  end
-
-  def to_s
-    "I am #{pseudo}"
-  end
-
-  def self.recent(up_to_range, limit = 10)
-    User.where(created_at: up_to_range)
-      .limit(limit)
-      .pluck_to_hash(:id, :created_at, :pseudo)
-  end
-
   def self.pseudo?(pseudo)
     User.exists?(['lower(pseudo) = ?', pseudo.downcase])
   end
@@ -131,5 +112,24 @@ class User < ActiveRecord::Base
       where(conditions.to_h).first
     end
   end
+
+  # Nice url format
+  include NiceUrlConcern
+  friendly_id :pseudo, use: :slugged
+
+  # Preferences
+  store :preferences, accessors: [:article_display, :multi_language, :search_highlight, :search_operator, :search_exact], coder: JSON
+
+  before_create do
+    self.preferences[:article_display]  = CONFIG.article_display if preferences[:article_display].blank?
+    self.preferences[:multi_language]   = CONFIG.multi_language if preferences[:multi_language].blank?
+    self.preferences[:search_highlight] = CONFIG.search_highlight if preferences[:search_highlight].blank?
+    self.preferences[:search_operator]  = CONFIG.search_operator if preferences[:search_operator].blank?
+    self.preferences[:search_exact]     = CONFIG.search_exact if preferences[:search_exact].blank?
+  end
+
+  # Track activities
+  include ActAsTrackedConcern
+  acts_as_tracked :queries, :comments, :bookmarks, :clicks, :views
 
 end

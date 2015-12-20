@@ -146,7 +146,7 @@ var Signup = React.createClass({
                 <form id={this.props.formId}
                       method="post"
                       action={this.props.url}
-                      className="ap-modal-form"
+                      className="blog-modal-form"
                       data-remote="true"
                       acceptCharset="UTF-8"
                       noValidate="novalidate">
@@ -177,8 +177,7 @@ var Signup = React.createClass({
                                type="password"
                                classType="important"
                                onBlur={this._handleInputBlur}
-                               minLength={window.parameters.user_password_min_length}
-                               maxLength={window.parameters.user_password_max_length}
+                               characterCount={window.parameters.user_password_max_length}
                                icon="lock">
                             {I18n.t('js.user.signup.password')}
                         </Input>
@@ -190,8 +189,7 @@ var Signup = React.createClass({
                                type="password"
                                classType="important"
                                onBlur={this._handleInputBlur}
-                               minLength={window.parameters.user_password_min_length}
-                               maxLength={window.parameters.user_password_max_length}
+                               characterCount={window.parameters.user_password_max_length}
                                icon="lock">
                             {I18n.t('js.user.signup.confirm_password')}
                         </Input>

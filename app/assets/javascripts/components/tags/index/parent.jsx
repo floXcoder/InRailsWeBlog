@@ -12,11 +12,11 @@ var ParentTag = React.createClass({
         onClickTag: React.PropTypes.func.isRequired
     },
 
-    _handleTagClick (parentTagName, childTagName, event) {
+    _handleTagClick (tagId, parentTagName, childTagName, event) {
         if (event) {
             event.preventDefault();
         }
-        this.props.onClickTag(parentTagName, childTagName);
+        this.props.onClickTag(tagId, parentTagName, childTagName);
         return false;
     },
 
@@ -54,7 +54,7 @@ var ParentTag = React.createClass({
             <li>
                 <a className={parentLinkClasses}>
                     <span className="waves-light btn-small tag-parent"
-                          onClick={this._handleTagClick.bind(this, this.props.tag.name, null)}>
+                          onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, null)}>
                         {this.props.tag.name}
                     </span>
                     {this._renderArrow()}

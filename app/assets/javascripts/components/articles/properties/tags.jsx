@@ -2,6 +2,8 @@
 
 var classNames = require('classnames');
 
+var TagStore = require('../../../stores/tagStore');
+
 var ArticleTags = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
@@ -16,9 +18,10 @@ var ArticleTags = React.createClass({
         };
     },
 
-    _handleTagClick (tagName, event) {
+    _handleTagClick (tagId, tagName, event) {
         event.preventDefault();
-        this.props.onClickTag(tagName);
+        TagStore.onTrackClick(tagId);
+        this.props.onClickTag(tagId, tagName);
     },
 
     render () {
@@ -42,7 +45,7 @@ var ArticleTags = React.createClass({
             if (this.props.onClickTag) {
                 return (
                     <a key={tag.id}
-                       onClick={this._handleTagClick.bind(this, tag.name)}
+                       onClick={this._handleTagClick.bind(this, tag.id, tag.name)}
                        className={tagClasses}>
                         {tag.name}
                     </a>
@@ -63,9 +66,11 @@ var ArticleTags = React.createClass({
                 <div>
                     {Tags}
                 </div>
-            )
+            );
         } else {
-            return null;
+            return (
+                <div className="article-tag-empty">.</div>
+            );
         }
     }
 });

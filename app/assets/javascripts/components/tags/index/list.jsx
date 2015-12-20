@@ -3,6 +3,8 @@
 var ArticleActions = require('../../../actions/articleActions');
 var ParentTag = require('./parent');
 
+var TagStore = require('../../../stores/tagStore');
+
 var IndexTagList = React.createClass({
     propTypes: {
         tags: React.PropTypes.object.isRequired,
@@ -22,7 +24,9 @@ var IndexTagList = React.createClass({
         //$('.blog-index-tag .collapsible').collapsible();
     },
 
-    _handleTagClick (parentTagName, childTagName) {
+    _handleTagClick (tagId, parentTagName, childTagName) {
+        TagStore.onTrackClick(tagId);
+
         let tags = [];
         if (!$.isEmpty(childTagName)) {
             tags.push(parentTagName);

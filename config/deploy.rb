@@ -24,8 +24,8 @@ set :deploy_via, :remote_cache
 
 # SSH options : use an "agent forwarding" to connect to the remote repository
 set :ssh_options, {
-    forward_agent: true,
-    port: 7070
+  forward_agent: true,
+  port: 7070
 }
 
 # Specify how many releases Capistrano should store on your server
@@ -90,17 +90,21 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:web), in: :sequence, wait: 5 do
-      execute :touch, release_path.join('tmp/restart.txt')
+      execute :sudo, '/etc/init.d/apache2 restart'
     end
   end
 
+  # Configure server to run these commands without password
   desc 'Reset database'
   task :reset_database do
     on roles(:app) do
       on primary :db do
         within release_path do
           with rails_env: fetch(:rails_env) do
+            execute :sudo, '/etc/init.d/apache2 stop'
+            execute :sudo, '/etc/init.d/postgresql restart'
             execute :rake, 'InRailsWeBlog:populate[reset]'
+            execute :sudo, '/etc/init.d/apache2 start'
           end
         end
       end
@@ -127,5 +131,5 @@ end
 
 # Commands:
 # cap production deploy
-# <stop apache>
 # cap production deploy:reset_database
+# cap production deploy:index_elasticsearch

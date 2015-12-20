@@ -32,10 +32,10 @@ var IndexTagBox = React.createClass({
         };
     },
 
-    onLoadTag (tagStore) {
+    onLoadTag (tagData) {
         this.setState({
-            tags: _.indexBy(tagStore, 'id'),
-            filteredTags: _.indexBy(tagStore, 'id'),
+            tags: _.indexBy(tagData, 'id'),
+            filteredTags: _.indexBy(tagData, 'id'),
             isLoading: false
         });
     },

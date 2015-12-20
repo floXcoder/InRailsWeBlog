@@ -94,6 +94,21 @@ en:
     tag:
       show:
         page_title: "%{name}"
+    error:
+      page_title: "Oops ..."
+      status:
+        title:
+          default: "An error happened :("
+          404: "Can not find page"
+          422: "Unauthorized request!"
+          500: "Oh! Internal error!"
+        explanation:
+          default: "An internal error occurred. The problem was reported, please try another action :)"
+          404: "The page was not found on server, to err is human!"
+          422: "Impossible to fully satisfy your request"
+          500: "An internal error occurred. The problem was reported, please try another action :)"
+      back_button: "Previous page"
+      home_button: "Back home!"
   user:
     pseudo: "Pseudo"
     by: "By"
@@ -128,6 +143,9 @@ en:
   activerecord:
     errors:
       models:
+        bookmark:
+          already_bookmarked: "Article already bookmarked!"
+          no_bookmarked: "Article no bookmarked!"
         picture:
           image_size: "must be less than 5Mb"
   email:

@@ -1,7 +1,6 @@
 'use strict';
 
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-var classNames = require('classnames');
 var InfiniteScroll = require('../../../components/materialize/infiniteScroll');
 
 var ArticleActions = require('../../../actions/articleActions');

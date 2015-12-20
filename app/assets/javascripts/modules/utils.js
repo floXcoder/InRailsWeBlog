@@ -75,11 +75,6 @@
             this.on('click', function () {
                 jQuery(document).scrollTop(0);
             });
-        },
-
-        showTab: function () {
-            //event.preventDefault();
-            this.tab('show');
         }
     });
 
@@ -191,91 +186,13 @@
             return rrange;
         },
 
-        pad2: function (number) {
-            return (number < 10 ? "0" : "") + number;
-        },
-
-        // pace in decimal minutes (per mi or km)
-        formatPace: function (pace) {
-            var avgPaceMin = Math.floor(pace);
-            var avgPaceSec = Math.floor(Math.round((pace - avgPaceMin) * 60));
-
-            if (avgPaceSec === 60) {
-                avgPaceSec = 0;
-                avgPaceMin++;
-            }
-
-            var avgPaceSecStr = avgPaceSec.toString();
-
-            if (avgPaceSec < 10) {
-                avgPaceSecStr = '0' + avgPaceSecStr;
-            }
-
-            return avgPaceMin + ':' + avgPaceSecStr;
-        },
-
-        timeToSeconds: function (time) {
-            var ref, hours, minutes;
-            ref = time.split(':');
-            hours = parseInt(ref[0], 10);
-            minutes = parseInt(ref[1], 10);
-
-            return hours * 60 + minutes;
-        },
-
-        formatTime: function (totalMin, showZeroHours) {
-            var hours = Math.floor(Math.floor(totalMin) / 60);
-            var min = Math.floor(totalMin) % 60;
-            var sec = Math.floor((totalMin - Math.floor(totalMin)) * 60.0);
-
-            if (sec === 60) {
-                sec = 0;
-                min++;
-            }
-
-            if (min === 60) {
-                min = 0;
-                hours++;
-            }
-
-            var secStr = sec.toString();
-
-            if (sec < 10) {
-                secStr = '0' + secStr;
-            }
-
-            var minStr = min.toString();
-
-            if (min < 10) {
-                minStr = '0' + minStr;
-            }
-
-            if (showZeroHours || hours > 0) {
-                return hours + ':' + minStr + ':' + secStr;
-            }
-            else {
-                return minStr + ':' + secStr;
-            }
-        },
-
-        generateDataPointIndexes: function (chartData) {
-            for (var i = 0; i < chartData.series.length; i++) {
-                if (chartData.series[i].data.length > 0) {
-                    chartData.series[i].data = jQuery.map(chartData.series[i].data, function (value, index) {
-                        if (value.length == undefined) {
-                            return {y: value, index: index};
-                        }
-                        else if (value.length == 2) {
-                            return {x: value[0], y: value[1], index: index};
-                        }
-                    });
-                }
-            }
-        },
-
         roundNumber: function (number, decimalPlaces) {
             var multiplier = Math.pow(10, decimalPlaces);
             return Math.round(number * multiplier) / multiplier;
+        },
+
+        getUrlPaths: function() {
+            return window.location.pathname.split('/');
         },
 
         // Use:
@@ -308,11 +225,6 @@
                     url += "&" + paramName + "=" + paramValue;
             }
             window.location.href = url;
-        },
-
-        urlParam: function (name) {
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-            return results[1] || 0;
         },
 
         // Array must be sorted

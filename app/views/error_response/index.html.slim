@@ -1,0 +1,14 @@
+.row
+  .col.s8.offset-s2
+    .card.center-align.blue-grey.darken-1
+      .card-content.white-text
+        span.card-title
+          = t(status, scope: 'views.error.status.title', default: :default)
+        p
+          = t(status, scope: 'views.error.status.explanation', default: :default)
+      .card-action
+        .row
+          .col.s12.m6
+            = link_to t('views.error.back_button'), :back, class: 'btn waves-effect waves-light white-text'
+          .col.s12.m6
+            = link_to t('views.error.home_button'), :back, class: 'btn waves-effect waves-light white-text'

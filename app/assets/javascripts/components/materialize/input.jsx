@@ -17,7 +17,8 @@ var Input = React.createClass({
         onBlur: React.PropTypes.func,
         onChange: React.PropTypes.func,
         onInput: React.PropTypes.func,
-        onKeyDown: React.PropTypes.func
+        onKeyDown: React.PropTypes.func,
+        characterCount: React.PropTypes.number
     },
 
     getDefaultProps () {
@@ -32,7 +33,8 @@ var Input = React.createClass({
             onBlur: null,
             onChange: null,
             onInput: null,
-            onKeyDown: null
+            onKeyDown: null,
+            characterCount: null
         };
     },
 
@@ -42,6 +44,14 @@ var Input = React.createClass({
             textSuccess: null,
             textError: null
         };
+    },
+
+    componentDidMount () {
+        if(this.props.characterCount) {
+            let $currentElement = $(ReactDOM.findDOMNode(this.refs[this.props.id]));
+            $currentElement.attr('length', this.props.characterCount);
+            $currentElement.characterCounter();
+        }
     },
 
     setValid (textSuccess) {
@@ -60,16 +70,8 @@ var Input = React.createClass({
         });
     },
 
-    reset () {
-        this.setState({
-            valid: true,
-            textSuccess: null,
-            textError: null
-        });
-    },
-
     focus () {
-      this.refs[this.props.id].focus();
+        this.refs[this.props.id].focus();
     },
 
     value () {
@@ -78,6 +80,14 @@ var Input = React.createClass({
 
     setValue (value) {
         this.refs[this.props.id].value = value;
+    },
+
+    reset () {
+        this.setState({
+            valid: true,
+            textSuccess: null,
+            textError: null
+        });
     },
 
     renderIcon () {
@@ -101,7 +111,7 @@ var Input = React.createClass({
 
         return (
             <div className="input-field">
-                { this.renderIcon() }
+                {this.renderIcon()}
 
                 <input ref={this.props.id}
                        id={this.props.id}

@@ -30,8 +30,24 @@ class ArticlePolicy
     @current_user && @article.author?(@current_user)
   end
 
-  def bookmark?
+  def add_bookmark?
     @current_user
+  end
+
+  def remove_bookmark?
+    @current_user && @current_user.bookmarks.exists?(@article.id)
+  end
+
+  def add_comment?
+    @current_user && @article.allow_comment?
+  end
+
+  def update_comment?
+    @current_user && @article.allow_comment?
+  end
+
+  def remove_comment?
+    @current_user && @article.allow_comment?
   end
 
   def destroy?

@@ -52,17 +52,17 @@ var ErrorIndex = React.createClass({
 
                     <div className="collapsible-body">
                         <h5>
-                            {I18n.t('js.error.url')}
+                            {I18n.t('js.error_message.url')}
                         </h5>
                         <blockquote>
                             {error.target_url}
                         </blockquote>
                         <h5>
-                            {I18n.t('js.error.message')}
+                            {I18n.t('js.error_message.message')}
                         </h5>
                         { error.trace ? <blockquote dangerouslySetInnerHTML={{__html: error.message.replace(/\n/g, "<br />")}}/> : ''}
                         <h5>
-                            {I18n.t('js.error.trace')}
+                            {I18n.t('js.error_message.trace')}
                         </h5>
                         { error.trace ? <blockquote dangerouslySetInnerHTML={{__html: error.trace.replace(/\n/g, "<br />")}}/> : ''}
                     </div>

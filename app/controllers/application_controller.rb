@@ -4,14 +4,11 @@ class ApplicationController < ActionController::Base
 
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from Pundit::AuthorizationNotPerformedError, with: :user_not_authorized
 
-  def w(msg)
-    if defined?(Rails.logger.ap)
-      Rails.logger.ap msg, :warn
-    end
-  end
+  serialization_scope :current_user
 
-  before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
 
   def set_locale
@@ -36,6 +33,12 @@ class ApplicationController < ActionController::Base
     current_user.locale = I18n.locale if current_user && current_user.locale.to_s != I18n.locale.to_s
   end
 
+  def w(msg)
+    if defined?(Rails.logger.ap)
+      Rails.logger.ap msg, :warn
+    end
+  end
+
   # Redirection when Javascript is used.
   # +flash_type+ parameters:
   #  success
@@ -45,7 +48,7 @@ class ApplicationController < ActionController::Base
   def js_redirect_to(path, flash_type = nil, flash_message = nil)
     if flash_type
       flash[flash_type] = flash_message
-      flash.keep(flash_type)
+      # flash.keep(flash_type)
     end
 
     render js: %(window.location.href='#{path}') and return
@@ -69,10 +72,14 @@ class ApplicationController < ActionController::Base
     # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
     self.response_body = nil
 
-    policy_name = exception.policy.class.to_s.underscore
-    policy_type = exception.query
+    if exception.respond_to?(:policy) && exception.respond_to?(:query)
+      policy_name = exception.policy.class.to_s.underscore
+      policy_type = exception.query
 
-    flash.now[:alert] = t "#{policy_name}.#{policy_type}", scope: 'pundit', default: :default
+      flash.now[:alert] = t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
+    else
+      flash.now[:alert] = t('pundit.default')
+    end
 
     respond_to do |format|
       format.js { js_redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
@@ -108,14 +115,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     previous_url = previous_url(request.referrer)
 
     if !session[:previous_url] && request.referrer && request.referrer.include?(root_url) && previous_url
       session[:previous_url] = request.referrer
     end
 
-    session[:previous_url] || root_user_path(current_user)
+    session[:previous_url] || root_path(current_user)
   end
 
   def store_location

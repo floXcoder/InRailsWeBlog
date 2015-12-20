@@ -78,6 +78,7 @@ var Login = React.createClass({
                 <form id={this.props.formId}
                       method="post"
                       action={this.props.url}
+                      className="blog-modal-form"
                       data-remote="true"
                       acceptCharset="UTF-8"
                       noValidate="novalidate">
@@ -96,8 +97,6 @@ var Login = React.createClass({
                         <Input id="user_password"
                                type="password"
                                classType="important"
-                               minLength={window.parameters.user_password_min_length}
-                               maxLength={window.parameters.user_password_max_length}
                                icon="lock">
                             {I18n.t('js.user.login.password')}
                         </Input>
@@ -110,11 +109,11 @@ var Login = React.createClass({
                     </div>
 
                     <ModalFooter>
-                        <a href="#"
-                           onClick={this._handleCancelClick}>
+                        <a onClick={this._handleCancelClick}>
                             {I18n.t('js.user.login.cancel')}
                         </a>
-                        <Submit ref="submitLogin" id="login-submit">
+                        <Submit ref="submitLogin"
+                                id="login-submit">
                             {I18n.t('js.user.login.submit')}
                         </Submit>
                     </ModalFooter>

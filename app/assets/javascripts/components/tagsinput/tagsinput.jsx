@@ -35,8 +35,8 @@ var TagsInput = React.createClass({
         this.setState({selectedTags: []});
     },
 
-    onTagChange(tagStore) {
-        this.setState({tagList: tagStore});
+    onTagChange(tagData) {
+        this.setState({tagList: tagData});
     },
 
     _onTagExists(tag) {

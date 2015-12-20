@@ -3,7 +3,8 @@
 var Submit = React.createClass({
     propTypes: {
         children: React.PropTypes.string.isRequired,
-        id: React.PropTypes.string.isRequired
+        id: React.PropTypes.string.isRequired,
+        onClick: React.PropTypes.func
     },
 
     getInitialState () {
@@ -22,15 +23,15 @@ var Submit = React.createClass({
 
     render () {
         return (
-                <input ref={this.props.id}
-                       id={this.props.id}
-                       disabled={this.state.disabled}
-                       className="btn"
-                       type="submit"
-                       value={this.props.children}
-                       onClick={this.props.onClick}
-                       name="commit">
-                </input>
+            <input ref={this.props.id}
+                   id={this.props.id}
+                   disabled={this.state.disabled}
+                   className="btn"
+                   type="submit"
+                   value={this.props.children}
+                   onClick={this.props.onClick}
+                   name="commit">
+            </input>
         );
     }
 });

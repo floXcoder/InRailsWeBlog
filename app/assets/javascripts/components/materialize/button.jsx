@@ -6,6 +6,7 @@ var Button = React.createClass({
         onClickButton: React.PropTypes.func,
         tooltip: React.PropTypes.string,
         icon: React.PropTypes.string,
+        iconPosition: React.PropTypes.string,
         id: React.PropTypes.string
     },
 
@@ -14,13 +15,14 @@ var Button = React.createClass({
             onClickButton: null,
             tooltip: null,
             icon: null,
-            id: null
+            id: null,
+            iconPosition: 'right'
         };
     },
 
     getInitialState() {
         return {
-            disabled: true
+            disabled: false
         };
     },
 
@@ -45,7 +47,7 @@ var Button = React.createClass({
     _renderIcon () {
         if (this.props.icon) {
             return (
-                <i className="material-icons right">{this.props.icon}</i>
+                <i className={`material-icons ${this.props.iconPosition}`}>{this.props.icon}</i>
             )
         }
     },
