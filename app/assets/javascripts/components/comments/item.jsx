@@ -64,7 +64,7 @@ var CommentItem = React.createClass({
                         {this.props.date}
                     </span>
 
-                    {this.props.rating &&
+                    {this.props.rating > 0 &&
                     <div className="comment-rating">
                         <Rating initialRating={this.props.rating}
                                 readOnly={true}/>

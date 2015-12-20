@@ -29,10 +29,8 @@ module CommentConcern
     comment.assign_attributes(comment_params)
     comment.assign_attributes(user_id: current_user.id)
 
-    record.new_comment(comment)
-
     respond_to do |format|
-      if record.save
+      if record.new_comment(comment)
         record.track_comments(comment)
         current_user.track_comments(comment)
 
@@ -52,7 +50,7 @@ module CommentConcern
     authorize comment, :update?
 
     respond_to do |format|
-      if comment.update_attributes(comment_update_params)
+      if record.update_comment(comment, comment_update_params)
         format.json { render json: comment, status: :accepted, location: record }
       else
         format.json { render json: comment.errors, status: :unprocessable_entity }
@@ -86,11 +84,13 @@ module CommentConcern
     params.require(:comments).permit(:id,
                                      :title,
                                      :body,
+                                     :rating,
                                      :parent_id)
   end
 
   def comment_update_params
     params.require(:comments).permit(:title,
+                                     :rating,
                                      :body)
   end
 end

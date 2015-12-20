@@ -78,6 +78,7 @@ var Login = React.createClass({
                 <form id={this.props.formId}
                       method="post"
                       action={this.props.url}
+                      className="blog-modal-form"
                       data-remote="true"
                       acceptCharset="UTF-8"
                       noValidate="novalidate">

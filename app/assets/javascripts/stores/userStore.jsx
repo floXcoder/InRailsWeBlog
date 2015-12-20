@@ -24,6 +24,7 @@ var UserStore = Reflux.createStore({
 
     init () {
         this._loadUserPreferences();
+        return true;
     },
 
     _loadUserPreferences (data) {

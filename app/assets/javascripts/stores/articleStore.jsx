@@ -23,6 +23,7 @@ var ArticleStore = Reflux.createStore({
     init () {
         // Will call handleParams
         this.bindToBrowser();
+        return true;
     },
 
     onInitStore (initialRequest) {

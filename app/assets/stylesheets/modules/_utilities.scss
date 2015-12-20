@@ -125,13 +125,13 @@
 
 .clearfix:before,
 .clearfix:after {
-  content: ".";
+  content: '.';
   display: block;
   height: 0;
   overflow: hidden;
 }
 .clearfix:after { clear: both; }
-.clearfix { zoom: 1; } /* IE < 8 */
+.clearfix { zoom: 1; } // IE < 8
 
 @media #{$small-and-down} {
   .row .s2-clearfix:nth-child(6n+1) {

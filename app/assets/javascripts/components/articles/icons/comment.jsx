@@ -12,7 +12,7 @@ var ArticleCommentIcon = React.createClass({
                 <a href={this.props.articleLink + '#comments'}
                    className="article-comment-number">
                     <div className="tooltipped"
-                         data-tooltip={I18n.t('js.article.tooltip.comment_number', {number: this.props.commentsNumber})}>
+                         data-tooltip={I18n.t('js.article.tooltip.comments_number', {number: this.props.commentsNumber})}>
                         {this.props.commentsNumber}
                         <i className="material-icons">comment</i>
                     </div>

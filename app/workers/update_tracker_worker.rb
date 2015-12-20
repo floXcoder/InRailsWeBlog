@@ -1,5 +1,6 @@
 class UpdateTrackerWorker
   include Sidekiq::Worker
+  sidekiq_options queue: :inrailsweblog_default
 
   def perform(*args)
     tracked_class = args.first['tracked_class']

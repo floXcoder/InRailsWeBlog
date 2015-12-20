@@ -3,15 +3,7 @@ RailsExceptionHandler.configure do |config|
   # Defaults to [:production]
   config.environments           = [:production]
 
-  # Available options: [:active_record, :rails_log, :remote_url => {:target => 'http://example.com'}]
-  config.storage_strategies     = [:active_record, :rails_log]
-
-  # Change database/table for the active_record storage strategy
-  config.active_record_store_in = {
-    database:     Rails.env.to_sym,
-    record_table: 'error_messages'
-  }
-
+  # Layout for error pages
   config.fallback_layout  = 'errors'
 
   config.responses        = {
@@ -25,6 +17,15 @@ RailsExceptionHandler.configure do |config|
     'ActiveRecord::RecordNotFound'               => :not_found,
     'AbstractController::ActionNotFound'         => :not_found,
     'ActionController::InvalidAuthenticityToken' => :wrong_token
+  }
+
+  # Available options: [:active_record, :rails_log, :remote_url => {:target => 'http://example.com'}]
+  config.storage_strategies     = [:active_record, :rails_log]
+
+  # Change database/table for the active_record storage strategy
+  config.active_record_store_in = {
+    database:     Rails.env.to_sym,
+    record_table: 'error_messages'
   }
 
   config.store_request_info do |storage, request|

@@ -13,10 +13,64 @@
     $i: 1;
     @while $i <= $num-cols {
       $perc: unquote((100 / ($num-cols / $i)) + "%");
+      &.s#{$i} {
+        width: $perc;
+        margin-left: 0;
+      }
       &.offset-s#{$i} {
         margin-left: $perc !important;
       }
+      &.pull-s#{$i} {
+        right: $perc;
+      }
+      &.push-s#{$i} {
+        left: $perc;
+      }
       $i: $i + 1;
+    }
+
+    @media #{$medium-and-up} {
+
+      $i: 1;
+      @while $i <= $num-cols {
+        $perc: unquote((100 / ($num-cols / $i)) + "%");
+        &.m#{$i} {
+          width: $perc;
+          margin-left: 0;
+        }
+        &.offset-m#{$i} {
+          margin-left: $perc !important;
+        }
+        &.pull-m#{$i} {
+          right: $perc;
+        }
+        &.push-m#{$i} {
+          left: $perc;
+        }
+        $i: $i + 1;
+      }
+    }
+
+    @media #{$large-and-up} {
+
+      $i: 1;
+      @while $i <= $num-cols {
+        $perc: unquote((100 / ($num-cols / $i)) + "%");
+        &.l#{$i} {
+          width: $perc;
+          margin-left: 0;
+        }
+        &.offset-l#{$i} {
+          margin-left: $perc !important;
+        }
+        &.pull-l#{$i} {
+          right: $perc;
+        }
+        &.push-l#{$i} {
+          left: $perc;
+        }
+        $i: $i + 1;
+      }
     }
   }
 }

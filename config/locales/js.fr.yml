@@ -86,7 +86,7 @@ fr:
         remove_bookmark: "Enlever des favoris"
         history: "Voir les anciennes révisions de l'article"
         is_link: "C'est un lien"
-        comment_number: "%{number} commentaires"
+        comments_number: "%{number} commentaires"
         link_to: "Aller vers l'article"
         cancel: "Annuler"
         update: "Mettre à jour l'article"

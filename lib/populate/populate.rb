@@ -139,40 +139,40 @@ class Populate
     end
   end
 
-  def self.create_activities_for_articles(articles)
-    Article.transaction do
-      articles.each do |article|
+  def self.create_activities_for_articles
+    Tracker.transaction do
+      Article.all.each do |article|
         article.tracker.queries_count = rand(1..100)
         article.tracker.searches_count = rand(1..20)
         article.tracker.comments_count = article.comment_threads.count
         article.tracker.bookmarks_count = article.user_bookmarks.count
         article.tracker.clicks_count = rand(1..60)
         article.tracker.views_count = rand(1..200)
-        article.save
+        article.tracker.save
       end
     end
   end
 
-  def self.create_activities_for_users(users)
-    User.transaction do
-      users.each do |user|
+  def self.create_activities_for_users
+    Tracker.transaction do
+      User.all.each do |user|
         user.tracker.queries_count = rand(1..100)
         user.tracker.comments_count = user.comments.count
         user.tracker.bookmarks_count = user.bookmarks.count
         user.tracker.clicks_count = rand(1..60)
         user.tracker.views_count = rand(1..200)
-        user.save
+        user.tracker.save
       end
     end
   end
 
-  def self.create_activities_for_tags(tags)
-    Tag.transaction do
-      tags.each do |tag|
+  def self.create_activities_for_tags
+    Tracker.transaction do
+      Tag.all.each do |tag|
         tag.tracker.queries_count = rand(1..100)
         tag.tracker.clicks_count = rand(1..60)
         tag.tracker.views_count = rand(1..200)
-        tag.save
+        tag.tracker.save
       end
     end
   end

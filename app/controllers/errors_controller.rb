@@ -4,7 +4,7 @@ class ErrorsController < ApplicationController
 
   skip_before_action :set_locale, only: [:create]
 
-  respond_to :json, :html
+  respond_to :json
 
   def index
     authorize current_user, :admin?
@@ -27,10 +27,6 @@ class ErrorsController < ApplicationController
   end
 
   private
-
-  def status_code
-    params[:code] || 500
-  end
 
   def error_params
     params.require(:error).permit(:message,

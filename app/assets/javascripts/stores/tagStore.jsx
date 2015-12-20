@@ -13,6 +13,7 @@ var TagStore = Reflux.createStore({
 
     init () {
         this.onFetchTags();
+        return true;
     },
 
     onFetchTags () {

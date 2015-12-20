@@ -6,6 +6,6 @@ demo:
 production:
   :concurrency: 20
 :queues:
-  - [high, 2]
-  - default
-  - carrierwave
+  - [inrailsweblog_high, 2]
+  - inrailsweblog_default
+  - inrailsweblog_carrierwave

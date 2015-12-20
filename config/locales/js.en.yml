@@ -86,7 +86,7 @@ en:
         remove_bookmark: "Remove from bookmarks"
         history: "See article history"
         is_link: "This is a link"
-        comment_number: "%{number} comments"
+        comments_number: "%{number} comments"
         link_to: "Go to article"
         cancel: "Cancel"
         update: "Update article"

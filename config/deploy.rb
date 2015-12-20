@@ -132,3 +132,4 @@ end
 # Commands:
 # cap production deploy
 # cap production deploy:reset_database
+# cap production deploy:index_elasticsearch

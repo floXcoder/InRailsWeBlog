@@ -77,12 +77,12 @@
         }
 
         i {
+          font-size: 2.3rem;
           height: 64px;
           line-height: 64px;
+          margin-right: 1rem;
           position: absolute;
           right: 1rem;
-          margin-right: 1rem;
-          font-size: 2.3rem;
         }
 
         .header-collapse {
@@ -91,9 +91,9 @@
       }
 
       .header-icon {
+        height: 56px;
         position: relative;
         z-index: 1;
-        height: 56px;
 
         .material-icons {
           font-size: 2.5rem;

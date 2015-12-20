@@ -95,13 +95,13 @@ en:
       show:
         page_title: "%{name}"
     error:
-      page_title: "Oups ..."
+      page_title: "Oops ..."
       status:
         title:
           default: "An error happened :("
           404: "Can not find page"
           422: "Unauthorized request!"
-          500: "Oh ! Internal error!"
+          500: "Oh! Internal error!"
         explanation:
           default: "An internal error occurred. The problem was reported, please try another action :)"
           404: "The page was not found on server, to err is human!"

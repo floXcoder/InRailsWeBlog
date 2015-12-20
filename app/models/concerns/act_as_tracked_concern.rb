@@ -3,12 +3,20 @@ module ActAsTrackedConcern
 
   included do
     has_one :tracker, class_name: 'Tracker', as: :tracked
+    accepts_nested_attributes_for :tracker, allow_destroy: true
     after_create do |record|
       record.update_attribute(:tracker, Tracker.create(tracked: self))
     end
     class_attribute :tracker_metrics
+
+    # Helpers
+    scope :most_viewed, -> { joins(:tracker).order('trackers.views_count DESC') }
+    scope :most_clicked, -> { joins(:tracker).order('trackers.clicks_count DESC') }
+    scope :most_commented, -> { joins(:tracker).order('trackers.comments_count DESC') }
+    scope :recently_tracked, -> { where(trackers: {updated_at: 15.days.ago..Time.zone.now}) }
   end
 
+  # Tracking
   def track_comments(comments)
     if self.tracker_metrics.include? :comments
       comments = [comments] unless comments.is_a? Array
@@ -47,6 +55,7 @@ module ActAsTrackedConcern
     end
   end
 
+  # Class methods
   class_methods do
     def acts_as_tracked(*trackers)
       self.tracker_metrics = trackers
