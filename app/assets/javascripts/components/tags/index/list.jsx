@@ -18,11 +18,15 @@ var IndexTagList = React.createClass({
     },
 
     componentDidMount () {
-        //$('.blog-index-tag .collapsible').collapsible();
+        $('.blog-index-tag .collapsible').collapsible({
+            accordion: false
+        });
     },
 
     componentDidUpdate () {
-        //$('.blog-index-tag .collapsible').collapsible();
+        $('.blog-index-tag .collapsible').collapsible({
+            accordion: false
+        });
     },
 
     _handleTagClick (tagId, parentTagName, childTagName) {
@@ -38,6 +42,7 @@ var IndexTagList = React.createClass({
             ArticleActions.loadArticlesByTag({tags: tags});
         }
 
+        // Close sidebar if no children
         TagAction.closeSidebar();
 
         return true;
@@ -61,14 +66,14 @@ var IndexTagList = React.createClass({
                                tag={tag}
                                filteredTags={this.props.filteredTags}
                                textFiltered={this.props.filterText !== ''}
-                               onClickTag={this._handleTagClick} />
+                               onClickTag={this._handleTagClick}/>
                 );
             }, this);
         }
 
         if (!$.isEmpty(TagItems)) {
             return (
-                <ul className="collapsible collapsible-accordion"
+                <ul className="collapsible"
                     data-collapsible="expandable">
                     {TagItems}
                 </ul>

@@ -42,8 +42,30 @@ var ArticleForm = React.createClass({
             multiLanguage: this.props.multiLanguage || false,
             editors: {},
             isLink: false,
-            isSubmitted: false
+            temporary: this.props.temporary || false,
+            isSubmitted: false,
+            currentTags: null
         };
+    },
+
+    componentWillMount () {
+        if (this.props.article) {
+            // Set tags
+            let childTags = _.indexBy(this.props.article.child_tags, 'id');
+            let parentTags = _.indexBy(this.props.article.parent_tags, 'id');
+            this.state.currentTags = this.props.article.tags.map((tag) => {
+                let tagWithRelation = tag;
+                if (parentTags[tag.id]) {
+                    tagWithRelation.parent = true;
+                } else if (childTags[tag.id]) {
+                    tagWithRelation.child = true;
+                }
+                return tagWithRelation;
+            });
+        } else {
+            // Update article properties according to current page
+            this._updateFieldsFromState();
+        }
     },
 
     componentDidMount () {
@@ -132,7 +154,7 @@ var ArticleForm = React.createClass({
         let $editor = $(id);
 
         let toolbar = [];
-        if(window.innerWidth > window.parameters.medium_screen_up) {
+        if (window.innerWidth > window.parameters.medium_screen_up) {
             toolbar = [
                 ['style', ['style', 'bold', 'italic', 'underline']],
                 ['specialStyle', ['specialStyle']],
@@ -180,6 +202,7 @@ var ArticleForm = React.createClass({
     },
 
     _updateFields () {
+        // Set title, summary and content
         if (this.state.multiLanguage) {
             this.refs.englishTitle.setValue(this.props.article.title_en);
             this.refs.englishSummary.setValue(this.props.article.summary_en);
@@ -194,11 +217,46 @@ var ArticleForm = React.createClass({
             $('#single-editor').summernote('focus');
         }
 
+        // Set is link
         if (this.props.article.is_link) {
             this.state.isLink = true;
         }
 
         this.refs.submit.setState({disabled: false});
+    },
+
+    _updateFieldsFromState () {
+        log.info(ArticleStore.currentState);
+
+        if (!$.isEmpty(ArticleStore.currentState)) {
+            if (ArticleStore.currentState.relationTags) {
+                this.state.currentTags = ArticleStore.currentState.relationTags.map((tag, i) => {
+                    if (i === 0) {
+                        return {
+                            name: tag,
+                            parent: true
+                        };
+                    } else {
+                        return {
+                            name: tag,
+                            child: true
+                        };
+                    }
+                });
+            } else if (ArticleStore.currentState.tags) {
+                this.state.currentTags = ArticleStore.currentState.tags.map((tag) => {
+                    return {name: tag};
+                });
+            }
+
+            if (ArticleStore.currentState.mode && ArticleStore.currentState.mode === 'temporary') {
+                this.state.temporary = true;
+            }
+
+            if (ArticleStore.currentState.mode && ArticleStore.currentState.mode === 'link') {
+                this.state.is_link = true;
+            }
+        }
     },
 
     _handleInputChange (event) {
@@ -393,7 +451,7 @@ var ArticleForm = React.createClass({
             _.merge(submitData, {is_link: this.state.isLink});
         }
 
-        if(submitData.content &&
+        if (submitData.content &&
             submitData.title.length > window.parameters.title_min_length &&
             submitData.summary.length > window.parameters.summary_min_length &&
             submitData.content.length > window.parameters.content_min_length) {
@@ -491,20 +549,6 @@ var ArticleForm = React.createClass({
     },
 
     render () {
-        if (this.props.article) {
-            let childTags = _.indexBy(this.props.article.child_tags, 'id');
-            let parentTags = _.indexBy(this.props.article.parent_tags, 'id');
-            var tags = this.props.article.tags.map(function (tag) {
-                let tagWithRelation = tag;
-                if (parentTags[tag.id]) {
-                    tagWithRelation.parent = true;
-                } else if (childTags[tag.id]) {
-                    tagWithRelation.child = true;
-                }
-                return tagWithRelation;
-            }.bind(this));
-        }
-
         let article = this.props.article || {};
 
         return (
@@ -516,13 +560,13 @@ var ArticleForm = React.createClass({
                     <div className="col s12 m6 l6">
                         {I18n.t('js.article.new.tags.title')}
                         <TagsInput ref="tagsinput"
-                                   initialSelectedTags={tags}/>
+                                   initialSelectedTags={this.state.currentTags}/>
                     </div>
 
                     <div className="col s12 m6 l3">
                         <Checkbox ref="temporary"
                                   id="temporary"
-                                  checked={article.temporary || this.props.temporary}>
+                                  checked={article.temporary || this.state.temporary}>
                             {I18n.t('js.article.model.temporary')}
                         </Checkbox>
                         <div className="margin-bottom-20"/>

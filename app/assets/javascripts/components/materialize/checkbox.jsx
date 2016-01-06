@@ -9,6 +9,7 @@ var Checkbox = React.createClass({
             React.PropTypes.array
         ]),
         onCheckboxChange: React.PropTypes.func,
+        checked: React.PropTypes.bool,
         disabled: React.PropTypes.bool,
         id: React.PropTypes.string
     },
@@ -16,13 +17,14 @@ var Checkbox = React.createClass({
     getDefaultProps () {
         return {
             onCheckboxChanged: null,
+            checked: false,
             id: null
         };
     },
 
     getInitialState () {
         return {
-            checked: false,
+            checked: this.props.checked || false,
             disabled: this.props.disabled || false,
             valid: true
         };

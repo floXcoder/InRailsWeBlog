@@ -466,6 +466,12 @@
         }
       }
 
+      a {
+        color: $card-link-color;
+        margin-right: $card-padding;
+        transition: color .3s ease;
+      }
+
       //.col {
       //  margin: 10px 0;
       //}
@@ -583,19 +589,19 @@
       }
     }
 
-    .article-delete {
+    a.article-delete {
       margin-left: 4rem;
       margin-right: 4rem;
       cursor: pointer;
       background-color: color('teal', 'darken-1');
     }
 
-    .article-cancel {
+    a.article-cancel {
       cursor: pointer;
       background-color: color('deep-orange', 'darken-2');
     }
 
-    .article-update {
+    a.article-update {
       cursor: pointer;
       background-color: color('teal', 'darken-2');
     }

@@ -20,14 +20,6 @@ var ParentTag = React.createClass({
         return false;
     },
 
-    _renderArrow () {
-        if (this.props.tag.children.length > 0) {
-            return (
-                <i className="material-icons tag-dropdown">arrow_drop_down</i>
-            );
-        }
-    },
-
     _renderChildrenTag () {
         return _.map(this.props.tag.children, function (tag) {
             let childTag = this.props.filteredTags[tag.id];
@@ -57,7 +49,10 @@ var ParentTag = React.createClass({
                           onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, null)}>
                         {this.props.tag.name}
                     </span>
-                    {this._renderArrow()}
+                    {
+                        this.props.tag.children.length > 0 &&
+                        <i className="material-icons tag-dropdown">arrow_drop_down</i>
+                    }
                 </a>
 
                 <div className="collapsible-body tag-children">

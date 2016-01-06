@@ -16,6 +16,7 @@ var ArticleStore = Reflux.createStore({
     url: '/articles',
     initRequest: {},
     lastRequest: {},
+    currentState: {},
     hasMore: true,
     paramsFromUrl: {},
     browserState: {},
@@ -159,6 +160,7 @@ var ArticleStore = Reflux.createStore({
 
     _fetchArticles (data, callback) {
         var requestParam = {};
+        this.currentState = {};
 
         var url = this.url;
 
@@ -171,10 +173,12 @@ var ArticleStore = Reflux.createStore({
 
             if (data.tags) {
                 requestParam.tags = data.tags;
+                this.currentState.tags = data.tags;
             }
 
             if (data.relationTags) {
                 requestParam.relation_tags = data.relationTags;
+                this.currentState.relationTags = data.relationTags;
             }
 
             if (data.userId) {
@@ -187,6 +191,7 @@ var ArticleStore = Reflux.createStore({
 
             if (data.mode) {
                 requestParam.mode = data.mode;
+                this.currentState.mode = data.mode;
             }
 
             if (data.query) {
