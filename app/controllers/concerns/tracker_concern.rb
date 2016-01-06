@@ -10,13 +10,13 @@ module TrackerConcern
   def clicked
     class_model = params[:controller].classify.constantize
     class_model.track_clicks(params[:id])
-    render nothing: true
+    render json: { success: true }
   end
 
   def viewed
     class_model = params[:controller].classify.constantize
     class_model.track_views(params[:id].split(','))
-    render nothing: true
+    render json: { success: true }
   end
 
   private

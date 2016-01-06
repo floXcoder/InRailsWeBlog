@@ -85,9 +85,6 @@
 #                          PATCH  /errors/:id(.:format)             errors#update
 #                          PUT    /errors/:id(.:format)             errors#update
 #                          DELETE /errors/:id(.:format)             errors#destroy
-#                          GET    /404(.:format)                    errors#error {:code=>"404"}
-#                          GET    /422(.:format)                    errors#error {:code=>"422"}
-#                          GET    /500(.:format)                    errors#error {:code=>"500"}
 #
 
 require 'sidekiq/web'

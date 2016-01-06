@@ -334,6 +334,8 @@ class Article < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
 
   def sanitize_html
+    return '' if content.blank?
+
     content = self.content
 
     # Remove empty beginning block

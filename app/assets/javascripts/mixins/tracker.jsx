@@ -9,7 +9,9 @@ var TrackerMixin = {
 
         let url = this.url + '/' + elementId + '/clicked';
 
-        let requestParam = {};
+        let requestParam = {
+            id: elementId
+        };
 
         $.ajax({
             url: url,
@@ -24,6 +26,8 @@ var TrackerMixin = {
                 return false;
             }
         });
+
+        return true;
     },
 
     onTrackView: function (elementId) {
@@ -34,11 +38,12 @@ var TrackerMixin = {
 
         let url = this.url + '/' + elementId + '/viewed';
 
-        let requestParam = {};
+        let requestParam = {
+            id: elementId
+        };
 
         $.ajax({
             url: url,
-            async: false,
             dataType: 'json',
             type: 'POST',
             data: requestParam,
@@ -49,6 +54,8 @@ var TrackerMixin = {
                 return false;
             }.bind(this)
         });
+
+        return true;
     }
 };
 

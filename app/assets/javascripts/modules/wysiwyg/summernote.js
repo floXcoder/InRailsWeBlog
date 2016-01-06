@@ -24,7 +24,6 @@
 }(this, function ($) {
     'use strict';
 
-
     /**
      * @class core.func
      *
@@ -514,6 +513,8 @@
         var isHeading = function (node) {
             return node && /^H[1-7]/.test(node.nodeName.toUpperCase());
         };
+
+        var isPre = makePredByNodeName('PRE');
 
         var isLi = makePredByNodeName('LI');
 
@@ -1441,6 +1442,7 @@
             isBodyInline: isBodyInline,
             isBody: isBody,
             isParaInline: isParaInline,
+            isPre: isPre,
             isList: isList,
             isTable: isTable,
             isCell: isCell,
@@ -1521,10 +1523,36 @@
         this.layoutInfo = {};
         this.options = options;
 
+        /**
+         * create layout and initialize modules and other resources
+         */
         this.initialize = function () {
             // create layout info
             this.layoutInfo = ui.createLayout($note, options);
+            this._initialize();
+            $note.hide();
+            return this;
+        };
 
+        /**
+         * destroy modules and other resources and remove layout
+         */
+        this.destroy = function () {
+            this._destroy();
+            $note.removeData('summernote');
+            ui.removeLayout($note, this.layoutInfo);
+        };
+
+        /**
+         * destory modules and other resources and initialize it again
+         */
+        this.reset = function () {
+            this.code(dom.emptyPara);
+            this._destroy();
+            this._initialize();
+        };
+
+        this._initialize = function () {
             // add optional buttons
             var buttons = $.extend({}, this.options.buttons);
             Object.keys(buttons).forEach(function (key) {
@@ -1533,7 +1561,7 @@
 
             var modules = $.extend({}, this.options.modules, $.summernote.plugins || {});
 
-            // add module
+            // add and initialize modules
             Object.keys(modules).forEach(function (key) {
                 self.module(key, modules[key], true);
             });
@@ -1541,23 +1569,17 @@
             Object.keys(this.modules).forEach(function (key) {
                 self.initializeModule(key);
             });
-
-            $note.hide();
-            return this;
         };
 
-        this.destroy = function () {
-            Object.keys(this.modules).forEach(function (key) {
+        this._destroy = function () {
+            // destroy modules with reversed order
+            Object.keys(this.modules).reverse().forEach(function (key) {
                 self.removeModule(key);
             });
 
             Object.keys(this.memos).forEach(function (key) {
                 self.removeMemo(key);
             });
-
-            $note.removeData('summernote');
-
-            ui.removeLayout($note, this.layoutInfo);
         };
 
         this.code = function (html) {
@@ -1572,7 +1594,27 @@
                 } else {
                     this.layoutInfo.editable.html(html);
                 }
+                $note.val(html);
+                this.triggerEvent('change', html);
             }
+        };
+
+        this.isDisabled = function () {
+            return this.layoutInfo.editable.attr('contenteditable') === 'false';
+        };
+
+        this.enable = function () {
+            this.layoutInfo.editable.attr('contenteditable', true);
+            this.invoke('toolbar.activate', true);
+        };
+
+        this.disable = function () {
+            // close codeview if codeview is opend
+            if (this.invoke('codeview.isActivated')) {
+                this.invoke('codeview.deactivate');
+            }
+            this.layoutInfo.editable.attr('contenteditable', false);
+            this.invoke('toolbar.deactivate', true);
         };
 
         this.triggerEvent = function () {
@@ -1629,7 +1671,6 @@
             }
 
             delete this.modules[key];
-            this.modules[key] = null;
         };
 
         this.memo = function (key, obj) {
@@ -1645,7 +1686,6 @@
             }
 
             delete this.memos[key];
-            this.memos[key] = null;
         };
 
         this.createInvokeHandler = function (namespace, value) {
@@ -1699,8 +1739,9 @@
             this.each(function (idx, note) {
                 var $note = $(note);
                 if (!$note.data('summernote')) {
-                    $note.data('summernote', new Context($note, options));
-                    $note.data('summernote').triggerEvent('init');
+                    var context = new Context($note, options);
+                    $note.data('summernote', context);
+                    $note.data('summernote').triggerEvent('init', context.layoutInfo);
                 }
 
                 // Dropdown
@@ -1731,12 +1772,16 @@
             $('.dropdown-button').dropdown();
 
             var $note = this.first();
-            if (isExternalAPICalled && $note.length) {
+            if ($note.length) {
                 var context = $note.data('summernote');
-                return context.invoke.apply(context, list.from(arguments));
-            } else {
-                return this;
+                if (isExternalAPICalled) {
+                    return context.invoke.apply(context, list.from(arguments));
+                } else if (options.focus) {
+                    context.invoke('editor.focus');
+                }
             }
+
+            return this;
         }
     });
 
@@ -1747,6 +1792,10 @@
 
             if (options && options.contents) {
                 $node.html(options.contents);
+            }
+
+            if (options && options.id) {
+                $node.attr('id', options.id);
             }
 
             if (options && options.className) {
@@ -1760,7 +1809,7 @@
             }
 
             if (options && options.click) {
-                $node.on('mousedown', options.click);
+                $node.on('click', options.click);
             }
 
             if (children) {
@@ -1830,17 +1879,13 @@
             return '<li class="' + item + '"><button type="button" data-value="' + item + '" class="' + item + '">' + innerItem + '</button></li>';
         }).join('') : options.items;
 
-        $node.attr('id', options.id);
-
         $node.html(markup);
     });
 
     var dropdownCheckMaterialize = renderer.create('<ul class="dropdown-content note-check">', function ($node, options) {
         var markup = $.isArray(options.items) ? options.items.map(function (item) {
-            return '<li><button type="button" data-value="' + item + '"><i class="material-icons">check</i> ' + item + '</button></li>';
+            return '<li><button type="button" data-value="' + item + '">' + ui.icon(options.icons.menuCheck) + ' ' + item + '</button></li>';
         }).join('') : options.items;
-
-        $node.attr('id', options.id);
 
         $node.html(markup);
     });
@@ -1893,6 +1938,9 @@
         '</div>'
     ].join(''));
 
+    var iconMaterialize = function (iconClassName) {
+        return '<i class="material-icons">' + iconClassName + '</i>';
+    };
 
     var MaterializeUI = {
         editor: editorMaterialize,
@@ -1910,6 +1958,7 @@
         palette: paletteMaterialize,
         dialog: dialogMaterialize,
         popover: popoverMaterialize,
+        icon: iconMaterialize,
 
         toggleBtn: function ($btn, isEnable) {
             $btn.toggleClass('disabled', !isEnable);
@@ -2282,6 +2331,20 @@
                     selection.addRange(nativeRng);
                 } else {
                     nativeRng.select();
+                }
+
+                return this;
+            };
+
+
+            /**
+             * Moves the scrollbar to start container(sc) of current range
+             *
+             * @return {WrappedRange}
+             */
+            this.scrollIntoView = function ($container) {
+                if ($container[0].scrollTop + $container.height() < this.sc.offsetTop) {
+                    $container[0].scrollTop += Math.abs($container[0].scrollTop + $container.height() - this.sc.offsetTop);
                 }
 
                 return this;
@@ -2904,11 +2967,10 @@
          *
          * create `<image>` from url string
          *
-         * @param {String} sUrl
-         * @param {String} filename
+         * @param {String} url
          * @return {Promise} - then: $image
          */
-        var createImage = function (sUrl, filename) {
+        var createImage = function (url) {
             return $.Deferred(function (deferred) {
                 var $img = $('<img>');
 
@@ -2920,10 +2982,7 @@
                     deferred.reject($img);
                 }).css({
                     display: 'none'
-                }).appendTo(document.body).attr({
-                    'src': sUrl,
-                    'data-filename': filename
-                });
+                }).appendTo(document.body).attr('src', url);
             }).promise();
         };
 
@@ -3460,7 +3519,7 @@
         /**
          * insert paragraph
          */
-        this.insertParagraph = function () {
+        this.insertParagraph = function ($editable) {
             var rng = range.create();
 
             // deleteContents on range.
@@ -3496,8 +3555,8 @@
                         dom.remove(anchor);
                     });
 
-                    // replace empty heading with P tag
-                    if (dom.isHeading(nextPara) && dom.isEmpty(nextPara)) {
+                    // replace empty heading or pre with P tag
+                    if ((dom.isHeading(nextPara) || dom.isPre(nextPara)) && dom.isEmpty(nextPara)) {
                         nextPara = dom.replace(nextPara, 'p');
                     }
                 }
@@ -3512,7 +3571,7 @@
                 }
             }
 
-            range.create(nextPara, 0).normalize().select();
+            range.create(nextPara, 0).normalize().select().scrollIntoView($editable);
         };
 
     };
@@ -3551,7 +3610,7 @@
         this.createTable = function (colCount, rowCount, options) {
             var tds = [], tdHTML;
             for (var idxCol = 0; idxCol < colCount; idxCol++) {
-                tds.push('<td>' + dom.blank + '</td>');
+                tds.push('<td>' + '(item)' + '</td>');
             }
             tdHTML = tds.join('');
 
@@ -3582,6 +3641,7 @@
         var $editor = context.layoutInfo.editor;
         var $editable = context.layoutInfo.editable;
         var options = context.options;
+        var lang = options.langInfo;
 
         var style = new Style();
         var table = new Table();
@@ -3596,6 +3656,10 @@
                     context.triggerEvent('enter', event);
                 }
                 context.triggerEvent('keydown', event);
+
+                if (options.shortcuts && !event.isDefaultPrevented()) {
+                    self.handleKeyMap(event);
+                }
             }).on('keyup', function (event) {
                 context.triggerEvent('keyup', event);
             }).on('focus', function (event) {
@@ -3606,12 +3670,17 @@
                 context.triggerEvent('mousedown', event);
             }).on('mouseup', function (event) {
                 context.triggerEvent('mouseup', event);
-            }).on('input', function (event) {
-                context.triggerEvent('change', event);
             }).on('scroll', function (event) {
                 context.triggerEvent('scroll', event);
             }).on('paste', function (event) {
                 context.triggerEvent('paste', event);
+            });
+
+            // [workaround] IE doesn't have input events for contentEditable
+            // - see: https://goo.gl/4bfIvA
+            var changeEventName = agent.isMSIE ? 'DOMCharacterDataModified DOMSubtreeModified DOMNodeInserted' : 'input';
+            $editable.on(changeEventName, function () {
+                context.triggerEvent('change', $editable.html());
             });
 
             $editor.on('focusin', function (event) {
@@ -3620,16 +3689,17 @@
                 context.triggerEvent('focusout', event);
             });
 
-            // bind keymap
-            if (options.shortcuts) {
-                this.bindKeyMap();
-            }
-
             if (!options.airMode && options.height) {
                 $editable.outerHeight(options.height);
             }
+            if (!options.airMode && options.maxHeight) {
+                $editable.css('max-height', options.maxHeight);
+            }
+            if (!options.airMode && options.minHeight) {
+                $editable.css('min-height', options.minHeight);
+            }
 
-            $editable.html($note.html());
+            $editable.html(dom.html($note) || dom.emptyPara);
             history.recordUndo();
         };
 
@@ -3637,34 +3707,32 @@
             $editable.off();
         };
 
-        this.bindKeyMap = function () {
+        this.handleKeyMap = function (event) {
             var keyMap = options.keyMap[agent.isMac ? 'mac' : 'pc'];
-            $editable.on('keydown', function (event) {
-                var keys = [];
+            var keys = [];
 
-                if (event.metaKey) {
-                    keys.push('CMD');
-                }
-                if (event.ctrlKey && !event.altKey) {
-                    keys.push('CTRL');
-                }
-                if (event.shiftKey) {
-                    keys.push('SHIFT');
-                }
+            if (event.metaKey) {
+                keys.push('CMD');
+            }
+            if (event.ctrlKey && !event.altKey) {
+                keys.push('CTRL');
+            }
+            if (event.shiftKey) {
+                keys.push('SHIFT');
+            }
 
-                var keyName = key.nameFromCode[event.keyCode];
-                if (keyName) {
-                    keys.push(keyName);
-                }
+            var keyName = key.nameFromCode[event.keyCode];
+            if (keyName) {
+                keys.push(keyName);
+            }
 
-                var eventName = keyMap[keys.join('+')];
-                if (eventName) {
-                    event.preventDefault();
-                    context.invoke(eventName);
-                } else if (key.isEdit(event.keyCode)) {
-                    self.afterCommand();
-                }
-            });
+            var eventName = keyMap[keys.join('+')];
+            if (eventName) {
+                event.preventDefault();
+                context.invoke(eventName);
+            } else if (key.isEdit(event.keyCode)) {
+                this.afterCommand();
+            }
         };
 
         /**
@@ -3750,7 +3818,7 @@
             history.undo();
             context.triggerEvent('change', $editable.html());
         };
-        context.memo('help.undo', options.langInfo.help.undo);
+        context.memo('help.undo', lang.help.undo);
 
         /**
          * redo
@@ -3760,19 +3828,7 @@
             history.redo();
             context.triggerEvent('change', $editable.html());
         };
-        context.memo('help.redo', options.langInfo.help.redo);
-
-        this.reset = function () {
-            context.triggerEvent('before.command', $editable.html());
-            history.reset();
-            context.triggerEvent('change', $editable.html());
-        };
-
-        this.rewind = function () {
-            context.triggerEvent('before.command', $editable.html());
-            history.rewind();
-            context.triggerEvent('change', $editable.html());
-        };
+        context.memo('help.redo', lang.help.redo);
 
         /**
          * beforeCommand
@@ -3810,7 +3866,7 @@
                     afterCommand(true);
                 };
             })(commands[idx]);
-            context.memo('help.' + commands[idx], options.langInfo.help[commands[idx]]);
+            context.memo('help.' + commands[idx], lang.help[commands[idx]]);
         }
         /* jshint ignore:end */
 
@@ -3829,7 +3885,7 @@
                 afterCommand();
             }
         };
-        context.memo('help.tab', options.langInfo.help.tab);
+        context.memo('help.tab', lang.help.tab);
 
         /**
          * untab
@@ -3843,7 +3899,7 @@
                 table.tab(rng, true);
             }
         };
-        context.memo('help.untab', options.langInfo.help.untab);
+        context.memo('help.untab', lang.help.untab);
 
         /**
          * wrapCommand
@@ -3866,7 +3922,7 @@
         this.insertParagraph = this.wrapCommand(function () {
             typing.insertParagraph($editable);
         });
-        context.memo('help.insertParagraph', options.langInfo.help.insertParagraph);
+        context.memo('help.insertParagraph', lang.help.insertParagraph);
 
         /**
          * insertOrderedList
@@ -3874,41 +3930,85 @@
         this.insertOrderedList = this.wrapCommand(function () {
             bullet.insertOrderedList($editable);
         });
-        context.memo('help.insertOrderedList', options.langInfo.help.insertOrderedList);
+        context.memo('help.insertOrderedList', lang.help.insertOrderedList);
 
         this.insertUnorderedList = this.wrapCommand(function () {
             bullet.insertUnorderedList($editable);
         });
-        context.memo('help.insertUnorderedList', options.langInfo.help.insertUnorderedList);
+        context.memo('help.insertUnorderedList', lang.help.insertUnorderedList);
 
         this.indent = this.wrapCommand(function () {
             bullet.indent($editable);
         });
-        context.memo('help.indent', options.langInfo.help.indent);
+        context.memo('help.indent', lang.help.indent);
 
         this.outdent = this.wrapCommand(function () {
             bullet.outdent($editable);
         });
-        context.memo('help.outdent', options.langInfo.help.outdent);
+        context.memo('help.outdent', lang.help.outdent);
 
         /**
          * insert image
          *
-         * @param {String} sUrl
+         * @param {String} src
+         * @param {String|Function} param
+         * @return {Promise}
          */
-        this.insertImage = function (sUrl, filename) {
-            async.createImage(sUrl, filename).then(function ($image) {
+        this.insertImage = function (src, param) {
+            return async.createImage(src, param).then(function ($image) {
                 beforeCommand();
-                $image.css({
-                    display: '',
-                    width: Math.min($editable.width(), $image.width())
-                });
+
+                if (typeof param === 'function') {
+                    param($image);
+                } else {
+                    if (typeof param === 'string') {
+                        $image.attr('data-filename', param);
+                    }
+                    $image.css('width', Math.min($editable.width(), $image.width()));
+                }
+
+                $image.show();
                 range.create().insertNode($image[0]);
                 range.createFromNodeAfter($image[0]).select();
                 afterCommand();
             }).fail(function () {
                 context.triggerEvent('image.upload.error');
             });
+        };
+
+        /**
+         * insertImages
+         * @param {File[]} files
+         */
+        this.insertImages = function (files) {
+            $.each(files, function (idx, file) {
+                var filename = file.name;
+                if (options.maximumImageFileSize && options.maximumImageFileSize < file.size) {
+                    context.triggerEvent('image.upload.error', lang.image.maximumFileSizeError);
+                } else {
+                    async.readFileAsDataURL(file).then(function (dataURL) {
+                        return self.insertImage(dataURL, filename);
+                    }).fail(function () {
+                        context.triggerEvent('image.upload.error');
+                    });
+                }
+            });
+        };
+
+        /**
+         * insertImagesOrCallback
+         * @param {File[]} files
+         */
+        this.insertImagesOrCallback = function (files) {
+            var callbacks = options.callbacks;
+
+            // If onImageUpload options setted
+            if (callbacks.onImageUpload) {
+                context.triggerEvent('image.upload', files);
+                // else insert Image as dataURL
+            } else {
+                this.insertImages(files);
+            }
         };
 
         /**
@@ -3988,7 +4088,7 @@
         this.formatPara = function () {
             this.formatBlock('P');
         };
-        context.memo('help.formatPara', options.langInfo.help.formatPara);
+        context.memo('help.formatPara', lang.help.formatPara);
 
         /* jshint ignore:start */
         for (var idx = 1; idx <= 4; idx++) {
@@ -3997,7 +4097,7 @@
                     this.formatBlock('H' + idx);
                 };
             }(idx);
-            context.memo('help.formatH' + idx, options.langInfo.help['formatH' + idx]);
+            context.memo('help.formatH' + idx, lang.help['formatH' + idx]);
         }
         ;
         /* jshint ignore:end */
@@ -4008,9 +4108,10 @@
          * @param {String} value - px
          */
         this.fontSize = function (value) {
+            this.focus();
             var rng = range.create();
 
-            if (rng.isCollapsed()) {
+            if (rng && rng.isCollapsed()) {
                 var spans = style.styleNodes(rng);
                 var firstSpan = list.head(spans);
 
@@ -4044,7 +4145,7 @@
                 range.create(hrNode.nextSibling, 0).normalize().select();
             }
         });
-        context.memo('help.insertHorizontalRule', options.langInfo.help.insertHorizontalRule);
+        context.memo('help.insertHorizontalRule', lang.help.insertHorizontalRule);
 
 
         /**
@@ -4269,12 +4370,7 @@
                 $editable.focus();
 
                 // [workaround] for firefox bug http://goo.gl/lVfAaI
-                if (agent.isFF) {
-                    var rng = range.create();
-                    if (!rng || rng.isOnEditable()) {
-                        return;
-                    }
-
+                if (!$editable.is(':focus') && agent.isFF) {
                     range.createFromNode($editable[0])
                         .normalize()
                         .collapse()
@@ -4361,7 +4457,7 @@
 
                 context.invoke('editor.restoreRange');
                 context.invoke('editor.focus');
-                context.invoke('imageDialog.insertImages', [blob]);
+                context.invoke('editor.insertImagesOrCallback', [blob]);
             } else {
                 var pasteContent = $('<div />').html(this.$paste.html()).html();
                 pasteContent = SanitizePaste.parse(pasteContent, agent);
@@ -4386,7 +4482,7 @@
             if (clipboardData && clipboardData.items && clipboardData.items.length) {
                 var item = list.head(clipboardData.items);
                 if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-                    context.invoke('imageDialog.insertImages', [item.getAsFile()]);
+                    context.invoke('editor.insertImagesOrCallback', [item.getAsFile()]);
                 }
                 context.invoke('editor.afterCommand');
             }
@@ -4465,7 +4561,7 @@
                 if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
                     event.preventDefault();
                     $editable.focus();
-                    context.invoke('imageDialog.insertImages', dataTransfer.files);
+                    context.invoke('editor.insertImagesOrCallback', dataTransfer.files);
                 } else {
                     $.each(dataTransfer.types, function (idx, type) {
                         var content = dataTransfer.getData(type);
@@ -4527,6 +4623,7 @@
             } else {
                 this.activate();
             }
+            context.triggerEvent('codeview.toggled');
         };
 
         /**
@@ -4584,6 +4681,12 @@
             $editable.focus();
 
             context.invoke('toolbar.updateCodeview', false);
+        };
+
+        this.destroy = function () {
+            if (this.isActivated()) {
+                this.deactivate();
+            }
         };
     };
 
@@ -4794,7 +4897,9 @@
 
         this.events = {
             'summernote.keyup': function (we, e) {
-                self.handleKeyup(e);
+                if (!e.isDefaultPrevented()) {
+                    self.handleKeyup(e);
+                }
             },
             'summernote.keydown': function (we, e) {
                 self.handleKeydown(e);
@@ -4861,6 +4966,41 @@
         };
     };
 
+    var Placeholder = function (context) {
+        var self = this;
+        var $editingArea = context.layoutInfo.editingArea;
+        var options = context.options;
+
+        this.events = {
+            'summernote.init summernote.change': function () {
+                self.update();
+            },
+            'summernote.codeview.toggled': function () {
+                self.update();
+            }
+        };
+
+        this.shouldInitialize = function () {
+            return !!options.placeholder;
+        };
+
+        this.initialize = function () {
+            this.$placeholder = $('<div class="note-placeholder">');
+            this.$placeholder.on('click', function () {
+                context.invoke('focus');
+            }).text(options.placeholder).prependTo($editingArea);
+        };
+
+        this.destroy = function () {
+            this.$placeholder.remove();
+        };
+
+        this.update = function () {
+            var isShow = !context.invoke('codeview.isActivated') && context.invoke('editor.isEmpty');
+            this.$placeholder.toggle(isShow);
+        };
+    };
+
     var ButtonMaterialize = function (context) {
         var self = this;
         var ui = $.summernote.ui;
@@ -4900,7 +5040,7 @@
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-button btn',
-                        contents: '<i class="material-icons">border_color</i> <i class="material-icons left">arrow_drop_down</i>',
+                        contents: ui.icon(options.icons.magic) + ' ' + ui.icon(options.icons.caret, 'span'),
                         tooltip: lang.style.style,
                         data: {
                             activates: 'dropdown-style',
@@ -4920,7 +5060,7 @@
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-button btn',
-                        contents: '<i class="material-icons">insert_comment</i> <i class="material-icons left">arrow_drop_down</i>',
+                        contents: ui.icon(options.icons.comment) + ' ' + ui.icon(options.icons.caret, 'span'),
                         tooltip: lang.style.specialStyle,
                         data: {
                             activates: 'dropdown-specialStyle',
@@ -4939,7 +5079,7 @@
             context.memo('button.bold', function () {
                 return ui.button({
                     className: 'note-btn-bold',
-                    contents: '<i class="material-icons">format_bold</i>',
+                    contents: ui.icon(options.icons.bold),
                     tooltip: lang.font.bold + representShortcut('bold'),
                     click: context.createInvokeHandler('editor.bold')
                 }).render();
@@ -4948,7 +5088,7 @@
             context.memo('button.italic', function () {
                 return ui.button({
                     className: 'note-btn-italic',
-                    contents: '<i class="material-icons">format_italic</i>',
+                    contents: ui.icon(options.icons.italic),
                     tooltip: lang.font.italic + representShortcut('italic'),
                     click: context.createInvokeHandler('editor.italic')
                 }).render();
@@ -4957,44 +5097,44 @@
             context.memo('button.underline', function () {
                 return ui.button({
                     className: 'note-btn-underline',
-                    contents: '<i class="material-icons">format_underlined</i>',
+                    contents: ui.icon(options.icons.underline),
                     tooltip: lang.font.underline + representShortcut('underline'),
                     click: context.createInvokeHandler('editor.underline')
+                }).render();
+            });
+
+            context.memo('button.clear', function () {
+                return ui.button({
+                    contents: ui.icon(options.icons.eraser),
+                    tooltip: lang.font.clear + representShortcut('removeFormat'),
+                    click: context.createInvokeHandler('editor.removeFormat')
                 }).render();
             });
 
             context.memo('button.strikethrough', function () {
                 return ui.button({
                     className: 'note-btn-strikethrough',
-                    contents: '<i class="material-icons">strikethrough_s</i>',
+                    contents: ui.icon(options.icons.strikethrough),
                     tooltip: lang.font.strikethrough + representShortcut('strikethrough'),
                     click: context.createInvokeHandler('editor.strikethrough')
-                }).render();
-            });
-
-            context.memo('button.subscript', function () {
-                return ui.button({
-                    className: 'note-btn-subscript',
-                    contents: '<i class="material-icons">vertical_align_bottom</i>',
-                    tooltip: lang.font.subscript + representShortcut('subscript'),
-                    click: context.createInvokeHandler('editor.subscript')
                 }).render();
             });
 
             context.memo('button.superscript', function () {
                 return ui.button({
                     className: 'note-btn-superscript',
-                    contents: '<i class="material-icons">vertical_align_top</i>',
+                    ontents: ui.icon(options.icons.superscript),
                     tooltip: lang.font.superscript + representShortcut('superscript'),
                     click: context.createInvokeHandler('editor.superscript')
                 }).render();
             });
 
-            context.memo('button.clear', function () {
+            context.memo('button.subscript', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">clear</i>',
-                    tooltip: lang.font.clear + representShortcut('removeFormat'),
-                    click: context.createInvokeHandler('editor.removeFormat')
+                    className: 'note-btn-subscript',
+                    contents: ui.icon(options.icons.subscript),
+                    tooltip: lang.font.subscript + representShortcut('subscript'),
+                    click: context.createInvokeHandler('editor.subscript')
                 }).render();
             });
 
@@ -5002,7 +5142,7 @@
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-button btn',
-                        contents: '<span class="note-current-fontname"/> <i class="material-icons left">arrow_drop_down</i>',
+                        contents: '<span class="note-current-fontname"/> ' + ui.icon(options.icons.caret, 'span'),
                         tooltip: lang.font.name,
                         data: {
                             activates: 'dropdown-fontname',
@@ -5025,7 +5165,7 @@
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-button btn',
-                        contents: '<span class="note-current-fontsize"/> <i class="material-icons left">arrow_drop_down</i>',
+                        contents: '<span class="note-current-fontsize"/>' + ui.icon(options.icons.caret, 'span'),
                         tooltip: lang.font.size,
                         data: {
                             activates: 'dropdown-fontsize',
@@ -5050,7 +5190,7 @@
                     children: [
                         ui.button({
                             className: 'note-current-color-button',
-                            contents: '<i class="material-icons">format_color_text</i>',
+                            contents: ui.icon(options.icons.color),
                             tooltip: lang.color.recent,
                             click: context.createInvokeHandler('editor.color'),
                             callback: function ($button) {
@@ -5066,7 +5206,7 @@
                         }),
                         ui.button({
                             className: 'dropdown-button btn',
-                            contents: '<i class="material-icons left">arrow_drop_down</i>',
+                            contents: ui.icon(options.icons.caret, 'span'),
                             tooltip: lang.color.more,
                             data: {
                                 activates: 'dropdown-color',
@@ -5137,7 +5277,7 @@
 
             context.memo('button.ol', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">format_list_bulleted</i>',
+                    contents: ui.icon(options.icons.unorderedlist),
                     tooltip: lang.lists.unordered + representShortcut('insertUnorderedList'),
                     click: context.createInvokeHandler('editor.insertUnorderedList')
                 }).render();
@@ -5145,7 +5285,7 @@
 
             context.memo('button.ul', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">format_list_numbered</i>',
+                    contents: ui.icon(options.icons.orderedlist),
                     tooltip: lang.lists.ordered + representShortcut('insertOrderedList'),
                     click: context.createInvokeHandler('editor.insertOrderedList')
                 }).render();
@@ -5155,7 +5295,7 @@
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-button btn',
-                        contents: '<i class="material-icons">format_textdirection_l_to_r</i> <i class="material-icons left">arrow_drop_down</i>',
+                        contents: ui.icon(options.icons.align) + ' ' + ui.icon(options.icons.caret, 'span'),
                         tooltip: lang.paragraph.paragraph,
                         data: {
                             activates: 'dropdown-align',
@@ -5168,22 +5308,22 @@
                             className: 'dropdown-align',
                             children: [
                                 ui.button({
-                                    contents: '<i class="material-icons">format_align_left</i>',
+                                    contents: ui.icon(options.icons.alignLeft),
                                     tooltip: lang.paragraph.left + representShortcut('justifyLeft'),
                                     click: context.createInvokeHandler('editor.justifyLeft')
                                 }),
                                 ui.button({
-                                    contents: '<i class="material-icons">format_align_center</i>',
+                                    contents: ui.icon(options.icons.alignCenter),
                                     tooltip: lang.paragraph.center + representShortcut('justifyCenter'),
                                     click: context.createInvokeHandler('editor.justifyCenter')
                                 }),
                                 ui.button({
-                                    contents: '<i class="material-icons">format_align_right</i>',
+                                    contents: ui.icon(options.icons.alignRight),
                                     tooltip: lang.paragraph.right + representShortcut('justifyRight'),
                                     click: context.createInvokeHandler('editor.justifyRight')
                                 }),
                                 ui.button({
-                                    contents: '<i class="material-icons">format_align_justify</i>',
+                                    contents: ui.icon(options.icons.alignJustify),
                                     tooltip: lang.paragraph.justify + representShortcut('justifyFull'),
                                     click: context.createInvokeHandler('editor.justifyFull')
                                 })
@@ -5193,12 +5333,12 @@
                             className: 'note-list',
                             children: [
                                 ui.button({
-                                    contents: '<i class="material-icons">format_indent_decrease</i>',
+                                    contents: ui.icon(options.icons.outdent),
                                     tooltip: lang.paragraph.outdent + representShortcut('outdent'),
                                     click: context.createInvokeHandler('editor.outdent')
                                 }),
                                 ui.button({
-                                    contents: '<i class="material-icons">format_indent_increase</i>',
+                                    contents: ui.icon(options.icons.indent),
                                     tooltip: lang.paragraph.indent + representShortcut('indent'),
                                     click: context.createInvokeHandler('editor.indent')
                                 })
@@ -5212,7 +5352,7 @@
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-button btn',
-                        contents: '<i class="material-icons">format_size</i> <i class="material-icons left">arrow_drop_down</i>',
+                        contents: ui.icon(options.icons.textHeight) + ' ' + ui.icon(options.icons.caret, 'span'),
                         tooltip: lang.font.height,
                         data: {
                             activates: 'dropdown-line-height',
@@ -5228,30 +5368,13 @@
                 ]).render();
             });
 
-
-            context.memo('button.undo', function () {
-                return ui.button({
-                    contents: '<i class="material-icons">undo</i>',
-                    tooltip: lang.help.undo + representShortcut('undo'),
-                    click: context.createInvokeHandler('editor.undo')
-                }).render();
-            });
-
-            context.memo('button.redo', function () {
-                return ui.button({
-                    contents: '<i class="material-icons">redo</i>',
-                    tooltip: lang.help.redo + representShortcut('redo'),
-                    click: context.createInvokeHandler('editor.redo')
-                }).render();
-            });
-
             context.memo('button.table', function () {
                 var labelUniqueId = func.uniqueId('table-label');
 
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-button btn',
-                        contents: '<i class="material-icons">border_all</i> <i class="material-icons left">arrow_drop_down</i>',
+                        contents: ui.icon(options.icons.table) + ' ' + ui.icon(options.icons.caret, 'span'),
                         tooltip: lang.table.table,
                         data: {
                             activates: 'dropdown-table',
@@ -5260,22 +5383,22 @@
                     }),
                     ui.dropdown({
                         id: 'dropdown-table',
-                        className: 'dropdown-table',
+                        className: 'note-table',
                         items: [
-                            '<div class="row">',
-                            '<div class="col s6 preventDropClose"><input type="checkbox" id="' + labelUniqueId + '-bordered" checked="checked" /><label for="' + labelUniqueId + '-bordered">' + lang.table.bordered + '</label></div>',
-                            '<div class="col s6 preventDropClose"><input type="checkbox" id="' + labelUniqueId + '-striped" checked="checked" /><label for="' + labelUniqueId + '-striped">' + lang.table.striped + '</label></div>',
-                            '</div>',
-                            '<div class="row">',
-                            '<div class="col s6 preventDropClose"><input type="checkbox" id="' + labelUniqueId + '-hoverable" checked="checked" /><label for="' + labelUniqueId + '-hoverable">' + lang.table.hoverable + '</label></div>',
-                            '<div class="col s6 preventDropClose"><input type="checkbox" id="' + labelUniqueId + '-responsive" checked="checked" /><label for="' + labelUniqueId + '-responsive">' + lang.table.responsive + '</label></div>',
-                            '</div>',
+                            //'<div class="row">',
+                            //'<div class="col s6"><input type="checkbox" id="' + labelUniqueId + '-bordered" checked="checked" /><label for="' + labelUniqueId + '-bordered">' + lang.table.bordered + '</label></div>',
+                            //'<div class="col s6"><input type="checkbox" id="' + labelUniqueId + '-striped" checked="checked" /><label for="' + labelUniqueId + '-striped">' + lang.table.striped + '</label></div>',
+                            //'</div>',
+                            //'<div class="row">',
+                            //'<div class="col s6"><input type="checkbox" id="' + labelUniqueId + '-hoverable" checked="checked" /><label for="' + labelUniqueId + '-hoverable">' + lang.table.hoverable + '</label></div>',
+                            //'<div class="col s6"><input type="checkbox" id="' + labelUniqueId + '-responsive" checked="checked" /><label for="' + labelUniqueId + '-responsive">' + lang.table.responsive + '</label></div>',
+                            //'</div>',
                             '<div class="note-dimension-picker">',
-                            '<div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1"></div>',
-                            '<div class="note-dimension-picker-highlighted"></div>',
-                            '<div class="note-dimension-picker-unhighlighted"></div>',
+                            '  <div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1"/>',
+                            '  <div class="note-dimension-picker-highlighted"/>',
+                            '  <div class="note-dimension-picker-unhighlighted"/>',
                             '</div>',
-                            '<div class="note-dimension-display"> 1 x 1 </div>',
+                            '<div class="note-dimension-display">1 x 1</div>',
                         ].join('')
                     })
                 ], {
@@ -5292,7 +5415,7 @@
 
             context.memo('button.link', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">insert_link</i>',
+                    contents: ui.icon(options.icons.link),
                     tooltip: lang.link.link,
                     click: context.createInvokeHandler('linkDialog.show')
                 }).render();
@@ -5300,7 +5423,7 @@
 
             context.memo('button.picture', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">insert_photo</i>',
+                    contents: ui.icon(options.icons.picture),
                     tooltip: lang.image.image,
                     click: context.createInvokeHandler('imageDialog.show')
                 }).render();
@@ -5308,7 +5431,7 @@
 
             context.memo('button.video', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">ondemand_video</i>',
+                    contents: ui.icon(options.icons.video),
                     tooltip: lang.video.video,
                     click: context.createInvokeHandler('videoDialog.show')
                 }).render();
@@ -5316,7 +5439,7 @@
 
             context.memo('button.hr', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">vertical_align_center</i>',
+                    contents: ui.icon(options.icons.minus),
                     tooltip: lang.hr.insert + representShortcut('insertHorizontalRule'),
                     click: context.createInvokeHandler('editor.insertHorizontalRule')
                 }).render();
@@ -5325,7 +5448,7 @@
             context.memo('button.fullscreen', function () {
                 return ui.button({
                     className: 'btn-fullscreen',
-                    contents: '<i class="material-icons">settings_overscan</i>',
+                    contents: ui.icon(options.icons.arrowsAlt),
                     tooltip: lang.options.fullscreen,
                     click: context.createInvokeHandler('fullscreen.toggle')
                 }).render();
@@ -5334,15 +5457,31 @@
             context.memo('button.codeview', function () {
                 return ui.button({
                     className: 'btn-codeview',
-                    contents: '<i class="material-icons">code</i>',
+                    contents: ui.icon(options.icons.code),
                     tooltip: lang.options.codeview,
                     click: context.createInvokeHandler('codeview.toggle')
                 }).render();
             });
 
+            context.memo('button.redo', function () {
+                return ui.button({
+                    contents: ui.icon(options.icons.redo),
+                    tooltip: lang.help.redo + representShortcut('redo'),
+                    click: context.createInvokeHandler('editor.redo')
+                }).render();
+            });
+
+            context.memo('button.undo', function () {
+                return ui.button({
+                    contents: ui.icon(options.icons.undo),
+                    tooltip: lang.help.undo + representShortcut('undo'),
+                    click: context.createInvokeHandler('editor.undo')
+                }).render();
+            });
+
             context.memo('button.help', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">help</i>',
+                    contents: ui.icon(options.icons.question),
                     tooltip: lang.options.help,
                     click: context.createInvokeHandler('helpDialog.show')
                 }).render();
@@ -5350,7 +5489,7 @@
 
             context.memo('button.specialchar', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">translate</i>',
+                    contents: ui.icon(options.icons.specialchar),
                     tooltip: lang.specialChar.specialChar,
                     click: context.createInvokeHandler('specialCharDialog.show')
                 }).render();
@@ -5359,28 +5498,28 @@
 
         /**
          *  image : [
-         ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
-         ['float', ['floatLeft', 'floatRight', 'floatNone' ]],
-         ['remove', ['removeMedia']]
-         ],
+         *   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+         *   ['float', ['floatLeft', 'floatRight', 'floatNone' ]],
+         *   ['remove', ['removeMedia']]
+         * ],
          */
         this.addImagePopoverButtons = function () {
             // Image Size Buttons
-            context.memo('button.imageSize100', function (context) {
+            context.memo('button.imageSize100', function () {
                 return ui.button({
                     contents: '<span class="note-fontsize-10">100%</span>',
                     tooltip: lang.image.resizeFull,
                     click: context.createInvokeHandler('editor.resize', '1')
                 }).render();
             });
-            context.memo('button.imageSize50', function (context) {
+            context.memo('button.imageSize50', function () {
                 return ui.button({
                     contents: '<span class="note-fontsize-10">50%</span>',
                     tooltip: lang.image.resizeHalf,
                     click: context.createInvokeHandler('editor.resize', '0.5')
                 }).render();
             });
-            context.memo('button.imageSize25', function (context) {
+            context.memo('button.imageSize25', function () {
                 return ui.button({
                     contents: '<span class="note-fontsize-10">25%</span>',
                     tooltip: lang.image.resizeQuarter,
@@ -5389,34 +5528,34 @@
             });
 
             // Float Buttons
-            context.memo('button.floatLeft', function (context) {
+            context.memo('button.floatLeft', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">format_align_left</i>',
+                    contents: ui.icon(options.icons.alignLeft),
                     tooltip: lang.image.floatLeft,
                     click: context.createInvokeHandler('editor.floatMe', 'left')
                 }).render();
             });
 
-            context.memo('button.floatRight', function (context) {
+            context.memo('button.floatRight', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">format_align_right</i>',
+                    contents: ui.icon(options.icons.alignRight),
                     tooltip: lang.image.floatRight,
                     click: context.createInvokeHandler('editor.floatMe', 'right')
                 }).render();
             });
 
-            context.memo('button.floatNone', function (context) {
+            context.memo('button.floatNone', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">format_align_justify</i>',
+                    contents: ui.icon(options.icons.alignJustify),
                     tooltip: lang.image.floatNone,
                     click: context.createInvokeHandler('editor.floatMe', 'none')
                 }).render();
             });
 
             // Remove Buttons
-            context.memo('button.removeMedia', function (context) {
+            context.memo('button.removeMedia', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">delete</i>',
+                    contents: ui.icon(options.icons.trash),
                     tooltip: lang.image.remove,
                     click: context.createInvokeHandler('editor.removeMedia')
                 }).render();
@@ -5424,17 +5563,17 @@
         };
 
         this.addLinkPopoverButtons = function () {
-            context.memo('button.linkDialogShow', function (context) {
+            context.memo('button.linkDialogShow', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">create</i>',
+                    contents: ui.icon(options.icons.link),
                     tooltip: lang.link.edit,
                     click: context.createInvokeHandler('linkDialog.show')
                 }).render();
             });
 
-            context.memo('button.unlink', function (context) {
+            context.memo('button.unlink', function () {
                 return ui.button({
-                    contents: '<i class="material-icons">clear</i>',
+                    contents: ui.icon(options.icons.unlink),
                     tooltip: lang.link.unlink,
                     click: context.createInvokeHandler('editor.unlink')
                 }).render();
@@ -5612,13 +5751,19 @@
             }
         };
 
-        this.activate = function () {
-            var $btn = $toolbar.find('button').not('.btn-codeview');
+        this.activate = function (isIncludeCodeview) {
+            var $btn = $toolbar.find('button');
+            if (!isIncludeCodeview) {
+                $btn = $btn.not('.btn-codeview');
+            }
             ui.toggleBtn($btn, true);
         };
 
-        this.deactivate = function () {
-            var $btn = $toolbar.find('button').not('.btn-codeview');
+        this.deactivate = function (isIncludeCodeview) {
+            var $btn = $toolbar.find('button');
+            if (!isIncludeCodeview) {
+                $btn = $btn.not('.btn-codeview');
+            }
             ui.toggleBtn($btn, false);
         };
     };
@@ -5702,7 +5847,7 @@
 
                     if (linkInfo.text.length > 0) $linkTextLabel.addClass('active');
 
-                    $linkText.on('keyup', function () {
+                    $linkText.on('input', function () {
                         ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
                         // if linktext was modified by keyup,
                         // stop cloning text from linkUrl
@@ -5715,7 +5860,7 @@
                         ui.toggleBtn($linkBtn, linkInfo.text);
                     }
 
-                    $linkUrl.on('keyup', function () {
+                    $linkUrl.on('input', function () {
                         ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
                         // display same link on `Text to display` input
                         // when create a new link
@@ -5940,7 +6085,7 @@
                     context.invoke('editor.insertImage', data);
                 } else {
                     // array of files
-                    self.insertImages(data);
+                    context.invoke('editor.insertImagesOrCallback', data);
                 }
             }).fail(function () {
                 context.invoke('editor.restoreRange');
@@ -6220,7 +6365,7 @@
                     $closeBtn = self.$dialog.find('.btn-close');
 
                 var onOpenDialog = function () {
-                    $videoUrl.val(text).on('keyup', function () {
+                    $videoUrl.val(text).on('input', function () {
                         ui.toggleBtn($videoBtn, $videoUrl.val());
                     }).trigger('focus');
 
@@ -6290,7 +6435,7 @@
                 className: 'note-help-dialog',
                 title: lang.options.help,
                 body: this.createShortCutList(),
-                footer: '<button href="#" class="waves-effect waves-light btn modal-close">' + lang.shortcut.close + '</button>'
+                footer: '<a class="waves-effect waves-light btn modal-close">' + lang.shortcut.close + '</a>'
             }).render().appendTo($container);
         };
 
@@ -6338,11 +6483,17 @@
             'summernote.change summernote.dialog.shown': function () {
                 self.hide();
             },
-            //'summernote.focusout': function (we, e) {
-            //    if (!$('.dropdown').is(':focus') && (!e.relatedTarget || !dom.ancestor(e.relatedTarget, func.eq($editingArea[0])))) {
-            //        self.hide();
-            //    }
-            //}
+            'summernote.focusout': function (we, e) {
+                // [workaround] Firefox doesn't support relatedTarget on focusout
+                //  - Ignore hide action on focus out in FF.
+                if (agent.isFF) {
+                    return;
+                }
+
+                if (!e.relatedTarget || !dom.ancestor(e.relatedTarget, func.eq(self.$popover[0]))) {
+                    self.hide();
+                }
+            }
         };
 
         this.shouldInitialize = function () {
@@ -6418,7 +6569,9 @@
 
         this.events = {
             'summernote.keyup': function (we, e) {
-                self.handleKeyup(e);
+                if (!e.isDefaultPrevented()) {
+                    self.handleKeyup(e);
+                }
             },
             'summernote.keydown': function (we, e) {
                 self.handleKeydown(e);
@@ -7026,7 +7179,7 @@
 
 
     $.summernote = $.extend($.summernote, {
-        version: '0.7.0',
+        version: '0.7.2',
         ui: MaterializeUI,
 
         plugins: {},
@@ -7040,8 +7193,10 @@
                 'statusbar': Statusbar,
                 'fullscreen': Fullscreen,
                 'handle': Handle,
+                'hintPopover': HintPopover,
                 'autoLink': AutoLink,
                 'autoSync': AutoSync,
+                'placeholder': Placeholder,
                 'buttons': ButtonMaterialize,
                 'toolbar': Toolbar,
                 'linkDialog': LinkDialog,
@@ -7051,7 +7206,6 @@
                 'videoDialog': VideoDialog,
                 'helpDialog': HelpDialog,
                 'airPopover': AirPopover,
-                'hintPopover': HintPopover,
                 'specialCharDialog': SpecialCharDialog
             },
 
@@ -7156,7 +7310,7 @@
 
             lineHeights: ['1.0', '1.2', '1.4', '1.5', '1.6', '1.8', '2.0', '3.0'],
 
-            tableClassName: 'table table-bordered',
+            tableClassName: 'hoverable bordered striped responsive-table',
 
             insertTableMaxSize: {
                 col: 10,
@@ -7245,6 +7399,49 @@
                     'CMD+ENTER': 'insertHorizontalRule',
                     'CMD+K': 'linkDialog.show'
                 }
+            },
+            icons: {
+                'align': 'format_textdirection_l_to_r',
+                'alignCenter': 'format_align_center',
+                'alignJustify': 'format_align_justify',
+                'alignLeft': 'format_align_left',
+                'alignRight': 'format_align_right',
+                'indent': 'format_indent_increase',
+                'outdent': 'format_indent_decrease',
+                'arrowsAlt': 'settings_overscan',
+                'bold': 'format_bold',
+                'caret': 'arrow_drop_down',
+                'circle': 'fa fa-circle',
+                'close': 'fa fa-close',
+                'code': 'code',
+                'eraser': 'clear',
+                'color': 'format_color_text',
+                'font': 'fa fa-font',
+                'frame': 'fa fa-frame',
+                'italic': 'format_italic',
+                'link': 'insert_link',
+                'unlink': 'clear',
+                'magic': 'border_color',
+                'menuCheck': 'check',
+                'minus': 'vertical_align_center',
+                'orderedlist': 'format_list_numbered',
+                'pencil': 'fa fa-pencil',
+                'picture': 'insert_photo',
+                'question': 'help',
+                'redo': 'redo',
+                'square': 'fa fa-square',
+                'strikethrough': 'strikethrough_s',
+                'subscript': 'vertical_align_bottom',
+                'superscript': 'vertical_align_top',
+                'table': 'border_all',
+                'textHeight': 'format_size',
+                'trash': 'delete',
+                'underline': 'format_underlined',
+                'undo': 'undo',
+                'unorderedlist': 'format_list_bulleted',
+                'video': 'ondemand_video',
+                'specialchar': 'translate',
+                'comment': 'insert_comment'
             }
         }
     });

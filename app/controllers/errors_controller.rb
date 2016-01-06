@@ -23,7 +23,7 @@ class ErrorsController < ApplicationController
     error.user_info  = current_user.pseudo if current_user
     error.save
 
-    render nothing: true
+    render json: { success: true }
   end
 
   private

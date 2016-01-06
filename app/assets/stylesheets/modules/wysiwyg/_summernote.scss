@@ -4,35 +4,35 @@
 //$toolbarTextColor: color('grey', 'lighten-5') !default;
 //$borderColor: color('grey', 'base') !default;
 
-$toolbarColor: color('blue-grey', 'darken-3') !default;
-$toolbarTextColor: color('grey', 'lighten-5') !default;
-$borderColor: color('blue-grey', 'darken-3') !default;
+$toolbar-color: color('blue-grey', 'darken-3') !default;
+$toolbar-text-color: color('grey', 'lighten-5') !default;
+$border-color: color('blue-grey', 'darken-3') !default;
 
-$firstButtonColor: color('blue-grey', 'darken-4') !default;
-$firstButstonHoverColor: color('indigo', 'base') !default;
-$secondButtonColor: color('red', 'darken-4') !default;
-$secondButtonHoverColor: color('indigo', 'base') !default;
-$thirdButtonColor: color('purple', 'darken-4') !default;
-$thirdButtonHoverColor: color('indigo', 'base') !default;
+$first-button-color: color('blue-grey', 'darken-4') !default;
+$first-button-hover-color: color('indigo', 'base') !default;
+$second-button-color: color('red', 'darken-4') !default;
+$second-button-hover-color: color('indigo', 'base') !default;
+$third-button-color: color('purple', 'darken-4') !default;
+$third-button-hover-color: color('indigo', 'base') !default;
 
-$firstFocusColor: color('purple', 'base') !default;
-$secondFocusColor: color('red', 'accent-3') !default;
+$first-focus-color: color('purple', 'base') !default;
+$second-focus-color: color('red', 'accent-3') !default;
 
-$selectionColor: color('grey', 'darken-1') !default;
+$selection-color: color('grey', 'darken-1') !default;
 
-$helpBackgroundColor: color('grey', 'lighten-2') !default;
+$help-background-color: color('grey', 'lighten-2') !default;
 
-// base unit for table dimension picker
-$gridUnit: 26px;
+$border-color: #a9a9a9;
+$background-color: #f5f5f5;
 
 .editor-reset {
   p {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
   }
 
   ul {
-    padding: 0px;
+    padding: 0;
     padding-left: 20px;
     list-style-type: none;
 
@@ -70,152 +70,69 @@ $gridUnit: 26px;
 
 }
 
-.editorDialogs .modal, .note-editor .modal {
-  background-color: $toolbarColor;
-  color: $toolbarTextColor;
-  //z-index: 30 !important;
-  backface-visibility: hidden;
-  margin: auto;
-
-  .input-field input:not([readonly]), .input-field input.datepicker {
-    border-color: $toolbarTextColor !important;
-  }
-  .input-field input:focus:not([readonly]), .input-field input.datepicker:focus, textarea.materialize-textarea:focus:not([readonly]) {
-    box-shadow: 0 1px 0 0 $firstFocusColor !important;
-    border-color: $firstFocusColor !important;
-  }
-  label, .input-field input:not([readonly]) + label, .input-field input.datepicker + label, .input-field .prefix, .note-editor + label {
-    color: $toolbarTextColor !important;
-  }
-  .input-field input:focus:not([readonly]) + label, .input-field input.datepicker:focus + label, .input-field .prefix.active, textarea.materialize-textarea:focus:not([readonly]) + label {
-    color: $firstFocusColor !important;
-  }
-
-  .btn {
-    background-color: $secondButtonColor;
-  }
-  .btn:hover {
-    background-color: lighten($secondButtonColor, 10%) !important;
-  }
-
-  .btn.disabled {
-    background-color: darken($secondButtonColor, 15%) !important;
-  }
-
-  .modal-footer {
-    background-color: darken($toolbarColor, 10%);
-
-    .btn-close {
-      margin-right: 15px;
-      background-color: $thirdButtonColor;
-    }
-
-    .btn-close:hover {
-      background-color: lighten($thirdButtonColor, 10%) !important;
-    }
-  }
-
-  .canvasContainerEmpty {
-    border: solid 5px $firstFocusColor;
-  }
-}
-
-//scrollbars
-.note-editor .note-editable, .editorDialogs .modal-content, .note-editor .note-color-palette, .note-editor .note-codable, .modal.modal-fixed-footer .modal-content {
-  &::-webkit-scrollbar {
-    width: 17px !important;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: $toolbarColor !important;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: lighten($toolbarColor, 20%) !important;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: lighten($toolbarColor, 30%) !important;
-  }
-}
-
 .note-editor {
   position: relative;
   border: {
-    left: 2px solid $toolbarColor;
-    bottom: 2px solid $toolbarColor;
-    right: 2px solid $toolbarColor;
+    left: 2px solid $toolbar-color;
+    bottom: 2px solid $toolbar-color;
+    right: 2px solid $toolbar-color;
   }
 
-  .img-circle {
-    border-radius: 50%;
+  /* dropzone */
+  $dropzone-color: lightskyblue;
+  $dropzone-active-color: darken($dropzone-color, 30);
+  .note-dropzone {
+    position: absolute;
+    display: none;
+    z-index: 100;
+    color: $dropzone-color;
+    background-color: white;
+    opacity: 0.95;
+    pointer-event: none;
+
+    .note-dropzone-message {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    &.hover {
+      color: $dropzone-active-color;
+    }
   }
 
-  .img-rounded {
-    border-radius: 5%;
-  }
-
-  .img-thumbnail {
-    border: solid 5px $toolbarColor;
-    height: 200px;
-  }
-
-  .img-bordered {
-    border: solid 5px $toolbarColor;
+  &.dragover .note-dropzone {
+    display: table;
   }
 
   .btn:hover {
-    background-color: lighten($firstButtonColor, 10%) !important;
+    background-color: lighten($first-button-color, 10%) !important;
   }
 
   .btn.active {
-    background-color: $firstFocusColor;
+    background-color: $first-focus-color;
   }
 
-  .note-editable {
+
+
+
+
+  &.note-air-editor {
+    outline: 0;
+    border: 0;
   }
 
-  .note-dialog {
-    & > div {
-      display: none
-    }
-    .form-group {
-      margin-right: 0;
-      margin-left: 0
-    }
-    .note-modal-form {
-      margin: 0
-    }
-    .note-image-dialog .note-dropzone {
-      min-height: 100px;
-      margin-bottom: 10px;
-      font-size: 30px;
-      line-height: 4;
-      color: lightgray;
-      text-align: center;
-      border: 4px dashed lightgray
-    }
-  }
-
-  .transparent {
-    opacity: 0;
-  }
-
-  .note-resizebar {
-    background-color: $toolbarColor;
-    width: 100%;
-    height: 13px;
-    cursor: ns-resize;
-    padding-top: 1px;
-
-    .note-icon-bar {
-      width: 20px;
-      margin: 2px auto;
-      border-top: 2px solid lighten($toolbarColor, 20%);
-    }
+  .note-editable[contenteditable=true]:empty:not(:focus):before {
+    color: #a9a9a9;
+    content: attr(data-placeholder);
   }
 
   .note-toolbar {
     position: relative;
-    color: $toolbarTextColor;
-    background-color: $toolbarColor;
+    color: $toolbar-text-color;
+    background-color: $toolbar-color;
     margin: 0;
     z-index: 20;
 
@@ -242,232 +159,115 @@ $gridUnit: 26px;
   }
 }
 
-.note-editor, .popover {
-  .btn-group {
-    display: inline-block;
-    margin-right: 10px;
-    position: relative;
+/* Frame mode layout
+------------------------------------------*/
+.note-editor.note-frame {
+  border: 1px solid $border-color;
 
-    ul {
-      padding: 0;
-      margin-top: 15px;
+  /* codeview mode */
+  &.codeview {
+    .note-editing-area {
+      .note-editable {
+        display: none;
+      }
+      .note-codable {
+        display: block;
+      }
     }
+  }
 
-    .closeLeft {
-      padding-right: 0 !important;
-      margin-right: 0 !important;
+  .note-editing-area {
+    overflow: hidden;
 
-      i {
-        margin-right: 0 !important;
+    /* editable */
+    .note-editable {
+      background-color: #fff;
+      color: #000;
+      padding: 10px;
+      overflow: auto;
+
+      &[contenteditable="false"] {
+        background-color: #e5e5e5;
       }
     }
 
-    i.left {
-      margin-right: 5px;
+    /* codeable */
+    .note-codable {
+      display: none;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      box-shadow: none;
+      font-family: Menlo, Monaco, monospace, sans-serif;
+      font-size: 14px;
+      color: #ccc;
+      background-color: #222;
+      resize: none;
+
+      /* override Materialize default style */
+      margin-bottom: 0;
+      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      border-radius: 0;
+      //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+      box-shadow: none;
+      //Instead of the line below you could use @include box-sizing($bs)
+      box-sizing: border-box;
     }
   }
 
-  .btn {
-    border-radius: 5px !important;
-    box-shadow: none !important;
-    padding: 0 9px !important;
-    background-color: $firstButtonColor;
-  }
+  /* fullscreen mode */
+  &.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 15;
 
-  .btnSecond {
-    background-color: $secondButtonColor !important;
-  }
+    .note-editable {
+      background-color: white;
+    }
 
-  .btnThird {
-    background-color: $thirdButtonColor !important;
-  }
-
-  note-toolbar button, button {
-    background-color: $firstButtonColor;
-    border: none;
-    text-transform: none;
-  }
-
-  [type='checkbox']:checked + label:before, [type='checkbox']:checked + label:before {
-    border-right-color: $secondButtonColor !important;
-    border-bottom-color: $secondButtonColor !important;
-  }
-
-  .note-palette-title {
-    padding: 0 !important;
-  }
-
-  .colorName {
-    display: inline-block;
-    color: $toolbarTextColor;
-
-    @media #{$small-and-down} {
+    .note-resizebar {
       display: none;
     }
   }
 
-  .note-color-palette {
-    line-height: 10px;
-    border: solid 3px $toolbarColor;
-    padding: 0 !important;
-    overflow-x: hidden;
-    overflow-y: hidden;
+  /* statusbar */
+  .note-statusbar {
+    background-color: $toolbar-color;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 
-    .note-color-row {
-      padding: 0 !important;
-      min-width: 300px;
-    }
+    .note-resizebar {
+      padding-top: 1px;
+      height: 8px;
+      width: 100%;
+      cursor: ns-resize;
 
-    button.note-color-btn {
-      width: 20px;
-      height: 20px;
-      padding: 0;
-      margin: 0;
-    }
-
-    .note-color-btn:hover {
-      &:after {
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        content: '';
-        background-color: inherit;
-        margin-top: -15px;
-        margin-left: -15px;
+      .note-icon-bar {
+        width: 20px;
+        margin: 1px auto;
+        border-top: 1px solid $toolbar-color;
       }
     }
   }
 
-  .note-dimension-picker {
-    overflow: hidden;
-  }
-
-  .dropdown-content {
-    z-index: 25;
-    overflow: hidden;
-
-    &.note-check {
-      min-width: 80px;
-    }
-
-    label {
-      color: $toolbarTextColor !important;
-    }
-  }
-
-  ul.dropdown-content {
-    //position: absolute !important;
-    top: 20px !important;
-    background-color: lighten($firstButtonColor, 10%) !important;
-    margin-top: 15px !important;
-    border: {
-      left: 3px solid $firstButtonColor !important;
-      bottom: 3px solid $firstButtonColor !important;
-      right: 3px solid $firstButtonColor !important;
-    }
-
-    &#colors {
-      width: 342px;
-
-      .indicator {
-        width: 50%;
-        left: 0;
-      }
-    }
-
-    .colorTable {
-      padding: 3px 0;
-    }
-
-    .tabs {
-      background-color: $toolbarColor;
-
-      &:hover {
-        background-color: $toolbarColor;
-      }
-
-      .tab a, .tab a:hover {
-        color: $secondFocusColor;
-      }
-
-      .indicator {
-        background-color: $secondFocusColor;
-      }
-    }
-
-    li {
-      list-style-type: none !important;
-      padding: 3px 10px !important;
-      margin: 5px 0 !important;
-
-      button {
-        background-color: inherit;
-        color: white;
-        cursor: pointer;
-        min-width: 100%;
-        text-align: left;
-
-        &.normal {
-          margin: 5px 0 !important;
-          background-color: inherit;
-        }
-
-        &.secret {
-          margin: 5px 0 !important;
-          font-size: 18px;
-          @include special-style($secret-color);
-        }
-
-        &.advice {
-          margin: 5px 0 !important;
-          font-size: 18px;
-          @include special-style($advice-color);
-        }
-
-        &.deadend {
-          margin: 5px 0 !important;
-          font-size: 18px;
-          @include special-style($deadend-color);
-        }
-
-        &.p, &.blockquote, &.pre, &.h1, &.h2, &.h3, &.h4 {
-          margin: 1px 0px !important;
-
-          &:hover, &.active {
-            color: black;
-          }
-        }
-
-        h1, h2, h3, h4 {
-          margin: 0px 1px !important;
-        }
-      }
-    }
+  .note-placeholder {
+    padding: 10px;
   }
 }
 
+/* Popover
+------------------------------------------*/
 .note-popover.popover {
-  position: absolute;
   max-width: none;
-  color: $toolbarTextColor;
+  position: absolute;
+  color: $toolbar-text-color;
   display: none;
   z-index: 26;
 
-  .arrow {
-    position: relative;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 10px 10px 10px;
-    border-color: transparent transparent $firstButtonColor transparent;
-  }
-
   .popover-content {
-    background-color: $firstButtonColor;
-
-    & > a {
-      margin-left: 12px;
-    }
+    background-color: $first-button-color;
 
     a {
       display: inline-block;
@@ -476,6 +276,10 @@ $gridUnit: 26px;
       text-overflow: ellipsis;
       white-space: nowrap;
       vertical-align: middle
+    }
+
+    & > a {
+      margin-left: 12px;
     }
 
     .arrow {
@@ -489,241 +293,70 @@ $gridUnit: 26px;
         border-radius: 0 !important;
         box-shadow: none !important;
         padding: 0 9px !important;
-        background-color: $firstButtonColor;
+        background-color: $first-button-color;
       }
     }
+  }
+
+  .arrow {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent $first-button-color transparent;
   }
 }
 
+/* Popover and Toolbar (Button container)
+------------------------------------------*/
+.note-popover .popover-content,
 .note-toolbar {
-  padding: 0;
   margin: 0;
-  .note-style {
-    h1 {
-      margin: 0;
-    }
-    h2 {
-      margin: 0;
-    }
-    h3 {
-      margin: 0;
-    }
-    h4 {
-      margin: 0;
-    }
-    h5 {
-      margin: 0;
-    }
-    h6 {
-      margin: 0;
-    }
-    blockquote {
-      margin: 0;
-    }
+  padding: 0 0 5px 5px;
+
+  &>.btn-group {
+    margin-top: 5px;
+    margin-left: 0;
+    margin-right: 5px;
   }
-  .note-color {
-    .dropdown-toggle {
-      width: 20px;
-      padding-left: 5px;
-    }
-    .dropdown-content .btn-group {
-      margin: 0;
-      &:first-child {
-        margin: 0 5px;
-      }
-      .note-palette-title {
-        margin: 2px 7px;
-        font-size: 12px;
-        text-align: center;
-        border-bottom: 1px solid #eee;
-      }
-      .note-color-reset {
-        padding: 0 3px;
-        margin: 3px;
-        font-size: 11px;
-        cursor: pointer;
-        //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-        border-radius: 5px;
-        &:hover {
-          background: #eee;
+
+  .btn-group {
+    .note-table {
+      min-width: 0;
+      padding: 5px;
+
+      .note-dimension-picker {
+        font-size: 18px;
+
+        .note-dimension-picker-mousecatcher {
+          position: absolute !important;
+          z-index: 3;
+          width: 10em;
+          height: 10em;
+          cursor: pointer;
+        }
+
+        .note-dimension-picker-unhighlighted {
+          position: relative !important;
+          z-index: 1;
+          width: 5em;
+          height: 5em;
+          background-size: 1em 1em;
+          background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, #fff 4px, #fff 26px);
+        }
+
+        .note-dimension-picker-highlighted {
+          position: absolute !important;
+          z-index: 2;
+          width: 1em;
+          height: 1em;
+          background-size: 1em 1em;
+          background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, $first-focus-color 4px, $first-focus-color 26px);
         }
       }
-      .note-color-row {
-        height: 20px;
-      }
     }
   }
-  .dropdown-content {
-    &.right {
-      right: 0;
-      left: auto;
-    }
-    &.right::before {
-      right: 9px;
-      left: auto !important;
-    }
-    &.right::after {
-      right: 10px;
-      left: auto !important;
-    }
-    &.note-check li a {
-      i {
-        color: deepskyblue;
-        visibility: hidden;
-      }
-      &.checked i {
-        visibility: visible;
-      }
-    }
-  }
-  .note-fontsize-10 {
-    font-size: 10px;
-  }
-  .note-para .dropdown-content {
-    min-width: 172px;
-    padding: 5px;
-    > div:first-child {
-      margin-right: 5px;
-    }
-  }
-  > .btn-group {
-    margin-top: 0;
-    margin-right: 5px;
-    margin-left: 0;
-  }
-  .btn-group .note-table {
-    min-width: 0;
-    padding: 5px;
-    .note-dimension-picker {
-      font-size: 18px;
-      .note-dimension-picker-mousecatcher {
-        position: absolute !important;
-        z-index: 3;
-        width: 26px * 10;
-        height: $gridUnit * 10;
-        cursor: pointer;
-      }
-      .note-dimension-picker-unhighlighted {
-        position: relative !important;
-        z-index: 1;
-        width: $gridUnit * 12;
-        height: $gridUnit * 5;
-        background-size: 26px 26px;
-        background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, #fff 4px, #fff 26px);
-      }
-      .note-dimension-picker-highlighted {
-        position: absolute !important;
-        z-index: 2;
-        width: $gridUnit;
-        height: $gridUnit;
-        background-size: 26px 26px;
-        background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, $firstFocusColor 4px, $firstFocusColor 26px);
-      }
-    }
-  }
-}
-
-.note-editor {
-  .note-dropzone {
-    position: absolute;
-    z-index: 26;
-    display: none;
-    color: #87cefa;
-    background-color: white;
-    border: 2px dashed #87cefa;
-    opacity: .95;
-    pointer-event: none;
-
-    .note-dropzone-message {
-      display: table-cell;
-      font-size: 28px;
-      font-weight: bold;
-      text-align: center;
-      vertical-align: middle;
-    }
-
-    &.hover {
-      color: #098ddf;
-      border: 2px dashed #098ddf;
-    }
-  }
-
-  &.fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 15;
-    width: 100%;
-
-    .note-editable {
-      background-color: white;
-    }
-
-    .note-resizebar {
-      display: none;
-    }
-  }
-
-  &.codeview {
-    .note-editable {
-      display: none;
-    }
-    .note-codable {
-      display: block;
-    }
-  }
-
-  .note-statusbar {
-    background-color: #f5f5f5;
-  }
-
-  .note-editable {
-    padding: 10px;
-    overflow: auto;
-    outline: 0;
-  }
-
-  .note-editable[contenteditable='false'] {
-    background-color: #e5e5e5;
-  }
-
-  .note-codable {
-    display: none;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 0;
-    font-family: 'Menlo', 'Monaco', 'monospace', 'sans-serif';
-    font-size: 14px;
-    color: #ccc;
-    background-color: #222;
-    border: 0;
-    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-    border-radius: 0;
-    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-    box-shadow: none;
-    //Instead of the line below you could use @include box-sizing($bs)
-    box-sizing: border-box;
-    resize: none;
-  }
-
-  &.note-air-editor {
-    outline: 0;
-    border: 0;
-  }
-
-  &.dragover .note-dropzone {
-    display: table;
-  }
-
-  .note-editable[contenteditable=true]:empty:not(:focus):before {
-    color: #a9a9a9;
-    content: attr(data-placeholder);
-  }
-}
-
-.note-popover.popover .popover-content {
-  padding: 0;
-  margin: 0;
 
   .note-style {
     h1, h2, h3, h4, h5, h6, blockquote {
@@ -737,62 +370,78 @@ $gridUnit: 26px;
       padding-left: 5px;
     }
 
-    .dropdown-content .btn-group {
-      margin: 0;
+    .dropdown-content {
+      min-width: 340px;
 
-      &:first-child {
-        margin: 0 5px;
-      }
+      .btn-group {
+        margin: 0;
 
-      .note-palette-title {
-        margin: 2px 7px;
-        font-size: 12px;
-        text-align: center;
-        border-bottom: 1px solid #eee;
-      }
+        &:first-child {
+          margin: 0 5px;
+        }
 
-      .note-color-reset {
-        padding: 0 3px;
-        margin: 3px;
-        font-size: 11px;
-        cursor: pointer;
-        //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-        border-radius: 5px;
+        .note-palette-title {
+          font-size: 12px;
+          margin: 2px 7px;
+          text-align: center;
+          border-bottom: 1px solid #eee;
+        }
 
-        &:hover {
+        .note-color-reset {
+          font-size: 11px;
+          margin: 3px;
+          padding: 0 3px;
+          cursor: pointer;
+          //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+          border-radius: 5px;
+
+          &:hover {
+            background: #eee;
+          }
+        }
+
+        .note-color-row {
+          height: 20px;
+        }
+
+        .note-color-reset:hover {
           background: #eee;
         }
-      }
-
-      .note-color-row {
-        height: 20px;
       }
     }
   }
 
+  .note-para {
+    .dropdown-content {
+      min-width: 216px;
+      padding: 5px;
+
+      &>div:first-child {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  /* dropdown-menu for toolbar and popover */
   .dropdown-content {
+    min-width: 90px;
+
+    /* dropdown-menu right position */
     &.right {
       right: 0;
       left: auto;
+      &::before { right: 9px; left: auto !important;  }
+      &::after { right: 10px; left: auto !important;  }
     }
 
-    &.right::before {
-      right: 9px;
-      left: auto !important;
-    }
-
-    &.right::after {
-      right: 10px;
-      left: auto !important;
-    }
-
-    &.note-check li a {
-      i {
+    /* dropdown-menu for selectbox */
+    &.note-check {
+      li a i {
         color: deepskyblue;
         visibility: hidden;
       }
 
-      &.checked i {
+      li a.checked i {
         visibility: visible;
       }
     }
@@ -802,98 +451,63 @@ $gridUnit: 26px;
     font-size: 10px;
   }
 
-  .note-para .dropdown-content {
-    min-width: 172px;
-    padding: 5px;
-
-    > div:first-child {
-      margin-right: 5px;
-    }
-  }
-
-  > .btn-group {
-    margin-top: 0;
-    margin-right: 5px;
-    margin-left: 0;
-  }
-
-  .btn-group .note-table {
-    min-width: 0;
-    padding: 5px;
-
-    .note-dimension-picker {
-      font-size: 18px;
-
-      .note-dimension-picker-mousecatcher {
-        position: absolute !important;
-        z-index: 3;
-        width: 26px * 10;
-        height: $gridUnit * 10;
-        cursor: pointer;
+  /* color palette for toolbar and popover */
+  .note-color-palette {
+    line-height: 1;
+    div {
+      .note-color-btn {
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #fff;
       }
-
-      .note-dimension-picker-unhighlighted {
-        position: relative !important;
-        z-index: 1;
-        width: $gridUnit * 12;
-        height: $gridUnit * 5;
-        background-size: 26px 26px;
-        background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, #fff 4px, #fff 26px);
-      }
-
-      .note-dimension-picker-highlighted {
-        position: absolute !important;
-        z-index: 2;
-        width: $gridUnit;
-        height: $gridUnit;
-        background-size: 26px 26px;
-        background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, $firstFocusColor 4px, $firstFocusColor 26px);
+      .note-color-btn:hover {
+        border: 1px solid #000;
       }
     }
   }
 }
 
-.note-help-dialog {
-  //color: $toolbarColor;
-  $note-shortcut-hl: #dd0;
-  //font-size: 12px;
-  color: #ccc;
-  background-color: #222 !important;
-
-  .modal-content {
-    background: transparent;
-    border: 1px solid white;
-    border-radius: 5px;
+/* Dialog
+------------------------------------------*/
+.note-dialog {
+  &>div {
+    display: none;
   }
 
-  .note-shortcut {
-    margin-bottom: 0px;
+  .form-group {
+    margin-left: 0;
+    margin-right: 0;
+  }
 
-    &-row {
-      margin-right: -5px;
-      margin-left: -5px;
-    }
+  .note-modal-form {
+    margin: 0;
+  }
 
-    &-col {
-      padding-right: 5px;
-      padding-left: 5px;
-    }
-
-    &-title {
-      font-size: 13px;
-      font-weight: bold;
-      color: $note-shortcut-hl;
-    }
-
-    &-key {
-      font-family: "Courier New";
-      color: $note-shortcut-hl;
+  .note-image-dialog {
+    .note-dropzone {
+      min-height: 100px;
+      font-size: 30px;
+      line-height: 4; /* vertical-align */
+      color: lightgray;
+      text-align: center;
+      border: 4px dashed lightgray;
+      margin-bottom: 10px;
     }
   }
+}
+
+/* Placeholder
+------------------------------------------*/
+.note-placeholder {
+  position: absolute;
+  display: none;
+  color: gray;
 }
 
 /* Handle
- ------------------------------------------*/
+------------------------------------------*/
 .note-handle {
   /* control selection */
   .note-control-selection {
@@ -906,7 +520,7 @@ $gridUnit: 26px;
       width: 100%;
       height: 100%;
       background-color: black;
-      //@include opacity(.30);
+      //@include opacity(0.3);
     }
 
     .note-control-handle {
@@ -965,8 +579,349 @@ $gridUnit: 26px;
       color: white;
       background-color: black;
       font-size: 12px;
-      border-radius: 5px;
-      //@include opacity(.7);
+      //@include rounded(5px);
+      //@include opacity(0.7);
+    }
+  }
+}
+
+/* Hint popover
+------------------------------------------*/
+.note-hint-popover {
+  min-width: 100px;
+  padding: 2px;
+
+  .popover-content {
+    padding: 3px;
+    max-height: 150px;
+    overflow: auto;
+
+    .note-hint-group {
+      .note-hint-item {
+        display: block !important;
+        padding: 3px;
+
+        &.active, &:hover {
+          display: block;
+          clear: both;
+          font-weight: 400;
+          line-height: 1.4;
+          color: white;
+          white-space: nowrap;
+          text-decoration: none;
+          background-color: #428bca;
+          outline: 0;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+/* Help dialog
+------------------------------------------*/
+.note-help-dialog {
+  //color: $toolbarColor;
+  $note-shortcut-hl: #dd0;
+  //font-size: 12px;
+  color: #ccc;
+  background-color: #222 !important;
+
+  .modal-content {
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+  }
+
+  .note-shortcut {
+    margin-bottom: 0px;
+
+    &-row {
+      margin-right: -5px;
+      margin-left: -5px;
+    }
+
+    &-col {
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+
+    &-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: $note-shortcut-hl;
+    }
+
+    &-key {
+      font-family: "Courier New";
+      color: $note-shortcut-hl;
+    }
+  }
+}
+
+.note-editor .modal {
+  background-color: $toolbar-color;
+  color: $toolbar-text-color;
+  //z-index: 30 !important;
+  backface-visibility: hidden;
+  margin: auto;
+
+  .input-field input:not([readonly]),
+  .input-field input.datepicker {
+    border-color: $toolbar-text-color !important;
+  }
+  .input-field input:focus:not([readonly]),
+  .input-field input.datepicker:focus,
+  textarea.materialize-textarea:focus:not([readonly]) {
+    box-shadow: 0 1px 0 0 $first-focus-color !important;
+    border-color: $first-focus-color !important;
+  }
+  label, .input-field input:not([readonly]) + label,
+  .input-field input.datepicker + label,
+  .input-field .prefix,
+  .note-editor + label {
+    color: $toolbar-text-color !important;
+  }
+  .input-field input:focus:not([readonly]) + label,
+  .input-field input.datepicker:focus + label,
+  .input-field .prefix.active,
+  textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: $first-focus-color !important;
+  }
+
+  .btn {
+    background-color: $second-button-color;
+  }
+  .btn:hover {
+    background-color: lighten($second-button-color, 10%) !important;
+  }
+
+  .btn.disabled {
+    background-color: darken($second-button-color, 15%) !important;
+  }
+
+  .modal-footer {
+    background-color: darken($toolbar-color, 10%);
+
+    .btn-close {
+      margin-right: 15px;
+      background-color: $third-button-color;
+    }
+
+    .btn-close:hover {
+      background-color: lighten($third-button-color, 10%) !important;
+    }
+  }
+
+  .canvasContainerEmpty {
+    border: solid 5px $first-focus-color;
+  }
+}
+
+//scrollbars
+.note-editor .note-editable,
+.note-editor .note-color-palette,
+.note-editor .note-codable,
+.modal.modal-fixed-footer .modal-content {
+  &::-webkit-scrollbar {
+    width: 17px !important;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: $toolbar-color !important;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: lighten($toolbar-color, 20%) !important;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: lighten($toolbar-color, 30%) !important;
+  }
+}
+
+.note-editor,
+.popover {
+  .btn-group {
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+
+    ul {
+      padding: 0;
+      margin-top: 15px;
+    }
+
+    i.left {
+      margin-right: 5px;
+    }
+  }
+
+  .btn {
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    padding: 0 9px !important;
+    background-color: $first-button-color;
+  }
+
+  .note-toolbar button, button {
+    background-color: $first-button-color;
+    border: none;
+    text-transform: none;
+  }
+
+  [type='checkbox']:checked + label:before,
+  [type='checkbox']:checked + label:before {
+    border-right-color: $second-button-color !important;
+    border-bottom-color: $second-button-color !important;
+  }
+
+  .note-palette-title {
+    padding: 0 !important;
+  }
+
+  .colorName {
+    display: inline-block;
+    color: $toolbar-text-color;
+
+    @media #{$small-and-down} {
+      display: none;
+    }
+  }
+
+  .note-color-palette {
+    line-height: 10px;
+    border: solid 3px $toolbar-color;
+    padding: 0 !important;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    .note-color-row {
+      padding: 0 !important;
+      min-width: 300px;
+    }
+
+    button.note-color-btn {
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .note-color-btn:hover {
+      &:after {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        content: '';
+        background-color: inherit;
+        margin-top: -15px;
+        margin-left: -15px;
+      }
+    }
+  }
+
+  .note-dimension-picker {
+    overflow: hidden;
+  }
+
+  .dropdown-content {
+    z-index: 25;
+    overflow: hidden;
+
+    &.note-check {
+      min-width: 80px;
+    }
+
+    label {
+      color: $toolbar-text-color !important;
+    }
+  }
+
+  ul.dropdown-content {
+    //position: absolute !important;
+    top: 20px !important;
+    background-color: lighten($first-button-color, 10%) !important;
+    margin-top: 15px !important;
+    border: {
+      left: 3px solid $first-button-color !important;
+      bottom: 3px solid $first-button-color !important;
+      right: 3px solid $first-button-color !important;
+    }
+
+    &#colors {
+      width: 342px;
+
+      .indicator {
+        width: 50%;
+        left: 0;
+      }
+    }
+
+    .colorTable {
+      padding: 3px 0;
+    }
+
+    .tabs {
+      background-color: $toolbar-color;
+
+      &:hover {
+        background-color: $toolbar-color;
+      }
+
+      .tab a, .tab a:hover {
+        color: $second-focus-color;
+      }
+
+      .indicator {
+        background-color: $second-focus-color;
+      }
+    }
+
+    li {
+      list-style-type: none !important;
+      padding: 3px 10px !important;
+      margin: 5px 0 !important;
+
+      button {
+        background-color: inherit;
+        color: white;
+        cursor: pointer;
+        min-width: 100%;
+        text-align: left;
+
+        &.normal {
+          margin: 5px 0 !important;
+          background-color: inherit;
+        }
+
+        &.secret {
+          margin: 5px 0 !important;
+          font-size: 18px;
+          @include special-style($secret-color);
+        }
+
+        &.advice {
+          margin: 5px 0 !important;
+          font-size: 18px;
+          @include special-style($advice-color);
+        }
+
+        &.deadend {
+          margin: 5px 0 !important;
+          font-size: 18px;
+          @include special-style($deadend-color);
+        }
+
+        &.p, &.blockquote, &.pre, &.h1, &.h2, &.h3, &.h4 {
+          margin: 1px 0 !important;
+
+          &:hover, &.active {
+            color: black;
+          }
+        }
+
+        h1, h2, h3, h4 {
+          margin: 0 1px !important;
+        }
+      }
     }
   }
 }

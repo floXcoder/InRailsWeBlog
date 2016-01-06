@@ -139,6 +139,7 @@ var ArticleForm = React.createClass({
                 ['undo', ['undo', 'redo']],
                 ['view', ['fullscreen', 'codeview']],
                 ['para', ['ul', 'ol']],
+                ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
                 ['help', ['help']]
             ];
