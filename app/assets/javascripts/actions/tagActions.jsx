@@ -2,6 +2,8 @@
 
 var TagActions = Reflux.createActions([
     'fetchTags',
+    'closeSidebar',
+    'showSidebar',
     'trackClick',
     'trackView'
 ]);

@@ -10,14 +10,14 @@ gem 'rails',                    '4.2.5'
 gem 'pg',                       '~> 0.18.4'
 
 # Dump database
-gem 'seed_dump',                '~> 3.2.2'
+gem 'seed_dump',                '~> 3.2.4'
 
 # Dummy data
 gem 'factory_girl_rails',       '~> 4.5.0'
 gem 'faker',                    '~> 1.6.1'
 
 # HTTP Response
-gem 'responders',               '~> 2.1.0'
+gem 'responders',               '~> 2.1.1'
 gem 'http_accept_language',     '~> 2.0.2'
 gem 'secure_headers',           '~> 2.4.3'
 
@@ -29,33 +29,32 @@ gem 'slim-rails',               '~> 3.0.1'
 
 # Internationalization
 gem 'globalize',                '~> 5.0.1'
-# 3.0.0.rc11 bugged, generate translations twice in the same file
-gem 'i18n-js',                  '= 3.0.0.rc9'
-gem 'geocoder',                 '~> 1.2.12'
+gem 'i18n-js',                  '~> 3.0.0.rc12'
+gem 'geocoder',                 '~> 1.2.14'
 gem 'maxminddb',                '~> 0.1.8'
 
 # Model versioning
-gem 'paper_trail',              '~> 4.0.0'
+gem 'paper_trail',              '~> 4.0.1'
 gem 'globalize-versioning',     git: 'https://github.com/globalize/globalize-versioning.git'
 
 # Run asynschronous process
 gem 'sidekiq',                  '~> 4.0.1'
 gem 'sidekiq-statistic',        '~> 1.1'
-gem 'sidekiq-cron',             '~> 0.4.0'
+gem 'sidekiq-cron',             '~> 0.4.2'
 gem 'sinatra',                  '~> 1.4.5',     require: false
 gem 'whenever',                 '~> 0.9.4',     require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '~> 1.5.2'
 gem 'redis-session-store',      '~> 0.8.0'
-gem 'readthis',                 '~> 1.1.0'
-gem 'hiredis',                  '~> 0.6.0'
+gem 'readthis',                 '~> 1.2.0'
+gem 'hiredis',                  '~> 0.6.1'
 
 # Global variables
 gem 'simpleconfig',             '~> 2.0.1'
 
 # Authentification
-gem 'devise',                   '~> 3.5.2'
+gem 'devise',                   '~> 3.5.3'
 
 # Authorization mechanism
 gem 'pundit',                   '~> 1.0.1'
@@ -64,10 +63,10 @@ gem 'pundit',                   '~> 1.0.1'
 gem 'friendly_id',              '~> 5.1.0'
 
 # Pagination
-gem 'will_paginate',            '~> 3.0.7'
+gem 'will_paginate',            '~> 3.1.0'
 
 # Forms
-gem 'simple_form',              '~> 3.2.0'
+gem 'simple_form',              '~> 3.2.1'
 gem 'country_select',           '~> 2.5.1'
 
 # Upload pictures
@@ -76,7 +75,7 @@ gem 'carrierwave_backgrounder', '~> 0.4.2'
 gem 'mini_magick',              '~> 4.3.5'
 
 # Search in database
-gem 'searchkick',               '~> 1.1.0'
+gem 'searchkick',               '~> 1.1.2'
 
 # Comments
 gem 'acts_as_commentable_with_threading', '~> 2.0'
@@ -94,7 +93,7 @@ gem 'capistrano-db-tasks',      '~> 0.4',     require: false
 gem 'capistrano-sidekiq',       '~> 0.5.4',   require: false
 
 # Website analysis
-gem 'newrelic_rpm',             '~> 3.14.0.305'
+gem 'newrelic_rpm',             '~> 3.14.1.311'
 
 group :development do
   # server
@@ -133,13 +132,13 @@ group :development do
   gem 'memory_profiler',        '~> 0.9.6'
 
   # N+1 database query
-  gem 'bullet',                 '~> 4.14.10'
+  gem 'bullet',                 '~> 5.0.0'
 
   # Find index to add
   gem 'lol_dba',                '~> 2.0.1'
 
   # Faster ruby code
-  gem 'fasterer',               '~> 0.1.11'
+  gem 'fasterer',               '~> 0.3.1'
 end
 
 group :test do
@@ -160,18 +159,18 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',   '~> 1.15.7',  require: false
-  gem 'brakeman',               '~> 3.1.2',   require: false
+  gem 'brakeman',               '~> 3.1.4',   require: false
   gem 'metric_fu',              '~> 4.12.0',  require: false
   gem 'i18n-tasks',             '~> 0.9.2',   require: false
   gem 'deadweight',             '~> 0.2.2',   require: false
 
   # Security
-  gem 'dawnscanner',            '~> 1.5.0',   require: false
+  gem 'dawnscanner',            '~> 1.5.2',   require: false
 end
 
 group :development, :test do
   # Speed up server and tests
-  gem 'spring',                 '~> 1.5.0'
+  gem 'spring',                 '~> 1.6.1'
 
   # Check errors
   gem 'rubocop',                '~> 0.35.1',  require: false
@@ -182,6 +181,6 @@ group :production do
   gem 'passenger', '~> 5'
 
   # Improve Json generation (Oj not working with rack-mini-profiler)
-  gem 'oj',                       '~> 2.14.0'
+  gem 'oj',                       '~> 2.14.3'
   gem 'oj_mimic_json',            '~> 1.0.1'
 end

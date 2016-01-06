@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
 
+  after_action :flash_to_headers
+
   def set_locale
     I18n.locale         =
       if params[:locale].present?
@@ -129,5 +131,16 @@ class ApplicationController < ActionController::Base
     return unless request.get?
 
     session[:previous_url] = previous_url(request.path) unless request.xhr? # don't store ajax calls
+  end
+
+  private
+
+  def flash_to_headers
+    if request.xhr? && !flash.empty?
+      # avoiding XSS injections via flash
+      flash_json                           = Hash[flash.map { |k, v| [k, ERB::Util.h(v)] }].to_json
+      response.headers['X-Flash-Messages'] = flash_json
+      flash.discard
+    end
   end
 end

@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: articles
+#
+#  id              :integer          not null, primary key
+#  author_id       :integer          not null
+#  visibility      :integer          default(0), not null
+#  notation        :integer          default(0)
+#  priority        :integer          default(0)
+#  allow_comment   :boolean          default(TRUE), not null
+#  private_content :boolean          default(FALSE), not null
+#  is_link         :boolean          default(FALSE), not null
+#  temporary       :boolean          default(FALSE), not null
+#  slug            :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :search, :autocomplete, :show]
   after_action :verify_authorized, except: [:index, :search, :autocomplete]
@@ -68,6 +86,7 @@ class ArticlesController < ApplicationController
         article.create_tag_relationships
         article = article.reload
 
+        flash.now[:success] = t('views.article.flash.creation_successful')
         format.json { render json: article, status: :created, location: article }
       else
         format.json { render json: article.errors, status: :unprocessable_entity }

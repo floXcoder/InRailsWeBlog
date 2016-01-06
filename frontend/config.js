@@ -51,7 +51,7 @@ module.exports = {
                 }
             }
         ],
-            plugins: {
+        plugins: {
             $: 'jquery',
             jQuery: 'jquery',
             "window.jQuery": 'jquery',
@@ -69,7 +69,7 @@ module.exports = {
         }
     },
     browserSync: {
-        proxy: { target: 'http://localhost:3001' },
+        proxy: {target: 'http://localhost:3001'},
         notify: false,
         open: false
     },

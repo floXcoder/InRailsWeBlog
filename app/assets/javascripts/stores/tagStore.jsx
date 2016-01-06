@@ -33,6 +33,14 @@ var TagStore = Reflux.createStore({
             .fail(function (xhr, status, error) {
                 this.handleErrors(this.url, xhr, status, error);
             }.bind(this));
+    },
+
+    onShowSidebar () {
+        $('#toggle-tags').sideNav('show');
+    },
+
+    onCloseSidebar () {
+        $('#toggle-tags').sideNav('hide');
     }
 });
 

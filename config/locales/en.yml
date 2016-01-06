@@ -79,6 +79,7 @@ en:
         update_profile: "Update my profil"
     article:
       flash:
+        creation_successful: "Article added!"
         deletion_successful: "Article deleted."
         undelete_link: "Cancel deletion."
         deletion_error: "Problem during article deletion: %{errors}"

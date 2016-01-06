@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: tags
+#
+#  id         :integer          not null, primary key
+#  tagger_id  :integer          not null
+#  name       :string           not null
+#  slug       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class TagsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   after_action :verify_authorized, except: [:index, :show]

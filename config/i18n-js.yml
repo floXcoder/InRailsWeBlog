@@ -1,7 +1,9 @@
 fallbacks: true
 
+export_i18n_js: 'app/assets/javascripts/modules'
+
 translations:
-- file: "app/assets/javascripts/modules/translation/fr.js"
+- file: 'app/assets/javascripts/modules/translation/fr.js'
   only: 'fr.js.*'
-- file: "app/assets/javascripts/modules/translation/en.js"
+- file: 'app/assets/javascripts/modules/translation/en.js'
   only: 'en.js.*'

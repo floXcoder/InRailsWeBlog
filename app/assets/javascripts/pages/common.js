@@ -32,6 +32,16 @@ $('.blog-flash').each(function() {
     Materialize.toast($this.html(), 3000);
 });
 
+$(document).ajaxComplete(function (event, request) {
+    if (request.getResponseHeader('X-Flash-Messages')) {
+        var flashMessage = JSON.parse(decodeURIComponent(escape(request.getResponseHeader('X-Flash-Messages'))));
+
+        if(flashMessage && flashMessage.success) {
+            Materialize.toast(flashMessage.success, 3000);
+        }
+    }
+});
+
 // Header : close side nav on click for preferences or tags
 $('.button-collapse').click(function (event) {
     if(event && (event.target.id === 'toggle-tags' || event.target.id === 'toggle-user-pref')) {

@@ -3,6 +3,7 @@
 var ArticleActions = require('../../../actions/articleActions');
 var ParentTag = require('./parent');
 
+var TagAction = require('../../../actions/tagActions');
 var TagStore = require('../../../stores/tagStore');
 
 var IndexTagList = React.createClass({
@@ -36,6 +37,9 @@ var IndexTagList = React.createClass({
             tags.push(parentTagName);
             ArticleActions.loadArticlesByTag({tags: tags});
         }
+
+        TagAction.closeSidebar();
+
         return true;
     },
 
