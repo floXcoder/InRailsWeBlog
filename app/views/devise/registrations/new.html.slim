@@ -9,10 +9,10 @@
 .card
   = simple_form_for(resource, html: { id: 'signup_user',  class: 'blog-form' }) do |signup_form|
     .card-content
-      h2.adaptative-title
+      h3.adaptative-title.center-align
         = t('views.user.signup.title')
 
-      .text-right.margin-bottom-20
+      p
         = link_to t('views.user.signup.back_home'), root_path
 
       / Sign-up fields
@@ -21,7 +21,9 @@
       / Helper links
       .margin-bottom-20
 
-      = render 'devise/shared/links'
+      / Helper links
+      p
+        = render 'devise/shared/links'
 
 
     .card-action

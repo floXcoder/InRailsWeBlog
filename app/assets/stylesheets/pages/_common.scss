@@ -288,17 +288,17 @@
       font-size: 26px;
       font-weight: 300;
     }
-  }
-
-  .article-form {
-    padding: 20px;
 
     .form-error {
-      background-color: color('red', 'lighten-4');
+      //background-color: color('red', 'lighten-4');
+      color: color('red', 'darken-2');
+      font-weight: 600;
+      font-size: 1.1rem;
     }
 
     .field-error {
       color: color('red', 'darken-2');
+      margin-left: 3rem;
     }
 
     .form-editor-title {
@@ -311,6 +311,10 @@
     .col {
       margin: 10px 0;
     }
+  }
+
+  .article-form {
+    padding: 20px;
   }
 
   .blog-index-tag {

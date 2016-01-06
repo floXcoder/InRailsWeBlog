@@ -2,7 +2,7 @@
 
 require('../application');
 
-require('../components/user/navigation');
+require('../components/users/navigation');
 require('../components/tags/sidebar');
 
 // Automatic dropdown on hover
@@ -38,6 +38,14 @@ $(document).ajaxComplete(function (event, request) {
 
         if(flashMessage && flashMessage.success) {
             Materialize.toast(flashMessage.success, 3000);
+        }
+
+        if(flashMessage && flashMessage.notice) {
+            Materialize.toast(flashMessage.notice, 3000);
+        }
+
+        if(flashMessage && flashMessage.error) {
+            Materialize.toast(flashMessage.error, 3000);
         }
     }
 });

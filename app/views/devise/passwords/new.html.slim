@@ -9,21 +9,20 @@
 
   / Form for new password
   = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :post, id: 'password_user', class: 'blog-form'}) do |user_form|
-    .card-content
-      h3
-        = t('devise.passwords.new.title')
-      p
-        = user_form.error_notification
 
-      p.right-align
+    .card-content
+      h3.center-align
+        = t('devise.passwords.new.title')
+
+      p
         = link_to t('views.user.signup.back_home'), root_path
 
-      .row.margin-bottom-40
-        / Email field
-        .col.s6
-          = user_form.input :email, label: t('user.email'), icon: 'mail', required: true, autofocus: true
+      = user_form.error_notification
 
-      hr
+      .row.margin-top-20.margin-bottom-20
+        / Email field
+        .col.l8.offset-l2.s12
+          = user_form.input :email, label: t('user.email'), icon: 'mail', required: true, autofocus: true
 
       p
         = render 'devise/shared/links'

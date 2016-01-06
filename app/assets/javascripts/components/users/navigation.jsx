@@ -11,7 +11,7 @@ ReactDOM.render(
 );
 
 if(currentUserId) {
-    var UserPreference = require('../../components/user/preference');
+    var UserPreference = require('../../components/users/preference');
     ReactDOM.render(
         <UserPreference/>,
         document.getElementById('user-pref')

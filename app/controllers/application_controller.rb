@@ -140,7 +140,7 @@ class ApplicationController < ActionController::Base
       # avoiding XSS injections via flash
       flash_json                           = Hash[flash.map { |k, v| [k, ERB::Util.h(v)] }].to_json
       response.headers['X-Flash-Messages'] = flash_json
-      flash.discard
+      # flash.discard
     end
   end
 end

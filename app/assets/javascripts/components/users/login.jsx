@@ -37,9 +37,9 @@ var Login = React.createClass({
         $('#' + this.props.modalId).closeModal();
     },
 
-    _handleInputBlur () {
+    _handleInputBlur (event) {
         let serializedForm = $('#' + this.props.formId)
-            .find("input[value!='']")
+            .find('input')
             .filter(function () {
                 return !!this.value && this.type.indexOf('password') === -1;
             }).serialize();
@@ -47,12 +47,18 @@ var Login = React.createClass({
         if (!$.isEmpty(serializedForm)) {
             UserActions.validation(serializedForm);
         }
+
+        return event;
     },
 
     onUserValidation (userValidation) {
+        if ($.isEmpty(userValidation.user)) {
+            return;
+        }
+
         let isValid = true;
 
-        if (!$.isEmpty(userValidation.user) && !userValidation.user.login) {
+        if (this.refs.userLogin.value().length > 0 && !userValidation.user.login) {
             isValid = false;
             this.refs.userLogin.setInvalid(I18n.t('js.user.errors.login.invalid'));
         } else {
@@ -78,7 +84,7 @@ var Login = React.createClass({
                 <form id={this.props.formId}
                       method="post"
                       action={this.props.url}
-                      className="blog-modal-form"
+                      className="ap-modal-form"
                       data-remote="true"
                       acceptCharset="UTF-8"
                       noValidate="novalidate">

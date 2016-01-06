@@ -12,16 +12,16 @@ var UserStore = require('../../stores/userStore');
 var UserActions = require('../../actions/userActions');
 
 var Signup = React.createClass({
-    mixins: [
-        Reflux.listenTo(UserStore, 'onUserValidation')
-    ],
-
     propTypes: {
         buttonId: React.PropTypes.string.isRequired,
         formId: React.PropTypes.string,
         modalId: React.PropTypes.string,
         url: React.PropTypes.string
     },
+
+    mixins: [
+        Reflux.listenTo(UserStore, 'onUserValidation')
+    ],
 
     getDefaultProps () {
         return {
@@ -39,9 +39,9 @@ var Signup = React.createClass({
         $('#' + this.props.modalId).closeModal();
     },
 
-    _handleInputBlur () {
+    _handleInputBlur (event) {
         let serializedForm = $('#' + this.props.formId)
-            .find("input[value!='']")
+            .find('input')
             .filter(function () {
                 return !!this.value && this.type.indexOf('password') === -1;
             }).serialize();
@@ -49,6 +49,8 @@ var Signup = React.createClass({
         if (!$.isEmpty(serializedForm)) {
             UserActions.validation(serializedForm);
         }
+
+        return event;
     },
 
     _handleSubmitClick (event) {
@@ -66,9 +68,13 @@ var Signup = React.createClass({
     },
 
     onUserValidation (userValidation) {
+        if ($.isEmpty(userValidation.user)) {
+            return;
+        }
+
         let isValid = true;
 
-        if (!validator.isLength(this.refs.userPseudo.value(),
+        if (this.refs.userPseudo.value().length > 0 && !validator.isLength(this.refs.userPseudo.value(),
                 window.parameters.user_pseudo_min_length,
                 window.parameters.user_pseudo_max_length)) {
             isValid = false;
@@ -77,7 +83,7 @@ var Signup = React.createClass({
                     min: window.parameters.user_pseudo_min_length,
                     max: window.parameters.user_pseudo_max_length
                 }));
-        } else if (!$.isEmpty(userValidation.user) && userValidation.user.pseudo) {
+        } else if (userValidation.user.pseudo) {
             isValid = false;
             this.refs.userPseudo.setInvalid(I18n.t('js.user.errors.pseudo.already_taken'));
         } else {
@@ -146,7 +152,7 @@ var Signup = React.createClass({
                 <form id={this.props.formId}
                       method="post"
                       action={this.props.url}
-                      className="blog-modal-form"
+                      className="ap-modal-form"
                       data-remote="true"
                       acceptCharset="UTF-8"
                       noValidate="novalidate">

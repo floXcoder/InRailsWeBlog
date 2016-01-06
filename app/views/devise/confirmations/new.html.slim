@@ -8,30 +8,27 @@
 / Page content
 .card
   = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { id: 'signup_user',  class: 'blog-form' }) do |resend_form|
+
     .card-content
-      h2
+      h3.adaptative-title.center-align
         = t('devise.resend.title')
 
-      .text-right.margin-bottom-20
+      p
         = link_to t('devise.resend.back_home'), root_path
 
-      / Sign-up fields
+      / Error fields
       = resend_form.error_notification
       = resend_form.full_error :confirmation_token
 
-      / Email
-      .row.col.s12
-        = resend_form.input :email, label: t('user.email'), required: true, icon: 'mail', autofocus: true
+      / Email field
+      .row
+        .col.l8.offset-l2.s12
+          = resend_form.input :email, label: t('user.email'), required: true, icon: 'mail', autofocus: true
 
       / Helper links
-      .margin-bottom-20
+      p
+        = render 'devise/shared/links'
 
-      = render 'devise/shared/links'
-
-
-    .card-action
-
+    .card-action.center-align
       / Resend button
-      .row
-        .col.s7.offset-s5
-          = resend_form.button :submit, t('devise.resend.submit')
+      = resend_form.button :submit, t('devise.resend.submit')

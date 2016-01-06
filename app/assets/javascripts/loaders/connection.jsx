@@ -4,8 +4,8 @@ module.exports = () => {
     return new Promise(resolve => {
         require.ensure([], () => {
             resolve({
-                Login: require('../components/user/login'),
-                Signup: require('../components/user/signup')
+                Login: require('../components/users/login'),
+                Signup: require('../components/users/signup')
             });
         });
     });

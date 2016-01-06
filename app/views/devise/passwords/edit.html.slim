@@ -10,25 +10,24 @@
   / Form for edit password
   = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :put, id: 'password_user', class: 'blog-form'}) do |user_form|
     .card-content
-      h3
+      h3.adaptative-title.center-align
         = t('devise.passwords.edit.title')
+
+      p
+        = link_to t('views.user.signup.back_home'), root_path
+
       p
         = user_form.input :reset_password_token, as: :hidden
         = user_form.error_notification
         = user_form.full_error :reset_password_token
 
-      p.right-align
-        = link_to t('views.user.signup.back_home'), root_path
-
-      .row.margin-bottom-40
+      .row.margin-top-20.margin-bottom-20
         / Password
-        .col.s6
+        .col.l8.offset-l2.s12
           = user_form.input :password, label: t('devise.passwords.edit.new'), icon: 'mail', required: true, autofocus: true
 
-        .col.s6
+        .col.l8.offset-l2.s12
           = user_form.input :password_confirmation, label: t('devise.passwords.edit.confirm'), icon: 'lock', required: true
-
-      hr
 
       p
         = render 'devise/shared/links'

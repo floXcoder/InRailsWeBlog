@@ -3,8 +3,6 @@ class Users::SessionsController < Devise::SessionsController
 
   respond_to :html, :js
 
-  include ApplicationHelper
-
   def create
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_flashing_format? || request.format.js?
