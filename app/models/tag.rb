@@ -57,6 +57,6 @@ class Tag < ActiveRecord::Base
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :clicks, :views
+  acts_as_tracked '_InRailsWeBlog_', :queries, :clicks, :views
 
 end

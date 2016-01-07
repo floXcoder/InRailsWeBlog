@@ -130,6 +130,6 @@ class User < ActiveRecord::Base
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :comments, :bookmarks, :clicks, :views
+  acts_as_tracked '_InRailsWeBlog_', :queries, :comments, :bookmarks, :clicks, :views
 
 end

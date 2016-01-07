@@ -192,7 +192,7 @@ class Article < ActiveRecord::Base
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views
+  acts_as_tracked '_InRailsWeBlog_', :queries, :searches, :comments, :bookmarks, :clicks, :views
 
     # Nice url format
   include NiceUrlConcern

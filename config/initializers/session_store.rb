@@ -8,7 +8,7 @@ Rails.application.config.session_store :redis_session_store,
                                            redis: {
                                                db: 0,
                                                expire_after: 120.minutes,
-                                               key_prefix: 'inrailsweblog:session:',
+                                               key_prefix: '_InRailsWeBlog_session:',
                                                host: ENV['REDIS_HOST'],
                                                port: ENV['REDIS_PORT']
                                            },

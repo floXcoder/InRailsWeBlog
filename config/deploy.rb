@@ -122,8 +122,20 @@ namespace :deploy do
     end
   end
 
+  desc 'Flush Redis keys'
+  task :flush_redis do
+    on roles(:app), in: :sequence, wait: 5 do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'flush_redis'
+        end
+      end
+    end
+  end
+
   # after :publishing, :reset_database
   # after :publishing, :index_elasticsearch
+  # after :publishing, :flush_redis
   after :publishing, :restart
 
   after :finishing, :cleanup
@@ -133,3 +145,4 @@ end
 # cap production deploy
 # cap production deploy:reset_database
 # cap production deploy:index_elasticsearch
+# cap production deploy:flush_redis

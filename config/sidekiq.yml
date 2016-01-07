@@ -1,11 +1,15 @@
 ---
 :concurrency: 5
+
 :pidfile: tmp/pids/sidekiq.pid
+
 demo:
   :concurrency: 10
+
 production:
   :concurrency: 20
+
 :queues:
-  - [inrailsweblog_high, 2]
-  - inrailsweblog_default
-  - inrailsweblog_carrierwave
+  - [_InRailsWeBlog_high, 2]
+  - _InRailsWeBlog_default
+  - _InRailsWeBlog_carrierwave
