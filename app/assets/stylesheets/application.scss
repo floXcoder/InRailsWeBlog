@@ -75,6 +75,10 @@
   }
 }
 
+.tabs {
+  overflow-x: hidden;
+}
+
 // Filled in Style
 [type="checkbox"].invalid {
   + label:after {

@@ -67,7 +67,15 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       format.html { render json: articles, formats: :json, content_type: 'application/json' }
-      format.json { render json: articles }
+      format.json do
+        if params[:summary]
+          render json: articles,
+                 serializer: PaginationSerializer,
+                 each_serializer: ArticleSampleSerializer
+        else
+          render json: articles
+        end
+      end
     end
   end
 
@@ -192,13 +200,14 @@ class ArticlesController < ApplicationController
     multi_language  = current_user.preferences[:multi_language]
 
     respond_to do |format|
-      format.html { render :edit, locals:
-        {
-          article:         article,
-          current_user_id: current_user_id,
-          multi_language:  multi_language
-        }
-      }
+      format.html do
+        render :edit, locals:
+          {
+            article:         article,
+            current_user_id: current_user_id,
+            multi_language:  multi_language
+          }
+      end
     end
   end
 

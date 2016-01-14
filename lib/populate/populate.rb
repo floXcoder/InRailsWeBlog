@@ -41,6 +41,16 @@ class Populate
     # return groups
   end
 
+  def self.add_profile_picture_to(users, user_number = 1)
+    users = [users] if users.is_a?(User)
+
+    User.transaction do
+      users.sample(user_number).each do |user|
+        user.create_picture(remote_image_url: Faker::Avatar.image(nil, '50x50'))
+      end
+    end
+  end
+
   def self.create_dummy_tags(user, tag_number)
     tag_name = []
     while tag_name.size < tag_number
@@ -58,13 +68,13 @@ class Populate
     return tags
   end
 
-  def self.create_dummy_articles_for(users, tags, articles_by_user_number)
+  def self.create_dummy_articles_for(users, tags, articles_by_users)
     articles = []
     users = [users] if users.is_a?(User)
 
     users.each do |user|
-      articles_number = articles_by_user_number
-      articles_number = rand(articles_number) if articles_by_user_number.is_a?(Range)
+      articles_number = articles_by_users
+      articles_number = rand(articles_number) if articles_by_users.is_a?(Range)
       articles_number.times.map {
         articles << FactoryGirl.create(:article,
                                        :with_tag,

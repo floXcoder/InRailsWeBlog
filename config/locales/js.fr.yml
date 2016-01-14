@@ -4,6 +4,19 @@ fr:
       website_name: "In Rails We Blog"
       email: "blog@inrailsweblog.com"
     user:
+      model:
+        pseudo: "Pseudo"
+        first_name: "Prénom"
+        last_name: "Nom"
+        age: "Age"
+        city: "Ville"
+        country: "Pays"
+        additional_info: "Informations personnelles"
+        locale: "Langue"
+        admin: "Administrateur"
+        created_at: "Date de création du compte"
+        email: "Email"
+        last_sign_in_at: "Dernière connexion"
       login:
         title: "Connection"
         login: "Pseudo ou Email"
@@ -21,6 +34,24 @@ fr:
         terms_of_use_name: "conditions d'utilisations."
         cancel: "Annuler"
         submit: "Créer mon compte"
+      index:
+        link_to_user: "Détails de l'utilisateur"
+        search: "Chercher utilisateur"
+      show:
+        more_actions: "Actions"
+        articles: "Articles"
+        comments: "Commentaires"
+        about: "A propos"
+        activities: "Activités"
+        tracking: "Popularité"
+        contact: "Informations de contact"
+        properties: "Propriétés"
+        admin: "Administrateur"
+        administrator:
+          true: "Admin power"
+          false: "Non admin"
+        is_admin: "Administrateur"
+        not_admin: "Non administrateur"
       errors:
         login:
           required: "Veuillez indiquer votre email ou pseudo"
@@ -109,6 +140,9 @@ fr:
         form_title: "Modification de : %{title}"
         submit: "Mettre à jour l'article"
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
+      timeline:
+        title: "Nouvel article :"
+        no_articles: "Pas d'articles à afficher"
       search:
         placeholder: "Rechercher ..."
         url: "Recherche :"
@@ -143,6 +177,10 @@ fr:
     comment:
       title: "Commentaires"
       empty: "Pas encore de commentaires"
+      actions: "Actions"
+      timeline:
+        link: "Commentaire associée à :"
+        no_comments: "Pas de commentaires à afficher"
       form:
         title:
           default: "Ajouter un commentaire"
@@ -177,6 +215,52 @@ fr:
           not_authorized: "Vous n'avez pas la permission d'accéder à ce commentaire !"
           title: "Le titre du commentaire est %{message}"
           body: "Le message du commentaire est %{message}"
+    picture:
+      model:
+        errors:
+          title: "Image trop grande"
+          text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
+    activities:
+      no_activities: "Pas d'activités à afficher"
+      article:
+        create: "Article créé"
+        update: "Article mis à jour"
+        destroy: "Article supprimé"
+      tag:
+        create: "Label créé"
+        update: "Label mis à jour"
+        destroy: "Label supprimé"
+      tagged_article:
+        create: "Label ajouté à un article"
+        update: "Label d'un article mis à jour"
+        destroy: "Label supprimé d'un article"
+      bookmarked_article:
+        create: "Article ajouté aux favoris"
+        update: "Favori d'un article modifié"
+        destroy: "Favori d'un article supprimé"
+      comment:
+        create: "Commentaire ajouté"
+        update: "Commentaire mis à jour"
+        destroy: "Commentaire supprimé"
+    tracking:
+      sign_in_count: "Connexions"
+      views_count: "Vues"
+      queries_count: "Requêtes"
+      clicks_count: "Clics"
+      searches_count: "Recherches"
+      bookmarks_count: "Favoris"
+    admin:
+      menu:
+        dashboard: "Dashboard"
+        users: "Utilisateurs"
+        errors: "Erreurs"
+        sidekiq: "Sidekiq"
+        back_home: "retour au site"
+      users:
+        index:
+          title: "Liste des utilisateurs"
+        show:
+          title: "Détails de l'utilisateur"
     error_message:
       url: "URL :"
       message: "Message :"

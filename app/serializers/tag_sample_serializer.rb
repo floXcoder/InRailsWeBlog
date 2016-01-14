@@ -10,9 +10,12 @@
 #  updated_at :datetime         not null
 #
 
-class SimpleTagSerializer < ActiveModel::Serializer
-  cache key: 'simple_tag', expires_in: 12.hours
+class TagSampleSerializer < ActiveModel::Serializer
+  cache key: 'tag_sample', expires_in: 12.hours
 
-  attributes :id, :tagger_id, :name, :slug
+  attributes :id,
+             :tagger_id,
+             :name,
+             :slug
 
 end

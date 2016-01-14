@@ -3,6 +3,5 @@
   <component name="JavaScriptLibraryMappings">
     <file url="PROJECT" libraries="{Node.js}" />
     <includedPredefinedLibrary name="ECMAScript 6" />
-    <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

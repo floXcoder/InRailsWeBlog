@@ -4,6 +4,19 @@ en:
       website_name: "In Rails We Blog"
       email: "blog@inrailsweblog.com"
     user:
+      model:
+        pseudo: "Pseudo"
+        first_name: "First name"
+        last_name: "Last name"
+        age: "Age"
+        city: "City"
+        country: "Country"
+        additional_info: "Personal information"
+        locale: "Language"
+        admin: "Administrator"
+        created_at: "Creation date of account"
+        email: "Email"
+        last_sign_in_at: "Last connection"
       login:
         title: "Log In"
         login: "Pseudo or Email"
@@ -21,6 +34,24 @@ en:
         terms_of_use_name: "terms of use."
         cancel: "Cancel"
         submit: "Create my account"
+      index:
+        link_to_user: "User details"
+        search: "Find user"
+      show:
+        more_actions: "Actions"
+        articles: "Articles"
+        comments: "Comments"
+        about: "About"
+        activities: "Activities"
+        tracking: "Tracking"
+        contact: "Contact Info"
+        properties: "Propriétés"
+        admin: "Administrator"
+        administrator:
+          true: "Admin power"
+          false: "No admin"
+        is_admin: "Administrator"
+        not_admin: "Not an administrator"
       errors:
         login:
           required: "Please enter your email or pseudo"
@@ -109,6 +140,9 @@ en:
         form_title: "Update of: %{title}"
         submit: "Update article"
         exit: "Are you sure to exit without saving?"
+      timeline:
+        title: "New article:"
+        no_articles: "No articles to display"
       search:
         placeholder: "Search..."
         url: "Search:"
@@ -143,6 +177,10 @@ en:
     comment:
       title: "Comments"
       empty: "No comments yet"
+      actions: "Actions"
+      timeline:
+        link: "Comment associated to:"
+        no_comments: "No comments to display"
       form:
         title:
           default: "Add a comment"
@@ -177,6 +215,52 @@ en:
           not_authorized: "You are not authorized to access to this comment"
           title: "Comment title is %{message}"
           body: "Comment message is %{message}"
+    picture:
+      model:
+        errors:
+          title: "Picture too big"
+          text: "Maximum file size is 5MB. Please choose a smaller file"
+    activities:
+      no_activities: "No activities to display"
+      article:
+        create: "Article created"
+        update: "Article updated"
+        destroy: "Article removed"
+      tag:
+        create: "Tag created"
+        update: "Tag updated"
+        destroy: "Tag removed"
+      tagged_article:
+         create: "Article tagged"
+         update: "Tag article updated"
+         destroy: "Tag article removed"
+      bookmarked_article:
+        create: "Article bookmarked"
+        update: "Bookmark article updated"
+        destroy: "Bookmark article removed"
+      comment:
+        create: "Comment created"
+        update: "Comment updated"
+        destroy: "Comment removed"
+    tracking:
+      sign_in_count: "Connections"
+      views_count: "Views"
+      queries_count: "Queries"
+      clicks_count: "Clicks"
+      searches_count: "Searches"
+      bookmarks_count: "Bookmarks"
+    admin:
+      menu:
+        dashboard: "Dashboard"
+        users: "Users"
+        errors: "Errors"
+        sidekiq: "Sidekiq"
+        back_home: "Back to homepage"
+      users:
+        index:
+          title: "Users list"
+        show:
+          title: "User details"
     error_message:
       url: "URL:"
       message: "Message:"

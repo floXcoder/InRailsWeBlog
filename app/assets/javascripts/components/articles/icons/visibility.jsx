@@ -5,28 +5,35 @@ var classNames = require('classnames');
 var ArticleVisibilityIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
-        currentUserId: React.PropTypes.number
+        floatingButton: React.PropTypes.bool
+        //currentUserId: React.PropTypes.number
     },
 
     getDefaultProps () {
         return {
-            currentUserId: null
+            floatingButton: false
+            //currentUserId: null
         };
     },
 
     render () {
-        if (this.props.currentUserId && this.props.currentUserId === this.props.article.author.id) {
-            let visibilityClasses = classNames(
-                'article-visibility',
-                'tooltipped',
-                'btn-floating',
-                {
-                    'article-public': this.props.article.visibility === 'everyone',
-                    'article-private': this.props.article.visibility !== 'everyone'
-                });
-            let visibilityName = I18n.t('js.article.visibility.enum.' + this.props.article.visibility);
-            let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
+        let isVisible =  this.props.article.visibility === 'everyone';
 
+        let visibilityClasses = classNames(
+            'article-visibility',
+            'tooltipped',
+            {
+                'btn-floating': this.props.floatingButton
+            },
+            {
+                'article-public': isVisible,
+                'article-private': !isVisible
+            });
+
+        let visibilityName = I18n.t('js.article.visibility.enum.' + this.props.article.visibility);
+        let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
+
+        if (!isVisible) {
             return (
                 <a className={visibilityClasses}
                    data-tooltip={visibilityTooltip}>
@@ -34,7 +41,12 @@ var ArticleVisibilityIcon = React.createClass({
                 </a>
             );
         } else {
-            return null;
+            return (
+                <a className={visibilityClasses}
+                   data-tooltip={visibilityTooltip}>
+                    <i className="material-icons">visibility</i>
+                </a>
+            );
         }
     }
 });

@@ -14,10 +14,34 @@ h4
   .center-align
     = link_to t('views.user.edit.connection_parameters'), edit_user_registration_path(user)
 
-hr
+/ User picture
+h4.margin-top-30
+  = t('views.user.edit.profile_picture')
+
+.row
+  = user_form.fields_for :picture do |picture|
+    .col.s12
+      - if !picture.object.new_record?
+        p.margin-bottom-10
+          = t('views.user.edit.current_picture')
+        = image_tag(picture.object.image.url(:thumb))
+        = picture.input :_destroy, wrapper: :materialize_checkbox, label: t('views.user.edit.remove_picture')
+        p
+          = t('views.user.edit.replace_picture')
+      - else
+        p
+          = t('views.user.edit.no_picture')
+    .col.s12.m5
+      = picture.input :image, wrapper: :materialize_file_input, file_label: t('user.local_picture'), file_field_label: t('views.user.edit.placeholder_picture')
+    .col.s12.m1.center-align
+      span
+        = t('support.or')
+    .col.s12.m6
+      = picture.input :remote_image_url, label: t('user.remote_picture')
+
 
 / Personal information
-h4
+h4.margin-top-30
   = t('views.user.edit.personal_information_header')
 
 .row
@@ -28,12 +52,6 @@ h4
   / Last name
   .col.s6
     = user_form.input :last_name, label: t('user.last_name'), icon: 'account_circle'
-
-
-.row
-  / Age
-  .col.s12
-    = user_form.input :age, wrapper: :materialize_select, collection: 5..90
 
 .row
   / Address

@@ -15,6 +15,15 @@ module ApplicationHelper
     end
   end
 
+  def full_admin_title(page_title)
+    base_title = t('common.website_name')
+    if page_title.empty?
+      base_title
+    else
+      "#{base_title} (ADMIN) | #{page_title.html_safe}"
+    end
+  end
+
   def nav_brand
     if user_signed_in?
       link_to t('common.website_name'), root_user_path(current_user), class: 'navbar-brand'
@@ -38,18 +47,6 @@ module ApplicationHelper
 
   def format_distance_k(distance)
     (distance / 1000.0).round(2)
-  end
-
-  def shorten_text(text, length = 60)
-    return '' unless text
-
-    end_line = text.html_safe.index(' ', length - 10)
-    if end_line && text.html_safe.length > length
-      desc = text[0...end_line] + '...'
-      desc.html_safe
-    else
-      text.html_safe
-    end
   end
 
   def controller?(*controller)

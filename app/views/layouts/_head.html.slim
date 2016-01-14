@@ -1,6 +1,9 @@
 head
   title
-    = full_title(yield(:title))
+    - if :admin_title
+      = full_admin_title(yield(:admin_title))
+    - else
+      = full_title(yield(:title))
 
   meta charset="utf-8"
   meta content="width=device-width, initial-scale=1.0" name="viewport"

@@ -194,7 +194,12 @@ class Article < ActiveRecord::Base
   include ActAsTrackedConcern
   acts_as_tracked '_InRailsWeBlog_', :queries, :searches, :comments, :bookmarks, :clicks, :views
 
-    # Nice url format
+  # Follow public activities
+  include PublicActivity::Model
+  tracked owner: :author
+  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
+
+  # Nice url format
   include NiceUrlConcern
   friendly_id :article_at_user, use: :slugged
 
@@ -328,6 +333,10 @@ class Article < ActiveRecord::Base
     else
       self.content
     end
+  end
+
+  def summary_content(current_user_id = nil, locale = nil)
+    adapted_content(current_user_id, locale).summary
   end
 
   # Sanitize content

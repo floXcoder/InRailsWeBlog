@@ -14,6 +14,14 @@ class UserPolicy
     correct_user?
   end
 
+  def comments?
+    correct_user?
+  end
+
+  def activities?
+    correct_user?
+  end
+
   def preferences?
     correct_user?
   end
@@ -41,7 +49,7 @@ class UserPolicy
   private
 
   def correct_user?
-    @current_user && @user && @current_user.id == @user.id
+    @current_user && @user && (@current_user.id == @user.id || @current_user.admin?)
   end
 end
 

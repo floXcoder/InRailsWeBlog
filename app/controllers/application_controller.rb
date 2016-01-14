@@ -1,16 +1,24 @@
 class ApplicationController < ActionController::Base
+  # Security
   protect_from_forgery with: :exception
   ensure_security_headers(csp: false)
 
+  # Pundit
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Pundit::AuthorizationNotPerformedError, with: :user_not_authorized
 
-  serialization_scope :current_user
-
+  # Devise
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  # Active model serializer
+  # serialization_scope :current_user
+  serialization_scope :view_context
+
+  # Set locale for current user
   before_action :set_locale
 
+  # Set flash to header if ajax request
   after_action :flash_to_headers
 
   def set_locale
@@ -131,6 +139,13 @@ class ApplicationController < ActionController::Base
     return unless request.get?
 
     session[:previous_url] = previous_url(request.path) unless request.xhr? # don't store ajax calls
+  end
+
+  protected
+  def without_tracking(model)
+    model.public_activity_off
+    yield if block_given?
+    model.public_activity_on
   end
 
   private

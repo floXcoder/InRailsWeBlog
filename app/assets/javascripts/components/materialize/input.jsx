@@ -7,6 +7,7 @@ var Input = React.createClass({
         children: React.PropTypes.string.isRequired,
         id: React.PropTypes.string.isRequired,
         type: React.PropTypes.string,
+        disabled: React.PropTypes.bool,
         classType: React.PropTypes.string,
         placeholder: React.PropTypes.string,
         name: React.PropTypes.string,
@@ -24,6 +25,7 @@ var Input = React.createClass({
     getDefaultProps () {
         return {
             type: 'text',
+            disabled: false,
             name: null,
             placeholder: null,
             icon: null,
@@ -117,6 +119,7 @@ var Input = React.createClass({
                        id={this.props.id}
                        className={inputClass}
                        type={this.props.type}
+                       disabled={this.props.disabled}
                        placeholder={this.props.placeholder}
                        name={name}
                        minLength={this.props.minLength}

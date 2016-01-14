@@ -27,6 +27,87 @@ var UserStore = Reflux.createStore({
         return true;
     },
 
+    onLoadUsers (data) {
+        var requestParam = {};
+
+        var url = this.url;
+
+        if (data) {
+            if (data.page) {
+                requestParam.page = data.page;
+            } else {
+                requestParam.page = 1;
+            }
+
+            if (data.userId) {
+                url += '/' + data.userId;
+            }
+
+            if (data.type === 'comments') {
+                url += '/comments';
+            } else if (data.type === 'activities') {
+                url += '/activities';
+            }
+
+            if (data.userFull) {
+                requestParam.user_full = true;
+            }
+        }
+
+        jQuery.getJSON(
+            url,
+            requestParam,
+            function (dataReceived) {
+                if (!$.isEmpty(dataReceived)) {
+                    // Manage in admin/users/index
+                    this.userData = dataReceived;
+
+                    this.trigger(this.userData);
+                } else {
+                    log.error('No data received from fetch users');
+                }
+            }.bind(this))
+            .fail(function (xhr, status, error) {
+                this.handleErrors(url, xhr, status, error);
+            }.bind(this));
+    },
+
+    onUpdateUser (user) {
+        if ($.isEmpty(user) || $.isEmpty(user.id)) {
+            log.error('Tried to update user without user');
+            return;
+        }
+
+        var url = this.url + '/' + user.id;
+        var requestParam = {
+            _method: 'put',
+            user: user
+        };
+
+        if (user.userFull) {
+            requestParam.user_full = true;
+        }
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam,
+            success: (dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    // Manage in user/show
+                    this.userData = dataReceived;
+                    this.trigger(this.userData);
+                } else {
+                    log.error('No data received from update user');
+                }
+            },
+            error: (xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            }
+        });
+    },
+
     _loadUserPreferences (data) {
         if($.isEmpty(this.user.id)) {
             return;

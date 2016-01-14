@@ -15,8 +15,8 @@
 #  parent_id        :integer
 #  lft              :integer
 #  rgt              :integer
-#  created_at       :datetime
-#  updated_at       :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 
 FactoryGirl.define do

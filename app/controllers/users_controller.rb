@@ -46,17 +46,33 @@ class UsersController < ApplicationController
   respond_to :html, :json
 
   def index
-    users = User.all
+    users = User.includes(:picture).all.order('users.id ASC')
+    users = users.paginate(page: params[:page], per_page: CONFIG.per_page) if params[:page]
 
-    render :index, locals: { users: users }
+    respond_to do |format|
+      format.html { render :index, locals: { users: users } }
+      format.json { render json: users, each_serializer: UserSampleSerializer }
+    end
   end
 
   def show
     user = User.friendly.find(params[:id])
 
-    User.track_views(user.id)
+    respond_to do |format|
+      format.html do
+        User.track_views(user.id)
+        render :show, locals: { user: user, mode: nil }
+      end
 
-    render :show, locals: { user: user, mode: nil }
+      format.json do
+        if params[:user_full] && current_user
+          authorize current_user, :admin?
+          render json: user, serializer: UserFullSerializer
+        else
+          render json: user
+        end
+      end
+    end
   end
 
   def bookmarks
@@ -109,6 +125,8 @@ class UsersController < ApplicationController
     user = User.friendly.find(params[:id])
     authorize user
 
+    user.build_picture unless user.picture
+
     render :edit, locals: { user: user }
   end
 
@@ -116,12 +134,48 @@ class UsersController < ApplicationController
     user = User.friendly.find(params[:id])
     authorize user
 
-    if user.update_without_password(user_params)
-      flash.now[:success] = t('views.user.flash.successful_update')
-      redirect_to root_user_path(user)
+    update_user_params = user_params
+    # User picture: take uploaded picture otherwise remote url
+    if params[:picture_attributes] &&
+      params[:picture_attributes][:image] &&
+      params[:picture_attributes][:remote_image_url] &&
+      !params[:picture_attributes][:remote_image_url].blank?
+      update_user_params[:picture_attributes].delete(:remote_image_url)
+    end
+
+    # Current use can not remove his own admin rights
+    update_user_params.delete(:admin) if current_user.try(:admin?) && current_user.id == user.id
+
+    if user.update_without_password(update_user_params)
+      respond_to do |format|
+        flash[:success] = t('views.user.flash.successful_update')
+        format.html do
+          redirect_to root_user_path(user)
+        end
+        format.json do
+          if params[:user_full] && current_user
+            authorize current_user, :admin?
+            render json: user, serializer: UserFullSerializer
+          else
+            render json: user
+          end
+        end
+      end
     else
-      flash.now[:error] = t('views.user.flash.error_update')
-      render :edit, locals: { user: user }
+      respond_to do |format|
+        flash.now[:error] = t('views.user.flash.error_update')
+        format.html do
+          render :edit, locals: { user: user }
+        end
+        format.json do
+          if params[:user_full] && current_user
+            authorize current_user, :admin?
+            render json: user, serializer: UserFullSerializer
+          else
+            render json: user
+          end
+        end
+      end
     end
   end
 
@@ -130,8 +184,8 @@ class UsersController < ApplicationController
 
     if params[:user]
       user[:pseudo] = User.pseudo?(user_validation_params[:pseudo]) if user_validation_params[:pseudo]
-      user[:email] = User.email?(user_validation_params[:email]) if user_validation_params[:email]
-      user[:login] = User.login?(user_validation_params[:login]) if user_validation_params[:login]
+      user[:email]  = User.email?(user_validation_params[:email]) if user_validation_params[:email]
+      user[:login]  = User.login?(user_validation_params[:login]) if user_validation_params[:login]
     end
 
     respond_to do |format|
@@ -140,14 +194,76 @@ class UsersController < ApplicationController
     end
   end
 
+  def comments
+    user = User.includes(:comments).friendly.find(params[:id])
+    authorize user
+
+    user_comments = user.comments.order('comments.created_at DESC')
+    user_comments = user_comments.paginate(page: params[:page], per_page: CONFIG.per_page) if params[:page]
+
+    respond_to do |format|
+      format.html {
+        render json:            user_comments,
+               serializer:      PaginationSerializer,
+               each_serializer: CommentFullSerializer,
+               content_type:    'application/json'
+      }
+      format.json {
+        render json:            user_comments,
+               serializer:      PaginationSerializer,
+               each_serializer: CommentFullSerializer
+      }
+    end
+  end
+
+  def activities
+    user = User.includes(:activities).friendly.find(params[:id])
+    authorize user
+
+    user_activities = user.activities.order('activities.created_at DESC')
+    user_activities = user_activities.paginate(page: params[:page], per_page: CONFIG.per_page) if params[:page]
+
+    respond_to do |format|
+      format.html {
+        render json:            user_activities,
+               serializer:      PaginationSerializer,
+               each_serializer: PublicActivitiesSerializer,
+               content_type:    'application/json'
+      }
+      format.json {
+        render json:            user_activities,
+               serializer:      PaginationSerializer,
+               each_serializer: PublicActivitiesSerializer
+      }
+    end
+  end
+
   private
   def user_params
-    params.require(:user).permit(:first_name,
-                                 :last_name,
-                                 :age,
-                                 :city,
-                                 :country,
-                                 :additional_info)
+    if current_user.try(:admin?)
+      params.require(:user).permit(:first_name,
+                                   :last_name,
+                                   :age,
+                                   :city,
+                                   :country,
+                                   :additional_info,
+                                   :admin,
+                                   picture_attributes: [:id,
+                                                        :image,
+                                                        :remote_image_url,
+                                                        :_destroy])
+    else
+      params.require(:user).permit(:first_name,
+                                   :last_name,
+                                   :age,
+                                   :city,
+                                   :country,
+                                   :additional_info,
+                                   picture_attributes: [:id,
+                                                        :image,
+                                                        :remote_image_url,
+                                                        :_destroy])
+    end
   end
 
   def user_validation_params

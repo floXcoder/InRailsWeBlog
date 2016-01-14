@@ -10,7 +10,10 @@ module.exports = {
             ie8: ['./modules/ie8.js'],
             ie9: ['./modules/ie9.js'],
             home: ['./pages/home.jsx'],
-            admin: ['./pages/admin.jsx'],
+            'admin/admin': ['./pages/admin/admin.jsx'],
+            'admin/users/index': ['./pages/admin/users/index.jsx'],
+            'admin/users/show': ['./pages/admin/users/show.jsx'],
+            'admin/errors': ['./pages/admin/errors.jsx'],
             'users/show': ['./pages/users/show.jsx'],
             'users/edit': ['./pages/users/edit.js'],
             'users/login': ['./pages/users/login.js'],
@@ -24,7 +27,13 @@ module.exports = {
         commons: [
             {
                 name: 'commons',
-                files: ['home', 'admin', 'users/show', 'articles/show', 'articles/edit', 'tags/show', 'users/edit', 'users/login', 'users/signup', 'users/password', 'users/show']
+                files: [
+                    'home',
+                    'admin/admin', 'admin/users/index', 'admin/users/show', 'admin/errors',
+                    'users/show', 'users/edit', 'users/login', 'users/signup', 'users/password', 'users/show',
+                    'articles/show', 'articles/edit',
+                    'tags/show'
+                ]
             }
         ],
         output: {
@@ -49,6 +58,10 @@ module.exports = {
                     cacheDirectory: true,
                     presets: ['es2015', 'react']
                 }
+            },
+            {
+                test: /masonry|imagesloaded|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/,
+                loader: 'imports?define=>false&this=>window'
             }
         ],
         plugins: {

@@ -15,17 +15,15 @@ var RadioButtons = React.createClass({
         };
     },
 
-    getInitialState () {
-        return {
-        };
-    },
-
     render () {
         let radioButtons = Object.keys(this.props.buttons).map(function (key) {
             let button = this.props.buttons[key];
             return (
                 <div key={key}>
-                    <input type="radio" id={key} name={this.props.group} checked={this.props.checkedButton === key}
+                    <input id={key}
+                           type="radio"
+                           name={this.props.group}
+                           checked={this.props.checkedButton === key}
                            onChange={this.props.onRadioChanged}/>
                     <label htmlFor={key}>
                         {button}

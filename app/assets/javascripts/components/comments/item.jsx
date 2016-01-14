@@ -1,13 +1,15 @@
 'use strict';
 
 var marked = require('marked');
+
 var Rating = require('../theme/rating');
+var UserAvatarIcon = require('../users/icons/avatar');
 var CommentForm = require('./form');
 
 var CommentItem = React.createClass({
     propTypes: {
-        author: React.PropTypes.string.isRequired,
-        authorUrl: React.PropTypes.string.isRequired,
+        id: React.PropTypes.number.isRequired,
+        user: React.PropTypes.object.isRequired,
         date: React.PropTypes.string.isRequired,
         children: React.PropTypes.string.isRequired,
         commentId: React.PropTypes.number,
@@ -54,12 +56,10 @@ var CommentItem = React.createClass({
             );
         } else {
             return (
-                <div className="comment-item">
-                    <span className="title comment-user">
-                        <a href={`/users/${this.props.authorUrl}`}>
-                            {this.props.author}
-                        </a>
-                    </span>
+                <div id={`comment-${this.props.id}`}
+                     className="comment-item">
+                    <UserAvatarIcon user={this.props.user}/>
+
                     <span className="comment-date">
                         {this.props.date}
                     </span>

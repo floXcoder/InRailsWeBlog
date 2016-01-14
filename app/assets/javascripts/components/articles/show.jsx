@@ -16,8 +16,9 @@ var ArticleBookmarkIcon = require('./icons/bookmark');
 var ArticleHistoryIcon = require('./icons/history');
 var ArticleDeleteIcon = require('./icons/delete');
 var ArticleTags = require('./properties/tags');
-var ArticleAuthorIcon = require('./icons/author');
 var ArticleTime = require('./properties/time');
+
+var UserAvatarIcon = require('../users/icons/avatar');
 
 var CommentBox = require('../comments/box');
 
@@ -210,7 +211,8 @@ var ArticleShow = React.createClass({
             <div>
                 <div className="card blog-article-item clearfix">
                     <div className="card-content">
-                        <ArticleAuthorIcon article={this.props.article}/>
+                        <UserAvatarIcon user={this.props.article.author}
+                                        className="article-author"/>
                         <div className="article-info right-align">
                             <ArticleTime article={this.props.article}/>
                             <ArticleCommentIcon articleLink={'/articles/' + this.state.article.slug}
@@ -236,6 +238,7 @@ var ArticleShow = React.createClass({
                                                      onClickBookmark={this._handleBookmarkClick}/>
                                 <ArticleLinkIcon isLink={this.props.article.is_link}/>
                                 <ArticleVisibilityIcon article={this.props.article}
+                                                       floatingButton={true}
                                                        currentUserId={this.props.currentUserId}/>
                                 <ArticleHistoryIcon article={this.props.article}
                                                     currentUserId={this.props.currentUserId}

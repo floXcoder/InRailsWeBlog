@@ -6,12 +6,13 @@ var ArticleStore = require('../../../stores/articleStore');
 var ArticleEditIcon = require('../icons/edit');
 var ArticleLinkIcon = require('../icons/link');
 var ArticleVisibilityIcon = require('../icons/visibility');
-var ArticleAuthorIcon = require('../icons/author');
 var ArticleBookmarkIcon = require('../icons/bookmark');
 var ArticleCommentIcon = require('../icons/comment');
 var ArticleTags = require('../properties/tags');
 var ArticleTime = require('../properties/time');
 var ArticleLink = require('../properties/link');
+
+var UserAvatarIcon = require('../../users/icons/avatar');
 
 var FixedActionButton = require('../../materialize/fab');
 
@@ -76,7 +77,8 @@ var ArticleCardDisplay = React.createClass({
                                 {this.props.article.title}
                             </a>
                         </h1>
-                        <ArticleAuthorIcon article={this.props.article}/>
+                        <UserAvatarIcon user={this.props.article.author}
+                                        className="article-author"/>
                         <div className="article-info right-align">
                             <ArticleTime article={this.props.article}/>
                             <ArticleCommentIcon articleLink={'/articles/' + this.props.article.slug}
@@ -99,6 +101,7 @@ var ArticleCardDisplay = React.createClass({
                                                      currentUserId={this.props.currentUserId}
                                                      onClickBookmark={this.props.onClickBookmark}/>
                                 <ArticleVisibilityIcon article={this.props.article}
+                                                       floatingButton={true}
                                                        currentUserId={this.props.currentUserId}
                                                        onClickVisibility={this.props.onClickVisibility}/>
                                 <ArticleEditIcon article={this.props.article}

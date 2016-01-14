@@ -66,8 +66,7 @@ class User < ActiveRecord::Base
            source:  :article
 
   ## Comment
-  has_many :comments, as: :commentable,
-           dependent:   :destroy
+  has_many :comments, dependent: :destroy
 
   ## Picture
   has_one :picture, as: :imageable,
@@ -76,7 +75,9 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :picture,
                                 allow_destroy: true,
                                 reject_if:     lambda {
-                                  |picture| picture['image'].blank? && picture['image_tmp'].blank?
+                                  |picture| picture['image'].blank? &&
+                                    picture['image_tmp'].blank? &&
+                                    picture['remote_image_url'].blank?
                                 }
 
   # Authentification
@@ -132,4 +133,6 @@ class User < ActiveRecord::Base
   include ActAsTrackedConcern
   acts_as_tracked '_InRailsWeBlog_', :queries, :comments, :bookmarks, :clicks, :views
 
+  # Public activities
+  has_many :activities, as: :owner, class_name: 'PublicActivity::Activity'
 end

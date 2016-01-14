@@ -8,15 +8,16 @@
 .card
 
   / Form to fill up user information
-  = simple_form_for(user, html: {class: 'blog-form'}) do |user_form|
+  = simple_form_for(user, html: {class: 'blog-form', multipart: true}) do |user_form|
     .card-content
-      h3
+      h3.adaptative-title.center-align
         = t('views.user.edit.title')
-      p
-        = user_form.error_notification
-        = user_form.full_error :confirmation_token
 
-        = render 'users/modules/update_profile', user_form: user_form, user: user
+      / Error fields
+      = user_form.error_notification
+      = user_form.full_error :confirmation_token
+
+      = render 'users/modules/update_profile', user_form: user_form, user: user
 
     .card-action
       .row

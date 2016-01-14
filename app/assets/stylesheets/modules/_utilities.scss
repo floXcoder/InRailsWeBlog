@@ -69,33 +69,33 @@
 @for $i from 1 through 20 {
   .margin-bottom-#{$i*5} {
     clear: both;
-    margin-bottom: $i*5px;
+    margin-bottom: $i*5px !important;
   }
 
   .margin-top-#{$i*5} {
     clear: both;
-    margin-top: $i*5px;
+    margin-top: $i*5px !important;
   }
 }
 
 @for $i from 1 through 10 {
   @media (max-width: $small-screen) {
     .sm-margin-top-#{$i*10} {
-      margin-top: $i*10px;
+      margin-top: $i*10px !important;
     }
 
     .sm-margin-bottom-#{$i*10} {
-      margin-bottom: $i*10px;
+      margin-bottom: $i*10px !important;
     }
   }
 
   @media (max-width: $medium-screen) {
     .md-margin-top-#{$i*10} {
-      margin-top: $i*10px;
+      margin-top: $i*10px !important;
     }
 
     .md-margin-bottom-#{$i*10} {
-      margin-bottom: $i*10px;
+      margin-bottom: $i*10px !important;
     }
   }
 }

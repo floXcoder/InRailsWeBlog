@@ -1,13 +1,15 @@
-class AdminsController < ApplicationController
+class AdminController < ApplicationController
+  layout 'admin'
+
   before_action :authenticate_user!
   after_action :verify_authorized
 
-  respond_to :html
+  respond_to :html, :json
 
-  def show
+  def index
     authorize current_user, :admin?
 
-    render :show
+    render :index
   end
 
 end

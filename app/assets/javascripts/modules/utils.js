@@ -18,6 +18,20 @@
         return this.charAt(0).toUpperCase() + this.slice(1);
     };
 
+    String.prototype.toCamelCase = function () {
+        // remove all characters that should not be in a variable name
+        var string = this.replace(/([^a-zA-Z0-9_\- ])|^[_0-9]+/g, "").trim().toLowerCase();
+        // uppercase letters preceded by a hyphen or a space or an underscore
+        string = string.replace(/([ -_]+)([a-zA-Z0-9])/g, function (a, b, c) {
+            return c.toUpperCase();
+        });
+        // uppercase letters following numbers
+        string = string.replace(/([0-9]+)([a-zA-Z])/g, function (a, b, c) {
+            return b + c.toUpperCase();
+        });
+        return string;
+    };
+
     Array.prototype.common = function (a) {
         return this.filter(function (i) {
             return a.indexOf(i) >= 0;
@@ -153,6 +167,12 @@
                 || navigator.userAgent.toLowerCase().indexOf("trident") != -1;
         },
 
+        toMap: function (object, callback) {
+            return Object.keys(object).map(function (key) {
+                return callback(key, object[key]);
+            });
+        },
+
         arraySearchForValue: function (arr, val, key) {
             for (var i = 0; i < arr.length; i++)
                 if (arr[i][key] === val)
@@ -191,7 +211,7 @@
             return Math.round(number * multiplier) / multiplier;
         },
 
-        getUrlPaths: function() {
+        getUrlPaths: function () {
             return window.location.pathname.split('/');
         },
 

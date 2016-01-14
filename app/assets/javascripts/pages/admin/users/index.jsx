@@ -1,16 +1,16 @@
 'use strict';
 
-require('./common');
-
-let ErrorIndex = require('../components/errors/index');
+require('../admin');
 
 let currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+
+let UserIndex = require('../../../components/users/index');
 
 // Main
 if(currentUserId) {
     ReactDOM.render(
-        <ErrorIndex />,
-        document.getElementById('admin-component')
+        <UserIndex />,
+        document.getElementById('users-admin-component')
     );
 }
 

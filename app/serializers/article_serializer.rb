@@ -33,10 +33,10 @@ class ArticleSerializer < ActiveModel::Serializer
              :updated_at,
              :show
 
-  belongs_to :author, serializer: UserSerializer
-  has_many :tags, serializer: SimpleTagSerializer
-  has_many :parent_tags, serializer: SimpleTagSerializer
-  has_many :child_tags, serializer: SimpleTagSerializer
+  belongs_to :author, serializer: UserSampleSerializer
+  has_many :tags, serializer: TagSampleSerializer
+  has_many :parent_tags, serializer: TagSampleSerializer
+  has_many :child_tags, serializer: TagSampleSerializer
   has_many :comments
 
   def content

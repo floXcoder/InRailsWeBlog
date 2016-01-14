@@ -1,4 +1,4 @@
-@import './rating';
+@import 'modules/components/rating';
 @import 'modules/animation/comment';
 
 .blog-comments {
@@ -22,6 +22,7 @@
     .collection-item {
       margin-bottom: 10px;
       padding-right: 50px;
+      padding-left: 20px;
 
       .secondary-content {
         right: 0;

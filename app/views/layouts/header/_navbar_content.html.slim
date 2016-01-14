@@ -26,8 +26,13 @@ li
 / User account
 li
   a#user-dropdown-link.dropdown-button data-activates="user-dropdown" data-beloworigin="true"
-    i.material-icons.left account_circle
     - if user_signed_in?
-      = t('views.header.profile.connected')
+      .header-avatar
+        - if current_user.picture
+          = image_tag current_user.picture.image.url(:thumb), alt: 'User avatar'
+        - else
+          i.material-icons.left.dropdown-icon account_circle
+        = t('views.header.profile.connected')
     - else
+      i.material-icons.left account_circle
       = t('views.header.profile.not_connected')

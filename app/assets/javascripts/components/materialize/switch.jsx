@@ -5,12 +5,14 @@ var Switch = React.createClass({
         children: React.PropTypes.string.isRequired,
         id: React.PropTypes.string.isRequired,
         values: React.PropTypes.object.isRequired,
+        disabled: React.PropTypes.bool,
         checked: React.PropTypes.bool,
         onSwitchChange: React.PropTypes.func
     },
 
     getDefaultProps () {
         return {
+            disabled: false,
             checked: false,
             onCheckboxChanged: null
         };
@@ -49,6 +51,7 @@ var Switch = React.createClass({
                     <input ref={this.props.id}
                            id={this.props.id}
                            type="checkbox"
+                           disabled={this.props.disabled}
                            checked={this.state.checked}
                            onChange={this._handleSwitchChange} />
                     <span className="lever" />

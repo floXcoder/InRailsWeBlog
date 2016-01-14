@@ -20,6 +20,12 @@ require('./modules/utils');
 require('expose?Hammer!hammerjs');
 require('materialize-css/dist/js/materialize');
 
+// Automatic dropdown on hover
+$('.dropdown-button').dropdown({
+    hover: false,
+    belowOrigin: true
+});
+
 // Keyboard inputs
 require('expose?Mousetrap!mousetrap');
 

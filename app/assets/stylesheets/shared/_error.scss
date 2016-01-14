@@ -1,0 +1,23 @@
+.blog {
+  .blog-error-box {
+    .collapsible-header {
+      font-size: 1.2rem;
+    }
+
+    .collapsible-body {
+      background-color: #fcfcfc;
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .error-time {
+      float: right;
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: normal;
+      vertical-align: middle;
+      position: relative;
+      display: inline-block;
+    }
+  }
+}

@@ -1,0 +1,166 @@
+@import 'pages/common';
+@import 'modules/components/burger-menu';
+@import 'modules/components/single-timeline';
+@import 'modules/components/double-timeline';
+@import 'shared/error';
+@import 'shared/user';
+
+.blog-admin {
+  flex: 1 0 auto;
+  background: #e5e6e6;
+  //margin-top: 30px;
+
+  @media #{$medium-and-up} {
+    .container {
+      max-width: 1480px;
+    }
+  }
+
+  .admin-header {
+    margin-bottom: 20px;
+
+    .bm-burger-button {
+      top: 20px;
+      z-index: 999 !important;
+
+      .bm-burger-bars {
+        background: white;
+      }
+    }
+
+    .bm-menu {
+      padding-top: 80px;
+    }
+
+    .brand-logo {
+      margin-left: 120px;
+
+      img {
+        margin: 0 15px;
+      }
+    }
+
+  }
+
+  .heading-1 {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+
+    .sub-heading {
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 18px;
+      display: block;
+    }
+  }
+
+  .heading-2 {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 0;
+    margin-bottom: 16px;
+
+    .sub-heading {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 20px;
+      display: block;
+    }
+  }
+
+  .heading-3 {
+    margin: 0;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #444;
+  }
+
+  .user-heading {
+    background: #1976d2;
+    box-sizing: border-box;
+    color: #fff;
+    padding: 24px;
+    position: relative;
+    transition: all 280ms cubic-bezier(.4, 0, .2, 1);
+
+    .user-heading-menu {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+
+      .btn-flat {
+        color: inherit;
+      }
+    }
+
+    .user-heading-avatar {
+      float: left;
+      margin-right: 24px;
+      position: relative;
+
+      .thumbnail {
+        width: 82px;
+        height: 82px;
+        line-height: 74px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
+    }
+
+    .user-heading-content {
+      padding: 16px 0;
+
+      .user-stats {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        text-align: center;
+
+        li {
+          margin-right: 48px;
+          float: left;
+          list-style: none;
+          padding: 0;
+        }
+      }
+    }
+
+    .user-edit-icon {
+      display: block;
+      box-sizing: border-box;
+      position: absolute;
+      bottom: -22px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #7cb342;
+      text-align: center;
+
+      i {
+        color: white;
+        font-size: 24px;
+        height: inherit;
+        left: 0;
+        line-height: 48px;
+        position: absolute;
+        top: 0;
+        width: inherit;
+      }
+    }
+  }
+
+  .user-content {
+    position: relative;
+    padding: 32px;
+
+  }
+
+}

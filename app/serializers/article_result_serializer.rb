@@ -1,9 +1,17 @@
 class ArticleResultSerializer < ActiveModel::Serializer
   cache key: 'article_result', expires_in: 12.hours
 
-  attributes :id, :slug, :title, :summary, :content, :visibility, :is_link, :show, :highlight_content
+  attributes :id,
+             :slug,
+             :title,
+             :summary,
+             :content,
+             :visibility,
+             :is_link,
+             :show,
+             :highlight_content
 
-  belongs_to :author, serializer: UserSerializer
+  belongs_to :author, serializer: UserSampleSerializer
   has_many :tags
   has_many :parent_tags, serializer: TagSerializer
   has_many :child_tags, serializer: TagSerializer

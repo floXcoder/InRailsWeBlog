@@ -12,6 +12,10 @@ namespace :InRailsWeBlog do
       # Recreate table
       Rake.application.invoke_task('db:migrate:reset')
 
+      # Remove upload directory
+      upload_dir = Rails.root.join('public', 'uploads')
+      FileUtils.rm_rf(Dir.glob(upload_dir.to_s + '/*'))
+
       # Create Admin
       Populate::create_admin
     end
@@ -25,6 +29,10 @@ namespace :InRailsWeBlog do
         # Select users
         admin = User.first
         users = User.all.offset(1)
+
+        # Add profile image to users
+        Populate::add_profile_picture_to(admin)
+        Populate::add_profile_picture_to(users, 15)
 
         # Create tags
         tags = Populate::create_dummy_tags(admin, 20)

@@ -5,12 +5,6 @@ require('../application');
 require('../components/users/navigation');
 require('../components/tags/sidebar');
 
-// Automatic dropdown on hover
-$('.dropdown-button').dropdown({
-    hover: false,
-    belowOrigin: true
-});
-
 // Initialize all SideNav
 if(window.innerWidth > window.parameters.medium_screen_up) {
     $('header .button-collapse').sideNav({

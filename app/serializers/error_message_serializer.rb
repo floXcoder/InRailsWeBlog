@@ -24,7 +24,19 @@
 class ErrorMessageSerializer < ActiveModel::Serializer
   cache key: 'error', expires_in: 12.hours
 
-  attributes :id, :class_name, :message, :trace, :line_number, :column_number, :params ,:target_url, :user_agent, :user_info, :ip, :origin, :occurred_at
+  attributes :id,
+             :class_name,
+             :message,
+             :trace,
+             :line_number,
+             :column_number,
+             :params,
+             :target_url,
+             :user_agent,
+             :user_info,
+             :ip,
+             :origin,
+             :occurred_at
 
   def occurred_at
     I18n.l(object.created_at, format: :custom).downcase

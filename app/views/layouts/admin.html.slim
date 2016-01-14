@@ -1,0 +1,23 @@
+doctype html
+| <!--[if IE 8 ]><html class="ie-8" lang="en"><![endif]-->
+| <!--[if IE 9 ]><html class="ie-9" lang="en"><![endif]-->
+| <!--[if gt IE 9]><!-->
+html lang="en"
+  | <!--<![endif]-->
+
+  = render 'layouts/head'
+
+  body.blog.blog-admin#outer-container
+    = render 'layouts/admin/header'
+
+    = render 'layouts/flash_messages', flash: flash
+
+    #page-wrap.container
+      = yield
+
+    = render 'layouts/admin/footer'
+
+    = render 'layouts/javascript'
+
+    - if ENV['METRICS_ADDRESS']
+      = render 'layouts/metrics'

@@ -20,4 +20,8 @@ class TaggedArticle < ActiveRecord::Base
   validates :tag_id, presence: true, on: :update
 
   validates_uniqueness_of :article_id, scope: :tag_id, allow_nil: true
+
+  # Follow public activities
+  include PublicActivity::Model
+  tracked owner: proc { |_controller, model| model.article.author }, recipient: :article, parameters: :tag
 end

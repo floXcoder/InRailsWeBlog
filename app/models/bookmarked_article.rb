@@ -18,4 +18,8 @@ class BookmarkedArticle < ActiveRecord::Base
   validates :article_id, presence: true
 
   validates_uniqueness_of :user_id, scope: :article_id, allow_nil: false
+
+  # Follow public activities
+  include PublicActivity::Model
+  tracked owner: :user, recipient: :article
 end

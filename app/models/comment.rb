@@ -15,8 +15,8 @@
 #  parent_id        :integer
 #  lft              :integer
 #  rgt              :integer
-#  created_at       :datetime
-#  updated_at       :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 
 class Comment < ActiveRecord::Base
@@ -37,6 +37,10 @@ class Comment < ActiveRecord::Base
   validates :body,
             presence: true,
             length:   { minimum: CONFIG.comment_body_min_length, maximum: CONFIG.comment_body_max_length }
+
+  # Follow public activities
+  include PublicActivity::Model
+  tracked owner: :user, recipient: :commentable
 
   # Delete comment with his children
   def destroy_with_children

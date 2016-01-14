@@ -15,14 +15,21 @@
 #  parent_id        :integer
 #  lft              :integer
 #  rgt              :integer
-#  created_at       :datetime
-#  updated_at       :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 
 class CommentSerializer < ActiveModel::Serializer
   cache key: 'comment', expires_in: 12.hours
 
-  attributes :id, :title, :body, :subject, :parent_id, :nested_level, :posted_at, :user
+  attributes :id,
+             :title,
+             :body,
+             :subject,
+             :parent_id,
+             :nested_level,
+             :posted_at,
+             :user
 
   def nested_level
     object.level
@@ -33,10 +40,6 @@ class CommentSerializer < ActiveModel::Serializer
   end
 
   def user
-    {
-      id: object.user.id,
-      pseudo: object.user.pseudo,
-      slug: object.user.slug
-    }
+    UserSampleSerializer.new(object.user).attributes
   end
 end

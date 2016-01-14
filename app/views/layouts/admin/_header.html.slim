@@ -1,0 +1,31 @@
+header.blog-header.admin-header
+  #burger-menu-component
+
+  / User dropdown
+  ul#user-dropdown.dropdown-content
+    = render 'layouts/header/user_dropdown'
+
+  .navbar-fixed
+
+    nav
+      .nav-wrapper
+
+        = link_to root_path, class: 'brand-logo' do
+          /= image_tag 'favicon.ico'
+          = t('common.website_name')
+
+        ul.right.hide-on-med-and-down
+          li
+            a#user-dropdown-link.dropdown-button data-activates="user-dropdown" data-beloworigin="true"
+              - if user_signed_in?
+                .header-avatar
+                  - if current_user.picture
+                    = image_tag current_user.picture.image.url(:thumb), alt: 'User avatar', class: 'circle responsive-img'
+                    = t('views.header.profile.connected')
+                  - else
+                    i.material-icons.left account_circle
+                    = t('views.header.profile.connected')
+                  i.material-icons.dropdown-icon.right expand_more
+              - else
+                i.material-icons.left account_circle
+                = t('views.header.profile.not_connected')

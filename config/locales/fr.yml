@@ -33,6 +33,7 @@ fr:
         bookmark: "Articles favoris"
         temporary: "Temporaires"
       admin:
+        dashboard: "Admin"
         errors: "Erreurs"
       profile:
        connected: "Mon compte"
@@ -44,7 +45,7 @@ fr:
     user:
       flash:
         successful_update: "Profil mise à jour"
-        error_update: "Le profil n'est pas été mise à jour, veuillez réessayer"
+        error_update: "Le profil n'est pas été mise à jour, merci de corriger les erreurs indiquées"
       signup:
         page_title: "Inscription"
         title: "Créer un compte"
@@ -75,6 +76,12 @@ fr:
         title: "Éditer mon profil"
         login_header: "Informations de connexion"
         connection_parameters: "Modifier vos paramètres de connexion"
+        profile_picture: "Image pour votre profile"
+        current_picture: "Votre image actuelle :"
+        replace_picture: "Vous pouvez remplacer votre image en indiquant une autre soit locale soit depuis une url"
+        no_picture: "Vous n'avez pas d'image associée à votre compte."
+        placeholder_picture: "Utiliser une image locale ou une url"
+        remove_picture: "Supprimer cette image"
         personal_information_header: "Informations personnelles"
         update_profile: "Mettre à jour mon profil"
     article:
@@ -122,6 +129,8 @@ fr:
     city: "Ville"
     additional_info: "Informations personnelles"
     country: "Pays"
+    local_picture: "Image locale"
+    remote_picture: "Lien vers une url"
   article:
     enums:
       visibility:

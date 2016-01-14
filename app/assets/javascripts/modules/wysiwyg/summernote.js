@@ -6022,8 +6022,8 @@
                 '</div>' +
                 '<div class="row">' +
                 '<div class="input-field col s12">' +
-                '<input class="note-image-url" type="text" />' +
-                '<label>' + lang.image.url + '</label>' +
+                '<input id="image-url" class="note-image-url" type="text" />' +
+                '<label for="image-url">' + lang.image.url + '</label>' +
                 '</div>' +
                 '</div>';
 

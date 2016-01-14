@@ -1,0 +1,198 @@
+.blog {
+  .double-timeline {
+    position: relative;
+    margin-bottom: 1.3rem;
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      margin-left: -2px;
+      height: 100%;
+      width: 4px;
+      background: #e0e0e0;
+    }
+
+    @media only screen and(max-width: 992px) {
+      .timeline-block {
+        margin: 2em 0;
+        padding-left: 80px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .timeline-content {
+          float: none;
+
+          &:before {
+            left: auto;
+            right: 100%;
+            border-color: transparent;
+            border-right-color: #fff;
+          }
+
+          .timeline-date {
+            left: 0;
+            text-align: left;
+          }
+        }
+      }
+
+      .timeline-icon {
+        left: 0;
+        margin-left: 0;
+      }
+
+      .timeline-content {
+        width: 100%;
+
+        .timeline-date {
+          position: relative;
+          left: 0;
+        }
+      }
+
+      .timeline:before {
+        left: 28px;
+        margin-left: 0;
+      }
+    }
+
+    .timeline-block {
+      position: relative;
+      margin: 4em 0;
+      clear: both;
+
+      &:after {
+        content: '';
+        display: table;
+        clear: both;
+      }
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:nth-child(even) .timeline-content {
+        float: right;
+
+        &:before {
+          left: auto;
+          right: 100%;
+          border-color: transparent;
+          border-right-color: #fff;
+        }
+
+        .timeline-date {
+          left: auto;
+          right: 122%;
+          text-align: right;
+        }
+      }
+    }
+
+    .timeline-icon {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      margin-left: -30px;
+      border-radius: 50%;
+      background: #fff;
+      font-size: 2.5rem;
+      text-align: center;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .26);
+
+      > i {
+        vertical-align: baseline;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+
+    .timeline-content {
+      position: relative;
+      margin: 0;
+      width: 45%;
+
+      &:before {
+        top: 24px;
+        left: 100%;
+        border-color: transparent;
+        border-left-color: #fff;
+      }
+
+      .timeline-title {
+        font-size: 1.5rem;
+        line-height: 1.65rem;
+        margin: .6rem 0;
+      }
+
+      .timeline-link {
+        margin: .6rem 0;
+        color: color('grey', 'darken-1');
+
+        a {
+          color: inherit;
+
+          &:hover {
+            color: color('grey', 'darken-4');
+          }
+        }
+      }
+
+      .timeline-date {
+        display: inline-block;
+        position: absolute;
+        float: left;
+        padding: .8em 0;
+        opacity: .7;
+        width: 100%;
+        left: 122%;
+        top: 10px;
+      }
+
+      &.card-panel:before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        right: 100%;
+        height: 0;
+        width: 0;
+        border: 10px solid transparent;
+        border-left: 10px solid #fff;
+      }
+
+      &.card:before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        right: 100%;
+        height: 0;
+        width: 0;
+        border: 10px solid transparent;
+        border-left: 10px solid #fff;
+      }
+    }
+  }
+}

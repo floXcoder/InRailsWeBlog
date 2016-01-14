@@ -3,10 +3,11 @@
 var classNames = require('classnames');
 
 var IndexTagList = require('./list');
-var SearchBar = require('./search');
+var SearchBar = require('../../theme/search-bar');
 var TagStore = require('../../../stores/tagStore');
 var Spinner = require('../../../components/materialize/spinner');
-var fuzzy = require('fuzzy');
+
+var Filtering = require('../../../modules/filter');
 
 var IndexTagBox = React.createClass({
     propTypes: {
@@ -41,21 +42,11 @@ var IndexTagBox = React.createClass({
     },
 
     _handleUserInput (filterText) {
-        let filteredTags = {};
-
-        let tagsArray = _.toArray(this.state.tags);
-        fuzzy.filter(filterText, tagsArray, {
-            extract (tag) {
-                return tag.name;
-            }
-        }).forEach(function (tag) {
-            let tagId = tagsArray[tag.index].id;
-            filteredTags[tagId] = this.state.tags[tagId];
-        }.bind(this));
+        let filteredTags = Filtering.filterObjectOfObject(this.state.tags, 'name', filterText);
 
         this.setState({
             filterText: filterText,
-            filteredTags: filteredTags
+            filteredUsers: filteredTags
         });
     },
 
@@ -69,7 +60,8 @@ var IndexTagBox = React.createClass({
 
         return (
             <div className="blog-index-tag">
-                <SearchBar filterText={this.state.filterText}
+                <SearchBar label={I18n.t('js.tag.filter')}
+                           filterText={this.state.filterText}
                            onUserInput={this._handleUserInput} />
 
                 <IndexTagList tags={this.state.tags}

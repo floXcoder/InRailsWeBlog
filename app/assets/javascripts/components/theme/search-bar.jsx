@@ -1,9 +1,10 @@
 'use strict';
 
-var Input = require('../../../components/materialize/input');
+var Input = require('../../components/materialize/input');
 
 var SearchBar = React.createClass({
     propTypes: {
+        label: React.PropTypes.string.isRequired,
         onUserInput: React.PropTypes.func.isRequired
     },
 
@@ -22,7 +23,7 @@ var SearchBar = React.createClass({
                 <Input ref="filterTextInput"
                        id="filterTextInput"
                        onChange={this._handleSearchChange}>
-                    {I18n.t('js.tag.filter')}
+                    {this.props.label}
                 </Input>
             </form>
         );

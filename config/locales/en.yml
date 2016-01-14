@@ -33,6 +33,7 @@ en:
         bookmark: "Articles bookmarked"
         temporary: "Temporary"
       admin:
+        dashboard: "Admin"
         errors: "Erreurs"
       profile:
        connected: "My Profile"
@@ -44,7 +45,7 @@ en:
     user:
       flash:
         successful_update: "Profile updated"
-        error_update: "Profile not updated. Please retry"
+        error_update: "Profile not updated. Please correct error fields"
       signup:
         page_title: "Sign Up"
         title: "Sign Up"
@@ -75,6 +76,12 @@ en:
         title: "Edit my profil"
         login_header: "Connection information"
         connection_parameters: "Change your connection parameters"
+        profile_picture: "Profile picture"
+        current_picture: "Your current picture:"
+        replace_picture: "You can replacer your picture with a local one or using an url"
+        no_picture: "You have no picture for your profile."
+        placeholder_picture: "Use a local picture or a remote url"
+        remove_picture: "Remove this picture"
         personal_information_header: "Personal information"
         update_profile: "Update my profil"
     article:
@@ -122,6 +129,8 @@ en:
     city: "Ville"
     additional_info: "Additional Info"
     country: "Country"
+    local_picture: "Local picture"
+    remote_picture: "Link to an url"
   article:
     enums:
       visibility:

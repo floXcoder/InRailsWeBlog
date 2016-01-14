@@ -59,4 +59,15 @@ class Tag < ActiveRecord::Base
   include ActAsTrackedConcern
   acts_as_tracked '_InRailsWeBlog_', :queries, :clicks, :views
 
+  # Follow public activities
+  include PublicActivity::Model
+  tracked owner: :tagger
+
+  def to_hash
+    {
+      id: self.id,
+      tagger_id: self.tagger_id,
+      name: self.name
+    }
+  end
 end

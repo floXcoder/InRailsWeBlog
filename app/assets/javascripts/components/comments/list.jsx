@@ -154,9 +154,8 @@ var CommentList = React.createClass({
                     return (
                         <li key={comment.id}
                             className={itemClasses}>
-                            <i className="material-icons circle green">account_circle</i>
-                            <CommentItem author={comment.user.pseudo}
-                                         authorUrl={comment.user.slug}
+                            <CommentItem id={comment.id}
+                                         user={comment.user}
                                          date={comment.posted_at}
                                          title={comment.title}
                                          rating={this.props.isRated ? comment.rating : null}
@@ -169,7 +168,7 @@ var CommentList = React.createClass({
                             </CommentItem>
                             {this.state.modifyCommentIndex !== index &&
                             <a className="secondary-content dropdown-button tooltipped btn-flat waves-effect waves-teal"
-                               data-tooltip="More"
+                               data-tooltip={I18n.t('js.comment.actions')}
                                data-activates={`dropdown-comment-${index}`}>
                                 <i className="material-icons">more_vert</i>
                             </a>}

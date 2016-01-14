@@ -37,6 +37,9 @@ gem 'maxminddb',                '~> 0.1.8'
 gem 'paper_trail',              '~> 4.0.1'
 gem 'globalize-versioning',     git: 'https://github.com/globalize/globalize-versioning.git'
 
+# User activities
+gem 'public_activity',          git: 'https://github.com/chaps-io/public_activity.git'
+
 # Run asynschronous process
 gem 'sidekiq',                  '~> 4.0.1'
 gem 'sidekiq-statistic',        '~> 1.1'
@@ -61,9 +64,6 @@ gem 'pundit',                   '~> 1.0.1'
 
 # Human-friendly URLs
 gem 'friendly_id',              '~> 5.1.0'
-
-# Pagination
-gem 'will_paginate',            '~> 3.1.0'
 
 # Forms
 gem 'simple_form',              '~> 3.2.1'

@@ -1,10 +1,9 @@
 @import 'modules/variables';
 @import 'modules/utilities';
-@import 'codemirror/lib/codemirror';
-@import 'highlight.js/styles/zenburn';
-@import 'modules/wysiwyg/summernote';
-@import 'modules/components/tagsinput';
-@import 'modules/animation/article';
+@import 'shared/article';
+
+@import 'shared/tag';
+@import 'shared/user';
 
 .blog {
   background-color: color('blue-grey', 'lighten-4');
@@ -51,6 +50,20 @@
 
     *:focus {
       outline: none;
+    }
+
+    .header-avatar {
+      img {
+        width: 35px;
+        margin-right: 10px;
+        vertical-align: middle;
+        border-radius: 50%;
+        background: white;
+      }
+
+      & > .dropdown-icon {
+        font-size: 1.2rem;
+      }
     }
 
     .nav-wrapper {
@@ -206,6 +219,36 @@
         }
       }
     }
+
+    .blog-user-pref {
+      background-color: color('blue-grey', 'darken-1');
+      border-top: 1px solid #111;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .5), 0 2px 10px 0 rgba(0, 0, 0, .5);
+      display: none;
+      margin-bottom: 0;
+      position: fixed;
+      right: 0;
+      min-width: 800px;
+      z-index: 100;
+
+      .collapsible-body .row {
+        background-color: white;
+        margin: 0;
+        padding: 1.2rem;
+      }
+    }
+
+    @media #{$medium-and-down} {
+      .blog-user-pref {
+        min-width: 640px;
+      }
+    }
+
+    @media #{$small-and-down} {
+      .blog-user-pref {
+        min-width: 360px;
+      }
+    }
   }
 
   .blog-main {
@@ -218,36 +261,6 @@
     }
   }
 
-  .blog-user-pref {
-    background-color: color('blue-grey', 'darken-1');
-    border-top: 1px solid #111;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .5), 0 2px 10px 0 rgba(0, 0, 0, .5);
-    display: none;
-    margin-bottom: 0;
-    position: fixed;
-    right: 0;
-    min-width: 800px;
-    z-index: 100;
-
-    .collapsible-body .row {
-      background-color: white;
-      margin: 0;
-      padding: 1.2rem;
-    }
-  }
-
-  @media #{$medium-and-down} {
-    .blog-user-pref {
-      min-width: 640px;
-    }
-  }
-
-  @media #{$small-and-down} {
-    .blog-user-pref {
-      min-width: 360px;
-    }
-  }
-
   .blog-footer {
     background-color: $color-base;
   }
@@ -256,7 +269,7 @@
     .chip {
       background-color: color('blue-grey', 'darken-3');
       border: 3px solid color('blue-grey', 'lighten-3');
-      box-shadow: 0 0px 3px color('blue-grey', 'lighten-3');
+      box-shadow: 0 0 3px color('blue-grey', 'lighten-3');
       color: white;
       font-size: 1.2rem;
       height: 4rem;
@@ -270,13 +283,7 @@
     }
   }
 
-  .blog-sidebar {
-  }
-
-  .article-form-header {
-    background-color: white;
-    border: 1px solid color('teal', 'darken-1');
-  }
+  .blog-sidebar {}
 
   .blog-form {
     margin-top: 20px;
@@ -310,326 +317,6 @@
 
     .col {
       margin: 10px 0;
-    }
-  }
-
-  .article-form {
-    padding: 20px;
-  }
-
-  .blog-index-tag {
-    .tag-search {
-      padding: 5px 0;
-    }
-
-    a {
-      height: 2rem;
-      line-height: 2rem;
-    }
-
-    li {
-      background-color: inherit;
-
-      &:hover {
-        background-color: inherit;
-      }
-
-      &.active {
-        background-color: inherit;
-      }
-
-      span {
-        cursor: pointer;
-      }
-    }
-
-    .collapsible-header {
-      i {
-        float: right;
-
-        &.tag-dropdown {
-          padding: 5px;
-        }
-      }
-
-      .tag-parent {
-        color: black;
-        background-color: color('grey', 'lighten-5');
-        padding: 0 1em;
-      }
-    }
-
-    .collapsible-body i {
-      width: 2rem;
-      font-size: 1.6rem;
-      line-height: 3rem;
-      display: block;
-      float: left;
-      text-align: center;
-      margin-right: 1rem;
-    }
-
-    .tag-children {
-      color: black;
-      background-color: white;
-      margin: 0 0 1rem 2.5rem;
-    }
-  }
-
-  .blog-associated-tag {
-    padding: 5px;
-
-    .article-tag {
-      color: black;
-      background-color: color('grey', 'lighten-5');
-      margin: 5px;
-
-      &.tag-active {
-      }
-
-      &.tag-inactive {
-        background-color: color('grey', 'lighten-2');
-        color: white;
-      }
-    }
-  }
-
-  .blog-article-box {
-  }
-
-  .blog-article-list {
-  }
-
-  .blog-article-history {
-
-    .article-history-item {
-      background-color: white;
-      padding: 20px;
-    }
-
-    .article-history-item-divider {
-      margin: 25px -20px;
-    }
-  }
-
-  .blog-article-edit {
-    background-color: white;
-
-    .btn-flat {
-      color: #343434;
-    }
-  }
-
-  .blog-article-item {
-    word-wrap: break-word;
-
-    .article-title-inline {
-    }
-
-    .article-title {
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
-
-    .article-title-card {
-      display: inline;
-      font-weight: 500;
-      font-style: normal;
-      font-size: 2.5rem;
-      color: black;
-
-      @media #{$medium-and-down} {
-        display: block;
-      }
-
-      a {
-        color: $text-color-base;
-        &:hover {
-          color: color('blue-grey', 'darken-1');
-        }
-      }
-
-      h1 {
-        font-size: 2.5rem;
-        font-style: normal;
-        font-weight: 500;
-      }
-    }
-
-    .article-action {
-      padding-bottom: 0;
-
-      .fixed-action-btn {
-        bottom: 0;
-        right: 0;
-        position: relative;
-        z-index: inherit;
-
-        a {
-          margin-right: 0;
-        }
-      }
-
-      a {
-        color: $card-link-color;
-        margin-right: $card-padding;
-        transition: color .3s ease;
-      }
-
-      //.col {
-      //  margin: 10px 0;
-      //}
-    }
-
-    .article-summary {
-      color: color('grey', 'lighten-1');
-      margin-bottom: 10px;
-      margin-left: 15px;
-    }
-
-    .article-bookmarked {
-      color: #ffd8a6;
-    }
-
-    .article-tag {
-      background-color: color('grey', 'lighten-5');
-      color: black;
-      margin: 5px;
-
-      &.tag-parent {
-        box-shadow: 0 0 4px darkred !important;
-      }
-
-      &.tag-child {
-        box-shadow: 0 0 4px darkgreen !important;
-      }
-    }
-
-    .article-tag-empty {
-      visibility: hidden;
-    }
-
-    .blog-highlight {
-      background-color: color('blue-grey', 'darken-1');
-      color: white;
-    }
-
-    .article-editing .note-editor {
-      box-shadow: 0 0 4px color('blue', 'darken-2');
-    }
-
-    .article-info {
-      float: right;
-      font-size: 1rem;
-      line-height: 1rem;
-    }
-
-    .article-time {
-      font-weight: 300;
-      font-style: normal;
-    }
-
-    .article-comment-number {
-      color: $color-additional;
-      font-size: 1.1rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 1.1rem;
-
-      i {
-        margin-left: 5px;
-        font-size: 1.2rem;
-        line-height: 2rem;
-      }
-    }
-
-    .article-author {
-      color: $color-additional;
-      display: inline-block;
-      float: left;
-      font-size: 1.2rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 1.2rem;
-      position: relative;
-
-      i {
-        font-size: 1.5rem;
-        line-height: 1.2rem;
-        margin-right: 5px;
-        vertical-align: middle;
-      }
-    }
-
-    .article-goto {
-      background-color: color('deep-orange', 'darken-4');
-    }
-
-    .article-private {
-      background-color: color('orange', 'darken-4');
-    }
-
-    .article-public {
-      background-color: color('orange', 'darken-4');
-    }
-
-    .article-edit {
-      cursor: pointer;
-      background-color: color('green', 'darken-4');
-    }
-
-    .article-history {
-      cursor: pointer;
-      background-color: color('deep-purple', 'darken-2');
-    }
-
-    .article-link {
-
-    }
-
-    .article-visibility {
-      .material-icons {
-        cursor: default;
-      }
-    }
-
-    a.article-delete {
-      margin-left: 4rem;
-      margin-right: 4rem;
-      cursor: pointer;
-      background-color: color('teal', 'darken-1');
-    }
-
-    a.article-cancel {
-      cursor: pointer;
-      background-color: color('deep-orange', 'darken-2');
-    }
-
-    a.article-update {
-      cursor: pointer;
-      background-color: color('teal', 'darken-2');
-    }
-  }
-
-  .blog-error-box {
-    .collapsible-header {
-      font-size: 1.2rem;
-    }
-
-    .collapsible-body {
-      background-color: #fcfcfc;
-      padding: 1rem;
-      font-size: 1.1rem;
-    }
-
-    .error-time {
-      float: right;
-      font-size: 1rem;
-      font-weight: 300;
-      font-style: normal;
-      vertical-align: middle;
-      position: relative;
-      display: inline-block;
     }
   }
 
@@ -692,86 +379,21 @@
     }
   }
 
-  .blog-article-content {
-    h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
-      margin: 0;
+  .user-avatar {
+    img {
+      width: 35px;
+      margin-right: 10px;
+      vertical-align: middle;
+      border-radius: 50%;
+      background: white;
+    }
+
+    i {
+      float: left;
       padding: 0;
-    }
-
-    h1, h2, h3, h4 {
-      margin-bottom: .5rem;
-    }
-
-    h1, h2 {
-      margin-top: 2rem;
-    }
-
-    h3, h4 {
-      margin-top: 1.5rem;
-    }
-
-    h1 {
-      font-size: 3rem;
-      font-style: normal;
-      font-weight: 700;
-    }
-
-    h2 {
-      font-style: normal;
-      font-size: 2.5rem;
-      font-weight: 500;
-    }
-
-    h3 {
-      font-style: normal;
-      font-size: 2rem;
-      font-weight: 400;
-    }
-
-    h4 {
-      font-style: normal;
-      font-size: 1.5rem;
-      font-weight: 400;
-    }
-
-    ul {
-      padding: 0;
-      margin-top: 2rem;
-
-      li {
-        list-style-type: disc;
-        margin-left: 2rem;
-        margin-bottom: 1rem;
-      }
-    }
-
-    blockquote {
-      border-left: 3px solid rgba(0, 0, 0, 0.8);
-      padding-left: 2.5rem;
-      margin-left: -2rem;
-      padding-bottom: 3px;
-      font-weight: 400;
-      font-style: italic;
-    }
-
-    pre {
-      padding: 0.5rem 0.75rem;
-      background-color: #F8F8F8;
-      border: 1px solid #CCC;
-      border-radius: 0.25rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .secret {
-      @include special-style($secret-color);
-    }
-
-    .advice {
-      @include special-style($advice-color);
-    }
-
-    .deadend {
-      @include special-style($deadend-color);
+      margin: 0 8px 0 -12px;
+      font-size: 32px;
+      line-height: 32px;
     }
   }
 }

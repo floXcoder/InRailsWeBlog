@@ -40,6 +40,27 @@ class UserSerializer < ActiveModel::Serializer
 
   attributes :id,
              :pseudo,
-             :slug
+             :email,
+             :first_name,
+             :last_name,
+             :age,
+             :city,
+             :country,
+             :additional_info,
+             :locale,
+             :admin,
+             :slug,
+             :avatar
+
+  has_one :tracker
+  has_many :activities, serializer: PublicActivitiesSerializer
+
+  def avatar
+    object.picture.image.url(:thumb) if object.picture
+  end
+
+  def activities
+    object.activities.limit(30)
+  end
 
 end

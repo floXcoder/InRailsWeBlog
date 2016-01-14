@@ -194,6 +194,10 @@ var ArticleStore = Reflux.createStore({
                 this.currentState.mode = data.mode;
             }
 
+            if (data.summary) {
+                requestParam.summary = data.summary;
+            }
+
             if (data.query) {
                 requestParam.query = data.query;
                 url += '/search';
@@ -341,23 +345,18 @@ var ArticleStore = Reflux.createStore({
     },
 
     onUpdateArticle (article) {
-        if ($.isEmpty(article)) {
-            log.error('Tried to update article without article');
+        if ($.isEmpty(article) || $.isEmpty(article.id)) {
+            log.error('Tried to update user without user');
             return;
         }
 
-        var requestParam = {};
-        var url = this.url;
         var fromEditPage = article.fromEditPage;
 
-        if (article && article.id) {
-            url += '/' + article.id;
-            requestParam._method = 'put';
-
-            requestParam.articles = article;
-        } else {
-            return;
-        }
+        var url = this.url + '/' + article.id;
+        var requestParam = {
+            _method: 'put',
+            articles: article
+        };
 
         $.ajax({
             url: url,
@@ -402,16 +401,12 @@ var ArticleStore = Reflux.createStore({
         var url = this.url;
         var showMode = false;
 
-        if (article) {
-            if (article.id) {
-                url += '/' + article.id;
-                requestParam._method = 'delete';
-            }
-            if (article.showMode) {
-                showMode = true;
-            }
-        } else {
-            return;
+        if (article.id) {
+            url += '/' + article.id;
+            requestParam._method = 'delete';
+        }
+        if (article.showMode) {
+            showMode = true;
         }
 
         $.ajax({

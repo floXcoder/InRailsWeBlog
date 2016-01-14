@@ -1,0 +1,213 @@
+@import 'modules/animation/user';
+
+.blog {
+  .blog-user {
+    .user-card {
+      .user-image {
+        position: relative;
+
+        .card-title {
+          font-weight: 400;
+          color: #212121;
+          position: absolute;
+          bottom: -2.8rem;
+          left: 0;
+          padding: 20px;
+        }
+
+        img {
+          //object-fit: contain;
+          //width: 100%;
+          //height: 250px;
+        }
+      }
+
+      .user-no-image {
+        height: 200px;
+
+        i {
+          width: 100%;
+          font-size: 80px;
+          line-height: 80px;
+          color: color('light-green', 'darken-3');
+        }
+      }
+
+      .user-action {
+        a {
+          color: color('orange', 'accent-2') !important;
+        }
+      }
+    }
+  }
+
+  .user-activity {
+    .activity-list {
+      margin: 0;
+      list-style: none;
+      padding: 0;
+
+      > li {
+        margin: 0;
+        min-height: 48px;
+        padding: 8px 4px;
+        box-sizing: border-box;
+        border-bottom: 1px solid rgba(0, 0, 0, .12);
+        position: relative;
+        list-style: none;
+
+        .activity-list-action-dropdown {
+          position: absolute;
+          right: 16px;
+          top: 10px;
+          display: none;
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        > .activity-list-content {
+          overflow: hidden;
+
+          > span {
+            display: block;
+          }
+
+          .activity-list-heading {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            display: block;
+            overflow: hidden;
+            padding-bottom: 1px;
+            color: #444;
+          }
+
+          .activity-list-body {
+
+          }
+
+          .activity-list-date {
+            color: #757575
+          }
+
+          .activity-list-menu {
+            float: right;
+
+            .activity-list-menu-toggle {
+              display: block;
+              font-size: 18px;
+              color: rgba(0, 0, 0, .8);
+              width: 28px;
+              height: 28px;
+              line-height: 28px;
+              border-radius: 14px;
+              text-align: center;
+            }
+          }
+
+          .activity-list-action {
+            float: right;
+            margin-left: 8px;
+            margin-top: 2px;
+            display: none;
+          }
+
+          .activity-list-action-placeholder {
+            float: right;
+            margin-left: 8px;
+            display: none;
+            width: 32px;
+            height: 32px;
+          }
+        }
+
+        > a.activity-list-content {
+          display: block;
+          color: #212121;
+        }
+      }
+    }
+
+    .activity-list-addon-element {
+      position: absolute;
+      left: -64px;
+      top: -1px;
+      bottom: -1px;
+      width: 64px;
+      text-align: center;
+      padding: 8px 0;
+      display: block;
+
+      & > .activity-list-addon-avatar {
+        margin-top: 2px;
+      }
+
+      & > .activity-list-addon-icon {
+        font-size: 28px;
+        margin-top: 4px;
+        color: color('light-green', 'darken-1');
+      }
+    }
+
+    .activity-list-outside {
+      > li {
+        padding: 0;
+
+        &.heading_list {
+          padding: 32px 16px 16px;
+        }
+
+        > .activity-list-content {
+          padding: 8px 16px;
+          display: block;
+          color: #212121;
+        }
+      }
+
+      &.activity-list-addon li {
+        margin-left: 0;
+
+        .activity-list-addon-element {
+          position: relative;
+          top: auto;
+          left: auto;
+          float: left;
+        }
+
+        .activity-list-content {
+          padding-left: 0;
+        }
+      }
+    }
+
+    .activity-list-addon > li {
+      margin-left: 64px;
+      position: relative;
+
+      &:last-child .activity-list-addon-element {
+        border-bottom: none;
+        bottom: 0;
+      }
+
+      &:first-child .activity-list-addon-element {
+        top: 0;
+      }
+    }
+  }
+
+  .user-tracking {
+    .tracking-number {
+
+    }
+
+    .tracking-name {
+      font-size: 1rem;
+      line-height: 1.3rem;
+      margin: .4664rem 0;
+      clear: both;
+      margin-bottom: 1.5rem;
+    }
+  }
+}
