@@ -1,227 +1,162 @@
 'use strict';
 
-var validator = require('validator');
-
-var Modal = require('../materialize/modal/modal');
-var ModalFooter = require('../materialize/modal/footer');
-var Input = require('../materialize/input');
-var Checkbox = require('../materialize/checkbox');
-var Submit = require('../materialize/submit');
-
-var UserStore = require('../../stores/userStore');
-var UserActions = require('../../actions/userActions');
+const Form = require('../materialize/form');
+const Modal = require('../materialize/modal/modal');
+const ModalFooter = require('../materialize/modal/footer');
+const Input = require('../materialize/input');
+const Checkbox = require('../materialize/checkbox');
+const Submit = require('../materialize/submit');
 
 var Signup = React.createClass({
     propTypes: {
-        buttonId: React.PropTypes.string.isRequired,
+        launcherClass: React.PropTypes.string,
         formId: React.PropTypes.string,
         modalId: React.PropTypes.string,
-        url: React.PropTypes.string
+        url: React.PropTypes.string,
+        validationUrl: React.PropTypes.string,
+        isOpened: React.PropTypes.bool
     },
-
-    mixins: [
-        Reflux.listenTo(UserStore, 'onUserValidation')
-    ],
 
     getDefaultProps () {
         return {
             formId: 'signup-user',
             modalId: 'signup-modal',
-            url: '/signup'
+            url: '/users',
+            validationUrl: '/users/validation',
+            isOpened: false
         };
     },
 
+    componentDidMount () {
+        if (this.props.isOpened) {
+            $('#' + this.props.modalId).openModal();
+        }
+    },
+
+    componentDidUpdate () {
+        if (this.props.isOpened) {
+            $('#' + this.props.modalId).openModal();
+        }
+    },
+
     _handleModalOpen () {
-        return $("#user_pseudo").focus();
+        return $('#signup-user-pseudo').focus();
     },
 
     _handleCancelClick () {
         $('#' + this.props.modalId).closeModal();
     },
 
-    _handleInputBlur (event) {
-        let serializedForm = $('#' + this.props.formId)
-            .find('input')
-            .filter(function () {
-                return !!this.value && this.type.indexOf('password') === -1;
-            }).serialize();
-
-        if (!$.isEmpty(serializedForm)) {
-            UserActions.validation(serializedForm);
-        }
-
-        return event;
-    },
-
-    _handleSubmitClick (event) {
-        if(this.onUserValidation({})) {
-            return true;
-        } else {
-            event.preventDefault();
-            return false;
-        }
-    },
-
-    _handleCheckboxChange () {
-        let checkBoxState = this.refs.userTerms.toggleCheckbox();
-        this.onUserValidation({checkbox: checkBoxState});
-    },
-
-    onUserValidation (userValidation) {
-        if ($.isEmpty(userValidation.user)) {
-            return;
-        }
-
-        let isValid = true;
-
-        if (this.refs.userPseudo.value().length > 0 && !validator.isLength(this.refs.userPseudo.value(),
-                window.parameters.user_pseudo_min_length,
-                window.parameters.user_pseudo_max_length)) {
-            isValid = false;
-            this.refs.userPseudo.setInvalid(I18n.t('js.user.errors.pseudo.size',
-                {
-                    min: window.parameters.user_pseudo_min_length,
-                    max: window.parameters.user_pseudo_max_length
-                }));
-        } else if (userValidation.user.pseudo) {
-            isValid = false;
-            this.refs.userPseudo.setInvalid(I18n.t('js.user.errors.pseudo.already_taken'));
-        } else {
-            this.refs.userPseudo.setValid('\u2714');
-        }
-
-        if (!validator.isEmail(this.refs.userEmail.value())) {
-            isValid = false;
-            this.refs.userEmail.setInvalid(I18n.t('js.user.errors.email.invalid'));
-        } else if (!$.isEmpty(userValidation.user) && userValidation.user.email) {
-            isValid = false;
-            this.refs.userEmail.setInvalid(I18n.t('js.user.errors.email.already_taken'));
-        } else {
-            this.refs.userEmail.setValid('\u2714');
-        }
-
-        if (!$.isEmpty(this.refs.userPassword.value()) && !validator.isLength(this.refs.userPassword.value(),
-                window.parameters.user_password_min_length,
-                window.parameters.user_password_max_length)) {
-            isValid = false;
-            this.refs.userPassword.setInvalid(I18n.t('js.user.errors.password.size',
-                {
-                    min: window.parameters.user_password_min_length,
-                    max: window.parameters.user_password_max_length
-                }));
-        } else if (this.refs.userPassword.value() !== this.refs.userPasswordConfirmation.value()) {
-            isValid = false;
-            this.refs.userPassword.setInvalid(I18n.t('js.user.errors.password.mismatch'));
-            if (!$.isEmpty(this.refs.userPasswordConfirmation.value())) {
-                this.refs.userPasswordConfirmation.setInvalid(I18n.t('js.user.errors.password.mismatch'));
-            }
-        } else {
-            if (!$.isEmpty(this.refs.userPassword.value()) && !$.isEmpty(this.refs.userPasswordConfirmation.value())) {
-                this.refs.userPassword.setValid('\u2714');
-                this.refs.userPasswordConfirmation.setValid('\u2714');
-            } else {
-                this.refs.userPassword.reset();
-                this.refs.userPasswordConfirmation.reset();
-            }
-        }
-
-        if ((typeof(userValidation.checkbox) !== 'undefined' && !userValidation.checkbox) ||
-            (typeof(userValidation.checkbox) === 'undefined' && !this.refs.userTerms.isChecked())) {
-            isValid = false;
-            this.refs.userTerms.setInvalid();
-        } else {
-            this.refs.userTerms.setValid();
-        }
-
-        if (!isValid) {
-            this.refs.submitSignup.disabledSubmit();
-        } else {
-            this.refs.submitSignup.enabledSubmit();
-        }
-
-        return isValid;
-    },
-
     render () {
         return (
             <Modal id={this.props.modalId}
-                   buttonId={this.props.buttonId}
+                   launcherClass={this.props.launcherClass}
                    title={I18n.t('js.user.signup.title')}
                    onOpen={this._handleModalOpen}>
 
-                <form id={this.props.formId}
-                      method="post"
+                <Form ref="signupForm"
+                      id={this.props.formId}
                       action={this.props.url}
-                      className="ap-modal-form"
-                      data-remote="true"
-                      acceptCharset="UTF-8"
-                      noValidate="novalidate">
+                      isValidating={true}>
 
                     <div className="section">
                         <Input ref="userPseudo"
-                               id="user_pseudo"
-                               classType="important"
-                               onBlur={this._handleInputBlur}
-                               icon="account_circle">
-                            {I18n.t('js.user.signup.pseudo')}
-                        </Input>
+                               id="signup-user-pseudo"
+                               name="user[pseudo]"
+                               title={I18n.t('js.user.signup.pseudo')}
+                               labelClass="important"
+                               isRequired={true}
+                               validator={{
+                                   'data-parsley-remote': this.props.validationUrl,
+                                   'data-parsley-remote-reverse': true,
+                                   'data-parsley-remote-message': I18n.t('js.user.errors.pseudo.already_taken'),
+                                   'data-parsley-minlength': window.parameters.user_pseudo_min_length,
+                                   'data-parsley-maxlength': window.parameters.user_pseudo_max_length,
+                                   'data-parsley-minlength-message': I18n.t('js.user.errors.pseudo.size', {
+                                       min: window.parameters.user_pseudo_min_length,
+                                       max: window.parameters.user_pseudo_max_length
+                                   })
+                               }}
+                               icon="account_circle"/>
                     </div>
 
                     <div className="section">
                         <Input ref="userEmail"
-                               id="user_email"
-                               classType="important"
-                               onBlur={this._handleInputBlur}
-                               icon="mail">
-                            {I18n.t('js.user.signup.email')}
-                        </Input>
+                               id="signup-user-email"
+                               name="user[email]"
+                               type="email"
+                               title={I18n.t('js.user.signup.email')}
+                               labelClass="important"
+                               isRequired={true}
+                               icon="mail"/>
                     </div>
 
                     <div className="section">
                         <Input ref="userPassword"
-                               id="user_password"
+                               id="signup-user-password"
+                               name="user[password]"
                                type="password"
-                               classType="important"
-                               onBlur={this._handleInputBlur}
-                               characterCount={window.parameters.user_password_max_length}
-                               icon="lock">
-                            {I18n.t('js.user.signup.password')}
-                        </Input>
+                               title={I18n.t('js.user.signup.password')}
+                               labelClass="important"
+                               isRequired={true}
+                               validator={{
+                                   'data-parsley-minlength': window.parameters.user_password_min_length,
+                                   'data-parsley-maxlength': window.parameters.user_password_max_length,
+                                   'data-parsley-minlength-message': I18n.t('js.user.errors.password.size', {
+                                       min: window.parameters.user_pseudo_min_length,
+                                       max: window.parameters.user_pseudo_max_length
+                                   })
+                               }}
+                               icon="lock"/>
                     </div>
 
                     <div className="section">
                         <Input ref="userPasswordConfirmation"
-                               id="user_password_confirmation"
+                               id="signup-user-password-confirmation"
+                               name="user[password_confirmation]"
                                type="password"
-                               classType="important"
-                               onBlur={this._handleInputBlur}
-                               characterCount={window.parameters.user_password_max_length}
-                               icon="lock">
-                            {I18n.t('js.user.signup.confirm_password')}
-                        </Input>
+                               title={I18n.t('js.user.signup.confirm_password')}
+                               labelClass="important"
+                               isRequired={true}
+                               validator={{
+                                   'data-parsley-equalto': '#user_password_signup',
+                                   'data-parsley-equalto-message': I18n.t('js.user.errors.password.mismatch')
+                               }}
+                               icon="lock"/>
                     </div>
 
                     <div className="section">
-                        <Checkbox ref="userTerms" id="user_terms"
-                                  onCheckboxChange={this._handleCheckboxChange}>
-                            {I18n.t('js.user.signup.terms_of_use') + ' '}
-                            <a href="/terms_of_use">{I18n.t('js.user.signup.terms_of_use_name')}</a>
-                        </Checkbox>
+                        <Checkbox ref="userTerms"
+                                  id="signup-user-terms"
+                                  name="user[terms]"
+                                  title={
+                                      <span>
+                                      {I18n.t('js.user.signup.terms_of_use', {website: window.parameters.website_name}) + ' '}
+                                          <a href="/terms_of_use">
+                                        {I18n.t('js.user.signup.terms_of_use_name')}
+                                      </a>
+                                  </span>
+                                  }
+                                  isRequired={true}
+                                  validator={{'data-parsley-error-message': I18n.t('js.user.errors.policy')}}/>
                     </div>
 
                     <ModalFooter>
-                        <a href="#"
-                           onClick={this._handleCancelClick}>
-                            {I18n.t('js.user.signup.cancel')}
-                        </a>
-                        <Submit ref="submitSignup" id="login-submit"
-                                onClick={this._handleSubmitClick}>
-                            {I18n.t('js.user.signup.submit')}
-                        </Submit>
+                        <div className="left">
+                            <a className="waves-effect waves-teal btn-flat"
+                               href="#"
+                               onClick={this._handleCancelClick}>
+                                {I18n.t('js.user.signup.cancel')}
+                            </a>
+                        </div>
+
+                        <div className="right">
+                            <Submit id="signup-submit">
+                                {I18n.t('js.user.signup.submit')}
+                            </Submit>
+                        </div>
                     </ModalFooter>
-
-                </form>
-
+                </Form>
             </Modal>
         );
     }

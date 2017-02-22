@@ -1,17 +1,16 @@
 @import 'modules/components/rating';
 @import 'modules/animation/comment';
 
-.blog-comments {
+.comments {
   margin-top: 3rem;
 
-  .blog-comments-title {
+  .comments-title {
     font-size: 2rem;
     font-weight: 300;
     margin-bottom: 2rem;
   }
 
-  .blog-comments-box {
-    background-color: #ffffff;
+  .comments-box {
     border: 1px solid #e0e1e5;
     padding: 1rem;
   }
@@ -21,11 +20,12 @@
 
     .collection-item {
       margin-bottom: 10px;
-      padding-right: 50px;
       padding-left: 20px;
+      padding-right: 50px;
 
       .secondary-content {
         right: 0;
+        top: 0;
       }
     }
 
@@ -36,6 +36,7 @@
         @media #{$medium-and-up} {
           margin-left: $i * 40px;
         }
+
         @media #{$medium-and-down} {
           margin-left: $i * 10px;
         }
@@ -47,11 +48,22 @@
     }
 
     .comment-date {
-      margin-left: 20px;
       color: #6d7a97;
+      display: inline-block;
+      font-size: 14px;
+      height: 32px;
+      line-height: 32px;
+      margin-left: 20px;
+      overflow: hidden;
     }
 
     .comment-rating {
+      //display: inline;
+
+      .star-rating-input {
+        margin: .8rem 0 .2rem .8rem;
+      }
+
       .star-rating-star-size {
         font-size: 1.4rem;
         line-height: 1.4rem;
@@ -62,28 +74,33 @@
       font-size: 1.2rem;
       font-weight: 600;
       line-height: 1.6rem;
+      margin-left: 1rem;
+      margin-top: .5rem;
     }
-  }
 
-  .comment-form-title {
-    line-height: 48px;
-    font-size: 24px;
-    font-weight: 300;
-  }
-
-  .comment-form-explanation {
-    margin-left: 15px;
-    color: #6d7a97;
-
-    @media #{$small-and-down} {
-      margin-left: 0;
-      display: block;
+    .comment-body {
+      margin-left: 1rem;
+      margin-top: .5rem;
     }
   }
 
   .comment-form {
-    .star-rating-star-container {
-      cursor: pointer;
+    margin-top: 20px;
+
+    .comment-form-title {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 48px;
+    }
+  }
+
+  .comment-form-explanation {
+    color: #6d7a97;
+    margin-left: 15px;
+
+    @media #{$small-and-down} {
+      display: block;
+      margin-left: 0;
     }
   }
 

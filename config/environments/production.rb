@@ -25,6 +25,10 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
+  # Prevent host header injection
+  config.action_controller.default_url_options = { host: ENV['DOMAIN'] }
+  config.action_controller.asset_host = ENV['DOMAIN']
+
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = :info
@@ -41,6 +45,13 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+  config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    options = event.payload.slice(:request_id, :user_id)
+    options[:params] = event.payload[:params].except('controller', 'action')
+    options[:search] = event.payload[:searchkick_runtime] if event.payload[:searchkick_runtime].to_f > 0
+    options
+  end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false

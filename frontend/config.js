@@ -9,8 +9,8 @@ module.exports = {
         entries: {
             ie8: ['./modules/ie8.js'],
             ie9: ['./modules/ie9.js'],
-            home: ['./pages/home.jsx'],
-            'admin/admin': ['./pages/admin/admin.jsx'],
+            home: ['./pages/home/home.jsx'],
+            'admin/dashboard': ['./pages/admin/dashboard.jsx'],
             'admin/users/index': ['./pages/admin/users/index.jsx'],
             'admin/users/show': ['./pages/admin/users/show.jsx'],
             'admin/errors': ['./pages/admin/errors.jsx'],
@@ -29,10 +29,18 @@ module.exports = {
                 name: 'commons',
                 files: [
                     'home',
-                    'admin/admin', 'admin/users/index', 'admin/users/show', 'admin/errors',
                     'users/show', 'users/edit', 'users/login', 'users/signup', 'users/password', 'users/show',
                     'articles/show', 'articles/edit',
                     'tags/show'
+                ]
+            },
+            {
+                name: 'commons-admin',
+                files: [
+                    'admin/dashboard',
+                    'admin/users/index',
+                    'admin/users/show',
+                    'admin/errors'
                 ]
             }
         ],
@@ -55,9 +63,14 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel',
                 query: {
-                    cacheDirectory: true,
-                    presets: ['es2015', 'react']
-                }
+                    babelrc: true,
+                    cacheDirectory: true
+                },
+                happy: {id: 'jsx'}
+            },
+            {
+                test: /\.json$/,
+                loader: 'json'
             },
             {
                 test: /masonry|imagesloaded|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/,
@@ -67,9 +80,13 @@ module.exports = {
         plugins: {
             $: 'jquery',
             jQuery: 'jquery',
-            "window.jQuery": 'jquery',
+            'window.$': 'jquery',
+            'window.jQuery': 'jquery',
             _: 'lodash',
             log: 'loglevel'
+        },
+        externals: {
+            jQuery: 'jquery'
         },
         development: {
             filename: '[name].js',
@@ -88,9 +105,9 @@ module.exports = {
     },
     sass: {
         src: [
-            assetDir + '/stylesheets/*.scss',
+            assetDir + '/stylesheets/application.scss',
+            assetDir + '/stylesheets/pages/**/*.scss',
             assetDir + '/stylesheets/**/_*.scss',
-            assetDir + '/stylesheets/pages/**/*.scss', // generate css files directly in public/assets
             '!**/*_scsslint_tmp*.scss'
         ],
         dest: publicDir + '/assets',
@@ -105,7 +122,6 @@ module.exports = {
     },
     images: {
         src: [
-            vendorDir + '/images/**/*',
             assetDir + '/images/**/*'
         ],
         dest: publicDir + '/assets'
@@ -127,12 +143,6 @@ module.exports = {
             //frontendDir + '/materialize-css/font/**/*',
             vendorDir + '/fonts/**/*',
             assetDir + '/fonts/**/*'
-        ],
-        dest: publicDir + '/assets'
-    },
-    html: {
-        src: [
-            //vendorDir + '/**/*'
         ],
         dest: publicDir + '/assets'
     },

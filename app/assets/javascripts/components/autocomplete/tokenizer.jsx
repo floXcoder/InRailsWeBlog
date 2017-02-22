@@ -1,8 +1,8 @@
 'use strict';
 
-var Token = require('./token');
-var Typeahead = require('./typeahead');
-var classNames = require('classnames');
+const Token = require('./token');
+const Typeahead = require('./typeahead');
+const classNames = require('classnames');
 
 var KeyEvent = KeyEvent || {};
 KeyEvent.DOM_VK_UP = KeyEvent.DOM_VK_UP || 38;
@@ -54,7 +54,7 @@ var TypeaheadTokenizer = React.createClass({
             React.PropTypes.func
         ]),
         maxVisible: React.PropTypes.number,
-        defaultClassNames: React.PropTypes.bool
+        hasDefaultClassNames: React.PropTypes.bool
     },
 
     getInitialState () {
@@ -74,7 +74,7 @@ var TypeaheadTokenizer = React.createClass({
             defaultValue: "",
             placeholder: "",
             inputProps: {},
-            defaultClassNames: true,
+            hasDefaultClassNames: true,
             filterOption: null,
             displayOption: (token) => { return token },
             onKeyDown: (event) => {},
@@ -191,7 +191,7 @@ var TypeaheadTokenizer = React.createClass({
         var classes = {};
         classes[this.props.customClasses.typeahead] = !!this.props.customClasses.typeahead;
         var classList = classNames(classes);
-        var tokenizerClasses = [this.props.defaultClassNames && "typeahead-tokenizer"];
+        var tokenizerClasses = [this.props.hasDefaultClassNames && "typeahead-tokenizer"];
         tokenizerClasses[this.props.className] = !!this.props.className;
         var tokenizerClassList = classNames(tokenizerClasses);
 
@@ -213,7 +213,7 @@ var TypeaheadTokenizer = React.createClass({
                            onFocus={this.props.onFocus}
                            onBlur={this.props.onBlur}
                            displayOption={this.props.displayOption}
-                           defaultClassNames={this.props.defaultClassNames}
+                           hasDefaultClassNames={this.props.hasDefaultClassNames}
                            filterOption={this.props.filterOption}/>
             </div>
         );

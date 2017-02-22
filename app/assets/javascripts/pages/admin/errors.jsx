@@ -1,13 +1,11 @@
 'use strict';
 
-require('./admin');
+// require('./admin');
 
 let ErrorIndex = require('../../components/errors/index');
 
-let currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
-
 // Main
-if(currentUserId) {
+if($app.user.isConnected()) {
     ReactDOM.render(
         <ErrorIndex />,
         document.getElementById('errors-admin-component')

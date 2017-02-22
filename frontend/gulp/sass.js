@@ -9,7 +9,6 @@ var config       = require('../config').sass;
 
 gulp.task('sass', function () {
     return gulp.src(config.src)
-        //.pipe(cache('sass'))
         .pipe(sourceMaps.init())
         .pipe(sass(config.settings))
         .on('error', handleErrors)

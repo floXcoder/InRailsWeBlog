@@ -1,19 +1,16 @@
 'use strict';
 
-var classname = require('classnames');
+const SingleTimeline = ({ children }) => (
+    <div className="single-timeline">
+        {children}
+    </div>
+);
 
-var SingleTimeline = React.createClass({
-    propTypes: {
-        children: React.PropTypes.array.isRequired
-    },
-
-    render () {
-        return (
-            <div className="single-timeline">
-                {this.props.children}
-            </div>
-        );
-    }
-});
+SingleTimeline.propTypes = {
+    children: React.PropTypes.oneOfType([
+        React.PropTypes.array,
+        React.PropTypes.string
+    ]).isRequired
+};
 
 module.exports = SingleTimeline;

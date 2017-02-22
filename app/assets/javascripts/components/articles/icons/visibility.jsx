@@ -1,54 +1,43 @@
 'use strict';
 
-var classNames = require('classnames');
+const classNames = require('classnames');
 
-var ArticleVisibilityIcon = React.createClass({
-    propTypes: {
-        article: React.PropTypes.object.isRequired,
-        floatingButton: React.PropTypes.bool
-        //currentUserId: React.PropTypes.number
-    },
+var ArticleVisibilityIcon = ({article, hasFloatingButton}) => {
+    let isVisible = article.visibility === 'everyone';
 
-    getDefaultProps () {
-        return {
-            floatingButton: false
-            //currentUserId: null
-        };
-    },
+    let visibilityClasses = classNames(
+        'article-visibility',
+        'tooltipped',
+        {
+            'btn-floating': hasFloatingButton
+        },
+        {
+            'article-public': isVisible,
+            'article-private': !isVisible
+        });
 
-    render () {
-        let isVisible =  this.props.article.visibility === 'everyone';
+    let visibilityName = I18n.t('js.article.enums.visibility.' + article.visibility);
+    let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
-        let visibilityClasses = classNames(
-            'article-visibility',
-            'tooltipped',
-            {
-                'btn-floating': this.props.floatingButton
-            },
-            {
-                'article-public': isVisible,
-                'article-private': !isVisible
-            });
-
-        let visibilityName = I18n.t('js.article.visibility.enum.' + this.props.article.visibility);
-        let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
-
-        if (!isVisible) {
-            return (
-                <a className={visibilityClasses}
-                   data-tooltip={visibilityTooltip}>
-                    <i className="material-icons">visibility_off</i>
-                </a>
-            );
-        } else {
-            return (
-                <a className={visibilityClasses}
-                   data-tooltip={visibilityTooltip}>
-                    <i className="material-icons">visibility</i>
-                </a>
-            );
-        }
+    if ($app.user.isConnected(article.author.id)) {
+        return (
+            <a className={visibilityClasses}
+               data-tooltip={visibilityTooltip}>
+                <i className="material-icons">{isVisible ? 'visibility' : 'visibility_off'}</i>
+            </a>
+        );
+    } else {
+        return null;
     }
-});
+};
+
+ArticleVisibilityIcon.propTypes = {
+    article: React.PropTypes.object.isRequired,
+    hasFloatingButton: React.PropTypes.bool
+};
+
+ArticleVisibilityIcon.getDefaultProps = {
+    hasFloatingButton: false
+};
 
 module.exports = ArticleVisibilityIcon;

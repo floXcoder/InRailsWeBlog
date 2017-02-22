@@ -12,6 +12,23 @@
   display: inline;
 }
 
+// Font properties
+.italic {
+  font-style: italic;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+// Show full text button
+.btn-full-text {
+  @media #{$small-and-down} {
+    line-height: 28px;
+    height: 100%;
+  }
+}
+
 // Hidden textarea for clipboard
 .hidden {
   position: absolute;
@@ -32,6 +49,10 @@
   resize: none;
   outline: none;
   user-select: text; /* Because for user-select:none, Safari won't allow input */
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .adaptative-text {
@@ -55,7 +76,7 @@
   $i: 0;
   @while $i <= $intervals {
     @media only screen and (min-width : 360 + ($i * $interval-size)) {
-      font-size: 2.5rem * (1 + (.02 * $i));
+      font-size: 2rem * (1 + (.02 * $i));
     }
     $i: $i + 1;
   }
@@ -66,7 +87,7 @@
   }
 }
 
-@for $i from 1 through 20 {
+@for $i from 0 through 20 {
   .margin-bottom-#{$i*5} {
     clear: both;
     margin-bottom: $i*5px !important;
@@ -78,7 +99,7 @@
   }
 }
 
-@for $i from 1 through 10 {
+@for $i from 0 through 10 {
   @media (max-width: $small-screen) {
     .sm-margin-top-#{$i*10} {
       margin-top: $i*10px !important;

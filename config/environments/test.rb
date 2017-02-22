@@ -36,4 +36,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :test
   host = 'localhost:3020'
   config.action_mailer.default_url_options = { host: host }
+
+  # "pretty" HTML format output
+  Slim::Engine.set_options pretty: true
 end

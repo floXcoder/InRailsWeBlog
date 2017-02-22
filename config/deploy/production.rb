@@ -1,13 +1,13 @@
 set :stage, :production
+set :rails_env, 'production'
 
-role :app, %w{lx@91.121.157.101}
-role :web, %w{lx@91.121.157.101}
-role :db,  %w{lx@91.121.157.101}
+role :app, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
+role :web, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
+role :db, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
+role :production, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
 
-server '91.121.157.101', user: 'lx', roles: %w{web app db}, primary: true
+server ENV['DEPLOY_SERVER'], user: ENV['DEPLOY_USER'], roles: %w{web app db production}, primary: true
 
 set :branch, 'master'
 
-set :deploy_to, "/var/www/#{fetch(:application)}"
-
-set :rails_env, 'production'
+set :deploy_to, "/var/www/#{fetch(:application)}/production"

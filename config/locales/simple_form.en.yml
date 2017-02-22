@@ -9,5 +9,10 @@ en:
       default_message: "Please review the problems below:"
     labels:
       user: :user
+      article: :article
+      tag: :tag
     options:
       user: :user.enums
+      article: :article.enums
+      tag: :tag.enums
+

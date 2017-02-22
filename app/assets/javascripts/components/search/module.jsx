@@ -1,9 +1,9 @@
 'use strict';
 
-var ArticleActions = require('../../actions/articleActions');
-var ArticleStore = require('../../stores/articleStore');
-var UserStore = require('../../stores/userStore');
-var Tokenizer = require('../../components/autocomplete/tokenizer');
+const ArticleActions = require('../../actions/articleActions');
+const ArticleStore = require('../../stores/articleStore');
+const UserStore = require('../../stores/userStore');
+const Tokenizer = require('../../components/autocomplete/tokenizer');
 
 var SearchModule = React.createClass({
     mixins: [
@@ -23,24 +23,24 @@ var SearchModule = React.createClass({
     },
 
     componentDidMount () {
-        Mousetrap.bind('alt+r', function () {
+        Mousetrap.bind('alt+r', () => {
             this._toggleSearchNav();
             return false;
-        }.bind(this), 'keydown');
+        }, 'keydown');
 
-        $('#toggle-search').click(function () {
+        $('#toggle-search').click(() => {
             this._toggleSearchNav();
             return false;
-        }.bind(this));
+        });
     },
 
     _activateSearch (state) {
         this._toggleSearchNav();
 
         if (!$.isEmpty(state.tags)) {
-            state.tags.forEach(function (tag) {
+            state.tags.forEach((tag) => {
                 this.refs.typeahead._addTokenForValue({tag: tag}, true);
-            }.bind(this));
+            });
         }
 
         this.refs.typeahead.setEntryText(state.query);
@@ -71,15 +71,15 @@ var SearchModule = React.createClass({
             let autocompletionValues = [];
             let tags = [];
 
-            articleData.autocompletion.forEach(function (autocompleteValue) {
+            articleData.autocompletion.forEach((autocompleteValue) => {
                 autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
-                autocompleteValue.tags.forEach(function (tag) {
+                autocompleteValue.tags.forEach((tag) => {
                     tags.push(tag.name);
                 });
             });
-            _.uniq(tags, function (tag) {
+            _.uniq(tags, (tag) => {
                 return tag.id
-            }).forEach(function (tag) {
+            }).forEach((tag) => {
                 autocompletionValues.push({entry: tag, tag: tag});
             });
 
@@ -103,8 +103,10 @@ var SearchModule = React.createClass({
 
     _handleSuggestionClick (suggestion, event) {
         event.preventDefault();
+
         this.refs.typeahead.setEntryText(suggestion);
         this.refs.typeahead.refs.typeahead.setState({entryValue: suggestion, selection: suggestion});
+
         this.setState({suggestions: []});
         this._handleSubmit(event, {});
     },
@@ -155,9 +157,11 @@ var SearchModule = React.createClass({
 
             ArticleActions.searchArticles(request);
 
-            this.state.query = query;
-            this.state.previousSelectedTags = this.state.selectedTags;
             this._toggleSearchNav();
+            this.setState({
+                query: query,
+                previousSelectedTags: this.state.selectedTags
+            });
         }
     },
 
@@ -191,7 +195,9 @@ var SearchModule = React.createClass({
 
     _onTokenAdd (value, noSubmit) {
         if (value.tag) {
-            this.state.selectedTags.push(value.tag);
+            this.setState({
+                selectedTags: this.state.selectedTags.concat(value.tag)
+            });
         }
 
         if (!noSubmit) {
@@ -200,8 +206,10 @@ var SearchModule = React.createClass({
     },
 
     _onTokenRemove(value) {
-        _.remove(this.state.selectedTags, function (tag) {
-            return tag === value;
+        this.setState({
+            selectedTags: _.remove(this.state.selectedTags, (tag) => {
+                return tag === value;
+            })
         });
 
         this._handleSubmit(null, {tagSearch: true});
@@ -210,47 +218,50 @@ var SearchModule = React.createClass({
     _handleCloseClick(event) {
         event.preventDefault();
         $('.blog-search-nav').slideUp();
+
         this.refs.typeahead.setEntryText('');
         this.setState({selectedTags: []});
         this.refs.typeahead.setState({selected: []});
     },
 
     render () {
-        let Suggestions = this.state.suggestions.map(function (suggestion) {
-            return (
-                <a key={suggestion}
-                   onClick={this._handleSuggestionClick.bind(this, suggestion)}
-                   className="waves-effect waves-light btn-small">
-                    {suggestion}
-                </a>
-            );
-        }.bind(this));
-
         return (
             <div className="container blog-search">
-                <form className="search-form" onSubmit={this._handleSubmit}>
-                    <Tokenizer
-                        ref="typeahead"
-                        options={this.state.autocompleteValues}
-                        onKeyUp={this._onKeyUp}
-                        placeholder={I18n.t('js.article.search.placeholder')}
-                        filterOption="entry"
-                        displayOption={this._displayOption}
-                        maxVisible={6}
-                        addTokenCondition="tag"
-                        customClasses={{listItem: 'typeahead-list-item'}}
-                        onTokenAdd={this._onTokenAdd}
-                        onTokenRemove={this._onTokenRemove}
-                    />
-                    <a className="material-icons search-form-close"
-                       onClick={this._handleCloseClick}
-                       href="#">
-                        <i className="material-icons">close</i>
-                    </a>
-                </form>
-                <div className="blog-search-suggestion">
-                    {Suggestions}
-                </div>
+                {
+                    //     <form className="search-form"
+                    //           onSubmit={this._handleSubmit}>
+                    //         <Tokenizer
+                    //             ref="typeahead"
+                    //             options={this.state.autocompleteValues}
+                    //             onKeyUp={this._onKeyUp}
+                    //             placeholder={I18n.t('js.article.search.placeholder')}
+                    //             filterOption="entry"
+                    //             displayOption={this._displayOption}
+                    //             maxVisible={6}
+                    //             addTokenCondition="tag"
+                    //             customClasses={{listItem: 'typeahead-list-item'}}
+                    //             onTokenAdd={this._onTokenAdd}
+                    //             onTokenRemove={this._onTokenRemove} />
+                    //
+                    //         <a className="material-icons search-form-close"
+                    //            onClick={this._handleCloseClick}
+                    //            href="#">
+                    //             <i className="material-icons">close</i>
+                    //         </a>
+                    //     </form>
+                    //
+                    //     <div className="blog-search-suggestion">
+                    // {
+                    //     this.state.suggestions.map((suggestion) =>
+                    //     <a key={suggestion}
+                    //     onClick={this._handleSuggestionClick.bind(this, suggestion)}
+                    //     className="waves-effect waves-light btn-small">
+                    //     {suggestion}
+                    //     </a>
+                    //     )
+                    // }
+                    //     </div>
+                }
             </div>
         );
     }

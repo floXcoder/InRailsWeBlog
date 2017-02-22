@@ -1,8 +1,8 @@
 'use strict';
 
-var ReactTags = require('./reactTags');
-var Tag = require('./tag');
-var TagStore = require('../../stores/tagStore');
+const ReactTags = require('./reactTags');
+const Tag = require('./tag');
+const TagStore = require('../../stores/tagStore');
 
 var TagsInput = React.createClass({
     propTypes: {
@@ -40,7 +40,7 @@ var TagsInput = React.createClass({
     },
 
     _onTagExists(tag) {
-        let $existingTag = $(".tagsinput-tag", ".tagsinput-tags").filter(function () { return $(this).data("name") === tag; });
+        let $existingTag = $(".tagsinput-tag", ".tagsinput-tags").filter(() => { return $(this).data("name") === tag; });
         $existingTag.fadeOut(200).fadeIn(200);
     },
 
@@ -51,7 +51,7 @@ var TagsInput = React.createClass({
         event.preventDefault();
 
         let selectedTags = [];
-        this.state.selectedTags.forEach(function (tag, index, tags) {
+        this.state.selectedTags.forEach((tag, index, tags) => {
             if(tagClicked.name === tag.name) {
                 if(tagClicked.parent || tagClicked.child) {
                     tagClicked.parent = null;
@@ -64,7 +64,7 @@ var TagsInput = React.createClass({
             } else {
                 selectedTags.push(tag);
             }
-        }.bind(this));
+        });
         this.setState({selectedTags: selectedTags});
     },
 
@@ -75,7 +75,7 @@ var TagsInput = React.createClass({
         event.preventDefault();
 
         let selectedTags = [];
-        this.state.selectedTags.forEach(function (tag, index, tags) {
+        this.state.selectedTags.forEach((tag, index, tags) => {
             if(tagClicked.name === tag.name) {
                 if(tagClicked.child || tagClicked.parent) {
                     tagClicked.child = null;
@@ -88,7 +88,7 @@ var TagsInput = React.createClass({
             } else {
                 selectedTags.push(tag);
             }
-        }.bind(this));
+        });
         this.setState({selectedTags: selectedTags});
     },
 
@@ -109,7 +109,7 @@ var TagsInput = React.createClass({
         }
 
         // Ignore items all ready added
-        let existing = _.filter(this.state.selectedTags, function(selectedTag) { return selectedTag.name === tag.name})[0];
+        let existing = _.filter(this.state.selectedTags, (selectedTag) => { return selectedTag.name === tag.name})[0];
         if (existing) {
             this._onTagExists(tag.name);
             return;
@@ -132,7 +132,7 @@ var TagsInput = React.createClass({
     },
 
     render () {
-        let tagItems = this.state.selectedTags.map((function (tag, i) {
+        let tagItems = this.state.selectedTags.map((tag, i) => {
             let labelClass = '';
             if(tag.parent) {
                 labelClass = 'tag-parent';
@@ -149,7 +149,7 @@ var TagsInput = React.createClass({
                      handleContextMenu={this._handleContextMenu.bind(this, tag)}
                      onDelete={this._handleDelete.bind(this, i)}/>
             );
-        }).bind(this));
+        });
 
         return (
             <div ref="tagsSelection"

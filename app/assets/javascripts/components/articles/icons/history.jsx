@@ -3,13 +3,11 @@
 var ArticleHistoryIcon = React.createClass({
     propTypes: {
         article: React.PropTypes.object.isRequired,
-        onClickHistory: React.PropTypes.func.isRequired,
-        currentUserId: React.PropTypes.number
+        onHistoryClick: React.PropTypes.func.isRequired
     },
 
     getDefaultProps () {
         return {
-            currentUserId: null
         };
     },
 
@@ -26,13 +24,13 @@ var ArticleHistoryIcon = React.createClass({
     },
 
     render () {
-        if (this.props.currentUserId && this.props.currentUserId === this.props.article.author.id) {
+        if ($app.user.isConnected(this.props.article.author.id)) {
             var historyTooltip = I18n.t('js.article.tooltip.history');
 
             return (
                 <a className="article-history tooltipped btn-floating"
                      data-tooltip={historyTooltip}
-                     onClick={this.props.onClickHistory}>
+                     onClick={this.props.onHistoryClick}>
                     <i className="material-icons">history</i>
                 </a>
             );

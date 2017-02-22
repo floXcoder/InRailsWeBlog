@@ -1,32 +1,33 @@
 'use strict';
 
-var classname = require('classnames');
+const SingleTimelineItem = (props) => (
+    <div className="timeline-item">
+        <div className="timeline-icon">
+            <i className="material-icons">{props.icon}</i>
+        </div>
 
-var SingleTimelineItem = React.createClass({
-    propTypes: {
-        date: React.PropTypes.string.isRequired,
-        content: React.PropTypes.string.isRequired,
-        icon: React.PropTypes.string.isRequired,
-        children: React.PropTypes.array.isRequired
-    },
+        <div className="timeline-date">
+            {props.date}
+        </div>
 
-    render () {
-        return (
-            <div className="timeline-item">
-                <div className="timeline-icon">
-                    <i className="material-icons">{this.props.icon}</i>
-                </div>
-                <div className="timeline-date">
-                    {this.props.date}
-                </div>
-                <div className="timeline-content">
-                    {this.props.children}
-                    <div className="card-panel"
-                         dangerouslySetInnerHTML={{__html: this.props.content}}/>
-                </div>
+        <div className="timeline-content">
+            {props.title}
+            <div className="card-panel">
+                {props.children}
             </div>
-        );
-    }
-});
+        </div>
+    </div>
+);
+
+SingleTimelineItem.propTypes = {
+    icon: React.PropTypes.string.isRequired,
+    title: React.PropTypes.element.isRequired,
+    children: React.PropTypes.element.isRequired,
+    date: React.PropTypes.string
+};
+
+SingleTimelineItem.defaultProps = {
+    date: null
+};
 
 module.exports = SingleTimelineItem;

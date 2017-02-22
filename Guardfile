@@ -10,11 +10,11 @@ interactor :off
 
 guard :bundler do
   watch('Gemfile')
+  watch('Gemfile.lock')
 end
 
 guard 'migrate' do
   watch(%r{^db/migrate/(\d+).+\.rb})
-  watch('db/seeds.rb')
 end
 
 guard 'sidekiq', environment: 'development' do
@@ -24,9 +24,10 @@ end
 
 # Option "force_run: true" does not work on Windows
 guard 'rails', server: :thin, port: 3001, timeout: 60 do
-  watch('Gemfile.lock')
+  watch(%r{^Gemfile\.lock$})
   watch(%r{^app/inputs/.+\.rb})
   watch(%r{^app/mailers/.+\.rb})
+  watch(%r{^app/uploaders/.+\.rb})
   watch(%r{^app/workers/.+\.rb})
   watch(%r{^config/.+(?<!locales)/.*})
   watch(%r{^config/*/[^.][^/]+\.(rb|yml)(?<!breadcrumbs\.rb)})
@@ -37,12 +38,16 @@ guard 'process', name: 'i18n-js', command: 'rake i18n:js:export' do
   watch(%r{^config/locales/js\..+\.yml})
 end
 
+guard 'process', name: 'NPM packages', command: 'npm i' do
+  watch('package.json')
+end
+
 guard 'process', name: 'Gulp', command: 'gulp' do
   watch(%r{^frontend/.+\.js$})
 end
 
 guard 'annotate', routes: true do
-  watch('db/schema.rb')
+  watch(%r{^db/schema\.rb})
   # watch(%r{^app/models/.+\.rb$})
 end
 

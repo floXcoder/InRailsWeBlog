@@ -5,4 +5,4 @@
 - javascript 'commons'
 - javascript 'articles/edit'
 
-= content_tag :div, '', id: 'article-element-component', data: {article: ActiveModel::SerializableResource.new(article, {scope: current_user}).serializable_hash, multiLanguage: multi_language}
+= content_tag :div, '', id: 'article-edit-component', data: {article: ActiveModel::SerializableResource.new(article, {scope: current_user}).serializable_hash}

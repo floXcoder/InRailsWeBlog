@@ -1,11 +1,11 @@
 'use strict';
 
-var ErrorActions = require('../../actions/errorActions');
-var ErrorStore = require('../../stores/errorStore');
+const ErrorActions = require('../../actions/errorActions');
+const ErrorStore = require('../../stores/errorStore');
 
 var ErrorIndex = React.createClass({
     mixins: [
-        Reflux.listenTo(ErrorStore, 'onLoadErrors')
+        Reflux.listenTo(ErrorStore, 'onErrorChange')
     ],
 
     getInitialState () {
@@ -21,7 +21,7 @@ var ErrorIndex = React.createClass({
     componentDidMount () {
     },
 
-    onLoadErrors (errors) {
+    onErrorChange (errors) {
         this.setState({errors: errors.error_messages});
     },
 
@@ -39,7 +39,7 @@ var ErrorIndex = React.createClass({
         //:params, :user_agent, :user_info, :ip
         //Line number: {error.line_number} ; Column number: {error.column_number}
 
-        let ErrorNodes = this.state.errors.map(function (error) {
+        let ErrorNodes = this.state.errors.map((error) => {
             return (
                 <li key={error.id}>
                     <div className="collapsible-header">
@@ -68,7 +68,7 @@ var ErrorIndex = React.createClass({
                     </div>
                 </li>
             );
-        }.bind(this));
+        });
 
         return (
             <div className="blog-error-box">

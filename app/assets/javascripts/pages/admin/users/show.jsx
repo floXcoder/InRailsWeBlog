@@ -1,18 +1,15 @@
 'use strict';
 
-require('../admin');
-
-let currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+// require('../admin');
 
 let UserShow = require('../../../components/users/show');
 
 var userId = JSON.parse(document.getElementById('user-admin-component').getAttribute('data-user-id'));
 
 // Main
-if(currentUserId) {
+if($app.user.isConnected()) {
     ReactDOM.render(
-        <UserShow userId={userId}
-                  currentUserId={currentUserId}/>,
+        <UserShow userId={userId} />,
         document.getElementById('user-admin-component')
     );
 }

@@ -1,12 +1,12 @@
 'use strict';
 
-var classNames = require('classnames');
+const classNames = require('classnames');
 
-var AssociatedTagList = require('./list');
-var ArticleActions = require('../../../actions/articleActions');
-var ArticleStore = require('../../../stores/articleStore');
+const AssociatedTagList = require('./list');
+const ArticleActions = require('../../../actions/articleActions');
+const ArticleStore = require('../../../stores/articleStore');
 
-var Spinner = require('../../../components/materialize/spinner');
+const Spinner = require('../../../components/materialize/spinner');
 
 var AssociatedTagBox = React.createClass({
     propTypes: {
@@ -38,13 +38,13 @@ var AssociatedTagBox = React.createClass({
         if (!$.isEmpty(articleData.articles)) {
             let associatedTags = [];
 
-            articleData.articles.forEach(function (article) {
+            articleData.articles.forEach((article) => {
                 if (!$.isEmpty(article.tags)) {
                     associatedTags = associatedTags.concat(article.tags);
                 }
             });
 
-            associatedTags = _.uniq(associatedTags, function (tag) {
+            associatedTags = _.uniq(associatedTags, (tag) => {
                 return tag.id;
             });
 
@@ -59,26 +59,20 @@ var AssociatedTagBox = React.createClass({
         ArticleActions.filterArticlesByTag(tagId, activeTag);
     },
 
-    _renderTags () {
-        if (this.state.associatedTags) {
-            return (
-                <AssociatedTagList tags={this.state.associatedTags}
-                                   onClickTag={this._handleTagClick}/>
-            );
-        }
-    },
-
     render () {
-        let loaderClass = classNames(
-            {
-                'center': this.props.hasMore,
-                'hide': !this.props.hasMore
-            }
-        );
+        const loaderClass = classNames({
+            'center': this.props.hasMore,
+            'hide': !this.props.hasMore
+        });
 
         return (
             <div className="blog-associated-tag center-align">
-                {this._renderTags()}
+                {
+                    this.state.associatedTags &&
+                    <AssociatedTagList tags={this.state.associatedTags}
+                                       onClickTag={this._handleTagClick}/>
+                }
+                
                 <div className={loaderClass}>
                     <Spinner />
                 </div>

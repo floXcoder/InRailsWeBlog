@@ -1,4 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
+  layout 'full_page'
+
   prepend_before_action :check_unconfirmed_user, if: -> { request.xhr? }
 
   respond_to :html, :js

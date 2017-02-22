@@ -15,33 +15,33 @@
     'use strict';
 
     function filterArrayOfObject(arrayOfObject, propToFilter, filteringText) {
-        let filteredArray = [];
+        var filteredArray = [];
 
-        let initialArray = _.toArray(arrayOfObject);
+        var initialArray = _.toArray(arrayOfObject);
 
         fuzzy.filter(filteringText, initialArray, {
-            extract (element) {
+            extract : function (element) {
                 return element[propToFilter];
             }
         }).forEach(function (user) {
             filteredArray.push(initialArray[user.index]);
-        }.bind(this));
+        });
 
         return filteredArray;
     }
 
     function filterObjectOfObject(objectOfObject, propToFilter, filteringText) {
-        let filteredObject = [];
+        var filteredObject = [];
 
-        let initialArray = _.toArray(objectOfObject);
+        var initialArray = _.toArray(objectOfObject);
         fuzzy.filter(filteringText, initialArray, {
-            extract (element) {
+            extract : function (element) {
                 return element[propToFilter];
             }
         }).forEach(function (element) {
-            let elementId = initialArray[element.index].id;
+            var elementId = initialArray[element.index].id;
             filteredObject[elementId] = objectOfObject[elementId];
-        }.bind(this));
+        });
 
         return filteredObject;
     }

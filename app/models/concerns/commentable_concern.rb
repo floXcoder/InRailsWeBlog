@@ -44,19 +44,24 @@ module CommentableConcern
     end
   end
 
-  def comments_tree
-    self.root_comments.includes(:user).order('comments.created_at ASC').map do |root_comment|
+  def comments_tree(page = nil)
+    comments = self.root_comments.includes(user: [:picture]).order('comments.created_at ASC')
+    comments = comments.paginate(page: page, per_page: CONFIG.per_page) if page
+
+    comments_tree = comments.map do |root_comment|
       root_comment.self_and_descendants
     end
+
+    return comments, comments_tree.flatten
   end
 
   def update_notation
     if self.has_attribute?(:notation)
-      notation_sum = 0
+      notation_sum   = 0
       notation_count = 0
       self.comment_threads.each do |comment|
         next if !comment.rating || comment.rating == 0
-        notation_sum += comment.rating
+        notation_sum   += comment.rating
         notation_count += 1
       end
 
@@ -67,8 +72,5 @@ module CommentableConcern
         self.update_attribute('notation', new_notation)
       end
     end
-  end
-
-  class_methods do
   end
 end

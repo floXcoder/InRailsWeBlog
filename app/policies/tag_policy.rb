@@ -6,21 +6,34 @@ class TagPolicy
     @tag          = tag
   end
 
+  def show?
+    correct_user?
+  end
+
   def create?
     @current_user
   end
 
   def edit?
-    @current_user && @tag.tagger?(@current_user)
+    owner?
   end
 
   def update?
-    @current_user && @tag.tagger?(@current_user)
+    owner?
   end
 
   def destroy?
-    @current_user && @tag.tagger?(@current_user)
+    owner?
   end
 
+  private
+
+  def correct_user?
+    @tag.everyone? || (@current_user && @tag.only_me? && @tag.tagger?(@current_user)) || (@current_user && @current_user.admin?)
+  end
+
+  def owner?
+    @current_user && @tag && (@tag.tagger?(@current_user) || @current_user.admin?)
+  end
 end
 

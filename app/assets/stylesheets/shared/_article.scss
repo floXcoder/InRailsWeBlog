@@ -3,25 +3,30 @@
 @import 'modules/wysiwyg/summernote';
 @import 'modules/components/tagsinput';
 @import 'modules/animation/article';
+@import 'modules/components/categorized-tag';
 
 .blog {
   .article-form-header {
-    background-color: white;
-    border: 1px solid color('teal', 'darken-1');
+    background-color: #fff;
+    border: 1px solid #00897b;
   }
 
   .article-form {
-    padding: 20px;
+    padding: 0 20px;
   }
 
   .blog-article-box {}
 
   .blog-article-list {}
 
+  .article-outdated {
+   background-color: #808080;
+  }
+
   .blog-article-history {
 
     .article-history-item {
-      background-color: white;
+      background-color: #fff;
       padding: 20px;
     }
 
@@ -31,7 +36,7 @@
   }
 
   .blog-article-edit {
-    background-color: white;
+    background-color: #fff;
 
     .btn-flat {
       color: #343434;
@@ -45,16 +50,16 @@
     }
 
     .article-title {
-      margin-top: 10px;
       margin-bottom: 20px;
+      margin-top: 10px;
     }
 
     .article-title-card {
+      color: #000;
       display: inline;
-      font-weight: 500;
-      font-style: normal;
       font-size: 2.5rem;
-      color: black;
+      font-style: normal;
+      font-weight: 500;
 
       @media #{$medium-and-down} {
         display: block;
@@ -63,7 +68,7 @@
       a {
         color: $text-color-base;
         &:hover {
-          color: color('blue-grey', 'darken-1');
+          color: #546e7a;
         }
       }
 
@@ -79,8 +84,8 @@
 
       .fixed-action-btn {
         bottom: 0;
-        right: 0;
         position: relative;
+        right: 0;
         z-index: inherit;
 
         a {
@@ -100,7 +105,7 @@
     }
 
     .article-summary {
-      color: color('grey', 'lighten-1');
+      color: #bdbdbd;
       margin-bottom: 10px;
       margin-left: 15px;
     }
@@ -109,31 +114,29 @@
       color: #ffd8a6;
     }
 
-    .article-tag {
-      background-color: color('grey', 'lighten-5');
-      color: black;
-      margin: 5px;
-
-      &.tag-parent {
-        box-shadow: 0 0 4px darkred !important;
-      }
-
-      &.tag-child {
-        box-shadow: 0 0 4px darkgreen !important;
-      }
+    .article-outdated {
+      color: #ffd8a6;
     }
 
-    .article-tag-empty {
-      visibility: hidden;
+    .article-tags {
+      .article-tag {
+        display: inline-block;
+        margin: 5px;
+      }
+
+      &.article-tags-empty {
+        content: '.';
+        visibility: hidden;
+      }
     }
 
     .blog-highlight {
-      background-color: color('blue-grey', 'darken-1');
-      color: white;
+      background-color: #546e7a;
+      color: #fff;
     }
 
     .article-editing .note-editor {
-      box-shadow: 0 0 4px color('blue', 'darken-2');
+      box-shadow: 0 0 4px #1976d2;
     }
 
     .article-info {
@@ -143,22 +146,8 @@
     }
 
     .article-time {
+      font-style: normal;
       font-weight: 300;
-      font-style: normal;
-    }
-
-    .article-comment-number {
-      color: $color-additional;
-      font-size: 1.1rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 1.1rem;
-
-      i {
-        margin-left: 5px;
-        font-size: 1.2rem;
-        line-height: 2rem;
-      }
     }
 
     .article-author {
@@ -183,25 +172,25 @@
     }
 
     .article-goto {
-      background-color: color('deep-orange', 'darken-4');
+      background-color: #bf360c;
     }
 
     .article-private {
-      background-color: color('orange', 'darken-4');
+      background-color: #e65100;
     }
 
     .article-public {
-      background-color: color('orange', 'darken-4');
+      background-color: #e65100;
     }
 
     .article-edit {
+      background-color: #1b5e20;
       cursor: pointer;
-      background-color: color('green', 'darken-4');
     }
 
     .article-history {
+      background-color: #512da8;
       cursor: pointer;
-      background-color: color('deep-purple', 'darken-2');
     }
 
     .article-link {
@@ -215,20 +204,20 @@
     }
 
     a.article-delete {
+      background-color: #00897b;
+      cursor: pointer;
       margin-left: 4rem;
       margin-right: 4rem;
-      cursor: pointer;
-      background-color: color('teal', 'darken-1');
     }
 
     a.article-cancel {
+      background-color: #e64a19;
       cursor: pointer;
-      background-color: color('deep-orange', 'darken-2');
     }
 
     a.article-update {
+      background-color: #00796b;
       cursor: pointer;
-      background-color: color('teal', 'darken-2');
     }
   }
 
@@ -257,49 +246,49 @@
     }
 
     h2 {
-      font-style: normal;
       font-size: 2.5rem;
+      font-style: normal;
       font-weight: 500;
     }
 
     h3 {
-      font-style: normal;
       font-size: 2rem;
+      font-style: normal;
       font-weight: 400;
     }
 
     h4 {
-      font-style: normal;
       font-size: 1.5rem;
+      font-style: normal;
       font-weight: 400;
     }
 
     ul {
-      padding: 0;
       margin-top: 2rem;
+      padding: 0;
 
       li {
         list-style-type: disc;
-        margin-left: 2rem;
         margin-bottom: 1rem;
+        margin-left: 2rem;
       }
     }
 
     blockquote {
-      border-left: 3px solid rgba(0, 0, 0, 0.8);
-      padding-left: 2.5rem;
+      border-left: 3px solid rgba(0, 0, 0, .8);
+      font-style: italic;
+      font-weight: 400;
       margin-left: -2rem;
       padding-bottom: 3px;
-      font-weight: 400;
-      font-style: italic;
+      padding-left: 2.5rem;
     }
 
     pre {
-      padding: 0.5rem 0.75rem;
-      background-color: #F8F8F8;
-      border: 1px solid #CCC;
-      border-radius: 0.25rem;
+      background-color: #f8f8f8;
+      border: 1px solid #ccc;
+      border-radius: .25rem;
       margin-bottom: 1.5rem;
+      padding: .5rem .75rem;
     }
 
     .secret {

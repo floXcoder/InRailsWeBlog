@@ -1,7 +1,9 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  layout 'full_page'
+
   respond_to :html, :js
 
-  include ApplicationHelper
+  include ActionView::Helpers::TagHelper
 
   def create
     build_resource(sign_up_params)
@@ -11,10 +13,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource.persisted?
       @location = ''
       if resource.active_for_authentication?
-        set_flash_message :notice, :signed_up if is_flashing_format? || request.format.js?
+        flash[:alert] = flash_message(resource) if is_flashing_format? || request.format.js?
         sign_up(resource_name, resource)
         @location         = after_sign_up_path_for(resource)
-        session[:sign_up] = true
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format? || request.format.js?
         expire_data_after_sign_in!
@@ -51,5 +52,4 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def after_update_path_for(resource)
     user_path(resource)
   end
-
 end

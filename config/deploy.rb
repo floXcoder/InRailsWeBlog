@@ -1,13 +1,13 @@
-lock '3.4.0'
+lock '3.5.0'
 
 set :application, 'InRailsWeBlog'
-set :repo_url, 'git@gitlab.l-x.fr:Flo/InRailsWeBlog.git'
+set :repo_url, ENV['GIT_REPO_ADDRESS']
 
 # rvm properties
 set :rvm_type, :user
 
 # Set the user (the server is setup with a RSA key to access without password)
-set :user, 'lx'
+set :user, ENV['GIT_REPO_USER']
 
 # Default value for :scm is :git
 set :scm, :git
@@ -25,7 +25,7 @@ set :deploy_via, :remote_cache
 # SSH options : use an "agent forwarding" to connect to the remote repository
 set :ssh_options, {
   forward_agent: true,
-  port: 7070
+  port: ENV['GIT_REPO_PORT']
 }
 
 # Specify how many releases Capistrano should store on your server
@@ -42,7 +42,7 @@ set :log_level, :debug
 set :linked_files, %w{config/application.yml config/sidekiq.yml}
 
 # dirs we want symlinking to shared
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/uploads public/system}
+set :linked_dirs, %w{db/dump log public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle}
 
 # what specs should be run before deployment is allowed to
 # continue, see lib/capistrano/tasks/run_tests.cap
@@ -87,6 +87,17 @@ namespace :assets do
 end
 
 namespace :deploy do
+  desc 'Dump database before deploying'
+  task :dump_database do
+    on roles(:app), in: :sequence, wait: 5 do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'InRailsWeBlog:dump'
+        end
+      end
+    end
+  end
+
   desc 'Restart application'
   task :restart do
     on roles(:web), in: :sequence, wait: 5 do
@@ -103,7 +114,7 @@ namespace :deploy do
           with rails_env: fetch(:rails_env) do
             execute :sudo, '/etc/init.d/apache2 stop'
             execute :sudo, '/etc/init.d/postgresql restart'
-            execute :rake, 'InRailsWeBlog:populate[reset]'
+            execute :rake, 'InRailsWeBlog:populate[server,reset]'
             execute :sudo, '/etc/init.d/apache2 start'
           end
         end
@@ -112,11 +123,11 @@ namespace :deploy do
   end
 
   desc 'Index elastic search'
-  task :index_elasticsearch do
+  task :elastic_search do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, 'searchkick:reindex CLASS=Article'
+          execute :rake, 'searchkick:reindex:all'
         end
       end
     end
@@ -127,15 +138,16 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, 'flush_redis'
+          execute :rake, 'InRailsWeBlog:flush_redis'
         end
       end
     end
   end
 
   # after :publishing, :reset_database
-  # after :publishing, :index_elasticsearch
+  # after :publishing, :elastic_search
   # after :publishing, :flush_redis
+  before :updated, :dump_database
   after :publishing, :restart
 
   after :finishing, :cleanup
@@ -143,6 +155,6 @@ end
 
 # Commands:
 # cap production deploy
-# cap production deploy:reset_database
-# cap production deploy:index_elasticsearch
 # cap production deploy:flush_redis
+# cap production deploy:populate_database
+# cap production deploy:reset_database

@@ -3,9 +3,11 @@
     <words>
       <w>listenables</w>
       <w>mixins</w>
+      <w>outdate</w>
       <w>tooltipped</w>
       <w>undelete</w>
       <w>untrack</w>
+      <w>voteable</w>
     </words>
   </dictionary>
 </component>

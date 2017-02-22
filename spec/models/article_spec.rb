@@ -2,18 +2,29 @@
 #
 # Table name: articles
 #
-#  id              :integer          not null, primary key
-#  author_id       :integer          not null
-#  visibility      :integer          default(0), not null
-#  notation        :integer          default(0)
-#  priority        :integer          default(0)
-#  allow_comment   :boolean          default(TRUE), not null
-#  private_content :boolean          default(FALSE), not null
-#  is_link         :boolean          default(FALSE), not null
-#  temporary       :boolean          default(FALSE), not null
-#  slug            :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                        :integer          not null, primary key
+#  author_id                 :integer          not null
+#  topic_id                  :integer          not null
+#  title                     :string           default("")
+#  summary                   :text             default("")
+#  content                   :text             default(""), not null
+#  private_content           :boolean          default(FALSE), not null
+#  is_link                   :boolean          default(FALSE), not null
+#  reference                 :text
+#  temporary                 :boolean          default(FALSE), not null
+#  language                  :string
+#  allow_comment             :boolean          default(TRUE), not null
+#  notation                  :integer          default(0)
+#  priority                  :integer          default(0)
+#  visibility                :integer          default(0), not null
+#  archived                  :boolean          default(FALSE), not null
+#  accepted                  :boolean          default(TRUE), not null
+#  bookmarked_articles_count :integer          default(0)
+#  outdated_articles_count   :integer          default(0)
+#  slug                      :string
+#  deleted_at                :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 
 RSpec.describe Article, type: :model do
@@ -92,17 +103,6 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_index(:slug) }
     it 'returns a string' do
       expect(@article.slug).to match 'my-title'
-    end
-  end
-
-  context 'translations' do
-    describe 'translates title, summary and content attributes', basic: true do
-      it { is_expected.to transcribe(:title, [:en, :fr]) }
-      it { is_expected.to fallback(:title, :en, :fr) }
-      it { is_expected.to transcribe(:summary, [:en, :fr]) }
-      it { is_expected.to fallback(:summary, :en, :fr) }
-      it { is_expected.to transcribe(:content, [:en, :fr]) }
-      it { is_expected.to fallback(:content, :en, :fr) }
     end
   end
 

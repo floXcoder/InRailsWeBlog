@@ -22,9 +22,32 @@
 #
 
 class ErrorMessage < ActiveRecord::Base
-  # Enum
+
+  # == Attributes ===========================================================
   include EnumsConcern
-  enum origin: ORIGIN
+  enum origin: ERROR_ORIGIN
   enums_to_tr('error_message', [:origin])
+
+  # == Extensions ===========================================================
+
+  # == Relationships ========================================================
+
+  # == Validations ==========================================================
+
+  # == Scopes ===============================================================
+
+  # == Callbacks ============================================================
+
+  # == Class Methods ========================================================
+  def self.new_error(params, request, current_user = nil)
+    error            = self.new(params)
+    error.user_agent = request.user_agent
+    error.ip         = request.remote_ip
+    error.user_info  = current_user.pseudo if current_user
+
+    return error
+  end
+
+  # == Instance Methods =====================================================
 
 end

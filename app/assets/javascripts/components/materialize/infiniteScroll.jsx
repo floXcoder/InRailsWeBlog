@@ -1,7 +1,7 @@
 'use strict';
 
-var classNames = require('classnames');
-var Spinner = require('./spinner');
+const classNames = require('classnames');
+const Spinner = require('./spinner');
 
 var InfiniteScroll = React.createClass({
     propTypes: {
@@ -20,6 +20,8 @@ var InfiniteScroll = React.createClass({
         };
     },
 
+    pageLoaded: 0,
+
     componentDidMount () {
         this.pageLoaded = this.props.pageStart;
         this._attachScrollListener();
@@ -30,7 +32,7 @@ var InfiniteScroll = React.createClass({
     },
 
     _loader () {
-        let loaderClass = classNames(
+        const loaderClass = classNames(
             {
                 'center': this.props.hasMore,
                 'hide': !this.props.hasMore

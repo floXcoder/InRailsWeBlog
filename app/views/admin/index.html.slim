@@ -1,7 +1,9 @@
-- provide(:admin_title, 'Admin')
+- provide(:admin_title, t('views.admin.dashboard.page_title'))
+
+- content_for :robots do
+  meta name="robots" content="noindex, nofollow"
 
 - stylesheet 'admin/admin'
 
-- javascript 'commons'
-- javascript 'admin/admin'
-
+- javascript 'commons-admin'
+- javascript 'admin/dashboard'

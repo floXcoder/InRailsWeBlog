@@ -1,23 +1,19 @@
 'use strict';
 
 var ArticleActions = Reflux.createActions([
-    'initStore',
     'loadArticles',
-    'loadNextArticles',
-    'loadArticlesByTag',
+    'searchArticles',
+    'autocompleteArticles',
+    'loadArticle',
     'addArticle',
     'updateArticle',
     'deleteArticle',
-    'filterArticlesByTag',
-    'searchArticles',
     'autosaveArticle',
-    'autocompleteArticles',
     'loadArticleHistory',
     'bookmarkArticle',
+    'voteArticle',
+    'outdateArticle',
     'restoreArticle',
-    'addComment',
-    'updateComment',
-    'deleteComment',
     'trackClick',
     'trackView'
 ]);

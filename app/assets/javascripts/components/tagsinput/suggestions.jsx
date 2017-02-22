@@ -1,10 +1,10 @@
 'use strict';
 
-var classNames = require('classnames');
+const classNames = require('classnames');
 
 // determines the min query length for which
 // suggestions are displayed
-var MIN_QUERY_LENGTH = 1;
+const MIN_QUERY_LENGTH = 1;
 
 var Suggestions = React.createClass({
     displayName: 'Suggestions',
@@ -27,7 +27,7 @@ var Suggestions = React.createClass({
     },
 
     render () {
-        var suggestions = this.props.tags.map((function (item, i) {
+        var suggestions = this.props.tags.map(( (item, i) => {
             var itemName = this.props.labelField ? item[this.props.labelField] : item;
             var SuggestionClass = classNames(
                 {
@@ -42,7 +42,7 @@ var Suggestions = React.createClass({
                     <span dangerouslySetInnerHTML={this.markIt(itemName, this.props.query)} />
                 </li>
             )
-        }).bind(this));
+        }));
 
         if (suggestions.length === 0 || this.props.query.length < MIN_QUERY_LENGTH) {
             return <div className="tagsinput-suggestions"> </div>

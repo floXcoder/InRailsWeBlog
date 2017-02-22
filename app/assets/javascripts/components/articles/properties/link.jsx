@@ -1,39 +1,33 @@
 'use strict';
 
-var ArticleStore = require('../../../stores/articleStore');
+const ArticleStore = require('../../../stores/articleStore');
 
-var ArticleLink = React.createClass({
-    propTypes: {
-        article: React.PropTypes.object.isRequired,
-        onArticleClick: React.PropTypes.func
-    },
+import {Link} from 'react-router';
 
-    getDefaultProps () {
-        return {
-            onArticleClick: null
-        };
-    },
+var ArticleLink = ({article, onArticleClick}) => (
+    <Link className="article-goto tooltipped btn-floating"
+          data-tooltip={I18n.t('js.article.tooltip.link_to')}
+          to={'/article/' + article.slug}
+          onClick={ArticleLink._handleArticleClick.bind(article.id, onArticleClick)}>
+        <i className="material-icons">home</i>
+    </Link>
+);
 
-    _handleArticleClick (articleId, event) {
-        ArticleStore.onTrackClick(articleId);
+ArticleLink.propTypes = {
+    article: React.PropTypes.object.isRequired,
+    onArticleClick: React.PropTypes.func
+};
 
-        if (this.props.onArticleClick) {
-            this.props.onArticleClick(articleId);
-        }
+ArticleLink.getDefaultProps = {
+    onArticleClick: null
+};
 
-        return event;
-    },
+ArticleLink._handleArticleClick = (articleId, onArticleClick) => {
+    ArticleStore.onTrackClick(articleId);
 
-    render () {
-        return (
-            <a className="article-goto tooltipped btn-floating"
-               data-tooltip={I18n.t('js.article.tooltip.link_to')}
-               href={'/articles/' + this.props.article.slug}
-               onClick={this._handleArticleClick.bind(this, this.props.article.id)}>
-                <i className="material-icons">home</i>
-            </a>
-        );
+    if (onArticleClick) {
+        onArticleClick(articleId);
     }
-});
+};
 
 module.exports = ArticleLink;

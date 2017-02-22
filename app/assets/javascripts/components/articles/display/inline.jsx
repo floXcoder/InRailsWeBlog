@@ -1,6 +1,6 @@
 'use strict';
 
-var HighlightCode = require('highlight.js');
+const HighlightCode = require('highlight.js');
 
 var ArticleInlineDisplay = React.createClass({
     propTypes: {
@@ -36,6 +36,7 @@ var ArticleInlineDisplay = React.createClass({
                 <h4 className="article-title-inline">
                     {this.props.article.title}
                 </h4>
+                
                 <span className="blog-article-content"
                       dangerouslySetInnerHTML={{__html: this.props.children}}/>
             </div>

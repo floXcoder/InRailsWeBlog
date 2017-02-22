@@ -1,34 +1,68 @@
 # encoding: UTF-8
 namespace :InRailsWeBlog do
-
   # Usage :
-  ## WARNING : Use \, to type comma and not just ',' (but just ':' is ok)
-  ### rake InRailsWeBlog:deploy['0.1','0.1 : Comment of my new version']
-  ### rake InRailsWeBlog:deploy['0.1','Comment of my new version','reset_db']
-  desc 'Full Deployment: create release, push to server and deploy with capistrano'
-  task :deploy, [:version, :comment, :reset_db] => :environment do |t, args|
-    version = args[:version]
-    comment = args[:comment]
-    reset_db = args[:reset_db]
+  ## rake InRailsWeBlog:deploy
+  ## rake InRailsWeBlog:deploy COMMENT='Comment...'
+  ## rake InRailsWeBlog:deploy NO_TEST=true  # To skip tests
+  desc 'Deploy project to server (repo must be on develop branch). Ex: rake InRailsWeBlog:deploy EVOL=#350,#360'
+  task :deploy do |t, args|
+    # Check for uncommitted files
+    fail 'Files not committed in repo, run git status' if %x{git diff --exit-code} != ''
 
-    fail 'Version and comment must be specified' if version.blank? || comment.blank?
+    # Check current branch is develop
+    fail 'Current branch is not develop' if %x{git name-rev --name-only HEAD}.strip != 'develop'
 
-    # ### Release
-    # # Create release
-    # %x{git flow release start #{version}}
-    # # Publish release
-    # %x{git flow release finish -m #{comment} #{version}}
+    # Run tests: rspec and karma
+    unless ENV['NO_TEST']
+      begin
+        Rails.env = 'test'
+        require 'rspec/core/rake_task'
+        RSpec::Core::RakeTask.new(:spec) do |t|
+          t.pattern    = Dir.glob('spec/**/*_spec.rb')
+          t.rspec_opts = ' --require rails_helper'
+          t.rspec_opts << ' --tag basic'
+        end
+        Rake.application.invoke_task('spec')
 
-    ### Push to server
+        system('./node_modules/karma/bin/karma start ./frontend/test/karma.conf.js --single-run', out: $stdout, err: :out)
+      rescue Exception => error
+        if error
+          puts 'Error in tests. Do you want to continue ? (y or n)'
+          answer = STDIN.gets.chomp
+          if answer != 'y'
+            fail 'Errors when testing application'
+          end
+        end
+      end
+    end
+
+    # Synchronize local and origin
     %x{git push -u origin develop}
     %x{git push -u origin master}
     %x{git push --tags}
+    # Fetch tags
+    %x{git fetch --tags}
+    # Get last tag of master
+    last_master_tag                             = %x{git describe --abbrev=0 --tags origin/master}.strip
+    # Increment tag
+    major_version, minor_version, patch_version = last_master_tag.split('.')
+    fail "Last Git tag is not a numeric version: #{last_master_tag}" unless major_version =~ /^[0-9]+$/ || minor_version =~ /^[0-9]+$/
+    patch_version  = patch_version ? patch_version.to_i + 1 : 1
+    new_master_tag = "#{major_version}.#{minor_version}.#{patch_version}"
 
-    # ### Call capistrano to deploy to server
-    # %x{cap production deploy}
-    # if reset_db == 'reset_db'
-    #   %x{cap production deploy:reset_database}
-    # end
+    # Create new release with new tag
+    %x{git flow release start #{new_master_tag}}
+    # Finish release
+    finish_tag = ENV['COMMENT'] ? "#{new_master_tag} : #{ENV['COMMENT']}" : new_master_tag
+    %x{git flow release finish -m '#{finish_tag}' #{new_master_tag}}
+    # Push branches and tags
+    %x{git push -u origin master}
+    %x{git push -u origin develop}
 
+    # Deploy with capistrano
+    system('cap production deploy', out: $stdout, err: :out)
+
+    # Reindex Elastic Search
+    system('cap production deploy:elastic_search', out: $stdout, err: :out)
   end
 end

@@ -4,246 +4,50 @@ var Errors = require('../mixins/errors');
 var Tracker = require('../mixins/tracker');
 
 var UserActions = require('../actions/userActions');
-var ErrorActions = require('../actions/errorActions');
 
 var UserStore = Reflux.createStore({
     mixins: [Errors, Tracker],
     listenables: [UserActions],
-    user: {
-        id: window.currentUserId,
-        preferences: {
-            article_display: window.parameters.article_display,
-            multi_language: window.parameters.multi_language,
-            search_highlight: window.parameters.search_highlight,
-            search_operator: window.parameters.search_operator,
-            search_exact: window.parameters.search_exact
-        },
-        search: {}
-    },
     url: '/users',
 
     init () {
-        this._loadUserPreferences();
+        if ($app.user.currentId) {
+            this.onLoadUser({userId: $app.user.currentId, userProfile: true});
+        }
+
         return true;
     },
 
     onLoadUsers (data) {
-        var requestParam = {};
+        let requestParam = {};
 
-        var url = this.url;
+        let url = this.url;
 
         if (data) {
-            if (data.page) {
-                requestParam.page = data.page;
-            } else {
+            if (!data.page && !data.limit) {
                 requestParam.page = 1;
             }
 
-            if (data.userId) {
-                url += '/' + data.userId;
-            }
-
-            if (data.type === 'comments') {
-                url += '/comments';
-            } else if (data.type === 'activities') {
-                url += '/activities';
-            }
-
-            if (data.userFull) {
-                requestParam.user_full = true;
+            if (data.completeUser) {
+                requestParam.complete_user = true;
             }
         }
 
-        jQuery.getJSON(
-            url,
-            requestParam,
-            function (dataReceived) {
+        $.getJSON(url, requestParam)
+            .done((dataReceived) => {
                 if (!$.isEmpty(dataReceived)) {
-                    // Manage in admin/users/index
-                    this.userData = dataReceived;
-
-                    this.trigger(this.userData);
+                    this.trigger({
+                        type: 'loadUsers',
+                        users: dataReceived.users,
+                        pagination: dataReceived.meta
+                    });
                 } else {
                     log.error('No data received from fetch users');
                 }
-            }.bind(this))
-            .fail(function (xhr, status, error) {
+            })
+            .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
-            }.bind(this));
-    },
-
-    onUpdateUser (user) {
-        if ($.isEmpty(user) || $.isEmpty(user.id)) {
-            log.error('Tried to update user without user');
-            return;
-        }
-
-        var url = this.url + '/' + user.id;
-        var requestParam = {
-            _method: 'put',
-            user: user
-        };
-
-        if (user.userFull) {
-            requestParam.user_full = true;
-        }
-
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            type: 'POST',
-            data: requestParam,
-            success: (dataReceived) => {
-                if (!$.isEmpty(dataReceived)) {
-                    // Manage in user/show
-                    this.userData = dataReceived;
-                    this.trigger(this.userData);
-                } else {
-                    log.error('No data received from update user');
-                }
-            },
-            error: (xhr, status, error) => {
-                this.handleErrors(url, xhr, status, error);
-            }
-        });
-    },
-
-    _loadUserPreferences (data) {
-        if($.isEmpty(this.user.id)) {
-            return;
-        }
-
-        var requestParam = {};
-
-        var preferenceUrl = this.url + '/' + this.user.id + '/preferences';
-
-        jQuery.getJSON(
-            preferenceUrl,
-            requestParam,
-            function (dataReceived) {
-                if (!$.isEmpty(dataReceived)) {
-                    var newPreferences = {};
-
-                    if (dataReceived.user.article_display
-                        && dataReceived.user.article_display !== this.user.preferences.article_display) {
-                        newPreferences.article_display = dataReceived.user.article_display;
-                    }
-                    if (dataReceived.user.multi_language
-                        && dataReceived.user.multi_language !== this.user.preferences.multi_language) {
-                        newPreferences.multi_language = dataReceived.user.multi_language;
-                    }
-                    if (dataReceived.user.search_highlight
-                        && dataReceived.user.search_highlight !== this.user.preferences.search_highlight) {
-                        newPreferences.search_highlight = dataReceived.user.search_highlight;
-                    }
-                    if (dataReceived.user.search_operator
-                        && dataReceived.user.search_operator !== this.user.preferences.search_operator) {
-                        newPreferences.search_operator = dataReceived.user.search_operator;
-                    }
-                    if (dataReceived.user.search_exact
-                        && dataReceived.user.search_exact !== this.user.preferences.search_exact) {
-                        newPreferences.search_exact = dataReceived.user.search_exact;
-                    }
-
-                    // Manage in user/preference, articles/box and articles/form
-                    this.user.preferences = dataReceived.user;
-                    this.trigger({preferences: newPreferences});
-                } else {
-                    log.error('No data received from load user preferences');
-                }
-            }.bind(this));
-    },
-
-    _pushUserPreferences (data) {
-        if($.isEmpty(this.user.id)) {
-            return;
-        }
-
-        var requestParam = {};
-        requestParam.preferences = {};
-
-        var preferenceUrl = this.url + '/' + this.user.id + '/preferences';
-
-        requestParam.preferences.article_display = data.article_display;
-        requestParam.preferences.multi_language = data.multi_language;
-        requestParam.preferences.search_highlight = data.search_highlight;
-        requestParam.preferences.search_operator = data.search_operator;
-        requestParam.preferences.search_exact = data.search_exact;
-
-        $.ajax({
-            url: preferenceUrl ,
-            dataType: 'json',
-            type: 'POST',
-            data: requestParam,
-            success: (_dataReceived) => {
-                return true;
-            },
-            error: (xhr, status, error) => {
-                this.handleErrors(preferenceUrl, xhr, status, error);
-            }
-        });
-    },
-
-    onChangeDisplay (displayType) {
-        if ($.isEmpty(displayType)) {
-            log.error('Tried to change display without display type');
-            return;
-        }
-
-        var displayPreferences = {};
-
-        // Manage in articles/box
-        displayPreferences.article_display = displayType;
-        this.user.preferences.article_display = displayPreferences.article_display;
-
-        this.trigger({preferences: displayPreferences});
-        this._pushUserPreferences(displayPreferences);
-    },
-
-    onChangeForm (formOptions) {
-        if ($.isEmpty(formOptions)) {
-            log.error('Tried to change form options without options');
-            return;
-        }
-
-        var formPreferences = {};
-
-        // Manage in articles/form
-        formPreferences.multi_language = formOptions.multi_language;
-        this.user.preferences.multi_language = formPreferences.multi_language;
-
-        this.trigger({preferences: formPreferences});
-        this._pushUserPreferences(formPreferences);
-    },
-
-    onChangeSearchOptions (searchOptions) {
-        if ($.isEmpty(formOptions)) {
-            log.error('Tried to change search options without options');
-            return;
-        }
-
-        var searchPreferences = {};
-
-        // Manage in search/module
-        if(typeof(searchOptions.search_highlight) !== 'undefined') {
-            searchPreferences.search_highlight = searchOptions.search_highlight;
-            this.user.preferences.search_highlight = searchPreferences;
-        }
-
-        // Manage in search/module
-        if(typeof(searchOptions.search_operator) !== 'undefined') {
-            searchPreferences.search_operator = searchOptions.search_operator;
-            this.user.preferences.search_operator = searchPreferences;
-        }
-
-        // Manage in articles/box
-        if(typeof(searchOptions.search_exact) !== 'undefined') {
-            searchPreferences.search_exact = searchOptions.search_exact;
-            this.user.preferences.search_exact = searchPreferences;
-        }
-
-        this.trigger({search: searchPreferences});
-        this._pushUserPreferences(searchPreferences);
+            });
     },
 
     onValidation (data) {
@@ -252,22 +56,380 @@ var UserStore = Reflux.createStore({
             return;
         }
 
-        var validationUrl = this.url + '/validation';
-        var requestParam = data;
+        const validationUrl = this.url + '/validation';
 
-        jQuery.getJSON(
-            validationUrl,
-            requestParam,
-            function (dataReceived) {
+        let requestParam = data;
+
+        $.getJSON(validationUrl, requestParam)
+            .done((dataReceived) => {
                 if (!$.isEmpty(dataReceived)) {
                     this.trigger(dataReceived);
                 } else {
                     log.error('No data received from user validation');
                 }
-            }.bind(this))
-            .fail(function (xhr, status, error) {
+            })
+            .fail((xhr, status, error) => {
                 this.handleErrors(validationUrl, xhr, status, error);
-            }.bind(this));
+            });
+    },
+
+    onLoadUser (data) {
+        if ($.isEmpty(data)) {
+            return;
+        }
+
+        const url = this.url + '/' + data.userId;
+
+        let requestParam = {};
+
+        if (data.userProfile) {
+            requestParam.user_profile = true;
+        }
+
+        if (data.completeUser) {
+            requestParam.complete_user = true;
+        }
+
+        $.getJSON(url, requestParam)
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    $app.user.preferences = _.pick(dataReceived.user, ['preferences']);
+                    $app.user.topic = _.merge(_.pick(dataReceived.user, ['current_topic']), _.pick(dataReceived.user, ['topics']));
+                    $app.user.current = _.omit(dataReceived.user, ['preferences', 'current_topic', 'topics']);
+
+                    if (data.userProfile) {
+                        this.trigger({
+                            type: 'loadUser',
+                            user: $app.user.current
+                        });
+                    } else {
+                        this.trigger({
+                            type: 'loadUser',
+                            user: dataReceived.user
+                        });
+                    }
+                } else {
+                    log.error('No data received from load user');
+                }
+            })
+            .fail((xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            });
+    },
+
+    onLoadUserComments (userId, data) {
+        if ($.isEmpty(userId)) {
+            log.error('Tried to load user comment without user id');
+            return;
+        }
+
+        let requestParam = {};
+
+        let url = this.url + '/' + userId + '/comments';
+
+        if (data) {
+            requestParam = data;
+
+            if (!data.page && !data.limit) {
+                requestParam.page = 1;
+            }
+        }
+
+        $.getJSON(
+            url,
+            requestParam)
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger({
+                        type: 'loadUserComments',
+                        comments: dataReceived.comments,
+                        pagination: dataReceived.meta
+                    });
+                } else {
+                    log.error('No data received from fetch users');
+                }
+            })
+            .fail((xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            });
+    },
+
+    onLoadUserActivities (userId, data) {
+        if ($.isEmpty(userId)) {
+            log.error('Tried to load user activities without user id');
+            return;
+        }
+
+        let requestParam = {};
+
+        let url = this.url + '/' + userId + '/activities';
+
+        if (data) {
+            requestParam = data;
+
+            if (!data.page && !data.limit) {
+                requestParam.page = 1;
+            }
+        }
+
+        $.getJSON(
+            url,
+            requestParam)
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger({
+                        type: 'loadUserActivities',
+                        activities: dataReceived['public_activity/activities'],
+                        pagination: dataReceived.meta
+                    });
+                } else {
+                    log.error('No data received from fetch users');
+                }
+            })
+            .fail((xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            });
+    },
+
+    onUpdateUser (user) {
+        if ($.isEmpty(user) || $.isEmpty(user.id)) {
+            log.error('Tried to update user without user');
+            return;
+        }
+
+        let url = this.url + '/' + user.id;
+
+        let requestParam = {
+            _method: 'put',
+            user: user
+        };
+
+        if (user.completeUser) {
+            requestParam.complete_user = true;
+        }
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger({
+                        type: 'updateUser',
+                        user: dataReceived.user
+                    });
+                } else {
+                    log.error('No data received from update user');
+                }
+            })
+            .fail((xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            });
+    },
+
+    onUpdatePreference (data) {
+        if ($.isEmpty(data)) {
+            log.error('Tried to change user preference without data');
+            return;
+        }
+
+        let requestParam = {};
+        requestParam.preferences = {};
+
+        const url = this.url + '/' + this.user.id + '/preferences';
+
+        if (data.displayType) {
+            requestParam.preferences.article_display = data.article_display;
+        }
+        if (data.searchOptions && data.searchOptions.search_highlight) {
+            requestParam.preferences.search_highlight = data.searchOptions.search_highlight;
+        }
+        if (data.searchOptions && data.searchOptions.search_operator) {
+            requestParam.preferences.article_display = data.searchOptions.search_operator;
+        }
+        if (data.searchOptions && data.searchOptions.search_exact) {
+            requestParam.preferences.article_display = data.searchOptions.search_exact;
+        }
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                if ($app.user) {
+                    $app.user.preferences = dataReceived.preferences;
+                }
+
+                this.trigger({
+                    type: 'updateUserPreference',
+                    preferences: dataReceived.preferences
+                });
+
+                return true;
+            })
+            .fail((xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            });
+    },
+
+    onAddTopic (userId, topic) {
+        if ($.isEmpty(userId) || $.isEmpty(topic)) {
+            log.error('Tried to push topic without topic');
+            return;
+        }
+
+        var requestParam = {};
+
+        if (topic) {
+            requestParam.topic = topic;
+        } else {
+            return;
+        }
+
+        $.ajax({
+            url: this.url + '/' + userId + '/topic',
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger({
+                        type: 'addTopic',
+                        topic: dataReceived.topic
+                    });
+                } else {
+                    log.error('No data received from add topic');
+                }
+            })
+            .fail((xhr, status, error) => {
+                if (xhr && xhr.status === 403) {
+                    this.trigger({
+                        type: 'addTopicError',
+                        topicErrors: xhr.responseJSON
+                    });
+                } else {
+                    this.handleErrors(this.url, xhr, status, error);
+                }
+            });
+    },
+
+    onChangeTopic (userId, topicId) {
+        if ($.isEmpty(userId) || $.isEmpty(topicId)) {
+            log.error('Tried to change topic without data');
+            return;
+        }
+
+        var url = this.url + '/' + userId + '/change_topic';
+        var requestParam = {
+            new_topic_id: topicId
+        };
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger({
+                        type: 'changeTopic',
+                        topic: dataReceived.topic
+                    });
+                } else {
+                    log.error('No data received from update topic');
+                }
+            })
+            .fail((xhr, status, error) => {
+                if (xhr && xhr.status === 403) {
+                    this.trigger({
+                        type: 'changeTopicError',
+                        topicErrors: xhr.responseJSON
+                    });
+                } else {
+                    this.handleErrors(this.url, xhr, status, error);
+                }
+            });
+    },
+
+    onUpdateTopic (userId, topic) {
+        if ($.isEmpty(userId) || $.isEmpty(topic) || $.isEmpty(topic.id)) {
+            log.error('Tried to update topic without data');
+            return;
+        }
+
+        var url = this.url + '/' + userId + '/topic/' + topic.id;
+        var requestParam = {
+            _method: 'put',
+            topic: topic
+        };
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger({
+                        type: 'updateTopic',
+                        topic: dataReceived.topic
+                    });
+                } else {
+                    log.error('No data received from update topic');
+                }
+            })
+            .fail((xhr, status, error) => {
+                if (xhr && xhr.status === 403) {
+                    this.trigger({
+                        type: 'updateTopicError',
+                        topicErrors: xhr.responseJSON
+                    });
+                } else {
+                    this.handleErrors(this.url, xhr, status, error);
+                }
+            });
+    },
+
+    onDeleteTopic (userId, topic) {
+        if ($.isEmpty(userId) || $.isEmpty(topic)) {
+            log.error('Tried to delete topic without topic');
+            return;
+        }
+
+        let requestParam = {};
+        let url = this.url + '/' + userId + '/topic';
+
+        if (topic.id) {
+            url += topic.id;
+            requestParam._method = 'delete';
+        }
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger({
+                        type: 'deleteTopic',
+                        deleteTopic: dataReceived
+                    });
+                } else {
+                    log.error('No data received from delete topic');
+                }
+            })
+            .fail((xhr, status, error) => {
+                this.handleErrors(url, xhr, status, error);
+            });
     }
 });
 

@@ -1,0 +1,25 @@
+@import 'datatables/media/css/jquery.dataTables';
+
+.dataTables_wrapper {
+  select {
+    display: inline-block;
+  }
+
+  table.dataTable thead {
+    .sorting {
+      background-image: url(/assets/sort_both.png);
+    }
+    .sorting_asc {
+      background-image: url(/assets/sort_asc.png);
+    }
+    .sorting_desc {
+      background-image: url(/assets/sort_desc.png);
+    }
+    .sorting_asc_disabled {
+      background-image: url(/assets/sort_asc_disabled.png);
+    }
+    .sorting_desc_disabled {
+      background-image: url(/assets/sort_desc_disabled.png);
+    }
+  }
+}

@@ -1,8 +1,8 @@
 'use strict';
 
-var classNames = require('classnames');
+const classNames = require('classnames');
 
-var TagList = React.createClass({
+var AssociatedTagList = React.createClass({
     propTypes: {
         tags: React.PropTypes.array.isRequired,
         onClickTag: React.PropTypes.func.isRequired
@@ -25,30 +25,27 @@ var TagList = React.createClass({
     },
 
     render () {
-        var ArticleNodes = this.props.tags.map(function (tag) {
-            let tagClasses = classNames(
-                'waves-light', 'btn-small', 'article-tag',
-                {
-                    'tag-inactive': this.state.classByTag[tag.id],
-                    'tag-active': !this.state.classByTag[tag.id]
-                }
-            );
-
-            return (
-                <div key={tag.id}
-                     className={tagClasses}
-                     onClick={this._handleTagClick.bind(this, tag.id)}>
-                    {tag.name}
-                </div>
-            );
-        }.bind(this));
-
         return (
             <div className="blog-associated-tag">
-                {ArticleNodes}
+                {
+                    this.props.tags.map((tag, i) =>
+                        <div key={i}
+                             className={
+                             classNames(
+                                'waves-light', 'btn-small', 'article-tag',
+                                {
+                                    'tag-inactive': this.state.classByTag[tag.id],
+                                    'tag-active': !this.state.classByTag[tag.id]
+                                })
+                             }
+                             onClick={this._handleTagClick.bind(this, tag.id)}>
+                            {tag.name}
+                        </div>
+                    )
+                }
             </div>
         );
     }
 });
 
-module.exports = TagList;
+module.exports = AssociatedTagList;

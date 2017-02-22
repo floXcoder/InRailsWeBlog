@@ -1,19 +1,41 @@
 'use strict';
 
-var App = function() {
-    //this.views = {
-    //    users: {}
-    //};
+// user: {
+//         preferences: {
+//         article_display: window.parameters.article_display,
+//             search_highlight: window.parameters.search_highlight,
+//             search_operator: window.parameters.search_operator,
+//             search_exact: window.parameters.search_exact
+//     },
+// },
+
+var App = function () {
+    this.user = {
+        currentId: $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10),
+        current: null,
+        topic: null,
+        preferences: null,
+        isConnected: function () {
+            return !!this.currentId && !$.isEmpty(this.current);
+        },
+        isPresent: function () {
+            return !!this.currentId;
+        },
+        isValidUser: function (userId) {
+            if (userId) {
+                return (userId === this.currentUserId);
+            } else {
+                return false;
+            }
+        },
+        isAdmin: function () {
+            return !!this.current && this.current.admin;
+        }
+    };
 };
 
-App.prototype.start = function() {
-    // send CSRF tokens for all ajax requests
-    $.ajaxSetup({
-        cache: false,
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-        }
-    });
+App.prototype.init = function () {
 };
 
 module.exports = new App();
+

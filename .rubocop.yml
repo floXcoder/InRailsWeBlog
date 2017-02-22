@@ -4,6 +4,11 @@ Documentation:
 LineLength:
   Enabled: false
 
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'node_modules/**/*'
+
 ##################### Metrics ##################################
 Metrics/AbcSize:
   # The ABC size is a calculated magnitude, so this number can be a Fixnum or a Float.
@@ -11,17 +16,32 @@ Metrics/AbcSize:
 
 Metrics/ClassLength:
   CountComments: false  # count full line comments?
-  Max: 300
+  Max: 400
 
 Metrics/MethodLength:
   CountComments: false  # count full line comments?
   Max: 40
 
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Max: 4
+
 Style/ExtraSpacing:
   AllowForAlignment: true
 
-#Style/FirstParameterIndentation:
-#  EnforcedStyle: false
+Style/RedundantSelf:
+  Enabled: false
+
+Style/RedundantReturn:
+  AllowMultipleReturnValues: true
+
+Style/FirstParameterIndentation:
+  Enabled: false
 
 Style/ExtraSpacing:
   Enabled: false
@@ -33,9 +53,6 @@ Style/LeadingCommentSpace:
   Enabled: false
 
 Style/AsciiComments:
-  Enabled: false
-
-Style/SingleSpaceBeforeFirstArg:
   Enabled: false
 
 Style/ClassAndModuleChildren:
@@ -52,6 +69,3 @@ Style/MultilineOperationIndentation:
 
 Style/AlignParameters:
   Enabled: false
-
-Metrics/BlockNesting:
-  Max: 4

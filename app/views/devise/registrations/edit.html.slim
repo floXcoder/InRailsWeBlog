@@ -1,5 +1,8 @@
 - provide(:title, t('views.user.edit.page_title'))
 
+- content_for :robots do
+  meta name="robots" content="noindex, nofollow"
+
 - stylesheet 'users/edit'
 
 - javascript 'commons'
@@ -7,46 +10,46 @@
 
 
 .card
-
   / Form to fill up user information
   = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put, class: 'blog-form'}) do |user_form|
     .card-content
-      h3
+      h3.adaptative-title.center-align
         = t('devise.registrations.title')
-      p
+
+        / Error fields
         = user_form.error_notification
         = user_form.full_error :confirmation_token
 
-      h5
+      h4.adaptative-text
         = t('devise.registrations.login_header')
 
       .row.margin-bottom-40
         / Pseudo field
         .col.s6
-          = user_form.input :pseudo, label: t('user.id'), icon: 'account_circle', required: true, autofocus: true
+          = user_form.input :pseudo, label: t('user.model.login'), icon: 'account_circle', required: true, autofocus: true
 
         / Email field
         .col.s6
-          = user_form.input :email, label: t('user.email'), icon: 'mail', required: true
+          = user_form.input :email, label: t('user.model.email'), icon: 'mail', required: true
 
         - if devise_mapping.confirmable? && resource.pending_reconfirmation?
           p
             = t('devise.registrations.password_confirmation_waiting')
-          = resource.unconfirmed_email
+            = resource.unconfirmed_email
 
       / Change password ?
-      h5
+      h4.adaptative-text
         = t('devise.registrations.password_header')
 
       .row.margin-bottom-40
         .col.s6
-          = user_form.input :password, label: t('user.password'), required: false, icon: 'lock', autocomplete: 'off', hint: t('devise.registrations.password_hint')
+          = user_form.input :password, label: t('user.model.password'), required: false, icon: 'lock', autocomplete: 'off', hint: t('devise.registrations.password_hint')
 
         .col.s6
           = user_form.input :password_confirmation, label: t('views.user.signup.confirm_password'), icon: 'lock', required: false
 
       / Current password confirmation
-      h5
+      h4.adaptative-text
         = t('devise.registrations.current_password_header')
 
       .row
@@ -56,16 +59,16 @@
     .card-action.center-align
       = user_form.button :submit, t('devise.registrations.submit')
 
-.card
+.card.margin-top-40
   .card-content
     .row
       .col.s12
-        h4
+        h3.adaptative-title.center-align
           = t('devise.registrations.cancel.title')
 
         p
           => t('devise.registrations.cancel.comment')
           => link_to t('devise.registrations.cancel.link_name'), registration_path(resource_name), data: { confirm: t('devise.registrations.cancel.link_confirmation') }, method: :delete
 
-  .card-action
+  .card-action.center-align
     = link_to t('devise.registrations.cancel.back'), :back, class: 'btn'

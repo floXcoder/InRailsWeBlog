@@ -9,7 +9,7 @@
 #  priority        :integer          default(0)
 #  allow_comment   :boolean          default(TRUE), not null
 #  private_content :boolean          default(FALSE), not null
-#  is_link         :boolean          default(FALSE), not null
+#  link         :boolean          default(FALSE), not null
 #  temporary       :boolean          default(FALSE), not null
 #  slug            :string
 #  created_at      :datetime         not null
@@ -17,8 +17,8 @@
 #
 
 class ArticlesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :search, :autocomplete, :show]
-  after_action :verify_authorized, except: [:index, :search, :autocomplete]
+  before_action :authenticate_user!, except: [:index, :show]
+  after_action :verify_authorized, except: [:index]
 
   include CommentConcern
   include TrackerConcern
@@ -26,148 +26,53 @@ class ArticlesController < ApplicationController
   respond_to :html, :json
 
   def index
-    current_user_id = current_user ? current_user.id : nil
+    articles = Article
+                 .includes(:parent_tags, :child_tags, :tracker, author: [:picture])
+                 .user_related(current_user&.id)
+                 .order('articles.id DESC')
 
-    article_request = Article
-                        .includes(:translations,
-                                  :author,
-                                  :parent_tags,
-                                  :child_tags,
-                                  :tagged_articles,
-                                  :tracker,
-                                  tags: [:tagged_articles],
-                                  bookmarked_articles: [:user, :article])
-                        .user_related(current_user_id)
-                        .order('articles.id DESC')
-
-    articles = if params[:tags]
-                 tag_names = params[:tags]
-                 article_request.joins(:tags).where(tags: { name: tag_names })
-               elsif params[:relation_tags]
-                 parent_tag, child_tag = params[:relation_tags]
-                 parent_articles       = Article
-                                           .joins(:tags)
-                                           .where(tagged_articles: { parent: true }, tags: { name: parent_tag })
-                 children_articles     = Article
-                                           .joins(:tags)
-                                           .where(tagged_articles: { child: true }, tags: { name: child_tag })
-                 article_request.joins(:tags).where(id: parent_articles.ids & children_articles.ids)
-               elsif params[:mode] == 'bookmark'
-                 article_request.where(id: current_user.bookmarks.ids)
-               elsif params[:mode] == 'temporary'
-                 article_request.where(temporary: true)
+    articles = if params[:parent_tags] && params[:child_tags]
+                 parent_tags       = params[:parent_tags]
+                 child_tags        = params[:child_tags]
+                 parent_articles   = Article.with_parent_tags(parent_tags)
+                 children_articles = Article.with_child_tags(child_tags)
+                 articles.joins(:tags).where(id: parent_articles.ids & children_articles.ids)
+               elsif params[:tags] || params[:parent_tags] || params[:child_tags]
+                 tag_names = params[:tags] || params[:parent_tags] || params[:child_tags]
+                 articles.with_tags(tag_names)
+               elsif params[:type] == 'bookmark'
+                 articles.where(id: current_user.bookmarks.ids)
+               elsif params[:type] == 'temporary'
+                 articles.where(temporary: true)
                else
-                 article_request.published
+                 articles.published
                end
 
-    articles = articles.where(author_id: params[:user_id]) if params[:user_id]
-    articles = articles.where(author_id: User.friendly.find_by(pseudo: params[:user_pseudo])) if params[:user_pseudo]
-    articles = articles.paginate(page: params[:page], per_page: CONFIG.per_page) if params[:page]
+    articles = articles.where(author_id: User.friendly.find(params[:user_id])) if params[:user_id]
+    articles = articles.where(topic_id: Topic.friendly.find(params[:topic_id])) if params[:topic_id]
+    articles = params[:limit] ? articles.limit(params[:limit]) : articles.paginate(page: params[:page], per_page: CONFIG.per_page)
     articles = articles.uniq
 
     respond_to do |format|
-      format.html { render json: articles, formats: :json, content_type: 'application/json' }
       format.json do
         if params[:summary]
-          render json: articles,
-                 serializer: PaginationSerializer,
-                 each_serializer: ArticleSampleSerializer
+          render json:            articles,
+                 each_serializer: ArticleSampleSerializer,
+                 meta:            meta_attributes(articles)
         else
-          render json: articles
+          render json:            articles,
+                 each_serializer: ArticleSerializer
         end
       end
     end
   end
 
-  def create
-    article = current_user.articles.build
-
-    if current_user.preferences[:multi_language]
-      article.assign_attributes(article_translated_params)
-    else
-      article.assign_attributes(article_params)
-    end
-    authorize article
-
-    respond_to do |format|
-      if article.save
-        article.create_tag_relationships
-        article = article.reload
-
-        flash.now[:success] = t('views.article.flash.creation_successful')
-        format.json { render json: article, status: :created, location: article }
-      else
-        format.json { render json: article.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def autocomplete
-    current_user_id = current_user ? current_user.id : nil
-
-    results = Article.search(params[:autocompleteQuery], autocomplete: true, limit: 6)
-                .records
-                .includes(:translations, :tags)
-                .user_related(current_user_id)
-
-    respond_to do |format|
-      format.html { render json: results, each_serializer: AutocompleteSerializer, content_type: 'application/json' }
-      format.json { render json: results, each_serializer: AutocompleteSerializer }
-    end
-  end
-
-  def search
-    search_options          = {}
-
-    params[:search_options] = {} if !params[:search_options] || params[:search_options].is_a?(String)
-
-    if current_user && (user_preferences = User.find(current_user.id))
-      search_options[:highlight] = user_preferences.preferences[:search_highlight]
-      search_options[:exact]     = user_preferences.preferences[:search_exact]
-      search_options[:operator]  = user_preferences.preferences[:search_operator]
-    end
-
-    unless params[:search_options].empty?
-      search_options[:highlight] = (params[:search_options][:search_highlight] == 'false' ? false : true)
-      search_options[:exact]     = (params[:search_options][:search_exact] == 'false' ? false : true)
-      search_options[:operator]  = params[:search_options][:search_operator]
-    end
-
-    current_user_id = current_user ? current_user.id : nil
-
-    results = Article.search_for(params[:query],
-                                 {
-                                   page:            params[:page],
-                                   per_page:        5,
-                                   current_user_id: current_user_id,
-                                   tags:            params[:tags],
-                                   highlight:       search_options[:highlight],
-                                   operator:        search_options[:operator],
-                                   exact:           search_options[:exact]
-                                 })
-
-    articles = results[:articles].includes(:translations, :author, :tags).user_related(current_user_id)
-
-    respond_to do |format|
-      format.json { render json: {
-        articles:    ActiveModel::SerializableResource.new(articles,
-                                                           { highlight:       results[:highlight],
-                                                             each_serializer: ArticleResultSerializer })
-                       .serializable_hash[:articles],
-        suggestions: results[:suggestions] }
-      }
-    end
-  end
-
   def show
-    article = Article.includes(:translations,
-                               :author,
+    article = Article.includes(:author,
                                :parent_tags,
                                :child_tags,
                                :tagged_articles,
-                               :tracker,
-                               bookmarked_articles: [:user, :article],
-                               comment_threads: [:user])
+                               :tracker)
                 .friendly.find(params[:id])
     authorize article
 
@@ -177,6 +82,8 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       format.html { render :show, locals: { article: article } }
+      format.json { render json:       article,
+                           serializer: ArticleSerializer }
     end
   end
 
@@ -184,28 +91,57 @@ class ArticlesController < ApplicationController
     article = Article.friendly.find(params[:id])
     authorize article
 
-    article_versions = article.translation.versions
+    article_versions = article.versions.select { |history| !history.reify.content.empty? }
 
     respond_to do |format|
-      format.html { render json: article_versions, each_serializer: HistorySerializer, content_type: 'application/json' }
-      format.json { render json: article_versions, each_serializer: HistorySerializer }
+      format.json { render json:            article_versions,
+                           each_serializer: HistorySerializer }
+    end
+  end
+
+  def create
+    article = current_user.articles.build
+    authorize article
+
+    article.format_attributes(article_params, current_user)
+
+    respond_to do |format|
+      format.json do
+        if article.save
+          article.create_tag_relationships
+          article.tags_to_topic(current_user, new_tags: article.tags)
+
+          flash.now[:success] = t('views.article.flash.successful_creation')
+          render json:       article,
+                 new_tags:   article.tags,
+                 serializer: ArticleSerializer,
+                 status:     :created
+        else
+          flash.now[:error] = t('views.article.flash.error_creation')
+          render json:   article.errors,
+                 status: :forbidden
+        end
+      end
     end
   end
 
   def edit
-    article = Article.friendly.find(params[:id])
+    article = Article.includes(:author,
+                               :parent_tags,
+                               :child_tags,
+                               :tagged_articles,
+                               :tracker,
+                               bookmarked_articles: [:user, :article],
+                               comment_threads:     [:user])
+                .friendly.find(params[:id])
     authorize article
-
-    current_user_id = current_user ? current_user.id : nil
-    multi_language  = current_user.preferences[:multi_language]
 
     respond_to do |format|
       format.html do
         render :edit, locals:
           {
             article:         article,
-            current_user_id: current_user_id,
-            multi_language:  multi_language
+            current_user_id: current_user&.id,
           }
       end
     end
@@ -215,23 +151,32 @@ class ArticlesController < ApplicationController
     article = Article.find(params[:id])
     authorize article
 
+    previous_tags        = article.tags
     previous_parent_tags = Tag.where(id: article.parent_tags.ids)
     previous_child_tags  = Tag.where(id: article.child_tags.ids)
 
-    respond_to do |format|
-      if current_user.preferences[:multi_language] ?
-        article.update_attributes(article_translated_params) :
-        article.update_attributes(article_params)
-        article.update_tag_relationships(previous_parent_tags, previous_child_tags)
+    article.format_attributes(article_params, current_user)
 
-        format.json { render json: article, status: :accepted, location: article }
-      else
-        format.json { render json: article.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      format.json do
+        if article.save
+          article.update_tag_relationships(previous_parent_tags, previous_child_tags)
+          article.tags_to_topic(current_user, new_tags: article.tags - previous_tags, old_tags: previous_tags - article.tags)
+          Tag.remove_unused_tags(previous_tags - article.tags)
+
+          render json:   article,
+                 status: :ok
+        else
+          render json:   article.errors,
+                 status: :forbidden
+        end
       end
     end
   end
 
   def restore
+    article_version = nil
+
     article = if params[:article_version_id]
                 if params[:from_deletion]
                   article_version = PaperTrail::Version.find_by_id(params[:article_version_id])
@@ -242,14 +187,10 @@ class ArticlesController < ApplicationController
               end
     authorize article
 
-    translation_version = PaperTrail::Version.find_by_id(params[:translation_version_id])
+    version = PaperTrail::Version.find_by_id(params[:version_id])
 
-    if (translation = translation_version.reify)
-      if params[:article_version_id]
-        article.save
-      else
-        translation.save
-      end
+    if (restored_version = version.reify)
+      params[:article_version_id] ? article.save : restored_version.save
 
       article.reload
       article.create_tag_relationships
@@ -257,12 +198,13 @@ class ArticlesController < ApplicationController
       respond_to do |format|
         flash.now[:success] = t('views.article.flash.undeletion_successful') if params[:from_deletion]
         format.html { redirect_to article_path(article) }
-        format.json { render json: article, status: :accepted, location: article }
+        format.json { render json:   article,
+                             status: :accepted }
       end
     else
       skip_authorization
       # For undoing the create action
-      translation_version.item.destroy
+      version.item.destroy
       article_version.item.destroy if article_version && params[:article_version_id] && params[:from_deletion]
       respond_to do |format|
         flash.now[:error] = t('views.article.flash.not_found')
@@ -276,31 +218,38 @@ class ArticlesController < ApplicationController
     article = Article.find(params[:id])
     authorize article
 
-    translation_item_id = article.translation.versions.last.item_id
+    item_id = article.versions.last.item_id
 
+    previous_tags        = article.tags
     previous_parent_tags = Tag.where(id: article.parent_tags.ids)
     previous_child_tags  = Tag.where(id: article.child_tags.ids)
 
     respond_to do |format|
-      if article.destroy
-        article.delete_tag_relationships(previous_parent_tags, previous_child_tags)
+      format.json do
+        if article.destroy
+          article.delete_tag_relationships(previous_parent_tags, previous_child_tags)
+          article.tags_to_topic(current_user, old_tags: previous_tags)
+          Tag.remove_unused_tags(previous_tags)
 
-        last_article_version     = article.versions.last
-        last_translation_version = PaperTrail::Version.where(item_id: translation_item_id, event: 'destroy').last
-        undelete_url             = nil
-        if last_article_version && last_translation_version
-          undelete_url = restore_article_path(article_version_id:     last_article_version.id,
-                                              translation_version_id: last_translation_version.id,
-                                              from_deletion:          true)
+          last_article_version = article.versions.last
+          last_version         = PaperTrail::Version.where(item_id: item_id, event: 'destroy').last
+          undelete_url         = nil
+          if last_article_version && last_version
+            undelete_url = restore_article_path(article_version_id: last_article_version.id,
+                                                version_id:         last_version.id,
+                                                from_deletion:      true)
 
-          flash.now[:success] = t('views.article.flash.deletion_successful') +
-            ' ' +
-            "<a href='#{undelete_url}'>#{t('views.article.flash.undelete_link')}</a>"
+            flash.now[:success] = t('views.article.flash.deletion_successful') +
+              ' ' +
+              "<a href='#{undelete_url}'>#{t('views.article.flash.undelete_link')}</a>"
+          end
+          render json:   { id: article.id, url: undelete_url },
+                 status: :accepted
+        else
+          flash.now[:error] = t('views.article.flash.deletion_error', errors: article.errors.to_s)
+          render json:   article.errors,
+                 status: :forbidden
         end
-        format.json { render json: { id: article.id, url: undelete_url }, status: :accepted }
-      else
-        flash.now[:error] = t('views.article.flash.deletion_error', errors: article.errors.to_s)
-        format.json { render json: article.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -310,12 +259,17 @@ class ArticlesController < ApplicationController
     authorize article
 
     respond_to do |format|
-      if article.add_bookmark(current_user)
-        article.track_bookmarks
-        current_user.track_bookmarks
-        format.json { render json: article, status: :accepted, location: article }
-      else
-        format.json { render json: article.errors, status: :unprocessable_entity }
+      format.json do
+        if article.add_bookmark(current_user)
+          article.track_bookmarks
+          current_user.track_bookmarks
+          render json:     article,
+                 status:   :accepted,
+                 location: article
+        else
+          render json:   article.errors,
+                 status: :forbidden
+        end
       end
     end
   end
@@ -325,12 +279,93 @@ class ArticlesController < ApplicationController
     authorize article
 
     respond_to do |format|
-      if article.remove_bookmark(current_user)
-        article.untrack_bookmarks
-        current_user.untrack_bookmarks
-        format.json { render json: article, status: :accepted, location: article }
-      else
-        format.json { render json: article.errors, status: :unprocessable_entity }
+      format.json do
+        if article.remove_bookmark(current_user)
+          article.untrack_bookmarks
+          current_user.untrack_bookmarks
+          render json:     article,
+                 status:   :accepted,
+                 location: article
+        else
+          render json:   article.errors,
+                 status: :forbidden
+        end
+      end
+    end
+  end
+
+  def vote_up
+    article = Article.find(params[:id])
+    authorize article
+
+    respond_to do |format|
+      format.json do
+        if current_user.vote_for(article)
+          current_user.create_activity action: :vote_up, recipient: article, owner: current_user
+
+          render json:     article,
+                 status:   :accepted,
+                 location: article
+        else
+          render json:   article.errors,
+                 status: :forbidden
+        end
+      end
+    end
+  end
+
+  def vote_down
+    article = Article.find(params[:id])
+    authorize article
+
+    respond_to do |format|
+      format.json do
+        if current_user.vote_against(article)
+          current_user.create_activity action: :vote_down, recipient: article, owner: current_user
+
+          render json:     article,
+                 status:   :accepted,
+                 location: article
+        else
+          render json:   article.errors,
+                 status: :forbidden
+        end
+      end
+    end
+  end
+
+  def add_outdated
+    article = Article.find(params[:id])
+    authorize article
+
+    respond_to do |format|
+      format.json do
+        if article.mark_as_outdated(current_user)
+          render json:     article,
+                 status:   :accepted,
+                 location: article
+        else
+          render json:   article.errors,
+                 status: :forbidden
+        end
+      end
+    end
+  end
+
+  def remove_outdated
+    article = Article.find(params[:id])
+    authorize article
+
+    respond_to do |format|
+      format.json do
+        if article.remove_outdated(current_user)
+          render json:     article,
+                 status:   :accepted,
+                 location: article
+        else
+          render json:   article.errors,
+                 status: :forbidden
+        end
       end
     end
   end
@@ -340,6 +375,7 @@ class ArticlesController < ApplicationController
   def article_params
     params.require(:articles).permit(:title,
                                      :summary,
+                                     :description,
                                      :content,
                                      :visibility,
                                      :notation,
@@ -347,17 +383,8 @@ class ArticlesController < ApplicationController
                                      :allow_comment,
                                      :temporary,
                                      :is_link,
-                                     tags_attributes: [:id, :tagger_id, :name, :parent, :child])
+                                     :topic,
+                                     parent_tags: [],
+                                     child_tags:  [])
   end
-
-  def article_translated_params
-    params.require(:articles).permit(:visibility,
-                                     :notation,
-                                     :priority,
-                                     :allow_comment,
-                                     :is_link,
-                                     translations_attributes: [:id, :locale, :title, :summary, :content],
-                                     tags_attributes:         [:id, :tagger_id, :name, :parent, :child])
-  end
-
 end

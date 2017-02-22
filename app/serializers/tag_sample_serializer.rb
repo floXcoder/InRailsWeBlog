@@ -16,6 +16,13 @@ class TagSampleSerializer < ActiveModel::Serializer
   attributes :id,
              :tagger_id,
              :name,
+             :description,
+             :synonyms,
+             :visibility,
+             :tagged_articles_count,
              :slug
 
+  def description
+    object.description.summary
+  end
 end

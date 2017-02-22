@@ -1,7 +1,7 @@
 'use strict';
 
-var TypeaheadOption = require('./option');
-var classNames = require('classnames');
+const TypeaheadOption = require('./option');
+const classNames = require('classnames');
 
 /**
  * Container for the options rendered as part of the autocompletion process
@@ -16,7 +16,7 @@ var TypeaheadSelector = React.createClass({
         selectionIndex: React.PropTypes.number,
         onOptionSelected: React.PropTypes.func,
         displayOption: React.PropTypes.func.isRequired,
-        defaultClassNames: React.PropTypes.bool
+        hasDefaultClassNames: React.PropTypes.bool
     },
 
     getDefaultProps () {
@@ -26,7 +26,7 @@ var TypeaheadSelector = React.createClass({
             customValue: null,
             onOptionSelected (option) {
             },
-            defaultClassNames: true
+            hasDefaultClassNames: true
         };
     },
 
@@ -36,7 +36,7 @@ var TypeaheadSelector = React.createClass({
 
     render () {
         let classes = {
-            "typeahead-selector": this.props.defaultClassNames
+            "typeahead-selector": this.props.hasDefaultClassNames
         };
         classes[this.props.customClasses.results] = this.props.customClasses.results;
         let classList = classNames(classes);
@@ -59,7 +59,7 @@ var TypeaheadSelector = React.createClass({
             );
         }
 
-        let results = this.props.options.map(function (result, i) {
+        let results = this.props.options.map((result, i) => {
             let displayString = this.props.displayOption(result, i);
             let uniqueKey = (displayString.ref || displayString) + '_' + i;
             return (

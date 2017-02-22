@@ -1,23 +1,5 @@
                    Prefix Verb   URI Pattern                             Controller#Action
                      root GET    /                                       static_pages#home
-         validation_users GET    /users/validation(.:format)             users#validation
-                root_user GET    /users/:id(.:format)                    users#show
-         preferences_user GET    /users/:id/preferences(.:format)        users#preferences
-                          POST   /users/:id/preferences(.:format)        users#update_preferences
-           temporary_user GET    /users/:id/temporary(.:format)          users#temporary
-           bookmarks_user GET    /users/:id/bookmarks(.:format)          users#bookmarks
-            comments_user GET    /users/:id/comments(.:format)           users#comments
-          activities_user GET    /users/:id/activities(.:format)         users#activities
-             clicked_user POST   /users/:id/clicked(.:format)            users#clicked
-              viewed_user POST   /users/:id/viewed(.:format)             users#viewed
-                    users GET    /users(.:format)                        users#index
-                          POST   /users(.:format)                        users#create
-                 new_user GET    /users/new(.:format)                    users#new
-                edit_user GET    /users/:id/edit(.:format)               users#edit
-                     user GET    /users/:id(.:format)                    users#show
-                          PATCH  /users/:id(.:format)                    users#update
-                          PUT    /users/:id(.:format)                    users#update
-                          DELETE /users/:id(.:format)                    users#destroy
                    signup GET    /signup(.:format)                       users/registrations#new
                           POST   /signup(.:format)                       users/registrations#create
                     login GET    /login(.:format)                        users/sessions#new
@@ -44,16 +26,22 @@
               user_unlock POST   /users/unlock(.:format)                 devise/unlocks#create
           new_user_unlock GET    /users/unlock/new(.:format)             devise/unlocks#new
                           GET    /users/unlock(.:format)                 devise/unlocks#show
+         validation_users GET    /users/validation(.:format)             users#validation
+                root_user GET    /users/:id(.:format)                    users#show
+         preferences_user GET    /users/:id/preferences(.:format)        users#preferences
+                          POST   /users/:id/preferences(.:format)        users#update_preferences
+           temporary_user GET    /users/:id/temporary(.:format)          users#temporary
+           bookmarks_user GET    /users/:id/bookmarks(.:format)          users#bookmarks
+            comments_user GET    /users/:id/comments(.:format)           users#comments
+          activities_user GET    /users/:id/activities(.:format)         users#activities
+             clicked_user POST   /users/:id/clicked(.:format)            users#clicked
+              viewed_user POST   /users/:id/viewed(.:format)             users#viewed
+                    users GET    /users(.:format)                        users#index
+                edit_user GET    /users/:id/edit(.:format)               users#edit
+                     user GET    /users/:id(.:format)                    users#show
+                          PATCH  /users/:id(.:format)                    users#update
+                          PUT    /users/:id(.:format)                    users#update
                activities GET    /activities(.:format)                   activities#index
-                          POST   /activities(.:format)                   activities#create
-             new_activity GET    /activities/new(.:format)               activities#new
-            edit_activity GET    /activities/:id/edit(.:format)          activities#edit
-                 activity GET    /activities/:id(.:format)               activities#show
-                          PATCH  /activities/:id(.:format)               activities#update
-                          PUT    /activities/:id(.:format)               activities#update
-                          DELETE /activities/:id(.:format)               activities#destroy
-          search_articles GET    /articles/search(.:format)              articles#search
-    autocomplete_articles GET    /articles/autocomplete(.:format)        articles#autocomplete
           history_article GET    /articles/:id/history(.:format)         articles#history
           restore_article GET    /articles/:id/restore(.:format)         articles#restore
          bookmark_article POST   /articles/:id/bookmark(.:format)        articles#add_bookmark
@@ -82,7 +70,14 @@
                           PATCH  /tags/:id(.:format)                     tags#update
                           PUT    /tags/:id(.:format)                     tags#update
                           DELETE /tags/:id(.:format)                     tags#destroy
+autocomplete_search_index GET    /search/autocomplete(.:format)          search#autocomplete
+             search_index GET    /search(.:format)                       search#index
+                 comments GET    /comments(.:format)                     comments#index
              terms_of_use GET    /terms_of_use(.:format)                 static_pages#terms_of_use
+        delete_all_errors POST   /errors/delete_all(.:format)            errors#destroy_all
+                   errors GET    /errors(.:format)                       errors#index
+                          POST   /errors(.:format)                       errors#create
+                    error DELETE /errors/:id(.:format)                   errors#destroy
               sidekiq_web        /admin/sidekiq                          Sidekiq::Web
                     admin GET    /admin(.:format)                        admin#index
              admin_errors GET    /admin/errors(.:format)                 admin/errors_manager#index
@@ -94,11 +89,6 @@ admin_users_manager_index GET    /admin/users_manager(.:format)          admin/u
                           PATCH  /admin/users_manager/:id(.:format)      admin/users_manager#update
                           PUT    /admin/users_manager/:id(.:format)      admin/users_manager#update
                           DELETE /admin/users_manager/:id(.:format)      admin/users_manager#destroy
-                   errors GET    /errors(.:format)                       errors#index
-                          POST   /errors(.:format)                       errors#create
-                new_error GET    /errors/new(.:format)                   errors#new
-               edit_error GET    /errors/:id/edit(.:format)              errors#edit
-                    error GET    /errors/:id(.:format)                   errors#show
-                          PATCH  /errors/:id(.:format)                   errors#update
-                          PUT    /errors/:id(.:format)                   errors#update
-                          DELETE /errors/:id(.:format)                   errors#destroy
+                          GET    /article/*id(.:format)                  static_pages#home
+                          GET    /tag/*id(.:format)                      static_pages#home
+                          GET    /user/*id(.:format)                     static_pages#home

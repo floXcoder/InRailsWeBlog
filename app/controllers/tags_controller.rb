@@ -19,63 +19,52 @@ class TagsController < ApplicationController
   respond_to :html, :js, :json
 
   def index
-    tags = Tag.includes(:children).all.order('name ASC')
+    tags = Tag.includes(:tagger, :children).order('tags.name ASC')
+
+    tags = tags.for_user_topic(current_user.id, current_user.current_topic_id) if params[:init] && current_user
+    # tags = tags.for_user_topic(tag_params[:user_id], tag_params[:topic_id]) if tag_params[:user_id] && tag_params[:topic_id]
+
+    tags = if current_user&.admin?
+             tags.all
+           elsif current_user && params[:user_tags]
+             tags.everyone_and_user_and_topic(current_user.id, current_user.current_topic_id)
+           elsif current_user && tag_params[:topic_id] && tag_params[:user_id] && current_user.id == tag_params[:user_id].to_i
+             tags.everyone_and_user_and_topic(current_user.id, tag_params[:topic_id].to_i)
+           elsif current_user && tag_params[:user_id] && current_user.id == tag_params[:user_id].to_i
+             tags.everyone_and_user(current_user.id)
+           else
+             tags.everyone
+           end
 
     respond_to do |format|
-      format.html { render json: tags, formats: :json, content_type: 'application/json' }
-      format.json { render json: tags }
+      format.json do
+        render json:            tags,
+               each_serializer: TagSerializer
+      end
     end
   end
 
   def show
-    tag = Tag.friendly.find(params[:id])
-
-    current_user_id = current_user ? current_user.id : nil
-
-    articles = Article
-                 .includes(:translations,
-                           :author,
-                           :parent_tags,
-                           :child_tags,
-                           :tagged_articles,
-                           :tracker,
-                           tags: [:tagged_articles],
-                           bookmarked_articles: [:user, :article])
-                 .user_related(current_user_id)
-                 .joins(:tags)
-                 .where(tags: { name: tag.name })
-                 .order('articles.id DESC')
-
-    Article.track_views(articles.ids)
-    User.track_views(articles.map { |article| article.author.id })
-    Tag.track_views(tag.id)
+    tag = Tag.includes(:tagger)
+            .friendly.find(params[:id])
+    authorize tag
 
     respond_to do |format|
-      format.html { render :show,
-                           locals: {
-                             tag:             tag,
-                             articles:        articles,
-                             current_user_id: current_user_id
-                           }
-      }
+      format.json { render json:       tag,
+                           serializer: TagSerializer }
     end
-  end
-
-  def create
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
   end
 
   private
 
   def tag_params
-    params.require(:tags).permit(:name)
+    if params[:tags]
+      params.require(:tags).permit(:name,
+                                   :description,
+                                   :user_id,
+                                   :topic_id)
+    else
+      {}
+    end
   end
 end

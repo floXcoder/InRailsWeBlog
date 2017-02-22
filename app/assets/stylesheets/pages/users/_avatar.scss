@@ -1,0 +1,28 @@
+.user-avatar.chip {
+  min-width: 110px;
+
+  img {
+    background: #fff;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+    width: 35px;
+  }
+
+  i {
+    float: left;
+    font-size: 32px;
+    line-height: 32px;
+    margin: 0 8px 0 -12px;
+    padding: 0;
+  }
+
+  .pseudo {
+    display: block;
+    margin-left: 25px;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

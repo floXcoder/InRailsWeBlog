@@ -6,11 +6,13 @@ class PictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   storage :file
 
-  process convert: 'png', resize_to_limit: [1200, 800]
+  process convert: 'jpg', resize_to_limit: [1200, 800]
+  process :optimize
 
   version :thumb do
     process resize_to_fill: [200, 200]
-    process convert: 'png'
+    process convert: 'jpg'
+    process :optimize
   end
 
   # Override the directory where uploaded files will be stored.
@@ -33,7 +35,20 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   # Change
   def filename
-    super.chomp(File.extname(super)) + '.png'
+    super.chomp(File.extname(super)) + '.jpg'
+  end
+
+  # Progressive JPEG
+  def optimize
+    manipulate! do |image|
+      image.combine_options do |combine|
+        combine.strip
+        combine.quality '85'
+        combine.depth '8'
+        combine.interlace 'Plane'
+      end
+      image
+    end
   end
 
 end

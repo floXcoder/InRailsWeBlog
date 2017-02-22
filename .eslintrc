@@ -9,7 +9,6 @@
     "React": true,
     "ReactDOM": true,
     "Reflux": true,
-    "$app": true,
     "Mousetrap": true,
     "Materialize": true,
     "I18n": true
@@ -103,7 +102,6 @@
     "react/jsx-no-duplicate-props": 1,
     "react/jsx-no-literals": 1,
     "react/jsx-no-undef": 1,
-    "react/jsx-quotes": 1,
     "react/jsx-sort-prop-types": 0,
     "react/jsx-sort-props": 0,
     "react/jsx-uses-react": 1,

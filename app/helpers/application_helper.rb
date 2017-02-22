@@ -1,13 +1,6 @@
 module ApplicationHelper
-
-  def w(msg)
-    if defined?(Rails.logger.ap)
-      Rails.logger.ap msg, :warn
-    end
-  end
-
   def full_title(page_title)
-    base_title = t('common.website_name')
+    base_title = ENV['WEBSITE_NAME']
     if page_title.empty?
       base_title
     else
@@ -16,7 +9,7 @@ module ApplicationHelper
   end
 
   def full_admin_title(page_title)
-    base_title = t('common.website_name')
+    base_title = ENV['WEBSITE_NAME']
     if page_title.empty?
       base_title
     else
@@ -26,9 +19,9 @@ module ApplicationHelper
 
   def nav_brand
     if user_signed_in?
-      link_to t('common.website_name'), root_user_path(current_user), class: 'navbar-brand'
+      link_to ENV['WEBSITE_NAME'], root_user_path(current_user), class: 'navbar-brand'
     else
-      link_to t('common.website_name'), root_path, class: 'navbar-brand'
+      link_to ENV['WEBSITE_NAME'], root_path, class: 'navbar-brand'
     end
   end
 
@@ -45,10 +38,6 @@ module ApplicationHelper
     I18n.l(date, format: :custom_full_date)
   end
 
-  def format_distance_k(distance)
-    (distance / 1000.0).round(2)
-  end
-
   def controller?(*controller)
     controller.include?(params[:controller])
   end
@@ -58,7 +47,7 @@ module ApplicationHelper
   end
 
   def javascript(*files)
-    content_for(:javascript) { javascript_include_tag(*files) }
+    content_for(:javascript) { javascript_include_tag(*files, async: Rails.env.production?) }
   end
 
   def stylesheet(*files)

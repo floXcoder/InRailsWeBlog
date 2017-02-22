@@ -1,41 +1,42 @@
 'use strict';
 
-var classname = require('classnames');
+const DoubleTimelineItem = (props) => (
+    <div className="timeline-block">
+        <div className="timeline-icon red lighten-2 white-text">
+            <i className="material-icons">{props.icon}</i>
+        </div>
 
-var DoubleTimelineItem = React.createClass({
-    propTypes: {
-        date: React.PropTypes.string.isRequired,
-        content: React.PropTypes.string.isRequired,
-        children: React.PropTypes.array.isRequired,
-        icon: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string
-    },
+        <div className="card-panel timeline-content">
+            {
+                props.title &&
+                <h4 className="timeline-date">
+                    {props.title}
+                </h4>
+            }
 
-    render () {
-        return (
-            <div className="timeline-block">
-                <div className="timeline-icon red lighten-2 white-text">
-                    <i className="material-icons">{this.props.icon}</i>
-                </div>
+            <p dangerouslySetInnerHTML={{__html: props.content}}/>
 
-                <div className="card-panel timeline-content">
-                    {
-                        this.props.title &&
-                        <h4 className="timeline-date">
-                            {this.props.title}
-                        </h4>
-                    }
-                    <p dangerouslySetInnerHTML={{__html: this.props.content}}/>
-                    <p className="timeline-link">
-                        {this.props.children}
-                    </p>
-                    <span className="timeline-date">
-                        {this.props.date}
-                    </span>
-                </div>
-            </div>
-        );
-    }
-});
+            <p className="timeline-link">
+                {props.children}
+            </p>
+
+            <span className="timeline-date">
+                {props.date}
+            </span>
+        </div>
+    </div>
+);
+
+DoubleTimelineItem.propTypes = {
+    date: React.PropTypes.string.isRequired,
+    content: React.PropTypes.string.isRequired,
+    children: React.PropTypes.array.isRequired,
+    icon: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string
+};
+
+DoubleTimelineItem.defaultProps = {
+    title: null
+};
 
 module.exports = DoubleTimelineItem;

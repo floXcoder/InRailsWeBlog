@@ -7,5 +7,5 @@ This is a not so simple blog.
   * SQL Database
   * A CSS3 / HTML5 compatible Browser (Firefox, Chrome…)
 
-2015 FloXcoder
+2016 FloXcoder
 

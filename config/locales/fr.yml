@@ -1,58 +1,19 @@
 fr:
-  common:
-    website_name: "In Rails We Blog"
-    email: "blog@inrailsweblog.com"
   head:
     keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
     description: "Comment construire un blog avec Rails et Node"
-  footer:
-    title: "In Rails We Blog"
-    description: "Un blog pensé pour les développeurs"
-    copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
-    links:
-      title: "Liens utiles"
-      contact: "Me contacter par email"
-      support: "Aide"
-      about: "A propos de moi"
-      github: "Source sous Github"
-      github_src: "https://github.com/floXcoder/InRailsWeBlog"
   views:
-    header:
-      sign_up: "S'inscrire"
-      log_in: "Se connecter"
-      search_tooltip: "Rechercher"
-      article_creation_tooltip: "Créer un nouvel article"
-      tags: "Labels"
-      tags_tooltip: "Liste des labels"
-      preferences: "Préférences"
-      preferences_not_connected: "Connectez-vous pour changer les préférences"
-      articles:
-        title: "Articles"
-        user: "Mes articles"
-        new: "Nouvel article"
-        bookmark: "Articles favoris"
-        temporary: "Temporaires"
-      admin:
-        dashboard: "Admin"
-        errors: "Erreurs"
-      profile:
-       connected: "Mon compte"
-       not_connected: "Connexion"
-      language:
-        french: "Français"
-        english: "English"
-      log_out: "Déconnexion"
     user:
       flash:
         successful_update: "Profil mise à jour"
         error_update: "Le profil n'est pas été mise à jour, merci de corriger les erreurs indiquées"
       signup:
-        page_title: "Inscription"
+        page_title: "Inscription au site"
         title: "Créer un compte"
         subtitle: "Rentrer les détails pour votre compte"
         password_hint: "caractères minimums"
         confirm_password: "Confirmer le mot de passe"
-        terms_of_use: "En vous inscrivant sur AirPur, vous acceptez les"
+        terms_of_use: "En vous inscrivant sur %{website}, vous acceptez les"
         terms_of_use_name: "conditions d'utilisations"
         back_home: "Retourner à la page d'accueil"
         submit: "Créer mon compte"
@@ -61,6 +22,10 @@ fr:
           email: "Email requis pour vérifier votre compte"
           password: "N'oubliez pas votre mot de passe"
           password_confirmation: "Vérification du mot de passe"
+        flash:
+          message: "Pour participer aux sorties, vous devez valider votre adresse email."
+          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
+          complete_profile: "Merci de compléter votre profil pour mieux vous connaître. Sinon vous ne pourrez pas participer aux sorties."
       login:
         page_title: "Connexion"
         title: "Se connecter"
@@ -68,98 +33,81 @@ fr:
         remember: "Se souvenir de moi"
         back_home: "Retourner à la page d'accueil"
         submit: "Connexion"
-      show:
-        page_title: "%{pseudo} : Mon activités"
-        title: "Mon activités"
-      edit:
-        page_title: "Éditer mon profil"
-        title: "Éditer mon profil"
-        login_header: "Informations de connexion"
-        connection_parameters: "Modifier vos paramètres de connexion"
-        profile_picture: "Image pour votre profile"
-        current_picture: "Votre image actuelle :"
-        replace_picture: "Vous pouvez remplacer votre image en indiquant une autre soit locale soit depuis une url"
-        no_picture: "Vous n'avez pas d'image associée à votre compte."
-        placeholder_picture: "Utiliser une image locale ou une url"
-        remove_picture: "Supprimer cette image"
-        personal_information_header: "Informations personnelles"
-        update_profile: "Mettre à jour mon profil"
+        flash:
+          message: "Vous avez %{days} pour confirmer votre adresse email."
+          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
     article:
       flash:
-        creation_successful: "Article ajouté !"
-        deletion_successful: "L'article a été supprimé."
-        undelete_link: "Annuler la suppression."
-        deletion_error: "Problème lors de la suppression de l'article : %{errors}"
-        undeletion_successful: "Article restauré"
         not_found: "L'article n'a pas été trouvé"
-      index:
-        page_title: "Tous les articles"
-        title: "Tous les articles"
+        successful_creation: "Article ajouté !"
+        error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
+        undelete_link: "Annuler la suppression."
+        successful_deletion: "L'article a été supprimé."
+        error_deletion: "Problème lors de la suppression de l'article : %{errors}"
+        successful_undeletion: "Article restauré"
       show:
-        page_title: "%{title}"
-      edit:
-        page_title: "Modification de %{title}"
-    tag:
-      show:
-        page_title: "%{name}"
+        page_title: "Article : %{title}"
+    picture:
+      flash:
+        successful_deletion: "L'image a bien été supprimée."
+        error_deletion: "Problème lors de la suppression de l'image."
+    comment:
+      flash:
+        successful_creation: "Commentaire ajouté"
+        error_creation: "Le commentaire n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_update: "Commentaire mis à jour"
+        error_update: "Problème lors de la mise à jour du commentaire"
+        successful_deletion: "Commentaire supprimé"
+        error_deletion: "Problème lors de la suppression du commentaire"
+    admin:
+      dashboard:
+        page_title: "Dashboard"
+      user_manager:
+        index:
+          page_title: "Liste des utilisateurs"
+        show:
+          page_title: "Utilisateur : %{user}"
     error:
       page_title: "Oups ..."
       status:
         title:
           default: "Une erreur est arrivée :("
-          '404': "Page introuvable"
-          '422': "Requêtes non permises !"
-          '500': "Ah ! Erreur interne !"
+          404: "Page introuvable"
+          422: "Requêtes non permises !"
+          500: "Ah ! Erreur interne !"
         explanation:
           default: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
-          '404': "La page n'a pas été trouvée sur le serveur, l'erreur est humaine !"
-          '422': "Impossible de satisfaire votre requête"
-          '500': "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
+          404: "La page n'a pas été trouvée sur le serveur, l'erreur est humaine !"
+          422: "Impossible de satisfaire votre requête"
+          500: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
       back_button: "Page précédente"
       home_button: "Retour maison !"
   user:
-    pseudo: "Pseudo"
-    by: "De"
-    email: "Email"
-    id: "Pseudo ou Email"
-    password: "Mot de passe"
-    first_name: "Prénom"
-    last_name: "Nom"
-    age: "Age"
-    city: "Ville"
-    additional_info: "Informations personnelles"
-    country: "Pays"
-    local_picture: "Image locale"
-    remote_picture: "Lien vers une url"
+    model:
+      login: "Pseudo ou Email"
+      pseudo: "Pseudo"
+      email: "Email"
+      password: "Mot de passe"
+      first_name: "Prénom"
+      last_name: "Nom"
+      age: "Age"
+      city: "Ville"
+      additional_info: "Informations personnelles"
+      country: "Pays"
+      local_picture: "Image locale"
+      remote_picture: "Url d'une image"
   article:
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Privé"
+  tag:
     enums:
       visibility:
-        everyone: "Tout le monde"
-        only_me: "Seulement moi"
-  error_message:
-    enums:
-      origin:
-        server: "Serveur"
-        client: "Client"
-  popup:
-    cancel: "Annuler"
-  buttons:
-    cancel: "Annuler"
-    back: "Retour"
-  delete:
-    confirmation: "Êtes-vous sûr ?"
-  pundit:
-    default: "Vous n'êtes pas autorisé(e) à réaliser cette action."
-    user_policy:
-      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs."
-  activerecord:
-    errors:
-      models:
-        bookmark:
-          already_bookmarked: "Article déjà ajouté aux favoris !"
-          no_bookmarked: "Article non existant dans les favoris !"
-        picture:
-          image_size: "doit être inférieur à 5Mo"
+        everyone: "Public"
+        only_me: "Privé"
+  topic:
+    default_name: "Défaut"
   email:
     hello: "Bonjour"
     confirmation:
@@ -172,6 +120,133 @@ fr:
       instruction: "Votre compte a été bloqué suite à un nombre important de tentative d'accès avec un mauvais mot de passe.
                    Cliquer sur le lien ci-dessus pour débloquer votre compte."
     greeting: "Bonne journée de la part de l'équipe !"
+  pundit:
+    default: "Vous n'êtes pas autorisé(e) à réaliser cette action."
+    flash:
+      not_authorized:
+        user: "Votre compte doit être complété avant (nom, prénom et ville)."
+    user_policy:
+      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs."
+  activerecord:
+    errors:
+      models:
+        tag:
+          already_exist: "Un label avec le même nom existe déjà"
+        bookmark:
+          already_bookmarked: "Article déjà ajouté aux favoris !"
+          not_bookmarked: "Article non existant dans les favoris !"
+        outdated:
+          already_outdated: "Article déjà marqué comme périmé !"
+          not_outdated: "Article non présent dans les périmés !"
+        topic:
+          already_selected: "Le nouveau thème est déjà celui utilisé"
+          already_exist: "Un thème avec le même nom existe déjà"
+        picture:
+          image_size: "doit être inférieur à 5Mo"
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: "doit être accepté(e)"
+      blank: "doit être rempli(e)"
+      present: "doit être vide"
+      confirmation: "ne concorde pas avec la confirmation"
+      empty: "doit être rempli(e)"
+      equal_to: "doit être égal à %{count}"
+      even: "doit être pair"
+      exclusion: "n'est pas disponible"
+      greater_than: "doit être supérieur à %{count}"
+      greater_than_or_equal_to: "doit être supérieur ou égal à %{count}"
+      inclusion: "n'est pas inclus(e) dans la liste"
+      invalid: "n'est pas valide"
+      less_than: "doit être inférieur à %{count}"
+      less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
+      not_a_number: "n'est pas un nombre"
+      not_an_integer: "doit être un nombre entier"
+      odd: "doit être impair"
+      record_invalid: "La validation a échoué : %{errors}"
+      restrict_dependent_destroy:
+        one: "Suppression impossible: un autre enregistrement est lié"
+        many: "Suppression impossible: d'autres enregistrements sont liés"
+      taken: "n'est pas disponible"
+      too_long:
+        one: "est trop long (pas plus d'un caractère)"
+        other: "est trop long (pas plus de %{count} caractères)"
+      too_short:
+        one: "est trop court (au moins un caractère)"
+        other: "est trop court (au moins %{count} caractères)"
+      wrong_length:
+        one: "ne fait pas la bonne longueur (doit comporter un seul caractère)"
+        other: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"
+      other_than: "doit être différent de %{count}"
+      carrierwave_processing_error: "Impossible de redimensionner l'image."
+      carrierwave_integrity_error: "Ce n'est pas une image."
+      carrierwave_download_error: "Impossible de télécharger l'image."
+      extension_white_list_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types autorisés: %{allowed_types}"
+      extension_black_list_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types interdits: %{prohibited_types}"
+      content_type_white_list_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
+      content_type_black_list_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
+      rmagick_processing_error: "La manipulation d'image avec rmagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
+      mini_magick_processing_error: "La manipulation d'image avec MiniMagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
+      min_size_error: "La taille du fichier doit être supérieure à %{min_size}"
+      max_size_error: "La taille du fichier doit être inférieure à %{max_size}"
+    template:
+      body: "Veuillez vérifier les champs suivants : "
+      header:
+        one:   "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
+        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
+  number:
+    currency:
+      format:
+        delimiter: " "
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "€"
+    format:
+      delimiter: " "
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: "milliard"
+          million: "million"
+          quadrillion: "million de milliards"
+          thousand: "millier"
+          trillion: "billion"
+          unit: ""
+      format:
+        delimiter: ""
+        precision: 2
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one:   "octet"
+            other: "octets"
+          gb: "Go"
+          kb: "ko"
+          mb: "Mo"
+          tb: "To"
+    percentage:
+      format:
+        delimiter: ""
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ""
+  metrics:
+    distance_unit: "m"
+    distance_unit_k: "km"
+    duration_unit: "h"
+    speed_unit: "km/h"
   date:
     abbr_day_names:
       - dim
@@ -270,108 +345,6 @@ fr:
       month: "Mois"
       second: "Seconde"
       year: "Année"
-  errors:
-    format: "%{attribute} %{message}"
-    messages:
-      accepted: "doit être accepté(e)"
-      blank: "doit être rempli(e)"
-      present: "doit être vide"
-      confirmation: "ne concorde pas avec la confirmation"
-      empty: "doit être rempli(e)"
-      equal_to: "doit être égal à %{count}"
-      even: "doit être pair"
-      exclusion: "n'est pas disponible"
-      greater_than: "doit être supérieur à %{count}"
-      greater_than_or_equal_to: "doit être supérieur ou égal à %{count}"
-      inclusion: "n'est pas inclus(e) dans la liste"
-      invalid: "n'est pas valide"
-      less_than: "doit être inférieur à %{count}"
-      less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
-      not_a_number: "n'est pas un nombre"
-      not_an_integer: "doit être un nombre entier"
-      odd: "doit être impair"
-      record_invalid: "La validation a échoué : %{errors}"
-      restrict_dependent_destroy:
-        one: "Suppression impossible: un autre enregistrement est lié"
-        many: "Suppression impossible: d'autres enregistrements sont liés"
-      taken: "n'est pas disponible"
-      too_long:
-        one: "est trop long (pas plus d'un caractère)"
-        other: "est trop long (pas plus de %{count} caractères)"
-      too_short:
-        one: "est trop court (au moins un caractère)"
-        other: "est trop court (au moins %{count} caractères)"
-      wrong_length:
-        one: "ne fait pas la bonne longueur (doit comporter un seul caractère)"
-        other: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"
-      other_than: "doit être différent de %{count}"
-    template: &errors_template
-      body: "Veuillez vérifier les champs suivants : "
-      header:
-        one:   "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
-        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
-  helpers:
-    select:
-      prompt: "Veuillez sélectionner"
-    submit:
-      create: "Créer un(e) %{model}"
-      submit: "Enregistrer ce(tte) %{model}"
-      update: "Modifier ce(tte) %{model}"
-  number:
-    currency:
-      format:
-        delimiter: " "
-        format: "%n %u"
-        precision: 2
-        separator: ","
-        significant: false
-        strip_insignificant_zeros: false
-        unit: "€"
-    format:
-      delimiter: " "
-      precision: 3
-      separator: ","
-      significant: false
-      strip_insignificant_zeros: false
-    human:
-      decimal_units:
-        format: "%n %u"
-        units:
-          billion: "milliard"
-          million: "million"
-          quadrillion: "million de milliards"
-          thousand: "millier"
-          trillion: "billion"
-          unit: ""
-      format:
-        delimiter: ""
-        precision: 2
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: "%n %u"
-        units:
-          byte:
-            one:   "octet"
-            other: "octets"
-          gb: "Go"
-          kb: "ko"
-          mb: "Mo"
-          tb: "To"
-    percentage:
-      format:
-        delimiter: ""
-        format: "%n%"
-    precision:
-      format:
-        delimiter: ""
-  support:
-    colon: " : "
-    or: " ou "
-    array:
-      last_word_connector: " et "
-      two_words_connector: " et "
-      words_connector: ", "
   time:
     am: "am"
     formats:
@@ -384,3 +357,19 @@ fr:
       custom_begin: "Du %d %b à %Hh%M"
       custom_end: "Au %d %b à %Hh%M"
     pm: "pm"
+  helpers:
+    colon: " : "
+    or: " ou "
+    and: " et "
+    back: "Page précédente"
+    select:
+      prompt: "Veuillez sélectionner"
+    submit:
+      create: "Créer un(e) %{model}"
+      submit: "Enregistrer ce(tte) %{model}"
+      update: "Modifier ce(tte) %{model}"
+    array:
+      last_word_connector: " et "
+      two_words_connector: " et "
+      words_connector: ", "
+  hello: "Bonjour"

@@ -2,103 +2,308 @@
 #
 # Table name: articles
 #
-#  id              :integer          not null, primary key
-#  author_id       :integer          not null
-#  visibility      :integer          default(0), not null
-#  notation        :integer          default(0)
-#  priority        :integer          default(0)
-#  allow_comment   :boolean          default(TRUE), not null
-#  private_content :boolean          default(FALSE), not null
-#  is_link         :boolean          default(FALSE), not null
-#  temporary       :boolean          default(FALSE), not null
-#  slug            :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                        :integer          not null, primary key
+#  author_id                 :integer          not null
+#  topic_id                  :integer          not null
+#  title                     :string           default("")
+#  summary                   :text             default("")
+#  content                   :text             default(""), not null
+#  private_content           :boolean          default(FALSE), not null
+#  is_link                   :boolean          default(FALSE), not null
+#  reference                 :text
+#  temporary                 :boolean          default(FALSE), not null
+#  language                  :string
+#  allow_comment             :boolean          default(TRUE), not null
+#  notation                  :integer          default(0)
+#  priority                  :integer          default(0)
+#  visibility                :integer          default(0), not null
+#  archived                  :boolean          default(FALSE), not null
+#  accepted                  :boolean          default(TRUE), not null
+#  bookmarked_articles_count :integer          default(0)
+#  outdated_articles_count   :integer          default(0)
+#  slug                      :string
+#  deleted_at                :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 
 class Article < ActiveRecord::Base
 
-  # Associations
-  belongs_to :author, class_name: 'User'
-
-  def author?(user)
-    user.id == self.author_id
-  end
-
-  # Enum
+  # == Attributes ===========================================================
   include EnumsConcern
   enum visibility: VISIBILITY
   enums_to_tr('article', [:visibility])
 
-  # Scopes
+  # Strip whitespaces
+  auto_strip_attributes :title, :summary
+
+  # == Extensions ===========================================================
+  # Voteable model
+  acts_as_voteable
+
+  # Versioning
+  has_paper_trail on: [:update], only: [:title, :summary, :content, :topic, :language]
+
+  # Marked as deleted
+  acts_as_paranoid
+
+  # Comments
+  include CommentableConcern
+
+  # Track activities
+  include ActAsTrackedConcern
+  acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views
+
+  # Follow public activities
+  include PublicActivity::Model
+  tracked owner: :author
+
+  # Nice url format
+  include NiceUrlConcern
+  friendly_id :slug_candidates, use: :slugged
+
+  # Elastic Search
+  searchkick searchable:  [:title, :tags],
+             word_middle: [:title, :tags],
+             suggest:     [:title, :tags],
+             highlight:   [:content, :public_content],
+             include:     [:author, :tags, :parent_tags, :child_tags],
+             language:    (I18n.locale == :fr) ? 'French' : 'English'
+
+  def search_data
+    {
+      author_id:      author_id,
+      topic_id:       topic_id,
+      title:          title,
+      summary:        summary,
+      public_content: public_content,
+      content:        strip_content,
+      is_link:        is_link,
+      notation:       notation,
+      priority:       priority,
+      temporary:      temporary,
+      language:       language,
+      visibility:     visibility,
+      archived:       archived,
+      accepted:       accepted,
+      tags:           tags.pluck(:name)
+    }
+  end
+
+  # == Relationships ========================================================
+  belongs_to :author, class_name: 'User'
+  belongs_to :topic
+
+  has_many :tagged_articles
+  has_many :tags,
+           through:   :tagged_articles,
+           autosave: true
+  has_many :parent_tags,
+           -> { where(tagged_articles: { parent: true }) },
+           through:  :tagged_articles,
+           source:   :tag
+  has_many :child_tags,
+           -> { where(tagged_articles: { child: true }) },
+           through:  :tagged_articles,
+           source:   :tag
+  # accepts_nested_attributes_for :tags,
+  #                               reject_if:     :all_blank,
+  #                               update_only:   true,
+  #                               allow_destroy: false
+
+  has_many :bookmarked_articles
+  has_many :user_bookmarks,
+           through: :bookmarked_articles,
+           source:  :user
+
+  has_many :outdated_articles
+  has_many :marked_as_outdated,
+           through: :outdated_articles,
+           source:  :user
+
+  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
+
+  # == Validations ==========================================================
+  validates :author,
+            presence: true
+  validates :topic,
+            presence: true
+
+  validates :title,
+            length: { minimum: CONFIG.article_title_min_length, maximum: CONFIG.article_title_max_length },
+            if:     'title.present?'
+  validates :summary,
+            length: { minimum: CONFIG.article_summary_min_length, maximum: CONFIG.article_summary_max_length },
+            if:     'summary.present?'
+  validates :content,
+            presence: true,
+            length:   { minimum: CONFIG.article_content_min_length, maximum: CONFIG.article_content_max_length }
+  validates :notation, inclusion: CONFIG.notation_min..CONFIG.notation_max
+
+  # == Scopes ===============================================================
   scope :user_related, -> (user_id = nil) {
     where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.author_id = :author_id)',
           author_id: user_id)
   }
   scope :published, -> { where(temporary: false) }
 
-  # Parameters validation
-  validates :author_id, presence: true
-  validates :title,
-            length: { minimum: CONFIG.title_min_length, maximum: CONFIG.title_max_length },
-            if:     'title.present?'
-  validates :summary,
-            length: { minimum: CONFIG.summary_min_length, maximum: CONFIG.summary_max_length },
-            if:     'summary.present?'
-  validates :content,
-            presence: true,
-            length:   { minimum: CONFIG.content_min_length, maximum: CONFIG.content_max_length }
-  validates :notation, inclusion: 0..5
+  # Helpers
+  scope :with_tags, -> (tags) { joins(:tags).where(tags: { name: tags }) }
+  scope :with_parent_tags, -> (parent_tags) { joins(:tags).where(tagged_articles: { parent: true }, tags: { name: parent_tags }) }
+  scope :with_child_tags, -> (child_tags) { joins(:tags).where(tagged_articles: { child: true }, tags: { name: child_tags }) }
 
+  # == Callbacks ============================================================
   # Sanitize and detect programming language if any before save
   before_save :sanitize_html
 
-  # Tags
-  has_many :tagged_articles
-  has_many :tags, through: :tagged_articles
-  has_many :parent_tags,
-           -> { where(tagged_articles: { parent: true }) },
-           through: :tagged_articles,
-           source:  :tag
-  has_many :child_tags,
-           -> { where(tagged_articles: { child: true }) },
-           through: :tagged_articles,
-           source:  :tag
-  accepts_nested_attributes_for :tags, reject_if: :all_blank, update_only: true, allow_destroy: false
+  # == Class Methods ========================================================
+  # Article Search
+  # +query+ parameter: string to query
+  # +options+ parameter:
+  #  current_user_id (current user id)
+  #  page (page number for pagination)
+  #  per_page (number of articles per page for pagination)
+  #  exact (exact search or include misspellings, default: 2)
+  #  tags (array of tags associated with articles)
+  #  operator (array of tags associated with articles, default: AND)
+  #  highlight (highlight content, default: true)
+  #  exact (do not misspelling, default: false, 1 character)
+  def self.search_for(query, options = {})
+    # If query not defined or blank, search for everything
+    query_string          = !query || query.blank? ? '*' : query
 
-  def tags_attributes=(tags_attrs)
-    self.tags        = article_tags = []
-    self.parent_tags = parent_tags = []
-    self.child_tags  = child_tags = []
+    # Fields with boost
+    fields                = if I18n.locale == :fr
+                              %w(title^10 content^5 public_content)
+                            else
+                              %w(title^10 content^5 public_content)
+                            end
 
-    tags_attrs.each do |_tagKey, tagValue|
-      next unless tagValue
+    # Misspelling, specify number of characters
+    misspellings_distance = options[:exact] ? 0 : 1
 
-      tag_id        = tagValue.delete(:id)
-      tag           = if !tag_id.blank?
-                        Tag.find_or_initialize_by(id: tag_id)
-                      else
-                        Tag.find_or_initialize_by(name: tagValue[:name])
-                      end
-      tag.tagger_id = self.author.id unless tag.tagger_id
+    # Operator type: 'and' or 'or'
+    operator              = options[:operator] ? options[:operator] : 'and'
 
-      parent = tagValue.delete(:parent)
-      child  = tagValue.delete(:child)
+    # Highlight results and select a fragment
+    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
+    highlight             = { tag: '<span class="blog-highlight">' }
 
-      tag.attributes = tagValue
-
-      if parent && !parent.blank?
-        parent_tags << tag
-      elsif child && !child.blank?
-        child_tags << tag
+    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
+    where_options         = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
+      if key == :notation
+        [
+          key,
+          value.to_i
+        ]
       else
-        article_tags << tag
+        [key, value]
       end
+    end.to_h
+    where_options[:tags]  = { all: options[:tags] } if options[:tags]
+
+    # Boost user articles first
+    boost_where           = options[:current_user_id] ? { author_id: options[:current_user_id] } : nil
+
+    # Page parameters
+    page                  = options[:page] ? options[:page] : 1
+    per_page              = options[:per_page] ? options[:per_page] : CONFIG.per_page
+
+    # Perform search
+    results               = Article.search(query_string,
+                                           fields:       fields,
+                                           boost_where:  boost_where,
+                                           highlight:    highlight,
+                                           match:        :word_middle,
+                                           misspellings: { edit_distance: misspellings_distance },
+                                           suggest:      true,
+                                           page:         page,
+                                           per_page:     per_page,
+                                           operator:     operator,
+                                           where:        where_options)
+
+    words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
+
+    return Article.none unless results.any?
+
+    # Track search results
+    Article.track_searches(results.records.ids)
+
+    {
+      shops:       results.records,
+      highlight:   Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }],
+      suggestions: results.suggestions,
+      total_count: results.total_count,
+      total_pages: results.total_pages,
+      words:       words_search.uniq
+    }
+  end
+
+  def self.autocomplete_for(query, options = {})
+    return Article.none if Article.count.zero?
+
+    # If query not defined or blank, search for everything
+    query_string  = !query || query.blank? ? '*' : query
+
+    # Where options only for ElasticSearch
+    where_options = options[:where].compact.map do |key, value|
+      [key, value]
+    end.to_h
+
+    # Set result limit
+    limit         = options[:limit] ? options[:limit] : 10
+
+    # Perform search
+    results       = Article.search(query_string,
+                                   fields:       %w(name^3 summary),
+                                   match:        :word_middle,
+                                   misspellings: { below: 5 },
+                                   load:         false,
+                                   where:        where_options,
+                                   limit:        limit)
+
+    return Article.none unless results.any?
+
+    return results.records
+  end
+
+  # == Instance Methods =====================================================
+  def author?(user)
+    user.id == self.author_id if user
+  end
+
+  def format_attributes(attributes = {}, current_user = nil)
+    # Clean attributes
+    attributes    = attributes.reject { |_, v| v.blank? }
+
+    # Topic: Add current topic to article
+    self.topic_id = current_user.current_topic_id if current_user
+
+    # Sanitization
+    if attributes[:title].present?
+      sanitized_title = Sanitize.fragment(attributes.delete(:title))
+      self.slug       = nil if sanitized_title != self.title
+      self.title      = sanitized_title
+    end
+    if attributes[:summary].present?
+      self.summary = Sanitize.fragment(attributes.delete(:summary))
     end
 
-    self.tags        = article_tags
+    # Tags
+    # self.tags        = article_tags = []
+    self.parent_tags = parent_tags = []
+    self.child_tags  = child_tags = []
+    if attributes[:parent_tags].present?
+      parent_tags = Tag.parse_tags(attributes.delete(:parent_tags), current_user&.id)
+    end
+    if attributes[:child_tags].present?
+      child_tags = Tag.parse_tags(attributes.delete(:child_tags), current_user&.id)
+    end
     self.parent_tags = parent_tags
     self.child_tags  = child_tags
+    # self.tags        = (parent_tags + child_tags).uniq
+
+    self.assign_attributes(attributes)
   end
 
   def create_tag_relationships
@@ -155,11 +360,19 @@ class Article < ActiveRecord::Base
     end unless previous_child_tags.empty?
   end
 
-  # Bookmarks
-  has_many :bookmarked_articles
-  has_many :user_bookmarks,
-           through: :bookmarked_articles,
-           source:  :user
+  def tags_to_topic(current_user, params = {})
+    if params[:new_tags] && !params[:new_tags].empty?
+      params[:new_tags].map do |tag|
+        tag.tagged_topics.build(topic_id: current_user.current_topic_id,
+                                user_id:  current_user.id)
+      end
+    elsif params[:old_tags] && !params[:old_tags].empty?
+      params[:old_tags].map do |tag|
+        tag.tagged_topics.where(topic_id: current_user.current_topic_id,
+                                user_id:  current_user.id).first&.destroy
+      end
+    end
+  end
 
   def add_bookmark(user)
     if self.user_bookmarks.exists?(user.id)
@@ -172,171 +385,59 @@ class Article < ActiveRecord::Base
 
   def remove_bookmark(user)
     if !self.user_bookmarks.exists?(user.id)
-      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.no_bookmarked'))
+      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.not_bookmarked'))
     else
       return self.user_bookmarks.delete(user)
     end
   end
 
-  # Translation
-  translates :title, :summary, :content,
-             fallbacks_for_empty_translations: true,
-             versioning:                       { gem: :paper_trail, options: { on: [:update, :destroy] } }
-  accepts_nested_attributes_for :translations, allow_destroy: true
+  def mark_as_outdated(user)
+    if self.marked_as_outdated.exists?(user.id)
+      errors.add(:outdated, I18n.t('activerecord.errors.models.outdated.already_outdated'))
+      return false
+    else
+      return self.marked_as_outdated.push(user)
+    end
+  end
 
-  # Versioning
-  has_paper_trail on: [:destroy], ignore: [:title, :summary, :content]
+  def remove_outdated(user)
+    if !self.marked_as_outdated.exists?(user.id)
+      errors.add(:outdated, I18n.t('activerecord.errors.models.outdated.not_outdated'))
+    else
+      return self.marked_as_outdated.delete(user)
+    end
+  end
 
-  # Comments
-  include CommentableConcern
-
-  # Track activities
-  include ActAsTrackedConcern
-  acts_as_tracked '_InRailsWeBlog_', :queries, :searches, :comments, :bookmarks, :clicks, :views
-
-  # Follow public activities
-  include PublicActivity::Model
-  tracked owner: :author
-  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
-
-  # Nice url format
-  include NiceUrlConcern
-  friendly_id :article_at_user, use: :slugged
-
-  def article_at_user
+  def slug_candidates
     "#{title}_at_#{author.pseudo}"
   end
 
   def normalize_friendly_id(_string)
-    super.gsub('-', '_').gsub('_at_', '@')
+    super.tr('-', '_').tr('_at_', '@')
   end
 
-  def should_generate_new_friendly_id?
-    translation = translations.where(locale: I18n.locale).first
-    if translation
-      (translation.title != self.title)
-    else
-      super
-    end
+  def strip_content
+    sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish
   end
 
-  # Elastic Search
-  searchkick autocomplete: [:title, :tags],
-             suggest:      [:title, :tags],
-             highlight:    [:content_en, :content_fr, :public_content_en, :public_content_fr],
-             include:      [:author, :tags, :translations, :parent_tags, :child_tags],
-             language:     (I18n.locale == :fr) ? 'French' : 'English'
-
-  def search_data
-    {
-      author_id:         author_id,
-      title:             title,
-      summary:           summary,
-      public_content_en: public_content('en'),
-      public_content_fr: public_content('fr'),
-      content_en:        strip_content('en'),
-      content_fr:        strip_content('fr'),
-      tags:              tags.pluck(:name)
-    }
-  end
-
-  # Article Search
-  # +query+ parameter: string to query
-  # +options+ parameter:
-  #  current_user_id (current user id)
-  #  page (page number for pagination)
-  #  per_page (number of articles per page for pagination)
-  #  exact (exact search or include misspellings, default: 2)
-  #  tags (array of tags associated with articles)
-  #  operator (array of tags associated with articles, default: AND)
-  #  highlight (highlight content, default: true)
-  #  exact (do not misspelling, default: false, 1 character)
-  def self.search_for(query, options = {})
-    # If query not defined or blank, search for everything
-    query_string             = !query || query.blank? ? '*' : query
-
-    # Fields with boost
-    fields                = if I18n.locale == :fr
-                              %w(title^10 content_fr^5 content_en public_content_fr public_content_en)
-                            else
-                              %w(title^10 content_en^5 content_fr public_content_en public_content_fr)
-                            end
-
-    # Misspelling, specify number of characters
-    misspellings_distance = options[:exact] ? 0 : 1
-
-    # Operator type: 'and' or 'or'
-    operator              = options[:operator] ? options[:operator] : 'and'
-
-    # Highlight results and select a fragment
-    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight             = {tag: '<span class="blog-highlight">'}
-
-    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options         = {}
-    where_options[:tags]  = { all: options[:tags] } if options[:tags]
-
-    # Boost user articles first
-    boost_where           = options[:current_user_id] ? { author_id: options[:current_user_id] } : nil
-
-    # Perform search
-    results               = Article.search(query_string,
-                                           fields:       fields,
-                                           boost_where:  boost_where,
-                                           highlight:    highlight,
-                                           misspellings: { edit_distance: misspellings_distance },
-                                           suggest:      true,
-                                           page:         options[:page],
-                                           per_page:     options[:per_page],
-                                           operator:     operator,
-                                           where:        where_options)
-
-    words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
-
-    # Track search results
-    Article.track_searches(results.records.ids)
-
-    {
-      articles:    results.records,
-      highlight:   Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }],
-      suggestions: results.suggestions,
-      words:       words_search.uniq
-    }
-  end
-
-  def strip_content(locale = nil)
-    if locale
-      locale_article = self.translations.where(locale: locale)[0]
-      sanitize(locale_article ? locale_article.content.gsub(/(<\/\w+>)/i, '\1 ') : '', tags: [], attributes: []).squish
-    else
-      sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish
-    end
-  end
-
-  def public_content(locale = nil)
-    if locale && self.translations.find_by(locale: locale)
-      self.translations.find_by(locale: locale).content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
-    else
-      self.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
-    end
+  def public_content
+    self.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
   end
 
   def has_private_content?
     self.content =~ /<(\w+) class="secret">.*?<\/\1>/im
   end
 
-  def adapted_content(current_user_id, locale = nil)
+  def adapted_content(current_user_id)
     if self.private_content && self.author.id != current_user_id
-      self.public_content(locale)
-    elsif locale
-      translations.find_by(locale: locale).content
+      self.public_content
     else
       self.content
     end
   end
 
-  def summary_content(current_user_id = nil, locale = nil)
-    adapted_content(current_user_id, locale).summary
+  def summary_content(current_user_id = nil)
+    adapted_content(current_user_id).summary
   end
 
   # Sanitize content

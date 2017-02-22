@@ -12,8 +12,11 @@
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
 #  preferences            :text             default({}), not null
+#  last_request           :text             default({}), not null
+#  current_topic_id       :integer
 #  admin                  :boolean          default(FALSE), not null
 #  slug                   :string
+#  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  email                  :string           default(""), not null
@@ -55,12 +58,7 @@ class UserSerializer < ActiveModel::Serializer
   has_one :tracker
   has_many :activities, serializer: PublicActivitiesSerializer
 
-  def avatar
-    object.picture.image.url(:thumb) if object.picture
-  end
-
   def activities
     object.activities.limit(30)
   end
-
 end

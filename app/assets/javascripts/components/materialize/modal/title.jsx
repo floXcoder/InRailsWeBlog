@@ -1,18 +1,14 @@
 'use strict';
 
-var ModalTitle = React.createClass({
-    propTypes: {
-        children: React.PropTypes.string.isRequired
-    },
+const ModalTitle = ({ children }) => (
+    <h4 className="modal-title">
+        {children}
+    </h4>
+);
 
-    render () {
-        return (
-            <h4 className="modal-title">
-                {this.props.children}
-            </h4>
-        );
-    }
-});
+ModalTitle.propTypes = {
+    children: React.PropTypes.string.isRequired
+};
 
 module.exports = ModalTitle;
 

@@ -1,22 +1,20 @@
 'use strict';
 
-var ArticleLinkIcon = React.createClass({
-    propTypes: {
-        isLink: React.PropTypes.bool.isRequired
-    },
-
-    render () {
-        if (this.props.isLink) {
-            return (
-                <div className="article-link tooltipped btn-floating"
-                     data-tooltip={I18n.t('js.article.tooltip.is_link')}>
-                    <i className="material-icons">link</i>
-                </div>
-            );
-        } else {
-            return null;
-        }
+var ArticleLinkIcon = ({isLink}) => {
+    if (isLink) {
+        return (
+            <div className="article-link tooltipped btn-floating"
+                 data-tooltip={I18n.t('js.article.tooltip.link')}>
+                <i className="material-icons">link</i>
+            </div>
+        );
+    } else {
+        return null;
     }
-});
+};
+
+ArticleLinkIcon.propTypes = {
+    isLink: React.PropTypes.bool.isRequired
+};
 
 module.exports = ArticleLinkIcon;

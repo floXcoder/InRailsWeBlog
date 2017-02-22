@@ -67,7 +67,6 @@ $background-color: #f5f5f5;
   .deadend {
     @include special-style($deadend-color);
   }
-
 }
 
 .note-editor {
@@ -188,6 +187,14 @@ $background-color: #f5f5f5;
 
       &[contenteditable="false"] {
         background-color: #e5e5e5;
+      }
+
+      sup {
+        vertical-align: super;
+      }
+
+      sub {
+        vertical-align: sub;
       }
     }
 

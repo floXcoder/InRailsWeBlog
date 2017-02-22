@@ -17,7 +17,7 @@
     // Clipboard event
     var ClipboardManager = (function ($) {
         var _model = {
-            $clipboardInput: $('#clipboard'),
+            $clipboardInput: null,
             callback: null
         };
 
@@ -35,6 +35,7 @@
         };
 
         var initialize = function (callback) {
+            _model.$clipboardInput = $('#clipboard');
             _model.callback = callback;
 
             $(document).keydown(function (event) {
@@ -42,7 +43,7 @@
                     return;
                 }
 
-                if ($(event.target).is("input:visible,textarea:visible") || $(event.target).hasClass('note-editable')) {
+                if ($(event.target).is('input:visible,textarea:visible') || $(event.target).hasClass('note-editable')) {
                     return;
                 }
 
@@ -60,12 +61,14 @@
             });
 
             $(document).keyup(function (event) {
-                if ($(event.target).is("#clipboard")) {
-                    return $("#clipboard").val('');
+                if ($(event.target).is('#clipboard')) {
+                    return $('#clipboard').val('');
                 }
             });
 
-            _model.$clipboardInput.on('paste', _pasteByEvent);
+            if(_model.$clipboardInput.length) {
+                _model.$clipboardInput.on('paste', _pasteByEvent);
+            }
 
             //['cut', 'copy', 'paste'].forEach(function (event) {
             //    document.addEventListener(event, function (e) {

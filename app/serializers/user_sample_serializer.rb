@@ -42,8 +42,4 @@ class UserSampleSerializer < ActiveModel::Serializer
              :pseudo,
              :slug,
              :avatar
-
-  def avatar
-    object.picture.image.url(:thumb) if object.picture
-  end
 end

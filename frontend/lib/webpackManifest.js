@@ -6,7 +6,7 @@ module.exports = function(publicPath, dest, filename) {
 
     return function() {
         this.plugin("done", function(stats) {
-            var stats = stats.toJson();
+            stats = stats.toJson();
             var chunks = stats.assetsByChunkName;
             var manifest = {};
             for (var key in chunks) {

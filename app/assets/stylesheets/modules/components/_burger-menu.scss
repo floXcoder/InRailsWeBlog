@@ -1,8 +1,8 @@
 // Position and sizing of burger button
 .bm-burger-button {
-  position: fixed;
   height: 30px;
   left: 36px;
+  position: fixed;
   top: 36px;
   width: 36px;
 }
@@ -32,15 +32,16 @@
 // Wrapper for item list
 .bm-item-list {
   color: #b8b7ad;
-  padding: 0.8em;
+  padding: .8em;
+  overflow: auto;
 
   .menu-item {
     i {
-      width: 2rem;
       display: block;
       float: left;
-      text-align: center;
       margin-right: 1rem;
+      text-align: center;
+      width: 2rem;
     }
   }
 }

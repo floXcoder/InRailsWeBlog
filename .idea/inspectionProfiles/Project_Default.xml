@@ -7,11 +7,21 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="4">
+          <list size="14">
             <item index="0" class="java.lang.String" itemvalue="key" />
             <item index="1" class="java.lang.String" itemvalue="ref" />
             <item index="2" class="java.lang.String" itemvalue="classtype" />
             <item index="3" class="java.lang.String" itemvalue="classname" />
+            <item index="4" class="java.lang.String" itemvalue="data-confirm" />
+            <item index="5" class="java.lang.String" itemvalue="data-tooltip" />
+            <item index="6" class="java.lang.String" itemvalue="aria-label" />
+            <item index="7" class="java.lang.String" itemvalue="data-collapsible" />
+            <item index="8" class="java.lang.String" itemvalue="data-activates" />
+            <item index="9" class="java.lang.String" itemvalue="data-position" />
+            <item index="10" class="java.lang.String" itemvalue="data-delay" />
+            <item index="11" class="java.lang.String" itemvalue="data-parsley-validate" />
+            <item index="12" class="java.lang.String" itemvalue="data-remote" />
+            <item index="13" class="java.lang.String" itemvalue="data-content" />
           </list>
         </value>
       </option>
@@ -21,6 +31,7 @@
     <inspection_tool class="JSUndefinedPropertyAssignment" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="NodeModulesDependencies" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="RailsChecklist01" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="RubocopInspection" enabled="true" level="SERVER PROBLEM" enabled_by_default="true" />
     <inspection_tool class="RubyUnnecessaryReturnStatement" enabled="false" level="WARNING" enabled_by_default="false" />
   </profile>
 </component>

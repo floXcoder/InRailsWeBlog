@@ -1,38 +1,38 @@
 'use strict';
 
-var ArticleActions = require('../../../actions/articleActions');
-var ArticleStore = require('../../../stores/articleStore');
+const ArticleStore = require('../../../stores/articleStore');
 
-var ArticleEditIcon = require('../icons/edit');
-var ArticleLinkIcon = require('../icons/link');
-var ArticleVisibilityIcon = require('../icons/visibility');
-var ArticleBookmarkIcon = require('../icons/bookmark');
-var ArticleCommentIcon = require('../icons/comment');
-var ArticleTags = require('../properties/tags');
-var ArticleTime = require('../properties/time');
-var ArticleLink = require('../properties/link');
+const CountCommentIcon = require('../../comments/icons/count');
+const ArticleActions = require('../properties/actions');
+const ArticleTags = require('../properties/tags');
+const ArticleTime = require('../properties/time');
 
-var UserAvatarIcon = require('../../users/icons/avatar');
+const UserAvatarIcon = require('../../users/icons/avatar');
 
-var FixedActionButton = require('../../materialize/fab');
+const HighlightCode = require('highlight.js');
 
-var HighlightCode = require('highlight.js');
+const classNames = require('classnames');
+
+import {Link} from 'react-router';
 
 var ArticleCardDisplay = React.createClass({
     propTypes: {
         children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
-        onClickTag: React.PropTypes.func.isRequired,
-        onClickEdit: React.PropTypes.func.isRequired,
-        onClickBookmark: React.PropTypes.func.isRequired,
-        onClickVisibility: React.PropTypes.func,
-        currentUserId: React.PropTypes.number
+        onTagClick: React.PropTypes.func.isRequired,
+        onBookmarkClick: React.PropTypes.func.isRequired,
+        onEditClick: React.PropTypes.func,
+        onVisibilityClick: React.PropTypes.func
+    },
+
+    contextTypes: {
+        router: React.PropTypes.object
     },
 
     getDefaultProps () {
         return {
-            onClickVisibility: null,
-            currentUserId: null
+            onClickEdit: null,
+            onClickVisibility: null
         };
     },
 
@@ -40,6 +40,7 @@ var ArticleCardDisplay = React.createClass({
         HighlightCode.configure({
             tabReplace: '  ' // 4 spaces
         });
+
         this._highlightCode();
     },
 
@@ -58,58 +59,57 @@ var ArticleCardDisplay = React.createClass({
     },
 
     _handleTagClick (tagId, tagName) {
-        this.props.onClickTag(tagName);
+        this.props.onTagClick(tagName);
     },
 
-    _handleArticleClick (articleId, event) {
-        ArticleStore.onTrackClick(articleId);
+    _handleArticleClick (event) {
+        ArticleStore.onTrackClick(this.props.article.id);
+
         return event;
     },
 
     render () {
+        const isOutdated = this.props.article.outdated_number > 3;
+
         return (
-            <div className="card blog-article-item clearfix">
+            <div className={classNames('card blog-article-item clearfix', {'article-outdated': isOutdated})}>
                 <div className="card-content">
                     <div className="card-title article-title center clearfix">
                         <h1 className="article-title-card">
-                            <a href={'/articles/' + this.props.article.slug}
-                               onClick={this._handleArticleClick.bind(this, this.props.article.id)}>
+                            <Link to={`/article/${this.props.article.slug}`}
+                                  onClick={this._handleArticleClick}>
                                 {this.props.article.title}
-                            </a>
+                            </Link>
                         </h1>
+
                         <UserAvatarIcon user={this.props.article.author}
                                         className="article-author"/>
+
                         <div className="article-info right-align">
                             <ArticleTime article={this.props.article}/>
-                            <ArticleCommentIcon articleLink={'/articles/' + this.props.article.slug}
-                                                commentsNumber={this.props.article.comments_number}/>
+
+                            <CountCommentIcon linkToComment={`/articles/${this.props.article.slug}`}
+                                              commentsNumber={this.props.article.comments_number}/>
                         </div>
                     </div>
+
                     <div className="blog-article-content"
                          dangerouslySetInnerHTML={{__html: this.props.children}}/>
                 </div>
+
                 <div className="card-action article-action clearfix">
                     <div className="row">
+
                         <div className="col s12 m12 l6 md-margin-bottom-20">
                             <ArticleTags article={this.props.article}
                                          onClickTag={this._handleTagClick}/>
                         </div>
+
                         <div className="col s12 m12 l6 right-align">
-                            <FixedActionButton>
-                                <ArticleLinkIcon isLink={this.props.article.is_link}/>
-                                <ArticleBookmarkIcon article={this.props.article}
-                                                     currentUserId={this.props.currentUserId}
-                                                     onClickBookmark={this.props.onClickBookmark}/>
-                                <ArticleVisibilityIcon article={this.props.article}
-                                                       floatingButton={true}
-                                                       currentUserId={this.props.currentUserId}
-                                                       onClickVisibility={this.props.onClickVisibility}/>
-                                <ArticleEditIcon article={this.props.article}
-                                                 currentUserId={this.props.currentUserId}
-                                                 onClickEdit={this.props.onClickEdit}/>
-                                <ArticleLink article={this.props.article}
-                                             onArticleClick={this._handleArticleClick}/>
-                            </FixedActionButton>
+                            <ArticleActions article={this.props.article}
+                                            onEditClick={this.props.onEditClick}
+                                            onBookmarkClick={this.props.onBookmarkClick}
+                                            onVisibilityClick={this.props.onVisibilityClick}/>
                         </div>
                     </div>
                 </div>

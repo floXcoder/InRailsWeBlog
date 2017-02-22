@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var HappyPack = require('happypack');
 var _ = require('lodash');
 
 var config   = require('../config').webpack;
@@ -9,12 +10,25 @@ webPackConfig.output = _.merge(config.output, {
 });
 
 webPackConfig = _.merge(webPackConfig, {
+    cache: true,
     debug: true,
+    stats: {
+        assets: false,
+        colors: true,
+        version: false,
+        hash: false,
+        timings: false,
+        chunks: false,
+        chunkModules: false
+    },
     displayErrorDetails: true,
-    outputPathinfo: true,
-    devtool: 'sourcemap'
+    output: {
+        pathinfo: true
+    },
+    devtool: 'source-map'
+    // Firefox bug, try to load source map files
+    // devtool: 'cheap-module-eval-source-map'
 });
-
 
 // Common chuncks
 _.each(config.commons, function(common) {
@@ -28,5 +42,11 @@ _.each(config.commons, function(common) {
 });
 
 webPackConfig.plugins.push(
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new HappyPack({
+        id: 'jsx',
+        loaders: [
+            'babel?presets[]=es2015', 'babel?presets[]=react'
+        ]
+    })
 );

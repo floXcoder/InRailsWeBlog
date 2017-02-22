@@ -6,12 +6,11 @@ var ErrorStore = Reflux.createStore({
     listenables: [ErrorActions],
     url: '/errors',
 
-    init: function () {
+    init () {
     },
 
-    onLoadErrors: function (data) {
-        var requestParam = {};
-
+    onLoadErrors (data) {
+        let requestParam = {};
         if (data) {
             if (data.page) {
                 requestParam.page = data.page;
@@ -20,21 +19,23 @@ var ErrorStore = Reflux.createStore({
             }
         }
 
-        jQuery.getJSON(
+        $.getJSON(
             this.url,
-            requestParam,
-            function (data) {
-                this.trigger(data);
-            }.bind(this))
-            .fail(function (xhr, status, error) {
+            requestParam)
+            .done((dataReceived) => {
+                this.trigger({
+                    type: 'loadErrors',
+                    errors: dataReceived
+                });
+            })
+            .fail((xhr, status, error) => {
                 return false;
-            }.bind(this));
+            });
     },
 
-    onPushError: function (error) {
-        var requestParam = {};
+    onPushError (error) {
+        let requestParam = {};
         requestParam.error = {};
-
         if (error) {
             requestParam.error.message = error.message;
             requestParam.error.class_name = error.url;
@@ -55,14 +56,72 @@ var ErrorStore = Reflux.createStore({
             url: this.url,
             dataType: 'json',
             type: 'POST',
-            data: requestParam,
-            success: function (data) {
+            data: requestParam
+        })
+            .done(() => {
                 return true;
-            }.bind(this),
-            error: function (xhr, status, error) {
+            })
+            .fail(() => {
                 return false;
-            }.bind(this)
-        });
+            });
+    },
+
+    onDeleteError (errorId) {
+        if ($.isEmpty(errorId)) {
+            log.error('Tried to remove an error without error id');
+            return;
+        }
+
+        let url = this.url + '/' + errorId;
+
+        let requestParam = {};
+        requestParam._method = 'delete';
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                if (!$.isEmpty(dataReceived)) {
+                    this.trigger({
+                        type: 'deleteError',
+                        deletedError: dataReceived
+                    });
+                } else {
+                    log.error('No data received from delete error');
+                }
+            })
+            .fail((xhr) => {
+                if (xhr && xhr.status === 403) {
+                    this.trigger({errorErrors: xhr.responseJSON});
+                } else {
+                    return false;
+                }
+            });
+    },
+
+    onDeleteAllErrors () {
+        let url = this.url + '/delete_all';
+
+        let requestParam = {};
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                this.trigger({
+                    type: 'deleteAllErrors',
+                    errorsDeleted: dataReceived
+                });
+            })
+            .fail(() => {
+                return false;
+            });
     }
 });
 

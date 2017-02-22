@@ -1,0 +1,36 @@
+@import 'materialize-css/extras/noUiSlider/nouislider';
+
+.noUiSlider {
+  label {
+    position: relative;
+    top: 0;
+  }
+
+  .noUiSlider-slider {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .noUiSlider-values {
+    color: #9e9e9e;
+    font-size: 1rem;
+    margin: 12px;
+  }
+
+  &.input-field .prefix ~ .noUiSlider-slider {
+    margin-left: 3rem;
+    width: calc(100% - 3rem);
+  }
+
+  .noUi-connect {
+    background-color: $color-base;
+  }
+
+  .noUi-horizontal .noUi-handle {
+    background-color: $color-base;
+  }
+
+  .noUi-target .range-label {
+    background-color: $color-base;
+  }
+}

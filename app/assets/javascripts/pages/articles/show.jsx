@@ -2,26 +2,12 @@
 
 require('../common');
 
-var ArticleShow = require('../../components/articles/show');
-var ArticleCreation = require('../../components/articles/creation');
+const ArticleShow = require('../../components/articles/show');
 
-let currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
-let article = JSON.parse(document.getElementById('article-element-component').getAttribute('data-article'));
-let tags = JSON.parse(document.getElementById('article-element-component').getAttribute('data-tags'));
-
-// Main
-if(currentUserId) {
-    ReactDOM.render(
-        <ArticleCreation currentUserId={currentUserId} />,
-        document.getElementById('article-creation-component')
-    );
-}
+const article = JSON.parse(document.getElementById('article-show-component').getAttribute('data-article'));
 
 // Main
 ReactDOM.render(
-    <ArticleShow
-        currentUserId={currentUserId}
-        article={article.article}
-        tags={tags} />,
-    document.getElementById('article-element-component')
+    <ArticleShow article={article ? article.article : null}/>,
+    document.getElementById('article-show-component')
 );

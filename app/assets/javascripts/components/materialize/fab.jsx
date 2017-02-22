@@ -1,39 +1,28 @@
 'use strict';
 
-var FixedActionButton = React.createClass({
-    propTypes: {
-        children: React.PropTypes.array.isRequired
-    },
+const FixedActionButton = ({children}) => (
+    <div className="fixed-action-btn horizontal click-to-toggle">
+        <a className="btn-floating btn-large">
+            <i className="material-icons">menu</i>
+        </a>
 
-    componentDidMount () {
-    },
+        <ul>
+            {
+                React.Children.map(children, (button) =>
+                    <li>
+                        {button}
+                    </li>
+                )
+            }
+        </ul>
+    </div>
+);
 
-    componentWillUpdate () {
-    },
-
-    _renderButton () {
-        return React.Children.map(this.props.children, function (button) {
-            return (
-                <li>
-                    {button}
-                </li>
-            );
-        });
-    },
-
-    render () {
-        return (
-            <div className="fixed-action-btn horizontal click-to-toggle">
-                <a className="btn-floating btn-large blue-grey darken-2">
-                    <i className="material-icons">menu</i>
-                </a>
-                <ul>
-                    {this._renderButton()}
-                </ul>
-            </div>
-
-        );
-    }
-});
+FixedActionButton.propTypes = {
+    children: React.PropTypes.oneOfType([
+        React.PropTypes.array,
+        React.PropTypes.element
+    ]).isRequired
+};
 
 module.exports = FixedActionButton;

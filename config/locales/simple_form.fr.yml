@@ -9,7 +9,11 @@ fr:
       default_message: "Merci de corriger les problèmes ci-dessous :"
     labels:
       user: :user
+      article: :article
+      tag: :tag
     options:
       user: :user.enums
+      article: :article.enums
+      tag: :tag.enums
 
 

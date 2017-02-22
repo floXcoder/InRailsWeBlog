@@ -1,33 +1,43 @@
 'use strict';
 
-var UserActions = require('../../actions/userActions');
-var UserStore = require('../../stores/userStore');
+const UserActions = require('../../actions/userActions');
+const UserStore = require('../../stores/userStore');
 
-var UserCardDisplay = require('./display/card');
+const UserCardDisplay = require('./display/card');
 
-var SearchBar = require('../theme/search-bar');
+const SearchBar = require('../theme/search-bar');
 
-var Filtering = require('../../modules/filter');
+const Filtering = require('../../modules/filter');
 
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+const Pagination = require('../materialize/pagination');
+
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 var UserIndex = React.createClass({
+    propTypes: {
+        onUserClick: React.PropTypes.func
+    },
+
     mixins: [
         Reflux.listenTo(UserStore, 'onUserChange')
     ],
 
+    getDefaultProps () {
+        return {
+            onUserClick: null
+        };
+    },
+
     getInitialState () {
         return {
             users: [],
+            usersPagination: null,
             filteredUsers: null
         };
     },
 
     componentWillMount () {
-        UserActions.loadUsers();
-    },
-
-    componentDidMount () {
+        UserActions.loadUsers({page: 1});
     },
 
     onUserChange (userData) {
@@ -39,6 +49,7 @@ var UserIndex = React.createClass({
 
         if (typeof(userData.users) !== 'undefined') {
             newState.users = userData.users;
+            newState.usersPagination = userData.meta;
         }
 
         if (!$.isEmpty(newState)) {
@@ -55,45 +66,64 @@ var UserIndex = React.createClass({
         });
     },
 
+    _handleUserClick (userId, event) {
+        if (this.props.onUserClick) {
+            if (event) {
+                event.preventDefault();
+            }
+
+            this.props.onUserClick(userId);
+        } else {
+            return event;
+        }
+    },
+
+    _handlePaginationClick (paginate) {
+        UserActions.loadUsers({page: paginate.selected + 1});
+        setTimeout(() => {
+            $('html, body').animate({scrollTop: $('.blog-user-list').offset().top - 64}, 750);
+        }, 300);
+    },
+
     render () {
         let users = this.state.filteredUsers ? this.state.filteredUsers : this.state.users;
 
-        let UserList = users.map((user) => {
-
-            return (
-                <div key={user.id}
-                     className="col s6 m4 l3 ">
-                    <UserCardDisplay
-                        user={user}/>
-                </div>
-
-            );
-        });
-
         return (
             <div className="blog-user">
-                <h1 className="heading-2 center-align">
-                    {I18n.t('js.admin.users.index.title')}
-                </h1>
-
                 <div className="row">
                     <div className="col s12">
                         <div className="card-panel">
                             <SearchBar label={I18n.t('js.user.index.search')}
-                                       filterText={this.state.filterText}
-                                       onUserInput={this._handleUserInput}/>
+                                       onUserInput={this._handleUserInput}>
+                                {this.state.filterText}
+                            </SearchBar>
                         </div>
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="row blog-user-list">
                     <ReactCSSTransitionGroup transitionName="user"
                                              transitionAppear={true}
                                              transitionAppearTimeout={600}
                                              transitionEnterTimeout={500}
                                              transitionLeaveTimeout={300}>
-                        {UserList}
+                        {
+                            users.map((user) =>
+                                <div key={user.id}
+                                     className="col s6 m4 l3 ">
+                                    <UserCardDisplay user={user}
+                                                     onUserClick={this._handleUserClick}/>
+                                </div>
+                            )
+
+                        }
                     </ReactCSSTransitionGroup>
+
+                    {
+                        this.state.usersPagination &&
+                        <Pagination totalPages={this.state.usersPagination.total_pages}
+                                    onPaginationClick={this._handlePaginationClick}/>
+                    }
                 </div>
             </div>
         );

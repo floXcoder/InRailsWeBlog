@@ -1,26 +1,28 @@
 'use strict';
 
-var Spinner = require('../../components/materialize/spinner');
+const Spinner = require('../../components/materialize/spinner');
 
-var UserStore = require('../../stores/userStore');
+const UserStore = require('../../stores/userStore');
 
-var ArticleStore = require('../../stores/articleStore');
-var ArticleListDisplay = require('./display/list');
-var ArticleNone = require('../../components/articles/display/none');
+const ArticleActions = require('../../actions/articleActions');
+const ArticleStore = require('../../stores/articleStore');
+const ArticleListDisplay = require('./display/list');
+const ArticleNone = require('../../components/articles/display/none');
 
 var ArticleIndex = React.createClass({
     propTypes: {
-        currentUserId: React.PropTypes.number
+        // Populate by react-router
+        params: React.PropTypes.object
     },
 
     mixins: [
         Reflux.listenTo(ArticleStore, 'onArticleChange'),
-        Reflux.listenTo(UserStore, 'onPreferenceChange')
+        // Reflux.listenTo(UserStore, 'onPreferenceChange')
     ],
 
     getDefaultProps () {
         return {
-            currentUserId: null
+            params: {}
         };
     },
 
@@ -35,7 +37,15 @@ var ArticleIndex = React.createClass({
     },
 
     componentDidMount () {
+        ArticleActions.loadArticles(this.props.params);
+
         this._activateTooltip();
+    },
+
+    componentWillReceiveProps (nextProps) {
+        if (!_.isEqual(this.props.params, nextProps.params)) {
+            ArticleActions.loadArticles(nextProps.params);
+        }
     },
 
     componentDidUpdate () {
@@ -44,7 +54,7 @@ var ArticleIndex = React.createClass({
 
     _activateTooltip () {
         let $currentElement = $(ReactDOM.findDOMNode(this).className);
-        $currentElement.ready(function () {
+        $currentElement.ready(() => {
             $currentElement.find('.tooltipped').tooltip({
                 position: "bottom",
                 delay: 50
@@ -75,45 +85,38 @@ var ArticleIndex = React.createClass({
 
         let newState = {};
 
-        if (typeof(articleData.articles) !== 'undefined') {
+        if (articleData.type === 'loadArticles') {
             newState.articles = articleData.articles;
             newState.isLoading = false;
         }
-
-        newState.hasMore = !!articleData.hasMore;
 
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
     },
 
-    _renderArticleList () {
-        if (this.state.articles && this.state.articles.length > 0) {
-            return (
-                <ArticleListDisplay
-                    ref="articlesList"
-                    currentUserId={this.props.currentUserId}
-                    articles={this.state.articles}
-                    hasMore={this.state.hasMore}
-                    highlightResults={this.state.highlightResults}
-                    articleDisplayMode={this.state.articleDisplayMode}/>
-            );
-        } else if (this.state.articles && this.state.articles.length === 0) {
-            return (
-                <ArticleNone/>
-            );
-        } else {
-            return null;
-        }
-    },
-
     render () {
         return (
             <div className="blog-article-box">
-                <div className={this.state.isLoading ? 'center': 'hide' + ' margin-top-20'}>
-                    <Spinner size='big'/>
-                </div>
-                {this._renderArticleList()}
+                {
+                    this.state.isLoading &&
+                    <div className="center margin-top-20">
+                        <Spinner size='big'/>
+                    </div>
+                }
+
+                {
+                    this.state.articles && this.state.articles.length > 0 &&
+                    <ArticleListDisplay articles={this.state.articles}
+                                        hasMore={this.state.hasMore}
+                                        highlightResults={this.state.highlightResults}
+                                        articleDisplayMode={this.state.articleDisplayMode}/>
+                }
+
+                {
+                    this.state.articles && this.state.articles.length == 0 &&
+                    <ArticleNone isTopicPage={!!this.props.params.topicId}/>
+                }
             </div>
         );
     }

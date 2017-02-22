@@ -2,24 +2,6 @@
 #
 #                    Prefix Verb   URI Pattern                             Controller#Action
 #                      root GET    /                                       static_pages#home
-#          validation_users GET    /users/validation(.:format)             users#validation
-#                 root_user GET    /users/:id(.:format)                    users#show
-#          preferences_user GET    /users/:id/preferences(.:format)        users#preferences
-#                           POST   /users/:id/preferences(.:format)        users#update_preferences
-#            temporary_user GET    /users/:id/temporary(.:format)          users#temporary
-#            bookmarks_user GET    /users/:id/bookmarks(.:format)          users#bookmarks
-#             comments_user GET    /users/:id/comments(.:format)           users#comments
-#           activities_user GET    /users/:id/activities(.:format)         users#activities
-#              clicked_user POST   /users/:id/clicked(.:format)            users#clicked
-#               viewed_user POST   /users/:id/viewed(.:format)             users#viewed
-#                     users GET    /users(.:format)                        users#index
-#                           POST   /users(.:format)                        users#create
-#                  new_user GET    /users/new(.:format)                    users#new
-#                 edit_user GET    /users/:id/edit(.:format)               users#edit
-#                      user GET    /users/:id(.:format)                    users#show
-#                           PATCH  /users/:id(.:format)                    users#update
-#                           PUT    /users/:id(.:format)                    users#update
-#                           DELETE /users/:id(.:format)                    users#destroy
 #                    signup GET    /signup(.:format)                       users/registrations#new
 #                           POST   /signup(.:format)                       users/registrations#create
 #                     login GET    /login(.:format)                        users/sessions#new
@@ -46,20 +28,34 @@
 #               user_unlock POST   /users/unlock(.:format)                 devise/unlocks#create
 #           new_user_unlock GET    /users/unlock/new(.:format)             devise/unlocks#new
 #                           GET    /users/unlock(.:format)                 devise/unlocks#show
+#          validation_users GET    /users/validation(.:format)             users#validation
+#                 root_user GET    /users/:id(.:format)                    users#show
+#          preferences_user GET    /users/:id/preferences(.:format)        users#preferences
+#                           POST   /users/:id/preferences(.:format)        users#update_preferences
+#                topic_user POST   /users/:id/topic(.:format)              users#add_topic
+#         change_topic_user POST   /users/:id/change_topic(.:format)       users#change_topic
+#                           PUT    /users/:id/topic(.:format)              users#update_topic
+#                           DELETE /users/:id/topic(.:format)              users#remove_topic
+#            temporary_user GET    /users/:id/temporary(.:format)          users#temporary
+#            bookmarks_user GET    /users/:id/bookmarks(.:format)          users#bookmarks
+#             comments_user GET    /users/:id/comments(.:format)           users#comments
+#           activities_user GET    /users/:id/activities(.:format)         users#activities
+#              clicked_user POST   /users/:id/clicked(.:format)            users#clicked
+#               viewed_user POST   /users/:id/viewed(.:format)             users#viewed
+#                     users GET    /users(.:format)                        users#index
+#                 edit_user GET    /users/:id/edit(.:format)               users#edit
+#                      user GET    /users/:id(.:format)                    users#show
+#                           PATCH  /users/:id(.:format)                    users#update
+#                           PUT    /users/:id(.:format)                    users#update
 #                activities GET    /activities(.:format)                   activities#index
-#                           POST   /activities(.:format)                   activities#create
-#              new_activity GET    /activities/new(.:format)               activities#new
-#             edit_activity GET    /activities/:id/edit(.:format)          activities#edit
-#                  activity GET    /activities/:id(.:format)               activities#show
-#                           PATCH  /activities/:id(.:format)               activities#update
-#                           PUT    /activities/:id(.:format)               activities#update
-#                           DELETE /activities/:id(.:format)               activities#destroy
-#           search_articles GET    /articles/search(.:format)              articles#search
-#     autocomplete_articles GET    /articles/autocomplete(.:format)        articles#autocomplete
 #           history_article GET    /articles/:id/history(.:format)         articles#history
 #           restore_article GET    /articles/:id/restore(.:format)         articles#restore
 #          bookmark_article POST   /articles/:id/bookmark(.:format)        articles#add_bookmark
 #                           DELETE /articles/:id/bookmark(.:format)        articles#remove_bookmark
+#           outdate_article POST   /articles/:id/outdate(.:format)         articles#add_outdated
+#                           DELETE /articles/:id/outdate(.:format)         articles#remove_outdated
+#           vote_up_article POST   /articles/:id/vote_up(.:format)         articles#vote_up
+#         vote_down_article POST   /articles/:id/vote_down(.:format)       articles#vote_down
 #          comments_article GET    /articles/:id/comments(.:format)        articles#comments
 #                           POST   /articles/:id/comments(.:format)        articles#add_comment
 #                           PUT    /articles/:id/comments(.:format)        articles#update_comment
@@ -84,7 +80,14 @@
 #                           PATCH  /tags/:id(.:format)                     tags#update
 #                           PUT    /tags/:id(.:format)                     tags#update
 #                           DELETE /tags/:id(.:format)                     tags#destroy
+# autocomplete_search_index GET    /search/autocomplete(.:format)          search#autocomplete
+#              search_index GET    /search(.:format)                       search#index
+#                  comments GET    /comments(.:format)                     comments#index
 #              terms_of_use GET    /terms_of_use(.:format)                 static_pages#terms_of_use
+#         delete_all_errors POST   /errors/delete_all(.:format)            errors#destroy_all
+#                    errors GET    /errors(.:format)                       errors#index
+#                           POST   /errors(.:format)                       errors#create
+#                     error DELETE /errors/:id(.:format)                   errors#destroy
 #               sidekiq_web        /admin/sidekiq                          Sidekiq::Web
 #                     admin GET    /admin(.:format)                        admin#index
 #              admin_errors GET    /admin/errors(.:format)                 admin/errors_manager#index
@@ -96,14 +99,9 @@
 #                           PATCH  /admin/users_manager/:id(.:format)      admin/users_manager#update
 #                           PUT    /admin/users_manager/:id(.:format)      admin/users_manager#update
 #                           DELETE /admin/users_manager/:id(.:format)      admin/users_manager#destroy
-#                    errors GET    /errors(.:format)                       errors#index
-#                           POST   /errors(.:format)                       errors#create
-#                 new_error GET    /errors/new(.:format)                   errors#new
-#                edit_error GET    /errors/:id/edit(.:format)              errors#edit
-#                     error GET    /errors/:id(.:format)                   errors#show
-#                           PATCH  /errors/:id(.:format)                   errors#update
-#                           PUT    /errors/:id(.:format)                   errors#update
-#                           DELETE /errors/:id(.:format)                   errors#destroy
+#                           GET    /article/*id(.:format)                  static_pages#home
+#                           GET    /tag/*id(.:format)                      static_pages#home
+#                           GET    /user/*id(.:format)                     static_pages#home
 #
 
 require 'sidekiq/web'
@@ -112,27 +110,6 @@ require 'sidekiq/cron/web'
 Rails.application.routes.draw do
   # Root path
   root  'static_pages#home'
-
-  # Users
-  resources :users do
-    collection do
-      get :validation,      to: 'users#validation'
-    end
-
-    member do
-      get   :show,          to: 'users#show',               as: :root
-      get   :preferences,   to: 'users#preferences',        as: :preferences
-      post  :preferences,   to: 'users#update_preferences'
-
-      get   :temporary,     to: 'users#temporary',          as: :temporary
-      get   :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
-      get   :comments,      to: 'users#comments',           as: :comments
-      get   :activities,    to: 'users#activities',         as: :activities
-
-      post  :clicked,       to: 'users#clicked'
-      post  :viewed,        to: 'users#viewed'
-    end
-  end
 
   # Users (devise)
   devise_scope :user do
@@ -146,22 +123,46 @@ Rails.application.routes.draw do
                                     sessions:       'users/sessions',
                                     passwords:      'users/passwords' }
 
-  # Users (activities)
-  resources :activities
-
-
-  # Articles
-  resources :articles do
+  # Users
+  resources :users, except: [:new, :create, :destroy] do
     collection do
-      get   :search,        to: 'articles#search'
-      get   :autocomplete,  to: 'articles#autocomplete'
+      get :validation,      to: 'users#validation'
     end
 
     member do
-      get     :history,   to: 'articles#history'
+      get     :show,          to: 'users#show',               as: :root
+      get     :preferences,   to: 'users#preferences',        as: :preferences
+      post    :preferences,   to: 'users#update_preferences'
+
+      post    :topic,         to: 'users#add_topic'
+      post    :change_topic,  to: 'users#change_topic'
+      put     :topic,         to: 'users#update_topic'
+      delete  :topic,         to: 'users#remove_topic'
+
+      get     :temporary,     to: 'users#temporary',          as: :temporary
+      get     :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
+      get     :comments,      to: 'users#comments',           as: :comments
+      get     :activities,    to: 'users#activities',         as: :activities
+
+      post    :clicked,       to: 'users#clicked'
+      post    :viewed,        to: 'users#viewed'
+    end
+  end
+
+  # Users (activities)
+  resources :activities, only: [:index]
+
+  # Articles
+  resources :articles do
+    member do
+      get     :history,   to: 'articles#historarticlesy'
       get     :restore,   to: 'articles#restore'
       post    :bookmark,  to: 'articles#add_bookmark'
       delete  :bookmark,  to: 'articles#remove_bookmark'
+      post    :outdate,   to: 'articles#add_outdated'
+      delete  :outdate,   to: 'articles#remove_outdated'
+      post    :vote_up,   to: 'articles#vote_up'
+      post    :vote_down, to: 'articles#vote_down'
 
       get     :comments,  to: 'articles#comments'
       post    :comments,  to: 'articles#add_comment'
@@ -181,8 +182,24 @@ Rails.application.routes.draw do
     end
   end
 
+  # Global search
+  resources :search, only: [ :index ] do
+    collection do
+      get   :autocomplete,   to: 'search#autocomplete'
+    end
+  end
+
+  resources :comments, only: [ :index ]
+
   # Static pages
   get   :terms_of_use,  to: 'static_pages#terms_of_use'
+
+  # Errors
+  resources :errors, only: [ :index, :create, :destroy ] do
+    collection do
+      post 'delete_all',     to: 'errors#destroy_all'
+    end
+  end
 
   # Sidekiq interface
   authenticate :user, lambda { |user| user.admin? } do
@@ -193,10 +210,12 @@ Rails.application.routes.draw do
   get :admin,     to: 'admin#index'
 
   namespace :admin do
-    get :errors,    to: 'errors_manager#index'
+    get       :errors,    to: 'errors_manager#index'
     resources :users_manager
   end
 
-  # Errors
-  resources :errors
+  # Routes managed by javascript router
+  get '/article/*id',   to: 'static_pages#home'
+  get '/tag/*id',       to: 'static_pages#home'
+  get '/user/*id',      to: 'static_pages#home'
 end

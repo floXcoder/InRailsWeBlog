@@ -12,6 +12,8 @@
 #  rating           :integer          default(0)
 #  positive_reviews :integer          default(0)
 #  negative_reviews :integer          default(0)
+#  accepted         :boolean          default(TRUE), not null
+#  deleted_at       :datetime
 #  parent_id        :integer
 #  lft              :integer
 #  rgt              :integer
@@ -22,8 +24,10 @@
 FactoryGirl.define do
   factory :comment do
     user
+
     title   { Faker::Hipster.sentence(3) }
     subject { Faker::Hipster.sentence(3, true) }
     body    { Faker::Hipster.paragraph(2, true, 3) }
+    rating  { Random.rand(1..5) }
   end
 end

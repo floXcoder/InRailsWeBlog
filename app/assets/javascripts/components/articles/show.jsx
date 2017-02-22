@@ -1,31 +1,37 @@
 'use strict';
 
-var HighlightCode = require('highlight.js');
+const HighlightCode = require('highlight.js');
 
-var AnimatedText = require('../theme/animated-text');
+const AnimatedText = require('../theme/animated-text');
 
-var UserStore = require('../../stores/userStore');
+const UserStore = require('../../stores/userStore');
 
-var ArticleActions = require('../../actions/articleActions');
-var ArticleStore = require('../../stores/articleStore');
-var ArticleHistory = require('./history');
-var ArticleCommentIcon = require('./icons/comment');
-var ArticleLinkIcon = require('./icons/link');
-var ArticleVisibilityIcon = require('./icons/visibility');
-var ArticleBookmarkIcon = require('./icons/bookmark');
-var ArticleHistoryIcon = require('./icons/history');
-var ArticleDeleteIcon = require('./icons/delete');
-var ArticleTags = require('./properties/tags');
-var ArticleTime = require('./properties/time');
+const ArticleActions = require('../../actions/articleActions');
+const ArticleStore = require('../../stores/articleStore');
+const ArticleHistory = require('./history');
+const CountCommentIcon = require('../comments/icons/count');
+const ArticleLinkIcon = require('./icons/link');
+const ArticleOutdatedIcon = require('./icons/outdated');
+const ArticleVisibilityIcon = require('./icons/visibility');
+const ArticleBookmarkIcon = require('./icons/bookmark');
+const ArticleHistoryIcon = require('./icons/history');
+const ArticleDeleteIcon = require('./icons/delete');
+const ArticleTags = require('./properties/tags');
+const ArticleTime = require('./properties/time');
 
-var UserAvatarIcon = require('../users/icons/avatar');
+const UserAvatarIcon = require('../users/icons/avatar');
 
-var CommentBox = require('../comments/box');
+const CommentBox = require('../comments/box');
+
+const classNames = require('classnames');
+
+import {Link} from 'react-router';
 
 var ArticleShow = React.createClass({
     propTypes: {
-        article: React.PropTypes.object.isRequired,
-        currentUserId: React.PropTypes.number
+        article: React.PropTypes.object,
+        params: React.PropTypes.object,
+        location: React.PropTypes.object,
     },
 
     mixins: [
@@ -34,23 +40,33 @@ var ArticleShow = React.createClass({
 
     getDefaultProps () {
         return {
-            currentUserId: null
+            article: null,
+            params: {},
+            location: {}
         };
     },
 
     getInitialState () {
         return {
-            article: this.props.article,
+            article: null,
             articleVersions: null,
-            isHistoryDisplayed: false,
-            comments: this.props.article.comments,
-            showCommentForm: false
+            isHistoryDisplayed: false
         };
+    },
+
+    componentWillMount () {
+        if (this.props.article) {
+            this.setState({
+                article: this.props.article
+            });
+        } else if (this.props.params.articleSlug) {
+            ArticleActions.loadArticle({slug: this.props.params.articleSlug});
+        }
     },
 
     componentDidMount () {
         // Display tooltips
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
+        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(() => {
             $(this).tooltip();
         });
 
@@ -58,24 +74,16 @@ var ArticleShow = React.createClass({
         HighlightCode.configure({
             tabReplace: '  ' // 2 spaces
         });
+
         this._highlightCode();
     },
 
     componentDidUpdate () {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
+        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(() => {
             $(this).tooltip();
         });
-        this._highlightCode();
-    },
 
-    _highlightCode () {
-        let domNode = ReactDOM.findDOMNode(this);
-        let nodes = domNode.querySelectorAll('pre code');
-        if (nodes.length > 0) {
-            for (let i = 0; i < nodes.length; i = i + 1) {
-                HighlightCode.highlightBlock(nodes[i]);
-            }
-        }
+        this._highlightCode();
     },
 
     onArticleChange (articleData) {
@@ -85,64 +93,37 @@ var ArticleShow = React.createClass({
 
         let newState = {};
 
-        if (typeof(articleData.articleVersions) !== 'undefined') {
-            newState.articleVersions = articleData.articleVersions;
-            if (articleData.articleVersions.length === 0
-                || (articleData.articleVersions.length === 1 && articleData.articleVersions[0].article.content === '')) {
-                Materialize.toast(I18n.t('js.article.history.none'));
-            }
+        if (articleData.type === 'loadArticle') {
+            newState.article = articleData.article;
         }
 
-        if (typeof(articleData.articleRestored) !== 'undefined') {
+        if (articleData.type === 'loadArticleHistory') {
+            newState.isHistoryDisplayed = true;
+            newState.articleVersions = articleData.articleVersions;
+        }
+
+        if (articleData.type === 'restoreArticle') {
+            newState.isHistoryDisplayed = false;
             newState.article = articleData.articleRestored;
             Materialize.toast(I18n.t('js.article.history.restored'));
-            this._handleHistoryClick();
-        }
-
-        if (typeof(articleData.comment) !== 'undefined') {
-            if (articleData.comment.parent_id) {
-                let comments = [];
-                this.state.comments.forEach(function (comment) {
-                    if (comment.id === articleData.comment.parent_id) {
-                        comments.push(comment);
-                        comments.push(articleData.comment);
-                    } else {
-                        comments.push(comment);
-                    }
-                });
-                newState.comments = comments;
-            } else {
-                newState.comments = this.state.comments.concat([articleData.comment]);
-            }
-            Materialize.toast(I18n.t('js.comment.flash.creation_successful'), 5000);
-        }
-
-        if (typeof(articleData.updatedComment) !== 'undefined') {
-            let comments = [];
-            this.state.comments.forEach(function (comment) {
-                if (articleData.updatedComment.id === comment.id) {
-                    comments.push(articleData.updatedComment);
-                } else {
-                    comments.push(comment);
-                }
-            });
-            newState.comments = comments;
-            Materialize.toast(I18n.t('js.comment.flash.update_successful'), 5000);
-        }
-
-        if (typeof(articleData.deletedComment) !== 'undefined') {
-            let comments = [];
-            this.state.comments.forEach(function (comment) {
-                if (articleData.deletedComment.id.indexOf(comment.id) === -1) {
-                    comments.push(comment);
-                }
-            });
-            newState.comments = comments;
-            Materialize.toast(I18n.t('js.comment.flash.deletion_successful'), 5000);
         }
 
         if (!$.isEmpty(newState)) {
             this.setState(newState);
+        }
+    },
+
+    _highlightCode () {
+        if (!this.state.article) {
+            return;
+        }
+
+        let domNode = ReactDOM.findDOMNode(this);
+        let nodes = domNode.querySelectorAll('pre code');
+        if (nodes.length > 0) {
+            for (let i = 0; i < nodes.length; i = i + 1) {
+                HighlightCode.highlightBlock(nodes[i]);
+            }
         }
     },
 
@@ -153,120 +134,162 @@ var ArticleShow = React.createClass({
 
     _handleHistoryClick () {
         if (this.state.isHistoryDisplayed) {
-            this.setState({isHistoryDisplayed: false})
+            this.setState({isHistoryDisplayed: false});
         } else {
             ArticleActions.loadArticleHistory({history: this.state.article.id});
         }
-
-        this.state.isHistoryDisplayed = !this.state.isHistoryDisplayed;
     },
 
     _handleDeleteClick (event) {
         event.preventDefault();
-        ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
+        if (this.state.article) {
+            ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
+        }
     },
 
     _handleBookmarkClick (articleId, isBookmarked) {
         ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
     },
 
-    _handleAddCommentButton (event) {
-        event.preventDefault();
-        if (!this.props.currentUserId) {
-            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
-        } else {
-            this.setState({showCommentForm: true});
-        }
+    _handleVoteClick (articleId, isUp) {
+        ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
     },
 
-    _handleCommentCancel (event) {
-        event.preventDefault();
-        this.setState({showCommentForm: false});
-    },
-
-    _handleCommentDelete (commentId) {
-        if (!this.props.currentUserId) {
-            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
-        } else {
-            if (commentId) {
-                ArticleActions.deleteComment(commentId, this.state.article.id);
-            }
-        }
-    },
-
-    _handleCommentSubmit (commentData) {
-        if (!this.props.currentUserId) {
-            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
-        } else {
-            if (commentData.id) {
-                ArticleActions.updateComment(commentData, this.state.article.id);
-            } else {
-                ArticleActions.addComment(commentData, this.state.article.id);
-            }
-        }
+    _handleOutdatedClick (articleId, isOutdated) {
+        ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
     },
 
     render () {
-        return (
-            <div>
-                <div className="card blog-article-item clearfix">
-                    <div className="card-content">
-                        <UserAvatarIcon user={this.props.article.author}
-                                        className="article-author"/>
-                        <div className="article-info right-align">
-                            <ArticleTime article={this.props.article}/>
-                            <ArticleCommentIcon articleLink={'/articles/' + this.state.article.slug}
-                                                commentsNumber={this.props.article.comments_number}/>
+        if (this.state.article) {
+            const isOutdated = this.state.article.outdated_number > 3;
+
+            return (
+                <div>
+                    {
+                        isOutdated &&
+                        <div className="card center-align red-text">
+                            <p>
+                                {I18n.t('js.article.common.outdated')}
+                            </p>
                         </div>
-                        {(!$.isEmpty(this.props.article.title) || !$.isEmpty(this.props.article.summary)) &&
-                        <AnimatedText title={this.props.article.title}
-                                      subtitle={this.props.article.summary}/>}
-                        <span className="blog-article-content"
-                              dangerouslySetInnerHTML={{__html: this.state.article.content}}/>
-                    </div>
-                    <div className="card-action article-action clearfix">
-                        <div className="row">
-                            <div className="col s12 m12 l6 md-margin-bottom-20">
-                                <ArticleTags article={this.props.article}/>
+                    }
+
+                    <div className={classNames('card blog-article-item clearfix', {'article-outdated': isOutdated})}>
+                        <div className="card-content">
+                            <UserAvatarIcon user={this.state.article.author}
+                                            className="article-author"/>
+
+                            <div className="article-info right-align">
+                                <ArticleTime article={this.state.article}/>
+
+                                <CountCommentIcon linkToComment={'/articles/' + this.state.article.slug}
+                                                  commentsNumber={this.state.article.comments_number}/>
                             </div>
-                            <div className="col s12 m12 l6 right-align">
-                                <ArticleDeleteIcon article={this.props.article}
-                                                   currentUserId={this.props.currentUserId}
-                                                   onClickDelete={this._handleDeleteClick}/>
-                                <ArticleBookmarkIcon article={this.props.article}
-                                                     currentUserId={this.props.currentUserId}
-                                                     onClickBookmark={this._handleBookmarkClick}/>
-                                <ArticleLinkIcon isLink={this.props.article.is_link}/>
-                                <ArticleVisibilityIcon article={this.props.article}
-                                                       floatingButton={true}
-                                                       currentUserId={this.props.currentUserId}/>
-                                <ArticleHistoryIcon article={this.props.article}
-                                                    currentUserId={this.props.currentUserId}
-                                                    onClickHistory={this._handleHistoryClick}/>
-                                {(this.props.currentUserId && this.props.currentUserId === this.state.article.author.id) &&
-                                <a className="article-edit btn-floating tooltipped"
-                                   data-tooltip={I18n.t('js.article.tooltip.edit')}
-                                   href={"/articles/" + this.state.article.id + "/edit"}>
-                                    <i className="material-icons">mode_edit</i>
-                                </a>}
+
+                            {
+                                (!$.isEmpty(this.state.article.title) || !$.isEmpty(this.state.article.summary)) &&
+                                <AnimatedText title={this.state.article.title}
+                                              subtitle={this.state.article.summary}/>
+                            }
+
+                            <span className="blog-article-content"
+                                  dangerouslySetInnerHTML={{__html: this.state.article.content}}/>
+                        </div>
+
+                        <div className="card-action article-action clearfix">
+                            <div className="row">
+                                <div className="col s12 m12 l6 md-margin-bottom-20">
+                                    <ArticleTags article={this.state.article}/>
+
+                                    <a className="btn btn-floating"
+                                       onClick={this._handleVoteClick.bind(this, this.state.article.id, true)}>
+                                        <i className="material-icons">thumb_up</i>
+                                    </a>
+
+                                    <a className="btn btn-floating"
+                                       onClick={this._handleVoteClick.bind(this, this.state.article.id, false)}>
+                                        <i className="material-icons">thumb_down</i>
+                                    </a>
+
+                                    <span>
+                                        {this.state.article.votes_up}
+                                    </span>
+
+                                    <span>
+                                        {this.state.article.votes_down}
+                                    </span>
+                                </div>
+
+                                <div className="col s12 m12 l6 right-align">
+                                    <ArticleDeleteIcon article={this.state.article}
+                                                       onDeleteClick={this._handleDeleteClick}/>
+
+                                    <ArticleBookmarkIcon article={this.state.article}
+                                                         onBookmarkClick={this._handleBookmarkClick}/>
+
+                                    <ArticleLinkIcon isLink={this.state.article.is_link}/>
+
+                                    <ArticleOutdatedIcon article={this.state.article}
+                                                         onOutdatedClick={this._handleOutdatedClick}/>
+
+                                    <ArticleVisibilityIcon article={this.state.article}
+                                                           hasFloatingButton={true}/>
+
+                                    <ArticleHistoryIcon article={this.state.article}
+                                                        onHistoryClick={this._handleHistoryClick}/>
+
+                                    {
+                                        $app.user.isConnected(this.state.article.author.id) &&
+                                        <Link className="article-edit btn-floating tooltipped"
+                                              data-tooltip={I18n.t('js.article.tooltip.edit')}
+                                              to={`/article/${this.state.article.id}/edit`}>
+                                            <i className="material-icons">mode_edit</i>
+                                        </Link>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    {
+                        this.props.location.state && this.props.location.state.newTags &&
+                        <div className="card-panel">
+                            <p>
+                                {I18n.t('js.article.show.new_tags')}
+                                {
+                                    this.props.location.state.newTags.map((newTag, i) =>
+                                        <Link key={i}
+                                              to={`/tag/${newTag.slug}`}>
+                                            {newTag.name}
+                                        </Link>
+                                    )
+                                }
+                            </p>
+                        </div>
+                    }
+
+                    {
+                        this.state.isHistoryDisplayed && this.state.articleVersions &&
+                        <ArticleHistory articleVersions={this.state.articleVersions}/>
+                    }
+
+                    {
+                        this.state.article.allow_comment &&
+                        <div className="card-panel">
+                            <CommentBox id="comments"
+                                        commentableType="articles"
+                                        commentableId={this.state.article.id}
+                                        isUserConnected={$app.user.isConnected()}
+                                        currentUserId={$app.user.currentId}
+                                        isPaginated={true}
+                                        isRated={true}/>
+                        </div>
+                    }
                 </div>
-
-                {this.state.isHistoryDisplayed &&
-                <ArticleHistory articleVersions={this.state.articleVersions}/>}
-
-                {this.props.article.allow_comment &&
-                <div id="comments">
-                    <CommentBox comments={this.state.comments}
-                                currentUserId={this.props.currentUserId}
-                                isRated={false}
-                                onDelete={this._handleCommentDelete}
-                                onSubmit={this._handleCommentSubmit}/>
-                </div>}
-            </div>
-        );
+            );
+        } else {
+            return null;
+        }
     }
 });
 

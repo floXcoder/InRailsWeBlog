@@ -33,13 +33,13 @@ RSpec::Matchers.define :transcribe do |field, locales|
     "return #{messages.join(' and ')}"
   end
 
-  failure_message do |model|
+  failure_message do
     messages = @failures.map{|lv| "expected return #{lv[1]} but got #{lv[2]} for #{@field} with locale :#{lv[0]}"}
 
     messages.join("\n")
   end
 
-  failure_message_when_negated do |model|
+  failure_message_when_negated do
     messages = @failures.map{|lv| "expected not to return #{lv[1]} for #{@field} with :#{lv[0]}"}
 
     messages.join("\n")
@@ -76,11 +76,11 @@ RSpec::Matchers.define :fallback do |field, current_locale, fallback_locale|
     "fallback to #{@fallback_value} for #{@field} if it's blank with locale :#{@current}"
   end
 
-  failure_message do |model|
+  failure_message do
     "expected fallback to #{@fallback_value} but got #{@returned_value} for #{@field} if it's blank with locale :#{@current}"
   end
 
-  failure_message_when_negated do |model|
+  failure_message_when_negated do
     "expected not fallback to #{@fallback_value} but got #{@returned_value} for #{@field} if it's blank with locale :#{@current}"
   end
 end

@@ -39,7 +39,6 @@ class ErrorMessageSerializer < ActiveModel::Serializer
              :occurred_at
 
   def occurred_at
-    I18n.l(object.created_at, format: :custom).downcase
+    I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
   end
-
 end

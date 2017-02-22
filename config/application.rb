@@ -61,17 +61,14 @@ module InRailsWeBlog
     # Configure routes for exceptions handling
     config.exceptions_app = self.routes
 
-    # "pretty" HTML format output
-    Slim::Engine.set_options pretty: true
-
     # Json adapter for serializers
     ActiveModel::Serializer.config.adapter = :json
 
     # Cache with Redis
     config.cache_store = :readthis_store, {
-        expires_in: 90.minutes,
-        namespace: 'rails_cache',
-        redis: { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis }
+      expires_in: 2.weeks.to_i,
+      redis:      { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis },
+      namespace:  "_InRailsWeBlog_#{Rails.env}:cache"
     }
   end
 end

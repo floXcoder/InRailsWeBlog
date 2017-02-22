@@ -3,7 +3,7 @@ var prettifyTime = require('./prettifyTime');
 var handleErrors = require('./handleErrors');
 
 module.exports = function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack", err);
+    if(err) throw new gutil.PluginError('webpack', err);
 
     var statColor = stats.compilation.warnings.length < 1 ? 'green' : 'yellow';
 
@@ -14,7 +14,8 @@ module.exports = function(err, stats) {
         });
     } else {
         var compileTime = prettifyTime(stats.endTime - stats.startTime);
-        gutil.log(gutil.colors[statColor](stats));
+        // webpack too much verbose
+        // gutil.log(gutil.colors[statColor](stats));
         gutil.log('Compiled with', gutil.colors.cyan('webpack:development'), 'in', gutil.colors.magenta(compileTime));
     }
 };

@@ -1,5 +1,8 @@
 - provide(:title, t('views.user.signup.page_title'))
 
+- content_for :robots do
+  meta name="robots" content="noindex, nofollow"
+
 - stylesheet 'users/new'
 
 - javascript 'commons'
@@ -7,13 +10,10 @@
 
 / Page content
 .card
-  = simple_form_for(resource, html: { id: 'signup_user',  class: 'blog-form' }) do |signup_form|
+  = simple_form_for(resource, html: { id: 'signup_user',  class: 'blog-form', data: {:'parsley-validate' => true} }) do |signup_form|
     .card-content
       h3.adaptative-title.center-align
         = t('views.user.signup.title')
-
-      p
-        = link_to t('views.user.signup.back_home'), root_path
 
       / Sign-up fields
       = render 'devise/registrations/signup_fields', signup_form: signup_form
@@ -25,17 +25,19 @@
       p
         = render 'devise/shared/links'
 
+      .card-action
+        / Terms of use
+        p
+          = check_box_tag('user_terms', 'false', false, required: true, data: {:'parsley-error-message' => I18n.t('js.user.errors.policy')})
+          = label_tag('user_terms', t('views.user.signup.terms_of_use', website: ENV['WEBSITE_NAME']))
+          =< link_to t('views.user.signup.terms_of_use_name') + '.', terms_of_use_path, class: 'blue-text text-darken-2'
 
-    .card-action
-      / Terms of use
-      p
-        = check_box_tag('terms', 'false', false)
-        = label_tag('terms', t('views.user.signup.terms_of_use'))
-        =< link_to t('views.user.signup.terms_of_use_name') + '.', terms_of_use_path, class: 'blue-text text-darken-2'
-
-      / Signup button
-      .row
-        .col.s12.right-align
-          = signup_form.button :submit, t('views.user.signup.submit')
+        / Signup button
+        .row
+          .col.s12
+            .left
+              = link_to t('views.user.signup.back_home'), root_path, class: 'waves-effect waves-teal btn-flat black-text'
+            .right
+              = signup_form.button :submit, t('views.user.signup.submit')
 
 

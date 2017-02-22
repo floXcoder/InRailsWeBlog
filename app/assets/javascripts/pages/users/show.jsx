@@ -3,10 +3,8 @@
 require('../common');
 
 var ArticleIndex = require('../../components/articles/index');
-var ArticleCreation = require('../../components/articles/creation');
+var ArticleCreation = require('../../components/articles/new');
 var ArticleActions = require('../../actions/articleActions');
-
-var currentUserId = (window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10));
 
 ArticleActions.initStore({
     page: 1,
@@ -17,12 +15,12 @@ ArticleActions.initStore({
 
 // Main
 ReactDOM.render(
-    <ArticleCreation currentUserId={currentUserId} />,
-    document.getElementById('article-creation-component')
+    <ArticleCreation />,
+    document.getElementById('article-new-component')
 );
 
 ReactDOM.render(
-    <ArticleIndex currentUserId={currentUserId} />,
+    <ArticleIndex />,
     document.getElementById('article-box-component')
 );
 

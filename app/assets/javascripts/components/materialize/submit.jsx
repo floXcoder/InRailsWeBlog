@@ -1,39 +1,35 @@
 'use strict';
 
-var Submit = React.createClass({
-    propTypes: {
-        children: React.PropTypes.string.isRequired,
-        id: React.PropTypes.string.isRequired,
-        onClick: React.PropTypes.func
-    },
+const classNames = require('classnames');
 
-    getInitialState () {
-        return {
-            disabled: false
-        };
-    },
+var Submit = ({id, children, isDisabled, tooltipMessage, onClick}) => (
+    <input id={id}
+           disabled={isDisabled}
+           className={classNames('btn', {
+               tooltipped: !$.isEmpty(tooltipMessage),
+               disabled: isDisabled
+           })}
+           data-position="top"
+           data-delay="50"
+           data-tooltip={tooltipMessage}
+           type="submit"
+           value={children}
+           onClick={onClick}
+           name="commit"/>
+);
 
-    enabledSubmit () {
-        this.setState({disabled: false});
-    },
+Submit.propTypes = {
+    id: React.PropTypes.string.isRequired,
+    children: React.PropTypes.string.isRequired,
+    isDisabled: React.PropTypes.bool,
+    tooltipMessage: React.PropTypes.string,
+    onClick: React.PropTypes.func
+};
 
-    disabledSubmit () {
-        this.setState({disabled: true});
-    },
-
-    render () {
-        return (
-            <input ref={this.props.id}
-                   id={this.props.id}
-                   disabled={this.state.disabled}
-                   className="btn"
-                   type="submit"
-                   value={this.props.children}
-                   onClick={this.props.onClick}
-                   name="commit">
-            </input>
-        );
-    }
-});
+Submit.defaultProps = {
+    isDisabled: false,
+    tooltipMessage: null,
+    onClick: null
+};
 
 module.exports = Submit;

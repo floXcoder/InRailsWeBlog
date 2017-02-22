@@ -1,9 +1,10 @@
 'use strict';
 
 var TagActions = Reflux.createActions([
-    'fetchTags',
-    'closeSidebar',
-    'showSidebar',
+    'loadTags',
+    'loadTag',
+    'updateTag',
+    'deleteTag',
     'trackClick',
     'trackView'
 ]);

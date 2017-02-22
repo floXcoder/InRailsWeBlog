@@ -4,10 +4,10 @@ scss_files: 'app/assets/stylesheets/**/*.scss'
 
 linters:
   NestingDepth:
-    max_depth: 6
+    max_depth: 8
 
   SelectorDepth:
-    max_depth: 6
+    max_depth: 8
 
   ImportantRule:
     enabled: false

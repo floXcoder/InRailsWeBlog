@@ -1,6 +1,5 @@
 class ActivitiesController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized
 
   respond_to :json
 
@@ -13,5 +12,4 @@ class ActivitiesController < ApplicationController
       format.json { render json: activities }
     end
   end
-
 end

@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   # Security
   protect_from_forgery with: :exception
-  ensure_security_headers(csp: false)
 
   # Pundit
   include Pundit
@@ -11,12 +10,11 @@ class ApplicationController < ActionController::Base
   # Devise
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  # Active model serializer
-  # serialization_scope :current_user
-  serialization_scope :view_context
-
   # Set locale for current user
   before_action :set_locale
+
+  # Set who is responsible of a modification
+  before_action :set_paper_trail_whodunnit
 
   # Set flash to header if ajax request
   after_action :flash_to_headers
@@ -25,28 +23,27 @@ class ApplicationController < ActionController::Base
     I18n.locale         =
       if params[:locale].present?
         session[:locale] = params[:locale]
-        params[:locale]
       elsif session[:locale].present?
         session[:locale]
-      elsif current_user
+      elsif defined?(current_user) && current_user
         current_user.locale
-      elsif request.location.present? && !request.location.country_code.empty?
-        if %w(FR BE CH).any? { |country_code| request.location.country_code.upcase == country_code }
+      elsif http_accept_language.compatible_language_from(I18n.available_locales)
+        http_accept_language.compatible_language_from(I18n.available_locales)
+      elsif request.location&.present? && !request.location.country_code.empty?
+        if %w(FR BE CH).any? { |country_code| request.location.country_code.casecmp(country_code) == 0 }
           :fr
         else
           :en
         end
       else
-        http_accept_language.compatible_language_from(I18n.available_locales)
+        :fr
       end
 
     current_user.locale = I18n.locale if current_user && current_user.locale.to_s != I18n.locale.to_s
-  end
 
-  def w(msg)
-    if defined?(Rails.logger.ap)
-      Rails.logger.ap msg, :warn
-    end
+    # Set user location
+    @user_latitude      = request.location.latitude
+    @user_longitude     = request.location.longitude
   end
 
   # Redirection when Javascript is used.
@@ -58,22 +55,39 @@ class ApplicationController < ActionController::Base
   def js_redirect_to(path, flash_type = nil, flash_message = nil)
     if flash_type
       flash[flash_type] = flash_message
-      # flash.keep(flash_type)
     end
 
     render js: %(window.location.href='#{path}') and return
   end
 
+  def append_info_to_payload(payload)
+    super
+    payload[:request_id] = request.uuid
+    payload[:user_id] = current_user.id if current_user
+    payload[:admin_id] = current_user.id if current_user&.admin?
+  end
+
   protected
 
+  def json_request?
+    request.format.json?
+  end
+
+  # Prevent page caching for sensitive data
+  def reset_cache_headers
+    response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
+  end
+
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) do |u|
+    devise_parameter_sanitizer.permit(:sign_up) do |u|
       u.permit :pseudo, :email, :password, :password_confirmation
     end
-    devise_parameter_sanitizer.for(:sign_in) do |u|
+    devise_parameter_sanitizer.permit(:sign_in) do |u|
       u.permit(:login, :pseudo, :email, :password, :remember_me)
     end
-    devise_parameter_sanitizer.for(:account_update) do |u|
+    devise_parameter_sanitizer.permit(:account_update) do |u|
       u.permit(:pseudo, :email, :password, :password_confirmation, :current_password)
     end
   end
@@ -102,10 +116,22 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       super(options)
     else
-      store_location
-      redirect_to login_path, notice: I18n.t('devise.failure.unauthenticated')
-      ## if you want render 404 page
-      ## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+      self.response_body = nil
+      respond_to do |format|
+        format.js do
+          flash[:alert] = I18n.t('devise.failure.unauthenticated')
+          js_redirect_to(login_path)
+        end
+        format.html do
+          save_location
+          redirect_to login_path, notice: I18n.t('devise.failure.unauthenticated')
+        end
+        format.json do
+          flash.now[:alert] = I18n.t('devise.failure.unauthenticated')
+          render json: { error: I18n.t('devise.failure.unauthenticated') }.to_json,
+                 status: :forbidden
+        end
+      end
     end
   end
 
@@ -135,13 +161,33 @@ class ApplicationController < ActionController::Base
     session[:previous_url] || root_path(current_user)
   end
 
-  def store_location
+  def save_location
     return unless request.get?
 
     session[:previous_url] = previous_url(request.path) unless request.xhr? # don't store ajax calls
   end
 
-  protected
+  def get_coordinates_from_IP
+    result         = request.location
+    distance       = 100
+    ip_coordinates = result.coordinates
+
+    if ip_coordinates != [0, 0]
+      Geocoder::Calculations.bounding_box(ip_coordinates, distance)
+    else
+      nil
+    end
+  end
+
+  # Add pagination for active model serializer
+  def meta_attributes(resource, extra_meta = {})
+    {
+      current_page: resource.current_page,
+      total_pages: resource.total_pages,
+      total_count: resource.total_count
+    }.merge(extra_meta)
+  end
+
   def without_tracking(model)
     model.public_activity_off
     yield if block_given?
@@ -151,7 +197,7 @@ class ApplicationController < ActionController::Base
   private
 
   def flash_to_headers
-    if request.xhr? && !flash.empty?
+    if request.xhr? && !flash.empty? && response.status != 302
       # avoiding XSS injections via flash
       flash_json                           = Hash[flash.map { |k, v| [k, ERB::Util.h(v)] }].to_json
       response.headers['X-Flash-Messages'] = flash_json

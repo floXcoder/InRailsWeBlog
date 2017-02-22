@@ -1,40 +1,62 @@
 'use strict';
 
-var ModalTitle = require('./title');
-//var ModalFooter = require('./footer');
+const ModalTitle = require('./title');
+
+const classNames = require('classnames');
 
 var Modal = React.createClass({
     propTypes: {
-        children: React.PropTypes.element.isRequired,
         id: React.PropTypes.string.isRequired,
-        buttonId: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ]).isRequired,
+        launcherId: React.PropTypes.string,
+        launcherClass: React.PropTypes.string,
+        isBottom: React.PropTypes.bool,
         onOpen: React.PropTypes.func
     },
 
     getDefaultProps () {
         return {
+            launcherId: null,
+            launcherClass: null,
+            isBottom: false,
             onOpen: null
         };
     },
 
     componentDidMount () {
         let modalSelector = '#' + this.props.id;
-        let buttonSelector = 'a#' + this.props.buttonId;
-        $(buttonSelector).click(function (event) {
+        let launcherSelector = '';
+        if(this.props.launcherClass) {
+            launcherSelector = '.' + this.props.launcherClass
+        } else {
+            launcherSelector = '#' + this.props.launcherId;
+        }
+
+        $(launcherSelector).click(function (event) {
             event.preventDefault();
 
             $(modalSelector).openModal({
                 dismissible: true,
-                ready: () => { if(this.props.onOpen) this.props.onOpen() }
+                ready: () => {
+                    if(this.props.onOpen) this.props.onOpen()
+                }
             });
         }.bind(this));
+    },
+
+    shouldComponentUpdate (nextProps, nextState) {
+        // Do not update
+        return false;
     },
 
     render () {
         return (
             <div id={this.props.id}
-                 className="modal">
+                 className={classNames('modal', {'bottom-sheet': this.props.isBottom})}>
                 <div className="modal-content">
 
                     <ModalTitle>

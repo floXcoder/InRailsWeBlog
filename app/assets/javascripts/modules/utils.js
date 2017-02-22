@@ -32,9 +32,27 @@
         return string;
     };
 
-    Array.prototype.common = function (a) {
+    String.prototype.escapeRegexCharacters = function () {
+        return this.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    };
+
+    Array.prototype.limit = function (limit) {
+        return this.slice(0, limit);
+    };
+
+    Array.prototype.remove = function (item) {
+        var index = this.indexOf(item);
+
+        if (index > -1) {
+            return this.splice(index, 1);
+        } else {
+            return this;
+        }
+    };
+
+    Array.prototype.common = function (otherArray) {
         return this.filter(function (i) {
-            return a.indexOf(i) >= 0;
+            return otherArray.indexOf(i) >= 0;
         });
     };
 
@@ -63,6 +81,20 @@
         return true;
     };
 
+    Array.prototype.isEqualIds = function (other) {
+        if (this.length !== other.length) {
+            return false;
+        }
+
+        return this.every(function (element, index) {
+            if (!other[index]) {
+                return false;
+            }
+
+            return element.id === other[index].id;
+        });
+    };
+
     Array.prototype.first = function () {
         return this[0];
     };
@@ -71,26 +103,34 @@
         return this[this.length - 1];
     };
 
-    // Refresh JQuery selector, but only for non-chained elements !
-    jQuery.fn.extend({
-        update: function () {
-            var newElements = jQuery(this.selector), i;
-            for (i = 0; i < newElements.length; i++) {
-                this[i] = newElements[i];
+    Array.prototype.replace = function (key, newValue) {
+        var newArray = [];
+        this.forEach(function (oldValue, index, array) {
+            if (oldValue[key] === newValue[key]) {
+                newArray.push(newValue);
+            } else {
+                newArray.push(oldValue);
             }
-            for (; i < this.length; i++) {
-                this[i] = undefined;
-            }
-            this.length = newElements.length;
-            return this;
-        },
+        });
+        return newArray;
+    };
 
-        goToTop: function () {
-            this.on('click', function () {
-                jQuery(document).scrollTop(0);
-            });
+    Array.prototype.replaceOrAdd = function (key, newValue) {
+        var newArray = [];
+        var valueNotFound = true;
+        this.forEach(function (oldValue, index, array) {
+            if (oldValue[key] === newValue[key]) {
+                newArray.push(newValue);
+                valueNotFound = false;
+            } else {
+                newArray.push(oldValue);
+            }
+        });
+        if (valueNotFound) {
+            newArray.push(newValue);
         }
-    });
+        return newArray;
+    };
 
     $.extend({
         isEmpty: function (obj) {
@@ -134,7 +174,8 @@
         // isBoolean
         // isNull
         // isUndefined
-        axis: function () {
+        // USage : $.is().isArray(myArray);
+        is: function () {
             var exports = {};
 
             var types = 'Array Object String Date RegExp Function Boolean Null Undefined'.split(' ');
@@ -206,47 +247,6 @@
             return rrange;
         },
 
-        roundNumber: function (number, decimalPlaces) {
-            var multiplier = Math.pow(10, decimalPlaces);
-            return Math.round(number * multiplier) / multiplier;
-        },
-
-        getUrlPaths: function () {
-            return window.location.pathname.split('/');
-        },
-
-        // Use:
-        // decodeURIComponent($.urlParam('distance_slider'))
-        // $.urlParam('distance_slider')
-        getUrlParameter: function (sParam) {
-            var sPageURL = window.location.search.substring(1);
-            var sURLVariables = sPageURL.split('&');
-            for (var i = 0; i < sURLVariables.length; i++) {
-                var sParameterName = sURLVariables[i].split('=');
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1];
-                }
-            }
-        },
-
-        setUrlParameter: function (paramName, paramValue) {
-            var url = window.location.href;
-            if (url.indexOf(paramName + "=") >= 0) {
-                var prefix = url.substring(0, url.indexOf(paramName));
-                var suffix = url.substring(url.indexOf(paramName));
-                suffix = suffix.substring(suffix.indexOf("=") + 1);
-                suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
-                url = prefix + paramName + "=" + paramValue + suffix;
-            }
-            else {
-                if (url.indexOf("?") < 0)
-                    url += "?" + paramName + "=" + paramValue;
-                else
-                    url += "&" + paramName + "=" + paramValue;
-            }
-            window.location.href = url;
-        },
-
         // Array must be sorted
         getClosestValues: function (array, value) {
             if ($.isEmpty(array)) return;
@@ -290,9 +290,95 @@
             }
         },
 
+        formatTime: function (totalMin, showZeroHours) {
+            var hours = Math.floor(Math.floor(totalMin) / 60);
+            var min = Math.floor(totalMin) % 60;
+            var sec = Math.floor((totalMin - Math.floor(totalMin)) * 60.0);
+
+            if (sec === 60) {
+                sec = 0;
+                min++;
+            }
+
+            if (min === 60) {
+                min = 0;
+                hours++;
+            }
+
+            var secStr = sec.toString();
+
+            if (sec < 10) {
+                secStr = '0' + secStr;
+            }
+
+            var minStr = min.toString();
+
+            if (min < 10) {
+                minStr = '0' + minStr;
+            }
+
+            if (showZeroHours || hours > 0) {
+                return hours + ':' + minStr + ':' + secStr;
+            }
+            else {
+                return minStr + ':' + secStr;
+            }
+        },
+
+        getUrlPaths: function () {
+            return window.location.pathname.split('/');
+        },
+
+        // Use:
+        // decodeURIComponent($.urlParam('distance_slider'))
+        // $.urlParam('distance_slider')
+        getUrlParameter: function (sParam) {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1];
+                }
+            }
+        },
+
+        getUrlParameters: function () {
+            var parameters = {};
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                parameters[sParameterName[0]] = sParameterName[1];
+            }
+            return parameters;
+        },
+
+        setUrlParameter: function (paramName, paramValue) {
+            var url = window.location.href;
+            if (url.indexOf(paramName + "=") >= 0) {
+                var prefix = url.substring(0, url.indexOf(paramName));
+                var suffix = url.substring(url.indexOf(paramName));
+                suffix = suffix.substring(suffix.indexOf("=") + 1);
+                suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
+                url = prefix + paramName + "=" + paramValue + suffix;
+            }
+            else {
+                if (url.indexOf("?") < 0)
+                    url += "?" + paramName + "=" + paramValue;
+                else
+                    url += "&" + paramName + "=" + paramValue;
+            }
+            window.location.href = url;
+        },
+
         fullDomainName: function () {
-            var full = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-            return full;
+            return window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+        },
+
+        flooredNum: function (number, decimals) {
+            var multiplier = Math.pow(10, decimals);
+            return Math.floor((number) * multiplier) / multiplier;
         },
 
         NAVIGATION_KEYMAP: {

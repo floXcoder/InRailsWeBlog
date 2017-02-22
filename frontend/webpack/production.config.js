@@ -1,9 +1,8 @@
 var webpack = require('webpack');
 var manifestPlugin = require('webpack-manifest-plugin');
 var _ = require('lodash');
-var path = require('path');
 
-var config = require('../config').webpack;
+var config   = require('../config').webpack;
 var webPackConfig = module.exports = require('./main.config.js');
 
 webPackConfig.output = _.merge(config.output, {
@@ -13,12 +12,14 @@ webPackConfig.output = _.merge(config.output, {
 webPackConfig = _.merge(webPackConfig, {
     debug: false,
     displayErrorDetails: false,
-    outputPathinfo: false,
+    output: {
+        pathinfo: false
+    },
     devtool: false
 });
 
 // Common chuncks
-_.each(config.commons, function (common) {
+_.each(config.commons, function(common) {
     webPackConfig.plugins.push(
         new webpack.optimize.CommonsChunkPlugin({
             name: common.name,

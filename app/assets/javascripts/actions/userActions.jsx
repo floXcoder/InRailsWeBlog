@@ -2,11 +2,16 @@
 
 var UserActions = Reflux.createActions([
     'loadUsers',
-    'updateUser',
-    'changeDisplay',
-    'changeForm',
-    'changeSearchOptions',
     'validation',
+    'loadUserComments',
+    'loadUserActivities',
+    'loadUser',
+    'updateUser',
+    'updateUserPreference',
+    'addTopic',
+    'changeTopic',
+    'updateTopic',
+    'deleteTopic',
     'trackClick',
     'trackView'
 ]);

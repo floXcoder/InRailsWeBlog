@@ -1,6 +1,6 @@
 'use strict';
 
-var Suggestions = require('./suggestions');
+const Suggestions = require('./suggestions');
 
 // Constants
 var Keys = {
@@ -22,7 +22,7 @@ var ReactTags = React.createClass({
         placeholder: React.PropTypes.string,
         tagList: React.PropTypes.array,
         labelField: React.PropTypes.string,
-        autofocus: React.PropTypes.bool,
+        isAutofocus: React.PropTypes.bool,
         tagMinLength: React.PropTypes.number,
         tagMaxLength: React.PropTypes.number
     },
@@ -33,7 +33,7 @@ var ReactTags = React.createClass({
             placeholder: null,
             tagList: [],
             labelField: null,
-            autofocus: true,
+            isAutofocus: true,
             tagMinLength: null,
             tagMaxLength: null
         };
@@ -49,7 +49,7 @@ var ReactTags = React.createClass({
     },
 
     componentDidMount () {
-        if (this.props.autofocus) {
+        if (this.props.isAutofocus) {
             this.refs.input.focus();
         }
     },
@@ -61,13 +61,13 @@ var ReactTags = React.createClass({
 
     _handleInputChange (event) {
         var query = event.target.value.trim();
-        var suggestions = this.props.tagList.filter(function (item) {
+        var suggestions = this.props.tagList.filter((item) => {
             if (this.props.labelField) {
                 return item[this.props.labelField].toLowerCase().search(query.toLowerCase()) === 0;
             } else {
                 return item.toLowerCase().search(query.toLowerCase()) === 0;
             }
-        }.bind(this));
+        });
 
         this.setState({
             query: query,

@@ -6,6 +6,10 @@ class UserPolicy
     @user         = user
   end
 
+  def show?
+    correct_user?
+  end
+
   def bookmarks?
     correct_user?
   end
@@ -49,7 +53,11 @@ class UserPolicy
   private
 
   def correct_user?
-    @current_user && @user && (@current_user.id == @user.id || @current_user.admin?)
+    @current_user && (@user.user?(@current_user) || @current_user.admin?)
+  end
+
+  def topic_owner?
+    @current_user && @poi && @poi.explorer?(@current_user)
   end
 end
 

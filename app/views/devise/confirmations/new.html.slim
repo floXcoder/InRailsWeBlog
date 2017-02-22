@@ -1,13 +1,16 @@
 - provide(:title, t('devise.resend.page_title'))
 
-- stylesheet 'users/new'
+- content_for :robots do
+  meta name="robots" content="noindex, nofollow"
 
-- javascript 'commons'
-- javascript 'users/signup'
+  - stylesheet 'users/new'
+
+  - javascript 'commons-full-page'
+  - javascript 'users/signup'
 
 / Page content
 .card
-  = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { id: 'signup_user',  class: 'blog-form' }) do |resend_form|
+  = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { id: 'signup_user', class: 'blog-form' }) do |resend_form|
 
     .card-content
       h3.adaptative-title.center-align
@@ -23,7 +26,7 @@
       / Email field
       .row
         .col.l8.offset-l2.s12
-          = resend_form.input :email, label: t('user.email'), required: true, icon: 'mail', autofocus: true
+          = resend_form.input :email, label: t('user.model.email'), required: true, icon: 'mail', autofocus: true
 
       / Helper links
       p

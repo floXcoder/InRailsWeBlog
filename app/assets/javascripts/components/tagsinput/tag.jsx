@@ -1,6 +1,6 @@
 'use strict';
 
-var classNames = require('classnames');
+const classNames = require('classnames');
 
 var Tag = React.createClass({
     displayName: 'Tag',
@@ -53,6 +53,7 @@ var Tag = React.createClass({
                   onContextMenu={this.props.handleContextMenu}
                   data-name={label}>
                 {label}
+
                 <a className={tagLinkClasses}
                    onClick={this.props.onDelete}
                    onMouseOver={this._onMouseOver}

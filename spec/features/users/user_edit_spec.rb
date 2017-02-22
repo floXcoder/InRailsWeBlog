@@ -2,7 +2,7 @@ feature 'Edit User' do
 
   given(:user)             { FactoryGirl.create(:user, :confirmed) }
   given(:user_info)        { {pseudo:        'Pseudo',
-                             email:         'test@l-x.fr',
+                             email:         'test@example.com',
                              password:      'new_password',
                              first_name:    'First name',
                              last_name:     'Last name',

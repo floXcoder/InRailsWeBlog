@@ -1,0 +1,57 @@
+@import 'react-selectize/themes/index';
+
+.selectize {
+  &.input-field {
+    margin-top: 1.3rem;
+
+    .select-wrapper + label {
+      top: -20px;
+    }
+  }
+
+  .react-selectize.root-node {
+    width: auto;
+  }
+
+  .react-selectize-control {
+    border-bottom: 1px solid #9e9e9e;
+    border-radius: 0;
+    height: 2.8rem;
+    width: 100%;
+    font-size: 1rem;
+    padding: 0;
+  }
+
+  .react-selectize.multi-select .removeable-value {
+    background: #f2f9fc;
+    border: 1px solid #c9e6f2;
+    border-radius: 2px;
+    color: #08c;
+    display: inline-block;
+    margin: 2px;
+    vertical-align: middle;
+
+    span {
+      display: inline-block;
+      vertical-align: top;
+
+      &:first-child {
+        border-right: 1px solid #c9e6f2;
+        cursor: pointer;
+        padding: 2px 5px 4px;
+      }
+    }
+  }
+
+  .multi-select.react-selectize.material.root-node .simple-value span::after {
+    content: none;
+  }
+
+  .multi-select.react-selectize.material.root-node .simple-value span {
+    padding: 2px 5px 4px;
+  }
+
+  .react-selectize.material.dropdown-menu-wrapper:not(.flipped) {
+    margin-top: -8px;
+  }
+}

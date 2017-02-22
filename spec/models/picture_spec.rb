@@ -7,6 +7,9 @@
 #  imageable_type :string           not null
 #  image          :string
 #  image_tmp      :string
+#  priority       :integer          default(0), not null
+#  accepted       :boolean          default(TRUE), not null
+#  deleted_at     :datetime
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
@@ -16,7 +19,7 @@ RSpec.describe Picture, type: :model do
   before do
     @picture = Picture.create(
         imageable_id:   0,
-        imageable_type: 'Ride',
+        imageable_type: 'Article',
         image:          'my_image',
         image_tmp:      'my_tmp_image'
     )
@@ -39,7 +42,7 @@ RSpec.describe Picture, type: :model do
     describe '#imageable_type', basic: true do
       it { is_expected.to respond_to(:imageable_type) }
       it { is_expected.to validate_presence_of(:imageable_type) }
-      it { expect(@picture.imageable_type).to eq('Ride') }
+      it { expect(@picture.imageable_type).to eq('Article') }
     end
 
     describe '#image', basic: true do

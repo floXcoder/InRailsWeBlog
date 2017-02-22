@@ -3,8 +3,8 @@
 # Table name: tagged_articles
 #
 #  id         :integer          not null, primary key
-#  article_id :integer
-#  tag_id     :integer
+#  article_id :integer          not null
+#  tag_id     :integer          not null
 #  parent     :boolean          default(FALSE), not null
 #  child      :boolean          default(FALSE), not null
 #  created_at :datetime         not null
@@ -12,16 +12,34 @@
 #
 
 class TaggedArticle < ActiveRecord::Base
-  belongs_to :article
-  belongs_to :tag
 
-  # Parameters validation
-  validates :article_id, presence: true, on: :update
-  validates :tag_id, presence: true, on: :update
+  # == Attributes ===========================================================
 
-  validates_uniqueness_of :article_id, scope: :tag_id, allow_nil: true
-
+  # == Extensions ===========================================================
   # Follow public activities
   include PublicActivity::Model
   tracked owner: proc { |_controller, model| model.article.author }, recipient: :article, parameters: :tag
+
+  # == Relationships ========================================================
+  belongs_to :article
+  belongs_to :tag, counter_cache: true
+
+  # == Validations ==========================================================
+  validates :article,
+            presence: true,
+            on: :update
+  validates :tag,
+            presence: true,
+            on: :update
+
+  validates_uniqueness_of :article_id, scope: :tag_id, allow_nil: true
+
+  # == Scopes ===============================================================
+
+  # == Callbacks ============================================================
+
+  # == Class Methods ========================================================
+
+  # == Instance Methods =====================================================
+
 end

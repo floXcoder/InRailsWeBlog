@@ -1,13 +1,11 @@
 'use strict';
 
-require('../admin');
-
-let currentUserId = window.currentUserId === 'null' ? null : parseInt(window.currentUserId, 10);
+// require('../admin');
 
 let UserIndex = require('../../../components/users/index');
 
 // Main
-if(currentUserId) {
+if($app.user.isConnected()) {
     ReactDOM.render(
         <UserIndex />,
         document.getElementById('users-admin-component')

@@ -12,8 +12,11 @@
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
 #  preferences            :text             default({}), not null
+#  last_request           :text             default({}), not null
+#  current_topic_id       :integer
 #  admin                  :boolean          default(FALSE), not null
 #  slug                   :string
+#  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  email                  :string           default(""), not null
@@ -48,11 +51,15 @@ FactoryGirl.define do |f|
     age                   40
     city                  'City'
     country               'France'
+    preferences           { {} }
+    last_request          { {} }
 
-    trait :confirmed do
-      confirmed_at          { Time.zone.now }
-      confirmation_token    { Devise.friendly_token }
-      confirmation_sent_at  { Time.zone.now }
+    confirmed_at          { Time.zone.now }
+    confirmation_sent_at  { Time.zone.now }
+
+    trait :not_confirmed do
+      confirmed_at          nil
+      confirmation_sent_at  nil
     end
 
     trait :faker do

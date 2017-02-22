@@ -1,5 +1,8 @@
 - provide(:title, t('views.user.login.page_title'))
 
+- content_for :robots do
+  meta name="robots" content="noindex, nofollow"
+
 - stylesheet 'users/new'
 
 - javascript 'commons'
@@ -7,15 +10,12 @@
 
 / Page content
 .card
-  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: 'login_user',  class: 'blog-form' }) do |login_form|
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: 'login_user',  class: 'blog-form', data: {:'parsley-validate' => true} }) do |login_form|
     .card-content
       h3.adaptative-title.center-align
         = t('views.user.login.title')
 
-      p
-        = link_to t('views.user.login.back_home'), root_path
-
-      / Sign-up fields
+      / Log-in fields
       = render 'devise/sessions/login_fields', login_form: login_form
 
       / Helper links
@@ -24,9 +24,11 @@
       p
         = render 'devise/shared/links'
 
-
     .card-action
       / Login button
       .row
-        .col.s12.right-align
-          = login_form.button :submit, t('views.user.login.submit')
+        .col.s12
+          .left
+            = link_to t('views.user.login.back_home'), root_path, class: 'waves-effect waves-teal btn-flat black-text'
+          .right
+            = login_form.button :submit, t('views.user.login.submit')

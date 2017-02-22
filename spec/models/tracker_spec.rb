@@ -11,6 +11,8 @@
 #  comments_count  :integer          default(0), not null
 #  clicks_count    :integer          default(0), not null
 #  bookmarks_count :integer          default(0), not null
+#  rank            :integer          default(0), not null
+#  home_page       :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

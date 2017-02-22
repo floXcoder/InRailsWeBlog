@@ -2,28 +2,10 @@
 
 require('../application');
 
-require('../components/users/navigation');
-require('../components/tags/sidebar');
-
-// Initialize all SideNav
-if(window.innerWidth > window.parameters.medium_screen_up) {
-    $('header .button-collapse').sideNav({
-            menuWidth: 350,
-            edge: 'left'
-        }
-    );
-} else {
-    $('header .button-collapse').sideNav({
-            menuWidth: 260,
-            edge: 'left'
-        }
-    );
-}
-
 // Flash messages
 $('.blog-flash').each(function() {
     var $this = $(this);
-    Materialize.toast($this.html(), 3000);
+    Materialize.toast($this.html(), 5000);
 });
 
 $(document).ajaxComplete(function (event, request) {
@@ -53,36 +35,36 @@ $('.button-collapse').click(function (event) {
 });
 
 // Activate article creation
-if(window.currentUserId === 'null') {
+if($app.user.isConnected()) {
     $('a#toggle-article-creation').click(function (event) {
         event.preventDefault();
         Materialize.toast(I18n.t('js.article.flash.creation_unpermitted'), 5000);
     });
 }
 
-// Common url shortcuts
-// All articles
-Mousetrap.bind('alt+a', function () {
-    if(window.currentUserId !== 'null') {
-        window.location.pathname = '/users/' + window.currentUserId;
-    }
-    return false;
-}.bind(this), 'keydown');
-
-// Temporary articles
-Mousetrap.bind('alt+v', function () {
-    if(window.currentUserId !== 'null') {
-        window.location.pathname = '/users/' + window.currentUserId + '/temporary';
-    }
-    return false;
-}.bind(this), 'keydown');
-
-// Bookmarked articles
-Mousetrap.bind('alt+b', function () {
-    if(window.currentUserId !== 'null') {
-        window.location.pathname = '/users/' + window.currentUserId + '/bookmarks';
-    }
-    return false;
-}.bind(this), 'keydown');
+// // Common url shortcuts
+// // All articles
+// Mousetrap.bind('alt+a', function () {
+//     if($app.user.isConnected()) {
+//         window.location.pathname = '/users/' + window.currentUserId;
+//     }
+//     return false;
+// }.bind(this), 'keydown');
+//
+// // Temporary articles
+// Mousetrap.bind('alt+v', function () {
+//     if($app.user.isConnected()) {
+//         window.location.pathname = '/users/' + window.currentUserId + '/temporary';
+//     }
+//     return false;
+// }.bind(this), 'keydown');
+//
+// // Bookmarked articles
+// Mousetrap.bind('alt+b', function () {
+//     if($app.user.isConnected()) {
+//         window.location.pathname = '/users/' + window.currentUserId + '/bookmarks';
+//     }
+//     return false;
+// }.bind(this), 'keydown');
 
 

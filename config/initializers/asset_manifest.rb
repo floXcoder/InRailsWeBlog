@@ -1,7 +1,7 @@
 class AssetManifest
   def self.manifest
     asset_file = Rails.root.join('public', 'assets', 'rev-manifest.json')
-    if File.exists?(asset_file)
+    if File.exist?(asset_file)
       @manifest ||= JSON.parse(File.read(asset_file))
     end
   end
@@ -15,8 +15,6 @@ class AssetManifest
     else
       '/assets/' + url
     end
-
-
   end
 
   def self.javascript_path(url)

@@ -1,9 +1,11 @@
 'use strict';
 
-var Input = require('../../components/materialize/input');
-var Textarea = require('../../components/materialize/textarea');
-var Submit = require('../../components/materialize/submit');
-var Rating = require('../theme/rating');
+const Input = require('../../components/materialize/input');
+const Textarea = require('../../components/materialize/textarea');
+const Submit = require('../../components/materialize/submit');
+const Rating = require('../theme/rating');
+
+require('../../modules/validation');
 
 var CommentForm = React.createClass({
     propTypes: {
@@ -14,7 +16,7 @@ var CommentForm = React.createClass({
         commentId: React.PropTypes.number,
         formTitle: React.PropTypes.string,
         title: React.PropTypes.string,
-        message: React.PropTypes.string,
+        body: React.PropTypes.string,
         rating: React.PropTypes.number
     },
 
@@ -24,7 +26,7 @@ var CommentForm = React.createClass({
             parentCommentId: null,
             commentId: null,
             title: null,
-            message: null,
+            body: null,
             rating: 0
         };
     },
@@ -33,44 +35,47 @@ var CommentForm = React.createClass({
         if (this.props.title) {
             this.refs.title.setValue(this.props.title);
         }
-        if (this.props.message) {
-            this.refs.message.setValue(this.props.message);
+        if (this.props.body) {
+            this.refs.body.setValue(this.props.body);
         }
 
         this.refs.title.focus();
     },
 
-    _handleRatingChange (value) {
-        this.refs.rating.value = value;
-    },
-
     _handleSubmit (event) {
         event.preventDefault();
 
-        let title = this.refs.title.value().trim();
-        let message = this.refs.message.value().trim();
+        let validator = $(ReactDOM.findDOMNode(this.refs.commentForm)).parsley();
+        if (!validator.isValid()) {
+            validator.validate();
+            return;
+        }
 
-        if (!title || !message) {
+        let title = this.refs.title.value().trim();
+        let body = this.refs.body.value().trim();
+
+        if (!title || !body) {
             return;
         }
 
         let submitData = {};
 
-        if(this.props.isRated) {
-            let rating = this.refs.rating.value;
+        if (this.props.isRated) {
+            let rating = this.refs.commentRating.value();
             submitData = {
                 title: title,
-                message: message,
+                body: body,
                 rating: rating,
-                parentCommentId: this.props.parentCommentId,
+                parent_id: this.props.parentCommentId,
                 id: this.props.commentId
             };
-            this.refs.rating.value = 0;
+
+            this.refs.commentRating.setValue(0);
         } else {
             submitData = {
                 title: title,
-                message: message,
-                parentCommentId: this.props.parentCommentId,
+                body: body,
+                parent_id: this.props.parentCommentId,
                 id: this.props.commentId
             };
         }
@@ -78,7 +83,7 @@ var CommentForm = React.createClass({
         this.props.onSubmit(submitData);
 
         this.refs.title.setValue('');
-        this.refs.message.setValue('');
+        this.refs.body.setValue('');
     },
 
     render () {
@@ -89,49 +94,64 @@ var CommentForm = React.createClass({
                         <span className="card-title comment-form-title">
                             {this.props.formTitle}
                         </span>
+
                         <span className="comment-form-explanation hide-on-small-and-down">
                             {I18n.t('js.comment.form.explanation')}
                             <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
                                 {I18n.t('js.comment.form.syntax')}
                             </a>
                         </span>
-                        <form className="comment-form"
+
+                        <form ref="commentForm"
+                              className="comment-form"
+                              data-parsley-validate={true}
                               onSubmit={this._handleSubmit}>
                             <Input ref="title"
                                    id="comment-title"
+                                   title={I18n.t('js.comment.form.comment.title')}
                                    autoComplete="off"
-                                   characterCount={window.parameters.comment_title_max_length}>
-                                {I18n.t('js.comment.form.comment.title')}
-                            </Input>
-                            <Textarea ref="message"
-                                      id="comment-message"
-                                      characterCount={window.parameters.comment_body_max_length}>
-                                {I18n.t('js.comment.form.comment.message')}
-                            </Textarea>
+                                   characterCount={window.parameters.comment_title_max_length}
+                                   validator={{
+                                       'data-parsley-required': true,
+                                       'data-parsley-minlength': window.parameters.comment_title_min_length,
+                                       'data-parsley-maxlength': window.parameters.comment_title_max_length
+                                   }}/>
 
-                            {this.props.isRated &&
-                            <div className="margin-top-20 margin-bottom-30">
-                                <label htmlFor="comment-rating">
-                                    {I18n.t('js.comment.form.comment.notation')}
-                                </label>
-                                <Rating initialRating={this.props.rating}
-                                        onChange={this._handleRatingChange}/>
-                                <input ref="rating"
-                                       id="comment-rating"
-                                       type="hidden"/>
-                            </div>}
+                            <Textarea ref="body"
+                                      id="comment-body"
+                                      title={I18n.t('js.comment.form.comment.body')}
+                                      characterCount={window.parameters.comment_body_max_length}
+                                      validator={{
+                                          'data-parsley-required': true,
+                                          'data-parsley-minlength': window.parameters.comment_body_min_length,
+                                          'data-parsley-maxlength': window.parameters.comment_body_max_length
+                                      }}/>
+
+                            {
+                                this.props.isRated &&
+                                <div className="margin-top-20 margin-bottom-30">
+                                    <Rating ref="commentRating"
+                                            initialRating={this.props.rating}
+                                            isReadOnly={false}
+                                            hasInput={true}
+                                            inputId="comment_rating"
+                                            labelName={I18n.t('js.comment.form.comment.notation')}/>
+                                </div>
+                            }
 
                             <div className="row margin-top-10">
                                 <div className="col s6">
-                                    <Submit id="comment-submit">
-                                        {I18n.t('js.comment.form.submit')}
-                                    </Submit>
-                                </div>
-                                <div className="col s6 right-align">
                                     <a className="btn-flat waves-effect waves-teal"
                                        onClick={this.props.onCancel}>
                                         {I18n.t('js.user.login.cancel')}
                                     </a>
+                                </div>
+
+                                <div className="col s6 right-align">
+                                    <Submit id="comment-submit"
+                                            onClick={this._handleSubmit}>
+                                        {I18n.t('js.comment.form.submit')}
+                                    </Submit>
                                 </div>
                             </div>
                         </form>

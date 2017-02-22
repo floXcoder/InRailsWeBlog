@@ -1,72 +1,74 @@
 'use strict';
 
-//var ArticleActions = require('../../../actions/articleActions');
-var ArticleCommentIcon = require('../icons/comment');
-var ArticleVisibilityIcon = require('../icons/visibility');
-var SingleTimeline = require('../../theme/timeline/single');
-var SingleTimelineItem = require('../../theme/timeline/single-item');
+const CountCommentIcon = require('../../comments/icons/count');
+const ArticleVisibilityIcon = require('../icons/visibility');
+const SingleTimeline = require('../../theme/timeline/single');
+const SingleTimelineItem = require('../../theme/timeline/single-item');
 
-var Pagination = require('../../materialize/pagination');
+const Pagination = require('../../materialize/pagination');
 
-var ArticleListDisplay = React.createClass({
-    propTypes: {
-        articles: React.PropTypes.array.isRequired,
-        pagination: React.PropTypes.object,
-        loadArticles: React.PropTypes.func,
-        currentUserId: React.PropTypes.number
-    },
+import {Link} from 'react-router';
 
-    getDefaultProps () {
-        return {
-            pagination: null,
-            loadArticles: null,
-            currentUserId: null
-        };
-    },
+var ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
+    <div className="article-timeline">
+        <SingleTimeline>
+            {
+                articles.map((article) =>
+                    <SingleTimelineItem key={article.id}
+                                        date={article.updated_at}
+                                        icon="message"
+                                        title={
+                                            <div>
+                                                {I18n.t('js.article.timeline.title') + ' '}
 
-    _handlePageClick (paginate) {
-        this.props.loadArticles({page: paginate.selected + 1});
-        $('html, body').animate({scrollTop: $('.article-timeline').offset().top - 64}, 750);
-    },
+                                                <Link to={`/article/${article.slug}`}>
+                                                    {article.title}
+                                                </Link>
 
-    render () {
-        let ArticleNodes = this.props.articles.map((article) => {
-            return (
-                <SingleTimelineItem key={article.id}
-                                    date={article.updated_at}
-                                    icon="message"
-                                    content={article.content}>
-                    {I18n.t('js.article.timeline.title') + ' '}
-                    <a href={article.link}>
-                        {article.title}
-                    </a>
-                    <ArticleVisibilityIcon article={article}
-                                           currentUserId={this.props.currentUserId}/>
-                    <div className="inline right">
-                        <ArticleCommentIcon articleLink={article.link}
-                                            commentsNumber={article.comments_number}/>
-                    </div>
-                </SingleTimelineItem>
-            );
-        });
+                                                <ArticleVisibilityIcon article={article}/>
 
-        if(ArticleNodes.length === 0) {
-            ArticleNodes = I18n.t('js.article.timeline.no_articles');
+                                                <div className="inline right">
+                                                    <CountCommentIcon linkToComment={`/articles/${article.slug}`}
+                                                                      commentsNumber={article.comments_number}/>
+                                                </div>
+                                            </div>
+                                        }>
+                        <div dangerouslySetInnerHTML={{__html: article.content}}/>
+                    </SingleTimelineItem>
+                )
+            }
+
+            {
+                articles.length === 0 &&
+                I18n.t('js.article.timeline.no_articles')
+            }
+        </SingleTimeline>
+
+        {
+            pagination &&
+            <Pagination totalPages={pagination.total_pages}
+                        onPageClick={(paginate) => {
+                            ArticleTimelineDisplay._handlePaginationClick(paginate, loadArticles)
+                        }}/>
         }
+    </div>
+);
 
-        return (
-            <div className="article-timeline">
-                <SingleTimeline>
-                    {ArticleNodes}
-                </SingleTimeline>
-                {
-                    this.props.pagination &&
-                    <Pagination totalPages={this.props.pagination.total_pages}
-                                onPageClick={this._handlePageClick}/>
-                }
-            </div>
-        );
-    }
-});
+ArticleTimelineDisplay.propTypes = {
+    articles: React.PropTypes.array.isRequired,
+    pagination: React.PropTypes.object,
+    loadArticles: React.PropTypes.func
+};
 
-module.exports = ArticleListDisplay;
+ArticleTimelineDisplay.getDefaultProps = {
+    pagination: null,
+    loadArticles: null
+};
+
+ArticleTimelineDisplay._handlePaginationClick = (paginate, loadArticles) => {
+    loadArticles({page: paginate.selected + 1});
+    $('html, body').animate({scrollTop: $('.article-timeline').offset().top - 64}, 750);
+};
+
+
+module.exports = ArticleTimelineDisplay;

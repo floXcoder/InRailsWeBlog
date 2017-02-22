@@ -4,6 +4,8 @@ class AdminController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized
 
+  before_action :reset_cache_headers
+
   respond_to :html, :json
 
   def index
@@ -11,5 +13,4 @@ class AdminController < ApplicationController
 
     render :index
   end
-
 end

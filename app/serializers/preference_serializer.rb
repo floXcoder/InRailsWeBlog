@@ -11,19 +11,13 @@
 #
 
 class PreferenceSerializer < ActiveModel::Serializer
-
   attributes :article_display,
-             :multi_language,
              :search_operator,
              :search_exact,
              :search_highlight
 
   def article_display
     object.preferences[:article_display]
-  end
-
-  def multi_language
-    object.preferences[:multi_language]
   end
 
   def search_operator
@@ -37,5 +31,4 @@ class PreferenceSerializer < ActiveModel::Serializer
   def search_highlight
     object.preferences[:search_highlight]
   end
-
 end

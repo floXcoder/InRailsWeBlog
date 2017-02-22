@@ -3,6 +3,13 @@
 // jQuery
 require('expose?$!expose?jQuery!jquery');
 require('jquery-ujs');
+// send CSRF tokens for all ajax requests
+$.ajaxSetup({
+    cache: false,
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+    }
+});
 
 // lodash
 require('expose?_!lodash');
@@ -12,9 +19,15 @@ require("expose?React!react");
 require("expose?ReactDOM!react-dom");
 require("expose?Reflux!reflux");
 
+// var reactTestUpdate = require("why-did-you-update");
+// if (process.env.NODE_ENV !== 'production') {
+//     reactTestUpdate.whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton|FlatButtonLabel|FontIcon|Menu|Touch|Icon|Paper|EventListener|Overlay|AutoLock|Popover|List|MuiThemeProvider|ReactTransitionGroup|Card)/ })
+// }
+
 // Expose global variables
-var $app = require('expose?$app!./modules/app');
 require('./modules/utils');
+require('expose?$app!./modules/app');
+$app.init();
 
 // Materialize
 require('expose?Hammer!hammerjs');
@@ -22,7 +35,7 @@ require('materialize-css/dist/js/materialize');
 
 // Automatic dropdown on hover
 $('.dropdown-button').dropdown({
-    hover: false,
+    hover: true,
     belowOrigin: true
 });
 
@@ -35,10 +48,6 @@ require('./modules/translation/fr.js');
 require('./modules/translation/en.js');
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
-
-// Declare Module Helpers
-$app.start();
-$app.moduleHelper = require('./modules/module-helper');
 
 // Configure log level
 if (window.railsEnv === 'development') {
@@ -58,6 +67,10 @@ if (window.railsEnv === 'development') {
 var ErrorActions = require('./actions/errorActions');
 require('./stores/errorStore');
 window.onerror = function (message, url, lineNumber, columnNumber, trace) {
+    if(!trace)  {
+        trace = {};
+    }
+
     ErrorActions.pushError({
         message: message,
         url: url,

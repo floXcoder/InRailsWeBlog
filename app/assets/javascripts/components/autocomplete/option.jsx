@@ -1,6 +1,6 @@
 'use strict';
 
-var classNames = require('classnames');
+const classNames = require('classnames');
 
 /**
  * A single option within the TypeaheadSelector
@@ -12,7 +12,7 @@ var TypeaheadOption = React.createClass({
         customValue: React.PropTypes.string,
         onClick: React.PropTypes.func,
         children: React.PropTypes.object,
-        hover: React.PropTypes.bool
+        isOnHover: React.PropTypes.bool
     },
 
     getDefaultProps () {
@@ -40,7 +40,7 @@ var TypeaheadOption = React.createClass({
 
     render () {
         let classes = {};
-        classes[this.props.customClasses.hover || "hover"] = !!this.props.hover;
+        classes[this.props.customClasses.hover || "hover"] = !!this.props.isOnHover;
         classes[this.props.customClasses.listItem] = !!this.props.customClasses.listItem;
 
         if (this.props.customValue) {

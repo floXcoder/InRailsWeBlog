@@ -1,33 +1,33 @@
 'use strict';
 
-var Input = require('../../components/materialize/input');
+const Input = require('../materialize/input');
 
-var SearchBar = React.createClass({
-    propTypes: {
-        label: React.PropTypes.string.isRequired,
-        onUserInput: React.PropTypes.func.isRequired
-    },
+let SearchBar = ({label, children, onUserInput}) => (
+    <form className="tag-search"
+          onSubmit={SearchBar._handleSubmit}>
+        <Input id="filter-text-input"
+               title={label}
+               onChange={(event) => SearchBar._handleSearchChange(onUserInput, event)}/>
+    </form>
+);
 
-    _handleSearchChange () {
-        this.props.onUserInput(this.refs.filterTextInput.value());
-    },
+SearchBar._handleSearchChange = (onUserInput, event) => {
+    onUserInput(event.target.value);
+};
 
-    _handleSubmit () {
-        return false;
-    },
+SearchBar._handleSubmit = () => {
+    return false;
+};
 
-    render () {
-        return (
-            <form className="tag-search"
-                  onSubmit={this._handleSubmit}>
-                <Input ref="filterTextInput"
-                       id="filterTextInput"
-                       onChange={this._handleSearchChange}>
-                    {this.props.label}
-                </Input>
-            </form>
-        );
-    }
-});
+SearchBar.propTypes = {
+    label: React.PropTypes.string.isRequired,
+    children: React.PropTypes.string,
+    onUserInput: React.PropTypes.func
+};
+
+SearchBar.defaultProps = {
+    children: null,
+    onUserInput: null
+};
 
 module.exports = SearchBar;

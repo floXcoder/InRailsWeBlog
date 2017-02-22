@@ -1,5 +1,8 @@
 - provide(:title, t('devise.unlocks.page_title'))
 
+- content_for :robots do
+  meta name="robots" content="noindex, nofollow"
+
 - stylesheet 'users/new'
 
 - javascript 'commons'
@@ -9,7 +12,6 @@
 .card
   / Form for new password
   = simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: {method: :post, id: 'password_user', class: 'blog-form'}) do |user_form|
-
     .card-content
       h3.adaptative-title.center-align
         = t('devise.unlocks.title')

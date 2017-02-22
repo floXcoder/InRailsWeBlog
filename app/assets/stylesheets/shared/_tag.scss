@@ -1,5 +1,7 @@
 .blog {
-  .blog-index-tag {
+  .blog-sidebar-tag {
+    margin: 5px;
+
     .tag-search {
       padding: 5px 0;
     }
@@ -9,52 +11,8 @@
       line-height: 2rem;
     }
 
-    li {
-      background-color: inherit;
-
-      &:hover {
-        background-color: inherit;
-      }
-
-      &.active {
-        background-color: inherit;
-      }
-
-      span {
-        cursor: pointer;
-      }
-    }
-
-    .collapsible-header {
-      i {
-        float: right;
-
-        &.tag-dropdown {
-          padding: 5px;
-        }
-      }
-
-      .tag-parent {
-        color: black;
-        background-color: color('grey', 'lighten-5');
-        padding: 0 1em;
-      }
-    }
-
-    .collapsible-body i {
-      width: 2rem;
-      font-size: 1.6rem;
-      line-height: 3rem;
-      display: block;
-      float: left;
-      text-align: center;
-      margin-right: 1rem;
-    }
-
-    .tag-children {
-      color: black;
-      background-color: white;
-      margin: 0 0 1rem 2.5rem;
+    .tag-child {
+      padding-left: 1.5rem;
     }
   }
 
@@ -72,6 +30,61 @@
       &.tag-inactive {
         background-color: color('grey', 'lighten-2');
         color: white;
+      }
+    }
+  }
+
+  .blog-tag-item {
+    .tag-item-description {
+      margin: 1rem 0;
+
+      .tag-item-no-description {
+        font-style: italic;
+      }
+    }
+
+    .tag-item-synonyms {
+      margin: 1rem 0;
+
+      .tag-item-no-synonyms {
+        font-style: italic;
+      }
+    }
+  }
+
+  .tag-parent {
+    background-color: #fafafa;
+    box-shadow: 0 0 4px #8b0000 !important;
+    color: #000;
+  }
+
+  .tag-child {
+    background-color: #fafafa;
+    box-shadow: 0 0 4px #006400 !important;
+    color: #000;
+  }
+
+  .tag-tooltip {
+    .tag-tooltip-heading {
+      border-bottom: 1px solid #6a737c;
+      color: #fff;
+      font-weight: bold;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+    }
+
+    .tag-tooltip-description {
+      font-size: 15px;
+      line-height: 13px;
+      margin-bottom: 8px;
+      word-wrap: break-word;
+
+      p {
+        margin-bottom: 8px;
+      }
+
+      a, a:visited {
+        color: #b4d4ec;
       }
     }
   }

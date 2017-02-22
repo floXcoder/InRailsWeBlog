@@ -1,7 +1,7 @@
 feature 'User Confirmation' do
 
   given(:user_info) { {pseudo: 'Pseudo',
-                       email: 'test@l-x.fr',
+                       email: 'test@example.com',
                        password: 'new_password'}
   }
   given(:user) { FactoryGirl.create(:user, :confirmed, email: user_info[:email]) }

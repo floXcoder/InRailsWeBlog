@@ -1,6 +1,6 @@
 'use strict';
 
-var classNames = require('classnames');
+const classNames = require('classnames');
 
 /**
  * Encapsulates the rendering of an option that has been "selected" in a
@@ -44,7 +44,7 @@ var Token = React.createClass({
                 type="hidden"
                 name={ this.props.name + '[]' }
                 value={ this.props.object }
-                />
+            />
         );
     },
 
@@ -53,10 +53,10 @@ var Token = React.createClass({
             return "";
         }
         return (
-            <a className="typeahead-token-close" href="#" onClick={function(event) {
-          this.props.onRemove(this.props.object);
-          event.preventDefault();
-        }.bind(this)}>&#x00d7;</a>
+            <a className="typeahead-token-close" href="#" onClick={(event) => {
+                this.props.onRemove(this.props.object);
+                event.preventDefault();
+            }}>&#x00d7;</a>
         );
     }
 });

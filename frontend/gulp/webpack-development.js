@@ -20,5 +20,4 @@ gulp.task('webpack:development', function(callback) {
             callback();
         });
     }
-
 });

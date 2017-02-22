@@ -4,7 +4,6 @@ var revNapkin      = require('gulp-rev-napkin');
 var gulpSequence = require('gulp-sequence');
 var filter = require('gulp-filter');
 var revReplace = require('gulp-rev-replace');
-var cssnano = require('gulp-cssnano');
 var cssmin = require('gulp-cssmin');
 var autoPrefixer = require('gulp-autoprefixer');
 var sizereport   = require('gulp-sizereport');
@@ -14,7 +13,7 @@ var config     = require('../config').production;
 
 // Rev assets : how to change file name in css url and javascript code ?
 // 1) Add md5 hashes to assets referenced by CSS and JS files
-gulp.task('rev-assets', function() {
+gulp.task('rev-assets', function () {
     // Ignore what we dont want to hash in this step
     var notThese = '!' + config.dest + '/**/*+(css|js|json|html|ico)';
 
@@ -27,7 +26,7 @@ gulp.task('rev-assets', function() {
 });
 
 // 2) Update asset references with rev-ed filenames in compiled css + js
-gulp.task('rev-update-references', function(){
+gulp.task('rev-update-references', function () {
     var manifest = gulp.src(config.dest + '/' + config.manifestFilename);
 
     return gulp.src(config.dest + '/**/**.{css,js}')
@@ -37,11 +36,10 @@ gulp.task('rev-update-references', function(){
 
 // 3) Rev and compress CSS (this is done after assets, so that if a
 //    referenced asset hash changes, the parent hash will change as well)
-gulp.task('rev-css', function(){
+gulp.task('rev-css', function () {
     return gulp.src(config.dest + '/**/*.css')
         .pipe(rev())
-        .pipe(autoPrefixer({ browsers: config.autoPrefixer }))
-        .pipe(cssnano())
+        .pipe(autoPrefixer({browsers: config.autoPrefixer}))
         .pipe(cssmin())
         .pipe(gulp.dest(config.dest))
         .pipe(revNapkin({verbose: false}))
@@ -50,7 +48,7 @@ gulp.task('rev-css', function(){
 });
 
 // 4) Update asset references in HTML
-gulp.task('update-html', function(){
+gulp.task('update-html', function () {
     var manifest = gulp.src(config.dest + '/' + config.manifestFilename);
     return gulp.src(config.dest + '/**/*.html')
         .pipe(revReplace({manifest: manifest}))
@@ -58,8 +56,8 @@ gulp.task('update-html', function(){
 });
 
 // 5) Report sizes
-gulp.task('size-report', function() {
-    var hashedFiles = '/**/*-' + repeatString('[a-z,0-9]', 8)  + '*.*';
+gulp.task('size-report', function () {
+    var hashedFiles = '/**/*-' + repeatString('[a-z,0-9]', 8) + '*.*';
 
     return gulp.src([config.dest + hashedFiles, '*!rev-manifest.json'])
         .pipe(sizereport({
@@ -69,7 +67,7 @@ gulp.task('size-report', function() {
 
 
 // If you are familiar with Rails, this task the equivalent of `rake assets:precompile`
-gulp.task('rev', function(callback) {
+gulp.task('rev', function (callback) {
     gulpSequence(
         // 1) Add md5 hashes to assets referenced by CSS and JS files
         'rev-assets',
@@ -85,6 +83,6 @@ gulp.task('rev', function(callback) {
 });
 
 
-gulp.task('production', function(callback) {
-    gulpSequence('clean', ['fonts', 'images', 'html'], ['sass-production', 'webpack:production'], 'rev', callback);
+gulp.task('production', function (callback) {
+    gulpSequence('clean', ['fonts', 'images'], ['sass-production', 'webpack:production'], 'rev', callback);
 });

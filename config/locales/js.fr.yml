@@ -1,8 +1,41 @@
 fr:
   js:
-    common:
-      website_name: "In Rails We Blog"
-      email: "blog@inrailsweblog.com"
+    header:
+      topic:
+        button: "Thèmes"
+      search:
+        button: "Rechercher"
+      articles:
+        button: "Articles"
+        menu:
+          user: "Mes articles"
+          new: "Nouvel article"
+          bookmark: "Articles favoris"
+          temporary: "Temporaires"
+      tags:
+        button: "Labels"
+      preferences:
+        button: "Préférences"
+      user:
+        sign_up: "S'inscrire"
+        log_in: "Se connecter"
+        log_out: "Déconnexion"
+        languages:
+          french: "Français"
+          english: "English"
+        profile: "Mon compte"
+        administration: "Administration"
+    footer:
+      title: "In Rails We Blog"
+      description: "Un blog pensé pour les développeurs"
+      copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
+      links:
+        title: "Liens utiles"
+        contact: "Me contacter par email"
+        support: "Aide"
+        about: "A propos de moi"
+        github: "Source sous Github"
+        github_src: "https://github.com/floXcoder/InRailsWeBlog"
     user:
       model:
         pseudo: "Pseudo"
@@ -30,7 +63,7 @@ fr:
         email: "Email"
         password: "Mot de passe"
         confirm_password: "Confirmer le mot de passe"
-        terms_of_use: "En vous inscrivant sur InRailsWeBlog, vous acceptez les"
+        terms_of_use: "En vous inscrivant sur %{website}, vous acceptez les"
         terms_of_use_name: "conditions d'utilisations."
         cancel: "Annuler"
         submit: "Créer mon compte"
@@ -46,12 +79,30 @@ fr:
         tracking: "Popularité"
         contact: "Informations de contact"
         properties: "Propriétés"
+        edit: "Modifier"
         admin: "Administrateur"
         administrator:
           true: "Admin power"
           false: "Non admin"
         is_admin: "Administrateur"
         not_admin: "Non administrateur"
+      edit:
+        page_title: "Éditer mon profil"
+        title: "Éditer mon profil"
+        login_header: "Informations de connexion"
+        connection_parameters: "Modifier vos paramètres de connexion"
+        profile_picture: "Image pour votre profile"
+        current_picture: "Votre image actuelle :"
+        replace_picture: "Vous pouvez remplacer votre image en indiquant une autre soit locale soit depuis une url"
+        no_picture: "Vous n'avez pas d'image associée à votre compte."
+        local_picture: "Image locale"
+        remote_picture: "URL d'une image"
+        or: "ou"
+        placeholder_picture: "Utiliser une image locale ou une url"
+        remove_picture: "Supprimer cette image"
+        personal_information_header: "Informations personnelles"
+        update_profile: "Mettre à jour mon profil"
+        back_button: "Retour"
       errors:
         login:
           required: "Veuillez indiquer votre email ou pseudo"
@@ -67,13 +118,11 @@ fr:
         password:
           required: "Veuillez indiquer un mot de passe"
           size: "Le mot de passe doit être compris entre %{min} et %{max} caractères"
-          mismatch: "Le password et sa confirmation ne correspondent pas"
+          mismatch: "Le mot de passe et sa confirmation ne correspondent pas"
         policy: "Merci d'accepter d'abord les conditions d'utilisation"
       preferences:
         article:
           title: "Articles"
-          multi_language:
-            title: "Écrire les articles en plusieurs langues"
           display:
             title: "Articles"
             mode:
@@ -89,45 +138,89 @@ fr:
           highlight: "Sur-brillance"
           exact: "Le(s) mot(s) précis"
     article:
+      common:
+        temporary: "Note temporaire ?"
+        link: "Est un lien ?"
+        allow_comment:
+         title: "Autoriser les commentaires ?"
+         truthy: "Oui"
+         falsy: "Non"
+        visibility: "Choisissez la visibilité"
+        url: "Liste des articles"
+        outdated: "Article marqué comme périmé !"
+        tags:
+          default: "Ajouter des labels à l'article"
+          parent: "Ajouter des labels principaux"
+          child: "Ajouter des labels secondaires"
+        tooltips:
+          title_too_short: "Le titre est trop court"
+          summary_too_short: "Le résumé est trop court"
+          content_too_short: "Le contenu est trop court"
+        no_results:
+          topic:
+            title: "Pas d'articles associés à ce thème"
+            content: "Ajouter de nouveau article en cliquant que le bouton ci-dessous"
+            button: "Ajouter nouvel article"
+          search:
+            title: "Pas d'articles trouvés"
+            content: "Essayer autre chose :)"
+        validation_error:
+          common: "Merci de remplir l'article comme indiqué avant de continuer"
       model:
         title: "Titre"
         summary: "Résumé"
         content: "Contenu"
         visibility: "Visibilité"
-        allow_comment: "Autoriser commentaires ?"
+        allow_comment: "Autoriser commentaires"
+        temporary: "Note temporaire"
+        is_link: "Lien"
+        tags: "Labels associés"
+        parent_tags: "Labels principaux"
+        child_tags: "Labels fils"
         comment:
           true: "Activé"
           false: "Désactivé"
-        temporary: "Note temporaire ?"
-        is_link: "Est un lien ?"
-        errors:
-          default: "Impossible de créer l'article ! Merci de réessayer."
-          not_authorized: "Vous n'avez pas la permission d'accéder à cet article !"
-          title: "Le titre de l'article est %{message}"
-          summary: "Le résumé de l'article est %{message}"
-          content: "Le contenu de l'article est %{message}"
-          bookmark:
-            not_authorized: "Vous n'avez pas la permission d'ajouter aux favoris cet article !"
-            default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
-            bookmark: "%{message}"
+        topic: "Thème"
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Privé"
+        visibility_order:
+          - everyone
+          - only_me
+      flash:
+        creation_unpermitted: "Connectez-vous pour écrire un article"
+        deletion_successful: "L'article a été supprimé."
+        undelete_link: "Annuler la suppression."
       tooltip:
         edit: "Modifier l'article"
         visibility: "Visibilité : %{visibility}"
         add_bookmark: "Ajouter aux favoris"
         remove_bookmark: "Enlever des favoris"
+        add_outdated: "Marqué comme périmé"
+        remove_outdated: "Enlever des périmés"
         history: "Voir les anciennes révisions de l'article"
-        is_link: "C'est un lien"
-        comments_number: "%{number} commentaires"
+        link: "C'est un lien"
         link_to: "Aller vers l'article"
         cancel: "Annuler"
         update: "Mettre à jour l'article"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
-      flash:
-        creation_unpermitted: "Connectez-vous pour écrire un article"
-        deletion_successful: "L'article a été supprimé."
-        undelete_link: "Annuler la suppression."
-      url: "Liste des articles"
+      history:
+        changed_at: "Version modifiée"
+        restore: "Restaurer cette version"
+        none: "Aucun historique pour cet article !"
+        restored: "Version restaurée"
+      bookmark:
+        added: "Article ajouté aux favoris"
+        removed: "Article supprimé des favoris"
+      outdated:
+        added: "Article marqué comme périmé"
+        removed: "Article enlevé des périmés"
+      vote:
+        added: "Votre vote a été pris en compte"
+      show:
+        new_tags: "Ajouter des synonymes ou description aux nouveaux labels ajoutés :"
       new:
         title: "Créer un nouvel article"
         tags:
@@ -143,44 +236,107 @@ fr:
       timeline:
         title: "Nouvel article :"
         no_articles: "Pas d'articles à afficher"
-      search:
-        placeholder: "Rechercher ..."
-        url: "Recherche :"
-        no_results:
-          title: "Pas d'articles trouvés"
-          content: "Essayer autre chose :)"
-      history:
-        changed_at: "Version modifiée"
-        restore: "Restaurer cette version"
-        none: "Aucun historique pour cet article !"
-        restored: "Version restaurée"
-      bookmark:
-        added: "Article ajouté aux favoris"
-        removed: "Article supprimé des favoris"
       clipboard:
         toast:
           init: "Copie sur le site détectée, création d'un article temporaire en cours ..."
           done: "Un nouvel article temporaire a été créé !"
-      tag:
-        url: "Label :"
-      visibility:
-        title: "Visibilité de l'article"
-        enum:
-          everyone: "Tout le monde"
-          only_me: "Privé"
-          selected_group: "Groupes sélectionnées"
+      errors:
+        default: "Impossible de créer l'article ! Merci de réessayer."
+        not_authorized: "Vous n'avez pas la permission d'accéder à cette article !"
+        title:
+          size: "Le titre de l'article doit être compris entre %{min} et %{max} caractères"
+        summary:
+          size: "Le résumé de l'article doit être compris entre %{min} et %{max} caractères"
+        content:
+          size: "Le contenu de l'article doit être compris entre %{min} et %{max} caractères"
+        topic: "Pas de thème associé à l'article"
+        bookmark:
+          not_authorized: "Vous n'avez pas la permission d'ajouter aux favoris cet article !"
+          default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
+          bookmark: "%{message}"
     tag:
-      list: "Tous les labels"
-      associated: "Labels associés"
-      filter: "Filtrer par labels ..."
-      no_results: "Aucun label trouvé pour :"
+      common:
+        list: "Tous les labels"
+        associated: "Labels associés"
+        filter: "Filtrer par labels ..."
+        no_results: "Aucun label trouvé pour :"
+        usage: "%{count} utilisations"
+        link: "Voir le détail du label"
+        visibility: "Choisissez la visibilité"
+        synonyms: "Synonymes du label ..."
+        no_description: "Pas de description associée au label"
+        no_synonyms: "Pas de synonymes associés au label"
+        no_parents: "Pas de labels parents associés"
+        no_children: "Pas de labels fils associés"
+      model:
+        name: "Nom du label"
+        description: "Description"
+        synonyms: "Synonymes"
+        visibility: "Visibilité"
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Privé"
+        visibility_order:
+          - everyone
+          - only_me
+      show:
+        parents: "Labels parents :"
+        children: "Labels fils :"
+        back_button: "Annuler"
+        edit_link: "Modifier ce label"
+      edit:
+        title: "Modification du label : %{name}"
+        back_button: "Annuler"
+        update_label: "Mettre à jour le label"
+    search:
+      placeholder: "Rechercher ..."
+      url: "Recherche :"
     comment:
-      title: "Commentaires"
-      empty: "Pas encore de commentaires"
-      actions: "Actions"
+      common:
+        title: "Commentaires"
+        empty: "Pas encore de commentaires"
+        actions: "Actions"
+      model:
+        title: "Titre"
+        body: "Message"
+        user: "Commentateur"
+        commentable_type: "Model commenté"
+        posted_at: "Posté le"
+      tooltip:
+        count: "%{number} commentaires"
       timeline:
         link: "Commentaire associée à :"
         no_comments: "Pas de commentaires à afficher"
+      table:
+        helper: "Pour éditer les commentaires directement depuis la liste, double cliquer sur le texte. Sinon dans Actions, cliquer sur édition."
+        filter:
+          order:
+            title: "Trier par"
+            select:
+              default: "Sélectionner la colonne"
+              values:
+                id_first: "Id (premier)"
+                id_last: "Id (dernier)"
+                updated_first: "Mise à jour (premier)"
+                updated_last: "Mise à jour (dernier)"
+              order:
+                - id_first
+                - id_last
+                - updated_first
+                - updated_last
+          accepted: "Validé"
+          button: "Filter"
+        actions:
+          button: "Actions"
+          show: "Voir le commentaire"
+          delete: "Supprimer le commentaire"
+          accepted: "Valider le commentaire"
+          delete: "Supprimer ce commentaire"
+          delete_permanently: "Supprimer DÉFINITIVEMENT ce commentaire"
+        confirmation:
+          delete: "Supprimer le commentaire '%{comment}'"
+          delete_permanently: "Supprimer DÉFINITIVEMENT le commentaire '%{comment}' ?"
       form:
         title:
           default: "Ajouter un commentaire"
@@ -190,36 +346,40 @@ fr:
         syntax: "syntaxe markdown"
         comment:
           title: "Titre du message"
-          message: "Votre commentaire ..."
+          body: "Votre commentaire ..."
           notation: "Note :"
         submit: "Poster"
       new:
         button: "Ajouter un commentaire"
       reply:
         button: "Répondre"
-      modify:
+      edit:
         button: "Modifier"
       delete:
         button: "Supprimer"
         action: "Pour supprimer le commentaire, déplacez-moi!"
       flash:
         creation_unpermitted: "Vous devez vous connecter pour poster un commentaire"
-        creation_successful: "Commentaire ajouté"
-        update_successful: "Commentaire mis à jour"
-        deletion_successful: "Commentaire supprimé"
-      model:
-        title: "Titre"
-        body: "Message"
-        errors:
-          default: "Impossible de créer le commentaire ! Merci de réessayer."
-          not_authorized: "Vous n'avez pas la permission d'accéder à ce commentaire !"
-          title: "Le titre du commentaire est %{message}"
-          body: "Le message du commentaire est %{message}"
+      errors:
+        default: "Impossible de créer le commentaire ! Merci de réessayer."
+        not_authorized: "Vous n'avez pas la permission d'accéder à ce commentaire !"
+        title: "Le titre du commentaire est %{message}"
+        body: "Le message du commentaire est %{message}"
+    topic:
+      common:
+        user_topics: "Mes thèmes"
+        user_current_topic: "Thème en cours"
+      new:
+        title: "Créer un nouveau thème"
+        input: "Nom du thème"
+        button: "Créer"
     picture:
       model:
         errors:
           title: "Image trop grande"
           text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
+          type:
+            image: "Le fichier n'est pas de type image, merci de choisir un fichier jpp, jpeg, png ou bmp"
     activities:
       no_activities: "Pas d'activités à afficher"
       article:
@@ -231,13 +391,12 @@ fr:
         update: "Label mis à jour"
         destroy: "Label supprimé"
       tagged_article:
-        create: "Label ajouté à un article"
-        update: "Label d'un article mis à jour"
-        destroy: "Label supprimé d'un article"
+         create: "Article labellisé"
+         update: "Label de l'article mis à jour"
+         destroy: "Label de l'article supprimé"
       bookmarked_article:
         create: "Article ajouté aux favoris"
-        update: "Favori d'un article modifié"
-        destroy: "Favori d'un article supprimé"
+        destroy: "Article supprimé des favoris"
       comment:
         create: "Commentaire ajouté"
         update: "Commentaire mis à jour"
@@ -247,8 +406,8 @@ fr:
       views_count: "Vues"
       queries_count: "Requêtes"
       clicks_count: "Clics"
-      searches_count: "Recherches"
-      bookmarks_count: "Favoris"
+      searches_count: "Searches"
+      bookmarks_count: "Bookmarks"
     admin:
       menu:
         dashboard: "Dashboard"
@@ -261,16 +420,33 @@ fr:
           title: "Liste des utilisateurs"
         show:
           title: "Détails de l'utilisateur"
-    error_message:
-      url: "URL :"
-      message: "Message :"
-      trace: "Trace :"
-    errors:
-      not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
-      server: "Une erreur serveur s'est produite, merci de réessayer plus tard."
+    form:
+      wizard:
+        previous: "Précédent"
+        next: "Suivant"
+      errors:
+        text: "Ce champ est requis"
+        stripped_text_size: "La taille du texte doit être compris entre %{minCount} et %{maxCount} caractères"
+        select: "Choisissez une des options proposées"
+        date: "Indiquer une date valide"
+        datetime: "Indiquer une date et une heure valide"
+        phone_number: "Numéro de téléphone invalide"
+        picture:
+          title: "Image trop grande"
+          text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
+    selectize:
+      no_results: "Pas de résultats trouvés"
+      tags:
+        type: "Taper des caractères pour ajouter un tag"
+        add: "Ajouter"
+        already_exists: "Le tag existe déjà"
+    categorized_tag:
+      add_new: "Ajouter nouveau"
     checkbox:
       on: "Oui"
       off: "Non"
+    rating:
+      clear: "Effacer"
     buttons:
       apply: "Valider"
       cancel: "Annuler"
@@ -285,43 +461,93 @@ fr:
       formats:
         default: "DD/MM/YYYY"
         display: "D MMMM"
+        editable: "Le dd MM à hh:ii"
+        editable_date: "Le dd MM"
+        date: "yyyy-mm-dd"
       separator: " à "
       label:
         from: "De"
         to: "au"
       ranges:
         today: "Aujourd'hui"
+        today_short: "Auj."
         tomorrow: "Demain"
         next_week: "7 prochains jours"
+        previous_month: "Mois précédent"
         this_month: "Ce mois-ci"
         next_month: "Mois prochain"
         custom_range: "Personnalisé"
+        select_month: "Sélectionner un mois"
+        select_year: "Sélectionner une année"
       day_names:
-        - dimanche
-        - lundi
-        - mardi
-        - mercredi
-        - jeudi
-        - vendredi
-        - samedi
+        - "dimanche"
+        - "lundi"
+        - "mardi"
+        - "mercredi"
+        - "jeudi"
+        - "vendredi"
+        - "samedi"
       abbr_day_names:
-        - Di
-        - Lu
-        - Ma
-        - Me
-        - Je
-        - Ve
-        - Sa
+        - "Di"
+        - "Lu"
+        - "Ma"
+        - "Me"
+        - "Je"
+        - "Ve"
+        - "Sa"
+      letter_day_names:
+        - "D"
+        - "L"
+        - "M"
+        - "M"
+        - "J"
+        - "V"
+        - "S"
       month_names:
-        - janvier
-        - février
-        - mars
-        - avril
-        - mai
-        - juin
-        - juillet
-        - août
-        - septembre
-        - octobre
-        - novembre
-        - décembre
+        - "Janvier"
+        - "Février"
+        - "Mars"
+        - "Avril"
+        - "Mai"
+        - "Juin"
+        - "Juillet"
+        - "Août"
+        - "Septembre"
+        - "Octobre"
+        - "Novembre"
+        - "Décembre"
+      abbr_month_names:
+        - "Jan"
+        - "Fev"
+        - "Mar"
+        - "Avr"
+        - "Mai"
+        - "Juin"
+        - "Juil"
+        - "Août"
+        - "Sep"
+        - "Oct"
+        - "Nov"
+        - "Dec"
+    helpers:
+      colon: " : "
+      or: " ou "
+      and: " et "
+      back: "Page précédente"
+      select:
+        prompt: "Veuillez sélectionner"
+      submit:
+        create: "Créer un(e) %{model}"
+        submit: "Enregistrer ce(tte) %{model}"
+        update: "Modifier ce(tte) %{model}"
+      array:
+        last_word_connector: " et "
+        two_words_connector: " et "
+        words_connector: ", "
+    error_message:
+      url: "URL :"
+      message: "Message :"
+      trace: "Trace :"
+    errors:
+      not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
+      server: "Une erreur serveur s'est produite, merci de réessayer plus tard."

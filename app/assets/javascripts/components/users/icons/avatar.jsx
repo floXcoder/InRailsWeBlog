@@ -1,39 +1,44 @@
 'use strict';
 
-var UserStore = require('../../../stores/userStore');
+const UserStore = require('../../../stores/userStore');
 
-var UserAvatarIcon = React.createClass({
-    propTypes: {
-        user: React.PropTypes.object.isRequired,
-        className: React.PropTypes.string
-    },
+import {Link} from 'react-router';
 
-    getDefaultProps () {
-        return {};
-    },
+const UserAvatarIcon = ({user, className}) => (
+    <Link className={className}
+          to={`/user/profile/${user.slug}`}
+          onClick={(event) => {
+              UserAvatarIcon._handleAuthorClick(user.id, event)
+          }}>
+        <div className="chip user-avatar">
+            {
+                user.avatar
+                    ?
+                    <img src={user.avatar}
+                         alt="User avatar"/>
+                    :
+                    <i className="material-icons">account_circle</i>
+            }
 
-    _handleAuthorClick (authorId, event) {
-        UserStore.onTrackClick(authorId);
-        return event;
-    },
+            <div className="pseudo">
+                {user.pseudo}
+            </div>
+        </div>
+    </Link>
+);
 
-    render () {
-        return (
-            <a className={this.props.className}
-               href={`/users/${this.props.user.slug}`}
-               onClick={this._handleAuthorClick.bind(this, this.props.user.id)}>
-                <div className="chip user-avatar">
-                    {
-                        this.props.user.avatar ?
-                            <img src={this.props.user.avatar}
-                                 alt="User avatar"/> :
-                            <i className="material-icons">account_circle</i>
-                    }
-                    {this.props.user.pseudo}
-                </div>
-            </a>
-        );
-    }
-});
+UserAvatarIcon.propTypes = {
+    user: React.PropTypes.object.isRequired,
+    className: React.PropTypes.string
+};
+
+UserAvatarIcon.getDefaultProps = {
+    className: null
+};
+
+UserAvatarIcon._handleAuthorClick = (authorId, event) => {
+    UserStore.onTrackClick(authorId);
+    return event;
+};
 
 module.exports = UserAvatarIcon;

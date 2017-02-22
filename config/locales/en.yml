@@ -1,47 +1,8 @@
 en:
-  common:
-    website_name: "In Rails We Blog"
-    email: "blog@inrailsweblog.com"
   head:
     keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
     description: "How to build a Blog with Rails and Node"
-  footer:
-    title: "In Rails We Blog"
-    description: "A blog optimized for programmer"
-    copyright: "Copyright 2015 - InRailsWeBlog. All rights reserved."
-    links:
-      title: "Useful links"
-      contact: "Contact me by email"
-      support: "Support"
-      about: "About Me"
-      github: "Project source with Github"
-      github_src: "https://github.com/floXcoder/InRailsWeBlog"
   views:
-    header:
-      sign_up: "Sign Up"
-      log_in: "Log In"
-      search_tooltip: "Search"
-      article_creation_tooltip: "Create a new article"
-      tags: "Tags"
-      tags_tooltip: "Tags list"
-      preferences: "Preferences"
-      preferences_not_connected: "Connect to change preferences"
-      articles:
-        title: "Articles"
-        user: "My articles"
-        new: "New article"
-        bookmark: "Articles bookmarked"
-        temporary: "Temporary"
-      admin:
-        dashboard: "Admin"
-        errors: "Erreurs"
-      profile:
-       connected: "My Profile"
-       not_connected: "Connection"
-      language:
-        french: "Français"
-        english: "English"
-      log_out: "Log Out"
     user:
       flash:
         successful_update: "Profile updated"
@@ -52,7 +13,7 @@ en:
         subtitle: "Add your details to create an account"
         password_hint: "characters minimum"
         confirm_password: "Confirm password"
-        terms_of_use: "By subscribing on AirPur, you accept our"
+        terms_of_use: "By subscribing on InRailsWeBlog, you accept our"
         terms_of_use_name: "terms of use"
         back_home: "Back to home page"
         submit: "Create my account"
@@ -60,14 +21,21 @@ en:
           pseudo: "Pseudo needed to enter the website"
           email: "Email needed to verify your account"
           password: "Don't forget your password"
-          password_confirmation: "Password checking"
+          password_confirmation: "Vérification du mot de passe"
+        flash:
+          message: "Pour participer aux sorties, vous devez valider votre adresse email."
+          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
+          complete_profile: "Merci de compléter votre profil pour mieux vous connaître. Sinon vous ne pourrez pas participer aux sorties."
       login:
         page_title: "Log in"
         title: "Log In"
         subtitle: "Please fill in your email and password to log in"
         remember: "Remember me"
         back_home: "Back to home page"
-        submit: "Log in"
+        submit: "Connection"
+        flash:
+          message: "Vous avez %{days} pour confirmer votre adresse email."
+          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
       show:
         page_title: "%{pseudo}: My activities"
         title: "My activities"
@@ -86,22 +54,20 @@ en:
         update_profile: "Update my profil"
     article:
       flash:
-        creation_successful: "Article added!"
-        deletion_successful: "Article deleted."
-        undelete_link: "Cancel deletion."
-        deletion_error: "Problem during article deletion: %{errors}"
-        undeletion_successful: "Article restored"
         not_found: "Article not found"
-      index:
-        page_title: "All Articles"
-        title: "All Articles"
-      show:
-        page_title: "%{title}"
-      edit:
-        page_title: "Update of %{title}"
-    tag:
-      show:
-        page_title: "%{name}"
+        successful_creation: "Article added!"
+        undelete_link: "Cancel deletion."
+        successful_deletion: "Article deleted."
+        error_deletion: "Problem during article deletion: %{errors}"
+        successful_undeletion: "Article restored"
+    admin:
+      dashboard:
+        page_title: "Dashboard"
+      user_manager:
+        index:
+          page_title: "Users list"
+        show:
+          page_title: "User: %{user}"
     error:
       page_title: "Oops ..."
       status:
@@ -118,46 +84,21 @@ en:
       back_button: "Previous page"
       home_button: "Back home!"
   user:
-    pseudo: "Pseudo"
-    by: "By"
-    email: "Email"
-    id: "Pseudo or Email"
-    password: "Password"
-    first_name: "First name"
-    last_name: "Last name"
-    age: "Age"
-    city: "Ville"
-    additional_info: "Additional Info"
-    country: "Country"
-    local_picture: "Local picture"
-    remote_picture: "Link to an url"
-  article:
-    enums:
-      visibility:
-        everyone: "Everyone"
-        only_me: "Only me"
-  error_message:
-    enums:
-      origin:
-        server: "Serveur"
-        client: "Client"
-  popup:
-    cancel: "Cancel"
-  buttons:
-    cancel: "Cancel"
-    back: "Back"
-  delete:
-    confirmation: "Are you sure ?"
-  pundit:
-    default: "You are not authorized to perform this action."
-  activerecord:
-    errors:
-      models:
-        bookmark:
-          already_bookmarked: "Article already bookmarked!"
-          no_bookmarked: "Article no bookmarked!"
-        picture:
-          image_size: "must be less than 5Mb"
+    model:
+      login: "Pseudo or Email"
+      pseudo: "Pseudo"
+      email: "Email"
+      password: "Password"
+      first_name: "First name"
+      last_name: "Last name"
+      age: "Age"
+      city: "Ville"
+      additional_info: "Additional Info"
+      country: "Country"
+      local_picture: "Local picture"
+      remote_picture: "Link to an url"
+  topic:
+    default_name: "Défaut"
   email:
     hello: "Hello"
     confirmation:
@@ -170,6 +111,125 @@ en:
       instruction: "Your account has been locked due to an excessive number of unsuccessful sign in attempts.
                    Click the link below to unlock your account."
     greeting: "Have a nice day :)"
+  pundit:
+    default: "You are not authorized to perform this action."
+    flash:
+      not_authorized:
+        user: "Votre compte doit être complété avant (nom, prénom et ville)."
+    user_policy:
+      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs."
+  activerecord:
+    errors:
+      models:
+        bookmark:
+          already_bookmarked: "Article already bookmarked!"
+          no_bookmarked: "Article no bookmarked!"
+        picture:
+          image_size: "must be less than 5Mb"
+  errors:
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: "must be accepted"
+      blank: "can't be blank"
+      present: "must be blank"
+      confirmation: ! "doesn't match %{attribute}"
+      empty: "can't be empty"
+      equal_to: "must be equal to %{count}"
+      even: "must be even"
+      exclusion: "is reserved"
+      greater_than: "must be greater than %{count}"
+      greater_than_or_equal_to: "must be greater than or equal to %{count}"
+      inclusion: "is not included in the list"
+      invalid: "is invalid"
+      less_than: "must be less than %{count}"
+      less_than_or_equal_to: "must be less than or equal to %{count}"
+      not_a_number: "is not a number"
+      not_an_integer: "must be an integer"
+      odd: "must be odd"
+      record_invalid: ! 'Validation failed: %{errors}'
+      restrict_dependent_destroy:
+        one: "Cannot delete record because a dependent %{record} exists"
+        many: "Cannot delete record because dependent %{record} exist"
+      taken: "has already been taken"
+      too_long:
+        one: "is too long (maximum is 1 character)"
+        other: "is too long (maximum is %{count} characters)"
+      too_short:
+        one: "is too short (minimum is 1 character)"
+        other: "is too short (minimum is %{count} characters)"
+      wrong_length:
+        one: "is the wrong length (should be 1 character)"
+        other: "is the wrong length (should be %{count} characters)"
+      other_than: "must be other than %{count}"
+      carrierwave_processing_error: "Impossible de redimensionner l'image."
+      carrierwave_integrity_error: "Ce n'est pas une image."
+      carrierwave_download_error: "Impossible de télécharger l'image."
+      extension_white_list_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types autorisés: %{allowed_types}"
+      extension_black_list_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types interdits: %{prohibited_types}"
+      content_type_white_list_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
+      content_type_black_list_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
+      rmagick_processing_error: "La manipulation d'image avec rmagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
+      mini_magick_processing_error: "La manipulation d'image avec MiniMagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
+      min_size_error: "La taille du fichier doit être supérieure à %{min_size}"
+      max_size_error: "La taille du fichier doit être inférieure à %{max_size}"
+    template:
+      body: ! 'There were problems with the following fields:'
+      header:
+        one: "1 error prohibited this %{model} from being saved"
+        other: ! '%{count} errors prohibited this %{model} from being saved'
+  number:
+    currency:
+      format:
+        delimiter: ! ','
+        format: ! '%u%n'
+        precision: 2
+        separator: "."
+        significant: false
+        strip_insignificant_zeros: false
+        unit: $
+    format:
+      delimiter: ! ','
+      precision: 3
+      separator: "."
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: ! '%n %u'
+        units:
+          billion: "Billion"
+          million: "Million"
+          quadrillion: "Quadrillion"
+          thousand: "Thousand"
+          trillion: "Trillion"
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: ! '%n %u'
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          gb: "GB"
+          kb: "KB"
+          mb: "MB"
+          tb: "TB"
+    percentage:
+      format:
+        delimiter: ""
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ""
+  metrics:
+    distance_unit: "m"
+    distance_unit_k: "km"
+    duration_unit: "h"
+    speed_unit: "km/h"
   date:
     abbr_day_names:
     - Sun
@@ -239,9 +299,11 @@ en:
         other: "almost %{count} years"
       half_a_minute: "half a minute"
       less_than_x_minutes:
+        zero: "less than a minute"
         one: "less than a minute"
         other: "less than %{count} minutes"
       less_than_x_seconds:
+        zero: "less than 1 second"
         one: "less than 1 second"
         other: "less than %{count} seconds"
       over_x_years:
@@ -266,108 +328,6 @@ en:
       month: "Month"
       second: "Seconds"
       year: "Year"
-  errors:
-    format: ! '%{attribute} %{message}'
-    messages:
-      accepted: "must be accepted"
-      blank: "can't be blank"
-      present: "must be blank"
-      confirmation: ! "doesn't match %{attribute}"
-      empty: "can't be empty"
-      equal_to: "must be equal to %{count}"
-      even: "must be even"
-      exclusion: "is reserved"
-      greater_than: "must be greater than %{count}"
-      greater_than_or_equal_to: "must be greater than or equal to %{count}"
-      inclusion: "is not included in the list"
-      invalid: "is invalid"
-      less_than: "must be less than %{count}"
-      less_than_or_equal_to: "must be less than or equal to %{count}"
-      not_a_number: "is not a number"
-      not_an_integer: "must be an integer"
-      odd: "must be odd"
-      record_invalid: ! 'Validation failed: %{errors}'
-      restrict_dependent_destroy:
-        one: "Cannot delete record because a dependent %{record} exists"
-        many: "Cannot delete record because dependent %{record} exist"
-      taken: "has already been taken"
-      too_long:
-        one: "is too long (maximum is 1 character)"
-        other: "is too long (maximum is %{count} characters)"
-      too_short:
-        one: "is too short (minimum is 1 character)"
-        other: "is too short (minimum is %{count} characters)"
-      wrong_length:
-        one: "is the wrong length (should be 1 character)"
-        other: "is the wrong length (should be %{count} characters)"
-      other_than: "must be other than %{count}"
-    template:
-      body: ! 'There were problems with the following fields:'
-      header:
-        one: "1 error prohibited this %{model} from being saved"
-        other: ! '%{count} errors prohibited this %{model} from being saved'
-  helpers:
-    select:
-      prompt: "Please select"
-    submit:
-      create: "Create %{model}"
-      submit: "Save %{model}"
-      update: "Update %{model}"
-  number:
-    currency:
-      format:
-        delimiter: ! ','
-        format: ! '%u%n'
-        precision: 2
-        separator: "."
-        significant: false
-        strip_insignificant_zeros: false
-        unit: $
-    format:
-      delimiter: ! ','
-      precision: 3
-      separator: "."
-      significant: false
-      strip_insignificant_zeros: false
-    human:
-      decimal_units:
-        format: ! '%n %u'
-        units:
-          billion: "Billion"
-          million: "Million"
-          quadrillion: "Quadrillion"
-          thousand: "Thousand"
-          trillion: "Trillion"
-          unit: ''
-      format:
-        delimiter: ''
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: ! '%n %u'
-        units:
-          byte:
-            one: "Byte"
-            other: "Bytes"
-          gb: "GB"
-          kb: "KB"
-          mb: "MB"
-          tb: "TB"
-    percentage:
-      format:
-        delimiter: ""
-        format: "%n%"
-    precision:
-      format:
-        delimiter: ""
-  support:
-    colon: ": "
-    or: " or "
-    array:
-      last_word_connector: ", and "
-      two_words_connector: " and "
-      words_connector: ", "
   time:
     am: "am"
     formats:
@@ -380,3 +340,19 @@ en:
       custom_begin: "From %d %b at %Hh%M"
       custom_end: "To %d %b at %Hh%M"
     pm: "pm"
+  helpers:
+    colon: ": "
+    or: " or "
+    and: " and "
+    back: "Page précédente"
+    select:
+      prompt: "Please select"
+    submit:
+      create: "Create %{model}"
+      submit: "Save %{model}"
+      update: "Update %{model}"
+    array:
+      last_word_connector: ", and "
+      two_words_connector: " and "
+      words_connector: ", "
+  hello: "Bonjour"

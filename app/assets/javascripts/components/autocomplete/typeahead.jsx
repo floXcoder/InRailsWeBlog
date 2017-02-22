@@ -1,8 +1,8 @@
 'use strict';
 
-var TypeaheadSelector = require('./selector');
-var fuzzy = require('fuzzy');
-var classNames = require('classnames');
+const TypeaheadSelector = require('./selector');
+const fuzzy = require('fuzzy');
+const classNames = require('classnames');
 
 var KeyEvent = KeyEvent || {};
 KeyEvent.DOM_VK_UP = KeyEvent.DOM_VK_UP || 38;

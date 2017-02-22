@@ -1,41 +1,45 @@
 'use strict';
 
-var ReactPaginate = require('react-paginate');
+const ReactPaginate = require('react-paginate');
 
-var Pagination = React.createClass({
-    propTypes: {
-        totalPages: React.PropTypes.number.isRequired,
-        onPageClick: React.PropTypes.func.isRequired,
-        numOfPageShow: React.PropTypes.number.isRequired
+const Pagination = ({totalPages, numOfPageShow, className, onPaginationClick}) => {
+    const pageRangeDisplayed = Math.ceil(numOfPageShow / 2);
+    const marginPagesDisplayed = Math.ceil(numOfPageShow / 4);
 
-    },
+    if (totalPages <= 1) {
+        return null;
+    }
 
-    getDefaultProps () {
-        return {
-            numOfPageShow: 10
-        };
-    },
-
-    render () {
-        let pageRangeDisplayed = Math.ceil(this.props.numOfPageShow / 2);
-        let marginPagesDisplayed = Math.ceil(this.props.numOfPageShow / 4);
-
-        return (
-            <ReactPaginate pageNum={this.props.totalPages}
+    return (
+        <div className={`clearfix ${className ? className : ''}`}>
+            <ReactPaginate pageNum={totalPages}
                            pageRangeDisplayed={pageRangeDisplayed}
                            marginPagesDisplayed={marginPagesDisplayed}
                            previousLabel={<i className="material-icons">chevron_left</i>}
                            nextLabel={<i className="material-icons">chevron_right</i>}
-                           breakLabel={<li className="break">...</li>}
-                           clickCallback={this.props.onPageClick}
+                           breakLabel={<span className="break">...</span>}
+                           clickCallback={onPaginationClick}
                            containerClassName={"pagination center-align"}
                            subContainerClassName={"pages"}
                            pageClassName={"waves-effect"}
                            activeClassName={"active"}
                            disabledClassName={"disabled"}/>
-        );
-    }
-});
+        </div>
+    );
+};
+
+Pagination.propTypes = {
+    totalPages: React.PropTypes.number,
+    numOfPageShow: React.PropTypes.number,
+    className: React.PropTypes.string,
+    onPaginationClick: React.PropTypes.func
+};
+
+Pagination.defaultProps = {
+    totalPages: 0,
+    numOfPageShow: 10,
+    className: null,
+    onPaginationClick: null
+};
 
 module.exports = Pagination;
-
