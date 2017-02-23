@@ -1,4 +1,4 @@
-class CreateBookmarkedArticles < ActiveRecord::Migration
+class CreateBookmarkedArticles < ActiveRecord::Migration[5.0]
   def change
     create_table :bookmarked_articles do |t|
       t.belongs_to :user

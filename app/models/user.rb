@@ -38,7 +38,7 @@
 #  locked_at              :datetime
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 
   # == Attributes ===========================================================
   # Preferences

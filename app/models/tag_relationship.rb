@@ -10,7 +10,7 @@
 #  updated_at  :datetime         not null
 #
 
-class TagRelationship < ActiveRecord::Base
+class TagRelationship < ApplicationRecord
 
   # == Attributes ===========================================================
 

@@ -1,7 +1,7 @@
 Geocoder.configure(
   # geocoding options
-  timeout:      3, # geocoding service timeout (secs)
-  language:     :en, # ISO-639 language code
+  timeout:      4, # geocoding service timeout (secs)
+  language:     :fr, # ISO-639 language code
   use_https:    true, # use HTTPS for lookup requests? (if supported)
 
   cache:        Redis.new, # cache object (must respond to #[], #[]=, and #keys)

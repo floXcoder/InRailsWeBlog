@@ -9,7 +9,7 @@
 #  updated_at :datetime         not null
 #
 
-class OutdatedArticle < ActiveRecord::Base
+class OutdatedArticle < ApplicationRecord
 
   # == Attributes ===========================================================
 

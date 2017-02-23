@@ -1,20 +1,20 @@
 fr:
   devise:
     confirmations:
-      confirmed: "Votre email a été confirmé avec succès."
-      send_instructions: "Vous allez recevoir un e-mail avec les instructions nécessaires à la confirmation de votre compte dans quelques minutes."
-      send_paranoid_instructions: "Si votre e-mail existe dans notre base de données, vous allez bientôt recevoir un e-mail contenant les instructions de confirmation de votre compte."
+      confirmed: "Votre email a été confirmé avec succès"
+      send_instructions: "Vous allez recevoir un e-mail avec les instructions nécessaires à la confirmation de votre compte dans quelques minutes"
+      send_paranoid_instructions: "Si votre e-mail existe dans notre base de données, vous allez bientôt recevoir un e-mail contenant les instructions de confirmation de votre compte"
       link_name: "Confirmer mon email"
     failure:
       already_authenticated: "Vous êtes déjà connecté"
-      inactive: "Votre compte n'est pas encore activé."
-      invalid: "Compte %{authentication_keys} ou mot de passe incorrect."
-      locked: "Votre compte est verrouillé."
-      last_attempt: "Vous avez droit à une tentative avant que votre compte ne soit verrouillé."
-      not_found_in_database: "Compte %{authentication_keys} ou mot de passe incorrect."
-      timeout: "Votre session est expirée. Veuillez vous reconnecter pour continuer."
-      unauthenticated: "Vous devez vous connecter ou vous inscrire pour continuer."
-      unconfirmed: "Vous devez confirmer votre adresse email pour continuer."
+      inactive: "Votre compte n'est pas encore activé"
+      invalid: "Compte %{authentication_keys} ou mot de passe incorrect"
+      locked: "Votre compte est verrouillé"
+      last_attempt: "Vous avez droit à une tentative avant que votre compte ne soit verrouillé"
+      not_found_in_database: "Compte %{authentication_keys} ou mot de passe incorrect"
+      timeout: "Votre session est expirée. Veuillez vous reconnecter pour continuer"
+      unauthenticated: "Vous devez vous connecter ou vous inscrire pour continuer"
+      unconfirmed: "Vous devez confirmer votre adresse email pour continuer"
     mailer:
       confirmation_instructions:
         subject: "Instructions de confirmation"
@@ -23,19 +23,20 @@ fr:
       unlock_instructions:
         subject: "Instructions pour déverrouiller le compte"
     omniauth_callbacks:
-      failure: "Nous n'avons pas pu vous authentifier via %{kind} : '%{reason}'."
-      success: "Authentifié avec succès via %{kind}."
+      failure: "Nous n'avons pas pu vous authentifier via %{kind} : %{reason}"
+      failure_reason: "Impossible de récupérer les données du compte ..."
+      success: "Authentifié avec succès via %{kind}"
     resend:
       page_title: "Renvoyer un email de confirmation"
       title: "Renvoyer un email pour confirmer mon compte"
       back_home: "Retourner à la page d'acceuil"
       submit: "Renvoyer les informations pour confirmer l'email"
     passwords:
-      no_token: "Vous ne pouvez accéder à cette page sans passer par un e-mail de réinitialisation de mot de passe. Si vous êtes passé par un e-mail de ce type, assurez-vous d'utiliser l'URL complète."
+      no_token: "Vous ne pouvez accéder à cette page sans passer par un e-mail de réinitialisation de mot de passe. Si vous êtes passé par un e-mail de ce type, assurez-vous d'utiliser l'URL complète"
       send_instructions: "Vous allez recevoir les instructions de réinitialisation du mot de passe dans quelques instants"
       send_paranoid_instructions: "Si votre e-mail existe dans notre base de données, vous allez recevoir un lien de réinitialisation par e-mail"
       updated: "Votre mot de passe a été édité avec succès, vous êtes maintenant connecté"
-      updated_not_active: "Votre mot de passe a été changé avec succès."
+      updated_not_active: "Votre mot de passe a été changé avec succès"
       link_name: "Changer mon mot de passe"
       new:
         page_title: "Changer votre mot de passe"
@@ -49,7 +50,7 @@ fr:
         submit: "Changer mon mot de passe"
     registrations:
       destroyed: "Votre compte a été supprimé avec succès. Nous espérons vous revoir bientôt."
-      signed_up: "Bienvenue, vous êtes connecté."
+      signed_up: "Bienvenue, vous êtes connecté sur InRailsWeBlog !"
       signed_up_but_inactive: "Vous êtes bien enregistré. Vous ne pouvez cependant pas vous connecter car votre compte n'est pas encore activé."
       signed_up_but_locked: "Vous êtes bien enregistré. Vous ne pouvez cependant pas vous connecter car votre compte est verrouillé."
       signed_up_but_unconfirmed: "Un message contenant un lien de confirmation a été envoyé à votre adresse email. Cliquer sur ce lien pour confirmer votre compte puis connectez-vous."
@@ -70,13 +71,13 @@ fr:
         link_confirmation: "Êtes-vous sûr ?"
         back: "Retour"
     sessions:
-      signed_in: "Connecté avec succès."
-      signed_out: "Déconnecté avec succès."
-      already_signed_out: "Déconnecté avec succès."
+      signed_in: "Connecté avec succès"
+      signed_out: "Déconnecté avec succès"
+      already_signed_out: "Déconnecté avec succès"
     unlocks:
       send_instructions: "Vous allez recevoir les instructions nécessaires au déverrouillage de votre compte dans quelques instants"
-      send_paranoid_instructions: "Si votre compte existe, vous allez bientôt recevoir un email contenant les instructions pour le déverrouiller."
-      unlocked: "Votre compte a été déverrouillé avec succès, veuillez vous connecter pour continuer."
+      send_paranoid_instructions: "Si votre compte existe, vous allez bientôt recevoir un email contenant les instructions pour le déverrouiller"
+      unlocked: "Votre compte a été déverrouillé avec succès, veuillez vous connecter pour continuer"
       page_title: "Renvoyer les instructions pour débloquer le compte"
       title: "Renvoyer les instructions pour débloquer le compte"
       submit: "Renvoyer les instructions pour débloquer le compte"

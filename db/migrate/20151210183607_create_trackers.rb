@@ -1,4 +1,4 @@
-class CreateTrackers < ActiveRecord::Migration
+class CreateTrackers < ActiveRecord::Migration[5.0]
   def change
     create_table :trackers do |t|
       t.references  :tracked,         polymorphic: true, null: false

@@ -1,4 +1,4 @@
-class CreateOutdatedArticles < ActiveRecord::Migration
+class CreateOutdatedArticles < ActiveRecord::Migration[5.0]
   def change
     create_table :outdated_articles do |t|
       t.references :article,          null: false

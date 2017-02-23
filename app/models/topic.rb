@@ -17,7 +17,7 @@
 #  updated_at  :datetime         not null
 #
 
-class Topic < ActiveRecord::Base
+class Topic < ApplicationRecord
 
   # == Attributes ===========================================================
   # Strip whitespaces

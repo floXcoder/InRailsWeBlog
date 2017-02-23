@@ -24,6 +24,7 @@ en:
         subject: "Unlock instructions"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      failure_reason: "There was an error while trying to authenticate you..."
       success: "Successfully authenticated from %{kind} account."
     resend:
       page_title: "Resend confirmation instructions"

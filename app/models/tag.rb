@@ -19,7 +19,7 @@
 #  updated_at            :datetime         not null
 #
 
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern

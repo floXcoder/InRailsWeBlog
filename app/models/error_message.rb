@@ -21,7 +21,7 @@
 #  updated_at    :datetime         not null
 #
 
-class ErrorMessage < ActiveRecord::Base
+class ErrorMessage < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern

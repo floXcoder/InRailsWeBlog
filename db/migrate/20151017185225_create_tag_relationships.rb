@@ -1,4 +1,4 @@
-class CreateTagRelationships < ActiveRecord::Migration
+class CreateTagRelationships < ActiveRecord::Migration[5.0]
   def change
     create_table :tag_relationships do |t|
       t.references  :parent,        null: false

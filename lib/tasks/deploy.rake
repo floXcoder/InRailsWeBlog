@@ -1,9 +1,9 @@
 # encoding: UTF-8
 namespace :InRailsWeBlog do
   # Usage :
-  ## rake InRailsWeBlog:deploy
-  ## rake InRailsWeBlog:deploy COMMENT='Comment...'
-  ## rake InRailsWeBlog:deploy NO_TEST=true  # To skip tests
+  ## rails InRailsWeBlog:deploy
+  ## rails InRailsWeBlog:deploy COMMENT='Comment...'
+  ## rails InRailsWeBlog:deploy NO_TEST=true  # To skip tests
   desc 'Deploy project to server (repo must be on develop branch). Ex: rake InRailsWeBlog:deploy EVOL=#350,#360'
   task :deploy do |t, args|
     # Check for uncommitted files

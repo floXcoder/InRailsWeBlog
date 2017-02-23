@@ -1,4 +1,4 @@
-class CreateTaggedTopics < ActiveRecord::Migration
+class CreateTaggedTopics < ActiveRecord::Migration[5.0]
   def change
     create_table :tagged_topics do |t|
       t.references :topic,      null: false

@@ -27,7 +27,7 @@
 #  updated_at                :datetime         not null
 #
 
-class Article < ActiveRecord::Base
+class Article < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern

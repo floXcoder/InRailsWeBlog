@@ -2,7 +2,7 @@ require 'populate/populate'
 
 namespace :InRailsWeBlog do
 
-  # rake InRailsWeBlog:populate[reset,data]
+  # rails InRailsWeBlog:populate[reset,data]
   desc 'Reset and migrate the database the database, initialize with the seed data and reindex models for search'
   task :populate, [:reset, :data] => :environment do |t, args|
 

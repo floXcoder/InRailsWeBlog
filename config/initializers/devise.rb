@@ -31,11 +31,11 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # ==> Configuration for :confirmable
-  config.allow_unconfirmed_access_for = 0.days
+  config.allow_unconfirmed_access_for = 5.days
 
   # A period that the user is allowed to confirm their account before their
   # token becomes invalid.
-  # config.confirm_within = 3.days
+  config.confirm_within = 5.days
 
   # If true, requires any email changes to be confirmed to be applied.
   config.reconfirmable = true
@@ -91,4 +91,26 @@ Devise.setup do |config|
 
   # Time interval to unlock the account if :time is enabled as unlock_strategy.
   config.unlock_in = 3.hours
+
+  # # Google
+  # config.omniauth :google_oauth2,
+  #                 ENV['OMNIAUTH_GOOGLE_ID'],
+  #                 ENV['OMNIAUTH_GOOGLE_SECRET'],
+  #                 scope: 'email,profile,offline',
+  #                 prompt: 'select_account'
+  #
+  # # Facebook
+  # config.omniauth :facebook,
+  #                 ENV['OMNIAUTH_FACEBOOK_ID'],
+  #                 ENV['OMNIAUTH_FACEBOOK_SECRET'],
+  #                 scope: 'email,public_profile',
+  #                 info_fields: 'email,name,first_name,last_name,gender,picture'
+end
+
+Rails.application.config.to_prepare do
+  # Devise::SessionsController.layout 'full_page'
+  # Devise::RegistrationsController.layout proc { |controller| user_signed_in? ? "application" : 'full_page' }
+  Devise::ConfirmationsController.layout 'full_page'
+  Devise::UnlocksController.layout 'full_page'
+  Devise::PasswordsController.layout 'full_page'
 end

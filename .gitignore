@@ -4,6 +4,7 @@
 # Ignore all logfiles, tempfiles, assets and upload files
 /log/*.log
 /tmp
+/public/sitemap.xml.gz
 /public/assets
 /public/fonts
 /public/javascripts

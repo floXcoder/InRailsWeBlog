@@ -1,13 +1,14 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
-require 'rails'
 # Pick the frameworks you want:
 require 'active_record/railtie'
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
+require 'action_cable/engine'
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+# Require for performance test only
+require 'rails/test_unit/railtie' if Rails.env.test?
+
 Bundler.require(*Rails.groups)
 
 # preload tokens in application.yml to local ENV
@@ -19,23 +20,21 @@ end
 
 module InRailsWeBlog
   class Application < Rails::Application
-    config.generators do |g|
-      g.test_framework :rspec,
-                       fixtures: true,
-                       view_specs: false,
-                       helper_specs: false,
-                       routing_specs: false,
-                       controller_specs: true,
-                       request_specs: true
-      g.fixture_replacement :factory_girl, dir: 'spec/factories'
-      g.assets false
+    config.generators do |generator|
+      generator.test_framework :rspec,
+                               fixtures: true,
+                               view_specs: false,
+                               helper_specs: false,
+                               routing_specs: false,
+                               controller_specs: true,
+                               request_specs: true
+      generator.fixture_replacement :factory_girl, dir: 'spec/factories'
+      generator.assets false
     end
 
     # Load files from lib directory
+    config.enable_dependency_loading = true
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
-
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
 
     # Database time zone
     config.time_zone = 'Paris'
@@ -43,9 +42,6 @@ module InRailsWeBlog
 
     # Include the authenticity token in remote forms.
     config.action_view.embed_authenticity_token_in_remote_forms = true
-
-    # Debug mode disables concatenation and preprocessing of assets.
-    config.assets.debug = false
 
     # Log levels :debug, :info, :warn, :error, :fatal, et :unknown
     config.log_level = :warn if Rails.env.production?
@@ -58,8 +54,21 @@ module InRailsWeBlog
     config.i18n.default_locale = :fr
     config.i18n.fallbacks = true
 
-    # Configure routes for exceptions handling
-    config.exceptions_app = self.routes
+    # Enable per-form CSRF tokens. Previous versions had false.
+    config.action_controller.per_form_csrf_tokens = false
+
+    # Enable origin-checking CSRF mitigation. Previous versions had false.
+    config.action_controller.forgery_protection_origin_check = true
+
+    # Make Ruby 2.4 preserve the timezone of the receiver when calling `to_time`.
+    # Previous versions had false.
+    ActiveSupport.to_time_preserves_timezone = false
+
+    # Require `belongs_to` associations by default. Previous versions had false.
+    config.active_record.belongs_to_required_by_default = true
+
+    # Do not halt callback chains when a callback returns false. Previous versions had true.
+    ActiveSupport.halt_callback_chains_on_return_false = true
 
     # Json adapter for serializers
     ActiveModel::Serializer.config.adapter = :json
@@ -67,8 +76,11 @@ module InRailsWeBlog
     # Cache with Redis
     config.cache_store = :readthis_store, {
       expires_in: 2.weeks.to_i,
-      redis:      { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis },
-      namespace:  "_InRailsWeBlog_#{Rails.env}:cache"
+      redis: { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis },
+      namespace: "_InRailsWeBlog_#{Rails.env}:cache"
     }
+
+    # Errors handling
+    config.exceptions_app = self.routes
   end
 end

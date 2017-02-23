@@ -14,7 +14,7 @@
 #  updated_at     :datetime         not null
 #
 
-class Picture < ActiveRecord::Base
+class Picture < ApplicationRecord
 
   # == Attributes ===========================================================
   auto_strip_attributes :description, :copyright

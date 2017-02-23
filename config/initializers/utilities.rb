@@ -63,6 +63,31 @@ ActiveRecord::Base.send(:include, Utilities)
 ActiveRecord::Base.send(:include, Pagination)
 
 ###
+# Add pagination to Array
+###
+class Array
+  def paginate(options)
+    options  = options.dup
+    page_num = options.fetch(:page).to_i { raise ArgumentError, ':page parameter required' }
+    options.delete(:page)
+    per_page = options.delete(:per_page).to_i
+
+    if options.any?
+      raise ArgumentError, 'unsupported parameters: %p' % options.keys
+    end
+
+    page_num = (page_num.nil? || page_num <= 0) ? 1 : page_num
+
+    paginated    = self.slice((page_num - 1) * per_page, per_page)
+    current_page = page_num
+    total_pages  = (self.length.to_f / per_page.to_f).ceil
+    total_count  = self.length
+
+    return paginated, current_page, total_pages, total_count
+  end
+end
+
+###
 # Remove leading and trailing occurrences
 ###
 class String
@@ -79,7 +104,7 @@ class String
   end
 
   def title(options = {})
-    options[:locale] ||= :fr
+    options[:locale]     ||= :fr
     options[:stop_words] ||= []
 
     stop_words = {
@@ -113,6 +138,18 @@ class String
       self.html_safe
     end
   end
+
+  def caesar_cipher(shift = 1)
+    alphabet = Array('a'..'z')
+    non_caps = Hash[alphabet.zip(alphabet.rotate(shift))]
+
+    alphabet = Array('A'..'Z')
+    caps     = Hash[alphabet.zip(alphabet.rotate(shift))]
+
+    encrypter = non_caps.merge(caps)
+
+    self.chars.map { |c| encrypter.fetch(c, c) }.join
+  end
 end
 
 ###
@@ -133,7 +170,7 @@ end
 ###
 module Kernel
   def w msg
-    return unless Rails.env.development?
+    return unless Rails.env.development? || Rails.env.test?
 
     ap "*** #{Time.zone.now} ***", color: { string: :green }
     ap msg.class if msg.respond_to?(:class)

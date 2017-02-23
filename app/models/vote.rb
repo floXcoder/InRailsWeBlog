@@ -12,7 +12,7 @@
 #  updated_at    :datetime         not null
 #
 
-class Vote < ActiveRecord::Base
+class Vote < ApplicationRecord
 
   # == Attributes ===========================================================
 

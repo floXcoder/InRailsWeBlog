@@ -21,7 +21,7 @@
 #  updated_at       :datetime         not null
 #
 
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
 
   # == Attributes ===========================================================
   # Strip whitespaces

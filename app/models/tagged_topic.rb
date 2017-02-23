@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-class TaggedTopic < ActiveRecord::Base
+class TaggedTopic < ApplicationRecord
 
   # == Attributes ===========================================================
 

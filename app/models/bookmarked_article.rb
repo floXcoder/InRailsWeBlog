@@ -9,7 +9,7 @@
 #  updated_at :datetime         not null
 #
 
-class BookmarkedArticle < ActiveRecord::Base
+class BookmarkedArticle < ApplicationRecord
 
   # == Attributes ===========================================================
 

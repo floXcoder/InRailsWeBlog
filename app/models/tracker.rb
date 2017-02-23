@@ -17,7 +17,7 @@
 #  updated_at      :datetime         not null
 #
 
-class Tracker < ActiveRecord::Base
+class Tracker < ApplicationRecord
 
   # == Attributes ===========================================================
 

@@ -17,4 +17,5 @@ SimpleConfig.for :application do
 
 end
 
+
 CONFIG = SimpleConfig.for :application

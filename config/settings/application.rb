@@ -10,8 +10,11 @@ SimpleConfig.for :application do
   set :medium_screen, 992
   set :large_screen, 1200
 
+  # Cache time
+  set :cache_time, 2.hours
+
   # Maximum upload image size
-  set :image_size, 5.megabytes
+  set :image_size, 8.megabytes
 
   # Default per page
   set :per_page, 12
