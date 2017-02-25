@@ -40,7 +40,7 @@
 
 FactoryGirl.define do
 
-  factory :user, aliases: [:user, :user] do
+  factory :user do
     sequence(:pseudo)     { |n| "Person #{n}" }
     sequence(:email)      { |n| "person_#{n}@example.com"}
     password              'password'
@@ -53,7 +53,6 @@ FactoryGirl.define do
     city                  'City'
     country               'France'
     preferences           { {} }
-    last_request          { {} }
 
     trait :fake do
       first_name      { Faker::Name.first_name }

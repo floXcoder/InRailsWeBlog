@@ -1,0 +1,14 @@
+/ Administration
+- if admin_signed_in? && current_admin
+  li
+    = link_to t('views.admin.dashboard.title'), admin_path
+
+  li.divider
+
+/ User account
+- if admin_signed_in?
+  li
+    = link_to t('views.header.log_out'), logout_admin_path, method: 'delete'
+- else
+  li
+    = link_to t('views.header.log_in'), login_admin_path, id: 'login-link'

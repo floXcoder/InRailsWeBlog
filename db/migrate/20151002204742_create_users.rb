@@ -2,16 +2,20 @@ class CreateUsers < ActiveRecord::Migration[5.0]
   def change
     create_table :users do |t|
       t.string      :pseudo,          default: '',    null: false
-      t.string      :first_name,      default: ''
-      t.string      :last_name,       default: ''
-      t.integer     :age,             default: 0
-      t.string      :city,            default: ''
-      t.string      :country,         default: ''
-      t.string      :additional_info, default: ''
+      t.string      :first_name
+      t.string      :last_name
+      t.string      :street
+      t.string      :city
+      t.string      :postcode
+      t.string      :state
+      t.string      :country
+      t.string      :mobile_number
+      t.string      :phone_number
+      t.string      :additional_info
+      t.date        :birth_date
       t.string      :locale,          default: 'fr'
 
       t.jsonb       :preferences,     default: '{}',  null: false
-      t.jsonb       :last_request,    default: '{}',  null: false
 
       t.integer     :current_topic_id
 

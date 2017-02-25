@@ -22,7 +22,7 @@
 FactoryGirl.define do
 
   factory :tag do
-    user
+    # user
 
     sequence(:name)         { |n| "Tag #{n}" }
     sequence(:description)  { |n| "Tag description #{n}" }

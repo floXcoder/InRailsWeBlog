@@ -2,6 +2,7 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 InRailsWeBlog::Application.routes.draw do
+  devise_for :admins
   # Root path
   root  'static_pages#home'
 
@@ -98,6 +99,24 @@ InRailsWeBlog::Application.routes.draw do
       post 'delete_all',     to: 'errors#destroy_all'
     end
   end
+
+  # Admins
+  devise_scope :admin do
+    get     '/admin/login',  to: 'users/sessions#new',      as: :login_admin
+    post    '/admin/login',  to: 'users/sessions#create'
+    delete  '/admin/logout', to: 'users/sessions#destroy',  as: :logout_admin
+  end
+  devise_for :admins, controllers: {  sessions: 'users/sessions',
+                                      passwords: 'users/passwords' }
+
+  # Admin interface
+  authenticate :admin do
+    # Sidekiq interface
+    mount Sidekiq::Web => '/admin/sidekiq'
+  end
+
+  # resources :admins
+  get :admin,             to: 'admins#index'
 
   # Sidekiq interface
   authenticate :user, lambda { |user| user.admin? } do

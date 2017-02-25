@@ -2,12 +2,12 @@ doctype html
 | <!--[if IE 8 ]><html class="ie-8" lang="en"><![endif]-->
 | <!--[if IE 9 ]><html class="ie-9" lang="en"><![endif]-->
 | <!--[if gt IE 9]><!-->
-html lang="en"
+html lang="#{I18n.locale}"
   | <!--<![endif]-->
 
   = render 'layouts/head'
 
-  body.blog.blog-admin#outer-container
+  body.blog.blog-admin#outer-container class="lang-#{I18n.locale}"
     = render 'layouts/admin/header'
 
     = render 'layouts/flash_messages', flash: flash
@@ -19,5 +19,5 @@ html lang="en"
 
     = render 'layouts/javascript'
 
-    - if ENV['METRICS_ADDRESS']
+    - if ENV['METRICS_ADDRESS'] && Rails.env.production?
       = render 'layouts/metrics'

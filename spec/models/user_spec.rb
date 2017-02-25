@@ -70,11 +70,6 @@ RSpec.describe User, type: :model do
       phone_number:          '0101010101',
       preferences:           {},
       pictures_count:        0,
-      external:              false,
-      professional:          true,
-      professional_type:     'individual',
-      company_name:          'My company',
-      registered_number:     '111 222 333 44444',
       slug:                  'example_user'
     )
     @user.confirm
@@ -99,16 +94,12 @@ RSpec.describe User, type: :model do
     it { is_expected.to respond_to(:preferences) }
     it { is_expected.to respond_to(:pictures_count) }
     it { is_expected.to respond_to(:external) }
-    it { is_expected.to respond_to(:professional) }
-    it { is_expected.to respond_to(:professional_type) }
     it { is_expected.to respond_to(:birth_date) }
     it { is_expected.to respond_to(:street) }
     it { is_expected.to respond_to(:postcode) }
     it { is_expected.to respond_to(:state) }
     it { is_expected.to respond_to(:mobile_number) }
     it { is_expected.to respond_to(:postcode) }
-    it { is_expected.to respond_to(:company_name) }
-    it { is_expected.to respond_to(:registered_number) }
 
     it { expect(@user.pseudo).to eq('User') }
     # it { expect(@user.email).to eq('user@example.com') }
@@ -127,11 +118,7 @@ RSpec.describe User, type: :model do
     it { expect(@user.state).to eq('state') }
     it { expect(@user.preferences).to eq({}) }
     it { expect(@user.pictures_count).to eq(0) }
-    it { expect(@user.external).to be false }
-    it { expect(@user.professional).to be true }
-    it { expect(@user.professional_type).to eq('individual') }
-    it { expect(@user.company_name).to eq('My company') }
-    it { expect(@user.registered_number).to eq('111 222 333 44444') }
+    # it { expect(@user.external).to be false }
 
     describe 'Default Attributes', basic: true do
       before do
@@ -144,15 +131,10 @@ RSpec.describe User, type: :model do
         )
       end
 
-      # it { expect(@user.first_name).to eq('') }
-      # it { expect(@user.last_name).to eq('') }
-      # it { expect(@user.additional_info).to eq('') }
       it { expect(@user.locale).to eq('fr') }
       it { expect(@user.preferences).to eq({}) }
       it { expect(@user.pictures_count).to eq(0) }
-      it { expect(@user.external).to be false }
-      it { expect(@user.professional).to be false }
-      it { expect(@user.professional_type).to eq('individual') }
+      # it { expect(@user.external).to be false }
     end
 
     describe '#pseudo' do
@@ -208,20 +190,6 @@ RSpec.describe User, type: :model do
     # describe '#preferences' do
     #   it { is_expected.to serialize(:preferences) }
     # end
-
-    # describe 'professional user' do
-    #   it { is_expected.to validate_presence_of(:professional_type) }
-    #   it { is_expected.to validate_presence_of(:first_name) }
-    #   it { is_expected.to validate_presence_of(:last_name) }
-    #   it { is_expected.to validate_presence_of(:street) }
-    #   it { is_expected.to validate_presence_of(:postcode) }
-    #   it { is_expected.to validate_presence_of(:city) }
-    #   it { is_expected.to validate_presence_of(:country) }
-    #   it { is_expected.to validate_presence_of(:phone_number) }
-    #   it { is_expected.to validate_presence_of(:mobile_number) }
-    #   it { is_expected.to validate_presence_of(:company_name) }
-    #   it { is_expected.to validate_presence_of(:registered_number) }
-    # end
   end
 
   context 'Properties', basic: true do
@@ -234,7 +202,7 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to act_as_paranoid(User) }
 
-    it { is_expected.to have_strip_attributes([:first_name, :last_name, :city, :country, :additional_info, :phone_number, :mobile_number, :company_name, :registered_number]) }
+    it { is_expected.to have_strip_attributes([:first_name, :last_name, :city, :country, :additional_info, :phone_number, :mobile_number]) }
   end
 
   context 'Associations', basic: true do
