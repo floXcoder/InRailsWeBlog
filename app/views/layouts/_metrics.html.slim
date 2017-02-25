@@ -35,6 +35,7 @@ javascript:
     g.src = u + "#{ENV['METRICS_FILENAME']}" + '.js';
     s.parentNode.insertBefore(g, s);
   })();
+  
 noscript
   p
     img alt="" src="//#{ENV['METRICS_ADDRESS']}/#{ENV['METRICS_FILENAME']}.php?idsite=#{ENV['METRICS_SITE_NUMBER']}" style="border:0;"
