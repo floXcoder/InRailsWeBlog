@@ -25,7 +25,6 @@
 
 # Ignore node modules files
 /node_modules
-/vendor/components
 /npm-debug.log
 /.happypack
 
