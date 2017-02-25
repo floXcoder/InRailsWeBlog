@@ -171,8 +171,13 @@ class Tag < ApplicationRecord
   scope :most_used, -> (limit = 20) { order('tagged_articles_count desc').limit(limit) }
   scope :least_used, -> (limit = 20) { order('tagged_articles_count asc').limit(limit) }
 
-  scope :bookmarked_by_user,
-        -> (user_id) { joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
+  scope :bookmarked_by_user, -> (user_id) {
+    joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id })
+  }
+
+  scope :unused, -> {
+    where(tagged_articles_count: 0).where('updated_at < :day', { day: 1.day.ago })
+  }
 
   # == Callbacks ============================================================
 

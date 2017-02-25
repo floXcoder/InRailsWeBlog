@@ -2,3 +2,8 @@ clean_uploads:
   cron: "0 0 * * *"
   class: "UploadsWorker"
   queue: default
+
+remove_unused_tags:
+  cron: "0 0 * * *"
+  class: "TagsWorker"
+  queue: default
