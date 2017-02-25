@@ -268,6 +268,10 @@ RSpec.describe Article, type: :model do
       it { is_expected.to respond_to(:format_attributes) }
     end
 
+    describe '.default_picture' do
+      it { is_expected.to respond_to(:default_picture) }
+    end
+
     describe '.create_tag_relationships' do
       it { is_expected.to respond_to(:create_tag_relationships) }
     end

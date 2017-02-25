@@ -306,6 +306,18 @@ class Article < ApplicationRecord
     self.assign_attributes(attributes)
   end
 
+  def default_picture
+    default_picture = ''
+
+    picture = if self.pictures_count > 0
+                self.pictures.order('priority DESC').first.image.thumb.url
+              else
+                default_picture
+              end
+
+    return AssetManifest.image_path(picture || default_picture)
+  end
+
   def create_tag_relationships
     self.parent_tags.each do |parent|
       self.child_tags.each do |child|
