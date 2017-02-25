@@ -124,12 +124,11 @@ class Tag < ApplicationRecord
             presence: true
 
   validates :name,
-            uniqueness: { scope:          :visibility,
+            uniqueness: { scope:          [:visibility, :user_id],
                           case_sensitive: false,
                           message:        I18n.t('activerecord.errors.models.tag.already_exist') },
             allow_nil:  false,
             if:         -> { visibility == 'everyone' }
-
   validates :name,
             presence:   true,
             uniqueness: { scope:          :user_id,
@@ -138,6 +137,7 @@ class Tag < ApplicationRecord
             length:     { minimum: CONFIG.tag_name_min_length, maximum: CONFIG.tag_name_max_length },
             allow_nil:  false,
             if:         -> { visibility != 'everyone' }
+  validate :public_name_immutable
 
   validates :description,
             length: { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
@@ -372,11 +372,11 @@ class Tag < ApplicationRecord
     }
   end
 
-  def to_hash
-    {
-      id:      self.id,
-      user_id: self.user_id,
-      name:    self.name
-    }
+  private
+
+  def public_name_immutable
+    if name_changed? && self.everyone?
+      errors.add(:name, I18n.t('activerecord.errors.models.tag.public_name_immutable'))
+    end
   end
 end

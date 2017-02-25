@@ -222,9 +222,6 @@ RSpec.describe Tag, type: :model do
       it { expect(@tag.user?(create(:user))).to be false }
     end
 
-    describe '.to_hash' do
-      it { is_expected.to respond_to(:to_hash) }
-    end
   end
 
 end
