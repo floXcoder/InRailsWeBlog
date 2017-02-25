@@ -28,26 +28,27 @@ class CommentsController < ApplicationController
   respond_to :json
 
   def index
+    comments = Comment.includes(:commentable, :user).all
+    comments = params[:limit] ? comments.limit(params[:limit]) : comments.paginate(page: params[:page], per_page: CONFIG.per_page)
+
+    unless filter_params.empty?
+      # comments = comments.where('name ~* ?', filter_params[:name]) if filter_params[:name]
+      comments = comments.where(accepted: filter_params[:accepted]) if filter_params[:accepted]
+      comments = comments.where(ask_for_deletion: filter_params[:ask_for_deletion]) if filter_params[:ask_for_deletion]
+      comments = comments.find_comments_by_user(filter_params[:user_id]) if filter_params[:user_id]
+      comments = if filter_params[:order] == 'id_first'
+                   comments.order('id ASC')
+                 elsif filter_params[:order] == 'id_last'
+                   comments.order('id DESC')
+                 elsif filter_params[:order] == 'updated_first'
+                   comments.order('updated_at ASC')
+                 elsif filter_params[:order] == 'updated_last'
+                   comments.order('updated_at DESC')
+                 end if filter_params[:order]
+    end
+
     respond_to do |format|
       format.json do
-        comments = Comment.includes(:commentable, :user).all
-        comments = params[:limit] ? comments.limit(params[:limit]) : comments.paginate(page: params[:page], per_page: CONFIG.per_page)
-
-        unless filter_params.empty?
-          # comments = comments.where('name ~* ?', filter_params[:name]) if filter_params[:name]
-          comments = comments.where(accepted: filter_params[:accepted]) if filter_params[:accepted]
-          comments = comments.find_comments_by_user(filter_params[:user_id]) if filter_params[:user_id]
-          comments = if filter_params[:order] == 'id_first'
-                    comments.order('id ASC')
-                  elsif filter_params[:order] == 'id_last'
-                    comments.order('id DESC')
-                  elsif filter_params[:order] == 'updated_first'
-                    comments.order('updated_at ASC')
-                  elsif filter_params[:order] == 'updated_last'
-                    comments.order('updated_at DESC')
-                  end if filter_params[:order]
-        end
-
         if params[:complete]
           render json:            comments,
                  each_serializer: CommentFullSerializer,
@@ -68,6 +69,7 @@ class CommentsController < ApplicationController
       params.require(:filter).permit(:accepted,
                                      :order,
                                      :user_id,
+                                     :ask_for_deletion,
                                      user_ids:     [],
                                      comments_ids: []).reject { |_, v| v.blank? }
     else

@@ -208,8 +208,15 @@ class ArticlesController < ApplicationController
       article_version.item.destroy if article_version && params[:article_version_id] && params[:from_deletion]
       respond_to do |format|
         flash.now[:error] = t('views.article.flash.not_found')
-        format.html { render json: {}, formats: :json, content_type: 'application/json' }
-        format.json { render json: {}, status: :not_found }
+        format.html do
+          render json: {},
+                 formats: :json,
+                 content_type: 'application/json'
+        end
+        format.json do
+          render json: {},
+                 status: :not_found
+        end
       end
     end
   end

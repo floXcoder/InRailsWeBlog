@@ -1,6 +1,14 @@
 class ApplicationController < ActionController::Base
   # Security
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :reset_session
+
+  # Handle exceptions
+  rescue_from StandardError, with: :handle_error
+  rescue_from ActiveRecord::RecordNotFound, with: :handle_error
+  rescue_from AbstractController::ActionNotFound, with: :handle_error
+  rescue_from ActionController::RoutingError, with: :handle_error
+  rescue_from ActionController::UnknownController, with: :handle_error
+  rescue_from ActionController::InvalidAuthenticityToken, with: :handle_error
 
   # Pundit
   include Pundit
@@ -27,14 +35,14 @@ class ApplicationController < ActionController::Base
         session[:locale]
       elsif defined?(current_user) && current_user
         current_user.locale
-      elsif http_accept_language.compatible_language_from(I18n.available_locales)
-        http_accept_language.compatible_language_from(I18n.available_locales)
       elsif request.location&.present? && !request.location.country_code.empty?
         if %w(FR BE CH).any? { |country_code| request.location.country_code.casecmp(country_code) == 0 }
           :fr
         else
           :en
         end
+      elsif http_accept_language.compatible_language_from(I18n.available_locales)
+        http_accept_language.compatible_language_from(I18n.available_locales)
       else
         :fr
       end
@@ -63,11 +71,42 @@ class ApplicationController < ActionController::Base
   def append_info_to_payload(payload)
     super
     payload[:request_id] = request.uuid
-    payload[:user_id] = current_user.id if current_user
-    payload[:admin_id] = current_user.id if current_user&.admin?
+    payload[:user_id]    = current_user.id if current_user
+    payload[:admin_id]   = current_admin.id if current_admin
   end
 
   protected
+
+  def handle_error(exception)
+    # Add into database
+    error_params = {
+      class_name:  exception.class.to_s,
+      message:     exception.to_s,
+      trace:       exception.backtrace.join("\n"),
+      target_url:  request.url,
+      referer_url: request.referer,
+      params:      request.params.inspect,
+      user_agent:  request.user_agent,
+      doc_root:    request.env['DOCUMENT_ROOT'],
+      app_name:    Rails.application.class.parent_name,
+      created_at:  Time.zone.now,
+      origin:      ErrorMessage.origins[:server]
+    }
+    error        = ErrorMessage.new_error(error_params, request, current_user)
+    error.save
+
+    # Display in logger
+    Rails.logger.fatal(exception.class.to_s + ' : ' + exception.to_s)
+    Rails.logger.fatal(exception.backtrace.join("\n"))
+
+    respond_to do |format|
+      format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: 404 }
+      format.json { render json: { error: t('views.error.status.explanation.default'), status: :not_found } }
+      format.all { render body: nil, status: :not_found }
+    end
+
+    return true
+  end
 
   def json_request?
     request.format.json?
@@ -81,14 +120,14 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up) do |u|
-      u.permit :pseudo, :email, :password, :password_confirmation
+    devise_parameter_sanitizer.permit(:sign_up) do |user_params|
+      user_params.permit(:pseudo, :email, :password, :password_confirmation, :professional, :professional_type)
     end
-    devise_parameter_sanitizer.permit(:sign_in) do |u|
-      u.permit(:login, :pseudo, :email, :password, :remember_me)
+    devise_parameter_sanitizer.permit(:sign_in) do |user_params|
+      user_params.permit(:login, :pseudo, :email, :password, :remember_me)
     end
-    devise_parameter_sanitizer.permit(:account_update) do |u|
-      u.permit(:pseudo, :email, :password, :password_confirmation, :current_password)
+    devise_parameter_sanitizer.permit(:account_update) do |user_params|
+      user_params.permit(:pseudo, :email, :password, :password_confirmation, :current_password)
     end
   end
 
@@ -100,9 +139,9 @@ class ApplicationController < ActionController::Base
       policy_name = exception.policy.class.to_s.underscore
       policy_type = exception.query
 
-      flash.now[:alert] = t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
+      flash[:alert] = t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
     else
-      flash.now[:alert] = t('pundit.default')
+      flash[:alert] = t('pundit.default')
     end
 
     respond_to do |format|
@@ -113,7 +152,10 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!(options = {})
-    if user_signed_in?
+    if admin_signed_in? && !user_signed_in?
+      sign_in(:user, locatipic_user)
+      super(options)
+    elsif user_signed_in?
       super(options)
     else
       self.response_body = nil
@@ -128,9 +170,21 @@ class ApplicationController < ActionController::Base
         end
         format.json do
           flash.now[:alert] = I18n.t('devise.failure.unauthenticated')
-          render json: { error: I18n.t('devise.failure.unauthenticated') }.to_json,
+          render json:   { error: I18n.t('devise.failure.unauthenticated') }.to_json,
                  status: :forbidden
         end
+      end
+    end
+  end
+
+  def authenticate_admin!(options = {})
+    if admin_signed_in?
+      super(options)
+    else
+      respond_to do |format|
+        format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: 404 }
+        format.json { render json: { error: t('views.error.status.explanation.404'), status: 404 } }
+        format.all { render body: nil, status: :not_found }
       end
     end
   end
@@ -139,6 +193,7 @@ class ApplicationController < ActionController::Base
     if url &&
       !url.include?('/users/sign_in') &&
       !url.include?('/login') &&
+      !url.include?('admin/login') &&
       !url.include?('/users/sign_up') &&
       !url.include?('/signup') &&
       !url.include?('/users/password/new') &&
@@ -146,25 +201,41 @@ class ApplicationController < ActionController::Base
       !url.include?('/users/confirmation') &&
       !url.include?('/users/validation') &&
       !url.include?('/users/logout') &&
-      !url.include?('/users/sign_out')
+      !url.include?('/admin/logout') &&
+      !url.include?('/users/sign_out') &&
+      !url.include?('/admin/sign_out')
       return url
     end
   end
 
+  # Called after sign in and sign up
   def after_sign_in_path_for(_resource)
+    session[:user_just_sign] = true
+
     previous_url = previous_url(request.referrer)
 
     if !session[:previous_url] && request.referrer && request.referrer.include?(root_url) && previous_url
       session[:previous_url] = request.referrer
     end
 
-    session[:previous_url] || root_path(current_user)
+    root_path = resource.is_a?(Admin) ? admin_path : root_path(current_user)
+
+    session[:previous_url] || root_path
   end
 
   def save_location
     return unless request.get?
 
     session[:previous_url] = previous_url(request.path) unless request.xhr? # don't store ajax calls
+  end
+
+  def admin_or_authorize(model = nil, method = nil)
+    if current_admin
+      skip_authorization
+    else
+      raise Pundit::NotAuthorizedError unless model
+      authorize(model, method)
+    end
   end
 
   def get_coordinates_from_IP
@@ -183,8 +254,8 @@ class ApplicationController < ActionController::Base
   def meta_attributes(resource, extra_meta = {})
     {
       current_page: resource.current_page,
-      total_pages: resource.total_pages,
-      total_count: resource.total_count
+      total_pages:  resource.total_pages,
+      total_count:  resource.total_count
     }.merge(extra_meta)
   end
 

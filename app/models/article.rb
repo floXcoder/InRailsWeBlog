@@ -78,16 +78,16 @@ class Article < ApplicationRecord
 
   has_many :tagged_articles
   has_many :tags,
-           through:   :tagged_articles,
+           through:  :tagged_articles,
            autosave: true
   has_many :parent_tags,
            -> { where(tagged_articles: { parent: true }) },
-           through:  :tagged_articles,
-           source:   :tag
+           through: :tagged_articles,
+           source:  :tag
   has_many :child_tags,
            -> { where(tagged_articles: { child: true }) },
-           through:  :tagged_articles,
-           source:   :tag
+           through: :tagged_articles,
+           source:  :tag
   # accepts_nested_attributes_for :tags,
   #                               reject_if:     :all_blank,
   #                               update_only:   true,
@@ -134,7 +134,7 @@ class Article < ApplicationRecord
 
   scope :from_user, -> (user_id = nil, current_user_id = nil) {
     where(user_id: user_id).where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :current_user_id)',
-                                      current_user_id: current_user_id)
+                                  current_user_id: current_user_id)
   }
 
   scope :published, -> { where(temporary: false) }
@@ -144,7 +144,6 @@ class Article < ApplicationRecord
   scope :with_child_tags, -> (child_tags) { joins(:tags).where(tagged_articles: { child: true }, tags: { name: child_tags }) }
 
   # == Callbacks ============================================================
-  before_save :sanitize_html
 
   # == Class Methods ========================================================
   # Article Search
@@ -263,9 +262,6 @@ class Article < ApplicationRecord
   end
 
   def format_attributes(attributes = {}, current_user = nil)
-    # Clean attributes
-    attributes    = attributes.reject { |_, v| v.blank? }
-
     # Topic: Add current topic to article
     self.topic_id = current_user.current_topic_id if current_user
 
@@ -273,23 +269,34 @@ class Article < ApplicationRecord
     self.language = current_user ? current_user.locale : I18n.locale
 
     # Sanitization
-    if attributes[:title].present?
+    unless attributes[:title].nil?
       sanitized_title = Sanitize.fragment(attributes.delete(:title))
       self.slug       = nil if sanitized_title != self.title
       self.title      = sanitized_title
     end
-    if attributes[:summary].present?
+
+    unless attributes[:summary].nil?
       self.summary = Sanitize.fragment(attributes.delete(:summary))
+    end
+
+    unless attributes[:content].nil?
+      self.content = sanitize_html(attributes.delete(:content))
+    end
+
+    unless attributes[:reference].nil?
+      reference_url  = ActionController::Base.helpers.sanitize(attributes.delete(:reference))
+      reference_url  = "http://#{reference_url}" if reference_url.present? && reference_url !~/^https?:\/\//
+      self.reference = reference_url
     end
 
     # Tags
     # self.tags        = article_tags = []
     self.parent_tags = parent_tags = []
     self.child_tags  = child_tags = []
-    if attributes[:parent_tags].present?
+    unless attributes[:parent_tags].nil?
       parent_tags = Tag.parse_tags(attributes.delete(:parent_tags), current_user&.id)
     end
-    if attributes[:child_tags].present?
+    unless attributes[:child_tags].nil?
       child_tags = Tag.parse_tags(attributes.delete(:child_tags), current_user&.id)
     end
     self.parent_tags = parent_tags
@@ -436,22 +443,20 @@ class Article < ApplicationRecord
   # Sanitize content
   include ActionView::Helpers::SanitizeHelper
 
-  def sanitize_html
-    return '' if content.blank?
-
-    content = self.content
+  def sanitize_html(html)
+    return unless html
+    return '' if html.blank?
 
     # Remove empty beginning block
-    content = content.sub(/^<p><br><\/p>/, '')
+    html = html.sub(/^<p><br><\/p>/, '')
 
-    content = sanitize(content, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(class href name target src alt center align))
+    html = sanitize(html, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(class href name target src alt center align))
 
     # Remplace pre by pre > code
-    content = content.gsub(/<pre>/i, '<pre><code>')
-    content = content.gsub(/<\/pre>/i, '</code></pre>')
+    html = html.gsub(/<pre>/i, '<pre><code>')
+    html = html.gsub(/<\/pre>/i, '</code></pre>')
 
-    self.content         = content
-    self.private_content = true if has_private_content?
+    return html
   end
 
   def search_data
@@ -460,8 +465,8 @@ class Article < ApplicationRecord
       topic_id:       topic_id,
       title:          title,
       summary:        summary,
-      public_content: public_content,
       content:        strip_content,
+      public_content: public_content,
       is_link:        is_link,
       notation:       notation,
       priority:       priority,

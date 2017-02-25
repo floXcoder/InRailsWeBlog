@@ -1,15 +1,28 @@
 class ErrorsController < ApplicationController
-  before_action :authenticate_user, except: [:create]
+  layout 'full_page'
 
-  skip_before_action :set_locale, only: [:create]
+  before_action :authenticate_admin!, except: [:show, :create]
 
-  respond_to :json
+  skip_before_action :set_locale, only: [:show, :create]
+
+  respond_to :html, :json
 
   def index
     errors = ErrorMessage.all.order('id DESC')
 
     respond_to do |format|
       format.json { render json: errors }
+    end
+  end
+
+  def show
+    set_meta_tags title:       titleize(I18n.t('views.error.title')),
+                  description: I18n.t('views.error.description')
+
+    respond_to do |format|
+      format.html { render 'errors/show', locals: { status: status_code } }
+      format.json { render json: { error: t('views.error.status.explanation.default'), status: status_code } }
+      format.all { render body: nil, status: status_code }
     end
   end
 
@@ -27,10 +40,10 @@ class ErrorsController < ApplicationController
 
     respond_to do |format|
       if error.destroy
-        flash.now[:success] = t('views.admin.errors.flash.successful_deletion')
+        flash.now[:success] = t('views.errors.flash.successful_deletion')
         format.json { render json: error.id }
       else
-        flash.now[:error] = I18n.t('views.admin.errors.flash.error_deletion')
+        flash.now[:error] = I18n.t('views.errors.flash.error_deletion')
         format.json { render json: error.errors, status: :forbidden }
       end
     end
@@ -41,16 +54,20 @@ class ErrorsController < ApplicationController
 
     respond_to do |format|
       if !destroyed_errors.empty?
-        flash.now[:success] = t('views.admin.errors.flash.successful_all_deletion')
+        flash.now[:success] = t('views.errors.flash.successful_all_deletion')
         format.json { render json: destroyed_errors.map(&:id) }
       else
-        flash.now[:error] = t('views.admin.errors.flash.error_all_deletion')
+        flash.now[:error] = t('views.errors.flash.error_all_deletion')
         format.json { render json: { deleted_errors: false } }
       end
     end
   end
 
   private
+
+  def status_code
+    params[:code] || 500
+  end
 
   def error_params
     params.require(:error).permit(:message,

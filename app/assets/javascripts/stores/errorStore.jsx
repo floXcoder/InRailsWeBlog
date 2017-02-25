@@ -1,15 +1,47 @@
 'use strict';
 
-var ErrorActions = require('../actions/errorActions');
+import ErrorActions from '../actions/errorActions';
 
-var ErrorStore = Reflux.createStore({
-    listenables: [ErrorActions],
-    url: '/errors',
+export default class ErrorStore extends Reflux.Store {
+    constructor() {
+        super();
 
-    init () {
-    },
+        this.listenables = ErrorActions;
+        this.url = '/errors';
+    }
 
-    onLoadErrors (data) {
+    static pushError(error) {
+        let requestParam = {};
+        requestParam.error = {};
+        if (error) {
+            requestParam.error.message = error.message;
+            requestParam.error.class_name = error.url;
+            requestParam.error.trace = error.trace;
+            requestParam.error.origin = error.origin;
+            requestParam.error.target_url = window.location.href;
+            if (error.lineNumber) {
+                requestParam.error.line_number = error.lineNumber;
+            }
+            if (error.columnNumber) {
+                requestParam.error.column_number = error.columnNumber;
+            }
+        } else {
+            return;
+        }
+
+        $.ajax({
+            url: '/errors',
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        });
+    }
+
+    init() {
+        return true;
+    }
+
+    onLoadErrors(data) {
         let requestParam = {};
         if (data) {
             if (data.page) {
@@ -31,42 +63,9 @@ var ErrorStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 return false;
             });
-    },
+    }
 
-    onPushError (error) {
-        let requestParam = {};
-        requestParam.error = {};
-        if (error) {
-            requestParam.error.message = error.message;
-            requestParam.error.class_name = error.url;
-            requestParam.error.trace = error.trace;
-            requestParam.error.origin = error.origin;
-            requestParam.error.target_url = window.location.href;
-            if(error.lineNumber) {
-                requestParam.error.line_number = error.lineNumber;
-            }
-            if(error.columnNumber) {
-                requestParam.error.column_number = error.columnNumber;
-            }
-        } else {
-            return;
-        }
-
-        $.ajax({
-            url: this.url,
-            dataType: 'json',
-            type: 'POST',
-            data: requestParam
-        })
-            .done(() => {
-                return true;
-            })
-            .fail(() => {
-                return false;
-            });
-    },
-
-    onDeleteError (errorId) {
+    onDeleteError(errorId) {
         if ($.isEmpty(errorId)) {
             log.error('Tried to remove an error without error id');
             return;
@@ -100,12 +99,12 @@ var ErrorStore = Reflux.createStore({
                     return false;
                 }
             });
-    },
+    }
 
-    onDeleteAllErrors () {
+    onDeleteAllErrors() {
         let url = this.url + '/delete_all';
 
-        let requestParam = {};
+        let requestParam = {destroy_all: true};
 
         $.ajax({
             url: url,
@@ -123,6 +122,4 @@ var ErrorStore = Reflux.createStore({
                 return false;
             });
     }
-});
-
-module.exports = ErrorStore;
+}

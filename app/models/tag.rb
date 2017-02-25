@@ -294,6 +294,28 @@ class Tag < ApplicationRecord
     user.id == user.id
   end
 
+  def format_attributes(attributes = {}, current_user = nil)
+    # Clean attributes
+    attributes    = attributes.reject { |_, v| v.blank? }
+
+    # Sanitization
+    unless attributes[:name].nil?
+      sanitized_name = Sanitize.fragment(attributes.delete(:name))
+      self.slug      = nil if sanitized_name != self.name
+      self.name      = sanitized_name
+    end
+
+    unless attributes[:description].nil?
+      self.references = Sanitize.fragment(attributes.delete(:description))
+    end
+
+    unless attributes[:picture].nil?
+      self.build_picture(image: attributes.delete(:picture))
+    end
+
+    self.assign_attributes(attributes)
+  end
+
   def slug_candidates
     if visibility != 'everyone' && user
       [

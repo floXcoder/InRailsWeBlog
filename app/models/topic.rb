@@ -101,25 +101,18 @@ class Topic < ApplicationRecord
     attributes = attributes.reject { |_, v| v.blank? }
 
     # Sanitization
-    if attributes[:name].present?
-      self.name = Sanitize.fragment(attributes.delete(:name))
-    end
-    if attributes[:description].present?
-      self.description = Sanitize.fragment(attributes.delete(:description))
-    end
-
-    # Pictures
-    if attributes[:picture].present?
-      self.pictures.build(image: attributes.delete(:picture))
+    unless attributes[:name].nil?
+      sanitized_name = Sanitize.fragment(attributes.delete(:name))
+      self.slug      = nil if sanitized_name != self.name
+      self.name      = sanitized_name
     end
 
-    attributes[:pictures] = attributes[:pictures].values if attributes[:pictures].present? && attributes[:pictures].is_a?(Hash)
-    if attributes[:pictures].present? && attributes[:pictures].is_a?(Array)
-      attributes.delete(:pictures).each do |image|
-        self.pictures.build(image: image)
-      end
-    else
-      attributes.delete(:pictures)
+    unless attributes[:description].nil?
+      self.references = Sanitize.fragment(attributes.delete(:description))
+    end
+
+    unless attributes[:picture].nil?
+      self.build_picture(image: attributes.delete(:picture))
     end
 
     self.assign_attributes(attributes)

@@ -1,11 +1,9 @@
 class ActivitiesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_admin!
 
   respond_to :json
 
   def index
-    authorize current_user, :admin?
-
     activities = PublicActivity::Activity.order('created_at desc')
 
     respond_to do |format|

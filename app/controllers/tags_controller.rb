@@ -16,7 +16,7 @@ class TagsController < ApplicationController
 
   include TrackerConcern
 
-  respond_to :html, :js, :json
+  respond_to :html, :json
 
   def index
     tags = Tag.includes(:user, :children).order('tags.name ASC')

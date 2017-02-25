@@ -1,8 +1,6 @@
-- provide(:title, t('views.error.page_title'))
-
 - stylesheet 'errors/error'
 
-- javascript 'commons'
+- javascript 'commons-full-page'
 - javascript 'errors/error'
 
 / Error details
@@ -14,7 +12,7 @@
       = t(status, scope: 'views.error.status.explanation', default: :default)
   .card-action
     .row
-      .col.s12.m6
+      .col.s12.m6.sm-margin-bottom-20
         = link_to t('views.error.back_button'), :back, class: 'btn waves-effect waves-light white-text'
       .col.s12.m6
-        = link_to t('views.error.home_button'), :back, class: 'btn waves-effect waves-light white-text'
+        = link_to t('views.error.home_button'), root_url, class: 'btn waves-effect waves-light white-text'

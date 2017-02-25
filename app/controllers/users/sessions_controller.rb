@@ -5,9 +5,12 @@ class Users::SessionsController < Devise::SessionsController
 
   respond_to :html, :js
 
+  include ActionView::Helpers::TagHelper
+  include ApplicationHelper
+
   def create
     self.resource = warden.authenticate!(auth_options)
-    set_flash_message(:notice, :signed_in) if is_flashing_format? || request.format.js?
+    flash_message(resource) if is_flashing_format? || request.format.js?
     sign_in(resource_name, resource)
     yield resource if block_given?
 
@@ -38,6 +41,21 @@ class Users::SessionsController < Devise::SessionsController
       format.js do
         js_redirect_to(login_path, :error, error_msg)
       end
+    end
+  end
+
+  def flash_message(user)
+    if user.is_a?(Admin) || user.confirmed?
+      flash[:success] = t('devise.sessions.signed_in')
+    else
+      webmail_name, webmail_address = webmail_from_email(resource.email)
+      webmail                       = content_tag(:a, webmail_name, href: webmail_address)
+
+      message = t('devise.sessions.signed_in')
+      message << ' ' << t('views.user.login.flash.message')
+      message << '<br>' << t('views.user.login.flash.webmail', webmail: webmail) if webmail_name
+
+      flash[:alert] = message
     end
   end
 

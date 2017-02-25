@@ -180,7 +180,9 @@ class UsersController < ApplicationController
         format.json do
           if params[:complete_user] && current_user
             authorize current_user, :admin?
-            render json: user, serializer: UserCompleteSerializer
+            render json: user,
+                   serializer: UserCompleteSerializer,
+                   status:     :ok
           else
             render json: user
           end
@@ -195,9 +197,12 @@ class UsersController < ApplicationController
         format.json do
           if params[:complete_user] && current_user
             authorize current_user, :admin?
-            render json: user, serializer: UserCompleteSerializer
+            render json: user,
+                   serializer: UserCompleteSerializer,
+                   status:     :ok
           else
-            render json: user
+            render json: user,
+                   status: :forbidden
           end
         end
       end
@@ -316,31 +321,17 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    if current_user.try(:admin?)
-      params.require(:user).permit(:first_name,
-                                   :last_name,
-                                   :age,
-                                   :city,
-                                   :country,
-                                   :additional_info,
-                                   :admin,
-                                   picture_attributes: [:id,
-                                                        :image,
-                                                        :remote_image_url,
-                                                        :_destroy])
-    else
-      params.require(:user).permit(:first_name,
-                                   :last_name,
-                                   :age,
-                                   :city,
-                                   :phone_number,
-                                   :country,
-                                   :additional_info,
-                                   picture_attributes: [:id,
-                                                        :image,
-                                                        :remote_image_url,
-                                                        :_destroy])
-    end
+    params.require(:user).permit(:first_name,
+                                 :last_name,
+                                 :age,
+                                 :city,
+                                 :phone_number,
+                                 :country,
+                                 :additional_info,
+                                 picture_attributes: [:id,
+                                                      :image,
+                                                      :remote_image_url,
+                                                      :_destroy])
   end
 
   def user_validation_params
