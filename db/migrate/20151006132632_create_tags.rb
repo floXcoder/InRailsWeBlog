@@ -10,8 +10,8 @@ class CreateTags < ActiveRecord::Migration[5.0]
 
       t.integer     :priority,    null: false,   default: 0
       t.integer     :visibility,  null: false,   default: 0
-      t.boolean     :archived,    null: false,   default: false
       t.boolean     :accepted,    null: false,   default: true
+      t.boolean     :archived,    null: false,   default: false
 
       t.integer     :tagged_articles_count,      default: 0
 
