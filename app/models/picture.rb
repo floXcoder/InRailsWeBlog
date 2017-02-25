@@ -17,6 +17,10 @@
 class Picture < ApplicationRecord
 
   # == Attributes ===========================================================
+  translates :description,
+             :copyright,
+             fallbacks_for_empty_translations: true
+
   auto_strip_attributes :description, :copyright
 
   # == Extensions ===========================================================
@@ -25,16 +29,24 @@ class Picture < ApplicationRecord
 
   # Marked as deleted
   acts_as_paranoid
+  translation_class.send :acts_as_paranoid rescue nil
 
   # == Relationships ========================================================
-  belongs_to :imageable, polymorphic: true
+  belongs_to :user
+
+  belongs_to :imageable,
+             polymorphic: true,
+             touch: true,
+             counter_cache: true
 
   # == Validations ==========================================================
-  validates :imageable_type, presence: true
+  validates :user,
+            presence: true
 
+  validates :imageable_type,
+            presence: true
   validates_integrity_of :image
   validates_processing_of :image
-
   validate :image_size
 
   # == Scopes ===============================================================
@@ -44,6 +56,38 @@ class Picture < ApplicationRecord
   # == Class Methods ========================================================
 
   # == Instance Methods =====================================================
+  def user?(user)
+    user ? user.id == self.user.id : false
+  end
+
+  def format_attributes(attributes={})
+    # Imageable
+    unless attributes[:model_id].blank?
+      self.imageable_id = attributes.delete(:model_id).to_i
+    end
+    unless attributes[:model].blank?
+      self.imageable_type = attributes.delete(:model).strip.classify
+    end
+
+    unless attributes[:description].nil?
+      self.description = Sanitize.fragment(attributes.delete(:description))
+    end
+    unless attributes[:copyright].nil?
+      self.copyright = Sanitize.fragment(attributes.delete(:copyright))
+    end
+
+    # Pictures
+    unless attributes[:file].blank?
+      self.image = attributes.delete(:file)
+    end
+
+    unless attributes[:process_now].nil?
+      self.process_image_upload = !!attributes.delete(:process_now)
+    end
+
+    self.assign_attributes(attributes)
+  end
+
   private
 
   def image_size

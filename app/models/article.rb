@@ -72,9 +72,11 @@ class Article < ApplicationRecord
 
   # == Relationships ========================================================
   belongs_to :user,
-             class_name: 'User'
+             class_name: 'User',
+             counter_cache: true
 
-  belongs_to :topic
+  belongs_to :topic,
+             counter_cache: true
 
   has_many :tagged_articles
   has_many :tags,
@@ -102,6 +104,15 @@ class Article < ApplicationRecord
   has_many :marked_as_outdated,
            through: :outdated_articles,
            source:  :user
+
+  has_many :pictures,
+           -> { order 'created_at ASC' },
+           as:        :imageable,
+           autosave:  true,
+           dependent: :destroy
+  accepts_nested_attributes_for :pictures, allow_destroy: true, reject_if: lambda {
+    |picture| picture['picture'].blank? && picture['image_tmp'].blank?
+  }
 
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
 
@@ -302,6 +313,15 @@ class Article < ApplicationRecord
     self.parent_tags = parent_tags
     self.child_tags  = child_tags
     # self.tags        = (parent_tags + child_tags).uniq
+
+    # Pictures
+    if attributes[:pictures].present? && attributes[:pictures].is_a?(Array)
+      attributes.delete(:pictures).each do |pictureId|
+        self.pictures << Picture.find_by(id: pictureId.to_i) if pictureId.present?
+      end
+    else
+      attributes.delete(:pictures)
+    end
 
     self.assign_attributes(attributes)
   end

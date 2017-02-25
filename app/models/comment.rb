@@ -39,12 +39,15 @@ class Comment < ApplicationRecord
   tracked owner: :user, recipient: :commentable
 
   # == Relationships ========================================================
-  belongs_to :commentable, polymorphic: true
+  belongs_to :commentable,
+             polymorphic: true
   belongs_to :user
 
   # == Validations ==========================================================
-  validates :commentable_type, presence: true
-  validates :user, presence: true
+  validates :commentable_type,
+            presence: true
+  validates :user,
+            presence: true
 
   validates :title,
             length: { minimum: CONFIG.comment_title_min_length, maximum: CONFIG.comment_title_max_length },

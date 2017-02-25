@@ -46,7 +46,8 @@ class Topic < ApplicationRecord
   acts_as_paranoid
 
   # == Relationships ========================================================
-  belongs_to :user
+  belongs_to :user,
+             counter_cache: true
 
   has_one :picture,
           as:        :imageable,

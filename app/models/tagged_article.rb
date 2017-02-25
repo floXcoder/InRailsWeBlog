@@ -22,7 +22,9 @@ class TaggedArticle < ApplicationRecord
 
   # == Relationships ========================================================
   belongs_to :article
-  belongs_to :tag, counter_cache: true
+
+  belongs_to :tag,
+             counter_cache: true
 
   # == Validations ==========================================================
   validates :article,

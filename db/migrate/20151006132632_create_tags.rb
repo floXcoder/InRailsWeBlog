@@ -13,6 +13,7 @@ class CreateTags < ActiveRecord::Migration[5.0]
       t.boolean     :accepted,    null: false,   default: true
       t.boolean     :archived,    null: false,   default: false
 
+      t.integer     :pictures_count,             default: 0
       t.integer     :tagged_articles_count,      default: 0
 
       t.string      :slug

@@ -18,12 +18,15 @@ class BookmarkedArticle < ApplicationRecord
   tracked owner: :user, recipient: :article
 
   # == Relationships ========================================================
-  belongs_to :article, counter_cache: true
+  belongs_to :article,
+             counter_cache: true
   belongs_to :user
 
   # == Validations ==========================================================
-  validates :user_id, presence: true
-  validates :article_id, presence: true
+  validates :user_id,
+            presence: true
+  validates :article_id,
+            presence: true
 
   validates_uniqueness_of :user_id, scope: :article_id, allow_nil: false
 

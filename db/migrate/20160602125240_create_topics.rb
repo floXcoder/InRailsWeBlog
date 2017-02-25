@@ -12,6 +12,9 @@ class CreateTopics < ActiveRecord::Migration[5.0]
       t.boolean     :accepted,    null: false,   default: true
       t.boolean     :archived,    null: false,   default: false
 
+      t.integer     :pictures_count,             default: 0
+      t.integer     :articles_count,             default: 0
+
       t.string      :slug
 
       t.datetime    :deleted_at,  index: true

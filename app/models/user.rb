@@ -100,7 +100,8 @@ class User < ApplicationRecord
 
   has_many :comments, dependent: :destroy
 
-  has_one :picture, as: :imageable,
+  has_one :picture,
+          as: :imageable,
           autosave:     true,
           dependent:    :destroy
   accepts_nested_attributes_for :picture,
