@@ -18,16 +18,31 @@ class PictureSerializer < ActiveModel::Serializer
   cache key: 'picture', expires_in: 12.hours
 
   attributes :id,
+             :description,
+             :copyright,
              :url,
              :thumb_url,
-             :description,
-             :copyright
+             :filename,
+             :size,
+             :user
 
   def url
     object.image.url
   end
 
   def thumb_url
-    object.image.thumb.url
+    object.image.thumb.url if object.image&.thumb
+  end
+
+  def filename
+    object.image.file.filename if object.image&.file
+  end
+
+  def size
+    object.image.file.size if object.image&.file
+  end
+
+  def user
+    UserSampleSerializer.new(object.user).attributes
   end
 end

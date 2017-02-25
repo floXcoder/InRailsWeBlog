@@ -1,0 +1,4 @@
+clean_uploads:
+  cron: "0 0 * * *"
+  class: "UploadsWorker"
+  queue: default
