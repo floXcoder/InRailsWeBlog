@@ -144,7 +144,6 @@ class Article < ApplicationRecord
   scope :with_child_tags, -> (child_tags) { joins(:tags).where(tagged_articles: { child: true }, tags: { name: child_tags }) }
 
   # == Callbacks ============================================================
-  # Sanitize and detect programming language if any before save
   before_save :sanitize_html
 
   # == Class Methods ========================================================
