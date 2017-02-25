@@ -21,7 +21,7 @@ class Topic < ApplicationRecord
 
   # == Attributes ===========================================================
   # Strip whitespaces
-  auto_strip_attributes :name
+  auto_strip_attributes :name, :color
 
   # == Extensions ===========================================================
   # Versioning

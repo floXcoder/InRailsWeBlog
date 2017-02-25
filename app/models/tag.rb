@@ -27,7 +27,7 @@ class Tag < ApplicationRecord
   enums_to_tr('tag', [:visibility])
 
   # Strip whitespaces
-  auto_strip_attributes :name
+  auto_strip_attributes :name, :color
 
   # == Extensions ===========================================================
   # Versioning

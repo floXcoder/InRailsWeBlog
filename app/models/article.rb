@@ -35,7 +35,7 @@ class Article < ApplicationRecord
   enums_to_tr('article', [:visibility])
 
   # Strip whitespaces
-  auto_strip_attributes :title, :summary
+  auto_strip_attributes :title, :summary, :language
 
   # == Extensions ===========================================================
   # Voteable model

@@ -42,10 +42,7 @@ class User < ApplicationRecord
 
   # == Attributes ===========================================================
   # Preferences
-  store :preferences, accessors: [:article_display, :search_highlight, :search_operator, :search_exact], coder: JSON
-
-  # Store last request
-  store :last_request, accessors: [], coder: JSON
+  store_accessor :preferences, :article_display, :search_highlight, :search_operator, :search_exact
 
   # Strip whitespaces
   auto_strip_attributes :first_name, :last_name, :city, :country, :additional_info
