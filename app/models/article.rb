@@ -52,7 +52,7 @@ class Article < ApplicationRecord
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views
+  acts_as_tracked :queries, :searches, :comments, :clicks, :views
 
   # Follow public activities
   include PublicActivity::Model
@@ -95,16 +95,6 @@ class Article < ApplicationRecord
   #                               update_only:   true,
   #                               allow_destroy: false
 
-  has_many :bookmarked_articles
-  has_many :user_bookmarks,
-           through: :bookmarked_articles,
-           source:  :user
-
-  has_many :outdated_articles
-  has_many :marked_as_outdated,
-           through: :outdated_articles,
-           source:  :user
-
   has_many :pictures,
            -> { order 'created_at ASC' },
            as:        :imageable,
@@ -114,7 +104,28 @@ class Article < ApplicationRecord
     |picture| picture['picture'].blank? && picture['image_tmp'].blank?
   }
 
-  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
+  has_many :outdated_articles
+  has_many :marked_as_outdated,
+           through: :outdated_articles,
+           source:  :user
+
+  has_many :bookmarked,
+           as:          :bookmarked,
+           class_name:  'Bookmark',
+           foreign_key: 'bookmarked_id',
+           dependent:   :destroy
+  has_many :user_bookmarks,
+           through: :bookmarked,
+           source:  :user
+
+  has_many :follower,
+           -> { where(bookmarks: { follow: true }) },
+           through: :bookmarked,
+           source:  :user
+
+  has_many :activities,
+           as: :trackable,
+           class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
   validates :user,
@@ -148,11 +159,14 @@ class Article < ApplicationRecord
                                   current_user_id: current_user_id)
   }
 
-  scope :published, -> { where(temporary: false) }
-
   scope :with_tags, -> (tags) { joins(:tags).where(tags: { name: tags }) }
   scope :with_parent_tags, -> (parent_tags) { joins(:tags).where(tagged_articles: { parent: true }, tags: { name: parent_tags }) }
   scope :with_child_tags, -> (child_tags) { joins(:tags).where(tagged_articles: { child: true }, tags: { name: child_tags }) }
+
+  scope :published, -> { where(temporary: false) }
+
+  scope :bookmarked_by_user,
+        -> (user_id) { joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
 
@@ -406,23 +420,6 @@ class Article < ApplicationRecord
     end
   end
 
-  def add_bookmark(user)
-    if self.user_bookmarks.exists?(user.id)
-      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.already_bookmarked'))
-      return false
-    else
-      return self.user_bookmarks.push(user)
-    end
-  end
-
-  def remove_bookmark(user)
-    if !self.user_bookmarks.exists?(user.id)
-      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.not_bookmarked'))
-    else
-      return self.user_bookmarks.delete(user)
-    end
-  end
-
   def mark_as_outdated(user)
     if self.marked_as_outdated.exists?(user.id)
       errors.add(:outdated, I18n.t('activerecord.errors.models.outdated.already_outdated'))
@@ -438,6 +435,14 @@ class Article < ApplicationRecord
     else
       return self.marked_as_outdated.delete(user)
     end
+  end
+
+  def bookmarked?(user)
+    user ? user_bookmarks.include?(user) : false
+  end
+
+  def followed?(user)
+    user ? follower.include?(user) : false
   end
 
   def slug_candidates

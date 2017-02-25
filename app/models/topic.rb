@@ -59,6 +59,25 @@ class Topic < ApplicationRecord
                                   |picture| picture['picture'].blank? && picture['image_tmp'].blank?
                                 }
 
+  has_many :outdated_articles
+  has_many :marked_as_outdated,
+           through: :outdated_articles,
+           source:  :user
+
+  has_many :bookmarked,
+           as:          :bookmarked,
+           class_name:  'Bookmark',
+           foreign_key: 'bookmarked_id',
+           dependent:   :destroy
+  has_many :user_bookmarks,
+           through: :bookmarked,
+           source:  :user
+
+  has_many :follower,
+           -> { where(bookmarks: { follow: true }) },
+           through: :bookmarked,
+           source:  :user
+
   # == Validations ==========================================================
   validates :user,
             presence: true
@@ -87,6 +106,9 @@ class Topic < ApplicationRecord
     where(user_id: user_id).where('topics.visibility = 0 OR (topics.visibility = 1 AND topics.user_id = :current_user_id)',
                                   current_user_id: current_user_id)
   }
+
+  scope :bookmarked_by_user,
+        -> (user_id) { joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
 
@@ -117,6 +139,14 @@ class Topic < ApplicationRecord
     end
 
     self.assign_attributes(attributes)
+  end
+
+  def bookmarked?(user)
+    user ? user_bookmarks.include?(user) : false
+  end
+
+  def followed?(user)
+    user ? follower.include?(user) : false
   end
 
   def slug_candidates

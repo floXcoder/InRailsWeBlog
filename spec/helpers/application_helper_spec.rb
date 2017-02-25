@@ -13,7 +13,7 @@ RSpec.describe ApplicationHelper, type: :helper do
 
   describe '#navbar_class', basic: true do
     it 'returns the navbar class in function of controller' do
-      expect(helper.navbar_class('ride')).to eq(nil)
+      expect(helper.navbar_class('article')).to eq(nil)
     end
   end
 

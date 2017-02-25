@@ -61,7 +61,7 @@ class User < ApplicationRecord
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :comments, :bookmarks, :clicks, :views
+  acts_as_tracked :queries, :comments, :clicks, :views
 
   # Nice url format
   include NiceUrlConcern
@@ -88,22 +88,37 @@ class User < ApplicationRecord
            class_name: 'Tag',
            dependent:  :destroy
 
-  has_many :bookmarked_articles
-  has_many :bookmarks,
-           through: :bookmarked_articles,
-           source:  :article
-
   has_many :outdated_articles
   has_many :marked_as_outdated,
            through: :outdated_articles,
            source:  :article
 
-  has_many :comments, dependent: :destroy
+  has_many :bookmarks,
+           dependent: :destroy
+
+  has_many :following_user,
+           -> { where(bookmarks: { follow: true }) },
+           through:     :bookmarks,
+           source:      :bookmarked,
+           source_type: 'User'
+  has_many :following_article,
+           -> { where(bookmarks: { follow: true }) },
+           through:     :bookmarks,
+           source:      :bookmarked,
+           source_type: 'Article'
+  has_many :following_tag,
+           -> { where(bookmarks: { follow: true }) },
+           through:     :bookmarks,
+           source:      :bookmarked,
+           source_type: 'Tag'
+
+  has_many :comments,
+           dependent: :destroy
 
   has_one :picture,
-          as: :imageable,
-          autosave:     true,
-          dependent:    :destroy
+          as:        :imageable,
+          autosave:  true,
+          dependent: :destroy
   accepts_nested_attributes_for :picture,
                                 allow_destroy: true,
                                 reject_if:     lambda { |picture|
@@ -172,6 +187,91 @@ class User < ApplicationRecord
     else
       update_attribute(:current_topic_id, new_topic.id)
       return new_topic
+    end
+  end
+
+  ## Bookmarking
+  def bookmarked?(model_name, model_id)
+    if model_name && model_id
+      model_class    = model_name.classify.constantize
+      related_object = model_class.find(model_id)
+
+      return bookmarks.include?(related_object)
+    else
+      return false
+    end
+  end
+
+  def bookmarkers_count
+    user_bookmarked    = User.where(id: self.id).merge(User.joins(:bookmarked).where(bookmarks: { bookmarked_type: 'User' })).count
+    article_bookmarked = Article.where(user_id: self.id).merge(Article.joins(:bookmarked).where(bookmarks: { bookmarked_type: 'Article' })).count
+    tag_bookmarked     = Tag.where(user_id: self.id).merge(Tag.joins(:bookmarked).where(bookmarks: { bookmarked_type: 'Tag' })).count
+
+    user_bookmarked + article_bookmarked + tag_bookmarked
+  end
+
+  def bookmark(model_name, model_id)
+    if model_name && model_id
+      model_class    = model_name.classify.constantize
+      related_object = model_class.find(model_id)
+
+      if self.bookmarks.exists?(bookmarked_id: model_id, bookmarked_type: model_name.classify)
+        errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.already_bookmarked'))
+        return false
+      else
+        bookmark = related_object.bookmarked.create(user_id: self.id)
+
+        if bookmark.valid?
+          return bookmark
+        else
+          errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
+          return false
+        end
+      end
+    else
+      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
+      return false
+    end
+  end
+
+  def unbookmark(model_name, model_id)
+    if model_name && model_id
+      model_class    = model_name.classify.constantize
+      related_object = model_class.find(model_id)
+
+      if !self.bookmarks.exists?(bookmarked_id: model_id, bookmarked_type: model_name.classify)
+        errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.not_bookmarked'))
+        return false
+      else
+        destroyed_bookmark = related_object.bookmarked.find_by(user_id: self.id).destroy
+
+        if destroyed_bookmark.destroyed?
+          return destroyed_bookmark
+        else
+          errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
+          return false
+        end
+      end
+    else
+      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
+      return false
+    end
+  end
+
+  def following?(model_name, model_id)
+    if model_name && model_id
+      model_class    = model_name.classify.constantize
+      related_object = model_class.find(model_id)
+
+      if model_name.classify == 'User'
+        return following_user.include?(related_object)
+      elsif model_name.classify == 'Shop'
+        return following_shop.include?(related_object)
+      else
+        return false
+      end
+    else
+      return false
     end
   end
 

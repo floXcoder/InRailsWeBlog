@@ -25,8 +25,8 @@
 RSpec.describe Comment, type: :model do
 
   before(:all) do
-    @user = create(:user)
-    @commentable = create(:ride, :hiking_rideable, explorer: @user)
+    @user        = create(:user)
+    @commentable = create(:article, user: @user, topic: create(:topic, user: @user))
   end
 
   before do
@@ -131,7 +131,7 @@ RSpec.describe Comment, type: :model do
 
     let!(:comment1) { create(:comment, user: @user, commentable: @commentable) }
     let!(:comment2) { create(:comment, user: @user, commentable: @commentable) }
-    let!(:comment_other) { create(:comment, user: create(:user), commentable: create(:shop, creator: @user), title: 'Other comment') }
+    let!(:comment_other) { create(:comment, user: create(:user), commentable: create(:article, user: @user), title: 'Other comment') }
 
     describe '::find_comments_by_user' do
       it { is_expected.to respond_to(:find_comments_by_user) }

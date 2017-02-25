@@ -20,13 +20,13 @@
 RSpec.describe Tracker, type: :model do
 
   before(:all) do
-    @user = create(:user)
-    @ride = create(:ride, :hiking_rideable, explorer: @user)
+    @user    = create(:user)
+    @article = create(:article, user: @user, topic: create(:topic, user: @user))
   end
 
   before do
     @tracker = Tracker.create(
-      tracked:        @ride,
+      tracked:        @article,
       views_count:    10,
       queries_count:  20,
       searches_count: 30,
@@ -65,7 +65,7 @@ RSpec.describe Tracker, type: :model do
 
     describe 'Default Attributes', basic: true do
       before do
-        @tracker = Tracker.create(tracked: @ride)
+        @tracker = Tracker.create(tracked: @article)
       end
 
       it { expect(@tracker.views_count).to eq(0) }

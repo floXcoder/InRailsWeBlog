@@ -96,7 +96,28 @@ class Tag < ApplicationRecord
                                   |picture| picture['picture'].blank? && picture['image_tmp'].blank?
                                 }
 
-  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
+  has_many :outdated_articles
+  has_many :marked_as_outdated,
+           through: :outdated_articles,
+           source:  :user
+
+  has_many :bookmarked,
+           as:          :bookmarked,
+           class_name:  'Bookmark',
+           foreign_key: 'bookmarked_id',
+           dependent:   :destroy
+  has_many :user_bookmarks,
+           through: :bookmarked,
+           source:  :user
+
+  has_many :follower,
+           -> { where(bookmarks: { follow: true }) },
+           through: :bookmarked,
+           source:  :user
+
+  has_many :activities,
+           as: :trackable,
+           class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
   validates :user,
@@ -147,9 +168,11 @@ class Tag < ApplicationRecord
     includes(:tagged_topics).where(user_id: user_id, tagged_topics: { topic_id: topic_id })
   }
 
-  # Helpers
   scope :most_used, -> (limit = 20) { order('tagged_articles_count desc').limit(limit) }
   scope :least_used, -> (limit = 20) { order('tagged_articles_count asc').limit(limit) }
+
+  scope :bookmarked_by_user,
+        -> (user_id) { joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
 
@@ -315,6 +338,14 @@ class Tag < ApplicationRecord
     end
 
     self.assign_attributes(attributes)
+  end
+
+  def bookmarked?(user)
+    user ? user_bookmarks.include?(user) : false
+  end
+
+  def followed?(user)
+    user ? follower.include?(user) : false
   end
 
   def slug_candidates
