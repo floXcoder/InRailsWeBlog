@@ -7,57 +7,49 @@ class UserPolicy
   end
 
   def show?
-    correct_user?
+    owner?
   end
 
   def bookmarks?
-    correct_user?
+    owner?
   end
 
   def temporary?
-    correct_user?
+    owner?
   end
 
   def comments?
-    correct_user?
+    owner?
   end
 
   def activities?
-    correct_user?
+    owner?
   end
 
   def preferences?
-    correct_user?
+    owner?
   end
 
   def update_preferences?
-    correct_user?
+    owner?
   end
 
   def edit?
-    correct_user?
+    owner?
   end
 
   def update?
-    correct_user?
+    owner?
   end
 
   def destroy?
-    correct_user?
-  end
-
-  def admin?
-    correct_user? && @current_user.admin?
+    owner?
   end
 
   private
 
-  def correct_user?
-    @current_user && (@user.user?(@current_user) || @current_user.admin?)
-  end
-
-  def topic_owner?
-    @current_user && @poi && @poi.explorer?(@current_user)
+  def owner?
+    @current_user && @user.user?(@current_user)
   end
 end
 

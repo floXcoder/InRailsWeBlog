@@ -38,7 +38,8 @@
 #  locked_at              :datetime
 #
 
-FactoryGirl.define do |f|
+FactoryGirl.define do
+
   factory :user, aliases: [:author, :tagger] do
     sequence(:pseudo)     { |n| "Person #{n}" }
     sequence(:email)      { |n| "person_#{n}@example.com"}
@@ -54,20 +55,30 @@ FactoryGirl.define do |f|
     preferences           { {} }
     last_request          { {} }
 
-    confirmed_at          { Time.zone.now }
-    confirmation_sent_at  { Time.zone.now }
-
-    trait :not_confirmed do
-      confirmed_at          nil
-      confirmation_sent_at  nil
-    end
-
-    trait :faker do
+    trait :fake do
       first_name      { Faker::Name.first_name }
       last_name       { Faker::Name.last_name }
       age             { Random.rand(20..80) }
       additional_info { Faker::Lorem.paragraph }
       city            { Faker::Address.city }
     end
+
+    transient do
+      confirmation_email  false
+      not_confirmed       false
+    end
+
+    after(:build) do |user, evaluator|
+      unless evaluator.confirmation_email
+        user.skip_confirmation_notification!
+      end
+    end
+
+    after(:create) do |user, evaluator|
+      unless evaluator.not_confirmed
+        user.confirm
+      end
+    end
   end
+
 end

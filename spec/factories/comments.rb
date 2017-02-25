@@ -22,12 +22,19 @@
 #
 
 FactoryGirl.define do
-  factory :comment do
-    user
 
-    title   { Faker::Hipster.sentence(3) }
-    subject { Faker::Hipster.sentence(3, true) }
-    body    { Faker::Hipster.paragraph(2, true, 3) }
-    rating  { Random.rand(1..5) }
+  factory :comment do
+    # user
+    # commentable
+
+    sequence(:title)  { |n| "Comment title #{n}" }
+    subject           { Faker::Hipster.sentence(3, true) }
+    body              { Faker::Hipster.paragraph(2, true, 3) }
+    rating            { Random.rand(1..5) }
+    positive_reviews  { Random.rand(0..10) }
+    negative_reviews  { Random.rand(0..10) }
+    accepted          true
+    ask_for_deletion  false
   end
+
 end

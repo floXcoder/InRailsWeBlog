@@ -1,10 +1,12 @@
 feature 'Home page' do
 
   given(:homepage) { HomePage.new }
+
   background { visit root_path }
+
   subject { homepage }
 
-  feature 'Page', basic: true, js: true do
+  feature 'Page', advanced: true, js: true do
     it_behaves_like 'a valid page' do
       let(:content) {
         {

@@ -126,7 +126,7 @@ group :development do
   gem 'guard-rspec',            '4.7.3',  require: false
   gem 'guard-sidekiq',          '0.1.0'
   gem 'guard-process',          '1.2.1'
-  gem 'libnotify',              '0.9.1'
+  # gem 'libnotify',              '0.9.1'
 
   # N+1 database query
   gem 'bullet',                 '5.5.0'
@@ -144,22 +144,18 @@ group :test do
   gem 'capybara',               '2.12.1'
   gem 'capybara-email',         '2.5.0'
   gem 'capybara-screenshot',    '1.0.14'
-  gem 'launchy',                '2.4.3'
   gem 'shoulda-matchers',       '3.1.1',    require: false
   gem 'shoulda-callback-matchers', '1.1.4', require: false
   gem 'html_validation',        '1.1.3'
-  gem 'spork',                  '0.9.2'
   gem 'simplecov',              '0.13.0',   require: false
   gem 'fuubar',                 '2.2.0'
   gem 'database_cleaner',       '1.5.3'
-  gem 'spring-commands-rspec',  '1.0.4'
 
   # static analyzer
   gem 'rails_best_practices',   '1.17.0',   require: false
   gem 'brakeman',               '3.5.0',    require: false
   gem 'metric_fu',              '4.12.0',   require: false
   gem 'i18n-tasks',             '0.9.12',   require: false
-  gem 'deadweight',             '0.2.2',    require: false
 
   # Security
   gem 'dawnscanner',            '1.6.7',    require: false

@@ -18,8 +18,9 @@
 #
 
 FactoryGirl.define do
+
   factory :topic do
-    user
+    # user
 
     sequence(:name)         { |n| "Topic #{n}" }
     sequence(:description)  { |n| "Topic description #{n}" }
@@ -27,4 +28,5 @@ FactoryGirl.define do
     visibility              'everyone'
     accepted                true
   end
+
 end

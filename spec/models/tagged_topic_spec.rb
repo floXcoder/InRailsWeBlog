@@ -10,8 +10,39 @@
 #  updated_at :datetime         not null
 #
 
-require 'rails_helper'
-
 RSpec.describe TaggedTopic, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  before(:all) do
+    @user = create(:user)
+
+    @topic = create(:topic, user: @user)
+    @tag   = create(:tag, tagger: @user)
+  end
+
+  before do
+    @tagged_topic = TaggedTopic.create(
+      topic: @topic,
+      user:  @user,
+      tag:   @tag
+    )
+  end
+
+  subject { @tagged_topic }
+
+  context 'Object', basic: true do
+    it { is_expected.to be_valid }
+  end
+
+  context 'Associations', basic: true do
+    it { is_expected.to belong_to(:topic) }
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:tag) }
+
+    it { is_expected.to validate_presence_of(:topic) }
+    it { is_expected.to validate_presence_of(:user) }
+    it { is_expected.to validate_presence_of(:tag) }
+
+    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to([:tag_id, :topic_id]) }
+  end
+
 end

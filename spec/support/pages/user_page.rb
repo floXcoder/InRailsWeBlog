@@ -11,14 +11,16 @@ class UserPage < SitePage
     @user_page
   end
 
+  # def navigation_bar
+  #   find('.col-xs-6.col-sm-3 div.list-group')
+  # end
+
   def fill_in_update_profile(form_id, user_info)
     within ("form#{form_id}") do
       fill_in :user_first_name, with: user_info[:first_name]
       fill_in :user_last_name, with: user_info[:last_name]
-      select  user_info[:age], from: :user_age
       fill_in :user_city, with: user_info[:address]
       select  user_info[:country], from: :user_country
-      fill_in :user_additional_info, with: user_info[:additional_info]
       click_button t('views.user.edit.update_profile')
     end
   end

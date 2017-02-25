@@ -1,9 +1,9 @@
-RSpec::Matchers.define :have_auto_strip do |columns|
+RSpec::Matchers.define :have_strip_attributes do |columns|
   match do |actual|
     columns.each do |column|
       value_with_extra_spaces = '  \r test \n  '
       actual.update(column => value_with_extra_spaces)
-      returned_value = actual.send(:name)
+      returned_value = actual.send(column)
       expect(returned_value).to eq(value_with_extra_spaces.strip)
     end
   end

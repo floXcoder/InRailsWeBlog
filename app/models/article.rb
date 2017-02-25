@@ -70,26 +70,6 @@ class Article < ApplicationRecord
              include:     [:author, :tags, :parent_tags, :child_tags],
              language:    (I18n.locale == :fr) ? 'French' : 'English'
 
-  def search_data
-    {
-      author_id:      author_id,
-      topic_id:       topic_id,
-      title:          title,
-      summary:        summary,
-      public_content: public_content,
-      content:        strip_content,
-      is_link:        is_link,
-      notation:       notation,
-      priority:       priority,
-      temporary:      temporary,
-      language:       language,
-      visibility:     visibility,
-      archived:       archived,
-      accepted:       accepted,
-      tags:           tags.pluck(:name)
-    }
-  end
-
   # == Relationships ========================================================
   belongs_to :author, class_name: 'User'
   belongs_to :topic
@@ -459,6 +439,26 @@ class Article < ApplicationRecord
 
     self.content         = content
     self.private_content = true if has_private_content?
+  end
+
+  def search_data
+    {
+      author_id:      author_id,
+      topic_id:       topic_id,
+      title:          title,
+      summary:        summary,
+      public_content: public_content,
+      content:        strip_content,
+      is_link:        is_link,
+      notation:       notation,
+      priority:       priority,
+      temporary:      temporary,
+      language:       language,
+      visibility:     visibility,
+      archived:       archived,
+      accepted:       accepted,
+      tags:           tags.pluck(:name)
+    }
   end
 
 end

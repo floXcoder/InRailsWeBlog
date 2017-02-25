@@ -27,7 +27,7 @@ class Tag < ApplicationRecord
   enums_to_tr('tag', [:visibility])
 
   # Strip whitespaces
-  auto_strip_attributes :name, :description
+  auto_strip_attributes :name
 
   # == Extensions ===========================================================
   # Versioning
@@ -98,7 +98,8 @@ class Tag < ApplicationRecord
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
-  validates :tagger, presence: true
+  validates :tagger,
+            presence: true
 
   validates :name,
             uniqueness: { scope:          :visibility,
@@ -112,9 +113,12 @@ class Tag < ApplicationRecord
             uniqueness: { scope:          :tagger_id,
                           case_sensitive: false,
                           message:        I18n.t('activerecord.errors.models.tag.already_exist') },
-            length:     { minimum: CONFIG.tag_min_length, maximum: CONFIG.tag_max_length },
+            length:     { minimum: CONFIG.tag_name_min_length, maximum: CONFIG.tag_name_max_length },
             allow_nil:  false,
             if:         -> { visibility != 'everyone' }
+
+  validates :description,
+            length:   { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
 
   # validates :topics, length: { minimum: 1 }
   # validates :articles, length: { minimum: 1 }

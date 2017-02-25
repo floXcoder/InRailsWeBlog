@@ -1,3 +1,6 @@
+require 'support/helpers/session_helpers'
+require 'support/helpers/form_helpers'
+
 class SitePage
   include ActionView::RecordIdentifier
   include Capybara::DSL
@@ -5,6 +8,10 @@ class SitePage
   include AbstractController::Translation
   include Features::SessionHelpers
   include Features::FormHelpers
+
+  HTMLValidation.show_warnings = false
+
+  Capybara::Screenshot.autosave_on_failure = false
 
   # Define a default path and return self to call another method on itself
   def visit
@@ -36,18 +43,27 @@ class SitePage
   # Matchers
   def has_stylesheet?(css_name=nil)
     if css_name
-      has_selector?("link[href*='#{css_name}.css']", visible: false)
+      has_selector?("link[href*='#{css_name}']", visible: false)
     else
-      has_selector?("link[rel='stylesheet'][href*='application.css']", visible: false)
+      has_selector?("link[rel='stylesheet'][href*='application']", visible: false)
     end
   end
 
   def has_javascript?(script_name=nil)
-    has_selector?("script[src*='#{script_name}.js']", visible: false)
+    has_selector?("script[src*='#{script_name}']", visible: false)
   end
 
   def has_javascript_errors?
-    page.driver.console_messages.length != 0
+    if page.driver.console_messages.length > 0
+      ap page.driver.console_messages
+      return true
+    else
+      return false
+    end
+  end
+
+  def has_language?(language, lg)
+    has_selector?("#language-dropdown a[href='/?locale=#{lg}']", text: t("views.header.language.#{language}"), visible: false)
   end
 end
 
@@ -55,16 +71,26 @@ end
 # it_behaves_like 'a valid page' do
 #   let(:content) { {title: 'title'} }
 # end
+
 shared_examples 'a valid page' do
   scenario 'is the correct page' do
-    expect(current_path).to eq(content[:current_page].path)
+    uri  = URI.parse(current_url)
+    path = uri.path + (uri.query ? '?' + uri.query : '')
+
+    expect(path).to eq(content[:current_page].path)
   end
 
   scenario 'has the correct title' do
-    is_expected.to have_title(full_title(content[:title]))
+    if content[:admin]
+      is_expected.to have_title(titleize_admin(content[:title]))
+    else
+      is_expected.to have_title(titleize(content[:title]))
+    end
   end
 
   scenario 'contains the correct stylesheets' do
+    # is_expected.to have_stylesheet 'application'
+
     if content[:asset_name]
       is_expected.to have_stylesheet content[:asset_name]
     elsif content[:stylesheet_name]
@@ -76,6 +102,7 @@ shared_examples 'a valid page' do
     content[:common_js].each do |common_file|
       is_expected.to have_javascript common_file
     end
+
     if content[:asset_name]
       is_expected.to have_javascript content[:asset_name]
     elsif content[:javascript_name]
@@ -88,34 +115,63 @@ shared_examples 'a valid page' do
   end
 
   scenario 'has the correct header' do
-    is_expected.to have_css('header.blog-header nav')
-    within content[:current_page].header do
-      is_expected.to have_link(t('common.website_name'), href: root_path)
+    unless content[:full_page]
+      if content[:admin]
+        is_expected.to have_css('header.loca-header.admin-header nav')
+      else
+        is_expected.to have_css('header.loca-header nav')
+      end
 
-      # is_expected.to have_content(t('views.header.articles'))
-      # is_expected.to have_selector("a[href='/logout']", text: t('views.header.log_out'))
+      within content[:current_page].header do
+        is_expected.to have_link(ENV['WEBSITE_NAME'], href: root_path)
+
+        is_expected.to have_selector('a.search-toggle', text: 'search')
+
+        is_expected.to have_selector("a[href=\"#{explore_shops_fr_path}?trade=art\"]", text: /#{t('views.header.shop.art')}/i, visible: false)
+        is_expected.to have_selector("a[href=\"#{explore_shops_fr_path}?trade=terroir\"]", text: /#{t('views.header.shop.terroir')}/i, visible: false)
+        is_expected.to have_selector("a[href=\"#{new_shop_fr_path}\"]", text: /#{t('views.header.shop.add')}/i, visible: false)
+
+        is_expected.to have_selector("a[href=\"#{explore_rides_fr_path}\"]", text: /#{t('views.header.ride.explore')}/i, visible: false)
+        is_expected.to have_selector("a[href=\"#{new_ride_fr_path}\"]", text: /#{t('views.header.ride.add')}/i, visible: false)
+
+        if content[:connected]
+          is_expected.to have_selector("a[href=\"#{logout_fr_path}\"]", text: /#{t('views.header.log_out')}/i, visible: false)
+        else
+          # is_expected.to have_selector('a[href="#home-contact"]', text: /#{t('views.header.contact')}/i)
+
+          is_expected.to have_selector("a[href=\"#{signup_fr_path}\"]", text: /#{t('views.header.sign_up')}/i, visible: false)
+          is_expected.to have_selector("a[href=\"#{login_fr_path}\"]", text: /#{t('views.header.log_in')}/i, visible: false)
+        end
+      end unless content[:admin]
     end
   end
 
-#   scenario 'user can see flash messages', basic: true do
-#     visit new_user_session_path
-#     is_expected.to have_css('.flash')
-#   end
-#
-    scenario 'has a correct footer' do
-      is_expected.to have_css('footer.page-footer.blog-footer')
+  # scenario 'user can see flash messages', basic: true do
+  #   is_expected.to have_selector('div#toast-container')
+  # end
+
+  scenario 'has a correct footer' do
+    unless content[:full_page] || content[:admin]
+      is_expected.to have_css('footer.loca-footer')
 
       within content[:current_page].footer do
-        is_expected.to have_link(t('footer.links.about'))
-        is_expected.to have_link(t('footer.links.support'))
-        is_expected.to have_content(t('footer.links.contact'))
+        is_expected.to have_link(t('views.footer.blog'), href: blog_path)
+        is_expected.to have_link(t('views.footer.about_us'), href: about_us_path)
+        is_expected.to have_link(t('views.footer.terms_of_use'), href: terms_path)
+        is_expected.to have_link(t('views.footer.privacy'), href: privacy_path)
+        is_expected.to have_link(t('views.footer.contact'), href: contact_path)
+        is_expected.to have_link(t('views.footer.support'), href: support_path)
+        is_expected.to have_link(t('views.footer.media'), href: media_path)
       end
     end
+  end
 
-    scenario 'user can see the copyright' do
+  scenario 'user can see the copyright' do
+    unless content[:full_page] || content[:admin]
       within content[:current_page].footer do
-        is_expected.to have_content(t('footer.copyright'))
+        is_expected.to have_css('.footer-copyright')
+        is_expected.to have_content(/#{t('views.copyright', website: ENV['WEBSITE_NAME'])}/i)
       end
     end
-
+  end
 end

@@ -6,5 +6,11 @@ class HomePage < SitePage
     root_path
   end
 
-
+  # def head
+  #   find('head', visible: false)
+  # end
+  #
+  # def header
+  #   find('header nav')
+  # end
 end

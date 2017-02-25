@@ -15,17 +15,21 @@ class TopicPolicy
   end
 
   def update_topic?
-    topic_owner?
+    owner?
   end
 
   def remove_topic?
-    topic_owner?
+    owner?
   end
 
   private
 
-  def topic_owner?
-    @current_user && @topic && @topic.user?(@current_user)
+  def correct_user?
+    @topic.everyone? || (@topic.only_me? && owner?)
+  end
+
+  def owner?
+    @current_user && @topic.user?(@current_user)
   end
 end
 

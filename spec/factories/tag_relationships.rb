@@ -11,7 +11,10 @@
 #
 
 FactoryGirl.define do
-  factory :tag_relationship do
 
+  factory :tag_relationship do
+    # tag
+    # tag
   end
+
 end

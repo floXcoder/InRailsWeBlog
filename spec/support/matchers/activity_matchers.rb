@@ -1,8 +1,11 @@
 RSpec::Matchers.define :have_activity do |_value|
   match do |actual|
-    expect(actual).to respond_to(:activity_owner_global, :activity_recipient_global,
-                                 :activity_parameters_global, :activity_hooks, :activity_custom_fields_global)
-    expect(actual).to respond_to(:public_activity_enabled_for_model)
+    expect(actual).to respond_to(:activity_owner_global,
+                                 :activity_recipient_global,
+                                 # :activity_parameters_global,
+                                 :activity_hooks,
+                                 :activity_custom_fields_global,
+                                 :public_activity_enabled_for_model)
   end
 
   description do

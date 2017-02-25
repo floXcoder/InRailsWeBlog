@@ -11,7 +11,10 @@
 #
 
 FactoryGirl.define do
+
   factory :tagged_topic do
-    
+    # tag
+    # topic
   end
+
 end

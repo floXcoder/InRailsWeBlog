@@ -60,25 +60,25 @@ class ArticlePolicy
 
   # Comments
   def add_comment?
-    @current_user && correct_user? && @article.allow_comment?
+    @current_user && correct_user? && @article.allow_comment? && @article.everyone?
   end
 
   def update_comment?
-    @current_user && correct_user? && @article.allow_comment?
+    @current_user && correct_user? && @article.allow_comment? && @article.everyone?
   end
 
   def remove_comment?
-    @current_user && correct_user? && @article.allow_comment?
+    @current_user && correct_user? && @article.allow_comment? && @article.everyone?
   end
 
   private
 
   def correct_user?
-    @article.everyone? || (@current_user && @article.only_me? && @article.author?(@current_user)) || (@current_user && @current_user.admin?)
+    @article.everyone? || (@article.only_me? && owner?)
   end
 
   def owner?
-    @current_user && (@article.author?(@current_user)|| @current_user.admin?)
+    @current_user && @article.author?(@current_user)
   end
 end
 

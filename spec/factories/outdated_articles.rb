@@ -10,7 +10,10 @@
 #
 
 FactoryGirl.define do
-  factory :outdated_article do
 
+  factory :outdated_article do
+    # user
+    # article
   end
+
 end

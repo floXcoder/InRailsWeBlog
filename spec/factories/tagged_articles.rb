@@ -12,7 +12,10 @@
 #
 
 FactoryGirl.define do
-  factory :tagged_article do
 
+  factory :tagged_article do
+    # tag
+    # article
   end
+
 end

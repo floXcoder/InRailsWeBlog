@@ -33,6 +33,12 @@ SimpleConfig.for :application do
   set :search_operator, 'and'
   set :search_exact, true
 
+  # Topic validation parameters
+  set :topic_name_min_length, 1
+  set :topic_name_max_length, 128
+  set :topic_description_min_length, 3
+  set :topic_description_max_length, 3_000
+
   # Article validation parameters
   set :article_title_min_length, 3
   set :article_title_max_length, 128
@@ -40,6 +46,12 @@ SimpleConfig.for :application do
   set :article_summary_max_length, 256
   set :article_content_min_length, 3
   set :article_content_max_length, 8_000_000
+
+  # Tag validation parameters
+  set :tag_name_min_length, 1
+  set :tag_name_max_length, 52
+  set :tag_description_min_length, 3
+  set :tag_description_max_length, 3_000
 
   # Comment validation parameters
   set :comment_title_min_length, 1
@@ -50,8 +62,4 @@ SimpleConfig.for :application do
   # Notation validation parameters
   set :notation_min, 0
   set :notation_max, 5
-
-  # Tag validation parameters
-  set :tag_min_length, 1
-  set :tag_max_length, 32
 end

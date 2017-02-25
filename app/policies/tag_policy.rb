@@ -29,11 +29,11 @@ class TagPolicy
   private
 
   def correct_user?
-    @tag.everyone? || (@current_user && @tag.only_me? && @tag.tagger?(@current_user)) || (@current_user && @current_user.admin?)
+    @tag.everyone? || (@tag.only_me? && owner?)
   end
 
   def owner?
-    @current_user && @tag && (@tag.tagger?(@current_user) || @current_user.admin?)
+    @current_user && @tag.tagger?(@current_user)
   end
 end
 

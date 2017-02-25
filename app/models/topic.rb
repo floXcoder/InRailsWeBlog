@@ -21,11 +21,26 @@ class Topic < ApplicationRecord
 
   # == Attributes ===========================================================
   # Strip whitespaces
-  auto_strip_attributes :name, :description
+  auto_strip_attributes :name
 
   # == Extensions ===========================================================
+  # Versioning
+  has_paper_trail on: [:update], only: [:name, :description]
+
+  # Follow public activities
+  include PublicActivity::Model
+  tracked owner: :user
+
   include NiceUrlConcern
   friendly_id :slug_candidates, use: :slugged
+
+  # Search
+  searchkick searchable:  [:name, :description],
+             word_middle: [:name, :description],
+             suggest:     [:name],
+             highlight:   [:name, :description],
+             include:     [:user],
+             language:    (I18n.locale == :fr) ? 'French' : 'English'
 
   # Marked as deleted
   acts_as_paranoid
@@ -44,11 +59,18 @@ class Topic < ApplicationRecord
                                 }
 
   # == Validations ==========================================================
+  validates :user,
+            presence: true
+
   validates :name,
             uniqueness: { scope:          :user_id,
                           case_sensitive: false,
                           message:        I18n.t('activerecord.errors.models.topic.already_exist') },
+            length:     { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length },
             allow_nil:  false
+
+  validates :description,
+            length:   { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length }
 
   # == Scopes ===============================================================
 

@@ -20,6 +20,7 @@
 #
 
 FactoryGirl.define do
+
   factory :tag do
     tagger
 
@@ -28,4 +29,5 @@ FactoryGirl.define do
     priority                0
     visibility              'everyone'
   end
+
 end

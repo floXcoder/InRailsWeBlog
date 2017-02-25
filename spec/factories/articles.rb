@@ -28,9 +28,10 @@
 #
 
 FactoryGirl.define do
+
   factory :article do
-    author
-    topic
+    # author
+    # topic
 
     title           { Faker::Lorem.sentence }
     summary         { Faker::Lorem.paragraph(1, false) }
@@ -47,4 +48,5 @@ FactoryGirl.define do
   trait :with_tag do
     association     :tags, strategy: :build, tagger: author
   end
+
 end
