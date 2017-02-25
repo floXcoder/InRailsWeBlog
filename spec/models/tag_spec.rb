@@ -3,7 +3,7 @@
 # Table name: tags
 #
 #  id                    :integer          not null, primary key
-#  tagger_id             :integer          not null
+#  user_id             :integer          not null
 #  name                  :string           not null
 #  description           :text
 #  synonyms              :string           default([]), is an Array
@@ -27,7 +27,7 @@ RSpec.describe Tag, type: :model do
 
   before do
     @tag = Tag.create(
-      tagger:                @user,
+      user:                @user,
       name:                  'Tag',
       description:           'Tag description',
       synonyms:              ['tagged'],
@@ -70,7 +70,7 @@ RSpec.describe Tag, type: :model do
     describe 'Default Attributes', basic: true do
       before do
         @tag = Tag.create(
-          tagger:                @user,
+          user:                @user,
           name:                  'Tag'
         )
       end
@@ -114,9 +114,9 @@ RSpec.describe Tag, type: :model do
   end
 
   context 'Associations', basic: true do
-    it { is_expected.to belong_to(:tagger) }
-    it { is_expected.to validate_presence_of(:tagger) }
-    it { is_expected.to have_db_index(:tagger_id) }
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to validate_presence_of(:user) }
+    it { is_expected.to have_db_index(:user_id) }
 
     it { is_expected.to have_many(:tagged_topics) }
     it { is_expected.to have_many(:topics) }
@@ -139,10 +139,10 @@ RSpec.describe Tag, type: :model do
   context 'Public Methods', basic: true do
     subject { Tag }
 
-    let!(:private_tag) { create(:tag, tagger: @user, visibility: 'only_me') }
+    let!(:private_tag) { create(:tag, user: @user, visibility: 'only_me') }
 
     let!(:other_user) { create(:user) }
-    let!(:other_tag) { create(:tag, tagger: other_user) }
+    let!(:other_tag) { create(:tag, user: other_user) }
 
     describe '::for_user_topic' do
       it { is_expected.to respond_to(:for_user_topic) }
@@ -216,10 +216,10 @@ RSpec.describe Tag, type: :model do
   end
 
   context 'Instance Methods', basic: true do
-    describe '.tagger?' do
-      it { is_expected.to respond_to(:tagger?) }
-      it { expect(@tag.tagger?(@user)).to be true }
-      it { expect(@tag.tagger?(create(:user))).to be false }
+    describe '.user?' do
+      it { is_expected.to respond_to(:user?) }
+      it { expect(@tag.user?(@user)).to be true }
+      it { expect(@tag.user?(create(:user))).to be false }
     end
 
     describe '.to_hash' do

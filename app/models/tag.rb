@@ -3,7 +3,7 @@
 # Table name: tags
 #
 #  id                    :integer          not null, primary key
-#  tagger_id             :integer          not null
+#  user_id             :integer          not null
 #  name                  :string           not null
 #  description           :text
 #  synonyms              :string           default([]), is an Array
@@ -31,7 +31,7 @@ class Tag < ApplicationRecord
 
   # == Extensions ===========================================================
   # Versioning
-  has_paper_trail on: [:update], only: [:name, :description, :synonyms, :priority]
+  has_paper_trail on: [:update], only: [:name, :description, :synonyms]
 
   # Marked as deleted
   acts_as_paranoid
@@ -45,18 +45,18 @@ class Tag < ApplicationRecord
 
   # Follow public activities
   include PublicActivity::Model
-  tracked owner: :tagger
+  tracked owner: :user
 
   # Search
   searchkick searchable:  [:name, :description, :synonyms],
              word_middle: [:name, :description],
              suggest:     [:name],
              highlight:   [:name, :description],
-             include:     [:tagger],
+             include:     [:user],
              language:    (I18n.locale == :fr) ? 'French' : 'English'
 
   # == Relationships ========================================================
-  belongs_to :tagger,
+  belongs_to :user,
              class_name: 'User'
 
   has_many :tagged_topics
@@ -98,7 +98,7 @@ class Tag < ApplicationRecord
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
-  validates :tagger,
+  validates :user,
             presence: true
 
   validates :name,
@@ -110,7 +110,7 @@ class Tag < ApplicationRecord
 
   validates :name,
             presence:   true,
-            uniqueness: { scope:          :tagger_id,
+            uniqueness: { scope:          :user_id,
                           case_sensitive: false,
                           message:        I18n.t('activerecord.errors.models.tag.already_exist') },
             length:     { minimum: CONFIG.tag_name_min_length, maximum: CONFIG.tag_name_max_length },
@@ -118,21 +118,32 @@ class Tag < ApplicationRecord
             if:         -> { visibility != 'everyone' }
 
   validates :description,
-            length:   { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
+            length: { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
 
   # validates :topics, length: { minimum: 1 }
   # validates :articles, length: { minimum: 1 }
 
   # == Scopes ===============================================================
-  scope :for_user_topic, -> (user_id, topic_id) {
-    includes(:tagged_topics).where(tagger_id: user_id, tagged_topics: { topic_id: topic_id })
-  }
   scope :everyone_and_user, -> (user_id) {
-    where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.tagger_id = :user_id)', user_id: user_id)
+    where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id)', user_id: user_id)
   }
+
   # Works only if all tags are in tagged_topics
   scope :everyone_and_user_and_topic, -> (user_id, topic_id) {
-    joins(:tagged_topics).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.tagger_id = :user_id) OR (tagged_topics.tag_id = tags.id AND tagged_topics.user_id = :user_id AND tagged_topics.topic_id = :topic_id)', user_id: user_id, topic_id: topic_id)
+    joins(:tagged_topics).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id) OR (tagged_topics.tag_id = tags.id AND tagged_topics.user_id = :user_id AND tagged_topics.topic_id = :topic_id)', user_id: user_id, topic_id: topic_id)
+  }
+
+  scope :with_visibility, -> (visibility) {
+    where(visibility: (visibility.is_a?(String) ? Tag.visibilities[visibility] : visibility))
+  }
+
+  scope :from_user, -> (user_id = nil, current_user_id = nil) {
+    where(user_id: user_id).where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :current_user_id)',
+                                  current_user_id: current_user_id)
+  }
+
+  scope :for_user_topic, -> (user_id, topic_id) {
+    includes(:tagged_topics).where(user_id: user_id, tagged_topics: { topic_id: topic_id })
   }
 
   # Helpers
@@ -186,7 +197,7 @@ class Tag < ApplicationRecord
     end.to_h
 
     # Boost user articles first
-    boost_where           = options[:current_user_id] ? { tagger_id: options[:current_user_id] } : nil
+    boost_where           = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
 
     # Page parameters
     page                  = options[:page] ? options[:page] : 1
@@ -257,7 +268,7 @@ class Tag < ApplicationRecord
         visibility: Tag.visibilities[visibility]
       }
       attributes_with_user = {
-        tagger_id:  current_user_id,
+        user_id:    current_user_id,
         name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
         visibility: Tag.visibilities[visibility]
       }
@@ -279,14 +290,14 @@ class Tag < ApplicationRecord
   end
 
   # == Instance Methods =====================================================
-  def tagger?(user)
-    user.id == tagger.id
+  def user?(user)
+    user.id == user.id
   end
 
   def slug_candidates
-    if visibility != 'everyone' && tagger
+    if visibility != 'everyone' && user
       [
-        [:name, tagger.pseudo]
+        [:name, user.pseudo]
       ]
     else
       [
@@ -297,7 +308,7 @@ class Tag < ApplicationRecord
 
   def search_data
     {
-      tagger_id:   tagger_id,
+      user_id:     user_id,
       name:        name,
       description: description,
       synonyms:    synonyms,
@@ -309,9 +320,9 @@ class Tag < ApplicationRecord
 
   def to_hash
     {
-      id:        self.id,
-      tagger_id: self.tagger_id,
-      name:      self.name
+      id:      self.id,
+      user_id: self.user_id,
+      name:    self.name
     }
   end
 end

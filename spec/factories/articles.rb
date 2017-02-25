@@ -30,7 +30,7 @@
 FactoryGirl.define do
 
   factory :article do
-    # author
+    # user
     # topic
 
     title           { Faker::Lorem.sentence }
@@ -46,7 +46,7 @@ FactoryGirl.define do
 
   # Add equipments if :with_tag
   trait :with_tag do
-    association     :tags, strategy: :build, tagger: author
+    association     :tags, strategy: :build, user: user
   end
 
 end

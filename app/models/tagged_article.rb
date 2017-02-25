@@ -18,7 +18,7 @@ class TaggedArticle < ApplicationRecord
   # == Extensions ===========================================================
   # Follow public activities
   include PublicActivity::Model
-  tracked owner: proc { |_controller, model| model.article.author }, recipient: :article, parameters: :tag
+  tracked owner: proc { |_controller, model| model.article.user }, recipient: :article, parameters: :tag
 
   # == Relationships ========================================================
   belongs_to :article

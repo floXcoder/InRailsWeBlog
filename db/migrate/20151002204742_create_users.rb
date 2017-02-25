@@ -10,8 +10,9 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string      :additional_info, default: ''
       t.string      :locale,          default: 'fr'
 
-      t.text        :preferences,     default: '{}',  null: false
-      t.text        :last_request,    default: '{}',  null: false
+      t.jsonb       :preferences,     default: '{}',  null: false
+      t.jsonb       :last_request,    default: '{}',  null: false
+
       t.integer     :current_topic_id
 
       t.boolean     :admin,           default: false, null: false
@@ -20,10 +21,10 @@ class CreateUsers < ActiveRecord::Migration[5.0]
 
       t.datetime    :deleted_at
 
-      t.timestamps null: false
+      t.timestamps
     end
 
     add_index :users, :pseudo,  where: 'deleted_at IS NULL'
-    add_index :users, :slug,    where: 'deleted_at IS NULL'
+    add_index :users, :slug,    where: 'deleted_at IS NULL',  unique: true
   end
 end

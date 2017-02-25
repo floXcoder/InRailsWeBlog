@@ -1,11 +1,12 @@
 class CreateTaggedTopics < ActiveRecord::Migration[5.0]
   def change
     create_table :tagged_topics do |t|
-      t.references :topic,      null: false
-      t.references :user,       null: false
-      t.references :tag,        null: false
+      t.belongs_to  :user,     null: false, index: false
 
-      t.timestamps null: false
+      t.belongs_to  :article,  null: false, index: false
+      t.belongs_to  :tag,      null: false, index: false
+
+      t.timestamps
     end
 
     add_index :tagged_topics, :topic_id

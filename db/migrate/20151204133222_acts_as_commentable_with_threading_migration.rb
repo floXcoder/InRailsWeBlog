@@ -2,7 +2,7 @@ class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration[5.0]
   def change
     create_table :comments, force: true do |t|
       t.references  :commentable,       polymorphic: true,    null: false
-      t.references  :user,                                    null: false
+      t.belongs_to  :user,                                    null: false, index: false
 
       t.string      :title
       t.text        :body
@@ -20,7 +20,7 @@ class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration[5.0]
       t.integer     :lft
       t.integer     :rgt
 
-      t.timestamps null: false
+      t.timestamps
     end
 
     add_index :comments, :user_id,    where: 'deleted_at IS NULL'

@@ -14,7 +14,7 @@
     "start": "bundle exec guard",
     "test": "karma start ./frontend/test/karma.conf.js"
   },
-  "author": "",
+  "user": "",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "6.10.4",

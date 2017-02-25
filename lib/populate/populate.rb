@@ -75,7 +75,7 @@ class Populate
 
     tags = tag_number.times.map { |n|
       FactoryGirl.create(:tag,
-                         tagger: user,
+                         user: user,
                          visibility: rand(0..1),
                          name:   tags_name[n].mb_chars.capitalize.to_s
       )
@@ -94,7 +94,7 @@ class Populate
       articles_number.times.map {
         articles << FactoryGirl.create(:article,
                                        :with_tag,
-                                       author:     user,
+                                       user:     user,
                                        topic:      Topic.find_by_id(user.current_topic_id),
                                        tags:       tags.sample(rand(1..3)),
                                        visibility: Article.visibilities.keys.sample
@@ -132,7 +132,7 @@ class Populate
   def self.create_tag_to_topics_for(tags)
     TaggedTopic.transaction do
       tags.each do |tag|
-        current_user = tag.tagger
+        current_user = tag.user
         TaggedTopic.create(
           topic: current_user.current_topic,
           user:  current_user,

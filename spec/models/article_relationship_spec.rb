@@ -1,33 +1,24 @@
-# == Schema Information
-#
-# Table name: tag_relationships
-#
-#  id          :integer          not null, primary key
-#  parent_id   :integer          not null
-#  child_id    :integer          not null
-#  article_ids :string           not null, is an Array
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#
+require 'rails_helper'
 
-RSpec.describe TagRelationship, type: :model do
+RSpec.describe ArticleRelationship, type: :model do
 
   before(:all) do
     @user  = create(:user)
+    @topic = create(:topic, user: @user)
 
-    @parent_tag = create(:tag, user: @user)
-    @child_tag  = create(:tag, user: @user)
+    @parent_article = create(:article, user: @user)
+    @child_article  = create(:article, user: @user)
   end
 
   before do
-    @tag_relation = TagRelationship.create(
+    @article_relation = ArticleRelationship.create(
       user:   @user,
-      parent: @parent_tag,
-      child:  @child_tag
+      parent: @parent_article,
+      child:  @child_article
     )
   end
 
-  subject { @tag_relation }
+  subject { @article_relation }
 
   context 'Object', basic: true do
     it { is_expected.to be_valid }

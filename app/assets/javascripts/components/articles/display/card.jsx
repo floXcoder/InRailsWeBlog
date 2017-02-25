@@ -82,8 +82,8 @@ var ArticleCardDisplay = React.createClass({
                             </Link>
                         </h1>
 
-                        <UserAvatarIcon user={this.props.article.author}
-                                        className="article-author"/>
+                        <UserAvatarIcon user={this.props.article.user}
+                                        className="article-user"/>
 
                         <div className="article-info right-align">
                             <ArticleTime article={this.props.article}/>

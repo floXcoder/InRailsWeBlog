@@ -27,7 +27,7 @@ class ArticlesController < ApplicationController
 
   def index
     articles = Article
-                 .includes(:parent_tags, :child_tags, :tracker, author: [:picture])
+                 .includes(:parent_tags, :child_tags, :tracker, user: [:picture])
                  .user_related(current_user&.id)
                  .order('articles.id DESC')
 
@@ -68,7 +68,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article = Article.includes(:author,
+    article = Article.includes(:user,
                                :parent_tags,
                                :child_tags,
                                :tagged_articles,
@@ -77,7 +77,7 @@ class ArticlesController < ApplicationController
     authorize article
 
     Article.track_views(article.id)
-    User.track_views(article.author.id)
+    User.track_views(article.user.id)
     Tag.track_views(article.tags.ids)
 
     respond_to do |format|
@@ -126,7 +126,7 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    article = Article.includes(:author,
+    article = Article.includes(:user,
                                :parent_tags,
                                :child_tags,
                                :tagged_articles,

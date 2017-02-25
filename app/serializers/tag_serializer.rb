@@ -3,7 +3,7 @@
 # Table name: tags
 #
 #  id                    :integer          not null, primary key
-#  tagger_id             :integer          not null
+#  user_id             :integer          not null
 #  name                  :string           not null
 #  description           :text
 #  synonyms              :string           default([]), is an Array
@@ -31,7 +31,7 @@ class TagSerializer < ActiveModel::Serializer
              :visibility_translated,
              :slug
 
-  belongs_to :tagger
+  belongs_to :user
 
   has_many :parents, serializer: TagSampleSerializer
   has_many :children, serializer: TagSampleSerializer

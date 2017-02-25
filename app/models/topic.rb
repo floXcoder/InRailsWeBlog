@@ -73,6 +73,19 @@ class Topic < ApplicationRecord
             length:   { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length }
 
   # == Scopes ===============================================================
+  scope :everyone_and_user, -> (user_id = nil) {
+    where('topics.visibility = 0 OR (topics.visibility = 1 AND topics.user_id = :user_id)',
+          user_id: user_id)
+  }
+
+  scope :with_visibility, -> (visibility) {
+    where(visibility: (visibility.is_a?(String) ? Topic.visibilities[visibility] : visibility))
+  }
+
+  scope :from_user, -> (user_id = nil, current_user_id = nil) {
+    where(user_id: user_id).where('topics.visibility = 0 OR (topics.visibility = 1 AND topics.user_id = :current_user_id)',
+                                  current_user_id: current_user_id)
+  }
 
   # == Callbacks ============================================================
 

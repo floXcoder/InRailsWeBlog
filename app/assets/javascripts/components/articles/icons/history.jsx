@@ -24,7 +24,7 @@ var ArticleHistoryIcon = React.createClass({
     },
 
     render () {
-        if ($app.user.isConnected(this.props.article.author.id)) {
+        if ($app.user.isConnected(this.props.article.user.id)) {
             var historyTooltip = I18n.t('js.article.tooltip.history');
 
             return (

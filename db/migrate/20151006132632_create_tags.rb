@@ -1,7 +1,7 @@
 class CreateTags < ActiveRecord::Migration[5.0]
   def change
     create_table :tags do |t|
-      t.references  :tagger,      null: false
+      t.belongs_to  :user, foreign_key: true,    null: true,  index: false
 
       t.string      :name,        null: false
       t.text        :description
@@ -17,14 +17,12 @@ class CreateTags < ActiveRecord::Migration[5.0]
 
       t.string      :slug
 
-      t.datetime    :deleted_at
+      t.datetime    :deleted_at,  index: true
 
-      t.timestamps null: false
+      t.timestamps
     end
 
-    add_index :tags, :tagger_id,  where: 'deleted_at IS NULL'
-    add_index :tags, :slug,       where: 'deleted_at IS NULL', unique: true
-    add_index :tags, :name,               where: 'VISIBILITY = 0', unique: true
-    add_index :tags, [:name, :tagger_id], where: 'VISIBILITY = 1', unique: true
+    add_index :tags, [:user_id, :visibility],     where: 'deleted_at IS NULL'
+    add_index :tags, :slug,                       where: 'deleted_at IS NULL', unique: true
   end
 end

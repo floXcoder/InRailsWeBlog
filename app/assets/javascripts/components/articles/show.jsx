@@ -176,8 +176,8 @@ var ArticleShow = React.createClass({
 
                     <div className={classNames('card blog-article-item clearfix', {'article-outdated': isOutdated})}>
                         <div className="card-content">
-                            <UserAvatarIcon user={this.state.article.author}
-                                            className="article-author"/>
+                            <UserAvatarIcon user={this.state.article.user}
+                                            className="article-user"/>
 
                             <div className="article-info right-align">
                                 <ArticleTime article={this.state.article}/>
@@ -239,7 +239,7 @@ var ArticleShow = React.createClass({
                                                         onHistoryClick={this._handleHistoryClick}/>
 
                                     {
-                                        $app.user.isConnected(this.state.article.author.id) &&
+                                        $app.user.isConnected(this.state.article.user.id) &&
                                         <Link className="article-edit btn-floating tooltipped"
                                               data-tooltip={I18n.t('js.article.tooltip.edit')}
                                               to={`/article/${this.state.article.id}/edit`}>

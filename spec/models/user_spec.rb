@@ -225,6 +225,7 @@ RSpec.describe User, type: :model do
   end
 
   context 'Properties', basic: true do
+    it { is_expected.to callback(:set_preferences).before(:create) }
     it { is_expected.to callback(:create_default_topic).after(:create) }
 
     it { is_expected.to have_friendly_id(:slug) }

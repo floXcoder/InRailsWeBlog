@@ -3,7 +3,7 @@
 # Table name: tags
 #
 #  id                    :integer          not null, primary key
-#  tagger_id             :integer          not null
+#  user_id             :integer          not null
 #  name                  :string           not null
 #  description           :text
 #  synonyms              :string           default([]), is an Array
@@ -22,7 +22,7 @@
 FactoryGirl.define do
 
   factory :tag do
-    tagger
+    user
 
     sequence(:name)         { |n| "Tag #{n}" }
     sequence(:description)  { |n| "Tag description #{n}" }

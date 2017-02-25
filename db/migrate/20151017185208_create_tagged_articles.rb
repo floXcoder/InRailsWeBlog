@@ -1,13 +1,13 @@
 class CreateTaggedArticles < ActiveRecord::Migration[5.0]
   def change
     create_table :tagged_articles do |t|
-      t.references :article,        null: false
-      t.references :tag,            null: false
+      t.belongs_to  :article,  null: false, index: false
+      t.belongs_to  :tag,      null: false, index: false
 
-      t.boolean    :parent,         null: false,    default: false
-      t.boolean    :child,          null: false,    default: false
+      t.boolean    :parent,    null: false, default: false
+      t.boolean    :child,     null: false, default: false
 
-      t.timestamps null: false
+      t.timestamps
     end
 
     add_index :tagged_articles, :article_id

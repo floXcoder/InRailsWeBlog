@@ -6,7 +6,7 @@ class ThumbsUpMigration < ActiveRecord::Migration[5.0]
 
       t.boolean     :vote,      null: false,        default: false
 
-      t.timestamps null: false
+      t.timestamps
     end
 
     add_index :votes, [:voter_id, :voter_type]

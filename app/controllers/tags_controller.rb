@@ -3,7 +3,7 @@
 # Table name: tags
 #
 #  id         :integer          not null, primary key
-#  tagger_id  :integer          not null
+#  user_id  :integer          not null
 #  name       :string           not null
 #  slug       :string
 #  created_at :datetime         not null
@@ -19,7 +19,7 @@ class TagsController < ApplicationController
   respond_to :html, :js, :json
 
   def index
-    tags = Tag.includes(:tagger, :children).order('tags.name ASC')
+    tags = Tag.includes(:user, :children).order('tags.name ASC')
 
     tags = tags.for_user_topic(current_user.id, current_user.current_topic_id) if params[:init] && current_user
     # tags = tags.for_user_topic(tag_params[:user_id], tag_params[:topic_id]) if tag_params[:user_id] && tag_params[:topic_id]
@@ -45,7 +45,7 @@ class TagsController < ApplicationController
   end
 
   def show
-    tag = Tag.includes(:tagger)
+    tag = Tag.includes(:user)
             .friendly.find(params[:id])
     authorize tag
 

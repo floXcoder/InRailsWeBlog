@@ -16,7 +16,7 @@ class CreateErrorMessages < ActiveRecord::Migration[5.0]
       t.string  :ip
       t.integer :origin,          default: 0,   null: false
 
-      t.timestamps null: false
+      t.timestamps
     end
   end
 end

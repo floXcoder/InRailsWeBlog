@@ -32,7 +32,7 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :outdated_number,
              :comments_number
 
-  belongs_to :author, serializer: UserSampleSerializer
+  belongs_to :user, serializer: UserSampleSerializer
   has_many :tags, serializer: TagSampleSerializer
 
   def content

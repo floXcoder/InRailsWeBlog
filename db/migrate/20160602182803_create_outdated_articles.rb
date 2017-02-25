@@ -1,10 +1,10 @@
 class CreateOutdatedArticles < ActiveRecord::Migration[5.0]
   def change
     create_table :outdated_articles do |t|
-      t.references :article,          null: false
-      t.references :user,             null: false
+      t.belongs_to  :user,     null: false, index: false
+      t.belongs_to  :article,  null: false, index: false
 
-      t.timestamps null: false
+      t.timestamps
     end
 
     add_index :outdated_articles, :article_id

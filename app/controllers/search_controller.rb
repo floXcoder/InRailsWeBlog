@@ -34,7 +34,7 @@ class SearchController < ApplicationController
                                  })
 
     unless articles.empty?
-      articles = article_results[:articles].includes(:author, :tags)
+      articles = article_results[:articles].includes(:user, :tags)
       articles = articles.user_related(current_user&.id)
       search_results.merge!(ActiveModel::SerializableResource.new(articles,
                                                                   { highlight:       article_results[:highlight],

@@ -1,12 +1,12 @@
 class CreateArticles < ActiveRecord::Migration[5.0]
   def change
     create_table :articles do |t|
-      t.references  :author,          null: false
-      t.references  :topic,           null: false
+      t.belongs_to  :user,    foreign_key: true, null: true,  index: false
+      t.belongs_to  :topic,   foreign_key: true, null: true,  index: false
 
-      t.string      :title,                           default: ''
-      t.text        :summary,                         default: ''
-      t.text        :content,         null: false,    default: ''
+      t.string      :title
+      t.text        :summary
+      t.text        :content,         null: false
       t.boolean     :private_content, null: false,    default: false
       t.boolean     :is_link,         null: false,    default: false
       t.text        :reference
@@ -24,12 +24,12 @@ class CreateArticles < ActiveRecord::Migration[5.0]
 
       t.string      :slug
 
-      t.datetime    :deleted_at
+      t.datetime    :deleted_at,      index: true
 
-      t.timestamps null: false
+      t.timestamps
     end
 
-    add_index :articles, [:author_id, :visibility],   where: 'deleted_at IS NULL'
+    add_index :articles, [:user_id, :visibility],     where: 'deleted_at IS NULL'
     add_index :articles, [:topic_id,  :visibility],   where: 'deleted_at IS NULL'
     add_index :articles, :slug,                       where: 'deleted_at IS NULL', unique: true
   end

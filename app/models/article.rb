@@ -56,7 +56,7 @@ class Article < ApplicationRecord
 
   # Follow public activities
   include PublicActivity::Model
-  tracked owner: :author
+  tracked owner: :user
 
   # Nice url format
   include NiceUrlConcern
@@ -67,11 +67,13 @@ class Article < ApplicationRecord
              word_middle: [:title, :tags],
              suggest:     [:title, :tags],
              highlight:   [:content, :public_content],
-             include:     [:author, :tags, :parent_tags, :child_tags],
+             include:     [:user, :tags, :parent_tags, :child_tags],
              language:    (I18n.locale == :fr) ? 'French' : 'English'
 
   # == Relationships ========================================================
-  belongs_to :author, class_name: 'User'
+  belongs_to :user,
+             class_name: 'User'
+
   belongs_to :topic
 
   has_many :tagged_articles
@@ -104,7 +106,7 @@ class Article < ApplicationRecord
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
-  validates :author,
+  validates :user,
             presence: true
   validates :topic,
             presence: true
@@ -121,13 +123,22 @@ class Article < ApplicationRecord
   validates :notation, inclusion: CONFIG.notation_min..CONFIG.notation_max
 
   # == Scopes ===============================================================
-  scope :user_related, -> (user_id = nil) {
-    where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.author_id = :author_id)',
-          author_id: user_id)
+  scope :everyone_and_user, -> (user_id = nil) {
+    where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :user_id)',
+          user_id: user_id)
   }
+
+  scope :with_visibility, -> (visibility) {
+    where(visibility: (visibility.is_a?(String) ? Article.visibilities[visibility] : visibility))
+  }
+
+  scope :from_user, -> (user_id = nil, current_user_id = nil) {
+    where(user_id: user_id).where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :current_user_id)',
+                                      current_user_id: current_user_id)
+  }
+
   scope :published, -> { where(temporary: false) }
 
-  # Helpers
   scope :with_tags, -> (tags) { joins(:tags).where(tags: { name: tags }) }
   scope :with_parent_tags, -> (parent_tags) { joins(:tags).where(tagged_articles: { parent: true }, tags: { name: parent_tags }) }
   scope :with_child_tags, -> (child_tags) { joins(:tags).where(tagged_articles: { child: true }, tags: { name: child_tags }) }
@@ -248,7 +259,7 @@ class Article < ApplicationRecord
   end
 
   # == Instance Methods =====================================================
-  def author?(user)
+  def user?(user)
     user.id == self.author_id if user
   end
 
@@ -258,6 +269,9 @@ class Article < ApplicationRecord
 
     # Topic: Add current topic to article
     self.topic_id = current_user.current_topic_id if current_user
+
+    # Language: set current locale for now
+    self.language = current_user ? current_user.locale : I18n.locale
 
     # Sanitization
     if attributes[:title].present?
@@ -389,7 +403,7 @@ class Article < ApplicationRecord
   end
 
   def slug_candidates
-    "#{title}_at_#{author.pseudo}"
+    "#{title}_at_#{user.pseudo}"
   end
 
   def normalize_friendly_id(_string)
@@ -409,7 +423,7 @@ class Article < ApplicationRecord
   end
 
   def adapted_content(current_user_id)
-    if self.private_content && self.author.id != current_user_id
+    if self.private_content && self.user.id != current_user_id
       self.public_content
     else
       self.content

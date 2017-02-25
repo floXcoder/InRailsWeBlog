@@ -51,7 +51,7 @@ class ArticleSerializer < ActiveModel::Serializer
              :comments_number,
              :new_tags
 
-  belongs_to :author, serializer: UserSampleSerializer
+  belongs_to :user, serializer: UserSampleSerializer
   has_many :tags, serializer: TagSampleSerializer
   has_many :parent_tags, serializer: TagSampleSerializer
   has_many :child_tags, serializer: TagSampleSerializer

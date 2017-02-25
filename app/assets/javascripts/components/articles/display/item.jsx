@@ -38,8 +38,8 @@ var ArticleItemDisplay = React.createClass({
 
         Tracker.trackViews($(ReactDOM.findDOMNode(this)), () => {
             ArticleActions.trackView(this.props.article.id);
-            if (this.props.article.author) {
-                UserActions.trackView(this.props.article.author.id);
+            if (this.props.article.user) {
+                UserActions.trackView(this.props.article.user.id);
             }
 
             if (this.props.article.tags.length > 0) {

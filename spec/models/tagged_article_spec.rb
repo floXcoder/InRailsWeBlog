@@ -18,7 +18,7 @@ RSpec.describe TaggedArticle, type: :model do
     @topic   = create(:topic, user: @user)
 
     @article = create(:article, user: @user, topic: @topic)
-    @tag     = create(:tag, tagger: @user)
+    @tag     = create(:tag, user: @user)
   end
 
   before do

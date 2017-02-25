@@ -80,14 +80,16 @@ class User < ApplicationRecord
   has_many :topics, dependent: :destroy
 
   has_many :articles,
-           class_name:  'Article',
-           foreign_key: 'author_id',
-           dependent:   :destroy
+           class_name: 'Article',
+           dependent:  :destroy
 
   has_many :temporary_articles,
            -> { where temporary: true },
-           class_name:  'Article',
-           foreign_key: 'author_id'
+           class_name: 'Article'
+
+  has_many :tags,
+           class_name: 'Tag',
+           dependent:  :destroy
 
   has_many :bookmarked_articles
   has_many :bookmarks,
@@ -125,14 +127,8 @@ class User < ApplicationRecord
   # == Scopes ===============================================================
 
   # == Callbacks ============================================================
-  before_create do
-    self.preferences[:article_display]  = CONFIG.article_display if preferences[:article_display].blank?
-    self.preferences[:search_highlight] = CONFIG.search_highlight if preferences[:search_highlight].blank?
-    self.preferences[:search_operator]  = CONFIG.search_operator if preferences[:search_operator].blank?
-    self.preferences[:search_exact]     = CONFIG.search_exact if preferences[:search_exact].blank?
-  end
+  before_create :set_preferences
 
-  # Create a default topic
   after_create :create_default_topic
 
   # == Class Methods ========================================================
@@ -186,5 +182,12 @@ class User < ApplicationRecord
   def create_default_topic
     default_topic = self.topics.create(name: I18n.t('topic.default_name'))
     update_attribute(:current_topic_id, default_topic.id)
+  end
+
+  def set_preferences
+    self.preferences[:article_display]  = CONFIG.article_display if preferences[:article_display].blank?
+    self.preferences[:search_highlight] = CONFIG.search_highlight if preferences[:search_highlight].blank?
+    self.preferences[:search_operator]  = CONFIG.search_operator if preferences[:search_operator].blank?
+    self.preferences[:search_exact]     = CONFIG.search_exact if preferences[:search_exact].blank?
   end
 end

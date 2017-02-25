@@ -5,8 +5,8 @@ describe ArticlePolicy do
     @other_user = create(:user)
     @topic = create(:topic, user: @user)
 
-    @public_article = create(:article, author: @user, topic: @topic, visibility: :everyone)
-    @private_article = create(:article, author: @user, topic: @topic, visibility: :only_me)
+    @public_article = create(:article, user: @user, topic: @topic, visibility: :everyone)
+    @private_article = create(:article, user: @user, topic: @topic, visibility: :only_me)
   end
 
   context 'for a public article' do

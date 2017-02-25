@@ -33,7 +33,7 @@ class TagPolicy
   end
 
   def owner?
-    @current_user && @tag.tagger?(@current_user)
+    @current_user && @tag.user?(@current_user)
   end
 end
 

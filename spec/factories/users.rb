@@ -40,7 +40,7 @@
 
 FactoryGirl.define do
 
-  factory :user, aliases: [:author, :tagger] do
+  factory :user, aliases: [:user, :user] do
     sequence(:pseudo)     { |n| "Person #{n}" }
     sequence(:email)      { |n| "person_#{n}@example.com"}
     password              'password'

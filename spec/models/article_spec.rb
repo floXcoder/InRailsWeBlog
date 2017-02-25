@@ -36,7 +36,7 @@ RSpec.describe Article, type: :model do
 
   before do
     @article = Article.create(
-      author:                    @user,
+      user:                    @user,
       topic:                     @topic,
       title:                     'My title',
       summary:                   'Summary of my article',
@@ -97,7 +97,7 @@ RSpec.describe Article, type: :model do
     describe 'Default Attributes', basic: true do
       before do
         @article = Article.create(
-          author:  @user,
+          user:  @user,
           content: 'Content of my article'
         )
       end
@@ -161,8 +161,8 @@ RSpec.describe Article, type: :model do
   end
 
   context 'Associations', basic: true do
-    it { is_expected.to belong_to(:author) }
-    it { is_expected.to validate_presence_of(:author) }
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to have_db_index(:author_id) }
 
     it { is_expected.to belong_to(:topic) }
@@ -189,10 +189,10 @@ RSpec.describe Article, type: :model do
   context 'Public Methods', basic: true do
     subject { Article }
 
-    let!(:private_article) { create(:article, author: @user, visibility: 'only_me') }
+    let!(:private_article) { create(:article, user: @user, visibility: 'only_me') }
 
     let!(:other_user) { create(:user) }
-    let!(:other_article) { create(:article, author: other_user) }
+    let!(:other_article) { create(:article, user: other_user) }
 
     describe '::user_related' do
       it { is_expected.to respond_to(:user_related) }
@@ -258,10 +258,10 @@ RSpec.describe Article, type: :model do
   end
 
   context 'Instance Methods', basic: true do
-    describe '.author?' do
-      it { is_expected.to respond_to(:author?) }
-      it { expect(@article.author?(@user)).to be true }
-      it { expect(@article.author?(create(:user))).to be false }
+    describe '.user?' do
+      it { is_expected.to respond_to(:user?) }
+      it { expect(@article.user?(@user)).to be true }
+      it { expect(@article.user?(create(:user))).to be false }
     end
 
     describe '.format_attributes' do

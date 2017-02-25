@@ -178,7 +178,7 @@ ActiveRecord::Schema.define(version: 20160623210717) do
   add_index "tagged_topics", ["user_id"], name: "index_tagged_topics_on_user_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
-    t.integer  "tagger_id",                             null: false
+    t.integer  "user_id",                             null: false
     t.string   "name",                                  null: false
     t.text     "description"
     t.string   "synonyms",              default: [],                 array: true
@@ -194,10 +194,10 @@ ActiveRecord::Schema.define(version: 20160623210717) do
     t.datetime "updated_at",                            null: false
   end
 
-  add_index "tags", ["name", "tagger_id"], name: "index_tags_on_name_and_tagger_id", unique: true, where: "(visibility = 1)", using: :btree
+  add_index "tags", ["name", "user_id"], name: "index_tags_on_name_and_user_id", unique: true, where: "(visibility = 1)", using: :btree
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, where: "(visibility = 0)", using: :btree
   add_index "tags", ["slug"], name: "index_tags_on_slug", unique: true, where: "(deleted_at IS NULL)", using: :btree
-  add_index "tags", ["tagger_id"], name: "index_tags_on_tagger_id", where: "(deleted_at IS NULL)", using: :btree
+  add_index "tags", ["user_id"], name: "index_tags_on_user_id", where: "(deleted_at IS NULL)", using: :btree
 
   create_table "topics", force: :cascade do |t|
     t.integer  "user_id",                     null: false

@@ -78,7 +78,7 @@ class ArticlePolicy
   end
 
   def owner?
-    @current_user && @article.author?(@current_user)
+    @current_user && @article.user?(@current_user)
   end
 end
 

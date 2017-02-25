@@ -17,7 +17,7 @@ var ArticleEditionIcons = React.createClass({
     },
 
     render () {
-        if ($app.user.isConnected(this.props.article.author.id)) {
+        if ($app.user.isConnected(this.props.article.user.id)) {
             return (
                 <div className="article-editing">
                     <a className="article-delete tooltipped btn-floating"

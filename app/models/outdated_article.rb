@@ -18,7 +18,8 @@ class OutdatedArticle < ApplicationRecord
   tracked owner: :user, recipient: :article
 
   # == Relationships ========================================================
-  belongs_to :article, counter_cache: true
+  belongs_to :article,
+             counter_cache: true
   belongs_to :user
 
   # == Validations ==========================================================

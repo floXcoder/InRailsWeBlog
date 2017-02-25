@@ -1,7 +1,7 @@
 class CreateTopics < ActiveRecord::Migration[5.0]
   def change
     create_table :topics do |t|
-      t.references  :user,        null: false
+      t.belongs_to  :user,    foreign_key: true, null: true,  index: false
 
       t.string      :name,        null: false
       t.text        :description
@@ -14,9 +14,9 @@ class CreateTopics < ActiveRecord::Migration[5.0]
 
       t.string      :slug
 
-      t.datetime    :deleted_at
+      t.datetime    :deleted_at,  index: true
 
-      t.timestamps null: false
+      t.timestamps
     end
 
     add_index :topics, :user_id,          where: 'deleted_at IS NULL'

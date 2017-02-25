@@ -1,16 +1,4 @@
-# == Schema Information
-#
-# Table name: tag_relationships
-#
-#  id          :integer          not null, primary key
-#  parent_id   :integer          not null
-#  child_id    :integer          not null
-#  article_ids :string           not null, is an Array
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#
-
-class TagRelationship < ApplicationRecord
+class ArticleRelationship < ApplicationRecord
 
   # == Attributes ===========================================================
 
@@ -19,8 +7,8 @@ class TagRelationship < ApplicationRecord
   # == Relationships ========================================================
   belongs_to :user
 
-  belongs_to :parent, class_name: 'Tag', foreign_key: 'parent_id'
-  belongs_to :child, class_name: 'Tag', foreign_key: 'child_id'
+  belongs_to :parent, class_name: 'Article', foreign_key: 'parent_id'
+  belongs_to :child, class_name: 'Article', foreign_key: 'child_id'
 
   # == Validations ==========================================================
   validates :user,

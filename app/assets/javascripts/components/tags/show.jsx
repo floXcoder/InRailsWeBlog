@@ -81,8 +81,8 @@ var TagShow = React.createClass({
             <div>
                 <div className="card blog-tag-item clearfix">
                     <div className="card-content">
-                        <UserAvatarIcon user={this.state.tag.tagger}
-                                        className="article-author"/>
+                        <UserAvatarIcon user={this.state.tag.user}
+                                        className="article-user"/>
 
                         <h1 className="center-align">
                             <span>
