@@ -7,7 +7,7 @@ RSpec.describe Admin, type: :model do
       password:              'foobarfoo',
       password_confirmation: 'foobarfoo',
       additional_info:       'My personal info',
-      preferences:           {},
+      settings:           {},
       slug:                  'example_admin',
       locale:                'fr'
     )
@@ -24,11 +24,11 @@ RSpec.describe Admin, type: :model do
     it { is_expected.to respond_to(:email) }
     it { is_expected.to respond_to(:additional_info) }
     it { is_expected.to respond_to(:locale) }
-    it { is_expected.to respond_to(:preferences) }
+    it { is_expected.to respond_to(:settings) }
 
     it { expect(@admin.additional_info).to eq('My personal info') }
     it { expect(@admin.locale).to eq('fr') }
-    it { expect(@admin.preferences).to eq({}) }
+    it { expect(@admin.settings).to eq({}) }
     it { expect(@admin.slug).to eq('example_admin') }
 
     describe 'Default Attributes', basic: true do
@@ -40,7 +40,7 @@ RSpec.describe Admin, type: :model do
 
       it { expect(@admin.additional_info).to eq('') }
       it { expect(@admin.locale).to eq('fr') }
-      it { expect(@admin.preferences).to eq({}) }
+      it { expect(@admin.settings).to eq({}) }
     end
 
     describe '#pseudo', basic: true do
@@ -74,8 +74,8 @@ RSpec.describe Admin, type: :model do
       it { is_expected.to respond_to(:login) }
     end
 
-    # describe '#preferences', basic: true do
-    #   it { is_expected.to serialize(:preferences) }
+    # describe '#settings', basic: true do
+    #   it { is_expected.to serialize(:settings) }
     # end
   end
 

@@ -93,9 +93,9 @@ var UserStore = Reflux.createStore({
         $.getJSON(url, requestParam)
             .done((dataReceived) => {
                 if (!$.isEmpty(dataReceived)) {
-                    $app.user.preferences = _.pick(dataReceived.user, ['preferences']);
+                    $app.user.settings = _.pick(dataReceived.user, ['settings']);
                     $app.user.topic = _.merge(_.pick(dataReceived.user, ['current_topic']), _.pick(dataReceived.user, ['topics']));
-                    $app.user.current = _.omit(dataReceived.user, ['preferences', 'current_topic', 'topics']);
+                    $app.user.current = _.omit(dataReceived.user, ['settings', 'current_topic', 'topics']);
 
                     if (data.userProfile) {
                         this.trigger({
@@ -236,21 +236,21 @@ var UserStore = Reflux.createStore({
         }
 
         let requestParam = {};
-        requestParam.preferences = {};
+        requestParam.settings = {};
 
-        const url = this.url + '/' + this.user.id + '/preferences';
+        const url = this.url + '/' + this.user.id + '/settings';
 
         if (data.displayType) {
-            requestParam.preferences.article_display = data.article_display;
+            requestParam.settings.article_display = data.article_display;
         }
         if (data.searchOptions && data.searchOptions.search_highlight) {
-            requestParam.preferences.search_highlight = data.searchOptions.search_highlight;
+            requestParam.settings.search_highlight = data.searchOptions.search_highlight;
         }
         if (data.searchOptions && data.searchOptions.search_operator) {
-            requestParam.preferences.article_display = data.searchOptions.search_operator;
+            requestParam.settings.article_display = data.searchOptions.search_operator;
         }
         if (data.searchOptions && data.searchOptions.search_exact) {
-            requestParam.preferences.article_display = data.searchOptions.search_exact;
+            requestParam.settings.article_display = data.searchOptions.search_exact;
         }
 
         $.ajax({
@@ -261,12 +261,12 @@ var UserStore = Reflux.createStore({
         })
             .done((dataReceived) => {
                 if ($app.user) {
-                    $app.user.preferences = dataReceived.preferences;
+                    $app.user.settings = dataReceived.settings;
                 }
 
                 this.trigger({
                     type: 'updateUserPreference',
-                    preferences: dataReceived.preferences
+                    settings: dataReceived.settings
                 });
 
                 return true;

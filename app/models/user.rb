@@ -11,7 +11,7 @@
 #  country                :string           default("")
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
-#  preferences            :text             default({}), not null
+#  settings            :text             default({}), not null
 #  last_request           :text             default({}), not null
 #  current_topic_id       :integer
 #  admin                  :boolean          default(FALSE), not null
@@ -41,8 +41,14 @@
 class User < ApplicationRecord
 
   # == Attributes ===========================================================
-  # Preferences
-  store_accessor :preferences, :article_display, :search_highlight, :search_operator, :search_exact
+  # Store settings
+  include Storext.model
+  store_attributes :settings do
+    article_display String, default: 'card'
+    search_highlight Boolean, default: true
+    search_operator String, default: 'and'
+    search_exact Boolean, default: true
+  end
 
   attr_accessor :login
   devise :database_authenticatable,
@@ -145,8 +151,6 @@ class User < ApplicationRecord
   # == Scopes ===============================================================
 
   # == Callbacks ============================================================
-  before_create :set_preferences
-
   after_create :create_default_topic
 
   # == Class Methods ========================================================
@@ -459,10 +463,4 @@ class User < ApplicationRecord
     update_attribute(:current_topic_id, default_topic.id)
   end
 
-  def set_preferences
-    self.preferences[:article_display]  = CONFIG.article_display if preferences[:article_display].blank?
-    self.preferences[:search_highlight] = CONFIG.search_highlight if preferences[:search_highlight].blank?
-    self.preferences[:search_operator]  = CONFIG.search_operator if preferences[:search_operator].blank?
-    self.preferences[:search_exact]     = CONFIG.search_exact if preferences[:search_exact].blank?
-  end
 end

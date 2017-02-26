@@ -5,7 +5,7 @@ class DeviseCreateAdmins < ActiveRecord::Migration[5.0]
       t.string    :pseudo,              null: false,    default: ''
       t.string    :additional_info
       t.string    :locale,                              default: 'fr'
-      t.jsonb     :preferences,         null: false,    default: '{}'
+      t.jsonb     :settings,         null: false,    default: '{}'
       t.string    :slug,                index: false
 
       ## Database authenticatable

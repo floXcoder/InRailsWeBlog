@@ -6,7 +6,7 @@
 #  pseudo                 :string           default(""), not null
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
-#  preferences            :text             default({}), not null
+#  settings            :text             default({}), not null
 #  slug                   :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null

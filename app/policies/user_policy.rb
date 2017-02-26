@@ -26,11 +26,11 @@ class UserPolicy
     owner?
   end
 
-  def preferences?
+  def settings?
     owner?
   end
 
-  def update_preferences?
+  def update_settings?
     owner?
   end
 

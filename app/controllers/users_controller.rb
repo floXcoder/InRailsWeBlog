@@ -11,7 +11,7 @@
 #  country                :string           default("")
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
-#  preferences            :text             default({}), not null
+#  settings            :text             default({}), not null
 #  admin                  :boolean          default(FALSE), not null
 #  slug                   :string
 #  created_at             :datetime         not null
@@ -209,33 +209,39 @@ class UsersController < ApplicationController
     end
   end
 
-  def preferences
+  def settings
     user = User.find(params[:id])
     authorize user
 
     respond_to do |format|
-      format.json { render json: user, serializer: PreferenceSerializer }
+      format.json do
+        render json: user,
+               serializer: settingserializer
+      end
     end
   end
 
-  def update_preferences
+  def update_settings
     user = User.find(params[:id])
     authorize user
 
-    if params[:preferences]
-      params[:preferences].each do |pref_type, pref_value|
+    if params[:settings]
+      params[:settings].each do |pref_type, pref_value|
         if pref_value == 'true'
           pref_value = true
         elsif pref_value == 'false'
           pref_value = false
         end
-        user.preferences[pref_type.downcase.to_sym] = pref_value
+        user.settings[pref_type.downcase.to_sym] = pref_value
       end
       user.save
     end
 
     respond_to do |format|
-      format.json { render json: user, serializer: PreferenceSerializer }
+      format.json do
+        render json: user,
+               serializer: settingserializer
+      end
     end
   end
 

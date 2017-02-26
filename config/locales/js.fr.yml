@@ -14,7 +14,7 @@ fr:
           draft: "Temporaires"
       tags:
         button: "Labels"
-      preferences:
+      settings:
         button: "Préférences"
       user:
         sign_up: "S'inscrire"
@@ -120,7 +120,7 @@ fr:
           size: "Le mot de passe doit être compris entre %{min} et %{max} caractères"
           mismatch: "Le mot de passe et sa confirmation ne correspondent pas"
         policy: "Merci d'accepter d'abord les conditions d'utilisation"
-      preferences:
+      settings:
         article:
           title: "Articles"
           display:

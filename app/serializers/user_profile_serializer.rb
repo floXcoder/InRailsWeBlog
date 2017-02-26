@@ -11,7 +11,7 @@
 #  country                :string           default("")
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
-#  preferences            :text             default({}), not null
+#  settings            :text             default({}), not null
 #  admin                  :boolean          default(FALSE), not null
 #  slug                   :string
 #  created_at             :datetime         not null
@@ -49,7 +49,7 @@ class UserProfileSerializer < ActiveModel::Serializer
              :avatar,
              :articles_count,
              :draft_count,
-             :preferences,
+             :settings,
              :current_topic
 
   has_many :topics, each_serializer: TopicSerializer
@@ -62,8 +62,8 @@ class UserProfileSerializer < ActiveModel::Serializer
     object.draft_articles.count
   end
 
-  def preferences
-    object.preferences
+  def settings
+    object.settings
   end
 
   def current_topic

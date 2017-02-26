@@ -26,7 +26,7 @@ $(document).ajaxComplete(function (event, request) {
     }
 });
 
-// Header : close side nav on click for preferences or tags
+// Header : close side nav on click for settings or tags
 $('.button-collapse').click(function (event) {
     if(event && (event.target.id === 'toggle-tags' || event.target.id === 'toggle-user-pref')) {
         $('#toggle-navbar').sideNav('hide');

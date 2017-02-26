@@ -11,7 +11,7 @@ class Admin < ApplicationRecord
          :lockable,
          authentication_keys: [:login]
 
-  store :preferences, coder: JSON
+  store :settings, coder: JSON
 
   # == Extensions ===========================================================
   include NiceUrlConcern

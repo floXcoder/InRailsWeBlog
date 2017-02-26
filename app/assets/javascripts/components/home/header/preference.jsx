@@ -3,7 +3,7 @@
 import {FlatButton, FontIcon} from 'material-ui';
 
 var HomePreferenceHeader = ({onPreferenceClick}) => (
-    <FlatButton label={I18n.t('js.header.preferences.button')}
+    <FlatButton label={I18n.t('js.header.settings.button')}
                 className="header-button"
                 secondary={true}
                 icon={<FontIcon className="material-icons">view_modules</FontIcon>}

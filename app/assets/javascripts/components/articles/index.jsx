@@ -65,8 +65,8 @@ var ArticleIndex = React.createClass({
     onPreferenceChange (userData) {
         let newState = {};
 
-        if (!$.isEmpty(userData.preferences) && userData.preferences.article_display) {
-            newState.articleDisplayMode = userData.preferences.article_display;
+        if (!$.isEmpty(userData.settings) && userData.settings.article_display) {
+            newState.articleDisplayMode = userData.settings.article_display;
         }
 
         if (!$.isEmpty(userData.search) && userData.search.search_highlight) {

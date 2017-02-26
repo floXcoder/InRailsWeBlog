@@ -26,8 +26,8 @@ InRailsWeBlog::Application.routes.draw do
 
     member do
       get     :show,          to: 'users#show',               as: :root
-      get     :preferences,   to: 'users#preferences',        as: :preferences
-      post    :preferences,   to: 'users#update_preferences'
+      get     :settings,   to: 'users#settings',        as: :settings
+      post    :settings,   to: 'users#update_settings'
 
       post    :topic,         to: 'users#add_topic'
       post    :change_topic,  to: 'users#change_topic'

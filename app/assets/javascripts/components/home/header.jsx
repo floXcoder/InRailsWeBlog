@@ -32,7 +32,7 @@ const HomeHeader = React.createClass({
             isTopic: false,
             isSearch: false,
             isTags: false,
-            isPreferences: false,
+            issettings: false,
             isLogin: false,
             isSignup: false
         };
@@ -68,7 +68,7 @@ const HomeHeader = React.createClass({
 
     _handlePreferenceClick () {
         this.setState({
-            isPreferences: !this.state.isPreferences
+            issettings: !this.state.issettings
         });
     },
 
@@ -137,7 +137,7 @@ const HomeHeader = React.createClass({
                 </div>
 
                 <div className="blog-user-pref">
-                    <UserPreference isOpened={this.state.isPreferences}/>
+                    <UserPreference isOpened={this.state.issettings}/>
                 </div>
 
                 <div className="blog-search-nav row">

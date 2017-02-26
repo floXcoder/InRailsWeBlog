@@ -27,6 +27,9 @@ gem 'i18n-js',                  '3.0.0.rc15'
 gem 'geocoder',                 '1.4.3'
 gem 'maxminddb',                '0.1.12'
 
+# Convert JSON values in database
+gem 'storext',                  '2.2.2'
+
 # Model versioning
 gem 'paper_trail',              '6.0.2'
 

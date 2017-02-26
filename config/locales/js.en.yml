@@ -12,7 +12,7 @@ en:
           draft: "Temporaires"
       tags:
         button: "Labels"
-      preferences:
+      settings:
         button: "Préférences"
       user:
         sign_up: "S'inscrire"
@@ -100,7 +100,7 @@ en:
           size: "Your Password must be %{min} and %{max} characters"
           mismatch: "Password and password confirmation mismatch"
         policy: "Please agree to our policy"
-      preferences:
+      settings:
         article:
           title: "Articles"
           display:

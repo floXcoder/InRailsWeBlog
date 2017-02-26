@@ -27,12 +27,6 @@ SimpleConfig.for :application do
   set :user_password_min_length, 8
   set :user_password_max_length, 128
 
-  # Default user preferences
-  set :article_display, 'card'
-  set :search_highlight, true
-  set :search_operator, 'and'
-  set :search_exact, true
-
   # Topic validation parameters
   set :topic_name_min_length, 1
   set :topic_name_max_length, 128

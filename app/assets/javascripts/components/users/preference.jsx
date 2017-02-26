@@ -36,25 +36,25 @@ var UserPreference = React.createClass({
     },
 
     shouldComponentUpdate (nextProps, nextState) {
-        return !!(this.props.isOpened != nextProps.isOpened || !_.isEqual(this.state, nextState));
+        return (this.props.isOpened != nextProps.isOpened || !_.isEqual(this.state, nextState));
     },
 
     onPreferenceChange(userData) {
-        let userPreferences = userData.preferences;
-        if (!$.isEmpty(userPreferences)) {
+        let usersettings = userData.settings;
+        if (!$.isEmpty(usersettings)) {
             let newState = {};
 
-            if (userPreferences.article_display) {
-                newState.article_display = userPreferences.article_display;
+            if (usersettings.article_display) {
+                newState.article_display = usersettings.article_display;
             }
-            if (userPreferences.search_highlight) {
-                newState.search_highlight = userPreferences.search_highlight;
+            if (usersettings.search_highlight) {
+                newState.search_highlight = usersettings.search_highlight;
             }
-            if (userPreferences.search_operator) {
-                newState.search_operator = userPreferences.search_operator;
+            if (usersettings.search_operator) {
+                newState.search_operator = usersettings.search_operator;
             }
-            if (userPreferences.search_exact) {
-                newState.search_exact = userPreferences.search_exact;
+            if (usersettings.search_exact) {
+                newState.search_exact = usersettings.search_exact;
             }
 
             this.setState(newState);
@@ -99,14 +99,14 @@ var UserPreference = React.createClass({
                     <li>
                         <div className="collapsible-header">
                             <i className="material-icons">list</i>
-                            {I18n.t('js.user.preferences.article.title')}
+                            {I18n.t('js.user.settings.article.title')}
                         </div>
                         <div className="collapsible-body">
                             <div className="row">
                                 <div className="col s6">
-                                    <h6>{I18n.t('js.user.preferences.article.display.title')}</h6>
+                                    <h6>{I18n.t('js.user.settings.article.display.title')}</h6>
                                     <RadioButtons group="articleDisplay"
-                                                  buttons={I18n.t('js.user.preferences.article.display.mode')}
+                                                  buttons={I18n.t('js.user.settings.article.display.mode')}
                                                   checkedButton={this.state.article_display}
                                                   onRadioChanged={this._onDisplayChanged}/>
                                 </div>
@@ -116,21 +116,21 @@ var UserPreference = React.createClass({
                     <li>
                         <div className="collapsible-header">
                             <i className="material-icons">view_modules</i>
-                            {I18n.t('js.user.preferences.search.title')}
+                            {I18n.t('js.user.settings.search.title')}
                         </div>
                         <div className="collapsible-body">
                             <div className="row">
                                 <div className="col s4">
-                                    <h6>{I18n.t('js.user.preferences.search.operator.title')}</h6>
+                                    <h6>{I18n.t('js.user.settings.search.operator.title')}</h6>
                                     <RadioButtons group="searchOperator"
-                                                  buttons={I18n.t('js.user.preferences.search.operator.mode')}
+                                                  buttons={I18n.t('js.user.settings.search.operator.mode')}
                                                   checkedButton={this.state.search_operator}
                                                   onRadioChanged={this._onOperatorSearchChanged}/>
                                 </div>
                                 <div className="col s4">
                                     <Switch ref="searchHighlight"
                                             id="search-highlight"
-                                            title={I18n.t('js.user.preferences.search.highlight')}
+                                            title={I18n.t('js.user.settings.search.highlight')}
                                             values={I18n.t('js.checkbox')}
                                             onSwitchChange={this._onHighlightChanged}>
                                         {this.state.search_highlight}
@@ -139,7 +139,7 @@ var UserPreference = React.createClass({
                                 <div className="col s4">
                                     <Switch ref="searchExact"
                                             id="search-exact"
-                                            title={I18n.t('js.user.preferences.search.exact')}
+                                            title={I18n.t('js.user.settings.search.exact')}
                                             values={I18n.t('js.checkbox')}
                                             onSwitchChange={this._onExactSearchChanged}>
                                         {this.state.search_exact}

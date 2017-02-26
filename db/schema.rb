@@ -244,7 +244,7 @@ ActiveRecord::Schema.define(version: 20160623210717) do
     t.string   "country",                default: ""
     t.string   "additional_info",        default: ""
     t.string   "locale",                 default: "fr"
-    t.text     "preferences",            default: "{}",  null: false
+    t.text     "settings",            default: "{}",  null: false
     t.text     "last_request",           default: "{}",  null: false
     t.integer  "current_topic_id"
     t.boolean  "admin",                  default: false, null: false

@@ -11,10 +11,10 @@ class SearchController < ApplicationController
 
     params[:search_options] = {} if !search_params[:search_options] || search_params[:search_options].is_a?(String)
 
-    if current_user && (user_preferences = User.find(current_user.id))
-      search_options[:highlight] = user_preferences.preferences[:search_highlight]
-      search_options[:exact]     = user_preferences.preferences[:search_exact]
-      search_options[:operator]  = user_preferences.preferences[:search_operator]
+    if current_user && (user_settings = User.find(current_user.id))
+      search_options[:highlight] = user_settings.settings[:search_highlight]
+      search_options[:exact]     = user_settings.settings[:search_exact]
+      search_options[:operator]  = user_settings.settings[:search_operator]
     end
 
     unless search_params[:search_options].empty?

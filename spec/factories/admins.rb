@@ -5,7 +5,7 @@ FactoryGirl.define do
     sequence(:email)      { |n| "admin_#{n+1}@example.com"}
     additional_info       'Personal information'
     locale                'fr'
-    preferences           { {} }
+    settings           { {} }
     password              'password'
     password_confirmation 'password'
 

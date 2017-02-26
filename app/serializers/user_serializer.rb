@@ -11,7 +11,7 @@
 #  country                :string           default("")
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
-#  preferences            :text             default({}), not null
+#  settings            :text             default({}), not null
 #  last_request           :text             default({}), not null
 #  current_topic_id       :integer
 #  admin                  :boolean          default(FALSE), not null

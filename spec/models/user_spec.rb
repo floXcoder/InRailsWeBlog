@@ -11,7 +11,7 @@
 #  phone_number           :string           default("")
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
-#  preferences            :text             default({})
+#  settings            :text             default({})
 #  deleted_at             :datetime
 #  slug                   :string
 #  created_at             :datetime         not null
@@ -68,7 +68,7 @@ RSpec.describe User, type: :model do
       state:                 'state',
       mobile_number:         '0606060606',
       phone_number:          '0101010101',
-      preferences:           {},
+      settings:           {},
       pictures_count:        0,
       slug:                  'example_user'
     )
@@ -91,7 +91,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to respond_to(:phone_number) }
     it { is_expected.to respond_to(:additional_info) }
     it { is_expected.to respond_to(:locale) }
-    it { is_expected.to respond_to(:preferences) }
+    it { is_expected.to respond_to(:settings) }
     it { is_expected.to respond_to(:pictures_count) }
     it { is_expected.to respond_to(:external) }
     it { is_expected.to respond_to(:birth_date) }
@@ -116,7 +116,7 @@ RSpec.describe User, type: :model do
     it { expect(@user.street).to eq('street') }
     it { expect(@user.postcode).to eq('33000') }
     it { expect(@user.state).to eq('state') }
-    it { expect(@user.preferences).to eq({}) }
+    it { expect(@user.settings).to eq({}) }
     it { expect(@user.pictures_count).to eq(0) }
     # it { expect(@user.external).to be false }
 
@@ -132,7 +132,7 @@ RSpec.describe User, type: :model do
       end
 
       it { expect(@user.locale).to eq('fr') }
-      it { expect(@user.preferences).to eq({}) }
+      it { expect(@user.settings).to eq({}) }
       it { expect(@user.pictures_count).to eq(0) }
       # it { expect(@user.external).to be false }
     end
@@ -187,13 +187,13 @@ RSpec.describe User, type: :model do
       it { is_expected.to respond_to(:login) }
     end
 
-    # describe '#preferences' do
-    #   it { is_expected.to serialize(:preferences) }
+    # describe '#settings' do
+    #   it { is_expected.to serialize(:settings) }
     # end
   end
 
   context 'Properties', basic: true do
-    it { is_expected.to callback(:set_preferences).before(:create) }
+    it { is_expected.to callback(:set_settings).before(:create) }
     it { is_expected.to callback(:create_default_topic).after(:create) }
 
     it { is_expected.to have_friendly_id(:slug) }

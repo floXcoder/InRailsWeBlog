@@ -1,7 +1,7 @@
 'use strict';
 
 // user: {
-//         preferences: {
+//         settings: {
 //         article_display: window.parameters.article_display,
 //             search_highlight: window.parameters.search_highlight,
 //             search_operator: window.parameters.search_operator,
@@ -14,7 +14,7 @@ var App = function () {
         currentId: $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10),
         current: null,
         topic: null,
-        preferences: null,
+        settings: null,
         isConnected: function () {
             return !!this.currentId && !$.isEmpty(this.current);
         },
