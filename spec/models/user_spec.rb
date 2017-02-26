@@ -4,16 +4,27 @@
 #
 #  id                     :integer          not null, primary key
 #  pseudo                 :string           default(""), not null
-#  first_name             :string           default("")
-#  last_name              :string           default("")
-#  city                   :string           default("")
-#  country                :string           default("")
-#  phone_number           :string           default("")
-#  additional_info        :string           default("")
+#  first_name             :string
+#  last_name              :string
+#  street                 :string
+#  city                   :string
+#  postcode               :string
+#  state                  :string
+#  country                :string
+#  mobile_number          :string
+#  phone_number           :string
+#  additional_info        :string
+#  birth_date             :date
 #  locale                 :string           default("fr")
-#  settings            :text             default({})
-#  deleted_at             :datetime
+#  settings               :jsonb            not null
+#  current_topic_id       :integer
+#  pictures_count         :integer          default(0)
+#  topics_count           :integer          default(0)
+#  articles_count         :integer          default(0)
+#  tags_count             :integer          default(0)
+#  bookmarks_count        :integer          default(0)
 #  slug                   :string
+#  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  email                  :string           default(""), not null
@@ -33,17 +44,6 @@
 #  failed_attempts        :integer          default(0), not null
 #  unlock_token           :string
 #  locked_at              :datetime
-#  pictures_count         :integer          default(0), not null
-#  external               :boolean          default(FALSE), not null
-#  professional           :boolean          default(FALSE), not null
-#  professional_type      :string           default("0"), not null
-#  birth_date             :date
-#  street                 :string
-#  postcode               :string
-#  state                  :string
-#  mobile_number          :string
-#  company_name           :string
-#  registered_number      :string
 #
 
 require 'rails_helper'

@@ -10,6 +10,6 @@ class CreateArticleRelationships < ActiveRecord::Migration[5.0]
     end
 
     add_index :article_relationships, :user_id
-    add_index :article_relationships, [:user_id, :parent_id, :child_id], unique: true
+    add_index :article_relationships, [:user_id, :parent_id, :child_id], name: 'index_article_relationship_uniqueness', unique: true
   end
 end

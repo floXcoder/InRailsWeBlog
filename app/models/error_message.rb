@@ -16,7 +16,7 @@
 #  app_name      :string
 #  doc_root      :string
 #  ip            :string
-#  origin        :integer          default(0), not null
+#  origin        :integer          default("server"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #

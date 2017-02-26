@@ -4,17 +4,25 @@
 #
 #  id                     :integer          not null, primary key
 #  pseudo                 :string           default(""), not null
-#  first_name             :string           default("")
-#  last_name              :string           default("")
-#  age                    :integer          default(0)
-#  city                   :string           default("")
-#  country                :string           default("")
-#  additional_info        :string           default("")
+#  first_name             :string
+#  last_name              :string
+#  street                 :string
+#  city                   :string
+#  postcode               :string
+#  state                  :string
+#  country                :string
+#  mobile_number          :string
+#  phone_number           :string
+#  additional_info        :string
+#  birth_date             :date
 #  locale                 :string           default("fr")
-#  settings            :text             default({}), not null
-#  last_request           :text             default({}), not null
+#  settings               :jsonb            not null
 #  current_topic_id       :integer
-#  admin                  :boolean          default(FALSE), not null
+#  pictures_count         :integer          default(0)
+#  topics_count           :integer          default(0)
+#  articles_count         :integer          default(0)
+#  tags_count             :integer          default(0)
+#  bookmarks_count        :integer          default(0)
 #  slug                   :string
 #  deleted_at             :datetime
 #  created_at             :datetime         not null

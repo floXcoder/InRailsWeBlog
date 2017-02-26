@@ -1,16 +1,4 @@
-# == Schema Information
-#
-# Table name: settings
-#
-#  id         :integer          not null, primary key
-#  user_id    :integer
-#  name       :string           not null
-#  value      :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
-
-class settingserializer < ActiveModel::Serializer
+class SettingSerializer < ActiveModel::Serializer
   cache key: 'preference', expires_in: 12.hours
 
   attributes :article_display,

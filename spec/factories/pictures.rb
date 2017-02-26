@@ -3,10 +3,13 @@
 # Table name: pictures
 #
 #  id             :integer          not null, primary key
-#  imageable_id   :integer          not null
+#  user_id        :integer          not null
+#  imageable_id   :integer
 #  imageable_type :string           not null
 #  image          :string
 #  image_tmp      :string
+#  description    :text
+#  copyright      :string
 #  priority       :integer          default(0), not null
 #  accepted       :boolean          default(TRUE), not null
 #  deleted_at     :datetime

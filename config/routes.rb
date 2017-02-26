@@ -2,7 +2,6 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 InRailsWeBlog::Application.routes.draw do
-  devise_for :admins
   # Root path
   root  'static_pages#home'
 
@@ -89,6 +88,11 @@ InRailsWeBlog::Application.routes.draw do
   # Static pages
   get   :terms_of_use,  to: 'static_pages#terms_of_use'
 
+  # Routes managed by javascript router
+  get '/article/*id',   to: 'static_pages#home'
+  get '/tag/*id',       to: 'static_pages#home'
+  get '/user/*id',      to: 'static_pages#home'
+
   # Errors
   %w( 404 422 500 ).each do |code|
     get code, to: 'errors#show', code: code
@@ -118,21 +122,23 @@ InRailsWeBlog::Application.routes.draw do
   # resources :admins
   get :admin,             to: 'admins#index'
 
-  # Sidekiq interface
-  authenticate :user, lambda { |user| user.admin? } do
-    mount Sidekiq::Web => '/admin/sidekiq'
-  end
-
-  # Admin
-  get :admin,     to: 'admin#index'
-
   namespace :admin do
-    get       :errors,    to: 'errors_manager#index'
-    resources :users_manager
+    # resources :managers, only: [] do
+    #   collection do
+    #     get     :pending_validation,        to: 'managers#pending_validation'
+    #     get     :pending_comment_deletion,  to: 'managers#pending_comment_deletion'
+    #
+    #     get     :users,           to: 'managers#users'
+    #     get     ':show_user/:user_id', to: 'managers#show_user'
+    #
+    #     get     :logs,            to: 'managers#logs'
+    #
+    #     get     :server,          to: 'managers#server'
+    #
+    #     get     :errors,          to: 'managers#errors'
+    #   end
+    # end
   end
 
-  # Routes managed by javascript router
-  get '/article/*id',   to: 'static_pages#home'
-  get '/tag/*id',       to: 'static_pages#home'
-  get '/user/*id',      to: 'static_pages#home'
+
 end

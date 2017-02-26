@@ -3,6 +3,7 @@
 # Table name: tag_relationships
 #
 #  id          :integer          not null, primary key
+#  user_id     :integer
 #  parent_id   :integer          not null
 #  child_id    :integer          not null
 #  article_ids :string           not null, is an Array

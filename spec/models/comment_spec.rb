@@ -3,8 +3,8 @@
 # Table name: comments
 #
 #  id               :integer          not null, primary key
-#  commentable_id   :integer          not null
 #  commentable_type :string           not null
+#  commentable_id   :integer          not null
 #  user_id          :integer          not null
 #  title            :string
 #  body             :text
@@ -13,7 +13,6 @@
 #  positive_reviews :integer          default(0)
 #  negative_reviews :integer          default(0)
 #  accepted         :boolean          default(TRUE), not null
-#  ask_for_deletion :boolean          default(FALSE), not null
 #  deleted_at       :datetime
 #  parent_id        :integer
 #  lft              :integer

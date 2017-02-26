@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: article_relationships
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  parent_id  :integer          not null
+#  child_id   :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class ArticleRelationship < ApplicationRecord
 
   # == Attributes ===========================================================

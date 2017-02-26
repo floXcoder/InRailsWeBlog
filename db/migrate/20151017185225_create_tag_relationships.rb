@@ -12,6 +12,6 @@ class CreateTagRelationships < ActiveRecord::Migration[5.0]
     end
 
     add_index :tag_relationships, :user_id
-    add_index :tag_relationships, [:user_id, :parent_id, :child_id], unique: true
+    add_index :tag_relationships, [:user_id, :parent_id, :child_id], name: 'index_tag_relationship_uniqueness', unique: true
   end
 end
