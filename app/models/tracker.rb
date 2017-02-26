@@ -36,10 +36,5 @@ class Tracker < ApplicationRecord
   # == Class Methods ========================================================
 
   # == Instance Methods =====================================================
-  def bookmarks_count
-    if self.tracked.respond_to?(:bookmarkers_count)
-      self.tracked.bookmarkers_count
-    end
-  end
 
 end

@@ -1,6 +1,6 @@
 # ActAsTrackedConcern
 # Include this method in the model:
-# acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views
+# acts_as_tracked :queries, :searches, :clicks, :views
 module ActAsTrackedConcern
   extend ActiveSupport::Concern
 
@@ -18,7 +18,7 @@ module ActAsTrackedConcern
     # Helpers scope to get useful information
     scope :most_viewed, -> { joins(:tracker).order('trackers.views_count DESC') }
     scope :most_clicked, -> { joins(:tracker).order('trackers.clicks_count DESC') }
-    scope :most_commented, -> { joins(:tracker).order('trackers.comments_count DESC') }
+    # scope :most_commented, -> { joins(:tracker).order('trackers.comments_count DESC') }
     scope :recently_tracked, -> { where(trackers: { updated_at: 15.days.ago..Time.zone.now }) }
 
     # Rank and popularity
@@ -45,18 +45,22 @@ module ActAsTrackedConcern
       rank          += self.tracker.searches_count * 2
       tracker_count += 1
     end
+
     if self.tracker_metrics.include? :clicks
       rank          += self.tracker.clicks_count * 5
       tracker_count += 1
     end
+
     if self.tracker_metrics.include? :views
       rank          += self.tracker.views_count
       tracker_count += 1
     end
-    if self.tracker_metrics.include? :comments
-      rank          += self.tracker.comments_count * 10
-      tracker_count += 1
-    end
+
+    # if self.tracker_metrics.include? :comments
+    #   rank          += self.tracker.comments_count * 10
+    #   tracker_count += 1
+    # end
+
     if self.tracker_metrics.include? :queries
       rank          += self.tracker.queries_count
       tracker_count += 1
@@ -70,36 +74,36 @@ module ActAsTrackedConcern
     self.update_attribute(:tracker, Tracker.create(tracked: self))
   end
 
-  # Tracker model method to increment comment count
-  def track_comments(comments)
-    if self.tracker_metrics.include? :comments
-      comments = [comments] unless comments.is_a? Array
-      self.transaction do
-        comments.each do |_comment|
-          self.tracker.increment!('comments_count')
-          # $redis.incr(redis_key(self, 'comments'))
-        end
-      end
-    end
-  end
+  # # Tracker model method to increment comment count
+  # def track_comments(comments)
+  #   if self.tracker_metrics.include? :comments
+  #     comments = [comments] unless comments.is_a? Array
+  #     self.transaction do
+  #       comments.each do |_comment|
+  #         self.tracker.increment!('comments_count')
+  #         # $redis.incr(redis_key(self, 'comments'))
+  #       end
+  #     end
+  #   end
+  # end
 
-  # Tracker model method to decrement comment count
-  def untrack_comments(comments)
-    if self.tracker_metrics.include? :comments
-      comments = [comments] unless comments.is_a? Array
-      self.transaction do
-        comments.each do |_comment|
-          self.tracker.decrement!('comments_count')
-          # $redis.decr(redis_key(self, 'comments'))
-        end
-      end
-    end
-  end
+  # # Tracker model method to decrement comment count
+  # def untrack_comments(comments)
+  #   if self.tracker_metrics.include? :comments
+  #     comments = [comments] unless comments.is_a? Array
+  #     self.transaction do
+  #       comments.each do |_comment|
+  #         self.tracker.decrement!('comments_count')
+  #         # $redis.decr(redis_key(self, 'comments'))
+  #       end
+  #     end
+  #   end
+  # end
 
   # Class methods
   class_methods do
     # Base method to include in model:
-    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :comments, :bookmarks, :clicks, :views
+    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :clicks, :views
     def acts_as_tracked(tracked_name, *trackers)
       self.tracked_name    = tracked_name
       self.tracker_metrics = trackers

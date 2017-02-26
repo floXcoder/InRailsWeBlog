@@ -72,7 +72,7 @@ class User < ApplicationRecord
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :comments, :clicks, :views
+  acts_as_tracked :queries, :clicks, :views
 
   # Nice url format
   include NiceUrlConcern

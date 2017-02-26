@@ -23,7 +23,5 @@ class TrackerSerializer < ActiveModel::Serializer
   attributes :views_count,
              :queries_count,
              :searches_count,
-             :comments_count,
-             :clicks_count,
-             :bookmarks_count
+             :clicks_count
 end

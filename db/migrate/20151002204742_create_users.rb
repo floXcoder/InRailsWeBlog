@@ -15,7 +15,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.date        :birth_date
       t.string      :locale,                          default: 'fr'
 
-      t.jsonb       :settings,     null: false,    default: '{}'
+      t.jsonb       :settings,        null: false,    default: '{}'
 
       t.integer     :current_topic_id
 
@@ -23,6 +23,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.integer     :topics_count,                    default: 0
       t.integer     :articles_count,                  default: 0
       t.integer     :tags_count,                      default: 0
+      t.integer     :bookmarks_count,                 default: 0
 
       t.string      :slug
 

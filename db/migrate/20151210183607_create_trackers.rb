@@ -6,9 +6,7 @@ class CreateTrackers < ActiveRecord::Migration[5.0]
       t.integer     :views_count,     default: 0,        null: false
       t.integer     :queries_count,   default: 0,        null: false
       t.integer     :searches_count,  default: 0,        null: false
-      t.integer     :comments_count,  default: 0,        null: false
       t.integer     :clicks_count,    default: 0,        null: false
-      t.integer     :bookmarks_count, default: 0,        null: false
 
       t.integer     :popularity,      default: 0,        null: false
       t.integer     :rank,            default: 0,        null: false

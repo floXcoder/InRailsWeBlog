@@ -14,6 +14,7 @@ class CreateTopics < ActiveRecord::Migration[5.0]
 
       t.integer     :pictures_count,             default: 0
       t.integer     :articles_count,             default: 0
+      t.integer     :bookmarks_count,            default: 0
 
       t.string      :slug
 

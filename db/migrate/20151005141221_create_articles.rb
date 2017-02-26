@@ -17,9 +17,10 @@ class CreateArticles < ActiveRecord::Migration[5.0]
       t.boolean     :accepted,        null: false,    default: true
       t.boolean     :archived,        null: false,    default: false
 
-      t.integer     :bookmarks_count,                 default: 0
-      t.integer     :outdated_articles_count,         default: 0
       t.integer     :pictures_count,                  default: 0
+      t.integer     :outdated_articles_count,         default: 0
+      t.integer     :bookmarks_count,                 default: 0
+      t.integer     :comments_count,                  default: 0
 
       t.string      :slug
 

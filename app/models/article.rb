@@ -52,7 +52,7 @@ class Article < ApplicationRecord
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :searches, :comments, :clicks, :views
+  acts_as_tracked :queries, :searches, :clicks, :views
 
   # Follow public activities
   include PublicActivity::Model
