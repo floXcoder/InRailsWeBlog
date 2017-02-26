@@ -144,9 +144,10 @@ class User < ApplicationRecord
   validates :pseudo,
             presence:   true,
             uniqueness: { case_sensitive: false },
-            length:     { minimum: 3, maximum: 50 }
+            length:     { minimum: CONFIG.user_pseudo_min_length, maximum: CONFIG.user_pseudo_max_length }
   validates :email,
-            length: { maximum: 128 }
+            presence:   true,
+            length: { minimum: CONFIG.user_email_min_length, maximum: CONFIG.user_email_max_length }
 
   # == Scopes ===============================================================
 
