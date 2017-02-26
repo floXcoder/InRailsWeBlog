@@ -1,7 +1,7 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
-var config = require('../config').webpack;
-var webPackConfig = module.exports = require('../webpack/main.config.js');
+const config = require('../config').webpack;
+let webPackConfig = module.exports = require('../webpack/main.config.js');
 
 webPackConfig = _.merge(webPackConfig, {
     devtool: 'inline-source-map',
@@ -20,7 +20,7 @@ webPackConfig.module.loaders.push({
 webPackConfig.resolve.extensions.push('.json');
 
 webPackConfig = _.merge(webPackConfig.resolve, {
-   alias: {
-       'sinon': 'sinon/pkg/sinon'
-   }
+    alias: {
+        'sinon': 'sinon/pkg/sinon'
+    }
 });

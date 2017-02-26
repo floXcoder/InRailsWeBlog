@@ -1,25 +1,25 @@
-var webpack = require('webpack');
-var manifestPlugin = require('webpack-manifest-plugin');
-var _ = require('lodash');
+const webpack = require('webpack');
+const manifestPlugin = require('webpack-manifest-plugin');
+const _ = require('lodash');
 
-var config   = require('../config').webpack;
-var webPackConfig = module.exports = require('./main.config.js');
+const config = require('../config').webpack;
+let webPackConfig = module.exports = require('./main.config.js');
 
 webPackConfig.output = _.merge(config.output, {
     filename: config.production.filename
 });
 
 webPackConfig = _.merge(webPackConfig, {
-    debug: false,
-    displayErrorDetails: false,
+    // debug: false,
+    // displayErrorDetails: false,
     output: {
         pathinfo: false
     },
     devtool: false
 });
 
-// Common chuncks
-_.each(config.commons, function(common) {
+// Common chunks
+_.each(config.commons, function (common) {
     webPackConfig.plugins.push(
         new webpack.optimize.CommonsChunkPlugin({
             name: common.name,
@@ -30,6 +30,10 @@ _.each(config.commons, function(common) {
 });
 
 webPackConfig.plugins.push(
+    new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false
+    }),
     new manifestPlugin({
         fileName: config.production.manifestFilename,
         stripSrc: '-[chunkhash].js'
@@ -41,13 +45,14 @@ webPackConfig.plugins.push(
     }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
+        beautify: false,
         sourceMap: false,
         mangle: true,
-        minimize: true,
         compress: {
-            warnings: false
-        }
+            warnings: false,
+            screw_ie8: true
+        },
+        comments: false
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin()
 );

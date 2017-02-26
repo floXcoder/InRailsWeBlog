@@ -1,8 +1,8 @@
-var path     = require('path');
-var webpack  = require('webpack');
-var config   = require('../config').webpack;
+const path = require('path');
+const webpack = require('webpack');
+const config = require('../config').webpack;
 
-var webPackConfig = module.exports = {
+let webPackConfig = module.exports = {
     // the base path which will be used to resolve entry points
     context: path.resolve(config.context)
 };
@@ -25,10 +25,10 @@ webPackConfig.externals = config.externals;
 webPackConfig.resolve = {
     // tell webpack which extensions to auto search when it resolves modules. With this,
     // you'll be able to do `require('./utils')` instead of `require('./utils.js')`
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
     // by default, webpack will search in `web_modules` and `node_modules`. Because we're using
     // vendor, we want it to look in there too
-    modulesDirectories: config.modules.includes
+    modules: config.modules.includes
 };
 
 webPackConfig.plugins = [
@@ -37,5 +37,5 @@ webPackConfig.plugins = [
 
 webPackConfig.module = {
     noParse: config.modules.noParse,
-    loaders: config.loaders
+    rules: config.rules
 };

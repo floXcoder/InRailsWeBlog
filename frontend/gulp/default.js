@@ -1,7 +1,7 @@
-var gulp = require('gulp');
-var gulpSequence = require('gulp-sequence');
+const gulp = require('gulp');
+const gulpSequence = require('gulp-sequence');
 
-gulp.task('default', function(callback) {
+gulp.task('default', (callback) => {
     global.watch = true;
     gulpSequence('development', ['watch', 'browserSync'], callback);
 });

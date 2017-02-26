@@ -1,7 +1,7 @@
-var publicDir = './public';
-var assetDir = './app/assets';
-var vendorDir = './vendor/assets';
-var frontendDir = './node_modules';
+const publicDir = './public';
+const assetDir = './app/assets';
+const vendorDir = './vendor/assets';
+const frontendDir = './node_modules';
 
 module.exports = {
     webpack: {
@@ -10,10 +10,6 @@ module.exports = {
             ie8: ['./modules/ie8.js'],
             ie9: ['./modules/ie9.js'],
             home: ['./pages/home/home.jsx'],
-            'admin/dashboard': ['./pages/admin/dashboard.jsx'],
-            'admin/users/index': ['./pages/admin/users/index.jsx'],
-            'admin/users/show': ['./pages/admin/users/show.jsx'],
-            'admin/errors': ['./pages/admin/errors.jsx'],
             'users/show': ['./pages/users/show.jsx'],
             'users/edit': ['./pages/users/edit.js'],
             'users/login': ['./pages/users/login.js'],
@@ -21,7 +17,12 @@ module.exports = {
             'users/password': ['./pages/users/password.js'],
             'articles/show': ['./pages/articles/show.jsx'],
             'articles/edit': ['./pages/articles/edit.jsx'],
-            'tags/show': ['./pages/tags/show.jsx']
+            'tags/show': ['./pages/tags/show.jsx'],
+            'errors/error': ['./pages/errors/error.jsx'],
+            'admin/dashboard': ['./pages/admin/dashboard.jsx'],
+            'admin/users/index': ['./pages/admin/users/index.jsx'],
+            'admin/users/show': ['./pages/admin/users/show.jsx'],
+            'admin/errors': ['./pages/admin/errors.jsx'],
         },
 
         commons: [
@@ -29,9 +30,15 @@ module.exports = {
                 name: 'commons',
                 files: [
                     'home',
-                    'users/show', 'users/edit', 'users/login', 'users/signup', 'users/password', 'users/show',
+                    'users/show', 'users/edit',
                     'articles/show', 'articles/edit',
                     'tags/show'
+                ]
+            },
+            {
+                name: 'commons-full-page',
+                files: [
+                    'users/login', 'users/signup', 'users/password', 'errors/error'
                 ]
             },
             {
@@ -50,43 +57,43 @@ module.exports = {
         },
         modules: {
             includes: [
-                'vendor/assets/javascripts',
                 'node_modules'
-            ],
-            noParse: [
-                /highlight\.js[\/\\]lib[\/\\]languages[\/\\]autoit.js/
             ]
         },
-        loaders: [
+        rules: [
             {
-                test: /\.jsx$/,
-                exclude: /node_modules/,
-                loader: 'babel',
-                query: {
+                test: /\.(js|jsx)$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader',
+                options: {
                     babelrc: true,
                     cacheDirectory: true
-                },
-                happy: {id: 'jsx'}
-            },
-            {
-                test: /\.json$/,
-                loader: 'json'
-            },
-            {
-                test: /masonry|imagesloaded|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/,
-                loader: 'imports?define=>false&this=>window'
+                }
             }
         ],
+        happyPack: {
+            id: 'jsx',
+            loaders: [
+                'babel-loader?presets[]=es2015', 'babel-loader?presets[]=react', 'babel-loader?presets[]=stage-2'
+            ],
+            tempDir: 'tmp/happypack',
+            cache: true,
+            cachePath: 'tmp/happypack/cache--[id].json',
+            threads: 4,
+        },
         plugins: {
             $: 'jquery',
             jQuery: 'jquery',
+            jquery: 'jquery',
             'window.$': 'jquery',
             'window.jQuery': 'jquery',
             _: 'lodash',
-            log: 'loglevel'
-        },
-        externals: {
-            jQuery: 'jquery'
+            log: 'loglevel',
+            React: 'react',
+            ReactDOM: 'react-dom',
+            Reflux: 'reflux',
+            classNames: 'classnames',
+            Promise: 'promise-polyfill'
         },
         development: {
             filename: '[name].js',
@@ -105,7 +112,6 @@ module.exports = {
     },
     sass: {
         src: [
-            assetDir + '/stylesheets/application.scss',
             assetDir + '/stylesheets/pages/**/*.scss',
             assetDir + '/stylesheets/**/_*.scss',
             '!**/*_scsslint_tmp*.scss'
@@ -113,16 +119,18 @@ module.exports = {
         dest: publicDir + '/assets',
         settings: {
             includePaths: [
+                assetDir + '/stylesheets',
                 frontendDir,
                 vendorDir + '/stylesheets'
             ],
-            indentedSyntax: false // use scss syntax and not sass
+            indentedSyntax: false // use cscc syntax and not sass
         },
         autoPrefixer: ['last 2 version']
     },
     images: {
         src: [
-            assetDir + '/images/**/*'
+            assetDir + '/images/**/*',
+            vendorDir + '/images/**/*'
         ],
         dest: publicDir + '/assets'
     },
@@ -138,13 +146,16 @@ module.exports = {
     },
     fonts: {
         src: [
-            // Font in materialize or mdi packages are not working
-            // Use instead the last downloaded font from Google
-            //frontendDir + '/materialize-css/font/**/*',
             vendorDir + '/fonts/**/*',
             assetDir + '/fonts/**/*'
         ],
-        dest: publicDir + '/assets'
+        dest: publicDir + '/assets/fonts'
+    },
+    data: {
+        src: [
+            vendorDir + '/data/**/*'
+        ],
+        dest: publicDir + '/assets/data'
     },
     production: {
         manifestFilename: 'rev-manifest.json',

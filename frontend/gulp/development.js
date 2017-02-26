@@ -1,6 +1,6 @@
-var gulp         = require('gulp');
-var gulpSequence = require('gulp-sequence');
+const gulp = require('gulp');
+const gulpSequence = require('gulp-sequence');
 
-gulp.task('development', function(callback) {
-    gulpSequence('clean', ['fonts', 'images'], ['sass', 'webpack:development', 'views'], callback);
-});
+gulp.task('development', (callback) =>
+    gulpSequence('clean', ['fonts', 'images', 'sprites', 'data'], ['sass', 'webpack:development', 'views'], callback)
+);

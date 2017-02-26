@@ -1,15 +1,15 @@
-var path = require('path');
-var fs = require('fs');
+const path = require('path');
+const fs = require('fs');
 
-module.exports = function(publicPath, dest, filename) {
+module.exports = (publicPath, dest, filename) => {
     filename = filename || 'rev-manifest.json';
 
-    return function() {
-        this.plugin("done", function(stats) {
+    return function () {
+        this.plugin("done", function (stats) {
             stats = stats.toJson();
-            var chunks = stats.assetsByChunkName;
-            var manifest = {};
-            for (var key in chunks) {
+            const chunks = stats.assetsByChunkName;
+            const manifest = {};
+            for (const key in chunks) {
                 manifest[publicPath + key + '.js'] = publicPath + chunks[key];
             }
 

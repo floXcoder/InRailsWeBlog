@@ -1,17 +1,16 @@
-var webpack = require('webpack');
-var HappyPack = require('happypack');
-var _ = require('lodash');
+const webpack = require('webpack');
+const HappyPack = require('happypack');
+const _ = require('lodash');
 
-var config   = require('../config').webpack;
-var webPackConfig = module.exports = require('./main.config.js');
+const config = require('../config').webpack;
+let webPackConfig = module.exports = require('./main.config.js');
 
 webPackConfig.output = _.merge(config.output, {
     filename: config.development.filename
 });
 
 webPackConfig = _.merge(webPackConfig, {
-    cache: true,
-    debug: true,
+    // debug: true,
     stats: {
         assets: false,
         colors: true,
@@ -21,7 +20,7 @@ webPackConfig = _.merge(webPackConfig, {
         chunks: false,
         chunkModules: false
     },
-    displayErrorDetails: true,
+    // displayErrorDetails: true,
     output: {
         pathinfo: true
     },
@@ -30,8 +29,8 @@ webPackConfig = _.merge(webPackConfig, {
     // devtool: 'cheap-module-eval-source-map'
 });
 
-// Common chuncks
-_.each(config.commons, function(common) {
+// Common chunks
+_.each(config.commons, function (common) {
     webPackConfig.plugins.push(
         new webpack.optimize.CommonsChunkPlugin({
             name: common.name,
@@ -42,11 +41,9 @@ _.each(config.commons, function(common) {
 });
 
 webPackConfig.plugins.push(
+    new webpack.LoaderOptionsPlugin({
+        debug: true
+    }),
     new webpack.NoErrorsPlugin(),
-    new HappyPack({
-        id: 'jsx',
-        loaders: [
-            'babel?presets[]=es2015', 'babel?presets[]=react'
-        ]
-    })
+    new HappyPack(config.happyPack)
 );

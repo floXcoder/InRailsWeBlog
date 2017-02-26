@@ -36,17 +36,59 @@
         return this.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     };
 
+    String.prototype.caesarCipher = function (shift) {
+        // Wrap the amount
+        if (shift < 0) {
+            return this.caesarCipher(shift + 26);
+        }
+
+        var output = '';
+
+        // Go through each character
+        for (var i = 0; i < this.length; i++) {
+
+            // Get the character we'll be appending
+            var c = this[i];
+
+            // If it's a letter...
+            if (c.match(/[a-z]/i)) {
+
+                // Get its code
+                var code = this.charCodeAt(i);
+
+                // Uppercase letters
+                if ((code >= 65) && (code <= 90))
+                    c = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+
+                // Lowercase letters
+                else if ((code >= 97) && (code <= 122))
+                    c = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+
+            }
+
+            output += c;
+        }
+
+        return output;
+    };
+
     Array.prototype.limit = function (limit) {
-        return this.slice(0, limit);
+        if (this && !!limit) {
+            return this.slice(0, limit);
+        } else {
+            return this;
+        }
     };
 
     Array.prototype.remove = function (item) {
-        var index = this.indexOf(item);
+        if (this) {
+            var index = this.indexOf(item);
 
-        if (index > -1) {
-            return this.splice(index, 1);
-        } else {
-            return this;
+            if (index > -1) {
+                return this.splice(index, 1);
+            } else {
+                return this;
+            }
         }
     };
 
@@ -132,11 +174,67 @@
         return newArray;
     };
 
+    $.fn.extend({
+        // Refresh JQuery selector, but only for non-chained elements !
+        update: function () {
+            var newElements = jQuery(this.selector), i;
+            for (i = 0; i < newElements.length; i++) {
+                this[i] = newElements[i];
+            }
+            for (; i < this.length; i++) {
+                this[i] = undefined;
+            }
+            this.length = newElements.length;
+            return this;
+        },
+
+        goToTop: function () {
+            this.on('click', function () {
+                jQuery(document).scrollTop(0);
+            });
+        }
+    });
+
     $.extend({
+        currentUserId: function () {
+            return $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10);
+        },
+
+        currentAdminId: function () {
+            return $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10);
+        },
+
+        isValidUser: function (userId) {
+            var currentUserId = $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10);
+            var currentAdminId = $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10);
+
+            if (userId) {
+                return (userId === currentUserId || !!currentAdminId);
+            } else {
+                return !!currentUserId;
+            }
+        },
+
+        isAdminConnected: function () {
+            var currentAdminId = $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10);
+
+            return !!currentAdminId;
+        },
+
+        uuid: function () {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        },
+
         isEmpty: function (obj) {
             // null and undefined are "empty"
             if (obj == null) return true;
             if (obj === 'undefined' || obj === 'null' || obj === 'false') return true;
+
+            // Boolean are not empty
+            if (obj === true || obj === false) return false;
 
             // Check if is a Integer
             if ($.isNumber(obj)) return false;
@@ -209,8 +307,8 @@
         },
 
         toMap: function (object, callback) {
-            return Object.keys(object).map(function (key) {
-                return callback(key, object[key]);
+            return Object.keys(object).map(function (key, i) {
+                return callback(key, object[key], i);
             });
         },
 
@@ -329,6 +427,10 @@
             return window.location.pathname.split('/');
         },
 
+        getUrlAnchor: function () {
+            return (document.URL.split('#').length > 1) ? document.URL.split('#')[1] : null;
+        },
+
         // Use:
         // decodeURIComponent($.urlParam('distance_slider'))
         // $.urlParam('distance_slider')
@@ -344,14 +446,39 @@
         },
 
         getUrlParameters: function () {
-            var parameters = {};
-            var sPageURL = window.location.search.substring(1);
-            var sURLVariables = sPageURL.split('&');
-            for (var i = 0; i < sURLVariables.length; i++) {
-                var sParameterName = sURLVariables[i].split('=');
-                parameters[sParameterName[0]] = sParameterName[1];
+            var query = window.location.search.substring(1);
+            if (query == '') {
+                return null;
             }
-            return parameters;
+
+            var hash = {};
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                var k = decodeURIComponent(pair[0]);
+                var v = decodeURIComponent(pair[1]);
+
+                // If it is the first entry with this name
+                if (typeof hash[k.substr(0, k.length - 2)] !== "undefined") {
+                    hash[k.substr(0, k.length - 2)].push(v);
+                } else if (typeof hash[k] === "undefined") {
+                    // not end with []. cannot use negative index as IE doesn't understand it
+                    if (k.substr(k.length - 2) != '[]') {
+                        hash[k] = v;
+                    }
+                    else {
+                        hash[k.substr(0, k.length - 2)] = [v];
+                    }
+                } else if (typeof hash[k] === "string") {
+                    // If subsequent entry with this name and not array
+                    hash[k] = v;  // replace it
+                } else {
+                    // If subsequent entry with this name and is array
+                    hash[k.substr(0, k.length - 2)].push(v);
+                }
+            }
+
+            return hash;
         },
 
         setUrlParameter: function (paramName, paramValue) {

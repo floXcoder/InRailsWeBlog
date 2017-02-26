@@ -1,41 +1,27 @@
 'use strict';
 
 // jQuery
-require('expose?$!expose?jQuery!jquery');
 require('jquery-ujs');
 // send CSRF tokens for all ajax requests
 $.ajaxSetup({
     cache: false,
-    beforeSend: function(xhr) {
+    beforeSend: function (xhr) {
         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
     }
 });
 
-// lodash
-require('expose?_!lodash');
-
-// React with Reflux
-require("expose?React!react");
-require("expose?ReactDOM!react-dom");
-require("expose?Reflux!reflux");
-
-// var reactTestUpdate = require("why-did-you-update");
-// if (process.env.NODE_ENV !== 'production') {
-//     reactTestUpdate.whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton|FlatButtonLabel|FontIcon|Menu|Touch|Icon|Paper|EventListener|Overlay|AutoLock|Popover|List|MuiThemeProvider|ReactTransitionGroup|Card)/ })
-// }
+// Materialize
+require('materialize-css/dist/js/materialize');
 
 // Expose global variables
 require('./modules/utils');
-require('expose?$app!./modules/app');
-$app.init();
 
-// Materialize
-require('expose?Hammer!hammerjs');
-require('materialize-css/dist/js/materialize');
+// Notifications
+require('expose-loader?Notification!./components/theme/notification');
 
 // Automatic dropdown on hover
 $('.dropdown-button').dropdown({
-    hover: true,
+    hover: false,
     belowOrigin: true
 });
 
@@ -43,16 +29,19 @@ $('.dropdown-button').dropdown({
 require('expose?Mousetrap!mousetrap');
 
 // Translation
-require('expose?I18n!./modules/i18n');
-require('./modules/translation/fr.js');
-require('./modules/translation/en.js');
+require('expose-loader?I18n!imports-loader?define=>false,require=>false!./modules/i18n');
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
+
+// var reactTestUpdate = require("why-did-you-update");
+// if (process.env.NODE_ENV !== 'production') {
+//     reactTestUpdate.whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton|FlatButtonLabel|FontIcon|Menu|Touch|Icon|Paper|EventListener|Overlay|AutoLock|Popover|List|MuiThemeProvider|ReactTransitionGroup|Card)/ })
+// }
 
 // Configure log level
 if (window.railsEnv === 'development') {
     log.setLevel('info');
-    var screenLog = require('./modules/screenLog');
+    const screenLog = require('./modules/screenLog');
     screenLog.init({freeConsole: true});
     log.now = function (data, colorStyle) {
         screenLog.log(data, colorStyle);
@@ -63,15 +52,33 @@ if (window.railsEnv === 'development') {
     };
 }
 
+log.table = function (data) {
+    console.table(data);
+};
+
 // Error management
-var ErrorActions = require('./actions/errorActions');
-require('./stores/errorStore');
+import ErrorStore from './stores/errorStore';
 window.onerror = function (message, url, lineNumber, columnNumber, trace) {
-    if(!trace)  {
+    try {
+        const reactRootComponent = document.getElementsByClassName('react-root');
+
+        if (reactRootComponent[0]) {
+            // Test if React component
+            if (!ReactDOM.findDOMNode(reactRootComponent[0]).children[0]) {
+                Materialize.toast(I18n.t('js.helpers.errors.frontend') + '&nbsp;<a href="/">' + I18n.t('js.helpers.home') + '</a>');
+            }
+        }
+    }
+    catch (e) {
+        // Root node is not a React component so React is not mounted
+        Materialize.toast(I18n.t('js.helpers.errors.frontend') + '&nbsp;<a href="/">' + I18n.t('js.helpers.home') + '</a>');
+    }
+
+    if (!trace) {
         trace = {};
     }
 
-    ErrorActions.pushError({
+    ErrorStore.pushError({
         message: message,
         url: url,
         lineNumber: lineNumber,
@@ -79,6 +86,7 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
         trace: trace.stack,
         origin: 'client'
     });
+
     if (window.railsEnv === 'development') {
         log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'red');
     }
@@ -86,7 +94,7 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
 
 // IE10 viewport hack for Surface/desktop Windows 8 bug
 if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-    var msViewportStyle = document.createElement('style');
+    const msViewportStyle = document.createElement('style');
     msViewportStyle.appendChild(
         document.createTextNode(
             '@-ms-viewport{width:auto!important}'

@@ -1,18 +1,17 @@
-var gulp         = require('gulp');
-var cache        = require('gulp-cached');
-var sass         = require('gulp-sass');
-var sourceMaps   = require('gulp-sourcemaps');
-var browserSync  = require('browser-sync');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const sourceMaps = require('gulp-sourcemaps');
+const browserSync = require('browser-sync');
 
-var handleErrors = require('../lib/handleErrors');
-var config       = require('../config').sass;
+const handleErrors = require('../lib/handleErrors');
+const config = require('../config').sass;
 
-gulp.task('sass', function () {
-    return gulp.src(config.src)
+gulp.task('sass', () =>
+    gulp.src(config.src)
         .pipe(sourceMaps.init())
         .pipe(sass(config.settings))
         .on('error', handleErrors)
         .pipe(sourceMaps.write())
         .pipe(gulp.dest(config.dest))
-        .pipe(browserSync.reload({stream:true}));
-});
+        .pipe(browserSync.reload({stream: true}))
+);
