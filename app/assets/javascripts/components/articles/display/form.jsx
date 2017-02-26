@@ -16,7 +16,7 @@ var ArticleFormDisplay = React.createClass({
         id: React.PropTypes.string.isRequired,
         multipleId: React.PropTypes.number,
         children: React.PropTypes.object,
-        isTemporary: React.PropTypes.bool,
+        isDraft: React.PropTypes.bool,
         articleErrors: React.PropTypes.array,
         onCancel: React.PropTypes.func,
         onSubmit: React.PropTypes.func
@@ -30,7 +30,7 @@ var ArticleFormDisplay = React.createClass({
         return {
             multipleId: null,
             children: null,
-            isTemporary: null,
+            isDraft: null,
             articleErrors: null,
             onCancel: null,
             onSubmit: null
@@ -44,7 +44,7 @@ var ArticleFormDisplay = React.createClass({
             isLink: null,
             submitTooltipMessage: I18n.t('js.article.common.tooltips.title_too_short'),
             isProcessing: false,
-            isTemporary: this.props.isTemporary || false
+            isDraft: this.props.isDraft || false
         };
     },
 
@@ -153,8 +153,7 @@ var ArticleFormDisplay = React.createClass({
 
                             <div className="col s12 margin-top-10">
                                 <ArticleAdvancedField article={this.props.children || {}}
-                                                      isTemporary={this.props.children ? this.props.children.temporary : this.state.isTemporary}
-                                                      isLink={this.props.children ? this.props.children.is_link : this.state.isLink}
+                                                      isDraft={this.props.children ? this.props.children.draft : this.state.isDraft}
                                                       tags={this.state.tags}
                                                       multipleId={this.props.multipleId}/>
                             </div>

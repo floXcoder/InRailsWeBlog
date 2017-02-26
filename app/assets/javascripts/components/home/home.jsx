@@ -80,7 +80,7 @@ const HomePage = React.createClass({
         if (this.props.location.pathname !== '/article/new') {
             this.context.router.push({
                 pathname: '/article/new',
-                state: {article: {content: SanitizePaste.parse(content), temporary: true}}
+                state: {article: {content: SanitizePaste.parse(content), draft: true}}
             });
         }
     },

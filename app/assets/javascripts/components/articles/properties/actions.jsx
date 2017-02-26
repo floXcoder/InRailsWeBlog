@@ -12,8 +12,6 @@ const ArticleLink = require('../properties/link');
 
 const ArticleActions = ({article, onBookmarkClick, onEditClick, onVisibilityClick}) => (
     <FixedActionButton>
-        <ArticleLinkIcon isLink={article.is_link}/>
-
         <ArticleBookmarkIcon article={article}
                              onBookmarkClick={onBookmarkClick}/>
 

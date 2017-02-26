@@ -8,7 +8,7 @@ const UserAvatarIcon = ({user, className}) => (
     <Link className={className}
           to={`/user/profile/${user.slug}`}
           onClick={(event) => {
-              UserAvatarIcon._handleAuthorClick(user.id, event)
+              UserAvatarIcon._handleUserClick(user.id, event)
           }}>
         <div className="chip user-avatar">
             {
@@ -36,8 +36,8 @@ UserAvatarIcon.getDefaultProps = {
     className: null
 };
 
-UserAvatarIcon._handleAuthorClick = (authorId, event) => {
-    UserStore.onTrackClick(authorId);
+UserAvatarIcon._handleUserClick = (userId, event) => {
+    UserStore.onTrackClick(userId);
     return event;
 };
 

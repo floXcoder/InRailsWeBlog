@@ -10,7 +10,7 @@
 #  allow_comment   :boolean          default(TRUE), not null
 #  private_content :boolean          default(FALSE), not null
 #  link         :boolean          default(FALSE), not null
-#  temporary       :boolean          default(FALSE), not null
+#  draft       :boolean          default(FALSE), not null
 #  slug            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -23,8 +23,7 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :title,
              :summary,
              :content,
-             :temporary,
-             :is_link,
+             :draft,
              :visibility,
              :updated_at,
              :link,

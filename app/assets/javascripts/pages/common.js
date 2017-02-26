@@ -51,10 +51,10 @@ if($app.user.isConnected()) {
 //     return false;
 // }.bind(this), 'keydown');
 //
-// // Temporary articles
+// // Draft articles
 // Mousetrap.bind('alt+v', function () {
 //     if($app.user.isConnected()) {
-//         window.location.pathname = '/users/' + window.currentUserId + '/temporary';
+//         window.location.pathname = '/users/' + window.currentUserId + '/draft';
 //     }
 //     return false;
 // }.bind(this), 'keydown');

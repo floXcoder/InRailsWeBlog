@@ -11,7 +11,7 @@ fr:
           user: "Mes articles"
           new: "Nouvel article"
           bookmark: "Articles favoris"
-          temporary: "Temporaires"
+          draft: "Temporaires"
       tags:
         button: "Labels"
       preferences:
@@ -139,7 +139,7 @@ fr:
           exact: "Le(s) mot(s) précis"
     article:
       common:
-        temporary: "Note temporaire ?"
+        draft: "Note temporaire ?"
         link: "Est un lien ?"
         allow_comment:
          title: "Autoriser les commentaires ?"
@@ -172,8 +172,7 @@ fr:
         content: "Contenu"
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
-        temporary: "Note temporaire"
-        is_link: "Lien"
+        draft: "Note temporaire"
         tags: "Labels associés"
         parent_tags: "Labels principaux"
         child_tags: "Labels fils"

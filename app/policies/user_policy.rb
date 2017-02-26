@@ -14,7 +14,7 @@ class UserPolicy
     owner?
   end
 
-  def temporary?
+  def draft?
     owner?
   end
 

@@ -127,7 +127,7 @@ var ArticleShow = React.createClass({
         }
     },
 
-    _handleAuthorClick (userId, event) {
+    _handleUserClick (userId, event) {
         UserStore.onTrackClick(userId);
         return event;
     },
@@ -226,8 +226,6 @@ var ArticleShow = React.createClass({
 
                                     <ArticleBookmarkIcon article={this.state.article}
                                                          onBookmarkClick={this._handleBookmarkClick}/>
-
-                                    <ArticleLinkIcon isLink={this.state.article.is_link}/>
 
                                     <ArticleOutdatedIcon article={this.state.article}
                                                          onOutdatedClick={this._handleOutdatedClick}/>

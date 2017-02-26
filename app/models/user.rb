@@ -80,8 +80,8 @@ class User < ApplicationRecord
            class_name: 'Article',
            dependent:  :destroy
 
-  has_many :temporary_articles,
-           -> { where temporary: true },
+  has_many :draft_articles,
+           -> { where draft: true },
            class_name: 'Article'
 
   has_many :tags,
@@ -265,8 +265,10 @@ class User < ApplicationRecord
 
       if model_name.classify == 'User'
         return following_user.include?(related_object)
-      elsif model_name.classify == 'Shop'
-        return following_shop.include?(related_object)
+      elsif model_name.classify == 'Article'
+        return following_article.include?(related_object)
+      elsif model_name.classify == 'Tag'
+        return following_tag.include?(related_object)
       else
         return false
       end

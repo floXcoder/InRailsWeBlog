@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20160623210717) do
     t.boolean  "private_content",           default: false, null: false
     t.boolean  "is_link",                   default: false, null: false
     t.text     "reference"
-    t.boolean  "temporary",                 default: false, null: false
+    t.boolean  "draft",                 default: false, null: false
     t.string   "language"
     t.boolean  "allow_comment",             default: true,  null: false
     t.integer  "notation",                  default: 0

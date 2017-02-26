@@ -68,11 +68,11 @@ class UsersController < ApplicationController
     render :show, locals: { user: user, mode: 'bookmark' }
   end
 
-  def temporary
+  def draft
     user = User.friendly.find(params[:id])
     authorize user
 
-    render :show, locals: { user: user, mode: 'temporary' }
+    render :show, locals: { user: user, mode: 'draft' }
   end
 
   def comments

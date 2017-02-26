@@ -11,7 +11,7 @@
 #  private_content           :boolean          default(FALSE), not null
 #  is_link                   :boolean          default(FALSE), not null
 #  reference                 :text
-#  temporary                 :boolean          default(FALSE), not null
+#  draft                 :boolean          default(FALSE), not null
 #  language                  :string
 #  allow_comment             :boolean          default(TRUE), not null
 #  notation                  :integer          default(0)
@@ -40,8 +40,7 @@ class ArticleSerializer < ActiveModel::Serializer
              :allow_comment,
              :visibility,
              :visibility_translated,
-             :is_link,
-             :temporary,
+             :draft,
              :bookmarked,
              :outdated,
              :slug,

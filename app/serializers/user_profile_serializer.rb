@@ -48,7 +48,7 @@ class UserProfileSerializer < ActiveModel::Serializer
              :slug,
              :avatar,
              :articles_count,
-             :temporary_count,
+             :draft_count,
              :preferences,
              :current_topic
 
@@ -58,8 +58,8 @@ class UserProfileSerializer < ActiveModel::Serializer
     object.articles.count
   end
 
-  def temporary_count
-    object.temporary_articles.count
+  def draft_count
+    object.draft_articles.count
   end
 
   def preferences

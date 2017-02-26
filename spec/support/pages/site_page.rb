@@ -127,12 +127,7 @@ shared_examples 'a valid page' do
 
         is_expected.to have_selector('a.search-toggle', text: 'search')
 
-        is_expected.to have_selector("a[href=\"#{explore_shops_fr_path}?trade=art\"]", text: /#{t('views.header.shop.art')}/i, visible: false)
-        is_expected.to have_selector("a[href=\"#{explore_shops_fr_path}?trade=terroir\"]", text: /#{t('views.header.shop.terroir')}/i, visible: false)
-        is_expected.to have_selector("a[href=\"#{new_shop_fr_path}\"]", text: /#{t('views.header.shop.add')}/i, visible: false)
-
-        is_expected.to have_selector("a[href=\"#{explore_rides_fr_path}\"]", text: /#{t('views.header.ride.explore')}/i, visible: false)
-        is_expected.to have_selector("a[href=\"#{new_ride_fr_path}\"]", text: /#{t('views.header.ride.add')}/i, visible: false)
+        # is_expected.to have_selector("a[href=\"#{explore_shops_fr_path}?trade=art\"]", text: /#{t('views.header.shop.art')}/i, visible: false)
 
         if content[:connected]
           is_expected.to have_selector("a[href=\"#{logout_fr_path}\"]", text: /#{t('views.header.log_out')}/i, visible: false)

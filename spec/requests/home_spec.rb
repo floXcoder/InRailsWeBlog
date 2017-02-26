@@ -5,7 +5,7 @@ describe 'Home API', type: :request, basic: true do
 
   describe '/ (HTML)' do
     it 'returns home page' do
-      get '/rides'
+      get '/'
 
       expect(response).to be_html_response
       expect(response.body).to match('id="home-component"')

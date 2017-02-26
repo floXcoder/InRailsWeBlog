@@ -40,12 +40,12 @@ var HomeArticleHeader = ({}) => {
                 <Divider />
 
                 <MenuItem primaryText={
-                            <Link to={`/article/user/${$app.user.current.id}/temporary`}
+                            <Link to={`/article/user/${$app.user.current.id}/draft`}
                                   activeClassName="link-active">
-                                {I18n.t('js.header.articles.menu.temporary')}
+                                {I18n.t('js.header.articles.menu.draft')}
                             </Link>
                           }
-                          rightIcon={<Badge badgeContent={$app.user.current.temporary_count} secondary={true}/>}/>
+                          rightIcon={<Badge badgeContent={$app.user.current.draft_count} secondary={true}/>}/>
             </IconMenu>
         );
     } else {

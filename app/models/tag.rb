@@ -251,7 +251,7 @@ class Tag < ApplicationRecord
     Tag.track_searches(results.records.ids)
 
     {
-      shops:       results.records,
+      tags:       results.records,
       highlight:   Hash[results.with_details.map { |tag, details| [tag.id, details[:highlight]] }],
       suggestions: results.suggestions,
       total_count: results.total_count,

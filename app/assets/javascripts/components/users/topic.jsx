@@ -73,25 +73,6 @@ var UserPreference = React.createClass({
             }
         }
 
-        // if (rideData.type === 'addPoi' || rideData.type === 'updatePoi') {
-        //     newState.pois = [];
-        //     this.state.pois.forEach((poi) => {
-        //         if (rideData.poi.number === poi.number) {
-        //             newState.pois.push(rideData.poi);
-        //         } else {
-        //             newState.pois.push(poi);
-        //         }
-        //     });
-        //
-        //     newState.poiDisabledButtons = _.omit(this.state.poiDisabledButtons, rideData.poi.number);
-        // }
-        //
-        // if (rideData.type === 'deletePoi') {
-        //     newState.pois = _.remove(this.state.pois, (poi) => {
-        //         return poi.id != rideData.deletedPoi.id
-        //     });
-        // }
-
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }

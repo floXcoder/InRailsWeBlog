@@ -68,7 +68,7 @@ RSpec.describe Comment, type: :model do
 
     it { expect(@comment.user_id).to eq(@user.id) }
     it { expect(@comment.commentable_id).to eq(@commentable.id) }
-    it { expect(@comment.commentable_type).to eq('Ride') }
+    it { expect(@comment.commentable_type).to eq('Article') }
     it { expect(@comment.title).to match 'My comment title' }
     it { expect(@comment.subject).to match 'My comment subject' }
     it { expect(@comment.body).to match 'My comment body' }

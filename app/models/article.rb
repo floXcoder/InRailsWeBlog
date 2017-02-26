@@ -11,7 +11,7 @@
 #  private_content           :boolean          default(FALSE), not null
 #  is_link                   :boolean          default(FALSE), not null
 #  reference                 :text
-#  temporary                 :boolean          default(FALSE), not null
+#  draft                 :boolean          default(FALSE), not null
 #  language                  :string
 #  allow_comment             :boolean          default(TRUE), not null
 #  notation                  :integer          default(0)
@@ -163,7 +163,7 @@ class Article < ApplicationRecord
   scope :with_parent_tags, -> (parent_tags) { joins(:tags).where(tagged_articles: { parent: true }, tags: { name: parent_tags }) }
   scope :with_child_tags, -> (child_tags) { joins(:tags).where(tagged_articles: { child: true }, tags: { name: child_tags }) }
 
-  scope :published, -> { where(temporary: false) }
+  scope :published, -> { where(draft: false) }
 
   scope :bookmarked_by_user,
         -> (user_id) { joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
@@ -217,7 +217,7 @@ class Article < ApplicationRecord
     where_options[:tags]  = { all: options[:tags] } if options[:tags]
 
     # Boost user articles first
-    boost_where           = options[:current_user_id] ? { author_id: options[:current_user_id] } : nil
+    boost_where           = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
 
     # Page parameters
     page                  = options[:page] ? options[:page] : 1
@@ -244,7 +244,7 @@ class Article < ApplicationRecord
     Article.track_searches(results.records.ids)
 
     {
-      shops:       results.records,
+      articles:       results.records,
       highlight:   Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }],
       suggestions: results.suggestions,
       total_count: results.total_count,
@@ -283,7 +283,7 @@ class Article < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    user.id == self.author_id if user
+    user.id == self.user_id if user
   end
 
   def format_attributes(attributes = {}, current_user = nil)
@@ -466,10 +466,10 @@ class Article < ApplicationRecord
   end
 
   def adapted_content(current_user_id)
-    if self.private_content && self.user.id != current_user_id
-      self.public_content
+    if has_private_content? && self.user_id != current_user_id
+      public_content
     else
-      self.content
+      content
     end
   end
 
@@ -498,16 +498,15 @@ class Article < ApplicationRecord
 
   def search_data
     {
-      author_id:      author_id,
+      user_id:      user_id,
       topic_id:       topic_id,
       title:          title,
       summary:        summary,
       content:        strip_content,
       public_content: public_content,
-      is_link:        is_link,
       notation:       notation,
       priority:       priority,
-      temporary:      temporary,
+      draft:      draft,
       language:       language,
       visibility:     visibility,
       archived:       archived,

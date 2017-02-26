@@ -9,7 +9,7 @@ en:
           user: "Mes articles"
           new: "Nouvel article"
           bookmark: "Articles favoris"
-          temporary: "Temporaires"
+          draft: "Temporaires"
       tags:
         button: "Labels"
       preferences:
@@ -119,7 +119,7 @@ en:
           exact: "Exact word(s)"
     article:
       common:
-        temporary: "Note temporaire ?"
+        draft: "Note temporaire ?"
         link: "Est un lien ?"
         allow_comment:
          title: "Autoriser les commentaires ?"
@@ -145,7 +145,7 @@ en:
         comment:
           true: "Activated"
           false: "Deactivated"
-        temporary: "Temporary note?"
+        draft: "Draft note?"
         link: "Is a link?"
         tags: "Labels associés"
       enums:
@@ -196,8 +196,8 @@ en:
         no_articles: "No articles to display"
       clipboard:
         toast:
-          init: "Paste on website detected, new temporary article creation in progress..."
-          done: "A new temporary article has been created!"
+          init: "Paste on website detected, new draft article creation in progress..."
+          done: "A new draft article has been created!"
       errors:
 #        default: "Can not create article! Please retry."
 #        not_authorized: "You are not authorized to access to this article"

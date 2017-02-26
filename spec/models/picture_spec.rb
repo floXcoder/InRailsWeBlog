@@ -26,7 +26,7 @@ RSpec.describe Picture, type: :model do
   before do
     @picture = Picture.create(
       user:               @user,
-      imageable_type:     'Ride',
+      imageable_type:     'Article',
       description:        'Picture description',
       copyright:          'Picture copyright',
       image:              'my_image.jpg',
@@ -56,7 +56,7 @@ RSpec.describe Picture, type: :model do
     it { is_expected.to respond_to(:image_secure_token) }
     it { is_expected.to respond_to(:original_filename) }
 
-    it { expect(@picture.imageable_type).to match('Ride') }
+    it { expect(@picture.imageable_type).to match('Article') }
     it { expect(@picture.description).to match('Picture description') }
     it { expect(@picture.copyright).to match('Picture copyright') }
     it { expect(@picture.image).to be_a(PictureUploader) }
@@ -83,7 +83,7 @@ RSpec.describe Picture, type: :model do
     describe 'Default Attributes', basic: true do
       before do
         @picture = Picture.create(
-          imageable_type: 'Ride',
+          imageable_type: 'Article',
           image:          'my_image.jpg',
           image_tmp:      'my_tmp_image'
         )
@@ -127,7 +127,7 @@ RSpec.describe Picture, type: :model do
       it 'format attributes' do
         picture_attributes = {
           model_id:    1,
-          model:       'ride',
+          model:       'Article',
           description: 'Image description',
           copyright:   'Image copyright',
           file:        'image.jpg',
@@ -137,7 +137,7 @@ RSpec.describe Picture, type: :model do
         picture.format_attributes(picture_attributes)
 
         expect(picture.imageable_id).to eq(1)
-        expect(picture.imageable_type).to eq('Ride')
+        expect(picture.imageable_type).to eq('Article')
         expect(picture.description).to eq('Image description')
         expect(picture.copyright).to eq('Image copyright')
         expect(@picture.image).to be_a(PictureUploader)

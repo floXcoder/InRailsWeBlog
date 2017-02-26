@@ -31,14 +31,14 @@ var ArticleNew = React.createClass({
 
     getInitialState () {
         return {
-            temporaryArticle: null,
+            draftArticle: null,
             articleErrors: null
         };
     },
 
     componentWillMount () {
         if (this.props.location.state && this.props.location.state.article) {
-            this.setState({temporaryArticle: this.props.location.state.article});
+            this.setState({draftArticle: this.props.location.state.article});
             Materialize.toast(I18n.t('js.article.clipboard.toast.done'), 5000);
         }
     },
@@ -85,7 +85,7 @@ var ArticleNew = React.createClass({
     //     _.merge(submitData, this.refs.commonFields.serialize());
     //     _.merge(submitData, this._serializeTag());
     //
-    //     _.merge(submitData, {isTemporary: this.refs.isTemporary.state.checked});
+    //     _.merge(submitData, {isDraft: this.refs.isDraft.state.checked});
     //     if (this.state.isLink) {
     //         _.merge(submitData, {link: this.state.isLink});
     //     }
@@ -130,7 +130,7 @@ var ArticleNew = React.createClass({
                                     onSubmit={this._handleArticleSubmit}
                                     onCancel={this._onCancel}
                                     articleErrors={this.state.articleErrors}>
-                    {this.state.temporaryArticle}
+                    {this.state.draftArticle}
                 </ArticleFormDisplay>
             </div>
         );

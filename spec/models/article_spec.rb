@@ -11,7 +11,7 @@
 #  private_content           :boolean          default(FALSE), not null
 #  is_link                   :boolean          default(FALSE), not null
 #  reference                 :text
-#  temporary                 :boolean          default(FALSE), not null
+#  draft                 :boolean          default(FALSE), not null
 #  language                  :string
 #  allow_comment             :boolean          default(TRUE), not null
 #  notation                  :integer          default(0)
@@ -46,7 +46,7 @@ RSpec.describe Article, type: :model do
       visibility:                'everyone',
       notation:                  1,
       priority:                  1,
-      temporary:                 false,
+      draft:                 false,
       allow_comment:             false,
       archived:                  false,
       accepted:                  true,
@@ -65,10 +65,8 @@ RSpec.describe Article, type: :model do
     it { is_expected.to respond_to(:title) }
     it { is_expected.to respond_to(:summary) }
     it { is_expected.to respond_to(:content) }
-    # it { is_expected.to respond_to(:private_content) }
-    # it { is_expected.to respond_to(:is_link) }
     it { is_expected.to respond_to(:reference) }
-    it { is_expected.to respond_to(:temporary) }
+    it { is_expected.to respond_to(:draft) }
     it { is_expected.to respond_to(:language) }
     it { is_expected.to respond_to(:allow_comment) }
     it { is_expected.to respond_to(:notation) }
@@ -87,7 +85,7 @@ RSpec.describe Article, type: :model do
     it { expect(@article.notation).to eq(1) }
     it { expect(@article.priority).to eq(1) }
     it { expect(@article.visibility).to eq('everyone') }
-    it { expect(@article.temporary).to be false }
+    it { expect(@article.draft).to be false }
     it { expect(@article.allow_comment).to be false }
     it { expect(@article.archived).to be false }
     it { expect(@article.accepted).to be false }
@@ -107,7 +105,7 @@ RSpec.describe Article, type: :model do
       it { expect(@article.notation).to eq(1) }
       it { expect(@article.priority).to eq(1) }
       it { expect(@article.visibility).to eq('everyone') }
-      it { expect(@article.temporary).to be false }
+      it { expect(@article.draft).to be false }
       it { expect(@article.allow_comment).to be false }
       it { expect(@article.archived).to be false }
       it { expect(@article.accepted).to be true }
@@ -163,7 +161,7 @@ RSpec.describe Article, type: :model do
   context 'Associations', basic: true do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to validate_presence_of(:user) }
-    it { is_expected.to have_db_index(:author_id) }
+    it { is_expected.to have_db_index(:user_id) }
 
     it { is_expected.to belong_to(:topic) }
 
@@ -177,10 +175,6 @@ RSpec.describe Article, type: :model do
 
     it { is_expected.to have_many(:outdated_articles) }
     it { is_expected.to have_many(:marked_as_outdated) }
-
-    it { is_expected.to have_many(:affiliations) }
-    it { is_expected.to have_many(:all_affiliations) }
-    it { is_expected.to have_many(:affiliated_rides) }
 
     it { is_expected.to have_many(:pictures) }
     it { is_expected.to accept_nested_attributes_for(:pictures) }

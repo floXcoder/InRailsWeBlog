@@ -60,7 +60,7 @@ var TagShow = React.createClass({
         }
     },
 
-    _handleAuthorClick (userId, event) {
+    _handleUserClick (userId, event) {
         UserStore.onTrackClick(userId);
         return event;
     },

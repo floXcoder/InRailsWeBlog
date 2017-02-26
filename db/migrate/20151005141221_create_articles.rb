@@ -7,10 +7,8 @@ class CreateArticles < ActiveRecord::Migration[5.0]
       t.string      :title
       t.text        :summary
       t.text        :content,         null: false
-      t.boolean     :private_content, null: false,    default: false
-      t.boolean     :is_link,         null: false,    default: false
       t.text        :reference
-      t.boolean     :temporary,       null: false,    default: false
+      t.boolean     :draft,       null: false,    default: false
       t.string      :language
       t.boolean     :allow_comment,   null: false,    default: true
       t.integer     :notation,                        default: 0

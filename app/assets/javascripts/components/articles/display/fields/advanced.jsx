@@ -5,7 +5,7 @@ const Switch = require('../../../materialize/switch');
 const Checkbox = require('../../../materialize/checkbox');
 const CategorizedTag = require('../../../materialize/categorized-tag');
 
-var ArticleAdvancedField = ({article, tags, isTemporary, isLink, multipleId}) => (
+var ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
     <div className="row margin-top-10">
         <div className="col s12 m6 l6">
             <CategorizedTag id="article_parent_tags"
@@ -29,18 +29,10 @@ var ArticleAdvancedField = ({article, tags, isTemporary, isLink, multipleId}) =>
         </div>
 
         <div className="col s12 m6 l3">
-            <Checkbox id="article_temporary"
+            <Checkbox id="article_draft"
                       multipleId={multipleId}
-                      title={I18n.t('js.article.common.temporary')}>
-                {isTemporary}
-            </Checkbox>
-
-            <div className="margin-bottom-20"/>
-
-            <Checkbox id="article_is_link"
-                      multipleId={multipleId}
-                      title={I18n.t('js.article.common.link')}>
-                {isLink}
+                      title={I18n.t('js.article.common.draft')}>
+                {isDraft}
             </Checkbox>
         </div>
 
@@ -101,7 +93,7 @@ ArticleAdvancedField._categorizedTags = (tags) => {
 ArticleAdvancedField.propTypes = {
     article: React.PropTypes.object,
     tags: React.PropTypes.array,
-    isTemporary: React.PropTypes.bool,
+    isDraft: React.PropTypes.bool,
     isLink: React.PropTypes.bool,
     multipleId: React.PropTypes.number
 };
@@ -109,7 +101,7 @@ ArticleAdvancedField.propTypes = {
 ArticleAdvancedField.defaultProps = {
     article: {},
     tags: [],
-    isTemporary: false,
+    isDraft: false,
     isLink: false,
     multipleId: null
 };

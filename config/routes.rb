@@ -34,7 +34,7 @@ InRailsWeBlog::Application.routes.draw do
       put     :topic,         to: 'users#update_topic'
       delete  :topic,         to: 'users#remove_topic'
 
-      get     :temporary,     to: 'users#temporary',          as: :temporary
+      get     :draft,     to: 'users#draft',          as: :draft
       get     :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
       get     :comments,      to: 'users#comments',           as: :comments
       get     :activities,    to: 'users#activities',         as: :activities

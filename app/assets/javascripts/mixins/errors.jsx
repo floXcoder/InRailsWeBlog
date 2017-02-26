@@ -13,7 +13,6 @@ var ErrorsMixin = {
                 }
             } else if (error === 'Unprocessable Entity') {
                 var errorMessage = JSON.parse(xhr.responseText);
-                // Function called for each shop
                 if (this.displayErrorsMessage !== undefined) {
                     this.displayErrorsMessage(url, errorMessage);
                 }

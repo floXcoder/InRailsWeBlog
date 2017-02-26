@@ -209,7 +209,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:topics) }
 
     it { is_expected.to have_many(:articles) }
-    it { is_expected.to have_many(:temporary_articles) }
+    it { is_expected.to have_many(:draft_articles) }
 
     it { is_expected.to have_many(:bookmarked_articles) }
     it { is_expected.to have_many(:bookmarks) }

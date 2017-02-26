@@ -10,7 +10,7 @@
 #  allow_comment   :boolean          default(TRUE), not null
 #  private_content :boolean          default(FALSE), not null
 #  link         :boolean          default(FALSE), not null
-#  temporary       :boolean          default(FALSE), not null
+#  draft       :boolean          default(FALSE), not null
 #  slug            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -42,13 +42,13 @@ class ArticlesController < ApplicationController
                  articles.with_tags(tag_names)
                elsif params[:type] == 'bookmark'
                  articles.where(id: current_user.bookmarks.ids)
-               elsif params[:type] == 'temporary'
-                 articles.where(temporary: true)
+               elsif params[:type] == 'draft'
+                 articles.where(draft: true)
                else
                  articles.published
                end
 
-    articles = articles.where(author_id: User.friendly.find(params[:user_id])) if params[:user_id]
+    articles = articles.where(user_id: User.friendly.find(params[:user_id])) if params[:user_id]
     articles = articles.where(topic_id: Topic.friendly.find(params[:topic_id])) if params[:topic_id]
     articles = params[:limit] ? articles.limit(params[:limit]) : articles.paginate(page: params[:page], per_page: CONFIG.per_page)
     articles = articles.uniq
@@ -388,8 +388,7 @@ class ArticlesController < ApplicationController
                                      :notation,
                                      :priority,
                                      :allow_comment,
-                                     :temporary,
-                                     :is_link,
+                                     :draft,
                                      :topic,
                                      parent_tags: [],
                                      child_tags:  [])
