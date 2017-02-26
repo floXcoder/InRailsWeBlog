@@ -39,7 +39,6 @@ class Topic < ApplicationRecord
              word_middle: [:name, :description],
              suggest:     [:name],
              highlight:   [:name, :description],
-             include:     [:user],
              language:    (I18n.locale == :fr) ? 'French' : 'English'
 
   # Marked as deleted
@@ -90,7 +89,7 @@ class Topic < ApplicationRecord
             allow_nil:  false
 
   validates :description,
-            length:   { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length }
+            length: { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length }
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
@@ -113,6 +112,158 @@ class Topic < ApplicationRecord
   # == Callbacks ============================================================
 
   # == Class Methods ========================================================
+  # Article Search
+  # +query+ parameter: string to query
+  # +options+ parameter:
+  #  current_user_id (current user id)
+  #  current_topic_id (current topic id for current user)
+  #  page (page number for pagination)
+  #  per_page (number of articles per page for pagination)
+  #  exact (exact search or include misspellings, default: 2)
+  #  tags (array of tags associated with articles)
+  #  operator (array of tags associated with articles, default: AND)
+  #  highlight (highlight content, default: true)
+  #  exact (do not misspelling, default: false, 1 character)
+  def self.search_for(query, options = {})
+    return { topics: [] } if Topic.count.zero?
+
+    # If query not defined or blank, search for everything
+    query_string          = !query || query.blank? ? '*' : query
+
+    # Fields with boost
+    fields                = %w(name^10 description)
+
+    # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
+    misspellings_distance = options[:exact] || query_string.length < 7 ? 0 : 2
+    misspellings_retry    = 3
+
+    # Operator type: 'and' or 'or'
+    operator              = options[:operator] ? options[:operator] : 'and'
+
+    # Highlight results and select a fragment
+    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
+    highlight             = false
+
+    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
+    where_options         = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
+      [key, value]
+    end.to_h if options[:where]
+
+    where_options ||= {}
+
+    # Aggregations
+    aggregations  = {}
+
+    # Boost user articles first
+    boost_where   = nil
+
+    # Page parameters
+    page          = options[:page] ? options[:page] : 1
+    per_page      = options[:per_page] ? options[:per_page] : CONFIG.per_page
+
+    # Order search
+    if options[:order]
+      order = if options[:order] == 'id_first'
+                { id: :asc }
+              elsif options[:order] == 'id_last'
+                { id: :desc }
+              elsif options[:order] == 'created_first'
+                { created_at: :asc }
+              elsif options[:order] == 'created_last'
+                { created_at: :desc }
+              elsif options[:order] == 'updated_first'
+                { updated_at: :asc }
+              elsif options[:order] == 'updated_last'
+                { updated_at: :desc }
+              end
+    end
+
+    # Perform search
+    results = Article.search(query_string,
+                             fields:       fields,
+                             boost_where:  boost_where,
+                             highlight:    highlight,
+                             match:        :word_middle,
+                             misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
+                             suggest:      true,
+                             page:         page,
+                             per_page:     per_page,
+                             operator:     operator,
+                             where:        where_options,
+                             order:        order,
+                             aggs:         aggregations,
+                             includes:     [:user])
+
+    formatted_aggregations = {}
+    results.aggs.each do |key, value|
+      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
+    end
+
+    # Track search results
+    Topic.track_searches(results.records.ids)
+
+    topics = results.records
+    topics = topics.includes(:user)
+    topics = topics.order_by(options[:order]) if order
+
+    {
+      topics:       topics.records,
+      highlight:    highlight ? Hash[results.with_details.map { |topic, details| [topic.id, details[:highlight]] }] : [],
+      suggestions:  results.suggestions,
+      aggregations: formatted_aggregations,
+      total_count:  results.total_count,
+      total_pages:  results.total_pages
+    }
+  end
+
+  def self.autocomplete_for(query, options = {})
+    return Topic.none if Topic.count.zero?
+
+    # If query not defined or blank, search for everything
+    query_string  = !query || query.blank? ? '*' : query
+
+    # Where options only for ElasticSearch
+    where_options = options[:where].compact.map do |key, value|
+      [key, value]
+    end.to_h if options[:where]
+
+    # Set result limit
+    limit         = options[:limit] ? options[:limit] : CONFIG.per_page
+
+    # Perform search
+    results       = Topic.search(query_string,
+                                 fields:       %w(name^3 description),
+                                 match:        :word_middle,
+                                 misspellings: false,
+                                 load:         false,
+                                 where:        where_options,
+                                 limit:        limit)
+
+    return results.map do |topic|
+      {
+        name:    topic.name,
+        summary: topic.summary,
+        icon:    'topic',
+        link:    Rails.application.routes.url_helpers.topic_path(topic.slug)
+      }
+    end
+  end
+
+  def self.order_by(order)
+    if order == 'id_first'
+      order('id ASC')
+    elsif order == 'id_last'
+      order('id DESC')
+    elsif order == 'created_first'
+      order('created_at ASC')
+    elsif order == 'created_last'
+      order('created_at DESC')
+    elsif order == 'updated_first'
+      order('updated_at ASC')
+    else
+      self
+    end
+  end
 
   # == Instance Methods =====================================================
   def user?(user)
@@ -154,4 +305,21 @@ class Topic < ApplicationRecord
       [:name, :id]
     ]
   end
+
+  def search_data
+    {
+      id:          id,
+      user_id:     user_id,
+      name:        name,
+      description: description,
+      priority:    priority,
+      visibility:  visibility,
+      archived:    archived,
+      accepted:    accepted,
+      created_at:  created_at,
+      updated_at:  updated_at,
+      slug:        slug
+    }
+  end
+
 end

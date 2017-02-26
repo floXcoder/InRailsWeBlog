@@ -52,12 +52,11 @@ class Tag < ApplicationRecord
              word_middle: [:name, :description],
              suggest:     [:name],
              highlight:   [:name, :description],
-             include:     [:user],
              language:    (I18n.locale == :fr) ? 'French' : 'English'
 
   # == Relationships ========================================================
   belongs_to :user,
-             class_name: 'User',
+             class_name:    'User',
              counter_cache: true
 
   has_many :tagged_topics
@@ -116,7 +115,7 @@ class Tag < ApplicationRecord
            source:  :user
 
   has_many :activities,
-           as: :trackable,
+           as:         :trackable,
            class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
@@ -193,25 +192,24 @@ class Tag < ApplicationRecord
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
+    return { tags: [] } if Tag.count.zero?
+
     # If query not defined or blank, search for everything
     query_string          = !query || query.blank? ? '*' : query
 
     # Fields with boost
-    fields                = if I18n.locale == :fr
-                              %w(name^10 description)
-                            else
-                              %w(name^10 description)
-                            end
+    fields                = %w(name^10 description)
 
-    # Misspelling, specify number of characters
-    misspellings_distance = options[:exact] ? 0 : 1
+    # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
+    misspellings_distance = options[:exact] || query_string.length < 7 ? 0 : 2
+    misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
     operator              = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
     # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight             = { tag: '<span class="blog-highlight">' }
+    highlight             = false
 
     # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
     where_options         = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
@@ -223,44 +221,87 @@ class Tag < ApplicationRecord
       else
         [key, value]
       end
-    end.to_h
+    end.to_h if options[:where]
+
+    where_options ||= {}
+
+    # Aggregations
+    aggregations  = {
+      notation: { where: { notation: { not: 0 } } }
+    }
 
     # Boost user articles first
-    boost_where           = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
+    boost_where   = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
 
     # Page parameters
-    page                  = options[:page] ? options[:page] : 1
-    per_page              = options[:per_page] ? options[:per_page] : CONFIG.per_page
+    page          = options[:page] ? options[:page] : 1
+    per_page      = options[:per_page] ? options[:per_page] : CONFIG.per_page
+
+    # Order search
+    if options[:order]
+      order = if options[:order] == 'id_first'
+                { id: :asc }
+              elsif options[:order] == 'id_last'
+                { id: :desc }
+              elsif options[:order] == 'created_first'
+                { created_at: :asc }
+              elsif options[:order] == 'created_last'
+                { created_at: :desc }
+              elsif options[:order] == 'updated_first'
+                { updated_at: :asc }
+              elsif options[:order] == 'updated_last'
+                { updated_at: :desc }
+              elsif options[:order] == 'rank_first'
+                { rank: :asc }
+              elsif options[:order] == 'rank_last'
+                { rank: :desc }
+              elsif options[:order] == 'popularity_first'
+                { popularity: :asc }
+              elsif options[:order] == 'popularity_last'
+                { popularity: :desc }
+              end
+    end
 
     # Perform search
-    results               = Tag.search(query_string,
-                                       fields:       fields,
-                                       boost_where:  boost_where,
-                                       highlight:    highlight,
-                                       match:        :word_middle,
-                                       misspellings: { edit_distance: misspellings_distance },
-                                       suggest:      true,
-                                       page:         page,
-                                       per_page:     per_page,
-                                       operator:     operator,
-                                       where:        where_options)
+    results = Tag.search(query_string,
+                         fields:       fields,
+                         boost_where:  boost_where,
+                         highlight:    highlight,
+                         match:        :word_middle,
+                         misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
+                         suggest:      true,
+                         page:         page,
+                         per_page:     per_page,
+                         operator:     operator,
+                         where:        where_options,
+                         order:        order,
+                         aggs:         aggregations,
+                         includes:     [:user])
 
-    return Tag.none unless results.any?
+    formatted_aggregations = {}
+    results.aggs.each do |key, value|
+      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
+    end
 
     # Track search results
     Tag.track_searches(results.records.ids)
 
+    tags = results.records
+    tags = tags.includes(:user)
+    tags = tags.order_by(options[:order]) if order
+
     {
-      tags:       results.records,
-      highlight:   Hash[results.with_details.map { |tag, details| [tag.id, details[:highlight]] }],
-      suggestions: results.suggestions,
-      total_count: results.total_count,
-      total_pages: results.total_pages
+      tags:         tags.records,
+      highlight:    highlight ? Hash[results.with_details.map { |tag, details| [tag.id, details[:highlight]] }] : [],
+      suggestions:  results.suggestions,
+      aggregations: formatted_aggregations,
+      total_count:  results.total_count,
+      total_pages:  results.total_pages
     }
   end
 
   def self.autocomplete_for(query, options = {})
-    return Tag.none if Article.count.zero?
+    return Tag.none if Tag.count.zero?
 
     # If query not defined or blank, search for everything
     query_string  = !query || query.blank? ? '*' : query
@@ -268,23 +309,54 @@ class Tag < ApplicationRecord
     # Where options only for ElasticSearch
     where_options = options[:where].compact.map do |key, value|
       [key, value]
-    end.to_h
+    end.to_h if options[:where]
 
     # Set result limit
-    limit         = options[:limit] ? options[:limit] : 10
+    limit         = options[:limit] ? options[:limit] : CONFIG.per_page
 
     # Perform search
-    results       = Article.search(query_string,
-                                   fields:       %w(name),
-                                   match:        :word_middle,
-                                   misspellings: { below: 5 },
-                                   load:         false,
-                                   where:        where_options,
-                                   limit:        limit)
+    results       = Tag.search(query_string,
+                               fields:       %w(name^3 description),
+                               match:        :word_middle,
+                               misspellings: false,
+                               load:         false,
+                               where:        where_options,
+                               limit:        limit)
 
-    return Tag.none unless results.any?
+    return results.map do |tag|
+      {
+        name:    tag.name,
+        summary: tag.summary,
+        icon:    'tag',
+        link:    Rails.application.routes.url_helpers.tag_path(tag.slug)
+      }
+    end
+  end
 
-    return results.records
+  def self.order_by(order)
+    if order == 'id_first'
+      order('id ASC')
+    elsif order == 'id_last'
+      order('id DESC')
+    elsif order == 'created_first'
+      order('created_at ASC')
+    elsif order == 'created_last'
+      order('created_at DESC')
+    elsif order == 'updated_first'
+      order('updated_at ASC')
+    elsif order == 'updated_last'
+      order('updated_at DESC')
+    elsif order == 'rank_first'
+      joins(:tracker).order('rank ASC')
+    elsif order == 'rank_last'
+      joins(:tracker).order('rank DESC')
+    elsif order == 'popularity_first'
+      joins(:tracker).order('popularity ASC')
+    elsif order == 'popularity_last'
+      joins(:tracker).order('popularity DESC')
+    else
+      self
+    end
   end
 
   def self.parse_tags(tags, current_user_id)
@@ -325,7 +397,7 @@ class Tag < ApplicationRecord
 
   def format_attributes(attributes = {}, current_user = nil)
     # Clean attributes
-    attributes    = attributes.reject { |_, v| v.blank? }
+    attributes = attributes.reject { |_, v| v.blank? }
 
     # Sanitization
     unless attributes[:name].nil?
@@ -367,13 +439,21 @@ class Tag < ApplicationRecord
 
   def search_data
     {
+      id:          id,
       user_id:     user_id,
       name:        name,
       description: description,
       synonyms:    synonyms,
+      notation:    notation,
+      priority:    priority,
       visibility:  visibility,
       archived:    archived,
-      accepted:    accepted
+      accepted:    accepted,
+      created_at:  created_at,
+      updated_at:  updated_at,
+      rank:        rank,
+      popularity:  popularity,
+      slug:        slug
     }
   end
 

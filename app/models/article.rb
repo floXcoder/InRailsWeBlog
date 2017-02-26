@@ -62,17 +62,16 @@ class Article < ApplicationRecord
   include NiceUrlConcern
   friendly_id :slug_candidates, use: :slugged
 
-  # Elastic Search
-  searchkick searchable:  [:title, :tags],
-             word_middle: [:title, :tags],
-             suggest:     [:title, :tags],
-             highlight:   [:content, :public_content],
-             include:     [:user, :tags, :parent_tags, :child_tags],
+  # Search
+  searchkick searchable:  [:title, :summary, :content, :reference, :tags],
+             word_middle: [:title, :summary, :content],
+             suggest:     [:title, :summary],
+             highlight:   [:content],
              language:    (I18n.locale == :fr) ? 'French' : 'English'
 
   # == Relationships ========================================================
   belongs_to :user,
-             class_name: 'User',
+             class_name:    'User',
              counter_cache: true
 
   belongs_to :topic,
@@ -124,7 +123,7 @@ class Article < ApplicationRecord
            source:  :user
 
   has_many :activities,
-           as: :trackable,
+           as:         :trackable,
            class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
@@ -175,6 +174,7 @@ class Article < ApplicationRecord
   # +query+ parameter: string to query
   # +options+ parameter:
   #  current_user_id (current user id)
+  #  current_topic_id (current topic id for current user)
   #  page (page number for pagination)
   #  per_page (number of articles per page for pagination)
   #  exact (exact search or include misspellings, default: 2)
@@ -183,18 +183,17 @@ class Article < ApplicationRecord
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
+    return { articles: [] } if Article.count.zero?
+
     # If query not defined or blank, search for everything
     query_string          = !query || query.blank? ? '*' : query
 
     # Fields with boost
-    fields                = if I18n.locale == :fr
-                              %w(title^10 content^5 public_content)
-                            else
-                              %w(title^10 content^5 public_content)
-                            end
+    fields                = %w(title^10 summary^5 content)
 
-    # Misspelling, specify number of characters
-    misspellings_distance = options[:exact] ? 0 : 1
+    # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
+    misspellings_distance = options[:exact] || query_string.length < 7 ? 0 : 2
+    misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
     operator              = options[:operator] ? options[:operator] : 'and'
@@ -213,43 +212,90 @@ class Article < ApplicationRecord
       else
         [key, value]
       end
-    end.to_h
-    where_options[:tags]  = { all: options[:tags] } if options[:tags]
+    end.to_h if options[:where]
+
+    where_options        ||= {}
+
+    where_options[:tags] = { all: options[:tags] } if options[:tags]
+
+    # Aggregations
+    aggregations         = {
+      notation: { where: { notation: { not: 0 } } },
+      tags:     {}
+    }
 
     # Boost user articles first
-    boost_where           = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
+    boost_where          = {}
+    boost_where[:user_id] = options[:current_user_id] if options[:current_user_id]
+    boost_where[:topic_id] = options[:current_topic_id] if options[:current_topic_id]
 
     # Page parameters
-    page                  = options[:page] ? options[:page] : 1
-    per_page              = options[:per_page] ? options[:per_page] : CONFIG.per_page
+    page                 = options[:page] ? options[:page] : 1
+    per_page             = options[:per_page] ? options[:per_page] : CONFIG.per_page
+
+    # Order search
+    if options[:order]
+      order = if options[:order] == 'id_first'
+                { id: :asc }
+              elsif options[:order] == 'id_last'
+                { id: :desc }
+              elsif options[:order] == 'created_first'
+                { created_at: :asc }
+              elsif options[:order] == 'created_last'
+                { created_at: :desc }
+              elsif options[:order] == 'updated_first'
+                { updated_at: :asc }
+              elsif options[:order] == 'updated_last'
+                { updated_at: :desc }
+              elsif options[:order] == 'rank_first'
+                { rank: :asc }
+              elsif options[:order] == 'rank_last'
+                { rank: :desc }
+              elsif options[:order] == 'popularity_first'
+                { popularity: :asc }
+              elsif options[:order] == 'popularity_last'
+                { popularity: :desc }
+              end
+    end
 
     # Perform search
-    results               = Article.search(query_string,
-                                           fields:       fields,
-                                           boost_where:  boost_where,
-                                           highlight:    highlight,
-                                           match:        :word_middle,
-                                           misspellings: { edit_distance: misspellings_distance },
-                                           suggest:      true,
-                                           page:         page,
-                                           per_page:     per_page,
-                                           operator:     operator,
-                                           where:        where_options)
+    results = Article.search(query_string,
+                             fields:       fields,
+                             boost_where:  boost_where,
+                             highlight:    highlight,
+                             match:        :word_middle,
+                             misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
+                             suggest:      true,
+                             page:         page,
+                             per_page:     per_page,
+                             operator:     operator,
+                             where:        where_options,
+                             order:        order,
+                             aggs:         aggregations,
+                             includes:     [:user, :tags])
 
-    words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
+    # words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
 
-    return Article.none unless results.any?
+    formatted_aggregations = {}
+    results.aggs.each do |key, value|
+      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
+    end
 
     # Track search results
     Article.track_searches(results.records.ids)
 
+    articles = results.records
+    articles = articles.includes(:user, :tags)
+    articles = articles.order_by(options[:order]) if order
+
     {
-      articles:       results.records,
-      highlight:   Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }],
-      suggestions: results.suggestions,
-      total_count: results.total_count,
-      total_pages: results.total_pages,
-      words:       words_search.uniq
+      articles:    articles.records,
+      highlight:    highlight ? Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }] : [],
+      suggestions:  results.suggestions,
+      aggregations: formatted_aggregations,
+      total_count:  results.total_count,
+      total_pages:  results.total_pages
+      # words:       words_search.uniq
     }
   end
 
@@ -262,23 +308,54 @@ class Article < ApplicationRecord
     # Where options only for ElasticSearch
     where_options = options[:where].compact.map do |key, value|
       [key, value]
-    end.to_h
+    end.to_h if options[:where]
 
     # Set result limit
-    limit         = options[:limit] ? options[:limit] : 10
+    limit         = options[:limit] ? options[:limit] : CONFIG.per_page
 
     # Perform search
     results       = Article.search(query_string,
                                    fields:       %w(name^3 summary),
                                    match:        :word_middle,
-                                   misspellings: { below: 5 },
+                                   misspellings: false,
                                    load:         false,
                                    where:        where_options,
                                    limit:        limit)
 
-    return Article.none unless results.any?
+    return results.map do |article|
+      {
+        name:    article.name,
+        summary: article.summary,
+        icon:    'article',
+        link:    Rails.application.routes.url_helpers.article_path(article.slug)
+      }
+    end
+  end
 
-    return results.records
+  def self.order_by(order)
+    if order == 'id_first'
+      order('id ASC')
+    elsif order == 'id_last'
+      order('id DESC')
+    elsif order == 'created_first'
+      order('created_at ASC')
+    elsif order == 'created_last'
+      order('created_at DESC')
+    elsif order == 'updated_first'
+      order('updated_at ASC')
+    elsif order == 'updated_last'
+      order('updated_at DESC')
+    elsif order == 'rank_first'
+      joins(:tracker).order('rank ASC')
+    elsif order == 'rank_last'
+      joins(:tracker).order('rank DESC')
+    elsif order == 'popularity_first'
+      joins(:tracker).order('popularity ASC')
+    elsif order == 'popularity_last'
+      joins(:tracker).order('popularity DESC')
+    else
+      self
+    end
   end
 
   # == Instance Methods =====================================================
@@ -498,20 +575,29 @@ class Article < ApplicationRecord
 
   def search_data
     {
-      user_id:      user_id,
+      id:             id,
+      user_id:        user_id,
       topic_id:       topic_id,
+      topic_name:     topic.name,
+      topic_slug:     topic.slug,
       title:          title,
       summary:        summary,
       content:        strip_content,
       public_content: public_content,
+      reference:      reference,
       notation:       notation,
       priority:       priority,
-      draft:      draft,
+      draft:          draft,
       language:       language,
       visibility:     visibility,
       archived:       archived,
       accepted:       accepted,
-      tags:           tags.pluck(:name)
+      tags:           tags.pluck(:name),
+      created_at:     created_at,
+      updated_at:     updated_at,
+      rank:           rank,
+      popularity:     popularity,
+      slug:           slug
     }
   end
 
