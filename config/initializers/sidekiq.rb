@@ -1,6 +1,6 @@
 Sidekiq.configure_server do |config|
   config.redis = { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
-                   namespace: "_InRailsWeBlog_#{Rails.env}" }
+                   namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}" }
 
   schedule_file = 'config/sidekiq_schedule.yml'
   if File.exists?(schedule_file) && Sidekiq.server?
@@ -10,5 +10,5 @@ end
 
 Sidekiq.configure_client do |config|
   config.redis = { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
-                   namespace: "_InRailsWeBlog_#{Rails.env}" }
+                   namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}" }
 end

@@ -17,10 +17,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         flash[:success] = t('devise.registrations.signed_up') << ' ' << t('views.user.signup.flash.message') if is_flashing_format? || request.format.js?
         sign_up(resource_name, resource)
         @location = after_sign_up_path_for(resource)
-
-        # Send email with mailboxer to new user
-        welcome_message = render_to_string 'users/mailer/welcome', layout: false, locals: {user: resource}
-        locatipic_user.send_message(resource, welcome_message, t('email.registration.welcome.subject'))
       else
         set_flash_message :alert, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format? || request.format.js?
         expire_data_after_sign_in!

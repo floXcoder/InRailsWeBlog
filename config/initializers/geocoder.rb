@@ -5,7 +5,7 @@ Geocoder.configure(
   use_https:    true, # use HTTPS for lookup requests? (if supported)
 
   cache:        Redis.new, # cache object (must respond to #[], #[]=, and #keys)
-  cache_prefix: "_InRailsWeBlog_#{Rails.env}:geocoder:", # prefix (string) to use for all cache keys
+  cache_prefix: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:geocoder:", # prefix (string) to use for all cache keys
 
   ip_lookup:    :geoip2,
   geoip2:       {

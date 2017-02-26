@@ -77,7 +77,7 @@ module InRailsWeBlog
     config.cache_store = :readthis_store, {
       expires_in: 2.weeks.to_i,
       redis: { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis },
-      namespace: "_InRailsWeBlog_#{Rails.env}:cache"
+      namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache"
     }
 
     # Errors handling
