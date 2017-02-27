@@ -1,34 +1,50 @@
-- provide(:title, t('views.user.login.page_title'))
-
-- content_for :robots do
-  meta name="robots" content="noindex, nofollow"
+- if resource.is_a?(Admin)
+  - title titleize_admin(I18n.t('views.user.login.title'))
+- else
+  - title titleize(I18n.t('views.user.login.title'))
 
 - stylesheet 'users/new'
 
-- javascript 'commons'
-- javascript 'users/login'
+- javascript "users/show-#{I18n.locale}"
+- javascript_defer 'commons-full-page', 'users/login'
 
 / Page content
-.card
-  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: 'login_user',  class: 'blog-form', data: {:'parsley-validate' => true} }) do |login_form|
+.card.connection class=('connection-admin' if resource.is_a?(Admin))
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: 'login_user', class: 'blog-form', data: { :'parsley-validate' => true } }) do |login_form|
     .card-content
-      h3.adaptative-title.center-align
-        = t('views.user.login.title')
-
+      h1.adaptative-title.center-align
+        - if resource.is_a?(Admin)
+          = t('views.admin.login.title')
+        - else
+          = t('views.user.login.title')
+      
+      // External connections
+      /- unless resource.is_a?(Admin)
+      /  .row.connection-externals
+      /    .col.s12.l6
+      /      .connection-google
+      /        = link_to t('views.user.login.externals.google'), user_google_oauth2_omniauth_authorize_path, class: 'connection-google-button'
+      /    .col.s12.l6
+      /      .connection-facebook
+      /        = link_to t('views.user.login.externals.facebook'), user_facebook_omniauth_authorize_path, class: 'connection-facebook-button'
+        
+        .connection-or-separator.hr-around-text
+          = t('helpers.or')
+      
       / Log-in fields
       = render 'devise/sessions/login_fields', login_form: login_form
-
+      
       / Helper links
       .margin-bottom-20
-
+      
       p
         = render 'devise/shared/links'
-
+    
     .card-action
       / Login button
       .row
         .col.s12
           .left
-            = link_to t('views.user.login.back_home'), root_path, class: 'waves-effect waves-teal btn-flat black-text'
+            = link_to t('views.user.login.back_home'), root_path, class: 'waves-effect waves-matisse btn-flat black-text'
           .right
             = login_form.button :submit, t('views.user.login.submit')

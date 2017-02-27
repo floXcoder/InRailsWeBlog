@@ -1,8 +1,6 @@
-- provide(:title, '')
+- stylesheet 'home/home'
 
-- stylesheet 'home'
+- javascript "home-#{I18n.locale}"
+- javascript_defer 'commons', 'home'
 
-- javascript 'commons'
-- javascript 'home'
-
-#app-component
+#app-component.react-root

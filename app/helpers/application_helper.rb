@@ -1,20 +1,16 @@
 module ApplicationHelper
-  def full_title(page_title)
-    base_title = ENV['WEBSITE_NAME']
-    if page_title.empty?
-      base_title
-    else
-      "#{base_title} | #{page_title.html_safe}"
-    end
+  def titleize(page_title)
+    base_title = page_title
+    base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
+
+    base_title.html_safe
   end
 
-  def full_admin_title(page_title)
-    base_title = ENV['WEBSITE_NAME']
-    if page_title.empty?
-      base_title
-    else
-      "#{base_title} (ADMIN) | #{page_title.html_safe}"
-    end
+  def titleize_admin(page_title)
+    base_title = "(ADMIN) | #{page_title}"
+    base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
+
+    base_title.html_safe
   end
 
   def nav_brand
@@ -28,6 +24,14 @@ module ApplicationHelper
   def navbar_link(link_name, link_path, options = {})
     options = { class: "#{'active' if current_page?(link_path)}" }.merge(options)
     link_to link_name, link_path, options
+  end
+
+  def navbar_class(url)
+    url = [url] unless url.is_a? Array
+
+    if url.include? controller.controller_name
+      'loca-header-active'
+    end
   end
 
   def format_datetime(date)
@@ -47,11 +51,21 @@ module ApplicationHelper
   end
 
   def javascript(*files)
-    content_for(:javascript) { javascript_include_tag(*files, async: Rails.env.production?) }
+    files.each do |file|
+      content_for(:javascript) { javascript_include_tag(file) }
+    end
+  end
+
+  def javascript_defer(*files)
+    files.each do |file|
+      content_for(:javascript) { javascript_include_tag(file, defer: Rails.env.demo? || Rails.env.production?) }
+    end
   end
 
   def stylesheet(*files)
-    content_for(:stylesheet) { stylesheet_link_tag(*files) }
+    files.each do |file|
+      content_for(:stylesheet) { stylesheet_link_tag(file) }
+    end
   end
 
   # Assets with manifest management

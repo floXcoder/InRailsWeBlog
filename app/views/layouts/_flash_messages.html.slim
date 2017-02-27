@@ -1,4 +1,6 @@
+#notification-component.notification-container
+
 - flash.each do |message_type, message|
   - if message
-    .blog-flash.hide
+    .loca-flash.hide data-level="#{message_type}"
       = message.html_safe

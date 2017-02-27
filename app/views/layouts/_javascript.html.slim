@@ -1,19 +1,28 @@
 javascript:
-  window.railsEnv = "#{Rails.env}";
-  window.parameters = JSON.parse('#{raw CONFIG.to_json}');
+    window.railsEnv = "#{Rails.env}";
+    window.parameters = JSON.parse('#{raw CONFIG.to_json}');
 
-  window.userLatitude = "#{@user_latitude}";
-  window.userLongitutde = "#{@user_longitude}";
+    window.userLatitude = "#{@user_latitude}";
+    window.userLongitutde = "#{@user_longitude}";
+    window.userJustSign = "#{session[:user_just_sign]}";
 
-  window.defaultLocale = "#{I18n.default_locale}";
-  window.locale = "#{I18n.locale}";
+    window.I18n = {};
+    window.defaultLocale = "#{I18n.default_locale}";
+    window.locale = "#{I18n.locale}";
 
-  var _paq = _paq || [];
+    var _paq = _paq || [];
+
+- session[:user_just_sign] = false if session[:user_just_sign]
 
 - if current_user
   javascript:
-    window.currentUserId = "#{current_user.id}";
-    window.currentUserPseudo = "#{current_user.pseudo}";
+      window.currentUserId = "#{current_user.id}";
+      window.currentUserPseudo = "#{current_user.pseudo}";
+
+- if current_admin
+  javascript:
+      window.currentAdminId = "#{current_admin.id}";
+      window.currentAdminPseudo = "#{current_admin.pseudo}";
 
 = yield(:javascript)
 

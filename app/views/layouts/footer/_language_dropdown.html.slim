@@ -1,0 +1,5 @@
+/ Change language
+li class="#{'active' if I18n.locale == :fr}"
+  = link_to t('views.footer.language.french'), url_for(locale: 'fr')
+li class="#{'active' if I18n.locale == :en}"
+  = link_to t('views.footer.language.english'), url_for(locale: 'en')
