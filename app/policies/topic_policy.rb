@@ -6,19 +6,19 @@ class TopicPolicy
     @topic        = topic
   end
 
-  def add_topic?
+  def new?
     @current_user
   end
 
-  def change_topic?
+  def switch?
     @current_user
   end
 
-  def update_topic?
+  def update?
     owner?
   end
 
-  def remove_topic?
+  def destroy?
     owner?
   end
 

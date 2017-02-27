@@ -20,20 +20,13 @@ InRailsWeBlog::Application.routes.draw do
   # Users
   resources :users, except: [:new, :create, :destroy] do
     collection do
-      get :validation,      to: 'users#validation'
+      get :validation,        to: 'users#validation'
     end
 
     member do
       get     :show,          to: 'users#show',               as: :root
-      get     :settings,   to: 'users#settings',        as: :settings
-      post    :settings,   to: 'users#update_settings'
 
-      post    :topic,         to: 'users#add_topic'
-      post    :change_topic,  to: 'users#change_topic'
-      put     :topic,         to: 'users#update_topic'
-      delete  :topic,         to: 'users#remove_topic'
-
-      get     :draft,     to: 'users#draft',          as: :draft
+      get     :draft,         to: 'users#draft',              as: :draft
       get     :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
       get     :comments,      to: 'users#comments',           as: :comments
       get     :activities,    to: 'users#activities',         as: :activities
@@ -41,6 +34,16 @@ InRailsWeBlog::Application.routes.draw do
       post    :clicked,       to: 'users#clicked'
       post    :viewed,        to: 'users#viewed'
     end
+
+    resources :topics,        controller: 'users/topics',   only: [:new, :update, :destroy] do
+      member do
+        get :switch,          to: 'users/topics#switch'
+      end
+    end
+
+    resources :bookmarks,     controller: 'users/bookmarks',  only: [:create, :destroy]
+
+    resources :settings,      controller: 'users/settings',   only: [:index, :update]
   end
 
   # Users (activities)
@@ -55,8 +58,6 @@ InRailsWeBlog::Application.routes.draw do
       delete  :bookmark,  to: 'articles#remove_bookmark'
       post    :outdate,   to: 'articles#add_outdated'
       delete  :outdate,   to: 'articles#remove_outdated'
-      post    :vote_up,   to: 'articles#vote_up'
-      post    :vote_down, to: 'articles#vote_down'
 
       get     :comments,  to: 'articles#comments'
       post    :comments,  to: 'articles#add_comment'
@@ -66,6 +67,15 @@ InRailsWeBlog::Application.routes.draw do
       post    :clicked,   to: 'articles#clicked'
       post    :viewed,    to: 'articles#viewed'
     end
+
+    resources :votes,     controller: 'articles/votes' do
+      collection do
+        post    :up,      to: 'articles/votes#vote_up'
+        post    :down,    to: 'articles/votes#vote_down'
+      end
+    end
+
+    resources :outdated,  controller: 'articles/outdated', only: [:create, :destroy]
   end
 
   # Tags

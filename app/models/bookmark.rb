@@ -17,7 +17,7 @@ class Bookmark < ApplicationRecord
 
   # == Extensions ===========================================================
   include PublicActivity::Model
-  tracked owner: :user, recipient: :article
+  tracked owner: :user, recipient: :bookmarked
 
   # == Relationships ========================================================
   belongs_to :user
@@ -35,7 +35,7 @@ class Bookmark < ApplicationRecord
             presence: true
 
   validates_uniqueness_of :user_id,
-                          scope: [:bookmarked_id, :bookmarked_type],
+                          scope:     [:bookmarked_id, :bookmarked_type],
                           allow_nil: false
 
   # == Scopes ===============================================================
@@ -48,5 +48,50 @@ class Bookmark < ApplicationRecord
   # == Class Methods ========================================================
 
   # == Instance Methods =====================================================
+  def user?(user)
+    user.id == user.id
+  end
+
+  def add(user, model_name, model_id)
+    if user && model_name && model_id
+      model_class    = model_name.classify.constantize
+      related_object = model_class.find_by(id: model_id)
+
+      if user.bookmarks.exists?(bookmarked_id: model_id, bookmarked_type: model_name.classify)
+        errors.add(:base, I18n.t('activerecord.errors.models.bookmark.already_bookmarked'))
+        return false
+      elsif !related_object
+        errors.add(:base, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
+        return false
+      else
+        self.bookmarked_id   = model_id
+        self.bookmarked_type = model_name.classify
+        return self.save
+      end
+    else
+      errors.add(:base, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
+      return false
+    end
+  end
+
+  def remove(user, model_name, model_id)
+    if user && model_name && model_id
+      model_class    = model_name.classify.constantize
+      related_object = model_class.find_by(id: model_id)
+
+      if !user.bookmarks.exists?(bookmarked_id: model_id, bookmarked_type: model_name.classify)
+        errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.not_bookmarked'))
+        return false
+      elsif !related_object
+        errors.add(:base, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
+        return false
+      else
+        return self.destroy
+      end
+    else
+      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
+      return false
+    end
+  end
 
 end

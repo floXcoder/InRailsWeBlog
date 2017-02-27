@@ -286,7 +286,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.string   "additional_info"
     t.date     "birth_date"
     t.string   "locale",                 default: "fr"
-    t.jsonb    "settings",               default: "{}", null: false
+    t.jsonb    "settings",               default: {},   null: false
     t.integer  "current_topic_id"
     t.integer  "pictures_count",         default: 0
     t.integer  "topics_count",           default: 0

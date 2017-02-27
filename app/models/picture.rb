@@ -20,10 +20,6 @@
 class Picture < ApplicationRecord
 
   # == Attributes ===========================================================
-  translates :description,
-             :copyright,
-             fallbacks_for_empty_translations: true
-
   auto_strip_attributes :description, :copyright
 
   # == Extensions ===========================================================

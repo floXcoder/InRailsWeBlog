@@ -134,7 +134,8 @@ RSpec.describe User, type: :model do
       it { expect(@user.locale).to eq('fr') }
       it { expect(@user.settings).to eq({}) }
       it { expect(@user.pictures_count).to eq(0) }
-      # it { expect(@user.external).to be false }
+      # TODO
+      # it { expect(@user.settings).to be false }
     end
 
     describe '#pseudo' do

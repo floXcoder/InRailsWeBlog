@@ -19,8 +19,10 @@ class Vote < ApplicationRecord
   # == Extensions ===========================================================
 
   # == Relationships ========================================================
-  belongs_to :voteable, polymorphic: true
-  belongs_to :voter, polymorphic: true
+  belongs_to :voteable,
+             polymorphic: true
+  belongs_to :voter,
+             polymorphic: true
 
   # == Validations ==========================================================
   # Comment out the line below to allow multiple votes per user.

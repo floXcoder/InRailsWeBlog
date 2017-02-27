@@ -108,7 +108,7 @@ module ActAsTrackedConcern
       self.tracked_name    = tracked_name
       self.tracker_metrics = trackers
 
-      tracker_cron_job
+      tracker_cron_job unless Rails.env.test?
 
       track_queries
     end

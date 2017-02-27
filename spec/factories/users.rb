@@ -49,18 +49,25 @@
 FactoryGirl.define do
 
   factory :user do
-    sequence(:pseudo)     { |n| "Person #{n}" }
-    sequence(:email)      { |n| "person_#{n}@example.com"}
+    sequence(:pseudo)     { |n| "Person #{n+1}" }
+    sequence(:email)      { |n| "person_#{n+1}@example.com"}
     password              'password'
     password_confirmation 'password'
-    locale                'fr'
     first_name            'First name'
     last_name             'Last name'
-    additional_info       'Personal information'
-    age                   40
+    street                'Street'
+    postcode              '33000'
+    state                 'Gironde'
     city                  'City'
     country               'France'
-    settings           { {} }
+    additional_info       'Personal information'
+    birth_date            { Faker::Date.backward(365) }
+    locale                'fr'
+    mobile_number         '0300000000'
+    phone_number          '0600000000'
+    pictures_count        0
+    settings              { {} }
+    # external              false
 
     trait :fake do
       first_name      { Faker::Name.first_name }

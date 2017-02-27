@@ -37,6 +37,11 @@ class Article < ApplicationRecord
   # Strip whitespaces
   auto_strip_attributes :title, :summary, :language
 
+  delegate :popularity,
+           :rank, :rank=,
+           :home_page, :home_page=,
+           to: :tracker, allow_nil: true
+
   # == Extensions ===========================================================
   # Voteable model
   acts_as_voteable
@@ -214,24 +219,24 @@ class Article < ApplicationRecord
       end
     end.to_h if options[:where]
 
-    where_options        ||= {}
+    where_options          ||= {}
 
-    where_options[:tags] = { all: options[:tags] } if options[:tags]
+    where_options[:tags]   = { all: options[:tags] } if options[:tags]
 
     # Aggregations
-    aggregations         = {
+    aggregations           = {
       notation: { where: { notation: { not: 0 } } },
       tags:     {}
     }
 
     # Boost user articles first
-    boost_where          = {}
-    boost_where[:user_id] = options[:current_user_id] if options[:current_user_id]
+    boost_where            = {}
+    boost_where[:user_id]  = options[:current_user_id] if options[:current_user_id]
     boost_where[:topic_id] = options[:current_topic_id] if options[:current_topic_id]
 
     # Page parameters
-    page                 = options[:page] ? options[:page] : 1
-    per_page             = options[:per_page] ? options[:per_page] : CONFIG.per_page
+    page                   = options[:page] ? options[:page] : 1
+    per_page               = options[:per_page] ? options[:per_page] : CONFIG.per_page
 
     # Order search
     if options[:order]
@@ -259,20 +264,20 @@ class Article < ApplicationRecord
     end
 
     # Perform search
-    results = Article.search(query_string,
-                             fields:       fields,
-                             boost_where:  boost_where,
-                             highlight:    highlight,
-                             match:        :word_middle,
-                             misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
-                             suggest:      true,
-                             page:         page,
-                             per_page:     per_page,
-                             operator:     operator,
-                             where:        where_options,
-                             order:        order,
-                             aggs:         aggregations,
-                             includes:     [:user, :tags])
+    results                = Article.search(query_string,
+                                            fields:       fields,
+                                            boost_where:  boost_where,
+                                            highlight:    highlight,
+                                            match:        :word_middle,
+                                            misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
+                                            suggest:      true,
+                                            page:         page,
+                                            per_page:     per_page,
+                                            operator:     operator,
+                                            where:        where_options,
+                                            order:        order,
+                                            aggs:         aggregations,
+                                            includes:     [:user, :tags])
 
     # words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
 
@@ -289,7 +294,7 @@ class Article < ApplicationRecord
     articles = articles.order_by(options[:order]) if order
 
     {
-      articles:    articles.records,
+      articles:     articles.records,
       highlight:    highlight ? Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }] : [],
       suggestions:  results.suggestions,
       aggregations: formatted_aggregations,
@@ -356,6 +361,31 @@ class Article < ApplicationRecord
     else
       self
     end
+  end
+
+  def self.as_json(articles, options = {})
+    return nil unless articles
+
+    serializer_options = {}
+
+    serializer_options.merge({
+                               scope:      options.delete(:current_user),
+                               scope_name: :current_user
+                             }) if options.has_key?(:current_user)
+
+    serializer_options[articles.is_a?(Article) ? :serializer : :each_serializer] = if options[:sample]
+                                                                                     ArticleSampleSerializer
+                                                                                   else
+                                                                                     ArticleSerializer
+                                                                                   end
+
+    ActiveModelSerializers::SerializableResource.new(articles, serializer_options.merge(options)).as_json
+  end
+
+  def self.as_flat_json(articles, options = {})
+    return nil unless articles
+
+    as_json(articles, options)[articles.is_a?(Article) ? :article : :articles]
   end
 
   # == Instance Methods =====================================================

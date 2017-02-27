@@ -153,6 +153,7 @@ group :test do
   gem 'simplecov',              '0.13.0',   require: false
   gem 'fuubar',                 '2.2.0'
   gem 'database_cleaner',       '1.5.3'
+  gem 'spring-commands-rspec',  '1.0.4'
 
   # static analyzer
   gem 'rails_best_practices',   '1.17.0',   require: false

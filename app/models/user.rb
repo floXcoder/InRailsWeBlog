@@ -49,15 +49,6 @@
 class User < ApplicationRecord
 
   # == Attributes ===========================================================
-  # Store settings
-  include Storext.model
-  store_attributes :settings do
-    article_display String, default: 'card'
-    search_highlight Boolean, default: true
-    search_operator String, default: 'and'
-    search_exact Boolean, default: true
-  end
-
   attr_accessor :login
   devise :database_authenticatable,
          :registerable,
@@ -69,8 +60,22 @@ class User < ApplicationRecord
          :confirmable,
          authentication_keys: [:login]
 
+  # Store settings
+  include Storext.model
+  store_attributes :settings do
+    article_display String, default: 'card'
+    search_highlight Boolean, default: true
+    search_operator String, default: 'and'
+    search_exact Boolean, default: true
+  end
+
   # Strip whitespaces
   auto_strip_attributes :first_name, :last_name, :city, :country, :additional_info
+
+  delegate :popularity,
+           :rank, :rank=,
+           :home_page, :home_page=,
+           to: :tracker, allow_nil: true
 
   # == Extensions ===========================================================
   searchkick searchable:  [:pseudo, :first_name, :last_name, :additional_info, :street, :state, :city, :postcode, :phone_number, :mobile_number],
@@ -351,7 +356,7 @@ class User < ApplicationRecord
     Topic.find_by_id(self.current_topic_id)
   end
 
-  def change_current_topic(new_topic)
+  def switch_topic(new_topic)
     if self.current_topic_id == new_topic.id
       new_topic.errors.add(:topic, I18n.t('activerecord.errors.models.topic.already_selected'))
       return false
@@ -379,54 +384,6 @@ class User < ApplicationRecord
     tag_bookmarked     = Tag.where(user_id: self.id).merge(Tag.joins(:bookmarked).where(bookmarks: { bookmarked_type: 'Tag' })).count
 
     user_bookmarked + article_bookmarked + tag_bookmarked
-  end
-
-  def bookmark(model_name, model_id)
-    if model_name && model_id
-      model_class    = model_name.classify.constantize
-      related_object = model_class.find(model_id)
-
-      if self.bookmarks.exists?(bookmarked_id: model_id, bookmarked_type: model_name.classify)
-        errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.already_bookmarked'))
-        return false
-      else
-        bookmark = related_object.bookmarked.create(user_id: self.id)
-
-        if bookmark.valid?
-          return bookmark
-        else
-          errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
-          return false
-        end
-      end
-    else
-      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
-      return false
-    end
-  end
-
-  def unbookmark(model_name, model_id)
-    if model_name && model_id
-      model_class    = model_name.classify.constantize
-      related_object = model_class.find(model_id)
-
-      if !self.bookmarks.exists?(bookmarked_id: model_id, bookmarked_type: model_name.classify)
-        errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.not_bookmarked'))
-        return false
-      else
-        destroyed_bookmark = related_object.bookmarked.find_by(user_id: self.id).destroy
-
-        if destroyed_bookmark.destroyed?
-          return destroyed_bookmark
-        else
-          errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
-          return false
-        end
-      end
-    else
-      errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unkown'))
-      return false
-    end
   end
 
   def following?(model_name, model_id)

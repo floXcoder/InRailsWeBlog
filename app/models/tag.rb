@@ -49,6 +49,11 @@ class Tag < ApplicationRecord
   include PublicActivity::Model
   tracked owner: :user
 
+  delegate :popularity,
+           :rank, :rank=,
+           :home_page, :home_page=,
+           to: :tracker, allow_nil: true
+
   # Search
   searchkick searchable:  [:name, :description, :synonyms],
              word_middle: [:name, :description],
@@ -390,6 +395,31 @@ class Tag < ApplicationRecord
     tags.map do |tag|
       tag.destroy if tag.tagged_articles_count == 0
     end
+  end
+
+  def self.as_json(tags, options = {})
+    return nil unless tags
+
+    serializer_options = {}
+
+    serializer_options.merge({
+                               scope:      options.delete(:current_user),
+                               scope_name: :current_user
+                             }) if options.has_key?(:current_user)
+
+    serializer_options[tags.is_a?(Tag) ? :serializer : :each_serializer] = if options[:sample]
+                                                                             TagSampleSerializer
+                                                                           else
+                                                                             TagSerializer
+                                                                           end
+
+    ActiveModelSerializers::SerializableResource.new(tags, serializer_options.merge(options)).as_json
+  end
+
+  def self.as_flat_json(tags, options = {})
+    return nil unless tags
+
+    as_json(tags, options)[tags.is_a?(Tag) ? :tag : :tags]
   end
 
   # == Instance Methods =====================================================

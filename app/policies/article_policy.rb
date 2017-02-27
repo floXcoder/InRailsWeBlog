@@ -34,14 +34,6 @@ class ArticlePolicy
     owner?
   end
 
-  def add_bookmark?
-    @current_user
-  end
-
-  def remove_bookmark?
-    @current_user && @current_user.bookmarks.exists?(@article.id)
-  end
-
   def vote_up?
     @current_user && !@article.voted_by?(@current_user)
   end
@@ -55,7 +47,7 @@ class ArticlePolicy
   end
 
   def remove_outdated?
-    @current_user && @current_user.marked_as_outdated.exists?(@article.id)
+    @current_user
   end
 
   # Comments
