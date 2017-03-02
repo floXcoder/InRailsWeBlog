@@ -1,28 +1,31 @@
 'use strict';
 
-const Errors = require('../mixins/errors');
-const Tracker = require('../mixins/tracker');
+import Errors from '../mixins/errors';
+import Tracker from '../mixins/tracker';
 
-const TagActions = require('../actions/tagActions');
+import TagActions from '../actions/tagActions';
 
-var TagStore = Reflux.createStore({
-    mixins: [Errors, Tracker],
-    listenables: [TagActions],
-    url: '/tags',
-    userTags: [],
+export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
+    constructor() {
+        super();
 
-    init () {
+        this.listenables = TagActions;
+        this.url = '/tags';
+        this.userTags = [];
+    }
+
+    init() {
         this.onLoadTags({init: true, userTags: true});
 
         return true;
-    },
+    }
 
-    getInitialState () {
+    getInitialState() {
         return {
             type: 'userTags',
             userTags: this.userTags
         };
-    },
+    }
 
     onLoadTags(params) {
         let requestParam = {};
@@ -63,9 +66,9 @@ var TagStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(this.url, xhr, status, error);
             });
-    },
+    }
 
-    onLoadTag (data) {
+    onLoadTag(data) {
         if ($.isEmpty(data) && !data.id) {
             log.error('Tried to load tag without data');
             return;
@@ -89,9 +92,9 @@ var TagStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onUpdateTag (tag) {
+    onUpdateTag(tag) {
         if ($.isEmpty(tag) || $.isEmpty(tag.id)) {
             log.error('Tried to update tag without data');
             return;
@@ -129,9 +132,9 @@ var TagStore = Reflux.createStore({
                     this.handleErrors(this.url, xhr, status, error);
                 }
             });
-    },
+    }
 
-    onDeleteTag (tag) {
+    onDeleteTag(tag) {
         if ($.isEmpty(tag)) {
             log.error('Tried to delete tag without tag');
             return;
@@ -166,6 +169,4 @@ var TagStore = Reflux.createStore({
                 this.handleErrors(url, xhr, status, error);
             });
     }
-});
-
-module.exports = TagStore;
+}

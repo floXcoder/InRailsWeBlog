@@ -21,4 +21,4 @@ ChildTag._handleTagClick = (tagId, tagName, parentTagName, onClickTag, event) =>
     return false;
 };
 
-module.exports = ChildTag;
+export default ChildTag;

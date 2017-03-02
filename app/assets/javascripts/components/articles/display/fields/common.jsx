@@ -1,40 +1,40 @@
 'use strict';
 
-const Input = require('../../../materialize/input');
-const Editor = require('../../../editor/editor');
+import Input from '../../../materialize/input';
+import Editor from '../../../editor/editor';
 
-var ArticleCommonField = React.createClass({
-    propTypes: {
+export default class ArticleCommonField extends React.Component {
+    static propTypes = {
         article: React.PropTypes.object,
         multipleId: React.PropTypes.number,
         onInputsChange: React.PropTypes.func,
         onIsLinkChange: React.PropTypes.func
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            article: null,
-            multipleId: 0,
-            onInputsChange: null,
-            onIsLinkChange: null
-        };
-    },
+    static defaultProps = {
+        article: null,
+        multipleId: 0,
+        onInputsChange: null,
+        onIsLinkChange: null
+    };
 
-    getInitialState () {
-        return {};
-    },
+    state = {};
 
-    _title: null,
-    _summary: null,
-    _editor: null,
+    constructor(props) {
+        super(props);
 
-    _handleEditorLoaded () {
+        this._title = null;
+        this._summary = null;
+        this._editor = null;
+    }
+
+    _handleEditorLoaded() {
         if (this._title) {
             this._title.focus();
         }
-    },
+    }
 
-    _handleInputsChange (event) {
+    _handleInputsChange(event) {
         this.props.onInputsChange({
             titleLength: this._title.value().length,
             summaryLength: this._summary.value().length,
@@ -56,23 +56,23 @@ var ArticleCommonField = React.createClass({
         // }
 
         return event;
-    },
+    }
 
-    _onSummaryBlurred (event) {
+    _onSummaryBlurred(event) {
         if (this._editor) {
             this._editor.focus();
         }
 
         return event;
-    },
+    }
 
-    serialize () {
+    serialize() {
         if (this._editor) {
             this._editor.serialize();
         }
-    },
+    }
 
-    render () {
+    render() {
         return (
             <div>
                 <Input ref={(title) => this._title = title}
@@ -131,6 +131,4 @@ var ArticleCommonField = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = ArticleCommonField;
+}

@@ -1,6 +1,6 @@
 'use strict';
 
-var UserActions = Reflux.createActions([
+export default Reflux.createActions([
     'loadUsers',
     'validation',
     'loadUserComments',
@@ -15,5 +15,3 @@ var UserActions = Reflux.createActions([
     'trackClick',
     'trackView'
 ]);
-
-module.exports = UserActions;

@@ -1,36 +1,33 @@
 'use strict';
 
-const classNames = require('classnames');
 
-const AssociatedTagList = require('./list');
-const ArticleActions = require('../../../actions/articleActions');
-const ArticleStore = require('../../../stores/articleStore');
+import AssociatedTagList from './list';
+import ArticleActions from '../../../actions/articleActions';
+import ArticleStore from '../../../stores/articleStore';
 
-const Spinner = require('../../../components/materialize/spinner');
+import Spinner from '../../../components/materialize/spinner';
 
-var AssociatedTagBox = React.createClass({
-    propTypes: {
+export default class AssociatedTagBox extends Reflux.Component {
+    static propTypes = {
         hasMore: React.PropTypes.bool
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(ArticleStore, 'onArticleChange')
-    ],
+    static defaultProps = {
+        hasMore: false
+    };
 
-    getDefaultProps () {
-        return {
-            hasMore: false
-        };
-    },
+    state = {
+        associatedTags: null,
+        isLoading: true
+    };
 
-    getInitialState () {
-        return {
-            associatedTags: null,
-            isLoading: true
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    onArticleChange (articleData) {
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+    }
+
+    onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {
             return;
         }
@@ -53,13 +50,13 @@ var AssociatedTagBox = React.createClass({
                 isLoading: false
             });
         }
-    },
+    }
 
-    _handleTagClick (tagId, activeTag) {
+    _handleTagClick(tagId, activeTag) {
         ArticleActions.filterArticlesByTag(tagId, activeTag);
-    },
+    }
 
-    render () {
+    render() {
         const loaderClass = classNames({
             'center': this.props.hasMore,
             'hide': !this.props.hasMore
@@ -72,13 +69,11 @@ var AssociatedTagBox = React.createClass({
                     <AssociatedTagList tags={this.state.associatedTags}
                                        onClickTag={this._handleTagClick}/>
                 }
-                
+
                 <div className={loaderClass}>
                     <Spinner />
                 </div>
             </div>
         );
     }
-});
-
-module.exports = AssociatedTagBox;
+}

@@ -1,14 +1,14 @@
 'use strict';
 
-const ArticleStore = require('../../../stores/articleStore');
+import ArticleStore from '../../../stores/articleStore';
 
-const FixedActionButton = require('../../materialize/fab');
+import FixedActionButton from '../../materialize/fab';
 
-const ArticleEditIcon = require('../icons/edit');
-const ArticleLinkIcon = require('../icons/link');
-const ArticleVisibilityIcon = require('../icons/visibility');
-const ArticleBookmarkIcon = require('../icons/bookmark');
-const ArticleLink = require('../properties/link');
+import ArticleEditIcon from '../icons/edit';
+import ArticleLinkIcon from '../icons/link';
+import ArticleVisibilityIcon from '../icons/visibility';
+import ArticleBookmarkIcon from '../icons/bookmark';
+import ArticleLink from '../properties/link';
 
 const ArticleActions = ({article, onBookmarkClick, onEditClick, onVisibilityClick}) => (
     <FixedActionButton>
@@ -23,7 +23,9 @@ const ArticleActions = ({article, onBookmarkClick, onEditClick, onVisibilityClic
                          onEditClick={onEditClick}/>
 
         <ArticleLink article={article}
-                     onArticleClick={(article, event) => {this._handleArticleClick.bind(article, event)}}/>
+                     onArticleClick={(article, event) => {
+                         this._handleArticleClick.bind(article, event)
+                     }}/>
     </FixedActionButton>
 );
 
@@ -44,4 +46,4 @@ ArticleActions._handleArticleClick = (article, event) => {
     return event;
 };
 
-module.exports = ArticleActions;
+export default ArticleActions;

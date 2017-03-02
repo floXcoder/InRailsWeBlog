@@ -1,8 +1,8 @@
 'use strict';
 
-require('../common');
+import '../common';
 
-const ArticleEdit = require('../../components/articles/edit');
+import ArticleEdit from '../../components/articles/edit';
 
 const article = JSON.parse(document.getElementById('article-edit-component').getAttribute('data-article'));
 

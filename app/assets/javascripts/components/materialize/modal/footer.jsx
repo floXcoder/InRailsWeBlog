@@ -1,6 +1,6 @@
 'use strict';
 
-const ModalFooter = ({ children }) => (
+const ModalFooter = ({children}) => (
     <div className="modal-footer">
         <div className="row">
             <div className="col s12">
@@ -18,5 +18,4 @@ ModalFooter.propTypes = {
     ]).isRequired
 };
 
-module.exports = ModalFooter;
-
+export default ModalFooter;

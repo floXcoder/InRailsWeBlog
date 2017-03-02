@@ -1,15 +1,20 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var Textarea = React.createClass({
-    propTypes: {
+export default class Textarea extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string,
+        title: React.PropTypes.oneOfType([
+            React.PropTypes.element,
+            React.PropTypes.object,
+            React.PropTypes.string
+        ]),
+        placeholder: React.PropTypes.string,
         children: React.PropTypes.string,
         name: React.PropTypes.string,
         multipleId: React.PropTypes.number,
+        isHorizontal: React.PropTypes.bool,
         isRequired: React.PropTypes.bool,
+        isDisabled: React.PropTypes.bool,
         icon: React.PropTypes.string,
         minLength: React.PropTypes.number,
         maxLength: React.PropTypes.number,
@@ -18,50 +23,53 @@ var Textarea = React.createClass({
         onBlur: React.PropTypes.func,
         characterCount: React.PropTypes.number,
         validator: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            title: null,
-            name: null,
-            multipleId: null,
-            children: null,
-            isRequired: false,
-            icon: null,
-            minLength: null,
-            maxLength: null,
-            onChange: null,
-            onKeyDown: null,
-            onBlur: null,
-            characterCount: null,
-            validator: null
-        };
-    },
+    static defaultProps = {
+        title: null,
+        name: null,
+        multipleId: null,
+        placeholder: null,
+        children: null,
+        isHorizontal: false,
+        isRequired: false,
+        isDisabled: false,
+        icon: null,
+        minLength: null,
+        maxLength: null,
+        onChange: null,
+        onKeyDown: null,
+        onBlur: null,
+        characterCount: null,
+        validator: null
+    };
 
-    getInitialState () {
-        return {
-            hasValue: false
-        };
-    },
+    state = {
+        hasValue: false
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         if (this.props.characterCount) {
             const $currentElement = $(ReactDOM.findDOMNode(this.refs[this.props.id]));
             $currentElement.attr('length', this.props.characterCount);
             // $currentElement.characterCounter();
         }
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         // Ignore if props has changed
         return !_.isEqual(this.state.hasValue, nextState.hasValue) || this.props.children !== nextProps.children;
-    },
+    }
 
-    value () {
+    value = () => {
         return this.refs[this.props.id].value;
-    },
+    };
 
-    setValue (value) {
+    setValue = (value) => {
         this.refs[this.props.id].value = value;
 
         if (!this.state.hasValue) {
@@ -69,23 +77,17 @@ var Textarea = React.createClass({
                 hasValue: true
             });
         }
-    },
+    };
 
-    focus () {
+    focus = () => {
         this.refs[this.props.id].focus();
-    },
+    };
 
-    autoResize () {
+    autoResize = () => {
         $(ReactDOM.findDOMNode(this.refs[this.props.id])).trigger('autoresize');
-    },
+    };
 
-    render () {
-        const labelClass = classNames(
-            {
-                active: !!this.props.children || this.state.hasValue
-            }
-        );
-
+    render() {
         let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
         let name = this.props.name;
@@ -97,36 +99,77 @@ var Textarea = React.createClass({
             }
         }
 
+        const fieldClass = classNames({
+            'input-field': !this.props.isHorizontal,
+            'input-horizontal-field': this.props.isHorizontal,
+            'required-field': this.props.isRequired,
+            'col s12': !this.props.isHorizontal
+        });
+
+        const iconClass = classNames(
+            'material-icons',
+            'prefix',
+            {
+                active: !!this.props.children || this.state.hasValue || this.props.placeholder
+            }
+        );
+
+        const labelClass = classNames(
+            {
+                active: !!this.props.children || this.state.hasValue || this.props.placeholder,
+                'col m4': this.props.isHorizontal
+            }
+        );
+
+        const textareaClass = classNames(
+            'materialize-textarea',
+            'validate',
+            {
+                'col m8': this.props.isHorizontal
+            }
+        );
+
         return (
-            <div className="input-field">
-                {
-                    this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
-                }
+            <div className="row margin-bottom-0">
+                <div className={fieldClass}>
+                    {
+                        this.props.icon &&
+                        <i className={iconClass}>{this.props.icon}</i>
+                    }
 
-                <textarea ref={this.props.id}
-                          id={id}
-                          name={name}
-                          className="materialize-textarea"
-                          required={this.props.isRequired}
-                          minLength={this.props.minLength}
-                          maxLength={this.props.maxLength}
-                          onChange={this.props.onChange}
-                          onKeyDown={this.props.onKeyDown}
-                          onBlur={this.props.onBlur}
-                          defaultValue={this.props.children}
-                          {...this.props.validator}/>
+                    {
+                        (this.props.title && this.props.isHorizontal) &&
+                        <label htmlFor={this.props.id}
+                               className={labelClass}>
+                            {this.props.title}
+                        </label>
+                    }
 
-                {
-                    this.props.title &&
-                    <label htmlFor={this.props.id}
-                           className={labelClass}>
-                        {this.props.title}
-                    </label>
-                }
+                    <textarea ref={this.props.id}
+                              id={id}
+                              name={name}
+                              className={textareaClass}
+                              placeholder={this.props.placeholder}
+                              required={this.props.isRequired}
+                              disabled={this.props.isDisabled}
+                              minLength={this.props.minLength}
+                              maxLength={this.props.maxLength}
+                              onChange={this.props.onChange}
+                              onKeyDown={this.props.onKeyDown}
+                              onBlur={this.props.onBlur}
+                              defaultValue={this.props.children}
+                              {...this.props.validator}/>
+
+                    {
+                        (this.props.title && !this.props.isHorizontal) &&
+                        <label htmlFor={this.props.id}
+                               className={labelClass}>
+                            {this.props.title}
+                        </label>
+                    }
+                </div>
             </div>
         );
     }
-});
+}
 
-module.exports = Textarea;

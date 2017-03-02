@@ -1,11 +1,9 @@
 'use strict';
 
-const classNames = require('classnames');
-
 const {PropTypes} = React;
 
-const Tag = React.createClass({
-    propTypes: {
+class Tag extends React.PureComponent {
+    static propTypes = {
         input: PropTypes.string.isRequired,
         text: PropTypes.string.isRequired,
         selected: PropTypes.bool,
@@ -14,9 +12,13 @@ const Tag = React.createClass({
         deletable: PropTypes.bool,
         onAdd: PropTypes.func,
         onDelete: PropTypes.func
-    },
+    };
 
-    tagContent() {
+    constructor(props) {
+        super(props);
+    }
+
+    _tagContent = () => {
         let content = [];
         let startIndex = this.props.text.trim().toLowerCase()
             .indexOf(this.props.input.trim().toLowerCase());
@@ -48,34 +50,34 @@ const Tag = React.createClass({
         }
 
         return content;
-    },
+    };
 
-    onClick(event) {
+    _onClick = (event) => {
         event.preventDefault();
         if (this.props.addable) {
             this.props.onAdd(event);
         }
-    },
+    };
 
-    onDelete(event) {
+    _onDelete = (event) => {
         // Prevents onClick event of the whole tag from being triggered
         event.preventDefault();
         event.stopPropagation();
         this.props.onDelete(event);
-    },
+    };
 
-    getDeleteBtn() {
+    _getDeleteBtn = () => {
         return (
             <span className='cti__tag__delete'
-                  onClick={this.onDelete}
+                  onClick={this._onDelete}
                   dangerouslySetInnerHTML={{__html: '&times;'}}/>
         );
-    },
+    };
 
     render() {
         let deleteBtn = null;
         if (this.props.deletable) {
-            deleteBtn = this.getDeleteBtn();
+            deleteBtn = this._getDeleteBtn();
         }
         let cls = 'cti__tag' + (this.props.selected ? ' cti-selected' : '');
         if (this.props.isAnimated) {
@@ -86,16 +88,16 @@ const Tag = React.createClass({
             <div className={cls}
                  onClick={this.onClick}>
                 <div className='cti__tag__content'>
-                    {this.tagContent()}
+                    {this._tagContent()}
                 </div>
                 {deleteBtn}
             </div>
         );
     }
-});
+}
 
-const Input = React.createClass({
-    propTypes: {
+class CategorizedInput extends React.Component {
+    static propTypes = {
         openPanel: PropTypes.func.isRequired,
         closePanel: PropTypes.func.isRequired,
         onValueChange: PropTypes.func.isRequired,
@@ -109,13 +111,17 @@ const Input = React.createClass({
         placeholder: PropTypes.string,
         placeholderWithTags: PropTypes.string,
         onBlur: PropTypes.func
-    },
+    };
 
-    focusInput() {
+    constructor(props) {
+        super(props);
+    }
+
+    focusInput = () => {
         this.refs.input.focus();
-    },
+    };
 
-    getSelectedTags() {
+    getSelectedTags = () => {
         return this.props.selectedTags.map((tag, i) => {
             return (
                 <Tag input=''
@@ -128,14 +134,14 @@ const Input = React.createClass({
                      onDelete={() => this.props.onTagDeleted(i)}/>
             );
         });
-    },
+    };
 
-    onBlur(e) {
+    onBlur = (event) => {
         this.props.closePanel();
         if (typeof this.props.onBlur === 'function') {
-            this.props.onBlur(e);
+            this.props.onBlur(event);
         }
-    },
+    };
 
     render() {
         let size = this.props.value.length === 0 ?
@@ -168,10 +174,10 @@ const Input = React.createClass({
             </div>
         );
     }
-});
+}
 
-const Category = React.createClass({
-    propTypes: {
+class Category extends React.Component {
+    static propTypes = {
         items: PropTypes.array.isRequired,
         category: PropTypes.oneOfType([
             PropTypes.string,
@@ -187,24 +193,28 @@ const Category = React.createClass({
         type: PropTypes.string,
         onAdd: PropTypes.func.isRequired,
         single: PropTypes.bool
-    },
+    };
 
-    onAdd(value, isNew) {
+    constructor(props) {
+        super(props);
+    }
+
+    onAdd = (value, isNew) => {
         return () => {
             this.props.onAdd({
                 category: this.props.category,
                 value: value,
                 isNew: isNew
-            });
-        };
-    },
+            })
+        }
+    };
 
-    onCreateNew(event) {
+    onCreateNew = (event) => {
         event.preventDefault();
         this.onAdd(this.props.input, true)();
-    },
+    };
 
-    itemToTag(value, i) {
+    itemToTag = (value, i) => {
         if (this.props.overhead && i == this.props.overhead) {
             return (
                 <div key={value + '_' + i}
@@ -223,30 +233,30 @@ const Category = React.createClass({
                      onAdd={this.onAdd(value, false)}/>
             );
         }
-    },
+    };
 
-    fullMatchInItems() {
+    fullMatchInItems = () => {
         for (let i = 0, len = this.props.items.length; i < len; i++) {
             if (this.props.items[i] === this.props.input) {
                 return true;
             }
         }
         return false;
-    },
+    };
 
-    getItems() {
+    getItems = () => {
         return {
             items: this.props.items.map(this.itemToTag),
             fullMatch: this.fullMatchInItems()
         };
-    },
+    };
 
-    isSelected(i) {
+    isSelected = (i) => {
         return this.props.selected &&
             (i === this.props.selectedItem || this.props.single);
-    },
+    };
 
-    getAddBtn(fullMatch, selected) {
+    getAddBtn = (fullMatch, selected) => {
         if (this.props.addNew && !fullMatch && !this.props.single) {
             return [
                 this.props.items.length > 0
@@ -266,7 +276,7 @@ const Category = React.createClass({
         }
 
         return null;
-    },
+    };
 
     render() {
         let {items, fullMatch} = this.getItems();
@@ -285,19 +295,27 @@ const Category = React.createClass({
             </div>
         );
     }
-});
+}
 
-const Panel = React.createClass({
-    propTypes: {
+class Panel extends React.Component {
+    static propTypes = {
         categories: PropTypes.arrayOf(PropTypes.object).isRequired,
         selection: PropTypes.object.isRequired,
         onAdd: PropTypes.func.isRequired,
         input: PropTypes.string.isRequired,
         addNew: PropTypes.bool,
         addNewValue: PropTypes.string
-    },
+    };
+
+    constructor(props) {
+        super(props);
+    }
 
     render() {
+        if (this.props.categories.length === 0) {
+            return null;
+        }
+
         return (
             <div className='cti__panel'>
                 {
@@ -320,9 +338,9 @@ const Panel = React.createClass({
             </div>
         );
     }
-});
+}
 
-var key = {
+const key = {
     TAB: 9,
     ENTER: 13,
     BACKSPACE: 8,
@@ -347,8 +365,8 @@ function isCategoryValid(category) {
         && (category.type || category.single);
 }
 
-const CategorizedTagInput = React.createClass({
-    propTypes: {
+class CategorizedTagInput extends React.Component {
+    static propTypes = {
         categories: PropTypes.arrayOf(PropTypes.object).isRequired,
         id: PropTypes.string,
         name: PropTypes.string,
@@ -364,46 +382,46 @@ const CategorizedTagInput = React.createClass({
         minAutocompleteLength: PropTypes.number,
         maxAutocompleteTags: PropTypes.number,
         maxAutocompleteValue: PropTypes.string
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            isSortingCategoriesByAlpha: true,
-            addNewValue: 'Add new ',
-            minAutocompleteLength: 1,
-            maxAutocompleteTags: 4,
-            maxAutocompleteValue: '...'
-        };
-    },
+    static defaultProps = {
+        isSortingCategoriesByAlpha: true,
+        addNewValue: 'Add new ',
+        minAutocompleteLength: 1,
+        maxAutocompleteTags: 4,
+        maxAutocompleteValue: '...'
+    };
 
-    getInitialState() {
-        return {
-            value: '',
-            selection: {
-                value: 0,
-                category: 0
-            },
-            panelOpened: false,
-            selectedTags: this.props.value || [],
-            categories: [],
-            animateTagValue: null,
-            addNew: this.props.addNew === undefined ? true : this.props.addNew
-        };
-    },
+    state = {
+        value: '',
+        selection: {
+            value: 0,
+            category: 0
+        },
+        panelOpened: false,
+        selectedTags: this.props.value || [],
+        categories: [],
+        animateTagValue: null,
+        addNew: this.props.addNew === undefined ? true : this.props.addNew
+    };
+
+    constructor(props) {
+        super(props);
+    }
 
     componentWillMount() {
         if (!this.props.categories.every(isCategoryValid)) {
             throw new Error('invalid categories source provided for react-categorized-tag-input');
         }
-    },
+    }
 
     componentWillUnmount() {
         if (this.timeout) {
             clearTimeout(this.timeout);
         }
-    },
+    }
 
-    filterCategories(input) {
+    filterCategories = (input) => {
         let tagCategories = this.props.categories;
 
         if (this.props.isSortingCategoriesByAlpha) {
@@ -459,9 +477,9 @@ const CategorizedTagInput = React.createClass({
             categories: categories,
             selection: selection
         });
-    },
+    };
 
-    filterItems(input, minAutocompleteLength) {
+    filterItems = (input, minAutocompleteLength) => {
         return function (i) {
             // if (input.length === 1) {
             //     return i.toLowerCase().trim() === input;
@@ -472,13 +490,13 @@ const CategorizedTagInput = React.createClass({
 
             return i.toLowerCase().indexOf(input.trim().toLowerCase()) >= 0;
         };
-    },
+    };
 
-    openPanel() {
+    openPanel = () => {
         this.setState({panelOpened: true});
-    },
+    };
 
-    closePanel() {
+    closePanel = () => {
         // Prevent the panel from hiding before the click action takes place
         if (this.timeout) {
             clearTimeout(this.timeout);
@@ -487,15 +505,15 @@ const CategorizedTagInput = React.createClass({
             this.timeout = undefined;
             this.setState({panelOpened: false});
         }, 150);
-    },
+    };
 
-    onValueChange(e) {
+    onValueChange = (e) => {
         let value = e.target.value;
         this.setState({value, panelOpened: value.trim().length > 0 || !isNaN(Number(value.trim()))});
         this.filterCategories(value);
-    },
+    };
 
-    onTagDeleted(i) {
+    onTagDeleted = (i) => {
         let newTags = this.state.selectedTags.slice(0, i)
             .concat(this.state.selectedTags.slice(i + 1));
         this.setState({
@@ -505,9 +523,9 @@ const CategorizedTagInput = React.createClass({
         if (typeof this.props.onChange === 'function') {
             this.props.onChange(newTags);
         }
-    },
+    };
 
-    onAdd(newTag) {
+    onAdd = (newTag) => {
         let {category, value, isNew} = newTag;
 
         if (typeof this.props.transformTag === 'function') {
@@ -546,9 +564,9 @@ const CategorizedTagInput = React.createClass({
                 this.props.onChange(newTags);
             }
         }
-    },
+    };
 
-    addSelectedTag() {
+    addSelectedTag = () => {
         if (!(this.state.panelOpened && this.state.value.length > 0)) {
             return;
         }
@@ -563,16 +581,16 @@ const CategorizedTagInput = React.createClass({
                 isNew: !value
             });
         }
-    },
+    };
 
-    handleBackspace(e) {
+    handleBackspace = (e) => {
         if (this.state.value.trim().length === 0) {
             e.preventDefault();
             this.onTagDeleted(this.state.selectedTags.length - 1);
         }
-    },
+    };
 
-    handleArrowLeft() {
+    handleArrowLeft = () => {
         let result = this.state.selection.value - 1;
         this.setState({
             selection: {
@@ -580,9 +598,9 @@ const CategorizedTagInput = React.createClass({
                 value: result >= 0 ? result : 0
             }
         });
-    },
+    };
 
-    handleArrowUp() {
+    handleArrowUp = () => {
         let result = this.state.selection.category - 1;
         this.setState({
             selection: {
@@ -590,9 +608,9 @@ const CategorizedTagInput = React.createClass({
                 value: 0
             }
         });
-    },
+    };
 
-    handleArrowRight() {
+    handleArrowRight = () => {
         let result = this.state.selection.value + 1;
         let cat = this.state.categories[this.state.selection.category];
         this.setState({
@@ -601,9 +619,9 @@ const CategorizedTagInput = React.createClass({
                 value: result <= cat.items.length ? result : cat.items.length
             }
         });
-    },
+    };
 
-    handleArrowDown() {
+    handleArrowDown = () => {
         let result = this.state.selection.category + 1;
         let cats = this.state.categories;
         this.setState({
@@ -612,9 +630,9 @@ const CategorizedTagInput = React.createClass({
                 value: 0
             }
         });
-    },
+    };
 
-    onKeyDown(e) {
+    onKeyDown = (e) => {
         switch (e.keyCode) {
             case key.TAB:
             case key.ENTER:
@@ -638,29 +656,29 @@ const CategorizedTagInput = React.createClass({
                 this.handleArrowDown();
                 break;
         }
-    },
+    };
 
-    value() {
+    value = () => {
         return this.state.selectedTags;
-    },
+    };
 
     render() {
         return (
             <div className='cti__root'>
-                <Input id={this.props.id}
-                       name={this.props.name}
-                       openPanel={this.openPanel}
-                       closePanel={this.closePanel}
-                       onValueChange={this.onValueChange}
-                       onTagDeleted={this.onTagDeleted}
-                       onKeyDown={this.onKeyDown}
-                       placeholder={this.props.placeholder}
-                       placeholderWithTags={this.props.placeholderWithTags}
-                       animateTagValue={this.state.animateTagValue}
-                       value={this.state.value}
-                       selectedTags={this.state.selectedTags}
-                       onBlur={this.props.onBlur}
-                       ref='input'/>
+                <CategorizedInput id={this.props.id}
+                                  name={this.props.name}
+                                  openPanel={this.openPanel}
+                                  closePanel={this.closePanel}
+                                  onValueChange={this.onValueChange}
+                                  onTagDeleted={this.onTagDeleted}
+                                  onKeyDown={this.onKeyDown}
+                                  placeholder={this.props.placeholder}
+                                  placeholderWithTags={this.props.placeholderWithTags}
+                                  animateTagValue={this.state.animateTagValue}
+                                  value={this.state.value}
+                                  selectedTags={this.state.selectedTags}
+                                  onBlur={this.props.onBlur}
+                                  ref='input'/>
                 {
                     this.state.panelOpened && this.state.value.length > 0
                         ?
@@ -676,10 +694,10 @@ const CategorizedTagInput = React.createClass({
             </div>
         );
     }
-});
+}
 
-var CategorizedTag = React.createClass({
-    propTypes: {
+export default class CategorizedTag extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,
         categorizedTags: React.PropTypes.array.isRequired,
@@ -693,28 +711,24 @@ var CategorizedTag = React.createClass({
         isHorizontal: React.PropTypes.bool,
         transformInitialTags: React.PropTypes.func,
         onTagChange: React.PropTypes.func
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            name: null,
-            multipleId: null,
-            icon: null,
-            children: null,
-            isSortingCategoriesByAlpha: true,
-            isHorizontal: false,
-            transformInitialTags: null,
-            onTagChange: null
-        };
-    },
+    static defaultProps = {
+        name: null,
+        multipleId: null,
+        icon: null,
+        children: null,
+        isSortingCategoriesByAlpha: true,
+        isHorizontal: false,
+        transformInitialTags: null,
+        onTagChange: null
+    };
 
-    getInitialState () {
-        return {
-            selectedTags: []
-        };
-    },
+    state = {
+        selectedTags: []
+    };
 
-    componentWillMount () {
+    componentWillMount() {
         if (this.props.children) {
             let initialTags = this.props.children;
             if (this.props.transformInitialTags) {
@@ -725,9 +739,9 @@ var CategorizedTag = React.createClass({
                 selectedTags: initialTags
             });
         }
-    },
+    }
 
-    _handleTagAdded (categoryId, tagName) {
+    _handleTagAdded = (categoryId, tagName) => {
         this.setState({
             selectedTags: this.state.selectedTags.concat([{
                 category: categoryId,
@@ -736,9 +750,9 @@ var CategorizedTag = React.createClass({
         });
 
         return tagName.capitalize();
-    },
+    };
 
-    _handleTagChanged (tags) {
+    _handleTagChanged = (tags) => {
         this.setState({
             selectedTags: tags
         });
@@ -746,9 +760,9 @@ var CategorizedTag = React.createClass({
         if (this.props.onTagChange) {
             this.props.onTagChange(tags);
         }
-    },
+    };
 
-    render () {
+    render() {
         const fieldClass = classNames(
             'categorized-tag',
             {
@@ -760,14 +774,14 @@ var CategorizedTag = React.createClass({
 
         const labelClass = classNames(
             {
-                'col m3': this.props.isHorizontal
+                'col m4': this.props.isHorizontal
             }
         );
 
         const sliderClass = classNames(
             'categorized-tag-input',
             {
-                'col m9': this.props.isHorizontal
+                'col m8': this.props.isHorizontal
             }
         );
 
@@ -817,7 +831,6 @@ var CategorizedTag = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = CategorizedTag;
 

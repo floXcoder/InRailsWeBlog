@@ -1,9 +1,7 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var Date = React.createClass({
-    propTypes: {
+export default class Date extends React.PureComponent {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,
         children: React.PropTypes.string,
@@ -16,31 +14,31 @@ var Date = React.createClass({
         onInput: React.PropTypes.func,
         isHorizontal: React.PropTypes.bool,
         validator: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            children: null,
-            isDisabled: false,
-            name: null,
-            multipleId: null,
-            isRequired: false,
-            icon: null,
-            autoComplete: null,
-            onChange: null,
-            onInput: null,
-            isHorizontal: false,
-            validator: null
-        };
-    },
+    static defaultProps = {
+        children: null,
+        isDisabled: false,
+        isRequired: false,
+        name: null,
+        multipleId: null,
+        icon: null,
+        autoComplete: null,
+        onChange: null,
+        onInput: null,
+        isHorizontal: false,
+        validator: null
+    };
 
-    getInitialState () {
-        return {
-            dateSelected: false
-        };
-    },
+    state = {
+        dateSelected: false
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         let name = this.props.name;
         if (!name && this.props.id.indexOf('_') !== -1) {
             if (this.props.multipleId) {
@@ -69,31 +67,31 @@ var Date = React.createClass({
             weekdaysShort: I18n.t('js.date.abbr_day_names'),
             weekdaysLetter: I18n.t('js.date.letter_day_names'),
             today: I18n.t('js.date.ranges.today_short'),
-            clear: I18n.t('js.buttons.clear'),
-            close: I18n.t('js.buttons.close'),
+            clear: I18n.t('js.date.buttons.clear'),
+            close: I18n.t('js.date.buttons.close'),
             onSet: (context) => {
-                if(!$.isEmpty(context)) {
+                if (!$.isEmpty(context)) {
                     this.setState({
                         dateSelected: true
                     })
                 }
             }
         });
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         // Ignore if props has changed
         return !_.isEqual(this.state.dateSelected, nextState.dateSelected);
-    },
+    }
 
-    _handleFocus (event) {
+    _handleFocus = (event) => {
         event.preventDefault();
         event.stopPropagation();
 
         $(ReactDOM.findDOMNode(this.refs[this.props.id])).pickadate('picker').open();
-    },
+    };
 
-    render () {
+    render() {
         const fieldClass = classNames({
             'input-field': !this.props.isHorizontal,
             'input-horizontal-field': this.props.isHorizontal,
@@ -140,6 +138,5 @@ var Date = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = Date;

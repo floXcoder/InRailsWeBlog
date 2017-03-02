@@ -1,26 +1,25 @@
 'use strict';
 
-var Errors = require('../mixins/errors');
-var Tracker = require('../mixins/tracker');
+import Errors from '../mixins/errors';
+import Tracker from '../mixins/tracker';
 
-var ArticleActions = require('../actions/articleActions');
+import ArticleActions from '../actions/articleActions';
 
-var ArticleStore = Reflux.createStore({
-    mixins: [Errors, Tracker],
-    listenables: [ArticleActions],
-    url: '/articles',
+export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker) {
+    constructor() {
+        super();
 
-    init () {
-        return true;
-    },
+        this.listenables = ArticleActions;
+        this.url = '/articles';
+    }
 
     // Called by handleErrors function of Errors mixin
-    displayUnauthorizedMessage () {
+    displayUnauthorizedMessage() {
         Materialize.toast(I18n.t('js.article.errors.not_authorized'), 10000);
-    },
+    }
 
     // Called by handleErrors function of Errors mixin
-    displayErrorsMessage (url, errorMessage) {
+    displayErrorsMessage(url, errorMessage) {
         if (url.includes('comments')) {
             Object.keys(errorMessage).forEach((errorField) => {
                 Materialize.toast(
@@ -52,9 +51,9 @@ var ArticleStore = Reflux.createStore({
                 );
             });
         }
-    },
+    }
 
-    _fetchArticles (data, callback) {
+    _fetchArticles(data, callback) {
         let requestParam = {};
 
         let url = this.url;
@@ -129,9 +128,9 @@ var ArticleStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onLoadArticles (data) {
+    onLoadArticles(data) {
         this._fetchArticles(data, (dataReceived) => {
             if (!$.isEmpty(dataReceived)) {
                 this.trigger({
@@ -141,9 +140,9 @@ var ArticleStore = Reflux.createStore({
                 });
             }
         });
-    },
+    }
 
-    onSearchArticles (data) {
+    onSearchArticles(data) {
         if ($.isEmpty(data)) {
             log.error('Tried to search for articles without data');
             return;
@@ -157,9 +156,9 @@ var ArticleStore = Reflux.createStore({
 
             _paq.push(['trackSiteSearch', data.query, 'Search', this.articleData.length]);
         });
-    },
+    }
 
-    onAutocompleteArticles (data) {
+    onAutocompleteArticles(data) {
         if ($.isEmpty(data) || $.isEmpty(data.autocompleteQuery)) {
             log.error('Tried to autocomplete articles without data');
             return;
@@ -172,9 +171,9 @@ var ArticleStore = Reflux.createStore({
                 autocompletion: dataReceived
             });
         });
-    },
+    }
 
-    onLoadArticle (data) {
+    onLoadArticle(data) {
         if ($.isEmpty(data) && (!data.id || !data.slug)) {
             log.error('Tried to load article without data');
             return;
@@ -203,9 +202,9 @@ var ArticleStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onAddArticle (article) {
+    onAddArticle(article) {
         if ($.isEmpty(article)) {
             log.error('Tried to push article without article');
             return;
@@ -245,9 +244,9 @@ var ArticleStore = Reflux.createStore({
                     this.handleErrors(this.url, xhr, status, error);
                 }
             });
-    },
+    }
 
-    onUpdateArticle (article) {
+    onUpdateArticle(article) {
         if ($.isEmpty(article) || $.isEmpty(article.id)) {
             log.error('Tried to update article without data');
             return;
@@ -285,9 +284,9 @@ var ArticleStore = Reflux.createStore({
                     this.handleErrors(this.url, xhr, status, error);
                 }
             });
-    },
+    }
 
-    onDeleteArticle (article) {
+    onDeleteArticle(article) {
         if ($.isEmpty(article)) {
             log.error('Tried to delete article without article');
             return;
@@ -324,9 +323,9 @@ var ArticleStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onAutosaveArticle (data) {
+    onAutosaveArticle(data) {
         if ($.isEmpty(data)) {
             log.error('Tried to autosave article without data');
             return;
@@ -348,9 +347,9 @@ var ArticleStore = Reflux.createStore({
                 return false
             }
         });
-    },
+    }
 
-    onLoadArticleHistory (data) {
+    onLoadArticleHistory(data) {
         if ($.isEmpty(data.history)) {
             log.error('Tried to load article history without data');
             return;
@@ -369,9 +368,9 @@ var ArticleStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onRestoreArticle (data) {
+    onRestoreArticle(data) {
         if ($.isEmpty(data.restore)) {
             log.error('Tried to restore article without data');
             return;
@@ -392,9 +391,9 @@ var ArticleStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onBookmarkArticle (data) {
+    onBookmarkArticle(data) {
         if ($.isEmpty(data.articleId)) {
             log.error('Tried to bookmark an article article id');
             return;
@@ -426,9 +425,9 @@ var ArticleStore = Reflux.createStore({
                 this.handleErrors(url, xhr, status, error);
             }
         });
-    },
+    }
 
-    onVoteArticle (data) {
+    onVoteArticle(data) {
         if ($.isEmpty(data.articleId)) {
             log.error('Tried to vote for an article without article id');
             return;
@@ -457,9 +456,9 @@ var ArticleStore = Reflux.createStore({
                 this.handleErrors(url, xhr, status, error);
             }
         });
-    },
+    }
 
-    onOutdateArticle (data) {
+    onOutdateArticle(data) {
         if ($.isEmpty(data.articleId)) {
             log.error('Tried to outdate an article without article id');
             return;
@@ -492,6 +491,4 @@ var ArticleStore = Reflux.createStore({
             }
         });
     }
-});
-
-module.exports = ArticleStore;
+}

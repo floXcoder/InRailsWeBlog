@@ -1,6 +1,6 @@
 'use strict';
 
-var ArticleLinkIcon = ({isLink}) => {
+const ArticleLinkIcon = ({isLink}) => {
     if (isLink) {
         return (
             <div className="article-link tooltipped btn-floating"
@@ -17,4 +17,4 @@ ArticleLinkIcon.propTypes = {
     isLink: React.PropTypes.bool.isRequired
 };
 
-module.exports = ArticleLinkIcon;
+export default ArticleLinkIcon;

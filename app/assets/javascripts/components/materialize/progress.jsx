@@ -1,22 +1,24 @@
 'use strict';
 
-var Progress = React.createClass({
-    propTypes: {
+export default class Progress extends React.PureComponent {
+    static propTypes = {
         value: React.PropTypes.number,
         totalValues: React.PropTypes.number,
         progressClass: React.PropTypes.string
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            value: 0,
-            totalValues: 100,
-            progressClass: ''
-        };
-    },
+    static defaultProps = {
+        value: 0,
+        totalValues: 100,
+        progressClass: ''
+    };
 
-    render () {
-        var completed = this.props.value;
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        let completed = this.props.value;
         if (completed < 0) {
             completed = 0;
         }
@@ -24,11 +26,11 @@ var Progress = React.createClass({
             completed = 100;
         }
 
-        var progressStyle = {
+        const progressStyle = {
             width: completed + '%'
         };
 
-        var completionStyle = {
+        const completionStyle = {
             width: this.props.totalValues + '%'
         };
 
@@ -40,7 +42,6 @@ var Progress = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = Progress;
 

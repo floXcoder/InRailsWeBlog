@@ -1,18 +1,18 @@
 'use strict';
 
-const TagActions = require('../../../actions/tagActions');
-const TagStore = require('../../../stores/tagStore');
+import TagActions from '../../../actions/tagActions';
+import TagStore from '../../../stores/tagStore';
 
-const ArticleCommonField = require('./fields/common');
-const ArticleAdvancedField = require('./fields/advanced');
-const ArticleErrorField = require('./fields/error');
+import ArticleCommonField from './fields/common';
+import ArticleAdvancedField from './fields/advanced';
+import ArticleErrorField from './fields/error';
 
-const Submit = require('../../materialize/submit');
+import Submit from '../../materialize/submit';
 
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
 
-var ArticleFormDisplay = React.createClass({
-    propTypes: {
+export default class ArticleFormDisplay extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         multipleId: React.PropTypes.number,
         children: React.PropTypes.object,
@@ -20,41 +20,40 @@ var ArticleFormDisplay = React.createClass({
         articleErrors: React.PropTypes.array,
         onCancel: React.PropTypes.func,
         onSubmit: React.PropTypes.func
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(TagStore, 'onTagChange')
-    ],
+    static defaultProps = {
+        multipleId: null,
+        children: null,
+        isDraft: null,
+        articleErrors: null,
+        onCancel: null,
+        onSubmit: null
+    };
 
-    getDefaultProps () {
-        return {
-            multipleId: null,
-            children: null,
-            isDraft: null,
-            articleErrors: null,
-            onCancel: null,
-            onSubmit: null
-        };
-    },
+    state = {
+        tags: [],
+        isValid: false,
+        isLink: null,
+        submitTooltipMessage: I18n.t('js.article.common.tooltips.title_too_short'),
+        isProcessing: false,
+        isDraft: this.props.isDraft || false
+    };
 
-    getInitialState () {
-        return {
-            tags: [],
-            isValid: false,
-            isLink: null,
-            submitTooltipMessage: I18n.t('js.article.common.tooltips.title_too_short'),
-            isProcessing: false,
-            isDraft: this.props.isDraft || false
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    _commonFields: null,
+        this.mapStoreToState(TagStore, this.onTagChange);
 
-    componentWillMount () {
+        this._commonFields = null;
+    }
+
+
+    componentWillMount() {
         TagActions.loadTags({user_tags: true});
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         if (this.state.submitTooltipMessage) {
             $(ReactDOM.findDOMNode(this)).find('input[type="submit"]').each(function () {
                 $(this).tooltip();
@@ -64,9 +63,9 @@ var ArticleFormDisplay = React.createClass({
                 $(this).tooltip('remove');
             });
         }
-    },
+    }
 
-    onTagChange (tagData) {
+    onTagChange(tagData) {
         if ($.isEmpty(tagData)) {
             return;
         }
@@ -76,9 +75,9 @@ var ArticleFormDisplay = React.createClass({
                 tags: tagData.tags
             });
         }
-    },
+    }
 
-    _handleCommonInputsChange (attributes) {
+    _handleCommonInputsChange(attributes) {
         let isValidArticle = true;
         let submitTooltipMessage = null;
         if (attributes.titleLength < window.parameters.article_title_min_length) {
@@ -96,17 +95,17 @@ var ArticleFormDisplay = React.createClass({
             isValid: isValidArticle,
             submitTooltipMessage: submitTooltipMessage
         });
-    },
+    }
 
-    _handleCancelClick (event) {
+    _handleCancelClick(event) {
         event.preventDefault();
 
         if (this.props.onCancel) {
             this.props.onCancel();
         }
-    },
+    }
 
-    _handleArticleSubmit (event) {
+    _handleArticleSubmit(event) {
         event.preventDefault();
 
         if (this._commonFields) {
@@ -118,9 +117,9 @@ var ArticleFormDisplay = React.createClass({
         }
 
         return true;
-    },
+    }
 
-    render () {
+    render() {
         const submitIsDisabled = !this.state.isValid && !this.props.articleErrors;
 
         return (
@@ -184,6 +183,4 @@ var ArticleFormDisplay = React.createClass({
             </form>
         );
     }
-});
-
-module.exports = ArticleFormDisplay;
+}

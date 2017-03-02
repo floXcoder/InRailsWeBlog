@@ -2,7 +2,7 @@
 
 import {Link} from 'react-router';
 
-var ArticleNone = ({isTopicPage, isSearchPage}) => (
+const ArticleNone = ({isTopicPage, isSearchPage}) => (
     <div className="row">
         <div className="col s6 offset-s3">
             <div className="card center-align blue-grey darken-1">
@@ -53,4 +53,4 @@ ArticleNone.getDefaultProps = {
     isTopicPage: false
 };
 
-module.exports = ArticleNone;
+export default ArticleNone;

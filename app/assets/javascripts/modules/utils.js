@@ -204,6 +204,10 @@
             return $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10);
         },
 
+        isLocatipicUser: function () {
+            return $.currentUserId() === 1;
+        },
+
         isValidUser: function (userId) {
             var currentUserId = $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10);
             var currentAdminId = $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10);
@@ -501,6 +505,11 @@
 
         fullDomainName: function () {
             return window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+        },
+
+        distanceFunctions: {
+            KM_PER_MILE: 1.609344,
+            PI: 3.14159265358979323846
         },
 
         flooredNum: function (number, decimals) {

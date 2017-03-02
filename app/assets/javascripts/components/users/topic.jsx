@@ -1,47 +1,44 @@
 'use strict';
 
-const UserActions = require('../../actions/userActions');
-const UserStore = require('../../stores/userStore');
+import UserActions from '../../actions/userActions';
+import UserStore from '../../stores/userStore';
 
-const Input = require('../materialize/input');
-const Submit = require('../materialize/submit');
+import Input from '../materialize/input';
+import Submit from '../materialize/submit';
 
 import {Subheader, Divider, FontIcon} from 'material-ui';
 import {List, ListItem} from 'material-ui/List';
 
-const classNames = require('classnames');
 
-var UserPreference = React.createClass({
-    propTypes: {
+export default class UserTopic extends Reflux.Component {
+    static propTypes = {
         onClick: React.PropTypes.func
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(UserStore, 'onTopicChange')
-    ],
+    static defaultProps = {
+        onClick: true
+    };
 
-    _topicInput: null,
+    state = {
+        isCreateTopicOpened: false,
+        topics: $app.user.isConnected() ? $app.user.topic.topics : [],
+        currentTopic: $app.user.isConnected() ? $app.user.topic.current_topic : null
+    };
 
-    getDefaultProps () {
-        return {
-            onClick: true
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    getInitialState () {
-        return {
-            isCreateTopicOpened: false,
-            topics: $app.user.isConnected() ? $app.user.topic.topics : [],
-            currentTopic: $app.user.isConnected() ? $app.user.topic.current_topic : null
-        };
-    },
+        this.mapStoreToState(UserStore, this.onTopicChange);
 
-    componentDidMount () {
-    },
+        this._topicInput = null;
+    }
+
+    componentDidMount() {
+    }
 
     onTopicChange(topicData) {
         if ($.isEmpty(topicData)) {
@@ -76,23 +73,23 @@ var UserPreference = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _handleTopicClick (topicSlug, event) {
+    _handleTopicClick(topicSlug, event) {
         event.preventDefault();
 
         // if (this.state.currentTopic.slug !== topicSlug) {
-            UserActions.changeTopic($app.user.currentId, topicSlug)
+        UserActions.changeTopic($app.user.currentId, topicSlug);
         // }
-    },
+    }
 
-    _handleShowCreateTopicClick (event) {
+    _handleShowCreateTopicClick(event) {
         event.preventDefault();
 
         this.setState({isCreateTopicOpened: true});
-    },
+    }
 
-    _handleCreateTopicClick () {
+    _handleCreateTopicClick() {
         this.setState({isCreateTopicOpened: false});
 
         if (this._topicInput) {
@@ -102,9 +99,9 @@ var UserPreference = React.createClass({
                     name: this._topicInput.value()
                 });
         }
-    },
+    }
 
-    render () {
+    render() {
         return (
             <div className="topic-list">
                 <List>
@@ -147,7 +144,4 @@ var UserPreference = React.createClass({
             </div>
         );
     }
-});
-
-
-module.exports = UserPreference;
+}

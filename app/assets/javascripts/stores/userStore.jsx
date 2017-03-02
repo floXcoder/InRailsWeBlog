@@ -1,24 +1,29 @@
 'use strict';
 
-var Errors = require('../mixins/errors');
-var Tracker = require('../mixins/tracker');
+import mix from '../mixins/mixin';
+import Errors from '../mixins/errors';
+import Tracker from '../mixins/tracker';
+import LocalData from '../mixins/local-data';
 
-var UserActions = require('../actions/userActions');
+import UserActions from '../actions/userActions';
 
-var UserStore = Reflux.createStore({
-    mixins: [Errors, Tracker],
-    listenables: [UserActions],
-    url: '/users',
+export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, LocalData) {
+    constructor() {
+        super();
 
-    init () {
+        this.listenables = UserActions;
+        this.url = '/users';
+    }
+
+    init() {
         if ($app.user.currentId) {
             this.onLoadUser({userId: $app.user.currentId, userProfile: true});
         }
 
         return true;
-    },
+    }
 
-    onLoadUsers (data) {
+    onLoadUsers(data) {
         let requestParam = {};
 
         let url = this.url;
@@ -48,9 +53,9 @@ var UserStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onValidation (data) {
+    onValidation(data) {
         if ($.isEmpty(data)) {
             log.error('Tried to validate user without data');
             return;
@@ -71,9 +76,9 @@ var UserStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(validationUrl, xhr, status, error);
             });
-    },
+    }
 
-    onLoadUser (data) {
+    onLoadUser(data) {
         if ($.isEmpty(data)) {
             return;
         }
@@ -115,9 +120,9 @@ var UserStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onLoadUserComments (userId, data) {
+    onLoadUserComments(userId, data) {
         if ($.isEmpty(userId)) {
             log.error('Tried to load user comment without user id');
             return;
@@ -152,9 +157,9 @@ var UserStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onLoadUserActivities (userId, data) {
+    onLoadUserActivities(userId, data) {
         if ($.isEmpty(userId)) {
             log.error('Tried to load user activities without user id');
             return;
@@ -189,9 +194,9 @@ var UserStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onUpdateUser (user) {
+    onUpdateUser(user) {
         if ($.isEmpty(user) || $.isEmpty(user.id)) {
             log.error('Tried to update user without user');
             return;
@@ -227,9 +232,9 @@ var UserStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onUpdatePreference (data) {
+    onUpdatePreference(data) {
         if ($.isEmpty(data)) {
             log.error('Tried to change user preference without data');
             return;
@@ -274,10 +279,10 @@ var UserStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onAddTopic (userId, topic) {
-        if ($.isEmpty(userId) || $.isEmpty(topic)) {
+    onAddTopic(userId, topic) {
+        if ($.isEmpty(userId) || $.isEmpty(topic)) {
             log.error('Tried to push topic without topic');
             return;
         }
@@ -316,10 +321,10 @@ var UserStore = Reflux.createStore({
                     this.handleErrors(this.url, xhr, status, error);
                 }
             });
-    },
+    }
 
-    onChangeTopic (userId, topicId) {
-        if ($.isEmpty(userId) || $.isEmpty(topicId)) {
+    onChangeTopic(userId, topicId) {
+        if ($.isEmpty(userId) || $.isEmpty(topicId)) {
             log.error('Tried to change topic without data');
             return;
         }
@@ -355,10 +360,10 @@ var UserStore = Reflux.createStore({
                     this.handleErrors(this.url, xhr, status, error);
                 }
             });
-    },
+    }
 
-    onUpdateTopic (userId, topic) {
-        if ($.isEmpty(userId) || $.isEmpty(topic) || $.isEmpty(topic.id)) {
+    onUpdateTopic(userId, topic) {
+        if ($.isEmpty(userId) || $.isEmpty(topic) || $.isEmpty(topic.id)) {
             log.error('Tried to update topic without data');
             return;
         }
@@ -395,10 +400,10 @@ var UserStore = Reflux.createStore({
                     this.handleErrors(this.url, xhr, status, error);
                 }
             });
-    },
+    }
 
-    onDeleteTopic (userId, topic) {
-        if ($.isEmpty(userId) || $.isEmpty(topic)) {
+    onDeleteTopic(userId, topic) {
+        if ($.isEmpty(userId) || $.isEmpty(topic)) {
             log.error('Tried to delete topic without topic');
             return;
         }
@@ -431,6 +436,4 @@ var UserStore = Reflux.createStore({
                 this.handleErrors(url, xhr, status, error);
             });
     }
-});
-
-module.exports = UserStore;
+}

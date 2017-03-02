@@ -1,15 +1,15 @@
 'use strict';
 
-const CountCommentIcon = require('../../comments/icons/count');
-const ArticleVisibilityIcon = require('../icons/visibility');
-const SingleTimeline = require('../../theme/timeline/single');
-const SingleTimelineItem = require('../../theme/timeline/single-item');
+import CountCommentIcon from '../../comments/icons/count';
+import ArticleVisibilityIcon from '../icons/visibility';
+import SingleTimeline from '../../theme/timeline/single';
+import SingleTimelineItem from '../../theme/timeline/single-item';
 
-const Pagination = require('../../materialize/pagination');
+import Pagination from '../../materialize/pagination';
 
 import {Link} from 'react-router';
 
-var ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
+const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
     <div className="article-timeline">
         <SingleTimeline>
             {
@@ -71,4 +71,4 @@ ArticleTimelineDisplay._handlePaginationClick = (paginate, loadArticles) => {
 };
 
 
-module.exports = ArticleTimelineDisplay;
+export default ArticleTimelineDisplay;

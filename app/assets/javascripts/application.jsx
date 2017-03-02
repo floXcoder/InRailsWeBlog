@@ -33,10 +33,12 @@ require('expose-loader?I18n!imports-loader?define=>false,require=>false!./module
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
 
-// var reactTestUpdate = require("why-did-you-update");
-// if (process.env.NODE_ENV !== 'production') {
-//     reactTestUpdate.whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton|FlatButtonLabel|FontIcon|Menu|Touch|Icon|Paper|EventListener|Overlay|AutoLock|Popover|List|MuiThemeProvider|ReactTransitionGroup|Card)/ })
-// }
+if (process.env.NODE_ENV !== 'production') {
+    const {whyDidYouUpdate} = require('why-did-you-update');
+    whyDidYouUpdate(React);
+    // whyDidYouUpdate(React, { include: /^pure/, exclude: /^Connect/ })
+    // { exclude: /^(?=EnhancedButton|FlatButton|FlatButtonLabel|FontIcon|Menu|Touch|Icon|Paper|EventListener|Overlay|AutoLock|Popover|List|MuiThemeProvider|ReactTransitionGroup|Card)/ })
+}
 
 // Configure log level
 if (window.railsEnv === 'development') {

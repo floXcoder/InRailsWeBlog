@@ -1,11 +1,11 @@
 'use strict';
 
-const DoubleTimeline = require('../../theme/timeline/double');
-const DoubleTimelineItem = require('../../theme/timeline/double-item');
+import DoubleTimeline from '../../theme/timeline/double';
+import DoubleTimelineItem from '../../theme/timeline/double-item';
 
-const Pagination = require('../../materialize/pagination');
+import Pagination from '../../materialize/pagination';
 
-var CommentTimelineDisplay = ({comments, pagination, loadComments}) => (
+const CommentTimelineDisplay = ({comments, pagination, loadComments}) => (
     <div className="comment-timeline">
         {
             comments.length > 0
@@ -57,4 +57,4 @@ CommentTimelineDisplay._handlePaginationClick = (paginate, loadComments) => {
     $('html, body').animate({scrollTop: $('.comment-timeline').offset().top - 64}, 750);
 };
 
-module.exports = CommentTimelineDisplay;
+export default CommentTimelineDisplay;

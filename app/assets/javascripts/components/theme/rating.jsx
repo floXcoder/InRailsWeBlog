@@ -1,10 +1,9 @@
 'use strict';
 
-const classname = require('classnames');
-
-var Rating = React.createClass({
-    propTypes: {
+export default class Rating extends React.PureComponent {
+    static propTypes = {
         initialRating: React.PropTypes.number,
+        ratingCount: React.PropTypes.number,
         isReadOnly: React.PropTypes.bool,
         starNumber: React.PropTypes.number,
         hasClear: React.PropTypes.bool,
@@ -15,55 +14,56 @@ var Rating = React.createClass({
         inputName: React.PropTypes.string,
         size: React.PropTypes.oneOf(['small', 'normal', 'big']),
         labelName: React.PropTypes.string
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            initialRating: 0,
-            isReadOnly: true,
-            starNumber: 5,
-            hasClear: false,
-            isCentered: true,
-            onChange: null,
-            hasInput: false,
-            inputId: null,
-            inputName: null,
-            size: 'normal',
-            labelName: null
-        };
-    },
+    static defaultProps = {
+        initialRating: 0,
+        ratingCount: null,
+        isReadOnly: true,
+        starNumber: 5,
+        hasClear: false,
+        isCentered: false,
+        onChange: null,
+        hasInput: false,
+        inputId: null,
+        inputName: null,
+        size: 'normal',
+        labelName: null
+    };
 
-    getInitialState () {
-        return {
-            value: this.props.initialRating,
-            prospectiveValue: 0
-        };
-    },
+    state = {
+        value: this.props.initialRating,
+        prospectiveValue: 0
+    };
 
-    shouldComponentUpdate (nextProps, nextState) {
+    constructor(props) {
+        super(props);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
         return !_.isEqual(this.state, nextState);
-    },
+    }
 
-    anchorMode (value) {
+    anchorMode = (value) => {
         if (this.state.prospectiveValue > 0) {
             return (value <= this.state.prospectiveValue ? 'suggested' : 'off');
         }
 
         let current_value = this.props.isReadOnly ? this.props.initialRating : this.state.value;
         return (value <= current_value ? 'on' : 'off');
-    },
+    };
 
-    _handleMouseEnter (value, event) {
+    _handleMouseEnter = (value, event) => {
         event.preventDefault();
         this.setState({prospectiveValue: value});
-    },
+    };
 
-    _handleMouseLeave (event) {
+    _handleMouseLeave = (event) => {
         event.preventDefault();
         this.setState({prospectiveValue: 0});
-    },
+    };
 
-    _handleMouseClick (value, event) {
+    _handleMouseClick = (value, event) => {
         event.preventDefault();
 
         this.setState({
@@ -71,27 +71,27 @@ var Rating = React.createClass({
             value: value
         });
 
-        if(this.props.hasInput && this.props.inputId) {
+        if (this.props.hasInput && this.props.inputId) {
             this.refs.ratingInput.value = value;
         }
 
         if (this.props.onChange) {
             this.props.onChange(value);
         }
-    },
+    };
 
-    value () {
+    value = () => {
         return this.state.value;
-    },
+    };
 
-    setValue (value) {
+    setValue = (value) => {
         this.setState({
             value: value
         });
-    },
+    };
 
-    render () {
-        const starRatingClass = classname(
+    render() {
+        const starRatingClass = classNames(
             'star-rating-input',
             {
                 'star-rating-center': this.props.isCentered,
@@ -100,7 +100,7 @@ var Rating = React.createClass({
         );
 
         let name = this.props.inputName;
-        if(this.props.hasInput && this.props.inputId) {
+        if (this.props.hasInput && this.props.inputId) {
             if (!name && this.props.inputId.indexOf('_') !== -1) {
                 name = this.props.inputId.replace('_', '[') + ']';
             }
@@ -127,18 +127,27 @@ var Rating = React.createClass({
                         </a>
                     </div>
 
+                    {/*<meta itemProp="ratingValue"*/
+                        /*content={this.props.initialRating}/>*/}
+
+                    {
+                        /*this.props.ratingCount &&*/
+                        /*<meta itemProp="reviewCount"*/
+                        /*content={this.props.ratingCount}/>*/
+                    }
+
                     {
                         _.times(this.props.starNumber, (i) => {
                             let value = i + 1;
                             let mode = this.anchorMode(i + 1);
 
-                            let linkClasses = classname('star-rating-star', mode);
-                            let starClasses = classname('material-icons star-rating-star-size', this.props.size);
+                            let linkClasses = classNames('star-rating-star', mode);
+                            let starClasses = classNames('material-icons star-rating-star-size', this.props.size);
 
                             return (
                                 <div key={i}
                                      className="star-rating-star-container">
-                                    <a ref={'s'+value}
+                                    <a ref={'s' + value}
                                        className={linkClasses}
                                        title={value}
                                        onMouseEnter={!this.props.isReadOnly ? this._handleMouseEnter.bind(this, value) : null}
@@ -164,6 +173,5 @@ var Rating = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = Rating;

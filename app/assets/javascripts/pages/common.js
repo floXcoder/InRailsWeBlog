@@ -1,70 +1,58 @@
 'use strict';
 
-require('../application');
+import '../application';
+import '../modules/validation';
 
-// Flash messages
-$('.blog-flash').each(function() {
-    var $this = $(this);
-    Materialize.toast($this.html(), 5000);
-});
+import '../components/users/account';
+import '../components/search/modal';
 
-$(document).ajaxComplete(function (event, request) {
-    if (request.getResponseHeader('X-Flash-Messages')) {
-        var flashMessage = JSON.parse(decodeURIComponent(escape(request.getResponseHeader('X-Flash-Messages'))));
-
-        if(flashMessage && flashMessage.success) {
-            Materialize.toast(flashMessage.success, 3000);
+// Initialize all SideNav
+if (window.innerWidth > window.parameters.medium_screen_up) {
+    $('header').find('.button-collapse').sideNav({
+            menuWidth: 350,
+            edge: 'left'
         }
-
-        if(flashMessage && flashMessage.notice) {
-            Materialize.toast(flashMessage.notice, 3000);
+    );
+} else {
+    $('header').find('.button-collapse').sideNav({
+            menuWidth: 260,
+            edge: 'left'
         }
-
-        if(flashMessage && flashMessage.error) {
-            Materialize.toast(flashMessage.error, 3000);
-        }
-    }
-});
-
-// Header : close side nav on click for settings or tags
-$('.button-collapse').click(function (event) {
-    if(event && (event.target.id === 'toggle-tags' || event.target.id === 'toggle-user-pref')) {
-        $('#toggle-navbar').sideNav('hide');
-    }
-    return true;
-});
-
-// Activate article creation
-if($app.user.isConnected()) {
-    $('a#toggle-article-creation').click(function (event) {
-        event.preventDefault();
-        Materialize.toast(I18n.t('js.article.flash.creation_unpermitted'), 5000);
-    });
+    );
 }
 
-// // Common url shortcuts
-// // All articles
-// Mousetrap.bind('alt+a', function () {
-//     if($app.user.isConnected()) {
-//         window.location.pathname = '/users/' + window.currentUserId;
-//     }
-//     return false;
-// }.bind(this), 'keydown');
-//
-// // Draft articles
-// Mousetrap.bind('alt+v', function () {
-//     if($app.user.isConnected()) {
-//         window.location.pathname = '/users/' + window.currentUserId + '/draft';
-//     }
-//     return false;
-// }.bind(this), 'keydown');
-//
-// // Bookmarked articles
-// Mousetrap.bind('alt+b', function () {
-//     if($app.user.isConnected()) {
-//         window.location.pathname = '/users/' + window.currentUserId + '/bookmarks';
-//     }
-//     return false;
-// }.bind(this), 'keydown');
+// Got to top button
+// $('.goto-top').goToTop();
 
+// Flash messages
+$('.blog-flash').each((index, element) => {
+    const $element = $(element);
+    const level = $element.data('level');
 
+    if (level === 'success') {
+        Notification.success($element.html());
+    } else if (level === 'error') {
+        Notification.error($element.html());
+    } else {
+        Notification.alert($element.html());
+    }
+});
+
+$(document).ajaxComplete((event, request) => {
+    if (request.getResponseHeader('X-Flash-Messages')) {
+
+        const flashMessage = JSON.parse(decodeURIComponent(escape(request.getResponseHeader('X-Flash-Messages'))));
+
+        if (flashMessage && flashMessage.success) {
+            Notification.success(flashMessage.success.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+        }
+
+        if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
+            Notification.alert(flashMessage.notice.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+        }
+
+        if (flashMessage && flashMessage.error) {
+            Notification.error(flashMessage.error.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+        }
+    }
+});

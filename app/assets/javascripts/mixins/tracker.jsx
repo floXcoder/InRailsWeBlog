@@ -1,6 +1,6 @@
 'use strict';
 
-var TrackerMixin = {
+const TrackerMixin = (superclass) => class extends superclass {
     onTrackClick (elementId, parentId) {
         if ($.isEmpty(elementId)) {
             log.error('Tried to track click without element id or name');
@@ -15,19 +15,14 @@ var TrackerMixin = {
 
         $.ajax({
             url: url,
-            async: false,
+            // async: false,
             dataType: 'json',
             type: 'POST',
             data: requestParam
-        }).done((data) => {
-                return true;
-            }
-        ).fail((xhr, status, error) => {
-            return false;
         });
 
         return true;
-    },
+    }
 
     onTrackView (elementId, parentId) {
         if ($.isEmpty(elementId)) {
@@ -46,16 +41,10 @@ var TrackerMixin = {
             dataType: 'json',
             type: 'POST',
             data: requestParam
-        })
-            .done((data) => {
-                return true;
-            })
-            .fail((xhr, status, error) => {
-                return false;
-            });
+        });
 
         return true;
     }
 };
 
-module.exports = TrackerMixin;
+export default TrackerMixin;

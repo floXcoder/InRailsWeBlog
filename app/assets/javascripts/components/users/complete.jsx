@@ -1,54 +1,52 @@
 'use strict';
 
-const UserActions = require('../../actions/userActions');
-const UserStore = require('../../stores/userStore');
+import UserActions from '../../actions/userActions';
+import UserStore from '../../stores/userStore';
 
-const ArticleActions = require('../../actions/articleActions');
-const ArticleStore = require('../../stores/articleStore');
+import ArticleActions from '../../actions/articleActions';
+import ArticleStore from '../../stores/articleStore';
 
-const Switch = require('../../components/materialize/switch');
-const Spinner = require('../../components/materialize/spinner');
-const ArticleTimelineDisplay = require('../../components/articles/display/timeline');
-const CommentTimeline = require('../../components/comments/display/timeline');
-const UserActivity = require('../../components/users/activity');
-const UserTracking = require('../../components/users/tracking');
+import Switch from '../../components/materialize/switch';
+import Spinner from '../../components/materialize/spinner';
+import ArticleTimelineDisplay from '../../components/articles/display/timeline';
+import CommentTimeline from '../../components/comments/display/timeline';
+import UserActivity from '../../components/users/activity';
+import UserTracking from '../../components/users/tracking';
 
-var UserComplete = React.createClass({
-    propTypes: {
+export default class UserComplete extends Reflux.Component {
+    static propTypes = {
         userId: React.PropTypes.oneOfType([
             React.PropTypes.number,
             React.PropTypes.string
         ]).isRequired,
         isAdmin: React.PropTypes.bool,
         onEditClick: React.PropTypes.func
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(UserStore, 'onUserChange'),
-        Reflux.listenTo(ArticleStore, 'onArticleChange')
-    ],
+    static defaultProps = {
+        isAdmin: false,
+        onEditClick: null
+    };
 
-    getDefaultProps () {
-        return {
-            isAdmin: false,
-            onEditClick: null
-        };
-    },
+    state = {
+        user: {},
+        userTracker: null,
+        userArticles: null,
+        articlesPagination: null,
+        userComments: null,
+        commentsPagination: null,
+        userActivities: null,
+        activitiesPagination: null
+    };
 
-    getInitialState () {
-        return {
-            user: {},
-            userTracker: null,
-            userArticles: null,
-            articlesPagination: null,
-            userComments: null,
-            commentsPagination: null,
-            userActivities: null,
-            activitiesPagination: null
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(UserStore, this.onUserChange);
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+    }
+
+    componentWillMount() {
         UserActions.loadUser({
             userId: this.props.userId,
             completeUser: true
@@ -57,34 +55,34 @@ var UserComplete = React.createClass({
         this._loadArticles(this.props.userId);
         this._loadComments(this.props.userId);
         this._loadActivities(this.props.userId);
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         $('.user-admin ul.tabs').tabs();
         $('.tooltipped').tooltip({delay: 50});
-    },
+    }
 
-    _loadArticles (userId, data = {}) {
+    _loadArticles(userId, data = {}) {
         ArticleActions.loadArticles({
             userId: userId,
             page: data.page || 1,
             summary: true
         });
-    },
+    }
 
-    _loadComments (userId, data = {}) {
+    _loadComments(userId, data = {}) {
         UserActions.loadUserComments(userId, {
             page: data.page || 1
         });
-    },
+    }
 
-    _loadActivities (userId, data = {}) {
+    _loadActivities(userId, data = {}) {
         UserActions.loadUserActivities(userId, {
             page: data.page || 1
         });
-    },
+    }
 
-    onUserChange (userData) {
+    onUserChange(userData) {
         if ($.isEmpty(userData)) {
             return;
         }
@@ -110,9 +108,9 @@ var UserComplete = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    onArticleChange (articleData) {
+    onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {
             return;
         }
@@ -123,9 +121,9 @@ var UserComplete = React.createClass({
                 articlesPagination: articleData.pagination
             });
         }
-    },
+    }
 
-    _onAdminChange (newAdminState) {
+    _onAdminChange(newAdminState) {
         if ($app.user.isAdmin()) {
             UserActions.updateUser({
                 id: this.state.user.id,
@@ -133,9 +131,9 @@ var UserComplete = React.createClass({
                 completeUser: true
             });
         }
-    },
+    }
 
-    render () {
+    render() {
         return (
             <div className="user-admin">
                 <div className="row">
@@ -447,6 +445,4 @@ var UserComplete = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = UserComplete;
+}

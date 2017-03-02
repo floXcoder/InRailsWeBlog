@@ -2,7 +2,7 @@
 
 import {FlatButton, FontIcon} from 'material-ui';
 
-var HomeTagHeader = ({onTagClick}) => (
+const HomeTagHeader = ({onTagClick}) => (
     <FlatButton label={I18n.t('js.header.tags.button')}
                 className="header-button"
                 secondary={true}
@@ -20,4 +20,4 @@ HomeTagHeader._handleTagClick = (onTagClick, event) => {
     return false;
 };
 
-module.exports = HomeTagHeader;
+export default HomeTagHeader;

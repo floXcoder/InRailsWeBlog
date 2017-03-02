@@ -1,42 +1,50 @@
 'use strict';
 
-// const classNames = require('classnames');
-
-var ShowMore = React.createClass({
-    propTypes: {
+export default class ShowMore extends React.PureComponent {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
-        children: React.PropTypes.string.isRequired
-    },
+        children: React.PropTypes.string,
+        className: React.PropTypes.string,
+        maxHeight: React.PropTypes.number
+    };
 
-    getDefaultProps () {
-        return {};
-    },
+    static defaultProps = {
+        children: '',
+        className: null,
+        maxHeight: 220
+    };
+
+    constructor(props) {
+        super(props);
+
+        this._showMoreText = null;
+    }
 
     componentDidMount() {
-        let $textContent = $(ReactDOM.findDOMNode(this.refs.showMoreText));
+        let $textContent = $(ReactDOM.findDOMNode(this._showMoreText));
         let currentHeight = $textContent.height();
 
-        if (currentHeight > 200) {
+        if (currentHeight > this.props.maxHeight) {
             $textContent.addClass('read-more-target');
             $(`#read-more-${this.props.id}`).find('label').show();
         } else {
             $(`#read-more-${this.props.id}`).find('label').hide();
         }
-    },
+    }
 
-    render () {
+    render() {
         return (
-            <div ref="showMore"
-                 id={`read-more-${this.props.id}`}>
+            <div id={`read-more-${this.props.id}`}
+                 className={this.props.className}>
                 <input id={this.props.id}
                        type="checkbox"
                        className="read-more-state"/>
 
                 <div className="read-more-wrap">
-                    <div ref="showMoreText"
-                         className="">
-                        {this.props.children}
-                    </div>
+                    <div ref={(showMoreText) => this._showMoreText = showMoreText}
+                         className="read-more-content"
+                         itemProp="description"
+                         dangerouslySetInnerHTML={{__html: this.props.children}}/>
                 </div>
 
                 <label htmlFor={this.props.id}
@@ -44,6 +52,21 @@ var ShowMore = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = ShowMore;
+
+// <div>
+//     <input id={`show-more-${this.props.ride.id}`}
+//            type="checkbox"
+//            className="read-more-state"/>
+//
+//     <ul className="read-more-wrap">
+//         <li>lorem</li>
+//         <li>lorem 2</li>
+//         <li className="read-more-target">lorem 3</li>
+//         <li className="read-more-target">lorem 4</li>
+//     </ul>
+//
+//     <label htmlFor={`show-more-${this.props.ride.id}`}
+//            className="read-more-trigger"/>
+// </div>

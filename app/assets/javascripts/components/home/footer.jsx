@@ -54,4 +54,4 @@ const HomeFooter = ({}) => (
     </div>
 );
 
-module.exports = HomeFooter;
+export default HomeFooter;

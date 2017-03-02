@@ -1,9 +1,7 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var Switch = React.createClass({
-    propTypes: {
+export default class Switch extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         name: React.PropTypes.string,
         multipleId: React.PropTypes.number,
@@ -14,59 +12,56 @@ var Switch = React.createClass({
         title: React.PropTypes.string,
         isTitleDown: React.PropTypes.bool,
         titleClass: React.PropTypes.string,
-        children: React.PropTypes.bool,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.bool,
+            React.PropTypes.string
+        ]),
+        isDefaultChecked: React.PropTypes.bool,
         isDisabled: React.PropTypes.bool,
         onSwitchChange: React.PropTypes.func,
         isHorizontal: React.PropTypes.bool,
         validator: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            name: null,
-            multipleId: null,
-            values: {},
-            title: null,
-            isTitleDown: false,
-            titleClass: null,
-            children: null,
-            isDisabled: false,
-            onCheckboxChanged: null,
-            onSwitchChange: null,
-            isHorizontal: false,
-            validator: null
-        };
-    },
+    static defaultProps = {
+        name: null,
+        multipleId: null,
+        values: {},
+        title: null,
+        isTitleDown: false,
+        titleClass: null,
+        children: null,
+        isDefaultChecked: true,
+        isDisabled: false,
+        onCheckboxChanged: null,
+        onSwitchChange: null,
+        isHorizontal: false,
+        validator: null
+    };
 
-    getInitialState () {
-        return {
-            isChecked: this.props.children !== false
-        };
-    },
+    state = {
+        isChecked: this.props.children === true || this.props.children === '1' || this.props.children === 'on' || this.props.isDefaultChecked
+    };
 
-    shouldComponentUpdate (nextProps, nextState) {
-        if (this.props.isDisabled != nextProps.isDisabled ||
-            this.props.children != nextProps.children ||
-            this.state.isChecked != nextState.children) {
-            return true;
-        } else {
-            return false;
-        }
-    },
+    constructor(props) {
+        super(props);
+    }
 
-    value () {
+    value = () => {
         return this.state.isChecked;
-    },
+    };
 
-    _handleSwitchChange (event) {
-        this.setState({isChecked: !this.state.isChecked});
+    _handleSwitchChange = (event) => {
         if (this.props.onSwitchChange) {
             this.props.onSwitchChange(!this.state.isChecked);
         }
-        return event;
-    },
 
-    render () {
+        this.setState({isChecked: !this.state.isChecked});
+
+        return event;
+    };
+
+    render() {
         let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
         let name = this.props.name;
@@ -97,9 +92,9 @@ var Switch = React.createClass({
             <div className={fieldClass}>
                 {
                     (this.props.title && !this.props.isTitleDown) &&
-                    <h6 className={titleClass}>
+                    <div className={titleClass}>
                         {this.props.title}
-                    </h6>
+                    </div>
                 }
 
                 <label className={labelClass}>
@@ -114,7 +109,7 @@ var Switch = React.createClass({
                            value={this.state.isChecked ? '1' : '0'}
                            data-unchecked-value="0"
                            onChange={this._handleSwitchChange}
-                        {...this.props.validator}/>
+                           {...this.props.validator}/>
 
                     <span className="lever"/>
 
@@ -123,13 +118,12 @@ var Switch = React.createClass({
 
                 {
                     (this.props.title && this.props.isTitleDown) &&
-                    <h6 className={titleClass}>
+                    <div className={titleClass}>
                         {this.props.title}
-                    </h6>
+                    </div>
                 }
             </div>
         );
     }
-});
+}
 
-module.exports = Switch;

@@ -1,6 +1,6 @@
 'use strict';
 
-var ArticleActions = Reflux.createActions([
+export default Reflux.createActions([
     'loadArticles',
     'searchArticles',
     'autocompleteArticles',
@@ -17,5 +17,3 @@ var ArticleActions = Reflux.createActions([
     'trackClick',
     'trackView'
 ]);
-
-module.exports = ArticleActions;

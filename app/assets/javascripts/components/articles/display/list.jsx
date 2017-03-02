@@ -1,12 +1,12 @@
 'use strict';
 
-const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-const InfiniteScroll = require('../../../components/materialize/infiniteScroll');
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import InfiniteScroll from '../../../components/materialize/infiniteScroll';
 
-const ArticleActions = require('../../../actions/articleActions');
-const ArticleItemDisplay = require('./item');
+import ArticleActions from '../../../actions/articleActions';
+import ArticleItemDisplay from './item';
 
-var ArticleListDisplay = ({articles, hasMore, articleDisplayMode, isHighlightingResults}) => {
+const ArticleListDisplay = ({articles, hasMore, articleDisplayMode, isHighlightingResults}) => {
     const ArticleNodes = articles.map((article) =>
         <ArticleItemDisplay
             key={article.id}
@@ -84,4 +84,4 @@ ArticleListDisplay._loadNextArticles = (hasMore) => {
     }
 };
 
-module.exports = ArticleListDisplay;
+export default ArticleListDisplay;

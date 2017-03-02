@@ -1,13 +1,12 @@
 'use strict';
 
-const classNames = require('classnames');
 
 /**
  * Encapsulates the rendering of an option that has been "selected" in a
  * TypeaheadTokenizer
  */
-var Token = React.createClass({
-    propTypes: {
+export default class Token extends React.Component {
+    static propTypes = {
         className: React.PropTypes.string,
         name: React.PropTypes.string,
         children: React.PropTypes.string,
@@ -16,9 +15,13 @@ var Token = React.createClass({
             React.PropTypes.object
         ]),
         onRemove: React.PropTypes.func
-    },
+    };
 
-    render () {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
         let className = classNames([
             "typeahead-token",
             this.props.className
@@ -31,9 +34,9 @@ var Token = React.createClass({
                 {this._renderCloseButton()}
             </div>
         );
-    },
+    }
 
-    _renderHiddenInput () {
+    _renderHiddenInput() {
         // If no name was set, don't create a hidden input
         if (!this.props.name) {
             return null;
@@ -46,9 +49,9 @@ var Token = React.createClass({
                 value={ this.props.object }
             />
         );
-    },
+    }
 
-    _renderCloseButton () {
+    _renderCloseButton() {
         if (!this.props.onRemove) {
             return "";
         }
@@ -59,6 +62,4 @@ var Token = React.createClass({
             }}>&#x00d7;</a>
         );
     }
-});
-
-module.exports = Token;
+}

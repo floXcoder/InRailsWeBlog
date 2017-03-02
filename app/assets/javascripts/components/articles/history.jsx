@@ -1,34 +1,36 @@
 'use strict';
 
-const ArticleActions = require('../../actions/articleActions');
+import ArticleActions from '../../actions/articleActions';
 
-var ArticleHistory = React.createClass({
-    propTypes: {
+export default class ArticleHistory extends React.Component {
+    static propTypes = {
         articleVersions: React.PropTypes.array.isRequired
-    },
+    };
 
-    getInitialState () {
-        return {};
-    },
+    state = {};
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         $('.blog-article-history.collapsible').collapsible();
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         $('.blog-article-history.collapsible').collapsible();
-    },
+    }
 
-    _handleRestoreClick (articleId, versionId) {
+    _handleRestoreClick(articleId, versionId) {
         let articleToRestore = {
             articleId: articleId,
             versionId: versionId
         };
 
         ArticleActions.restoreArticle({restore: articleToRestore});
-    },
+    }
 
-    render () {
+    render() {
         if (this.props.articleVersions.length > 0) {
             return (
                 <ul className="blog-article-history collapsible popout"
@@ -62,8 +64,5 @@ var ArticleHistory = React.createClass({
 
             return null;
         }
-
     }
-});
-
-module.exports = ArticleHistory;
+}

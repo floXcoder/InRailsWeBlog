@@ -1,29 +1,30 @@
 'use strict';
 
-var ErrorActions = require('../actions/errorActions');
+import ErrorStore from '../stores/errorStore';
 
-var ErrorsMixin = {
-    handleErrors: function (url, xhr, status, error) {
+const ErrorsMixin = (superclass) => class extends superclass {
+    handleErrors (url, xhr, status, error) {
         if (status === 'error') {
             if (error === 'Forbidden') {
                 if (this.displayUnauthorizedMessage !== undefined) {
                     this.displayUnauthorizedMessage();
                 } else {
-                    Materialize.toast(I18n.t('js.errors.not_authorized'), 10000);
+                    Notification.error(I18n.t('js.helpers.errors.not_authorized'), 10);
                 }
             } else if (error === 'Unprocessable Entity') {
                 var errorMessage = JSON.parse(xhr.responseText);
+                // Function called for each shop
                 if (this.displayErrorsMessage !== undefined) {
                     this.displayErrorsMessage(url, errorMessage);
                 }
             } else if (error === 'Internal Server Error') {
-                Materialize.toast(I18n.t('js.errors.server'), 10000);
+                Notification.error(I18n.t('js.helpers.errors.server'), 10);
             }
         } else {
             log.error('Unknown Error in JSON request: ' + error + ', status:' + status);
         }
 
-        ErrorActions.pushError({
+        ErrorStore.pushError({
             message: error,
             url: url,
             trace: xhr.responseText,
@@ -32,4 +33,4 @@ var ErrorsMixin = {
     }
 };
 
-module.exports = ErrorsMixin;
+export default ErrorsMixin;

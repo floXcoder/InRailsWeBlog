@@ -1,8 +1,8 @@
 'use strict';
 
-const Input = require('../materialize/input');
+import Input from '../../components/materialize/input';
 
-let SearchBar = ({label, children, onUserInput}) => (
+const SearchBar = ({label, children, onUserInput}) => (
     <form className="tag-search"
           onSubmit={SearchBar._handleSubmit}>
         <Input id="filter-text-input"
@@ -30,4 +30,4 @@ SearchBar.defaultProps = {
     onUserInput: null
 };
 
-module.exports = SearchBar;
+export default SearchBar;

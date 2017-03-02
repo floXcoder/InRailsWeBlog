@@ -1,6 +1,5 @@
 'use strict';
 
-const classNames = require('classnames');
 
 let Spinner = ({size, className}) => {
     const preloaderClasses = classNames(
@@ -38,5 +37,5 @@ Spinner.defaultProps = {
     className: null
 };
 
-module.exports = Spinner;
+export default Spinner;
 

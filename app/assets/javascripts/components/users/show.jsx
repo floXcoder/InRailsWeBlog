@@ -1,29 +1,31 @@
 'use strict';
 
-const UserComplete = require('./complete');
+import UserComplete from './complete';
 
-var UserShow = React.createClass({
-    propTypes: {
+export default class UserShow extends React.Component {
+    static propTypes = {
         userId: React.PropTypes.number,
         params: React.PropTypes.object
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            userId: null,
-            params: {}
-        };
-    },
+    static defaultProps = {
+        userId: null,
+        params: {}
+    };
 
-    _handleEditClick () {
+    constructor(props) {
+        super(props);
+    }
+
+    _handleEditClick() {
         this.context.router.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
-    },
+    }
 
-    render () {
+    render() {
         return (
             <div>
                 {
@@ -35,6 +37,4 @@ var UserShow = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = UserShow;
+}

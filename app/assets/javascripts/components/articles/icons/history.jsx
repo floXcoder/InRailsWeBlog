@@ -1,36 +1,35 @@
 'use strict';
 
-var ArticleHistoryIcon = React.createClass({
-    propTypes: {
+export default class ArticleHistoryIcon extends React.PureComponent {
+    static propTypes = {
         article: React.PropTypes.object.isRequired,
         onHistoryClick: React.PropTypes.func.isRequired
-    },
+    };
 
-    getDefaultProps () {
-        return {
-        };
-    },
+    static defaultProps = {};
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         $('.article-history.tooltipped').tooltip();
-    },
+    }
 
-    componentWillUpdate () {
+    componentWillUpdate() {
         $('.article-history.tooltipped').tooltip('remove');
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         $('.article-history.tooltipped').tooltip();
-    },
+    }
 
-    render () {
+    render() {
         if ($app.user.isConnected(this.props.article.user.id)) {
-            var historyTooltip = I18n.t('js.article.tooltip.history');
-
             return (
                 <a className="article-history tooltipped btn-floating"
-                     data-tooltip={historyTooltip}
-                     onClick={this.props.onHistoryClick}>
+                   data-tooltip={I18n.t('js.article.tooltip.history')}
+                   onClick={this.props.onHistoryClick}>
                     <i className="material-icons">history</i>
                 </a>
             );
@@ -38,6 +37,4 @@ var ArticleHistoryIcon = React.createClass({
             return null;
         }
     }
-});
-
-module.exports = ArticleHistoryIcon;
+}

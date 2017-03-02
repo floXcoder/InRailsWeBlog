@@ -1,11 +1,9 @@
 'use strict';
 
-const noUiSlider = require('materialize-css/extras/noUiSlider/nouislider');
+import noUiSlider from 'materialize-css/extras/noUiSlider/nouislider';
 
-const classNames = require('classnames');
-
-var RangeSlider = React.createClass({
-    propTypes: {
+export default class RangeSlider extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,
         range: React.PropTypes.array.isRequired,
@@ -18,32 +16,32 @@ var RangeSlider = React.createClass({
         isDisplayRange: React.PropTypes.bool,
         hasInputForDefaultValues: React.PropTypes.bool,
         onSliderChange: React.PropTypes.func
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            name: null,
-            multipleId: null,
-            unit: null,
-            icon: null,
-            children: null,
-            isHorizontal: false,
-            isDisplayRange: false,
-            hasInputForDefaultValues: true,
-            onSliderChange: null
-        };
-    },
+    static defaultProps = {
+        name: null,
+        multipleId: null,
+        unit: null,
+        icon: null,
+        children: null,
+        isHorizontal: false,
+        isDisplayRange: false,
+        hasInputForDefaultValues: true,
+        onSliderChange: null
+    };
 
-    getInitialState () {
-        return {
-            values: null
-        };
-    },
+    state = {
+        values: null
+    };
+
+    constructor(props) {
+        super(props);
+    }
 
     componentDidMount() {
         let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
-        var sliderIdSelector = document.getElementById(`${id}-slider`);
+        const sliderIdSelector = document.getElementById(`${id}-slider`);
 
         noUiSlider.create(sliderIdSelector, {
             start: this.props.children || this.props.range,
@@ -82,23 +80,23 @@ var RangeSlider = React.createClass({
                 values: values
             });
         });
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         // Ignore if props has changed
         return !_.isEqual(this.state.values, nextState.values);
-    },
+    }
 
-    values () {
+    values = () => {
         return this.refs.sliderInputValues.value;
-    },
+    };
 
-    setValues (values) {
+    setValues = (values) => {
         let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
         document.getElementById(`${id}-slider`).noUiSlider.set(values);
-    },
+    };
 
-    render () {
+    render() {
         const fieldClass = classNames(
             'noUiSlider',
             {
@@ -147,8 +145,7 @@ var RangeSlider = React.createClass({
                     <div id={`${id}-slider`}/>
                     {
                         (this.props.isDisplayRange && this.state.values) &&
-                        <div ref="sliderDisplayValues"
-                             className="noUiSlider-values center-align">
+                        <div className="noUiSlider-values center-align">
                             {`${this.state.values[0] + this.props.unit} - ${this.state.values[1] + this.props.unit}`}
                         </div>
                     }
@@ -161,7 +158,6 @@ var RangeSlider = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = RangeSlider;
 

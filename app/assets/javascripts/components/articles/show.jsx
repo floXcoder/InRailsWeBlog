@@ -1,60 +1,57 @@
 'use strict';
 
-const HighlightCode = require('highlight.js');
+import HighlightCode from 'highlight.js';
 
-const AnimatedText = require('../theme/animated-text');
+import AnimatedText from '../theme/animated-text';
 
-const UserStore = require('../../stores/userStore');
+import UserStore from '../../stores/userStore';
 
-const ArticleActions = require('../../actions/articleActions');
-const ArticleStore = require('../../stores/articleStore');
-const ArticleHistory = require('./history');
-const CountCommentIcon = require('../comments/icons/count');
-const ArticleLinkIcon = require('./icons/link');
-const ArticleOutdatedIcon = require('./icons/outdated');
-const ArticleVisibilityIcon = require('./icons/visibility');
-const ArticleBookmarkIcon = require('./icons/bookmark');
-const ArticleHistoryIcon = require('./icons/history');
-const ArticleDeleteIcon = require('./icons/delete');
-const ArticleTags = require('./properties/tags');
-const ArticleTime = require('./properties/time');
+import ArticleActions from '../../actions/articleActions';
+import ArticleStore from '../../stores/articleStore';
+import ArticleHistory from './history';
+import CountCommentIcon from '../comments/icons/count';
+import ArticleLinkIcon from './icons/link';
+import ArticleOutdatedIcon from './icons/outdated';
+import ArticleVisibilityIcon from './icons/visibility';
+import ArticleBookmarkIcon from './icons/bookmark';
+import ArticleHistoryIcon from './icons/history';
+import ArticleDeleteIcon from './icons/delete';
+import ArticleTags from './properties/tags';
+import ArticleTime from './properties/time';
 
-const UserAvatarIcon = require('../users/icons/avatar');
+import UserAvatarIcon from '../users/icons/avatar';
 
-const CommentBox = require('../comments/box');
+import CommentBox from '../comments/box';
 
-const classNames = require('classnames');
 
 import {Link} from 'react-router';
 
-var ArticleShow = React.createClass({
-    propTypes: {
+export default class ArticleShow extends Reflux.Component {
+    static propTypes = {
         article: React.PropTypes.object,
         params: React.PropTypes.object,
         location: React.PropTypes.object,
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(ArticleStore, 'onArticleChange')
-    ],
+    static defaultProps = {
+        article: null,
+        params: {},
+        location: {}
+    };
 
-    getDefaultProps () {
-        return {
-            article: null,
-            params: {},
-            location: {}
-        };
-    },
+    state = {
+        article: null,
+        articleVersions: null,
+        isHistoryDisplayed: false
+    };
 
-    getInitialState () {
-        return {
-            article: null,
-            articleVersions: null,
-            isHistoryDisplayed: false
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+    }
+
+    componentWillMount() {
         if (this.props.article) {
             this.setState({
                 article: this.props.article
@@ -62,9 +59,9 @@ var ArticleShow = React.createClass({
         } else if (this.props.params.articleSlug) {
             ArticleActions.loadArticle({slug: this.props.params.articleSlug});
         }
-    },
+    }
 
-    componentDidMount () {
+    componentDidMount() {
         // Display tooltips
         $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(() => {
             $(this).tooltip();
@@ -76,17 +73,17 @@ var ArticleShow = React.createClass({
         });
 
         this._highlightCode();
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(() => {
             $(this).tooltip();
         });
 
         this._highlightCode();
-    },
+    }
 
-    onArticleChange (articleData) {
+    onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {
             return;
         }
@@ -111,9 +108,9 @@ var ArticleShow = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _highlightCode () {
+    _highlightCode() {
         if (!this.state.article) {
             return;
         }
@@ -125,41 +122,41 @@ var ArticleShow = React.createClass({
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
-    },
+    }
 
-    _handleUserClick (userId, event) {
+    _handleUserClick(userId, event) {
         UserStore.onTrackClick(userId);
         return event;
-    },
+    }
 
-    _handleHistoryClick () {
+    _handleHistoryClick() {
         if (this.state.isHistoryDisplayed) {
             this.setState({isHistoryDisplayed: false});
         } else {
             ArticleActions.loadArticleHistory({history: this.state.article.id});
         }
-    },
+    }
 
-    _handleDeleteClick (event) {
+    _handleDeleteClick(event) {
         event.preventDefault();
         if (this.state.article) {
             ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
         }
-    },
+    }
 
-    _handleBookmarkClick (articleId, isBookmarked) {
+    _handleBookmarkClick(articleId, isBookmarked) {
         ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
-    },
+    }
 
-    _handleVoteClick (articleId, isUp) {
+    _handleVoteClick(articleId, isUp) {
         ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
-    },
+    }
 
-    _handleOutdatedClick (articleId, isOutdated) {
+    _handleOutdatedClick(articleId, isOutdated) {
         ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
-    },
+    }
 
-    render () {
+    render() {
         if (this.state.article) {
             const isOutdated = this.state.article.outdated_number > 3;
 
@@ -289,6 +286,4 @@ var ArticleShow = React.createClass({
             return null;
         }
     }
-});
-
-module.exports = ArticleShow;
+}

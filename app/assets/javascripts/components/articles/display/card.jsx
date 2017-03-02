@@ -1,54 +1,54 @@
 'use strict';
 
-const ArticleStore = require('../../../stores/articleStore');
+import ArticleStore from '../../../stores/articleStore';
 
-const CountCommentIcon = require('../../comments/icons/count');
-const ArticleActions = require('../properties/actions');
-const ArticleTags = require('../properties/tags');
-const ArticleTime = require('../properties/time');
+import CountCommentIcon from '../../comments/icons/count';
+import ArticleActions from '../properties/actions';
+import ArticleTags from '../properties/tags';
+import ArticleTime from '../properties/time';
 
-const UserAvatarIcon = require('../../users/icons/avatar');
+import UserAvatarIcon from '../../users/icons/avatar';
 
-const HighlightCode = require('highlight.js');
-
-const classNames = require('classnames');
+import HighlightCode from 'highlight.js';
 
 import {Link} from 'react-router';
 
-var ArticleCardDisplay = React.createClass({
-    propTypes: {
+export default class ArticleCardDisplay extends React.Component {
+    static propTypes = {
         children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
         onTagClick: React.PropTypes.func.isRequired,
         onBookmarkClick: React.PropTypes.func.isRequired,
         onEditClick: React.PropTypes.func,
         onVisibilityClick: React.PropTypes.func
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            onClickEdit: null,
-            onClickVisibility: null
-        };
-    },
+    static defaultProps = {
+        onClickEdit: null,
+        onClickVisibility: null
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         HighlightCode.configure({
             tabReplace: '  ' // 4 spaces
         });
 
         this._highlightCode();
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         this._highlightCode();
-    },
+    }
 
-    _highlightCode () {
+    _highlightCode() {
         let domNode = ReactDOM.findDOMNode(this);
         let nodes = domNode.querySelectorAll('pre code');
         if (nodes.length > 0) {
@@ -56,19 +56,19 @@ var ArticleCardDisplay = React.createClass({
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
-    },
+    }
 
-    _handleTagClick (tagId, tagName) {
+    _handleTagClick(tagId, tagName) {
         this.props.onTagClick(tagName);
-    },
+    }
 
-    _handleArticleClick (event) {
+    _handleArticleClick(event) {
         ArticleStore.onTrackClick(this.props.article.id);
 
         return event;
-    },
+    }
 
-    render () {
+    render() {
         const isOutdated = this.props.article.outdated_number > 3;
 
         return (
@@ -116,6 +116,4 @@ var ArticleCardDisplay = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = ArticleCardDisplay;
+}

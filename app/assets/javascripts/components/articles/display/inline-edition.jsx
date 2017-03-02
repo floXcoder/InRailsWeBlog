@@ -1,24 +1,26 @@
 'use strict';
 
-const ArticleActions = require('../../../actions/articleActions');
-const ArticleEditionIcons = require('../icons/edition');
-const ArticleLinkIcon = require('../icons/link');
+import ArticleActions from '../../../actions/articleActions';
+import ArticleEditionIcons from '../icons/edition';
+import ArticleLinkIcon from '../icons/link';
 
-const Editor = require('../../editor/editor');
+import Editor from '../../editor/editor';
 
-var ArticleEditionDisplay = React.createClass({
-    propTypes: {
+export default class ArticleEditionDisplay extends React.Component {
+    static propTypes = {
         children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
         onTagClick: React.PropTypes.func.isRequired,
         setDefaultDisplay: React.PropTypes.func.isRequired
-    },
+    };
 
-    getInitialState () {
-        return {
-            isLink: false
-        };
-    },
+    state = {
+        isLink: false
+    };
+
+    constructor(props) {
+        super(props);
+    }
 
     // _handleEditorChange (event) {
     //     let text = event.currentTarget.textContent;
@@ -35,31 +37,31 @@ var ArticleEditionDisplay = React.createClass({
     //         this.state.isLink = false;
     //         this.setState({isLink: false});
     //     }
-    // },
+    // }
 
-    _handleTagClick (tagName, event) {
+    _handleTagClick(tagName, event) {
         this.props.onTagClick(tagName, event);
-    },
+    }
 
-    _handleDeleteClick (event) {
+    _handleDeleteClick(event) {
         this.refs.editor.remove();
         ArticleActions.deleteArticle({id: this.props.article.id});
         this.props.setDefaultDisplay();
-    },
+    }
 
-    _handleCancelClick (event) {
+    _handleCancelClick(event) {
         this.refs.editor.remove();
         this.props.setDefaultDisplay();
-    },
+    }
 
-    _handleSaveClick (event) {
+    _handleSaveClick(event) {
         let content = this.refs.editor.serialize();
         ArticleActions.updateArticle({id: this.props.article.id, content: content});
         this.refs.editor.remove();
         this.props.setDefaultDisplay();
-    },
+    }
 
-    render () {
+    render() {
         return (
             <div className="card blog-article-item article-edition clearfix">
                 <div className="card-content">
@@ -98,6 +100,4 @@ var ArticleEditionDisplay = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = ArticleEditionDisplay;
+}

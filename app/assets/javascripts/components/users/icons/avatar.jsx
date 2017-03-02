@@ -1,6 +1,6 @@
 'use strict';
 
-const UserStore = require('../../../stores/userStore');
+import UserStore from '../../../stores/userStore';
 
 import {Link} from 'react-router';
 
@@ -41,4 +41,4 @@ UserAvatarIcon._handleUserClick = (userId, event) => {
     return event;
 };
 
-module.exports = UserAvatarIcon;
+export default UserAvatarIcon;

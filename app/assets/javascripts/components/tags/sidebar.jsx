@@ -1,71 +1,70 @@
 'use strict';
 
-// const AssociatedTagBox = require('../../components/tags/associated/box');
+// import AssociatedTagBox from '../../components/tags/associated/box';
 
-const TagStore = require('../../stores/tagStore');
+import TagStore from '../../stores/tagStore';
 
-const IndexTagList = require('./display/relationship');
-const SearchBar = require('../theme/search-bar');
-const Spinner = require('../materialize/spinner');
+import IndexTagList from './display/relationship';
+import SearchBar from '../theme/search-bar';
+import Spinner from '../materialize/spinner';
 
-const classNames = require('classnames');
 
 import {Drawer, Subheader} from 'material-ui';
 
-var TagSidebar = React.createClass({
-    propTypes: {
+export default class TagSidebar extends Reflux.Component {
+    static propTypes = {
         isOpened: React.PropTypes.bool
-    },
+    };
 
-    mixins: [Reflux.connectFilter(TagStore, 'userTags', function (tagData) {
-        if (tagData.type === 'userTags') {
-            return tagData.userTags;
-        } else {
-            return this.state.userTags;
-        }
-    })],
+    static defaultProps = {
+        isOpened: false
+    };
 
-    getDefaultProps () {
-        return {
-            isOpened: false
-        };
-    },
+    state = {
+        isOpened: this.props.isOpened,
+        filterText: ''
+    };
 
-    getInitialState () {
-        return {
-            isOpened: this.props.isOpened,
-            filterText: ''
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentDidMount () {
+        // mixins: [Reflux.connectFilter(TagStore, 'userTags', function (tagData) {
+        //     if (tagData.type === 'userTags') {
+        //         return tagData.userTags;
+        //     } else {
+        //         return this.state.userTags;
+        //     }
+        // })],
+    }
+
+    componentDidMount() {
         // Mousetrap.bind('alt+t', () => {
         //     $('#toggle-tags').sideNav('show');
         //     return false;
         // }, 'keydown');
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             isOpened: nextProps.isOpened
         });
-    },
+    }
 
-    _handleUserInput (filterText) {
+    _handleUserInput(filterText) {
         this.setState({
             filterText: filterText
         });
-    },
+    }
 
-    _handleCloseClick (event) {
+    _handleCloseClick(event) {
         event.preventDefault();
 
         this.setState({
             isOpened: false
         });
-    },
+    }
 
-    render () {
+    render() {
         const isLoading = $.isEmpty(this.state.userTags);
 
         return (
@@ -96,6 +95,4 @@ var TagSidebar = React.createClass({
             </Drawer>
         );
     }
-});
-
-module.exports = TagSidebar;
+}

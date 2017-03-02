@@ -1,124 +1,172 @@
 'use strict';
 
-const classNames = require('classnames');
+import Progress from '../materialize/progress';
+import ProcessingButton from '../theme/processing-button';
 
-const Progress = require('../materialize/progress');
-
-var FormWizard = React.createClass({
-    propTypes: {
+export default class FormWizard extends React.Component {
+    static propTypes = {
         titles: React.PropTypes.array.isRequired,
         children: React.PropTypes.array.isRequired,
+        id: React.PropTypes.string,
+        lastButton: React.PropTypes.string,
+        isButtonsDisabled: React.PropTypes.bool,
+        isProcessing: React.PropTypes.bool,
+        isProcessingButton: React.PropTypes.string,
         isPrevValid: React.PropTypes.bool,
         isNextValid: React.PropTypes.bool,
         onPrevClick: React.PropTypes.func,
-        onNextClick: React.PropTypes.func
-    },
+        onNextClick: React.PropTypes.func,
+        onLastClick: React.PropTypes.func
+    };
 
-    getDefaultProps () {
-        return {
-            isPrevValid: true,
-            isNextValid: true,
-            onPrevClick: null,
-            onNextClick: null
-        };
-    },
+    static defaultProps = {
+        id: 'tab',
+        lastButton: null,
+        isButtonsDisabled: false,
+        isProcessing: false,
+        isProcessingButton: null,
+        isPrevValid: true,
+        isNextValid: true,
+        onPrevClick: null,
+        onNextClick: null
+    };
 
-    getInitialState () {
-        return {
-            currentStep: 0,
-            totalSteps: this.props.titles.length
-        };
-    },
+    state = {
+        totalSteps: this.props.children.length - 1,
+        currentStep: (() => ($.getUrlAnchor() && $.getUrlAnchor().includes(this.props.id)) ? parseInt($.getUrlAnchor().replace(this.props.id, ''), 10) : 0)(),
+    };
 
-    _handleStepClick (i) {
+    constructor(props) {
+        super(props);
+    }
+
+    _handleStepClick = (i) => {
         if (this.state.currentStep < i) {
-            this._handleNextClick();
+            this._handleNextClick(Math.abs(this.state.currentStep - i));
         } else {
-            this._handlePreviousClick();
+            this._handlePreviousClick(Math.abs(this.state.currentStep - i));
         }
+    };
 
-        // this.setState({
-        //     currentStep: i
-        // });
-    },
-
-    _handlePreviousClick () {
+    _handlePreviousClick = (count = 1) => {
         if (this.state.currentStep > 0 && this.props.isPrevValid) {
-            let prevStep = this.state.currentStep - 1;
+            let newStep = this.state.currentStep;
+            for (let i = 0; i < count; i++) {
+                newStep -= 1;
 
-            if (this.props.onPrevClick) {
-                let prevStepValidation = this.props.onPrevClick(this.state.currentStep);
-                if (prevStepValidation !== true) {
-                    if ($.isEmpty(prevStepValidation)) {
-                        return;
+                if (this.props.onPrevClick) {
+                    let prevStepValidation = this.props.onPrevClick(this.state.currentStep - i);
+                    if (prevStepValidation === false) {
+                        if (i === 0) {
+                            return;
+                        } else {
+                            newStep += 1;
+                        }
+                    } else if (prevStepValidation === true) {
                     } else {
-                        prevStep = prevStepValidation;
+                        if ($.isEmpty(prevStepValidation)) {
+                            return;
+                        } else {
+                            newStep = prevStepValidation;
+                        }
                     }
                 }
             }
 
             this.setState({
-                currentStep: prevStep
+                currentStep: newStep
             });
-        }
-    },
 
-    _handleNextClick () {
+            setTimeout(() => {
+                $('html, body').animate({scrollTop: $(ReactDOM.findDOMNode(this)).first('.tab-content.active').offset().top + 84}, 350);
+            }, 100);
+        }
+    };
+
+    _handleNextClick = (count = 1) => {
         if (this.state.currentStep < this.state.totalSteps && this.props.isNextValid) {
-            let nextStep = this.state.currentStep + 1;
+            let newStep = this.state.currentStep;
+            for (let i = 0; i < count; i++) {
+                newStep += 1;
 
-            if (this.props.onNextClick) {
-                let nextStepValidation = this.props.onNextClick(this.state.currentStep);
-                if (nextStepValidation !== true) {
-                    if ($.isEmpty(nextStepValidation)) {
-                        return;
+                if (this.props.onNextClick) {
+                    let nextStepValidation = this.props.onNextClick(this.state.currentStep + i);
+                    if (nextStepValidation === false) {
+                        if (i === 0) {
+                            return;
+                        } else {
+                            newStep -= 1;
+                        }
+                    } else if (nextStepValidation === true) {
                     } else {
-                        nextStep = nextStepValidation;
+                        if ($.isEmpty(nextStepValidation)) {
+                            return;
+                        } else {
+                            newStep = nextStepValidation;
+                        }
                     }
                 }
             }
 
             this.setState({
-                currentStep: nextStep
+                currentStep: newStep
             });
-        }
-    },
 
-    render () {
+            setTimeout(() => {
+                $('html, body').animate({scrollTop: $(ReactDOM.findDOMNode(this)).first('.tab-content.active').offset().top + 84}, 350);
+            }, 100);
+        }
+
+        const lastStep = this.state.totalSteps;
+        if (lastStep === this.state.currentStep && this.props.onLastClick) {
+            this.props.onLastClick();
+        }
+    };
+
+    showStep = (i) => {
+        if (Number.isInteger(i)) {
+            this._handleStepClick(i);
+        }
+    };
+
+    render() {
         const prevClasses = classNames(
             'waves-effect waves-light btn',
             {
-                disabled: !this.props.isPrevValid || this.state.currentStep === 0
+                disabled: !this.props.isPrevValid || this.state.currentStep === 0 || this.props.isButtonsDisabled
             }
         );
 
         const nextClasses = classNames(
             'waves-effect waves-light btn',
             {
-                disabled: !this.props.isNextValid || this.state.currentStep === this.state.totalSteps - 1
+                disabled: (!this.props.lastButton && (!this.props.isNextValid || this.state.currentStep === this.state.totalSteps)) || this.props.isProcessing || this.props.isButtonsDisabled
             }
         );
+
+        const isLastStep = ((this.state.totalSteps) === this.state.currentStep);
 
         return (
             <div className="form-wizard form-wizard-horizontal">
                 <div className="form-wizard-nav">
-                    <Progress totalValues={100 - 100 / this.state.totalSteps}
-                              value={this.state.currentStep / (this.state.totalSteps - 1) * 100}/>
+                    <Progress totalValues={100 - 100 / (this.state.totalSteps + 1)}
+                              value={this.state.currentStep / (this.state.totalSteps) * 100}/>
 
                     <ul className="nav nav-justified nav-pills">
                         {
                             this.props.titles.map((title, i) =>
                                 <li key={i}
                                     className={classNames({
-                                            active: this.state.currentStep === i,
-                                            done: this.state.currentStep > i
-                                        })}>
-                                    <a href={`#tab${i}`}
+                                        active: this.state.currentStep === i,
+                                        done: this.state.currentStep > i
+                                    })}>
+                                    <a href={`#${this.props.id}${i}`}
                                        onClick={this._handleStepClick.bind(this, i)}>
                                             <span className="step">
-                                                {i}
+                                                {i + 1}
                                             </span>
-                                            <span className="title">
+
+                                        <span className="title">
                                                 {title}
                                             </span>
                                     </a>
@@ -132,10 +180,10 @@ var FormWizard = React.createClass({
                     {
                         this.props.children.map((content, i) =>
                             <div key={i}
-                                 id={`tab${i}`}
+                                 id={`${this.props.id}${i}`}
                                  className={classNames('tab-pane', {
-                                    active: this.state.currentStep === i,
-                                    hidden: this.state.currentStep > i
+                                     active: this.state.currentStep === i,
+                                     hidden: this.state.currentStep > i
                                  })}>
                                 {content}
                             </div>
@@ -146,22 +194,35 @@ var FormWizard = React.createClass({
                 <ul className="pager wizard">
                     <li className="previous">
                         <a className={prevClasses}
-                           onClick={this._handlePreviousClick}>
+                           onClick={this._handlePreviousClick.bind(this, 1)}>
                             <i className="material-icons left">chevron_left</i>
                             {I18n.t('js.form.wizard.previous')}
                         </a>
                     </li>
+
                     <li className="next">
-                        <a className={nextClasses}
-                           onClick={this._handleNextClick}>
-                            <i className="material-icons right">chevron_right</i>
-                            {I18n.t('js.form.wizard.next')}
-                        </a>
+                        {
+                            this.props.isProcessing && this.props.isProcessingButton
+                                ?
+                                <ProcessingButton title={this.props.isProcessingButton}/>
+                                :
+                                <a className={nextClasses}
+                                   onClick={this._handleNextClick.bind(this, 1)}>
+                                    <i className="material-icons right">chevron_right</i>
+                                    {
+                                        (isLastStep && this.props.lastButton)
+                                            ?
+                                            this.props.lastButton
+                                            :
+                                            I18n.t('js.form.wizard.next')
+                                    }
+                                </a>
+                        }
                     </li>
                 </ul>
             </div>
         );
     }
-});
+}
 
-module.exports = FormWizard;
+

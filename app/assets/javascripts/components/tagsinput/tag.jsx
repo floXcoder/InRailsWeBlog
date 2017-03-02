@@ -1,40 +1,37 @@
 'use strict';
 
-const classNames = require('classnames');
 
-var Tag = React.createClass({
-    displayName: 'Tag',
-
-    propTypes: {
+export default class Tag extends React.Component {
+    static propTypes = {
         labelField: React.PropTypes.string.isRequired,
         onDelete: React.PropTypes.func.isRequired,
         tag: React.PropTypes.object.isRequired,
         onClickTag: React.PropTypes.func,
         handleContextMenu: React.PropTypes.func,
         labelClass: React.PropTypes.string
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            labelField: 'name'
-        };
-    },
+    static defaultProps = {
+        labelField: 'name'
+    };
 
-    getInitialState () {
-        return {
-            hover: false
-        }
-    },
+    state = {
+        hover: false
+    };
 
-    _onMouseOver () {
+    constructor(props) {
+        super(props);
+    }
+
+    _onMouseOver() {
         this.setState({hover: true});
-    },
+    }
 
-    _onMouseOut () {
+    _onMouseOut() {
         this.setState({hover: false});
-    },
+    }
 
-    render () {
+    render() {
         var label = this.props.tag[this.props.labelField];
         var tagClasses = classNames(
             'tagsinput-tag',
@@ -63,6 +60,4 @@ var Tag = React.createClass({
             </span>
         );
     }
-});
-
-module.exports = Tag;
+}

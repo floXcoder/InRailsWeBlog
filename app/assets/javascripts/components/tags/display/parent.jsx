@@ -2,7 +2,7 @@
 
 import {ListItem} from 'material-ui/List';
 
-const ChildTag = require('./child');
+import ChildTag from './child';
 
 let ParentTag = ({filteredTags, parentTag, isFiltered, onClickTag}) => {
     let childItem = parentTag.children.map((tag, i) => {
@@ -44,4 +44,4 @@ ParentTag.defaultProps = {
     isFiltered: false
 };
 
-module.exports = ParentTag;
+export default ParentTag;

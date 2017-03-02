@@ -1,44 +1,42 @@
 'use strict';
 
-const ArticleActions = require('../../actions/articleActions');
-const ArticleStore = require('../../stores/articleStore');
+import ArticleActions from '../../actions/articleActions';
+import ArticleStore from '../../stores/articleStore';
 
-const ArticleFormDisplay = require('./display/form');
+import ArticleFormDisplay from './display/form';
 
 require('../../modules/validation');
 require('jquery-serializejson');
 
-var ArticleEdit = React.createClass({
-    propTypes: {
+export default class ArticleEdit extends Reflux.Component {
+    static propTypes = {
         article: React.PropTypes.object,
         multipleId: React.PropTypes.number,
         params: React.PropTypes.object
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(ArticleStore, 'onArticleChange')
-    ],
+    static defaultProps = {
+        article: null,
+        multipleId: null,
+        params: {}
+    };
 
-    getDefaultProps () {
-        return {
-            article: null,
-            multipleId: null,
-            params: {}
-        };
-    },
+    state = {
+        article: null,
+        articleErrors: null
+    };
 
-    getInitialState () {
-        return {
-            article: null,
-            articleErrors: null
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+    }
+
+    componentWillMount() {
         if (this.props.article) {
             this.setState({
                 article: this.props.article
@@ -46,9 +44,9 @@ var ArticleEdit = React.createClass({
         } else if (this.props.params.articleSlug) {
             ArticleActions.loadArticle({slug: this.props.params.articleSlug});
         }
-    },
+    }
 
-    onArticleChange (articleData) {
+    onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {
             return;
         }
@@ -73,18 +71,18 @@ var ArticleEdit = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _onCancel () {
+    _onCancel() {
         if (this.state.article) {
             this.context.router.push(`/article/${this.state.article.id}`);
         } else {
             this.context.router.push('/');
         }
         return true;
-    },
+    }
 
-    _handleArticleSubmit () {
+    _handleArticleSubmit() {
         const $articleForm = $('#article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '' ));
 
         const validator = $articleForm.parsley();
@@ -100,9 +98,9 @@ var ArticleEdit = React.createClass({
         ArticleActions.updateArticle(currentArticle);
 
         return true;
-    },
+    }
 
-    render () {
+    render() {
         const articleFormId = 'article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '' );
 
         if (this.state.article) {
@@ -136,6 +134,4 @@ var ArticleEdit = React.createClass({
             return null;
         }
     }
-});
-
-module.exports = ArticleEdit;
+}

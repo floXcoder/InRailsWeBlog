@@ -1,30 +1,31 @@
 'use strict';
 
-const UserTopic = require('../../users/topic');
+import UserTopic from '../../users/topic';
 
 import {IconMenu, FlatButton, FontIcon} from 'material-ui';
 
-var HomeTopicHeader = React.createClass({
+export default class HomeTopicHeader extends React.PureComponent {
+    state = {
+        isOpened: false
+    };
 
-    getInitialState () {
-        return {
-            isOpened: false
-        };
-    },
+    constructor(props) {
+        super(props);
+    }
 
-    _handleOpenMenuClick () {
+    _handleOpenMenuClick() {
         this.setState({
             isOpened: !this.state.isOpened
         });
-    },
+    }
 
-    _handleOnRequestChange (isOpened) {
+    _handleOnRequestChange(isOpened) {
         this.setState({
             isOpened: isOpened
         });
-    },
+    }
 
-    render () {
+    render() {
         if ($app.user.isConnected()) {
             return (
                 <IconMenu anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
@@ -35,8 +36,8 @@ var HomeTopicHeader = React.createClass({
                                           className="header-button"
                                           secondary={true}
                                           icon={<FontIcon className="material-icons">dashboard</FontIcon>}
-                                          onTouchTap={this._handleOpenMenuClick} />
-                                  }>
+                                          onTouchTap={this._handleOpenMenuClick}/>
+                          }>
                     <UserTopic onClick={this._handleOpenMenuClick}/>
                 </IconMenu>
             );
@@ -44,6 +45,4 @@ var HomeTopicHeader = React.createClass({
             return null;
         }
     }
-});
-
-module.exports = HomeTopicHeader;
+}

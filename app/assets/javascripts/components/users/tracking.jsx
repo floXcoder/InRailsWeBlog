@@ -1,6 +1,6 @@
 'use strict';
 
-var UserTracking = ({ tracking }) => {
+const UserTracking = ({tracking}) => {
     const trackerNodes = $.toMap(tracking, (index, value) => {
         return (
             <div key={index}
@@ -26,4 +26,4 @@ UserTracking.propTypes = {
     tracking: React.PropTypes.object.isRequired
 };
 
-module.exports = UserTracking;
+export default UserTracking;

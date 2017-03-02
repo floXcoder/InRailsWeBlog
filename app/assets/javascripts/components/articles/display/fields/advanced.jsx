@@ -1,11 +1,11 @@
 'use strict';
 
-const Select = require('../../../materialize/select');
-const Switch = require('../../../materialize/switch');
-const Checkbox = require('../../../materialize/checkbox');
-const CategorizedTag = require('../../../materialize/categorized-tag');
+import Select from '../../../materialize/select';
+import Switch from '../../../materialize/switch';
+import Checkbox from '../../../materialize/checkbox';
+import CategorizedTag from '../../../materialize/categorized-tag';
 
-var ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
+const ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
     <div className="row margin-top-10">
         <div className="col s12 m6 l6">
             <CategorizedTag id="article_parent_tags"
@@ -14,7 +14,9 @@ var ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
                             isSortingCategoriesByAlpha={false}
                             isHorizontal={true}
                             categorizedTags={ArticleAdvancedField._categorizedTags(tags)}
-                            transformInitialTags={(tag) => { return {category: tag.visibility, value: tag.name}}}>
+                            transformInitialTags={(tag) => {
+                                return {category: tag.visibility, value: tag.name}
+                            }}>
                 {article.parent_tags}
             </CategorizedTag>
 
@@ -23,7 +25,9 @@ var ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
                             placeholder={I18n.t('js.article.common.tags.child')}
                             isHorizontal={true}
                             categorizedTags={ArticleAdvancedField._categorizedTags(tags)}
-                            transformInitialTags={(tag) => { return {category: tag.visibility, value: tag.name}}}>
+                            transformInitialTags={(tag) => {
+                                return {category: tag.visibility, value: tag.name}
+                            }}>
                 {article.child_tags}
             </CategorizedTag>
         </div>
@@ -106,4 +110,4 @@ ArticleAdvancedField.defaultProps = {
     multipleId: null
 };
 
-module.exports = ArticleAdvancedField;
+export default ArticleAdvancedField;

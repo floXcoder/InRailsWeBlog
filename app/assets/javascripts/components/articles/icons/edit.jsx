@@ -1,6 +1,6 @@
 'use strict';
 
-var ArticleEditIcon = ({article, onEditClick}) => {
+const ArticleEditIcon = ({article, onEditClick}) => {
     if ($app.user.isConnected(article.user.id)) {
         return (
             <a className="article-edit tooltipped btn-floating"
@@ -23,4 +23,4 @@ ArticleEditIcon.getDefaultProps = {
     onEditClick: null
 };
 
-module.exports = ArticleEditIcon;
+export default ArticleEditIcon;

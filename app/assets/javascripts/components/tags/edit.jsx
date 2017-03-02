@@ -1,47 +1,45 @@
 'use strict';
 
-const TagActions = require('../../actions/tagActions');
-const TagStore = require('../../stores/tagStore');
+import TagActions from '../../actions/tagActions';
+import TagStore from '../../stores/tagStore';
 
-const Form = require('../materialize/form');
-const Input = require('../materialize/input');
-const Textarea = require('../materialize/textarea');
-const Select = require('../materialize/select');
-const Selectize = require('../theme/selectize');
-const Submit = require('../materialize/submit');
+import Form from '../materialize/form';
+import Input from '../materialize/input';
+import Textarea from '../materialize/textarea';
+import Select from '../materialize/select';
+import Selectize from '../theme/selectize';
+import Submit from '../materialize/submit';
 
 import {Link} from 'react-router';
 
-var TagEdit = React.createClass({
-    propTypes: {
+export default class TagEdit extends Reflux.Component {
+    static propTypes = {
         tagId: React.PropTypes.object,
         params: React.PropTypes.object
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(TagStore, 'onTagChange')
-    ],
+    static defaultProps = {
+        tagId: null,
+        params: {}
+    };
 
-    getDefaultProps () {
-        return {
-            tagId: null,
-            params: {}
-        };
-    },
+    state = {
+        tag: {}
+    };
 
-    getInitialState () {
-        return {
-            tag: {}
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(TagStore, this.onTagChange);
+    }
+
+    componentWillMount() {
         TagActions.loadTag({
             id: this.props.tagId || this.props.params.tagId
         });
-    },
+    }
 
-    onTagChange (tagData) {
+    onTagChange(tagData) {
         if ($.isEmpty(tagData)) {
             return;
         }
@@ -55,9 +53,9 @@ var TagEdit = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    render () {
+    render() {
         if ($.isEmpty(this.state.tag)) {
             return null;
         }
@@ -135,6 +133,4 @@ var TagEdit = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = TagEdit;
+}

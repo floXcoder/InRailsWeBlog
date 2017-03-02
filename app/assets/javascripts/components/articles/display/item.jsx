@@ -1,37 +1,36 @@
 'use strict';
 
-const Tracker = require('../../../modules/tracker');
-const UserActions = require('../../../actions/userActions');
-const TagActions = require('../../../actions/tagActions');
-const ArticleActions = require('../../../actions/articleActions');
+import Tracker from '../../../modules/tracker';
+import UserActions from '../../../actions/userActions';
+import TagActions from '../../../actions/tagActions';
+import ArticleActions from '../../../actions/articleActions';
 
-const ArticleCardDisplay = require('./card');
-const ArticleInlineDisplay = require('./inline');
-const ArticleEditionDisplay = require('./inline-edition');
+import ArticleCardDisplay from './card';
+import ArticleInlineDisplay from './inline';
+import ArticleEditionDisplay from './inline-edition';
 
-var ArticleItemDisplay = React.createClass({
-    propTypes: {
+export default class ArticleItemDisplay extends React.Component {
+    static propTypes = {
         children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
         initialDisplayMode: React.PropTypes.string.isRequired
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-        };
-    },
+    static defaultProps = {};
 
-    getInitialState () {
-        return {
-            articleDisplayMode: this.props.initialDisplayMode
-        };
-    },
+    state = {
+        articleDisplayMode: this.props.initialDisplayMode
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
             $(this).tooltip();
         });
@@ -46,30 +45,30 @@ var ArticleItemDisplay = React.createClass({
                 TagActions.trackView(_.map(this.props.article.tags, 'id'));
             }
         });
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
             $(this).tooltip();
         });
-    },
+    }
 
-    _setDefaultDisplay (tagName, event) {
+    _setDefaultDisplay(tagName, event) {
         event.preventDefault();
         this.setState({articleDisplayMode: this.props.initialDisplayMode});
-    },
+    }
 
-    _handleTagClick (tagName) {
+    _handleTagClick(tagName) {
         this.context.router.push(`/article/tags/${tagName}`);
 
         ArticleActions.loadArticles({tags: [tagName]});
-    },
+    }
 
-    _handleBookmarkClick (articleId, isBookmarked) {
+    _handleBookmarkClick(articleId, isBookmarked) {
         ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
-    },
+    }
 
-    render () {
+    render() {
         if (this.state.articleDisplayMode === 'inline') {
             return (
                 <ArticleInlineDisplay article={this.props.article}>
@@ -97,6 +96,4 @@ var ArticleItemDisplay = React.createClass({
             return null;
         }
     }
-});
-
-module.exports = ArticleItemDisplay;
+}

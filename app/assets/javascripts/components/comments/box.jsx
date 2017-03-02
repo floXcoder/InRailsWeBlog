@@ -1,71 +1,76 @@
 'use strict';
 
-const CommentActions = require('../../actions/commentActions');
-const CommentStore = require('../../stores/commentStore');
+import CommentActions from '../../actions/commentActions';
+import CommentStore from '../../stores/commentStore';
 
-const Waypoint = require('react-waypoint');
+import Button from '../materialize/button';
+import Pagination from '../materialize/pagination';
+import CircleSpinner from '../theme/spinner/circle';
 
-const Button = require('../materialize/button');
-const Spinner = require('../materialize/spinner');
-const Pagination = require('../materialize/pagination');
+import CommentList from '../comments/list';
+import CommentForm from '../comments/form';
 
-const CommentList = require('../comments/list');
-const CommentForm = require('../comments/form');
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-
-var CommentBox = React.createClass({
-    propTypes: {
+export default class CommentBox extends Reflux.Component {
+    static propTypes = {
         commentableId: React.PropTypes.number.isRequired,
         isUserConnected: React.PropTypes.bool.isRequired,
-        currentUserId: React.PropTypes.number.isRequired,
+        isUserOwner: React.PropTypes.bool.isRequired,
+        ownerId: React.PropTypes.number.isRequired,
+        currentUserId: React.PropTypes.number,
         commentableType: React.PropTypes.string,
         id: React.PropTypes.string,
         initialComments: React.PropTypes.array,
+        commentsCount: React.PropTypes.number,
         isPaginated: React.PropTypes.bool,
-        isRated: React.PropTypes.bool
-    },
+        isRated: React.PropTypes.bool,
+        isUserAdmin: React.PropTypes.bool
+    };
 
-    mixins: [
-        Reflux.listenTo(CommentStore, 'onCommentChange')
-    ],
+    static defaultProps = {
+        currentUserId: null,
+        id: null,
+        commentableType: null,
+        initialComments: [],
+        commentsCount: null,
+        isPaginated: false,
+        isRated: true,
+        isUserAdmin: false
+    };
 
-    getDefaultProps () {
-        return {
-            id: null,
-            commentableType: null,
-            initialComments: [],
-            isPaginated: false,
-            isRated: true
-        };
-    },
+    state = {
+        comments: [],
+        commentsPagination: null,
+        isLoadingComments: false,
+        isCommentsLoaded: false,
+        isShowingCommentForm: false
+    };
 
-    getInitialState () {
-        return {
-            comments: [],
-            commentsPagination: null,
-            isLoadingComments: false,
-            isCommentsLoaded: false,
-            isShowingCommentForm: false
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(CommentStore, this.onCommentChange);
+    }
+
+    componentWillMount() {
         if (!$.isEmpty(this.props.initialComments)) {
             this.setState({
                 comments: this.props.initialComments,
                 isLoadingComments: false,
                 isCommentsLoaded: true
             });
+        } else {
+            this._loadComments();
         }
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         // Ignore if props has changed
         return !_.isEqual(this.state, nextState);
-    },
+    }
 
-    onCommentChange (commentData) {
+    onCommentChange(commentData) {
         if ($.isEmpty(commentData)) {
             return;
         }
@@ -73,7 +78,7 @@ var CommentBox = React.createClass({
         let newState = {};
 
         if (commentData.type === 'loadComments') {
-            newState.comments = commentData.comments;
+            newState.comments = commentData.comments || [];
             newState.commentsPagination = commentData.pagination;
             newState.isLoadingComments = false;
             newState.isCommentsLoaded = true;
@@ -113,99 +118,114 @@ var CommentBox = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _handleWaypointEnter () {
+    _loadComments = () => {
         if (!this.state.isCommentsLoaded && !this.state.isLoadingComments) {
+            // Check if comment count is not null to avoid useless fetching
+            if (!$.isEmpty(this.props.commentsCount) && this.props.commentsCount === 0) {
+                this.setState({
+                    isCommentsLoaded: true
+                });
+                return;
+            }
+
             CommentActions.loadComments({
                 commentableType: this.props.commentableType,
                 commentableId: this.props.commentableId,
                 isPaginated: this.props.isPaginated
             });
+
             this.setState({isLoadingComments: true});
         }
-    },
+    };
 
-    _handlePaginationClick(paginate)
-    {
+    _handleWaypointEnter = () => {
+        this._loadComments();
+    };
+
+    _handlePaginationClick(paginate) {
         CommentActions.loadComments({
             commentableType: this.props.commentableType,
             commentableId: this.props.commentableId,
             page: paginate.selected + 1
         });
         this.setState({isLoadingComments: true});
-    },
+    }
 
-    _handleShowFormComment (event) {
+    _handleShowFormComment = (event) => {
         event.preventDefault();
-        if (this.props.isUserConnected) {
+        if (this.props.isUserConnected || this.props.isUserAdmin) {
             this.setState({isShowingCommentForm: true});
         } else {
-            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 3000);
+            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
         }
-    },
+    };
 
-    _handleCommentCancel (event) {
+    _handleCommentCancel = (event) => {
         event.preventDefault();
         this.setState({isShowingCommentForm: false});
-    },
+    };
 
-    _handleCommentDelete (commentId) {
-        if (this.props.isUserConnected) {
+    _handleCommentDelete = (commentId) => {
+        if (this.props.isUserConnected || this.props.isUserAdmin) {
             if (commentId) {
                 CommentActions.deleteComment(commentId, this.props.commentableId, this.props.commentableType);
             }
         } else {
-            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
+            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
         }
-    },
+    };
 
-    _handleCommentSubmit (commentData) {
+    _handleCommentSubmit = (commentData) => {
         this.setState({isShowingCommentForm: false});
 
-        if (this.props.isUserConnected) {
+        if (this.props.isUserConnected || this.props.isUserAdmin) {
             if (commentData.id) {
                 CommentActions.updateComment(commentData, this.props.commentableId, this.props.commentableType);
             } else {
                 CommentActions.addComment(commentData, this.props.commentableId, this.props.commentableType);
             }
         } else {
-            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
+            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
         }
-    },
+    };
 
-    render () {
+    render() {
         return (
             <div id={this.props.id}
-                 className="comments">
-                <Waypoint onEnter={this._handleWaypointEnter}/>
+                 className="card-panel comments">
+                {/*<Waypoint onEnter={this._handleWaypointEnter}/>*/}
 
-                <h3 className="comments-title center-align">
+                <h2 className="comments-title">
                     {I18n.t('js.comment.common.title')}
-                </h3>
+                </h2>
 
                 <div className="comments-box">
                     {
                         this.state.isLoadingComments &&
-                        <Spinner className="center-align"/>
+                        <CircleSpinner className="center-align"/>
                     }
 
                     {
                         this.state.comments && this.state.comments.length === 0 &&
-                        <h5 className="center-align">
+                        <div className="comments-none">
                             {I18n.t('js.comment.common.empty')}
-                        </h5>
+                        </div>
                     }
 
                     <CommentList comments={this.state.comments}
                                  isUserConnected={this.props.isUserConnected}
+                                 isUserOwner={this.props.isUserOwner}
                                  currentUserId={this.props.currentUserId}
+                                 ownerId={this.props.ownerId}
+                                 isAdmin={this.props.isUserAdmin}
                                  isRated={this.props.isRated}
                                  onDelete={this._handleCommentDelete}
                                  onSubmit={this._handleCommentSubmit}/>
 
                     {
-                        this.state.isCommentsLoaded && !this.state.isShowingCommentForm &&
+                        this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isUserOwner &&
                         <div className="center-align">
                             <Button icon="comment"
                                     className="btn-full-text"
@@ -223,7 +243,8 @@ var CommentBox = React.createClass({
                                                  transitionAppearTimeout={600}
                                                  transitionEnterTimeout={500}
                                                  transitionLeaveTimeout={300}>
-                            <CommentForm isRated={this.props.isRated}
+                            <CommentForm isOwner={this.props.isUserOwner}
+                                         isRated={this.props.isRated}
                                          onCancel={this._handleCommentCancel}
                                          onSubmit={this._handleCommentSubmit}/>
                         </ReactCSSTransitionGroup>
@@ -239,6 +260,5 @@ var CommentBox = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = CommentBox;

@@ -1,52 +1,50 @@
 'use strict';
 
-const UserActions = require('../../actions/userActions');
-const UserStore = require('../../stores/userStore');
+import UserActions from '../../actions/userActions';
+import UserStore from '../../stores/userStore';
 
-const Form = require('../materialize/form');
-const Input = require('../materialize/input');
-const Textarea = require('../materialize/textarea');
-const Checkbox = require('../materialize/checkbox');
-const File = require('../materialize/file');
-const Submit = require('../materialize/submit');
+import Form from '../materialize/form';
+import Input from '../materialize/input';
+import Textarea from '../materialize/textarea';
+import Checkbox from '../materialize/checkbox';
+import File from '../materialize/file';
+import Submit from '../materialize/submit';
 
 import {Link} from 'react-router';
 
-var UserEdit = React.createClass({
-    propTypes: {
+export default class UserEdit extends Reflux.Component {
+    static propTypes = {
         userId: React.PropTypes.string,
         params: React.PropTypes.object
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(UserStore, 'onUserChange')
-    ],
+    static defaultProps = {
+        userId: null,
+        params: {}
+    };
 
-    getDefaultProps () {
-        return {
-            userId: null,
-            params: {}
-        };
-    },
+    state = {
+        user: {}
+    };
 
-    getInitialState () {
-        return {
-            user: {}
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(UserStore, this.onUserChange);
+    }
+
+    componentWillMount() {
         UserActions.loadUser({
-            userId: this.props.userId || this.props.params.userId,
+            userId: this.props.userId || this.props.params.userId,
             completeUser: true
         });
-    },
+    }
 
-    onUserChange (userData) {
+    onUserChange(userData) {
         if ($.isEmpty(userData)) {
             return;
         }
@@ -62,9 +60,9 @@ var UserEdit = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    render () {
+    render() {
         if ($.isEmpty(this.state.user)) {
             return null;
         }
@@ -222,6 +220,4 @@ var UserEdit = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = UserEdit;
+}

@@ -1,5 +1,5 @@
 'use strict';
 
-require('../common');
+import '../common';
 
 // Main

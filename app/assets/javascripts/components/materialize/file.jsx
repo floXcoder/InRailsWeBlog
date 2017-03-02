@@ -1,7 +1,7 @@
 'use strict';
 
-var File = React.createClass({
-    propTypes: {
+export default class File extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         buttonName: React.PropTypes.string.isRequired,
         name: React.PropTypes.string,
@@ -15,29 +15,31 @@ var File = React.createClass({
         onChange: React.PropTypes.func,
         onInput: React.PropTypes.func,
         validator: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            name: null,
-            multipleId: null,
-            placeholder: null,
-            children: null,
-            isDisabled: false,
-            isRequired: false,
-            isMultiple: false,
-            icon: null,
-            onChange: null,
-            onInput: null,
-            validator: null
-        };
-    },
+    static defaultProps = {
+        name: null,
+        multipleId: null,
+        placeholder: null,
+        children: null,
+        isDisabled: false,
+        isRequired: false,
+        isMultiple: false,
+        icon: null,
+        onChange: null,
+        onInput: null,
+        validator: null
+    };
 
-    shouldComponentUpdate (nextProps, nextState) {
+    constructor(props) {
+        super(props);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
         return this.props.children !== nextProps.children;
-    },
+    }
 
-    render () {
+    render() {
         let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
         let name = this.props.name;
@@ -66,7 +68,7 @@ var File = React.createClass({
                            required={this.props.isRequired}
                            disabled={this.props.isDisabled}
                            multiple={this.props.isMultiple}
-                        {...this.props.validator}/>
+                           {...this.props.validator}/>
                 </div>
 
                 <div className="col s12 m6 file-path-wrapper">
@@ -79,6 +81,5 @@ var File = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = File;

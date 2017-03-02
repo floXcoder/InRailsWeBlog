@@ -1,58 +1,55 @@
 'use strict';
 
-const Spinner = require('../../components/materialize/spinner');
+import Spinner from '../../components/materialize/spinner';
 
-const UserStore = require('../../stores/userStore');
+import UserStore from '../../stores/userStore';
 
-const ArticleActions = require('../../actions/articleActions');
-const ArticleStore = require('../../stores/articleStore');
-const ArticleListDisplay = require('./display/list');
-const ArticleNone = require('../../components/articles/display/none');
+import ArticleActions from '../../actions/articleActions';
+import ArticleStore from '../../stores/articleStore';
+import ArticleListDisplay from './display/list';
+import ArticleNone from '../../components/articles/display/none';
 
-var ArticleIndex = React.createClass({
-    propTypes: {
+export default class ArticleIndex extends React.Component {
+    static propTypes = {
         // Populate by react-router
         params: React.PropTypes.object
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(ArticleStore, 'onArticleChange'),
-        // Reflux.listenTo(UserStore, 'onPreferenceChange')
-    ],
+    static defaultProps = {
+        params: {}
+    };
 
-    getDefaultProps () {
-        return {
-            params: {}
-        };
-    },
+    state = {
+        articles: null,
+        isLoading: true,
+        hasMore: true,
+        articleDisplayMode: 'card',
+        highlightResults: true
+    };
 
-    getInitialState () {
-        return {
-            articles: null,
-            isLoading: true,
-            hasMore: true,
-            articleDisplayMode: 'card',
-            highlightResults: true
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentDidMount () {
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+    }
+
+    componentDidMount() {
         ArticleActions.loadArticles(this.props.params);
 
         this._activateTooltip();
-    },
+    }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (!_.isEqual(this.props.params, nextProps.params)) {
             ArticleActions.loadArticles(nextProps.params);
         }
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         this._activateTooltip();
-    },
+    }
 
-    _activateTooltip () {
+    _activateTooltip() {
         let $currentElement = $(ReactDOM.findDOMNode(this).className);
         $currentElement.ready(() => {
             $currentElement.find('.tooltipped').tooltip({
@@ -60,9 +57,9 @@ var ArticleIndex = React.createClass({
                 delay: 50
             });
         });
-    },
+    }
 
-    onPreferenceChange (userData) {
+    onPreferenceChange(userData) {
         let newState = {};
 
         if (!$.isEmpty(userData.settings) && userData.settings.article_display) {
@@ -76,9 +73,9 @@ var ArticleIndex = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    onArticleChange (articleData) {
+    onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {
             return;
         }
@@ -93,9 +90,9 @@ var ArticleIndex = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    render () {
+    render() {
         return (
             <div className="blog-article-box">
                 {
@@ -120,6 +117,4 @@ var ArticleIndex = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = ArticleIndex;
+}

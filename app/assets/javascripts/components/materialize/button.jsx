@@ -1,9 +1,7 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var Button = React.createClass({
-    propTypes: {
+export default class Button extends React.PureComponent {
+    static propTypes = {
         children: React.PropTypes.string.isRequired,
         id: React.PropTypes.string,
         type: React.PropTypes.string,
@@ -12,49 +10,45 @@ var Button = React.createClass({
         iconPosition: React.PropTypes.string,
         tooltip: React.PropTypes.string,
         onButtonClick: React.PropTypes.func
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            id: null,
-            type: 'submit',
-            className: null,
-            icon: null,
-            iconPosition: 'right',
-            tooltip: null,
-            onButtonClick: null
-        };
-    },
+    static defaultProps = {
+        id: null,
+        type: 'submit',
+        className: null,
+        icon: null,
+        iconPosition: 'right',
+        tooltip: null,
+        onButtonClick: null
+    };
 
-    getInitialState() {
-        return {
-            isDisabled: false
-        };
-    },
+    state = {
+        isDisabled: false
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         if (this.props.tooltip) {
             let selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
             $(selector).tooltip();
         }
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
-        return !_.isEqual(this.state.isDisabled, nextState.isDisabled) || this.props.children !== nextProps.children;
-    },
+    shouldComponentUpdate(nextProps, nextState) {
+        return !_.isEqual(this.state.isDisabled, nextState.isDisabled) || this.props.children !== nextProps.children;
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         if (this.props.tooltip) {
             const selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
             $(selector).tooltip();
         }
-    },
+    }
 
-    toggleButton() {
-        this.setState({isDisabled: !this.state.disabled});
-    },
-
-    render () {
+    render() {
         let tooltipData = {};
         if (this.props.tooltip) {
             tooltipData = {
@@ -86,6 +80,5 @@ var Button = React.createClass({
             </button>
         );
     }
-});
+}
 
-module.exports = Button;

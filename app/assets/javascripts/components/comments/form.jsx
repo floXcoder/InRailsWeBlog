@@ -1,37 +1,40 @@
 'use strict';
 
-const Input = require('../../components/materialize/input');
-const Textarea = require('../../components/materialize/textarea');
-const Submit = require('../../components/materialize/submit');
-const Rating = require('../theme/rating');
+import Input from '../../components/materialize/input';
+import Textarea from '../../components/materialize/textarea';
+import Submit from '../../components/materialize/submit';
+import Rating from '../theme/rating';
 
-require('../../modules/validation');
-
-var CommentForm = React.createClass({
-    propTypes: {
+export default class CommentForm extends React.PureComponent {
+    static propTypes = {
         onSubmit: React.PropTypes.func.isRequired,
         onCancel: React.PropTypes.func.isRequired,
+        isOwner: React.PropTypes.bool.isRequired,
         isRated: React.PropTypes.bool.isRequired,
         parentCommentId: React.PropTypes.number,
         commentId: React.PropTypes.number,
         formTitle: React.PropTypes.string,
         title: React.PropTypes.string,
         body: React.PropTypes.string,
-        rating: React.PropTypes.number
-    },
+        rating: React.PropTypes.number,
+        isAskingForDeletion: React.PropTypes.bool
+    };
 
-    getDefaultProps () {
-        return {
-            formTitle: I18n.t('js.comment.form.title.default'),
-            parentCommentId: null,
-            commentId: null,
-            title: null,
-            body: null,
-            rating: 0
-        };
-    },
+    static defaultProps = {
+        formTitle: I18n.t('js.comment.form.title.default'),
+        parentCommentId: null,
+        commentId: null,
+        title: null,
+        body: null,
+        rating: 0,
+        isAskingForDeletion: false
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         if (this.props.title) {
             this.refs.title.setValue(this.props.title);
         }
@@ -39,13 +42,18 @@ var CommentForm = React.createClass({
             this.refs.body.setValue(this.props.body);
         }
 
-        this.refs.title.focus();
-    },
+        if (this.props.isAskingForDeletion) {
+            this.refs.title.setValue(I18n.t('js.comment.form.title.deletion_reply'));
+            this.refs.body.focus();
+        } else {
+            this.refs.title.focus();
+        }
+    }
 
-    _handleSubmit (event) {
+    _handleSubmit = (event) => {
         event.preventDefault();
 
-        let validator = $(ReactDOM.findDOMNode(this.refs.commentForm)).parsley();
+        let validator = $('#comment-form').parsley();
         if (!validator.isValid()) {
             validator.validate();
             return;
@@ -60,7 +68,7 @@ var CommentForm = React.createClass({
 
         let submitData = {};
 
-        if (this.props.isRated) {
+        if (this.props.isRated && !this.props.isAskingForDeletion) {
             let rating = this.refs.commentRating.value();
             submitData = {
                 title: title,
@@ -80,17 +88,21 @@ var CommentForm = React.createClass({
             };
         }
 
+        if (this.props.isAskingForDeletion) {
+            submitData.ask_for_deletion = true;
+        }
+
         this.props.onSubmit(submitData);
 
         this.refs.title.setValue('');
         this.refs.body.setValue('');
-    },
+    };
 
-    render () {
+    render() {
         return (
             <div className="row">
                 <div className="col s12">
-                    <div className="card-panel">
+                    <div className={classNames('card-panel', {'comment-form-owner': this.props.isOwner})}>
                         <span className="card-title comment-form-title">
                             {this.props.formTitle}
                         </span>
@@ -102,14 +114,15 @@ var CommentForm = React.createClass({
                             </a>
                         </span>
 
-                        <form ref="commentForm"
+                        <form id="comment-form"
                               className="comment-form"
                               data-parsley-validate={true}
                               onSubmit={this._handleSubmit}>
                             <Input ref="title"
                                    id="comment-title"
-                                   title={I18n.t('js.comment.form.comment.title')}
+                                   title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.title_for_deletion') : I18n.t('js.comment.form.comment.title')}
                                    autoComplete="off"
+                                   maxLength={window.parameters.comment_title_max_length}
                                    characterCount={window.parameters.comment_title_max_length}
                                    validator={{
                                        'data-parsley-required': true,
@@ -119,7 +132,8 @@ var CommentForm = React.createClass({
 
                             <Textarea ref="body"
                                       id="comment-body"
-                                      title={I18n.t('js.comment.form.comment.body')}
+                                      title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.body_for_deletion') : I18n.t('js.comment.form.comment.body')}
+                                      maxLength={window.parameters.comment_body_max_length}
                                       characterCount={window.parameters.comment_body_max_length}
                                       validator={{
                                           'data-parsley-required': true,
@@ -128,7 +142,7 @@ var CommentForm = React.createClass({
                                       }}/>
 
                             {
-                                this.props.isRated &&
+                                this.props.isRated && !this.props.isAskingForDeletion &&
                                 <div className="margin-top-20 margin-bottom-30">
                                     <Rating ref="commentRating"
                                             initialRating={this.props.rating}
@@ -141,9 +155,9 @@ var CommentForm = React.createClass({
 
                             <div className="row margin-top-10">
                                 <div className="col s6">
-                                    <a className="btn-flat waves-effect waves-teal"
+                                    <a className="waves-effect waves-matisse btn-flat"
                                        onClick={this.props.onCancel}>
-                                        {I18n.t('js.user.login.cancel')}
+                                        {I18n.t('js.comment.form.cancel')}
                                     </a>
                                 </div>
 
@@ -160,6 +174,5 @@ var CommentForm = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = CommentForm;

@@ -1,31 +1,28 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var ArticleOutdatedIcon = React.createClass({
-    propTypes: {
+export default class ArticleOutdatedIcon extends React.PureComponent {
+    static propTypes = {
         article: React.PropTypes.object.isRequired,
         onOutdatedClick: React.PropTypes.func.isRequired
-    },
+    };
 
-    getDefaultProps () {
-        return {
-        };
-    },
+    static defaultProps = {};
 
-    getInitialState () {
-        return {
-            isOutdated: this.props.article.outdated
-        };
-    },
+    state = {
+        isOutdated: this.props.article.outdated
+    };
 
-    _handleOutdatedClick (articleId, event) {
+    constructor(props) {
+        super(props);
+    }
+
+    _handleOutdatedClick(articleId, event) {
         event.preventDefault();
         this.props.onOutdatedClick(articleId, this.state.isOutdated);
         this.setState({isOutdated: !this.state.isOutdated})
-    },
+    }
 
-    render () {
+    render() {
         if ($app.user.isConnected()) {
             let outdatedClasses = classNames('material-icons', {'article-outdated': this.state.isOutdated});
             let outdatedTooltip = this.state.isOutdated ?
@@ -43,6 +40,4 @@ var ArticleOutdatedIcon = React.createClass({
             return null;
         }
     }
-});
-
-module.exports = ArticleOutdatedIcon;
+}

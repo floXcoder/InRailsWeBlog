@@ -1,50 +1,58 @@
 'use strict';
 
-const ReactSelectize = require('react-selectize');
+import ReactSelectize from 'react-selectize';
 const MultiSelect = ReactSelectize.MultiSelect;
 
-const classNames = require('classnames');
-
-var Selectize = React.createClass({
-    propTypes: {
+export default class Selectize extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string.isRequired,
         placeholder: React.PropTypes.string.isRequired,
         elements: React.PropTypes.oneOfType([
             React.PropTypes.array,
             React.PropTypes.object
         ]).isRequired,
-        children: React.PropTypes.array,
-        isCategorized: React.PropTypes.bool,
+        title: React.PropTypes.string,
         name: React.PropTypes.string,
+        children: React.PropTypes.array,
+        icon: React.PropTypes.string,
+        isCategorized: React.PropTypes.bool,
         maxValues: React.PropTypes.number,
+        maxLength: React.PropTypes.number,
         multipleId: React.PropTypes.number,
         isMultiple: React.PropTypes.bool,
         isEditing: React.PropTypes.bool,
-        isHorizontal: React.PropTypes.bool
-    },
+        isHorizontal: React.PropTypes.bool,
+        onValuesChange: React.PropTypes.func
+    };
 
-    getDefaultProps () {
-        return {
-            name: null,
-            children: [],
-            maxValues: 5,
-            multipleId: null,
-            isMultiple: true,
-            isEditing: false,
-            isHorizontal: false
-        };
-    },
+    static defaultProps = {
+        title: null,
+        name: null,
+        children: [],
+        icon: null,
+        isCategorized: false,
+        maxValues: 5,
+        maxLength: 30,
+        multipleId: null,
+        isMultiple: true,
+        isEditing: false,
+        isHorizontal: false,
+        onValuesChange: null
+    };
 
-    getInitialState () {
-        return {
-            values: this.props.children.map((element) => {
-                return {label: element, value: element}
-            })
-        };
-    },
+    state = {
+        values: (() => _.compact(this.props.children.map((element) => !$.isEmpty(element) ? {
+                label: element,
+                value: element
+            } : null
+        )))(),
+    };
 
-    _handleValuesFromPaste (options, values, pastedText) {
+    constructor(props) {
+        super(props);
+    }
+
+    _handleValuesFromPaste = (options, values, pastedText) => {
         return pastedText
             .split(',')
             .filter((text) => {
@@ -59,22 +67,42 @@ var Selectize = React.createClass({
                     value: text
                 };
             });
-    },
+    };
 
-    _handleRestoreOnBackspace (item) {
+    _handleRestoreOnBackspace = (item) => {
         return item.label;
-    },
+    };
 
-    _handleOnValuesChange (values) {
-        this.setState({values: values});
-    },
+    _handleOnValuesChange = (items) => {
+        const newValues = _.filter(items, (item) => item.label.length < this.props.maxLength);
 
-    _handleCreateFromSearch (options, values, search) {
+        this.setState({
+            values: newValues
+        });
+
+        if (this.props.onValuesChange) {
+            this.props.onValuesChange(newValues.map((item) => item.value));
+        }
+    };
+
+    _handleRemoveValue = (item) => {
+        const newValues = _.reject(this.state.values, (value) => value.value == item.value);
+
+        this.setState({
+            values: newValues
+        });
+
+        if (this.props.onValuesChange) {
+            this.props.onValuesChange(newValues.map((item) => item.value));
+        }
+    };
+
+    _handleCreateFromSearch = (options, values, search) => {
         let labels = values.map((value) => {
             return value.label;
         });
 
-        if (search.trim().length == 0 || labels.indexOf(search.trim()) != -1) {
+        if (search.trim().length === 0 || labels.indexOf(search.trim()) != -1) {
             return null;
         }
 
@@ -82,42 +110,50 @@ var Selectize = React.createClass({
             label: search.trim(),
             value: search.trim()
         };
-    },
+    };
 
-    _handleRenderNoResultsFound (values, search) {
+    _handleRenderNoResults = () => {
+        return (
+            <div className="no-results-found">
+                {I18n.t('js.selectize.no_results')}
+            </div>
+        );
+    };
+
+    _handleRenderNoResultsFound = (values, search) => {
         return (
             <div className="no-results-found">
                 {
-                    search.trim().length == 0 &&
+                    search.trim().length === 0 &&
                     I18n.t('js.selectize.tags.type')
                 }
                 {
-                    values.map((item) => item.label).indexOf(search.trim()) != -1 &&
+                    values.map((item) => item.label).indexOf(search.trim()) !== -1 &&
                     I18n.t('js.selectize.tags.already_exists')
                 }
             </div>
         );
-    },
+    };
 
-    _handleRenderOption (item) {
+    _handleRenderOption = (item) => {
+        let renderString = item.label;
+        if (item.label && item.label.length >= this.props.maxLength) {
+            renderString = I18n.t('js.selectize.tags.too_long');
+        } else if (!!item.newOption) {
+            renderString = I18n.t('js.selectize.tags.add') + ' ' + item.label + ' ...';
+        }
+
         return (
             <div className="simple-option"
                  style={{display: 'flex', alignItems: 'center'}}>
                 <div >
-                    {!!item.newOption ? I18n.t('js.selectize.tags.add') + ' ' + item.label + ' ...' : item.label}
+                    {renderString}
                 </div>
             </div>
         );
-    },
+    };
 
-    _handleRemoveValue (item, event) {
-        event.preventDefault();
-        this.setState({
-            values: _.reject(this.state.values, (value) => value.value == item.value)
-        });
-    },
-
-    _handleRenderValue (item) {
+    _handleRenderValue = (item) => {
         return (
             <div className="simple-value removeable-value">
                 <span onClick={this._handleRemoveValue.bind(this, item)}>x</span>
@@ -126,9 +162,13 @@ var Selectize = React.createClass({
                 </span>
             </div>
         );
-    },
+    };
 
-    render () {
+    value = () => {
+        return this.state.values;
+    };
+
+    render() {
         const fieldClass = classNames('selectize', {
             'input-field': !this.props.isHorizontal,
             'input-horizontal-field': this.props.isHorizontal,
@@ -138,6 +178,12 @@ var Selectize = React.createClass({
         const labelClass = classNames({
             'col m4': this.props.isHorizontal
         });
+
+        const iconClass = classNames(
+            'material-icons',
+            'prefix',
+            'left'
+        );
 
         const selectClass = classNames('select-wrapper', {
             'col m8': this.props.isHorizontal
@@ -160,6 +206,10 @@ var Selectize = React.createClass({
         let groups = null;
         let options = null;
         if (this.props.isCategorized) {
+            if ($.is().isObject(this.props.elements) === false) {
+                throw new Error('Selectize \'elements\' must be an object.');
+            }
+
             groups = Object.keys(this.props.elements).map((category) => {
                 return {
                     groupId: category,
@@ -178,18 +228,34 @@ var Selectize = React.createClass({
                 }));
             }));
         } else {
-            options = this.props.elements.map((element) => {
-                return {
-                    label: element,
-                    value: element
-                };
+            if (Array.isArray(this.props.elements) === false) {
+                throw new Error('Selectize \'elements\' must be an array.');
+            }
+
+            options = _.compact(this.props.elements).map((element) => {
+                if (Array.isArray(element)) {
+                    return {
+                        label: element[1],
+                        value: element[0]
+                    };
+                } else {
+                    return {
+                        label: element,
+                        value: element
+                    };
+                }
             });
         }
 
         return (
             <div className={fieldClass}>
                 {
-                    this.props.isHorizontal &&
+                    (this.props.icon && !this.props.isHorizontal) &&
+                    <i className={iconClass}>{this.props.icon}</i>
+                }
+
+                {
+                    (this.props.title && this.props.isHorizontal) &&
                     <label className={labelClass}>
                         {this.props.title}
                     </label>
@@ -230,13 +296,13 @@ var Selectize = React.createClass({
                                          renderValue={this._handleRenderValue}
                                          placeholder={this.props.placeholder}
                                          maxValues={this.props.maxValues}
-                                         renderNoResultsFound={() => <div>{I18n.t('js.selectize.no_results')}</div>}/>
+                                         renderNoResultsFound={this._handleRenderNoResults}/>
 
                     }
                 </div>
 
                 {
-                    !this.props.isHorizontal &&
+                    (this.props.title && !this.props.isHorizontal) &&
                     <label className={labelClass}>
                         {this.props.title}
                     </label>
@@ -244,6 +310,5 @@ var Selectize = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = Selectize;

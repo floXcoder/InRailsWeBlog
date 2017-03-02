@@ -1,97 +1,112 @@
 'use strict';
 
-const Form = require('../materialize/form');
-const Modal = require('../materialize/modal/modal');
-const ModalFooter = require('../materialize/modal/footer');
-const Input = require('../materialize/input');
-const Checkbox = require('../materialize/checkbox');
-const Submit = require('../materialize/submit');
+import Form from '../materialize/form';
+import Modal from '../materialize/modal/modal';
+import ModalFooter from '../materialize/modal/footer';
 
-var Login = React.createClass({
-    propTypes: {
-        launcherClass: React.PropTypes.string,
+import Input from '../materialize/input';
+import Checkbox from '../materialize/checkbox';
+import Submit from '../materialize/submit';
+
+export default class Login extends React.PureComponent {
+    static propTypes = {
+        launcherClass: React.PropTypes.string.isRequired,
         formId: React.PropTypes.string,
         modalId: React.PropTypes.string,
         url: React.PropTypes.string,
-        validationUrl: React.PropTypes.string,
-        isOpened: React.PropTypes.bool
-    },
+        validationUrl: React.PropTypes.string
+    };
 
-    getDefaultProps () {
-        return {
-            formId: 'login-user',
-            modalId: 'login-modal',
-            url: '/login',
-            validationUrl: '/users/validation',
-            isOpened: false
-        };
-    },
+    static defaultProps = {
+        formId: 'login-user',
+        modalId: 'login-modal',
+        url: '/login',
+        validationUrl: '/users/validation'
+    };
 
-    componentDidMount () {
-        if(this.props.isOpened) {
-            $('#' + this.props.modalId).openModal();
-        }
-    },
+    constructor(props) {
+        super(props);
+    }
 
-    componentDidUpdate () {
-        if(this.props.isOpened) {
-            $('#' + this.props.modalId).openModal();
-        }
-    },
+    _handleModalOpen = () => {
+        return $('#user_login').focus();
+    };
 
-    _handleModalOpen () {
-        return $('#login-user-login').focus();
-    },
+    _handleCancelClick = () => {
+        $('#' + this.props.modalId).modal('close');
+    };
 
-    _handleCancelClick () {
-        $('#' + this.props.modalId).closeModal();
-    },
-
-    render () {
+    render() {
         return (
             <Modal id={this.props.modalId}
                    launcherClass={this.props.launcherClass}
                    title={I18n.t('js.user.login.title')}
                    onOpen={this._handleModalOpen}>
 
-                <Form ref="loginForm"
-                      id={this.props.formId}
+                <Form id={this.props.formId}
+                      className="connection"
                       action={this.props.url}
                       isValidating={true}>
 
-                    <div className="section">
-                        <Input ref="userLogin"
-                               id="login-user-login"
-                               name="user[login]"
-                               title={I18n.t('js.user.login.login')}
-                               labelClass="important"
-                               isRequired={true}
-                               validator={{
-                               'data-parsley-remote': this.props.validationUrl,
-                               'data-parsley-remote-message': I18n.t('js.user.errors.login.invalid')
-                               }}
-                               icon="account_circle"/>
+                    <div className="row connection-externals margin-bottom-0">
+                        <div className="col s12 l6">
+                            <div className="connection-google">
+                                <a className="connection-google-button"
+                                   href="/users/auth/google_oauth2">
+                                    {I18n.t('js.user.login.externals.google')}
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="col s12 l6">
+                            <div className="connection-facebook">
+                                <a className="connection-facebook-button"
+                                   href="/users/auth/facebook">
+                                    {I18n.t('js.user.login.externals.facebook')}
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="section">
-                        <Input id="login-user-password"
-                               name="user[password]"
-                               type="password"
-                               title={I18n.t('js.user.login.password')}
-                               labelClass="important"
-                               isRequired={true}
-                               icon="lock"/>
+                    <div className="connection-or-separator hr-around-text">
+                        {I18n.t('js.helpers.or')}
                     </div>
 
-                    <div className="section">
-                        <Checkbox title={I18n.t('js.user.login.remember_me')}
-                                  id="login-user-remember-me"
-                                  name="user[remember_me]"/>
+                    <div className="row margin-bottom-0">
+                        <div className="col s12">
+                            <Input id="user_login_login"
+                                   name="user[login]"
+                                   title={I18n.t('js.user.login.login')}
+                                   labelClass="important"
+                                   isRequired={true}
+                                   validator={{
+                                       'data-parsley-remote': this.props.validationUrl,
+                                       'data-parsley-remote-message': I18n.t('js.user.errors.login.invalid')
+                                   }}
+                                   icon="account_circle"/>
+                        </div>
+
+                        <div className="col s12">
+                            <Input id="user_password_login"
+                                   name="user[password]"
+                                   type="password"
+                                   title={I18n.t('js.user.login.password')}
+                                   labelClass="important"
+                                   isRequired={true}
+                                   icon="lock"/>
+                        </div>
+                    </div>
+
+                    <div className="connection-checkbox margin-bottom-20">
+                        <Checkbox id="user_remember_me"
+                                  name="user[remember_me]"
+                                  title={I18n.t('js.user.login.remember_me')}
+                                  isDefaultChecked={true}/>
                     </div>
 
                     <ModalFooter>
                         <div className="left">
-                            <a className="waves-effect waves-teal btn-flat"
+                            <a className="waves-effect waves-matisse btn-flat"
                                href="#"
                                onClick={this._handleCancelClick}>
                                 {I18n.t('js.user.login.cancel')}
@@ -108,6 +123,5 @@ var Login = React.createClass({
             </Modal>
         );
     }
-});
+}
 
-module.exports = Login;

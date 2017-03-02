@@ -1,6 +1,6 @@
 'use strict';
 
-var ArticleDeleteIcon = ({article, onDeleteClick}) => {
+const ArticleDeleteIcon = ({article, onDeleteClick}) => {
     if ($app.user.isConnected(article.user.id)) {
         return (
             <a className="article-delete tooltipped btn-floating"
@@ -19,4 +19,4 @@ ArticleDeleteIcon.propTypes = {
     onDeleteClick: React.PropTypes.func.isRequired
 };
 
-module.exports = ArticleDeleteIcon;
+export default ArticleDeleteIcon;

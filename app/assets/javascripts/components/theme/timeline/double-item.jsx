@@ -39,4 +39,4 @@ DoubleTimelineItem.defaultProps = {
     title: null
 };
 
-module.exports = DoubleTimelineItem;
+export default DoubleTimelineItem;

@@ -1,8 +1,6 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var ArticleVisibilityIcon = ({article, hasFloatingButton}) => {
+const ArticleVisibilityIcon = ({article, hasFloatingButton}) => {
     let isVisible = article.visibility === 'everyone';
 
     let visibilityClasses = classNames(
@@ -40,4 +38,4 @@ ArticleVisibilityIcon.getDefaultProps = {
     hasFloatingButton: false
 };
 
-module.exports = ArticleVisibilityIcon;
+export default ArticleVisibilityIcon;

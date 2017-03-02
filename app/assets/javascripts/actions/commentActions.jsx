@@ -1,10 +1,8 @@
 'use strict';
 
-var CommentActions = Reflux.createActions([
+export default Reflux.createActions([
     'loadComments',
     'addComment',
     'updateComment',
     'deleteComment'
 ]);
-
-module.exports = CommentActions;

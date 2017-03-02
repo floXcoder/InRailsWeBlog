@@ -1,96 +1,130 @@
 'use strict';
 
-const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-const classNames = require('classnames');
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-const CommentItem = require('./item');
-const CommentForm = require('./form');
+import CommentItem from './item';
+import CommentForm from './form';
 
-var CommentList = React.createClass({
-    propTypes: {
+export default class CommentList extends React.PureComponent {
+    static propTypes = {
         comments: React.PropTypes.array.isRequired,
         isUserConnected: React.PropTypes.bool.isRequired,
-        currentUserId: React.PropTypes.number.isRequired,
+        isUserOwner: React.PropTypes.bool.isRequired,
+        ownerId: React.PropTypes.number.isRequired,
         isRated: React.PropTypes.bool.isRequired,
         onSubmit: React.PropTypes.func.isRequired,
-        onDelete: React.PropTypes.func.isRequired
-    },
+        onDelete: React.PropTypes.func.isRequired,
+        currentUserId: React.PropTypes.number,
+        isAdmin: React.PropTypes.bool
+    };
 
-    getDefaultProps () {
-        return {};
-    },
+    static defaultProps = {
+        currentUserId: null,
+        isAdmin: false
+    };
 
-    getInitialState () {
-        return {
-            modifyCommentIndex: null,
-            replyCommentIndex: null
-        };
-    },
+    state = {
+        modifyCommentIndex: null,
+        replyCommentIndex: null,
+        replyAsOwner: false,
+        replyForDeletion: false
+    };
 
-    componentDidUpdate () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidUpdate() {
         setTimeout(() => {
-            $(ReactDOM.findDOMNode(this)).find('.dropdown-button').each(function () {
-                $(this).dropdown();
+            $(ReactDOM.findDOMNode(this)).find('.dropdown-button').each((index, element) => {
+                $(element).dropdown({
+                    constrain_width: false
+                });
             });
         }, 900);
-    },
+    }
 
-    _handleReplyClick (index, event) {
+    _handleReplyClick = (index, isOwner, event) => {
         event.preventDefault();
-        if (this.props.isUserConnected) {
-            this.setState({replyCommentIndex: index});
+
+        if (this.props.isUserConnected || this.props.isAdmin) {
+            this.setState({
+                replyCommentIndex: index,
+                replyAsOwner: isOwner
+            });
         } else {
-            Materialize.toast(I18n.t('js.comment.flash.creation_unpermitted'), 5000);
+            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
         }
-    },
+    };
 
-    _handleReplyCancel (event) {
+    _handleAskForDeletionClick = (index, event) => {
         event.preventDefault();
-        this.setState({replyCommentIndex: null});
-    },
 
-    _handleReplySubmit (commentData) {
-        this.setState({replyCommentIndex: null});
+        if (this.props.isUserOwner) {
+            this.setState({
+                replyCommentIndex: index,
+                replyForDeletion: true
+            });
+        }
+    };
+
+    _handleReplyCancel = (event) => {
+        event.preventDefault();
+
+        this.setState({
+            replyCommentIndex: null,
+            replyAsOwner: false,
+            replyForDeletion: false
+        });
+    };
+
+    _handleReplySubmit = (commentData) => {
+        this.setState({
+            replyCommentIndex: null,
+            replyAsOwner: false,
+            replyForDeletion: false
+        });
+
         this.props.onSubmit(commentData);
-    },
+    };
 
-    _handleModifyClick (index, event) {
+    _handleModifyClick = (index, event) => {
         event.preventDefault();
         this.setState({modifyCommentIndex: index});
-    },
+    };
 
-    _handleModifyCancel (event) {
+    _handleModifyCancel = (event) => {
         event.preventDefault();
         this.setState({modifyCommentIndex: null});
-    },
+    };
 
-    _handleModifySubmit (commentData) {
+    _handleModifySubmit = (commentData) => {
         this.setState({modifyCommentIndex: null});
         this.props.onSubmit(commentData);
-    },
+    };
 
-    _handleDeleteClick (commentId, event) {
+    _handleDeleteClick = (commentId, event) => {
         event.preventDefault();
 
-        Materialize.toast(I18n.t('js.comment.delete.action'), undefined, '', () => {
+        Notification.alert(I18n.t('js.comment.delete.confirmation_message'), 10, I18n.t('js.comment.delete.confirmation_button'), () => {
             this._handleDeleteSubmit(commentId);
         });
-    },
+    };
 
-    _handleDeleteSubmit (commentId) {
+    _handleDeleteSubmit = (commentId) => {
         this.props.onDelete(commentId);
-    },
+    };
 
-    _renderDropdown (index, commentId, commentUserId, commentNestedLevel) {
-        if (this.props.currentUserId === commentUserId) {
+    _renderDropdown = (index, commentId, commentUserId, commentNestedLevel) => {
+        if (this.props.currentUserId === commentUserId || this.props.isAdmin) {
             return (
                 <ul id={`dropdown-comment-${index}`}
                     className='dropdown-content'>
                     {
                         commentNestedLevel < 4 &&
                         <li>
-                            <a onClick={this._handleReplyClick.bind(this, index)}>
-                                {I18n.t('js.comment.reply.button')}
+                            <a onClick={this._handleReplyClick.bind(this, index, this.props.isUserOwner)}>
+                                {I18n.t(`js.comment.reply.${(this.props.isUserOwner ? 'owner_button' : 'button')}`)}
                             </a>
                         </li>
                     }
@@ -119,18 +153,39 @@ var CommentList = React.createClass({
                     {
                         commentNestedLevel < 4 &&
                         <li>
-                            <a onClick={this._handleReplyClick.bind(this, index)}>
-                                {I18n.t('js.comment.reply.button')}
+                            <a onClick={this._handleReplyClick.bind(this, index, this.props.isUserOwner)}>
+                                {I18n.t(`js.comment.reply.${(this.props.isUserOwner ? 'owner_button' : 'button')}`)}
+                            </a>
+                        </li>
+                    }
+
+                    {
+                        this.props.isUserOwner &&
+                        <li className="divider"/>
+                    }
+
+                    {
+                        this.props.isUserOwner &&
+                        <li>
+                            <a onClick={this._handleAskForDeletionClick.bind(this, index)}>
+                                {I18n.t('js.comment.ask_for_deletion.button')}
                             </a>
                         </li>
                     }
                 </ul>
             );
         }
-    },
+    };
 
-    _renderReplyForm (index, commentId) {
+    _renderReplyForm = (index, commentId) => {
         if (this.state.replyCommentIndex === index) {
+            let commentFormTitle = I18n.t('js.comment.form.title.reply');
+            if (this.state.replyAsOwner) {
+                commentFormTitle = I18n.t('js.comment.form.title.owner_reply');
+            } else if (this.state.replyForDeletion) {
+                commentFormTitle = I18n.t('js.comment.form.title.deletion_reply');
+            }
+
             return (
                 <ReactCSSTransitionGroup transitionName="comment-form"
                                          transitionAppear={true}
@@ -139,8 +194,10 @@ var CommentList = React.createClass({
                                          transitionLeaveTimeout={300}>
                     <hr/>
                     <div className="comment-reply">
-                        <CommentForm formTitle={I18n.t('js.comment.form.title.reply')}
+                        <CommentForm formTitle={commentFormTitle}
                                      parentCommentId={commentId}
+                                     isOwner={this.state.replyAsOwner}
+                                     isAskingForDeletion={this.state.replyForDeletion}
                                      isRated={this.props.isRated}
                                      onCancel={this._handleReplyCancel}
                                      onSubmit={this._handleReplySubmit}/>
@@ -150,9 +207,9 @@ var CommentList = React.createClass({
         } else {
             return null;
         }
-    },
+    };
 
-    render () {
+    render() {
         if (!this.props.comments) {
             return null;
         }
@@ -167,7 +224,7 @@ var CommentList = React.createClass({
                                      transitionLeaveTimeout={300}>
                 {
                     this.props.comments.map((comment, index) => {
-                        if (!$.isEmpty(comment.body)) {
+                        if (!$.isEmpty(comment.body) && (!(!this.props.isUserOwner && comment.ask_for_deletion) || this.props.isAdmin)) {
                             let classes = {};
                             classes[`comment-child-item-${comment.nested_level}`] = comment.parent_id;
                             let itemClasses = classNames('collection-item', 'avatar', classes);
@@ -176,12 +233,18 @@ var CommentList = React.createClass({
                                 <li key={comment.id}
                                     className={itemClasses}>
                                     <CommentItem id={comment.id}
+                                                 currentUserId={this.props.currentUserId}
+                                                 ownerId={this.props.ownerId}
+                                                 isOwner={this.props.isUserOwner}
+                                                 isAdmin={this.props.isAdmin}
+                                                 isAskingForDeletion={this.state.replyForDeletion}
                                                  user={comment.user}
                                                  date={comment.posted_at}
                                                  title={comment.title}
                                                  rating={this.props.isRated ? comment.rating : null}
                                                  commentId={comment.id}
                                                  parentCommentId={comment.parent_id}
+                                                 askedForDeletion={comment.ask_for_deletion}
                                                  isModifying={this.state.modifyCommentIndex === index}
                                                  onCancel={this._handleModifyCancel}
                                                  onSubmit={this._handleModifySubmit}>
@@ -190,7 +253,7 @@ var CommentList = React.createClass({
 
                                     {
                                         this.state.modifyCommentIndex !== index &&
-                                        <a className="secondary-content dropdown-button tooltipped btn-flat waves-effect waves-teal"
+                                        <a className="secondary-content dropdown-button tooltipped waves-effect waves-matisse btn-flat"
                                            data-tooltip={I18n.t('js.comment.common.actions')}
                                            data-activates={`dropdown-comment-${index}`}>
                                             <i className="material-icons">reply</i>
@@ -207,6 +270,5 @@ var CommentList = React.createClass({
             </ReactCSSTransitionGroup>
         );
     }
-});
+}
 
-module.exports = CommentList;

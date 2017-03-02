@@ -1,8 +1,7 @@
 'use strict';
 
-const Token = require('./token');
-const Typeahead = require('./typeahead');
-const classNames = require('classnames');
+import Token from './token';
+import Typeahead from './typeahead';
 
 var KeyEvent = KeyEvent || {};
 KeyEvent.DOM_VK_UP = KeyEvent.DOM_VK_UP || 38;
@@ -29,8 +28,8 @@ function _arraysAreDifferent(array1, array2) {
  * the text entry widget, prepends a renderable "token", that may be deleted
  * by pressing backspace on the beginning of the line with the keyboard.
  */
-var TypeaheadTokenizer = React.createClass({
-    propTypes: {
+export default class TypeaheadTokenizer extends React.Component {
+    static propTypes = {
         name: React.PropTypes.string,
         options: React.PropTypes.array,
         customClasses: React.PropTypes.object,
@@ -55,53 +54,55 @@ var TypeaheadTokenizer = React.createClass({
         ]),
         maxVisible: React.PropTypes.number,
         hasDefaultClassNames: React.PropTypes.bool
-    },
+    };
 
-    getInitialState () {
-        return {
-            // We need to copy this to avoid incorrect sharing
-            // of state across instances (e.g., via getDefaultProps())
-            selected: this.props.defaultSelected.slice(0)
-        };
-    },
+    state = {
+        // We need to copy this to avoid incorrect sharing
+        // of state across instances (e.g., via getDefaultProps())
+        selected: this.props.defaultSelected.slice(0)
+    };
 
-    getDefaultProps () {
-        return {
-            options: [],
-            defaultSelected: [],
-            customClasses: {},
-            allowCustomValues: 0,
-            defaultValue: "",
-            placeholder: "",
-            inputProps: {},
-            hasDefaultClassNames: true,
-            filterOption: null,
-            displayOption: (token) => { return token },
-            onKeyDown: (event) => {},
-            onKeyUp: (event) => {},
-            onFocus: (event) => {},
-            onBlur: (event) => {},
-            onTokenAdd () {},
-            onTokenRemove () {}
-        };
-    },
+    static defaultProps = {
+        options: [],
+        defaultSelected: [],
+        customClasses: {},
+        allowCustomValues: 0,
+        defaultValue: '',
+        placeholder: '',
+        inputProps: {},
+        hasDefaultClassNames: true,
+        filterOption: null,
+        displayOption: (token) => token,
+        onKeyDown: (event) => {
+        },
+        onKeyUp: (event) => {
+        },
+        onFocus: (event) => {
+        },
+        onBlur: (event) => {
+        },
+        onTokenAdd () {
+        },
+        onTokenRemove () {
+        }
+    };
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         // if we get new defaultProps, update selected
         if (_arraysAreDifferent(this.props.defaultSelected, nextProps.defaultSelected)) {
             this.setState({selected: nextProps.defaultSelected.slice(0)})
         }
-    },
+    }
 
-    focus () {
+    focus() {
         this.refs.typeahead.focus();
-    },
+    }
 
-    getSelectedTokens () {
+    getSelectedTokens() {
         return this.state.selected;
-    },
+    }
 
-    _renderTokens () {
+    _renderTokens() {
         var tokenClasses = {};
         tokenClasses[this.props.customClasses.token] = !!this.props.customClasses.token;
         var classList = classNames(tokenClasses);
@@ -117,22 +118,22 @@ var TypeaheadTokenizer = React.createClass({
             );
         }, this);
         return result;
-    },
+    }
 
-    _getOptionsForTypeahead () {
+    _getOptionsForTypeahead() {
         // return this.props.options without this.selected
         return this.props.options;
-    },
+    }
 
-    _onKeyDown (event) {
+    _onKeyDown(event) {
         // We only care about intercepting backspaces
         if (event.keyCode === KeyEvent.DOM_VK_BACK_SPACE) {
             return this._handleBackspace(event);
         }
         this.props.onKeyDown(event);
-    },
+    }
 
-    _handleBackspace (event) {
+    _handleBackspace(event) {
         // No tokens
         if (!this.state.selected.length) {
             return;
@@ -147,9 +148,9 @@ var TypeaheadTokenizer = React.createClass({
                 this.state.selected[this.state.selected.length - 1]);
             event.preventDefault();
         }
-    },
+    }
 
-    _removeTokenForValue (value) {
+    _removeTokenForValue(value) {
         var index = this.state.selected.indexOf(value);
         if (index == -1) {
             return;
@@ -158,12 +159,12 @@ var TypeaheadTokenizer = React.createClass({
         this.state.selected.splice(index, 1);
         this.setState({selected: this.state.selected});
         this.props.onTokenRemove(value);
-    },
+    }
 
-    _addTokenForValue (value, noSubmit) {
+    _addTokenForValue(value, noSubmit) {
         var full_value = value;
-        if(this.props.addTokenCondition) {
-            if($.isEmpty(value[this.props.addTokenCondition])) {
+        if (this.props.addTokenCondition) {
+            if ($.isEmpty(value[this.props.addTokenCondition])) {
                 return;
             }
 
@@ -177,17 +178,17 @@ var TypeaheadTokenizer = React.createClass({
         this.setState({selected: this.state.selected});
         this.refs.typeahead.setEntryText("");
         this.props.onTokenAdd(full_value, noSubmit);
-    },
+    }
 
-    setEntryText (value) {
+    setEntryText(value) {
         this.refs.typeahead.setEntryText(value);
-    },
+    }
 
-    getEntryText () {
+    getEntryText() {
         return this.refs.typeahead.getEntryText();
-    },
+    }
 
-    render () {
+    render() {
         var classes = {};
         classes[this.props.customClasses.typeahead] = !!this.props.customClasses.typeahead;
         var classList = classNames(classes);
@@ -218,6 +219,4 @@ var TypeaheadTokenizer = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = TypeaheadTokenizer;
+}

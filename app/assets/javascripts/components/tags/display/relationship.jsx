@@ -1,37 +1,36 @@
 'use strict';
 
-const ArticleActions = require('../../../actions/articleActions');
-const ParentTag = require('./parent');
+import ArticleActions from '../../../actions/articleActions';
+import ParentTag from './parent';
 
-const TagStore = require('../../../stores/tagStore');
+import TagStore from '../../../stores/tagStore';
 
-const Filtering = require('../../../modules/filter');
+import Filtering from '../../../modules/filter';
 
-var IndexTagList = React.createClass({
-    propTypes: {
+export default class IndexTagList extends React.Component {
+    static propTypes = {
         tags: React.PropTypes.array.isRequired,
         filterText: React.PropTypes.string.isRequired
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    getInitialState () {
-        return {};
-    },
+    state = {};
 
-    componentDidMount () {
-    },
+    constructor(props) {
+        super(props);
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         return !this.props.tags.isEqualIds(nextProps.tags) || this.props.filterText !== nextProps.filterText;
-    },
+    }
 
-    componentDidUpdate () {
-    },
+    componentDidUpdate() {
+    }
 
-    _handleTagClick (tagId, parentTagName, childTagName) {
+    _handleTagClick(tagId, parentTagName, childTagName) {
         TagStore.onTrackClick(tagId);
 
         let params = {};
@@ -46,9 +45,9 @@ var IndexTagList = React.createClass({
         ArticleActions.loadArticles(params);
 
         return true;
-    },
+    }
 
-    render () {
+    render() {
         let tags = _.keyBy(this.props.tags, 'id');
         let filteredTags = Filtering.filterObjectOfObject(tags, 'name', this.props.filterText);
         let parentFilteredTags = [];
@@ -85,6 +84,4 @@ var IndexTagList = React.createClass({
             );
         }
     }
-});
-
-module.exports = IndexTagList;
+}

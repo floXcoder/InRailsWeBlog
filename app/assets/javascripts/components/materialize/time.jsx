@@ -1,11 +1,9 @@
 'use strict';
 
-require('../../modules/clockpicker');
+import '../../modules/clockpicker';
 
-const classNames = require('classnames');
-
-var Time = React.createClass({
-    propTypes: {
+export default class Time extends React.PureComponent {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,
         name: React.PropTypes.string,
@@ -18,39 +16,41 @@ var Time = React.createClass({
         onInput: React.PropTypes.func,
         isHorizontal: React.PropTypes.bool,
         validator: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            children: null,
-            isDisabled: false,
-            name: null,
-            multipleId: null,
-            isRequired: false,
-            icon: null,
-            onChange: null,
-            onInput: null,
-            isHorizontal: false,
-            validator: null
-        };
-    },
+    static defaultProps = {
+        children: null,
+        isDisabled: false,
+        name: null,
+        multipleId: null,
+        isRequired: false,
+        icon: null,
+        onChange: null,
+        onInput: null,
+        isHorizontal: false,
+        validator: null
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         $(ReactDOM.findDOMNode(this.refs[this.props.id])).pickatime({
             default: this.props.children,
-            donetext: I18n.t('js.buttons.apply'),
+            donetext: I18n.t('js.date.buttons.apply'),
             autoclose: true,
             darktheme: true,
             twelvehour: false
         });
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         // Ignore if props has changed
         return false;
-    },
+    }
 
-    render () {
+    render() {
         const fieldClass = classNames({
             'input-field': !this.props.isHorizontal,
             'input-horizontal-field': this.props.isHorizontal,
@@ -102,10 +102,9 @@ var Time = React.createClass({
                        onInput={this.props.onInput}
                        onChange={this.props.onChange}
                        defaultValue={this.props.children}
-                    {...this.props.validator}/>
+                       {...this.props.validator}/>
             </div>
         );
     }
-});
+}
 
-module.exports = Time;

@@ -1,19 +1,19 @@
 'use strict';
 
-require('../common');
+import '../common';
 
-const HomePage = require('../../components/home/home');
+import HomePage from '../../components/home/home';
 
-const ArticleNew = require('../../components/articles/new');
-const ArticleIndex = require('../../components/articles/index');
-const ArticleShow = require('../../components/articles/show');
-const ArticleEdit = require('../../components/articles/edit');
+import ArticleNew from '../../components/articles/new';
+import ArticleIndex from '../../components/articles/index';
+import ArticleShow from '../../components/articles/show';
+import ArticleEdit from '../../components/articles/edit';
 
-const TagShow = require('../../components/tags/show');
-const TagEdit = require('../../components/tags/edit');
+import TagShow from '../../components/tags/show';
+import TagEdit from '../../components/tags/edit';
 
-const UserShow = require('../../components/users/show');
-const UserEdit = require('../../components/users/edit');
+import UserShow from '../../components/users/show';
+import UserEdit from '../../components/users/edit';
 
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
@@ -25,7 +25,7 @@ ReactDOM.render(
             <IndexRoute component={ArticleIndex}/>
 
             <Route path="article">
-                <IndexRoute component={ArticleIndex} />
+                <IndexRoute component={ArticleIndex}/>
 
                 <Route path="tags/:tagName"
                        component={ArticleIndex}/>
@@ -66,4 +66,4 @@ ReactDOM.render(
             </Route>
         </Route>
     </Router>
-, document.getElementById('app-component'));
+    , document.getElementById('app-component'));

@@ -1,26 +1,30 @@
 'use strict';
 
-const HighlightCode = require('highlight.js');
+import HighlightCode from 'highlight.js';
 
-var ArticleInlineDisplay = React.createClass({
-    propTypes: {
+export default class ArticleInlineDisplay extends React.Component {
+    static propTypes = {
         children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired
-    },
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
         HighlightCode.configure({
             tabReplace: '  ' // 4 spaces
         });
 
         this._highlightCode();
-    },
+    }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         this._highlightCode();
-    },
+    }
 
-    _highlightCode () {
+    _highlightCode() {
         let domNode = ReactDOM.findDOMNode(this);
         let nodes = domNode.querySelectorAll('pre code');
         if (nodes.length > 0) {
@@ -28,20 +32,18 @@ var ArticleInlineDisplay = React.createClass({
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
-    },
+    }
 
-    render () {
+    render() {
         return (
             <div className="blog-article-item">
                 <h4 className="article-title-inline">
                     {this.props.article.title}
                 </h4>
-                
+
                 <span className="blog-article-content"
                       dangerouslySetInnerHTML={{__html: this.props.children}}/>
             </div>
         );
     }
-});
-
-module.exports = ArticleInlineDisplay;
+}

@@ -1,40 +1,38 @@
 'use strict';
 
-const UserStore = require('../../stores/userStore');
+import UserStore from '../../stores/userStore';
 
-const TagActions = require('../../actions/tagActions');
-const TagStore = require('../../stores/tagStore');
+import TagActions from '../../actions/tagActions';
+import TagStore from '../../stores/tagStore';
 
-const UserAvatarIcon = require('../users/icons/avatar');
+import UserAvatarIcon from '../users/icons/avatar';
 
 import {Link} from 'react-router';
 
-var TagShow = React.createClass({
-    propTypes: {
+export default class TagShow extends Reflux.Component {
+    static propTypes = {
         tag: React.PropTypes.object,
         params: React.PropTypes.object,
         location: React.PropTypes.object,
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(TagStore, 'onTagChange')
-    ],
+    static defaultProps = {
+        tag: null,
+        params: {},
+        location: {}
+    };
 
-    getDefaultProps () {
-        return {
-            tag: null,
-            params: {},
-            location: {}
-        };
-    },
+    state = {
+        tag: null
+    };
 
-    getInitialState () {
-        return {
-            tag: null
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(TagStore, this.onTagChange);
+    }
+
+    componentWillMount() {
         if (this.props.tag) {
             this.setState({
                 tag: this.props.tag
@@ -42,9 +40,9 @@ var TagShow = React.createClass({
         } else if (this.props.params.tagId) {
             TagActions.loadTag({id: this.props.params.tagId});
         }
-    },
+    }
 
-    onTagChange (tagData) {
+    onTagChange(tagData) {
         if ($.isEmpty(tagData)) {
             return;
         }
@@ -58,21 +56,21 @@ var TagShow = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _handleUserClick (userId, event) {
+    _handleUserClick(userId, event) {
         UserStore.onTrackClick(userId);
         return event;
-    },
+    }
 
     // _handleDeleteClick (event) {
     //     event.preventDefault();
     //     if (this.state.article) {
     //         ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
     //     }
-    // },
+    // }
 
-    render () {
+    render() {
         if ($.isEmpty(this.state.tag)) {
             return null;
         }
@@ -183,6 +181,4 @@ var TagShow = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = TagShow;
+}

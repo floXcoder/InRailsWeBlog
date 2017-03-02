@@ -1,15 +1,13 @@
 'use strict';
 
-const TypeaheadOption = require('./option');
-const classNames = require('classnames');
+import TypeaheadOption from './option';
 
 /**
  * Container for the options rendered as part of the autocompletion process
  * of the typeahead
  */
-var TypeaheadSelector = React.createClass({
-    displayName: "TypeaheadSelector",
-    propTypes: {
+export default class TypeaheadSelector extends React.Component {
+    static propTypes = {
         options: React.PropTypes.array,
         customClasses: React.PropTypes.object,
         customValue: React.PropTypes.string,
@@ -17,24 +15,26 @@ var TypeaheadSelector = React.createClass({
         onOptionSelected: React.PropTypes.func,
         displayOption: React.PropTypes.func.isRequired,
         hasDefaultClassNames: React.PropTypes.bool
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            selectionIndex: null,
-            customClasses: {},
-            customValue: null,
-            onOptionSelected (option) {
-            },
-            hasDefaultClassNames: true
-        };
-    },
+    static defaultProps = {
+        selectionIndex: null,
+        customClasses: {},
+        customValue: null,
+        onOptionSelected (option) {
+        },
+        hasDefaultClassNames: true
+    };
 
-    _handleItemClick (result, event) {
+    constructor(props) {
+        super(props);
+    }
+
+    _handleItemClick(result, event) {
         return this.props.onOptionSelected(result, event);
-    },
+    }
 
-    render () {
+    render() {
         let classes = {
             "typeahead-selector": this.props.hasDefaultClassNames
         };
@@ -82,6 +82,4 @@ var TypeaheadSelector = React.createClass({
             )
         );
     }
-});
-
-module.exports = TypeaheadSelector;
+}

@@ -1,31 +1,28 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var ArticleBookmarkIcon = React.createClass({
-    propTypes: {
+export default class ArticleBookmarkIcon extends React.PureComponent {
+    static propTypes = {
         article: React.PropTypes.object.isRequired,
         onBookmarkClick: React.PropTypes.func.isRequired
-    },
+    };
 
-    getDefaultProps () {
-        return {
-        };
-    },
+    static defaultProps = {};
 
-    getInitialState () {
-        return {
-            isBookmarked: this.props.article.bookmarked
-        };
-    },
+    state = {
+        isBookmarked: this.props.article.bookmarked
+    };
 
-    _handleBookmarkClick (articleId, event) {
+    constructor(props) {
+        super(props);
+    }
+
+    _handleBookmarkClick(articleId, event) {
         event.preventDefault();
         this.props.onBookmarkClick(articleId, this.state.isBookmarked);
         this.setState({isBookmarked: !this.state.isBookmarked})
-    },
+    }
 
-    render () {
+    render() {
         if ($app.user.isConnected()) {
             let bookmarkClasses = classNames('material-icons', {'article-bookmarked': this.state.isBookmarked});
             let bookmarkTooltip = this.state.isBookmarked ?
@@ -43,6 +40,4 @@ var ArticleBookmarkIcon = React.createClass({
             return null;
         }
     }
-});
-
-module.exports = ArticleBookmarkIcon;
+}

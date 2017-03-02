@@ -1,8 +1,8 @@
 'use strict';
 
-require('../common');
+import '../common';
 
-const ArticleShow = require('../../components/articles/show');
+import ArticleShow from '../../components/articles/show';
 
 const article = JSON.parse(document.getElementById('article-show-component').getAttribute('data-article'));
 

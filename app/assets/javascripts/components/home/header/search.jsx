@@ -2,7 +2,7 @@
 
 import {FlatButton, FontIcon} from 'material-ui';
 
-var HomeSearchHeader = ({onSearchClick}) => (
+const HomeSearchHeader = ({onSearchClick}) => (
     <FlatButton label={I18n.t('js.header.search.button')}
                 className="header-button"
                 secondary={true}
@@ -20,4 +20,4 @@ HomeSearchHeader._handleSearchClick = (onSearchClick, event) => {
     return false;
 };
 
-module.exports = HomeSearchHeader;
+export default HomeSearchHeader;

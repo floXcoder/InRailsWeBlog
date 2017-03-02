@@ -1,6 +1,6 @@
 'use strict';
 
-var CountCommentIcon = ({linkToComment, commentsNumber}) => (
+const CountCommentIcon = ({linkToComment, commentsNumber}) => (
     <a href={linkToComment + '#comments'}
        className="comment-count">
         <span className="tooltipped"
@@ -16,4 +16,4 @@ CountCommentIcon.propTypes = {
     commentsNumber: React.PropTypes.number.isRequired
 };
 
-module.exports = CountCommentIcon;
+export default CountCommentIcon;

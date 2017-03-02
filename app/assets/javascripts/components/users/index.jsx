@@ -1,46 +1,44 @@
 'use strict';
 
-const UserActions = require('../../actions/userActions');
-const UserStore = require('../../stores/userStore');
+import UserActions from '../../actions/userActions';
+import UserStore from '../../stores/userStore';
 
-const UserCardDisplay = require('./display/card');
+import UserCardDisplay from './display/card';
 
-const SearchBar = require('../theme/search-bar');
+import SearchBar from '../theme/search-bar';
 
-const Filtering = require('../../modules/filter');
+import Filtering from '../../modules/filter';
 
-const Pagination = require('../materialize/pagination');
+import Pagination from '../materialize/pagination';
 
-const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-var UserIndex = React.createClass({
-    propTypes: {
+export default class UserIndex extends Reflux.Component {
+    static propTypes = {
         onUserClick: React.PropTypes.func
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(UserStore, 'onUserChange')
-    ],
+    static defaultProps = {
+        onUserClick: null
+    };
 
-    getDefaultProps () {
-        return {
-            onUserClick: null
-        };
-    },
+    state = {
+        users: [],
+        usersPagination: null,
+        filteredUsers: null
+    };
 
-    getInitialState () {
-        return {
-            users: [],
-            usersPagination: null,
-            filteredUsers: null
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(UserStore, this.onUserChange);
+    }
+
+    componentWillMount() {
         UserActions.loadUsers({page: 1});
-    },
+    }
 
-    onUserChange (userData) {
+    onUserChange(userData) {
         if ($.isEmpty(userData)) {
             return;
         }
@@ -55,18 +53,18 @@ var UserIndex = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _handleUserInput (filterText) {
+    _handleUserInput(filterText) {
         let filteredUsers = Filtering.filterArrayOfObject(this.state.users, 'pseudo', filterText);
 
         this.setState({
             filterText: filterText,
             filteredUsers: filteredUsers
         });
-    },
+    }
 
-    _handleUserClick (userId, event) {
+    _handleUserClick(userId, event) {
         if (this.props.onUserClick) {
             if (event) {
                 event.preventDefault();
@@ -76,16 +74,16 @@ var UserIndex = React.createClass({
         } else {
             return event;
         }
-    },
+    }
 
-    _handlePaginationClick (paginate) {
+    _handlePaginationClick(paginate) {
         UserActions.loadUsers({page: paginate.selected + 1});
         setTimeout(() => {
             $('html, body').animate({scrollTop: $('.blog-user-list').offset().top - 64}, 750);
         }, 300);
-    },
+    }
 
-    render () {
+    render() {
         let users = this.state.filteredUsers ? this.state.filteredUsers : this.state.users;
 
         return (
@@ -128,6 +126,4 @@ var UserIndex = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = UserIndex;
+}

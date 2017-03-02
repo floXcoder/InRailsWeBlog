@@ -1,40 +1,38 @@
 'use strict';
 
-const EditorLoader = require('../../loaders/editor');
+import EditorLoader from '../../loaders/editor';
 
-const classNames = require('classnames');
 
-var Editor = React.createClass({
-    propTypes: {
+export default class Editor extends React.Component {
+    static propTypes = {
         mode: React.PropTypes.number,
         id: React.PropTypes.string,
         children: React.PropTypes.string,
         onEditorLoaded: React.PropTypes.func,
         onEditorInput: React.PropTypes.func
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            mode: 1,
-            id: 'editor',
-            children: null,
-            onEditorLoaded: null,
-            onEditorInput: null
-        };
-    },
+    static defaultProps = {
+        mode: 1,
+        id: 'editor',
+        children: null,
+        onEditorLoaded: null,
+        onEditorInput: null
+    };
 
-    mode: {
+    mode = {
         SHOW: 1,
         EDIT: 2,
         INLINE_EDIT: 3
-    },
+    };
 
-    editor: null,
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
-    },
+        this.editor = null;
+    }
 
-    componentDidMount () {
+    componentDidMount() {
         EditorLoader().then(({}) => {
             let $editor = $(ReactDOM.findDOMNode(this.refs.editor));
 
@@ -101,30 +99,30 @@ var Editor = React.createClass({
                 this.props.onEditorLoaded();
             }
         });
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         // Do not update
         return false;
-    },
+    }
 
-    setContent (content) {
+    setContent(content) {
         if (this.editor) {
             this.editor.summernote('code', content);
         } else {
             return false;
         }
-    },
+    }
 
-    contentLength () {
+    contentLength() {
         if (this.editor) {
             return this.editor.summernote('code').replace(/<(?:.|\n)*?>/gm, '').length;
         } else {
             return false;
         }
-    },
+    }
 
-    createLink () {
+    createLink() {
         if (this.editor) {
             this.editor.summernote('code', '');
             this.editor.summernote('createLink', {
@@ -135,24 +133,24 @@ var Editor = React.createClass({
         } else {
             return false;
         }
-    },
+    }
 
-    focus () {
+    focus() {
         if (this.editor) {
             this.editor.summernote('focus');
         } else {
             return false;
         }
-    },
+    }
 
-    serialize () {
+    serialize() {
         if (this.editor) {
             $('#' + this.props.id + '-serialized').val(this.editor.summernote('code'));
             return this.editor.summernote('code');
         } else {
             return false;
         }
-    },
+    }
 
     reset() {
         if (this.editor) {
@@ -160,7 +158,7 @@ var Editor = React.createClass({
         } else {
             return false;
         }
-    },
+    }
 
     remove() {
         if (this.editor) {
@@ -169,9 +167,9 @@ var Editor = React.createClass({
         } else {
             return false;
         }
-    },
+    }
 
-    render () {
+    render() {
         const containerClassName = classNames({
             'editor-reset': this.props.mode !== this.mode.INLINE_EDIT,
             'article-editing': this.props.mode === this.mode.INLINE_EDIT
@@ -198,7 +196,7 @@ var Editor = React.createClass({
             </div>
         );
     }
-});
+}
 
 
-module.exports = Editor;
+export default Editor;

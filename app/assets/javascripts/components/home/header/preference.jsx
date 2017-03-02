@@ -2,7 +2,7 @@
 
 import {FlatButton, FontIcon} from 'material-ui';
 
-var HomePreferenceHeader = ({onPreferenceClick}) => (
+const HomePreferenceHeader = ({onPreferenceClick}) => (
     <FlatButton label={I18n.t('js.header.settings.button')}
                 className="header-button"
                 secondary={true}
@@ -20,4 +20,4 @@ HomePreferenceHeader._handlePreferenceClick = (onPreferenceClick, event) => {
     return false;
 };
 
-module.exports = HomePreferenceHeader;
+export default HomePreferenceHeader;

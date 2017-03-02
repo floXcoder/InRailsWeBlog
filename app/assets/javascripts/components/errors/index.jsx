@@ -1,41 +1,41 @@
 'use strict';
 
-const ErrorActions = require('../../actions/errorActions');
-const ErrorStore = require('../../stores/errorStore');
+import ErrorActions from '../../actions/errorActions';
+import ErrorStore from '../../stores/errorStore';
 
-var ErrorIndex = React.createClass({
-    mixins: [
-        Reflux.listenTo(ErrorStore, 'onErrorChange')
-    ],
+export default class ErrorIndex extends Reflux.Component {
+    state = {
+        errors: []
+    };
 
-    getInitialState () {
-        return {
-            errors: []
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(ErrorStore, this.onErrorChange);
+    }
+
+    componentWillMount() {
         ErrorActions.loadErrors();
-    },
+    }
 
-    componentDidMount () {
-    },
+    componentDidMount() {
+    }
 
-    onErrorChange (errors) {
+    onErrorChange(errors) {
         this.setState({errors: errors.error_messages});
-    },
+    }
 
-    _renderOriginIcon (error) {
-        if(error.origin === 'communication') {
+    _renderOriginIcon(error) {
+        if (error.origin === 'communication') {
             return (<i className="material-icons blue-text text-darken-4">compare_arrows</i>);
-        } else if(error.origin === 'client') {
+        } else if (error.origin === 'client') {
             return (<i className="material-icons red-text text-darken-4">phone_android</i>);
         } else {
             return (<i className="material-icons blue-text text-darken-4">desktop_windows</i>);
         }
-    },
+    }
 
-    render () {
+    render() {
         //:params, :user_agent, :user_info, :ip
         //Line number: {error.line_number} ; Column number: {error.column_number}
 
@@ -60,11 +60,13 @@ var ErrorIndex = React.createClass({
                         <h5>
                             {I18n.t('js.error_message.message')}
                         </h5>
-                        { error.trace ? <blockquote dangerouslySetInnerHTML={{__html: error.message.replace(/\n/g, "<br />")}}/> : ''}
+                        { error.trace ? <blockquote
+                                dangerouslySetInnerHTML={{__html: error.message.replace(/\n/g, "<br />")}}/> : ''}
                         <h5>
                             {I18n.t('js.error_message.trace')}
                         </h5>
-                        { error.trace ? <blockquote dangerouslySetInnerHTML={{__html: error.trace.replace(/\n/g, "<br />")}}/> : ''}
+                        { error.trace ?
+                            <blockquote dangerouslySetInnerHTML={{__html: error.trace.replace(/\n/g, "<br />")}}/> : ''}
                     </div>
                 </li>
             );
@@ -79,6 +81,4 @@ var ErrorIndex = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = ErrorIndex;
+}

@@ -1,51 +1,50 @@
 'use strict';
 
-const classNames = require('classnames');
 
-const TagStore = require('../../../stores/tagStore');
+import TagStore from '../../../stores/tagStore';
 
-const ToolTip = require('react-portal-tooltip');
+import ToolTip from 'react-portal-tooltip';
 
 import {Link} from 'react-router';
 
-var ArticleTags = React.createClass({
-    propTypes: {
+export default class ArticleTags extends React.PureComponent {
+    static propTypes = {
         article: React.PropTypes.object.isRequired,
         onTagClick: React.PropTypes.func,
         linkTag: React.PropTypes.string
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            onTagClick: null,
-            linkTag: null
-        };
-    },
+    static defaultProps = {
+        onTagClick: null,
+        linkTag: null
+    };
 
-    getInitialState () {
-        return {
-            tagTooltipActive: null
-        };
-    },
+    state = {
+        tagTooltipActive: null
+    };
 
-    _handleTagClick (tagId, tagName, event) {
+    constructor(props) {
+        super(props);
+    }
+
+    _handleTagClick(tagId, tagName, event) {
         TagStore.onTrackClick(tagId);
 
         if (this.props.onTagClick) {
             event.preventDefault();
             this.props.onTagClick(tagId, tagName);
         }
-    },
+    }
 
-    _showTagTooltip (tagId) {
+    _showTagTooltip(tagId) {
         this.setState({tagTooltipActive: tagId});
-    },
+    }
 
-    _hideTagTooltip (tagId) {
+    _hideTagTooltip(tagId) {
         this.setState({tagTooltipActive: null});
-    },
+    }
 
-    render () {
+    render() {
         const parentTags = _.keyBy(this.props.article.parent_tags, 'id');
         const childTags = _.keyBy(this.props.article.child_tags, 'id');
         const tagList = this.props.article.parent_tags.concat(this.props.article.child_tags);
@@ -118,6 +117,4 @@ var ArticleTags = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = ArticleTags;
+}

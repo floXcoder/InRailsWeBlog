@@ -1,11 +1,11 @@
 'use strict';
 
-const CommentActions = require('../../actions/commentActions');
-const CommentStore = require('../../stores/commentStore');
-const CommentTableDisplay = require('./display/table');
+import CommentActions from '../../actions/commentActions';
+import CommentStore from '../../stores/commentStore';
+import CommentTableDisplay from './display/table';
 
-var CommentIndex = React.createClass({
-    propTypes: {
+export default class CommentIndex extends Reflux.Component {
+    static propTypes = {
         comments: React.PropTypes.array,
         limit: React.PropTypes.number,
         userId: React.PropTypes.number,
@@ -15,34 +15,33 @@ var CommentIndex = React.createClass({
         isPaginated: React.PropTypes.bool,
         onPaginationClick: React.PropTypes.func,
         isTable: React.PropTypes.bool
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(CommentStore, 'onCommentChange')
-    ],
+    static defaultProps = {
+        comments: null,
+        limit: 6,
+        userId: null,
+        isShowingLast: false,
+        filters: null,
+        commentTotalPages: null,
+        isPaginated: true,
+        onPaginationClick: null,
+        isTable: false
+    };
 
-    getDefaultProps () {
-        return {
-            comments: null,
-            limit: 6,
-            userId: null,
-            isShowingLast: false,
-            filters: null,
-            commentTotalPages: null,
-            isPaginated: true,
-            onPaginationClick: null,
-            isTable: false
-        };
-    },
+    state = {
+        comments: this.props.comments || [],
+        commentsPagination: this.props.commentTotalPages ? {total_pages: this.props.commentTotalPages} : {},
+        isLoaded: false
+    };
 
-    getInitialState () {
-        return {
-            comments: this.props.comments || [],
-            commentsPagination: this.props.commentTotalPages ? {total_pages: this.props.commentTotalPages} : {}
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(CommentStore, this.onCommentChange);
+    }
+
+    componentWillMount() {
         if (!this.props.comments) {
             let params = {page: 1};
             if (this.props.isTable) {
@@ -62,26 +61,27 @@ var CommentIndex = React.createClass({
 
             CommentActions.loadComments(params);
         }
-    },
+    }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (!!nextProps.comments) {
             this.setState({
                 comments: nextProps.comments,
-                commentsPagination: {total_pages: nextProps.commentTotalPages}
+                commentsPagination: {total_pages: nextProps.commentTotalPages},
+                isLoaded: true
             });
         }
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         if (this.props.comments) {
             return !!this.state.comments.isEqualIds(nextState.comments);
         } else {
             return true;
         }
-    },
+    }
 
-    onCommentChange (commentData) {
+    onCommentChange(commentData) {
         if ($.isEmpty(commentData)) {
             return;
         }
@@ -91,6 +91,7 @@ var CommentIndex = React.createClass({
         if (commentData.type === 'loadComments') {
             newState.comments = commentData.comments;
             newState.commentsPagination = commentData.pagination;
+            newState.isLoaded = true;
         }
 
         if (commentData.type === 'updateComment') {
@@ -106,19 +107,17 @@ var CommentIndex = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _handlePaginationClick(paginate)
-    {
+    _handlePaginationClick(paginate) {
         if (this.props.onPaginationClick) {
             this.props.onPaginationClick(paginate);
         } else {
             CommentActions.loadComments({page: paginate.selected + 1});
         }
-    },
+    }
 
-    render()
-    {
+    render() {
         let displayType = 'table';
 
         return (
@@ -127,6 +126,7 @@ var CommentIndex = React.createClass({
                     {
                         displayType === 'table' &&
                         <CommentTableDisplay comments={this.state.comments}
+                                             isLoaded={this.state.isLoaded}
                                              isPaginated={this.props.isPaginated}
                                              totalPages={this.state.commentsPagination && this.state.commentsPagination.total_pages}
                                              onPaginationClick={this._handlePaginationClick}
@@ -138,6 +138,5 @@ var CommentIndex = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = CommentIndex;

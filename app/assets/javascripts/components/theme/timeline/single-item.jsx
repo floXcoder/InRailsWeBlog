@@ -5,11 +5,9 @@ const SingleTimelineItem = (props) => (
         <div className="timeline-icon">
             <i className="material-icons">{props.icon}</i>
         </div>
-
         <div className="timeline-date">
             {props.date}
         </div>
-
         <div className="timeline-content">
             {props.title}
             <div className="card-panel">
@@ -30,4 +28,4 @@ SingleTimelineItem.defaultProps = {
     date: null
 };
 
-module.exports = SingleTimelineItem;
+export default SingleTimelineItem;

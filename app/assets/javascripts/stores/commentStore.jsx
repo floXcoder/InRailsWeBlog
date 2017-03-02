@@ -1,40 +1,44 @@
 'use strict';
 
-var Errors = require('../mixins/errors');
+import mix from '../mixins/mixin';
+import Errors from '../mixins/errors';
 
-var CommentActions = require('../actions/commentActions');
+import CommentActions from '../actions/commentActions';
 
-var CommentStore = Reflux.createStore({
-    mixins: [Errors],
-    listenables: [CommentActions],
-    url: '/comments',
+export default class CommentStore extends mix(Reflux.Store).with(Errors) {
+    constructor() {
+        super();
+
+        this.listenables = CommentActions;
+        this.url = '/comments';
+    }
 
     // Called by handleErrors function from Errors mixin
-    displayUnauthorizedMessage () {
-    },
+    displayUnauthorizedMessage() {
+    }
 
     // Called by handleErrors function of Errors mixin
-    displayErrorsMessage (url, errorMessage) {
+    displayErrorsMessage(url, errorMessage) {
         if (url.includes('comments')) {
             Object.keys(errorMessage).forEach((errorField) => {
-                Materialize.toast(
-                    I18n.t('js.comment.model.errors.' + errorField,
+                Notification.error(
+                    I18n.t(`js.comment.errors.${errorField}`,
                         {
                             message: errorMessage[errorField],
-                            defaults: [{scope: 'js.comment.model.errors.default'}]
+                            defaults: [{scope: 'js.comment.errors.default'}]
                         })
                 );
             });
         }
-    },
+    }
 
-    _fetchComments (data, callback) {
+    _fetchComments(data, callback) {
         let requestParam = {};
 
         let url = this.url;
 
         if (data) {
-            requestParam = {};
+            requestParam = data;
 
             if (data.commentableType && data.commentableId) {
                 url = `/${data.commentableType}/${data.commentableId}/comments`;
@@ -60,9 +64,9 @@ var CommentStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onLoadComments (data) {
+    onLoadComments(data) {
         if ($.isEmpty(data)) {
             log.error('Tried to load comments without data');
             return;
@@ -75,9 +79,9 @@ var CommentStore = Reflux.createStore({
                 pagination: dataReceived.meta
             });
         });
-    },
+    }
 
-    onAddComment (comment, commentableId, commentableType) {
+    onAddComment(comment, commentableId, commentableType) {
         if ($.isEmpty(comment) || $.isEmpty(commentableId)) {
             log.error('Tried to post a comment without comment or commentable id');
             return;
@@ -112,9 +116,9 @@ var CommentStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onUpdateComment (comment, commentableId, commentableType) {
+    onUpdateComment(comment, commentableId, commentableType) {
         if ($.isEmpty(comment) || $.isEmpty(comment.id) || $.isEmpty(commentableId)) {
             log.error('Tried to update a comment without comment id or commentable id');
             return;
@@ -150,9 +154,9 @@ var CommentStore = Reflux.createStore({
             .fail((xhr, status, error) => {
                 this.handleErrors(url, xhr, status, error);
             });
-    },
+    }
 
-    onDeleteComment (commentId, commentableId, commentableType, options) {
+    onDeleteComment(commentId, commentableId, commentableType, options) {
         if ($.isEmpty(commentId) || $.isEmpty(commentableId)) {
             log.error('Tried to remove a comment without comment id or commentable id');
             return;
@@ -191,6 +195,4 @@ var CommentStore = Reflux.createStore({
                 this.handleErrors(url, xhr, status, error);
             });
     }
-});
-
-module.exports = CommentStore;
+}

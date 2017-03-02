@@ -12,7 +12,7 @@ const UserCardDisplay = ({user, onUserClick}) => (
                 </div>
 
             }
-                    <span className="card-title">
+            <span className="card-title">
                         {user.pseudo}
                     </span>
         </div>
@@ -36,4 +36,4 @@ UserCardDisplay.defaultProps = {
     onUserClick: null
 };
 
-module.exports = UserCardDisplay;
+export default UserCardDisplay;

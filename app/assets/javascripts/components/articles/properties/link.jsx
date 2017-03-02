@@ -1,10 +1,10 @@
 'use strict';
 
-const ArticleStore = require('../../../stores/articleStore');
+import ArticleStore from '../../../stores/articleStore';
 
 import {Link} from 'react-router';
 
-var ArticleLink = ({article, onArticleClick}) => (
+const ArticleLink = ({article, onArticleClick}) => (
     <Link className="article-goto tooltipped btn-floating"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
           to={'/article/' + article.slug}
@@ -30,4 +30,4 @@ ArticleLink._handleArticleClick = (articleId, onArticleClick) => {
     }
 };
 
-module.exports = ArticleLink;
+export default ArticleLink;

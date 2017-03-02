@@ -1,28 +1,28 @@
 'use strict';
 
-const ArticleActions = require('../../actions/articleActions');
-const ArticleStore = require('../../stores/articleStore');
-const UserStore = require('../../stores/userStore');
-const Tokenizer = require('../../components/autocomplete/tokenizer');
+import ArticleActions from '../../actions/articleActions';
+import ArticleStore from '../../stores/articleStore';
+import UserStore from '../../stores/userStore';
+import Tokenizer from '../../components/autocomplete/tokenizer';
 
-var SearchModule = React.createClass({
-    mixins: [
-        Reflux.listenTo(ArticleStore, 'onArticleChange'),
-        Reflux.listenTo(UserStore, 'onSearchChange')
-    ],
+export default class SearchModule extends Reflux.Component {
+    state = {
+        autocompleteValues: [],
+        selectedTags: [],
+        previousSelectedTags: [],
+        $searchDiv: null,
+        suggestions: [],
+        query: ''
+    };
 
-    getInitialState () {
-        return {
-            autocompleteValues: [],
-            selectedTags: [],
-            previousSelectedTags: [],
-            $searchDiv: null,
-            suggestions: [],
-            query: ''
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentDidMount () {
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        this.mapStoreToState(UserStore, this.onSearchChange);
+    }
+
+    componentDidMount() {
         Mousetrap.bind('alt+r', () => {
             this._toggleSearchNav();
             return false;
@@ -32,9 +32,9 @@ var SearchModule = React.createClass({
             this._toggleSearchNav();
             return false;
         });
-    },
+    }
 
-    _activateSearch (state) {
+    _activateSearch(state) {
         this._toggleSearchNav();
 
         if (!$.isEmpty(state.tags)) {
@@ -44,21 +44,21 @@ var SearchModule = React.createClass({
         }
 
         this.refs.typeahead.setEntryText(state.query);
-    },
+    }
 
-    _toggleSearchNav () {
+    _toggleSearchNav() {
         let $searchDiv = $('.blog-search-nav');
 
         $searchDiv.is(":visible") ? $searchDiv.slideUp() : $searchDiv.slideDown(() => {
-            $searchDiv.find('input').focus()
-        });
-    },
+                $searchDiv.find('input').focus()
+            });
+    }
 
     onSearchChange(userData) {
         if (!$.isEmpty(userData.search)) {
             this._handleSubmit(null, userData.search);
         }
-    },
+    }
 
     onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {
@@ -99,9 +99,9 @@ var SearchModule = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _handleSuggestionClick (suggestion, event) {
+    _handleSuggestionClick(suggestion, event) {
         event.preventDefault();
 
         this.refs.typeahead.setEntryText(suggestion);
@@ -109,9 +109,9 @@ var SearchModule = React.createClass({
 
         this.setState({suggestions: []});
         this._handleSubmit(event, {});
-    },
+    }
 
-    _onKeyUp (event) {
+    _onKeyUp(event) {
         let entryValue = this.refs.typeahead.getEntryText().trim();
 
         if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
@@ -123,9 +123,9 @@ var SearchModule = React.createClass({
             this.refs.typeahead.refs.typeahead.setState({entryValue: entryValue, selection: entryValue});
             this._handleSubmit(event, {});
         }
-    },
+    }
 
-    _handleSubmit (event, searchOptions) {
+    _handleSubmit(event, searchOptions) {
         if (event) {
             event.preventDefault();
         }
@@ -163,18 +163,18 @@ var SearchModule = React.createClass({
                 previousSelectedTags: this.state.selectedTags
             });
         }
-    },
+    }
 
-    _filterOption (inputValue, option) {
+    _filterOption(inputValue, option) {
         if (!$.isEmpty(option.entry)) {
             let regOption = new RegExp(inputValue, 'gi');
             return option.entry.match(regOption);
         } else {
             return false;
         }
-    },
+    }
 
-    _displayOption (option) {
+    _displayOption(option) {
         if (!$.isEmpty(option.title)) {
             return (
                 <div ref={option.entry}>
@@ -191,9 +191,9 @@ var SearchModule = React.createClass({
         } else {
             return null;
         }
-    },
+    }
 
-    _onTokenAdd (value, noSubmit) {
+    _onTokenAdd(value, noSubmit) {
         if (value.tag) {
             this.setState({
                 selectedTags: this.state.selectedTags.concat(value.tag)
@@ -203,7 +203,7 @@ var SearchModule = React.createClass({
         if (!noSubmit) {
             this._handleSubmit(null, {tagSearch: true});
         }
-    },
+    }
 
     _onTokenRemove(value) {
         this.setState({
@@ -213,7 +213,7 @@ var SearchModule = React.createClass({
         });
 
         this._handleSubmit(null, {tagSearch: true});
-    },
+    }
 
     _handleCloseClick(event) {
         event.preventDefault();
@@ -222,9 +222,9 @@ var SearchModule = React.createClass({
         this.refs.typeahead.setEntryText('');
         this.setState({selectedTags: []});
         this.refs.typeahead.setState({selected: []});
-    },
+    }
 
-    render () {
+    render() {
         return (
             <div className="container blog-search">
                 {
@@ -265,6 +265,4 @@ var SearchModule = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = SearchModule;
+}

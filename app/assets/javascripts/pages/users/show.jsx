@@ -1,27 +1,20 @@
 'use strict';
 
-require('../common');
+import '../common';
 
-var ArticleIndex = require('../../components/articles/index');
-var ArticleCreation = require('../../components/articles/new');
-var ArticleActions = require('../../actions/articleActions');
+import UserShow from '../../components/users/show';
 
-ArticleActions.initStore({
-    page: 1,
-    userId: document.getElementById('article-box-component').dataset.userId,
-    pseudo: document.getElementById('article-box-component').dataset.userPseudo,
-    mode: document.getElementById('article-box-component').dataset.mode
-});
-
-// Main
-ReactDOM.render(
-    <ArticleCreation />,
-    document.getElementById('article-new-component')
-);
+const user = JSON.parse(document.getElementById('user-show-component').getAttribute('data-user'));
+const rides = JSON.parse(document.getElementById('user-show-component').getAttribute('data-rides'));
+const shops = JSON.parse(document.getElementById('user-show-component').getAttribute('data-shops'));
+const products = JSON.parse(document.getElementById('user-show-component').getAttribute('data-products'));
+const isCurrentUser = JSON.parse(document.getElementById('user-show-component').getAttribute('data-current'));
 
 ReactDOM.render(
-    <ArticleIndex />,
-    document.getElementById('article-box-component')
+    <UserShow user={user.user}
+              isCurrentUser={isCurrentUser}
+              lastRides={rides}
+              lastShops={shops}
+              lastProducts={products}/>,
+    document.getElementById('user-show-component')
 );
-
-

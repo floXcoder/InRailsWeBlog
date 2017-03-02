@@ -1,9 +1,7 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var Select = React.createClass({
-    propTypes: {
+export default class Select extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         default: React.PropTypes.string.isRequired,
         options: React.PropTypes.oneOfType([
@@ -11,6 +9,7 @@ var Select = React.createClass({
             React.PropTypes.array
         ]).isRequired,
         title: React.PropTypes.string.isRequired,
+        className: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
             React.PropTypes.string,
             React.PropTypes.array
@@ -24,63 +23,79 @@ var Select = React.createClass({
         isCategorized: React.PropTypes.bool,
         categories: React.PropTypes.object,
         icon: React.PropTypes.string,
-        onSelectChange: React.PropTypes.func,
         isHorizontal: React.PropTypes.bool,
-        validator: React.PropTypes.object
-    },
+        validator: React.PropTypes.object,
+        onSelectChange: React.PropTypes.func
+    };
 
-    getDefaultProps () {
-        return {
-            children: null,
-            name: null,
-            multipleId: null,
-            optionsOrder: null,
-            isDisabled: false,
-            isMultiple: false,
-            isRequired: false,
-            isCategorized: false,
-            categories: null,
-            icon: null,
-            onSelectChange: null,
-            isHorizontal: false,
-            validator: null
-        };
-    },
+    static defaultProps = {
+        children: null,
+        name: null,
+        className: null,
+        multipleId: null,
+        optionsOrder: null,
+        isDisabled: false,
+        isMultiple: false,
+        isRequired: false,
+        isCategorized: false,
+        categories: null,
+        icon: null,
+        isHorizontal: false,
+        validator: null,
+        onSelectChange: null
+    };
 
-    componentDidMount () {
+    constructor(props) {
+        super(props);
+
+        this._value = null;
+    }
+
+    componentDidMount() {
+        this._initSelect(true);
+    }
+
+    componentDidUpdate() {
         this._initSelect();
-    },
+    }
 
-    componentDidUpdate () {
-        this._initSelect();
-    },
-
-    _initSelect () {
-        let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
+    _initSelect = (init = false) => {
+        const id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
         const selector = `select#${id}`;
         $(selector).material_select();
-        $(selector).on('change', this._handleSelectChange);
-    },
-
-    value () {
-        let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
-        return this.refs[id].value;
-    },
-
-    _handleSelectChange (event) {
-        if (this.props.onSelectChange) {
-            this.props.onSelectChange(event.target.value);
+        if (init) {
+            $(selector).on('change', this._handleSelectChange);
         }
-        return event;
-    },
+    };
 
-    render () {
-        const fieldClass = classNames({
-            'input-field': !this.props.isHorizontal,
-            'input-horizontal-field': this.props.isHorizontal,
-            'row': this.props.isHorizontal
-        });
+    _handleSelectChange = (event) => {
+        if (this.props.isMultiple) {
+            this._value = [...event.target.options].filter(o => o.selected).map(o => o.value);
+        } else {
+            this._value = event.target.value;
+        }
+
+        if (this.props.onSelectChange) {
+            this.props.onSelectChange(this._value);
+        }
+
+        return event;
+    };
+
+    value = () => {
+        const id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
+        return this.refs[id].value;
+    };
+
+    render() {
+        const fieldClass = classNames(
+            this.props.className,
+            {
+                'input-field': !this.props.isHorizontal,
+                'input-horizontal-field': this.props.isHorizontal,
+                'row': this.props.isHorizontal
+            });
 
         const labelClass = classNames({
             'col m4': this.props.isHorizontal
@@ -90,7 +105,7 @@ var Select = React.createClass({
             'col m8': this.props.isHorizontal
         });
 
-        let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
+        const id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
         let name = this.props.name;
         if (!name && this.props.id.indexOf('_') !== -1) {
@@ -103,8 +118,6 @@ var Select = React.createClass({
         if (this.props.isMultiple) {
             name = name + '[]'
         }
-
-        let defaultValue = this.props.children || (this.props.isMultiple ? ['default'] : 'default');
 
         let SelectOptions, option;
         if (this.props.isCategorized) {
@@ -157,6 +170,12 @@ var Select = React.createClass({
             }
         }
 
+        let value = this._value || this.props.children || 'default';
+
+        if (this.props.isMultiple && !Array.isArray(value)) {
+            value = [value];
+        }
+
         return (
             <div className={fieldClass}>
                 {
@@ -171,33 +190,33 @@ var Select = React.createClass({
                     </label>
                 }
 
-                <select ref={id}
-                        id={id}
-                        name={name}
-                        className={selectClass}
-                        disabled={this.props.isDisabled}
-                        required={this.props.isRequired}
-                        multiple={this.props.isMultiple}
-                        defaultValue={defaultValue}
-                        onChange={this._handleSelectChange}
-                    {...this.props.validator}>
-                    <option value="default"
-                            disabled="true">
-                        {this.props.default}
-                    </option>
-                    {SelectOptions}
-                </select>
+                <div className={selectClass}>
+                    <select ref={id}
+                            id={id}
+                            name={name}
+                            disabled={this.props.isDisabled}
+                            required={this.props.isRequired}
+                            multiple={this.props.isMultiple}
+                            value={value}
+                            onChange={this._handleSelectChange}
+                            {...this.props.validator}>
+                        <option value="default"
+                                disabled="true">
+                            {this.props.default}
+                        </option>
+                        {SelectOptions}
+                    </select>
 
-                {
-                    !this.props.isHorizontal &&
-                    <label className={labelClass}>
-                        {this.props.title}
-                    </label>
-                }
+                    {
+                        !this.props.isHorizontal &&
+                        <label className={labelClass}>
+                            {this.props.title}
+                        </label>
+                    }
+                </div>
             </div>
         );
     }
-});
+}
 
-module.exports = Select;
 

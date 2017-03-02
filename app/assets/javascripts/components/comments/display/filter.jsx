@@ -1,44 +1,45 @@
 'use strict';
 
-const CommentAction = require('../../../actions/commentActions');
+import CommentAction from '../../../actions/commentActions';
 
-const Select = require('../../materialize/select');
-const Checkbox = require('../../materialize/checkbox');
-const Submit = require('../../materialize/submit');
+import Select from '../../materialize/select';
+import Checkbox from '../../materialize/checkbox';
+import Submit from '../../materialize/submit';
 
-require('jquery-serializejson');
+import 'jquery-serializejson';
 
-var CommentFilterDisplay = React.createClass({
-    propTypes: {
+export default class CommentFilterDisplay extends React.Component {
+    static propTypes = {
         filters: React.PropTypes.object
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            filters: {}
-        };
-    },
+    static defaultProps = {
+        filters: {}
+    };
 
-    shouldComponentUpdate (nextProps, nextState) {
+    constructor(props) {
+        super(props);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
         return false;
-    },
+    }
 
-    _handleCommentSubmit (event) {
+    _handleCommentSubmit = (event) => {
         event.preventDefault();
 
-        let filters = $(ReactDOM.findDOMNode(this.refs.filterForm)).serializeJSON();
+        let filters = $('#filter_comment').serializeJSON();
         CommentAction.loadComments(_.merge(filters, {complete: true}));
-    },
+    };
 
-    render () {
+    render() {
         return (
             <div className="card comment-filter">
-                <form ref="filterForm"
-                      id="filter_comment"
+                <form id="filter_comment"
                       className="comment-form"
                       onSubmit={this._handleCommentSubmit}>
                     <div className="row filter-form">
-                        <div className="col s5">
+                        <div className="col s4">
                             <Select id="filter_order"
                                     title={I18n.t('js.comment.table.filter.order.title')}
                                     default={I18n.t('js.comment.table.filter.order.select.default')}
@@ -46,10 +47,17 @@ var CommentFilterDisplay = React.createClass({
                                     optionsOrder={I18n.t('js.comment.table.filter.order.select.order')}/>
                         </div>
 
-                        <div className="col s5">
+                        <div className="col s3">
                             <Checkbox id="filter_accepted"
                                       title={I18n.t('js.comment.table.filter.accepted')}>
                                 {this.props.filters.accepted ? this.props.filters.accepted === 'true' : true}
+                            </Checkbox>
+                        </div>
+
+                        <div className="col s3">
+                            <Checkbox id="filter_accepted"
+                                      title={I18n.t('js.comment.table.filter.ask_for_deletion')}>
+                                {this.props.filters.ask_for_deletion ? this.props.filters.ask_for_deletion === 'true' : true}
                             </Checkbox>
                         </div>
 
@@ -66,6 +74,5 @@ var CommentFilterDisplay = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = CommentFilterDisplay;

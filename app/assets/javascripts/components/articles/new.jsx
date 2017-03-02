@@ -1,60 +1,58 @@
 'use strict';
 
-const ArticleActions = require('../../actions/articleActions');
-const ArticleStore = require('../../stores/articleStore');
+import ArticleActions from '../../actions/articleActions';
+import ArticleStore from '../../stores/articleStore';
 
-const ArticleFormDisplay = require('./display/form');
+import ArticleFormDisplay from './display/form';
 
 require('../../modules/validation');
 require('jquery-serializejson');
 
-var ArticleNew = React.createClass({
-    propTypes: {
+export default class ArticleNew extends Reflux.Component {
+    static propTypes = {
         location: React.PropTypes.object,
         multipleId: React.PropTypes.number
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(ArticleStore, 'onArticleChange')
-    ],
+    static defaultProps = {
+        location: {state: {}},
+        multipleId: null
+    };
 
-    getDefaultProps () {
-        return {
-            location: {state: {}},
-            multipleId: null
-        };
-    },
+    state = {
+        draftArticle: null,
+        articleErrors: null
+    };
 
-    getInitialState () {
-        return {
-            draftArticle: null,
-            articleErrors: null
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+    }
+
+    componentWillMount() {
         if (this.props.location.state && this.props.location.state.article) {
             this.setState({draftArticle: this.props.location.state.article});
             Materialize.toast(I18n.t('js.article.clipboard.toast.done'), 5000);
         }
-    },
+    }
 
-    componentDidMount () {
+    componentDidMount() {
         // Mousetrap.bind('alt+s', () => {
         //     this._toggleNewForm();
         //     return false;
         // }, 'keydown');
-    },
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         return !_.isEqual(this.state.articleErrors, nextState.articleErrors);
-    },
+    }
 
-    onArticleChange (articleData) {
+    onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {
             return;
         }
@@ -62,7 +60,10 @@ var ArticleNew = React.createClass({
         let newState = {};
 
         if (articleData.type === 'addArticle') {
-            this.context.router.push({pathname: `/article/${articleData.article.slug}`, state: {newTags: articleData.article.new_tags}});
+            this.context.router.push({
+                pathname: `/article/${articleData.article.slug}`,
+                state: {newTags: articleData.article.new_tags}
+            });
         }
 
         if (articleData.type === 'addArticleError') {
@@ -75,12 +76,12 @@ var ArticleNew = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
     // _submitNow (event) {
     //     event.preventDefault();
     //
-    //     var submitData = {};
+    //     let submitData = {};
     //
     //     _.merge(submitData, this.refs.commonFields.serialize());
     //     _.merge(submitData, this._serializeTag());
@@ -96,14 +97,14 @@ var ArticleNew = React.createClass({
     //         submitData.content.length > window.parameters.content_min_length) {
     //         ArticleStore.onAutosaveArticle(submitData);
     //     }
-    // },
+    // }
 
-    _onCancel () {
+    _onCancel() {
         this.context.router.push('/');
         return true;
-    },
+    }
 
-    _handleArticleSubmit () {
+    _handleArticleSubmit() {
         const $articleForm = $('#article-new' + (this.props.multipleId ? '-' + this.props.multipleId : '' ));
 
         const validator = $articleForm.parsley();
@@ -119,9 +120,9 @@ var ArticleNew = React.createClass({
         ArticleActions.addArticle(currentArticle);
 
         return true;
-    },
+    }
 
-    render () {
+    render() {
         const articleFormId = 'article-new' + (this.props.multipleId ? '-' + this.props.multipleId : '' );
 
         return (
@@ -135,6 +136,4 @@ var ArticleNew = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = ArticleNew;
+}

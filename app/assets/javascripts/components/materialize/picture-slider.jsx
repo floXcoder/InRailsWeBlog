@@ -1,9 +1,7 @@
 'use strict';
 
-const classNames = require('classnames');
-
-var PictureSlider = React.createClass({
-    propTypes: {
+export default class PictureSlider extends React.PureComponent {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.string),
@@ -12,22 +10,23 @@ var PictureSlider = React.createClass({
         hasIndicators: React.PropTypes.bool,
         height: React.PropTypes.number,
         interval: React.PropTypes.number
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            hasIndicators: true,
-            height: 400,
-            interval: 6000
-        };
-    },
+    static defaultProps = {
+        hasIndicators: true,
+        height: 400,
+        interval: 6000
+    };
+
+    constructor(props) {
+        super(props);
+    }
 
     componentDidUpdate() {
         $('#' + this.props.id).find('.slider').slider();
-    },
+    }
 
-    render () {
-
+    render() {
         return (
             <div id={this.props.id}>
                 <div className="slider">
@@ -35,7 +34,8 @@ var PictureSlider = React.createClass({
                         {
                             _.map(this.props.children, (picture, i) =>
                                 <li key={i}>
-                                    <img src={picture}/>
+                                    <img className="img-helper"
+                                         src={picture}/>
                                 </li>
                             )
                         }
@@ -53,7 +53,6 @@ var PictureSlider = React.createClass({
 //         Here's our small slogan.
 //     </h5>
 // </div>
-});
+}
 
-module.exports = PictureSlider;
 

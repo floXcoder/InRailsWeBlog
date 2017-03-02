@@ -11,7 +11,7 @@ const RadioButtons = (props) => {
                                name={props.group}
                                checked={props.checkedButton === key}
                                onChange={props.onRadioChanged}
-                            {...props.validator}/>
+                               {...props.validator}/>
 
                         <label htmlFor={key}>
                             {props.buttons[key]}
@@ -37,5 +37,4 @@ RadioButtons.defaultProps = {
     validator: null
 };
 
-module.exports = RadioButtons;
-
+export default RadioButtons;

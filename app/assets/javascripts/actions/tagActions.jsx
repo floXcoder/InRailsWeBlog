@@ -1,6 +1,6 @@
 'use strict';
 
-var TagActions = Reflux.createActions([
+export default Reflux.createActions([
     'loadTags',
     'loadTag',
     'updateTag',
@@ -8,5 +8,3 @@ var TagActions = Reflux.createActions([
     'trackClick',
     'trackView'
 ]);
-
-module.exports = TagActions;

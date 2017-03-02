@@ -1,45 +1,40 @@
 'use strict';
 
-const UserActions = require('../../actions/userActions');
-const UserStore = require('../../stores/userStore');
-const RadioButtons = require('../../components/materialize/radio-buttons');
-const Switch = require('../../components/materialize/switch');
+import UserActions from '../../actions/userActions';
+import UserStore from '../../stores/userStore';
+import RadioButtons from '../../components/materialize/radio-buttons';
+import Switch from '../../components/materialize/switch';
 
 import Drawer from 'material-ui/Drawer';
 
-var UserPreference = React.createClass({
-    propTypes: {
+export default class UserSettings extends Reflux.Component {
+    static propTypes = {
         isOpened: React.PropTypes.bool
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(UserStore, 'onPreferenceChange')
-    ],
+    static defaultProps = {
+        isOpened: false
+    };
 
-    getDefaultProps () {
-        return {
-            isOpened: false
-        };
-    },
+    state = {
+        isOpened: this.props.isOpened,
+        article_display: window.parameters.article_display,
+        search_highlight: window.parameters.search_highlight,
+        search_operator: window.parameters.search_operator,
+        search_exact: window.parameters.search_exact
+    };
 
-    getInitialState () {
-        return {
-            isOpened: this.props.isOpened,
-            article_display: window.parameters.article_display,
-            search_highlight: window.parameters.search_highlight,
-            search_operator: window.parameters.search_operator,
-            search_exact: window.parameters.search_exact
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentDidMount () {
-    },
+        this.mapStoreToState(UserStore, this.onSettingsChange);
+    }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         return (this.props.isOpened != nextProps.isOpened || !_.isEqual(this.state, nextState));
-    },
+    }
 
-    onPreferenceChange(userData) {
+    onSettingsChange(userData) {
         let usersettings = userData.settings;
         if (!$.isEmpty(usersettings)) {
             let newState = {};
@@ -59,33 +54,33 @@ var UserPreference = React.createClass({
 
             this.setState(newState);
         }
-    },
+    }
 
-    _onDisplayChanged (event) {
+    _onDisplayChanged(event) {
         let article_display = event.target.id;
         this.setState({article_display: event.target.id});
         UserActions.updateUserPreference({displayType: article_display});
-    },
+    }
 
-    _onHighlightChanged (event) {
+    _onHighlightChanged(event) {
         let search_highlight = this.refs.searchHighlight.value();
         this.setState({search_highlight: search_highlight});
         UserActions.updateUserPreference({search_highlight: !search_highlight});
-    },
+    }
 
-    _onOperatorSearchChanged (event) {
+    _onOperatorSearchChanged(event) {
         let search_operator = event.target.id;
         this.setState({search_operator: search_operator});
         UserActions.updateUserPreference({search_operator: search_operator});
-    },
+    }
 
-    _onExactSearchChanged (event) {
+    _onExactSearchChanged(event) {
         let search_exact = this.refs.searchExact.value();
         this.setState({search_exact: search_exact});
         UserActions.updateUserPreference({search_exact: !search_exact});
-    },
+    }
 
-    render () {
+    render() {
         const isOpened = this.props.isOpened;
 
         return (
@@ -152,7 +147,4 @@ var UserPreference = React.createClass({
             </Drawer>
         );
     }
-});
-
-
-module.exports = UserPreference;
+}

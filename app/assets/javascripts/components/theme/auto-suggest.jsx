@@ -1,60 +1,142 @@
 'use strict';
 
-const ReactAutoSuggest = require('react-autosuggest');
+import ReactAutoSuggest from 'react-autosuggest';
 
-const classNames = require('classnames');
-
-var AutoSuggest = React.createClass({
-    propTypes: {
+export default class AutoSuggest extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         suggestionKeyValue: React.PropTypes.string.isRequired,
-        label: React.PropTypes.string.isRequired,
-        placeholder: React.PropTypes.string,
+        label: React.PropTypes.oneOfType([
+            React.PropTypes.element,
+            React.PropTypes.object,
+            React.PropTypes.string
+        ]).isRequired,
         name: React.PropTypes.string,
+        placeholder: React.PropTypes.string,
         icon: React.PropTypes.string,
         inputId: React.PropTypes.string,
         inputName: React.PropTypes.string,
         suggestionKeyPicture: React.PropTypes.string,
+        suggestionKeyIcon: React.PropTypes.string,
         isRequired: React.PropTypes.bool,
         isDisabled: React.PropTypes.bool,
         suggestions: React.PropTypes.array,
+        minLength: React.PropTypes.number,
+        limit: React.PropTypes.number,
         isAsync: React.PropTypes.bool,
         onFetchSuggestions: React.PropTypes.func,
         isHorizontal: React.PropTypes.bool,
         labelClass: React.PropTypes.string,
         children: React.PropTypes.string
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            name: null,
-            placeholder: null,
-            isRequired: false,
-            isDisabled: false,
-            icon: null,
-            suggestionKeyPicture: null,
-            suggestions: [],
-            isAsync: false,
-            fetchSuggestions: null,
-            children: null,
-            labelClass: null,
-            isHorizontal: false
-        };
-    },
+    static defaultProps = {
+        name: null,
+        placeholder: null,
+        isRequired: false,
+        isDisabled: false,
+        icon: null,
+        suggestionKeyPicture: null,
+        suggestionKeyIcon: null,
+        suggestions: [],
+        minLength: 3,
+        limit: 10,
+        isAsync: false,
+        onFetchSuggestions: null,
+        children: null,
+        labelClass: null,
+        isHorizontal: false
+    };
 
-    getInitialState () {
-        return {
-            value: this.props.children || '',
-            suggestions: this._getSuggestions(''),
-            isActiveLabel: false,
-            isLoading: false
-        };
-    },
+    state = {
+        value: this.props.children || '',
+        isShowingSuggestions: true,
+        isActiveLabel: false,
+        isLoading: false,
+        suggestions: [],
+    };
 
-    loadSuggestions(value) {
+    constructor(props) {
+        super(props);
+    }
+
+    // _getSuggestions = (value) => {
+    //     const escapedValue = value.trim().escapeRegexCharacters();
+    //
+    //     if (escapedValue === '') {
+    //         return [];
+    //     }
+    //
+    //     const regex = new RegExp('^' + escapedValue, 'i');
+    //
+    //     return this.state.suggestions.filter(suggestion => regex.test(suggestion[this.props.suggestionKeyValue]));
+    // }
+
+    _handleSuggestionsFetchRequested = ({value}) => {
+        this.loadSuggestions(value);
+    };
+
+    _handleSuggestionsClearRequested = () => {
         this.setState({
-            isLoading: true
+            suggestions: []
         });
+    };
+
+    _handleInputChange = (event, {newValue}) => {
+        this.setState({
+            value: newValue
+        });
+
+        return event;
+    };
+
+    _handleInputFocus = (event) => {
+        this.setState({
+            isActiveLabel: true
+        });
+
+        return event;
+    };
+
+    _handleInputBlur = (event) => {
+        this.setState({
+            isActiveLabel: false
+        });
+
+        return event;
+    };
+
+    _getSuggestionValue = (suggestion) => {
+        return suggestion[this.props.suggestionKeyValue];
+    };
+
+    _renderSuggestion = (suggestion, {query}) => {
+        return (
+            <span className="suggestion-content">
+                {
+                    !$.isEmpty(suggestion[this.props.suggestionKeyPicture]) &&
+                    <span className="picture">
+                        <img src={suggestion[this.props.suggestionKeyPicture]}
+                             className="img-helper activator"/>
+                    </span>
+                }
+
+                {
+                    !$.isEmpty(suggestion[this.props.suggestionKeyIcon]) &&
+                    <span className={classNames('suggest-icon', suggestion[this.props.suggestionKeyIcon])}/>
+                }
+
+                <span className="name">
+                    {suggestion[this.props.suggestionKeyValue]}
+                </span>
+            </span>
+        );
+    };
+
+    loadSuggestions = (value) => {
+        if (value === '' || value.length < this.props.minLength) {
+            return;
+        }
 
         if (this.props.isAsync) {
             this.props.onFetchSuggestions(value, (suggestions) => {
@@ -64,10 +146,11 @@ var AutoSuggest = React.createClass({
                         let value = suggestions[key];
                         if ($.is().isArray(value)) {
                             newSuggestions = newSuggestions.concat(value.map((suggestion) => {
-                                let sg = {};
-                                sg[this.props.suggestionKeyValue] = suggestion[this.props.suggestionKeyValue];
-                                sg[this.props.suggestionKeyPicture] = suggestion[this.props.suggestionKeyPicture];
-                                return sg;
+                                return {
+                                    [this.props.suggestionKeyValue]: suggestion[this.props.suggestionKeyValue],
+                                    [this.props.suggestionKeyPicture]: suggestion[this.props.suggestionKeyPicture],
+                                    [this.props.suggestionKeyIcon]: suggestion[this.props.suggestionKeyIcon]
+                                };
                             }));
                         }
                     });
@@ -76,100 +159,41 @@ var AutoSuggest = React.createClass({
                     suggestions = [];
                 }
 
-                if (value === this.state.value) {
+                if (value === this.state.value && this.state.isShowingSuggestions) {
                     this.setState({
+                        isShowingSuggestions: true,
                         isLoading: false,
-                        suggestions
+                        suggestions: suggestions.limit(this.props.limit)
                     });
                 } else {
                     this.setState({
+                        isShowingSuggestions: true,
                         isLoading: false
                     });
                 }
             });
+
+            this.setState({
+                isLoading: true
+            });
         } else {
             this.setState({
-                suggestions: this.props.suggestions
+                suggestions: this.props.suggestions,
+                isLoading: true
             });
         }
-    },
+    };
 
-    _handleSuggestionsUpdateRequested({ value }) {
-        this.loadSuggestions(value);
-    },
-
-    _handleInputChange(event, { newValue }) {
-        this.setState({
-            value: newValue
-        });
-
-        return event;
-    },
-
-    _handleInputFocus(event) {
-        this.setState({
-            isActiveLabel: true
-        });
-
-        return event;
-    },
-
-    _handleInputBlur(event) {
-        this.setState({
-            isActiveLabel: false
-        });
-
-        return event;
-    },
-
-    _getSuggestions(value) {
-        const escapedValue = value.trim().escapeRegexCharacters();
-
-        if (escapedValue === '') {
-            return [];
-        }
-
-        const regex = new RegExp('^' + escapedValue, 'i');
-
-        return this.state.suggestions.filter(suggestion => regex.test(suggestion[this.props.suggestionKeyValue]));
-    },
-
-    _getSuggestionValue(suggestion) {
-        return suggestion[this.props.suggestionKeyValue];
-    },
-
-    _renderSuggestion(suggestion, {value, valueBeforeUpDown}) {
-        //const suggestionText = `${suggestion.first} ${suggestion.last}`;
-        //const query = (valueBeforeUpDown || value).trim();
-        //const matches = AutosuggestHighlight.match(suggestionText, query);
-        //const parts = AutosuggestHighlight.parse(suggestionText, matches);
-
-        return (
-            <span className="suggestion-content">
-                {
-                    !$.isEmpty(suggestion[this.props.suggestionKeyPicture]) &&
-                    <span className="picture">
-                        <img src={suggestion[this.props.suggestionKeyPicture]}
-                             alt="Default picture"
-                             className="activator"/>
-                    </span>
-                }
-              <span className="name">
-                {suggestion[this.props.suggestionKeyValue]}
-              </span>
-            </span>
-        );
-    },
-
-    value () {
+    value = () => {
         return this.state.value;
-    },
+    };
 
-    collapseSuggestions () {
+    collapseSuggestions = () => {
         this.setState({
-            suggestions: []
+            suggestions: [],
+            isShowingSuggestions: false
         });
-    },
+    };
 
     render() {
         let name = this.props.inputName;
@@ -177,7 +201,7 @@ var AutoSuggest = React.createClass({
             name = this.props.inputId.replace('_', '[') + ']';
         }
 
-        const { value, suggestions, isLoading } = this.state;
+        const {value, suggestions, isLoading} = this.state;
 
         const inputProps = {
             placeholder: this.props.placeholder,
@@ -195,6 +219,14 @@ var AutoSuggest = React.createClass({
                 'input-horizontal-field': this.props.isHorizontal,
                 'row': this.props.isHorizontal
             });
+
+        const iconClass = classNames(
+            'material-icons',
+            'prefix',
+            {
+                active: !!this.props.placeholder || this.state.value || this.state.isActiveLabel
+            }
+        );
 
         const labelClass = classNames(
             this.props.labelClass,
@@ -215,7 +247,7 @@ var AutoSuggest = React.createClass({
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
+                    <i className={iconClass}>{this.props.icon}</i>
                 }
 
                 <label htmlFor={this.props.id}
@@ -227,7 +259,8 @@ var AutoSuggest = React.createClass({
                     <ReactAutoSuggest ref="autoSuggest"
                                       id={this.props.id}
                                       suggestions={suggestions}
-                                      onSuggestionsUpdateRequested={this._handleSuggestionsUpdateRequested}
+                                      onSuggestionsFetchRequested={this._handleSuggestionsFetchRequested}
+                                      onSuggestionsClearRequested={this._handleSuggestionsClearRequested}
                                       getSuggestionValue={this._getSuggestionValue}
                                       renderSuggestion={this._renderSuggestion}
                                       inputProps={inputProps}/>
@@ -235,6 +268,5 @@ var AutoSuggest = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = AutoSuggest;

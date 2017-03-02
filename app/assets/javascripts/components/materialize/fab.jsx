@@ -5,14 +5,15 @@ const FixedActionButton = ({children}) => (
         <a className="btn-floating btn-large">
             <i className="material-icons">menu</i>
         </a>
-
         <ul>
             {
-                React.Children.map(children, (button) =>
-                    <li>
-                        {button}
-                    </li>
-                )
+                React.Children.map(children, (button) => {
+                    return (
+                        <li>
+                            {button}
+                        </li>
+                    );
+                })
             }
         </ul>
     </div>
@@ -25,4 +26,4 @@ FixedActionButton.propTypes = {
     ]).isRequired
 };
 
-module.exports = FixedActionButton;
+export default FixedActionButton;

@@ -1,11 +1,11 @@
 'use strict';
 
-const CommentInlineDisplay = require('./inline');
-const CommentFilterDisplay = require('./filter');
+import CommentInlineDisplay from './inline';
+import CommentFilterDisplay from './filter';
 
-const Pagination = require('../../materialize/pagination');
+import Pagination from '../../materialize/pagination';
 
-var CommentTableDisplay = ({comments, hasFilter, filters, isInlineEditing, isPaginated, totalPages, onPaginationClick}) => (
+const CommentTableDisplay = ({comments, isLoaded, hasFilter, filters, isInlineEditing, isPaginated, totalPages, onPaginationClick}) => (
     <div className="row comment-table">
         {
             hasFilter &&
@@ -61,6 +61,24 @@ var CommentTableDisplay = ({comments, hasFilter, filters, isInlineEditing, isPag
         </div>
 
         {
+            isLoaded && comments.length === 0 &&
+            <div className="col s12">
+                <div className="card-panel center-align purple-text">
+                    {I18n.t('js.comment.common.no_data')}
+                </div>
+            </div>
+        }
+
+        {
+            !isLoaded &&
+            <div className="col s12">
+                <div className="card-panel center-align purple-text">
+                    {I18n.t('js.comment.common.loading')}
+                </div>
+            </div>
+        }
+
+        {
             isPaginated &&
             <div className="col s12">
                 <Pagination totalPages={totalPages}
@@ -72,6 +90,7 @@ var CommentTableDisplay = ({comments, hasFilter, filters, isInlineEditing, isPag
 
 CommentTableDisplay.propTypes = {
     comments: React.PropTypes.array.isRequired,
+    isLoaded: React.PropTypes.bool.isRequired,
     hasFilter: React.PropTypes.bool,
     filters: React.PropTypes.object,
     isInlineEditing: React.PropTypes.bool,
@@ -89,4 +108,4 @@ CommentTableDisplay.defaultProps = {
     onPaginationClick: null
 };
 
-module.exports = CommentTableDisplay;
+export default CommentTableDisplay;

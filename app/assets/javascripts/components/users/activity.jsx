@@ -1,14 +1,14 @@
 'use strict';
 
-const Pagination = require('../materialize/pagination');
+import Pagination from '../materialize/pagination';
 
-var UserActivity = ({activities, pagination, loadActivities}) => {
+const UserActivity = ({activities, pagination, loadActivities}) => {
     let ActivityNodes = activities.map((activity) => {
         let [model, action] = activity.key.split('.');
 
         let icon = 'create';
         let colorIcon = '';
-        if(model === 'article') {
+        if (model === 'article') {
             icon = 'message';
             colorIcon = 'blue-text text-lighten-2';
         } else if (model === 'tag') {
@@ -36,7 +36,7 @@ var UserActivity = ({activities, pagination, loadActivities}) => {
                         <span className="activity-list-heading">
                             {I18n.t('js.activities.' + model + '.' + action)}
                         </span>
-                        <span className="activity-list-date">
+                    <span className="activity-list-date">
                             <a href={activity.link}>
                                 {activity.performed_at}
                             </a>
@@ -58,7 +58,9 @@ var UserActivity = ({activities, pagination, loadActivities}) => {
             {
                 pagination &&
                 <Pagination totalPages={pagination.total_pages}
-                            onPaginationClick={(paginate) => {UserActivity._handlePaginationClick(paginate, loadActivities)}}
+                            onPaginationClick={(paginate) => {
+                                UserActivity._handlePaginationClick(paginate, loadActivities)
+                            }}
                             numOfPageShow={4}/>
             }
         </div>
@@ -82,4 +84,4 @@ UserActivity._handlePaginationClick = (paginate, loadActivities) => {
     $('html, body').animate({scrollTop: $('.user-activity').offset().top - 64}, 750);
 };
 
-module.exports = UserActivity;
+export default UserActivity;

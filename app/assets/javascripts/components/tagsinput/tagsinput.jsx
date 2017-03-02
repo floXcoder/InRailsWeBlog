@@ -1,50 +1,48 @@
 'use strict';
 
-const ReactTags = require('./reactTags');
-const Tag = require('./tag');
-const TagStore = require('../../stores/tagStore');
+import ReactTags from './reactTags';
+import Tag from './tag';
+import TagStore from '../../stores/tagStore';
 
-var TagsInput = React.createClass({
-    propTypes: {
+export default class TagsInput extends React.Component {
+    static propTypes = {
         labelField: React.PropTypes.string,
         initialSelectedTags: React.PropTypes.array
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(TagStore, 'onTagChange')
-    ],
+    static defaultProps = {
+        labelField: 'name'
+    };
 
-    getDefaultProps () {
-        return {
-            labelField: 'name'
-        };
-    },
+    state = {
+        selectedTags: this.props.initialSelectedTags || [],
+        tagList: []
+    };
 
-    getInitialState () {
-        return {
-            selectedTags: this.props.initialSelectedTags || [],
-            tagList: []
-        }
-    },
+    constructor(props) {
+        super(props);
 
-    selectedTags () {
+        this.mapStoreToState(TagStore, this.onTagChange);
+    }
+
+    selectedTags() {
         return this.state.selectedTags;
-    },
+    }
 
-    resetSelectedTags () {
+    resetSelectedTags() {
         this.setState({selectedTags: []});
-    },
+    }
 
     onTagChange(tagData) {
         this.setState({tagList: tagData});
-    },
+    }
 
     _onTagExists(tag) {
-        let $existingTag = $(".tagsinput-tag", ".tagsinput-tags").filter(() => { return $(this).data("name") === tag; });
+        let $existingTag = $(".tagsinput-tag", ".tagsinput-tags").filter(() => $(this).data("name") === tag);
         $existingTag.fadeOut(200).fadeIn(200);
-    },
+    }
 
-    _handleTagClick (tagClicked, event) {
+    _handleTagClick(tagClicked, event) {
         if (!tagClicked) {
             return;
         }
@@ -52,8 +50,8 @@ var TagsInput = React.createClass({
 
         let selectedTags = [];
         this.state.selectedTags.forEach((tag, index, tags) => {
-            if(tagClicked.name === tag.name) {
-                if(tagClicked.parent || tagClicked.child) {
+            if (tagClicked.name === tag.name) {
+                if (tagClicked.parent || tagClicked.child) {
                     tagClicked.parent = null;
                     tagClicked.child = null;
                 } else {
@@ -66,9 +64,9 @@ var TagsInput = React.createClass({
             }
         });
         this.setState({selectedTags: selectedTags});
-    },
+    }
 
-    _handleContextMenu (tagClicked, event) {
+    _handleContextMenu(tagClicked, event) {
         if (!tagClicked) {
             return;
         }
@@ -76,8 +74,8 @@ var TagsInput = React.createClass({
 
         let selectedTags = [];
         this.state.selectedTags.forEach((tag, index, tags) => {
-            if(tagClicked.name === tag.name) {
-                if(tagClicked.child || tagClicked.parent) {
+            if (tagClicked.name === tag.name) {
+                if (tagClicked.child || tagClicked.parent) {
                     tagClicked.child = null;
                     tagClicked.parent = null;
                 } else {
@@ -90,9 +88,9 @@ var TagsInput = React.createClass({
             }
         });
         this.setState({selectedTags: selectedTags});
-    },
+    }
 
-    _handleAddition (tag) {
+    _handleAddition(tag) {
         if (!tag) {
             return;
         }
@@ -109,7 +107,7 @@ var TagsInput = React.createClass({
         }
 
         // Ignore items all ready added
-        let existing = _.filter(this.state.selectedTags, (selectedTag) => { return selectedTag.name === tag.name})[0];
+        let existing = _.filter(this.state.selectedTags, (selectedTag) => selectedTag.name === tag.name)[0];
         if (existing) {
             this._onTagExists(tag.name);
             return;
@@ -123,18 +121,18 @@ var TagsInput = React.createClass({
         let selectedTags = this.state.selectedTags;
         selectedTags.push(tag);
         this.setState({selectedTags: selectedTags});
-    },
+    }
 
-    _handleDelete (i) {
+    _handleDelete(i) {
         let selectedTags = this.state.selectedTags;
         selectedTags.splice(i, 1);
         this.setState({selectedTags: selectedTags});
-    },
+    }
 
-    render () {
+    render() {
         let tagItems = this.state.selectedTags.map((tag, i) => {
             let labelClass = '';
-            if(tag.parent) {
+            if (tag.parent) {
                 labelClass = 'tag-parent';
             } else if (tag.child) {
                 labelClass = 'tag-child';
@@ -168,6 +166,4 @@ var TagsInput = React.createClass({
             </div>
         )
     }
-});
-
-module.exports = TagsInput;
+}

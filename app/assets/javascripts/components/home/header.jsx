@@ -1,90 +1,90 @@
 'use strict';
 
-const Login = require('../users/login');
-const Signup = require('../users/signup');
+import Login from '../users/login';
+import Signup from '../users/signup';
 
-const UserTopic = require('../users/topic');
-const UserPreference = require('../users/preference');
-const SearchModule = require('../search/module');
-const TagSidebar = require('../tags/sidebar');
+import UserTopic from '../users/topic';
+import UserPreference from '../users/preference';
+import SearchModule from '../search/module';
+import TagSidebar from '../tags/sidebar';
 
-const HomeSearchHeader = require('./header/search');
-const HomeArticleHeader = require('./header/article');
-const HomeTagHeader = require('./header/tag');
-const HomePreferenceHeader = require('./header/preference');
-const HomeUserHeader = require('./header/user');
-const HomeTopicHeader = require('./header/topic');
+import HomeSearchHeader from './header/search';
+import HomeArticleHeader from './header/article';
+import HomeTagHeader from './header/tag';
+import HomePreferenceHeader from './header/preference';
+import HomeUserHeader from './header/user';
+import HomeTopicHeader from './header/topic';
 
 import {Link} from 'react-router';
 
 import {FlatButton, FontIcon, Drawer} from 'material-ui';
 
-const HomeHeader = React.createClass({
-    propTypes: {},
+export default class HomeHeader extends React.PureComponent {
+    static propTypes = {};
 
-    getDefaultProps () {
-        return {};
-    },
+    static defaultProps = {};
 
-    getInitialState () {
-        return {
-            isMobile: false,
-            isTopic: false,
-            isSearch: false,
-            isTags: false,
-            issettings: false,
-            isLogin: false,
-            isSignup: false
-        };
-    },
+    state = {
+        isMobile: false,
+        isTopic: false,
+        isSearch: false,
+        isTags: false,
+        isSettings: false,
+        isLogin: false,
+        isSignup: false
+    };
 
-    componentDidMount () {
-    },
+    constructor(props) {
+        super(props);
+    }
 
-    _handleMobileDrawerClick (event) {
+    componentDidMount() {
+    }
+
+    _handleMobileDrawerClick(event) {
         event.preventDefault();
         this.setState({
             isMobile: !this.state.isMobile
         });
-    },
+    }
 
-    _handleTopicClick () {
+    _handleTopicClick() {
         this.setState({
             isTopic: !this.state.isTopic
         });
-    },
+    }
 
-    _handleSearchClick () {
+    _handleSearchClick() {
         this.setState({
             isSearch: !this.state.isSearch
         });
-    },
+    }
 
-    _handleTagClick () {
+    _handleTagClick() {
         this.setState({
             isTags: !this.state.isTags
         });
-    },
+    }
 
-    _handlePreferenceClick () {
+    _handlePreferenceClick() {
         this.setState({
-            issettings: !this.state.issettings
+            isSettings: !this.state.isSettings
         });
-    },
+    }
 
-    _handleLoginClick () {
+    _handleLoginClick() {
         this.setState({
             isLogin: true
         });
-    },
+    }
 
-    _handleSignupClick () {
+    _handleSignupClick() {
         this.setState({
             isSignup: true
         });
-    },
+    }
 
-    render () {
+    render() {
         return (
             <header className="blog-header">
                 <div className="navbar-fixed">
@@ -137,7 +137,7 @@ const HomeHeader = React.createClass({
                 </div>
 
                 <div className="blog-user-pref">
-                    <UserPreference isOpened={this.state.issettings}/>
+                    <UserPreference isOpened={this.state.isSettings}/>
                 </div>
 
                 <div className="blog-search-nav row">
@@ -166,6 +166,4 @@ const HomeHeader = React.createClass({
             </header>
         );
     }
-});
-
-module.exports = HomeHeader;
+}

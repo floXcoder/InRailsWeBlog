@@ -1,11 +1,9 @@
 'use strict';
 
-const ModalTitle = require('./title');
+import ModalTitle from './title';
 
-const classNames = require('classnames');
-
-var Modal = React.createClass({
-    propTypes: {
+export default class Modal extends React.Component {
+    static propTypes = {
         id: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,
         children: React.PropTypes.oneOfType([
@@ -16,60 +14,61 @@ var Modal = React.createClass({
         launcherClass: React.PropTypes.string,
         isBottom: React.PropTypes.bool,
         onOpen: React.PropTypes.func
-    },
+    };
 
-    getDefaultProps () {
-        return {
-            launcherId: null,
-            launcherClass: null,
-            isBottom: false,
-            onOpen: null
-        };
-    },
+    static defaultProps = {
+        launcherId: null,
+        launcherClass: null,
+        isBottom: false,
+        onOpen: null
+    };
 
-    componentDidMount () {
-        let modalSelector = '#' + this.props.id;
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        const modalSelector = '#' + this.props.id;
         let launcherSelector = '';
-        if(this.props.launcherClass) {
+        if (this.props.launcherClass) {
             launcherSelector = '.' + this.props.launcherClass
         } else {
             launcherSelector = '#' + this.props.launcherId;
         }
+        const $modalSelector = $(modalSelector);
+        const $launcherSelector = $(launcherSelector);
 
-        $(launcherSelector).click(function (event) {
-            event.preventDefault();
-
-            $(modalSelector).openModal({
+        $modalSelector.modal({
                 dismissible: true,
                 ready: () => {
-                    if(this.props.onOpen) this.props.onOpen()
+                    if (this.props.onOpen) {
+                        this.props.onOpen();
+                    }
                 }
-            });
-        }.bind(this));
-    },
+            }
+        );
 
-    shouldComponentUpdate (nextProps, nextState) {
-        // Do not update
-        return false;
-    },
+        $launcherSelector.click((event) => {
+            event.preventDefault();
 
-    render () {
+            $modalSelector.modal('open');
+        });
+    }
+
+    render() {
         return (
             <div id={this.props.id}
                  className={classNames('modal', {'bottom-sheet': this.props.isBottom})}>
-                <div className="modal-content">
-
+                <div className="modal-content container">
                     <ModalTitle>
                         {this.props.title}
                     </ModalTitle>
 
                     {this.props.children}
-
                 </div>
             </div>
         );
     }
-});
+}
 
-module.exports = Modal;
 

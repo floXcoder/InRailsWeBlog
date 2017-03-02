@@ -1,44 +1,43 @@
 'use strict';
 
-const CommentActions = require('../../../actions/commentActions');
+import CommentActions from '../../../actions/commentActions';
 
-const Input = require('../../materialize/input');
-const Textarea = require('../../materialize/textarea');
-const ShowMore = require('../../theme/show-more');
-const FixedActionButton = require('../../materialize/fab');
-const Slider = require('../../../components/theme/slider');
+import Input from '../../materialize/input';
+import Textarea from '../../materialize/textarea';
+import ShowMore from '../../theme/show-more';
+import FixedActionButton from '../../materialize/fab';
 
-const UserAvatarIcon = require('../../users/icons/avatar');
+import UserAvatarIcon from '../../users/icons/avatar';
 
-var CommentInlineDisplay = React.createClass({
-    propTypes: {
+export default class CommentInlineDisplay extends React.Component {
+    static propTypes = {
         comment: React.PropTypes.object.isRequired,
         isInlineEditing: React.PropTypes.bool,
         onClick: React.PropTypes.func
-    },
+    };
 
-    getDefaultProps() {
-        return {
-            isInlineEditing: null,
-            onClick: null
-        };
-    },
+    static defaultProps = {
+        isInlineEditing: null,
+        onClick: null
+    };
 
-    getInitialState () {
-        return {
-            editingField: null
-        };
-    },
+    state = {
+        editingField: null
+    };
 
-    componentDidMount () {
-        $(ReactDOM.findDOMNode(this.refs.commentActions)).find('.tooltipped').tooltip();
-    },
+    constructor(props) {
+        super(props);
+    }
 
-    componentDidUpdate () {
-        $(ReactDOM.findDOMNode(this.refs.commentActions)).find('.tooltipped').tooltip();
-    },
+    componentDidMount() {
+        $('#comment-actions').find('.tooltipped').tooltip();
+    }
 
-    _handleFieldEdit (fieldType, editingField, event) {
+    componentDidUpdate() {
+        $('#comment-actions').find('.tooltipped').tooltip();
+    }
+
+    _handleFieldEdit = (fieldType, editingField, event) => {
         event.preventDefault();
 
         // If already editing save field
@@ -59,9 +58,9 @@ var CommentInlineDisplay = React.createClass({
                 }
             });
         }
-    },
+    };
 
-    _handleKeyDown (event) {
+    _handleKeyDown = (event) => {
         if (event.keyCode === 13) {
             this._submitComment();
             // Enter to save
@@ -74,19 +73,19 @@ var CommentInlineDisplay = React.createClass({
                 editingField: null
             });
         }
-    },
+    };
 
-    _deleteComment (isPermanently, event) {
+    _deleteComment = (isPermanently, event) => {
         if (event) {
             event.preventDefault();
         }
 
-        $(ReactDOM.findDOMNode(this.refs.commentActions)).find('.fixed-action-btn').closeFAB();
+        $('#comment-actions').find('.fixed-action-btn').closeFAB();
 
         CommentActions.deleteComment(this.props.comment.id, this.props.comment.commentable.id, {isPermanently: isPermanently === true});
-    },
+    };
 
-    _submitComment (field, newValue, event) {
+    _submitComment = (field, newValue, event) => {
         if (event) {
             event.preventDefault();
         }
@@ -95,7 +94,7 @@ var CommentInlineDisplay = React.createClass({
 
         if (field) {
             commentToUpdate[field] = newValue;
-            $(ReactDOM.findDOMNode(this.refs.commentActions)).find('.tooltipped').tooltip('remove');
+            $('#comment-actions').find('.tooltipped').tooltip('remove');
         } else if (this.refs[this.state.editingField]) {
             commentToUpdate[this.state.editingField] = this.refs[this.state.editingField].value();
         }
@@ -104,12 +103,11 @@ var CommentInlineDisplay = React.createClass({
             commentToUpdate.id = this.props.comment.id;
             CommentActions.updateComment(commentToUpdate, this.props.comment.commentable.id, {url: this.props.comment.commentable.link});
         }
-    },
+    };
 
-    render () {
+    render() {
         return (
-            <tr ref="commentInline"
-                className="comment-inline">
+            <tr className="comment-inline">
                 <td>
                     {this.props.comment.commentable_type}
                 </td>
@@ -121,8 +119,7 @@ var CommentInlineDisplay = React.createClass({
                         this.state.editingField === 'title'
                             ?
                             <div className="editing-field">
-                                <Input ref="title"
-                                       id="comment_title"
+                                <Input id="comment_title"
                                        multipleId={this.props.comment.id}
                                        onKeyDown={this._handleKeyDown}>
                                     {this.props.comment.title}
@@ -137,8 +134,7 @@ var CommentInlineDisplay = React.createClass({
                         this.state.editingField === 'body'
                             ?
                             <div className="editing-field">
-                                <Textarea ref="body"
-                                          id="comment_body"
+                                <Textarea id="comment_body"
                                           multipleId={this.props.comment.id}
                                           onKeyDown={this._handleKeyDown}>
                                     {this.props.comment.body}
@@ -155,12 +151,13 @@ var CommentInlineDisplay = React.createClass({
                 </td>
 
                 <td>
-                    <div ref="commentActions"
+                    <div id="comment-actions"
                          className="actions">
                         <FixedActionButton>
                             <div className="comment-link tooltipped btn-floating"
                                  data-tooltip={I18n.t('js.comment.table.actions.show')}>
-                                <a href={this.props.comment.link}>
+                                <a href={this.props.comment.link}
+                                   target="_blank">
                                     <i className="material-icons">comment</i>
                                 </a>
                             </div>
@@ -197,6 +194,5 @@ var CommentInlineDisplay = React.createClass({
             </tr>
         );
     }
-});
+}
 
-module.exports = CommentInlineDisplay;

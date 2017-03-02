@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 
 import {FlatButton, FontIcon, MenuItem, IconMenu, Divider} from 'material-ui';
 
-var HomeUserHeader = ({onLoginClick, onSignupClick}) => (
+const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
     <IconMenu
         iconButtonElement={
             <FlatButton secondary={true}
@@ -87,4 +87,4 @@ HomeUserHeader._handleSignupClick = (onSignupClick, event) => {
     return false;
 };
 
-module.exports = HomeUserHeader;
+export default HomeUserHeader;

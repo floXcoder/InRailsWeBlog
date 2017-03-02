@@ -1,13 +1,13 @@
 'use strict';
 
 // Init user if connected
-const UserStore = require('../../stores/userStore');
+import UserStore from '../../stores/userStore';
 
-const ClipboardManager = require('../../modules/clipboard');
-const SanitizePaste = require('../../modules/wysiwyg/sanitize-paste');
+import ClipboardManager from '../../modules/clipboard';
+import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
 
-const HomeHeader = require('./header');
-const HomeFooter = require('./footer');
+import HomeHeader from './header';
+import HomeFooter from './footer';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -18,44 +18,42 @@ const muiTheme = getMuiTheme(CommonStyle);
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-const HomePage = React.createClass({
-    propTypes: {
+export default class HomePage extends Reflux.Component {
+    static propTypes = {
         location: React.PropTypes.object,
         children: React.PropTypes.object
-    },
+    };
 
-    contextTypes: {
+    static childContextTypes = {
         router: React.PropTypes.object
-    },
+    };
 
-    mixins: [
-        Reflux.listenTo(UserStore, 'onUserChange')
-    ],
+    static defaultProps = {
+        location: {}
+    };
 
-    getDefaultProps () {
-        return {
-            location: {}
-        };
-    },
+    state = {
+        isLoadingUser: false
+    };
 
-    getInitialState () {
-        return {
-            isLoadingUser: false
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount () {
+        this.mapStoreToState(UserStore, this.onUserChange);
+    }
+
+    componentWillMount() {
         if ($app.user.isPresent() && !$app.user.isConnected()) {
             this.setState({
                 isLoadingUser: true
             });
         }
-    },
+    }
 
-    componentDidMount () {
-    },
+    componentDidMount() {
+    }
 
-    onUserChange (userData) {
+    onUserChange(userData) {
         if ($.isEmpty(userData)) {
             return;
         }
@@ -70,28 +68,28 @@ const HomePage = React.createClass({
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    },
+    }
 
-    _userLoaded () {
+    _userLoaded() {
         ClipboardManager.initialize(this._onPaste);
-    },
+    }
 
-    _onPaste (content) {
+    _onPaste(content) {
         if (this.props.location.pathname !== '/article/new') {
             this.context.router.push({
                 pathname: '/article/new',
                 state: {article: {content: SanitizePaste.parse(content), draft: true}}
             });
         }
-    },
+    }
 
-    _handleGoToTopClick (event) {
+    _handleGoToTopClick(event) {
         event.preventDefault();
         window.scrollTo(0, 0);
         return false;
-    },
+    }
 
-    render () {
+    render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div>
@@ -109,6 +107,4 @@ const HomePage = React.createClass({
             </MuiThemeProvider>
         );
     }
-});
-
-module.exports = HomePage;
+}

@@ -24,7 +24,8 @@ class Tracker < ApplicationRecord
 
   # == Relationships ========================================================
   belongs_to :tracked,
-             polymorphic: true
+             polymorphic: true,
+             touch:       true
 
   # == Validations ==========================================================
 
