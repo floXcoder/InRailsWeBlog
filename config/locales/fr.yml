@@ -5,11 +5,10 @@ fr:
   views:
     user:
       flash:
-        successful_update: "Profil mise à jour"
-        error_update: "Le profil n'est pas été mise à jour, merci de corriger les erreurs indiquées"
+        successful_update: "Profil mis à jour"
+        error_update: "Le profil n'est pas été mis à jour, merci de corriger les erreurs indiquées"
       signup:
-        page_title: "Inscription au site"
-        title: "Créer un compte"
+        title: "Créer un compte sur InRailsWeBlog"
         subtitle: "Rentrer les détails pour votre compte"
         password_hint: "caractères minimums"
         confirm_password: "Confirmer le mot de passe"
@@ -22,66 +21,97 @@ fr:
           email: "Email requis pour vérifier votre compte"
           password: "N'oubliez pas votre mot de passe"
           password_confirmation: "Vérification du mot de passe"
+        externals:
+          google: "S'inscrire avec Google"
+          facebook: "S'inscrire avec Facebook"
         flash:
-          message: "Pour participer aux sorties, vous devez valider votre adresse email."
-          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
-          complete_profile: "Merci de compléter votre profil pour mieux vous connaître. Sinon vous ne pourrez pas participer aux sorties."
+          message: "Penser à valider votre adresse email"
+          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email"
       login:
-        page_title: "Connexion"
         title: "Se connecter"
         subtitle: "Merci de rentrer votre email et mot de passe"
         remember: "Se souvenir de moi"
         back_home: "Retourner à la page d'accueil"
         submit: "Connexion"
+        externals:
+          google: "Se connecter avec Google"
+          facebook: "Se connecter avec Facebook"
         flash:
-          message: "Vous avez %{days} pour confirmer votre adresse email."
-          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
+          message: "Vous avez %{days} pour confirmer votre adresse email"
+          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email"
+      index:
+        title: "Tous les utilisateurs"
+      show:
+        title: "%{pseudo} sur InRailsWeBlog"
+        description: "Détails de l'utilisateur : %{pseudo}"
+      edit:
+        title: "Mise à jour de mes informations personnelles"
+        connection_parameters: "Modifier vos paramètres de connexion"
+        login_header: "Informations de connexion"
+        personal_information_header: "Informations personnelles"
+        status: "Statut de votre compte"
+        profile_picture: "Image pour votre profile"
+        current_picture: "Votre image actuelle :"
+        replace_picture: "Vous pouvez remplacer votre image en indiquant une autre soit locale soit depuis une url"
+        no_picture: "Vous n'avez pas d'image associée à votre compte"
+        placeholder_picture: "Utiliser une image locale ou une url"
+        remove_picture: "Supprimer cette image"
+        update_profile: "Mettre à jour mon profil"
     article:
       flash:
         not_found: "L'article n'a pas été trouvé"
+        undelete_link: "Annuler la suppression."
+        successful_undeletion: "Article restauré"
         successful_creation: "Article ajouté !"
         error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
-        undelete_link: "Annuler la suppression."
         successful_deletion: "L'article a été supprimé."
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
-        successful_undeletion: "Article restauré"
       show:
-        page_title: "Article : %{title}"
+        title: "Article : %{title}"
     picture:
       flash:
-        successful_deletion: "L'image a bien été supprimée."
-        error_deletion: "Problème lors de la suppression de l'image."
+        successful_deletion: "L'image a bien été supprimée"
+        error_deletion: "Problème lors de la suppression de l'image"
+      copyright:
+        default: "De "
     comment:
       flash:
         successful_creation: "Commentaire ajouté"
         error_creation: "Le commentaire n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_update: "Commentaire mis à jour"
-        error_update: "Problème lors de la mise à jour du commentaire"
+        successful_edition: "Commentaire mis à jour"
+        error_edition: "Problème lors de la mise à jour du commentaire"
         successful_deletion: "Commentaire supprimé"
         error_deletion: "Problème lors de la suppression du commentaire"
     admin:
+      login:
+        title: "Se connecter (Admin)"
       dashboard:
-        page_title: "Dashboard"
-      user_manager:
-        index:
-          page_title: "Liste des utilisateurs"
-        show:
-          page_title: "Utilisateur : %{user}"
+        title: "Dashboard"
+      managers:
+        articles:
+          title: "Liste des articles"
+        tags:
+          title: "Liste des tags"
+        users:
+          title: "Gestion des utilisateurs"
+        user:
+          title: "Utilisateur : %{user}"
     error:
-      page_title: "Oups ..."
+      title: "Vous venez de rencontrer une erreur"
+      description: "Une erreur est survenue"
       status:
         title:
           default: "Une erreur est arrivée :("
-          404: "Page introuvable"
-          422: "Requêtes non permises !"
-          500: "Ah ! Erreur interne !"
+          '404': "Page introuvable"
+          '422': "Requêtes non permises !"
+          '500': "Erreur interne du site Locatipic"
         explanation:
           default: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
-          404: "La page n'a pas été trouvée sur le serveur, l'erreur est humaine !"
-          422: "Impossible de satisfaire votre requête"
-          500: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
+          '404': "La page n'a pas été trouvée sur le serveur, elle a peut être été supprimée !"
+          '422': "Impossible de satisfaire votre requête"
+          '500': "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
       back_button: "Page précédente"
-      home_button: "Retour maison !"
+      home_button: "Retourner à l'acceuil !"
   user:
     model:
       login: "Pseudo ou Email"
@@ -90,8 +120,12 @@ fr:
       password: "Mot de passe"
       first_name: "Prénom"
       last_name: "Nom"
-      age: "Age"
+      street: "Adresse"
       city: "Ville"
+      postcode: "Code postale"
+      birth_date: "Date de naissance"
+      phone_number: "Numéro de téléphone"
+      mobile_number: "Numéro de mobile"
       additional_info: "Informations personnelles"
       country: "Pays"
       local_picture: "Image locale"
@@ -110,8 +144,27 @@ fr:
     default_name: "Défaut"
   email:
     hello: "Bonjour"
+    contact:
+      message:
+        subject: "Nouvel avis !"
+        title: "Nouveau message de la part de %{name}"
+        content: "Contenu du message :"
+        footer: "InRailsWeBlog"
+      answer:
+        subject: "Merci pour votre avis !"
+        message: "Merci de nous avoir contacté. On vous tiens au courant pour la suite."
+        footer: "InRailsWeBlog"
+      flash:
+        email_sent: "Merci pour votre avis, il va permettre d'améliorer le site"
+        email_not_sent: "Le message n'a pas été envoyé, les champs ont-ils été remplis ?"
+    registration:
+      welcome:
+        subject: "Bienvenue sur InRailsWeBlog"
+        hello: "Hello,"
+        thanks: "Merci de vous être inscrit sur InRailsWeBlog."
+        bye: "Bonne visite sur notre site :)"
     confirmation:
-      instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte."
+      instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte"
     reset_password:
       instruction: "Une personne a demandé de changer votre mot de passe. Vous pouvez le faire en cliquant sur le lien ci-dessous."
       comment: "Si vous n'avez pas demandé de renouveler votre mot de passe. Merci d'ignorer cet e-mail.
@@ -121,22 +174,27 @@ fr:
                    Cliquer sur le lien ci-dessus pour débloquer votre compte."
     greeting: "Bonne journée de la part de l'équipe !"
   pundit:
-    default: "Vous n'êtes pas autorisé(e) à réaliser cette action."
+    default: "Vous n'êtes pas autorisé(e) à réaliser cette action"
     flash:
       not_authorized:
-        user: "Votre compte doit être complété avant (nom, prénom et ville)."
+        user: "Votre compte doit être complété avant (nom, prénom et ville)"
     user_policy:
-      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs."
+      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs"
   activerecord:
     errors:
+      messages:
+        record_invalid: 'La validation a échoué : %{errors}'
+        restrict_dependent_destroy:
+          has_one: "Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record} dépendant(e) existe"
+          has_many: "Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent"
       models:
         tag:
           already_exist: "Un label avec le même nom existe déjà"
           public_name_immutable: "Un label public ne peut changer de nom"
         bookmark:
-          already_bookmarked: "Article déjà ajouté aux favoris !"
-          model_unkown: "Impossible d'ajouter un favoris sur ce type d'élément"
-          not_bookmarked: "Article non existant dans les favoris !"
+          already_bookmarked: "Élément déjà ajouté aux favoris !"
+          model_unkown: "Impossible d'ajouter cet élément dans les favoris"
+          not_bookmarked: "Élément non existant dans les favoris !"
         outdated:
           already_outdated: "Article déjà marqué comme périmé !"
           not_outdated: "Article non présent dans les périmés !"
@@ -154,21 +212,18 @@ fr:
       confirmation: "ne concorde pas avec la confirmation"
       empty: "doit être rempli(e)"
       equal_to: "doit être égal à %{count}"
+      odd: "doit être impair"
       even: "doit être pair"
+      model_invalid: "La validation a échoué : %{errors}"
+      inclusion: "n'est pas inclus(e) dans la liste"
       exclusion: "n'est pas disponible"
+      invalid: "n'est pas valide"
       greater_than: "doit être supérieur à %{count}"
       greater_than_or_equal_to: "doit être supérieur ou égal à %{count}"
-      inclusion: "n'est pas inclus(e) dans la liste"
-      invalid: "n'est pas valide"
       less_than: "doit être inférieur à %{count}"
       less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
       not_a_number: "n'est pas un nombre"
       not_an_integer: "doit être un nombre entier"
-      odd: "doit être impair"
-      record_invalid: "La validation a échoué : %{errors}"
-      restrict_dependent_destroy:
-        one: "Suppression impossible: un autre enregistrement est lié"
-        many: "Suppression impossible: d'autres enregistrements sont liés"
       taken: "n'est pas disponible"
       too_long:
         one: "est trop long (pas plus d'un caractère)"
@@ -180,9 +235,9 @@ fr:
         one: "ne fait pas la bonne longueur (doit comporter un seul caractère)"
         other: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"
       other_than: "doit être différent de %{count}"
-      carrierwave_processing_error: "Impossible de redimensionner l'image."
-      carrierwave_integrity_error: "Ce n'est pas une image."
-      carrierwave_download_error: "Impossible de télécharger l'image."
+      carrierwave_processing_error: "Impossible de redimensionner l'image"
+      carrierwave_integrity_error: "Ce n'est pas une image"
+      carrierwave_download_error: "Impossible de télécharger l'image"
       extension_white_list_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types autorisés: %{allowed_types}"
       extension_black_list_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types interdits: %{prohibited_types}"
       content_type_white_list_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
@@ -191,7 +246,7 @@ fr:
       mini_magick_processing_error: "La manipulation d'image avec MiniMagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
       min_size_error: "La taille du fichier doit être supérieure à %{min_size}"
       max_size_error: "La taille du fichier doit être inférieure à %{max_size}"
-    template:
+    template: &errors_template
       body: "Veuillez vérifier les champs suivants : "
       header:
         one:   "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
@@ -231,7 +286,7 @@ fr:
         format: "%n %u"
         units:
           byte:
-            one:   "octet"
+            one: "octet"
             other: "octets"
           gb: "Go"
           kb: "ko"
@@ -251,53 +306,53 @@ fr:
     speed_unit: "km/h"
   date:
     abbr_day_names:
-      - dim
-      - lun
-      - mar
-      - mer
-      - jeu
-      - ven
-      - sam
+      - "dim"
+      - "lun"
+      - "mar"
+      - "mer"
+      - "jeu"
+      - "ven"
+      - "sam"
     abbr_month_names:
       - ~
-      - jan.
-      - fév.
-      - mar.
-      - avr.
-      - mai
-      - juin
-      - juil.
-      - août
-      - sept.
-      - oct.
-      - nov.
-      - déc.
+      - "jan."
+      - "fév."
+      - "mar."
+      - "avr."
+      - "mai"
+      - "juin"
+      - "juil."
+      - "août"
+      - "sept."
+      - "oct."
+      - "nov."
+      - "déc."
     day_names:
-      - dimanche
-      - lundi
-      - mardi
-      - mercredi
-      - jeudi
-      - vendredi
-      - samedi
+      - "dimanche"
+      - "lundi"
+      - "mardi"
+      - "mercredi"
+      - "jeudi"
+      - "vendredi"
+      - "samedi"
     formats:
       default: "%d/%m/%Y"
       short: "%e %b"
       long: "%e %B %Y"
     month_names:
       - ~
-      - janvier
-      - février
-      - mars
-      - avril
-      - mai
-      - juin
-      - juillet
-      - août
-      - septembre
-      - octobre
-      - novembre
-      - décembre
+      - "janvier"
+      - "février"
+      - "mars"
+      - "avril"
+      - "mai"
+      - "juin"
+      - "juillet"
+      - "août"
+      - "septembre"
+      - "octobre"
+      - "novembre"
+      - "décembre"
     order:
       - :day
       - :month
@@ -359,17 +414,31 @@ fr:
       custom_begin: "Du %d %b à %Hh%M"
       custom_end: "Au %d %b à %Hh%M"
     pm: "pm"
+  time_helper:
+    date_range:
+      different_months_same_year: "%{from_day} %{from_month} %{sep} %{to_day} %{to_month}"
+      different_years: "%{from_day} %{from_month} %{from_year} %{sep} %{to_day} %{to_month} %{to_year}"
+      same_month: "%{from_day} %{sep} %{to_day} %{month}"
+      same_date: "%{from_day} %{month}"
+      with_year: "%{date_range} %{year}"
+    distance_in_words:
+      template: "%{count} %{unit}"
+      template_long: "%{rest} et %{last}"
+      units:
+        second: "seconde"
+        minute: "minute"
+        hour: "heure"
+        day: "jour"
+        month: "mois"
+        year: "année"
+      special:
+        half_an_hour: "une demi-heure"
+        and_a_half: "et demi"
   helpers:
     colon: " : "
     or: " ou "
     and: " et "
     back: "Page précédente"
-    select:
-      prompt: "Veuillez sélectionner"
-    submit:
-      create: "Créer un(e) %{model}"
-      submit: "Enregistrer ce(tte) %{model}"
-      update: "Modifier ce(tte) %{model}"
     array:
       last_word_connector: " et "
       two_words_connector: " et "

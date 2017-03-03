@@ -80,28 +80,34 @@ class AccordionItem extends React.Component {
     }
 }
 
-const Accordion = ({title, children, id}) => (
+const Accordion = ({title, children, className, id}) => (
     <div id={id}
-         className="accordion">
-        <h5 className="accordion-title">
-            {title}
-        </h5>
+         className={classNames('accordion', className)}>
+        {
+            title &&
+            <h5 className="accordion-title">
+                {title}
+            </h5>
+        }
 
         {children}
     </div>
 );
 
 Accordion.propTypes = {
+    children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
     title: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.element
-    ]).isRequired,
-    children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
-    id: React.PropTypes.string
+    ]),
+    id: React.PropTypes.string,
+    className: React.PropTypes.string
 };
 
 Accordion.defaultProps = {
-    id: null
+    title: null,
+    id: null,
+    className: null
 };
 
 export {Accordion, AccordionItem};

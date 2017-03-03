@@ -8,7 +8,6 @@ en:
         successful_update: "Profile updated"
         error_update: "Profile not updated. Please correct error fields"
       signup:
-        page_title: "Sign Up"
         title: "Sign Up"
         subtitle: "Add your details to create an account"
         password_hint: "characters minimum"
@@ -22,65 +21,95 @@ en:
           email: "Email needed to verify your account"
           password: "Don't forget your password"
           password_confirmation: "Vérification du mot de passe"
+        externals:
+          google: "Subscribe with Google"
+          facebook: "Subscribe with Facebook"
         flash:
           message: "Pour participer aux sorties, vous devez valider votre adresse email."
           webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
-          complete_profile: "Merci de compléter votre profil pour mieux vous connaître. Sinon vous ne pourrez pas participer aux sorties."
       login:
-        page_title: "Log in"
         title: "Log In"
         subtitle: "Please fill in your email and password to log in"
         remember: "Remember me"
         back_home: "Back to home page"
         submit: "Connection"
+        externals:
+          google: "Connect with Google"
+          facebook: "Connect with Facebook"
         flash:
-          message: "Vous avez %{days} pour confirmer votre adresse email."
-          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
+          message: "You have %{days} to confirm your email address."
+          webmail: "You can connect to %{webmail} to confirm your email."
+      index:
+        title: "All users"
       show:
-        page_title: "%{pseudo}: My activities"
+        title: "%{pseudo}: My activities"
         title: "My activities"
       edit:
-        page_title: "Edit my profil"
         title: "Edit my profil"
-        login_header: "Connection information"
         connection_parameters: "Change your connection parameters"
+        login_header: "Connection information"
+        personal_information_header: "Personal information"
+        status: "Account status"
         profile_picture: "Profile picture"
         current_picture: "Your current picture:"
         replace_picture: "You can replacer your picture with a local one or using an url"
-        no_picture: "You have no picture for your profile."
+        no_picture: "You have no picture for your profile"
         placeholder_picture: "Use a local picture or a remote url"
         remove_picture: "Remove this picture"
-        personal_information_header: "Personal information"
         update_profile: "Update my profil"
     article:
       flash:
         not_found: "Article not found"
-        successful_creation: "Article added!"
         undelete_link: "Cancel deletion."
+        successful_undeletion: "Article restored"
+        successful_creation: "Article added!"
+        error_creation: "Cannot create the article, please correct the errors"
         successful_deletion: "Article deleted."
         error_deletion: "Problem during article deletion: %{errors}"
-        successful_undeletion: "Article restored"
+      show:
+        title: "Article: %{title}"
+    picture:
+      flash:
+        successful_deletion: "Picture removed"
+        error_deletion: "Cannot remove picture"
+      copyright:
+        default: "From "
+    comment:
+      flash:
+        successful_creation: "Comment added"
+        error_creation: "Cannot create the comment, please correct error fields"
+        successful_edition: "Comment updated"
+        error_edition: "Cannot update the comment"
+        successful_deletion: "Comment removed"
+        error_deletion: "Cannot remove the comment"
     admin:
+      login:
+        title: "Log in (Admin)"
       dashboard:
         page_title: "Dashboard"
-      user_manager:
-        index:
-          page_title: "Users list"
-        show:
-          page_title: "User: %{user}"
+      managers:
+        articles:
+          title: "Articles list"
+        tags:
+          title: "Tags list"
+        users:
+          title: "Users management"
+        user:
+          title: "User: %{user}"
     error:
-      page_title: "Oops ..."
+      title: "An error occurred"
+      description: "Error page"
       status:
         title:
-          default: "An error happened :("
-          404: "Can not find page"
-          422: "Unauthorized request!"
-          500: "Oh! Internal error!"
+          default: "An error occurred :("
+          '404': "Cannot find the page"
+          '422': "Unauthorized request!"
+          '500': "Oh ! Internal error!"
         explanation:
           default: "An internal error occurred. The problem was reported, please try another action :)"
-          404: "The page was not found on server, to err is human!"
-          422: "Impossible to fully satisfy your request"
-          500: "An internal error occurred. The problem was reported, please try another action :)"
+          '404': "The page was not found on server, to err is human!"
+          '422': "Impossible to fully satisfy your request"
+          '500': "An internal error occurred. The problem was reported, please try another action :)"
       back_button: "Previous page"
       home_button: "Back home!"
   user:
@@ -92,15 +121,48 @@ en:
       first_name: "First name"
       last_name: "Last name"
       age: "Age"
-      city: "Ville"
+      city: "City"
+      postcode: "Postcode"
+      birth_date: "Birth date"
+      phone_number: "Phone number"
+      mobile_number: "Mobile number"
       additional_info: "Additional Info"
       country: "Country"
       local_picture: "Local picture"
       remote_picture: "Link to an url"
+  article:
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Private"
+  tag:
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Private"
   topic:
-    default_name: "Défaut"
+    default_name: "Defaut"
   email:
     hello: "Hello"
+    contact:
+      message:
+        subject: "New contact !"
+        title: "New message from %{name}"
+        content: "Message content:"
+        footer: "Locatipic"
+      answer:
+        subject: "Thanks for sharing!"
+        message: "Thank you for message. We'll keep you updated."
+        footer: "Locatipic"
+      flash:
+        email_sent: "Thanks for sharing, we can improve the website"
+        email_not_sent: "Cannot send the message, the fields are correct ?"
+    registration:
+      welcome:
+        subject: "Welcome on Locatipic"
+        hello: "Hello,"
+        thanks: "Thanks for your inscription on Locatipic."
+        bye: "Have a goo trip on Locatipic :)"
     confirmation:
       instruction: "You can confirm your account email through the link below"
     reset_password:
@@ -112,45 +174,57 @@ en:
                    Click the link below to unlock your account."
     greeting: "Have a nice day :)"
   pundit:
-    default: "You are not authorized to perform this action."
+    default: "Your are not authorized to perform this action"
     flash:
       not_authorized:
-        user: "Votre compte doit être complété avant (nom, prénom et ville)."
+        user: "Your account must be filled with name, first name and city"
     user_policy:
-      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs."
+      show?: "Cannot access to other user account"
   activerecord:
     errors:
+      messages:
+        record_invalid: "Validation failed: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "Cannot delete record because a dependent %{record} exists"
+          has_many: "Cannot delete record because dependent %{record} exist"
       models:
+        tag:
+          already_exist: "Un label avec le même nom existe déjà"
+          public_name_immutable: "Un label public ne peut changer de nom"
         bookmark:
-          already_bookmarked: "Article already bookmarked!"
-          no_bookmarked: "Article no bookmarked!"
+          already_bookmarked: "Élément déjà ajouté aux favoris !"
+          model_unkown: "Impossible d'ajouter cet élément dans les favoris"
+          not_bookmarked: "Élément non existant dans les favoris !"
+        outdated:
+          already_outdated: "Article déjà marqué comme périmé !"
+          not_outdated: "Article non présent dans les périmés !"
+        topic:
+          already_selected: "Le nouveau thème est déjà celui utilisé"
+          already_exist: "Un thème avec le même nom existe déjà"
         picture:
-          image_size: "must be less than 5Mb"
+          image_size: "doit être inférieur à 5Mo"
   errors:
-    format: ! '%{attribute} %{message}'
+    format: "%{attribute} %{message}"
     messages:
       accepted: "must be accepted"
       blank: "can't be blank"
       present: "must be blank"
-      confirmation: ! "doesn't match %{attribute}"
+      confirmation: "doesn't match %{attribute}"
       empty: "can't be empty"
       equal_to: "must be equal to %{count}"
+      odd: "must be odd"
       even: "must be even"
+      model_invalid: "Validation failed: %{errors}"
+      inclusion: "is not included in the list"
       exclusion: "is reserved"
+      invalid: "is invalid"
       greater_than: "must be greater than %{count}"
       greater_than_or_equal_to: "must be greater than or equal to %{count}"
-      inclusion: "is not included in the list"
-      invalid: "is invalid"
       less_than: "must be less than %{count}"
       less_than_or_equal_to: "must be less than or equal to %{count}"
       not_a_number: "is not a number"
       not_an_integer: "must be an integer"
-      odd: "must be odd"
-      record_invalid: ! 'Validation failed: %{errors}'
-      restrict_dependent_destroy:
-        one: "Cannot delete record because a dependent %{record} exists"
-        many: "Cannot delete record because dependent %{record} exist"
-      taken: "has already been taken"
+      taken: "not available"
       too_long:
         one: "is too long (maximum is 1 character)"
         other: "is too long (maximum is %{count} characters)"
@@ -161,55 +235,55 @@ en:
         one: "is the wrong length (should be 1 character)"
         other: "is the wrong length (should be %{count} characters)"
       other_than: "must be other than %{count}"
-      carrierwave_processing_error: "Impossible de redimensionner l'image."
-      carrierwave_integrity_error: "Ce n'est pas une image."
-      carrierwave_download_error: "Impossible de télécharger l'image."
-      extension_white_list_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types autorisés: %{allowed_types}"
-      extension_black_list_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types interdits: %{prohibited_types}"
-      content_type_white_list_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
-      content_type_black_list_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
-      rmagick_processing_error: "La manipulation d'image avec rmagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
-      mini_magick_processing_error: "La manipulation d'image avec MiniMagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
-      min_size_error: "La taille du fichier doit être supérieure à %{min_size}"
-      max_size_error: "La taille du fichier doit être inférieure à %{max_size}"
-    template:
-      body: ! 'There were problems with the following fields:'
+      carrierwave_processing_error: "failed to be processed"
+      carrierwave_integrity_error: "is not of an allowed file type"
+      carrierwave_download_error: "could not be downloaded"
+      extension_white_list_error: "You are not allowed to upload %{extension} files, allowed types: %{allowed_types}"
+      extension_black_list_error: "You are not allowed to upload %{extension} files, prohibited types: %{prohibited_types}"
+      content_type_white_list_error: "You are not allowed to upload %{content_type} files"
+      content_type_black_list_error: "You are not allowed to upload %{content_type} files"
+      rmagick_processing_error: "Failed to manipulate with rmagick, maybe it is not an image?"
+      mini_magick_processing_error: "Failed to manipulate with MiniMagick, maybe it is not an image? Original Error: %{e}"
+      min_size_error: "File size should be greater than %{min_size}"
+      max_size_error: "File size should be less than %{max_size}"
+    template: &errors_template
+      body: "Check the following fields: "
       header:
-        one: "1 error prohibited this %{model} from being saved"
-        other: ! '%{count} errors prohibited this %{model} from being saved'
+        one:   "Cannot save this %{model}: 1 error"
+        other: "Cannot save this %{model}: %{count} errors"
   number:
     currency:
       format:
-        delimiter: ! ','
-        format: ! '%u%n'
+        delimiter: ! ","
+        format: ! "%u%n"
         precision: 2
         separator: "."
         significant: false
         strip_insignificant_zeros: false
-        unit: $
+        unit: "$"
     format:
-      delimiter: ! ','
+      delimiter: ! ","
       precision: 3
       separator: "."
       significant: false
       strip_insignificant_zeros: false
     human:
       decimal_units:
-        format: ! '%n %u'
+        format: ! "%n %u"
         units:
           billion: "Billion"
           million: "Million"
           quadrillion: "Quadrillion"
           thousand: "Thousand"
           trillion: "Trillion"
-          unit: ''
+          unit: ""
       format:
-        delimiter: ''
+        delimiter: ""
         precision: 3
         significant: true
         strip_insignificant_zeros: true
       storage_units:
-        format: ! '%n %u'
+        format: ! "%n %u"
         units:
           byte:
             one: "Byte"
@@ -232,57 +306,57 @@ en:
     speed_unit: "km/h"
   date:
     abbr_day_names:
-    - Sun
-    - Mon
-    - Tue
-    - Wed
-    - Thu
-    - Fri
-    - Sat
+    - "Sun"
+    - "Mon"
+    - "Tue"
+    - "Wed"
+    - "Thu"
+    - "Fri"
+    - "Sat"
     abbr_month_names:
     -
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - May
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Oct
-    - Nov
-    - Dec
+    - "Jan"
+    - "Feb"
+    - "Mar"
+    - "Apr"
+    - "May"
+    - "Jun"
+    - "Jul"
+    - "Aug"
+    - "Sep"
+    - "Oct"
+    - "Nov"
+    - "Dec"
     day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
+    - "Sunday"
+    - "Monday"
+    - "Tuesday"
+    - "Wednesday"
+    - "Thursday"
+    - "Friday"
+    - "Saturday"
     formats:
-      default: ! '%Y-%m-%d'
-      short: ! '%b %d'
-      long: ! '%B %d, %Y'
+      default: ! "%Y-%m-%d"
+      short: ! "%b %d"
+      long: ! "%B %d, %Y"
     month_names:
     - ~
-    - January
-    - February
-    - March
-    - April
-    - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
+    - "January"
+    - "February"
+    - "March"
+    - "April"
+    - "May"
+    - "June"
+    - "July"
+    - "August"
+    - "September"
+    - "October"
+    - "November"
+    - "December"
     order:
-    - :year
-    - :month
-    - :day
+      - :day
+      - :month
+      - :year
   datetime:
     distance_in_words:
       about_x_hours:
@@ -299,11 +373,11 @@ en:
         other: "almost %{count} years"
       half_a_minute: "half a minute"
       less_than_x_minutes:
-        zero: "less than a minute"
+        zero:  "moins d'une minute"
         one: "less than a minute"
         other: "less than %{count} minutes"
       less_than_x_seconds:
-        zero: "less than 1 second"
+        zero: "moins d'une seconde"
         one: "less than 1 second"
         other: "less than %{count} seconds"
       over_x_years:
@@ -311,16 +385,16 @@ en:
         other: "over %{count} years"
       x_days:
         one: "1 day"
-        other: ! '%{count} days'
+        other: ! "%{count} days"
       x_minutes:
         one: "1 minute"
-        other: ! '%{count} minutes'
+        other: ! "%{count} minutes"
       x_months:
         one: "1 month"
-        other: ! '%{count} months'
+        other: ! "%{count} months"
       x_seconds:
         one: "1 second"
-        other: ! '%{count} seconds'
+        other: ! "%{count} seconds"
     prompts:
       day: "Day"
       hour: "Hour"
@@ -340,17 +414,31 @@ en:
       custom_begin: "From %d %b at %Hh%M"
       custom_end: "To %d %b at %Hh%M"
     pm: "pm"
+  time_helper:
+    date_range:
+      different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}"
+      different_years: "%{from_month} %{from_day}, %{from_year} %{sep} %{to_month} %{to_day}, %{to_year}"
+      same_month: "%{month} %{from_day} %{sep} %{to_day}"
+      same_date: "%{month} %{from_day}"
+      with_year: "%{date_range}, %{year}"
+    distance_in_words:
+      template: "%{count} %{unit}"
+      template_long: "%{rest} and %{last}"
+      units:
+        second: "second"
+        minute: "minute"
+        hour: "hour"
+        day: "day"
+        month: "month"
+        year: "year"
+      special:
+        half_an_hour: "half an hour"
+        and_a_half: "and a half"
   helpers:
     colon: ": "
     or: " or "
     and: " and "
     back: "Page précédente"
-    select:
-      prompt: "Please select"
-    submit:
-      create: "Create %{model}"
-      submit: "Save %{model}"
-      update: "Update %{model}"
     array:
       last_word_connector: ", and "
       two_words_connector: " and "

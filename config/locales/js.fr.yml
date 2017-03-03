@@ -1,5 +1,7 @@
 fr:
   js:
+    views:
+      home:
     header:
       topic:
         button: "Thèmes"
@@ -67,12 +69,26 @@ fr:
         terms_of_use_name: "conditions d'utilisations."
         cancel: "Annuler"
         submit: "Créer mon compte"
+        externals:
+          google: "S'inscrire avec Google"
+          facebook: "S'inscrire avec Facebook"
+      login:
+        title: "Connection"
+        login: "Pseudo ou Email"
+        password: "Mot de passe"
+        remember_me: "Se souvenir de moi"
+        cancel: "Annuler"
+        submit: "Connexion"
+        externals:
+          google: "Se connecter avec Google"
+          facebook: "Se connecter avec Facebook"
       index:
         link_to_user: "Détails de l'utilisateur"
         search: "Chercher utilisateur"
       show:
         more_actions: "Actions"
         articles: "Articles"
+        tag: "Tags"
         comments: "Commentaires"
         about: "A propos"
         activities: "Activités"
@@ -80,12 +96,6 @@ fr:
         contact: "Informations de contact"
         properties: "Propriétés"
         edit: "Modifier"
-        admin: "Administrateur"
-        administrator:
-          true: "Admin power"
-          false: "Non admin"
-        is_admin: "Administrateur"
-        not_admin: "Non administrateur"
       edit:
         page_title: "Éditer mon profil"
         title: "Éditer mon profil"
@@ -294,8 +304,10 @@ fr:
     comment:
       common:
         title: "Commentaires"
-        empty: "Pas encore de commentaires"
+        empty: "Soyez le premier à mettre votre commentaire !"
         actions: "Actions"
+        loading: "Chargement des commentaires ..."
+        no_data: "Pas de commentaires à afficher pour cette sélection"
       model:
         title: "Titre"
         body: "Message"
@@ -325,6 +337,7 @@ fr:
                 - updated_first
                 - updated_last
           accepted: "Validé"
+          ask_for_deletion: "Demande de suppression"
           button: "Filter"
         actions:
           button: "Actions"
@@ -341,22 +354,33 @@ fr:
           default: "Ajouter un commentaire"
           modify: "Modifier votre commentaire"
           reply: "Répondre au commentaire"
+          owner_reply: "Répondre au commentaire comme propriétaire"
+          deletion_reply: "Demande de suppression d'un commentaire"
         explanation: "Pour écrire votre message, vous pouvez utiliser la "
         syntax: "syntaxe markdown"
         comment:
           title: "Titre du message"
           body: "Votre commentaire ..."
+          title_for_deletion: "Demande de suppression"
+          body_for_deletion: "Raison de la suppression du commentaire"
           notation: "Note :"
+        cancel: "Annuler"
         submit: "Poster"
       new:
         button: "Ajouter un commentaire"
       reply:
+        owner: "Réponse du propriétaire"
         button: "Répondre"
+        owner_button: "Répondre comme propriétaire"
+        ask_for_deletion: "Demande de suppression en cours"
       edit:
         button: "Modifier"
       delete:
         button: "Supprimer"
-        action: "Pour supprimer le commentaire, déplacez-moi!"
+        confirmation_message: "Merci de valider la suppression"
+        confirmation_button: "Suppression"
+      ask_for_deletion:
+        button: "Demande de suppression du commentaire"
       flash:
         creation_unpermitted: "Vous devez vous connecter pour poster un commentaire"
       errors:
@@ -373,6 +397,8 @@ fr:
         input: "Nom du thème"
         button: "Créer"
     picture:
+      copyright:
+        default: "De "
       model:
         errors:
           title: "Image trop grande"
@@ -406,14 +432,23 @@ fr:
       queries_count: "Requêtes"
       clicks_count: "Clics"
       searches_count: "Searches"
-      bookmarks_count: "Bookmarks"
     admin:
       menu:
         dashboard: "Dashboard"
+        articles: "Articles"
+        tags: "Labels"
+        comments: "Commentaires"
         users: "Utilisateurs"
+        benchmark: "Benchmark"
+        seo: "Référencement"
+        competitor: "Concurrents"
+        expense: "Dépenses"
+        media: "Communication"
+        logs: "Logs"
         errors: "Erreurs"
+        server: "Serveur"
         sidekiq: "Sidekiq"
-        back_home: "retour au site"
+        back_home: "Retour au site"
       users:
         index:
           title: "Liste des utilisateurs"
@@ -425,44 +460,71 @@ fr:
         next: "Suivant"
       errors:
         text: "Ce champ est requis"
-        stripped_text_size: "La taille du texte doit être compris entre %{minCount} et %{maxCount} caractères"
+        alphanumeric: "Ne doit contenir que des lettres, chiffres ou tirets"
         select: "Choisissez une des options proposées"
         date: "Indiquer une date valide"
         datetime: "Indiquer une date et une heure valide"
-        phone_number: "Numéro de téléphone invalide"
+        phone_number: "Numéro de téléphone fixe invalide"
+        mobile_number: "Numéro de téléphone mobile invalide"
+        postcode: "Code postal invalide"
+        siret: "Numéro SIRET invalide"
+        stripped_text_size: "La longueur du champ doit être comprise entre %{minCount} et %{maxCount}"
         picture:
           title: "Image trop grande"
           text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
+    infinite_scroll:
+      loading:
+        message: "Chargement des éléments suivants ..."
+        finish: "Tous les éléments ont été chargés."
     selectize:
       no_results: "Pas de résultats trouvés"
       tags:
-        type: "Taper des caractères pour ajouter un tag"
+        type: "Taper des caractères pour ajouter un label"
         add: "Ajouter"
-        already_exists: "Le tag existe déjà"
+        already_exists: "Le label existe déjà"
+        too_long: "Le nom de l'élément est trop long"
     categorized_tag:
       add_new: "Ajouter nouveau"
-    checkbox:
-      on: "Oui"
-      off: "Non"
+    drop_zone:
+      default_message: "Cliquer ou faites glisser les fichiers à ajouter ici"
+      copyright_message: "Ajouter un copyright"
+      cancel: "Annuler"
+      confirm_cancel: "Confirmer suppression"
+      remove: "Supprimer fichier"
+      server:
+        previous_files: "Fichiers importés"
+        remove: "Supprimer"
+      error:
+        unsupported_browser: "Votre navigateur n'a pas supporté pour uploader des photos"
+        extension: "L'extension n'est pas autorisée"
+        size: "La taille du fichier (%{filesize}Mo) dépasse la limite autorisée %{maxFileSize}Mo"
+        server: "Erreur serveur lors de l'import"
     rating:
       clear: "Effacer"
-    buttons:
-      apply: "Valider"
-      cancel: "Annuler"
-      custom: "Personnaliser"
-    language:
-      french: "Français"
-      english: "Anglais"
+    metrics:
+      distance_unit: "m"
+      distance_unit_k: "km"
+      duration_unit: "h"
+      speed_unit: "km/h"
     time:
       abbr_hour: "h"
       abbr_minute: "m"
+    cookies:
+      message: "Bienvenue sur InRailsWeBlog ! En poursuivant votre navigation, vous acceptez l'utilisation de cookies. "
+      link: "En savoir plus"
+      validation: "D'accord"
     date:
       formats:
         default: "DD/MM/YYYY"
         display: "D MMMM"
         editable: "Le dd MM à hh:ii"
         editable_date: "Le dd MM"
-        date: "yyyy-mm-dd"
+        date: "dd-mm-yyyy"
+      buttons:
+        apply: "Valider"
+        cancel: "Annuler"
+        clear: "Effacer"
+        close: "Valider"
       separator: " à "
       label:
         from: "De"
@@ -528,25 +590,26 @@ fr:
         - "Oct"
         - "Nov"
         - "Dec"
-    helpers:
-      colon: " : "
-      or: " ou "
-      and: " et "
-      back: "Page précédente"
-      select:
-        prompt: "Veuillez sélectionner"
-      submit:
-        create: "Créer un(e) %{model}"
-        submit: "Enregistrer ce(tte) %{model}"
-        update: "Modifier ce(tte) %{model}"
-      array:
-        last_word_connector: " et "
-        two_words_connector: " et "
-        words_connector: ", "
     error_message:
       url: "URL :"
       message: "Message :"
       trace: "Trace :"
-    errors:
-      not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
-      server: "Une erreur serveur s'est produite, merci de réessayer plus tard."
+    helpers:
+      home: "Accueil"
+      colon: " : "
+      or: " ou "
+      and: " et "
+      back: "Page précédente"
+      buttons:
+        apply: "Valider"
+        cancel: "Annuler"
+      select:
+        prompt: "Veuillez sélectionner"
+      array:
+        last_word_connector: " et "
+        two_words_connector: " et "
+        words_connector: ", "
+      errors:
+        not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
+        frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'acceuil"
+        server: "Une erreur serveur s'est produite, merci de réessayer plus tard"

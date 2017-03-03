@@ -33,7 +33,7 @@ export default class Input extends React.Component {
         max: React.PropTypes.number,
         minLength: React.PropTypes.number,
         maxLength: React.PropTypes.number,
-        autoFocus: React.PropTypes.bool,
+        hasAutoFocus: React.PropTypes.bool,
         isAutoComplete: React.PropTypes.bool,
         onFocus: React.PropTypes.func,
         onChange: React.PropTypes.func,
@@ -62,11 +62,11 @@ export default class Input extends React.Component {
         isDisabled: false,
         labelClass: null,
         icon: null,
+        hasAutoFocus: null,
         isAutoComplete: null,
         step: null,
         minLength: null,
         maxLength: null,
-        autoFocus: false,
         onFocus: null,
         onChange: null,
         onInput: null,
@@ -205,7 +205,8 @@ export default class Input extends React.Component {
                            max={this.props.max}
                            minLength={this.props.minLength}
                            maxLength={this.props.maxLength}
-                           autoFocus={this.props.autoFocus}
+                           autoFocus={this.props.hasAutoFocus}
+                           autoComplete={this.props.isAutoComplete}
                            onFocus={this.props.onFocus}
                            onChange={this._handleChange}
                            onInput={this.props.onInput}
@@ -213,7 +214,6 @@ export default class Input extends React.Component {
                            onKeyPress={this.props.onKeyPress}
                            onKeyUp={this.props.onKeyUp}
                            onBlur={this.props.onBlur}
-                           autoComplete={this.props.isAutoComplete}
                            value={this.state.value}
                            {...this.props.validator}
                            {...this.props.mask}/>

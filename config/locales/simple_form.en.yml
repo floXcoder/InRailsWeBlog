@@ -15,4 +15,3 @@ en:
       user: :user.enums
       article: :article.enums
       tag: :tag.enums
-

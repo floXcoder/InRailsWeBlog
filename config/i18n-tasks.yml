@@ -24,3 +24,4 @@ search:
   paths:
     - app/
     - spec/
+  strict: false

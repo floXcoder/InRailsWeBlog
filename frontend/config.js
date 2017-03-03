@@ -22,7 +22,7 @@ module.exports = {
             'admin/dashboard': ['./pages/admin/dashboard.jsx'],
             'admin/users/index': ['./pages/admin/users/index.jsx'],
             'admin/users/show': ['./pages/admin/users/show.jsx'],
-            'admin/errors': ['./pages/admin/errors.jsx'],
+            'admin/errors': ['./pages/admin/errors.jsx']
         },
 
         commons: [

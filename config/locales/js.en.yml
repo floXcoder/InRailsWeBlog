@@ -1,6 +1,10 @@
 en:
   js:
+    views:
+      home:
     header:
+      topic:
+        button: "Thèmes"
       search:
         button: "Rechercher"
       articles:
@@ -64,25 +68,51 @@ en:
         terms_of_use: "By subscribing on InRailsWeBlog, you accept our"
         terms_of_use_name: "terms of use."
         cancel: "Cancel"
-        submit: "Create my account"
+        submit: "Créer mon compte"
+        externals:
+          google: "S'inscrire avec Google"
+          facebook: "S'inscrire avec Facebook"
+      login:
+        title: "Connection"
+        login: "Pseudo ou Email"
+        password: "Mot de passe"
+        remember_me: "Se souvenir de moi"
+        cancel: "Annuler"
+        submit: "Connexion"
+        externals:
+          google: "Se connecter avec Google"
+          facebook: "Se connecter avec Facebook"
       index:
         link_to_user: "User details"
         search: "Find user"
       show:
         more_actions: "Actions"
         articles: "Articles"
+        tag: "Tags"
         comments: "Comments"
         about: "About"
         activities: "Activities"
         tracking: "Tracking"
         contact: "Contact Info"
         properties: "Propriétés"
-        admin: "Administrator"
-        administrator:
-          true: "Admin power"
-          false: "No admin"
-        is_admin: "Administrator"
-        not_admin: "Not an administrator"
+        edit: "Modifier"
+      edit:
+        page_title: "Éditer mon profil"
+        title: "Éditer mon profil"
+        login_header: "Informations de connexion"
+        connection_parameters: "Modifier vos paramètres de connexion"
+        profile_picture: "Image pour votre profile"
+        current_picture: "Votre image actuelle :"
+        replace_picture: "Vous pouvez remplacer votre image en indiquant une autre soit locale soit depuis une url"
+        no_picture: "Vous n'avez pas d'image associée à votre compte."
+        local_picture: "Image locale"
+        remote_picture: "URL d'une image"
+        or: "ou"
+        placeholder_picture: "Utiliser une image locale ou une url"
+        remove_picture: "Supprimer cette image"
+        personal_information_header: "Informations personnelles"
+        update_profile: "Mettre à jour mon profil"
+        back_button: "Retour"
       errors:
         login:
           required: "Please enter your email or pseudo"
@@ -127,27 +157,39 @@ en:
          falsy: "Non"
         visibility: "Choisissez la visibilité"
         url: "Liste des articles"
+        outdated: "Article marqué comme périmé !"
         tags:
-          default: "ajouter des labels à l'article"
-          url: "Label :"
+          default: "Ajouter des labels à l'article"
+          parent: "Ajouter des labels principaux"
+          child: "Ajouter des labels secondaires"
         tooltips:
           title_too_short: "Le titre est trop court"
           summary_too_short: "Le résumé est trop court"
           content_too_short: "Le contenu est trop court"
+        no_results:
+          topic:
+            title: "Pas d'articles associés à ce thème"
+            content: "Ajouter de nouveau article en cliquant que le bouton ci-dessous"
+            button: "Ajouter nouvel article"
+          search:
+            title: "Pas d'articles trouvés"
+            content: "Essayer autre chose :)"
         validation_error:
           common: "Merci de remplir l'article comme indiqué avant de continuer"
       model:
-        title: "Title"
-        summary: "Summary"
-        content: "Content"
-        visibility: "Visibility"
-        allow_comment: "Allow comments ?"
-        comment:
-          true: "Activated"
-          false: "Deactivated"
-        draft: "Draft note?"
-        link: "Is a link?"
+        title: "Titre"
+        summary: "Résumé"
+        content: "Contenu"
+        visibility: "Visibilité"
+        allow_comment: "Autoriser commentaires"
+        draft: "Note temporaire"
         tags: "Labels associés"
+        parent_tags: "Labels principaux"
+        child_tags: "Labels fils"
+        comment:
+          true: "Activé"
+          false: "Désactivé"
+        topic: "Thème"
       enums:
         visibility:
           everyone: "Public"
@@ -164,6 +206,8 @@ en:
         visibility: "Visibility: %{visibility}"
         add_bookmark: "Add to bookmarks"
         remove_bookmark: "Remove from bookmarks"
+        add_outdated: "Marqué comme périmé"
+        remove_outdated: "Enlever des périmés"
         history: "See article history"
         link: "This is a link"
         link_to: "Go to article"
@@ -177,8 +221,15 @@ en:
         none: "No history for this article!"
         restored: "Version restored"
       bookmark:
-        added: "Article added to bookmarks"
+        added: "Article ajouté aux favoris"
+        removed: "Article supprimé des favoris"
+      outdated:
+        added: "Article marqué comme périmé"
         removed: "Article removed from bookmarks"
+      vote:
+        added: "Votre vote a été pris en compte"
+      show:
+        new_tags: "Ajouter des synonymes ou description aux nouveaux labels ajoutés :"
       new:
         title: "Create a new article"
         tags:
@@ -199,28 +250,38 @@ en:
           init: "Paste on website detected, new draft article creation in progress..."
           done: "A new draft article has been created!"
       errors:
-#        default: "Can not create article! Please retry."
-#        not_authorized: "You are not authorized to access to this article"
-#        title: "Article title is %{message}"
-#        summary: "Article summary is %{message}"
-#        content: "Article content is %{message}"
-#        bookmark:
-#          not_authorized: "You are not authorized to bookmark this article !"
-#          default: "Can not add to bookmarks ! Please try to reconnect."
-#          bookmark: "%{message}"
+        default: "Impossible de créer l'article ! Merci de réessayer."
         not_authorized: "Vous n'avez pas la permission d'accéder à cette article !"
-        name:
+        title:
           size: "Le titre de l'article doit être compris entre %{min} et %{max} caractères"
         summary:
           size: "Le résumé de l'article doit être compris entre %{min} et %{max} caractères"
         content:
           size: "Le contenu de l'article doit être compris entre %{min} et %{max} caractères"
+        topic: "Pas de thème associé à l'article"
+        bookmark:
+          not_authorized: "Vous n'avez pas la permission d'ajouter aux favoris cet article !"
+          default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
+          bookmark: "%{message}"
     tag:
       common:
-        list: "All tags"
-        associated: "Associated tags"
-        filter: "Filter by Tag..."
-        no_results: "No tags found for:"
+        list: "Tous les labels"
+        associated: "Labels associés"
+        filter: "Filtrer par labels ..."
+        no_results: "Aucun label trouvé pour :"
+        usage: "%{count} utilisations"
+        link: "Voir le détail du label"
+        visibility: "Choisissez la visibilité"
+        synonyms: "Synonymes du label ..."
+        no_description: "Pas de description associée au label"
+        no_synonyms: "Pas de synonymes associés au label"
+        no_parents: "Pas de labels parents associés"
+        no_children: "Pas de labels fils associés"
+      model:
+        name: "Nom du label"
+        description: "Description"
+        synonyms: "Synonymes"
+        visibility: "Visibilité"
       enums:
         visibility:
           everyone: "Public"
@@ -228,78 +289,98 @@ en:
         visibility_order:
           - everyone
           - only_me
+      show:
+        parents: "Labels parents :"
+        children: "Labels fils :"
+        back_button: "Annuler"
+        edit_link: "Modifier ce label"
+      edit:
+        title: "Modification du label : %{name}"
+        back_button: "Annuler"
+        update_label: "Mettre à jour le label"
     search:
-      placeholder: "Search..."
-      url: "Search:"
-      no_results:
-        title: "No articles found"
-        content: "Try something else :)"
+      placeholder: "Rechercher ..."
+      url: "Recherche :"
     comment:
       common:
         title: "Comments"
-        empty: "No comments yet"
+        empty: "Be the first to post your comment!"
         actions: "Actions"
+        loading: "Loading comments..."
+        no_data: "No comments to display"
       model:
-        title: "Titre"
+        title: "Title"
         body: "Message"
-        user: "Commentateur"
-        commentable_type: "Model commenté"
-        posted_at: "Posté le"
+        user: "User"
+        commentable_type: "Model commented"
+        posted_at: "Posted at"
       tooltip:
         count: "%{number} comments"
       timeline:
         link: "Comment associated to:"
         no_comments: "No comments to display"
       table:
-        helper: "Pour éditer les commentaires directement depuis la liste, double cliquer sur le texte. Sinon dans Actions, cliquer sur édition."
+        helper: "To edit comments from list, double click on text. Or click in Actions and edit button."
         filter:
           order:
-            title: "Trier par"
+            title: "Sort by"
             select:
-              default: "Sélectionner la colonne"
+              default: "Select column"
               values:
-                id_first: "Id (premier)"
-                id_last: "Id (dernier)"
-                updated_first: "Mise à jour (premier)"
-                updated_last: "Mise à jour (dernier)"
+                id_first: "Id (first)"
+                id_last: "Id (last)"
+                updated_first: "Updated (first)"
+                updated_last: "Updated (last)"
               order:
                 - id_first
                 - id_last
                 - updated_first
                 - updated_last
-          accepted: "Validé"
+          accepted: "Accepted"
+          ask_for_deletion: "Ask for deletion"
           button: "Filter"
         actions:
           button: "Actions"
-          show: "Voir le commentaire"
-          delete: "Supprimer le commentaire"
-          accepted: "Valider le commentaire"
-          delete: "Supprimer ce commentaire"
-          delete_permanently: "Supprimer DÉFINITIVEMENT ce commentaire"
+          show: "See comment"
+          delete: "Remove comment"
+          accepted: "Apply"
+          delete: "Remove this comment"
+          delete_permanently: "Remove PERMANENTLY this comment"
         confirmation:
-          delete: "Supprimer le commentaire '%{comment}'"
-          delete_permanently: "Supprimer DÉFINITIVEMENT le commentaire '%{comment}' ?"
+          delete: "Remove comment '%{comment}'"
+          delete_permanently: "Remove PERMANENTLY this comment '%{comment}'?"
       form:
         title:
           default: "Add a comment"
           modify: "Modify your comment"
-          reply: "Reply to a comment"
+          reply: "Reply to comment"
+          owner_reply: "Reply to comment as owner"
+          deletion_reply: "Ask to remove this comment"
         explanation: "To write your message, you can use "
         syntax: "markdown syntax"
         comment:
           title: "Comment title"
-          message: "Your comment..."
-          notation: "Notation:"
+          body: "Your comment ..."
+          title_for_deletion: "Ask for deletion"
+          body_for_deletion: "Deletion reason"
+          notation: "Note:"
+        cancel: "Cancel"
         submit: "Post"
       new:
         button: "Add a comment"
       reply:
+        owner: "Owner answer"
         button: "Reply"
+        owner_button: "Reply as owner"
+        ask_for_deletion: "Ask for deletion in progress"
       edit:
         button: "Modify"
       delete:
         button: "Delete"
-        action: "To remove a comment, shift me!"
+        confirmation_message: "Confirm deletion"
+        confirmation_button: "Deletion"
+      ask_for_deletion:
+        button: "Ask for deletion of a comment"
       flash:
         creation_unpermitted: "You must login to post a comment"
       errors:
@@ -307,13 +388,23 @@ en:
         not_authorized: "You are not authorized to access to this comment"
         title: "Comment title is %{message}"
         body: "Comment message is %{message}"
+    topic:
+      common:
+        user_topics: "Mes thèmes"
+        user_current_topic: "Thème en cours"
+      new:
+        title: "Créer un nouveau thème"
+        input: "Nom du thème"
+        button: "Créer"
     picture:
+      copyright:
+        default: "From "
       model:
         errors:
-          title: "Picture too big"
-          text: "Maximum file size is 5MB. Please choose a smaller file"
+          title: "Picture too large"
+          text: "File size is over 5Mo, please use a smaller picture"
           type:
-            image: "Le fichier n'est pas de type image, merci de choisir un fichier jpp, jpeg, png ou bmp"
+            image: "File is not a picture, try a file of type jpg, jpeg, png or bmp"
     activities:
       no_activities: "No activities to display"
       article:
@@ -332,21 +423,30 @@ en:
         create: "Article bookmarked"
         destroy: "Bookmark article removed"
       comment:
-        create: "Comment created"
+        create: "Comment added"
         update: "Comment updated"
         destroy: "Comment removed"
-    tracking:
+    tracker:
       sign_in_count: "Connections"
       views_count: "Views"
       queries_count: "Queries"
       clicks_count: "Clicks"
       searches_count: "Searches"
-      bookmarks_count: "Bookmarks"
     admin:
       menu:
         dashboard: "Dashboard"
+        articles: "Articles"
+        tags: "Tags"
+        comments: "Comments"
         users: "Users"
+        benchmark: "Benchmark"
+        seo: "SEO"
+        competitor: "Competitors"
+        expense: "Expenses"
+        media: "Media"
+        logs: "Logs"
         errors: "Errors"
+        server: "Server"
         sidekiq: "Sidekiq"
         back_home: "Back to homepage"
       users:
@@ -356,35 +456,63 @@ en:
           title: "User details"
     form:
       wizard:
-        previous: "Précédent"
-        next: "Suivant"
+        previous: "Previous"
+        next: "Next"
       errors:
-        text: "Ce champ est requis"
-        stripped_text_size: "La taille du texte doit être compris entre %{minCount} et %{maxCount} caractères"
-        select: "Choisissez une des options proposées"
-        date: "Indiquer une date valide"
-        datetime: "Indiquer une date et une heure valide"
-        phone_number: "Numéro de téléphone invalide"
+        text: "This field is required"
+        alphanumeric: "Must contain only letters, numbers or dashes"
+        select: "Select one option"
+        date: "Set a valid date"
+        datetime: "Set a valid date and time"
+        phone_number: "Invalid phone number"
+        mobile_number: "Invalid mobile number"
+        postcode: "Invalid postcode"
+        siret: "Invalid company registered number"
+        stripped_text_size: "Length field must be between %{minCount} and %{maxCount}"
         picture:
-          title: "Image trop grande"
-          text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
+          title: "File too large"
+          text: "File size is over 5Mo, please use a smaller picture"
+    infinite_scroll:
+      loading:
+        message: "Chargement des éléments suivants ..."
+        finish: "Tous les éléments ont été chargés."
+    selectize:
+      no_results: "No results found"
+      tags:
+        type: "Type characters to add a tag"
+        add: "Add"
+        already_exists: "Tag already exist"
+        too_long: "Name too long"
     categorized_tag:
-      add_new: "Ajouter nouveau"
-    checkbox:
-      on: "On"
-      off: "Off"
-    rating:
-      clear: "Effacer"
-    buttons:
-      apply: "Submit"
+      add_new: "Add new"
+    drop_zone:
+      default_message: "click or drag&drop to add pictures"
+      copyright_message: "Add a copyright"
       cancel: "Cancel"
-      custom: "Custom"
-    language:
-      french: "French"
-      english: "English"
+      confirm_cancel: "Confirm deletion"
+      remove: "Remove file"
+      server:
+        previous_files: "Imported files"
+        remove: "Remove"
+      error:
+        unsupported_browser: "Your browser doesn't support picture upload"
+        extension: "Extension not authorized"
+        size: "File size (%{filesize}Mo) exceed the limit %{maxFileSize}Mo"
+        server: "Server error when importing"
+    rating:
+      clear: "Clear"
+    metrics:
+      distance_unit: "m"
+      distance_unit_k: "km"
+      duration_unit: "h"
+      speed_unit: "km/h"
     time:
       abbr_hour: "h"
       abbr_minute: "m"
+    cookies:
+      message: "Welcome to Locatipic! This website uses cookies to ensure you get the best experience on our website. "
+      link: "More info"
+      validation: "Got it!"
     date:
       formats:
         default: "MM/DD/YYYY"
@@ -392,21 +520,26 @@ en:
         editable: "The dd MM at hh:ii"
         editable_date: "The dd MM"
         date: "yyyy-mm-dd"
+      buttons:
+        apply: "Apply"
+        cancel: "Cancel"
+        clear: "Clear"
+        close: "Fermer"
       separator: " to "
       label:
         from: "From"
         to: "To"
       ranges:
         today: "Today"
-        today_short: "Tod."
+        today_short: "Today"
         tomorrow: "Tomorrow"
         next_week: "Next 7 days"
-        previous_month: "Mois précédent"
+        previous_month: "Prev. month"
         this_month: "This Month"
         next_month: "Next Month"
         custom_range: "Custom range"
-        select_month: "Sélectionner un mois"
-        select_year: "Sélectionner une année"
+        select_month: "Select month"
+        select_year: "Select year"
       day_names:
         - "Sunday"
         - "Monday"
@@ -446,36 +579,37 @@ en:
         - "December"
       abbr_month_names:
         - "Jan"
-        - "Fev"
+        - "Feb"
         - "Mar"
-        - "Avr"
-        - "Mai"
-        - "Juin"
-        - "Juil"
-        - "Août"
+        - "Apr"
+        - "May"
+        - "Jun"
+        - "Jul"
+        - "Aug"
         - "Sep"
         - "Oct"
         - "Nov"
         - "Dec"
-    helpers:
-      colon: " : "
-      or: " ou "
-      and: " et "
-      back: "Page précédente"
-      select:
-        prompt: "Veuillez sélectionner"
-      submit:
-        create: "Créer un(e) %{model}"
-        submit: "Enregistrer ce(tte) %{model}"
-        update: "Modifier ce(tte) %{model}"
-      array:
-        last_word_connector: " et "
-        two_words_connector: " et "
-        words_connector: ", "
     error_message:
       url: "URL:"
       message: "Message:"
       trace: "Trace:"
-    errors:
-      not_authorized: "You are not authorized to access to this resource"
-      server: "A server error happened, please retry later."
+    helpers:
+      home: "Home"
+      colon: ": "
+      or: " or "
+      and: " and "
+      back: "Previous page"
+      buttons:
+        apply: "Apply"
+        cancel: "Cancel"
+      select:
+        prompt: "Please select"
+      array:
+        last_word_connector: " and "
+        two_words_connector: " and "
+        words_connector: ", "
+      errors:
+        not_authorized: "You cannot access to this resource!"
+        frontend: "An error occurred in the page, please refresh the page or go back"
+        server: "A server error occurred, please retry later"
