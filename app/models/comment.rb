@@ -46,7 +46,7 @@ class Comment < ApplicationRecord
              counter_cache: true
 
   # == Validations ==========================================================
-  validates :commentable_type,
+  validates :commentable,
             presence: true
   validates :user,
             presence: true

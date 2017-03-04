@@ -38,7 +38,10 @@ class Admin < ApplicationRecord
          :lockable,
          authentication_keys: [:login]
 
-  store :settings, coder: JSON
+  # Store settings
+  include Storext.model
+  store_attributes :settings do
+  end
 
   # == Extensions ===========================================================
   include NiceUrlConcern

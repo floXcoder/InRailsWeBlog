@@ -6,7 +6,6 @@
 #  pseudo                 :string           default(""), not null
 #  first_name             :string           default("")
 #  last_name              :string           default("")
-#  age                    :integer          default(0)
 #  city                   :string           default("")
 #  country                :string           default("")
 #  additional_info        :string           default("")

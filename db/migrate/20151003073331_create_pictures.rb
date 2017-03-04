@@ -11,6 +11,9 @@ class CreatePictures < ActiveRecord::Migration[5.0]
       t.text        :description
       t.string      :copyright
 
+      t.string      :original_filename
+      t.string      :image_secure_token
+
       t.integer     :priority,        null: false,  default: 0
 
       t.boolean     :accepted,        null: false,  default: true

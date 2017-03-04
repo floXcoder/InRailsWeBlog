@@ -39,11 +39,17 @@ class ErrorMessage < ApplicationRecord
   # == Callbacks ============================================================
 
   # == Class Methods ========================================================
-  def self.new_error(params, request, current_user = nil)
+  def self.new_error(params, request = nil, current_user = nil)
     error            = self.new(params)
-    error.user_agent = request.user_agent
-    error.ip         = request.remote_ip
-    error.user_info  = current_user.pseudo if current_user
+
+    if request
+      error.user_agent = request.user_agent
+      error.ip         = request.remote_ip
+    end
+
+    if current_user
+      error.user_info = current_user.pseudo
+    end
 
     return error
   end

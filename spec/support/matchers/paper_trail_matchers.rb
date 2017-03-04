@@ -1,7 +1,7 @@
 RSpec::Matchers.define :have_paper_trail do |model|
   match do |actual|
     expect(actual).to have_many(:versions)
-    expect(actual).to callback(PaperTrail.clear_transaction_id).after(:commit)
+    # expect(actual).to callback(PaperTrail.clear_transaction_id).after(:commit)
 
     expect(model).to respond_to(:paper_trail)
   end

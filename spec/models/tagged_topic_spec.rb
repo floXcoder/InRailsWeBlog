@@ -21,7 +21,6 @@ RSpec.describe TaggedTopic, type: :model do
   before do
     @tagged_topic = TaggedTopic.create(
       topic: @topic,
-      user:  @user,
       tag:   @tag
     )
   end
@@ -34,14 +33,12 @@ RSpec.describe TaggedTopic, type: :model do
 
   context 'Associations', basic: true do
     it { is_expected.to belong_to(:topic) }
-    it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:tag) }
 
     it { is_expected.to validate_presence_of(:topic) }
-    it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to validate_presence_of(:tag) }
 
-    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to([:tag_id, :topic_id]) }
+    it { is_expected.to validate_uniqueness_of(:topic_id).scoped_to(:tag_id) }
   end
 
 end

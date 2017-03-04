@@ -8,7 +8,9 @@ class CreateTags < ActiveRecord::Migration[5.0]
       t.string      :synonyms,                   default: [],   array: true
       t.string      :color
 
-      t.integer     :priority,    null: false,   default: 0
+      t.integer     :notation,                   default: 0
+      t.integer     :priority,                   default: 0
+
       t.integer     :visibility,  null: false,   default: 0
       t.boolean     :accepted,    null: false,   default: true
       t.boolean     :archived,    null: false,   default: false

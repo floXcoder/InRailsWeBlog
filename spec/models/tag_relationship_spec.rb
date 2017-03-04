@@ -14,7 +14,7 @@
 RSpec.describe TagRelationship, type: :model do
 
   before(:all) do
-    @user  = create(:user)
+    @user = create(:user)
 
     @parent_tag = create(:tag, user: @user)
     @child_tag  = create(:tag, user: @user)
@@ -22,9 +22,10 @@ RSpec.describe TagRelationship, type: :model do
 
   before do
     @tag_relation = TagRelationship.create(
-      user:   @user,
-      parent: @parent_tag,
-      child:  @child_tag
+      user:        @user,
+      parent:      @parent_tag,
+      child:       @child_tag,
+      article_ids: []
     )
   end
 

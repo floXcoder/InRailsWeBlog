@@ -143,10 +143,14 @@ class Tag < ApplicationRecord
             length:     { minimum: CONFIG.tag_name_min_length, maximum: CONFIG.tag_name_max_length },
             allow_nil:  false,
             if:         -> { visibility != 'everyone' }
-  validate :public_name_immutable
+  validate :public_name_immutable,
+           on: :update
 
   validates :description,
             length: { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
+
+  validates :visibility,
+            presence: true
 
   # validates :topics, length: { minimum: 1 }
   # validates :articles, length: { minimum: 1 }
@@ -424,7 +428,7 @@ class Tag < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    user.id == user.id
+    self.user_id == user.id
   end
 
   def format_attributes(attributes = {}, current_user = nil)

@@ -120,7 +120,6 @@ en:
       password: "Password"
       first_name: "First name"
       last_name: "Last name"
-      age: "Age"
       city: "City"
       postcode: "Postcode"
       birth_date: "Birth date"
@@ -142,6 +141,10 @@ en:
         only_me: "Private"
   topic:
     default_name: "Defaut"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Private"
   email:
     hello: "Hello"
     contact:

@@ -1,10 +1,13 @@
-feature 'User Password' do
+feature 'User Password', advanced: true do
+
+  background(:all) do
+    @user = create(:user, :confirmed, email: user_info[:email])
+  end
 
   given(:user_info) { {pseudo: 'Pseudo',
-                       email: 'test@example.com',
+                       email: 'test@locatipic.fr',
                        password: 'new_password'}
   }
-  given(:user) { FactoryGirl.create(:user, :confirmed, email: user_info[:email]) }
 
   given(:new_password_page) { UserPage.new(new_user_password_path) }
   given(:edit_password_page) { UserPage.new(edit_user_password_path) }
@@ -12,7 +15,7 @@ feature 'User Password' do
   background do
   end
 
-  feature 'New Password page', js: true, basic: true do
+  feature 'New Password page', js: true do
     background do
       new_password_page.visit
     end
@@ -23,10 +26,11 @@ feature 'User Password' do
       let(:content) {
         {
             current_page: new_password_page,
-            title: t('devise.passwords.new.page_title'),
+            title: t('devise.passwords.new.title'),
             stylesheet_name: 'users/new',
             javascript_name: 'users/password',
-            common_js: %w(commons common-user)
+            common_js: ['commons-full-page'],
+            full_page: true
         }
       }
     end
@@ -36,31 +40,31 @@ feature 'User Password' do
     end
   end
 
-  feature 'Edit Password page', js: true, basic: true do
-    background do
-      visit edit_user_password_path(reset_password_token: Devise.friendly_token)
-    end
+  # feature 'Edit Password page', advanced: true, js: true do
+  #   background do
+  #     visit edit_user_password_path(reset_password_token: Devise.friendly_token)
+  #   end
+  #
+  #   subject { edit_password_page }
+  #
+  #   it_behaves_like 'a valid page' do
+  #     let(:content) {
+  #       {
+  #           current_page: edit_password_page,
+  #           title: t('devise.passwords.edit.title'),
+  #           stylesheet_name: 'users/new',
+  #           javascript_name: 'users/password',
+  #           common_js: ['commons-full-page']
+  #       }
+  #     }
+  #   end
+  #
+  #   scenario 'page has a valid HTML structure' do
+  #     is_expected.to have_valid_html
+  #   end
+  # end
 
-    subject { edit_password_page }
-
-    it_behaves_like 'a valid page' do
-      let(:content) {
-        {
-            current_page: edit_password_page,
-            title: t('devise.passwords.edit.page_title'),
-            stylesheet_name: 'users/new',
-            javascript_name: 'users/password',
-            common_js: %w(commons common-user)
-        }
-      }
-    end
-
-    scenario 'page has a valid HTML structure' do
-      is_expected.to have_valid_html
-    end
-  end
-
-  # feature 'Change password' do
+  # feature 'Change password', advanced: true do
   #   background do
   #     clear_emails
   #   end

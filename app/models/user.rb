@@ -70,7 +70,7 @@ class User < ApplicationRecord
   end
 
   # Strip whitespaces
-  auto_strip_attributes :first_name, :last_name, :city, :country, :additional_info
+  auto_strip_attributes :first_name, :last_name, :city, :country, :additional_info, :phone_number, :mobile_number
 
   delegate :popularity,
            :rank, :rank=,
@@ -425,7 +425,8 @@ class User < ApplicationRecord
   private
 
   def create_default_topic
-    default_topic = self.topics.create(name: I18n.t('topic.default_name'))
+    self_topics_create = self.topics.create(user: self, name: I18n.t('topic.default_name'))
+    default_topic = self_topics_create
     update_attribute(:current_topic_id, default_topic.id)
   end
 

@@ -34,7 +34,7 @@ RSpec.describe Admin, type: :model do
       password:              'foobarfoo',
       password_confirmation: 'foobarfoo',
       additional_info:       'My personal info',
-      settings:           {},
+      settings:              {},
       slug:                  'example_admin',
       locale:                'fr'
     )
@@ -46,7 +46,7 @@ RSpec.describe Admin, type: :model do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes' do
+  context 'Attributes', basic: true do
     it { is_expected.to respond_to(:pseudo) }
     it { is_expected.to respond_to(:email) }
     it { is_expected.to respond_to(:additional_info) }
@@ -58,19 +58,18 @@ RSpec.describe Admin, type: :model do
     it { expect(@admin.settings).to eq({}) }
     it { expect(@admin.slug).to eq('example_admin') }
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       before do
         @admin = Admin.create(
           pseudo: 'Admin'
         )
       end
 
-      it { expect(@admin.additional_info).to eq('') }
       it { expect(@admin.locale).to eq('fr') }
-      it { expect(@admin.settings).to eq({}) }
+      it { expect(@admin.settings).to eq('{}') }
     end
 
-    describe '#pseudo', basic: true do
+    describe '#pseudo' do
       it { is_expected.to validate_presence_of(:pseudo) }
       it { is_expected.to validate_length_of(:pseudo).is_at_least(CONFIG.user_pseudo_min_length) }
       it { is_expected.to validate_length_of(:pseudo).is_at_most(CONFIG.user_pseudo_max_length) }
@@ -80,7 +79,7 @@ RSpec.describe Admin, type: :model do
       it { is_expected.to have_db_index([:pseudo, :email]) }
     end
 
-    describe '#email', basic: true do
+    describe '#email' do
       it { is_expected.to validate_presence_of(:email) }
       it { is_expected.to validate_length_of(:email).is_at_least(CONFIG.user_email_min_length) }
       it { is_expected.to validate_length_of(:email).is_at_most(CONFIG.user_email_max_length) }
@@ -89,7 +88,7 @@ RSpec.describe Admin, type: :model do
       it { is_expected.to have_db_index(:email) }
     end
 
-    describe '#password', basic: true do
+    describe '#password' do
       it { is_expected.to respond_to(:password) }
       it { is_expected.to validate_presence_of(:password) }
       it { is_expected.to validate_length_of(:password).is_at_least(CONFIG.user_password_min_length) }
@@ -97,11 +96,11 @@ RSpec.describe Admin, type: :model do
       it { expect(@admin.password).to match 'foobarfoo' }
     end
 
-    describe '#login', basic: true do
+    describe '#login' do
       it { is_expected.to respond_to(:login) }
     end
 
-    # describe '#settings', basic: true do
+    # describe '#settings' do
     #   it { is_expected.to serialize(:settings) }
     # end
   end
@@ -113,38 +112,38 @@ RSpec.describe Admin, type: :model do
   context 'Associations', basic: true do
   end
 
-  context 'Public Methods' do
+  context 'Public Methods', basic: true do
     subject { Admin }
 
-    describe '::pseudo?', basic: true do
+    describe '::pseudo?' do
       it { is_expected.to respond_to(:pseudo?) }
       it { expect(Admin.pseudo?('Admin')).to be true }
     end
 
-    describe '::email?', basic: true do
+    describe '::email?' do
       it { is_expected.to respond_to(:email?) }
       it { expect(Admin.email?('admin@example.com')).to be true }
     end
 
-    describe '::login?', basic: true do
+    describe '::login?' do
       it { is_expected.to respond_to(:login?) }
       it { expect(Admin.login?('Admin')).to be true }
       it { expect(Admin.login?('admin@example.com')).to be true }
     end
 
-    describe '::find_for_database_authentication', basic: true do
+    describe '::find_for_database_authentication' do
       it { is_expected.to respond_to(:find_for_database_authentication) }
     end
   end
 
-  context 'Instance Methods' do
-    describe '.admin?', basic: true do
+  context 'Instance Methods', basic: true do
+    describe '.admin?' do
       it { is_expected.to respond_to(:admin?) }
       it { expect(@admin.admin?(@admin)).to be true }
       it { expect(@admin.admin?(create(:admin))).to be false }
     end
 
-    describe '.create_blog', basic: true do
+    describe '.create_blog' do
       it { is_expected.to respond_to(:create_blog) }
     end
   end

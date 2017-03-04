@@ -10,9 +10,10 @@ class CreateArticles < ActiveRecord::Migration[5.0]
       t.text        :reference
       t.boolean     :draft,       null: false,    default: false
       t.string      :language
-      t.boolean     :allow_comment,   null: false,    default: true
       t.integer     :notation,                        default: 0
       t.integer     :priority,                        default: 0
+
+      t.boolean     :allow_comment,   null: false,    default: true
       t.integer     :visibility,      null: false,    default: 0
       t.boolean     :accepted,        null: false,    default: true
       t.boolean     :archived,        null: false,    default: false
@@ -29,8 +30,8 @@ class CreateArticles < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_index :articles, [:user_id, :visibility],     where: 'deleted_at IS NULL'
-    add_index :articles, [:topic_id,  :visibility],   where: 'deleted_at IS NULL'
-    add_index :articles, :slug,                       where: 'deleted_at IS NULL', unique: true
+    add_index :articles, [:user_id,   :visibility],  where: 'deleted_at IS NULL'
+    add_index :articles, [:topic_id,  :visibility],  where: 'deleted_at IS NULL'
+    add_index :articles, :slug,                      where: 'deleted_at IS NULL', unique: true
   end
 end

@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.string   "pseudo",                 default: "",   null: false
     t.string   "additional_info"
     t.string   "locale",                 default: "fr"
-    t.jsonb    "settings",               default: "{}", null: false
+    t.jsonb    "settings",               default: {},   null: false
     t.string   "slug"
     t.string   "email",                  default: "",   null: false
     t.string   "encrypted_password",     default: "",   null: false
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.index ["email"], name: "index_admins_on_email", unique: true, using: :btree
+    t.index ["pseudo", "email"], name: "index_admins_on_pseudo_and_email", using: :btree
     t.index ["pseudo"], name: "index_admins_on_pseudo", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
     t.index ["slug"], name: "index_admins_on_slug", unique: true, using: :btree
@@ -78,9 +79,9 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.text     "reference"
     t.boolean  "draft",                   default: false, null: false
     t.string   "language"
-    t.boolean  "allow_comment",           default: true,  null: false
     t.integer  "notation",                default: 0
     t.integer  "priority",                default: 0
+    t.boolean  "allow_comment",           default: true,  null: false
     t.integer  "visibility",              default: 0,     null: false
     t.boolean  "accepted",                default: true,  null: false
     t.boolean  "archived",                default: false, null: false
@@ -111,25 +112,25 @@ ActiveRecord::Schema.define(version: 20170225200735) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.string   "commentable_type",                null: false
-    t.integer  "commentable_id",                  null: false
-    t.integer  "user_id",                         null: false
+    t.string   "commentable_type",                 null: false
+    t.integer  "commentable_id",                   null: false
+    t.integer  "user_id",                          null: false
     t.string   "title"
     t.text     "body"
     t.string   "subject"
     t.integer  "rating",           default: 0
     t.integer  "positive_reviews", default: 0
     t.integer  "negative_reviews", default: 0
-    t.boolean  "accepted",         default: true, null: false
+    t.boolean  "accepted",         default: true,  null: false
+    t.boolean  "ask_for_deletion", default: false, null: false
     t.datetime "deleted_at"
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", where: "(deleted_at IS NULL)", using: :btree
-    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
-    t.index ["parent_id"], name: "index_comments_on_parent_id", where: "(deleted_at IS NULL)", using: :btree
+    t.index ["parent_id"], name: "index_comments_on_parent_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", where: "(deleted_at IS NULL)", using: :btree
   end
 
@@ -163,18 +164,20 @@ ActiveRecord::Schema.define(version: 20170225200735) do
   end
 
   create_table "pictures", force: :cascade do |t|
-    t.integer  "user_id",                       null: false
+    t.integer  "user_id",                           null: false
     t.integer  "imageable_id"
-    t.string   "imageable_type",                null: false
+    t.string   "imageable_type",                    null: false
     t.string   "image"
     t.string   "image_tmp"
     t.text     "description"
     t.string   "copyright"
-    t.integer  "priority",       default: 0,    null: false
-    t.boolean  "accepted",       default: true, null: false
+    t.string   "original_filename"
+    t.string   "image_secure_token"
+    t.integer  "priority",           default: 0,    null: false
+    t.boolean  "accepted",           default: true, null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.index ["deleted_at"], name: "index_pictures_on_deleted_at", using: :btree
     t.index ["imageable_id", "imageable_type"], name: "index_pictures_on_imageable_id_and_imageable_type", where: "(deleted_at IS NULL)", using: :btree
     t.index ["user_id"], name: "index_pictures_on_user_id", where: "(deleted_at IS NULL)", using: :btree
@@ -219,7 +222,8 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.text     "description"
     t.string   "synonyms",              default: [],                 array: true
     t.string   "color"
-    t.integer  "priority",              default: 0,     null: false
+    t.integer  "notation",              default: 0
+    t.integer  "priority",              default: 0
     t.integer  "visibility",            default: 0,     null: false
     t.boolean  "accepted",              default: true,  null: false
     t.boolean  "archived",              default: false, null: false

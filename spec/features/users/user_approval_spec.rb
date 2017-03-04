@@ -1,10 +1,13 @@
 feature 'User Confirmation', advanced: true do
 
+  background(:all) do
+    @user = create(:user, :confirmed, email: user_info[:email])
+  end
+
   given(:user_info) { {pseudo: 'Pseudo',
-                       email: 'test@example.com',
+                       email: 'test@locatipic.fr',
                        password: 'new_password'}
   }
-  given(:user) { FactoryGirl.create(:user, :confirmed, email: user_info[:email]) }
 
   given(:new_confirmation_page) { UserPage.new(new_user_confirmation_path) }
 
@@ -19,10 +22,11 @@ feature 'User Confirmation', advanced: true do
       let(:content) {
         {
             current_page: new_confirmation_page,
-            title: t('devise.resend.page_title'),
+            title: t('devise.resend.title'),
             stylesheet_name: 'users/new',
             javascript_name: 'users/signup',
-            common_js: %w(commons common-user)
+            common_js: ['commons-full-page'],
+            full_page: true
         }
       }
     end

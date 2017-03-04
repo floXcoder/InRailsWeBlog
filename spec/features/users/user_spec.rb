@@ -1,11 +1,14 @@
-feature 'User Show page', advanced: true do
+feature 'User Show', advanced: true do
 
-  given(:user)              { FactoryGirl.create(:user, :confirmed) }
-  given(:user_show_page)  { UserPage.new(user_path(user)) }
+  background(:all) do
+    @user = create(:user)
+  end
+
+  given(:user_show_page)   { UserPage.new(user_path(@user)) }
 
   background do
-    login_with(user.email, user.password)
-    visit user_path(user)
+    login_as(@user, scope: :user, run_callbacks: false)
+    user_show_page.visit
   end
 
   subject { user_show_page }
@@ -15,9 +18,10 @@ feature 'User Show page', advanced: true do
       let(:content) {
         {
             current_page: user_show_page,
-            title: t('views.user.show.page_title', pseudo: user.pseudo),
+            title: t('views.user.show.title'),
             asset_name: 'users/show',
-            common_js: %w(commons common-user)
+            common_js: ['commons'],
+            connected: true
         }
       }
     end

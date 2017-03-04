@@ -4,40 +4,30 @@ namespace :InRailsWeBlog do
 
   # rails InRailsWeBlog:populate[reset,data]
   desc 'Reset and migrate the database the database, initialize with the seed data and reindex models for search'
-  task :populate, [:reset, :data] => :environment do |t, args|
-
-    %x{spring stop} if Rails.env.development?
-
-    if args.reset
-      # Recreate table
-      Rake.application.invoke_task('db:migrate:reset')
-
-      # Remove upload directory
-      upload_dir = Rails.root.join('public', 'uploads')
-      FileUtils.rm_rf(Dir.glob(upload_dir.to_s + '/*'))
-
-      # Create Admin
-      Populate::create_admin
-
-      # Create Main User
-      Populate::create_main_user
-    end
-
+  task :populate, [:reset, :data] => :environment do |_, args|
     unless Rails.env.production?
-      # Populate database
+      `spring stop` if Rails.env.development?
+
+      if args.reset
+        # Recreate table
+        Rake.application.invoke_task('db:migrate:reset')
+
+        # Remove upload directory
+        upload_dir = Rails.root.join('public', 'uploads')
+        FileUtils.rm_rf(Dir.glob(upload_dir.to_s + '/*'))
+
+        # Create users
+        admin     = Populate::create_admin
+        main_user = Populate::create_main_user
+      end
+
       if args.data
+        admin     ||= Admin.first
+        main_user ||= User.first
+
         # Create users
-        Populate::create_dummy_users(10)
-
-        # Select users
-        admin     = User.first
-        main_user = User.second
-        users     = User.all.offset(2)
-
-        # Add profile image to users
-        # Populate::add_profile_picture_to(admin)
-        # Populate::add_profile_picture_to(main_user)
-        # Populate::add_profile_picture_to(users, 15)
+        users     = Populate::create_dummy_users(10)
+        Populate::add_profile_picture_to(users, 5)
 
         # Create tags
         tags     = Populate::create_dummy_tags(main_user, 20)
@@ -73,10 +63,10 @@ namespace :InRailsWeBlog do
         Populate::create_activities_for_users
         Populate::create_activities_for_tags
       end
-    end
 
-    # Reindex for ElasticSearch
-    Rake::Task['searchkick:reindex:all'].invoke
+      # Reindex for ElasticSearch
+      Rake::Task['searchkick:reindex:all'].invoke
+    end
   end
 
 end

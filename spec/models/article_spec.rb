@@ -37,21 +37,21 @@ RSpec.describe Article, type: :model do
   before do
     @article = Article.create(
       user:                    @user,
-      topic:                     @topic,
-      title:                     'My title',
-      summary:                   'Summary of my article',
-      content:                   'Content of my article',
-      reference:                 'Reference link',
-      language:                  'fr',
-      visibility:                'everyone',
-      notation:                  1,
-      priority:                  1,
-      draft:                 false,
-      allow_comment:             false,
-      archived:                  false,
-      accepted:                  true,
-      bookmarked_articles_count: 0,
-      outdated_articles_count:   0
+      topic:                   @topic,
+      title:                   'My title',
+      summary:                 'Summary of my article',
+      content:                 'Content of my article',
+      reference:               'Reference link',
+      language:                'fr',
+      visibility:              'everyone',
+      notation:                1,
+      priority:                1,
+      draft:                   false,
+      allow_comment:           false,
+      archived:                false,
+      accepted:                true,
+      bookmarks_count:         0,
+      outdated_articles_count: 0
     )
   end
 
@@ -74,7 +74,7 @@ RSpec.describe Article, type: :model do
     it { is_expected.to respond_to(:visibility) }
     it { is_expected.to respond_to(:archived) }
     it { is_expected.to respond_to(:accepted) }
-    it { is_expected.to respond_to(:bookmarked_articles_count) }
+    it { is_expected.to respond_to(:bookmarks_count) }
     it { is_expected.to respond_to(:outdated_articles_count) }
 
     it { expect(@article.title).to eq('My title') }
@@ -88,28 +88,26 @@ RSpec.describe Article, type: :model do
     it { expect(@article.draft).to be false }
     it { expect(@article.allow_comment).to be false }
     it { expect(@article.archived).to be false }
-    it { expect(@article.accepted).to be false }
-    it { expect(@article.bookmarked_articles_count).to eq(0) }
+    it { expect(@article.accepted).to be true }
+    it { expect(@article.bookmarks_count).to eq(0) }
     it { expect(@article.outdated_articles_count).to eq(0) }
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       before do
         @article = Article.create(
-          user:  @user,
+          user:    @user,
           content: 'Content of my article'
         )
       end
 
-      it { expect(@article.title).to eq('') }
-      it { expect(@article.summary).to eq('') }
-      it { expect(@article.notation).to eq(1) }
-      it { expect(@article.priority).to eq(1) }
+      it { expect(@article.notation).to eq(0) }
+      it { expect(@article.priority).to eq(0) }
       it { expect(@article.visibility).to eq('everyone') }
       it { expect(@article.draft).to be false }
-      it { expect(@article.allow_comment).to be false }
+      it { expect(@article.allow_comment).to be true }
       it { expect(@article.archived).to be false }
       it { expect(@article.accepted).to be true }
-      it { expect(@article.bookmarked_articles_count).to eq(0) }
+      it { expect(@article.bookmarks_count).to eq(0) }
       it { expect(@article.outdated_articles_count).to eq(0) }
     end
 
@@ -139,8 +137,6 @@ RSpec.describe Article, type: :model do
   end
 
   context 'Properties', basic: true do
-    it { is_expected.to callback(:sanitize_html).before(:save) }
-
     it { is_expected.to have_friendly_id(:slug) }
 
     it { is_expected.to act_as_tracked(Article) }
@@ -155,22 +151,23 @@ RSpec.describe Article, type: :model do
 
     it { is_expected.to have_paper_trail(Article) }
 
-    it { is_expected.to have_searh(Article) }
+    it { is_expected.to have_search(Article) }
   end
 
   context 'Associations', basic: true do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to validate_presence_of(:user) }
-    it { is_expected.to have_db_index(:user_id) }
+    it { is_expected.to have_db_index([:user_id, :visibility]) }
 
     it { is_expected.to belong_to(:topic) }
+    it { is_expected.to have_db_index([:topic_id, :visibility]) }
 
     it { is_expected.to have_many(:tagged_articles) }
     it { is_expected.to have_many(:tags) }
     it { is_expected.to have_many(:parent_tags) }
     it { is_expected.to have_many(:child_tags) }
 
-    it { is_expected.to have_many(:bookmarked_articles) }
+    it { is_expected.to have_many(:bookmarks) }
     it { is_expected.to have_many(:user_bookmarks) }
 
     it { is_expected.to have_many(:outdated_articles) }
@@ -183,14 +180,10 @@ RSpec.describe Article, type: :model do
   context 'Public Methods', basic: true do
     subject { Article }
 
-    let!(:private_article) { create(:article, user: @user, visibility: 'only_me') }
+    let!(:private_article) { create(:article, user: @user, topic: @topic, visibility: 'only_me') }
 
     let!(:other_user) { create(:user) }
-    let!(:other_article) { create(:article, user: other_user) }
-
-    describe '::user_related' do
-      it { is_expected.to respond_to(:user_related) }
-    end
+    let!(:other_article) { create(:article, user: other_user, topic: @topic) }
 
     describe '::published' do
       it { is_expected.to respond_to(:published) }
@@ -282,12 +275,8 @@ RSpec.describe Article, type: :model do
       it { is_expected.to respond_to(:tags_to_topic) }
     end
 
-    describe '.add_bookmark' do
-      it { is_expected.to respond_to(:add_bookmark) }
-    end
-
-    describe '.remove_bookmark' do
-      it { is_expected.to respond_to(:remove_bookmark) }
+    describe '.bookmarked?' do
+      it { is_expected.to respond_to(:bookmarked?) }
     end
 
     describe '.mark_as_outdated' do

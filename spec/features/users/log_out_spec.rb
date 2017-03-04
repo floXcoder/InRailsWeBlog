@@ -1,10 +1,13 @@
-feature 'Log out', :devise do
+feature 'Log out', advanced: true do
 
-  scenario 'user logs out successfully', basic: true do
-    user = FactoryGirl.create(:user, :confirmed)
+  scenario 'user logs out successfully', advanced: true do
+    user = FactoryGirl.create(:user)
     login_with(user.email, user.password)
+
     expect(page).to have_content t('devise.sessions.signed_in')
-    click_link t('views.header.log_out')
+    within('ul#user-dropdown') do
+      click_link t('views.header.log_out')
+    end
     expect(page).to have_content t('devise.sessions.signed_out')
   end
 

@@ -6,7 +6,6 @@
 #  pseudo                 :string           default(""), not null
 #  first_name             :string           default("")
 #  last_name              :string           default("")
-#  age                    :integer          default(0)
 #  city                   :string           default("")
 #  country                :string           default("")
 #  additional_info        :string           default("")
@@ -43,7 +42,6 @@ class UserCompleteSerializer < ActiveModel::Serializer
              :email,
              :first_name,
              :last_name,
-             :age,
              :city,
              :country,
              :additional_info,

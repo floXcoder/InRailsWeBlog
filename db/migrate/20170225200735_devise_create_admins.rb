@@ -39,5 +39,6 @@ class DeviseCreateAdmins < ActiveRecord::Migration[5.0]
     add_index :admins, :email,                unique: true
     add_index :admins, :reset_password_token, unique: true
     add_index :admins, :unlock_token,         unique: true
+    add_index :admins, [:pseudo, :email]
   end
 end

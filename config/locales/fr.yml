@@ -142,6 +142,10 @@ fr:
         only_me: "Privé"
   topic:
     default_name: "Défaut"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
   email:
     hello: "Bonjour"
     contact:

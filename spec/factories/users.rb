@@ -72,7 +72,6 @@ FactoryGirl.define do
     trait :fake do
       first_name      { Faker::Name.first_name }
       last_name       { Faker::Name.last_name }
-      age             { Random.rand(20..80) }
       additional_info { Faker::Lorem.paragraph }
       city            { Faker::Address.city }
     end

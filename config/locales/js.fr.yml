@@ -43,7 +43,6 @@ fr:
         pseudo: "Pseudo"
         first_name: "Prénom"
         last_name: "Nom"
-        age: "Age"
         city: "Ville"
         country: "Pays"
         additional_info: "Informations personnelles"

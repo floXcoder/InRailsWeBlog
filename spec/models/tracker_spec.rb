@@ -81,9 +81,6 @@ RSpec.describe Tracker, type: :model do
   end
 
   context 'Instance Methods', basic: true do
-    describe '.bookmarks_count' do
-      it { is_expected.to respond_to(:bookmarks_count) }
-    end
   end
 
 end

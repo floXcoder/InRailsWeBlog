@@ -6,19 +6,14 @@ Faker::Config.locale = 'fr'
 class Populate
 
   def self.create_admin
-    FactoryGirl.create(:user,
-                       pseudo:                'Admin',
-                       email:                 'admin@inrailsweblog.com',
-                       admin:                 true,
+    FactoryGirl.create(:admin,
+                       :with_blog,
+                       pseudo:                ENV['WEBSITE_ADMIN_NAME'],
+                       email:                 ENV['WEBSITE_ADMIN_EMAIL'],
                        locale:                'fr',
-                       first_name:            'Admin',
-                       last_name:             'Administrator',
                        additional_info:       'Administrator',
-                       age:                   40,
-                       city:                  'Paris',
-                       country:               'France',
-                       password:              'admin4blog',
-                       password_confirmation: 'admin4blog')
+                       password:              ENV['WEBSITE_ADMIN_PASSWORD'],
+                       password_confirmation: ENV['WEBSITE_ADMIN_PASSWORD'])
   end
 
   def self.create_main_user
@@ -26,18 +21,27 @@ class Populate
                        pseudo:                ENV['WEBSITE_NAME'],
                        email:                 ENV['WEBSITE_EMAIL'],
                        locale:                'fr',
-                       first_name:            ENV['WEBSITE_NAME'],
-                       last_name:             ENV['WEBSITE_NAME'],
                        additional_info:       'Utilisateur principal',
-                       age:                   40,
                        city:                  'Paris',
                        country:               'France',
-                       password:              'InRailsWeBlog4InRailsWeBlog',
-                       password_confirmation: 'InRailsWeBlog4InRailsWeBlog')
+                       password:              ENV['WEBSITE_PASSWORD'],
+                       password_confirmation: ENV['WEBSITE_PASSWORD'])
   end
 
   def self.create_dummy_users(user_number)
-    users = FactoryGirl.create_list(:user, user_number, :faker)
+    users = []
+
+    User.transaction do
+      user_number.times do
+        users << FactoryGirl.create(:user,
+                                    locale:          'fr',
+                                    first_name:      Faker::Name.first_name,
+                                    last_name:       Faker::Name.last_name,
+                                    additional_info: Faker::Lorem.paragraph,
+                                    city:            Faker::Address.city,
+                                    phone_number:    Faker::PhoneNumber.phone_number)
+      end
+    end
 
     return users
   end
@@ -47,27 +51,14 @@ class Populate
 
     User.transaction do
       users.sample(user_number).each do |user|
-        user.create_picture(remote_image_url: Faker::Avatar.image(nil, '50x50'))
+        user.create_picture(user: user, remote_image_url: Faker::Avatar.image(nil, '50x50'))
       end
     end
   end
 
-  def self.create_dummy_groups(users, group_number)
-    # groups = Array.new(group_number)
-    # FactoryGirl.create_list(:group, group_number, captain: users.sample)
-
-    # teammates = users[200..210]
-    # teammates.each { |teammate| groups[0..9].each { |group| group.add_teammate(teammate) } }
-    # teammates = users[220..230]
-    # teammates.each { |teammate| groups[10..19].each { |group| group.add_teammate(teammate) } }
-    # teammates = users[240..250]
-    # teammates.each { |teammate| groups[20..29].each { |group| group.add_teammate(teammate) } }
-
-    # return groups
-  end
-
   def self.create_dummy_tags(user, tag_number)
     tags_name = []
+
     while tags_name.size < tag_number
       tags_name << [Faker::Hacker.adjective, Faker::Hacker.verb, Faker::Hacker.noun].sample
       tags_name.uniq!
@@ -75,9 +66,9 @@ class Populate
 
     tags = tag_number.times.map { |n|
       FactoryGirl.create(:tag,
-                         user: user,
+                         user:       user,
                          visibility: rand(0..1),
-                         name:   tags_name[n].mb_chars.capitalize.to_s
+                         name:       tags_name[n].mb_chars.capitalize.to_s
       )
     }
 
@@ -94,7 +85,7 @@ class Populate
       articles_number.times.map {
         articles << FactoryGirl.create(:article,
                                        :with_tag,
-                                       user:     user,
+                                       user:       user,
                                        topic:      Topic.find_by_id(user.current_topic_id),
                                        tags:       tags.sample(rand(1..3)),
                                        visibility: Article.visibilities.keys.sample
@@ -135,7 +126,6 @@ class Populate
         current_user = tag.user
         TaggedTopic.create(
           topic: current_user.current_topic,
-          user:  current_user,
           tag:   tag
         )
       end
@@ -173,7 +163,8 @@ class Populate
     Article.transaction do
       users.each do |user|
         articles.sample(rand(bookmark_number)).each do |article|
-          article.add_bookmark(user)
+          bookmark = user.bookmarks.build
+          bookmark.add(user, 'Article', article.id)
         end
       end
     end
@@ -182,7 +173,7 @@ class Populate
   def self.add_votes_for(articles, users, voted_articles)
     users = [users] if users.is_a?(User)
 
-    Article.transaction do
+    Bookmark.transaction do
       users.each do |user|
         articles.sample(rand(voted_articles)).each do |article|
           if rand(1..3) > 1
@@ -212,8 +203,6 @@ class Populate
       Article.all.each do |article|
         article.tracker.queries_count   = rand(1..100)
         article.tracker.searches_count  = rand(1..20)
-        article.tracker.comments_count  = article.comment_threads.count
-        article.tracker.bookmarks_count = article.user_bookmarks.count
         article.tracker.clicks_count    = rand(1..60)
         article.tracker.views_count     = rand(1..200)
         article.tracker.save
@@ -225,8 +214,6 @@ class Populate
     Tracker.transaction do
       User.all.each do |user|
         user.tracker.queries_count   = rand(1..100)
-        user.tracker.comments_count  = user.comments.count
-        user.tracker.bookmarks_count = user.bookmarks.count
         user.tracker.clicks_count    = rand(1..60)
         user.tracker.views_count     = rand(1..200)
         user.tracker.save

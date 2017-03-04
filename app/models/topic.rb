@@ -23,6 +23,10 @@
 class Topic < ApplicationRecord
 
   # == Attributes ===========================================================
+  include EnumsConcern
+  enum visibility: VISIBILITY
+  enums_to_tr('topic', [:visibility])
+
   # Strip whitespaces
   auto_strip_attributes :name, :color
 
@@ -88,11 +92,14 @@ class Topic < ApplicationRecord
             uniqueness: { scope:          :user_id,
                           case_sensitive: false,
                           message:        I18n.t('activerecord.errors.models.topic.already_exist') },
-            length:     { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length },
-            allow_nil:  false
+            length:     { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length }
 
   validates :description,
-            length: { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length }
+            length:    { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length },
+            allow_nil: true
+
+  validates :visibility,
+            presence: true
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
@@ -316,7 +323,7 @@ class Topic < ApplicationRecord
       name:        name,
       description: description,
       priority:    priority,
-      visibility:  visibility,
+      # visibility:  visibility,
       archived:    archived,
       accepted:    accepted,
       created_at:  created_at,

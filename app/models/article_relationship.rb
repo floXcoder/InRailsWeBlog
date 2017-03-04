@@ -30,10 +30,10 @@ class ArticleRelationship < ApplicationRecord
   validates :user,
             presence: true
 
-  validates :parent_id,
+  validates :parent,
             presence: true,
             on: :update
-  validates :child_id,
+  validates :child,
             presence: true,
             on: :update
 

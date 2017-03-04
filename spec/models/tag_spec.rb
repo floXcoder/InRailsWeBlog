@@ -29,13 +29,13 @@ RSpec.describe Tag, type: :model do
 
   before do
     @tag = Tag.create(
-      user:                @user,
+      user:                  @user,
       name:                  'Tag',
       description:           'Tag description',
       synonyms:              ['tagged'],
       color:                 'black',
       priority:              1,
-      visibility:            'everyone',
+      visibility:            'only_me',
       archived:              false,
       accepted:              true,
       tagged_articles_count: 0
@@ -64,16 +64,16 @@ RSpec.describe Tag, type: :model do
     it { expect(@tag.synonyms).to eq(['tagged']) }
     it { expect(@tag.color).to eq('black') }
     it { expect(@tag.priority).to eq(1) }
-    it { expect(@tag.visibility).to eq('everyone') }
+    it { expect(@tag.visibility).to eq('only_me') }
     it { expect(@tag.archived).to be false }
-    it { expect(@tag.accepted).to be false }
-    it { expect(@tag.outdated_articles_count).to eq(0) }
+    it { expect(@tag.accepted).to be true }
+    it { expect(@tag.tagged_articles_count).to eq(0) }
 
     describe 'Default Attributes', basic: true do
       before do
         @tag = Tag.create(
-          user:                @user,
-          name:                  'Tag'
+          user: @user,
+          name: 'Tag'
         )
       end
 
@@ -81,8 +81,8 @@ RSpec.describe Tag, type: :model do
       it { expect(@tag.priority).to eq(0) }
       it { expect(@tag.visibility).to eq('everyone') }
       it { expect(@tag.archived).to be false }
-      it { expect(@tag.accepted).to be false }
-      it { expect(@tag.outdated_articles_count).to eq(0) }
+      it { expect(@tag.accepted).to be true }
+      it { expect(@tag.tagged_articles_count).to eq(0) }
     end
 
     describe '#name' do
@@ -112,13 +112,12 @@ RSpec.describe Tag, type: :model do
 
     it { is_expected.to have_paper_trail(Tag) }
 
-    it { is_expected.to have_searh(Tag) }
+    it { is_expected.to have_search(Tag) }
   end
 
   context 'Associations', basic: true do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to validate_presence_of(:user) }
-    it { is_expected.to have_db_index(:user_id) }
 
     it { is_expected.to have_many(:tagged_topics) }
     it { is_expected.to have_many(:topics) }
@@ -126,7 +125,7 @@ RSpec.describe Tag, type: :model do
     it { is_expected.to have_many(:tagged_articles) }
     it { is_expected.to have_many(:articles) }
 
-    it { is_expected.to have_many(:tag_relationships) }
+    # it { is_expected.to have_many(:tag_relationships) }
 
     it { is_expected.to have_many(:parent_relationship) }
     it { is_expected.to have_many(:children) }
@@ -134,8 +133,8 @@ RSpec.describe Tag, type: :model do
     it { is_expected.to have_many(:child_relationship) }
     it { is_expected.to have_many(:parents) }
 
-    it { is_expected.to have_one(:pictures) }
-    it { is_expected.to accept_nested_attributes_for(:pictures) }
+    it { is_expected.to have_one(:picture) }
+    it { is_expected.to accept_nested_attributes_for(:picture) }
   end
 
   context 'Public Methods', basic: true do

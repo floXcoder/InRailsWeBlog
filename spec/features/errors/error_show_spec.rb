@@ -8,7 +8,7 @@ feature 'Error Show page', advanced: true do
 
   subject { error_page }
 
-  feature 'admin can see the page', advanced: true, js: true do
+  feature 'admin can see the page', js: true do
     it_behaves_like 'a valid page' do
       let(:content) {
         {

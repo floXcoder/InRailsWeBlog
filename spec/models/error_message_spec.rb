@@ -21,8 +21,6 @@
 #  updated_at    :datetime         not null
 #
 
-require 'rails_helper'
-
 RSpec.describe ErrorMessage, type: :model do
 
   before do

@@ -16,8 +16,8 @@ RSpec.describe ArticleRelationship, type: :model do
     @user  = create(:user)
     @topic = create(:topic, user: @user)
 
-    @parent_article = create(:article, user: @user)
-    @child_article  = create(:article, user: @user)
+    @parent_article = create(:article, user: @user, topic: @topic)
+    @child_article  = create(:article, user: @user, topic: @topic)
   end
 
   before do

@@ -62,13 +62,15 @@ RSpec.describe Topic, type: :model do
     it { expect(@topic.visibility).to eq('everyone') }
     it { expect(@topic.archived).to be false }
     it { expect(@topic.accepted).to be false }
-    it { expect(@topic.outdated_articles_count).to eq(0) }
+    it { expect(@topic.pictures_count).to eq(0) }
+    it { expect(@topic.articles_count).to eq(0) }
+    it { expect(@topic.bookmarks_count).to eq(0) }
 
     describe 'Default Attributes', basic: true do
       before do
         @topic = Topic.create(
-          topic: @user,
-          name:     'Topic'
+          user: @user,
+          name: 'Topic'
         )
       end
 
@@ -76,7 +78,9 @@ RSpec.describe Topic, type: :model do
       it { expect(@topic.visibility).to eq('everyone') }
       it { expect(@topic.archived).to be false }
       it { expect(@topic.accepted).to be false }
-      it { expect(@topic.outdated_articles_count).to eq(0) }
+      it { expect(@topic.pictures_count).to eq(0) }
+      it { expect(@topic.articles_count).to eq(0) }
+      it { expect(@topic.bookmarks_count).to eq(0) }
     end
 
     describe '#name' do
@@ -106,7 +110,7 @@ RSpec.describe Topic, type: :model do
 
     it { is_expected.to have_paper_trail(Topic) }
 
-    it { is_expected.to have_searh(Topic) }
+    it { is_expected.to have_search(Topic) }
   end
 
   context 'Associations', basic: true do
@@ -118,8 +122,8 @@ RSpec.describe Topic, type: :model do
 
     # it { is_expected.to have_many(:articles) }
 
-    it { is_expected.to have_one(:pictures) }
-    it { is_expected.to accept_nested_attributes_for(:pictures) }
+    it { is_expected.to have_one(:picture) }
+    it { is_expected.to accept_nested_attributes_for(:picture) }
   end
 
   context 'Public Methods', basic: true do

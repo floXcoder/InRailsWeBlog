@@ -1,10 +1,10 @@
 class CreateTagRelationships < ActiveRecord::Migration[5.0]
   def change
     create_table :tag_relationships do |t|
-      t.belongs_to  :user,    null: true,  index: false
+      t.belongs_to  :user,          null: true,   index: false
 
-      t.belongs_to  :parent,  null: false, index: false
-      t.belongs_to  :child,   null: false, index: false
+      t.belongs_to  :parent,        null: false,  index: false
+      t.belongs_to  :child,         null: false,  index: false
 
       t.string      :article_ids,   null: false,  array: true
 

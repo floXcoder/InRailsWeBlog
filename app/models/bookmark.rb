@@ -27,7 +27,7 @@ class Bookmark < ApplicationRecord
              counter_cache: true
 
   # == Validations ==========================================================
-  validates :user_id,
+  validates :user,
             presence: true
 
   validates :bookmarked_id,

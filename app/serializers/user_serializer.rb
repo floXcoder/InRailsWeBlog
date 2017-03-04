@@ -54,7 +54,6 @@ class UserSerializer < ActiveModel::Serializer
              :email,
              :first_name,
              :last_name,
-             :age,
              :city,
              :country,
              :additional_info,

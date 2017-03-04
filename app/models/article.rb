@@ -113,13 +113,13 @@ class Article < ApplicationRecord
            through: :outdated_articles,
            source:  :user
 
-  has_many :bookmarked,
+  has_many :bookmarks,
            as:          :bookmarked,
            class_name:  'Bookmark',
            foreign_key: 'bookmarked_id',
            dependent:   :destroy
   has_many :user_bookmarks,
-           through: :bookmarked,
+           through: :bookmarks,
            source:  :user
 
   has_many :follower,
@@ -147,6 +147,9 @@ class Article < ApplicationRecord
             presence: true,
             length:   { minimum: CONFIG.article_content_min_length, maximum: CONFIG.article_content_max_length }
   validates :notation, inclusion: CONFIG.notation_min..CONFIG.notation_max
+
+  validates :visibility,
+            presence: true
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {

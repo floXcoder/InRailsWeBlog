@@ -1,10 +1,13 @@
-feature 'User Unlock' do
+feature 'User Unlock', advanced: true do
+
+  background(:all) do
+    @user = create(:user, :confirmed, email: user_info[:email])
+  end
 
   given(:user_info) { {pseudo: 'Pseudo',
-                       email: 'test@example.com',
+                       email: 'test@locatipic.fr',
                        password: 'new_password'}
   }
-  given(:user) { FactoryGirl.create(:user, :confirmed, email: user_info[:email]) }
 
   given(:new_unlock_page) { UserPage.new(new_user_unlock_path) }
 
@@ -14,15 +17,16 @@ feature 'User Unlock' do
 
   subject { new_unlock_page }
 
-  feature 'New Unlock page', js: true, basic: true do
+  feature 'New Unlock page', js: true do
     it_behaves_like 'a valid page' do
       let(:content) {
         {
             current_page: new_unlock_page,
-            title: t('devise.unlocks.page_title'),
+            title: t('devise.unlocks.title'),
             stylesheet_name: 'users/new',
             javascript_name: 'users/password',
-            common_js: %w(commons common-user)
+            common_js: ['commons-full-page'],
+            full_page: true
         }
       }
     end

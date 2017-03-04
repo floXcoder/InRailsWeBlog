@@ -46,8 +46,6 @@
 #  locked_at              :datetime
 #
 
-require 'rails_helper'
-
 RSpec.describe User, type: :model do
 
   before do
@@ -62,13 +60,13 @@ RSpec.describe User, type: :model do
       country:               'My country',
       additional_info:       'My personal info',
       locale:                'fr',
-      birth_date:            Chronic.parse('yesterday 12:00'),
+      # birth_date:            Chronic.parse('yesterday 12:00'),
       street:                'street',
       postcode:              '33000',
       state:                 'state',
       mobile_number:         '0606060606',
       phone_number:          '0101010101',
-      settings:           {},
+      # settings:              {},
       pictures_count:        0,
       slug:                  'example_user'
     )
@@ -93,7 +91,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to respond_to(:locale) }
     it { is_expected.to respond_to(:settings) }
     it { is_expected.to respond_to(:pictures_count) }
-    it { is_expected.to respond_to(:external) }
+    # it { is_expected.to respond_to(:external) }
     it { is_expected.to respond_to(:birth_date) }
     it { is_expected.to respond_to(:street) }
     it { is_expected.to respond_to(:postcode) }
@@ -116,7 +114,7 @@ RSpec.describe User, type: :model do
     it { expect(@user.street).to eq('street') }
     it { expect(@user.postcode).to eq('33000') }
     it { expect(@user.state).to eq('state') }
-    it { expect(@user.settings).to eq({}) }
+    it { expect(@user.settings).to eq({ 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
     it { expect(@user.pictures_count).to eq(0) }
     # it { expect(@user.external).to be false }
 
@@ -132,7 +130,7 @@ RSpec.describe User, type: :model do
       end
 
       it { expect(@user.locale).to eq('fr') }
-      it { expect(@user.settings).to eq({}) }
+      it { expect(@user.settings).to eq({ 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
       it { expect(@user.pictures_count).to eq(0) }
       # TODO
       # it { expect(@user.settings).to be false }
@@ -194,7 +192,6 @@ RSpec.describe User, type: :model do
   end
 
   context 'Properties', basic: true do
-    it { is_expected.to callback(:set_settings).before(:create) }
     it { is_expected.to callback(:create_default_topic).after(:create) }
 
     it { is_expected.to have_friendly_id(:slug) }
@@ -212,11 +209,11 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:articles) }
     it { is_expected.to have_many(:draft_articles) }
 
-    it { is_expected.to have_many(:bookmarked_articles) }
+    # it { is_expected.to have_many(:bookmarked_articles) }
     it { is_expected.to have_many(:bookmarks) }
 
     it { is_expected.to have_many(:outdated_articles) }
-    it { is_expected.to have_one(:marked_as_outdated) }
+    # it { is_expected.to have_one(:marked_as_outdated) }
 
     it { is_expected.to have_many(:comments) }
 
@@ -279,8 +276,8 @@ RSpec.describe User, type: :model do
       it { is_expected.to respond_to(:current_topic) }
     end
 
-    describe '.change_current_topic' do
-      it { is_expected.to respond_to(:change_current_topic) }
+    describe '.switch_topic' do
+      it { is_expected.to respond_to(:switch_topic) }
     end
   end
 

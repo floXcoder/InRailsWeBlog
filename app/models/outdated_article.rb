@@ -23,9 +23,9 @@ class OutdatedArticle < ApplicationRecord
   belongs_to :user
 
   # == Validations ==========================================================
-  validates :article_id,
+  validates :article,
             presence: true
-  validates :user_id,
+  validates :user,
             presence: true
 
   validates_uniqueness_of :article_id, scope: :user_id, allow_nil: true

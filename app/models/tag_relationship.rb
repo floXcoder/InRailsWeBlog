@@ -31,8 +31,12 @@ class TagRelationship < ApplicationRecord
   validates :user,
             presence: true
 
-  validates :parent_id, presence: true, on: :update
-  validates :child_id, presence: true, on: :update
+  validates :parent,
+            presence: true,
+            on: :update
+  validates :child,
+            presence: true,
+            on: :update
 
   validates_uniqueness_of :parent_id, scope: [:user_id, :child_id], allow_nil: true
 

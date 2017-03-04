@@ -1,4 +1,4 @@
-feature 'Home page' do
+feature 'Home page', advanced: true do
 
   given(:homepage) { HomePage.new }
 
@@ -6,7 +6,7 @@ feature 'Home page' do
 
   subject { homepage }
 
-  feature 'Page', advanced: true, js: true do
+  feature 'Page', js: true do
     it_behaves_like 'a valid page' do
       let(:content) {
         {
@@ -23,7 +23,7 @@ feature 'Home page' do
     end
   end
 
-  feature 'Sidebar', js: true, basic: true do
+  feature 'Sidebar', js: true do
     scenario 'is displayed' do
       is_expected.to have_css('.col.s3.blog-sidebar')
     end

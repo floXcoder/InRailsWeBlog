@@ -4,7 +4,6 @@ RSpec::Matchers.define :act_as_tracked do |model|
     expect(actual).to accept_nested_attributes_for(:tracker)
     expect(actual).to callback(:create_tracker).after(:create)
 
-    expect(actual).to delegate_method(:comments_count).to(:tracker)
     expect(actual).to delegate_method(:popularity).to(:tracker)
     expect(actual).to delegate_method(:rank).to(:tracker)
     # expect(actual).to delegate_method(:rank=).to(:tracker)
@@ -14,9 +13,6 @@ RSpec::Matchers.define :act_as_tracked do |model|
     expect(actual).to respond_to(:tracked_name)
     expect(actual).to respond_to(:tracker_metrics)
 
-    expect(actual).to respond_to(:track_comments)
-    expect(actual).to respond_to(:untrack_comments)
-
     expect(model).to respond_to(:acts_as_tracked)
     expect(model).to respond_to(:track_searches)
     expect(model).to respond_to(:track_clicks)
@@ -24,7 +20,6 @@ RSpec::Matchers.define :act_as_tracked do |model|
 
     expect(model).to respond_to(:most_viewed)
     expect(model).to respond_to(:most_clicked)
-    expect(model).to respond_to(:most_commented)
     expect(model).to respond_to(:recently_tracked)
   end
 
