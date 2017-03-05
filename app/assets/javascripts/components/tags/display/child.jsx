@@ -1,12 +1,10 @@
 'use strict';
 
-import {ListItem} from 'material-ui/List';
-
 let ChildTag = ({tag, parentTagName, onClickTag}) => (
-    <ListItem className="tag-child"
-              value={tag.id}
-              primaryText={tag.name.toUpperCase()}
-              onClick={(event) => ChildTag._handleTagClick(tag.id, tag.name, parentTagName, onClickTag, event)}/>
+    <div className="tag-child"
+         onClick={ChildTag._handleTagClick.bind(null, tag.id, tag.name, parentTagName, onClickTag)}>
+        {tag.name.toUpperCase()}
+    </div>
 );
 
 ChildTag.propTypes = {

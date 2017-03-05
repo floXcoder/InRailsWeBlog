@@ -39,27 +39,27 @@ export default class ArticleEditionDisplay extends React.Component {
     //     }
     // }
 
-    _handleTagClick(tagName, event) {
+    _handleTagClick= (tagName, event) => {
         this.props.onTagClick(tagName, event);
-    }
+    };
 
-    _handleDeleteClick(event) {
+    _handleDeleteClick = (event) => {
         this.refs.editor.remove();
         ArticleActions.deleteArticle({id: this.props.article.id});
         this.props.setDefaultDisplay();
-    }
+    };
 
-    _handleCancelClick(event) {
+    _handleCancelClick = (event) => {
         this.refs.editor.remove();
         this.props.setDefaultDisplay();
-    }
+    };
 
-    _handleSaveClick(event) {
+    _handleSaveClick = (event) => {
         let content = this.refs.editor.serialize();
         ArticleActions.updateArticle({id: this.props.article.id, content: content});
         this.refs.editor.remove();
         this.props.setDefaultDisplay();
-    }
+    };
 
     render() {
         return (

@@ -28,13 +28,13 @@ export default class ArticleCommonField extends React.Component {
         this._editor = null;
     }
 
-    _handleEditorLoaded() {
+    _handleEditorLoaded = () => {
         if (this._title) {
             this._title.focus();
         }
-    }
+    };
 
-    _handleInputsChange(event) {
+    _handleInputsChange = (event) => {
         this.props.onInputsChange({
             titleLength: this._title.value().length,
             summaryLength: this._summary.value().length,
@@ -56,21 +56,21 @@ export default class ArticleCommonField extends React.Component {
         // }
 
         return event;
-    }
+    };
 
-    _onSummaryBlurred(event) {
+    _onSummaryBlurred = (event) => {
         if (this._editor) {
             this._editor.focus();
         }
 
         return event;
-    }
+    };
 
-    serialize() {
+    serialize = () => {
         if (this._editor) {
             this._editor.serialize();
         }
-    }
+    };
 
     render() {
         return (

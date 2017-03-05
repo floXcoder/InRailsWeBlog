@@ -19,13 +19,13 @@ export default class Suggestions extends React.Component {
         super(props);
     }
 
-    markIt(input, query) {
+    markIt = (input, query) => {
         var escapedRegex = query.trim().replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
         var r = new RegExp(escapedRegex, "gi");
         return {
             __html: input.replace(r, "<mark>$&</mark>")
         };
-    }
+    };
 
     render() {
         var suggestions = this.props.tags.map(( (item, i) => {

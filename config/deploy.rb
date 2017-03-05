@@ -77,7 +77,7 @@ namespace :assets do
     on roles(:web), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :npm, :run, 'deploy'
+          execute :yarn, :install, '--production'
         end
       end
     end

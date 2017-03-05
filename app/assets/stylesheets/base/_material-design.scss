@@ -1,8 +1,9 @@
+// Material icons
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url("#{$icons-font-path}MaterialIcons-Regular.eot"); /* For IE6-8 */
+  src: url("#{$icons-font-path}MaterialIcons-Regular.eot"); // For IE6-8
   src: local('Material Icons'),
   local('MaterialIcons-Regular'),
   url("#{$icons-font-path}MaterialIcons-Regular.woff2") format('woff2'),
@@ -14,7 +15,7 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px; /* Preferred icon size */
+  font-size: 24px; // Preferred icon size
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -25,18 +26,20 @@
   white-space: nowrap;
   direction: ltr;
 
-  /* Support for all WebKit browsers. */
+  // Support for all WebKit browsers.
   -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
+  // Support for Safari and Chrome.
   text-rendering: optimizeLegibility;
 
-  /* Support for Firefox. */
+  // Support for Firefox.
   -moz-osx-font-smoothing: grayscale;
 
-  /* Support for IE. */
+  // Support for IE.
   font-feature-settings: 'liga';
 }
 
+
+// Roboto font
 @font-face {
   font-family: Roboto;
   src: local('roboto'), local("roboto-thin"), url("#{$roboto-font-path}Roboto-Thin.woff2") format('woff2'), url("#{$roboto-font-path}Roboto-Thin.woff") format("woff"), url("#{$roboto-font-path}Roboto-Thin.ttf") format('truetype');

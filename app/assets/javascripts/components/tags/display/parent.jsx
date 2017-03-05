@@ -1,7 +1,5 @@
 'use strict';
 
-import {ListItem} from 'material-ui/List';
-
 import ChildTag from './child';
 
 let ParentTag = ({filteredTags, parentTag, isFiltered, onClickTag}) => {
@@ -18,12 +16,11 @@ let ParentTag = ({filteredTags, parentTag, isFiltered, onClickTag}) => {
     });
 
     return (
-        <ListItem className="tag-parent"
-                  value={parentTag.id}
-                  primaryText={parentTag.name.toUpperCase()}
-                  initiallyOpen={isFiltered}
-                  onClick={(event) => ParentTag._handleTagClick(parentTag.id, parentTag.name, null, onClickTag, event)}
-                  nestedItems={childItem}/>
+        <div className="tag-parent"
+             onClick={ParentTag._handleTagClick.bind(null, parentTag.id, parentTag.name, null, onClickTag)}>
+            {parentTag.name.toUpperCase()}
+            {childItem}
+        </div>
     );
 };
 

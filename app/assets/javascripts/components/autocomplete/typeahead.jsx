@@ -107,7 +107,7 @@ export default class Typeahead extends React.Component {
         selectionIndex: null
     };
 
-    getOptionsForValue(value, options) {
+    getOptionsForValue = (value, options) => {
         if (!SHOULD_SEARCH_VALUE(value)) {
             return [];
         }
@@ -117,38 +117,38 @@ export default class Typeahead extends React.Component {
             result = result.slice(0, this.props.maxVisible);
         }
         return result;
-    }
+    };
 
-    setEntryText(value) {
+    setEntryText = (value) => {
         this.refs.entry.value = value;
         this._onTextEntryUpdated();
-    }
+    };
 
-    getEntryText() {
+    getEntryText = () => {
         return this.refs.entry.value;
-    }
+    };
 
-    focus() {
+    focus = () => {
         React.findDOMNode(this.refs.entry).focus()
-    }
+    };
 
-    _hasCustomValue() {
+    _hasCustomValue = () => {
         if (this.props.allowCustomValues > 0 &&
             this.state.entryValue.length >= this.props.allowCustomValues &&
             this.state.visible.indexOf(this.state.entryValue) < 0) {
             return true;
         }
         return false;
-    }
+    };
 
-    _getCustomValue() {
+    _getCustomValue = () => {
         if (this._hasCustomValue()) {
             return this.state.entryValue;
         }
         return null;
-    }
+    };
 
-    _renderIncrementalSearchResults() {
+    _renderIncrementalSearchResults = () => {
         // Nothing has been entered into the textbox
         if (!this.state.entryValue) {
             return null;
@@ -170,9 +170,9 @@ export default class Typeahead extends React.Component {
                 displayOption: this._generateOptionToStringFor(this.props.displayOption)
             })
         );
-    }
+    };
 
-    getSelection() {
+    getSelection = () => {
         var index = this.state.selectionIndex;
         if (this._hasCustomValue()) {
             if (index === 0) {
@@ -182,9 +182,9 @@ export default class Typeahead extends React.Component {
             }
         }
         return this.state.visible[index];
-    }
+    };
 
-    _onOptionSelected(option, event) {
+    _onOptionSelected = (option, event) => {
         var nEntry = this.refs.entry;
         nEntry.focus();
 
@@ -207,32 +207,32 @@ export default class Typeahead extends React.Component {
             entryValue: optionString
         });
         return this.props.onOptionSelected(option, event);
-    }
+    };
 
-    _onTextEntryUpdated() {
+    _onTextEntryUpdated = () => {
         var value = this.refs.entry.value;
         this.setState({
             visible: this.getOptionsForValue(value, this.props.options),
             selection: null,
             entryValue: value
         });
-    }
+    };
 
-    _onEnter(event) {
+    _onEnter = (event) => {
         var selection = this.getSelection();
         if (!selection) {
             return this.props.onKeyDown(event);
         }
         return this._onOptionSelected(selection, event);
-    }
+    };
 
-    _onEscape() {
+    _onEscape = () => {
         this.setState({
             selectionIndex: null
         });
-    }
+    };
 
-    _onTab(event) {
+    _onTab = (event) => {
         var selection = this.getSelection();
         var option = selection ?
             selection : (this.state.visible.length > 0 ? this.state.visible[0] : null);
@@ -244,9 +244,9 @@ export default class Typeahead extends React.Component {
         if (option !== null) {
             return this._onOptionSelected(option, event);
         }
-    }
+    };
 
-    eventMap(event) {
+    eventMap = (event) => {
         var events = {};
 
         events[KeyEvent.DOM_VK_UP] = this.navUp;
@@ -256,9 +256,9 @@ export default class Typeahead extends React.Component {
         events[KeyEvent.DOM_VK_TAB] = this._onTab;
 
         return events;
-    }
+    };
 
-    _nav(delta) {
+    _nav = (delta) => {
         if (!this._hasHint()) {
             return;
         }
@@ -275,25 +275,25 @@ export default class Typeahead extends React.Component {
         }
 
         this.setState({selectionIndex: newIndex});
-    }
+    };
 
-    navDown() {
+    navDown = () => {
         this._nav(1);
-    }
+    };
 
-    navUp() {
+    navUp = () => {
         this._nav(-1);
-    }
+    };
 
-    _onChange(event) {
+    _onChange = (event) => {
         if (this.props.onChange) {
             this.props.onChange(event);
         }
 
         this._onTextEntryUpdated();
-    }
+    };
 
-    _onKeyDown(event) {
+    _onKeyDown = (event) => {
         // If there are no visible elements, don't perform selector navigation.
         // Just pass this up to the upstream onKeydown handler.
         // Also skip if the user is pressing the shift key, since none of our handlers are looking for shift
@@ -310,7 +310,7 @@ export default class Typeahead extends React.Component {
         }
         // Don't propagate the keystroke back to the DOM/browser
         event.preventDefault();
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -353,7 +353,7 @@ export default class Typeahead extends React.Component {
         );
     }
 
-    _renderHiddenInput() {
+    _renderHiddenInput = () => {
         if (!this.props.name) {
             return null;
         }
@@ -366,9 +366,9 @@ export default class Typeahead extends React.Component {
                 }
             )
         );
-    }
+    };
 
-    _generateFilterFunction() {
+    _generateFilterFunction = () => {
         var filterOptionProp = this.props.filterOption;
         if (typeof filterOptionProp === 'function') {
             return function (value, options) {
@@ -391,9 +391,9 @@ export default class Typeahead extends React.Component {
                     });
             };
         }
-    }
+    };
 
-    _generateOptionToStringFor(prop) {
+    _generateOptionToStringFor = (prop) => {
         if (typeof prop === 'string') {
             return _generateAccessor(prop);
         } else if (typeof prop === 'function') {
@@ -401,9 +401,9 @@ export default class Typeahead extends React.Component {
         } else {
             return IDENTITY_FN;
         }
-    }
+    };
 
-    _hasHint() {
+    _hasHint = () => {
         return this.state.visible.length > 0 || this._hasCustomValue();
     }
 }

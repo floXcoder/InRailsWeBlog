@@ -62,25 +62,25 @@ export default class UserComplete extends Reflux.Component {
         $('.tooltipped').tooltip({delay: 50});
     }
 
-    _loadArticles(userId, data = {}) {
+    _loadArticles = (userId, data = {}) => {
         ArticleActions.loadArticles({
             userId: userId,
             page: data.page || 1,
             summary: true
         });
-    }
+    };
 
-    _loadComments(userId, data = {}) {
+    _loadComments = (userId, data = {}) => {
         UserActions.loadUserComments(userId, {
             page: data.page || 1
         });
-    }
+    };
 
-    _loadActivities(userId, data = {}) {
+    _loadActivities = (userId, data = {}) => {
         UserActions.loadUserActivities(userId, {
             page: data.page || 1
         });
-    }
+    };
 
     onUserChange(userData) {
         if ($.isEmpty(userData)) {
@@ -123,7 +123,7 @@ export default class UserComplete extends Reflux.Component {
         }
     }
 
-    _onAdminChange(newAdminState) {
+    _onAdminChange = (newAdminState) => {
         if ($app.user.isAdmin()) {
             UserActions.updateUser({
                 id: this.state.user.id,
@@ -131,7 +131,7 @@ export default class UserComplete extends Reflux.Component {
                 completeUser: true
             });
         }
-    }
+    };
 
     render() {
         return (

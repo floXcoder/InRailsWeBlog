@@ -9,7 +9,7 @@ import ArticleStore from '../../stores/articleStore';
 import ArticleListDisplay from './display/list';
 import ArticleNone from '../../components/articles/display/none';
 
-export default class ArticleIndex extends React.Component {
+export default class ArticleIndex extends Reflux.Component {
     static propTypes = {
         // Populate by react-router
         params: React.PropTypes.object
@@ -49,7 +49,7 @@ export default class ArticleIndex extends React.Component {
         this._activateTooltip();
     }
 
-    _activateTooltip() {
+    _activateTooltip = () => {
         let $currentElement = $(ReactDOM.findDOMNode(this).className);
         $currentElement.ready(() => {
             $currentElement.find('.tooltipped').tooltip({
@@ -57,9 +57,9 @@ export default class ArticleIndex extends React.Component {
                 delay: 50
             });
         });
-    }
+    };
 
-    onPreferenceChange(userData) {
+    onPreferenceChange = (userData) => {
         let newState = {};
 
         if (!$.isEmpty(userData.settings) && userData.settings.article_display) {
@@ -73,7 +73,7 @@ export default class ArticleIndex extends React.Component {
         if (!$.isEmpty(newState)) {
             this.setState(newState);
         }
-    }
+    };
 
     onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {

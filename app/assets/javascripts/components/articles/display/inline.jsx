@@ -24,7 +24,7 @@ export default class ArticleInlineDisplay extends React.Component {
         this._highlightCode();
     }
 
-    _highlightCode() {
+    _highlightCode = () => {
         let domNode = ReactDOM.findDOMNode(this);
         let nodes = domNode.querySelectorAll('pre code');
         if (nodes.length > 0) {
@@ -32,7 +32,7 @@ export default class ArticleInlineDisplay extends React.Component {
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
-    }
+    };
 
     render() {
         return (

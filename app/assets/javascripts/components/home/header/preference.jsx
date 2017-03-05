@@ -1,13 +1,11 @@
 'use strict';
 
-import {FlatButton, FontIcon} from 'material-ui';
-
 const HomePreferenceHeader = ({onPreferenceClick}) => (
-    <FlatButton label={I18n.t('js.header.settings.button')}
-                className="header-button"
-                secondary={true}
-                icon={<FontIcon className="material-icons">view_modules</FontIcon>}
-                onTouchTap={(event) => HomePreferenceHeader._handlePreferenceClick(onPreferenceClick, event)}/>
+    <div className="btn header-button"
+         href="#"
+         onClick={HomePreferenceHeader._handlePreferenceClick.bind(null, onPreferenceClick)}>
+        {I18n.t('js.views.header.settings.button')}
+    </div>
 );
 
 HomePreferenceHeader.propTypes = {

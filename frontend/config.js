@@ -6,23 +6,23 @@ const frontendDir = './node_modules';
 module.exports = {
     webpack: {
         context: './app/assets/javascripts',
-        entries: {
+        entry: {
             ie8: ['./modules/ie8.js'],
             ie9: ['./modules/ie9.js'],
             home: ['./pages/home/home.jsx'],
             'users/show': ['./pages/users/show.jsx'],
-            'users/edit': ['./pages/users/edit.js'],
-            'users/login': ['./pages/users/login.js'],
-            'users/signup': ['./pages/users/signup.js'],
-            'users/password': ['./pages/users/password.js'],
+            'users/edit': ['./pages/users/edit.jsx'],
+            'users/login': ['./pages/users/login.jsx'],
+            'users/signup': ['./pages/users/signup.jsx'],
+            'users/password': ['./pages/users/password.jsx'],
             'articles/show': ['./pages/articles/show.jsx'],
             'articles/edit': ['./pages/articles/edit.jsx'],
             'tags/show': ['./pages/tags/show.jsx'],
             'errors/error': ['./pages/errors/error.jsx'],
-            'admin/dashboard': ['./pages/admin/dashboard.jsx'],
-            'admin/users/index': ['./pages/admin/users/index.jsx'],
-            'admin/users/show': ['./pages/admin/users/show.jsx'],
-            'admin/errors': ['./pages/admin/errors.jsx']
+            // 'admin/dashboard': ['./pages/admin/dashboard.jsx'],
+            // 'admin/users/index': ['./pages/admin/managers/index.jsx'],
+            // 'admin/users/show': ['./pages/admin/managers/show.jsx'],
+            // 'admin/errors': ['./pages/admin/managers/errors.jsx']
         },
 
         commons: [
@@ -54,6 +54,15 @@ module.exports = {
         output: {
             path: './public/assets',
             publicPath: '/assets/'
+        },
+        development: {
+            filename: '[name].js',
+            commonFilename: '.js'
+        },
+        production: {
+            filename: '[name]-[chunkhash].js',
+            commonFilename: '-[chunkhash].js',
+            manifestFilename: 'rev-manifest.json'
         },
         modules: {
             includes: [
@@ -94,15 +103,6 @@ module.exports = {
             Reflux: 'reflux',
             classNames: 'classnames',
             Promise: 'promise-polyfill'
-        },
-        development: {
-            filename: '[name].js',
-            commonFilename: '.js'
-        },
-        production: {
-            filename: '[name]-[chunkhash].js',
-            commonFilename: '-[chunkhash].js',
-            manifestFilename: 'rev-manifest.json'
         }
     },
     browserSync: {
@@ -168,5 +168,11 @@ module.exports = {
         publicDir + '/fonts',
         publicDir + '/assets',
         publicDir + 'rev-manifest.json'
-    ]
+    ],
+
+    // devServer: {
+    //     contentBase: path.resolve('./public/assets'),
+    //     publicPath: 'http://localhost:8080/assets/',
+    //     hot: true
+    // }
 };

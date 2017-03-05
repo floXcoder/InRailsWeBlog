@@ -1,9 +1,9 @@
 @import 'highlight.js/styles/zenburn';
 @import 'codemirror/lib/codemirror';
-@import 'modules/wysiwyg/summernote';
-@import 'modules/components/tagsinput';
-@import 'modules/animation/article';
-@import 'modules/components/categorized-tag';
+@import 'shared/summernote';
+@import 'shared/components/tagsinput';
+@import 'shared/animation/article';
+@import 'shared/components/categorized-tag';
 
 .blog {
   .article-form-header {
@@ -66,7 +66,7 @@
       }
 
       a {
-        color: $text-color-base;
+        color: $primary-color;
         &:hover {
           color: #546e7a;
         }
@@ -94,8 +94,8 @@
       }
 
       a {
-        color: $card-link-color;
-        margin-right: $card-padding;
+        color: $primary-color;
+        //margin-right: $card-padding;
         transition: color .3s ease;
       }
 

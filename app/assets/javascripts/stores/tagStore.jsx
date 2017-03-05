@@ -1,5 +1,6 @@
 'use strict';
 
+import mix from '../mixins/mixin';
 import Errors from '../mixins/errors';
 import Tracker from '../mixins/tracker';
 

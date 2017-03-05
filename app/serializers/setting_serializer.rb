@@ -1,5 +1,5 @@
 class SettingSerializer < ActiveModel::Serializer
-  cache key: 'preference', expires_in: 12.hours
+  cache key: 'settings', expires_in: 12.hours
 
   attributes :article_display,
              :search_operator,

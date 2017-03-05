@@ -15,18 +15,20 @@ import TagEdit from '../../components/tags/edit';
 import UserShow from '../../components/users/show';
 import UserEdit from '../../components/users/edit';
 
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import {
+    BrowserRouter as Router,
+    Route
+} from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory'
 
-ReactDOM.render(
+const browserHistory = createBrowserHistory();
+
+const Home = ({}) => (
     <Router history={browserHistory}>
         <Route path="/"
                component={HomePage}>
 
-            <IndexRoute component={ArticleIndex}/>
-
             <Route path="article">
-                <IndexRoute component={ArticleIndex}/>
-
                 <Route path="tags/:tagName"
                        component={ArticleIndex}/>
 
@@ -66,4 +68,9 @@ ReactDOM.render(
             </Route>
         </Route>
     </Router>
-    , document.getElementById('app-component'));
+);
+
+ReactDOM.render(
+    <Home />,
+    document.getElementById('app-component')
+);

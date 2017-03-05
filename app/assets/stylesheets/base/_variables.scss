@@ -1,0 +1,110 @@
+// Path
+// ------------------------------------
+$open-sans-font-path: '/assets/fonts/open-sans';
+$roboto-font-path: '/assets/fonts/roboto/';
+$icons-font-path: '/assets/fonts/';
+
+// Colors
+// ------------------------------------
+// Base colors
+$transparency-color: .5;
+
+$matisse-color: #1a7c96;
+$matisse-color-transparent: rgba(26, 124, 150, $transparency-color);
+$fountain-color: #49b6a9;
+$fountain-color-transparent: rgba(73, 182, 169, $transparency-color);
+$citron-color: #9ac31b;
+$citron-color-transparent: rgba(154, 195, 27, $transparency-color);
+
+//$text-color-base: rgba(0, 0, 0, .87);
+//$color-base: #37474f;
+//$color-hover: #2980b9;
+//$color-additional: #455a64;
+//$color-transparent: rgba(52, 152, 219, .3);
+//$color-bg: #fff;
+
+// Ride and Shop properties
+// ------------------------------------
+$ride-color: $matisse-color;
+$ride-color-background: $matisse-color-transparent;
+
+$shop-color: $citron-color;
+$shop-color-background: $citron-color-transparent;
+
+$product-color: $citron-color;
+$product-color-background: $citron-color-transparent;
+
+// Mapbox
+// ------------------------------------
+$map-height: 70vh;
+
+// Materialize theme
+// ------------------------------------
+
+// Colors
+$text-color: #5f5f5f;
+$background-color: #fffffa;
+
+$off-black: $text-color;
+
+$primary-color: $matisse-color !default;
+$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-dark: darken($primary-color, 15%) !default;
+
+$secondary-color: #5f5f5f !default;
+$success-color: #4caf50 !default;
+$error-color: #ef5350 !default;
+$link-color: #03a9f4 !default;
+
+// Media Query Ranges
+$small-screen-up: 601px;
+$medium-screen-up: 993px;
+$large-screen-up: 1201px;
+$small-screen: 600px;
+$medium-screen: 992px;
+$large-screen: 1200px;
+
+$medium-and-up: "only screen and (min-width: #{$small-screen-up})";
+$large-and-up: "only screen and (min-width: #{$medium-screen-up})";
+$small-and-down: "only screen and (max-width: #{$small-screen})";
+$medium-and-down: "only screen and (max-width: #{$medium-screen})";
+$medium-only: "only screen and (min-width: #{$small-screen-up}) and (max-width: #{$medium-screen})";
+
+$large-and-down: "only screen and (max-width: #{$large-screen})";
+$extra-large-and-up: "only screen and (min-width: #{$large-screen})";
+$large-only: "only screen and (min-width: #{$medium-screen}) and (max-width: #{$large-screen})";
+
+$input-disabled-color: rgba(0, 0, 0, .46);
+$input-border-color: $secondary-color;
+
+// Flow title
+$range: $large-screen - $small-screen;
+$intervals: 20;
+$interval-size: $range / $intervals;
+
+// Grid
+$num-cols: 12;
+
+// Buttons
+$button-raised-background-hover: $primary-color;
+
+// Mixins
+// ------------------------------------
+@mixin bordered-item($color) {
+  display: inline-block;
+  border: 2px $color solid;
+  border-radius: 18px;
+  margin: 6px;
+  padding: 2px 11px 4px;
+}
+
+// Special style colors
+// ------------------------------------
+$secret-color: #ffab91;
+$advice-color: #81d4fa;
+$deadend-color: #bcaaa4;
+@mixin special-style($color) {
+  background-color: $color;
+  box-shadow: 0 0 4px $color;
+  padding-left: 10px;
+}

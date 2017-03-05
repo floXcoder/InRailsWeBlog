@@ -2,7 +2,7 @@
 
 import UserStore from '../../../stores/userStore';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 const UserAvatarIcon = ({user, className}) => (
     <Link className={className}

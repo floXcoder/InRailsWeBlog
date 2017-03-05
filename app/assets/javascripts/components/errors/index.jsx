@@ -21,11 +21,11 @@ export default class ErrorIndex extends Reflux.Component {
     componentDidMount() {
     }
 
-    onErrorChange(errors) {
+    onErrorChange = (errors) => {
         this.setState({errors: errors.error_messages});
-    }
+    };
 
-    _renderOriginIcon(error) {
+    _renderOriginIcon = (error) => {
         if (error.origin === 'communication') {
             return (<i className="material-icons blue-text text-darken-4">compare_arrows</i>);
         } else if (error.origin === 'client') {
@@ -33,7 +33,7 @@ export default class ErrorIndex extends Reflux.Component {
         } else {
             return (<i className="material-icons blue-text text-darken-4">desktop_windows</i>);
         }
-    }
+    };
 
     render() {
         //:params, :user_agent, :user_info, :ip

@@ -52,12 +52,12 @@ export default class ReactTags extends React.Component {
         }
     }
 
-    handleDelete(i, event) {
+    handleDelete = (i, event) => {
         this.props.handleDelete(i);
         this.setState({query: ''});
-    }
+    };
 
-    _handleInputChange(event) {
+    _handleInputChange = (event) => {
         var query = event.target.value.trim();
         var suggestions = this.props.tagList.filter((item) => {
             if (this.props.labelField) {
@@ -71,9 +71,9 @@ export default class ReactTags extends React.Component {
             query: query,
             tagList: suggestions
         });
-    }
+    };
 
-    _handleKeyDown(event) {
+    _handleKeyDown = (event) => {
         let query = this.state.query;
         let tags = this.state.tagList;
 
@@ -128,9 +128,9 @@ export default class ReactTags extends React.Component {
                 selectionMode: true
             });
         }
-    }
+    };
 
-    addTag(tag) {
+    addTag = (tag) => {
         var input = this.refs.input;
 
         // call method to add
@@ -146,18 +146,18 @@ export default class ReactTags extends React.Component {
         // focus back on the input box
         input.value = '';
         input.focus();
-    }
+    };
 
-    _handleSuggestionClick(index, event) {
+    _handleSuggestionClick = (index, event) => {
         this.addTag(this.state.tagList[index]);
-    }
+    };
 
-    _handleSuggestionHover(index, event) {
+    _handleSuggestionHover = (index, event) => {
         this.setState({
             selectedIndex: index,
             selectionMode: true
         });
-    }
+    };
 
     render() {
         // get the tags for the given query

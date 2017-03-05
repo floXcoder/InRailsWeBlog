@@ -30,9 +30,9 @@ export default class TypeaheadSelector extends React.Component {
         super(props);
     }
 
-    _handleItemClick(result, event) {
+    _handleItemClick = (result, event) => {
         return this.props.onOptionSelected(result, event);
-    }
+    };
 
     render() {
         let classes = {

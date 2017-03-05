@@ -234,9 +234,9 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
             });
     }
 
-    onUpdatePreference(data) {
+    onUpdateSettings(data) {
         if ($.isEmpty(data)) {
-            log.error('Tried to change user preference without data');
+            log.error('Tried to change user settings without data');
             return;
         }
 
@@ -270,7 +270,7 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
                 }
 
                 this.trigger({
-                    type: 'updateUserPreference',
+                    type: 'updateUserSettings',
                     settings: dataReceived.settings
                 });
 

@@ -14,7 +14,7 @@ export default class AssociatedTagList extends React.Component {
         super(props);
     }
 
-    _handleTagClick(tagId, event) {
+    _handleTagClick = (tagId, event) => {
         event.preventDefault();
 
         let classByTag = this.state.classByTag;
@@ -22,7 +22,7 @@ export default class AssociatedTagList extends React.Component {
         this.setState({classByTag: classByTag});
 
         this.props.onClickTag(tagId, !classByTag[tagId]);
-    }
+    };
 
     render() {
         return (

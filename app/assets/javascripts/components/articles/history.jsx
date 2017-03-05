@@ -21,14 +21,14 @@ export default class ArticleHistory extends React.Component {
         $('.blog-article-history.collapsible').collapsible();
     }
 
-    _handleRestoreClick(articleId, versionId) {
+    _handleRestoreClick = (articleId, versionId) => {
         let articleToRestore = {
             articleId: articleId,
             versionId: versionId
         };
 
         ArticleActions.restoreArticle({restore: articleToRestore});
-    }
+    };
 
     render() {
         if (this.props.articleVersions.length > 0) {

@@ -5,8 +5,8 @@ import ArticleStore from '../../stores/articleStore';
 
 import ArticleFormDisplay from './display/form';
 
-require('../../modules/validation');
-require('jquery-serializejson');
+import '../../modules/validation';
+import 'jquery-serializejson';
 
 export default class ArticleEdit extends Reflux.Component {
     static propTypes = {
@@ -73,16 +73,16 @@ export default class ArticleEdit extends Reflux.Component {
         }
     }
 
-    _onCancel() {
+    _onCancel = () => {
         if (this.state.article) {
             this.context.router.push(`/article/${this.state.article.id}`);
         } else {
             this.context.router.push('/');
         }
         return true;
-    }
+    };
 
-    _handleArticleSubmit() {
+    _handleArticleSubmit = () => {
         const $articleForm = $('#article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '' ));
 
         const validator = $articleForm.parsley();
@@ -98,7 +98,7 @@ export default class ArticleEdit extends Reflux.Component {
         ArticleActions.updateArticle(currentArticle);
 
         return true;
-    }
+    };
 
     render() {
         const articleFormId = 'article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '' );

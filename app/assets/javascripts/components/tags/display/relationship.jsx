@@ -30,7 +30,7 @@ export default class IndexTagList extends React.Component {
     componentDidUpdate() {
     }
 
-    _handleTagClick(tagId, parentTagName, childTagName) {
+    _handleTagClick = (tagId, parentTagName, childTagName) => {
         TagStore.onTrackClick(tagId);
 
         let params = {};
@@ -45,7 +45,7 @@ export default class IndexTagList extends React.Component {
         ArticleActions.loadArticles(params);
 
         return true;
-    }
+    };
 
     render() {
         let tags = _.keyBy(this.props.tags, 'id');

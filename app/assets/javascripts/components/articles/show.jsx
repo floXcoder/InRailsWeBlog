@@ -10,7 +10,6 @@ import ArticleActions from '../../actions/articleActions';
 import ArticleStore from '../../stores/articleStore';
 import ArticleHistory from './history';
 import CountCommentIcon from '../comments/icons/count';
-import ArticleLinkIcon from './icons/link';
 import ArticleOutdatedIcon from './icons/outdated';
 import ArticleVisibilityIcon from './icons/visibility';
 import ArticleBookmarkIcon from './icons/bookmark';
@@ -23,8 +22,7 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import CommentBox from '../comments/box';
 
-
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 export default class ArticleShow extends Reflux.Component {
     static propTypes = {
@@ -110,7 +108,7 @@ export default class ArticleShow extends Reflux.Component {
         }
     }
 
-    _highlightCode() {
+    _highlightCode = () => {
         if (!this.state.article) {
             return;
         }
@@ -122,39 +120,39 @@ export default class ArticleShow extends Reflux.Component {
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
-    }
+    };
 
-    _handleUserClick(userId, event) {
+    _handleUserClick = (userId, event) => {
         UserStore.onTrackClick(userId);
         return event;
-    }
+    };
 
-    _handleHistoryClick() {
+    _handleHistoryClick = () => {
         if (this.state.isHistoryDisplayed) {
             this.setState({isHistoryDisplayed: false});
         } else {
             ArticleActions.loadArticleHistory({history: this.state.article.id});
         }
-    }
+    };
 
-    _handleDeleteClick(event) {
+    _handleDeleteClick = (event) => {
         event.preventDefault();
         if (this.state.article) {
             ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
         }
-    }
+    };
 
-    _handleBookmarkClick(articleId, isBookmarked) {
+    _handleBookmarkClick = (articleId, isBookmarked) => {
         ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
-    }
+    };
 
-    _handleVoteClick(articleId, isUp) {
+    _handleVoteClick = (articleId, isUp) => {
         ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
-    }
+    };
 
-    _handleOutdatedClick(articleId, isOutdated) {
+    _handleOutdatedClick = (articleId, isOutdated) => {
         ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
-    }
+    };
 
     render() {
         if (this.state.article) {

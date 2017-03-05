@@ -1,5 +1,9 @@
-@import 'modules/variables';
-@import 'modules/utilities';
+@import 'base/variables';
+@import 'base/materialize';
+//@import 'base/sprites';
+@import 'base/utilities';
+@import 'base/open-sans';
+@import 'base/typography';
 
 @import 'shared/article';
 @import 'shared/comment';
@@ -7,9 +11,120 @@
 @import 'shared/user';
 @import 'shared/search';
 
-@import 'modules/components/single-timeline';
-@import 'modules/components/double-timeline';
-@import 'modules/components/selectize';
+//@import 'shared/components/notification';
+@import 'shared/components/rating';
+@import 'shared/components/single-timeline';
+@import 'shared/components/double-timeline';
+@import 'shared/components/selectize';
+
+// Global font
+html {
+  color: $text-color;
+  font-family: "Open Sans", sans-serif;
+  font-weight: normal;
+}
+
+// Notifications
+.notification-container {
+  z-index: 1005;
+}
+
+// New messages
+.notification-messages {
+  background-color: $primary-color;
+  border-radius: 50%;
+  color: #fff;
+  display: inline;
+  font-size: .9rem;
+  font-weight: 700;
+  height: 1.8rem;
+  line-height: 1.8rem;
+  position: absolute;
+  right: 5%;
+  text-align: center;
+  top: 10%;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 1.8rem;
+}
+
+.notification-messages-dropdown {
+  background-color: $primary-color;
+  border-radius: 50%;
+  color: #fff;
+  display: inline;
+  font-size: .8rem;
+  font-weight: 700;
+  height: 1.8rem;
+  line-height: 1.8rem;
+  margin-left: 12px;
+  padding: 4px 6px 4px 8px;
+  text-align: right;
+  top: 10%;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 1.8rem;
+
+  @media #{$medium-and-down} {
+    font-size: .8rem;
+    padding: 3px 5px;
+  }
+}
+
+// Cookies
+.cookies-message {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+  bottom: 0;
+  color: #999;
+  font-size: 1rem;
+  left: 0;
+  margin: 0;
+  padding: 15px 30px;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+
+  @media #{$medium-and-down} {
+    padding: 15px;
+  }
+
+  .cookies-more {
+    border-bottom: 1px dashed #999;
+    color: #999;
+  }
+
+  .cookies-button {
+    background-color: rgb(153, 153, 153);
+    color: #fff;
+    margin-left: 15px;
+    padding: 3px;
+    text-align: right;
+  }
+}
+
+// Icon from sprites and Missing icons
+//.icon-sprite {
+//  display: inline-block;
+//  vertical-align: middle;
+//
+//  &.icon-facebook {
+//    @include sprite($icon-facebook);
+//
+//    &.active {
+//      @include sprite($icon-facebook-citron);
+//    }
+//  }
+//
+//  &.icon-twitter {
+//    @include sprite($icon-twitter);
+//
+//    &.active {
+//      @include sprite($icon-twitter-citron);
+//    }
+//  }
+//}
 
 .blog {
   background-color: #cfd8dc;
@@ -276,7 +391,7 @@
   }
 
   .comment-count {
-    color: $color-additional;
+    //color: $color-additional;
     font-size: 1.1rem;
     font-style: normal;
     font-weight: 400;

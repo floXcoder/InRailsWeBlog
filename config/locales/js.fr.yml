@@ -2,42 +2,43 @@ fr:
   js:
     views:
       home:
-    header:
-      topic:
-        button: "Thèmes"
-      search:
-        button: "Rechercher"
-      articles:
-        button: "Articles"
-        menu:
-          user: "Mes articles"
-          new: "Nouvel article"
-          bookmark: "Articles favoris"
-          draft: "Temporaires"
-      tags:
-        button: "Labels"
-      settings:
-        button: "Préférences"
-      user:
-        sign_up: "S'inscrire"
-        log_in: "Se connecter"
-        log_out: "Déconnexion"
-        languages:
-          french: "Français"
-          english: "English"
-        profile: "Mon compte"
-        administration: "Administration"
-    footer:
-      title: "In Rails We Blog"
-      description: "Un blog pensé pour les développeurs"
-      copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
-      links:
-        title: "Liens utiles"
-        contact: "Me contacter par email"
-        support: "Aide"
-        about: "A propos de moi"
-        github: "Source sous Github"
-        github_src: "https://github.com/floXcoder/InRailsWeBlog"
+        title: ""
+      header:
+        topic:
+          button: "Thèmes"
+        search:
+          button: "Rechercher"
+        articles:
+          button: "Articles"
+          menu:
+            user: "Mes articles"
+            new: "Nouvel article"
+            bookmark: "Articles favoris"
+            draft: "Temporaires"
+        tags:
+          button: "Labels"
+        settings:
+          button: "Préférences"
+        user:
+          sign_up: "S'inscrire"
+          log_in: "Se connecter"
+          log_out: "Déconnexion"
+          languages:
+            french: "Français"
+            english: "English"
+          profile: "Mon compte"
+          administration: "Administration"
+      footer:
+        title: "In Rails We Blog"
+        description: "Un blog pensé pour les développeurs"
+        copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
+        links:
+          title: "Liens utiles"
+          contact: "Me contacter par email"
+          support: "Aide"
+          about: "A propos de moi"
+          github: "Source sous Github"
+          github_src: "https://github.com/floXcoder/InRailsWeBlog"
     user:
       model:
         pseudo: "Pseudo"
@@ -498,8 +499,15 @@ fr:
         extension: "L'extension n'est pas autorisée"
         size: "La taille du fichier (%{filesize}Mo) dépasse la limite autorisée %{maxFileSize}Mo"
         server: "Erreur serveur lors de l'import"
+    cookies:
+      message: "Bienvenue sur InRailsWeBlog ! En poursuivant votre navigation, vous acceptez l'utilisation de cookies. "
+      link: "En savoir plus"
+      validation: "D'accord"
     rating:
       clear: "Effacer"
+    checkbox:
+      truthy: "Oui"
+      falsy: "Non"
     metrics:
       distance_unit: "m"
       distance_unit_k: "km"
@@ -508,10 +516,6 @@ fr:
     time:
       abbr_hour: "h"
       abbr_minute: "m"
-    cookies:
-      message: "Bienvenue sur InRailsWeBlog ! En poursuivant votre navigation, vous acceptez l'utilisation de cookies. "
-      link: "En savoir plus"
-      validation: "D'accord"
     date:
       formats:
         default: "DD/MM/YYYY"

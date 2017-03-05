@@ -11,91 +11,85 @@ export default class InfiniteScroll extends Reflux.Component {
     };
 
     static defaultProps = {
-        return {
-            pageStart: 1,
-            hasMore: false,
-            loadMore () {
-            }
-            threshold: 250
-        };
-}
-
-pageLoaded: 0,
-
-    componentDidMount();
-{
-    this.pageLoaded = this.props.pageStart;
-    this._attachScrollListener();
-}
-
-componentDidUpdate();
-{
-    this._attachScrollListener();
-}
-
-_loader();
-{
-    const loaderClass = classNames(
-        {
-            'center': this.props.hasMore,
-            'hide': !this.props.hasMore
-        }
-    );
-
-    return (
-        <div className={loaderClass}>
-            <Spinner/>
-        </div>
-    );
-}
-
-render();
-{
-    let props = this.props;
-    return React.DOM.div(null, props.children, props.hasMore && (this._loader));
-}
-
-_scrollListener();
-{
-    let topPosition = function (domElt) {
-        if (!domElt) {
-            return 0;
-        }
-        return domElt.offsetTop + topPosition(domElt.offsetParent);
+        pageStart: 1,
+        hasMore: false,
+        loadMore () {
+        },
+        threshold: 250
     };
 
-    let el = ReactDOM.findDOMNode(this);
-    let scrollTop;
-    if (window.pageYOffset !== undefined) {
-        scrollTop = window.pageYOffset;
-    } else {
-        scrollTop = (document.documentElement || document.body.parentNode || document.body).scrollTop;
+    constructor(props) {
+        super(props);
+
+        this.pageLoaded = 0;
     }
 
-    if (topPosition(el) + el.offsetHeight - scrollTop - window.innerHeight < Number(this.props.threshold)) {
+    componentDidMount() {
+        this.pageLoaded = this.props.pageStart;
+        this._attachScrollListener();
+    }
+
+    componentWillUnmount() {
         this._detachScrollListener();
-        this.props.loadMore(this.pageLoaded += 1);
     }
-}
 
-_attachScrollListener();
-{
-    if (!this.props.hasMore) {
-        return;
+    componentDidUpdate() {
+        this._attachScrollListener();
     }
-    window.addEventListener('scroll', this._scrollListener);
-    window.addEventListener('resize', this._scrollListener);
-    this._scrollListener();
-}
 
-_detachScrollListener();
-{
-    window.removeEventListener('scroll', this._scrollListener);
-    window.removeEventListener('resize', this._scrollListener);
-}
+    _loader() {
+        const loaderClass = classNames(
+            {
+                'center': this.props.hasMore,
+                'hide': !this.props.hasMore
+            }
+        );
 
-componentWillUnmount();
-{
-    this._detachScrollListener();
-}
+        return (
+            <div className={loaderClass}>
+                <Spinner/>
+            </div>
+        );
+    }
+
+    _scrollListener() {
+        let topPosition = function (domElt) {
+            if (!domElt) {
+                return 0;
+            }
+            return domElt.offsetTop + topPosition(domElt.offsetParent);
+        };
+
+        let el = ReactDOM.findDOMNode(this);
+        let scrollTop;
+        if (window.pageYOffset !== undefined) {
+            scrollTop = window.pageYOffset;
+        } else {
+            scrollTop = (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        }
+
+        if (topPosition(el) + el.offsetHeight - scrollTop - window.innerHeight < Number(this.props.threshold)) {
+            this._detachScrollListener();
+            this.props.loadMore(this.pageLoaded += 1);
+        }
+    }
+
+    _attachScrollListener() {
+        if (!this.props.hasMore) {
+            return;
+        }
+        window.addEventListener('scroll', this._scrollListener);
+        window.addEventListener('resize', this._scrollListener);
+        this._scrollListener();
+    }
+
+    _detachScrollListener() {
+        window.removeEventListener('scroll', this._scrollListener);
+        window.removeEventListener('resize', this._scrollListener);
+    }
+
+    render() {
+        let props = this.props;
+        return React.DOM.div(null, props.children, props.hasMore && (this._loader));
+    }
 }

@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * A single option within the TypeaheadSelector
  */
@@ -24,19 +23,19 @@ export default class TypeaheadOption extends React.Component {
         super(props);
     }
 
-    _getClasses() {
+    _getClasses = () => {
         let classes = {
             "typeahead-option": true
         };
         classes[this.props.customClasses.listAnchor] = !!this.props.customClasses.listAnchor;
 
         return classNames(classes);
-    }
+    };
 
-    _handleItemClick(event) {
+    _handleItemClick = (event) => {
         event.preventDefault();
         return this.props.onClick(event);
-    }
+    };
 
     render() {
         let classes = {};
@@ -58,6 +57,3 @@ export default class TypeaheadOption extends React.Component {
         );
     }
 }
-
-
-export default TypeaheadOption;

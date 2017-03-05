@@ -34,7 +34,7 @@ export default class SearchModule extends Reflux.Component {
         });
     }
 
-    _activateSearch(state) {
+    _activateSearch = (state) => {
         this._toggleSearchNav();
 
         if (!$.isEmpty(state.tags)) {
@@ -44,15 +44,15 @@ export default class SearchModule extends Reflux.Component {
         }
 
         this.refs.typeahead.setEntryText(state.query);
-    }
+    };
 
-    _toggleSearchNav() {
+    _toggleSearchNav = () => {
         let $searchDiv = $('.blog-search-nav');
 
         $searchDiv.is(":visible") ? $searchDiv.slideUp() : $searchDiv.slideDown(() => {
                 $searchDiv.find('input').focus()
             });
-    }
+    };
 
     onSearchChange(userData) {
         if (!$.isEmpty(userData.search)) {
@@ -101,7 +101,7 @@ export default class SearchModule extends Reflux.Component {
         }
     }
 
-    _handleSuggestionClick(suggestion, event) {
+    _handleSuggestionClick = (suggestion, event) => {
         event.preventDefault();
 
         this.refs.typeahead.setEntryText(suggestion);
@@ -109,9 +109,9 @@ export default class SearchModule extends Reflux.Component {
 
         this.setState({suggestions: []});
         this._handleSubmit(event, {});
-    }
+    };
 
-    _onKeyUp(event) {
+    _onKeyUp = (event) => {
         let entryValue = this.refs.typeahead.getEntryText().trim();
 
         if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
@@ -123,9 +123,9 @@ export default class SearchModule extends Reflux.Component {
             this.refs.typeahead.refs.typeahead.setState({entryValue: entryValue, selection: entryValue});
             this._handleSubmit(event, {});
         }
-    }
+    };
 
-    _handleSubmit(event, searchOptions) {
+    _handleSubmit = (event, searchOptions) => {
         if (event) {
             event.preventDefault();
         }
@@ -163,18 +163,18 @@ export default class SearchModule extends Reflux.Component {
                 previousSelectedTags: this.state.selectedTags
             });
         }
-    }
+    };
 
-    _filterOption(inputValue, option) {
+    _filterOption = (inputValue, option) => {
         if (!$.isEmpty(option.entry)) {
             let regOption = new RegExp(inputValue, 'gi');
             return option.entry.match(regOption);
         } else {
             return false;
         }
-    }
+    };
 
-    _displayOption(option) {
+    _displayOption = (option) => {
         if (!$.isEmpty(option.title)) {
             return (
                 <div ref={option.entry}>
@@ -191,9 +191,9 @@ export default class SearchModule extends Reflux.Component {
         } else {
             return null;
         }
-    }
+    };
 
-    _onTokenAdd(value, noSubmit) {
+    _onTokenAdd = (value, noSubmit) => {
         if (value.tag) {
             this.setState({
                 selectedTags: this.state.selectedTags.concat(value.tag)
@@ -203,9 +203,9 @@ export default class SearchModule extends Reflux.Component {
         if (!noSubmit) {
             this._handleSubmit(null, {tagSearch: true});
         }
-    }
+    };
 
-    _onTokenRemove(value) {
+    _onTokenRemove = (value) => {
         this.setState({
             selectedTags: _.remove(this.state.selectedTags, (tag) => {
                 return tag === value;
@@ -213,16 +213,16 @@ export default class SearchModule extends Reflux.Component {
         });
 
         this._handleSubmit(null, {tagSearch: true});
-    }
+    };
 
-    _handleCloseClick(event) {
+    _handleCloseClick = (event) => {
         event.preventDefault();
         $('.blog-search-nav').slideUp();
 
         this.refs.typeahead.setEntryText('');
         this.setState({selectedTags: []});
         this.refs.typeahead.setState({selected: []});
-    }
+    };
 
     render() {
         return (

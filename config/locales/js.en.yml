@@ -2,6 +2,7 @@ en:
   js:
     views:
       home:
+        title: ""
     header:
       topic:
         button: "Thèmes"

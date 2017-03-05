@@ -1,9 +1,8 @@
 'use strict';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
-import {FlatButton, FontIcon, MenuItem, IconMenu, Divider} from 'material-ui';
-
+// TODO : convert into dropdown
 const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
     <IconMenu
         iconButtonElement={
@@ -22,16 +21,16 @@ const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
         anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
         targetOrigin={{horizontal: 'left', vertical: 'top'}}>
 
-        <MenuItem primaryText={I18n.t('js.header.user.languages.french')}
+        <MenuItem primaryText={I18n.t('js.views.header.user.languages.french')}
                   href={window.location.href + '?locale=fr'}/>
-        <MenuItem primaryText={I18n.t('js.header.user.languages.english')}
+        <MenuItem primaryText={I18n.t('js.views.header.user.languages.english')}
                   href={window.location.href + '?locale=en'}/>
 
         <Divider />
 
         {
             $app.user.isAdmin() &&
-            <MenuItem primaryText={I18n.t('js.header.user.administration')}
+            <MenuItem primaryText={I18n.t('js.views.header.user.administration')}
                       activeClassName="link-active"
                       href="/admin"/>
         }
@@ -43,12 +42,12 @@ const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
 
         {
             !$app.user.isConnected() &&
-            <MenuItem primaryText={I18n.t('js.header.user.log_in')}
+            <MenuItem primaryText={I18n.t('js.views.header.user.log_in')}
                       onTouchTap={(event) => HomeUserHeader._handleLoginClick(onLoginClick, event)}/>
         }
         {
             !$app.user.isConnected() &&
-            <MenuItem primaryText={I18n.t('js.header.user.sign_up')}
+            <MenuItem primaryText={I18n.t('js.views.header.user.sign_up')}
                       onTouchTap={(event) => HomeUserHeader._handleSignupClick(onSignupClick, event)}/>
         }
         {
@@ -56,13 +55,13 @@ const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
             <MenuItem
                 primaryText={
                     <Link to={`/user/profile/${$app.user.current.slug}`}>
-                        {I18n.t('js.header.user.profile')}
+                        {I18n.t('js.views.header.user.profile')}
                     </Link>
                 }/>
         }
         {
             $app.user.isConnected() &&
-            <MenuItem primaryText={I18n.t('js.header.user.log_out')}
+            <MenuItem primaryText={I18n.t('js.views.header.user.log_out')}
                       href="/logout"
                       data-method="delete"
                       rel="nofollow"/>

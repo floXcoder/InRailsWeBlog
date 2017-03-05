@@ -9,7 +9,7 @@ let webPackConfig = module.exports = {
 
 // the main entry point for our application's frontend JS
 // The important thing to note is that this entry file is the “core” of your frontend JS, i.e. anything not required by this file (or a dependency of something which is required) will never end up in the compiled bundle.
-webPackConfig.entry = config.entries;
+webPackConfig.entry = config.entry;
 
 webPackConfig.output = {
     // this is our app/assets/javascripts directory, which is part of the Sprockets pipeline

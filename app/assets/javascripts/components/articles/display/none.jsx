@@ -1,6 +1,6 @@
 'use strict';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 const ArticleNone = ({isTopicPage, isSearchPage}) => (
     <div className="row">

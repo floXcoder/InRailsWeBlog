@@ -230,6 +230,7 @@
       <excludeFolder url="file://$MODULE_DIR$/public/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/static_analysis" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/assets/fonts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/components" />
     </content>
     <orderEntry type="jdk" jdkName="RVM: ruby-2.3.3 [InRailsWeBlog]" jdkType="RUBY_SDK" />

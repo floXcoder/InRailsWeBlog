@@ -36,7 +36,7 @@ export default class Token extends React.Component {
         );
     }
 
-    _renderHiddenInput() {
+    _renderHiddenInput = () => {
         // If no name was set, don't create a hidden input
         if (!this.props.name) {
             return null;
@@ -49,9 +49,9 @@ export default class Token extends React.Component {
                 value={ this.props.object }
             />
         );
-    }
+    };
 
-    _renderCloseButton() {
+    _renderCloseButton = () => {
         if (!this.props.onRemove) {
             return "";
         }

@@ -23,13 +23,13 @@ export default class Tag extends React.Component {
         super(props);
     }
 
-    _onMouseOver() {
+    _onMouseOver = () => {
         this.setState({hover: true});
-    }
+    };
 
-    _onMouseOut() {
+    _onMouseOut = () => {
         this.setState({hover: false});
-    }
+    };
 
     render() {
         var label = this.props.tag[this.props.labelField];

@@ -9,8 +9,6 @@ import ArticleErrorField from './fields/error';
 
 import Submit from '../../materialize/submit';
 
-import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
-
 export default class ArticleFormDisplay extends React.Component {
     static propTypes = {
         id: React.PropTypes.string.isRequired,
@@ -77,7 +75,7 @@ export default class ArticleFormDisplay extends React.Component {
         }
     }
 
-    _handleCommonInputsChange(attributes) {
+    _handleCommonInputsChange = (attributes) => {
         let isValidArticle = true;
         let submitTooltipMessage = null;
         if (attributes.titleLength < window.parameters.article_title_min_length) {
@@ -95,17 +93,17 @@ export default class ArticleFormDisplay extends React.Component {
             isValid: isValidArticle,
             submitTooltipMessage: submitTooltipMessage
         });
-    }
+    };
 
-    _handleCancelClick(event) {
+    _handleCancelClick = (event) => {
         event.preventDefault();
 
         if (this.props.onCancel) {
             this.props.onCancel();
         }
-    }
+    };
 
-    _handleArticleSubmit(event) {
+    _handleArticleSubmit = (event) => {
         event.preventDefault();
 
         if (this._commonFields) {
@@ -117,7 +115,7 @@ export default class ArticleFormDisplay extends React.Component {
         }
 
         return true;
-    }
+    };
 
     render() {
         const submitIsDisabled = !this.state.isValid && !this.props.articleErrors;
@@ -126,12 +124,10 @@ export default class ArticleFormDisplay extends React.Component {
             <form id={this.props.id}
                   className="article-form"
                   onSubmit={this._handleArticleSubmit}>
-                <Card initiallyExpanded={true}>
-                    <CardHeader
-                        title={<h4 className="blog-form-title">{I18n.t('js.article.new.title')}</h4>}
-                        actAsExpander={true}
-                        showExpandableButton={true}/>
-                    <CardText className="form-editor-card"
+                <div className="card">
+                    <h4 className="blog-form-title">{I18n.t('js.article.new.title')}</h4>
+
+                    <div className="form-editor-card"
                               style={{
                                   paddingBottom: 0,
                                   paddingTop: 0
@@ -157,9 +153,9 @@ export default class ArticleFormDisplay extends React.Component {
                                                       multipleId={this.props.multipleId}/>
                             </div>
                         </div>
-                    </CardText>
+                    </div>
 
-                    <CardActions>
+                    <div className="card-action">
                         <div className="row">
                             <div className="col s6 left-align">
                                 <a className="waves-effect waves-teal btn-flat"
@@ -178,8 +174,8 @@ export default class ArticleFormDisplay extends React.Component {
                                 </Submit>
                             </div>
                         </div>
-                    </CardActions>
-                </Card>
+                    </div>
+                </div>
             </form>
         );
     }

@@ -55,16 +55,16 @@ export default class UserIndex extends Reflux.Component {
         }
     }
 
-    _handleUserInput(filterText) {
+    _handleUserInput = (filterText) => {
         let filteredUsers = Filtering.filterArrayOfObject(this.state.users, 'pseudo', filterText);
 
         this.setState({
             filterText: filterText,
             filteredUsers: filteredUsers
         });
-    }
+    };
 
-    _handleUserClick(userId, event) {
+    _handleUserClick = (userId, event) => {
         if (this.props.onUserClick) {
             if (event) {
                 event.preventDefault();
@@ -74,14 +74,14 @@ export default class UserIndex extends Reflux.Component {
         } else {
             return event;
         }
-    }
+    };
 
-    _handlePaginationClick(paginate) {
+    _handlePaginationClick = (paginate) => {
         UserActions.loadUsers({page: paginate.selected + 1});
         setTimeout(() => {
             $('html, body').animate({scrollTop: $('.blog-user-list').offset().top - 64}, 750);
         }, 300);
-    }
+    };
 
     render() {
         let users = this.state.filteredUsers ? this.state.filteredUsers : this.state.users;

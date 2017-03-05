@@ -11,7 +11,7 @@ import UserAvatarIcon from '../../users/icons/avatar';
 
 import HighlightCode from 'highlight.js';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
@@ -48,7 +48,7 @@ export default class ArticleCardDisplay extends React.Component {
         this._highlightCode();
     }
 
-    _highlightCode() {
+    _highlightCode = () => {
         let domNode = ReactDOM.findDOMNode(this);
         let nodes = domNode.querySelectorAll('pre code');
         if (nodes.length > 0) {
@@ -56,17 +56,17 @@ export default class ArticleCardDisplay extends React.Component {
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
-    }
+    };
 
-    _handleTagClick(tagId, tagName) {
+    _handleTagClick = (tagId, tagName) => {
         this.props.onTagClick(tagName);
-    }
+    };
 
-    _handleArticleClick(event) {
+    _handleArticleClick= (event) => {
         ArticleStore.onTrackClick(this.props.article.id);
 
         return event;
-    }
+    };
 
     render() {
         const isOutdated = this.props.article.outdated_number > 3;

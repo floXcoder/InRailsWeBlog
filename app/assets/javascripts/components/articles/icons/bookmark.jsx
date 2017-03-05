@@ -16,11 +16,11 @@ export default class ArticleBookmarkIcon extends React.PureComponent {
         super(props);
     }
 
-    _handleBookmarkClick(articleId, event) {
+    _handleBookmarkClick = (articleId, event) => {
         event.preventDefault();
         this.props.onBookmarkClick(articleId, this.state.isBookmarked);
         this.setState({isBookmarked: !this.state.isBookmarked})
-    }
+    };
 
     render() {
         if ($app.user.isConnected()) {

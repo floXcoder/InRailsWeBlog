@@ -17,7 +17,7 @@ require('materialize-css/dist/js/materialize');
 require('./modules/utils');
 
 // Notifications
-require('expose-loader?Notification!./components/theme/notification');
+// require('expose-loader?Notification!./components/theme/notification');
 
 // Automatic dropdown on hover
 $('.dropdown-button').dropdown({
@@ -26,18 +26,20 @@ $('.dropdown-button').dropdown({
 });
 
 // Keyboard inputs
-require('expose?Mousetrap!mousetrap');
+require('expose-loader?Mousetrap!mousetrap');
 
 // Translation
 require('expose-loader?I18n!imports-loader?define=>false,require=>false!./modules/i18n');
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
 
+// Declare Module Helpers
+require('expose-loader?$app!./modules/app');
+
 if (process.env.NODE_ENV !== 'production') {
     const {whyDidYouUpdate} = require('why-did-you-update');
     whyDidYouUpdate(React);
-    // whyDidYouUpdate(React, { include: /^pure/, exclude: /^Connect/ })
-    // { exclude: /^(?=EnhancedButton|FlatButton|FlatButtonLabel|FontIcon|Menu|Touch|Icon|Paper|EventListener|Overlay|AutoLock|Popover|List|MuiThemeProvider|ReactTransitionGroup|Card)/ })
+    // whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton)/ });
 }
 
 // Configure log level

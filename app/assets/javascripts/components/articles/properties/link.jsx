@@ -2,7 +2,7 @@
 
 import ArticleStore from '../../../stores/articleStore';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 const ArticleLink = ({article, onArticleClick}) => (
     <Link className="article-goto tooltipped btn-floating"

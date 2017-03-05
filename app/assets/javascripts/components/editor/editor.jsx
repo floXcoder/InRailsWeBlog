@@ -2,7 +2,6 @@
 
 import EditorLoader from '../../loaders/editor';
 
-
 export default class Editor extends React.Component {
     static propTypes = {
         mode: React.PropTypes.number,
@@ -106,23 +105,23 @@ export default class Editor extends React.Component {
         return false;
     }
 
-    setContent(content) {
+    setContent = (content) => {
         if (this.editor) {
             this.editor.summernote('code', content);
         } else {
             return false;
         }
-    }
+    };
 
-    contentLength() {
+    contentLength = () => {
         if (this.editor) {
             return this.editor.summernote('code').replace(/<(?:.|\n)*?>/gm, '').length;
         } else {
             return false;
         }
-    }
+    };
 
-    createLink() {
+    createLink = () => {
         if (this.editor) {
             this.editor.summernote('code', '');
             this.editor.summernote('createLink', {
@@ -133,41 +132,41 @@ export default class Editor extends React.Component {
         } else {
             return false;
         }
-    }
+    };
 
-    focus() {
+    focus = () => {
         if (this.editor) {
             this.editor.summernote('focus');
         } else {
             return false;
         }
-    }
+    };
 
-    serialize() {
+    serialize = () => {
         if (this.editor) {
             $('#' + this.props.id + '-serialized').val(this.editor.summernote('code'));
             return this.editor.summernote('code');
         } else {
             return false;
         }
-    }
+    };
 
-    reset() {
+    reset = () => {
         if (this.editor) {
             this.editor.summernote('code', '');
         } else {
             return false;
         }
-    }
+    };
 
-    remove() {
+    remove = () => {
         if (this.editor) {
             this.editor.summernote('destroy');
             this.editor.empty();
         } else {
             return false;
         }
-    }
+    };
 
     render() {
         const containerClassName = classNames({
@@ -197,6 +196,3 @@ export default class Editor extends React.Component {
         );
     }
 }
-
-
-export default Editor;

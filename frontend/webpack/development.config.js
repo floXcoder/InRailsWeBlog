@@ -11,6 +11,7 @@ webPackConfig.output = _.merge(config.output, {
 
 webPackConfig = _.merge(webPackConfig, {
     // debug: true,
+
     stats: {
         assets: false,
         colors: true,
@@ -20,13 +21,15 @@ webPackConfig = _.merge(webPackConfig, {
         chunks: false,
         chunkModules: false
     },
+
     // displayErrorDetails: true,
+
     output: {
         pathinfo: true
     },
-    devtool: 'source-map'
-    // Firefox bug, try to load source map files
-    // devtool: 'cheap-module-eval-source-map'
+
+    // devtool: 'source-map'
+    devtool: 'cheap-module-source-map'
 });
 
 // Common chunks
@@ -46,4 +49,8 @@ webPackConfig.plugins.push(
     }),
     new webpack.NoErrorsPlugin(),
     new HappyPack(config.happyPack)
+
+    // For webpack dev server:
+    // new webpack.HotModuleReplacementPlugin(),
+    // new webpack.NamedModulesPlugin(),
 );

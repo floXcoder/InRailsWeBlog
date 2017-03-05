@@ -5,8 +5,7 @@ import UserStore from '../../stores/userStore';
 import RadioButtons from '../../components/materialize/radio-buttons';
 import Switch from '../../components/materialize/switch';
 
-import Drawer from 'material-ui/Drawer';
-
+// TODO : replace it
 export default class UserSettings extends Reflux.Component {
     static propTypes = {
         isOpened: React.PropTypes.bool
@@ -56,29 +55,29 @@ export default class UserSettings extends Reflux.Component {
         }
     }
 
-    _onDisplayChanged(event) {
+    _onDisplayChanged = (event) => {
         let article_display = event.target.id;
         this.setState({article_display: event.target.id});
         UserActions.updateUserPreference({displayType: article_display});
-    }
+    };
 
-    _onHighlightChanged(event) {
+    _onHighlightChanged = (event) => {
         let search_highlight = this.refs.searchHighlight.value();
         this.setState({search_highlight: search_highlight});
         UserActions.updateUserPreference({search_highlight: !search_highlight});
-    }
+    };
 
-    _onOperatorSearchChanged(event) {
+    _onOperatorSearchChanged = (event) => {
         let search_operator = event.target.id;
         this.setState({search_operator: search_operator});
         UserActions.updateUserPreference({search_operator: search_operator});
-    }
+    };
 
-    _onExactSearchChanged(event) {
+    _onExactSearchChanged = (event) => {
         let search_exact = this.refs.searchExact.value();
         this.setState({search_exact: search_exact});
         UserActions.updateUserPreference({search_exact: !search_exact});
-    }
+    };
 
     render() {
         const isOpened = this.props.isOpened;

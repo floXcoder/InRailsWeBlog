@@ -16,11 +16,11 @@ export default class ArticleOutdatedIcon extends React.PureComponent {
         super(props);
     }
 
-    _handleOutdatedClick(articleId, event) {
+    _handleOutdatedClick = (articleId, event) => {
         event.preventDefault();
         this.props.onOutdatedClick(articleId, this.state.isOutdated);
         this.setState({isOutdated: !this.state.isOutdated})
-    }
+    };
 
     render() {
         if ($app.user.isConnected()) {

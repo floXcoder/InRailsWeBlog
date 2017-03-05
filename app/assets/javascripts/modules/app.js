@@ -9,33 +9,39 @@
 //     },
 // },
 
-var App = function () {
-    this.user = {
-        currentId: $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10),
-        current: null,
-        topic: null,
-        settings: null,
-        isConnected: function () {
-            return !!this.currentId && !$.isEmpty(this.current);
-        },
-        isPresent: function () {
-            return !!this.currentId;
-        },
-        isValidUser: function (userId) {
-            if (userId) {
-                return (userId === this.currentUserId);
-            } else {
-                return false;
+class App {
+    constructor(props) {
+        this.current = null;
+        this.currentId = null;
+
+        this.user = {
+            currentId: $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10),
+            current: null,
+            topic: null,
+            settings: null,
+            isConnected: function () {
+                return !!this.currentId && !$.isEmpty(this.current);
+            },
+            isPresent: function () {
+                return !!this.currentId;
+            },
+            isValidUser: function (userId) {
+                if (userId) {
+                    return (userId === this.currentUserId);
+                } else {
+                    return false;
+                }
+            },
+            isAdmin: function () {
+                return !!this.current && this.current.admin;
             }
-        },
-        isAdmin: function () {
-            return !!this.current && this.current.admin;
-        }
-    };
-};
+        };
+    }
 
-App.prototype.init = function () {
-};
+    // init() {
+    // }
+}
 
-module.exports = new App();
+const $app = new App();
 
+module.exports = $app;

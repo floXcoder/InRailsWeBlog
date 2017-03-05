@@ -25,24 +25,24 @@ export default class TagsInput extends React.Component {
         this.mapStoreToState(TagStore, this.onTagChange);
     }
 
-    selectedTags() {
+    selectedTags = () => {
         return this.state.selectedTags;
-    }
+    };
 
-    resetSelectedTags() {
+    resetSelectedTags = () => {
         this.setState({selectedTags: []});
-    }
+    };
 
     onTagChange(tagData) {
         this.setState({tagList: tagData});
     }
 
-    _onTagExists(tag) {
+    _onTagExists = (tag) => {
         let $existingTag = $(".tagsinput-tag", ".tagsinput-tags").filter(() => $(this).data("name") === tag);
         $existingTag.fadeOut(200).fadeIn(200);
-    }
+    };
 
-    _handleTagClick(tagClicked, event) {
+    _handleTagClick = (tagClicked, event) => {
         if (!tagClicked) {
             return;
         }
@@ -64,9 +64,9 @@ export default class TagsInput extends React.Component {
             }
         });
         this.setState({selectedTags: selectedTags});
-    }
+    };
 
-    _handleContextMenu(tagClicked, event) {
+    _handleContextMenu = (tagClicked, event) => {
         if (!tagClicked) {
             return;
         }
@@ -88,9 +88,9 @@ export default class TagsInput extends React.Component {
             }
         });
         this.setState({selectedTags: selectedTags});
-    }
+    };
 
-    _handleAddition(tag) {
+    _handleAddition = (tag) => {
         if (!tag) {
             return;
         }
@@ -121,13 +121,13 @@ export default class TagsInput extends React.Component {
         let selectedTags = this.state.selectedTags;
         selectedTags.push(tag);
         this.setState({selectedTags: selectedTags});
-    }
+    };
 
-    _handleDelete(i) {
+    _handleDelete = (i) => {
         let selectedTags = this.state.selectedTags;
         selectedTags.splice(i, 1);
         this.setState({selectedTags: selectedTags});
-    }
+    };
 
     render() {
         let tagItems = this.state.selectedTags.map((tag, i) => {

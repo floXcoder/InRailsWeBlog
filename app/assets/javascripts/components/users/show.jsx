@@ -21,9 +21,9 @@ export default class UserShow extends React.Component {
         super(props);
     }
 
-    _handleEditClick() {
+    _handleEditClick = () => {
         this.context.router.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
-    }
+    };
 
     render() {
         return (

@@ -6,10 +6,7 @@ import UserStore from '../../stores/userStore';
 import Input from '../materialize/input';
 import Submit from '../materialize/submit';
 
-import {Subheader, Divider, FontIcon} from 'material-ui';
-import {List, ListItem} from 'material-ui/List';
-
-
+// TODO : replace it
 export default class UserTopic extends Reflux.Component {
     static propTypes = {
         onClick: React.PropTypes.func
@@ -75,21 +72,21 @@ export default class UserTopic extends Reflux.Component {
         }
     }
 
-    _handleTopicClick(topicSlug, event) {
+    _handleTopicClick = (topicSlug, event) => {
         event.preventDefault();
 
         // if (this.state.currentTopic.slug !== topicSlug) {
         UserActions.changeTopic($app.user.currentId, topicSlug);
         // }
-    }
+    };
 
-    _handleShowCreateTopicClick(event) {
+    _handleShowCreateTopicClick = (event) => {
         event.preventDefault();
 
         this.setState({isCreateTopicOpened: true});
-    }
+    };
 
-    _handleCreateTopicClick() {
+    _handleCreateTopicClick = () => {
         this.setState({isCreateTopicOpened: false});
 
         if (this._topicInput) {
@@ -99,7 +96,7 @@ export default class UserTopic extends Reflux.Component {
                     name: this._topicInput.value()
                 });
         }
-    }
+    };
 
     render() {
         return (

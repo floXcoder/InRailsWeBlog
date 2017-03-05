@@ -10,7 +10,7 @@ import Select from '../materialize/select';
 import Selectize from '../theme/selectize';
 import Submit from '../materialize/submit';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 export default class TagEdit extends Reflux.Component {
     static propTypes = {

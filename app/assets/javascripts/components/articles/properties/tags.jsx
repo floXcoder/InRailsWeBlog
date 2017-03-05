@@ -5,7 +5,7 @@ import TagStore from '../../../stores/tagStore';
 
 import ToolTip from 'react-portal-tooltip';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 export default class ArticleTags extends React.PureComponent {
     static propTypes = {
@@ -27,22 +27,22 @@ export default class ArticleTags extends React.PureComponent {
         super(props);
     }
 
-    _handleTagClick(tagId, tagName, event) {
+    _handleTagClick = (tagId, tagName, event) => {
         TagStore.onTrackClick(tagId);
 
         if (this.props.onTagClick) {
             event.preventDefault();
             this.props.onTagClick(tagId, tagName);
         }
-    }
+    };
 
-    _showTagTooltip(tagId) {
+    _showTagTooltip = (tagId) => {
         this.setState({tagTooltipActive: tagId});
-    }
+    };
 
-    _hideTagTooltip(tagId) {
+    _hideTagTooltip = (tagId) => {
         this.setState({tagTooltipActive: null});
-    }
+    };
 
     render() {
         const parentTags = _.keyBy(this.props.article.parent_tags, 'id');

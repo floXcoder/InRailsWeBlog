@@ -5,8 +5,8 @@ import ArticleStore from '../../stores/articleStore';
 
 import ArticleFormDisplay from './display/form';
 
-require('../../modules/validation');
-require('jquery-serializejson');
+import '../../modules/validation';
+import 'jquery-serializejson';
 
 export default class ArticleNew extends Reflux.Component {
     static propTypes = {
@@ -99,12 +99,12 @@ export default class ArticleNew extends Reflux.Component {
     //     }
     // }
 
-    _onCancel() {
+    _onCancel = () => {
         this.context.router.push('/');
         return true;
-    }
+    };
 
-    _handleArticleSubmit() {
+    _handleArticleSubmit = () => {
         const $articleForm = $('#article-new' + (this.props.multipleId ? '-' + this.props.multipleId : '' ));
 
         const validator = $articleForm.parsley();
@@ -120,7 +120,7 @@ export default class ArticleNew extends Reflux.Component {
         ArticleActions.addArticle(currentArticle);
 
         return true;
-    }
+    };
 
     render() {
         const articleFormId = 'article-new' + (this.props.multipleId ? '-' + this.props.multipleId : '' );

@@ -7,7 +7,7 @@ import TagStore from '../../stores/tagStore';
 
 import UserAvatarIcon from '../users/icons/avatar';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 export default class TagShow extends Reflux.Component {
     static propTypes = {
@@ -58,10 +58,10 @@ export default class TagShow extends Reflux.Component {
         }
     }
 
-    _handleUserClick(userId, event) {
+    _handleUserClick = (userId, event) => {
         UserStore.onTrackClick(userId);
         return event;
-    }
+    };
 
     // _handleDeleteClick (event) {
     //     event.preventDefault();

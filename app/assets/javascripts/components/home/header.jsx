@@ -3,10 +3,9 @@
 import Login from '../users/login';
 import Signup from '../users/signup';
 
-import UserTopic from '../users/topic';
-import UserPreference from '../users/preference';
+// import UserTopic from '../users/topic';
+import UserSettings from '../users/settings';
 import SearchModule from '../search/module';
-import TagSidebar from '../tags/sidebar';
 
 import HomeSearchHeader from './header/search';
 import HomeArticleHeader from './header/article';
@@ -15,9 +14,7 @@ import HomePreferenceHeader from './header/preference';
 import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
-import {Link} from 'react-router';
-
-import {FlatButton, FontIcon, Drawer} from 'material-ui';
+import {Link} from 'react-router-dom';
 
 export default class HomeHeader extends React.PureComponent {
     static propTypes = {};
@@ -41,48 +38,48 @@ export default class HomeHeader extends React.PureComponent {
     componentDidMount() {
     }
 
-    _handleMobileDrawerClick(event) {
+    _handleMobileDrawerClick = (event) => {
         event.preventDefault();
         this.setState({
             isMobile: !this.state.isMobile
         });
-    }
+    };
 
-    _handleTopicClick() {
+    _handleTopicClick = () => {
         this.setState({
             isTopic: !this.state.isTopic
         });
-    }
+    };
 
-    _handleSearchClick() {
+    _handleSearchClick = () => {
         this.setState({
             isSearch: !this.state.isSearch
         });
-    }
+    };
 
-    _handleTagClick() {
+    _handleTagClick = () => {
         this.setState({
             isTags: !this.state.isTags
         });
-    }
+    };
 
-    _handlePreferenceClick() {
+    _handlePreferenceClick = () => {
         this.setState({
             isSettings: !this.state.isSettings
         });
-    }
+    };
 
-    _handleLoginClick() {
+    _handleLoginClick = () => {
         this.setState({
             isLogin: true
         });
-    }
+    };
 
-    _handleSignupClick() {
+    _handleSignupClick = () => {
         this.setState({
             isSignup: true
         });
-    }
+    };
 
     render() {
         return (
@@ -90,62 +87,53 @@ export default class HomeHeader extends React.PureComponent {
                 <div className="navbar-fixed">
                     <nav>
                         <div className="nav-wrapper">
-                            <Link to="/"
-                                  className="brand-logo">
-                                {window.parameters.website_name}
-                            </Link>
+                            <a className="brand-logo"
+                               href="/">
+                                InRailsWeBlog
+                            </a>
 
-                            <div className="header-mobile hide-on-large-only">
-                                <FlatButton className=""
-                                            secondary={true}
-                                            icon={<FontIcon className="material-icons">menu</FontIcon>}
-                                            onTouchTap={this._handleMobileDrawerClick}/>
+                            {/*<div className="header-mobile hide-on-large-only">*/}
+                                {/*<Drawer docked={false}*/}
+                                        {/*width={200}*/}
+                                        {/*open={this.state.isMobile}*/}
+                                        {/*onRequestChange={(open) => this.setState({isMobile: open})}>*/}
+                                    {/*<HomeSearchHeader onSearchClick={this._handleSearchClick}/>*/}
 
-                                <Drawer docked={false}
-                                        width={200}
-                                        open={this.state.isMobile}
-                                        onRequestChange={(open) => this.setState({isMobile: open})}>
-                                    <HomeSearchHeader onSearchClick={this._handleSearchClick}/>
+                                    {/*<HomeArticleHeader />*/}
 
-                                    <HomeArticleHeader />
+                                    {/*<HomeTagHeader onTagClick={this._handleTagClick}/>*/}
 
-                                    <HomeTagHeader onTagClick={this._handleTagClick}/>
+                                    {/*<HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>*/}
 
-                                    <HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>
-
-                                    <HomeUserHeader onLoginClick={this._handleLoginClick}
-                                                    onSignupClick={this._handleSignupClick}/>
-                                </Drawer>
-                            </div>
+                                    {/*<HomeUserHeader onLoginClick={this._handleLoginClick}*/}
+                                                    {/*onSignupClick={this._handleSignupClick}/>*/}
+                                {/*</Drawer>*/}
+                            {/*</div>*/}
 
                             <div className="header-normal right hide-on-med-and-down">
                                 <HomeTopicHeader onTopicClick={this._handleTopicClick}/>
 
                                 <HomeSearchHeader onSearchClick={this._handleSearchClick}/>
 
-                                <HomeArticleHeader />
+                                {/*<HomeArticleHeader />*/}
 
                                 <HomeTagHeader onTagClick={this._handleTagClick}/>
 
                                 <HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>
 
-                                <HomeUserHeader onLoginClick={this._handleLoginClick}
-                                                onSignupClick={this._handleSignupClick}/>
+                                {/*<HomeUserHeader onLoginClick={this._handleLoginClick}*/}
+                                                {/*onSignupClick={this._handleSignupClick}/>*/}
                             </div>
                         </div>
                     </nav>
                 </div>
 
-                <div className="blog-user-pref">
-                    <UserPreference isOpened={this.state.isSettings}/>
-                </div>
+                {/*<div className="blog-user-pref">*/}
+                    {/*<UserSettings isOpened={this.state.isSettings}/>*/}
+                {/*</div>*/}
 
                 <div className="blog-search-nav row">
                     <SearchModule isOpened={this.state.isSearch}/>
-                </div>
-
-                <div className="blog-sidebar">
-                    <TagSidebar isOpened={this.state.isTags}/>
                 </div>
 
                 <div id="clipboard-area"

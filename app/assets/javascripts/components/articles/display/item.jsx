@@ -53,20 +53,20 @@ export default class ArticleItemDisplay extends React.Component {
         });
     }
 
-    _setDefaultDisplay(tagName, event) {
+    _setDefaultDisplay = (tagName, event) => {
         event.preventDefault();
         this.setState({articleDisplayMode: this.props.initialDisplayMode});
-    }
+    };
 
-    _handleTagClick(tagName) {
+    _handleTagClick = (tagName) => {
         this.context.router.push(`/article/tags/${tagName}`);
 
         ArticleActions.loadArticles({tags: [tagName]});
-    }
+    };
 
-    _handleBookmarkClick(articleId, isBookmarked) {
+    _handleBookmarkClick = (articleId, isBookmarked) => {
         ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
-    }
+    };
 
     render() {
         if (this.state.articleDisplayMode === 'inline') {

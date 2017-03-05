@@ -1,0 +1,132 @@
+// Animate when visible
+.is-hidden {
+  opacity: 0;
+}
+
+.is-visible {
+  opacity: 1;
+}
+
+// Inline element
+.inline {
+  display: inline;
+}
+
+// Font properties
+.italic {
+  font-style: italic;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+// Show full text button
+.btn-full-text {
+  height: 100%;
+  line-height: 28px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+// Hidden textarea for clipboard
+.hidden {
+  background: transparent;
+  border: 0;
+  bottom: 0;
+  color: transparent;
+  font-size: 1px;
+  height: 0;
+  //display: none;
+  left: 0;
+  opacity: 0;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  resize: none;
+  top: 0;
+  user-select: text;
+  width: 0;
+  z-index: 100; // Because for user-select:none, Safari won't allow input
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.adaptative-text {
+  font-weight: 300;
+  $i: 0;
+  @while $i <= $intervals {
+    @media only screen and (min-width: 360 + ($i * $interval-size)) {
+      font-size: .9rem * (1 + (.02 * $i));
+    }
+    $i: $i + 1;
+  }
+
+  // Handle below 360px screen
+  @media only screen and (max-width: 360px) {
+    font-size: 1.2rem;
+  }
+}
+
+.adaptative-title {
+  font-weight: 400;
+  $i: 0;
+  @while $i <= $intervals {
+    @media only screen and (min-width: 360 + ($i * $interval-size)) {
+      font-size: 2rem * (1 + (.02 * $i));
+    }
+    $i: $i + 1;
+  }
+
+  // Handle below 360px screen
+  @media only screen and (max-width: 360px) {
+    font-size: 2rem;
+  }
+}
+
+@for $i from 0 through 20 {
+  .margin-bottom-#{$i * 5} {
+    clear: both;
+    margin-bottom: $i * 5px !important;
+  }
+
+  .margin-top-#{$i * 5} {
+    clear: both;
+    margin-top: $i * 5px !important;
+  }
+}
+
+@for $i from 0 through 10 {
+  @media (max-width: $small-screen) {
+    .sm-margin-top-#{$i * 10} {
+      margin-top: $i * 10px !important;
+    }
+
+    .sm-margin-bottom-#{$i * 10} {
+      margin-bottom: $i * 10px !important;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    .md-margin-top-#{$i * 10} {
+      margin-top: $i * 10px !important;
+    }
+
+    .md-margin-bottom-#{$i * 10} {
+      margin-bottom: $i * 10px !important;
+    }
+  }
+}
+
+.clearfix {
+  &::before,
+  &::after {
+    content: '.';
+    display: block;
+    height: 0;
+    overflow: hidden;
+  }
+}

@@ -8,7 +8,7 @@
 #  description     :text
 #  color           :string
 #  priority        :integer          default(0), not null
-#  visibility      :integer          default(0), not null
+#  visibility      :integer          default("everyone"), not null
 #  accepted        :boolean          default(TRUE), not null
 #  archived        :boolean          default(FALSE), not null
 #  pictures_count  :integer          default(0)

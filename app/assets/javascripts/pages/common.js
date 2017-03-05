@@ -3,8 +3,7 @@
 import '../application';
 import '../modules/validation';
 
-import '../components/users/account';
-import '../components/search/modal';
+// import '../components/users/account';
 
 // Initialize all SideNav
 if (window.innerWidth > window.parameters.medium_screen_up) {

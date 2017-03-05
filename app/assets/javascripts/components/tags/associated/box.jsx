@@ -52,9 +52,9 @@ export default class AssociatedTagBox extends Reflux.Component {
         }
     }
 
-    _handleTagClick(tagId, activeTag) {
+    _handleTagClick = (tagId, activeTag) => {
         ArticleActions.filterArticlesByTag(tagId, activeTag);
-    }
+    };
 
     render() {
         const loaderClass = classNames({

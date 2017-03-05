@@ -6,17 +6,10 @@ import UserStore from '../../stores/userStore';
 import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
 
+import TagSidebar from '../tags/sidebar';
+
 import HomeHeader from './header';
 import HomeFooter from './footer';
-
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-import CommonStyle from '../../style/common';
-const muiTheme = getMuiTheme(CommonStyle);
-
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
 
 export default class HomePage extends Reflux.Component {
     static propTypes = {
@@ -70,41 +63,47 @@ export default class HomePage extends Reflux.Component {
         }
     }
 
-    _userLoaded() {
+    _userLoaded = () => {
         ClipboardManager.initialize(this._onPaste);
-    }
+    };
 
-    _onPaste(content) {
+    _onPaste = (content) => {
         if (this.props.location.pathname !== '/article/new') {
             this.context.router.push({
                 pathname: '/article/new',
                 state: {article: {content: SanitizePaste.parse(content), draft: true}}
             });
         }
-    }
+    };
 
-    _handleGoToTopClick(event) {
+    _handleGoToTopClick = (event) => {
         event.preventDefault();
         window.scrollTo(0, 0);
         return false;
-    }
+    };
 
     render() {
         return (
-            <MuiThemeProvider muiTheme={muiTheme}>
-                <div>
-                    <HomeHeader />
+            <div className="row">
+                <HomeHeader />
 
+                <div className="col s3">
+                    <div className="blog-sidebar">
+                        <TagSidebar isOpened={this.state.isTags}/>
+                    </div>
+                </div>
+
+                <div className="col s9">
                     <div className="container blog-main">
                         {this.props.children}
                     </div>
 
                     <a className="goto-top hide-on-small-and-down"
                        onClick={this._handleGoToTopClick}/>
-
-                    <HomeFooter />
                 </div>
-            </MuiThemeProvider>
+
+                <HomeFooter />
+            </div>
         );
     }
 }

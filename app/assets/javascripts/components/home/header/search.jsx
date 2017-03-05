@@ -1,13 +1,11 @@
 'use strict';
 
-import {FlatButton, FontIcon} from 'material-ui';
-
 const HomeSearchHeader = ({onSearchClick}) => (
-    <FlatButton label={I18n.t('js.header.search.button')}
-                className="header-button"
-                secondary={true}
-                icon={<FontIcon className="material-icons">search</FontIcon>}
-                onTouchTap={(event) => HomeSearchHeader._handleSearchClick(onSearchClick, event)}/>
+    <div className="btn header-button"
+         href="#"
+         onClick={HomeSearchHeader._handleSearchClick.bind(null, onSearchClick)}>
+        {I18n.t('js.views.header.search.button')}
+    </div>
 );
 
 HomeSearchHeader.propTypes = {
