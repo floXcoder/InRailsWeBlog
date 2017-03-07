@@ -68,9 +68,6 @@ gem 'devise',                   '4.2.0'
 # Authorization mechanism
 gem 'pundit',                   '1.1.0'
 
-# Human-friendly URLs
-gem 'friendly_id',              '5.2.0'
-
 # Forms
 gem 'simple_form',              '3.4.0'
 gem 'country_select',           '3.0.0'
@@ -91,6 +88,10 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 
 # Prevent DDOS attacks
 gem 'rack-attack',              '5.0.1'
+
+# SEO
+gem 'friendly_id',              '5.2.0'
+gem 'meta-tags',                '2.4.0'
 
 # Deployment
 gem 'capistrano',               '3.7.2'

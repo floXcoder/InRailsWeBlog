@@ -1,8 +1,11 @@
 en:
   head:
-    keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
-    description: "How to build a Blog with Rails and Node"
+    author: "InRailsWeBlog"
+    copyright: "InRailsWeBlog©"
   views:
+    home:
+      title: "InRailsWeBlog"
+      description: "InRailsWeBlog: advanced blog"
     user:
       flash:
         successful_update: "Profile updated"
@@ -82,6 +85,12 @@ en:
         error_edition: "Cannot update the comment"
         successful_deletion: "Comment removed"
         error_deletion: "Cannot remove the comment"
+    errors:
+      flash:
+        successful_deletion: "Error removed"
+        error_deletion: "Cannot removed error"
+        successful_all_deletion: "All errors removed"
+        error_all_deletion: "Cannot removed errors (or no errors to remove)"
     admin:
       login:
         title: "Log in (Admin)"

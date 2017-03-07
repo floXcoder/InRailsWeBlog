@@ -1,8 +1,11 @@
 fr:
   head:
-    keywords: "Rails, blog, elasticsearch, node, gulp, javascript, webpack, asset, react, reflux"
-    description: "Comment construire un blog avec Rails et Node"
+    author: "InRailsWeBlog"
+    copyright: "InRailsWeBlog©"
   views:
+    home:
+      title: "InRailsWeBlog"
+      description: "InRailsWeBlog : blog avancé"
     user:
       flash:
         successful_update: "Profil mis à jour"
@@ -82,6 +85,12 @@ fr:
         error_edition: "Problème lors de la mise à jour du commentaire"
         successful_deletion: "Commentaire supprimé"
         error_deletion: "Problème lors de la suppression du commentaire"
+    errors:
+      flash:
+        successful_deletion: "L'erreur a bien été supprimée"
+        error_deletion: "Problème lors de la suppression de l'erreur"
+        successful_all_deletion: "Toutes les erreurs ont été supprimées"
+        error_all_deletion: "Problème lors de la suppression des erreurs (ou pas d'erreurs à supprimer)"
     admin:
       login:
         title: "Se connecter (Admin)"

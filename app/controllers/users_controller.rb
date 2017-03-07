@@ -51,7 +51,11 @@ class UsersController < ApplicationController
     users = users.paginate(page: params[:page], per_page: CONFIG.per_page) if params[:page]
 
     respond_to do |format|
-      format.html { render :index, locals: { users: users } }
+      format.html do
+        set_meta_tags title:       titleize(I18n.t('views.user.index.title')),
+                      description: I18n.t('views.user.index.description')
+        render :index, locals: { users: users }
+      end
       format.json do
         render json:            users,
                each_serializer: UserSampleSerializer,
@@ -60,19 +64,19 @@ class UsersController < ApplicationController
     end
   end
 
-  def bookmarks
-    user = User.friendly.find(params[:id])
-    authorize user
-
-    render :show, locals: { user: user, mode: 'bookmark' }
-  end
-
-  def draft
-    user = User.friendly.find(params[:id])
-    authorize user
-
-    render :show, locals: { user: user, mode: 'draft' }
-  end
+  # def bookmarks
+  #   user = User.friendly.find(params[:id])
+  #   authorize user
+  #
+  #   render :show, locals: { user: user, mode: 'bookmark' }
+  # end
+  #
+  # def draft
+  #   user = User.friendly.find(params[:id])
+  #   authorize user
+  #
+  #   render :show, locals: { user: user, mode: 'draft' }
+  # end
 
   def comments
     user = User.includes(:comments).friendly.find(params[:id])
@@ -129,8 +133,11 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html do
         User.track_views(user.id)
+        set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
+                      description: I18n.t('views.user.show.description')
         render :show, locals: { user: user, mode: nil }
       end
+
       format.json do
         if params[:complete_user] && (current_user.id == user.id || current_user.admin?)
           User.track_views(user.id)

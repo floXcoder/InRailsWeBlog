@@ -454,6 +454,18 @@ class Tag < ApplicationRecord
     self.assign_attributes(attributes)
   end
 
+  def default_picture
+    default_picture = ''
+
+    picture = if self.pictures_count > 0
+                self.picture.image.thumb.url
+              else
+                default_picture
+              end
+
+    return AssetManifest.image_path(picture || default_picture)
+  end
+
   def bookmarked?(user)
     user ? user_bookmarks.include?(user) : false
   end

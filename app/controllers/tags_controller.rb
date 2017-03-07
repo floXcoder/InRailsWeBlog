@@ -16,7 +16,7 @@ class TagsController < ApplicationController
 
   include TrackerConcern
 
-  respond_to :html, :json
+  respond_to :json
 
   def index
     tags = Tag.includes(:user, :children).order('tags.name ASC')
@@ -45,13 +45,29 @@ class TagsController < ApplicationController
   end
 
   def show
-    tag = Tag.includes(:user)
-            .friendly.find(params[:id])
+    tag = Tag.includes(:user).friendly.find(params[:id])
     authorize tag
 
     respond_to do |format|
-      format.json { render json:       tag,
-                           serializer: TagSerializer }
+      format.html do
+        expires_in 3.hours, public: true
+        set_meta_tags title:       titleize(I18n.t('views.tag.show.title')),
+                      description: I18n.t('views.tag.show.description'),
+                      author:      user_canonical_url(tag.user.slug),
+                      canonical:   tag_canonical_url(tag.slug),
+                      alternate:   alternate_urls('tags', tag.slug),
+                      og:          {
+                        type:  'InRailsWeBlog:tag',
+                        url:   tag_url(tag),
+                        image: root_url + tag.default_picture
+                      }
+        render :show, locals: { tag: tag }
+      end
+
+      format.json do
+        render json:       tag,
+               serializer: TagSerializer
+      end
     end
   end
 

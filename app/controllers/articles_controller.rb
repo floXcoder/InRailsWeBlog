@@ -81,9 +81,24 @@ class ArticlesController < ApplicationController
     Tag.track_views(article.tags.ids)
 
     respond_to do |format|
-      format.html { render :show, locals: { article: article } }
-      format.json { render json:       article,
-                           serializer: ArticleSerializer }
+      format.html do
+        expires_in 3.hours, public: true
+        set_meta_tags title:       titleize(I18n.t('views.article.show.title')),
+                      description: I18n.t('views.article.show.description'),
+                      author:      user_canonical_url(article.user.slug),
+                      canonical:   article_canonical_url(article.slug),
+                      alternate:   alternate_urls('articles', article.slug),
+                      og:          {
+                        type:  'InRailsWeBlog:article',
+                        url:   article_url(article),
+                        image: root_url + article.default_picture
+                      }
+        render :show, locals: { article: article }
+      end
+      format.json do
+        render json:       article,
+               serializer: ArticleSerializer
+      end
     end
   end
 
@@ -94,8 +109,10 @@ class ArticlesController < ApplicationController
     article_versions = article.versions.select { |history| !history.reify.content.empty? }
 
     respond_to do |format|
-      format.json { render json:            article_versions,
-                           each_serializer: HistorySerializer }
+      format.json do
+        render json:            article_versions,
+               each_serializer: HistorySerializer
+      end
     end
   end
 
@@ -138,6 +155,9 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       format.html do
+        set_meta_tags title:       titleize(I18n.t('views.article.edit.title')),
+                      description: I18n.t('views.article.edit.description'),
+                      canonical:   article_canonical_url("#{article.id}/edit")
         render :edit, locals:
           {
             article:         article,
@@ -197,9 +217,13 @@ class ArticlesController < ApplicationController
 
       respond_to do |format|
         flash.now[:success] = t('views.article.flash.undeletion_successful') if params[:from_deletion]
-        format.html { redirect_to article_path(article) }
-        format.json { render json:   article,
-                             status: :accepted }
+        format.html do
+          redirect_to article_path(article)
+        end
+        format.json do
+          render json:   article,
+                 status: :accepted
+        end
       end
     else
       skip_authorization
@@ -209,12 +233,15 @@ class ArticlesController < ApplicationController
       respond_to do |format|
         flash.now[:error] = t('views.article.flash.not_found')
         format.html do
-          render json: {},
-                 formats: :json,
+          # set_meta_tags title:       titleize(I18n.t('views.article.edit.title')),
+          #               description: I18n.t('views.article.edit.description'),
+          #               canonical:   article_canonical_url("#{article.id}/edit")
+          render json:         {},
+                 formats:      :json,
                  content_type: 'application/json'
         end
         format.json do
-          render json: {},
+          render json:   {},
                  status: :not_found
         end
       end

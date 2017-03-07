@@ -77,6 +77,37 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  # SEO
+  def titleize(page_title)
+    base_title = page_title
+    base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
+
+    base_title.html_safe
+  end
+
+  def titleize_admin(page_title)
+    base_title = "(ADMIN) | #{page_title}"
+    base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
+
+    base_title.html_safe
+  end
+
+  def user_canonical_url(slug)
+    "#{root_url}users/#{slug}" + request.fullpath[/\?.*/].to_s
+  end
+
+  def article_canonical_url(slug)
+    "#{root_url}articles/#{slug}" + request.fullpath[/\?.*/].to_s
+  end
+
+  def tag_canonical_url(slug)
+    "#{root_url}tags/#{slug}" + request.fullpath[/\?.*/].to_s
+  end
+
+  def alternate_urls(route, slug)
+    Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + route, locale: local)}/#{slug}" +  + request.fullpath[/\?.*/].to_s] }]
+  end
+
   def handle_error(exception)
     # Add into database
     error_params = {

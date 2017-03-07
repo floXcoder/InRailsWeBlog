@@ -1,9 +1,6 @@
-- provide(:title, t('views.article.edit.page_title', title: article.title))
-
 - stylesheet 'articles/edit'
 
 - javascript "articles/edit-#{I18n.locale}"
-- javascript 'commons'
-- javascript 'articles/edit'
+- javascript_defer 'commons', 'articles/edit'
 
-= content_tag :div, '', id: 'article-edit-component', data: {article: ActiveModel::SerializableResource.new(article, {scope: current_user}).serializable_hash}
+= content_tag :div, '', id: 'article-edit-component', data: { article: Article.as_json(article, current_user: current_user }) }

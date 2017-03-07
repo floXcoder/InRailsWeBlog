@@ -47,7 +47,7 @@ $(document).ajaxComplete((event, request) => {
         }
 
         if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
-            Notification.alert(flashMessage.notice.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+            Notification.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
         }
 
         if (flashMessage && flashMessage.error) {

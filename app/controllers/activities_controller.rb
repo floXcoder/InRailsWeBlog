@@ -7,7 +7,9 @@ class ActivitiesController < ApplicationController
     activities = PublicActivity::Activity.order('created_at desc')
 
     respond_to do |format|
-      format.json { render json: activities }
+      format.json do
+        render json: activities
+      end
     end
   end
 end

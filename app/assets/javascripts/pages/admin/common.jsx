@@ -7,7 +7,7 @@ import AdminMenu from '../../components/admin/menu';
 import AdminMessage from '../../components/admin/message';
 
 // Flash messages
-$('.loca-flash').each((index, element) => {
+$('.blog-flash').each((index, element) => {
     const $element = $(element);
     const level = $element.data('level');
 
@@ -29,7 +29,7 @@ $(document).ajaxComplete((event, request) => {
         }
 
         if(flashMessage && (flashMessage.notice || flashMessage.alert)) {
-            Notification.alert(flashMessage.notice.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+            Notification.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
         }
 
         if(flashMessage && flashMessage.error) {

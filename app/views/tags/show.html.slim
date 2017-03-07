@@ -1,9 +1,6 @@
-- provide(:title, t('views.tag.show.page_title', name: tag.name))
-
 - stylesheet 'tags/show'
 
 - javascript "tags/edit-#{I18n.locale}"
-- javascript 'commons'
-- javascript 'tags/show'
+- javascript_defer 'commons', 'tags/show'
 
-= content_tag :div, '', id: 'tag-show-component', data: {tag: ActiveModel::SerializableResource.new(tag, {scope: current_user}).serializable_hash, articles: ActiveModel::SerializableResource.new(articles, {scope: current_user}).serializable_hash}
+= content_tag :div, '', id: 'tag-show-component', data: { tag: Tag.as_json(tag, current_user: current_user }) }
