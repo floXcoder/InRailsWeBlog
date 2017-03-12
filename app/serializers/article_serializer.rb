@@ -108,7 +108,7 @@ class ArticleSerializer < ActiveModel::Serializer
   end
 
   def comments_number
-    object.tracker.comments_count
+    object.comments_count
   end
 
   def comments

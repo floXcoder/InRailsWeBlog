@@ -4,23 +4,23 @@ source 'https://rubygems.org'
 ruby '2.3.3'
 
 # Rails version
-gem 'rails',                    '5.0.1'
+gem 'rails',                    '5.0.2'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '0.19.0'
+gem 'pg',                       '0.20.0'
 
 # HTTP Response
 gem 'responders',               '2.3.0'
 gem 'http_accept_language',     '2.1.0'
-gem 'secure_headers',           '3.6.1'
+gem 'secure_headers',           '3.6.2'
 
 # JSON
-gem 'active_model_serializers', '0.10.4'
-gem 'oj',                       '2.18.1'
+gem 'active_model_serializers', '0.10.5'
+gem 'oj',                       '2.18.2'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
-gem 'slim-rails',               '3.1.1'
+gem 'slim-rails',               '3.1.2'
 
 # Internationalization
 gem 'i18n-js',                  '3.0.0.rc15'
@@ -54,7 +54,7 @@ gem 'redis-namespace',          '1.5.3'
 gem 'redis-session-store',      '0.9.1'
 gem 'readthis',                 '2.0.2'
 gem 'hiredis',                  '0.6.1'
-gem 'redis-rack-cache',         '2.0.0'
+gem 'redis-rack-cache',         '2.0.1'
 
 # Database fields validator
 gem 'date_validator',           '0.9.0'
@@ -94,8 +94,8 @@ gem 'friendly_id',              '5.2.0'
 gem 'meta-tags',                '2.4.0'
 
 # Deployment
-gem 'capistrano',               '3.7.2'
-gem 'capistrano-rails',         '1.2.2'
+gem 'capistrano',               '3.8.0'
+gem 'capistrano-rails',         '1.2.3'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.2.0',   require: false
 gem 'capistrano-rails-console', '2.2.0',   require: false
@@ -107,7 +107,7 @@ gem 'newrelic_rpm',             '3.18.1.330'
 
 group :development do
   # server
-  gem 'puma',                   '3.6.2'
+  gem 'puma',                   '3.8.1'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.5'
@@ -133,7 +133,7 @@ group :development do
   # gem 'libnotify',              '0.9.1'
 
   # N+1 database query
-  gem 'bullet',                 '5.5.0'
+  gem 'bullet',                 '5.5.1'
 
   # Find index to add
   gem 'lol_dba',                '2.1.1'
@@ -157,7 +157,7 @@ group :test do
   gem 'spring-commands-rspec',  '1.0.4'
 
   # static analyzer
-  gem 'rails_best_practices',   '1.17.0',   require: false
+  gem 'rails_best_practices',   '1.18.0',   require: false
   gem 'brakeman',               '3.5.0',    require: false
   gem 'metric_fu',              '4.12.0',   require: false
   gem 'i18n-tasks',             '0.9.12',   require: false

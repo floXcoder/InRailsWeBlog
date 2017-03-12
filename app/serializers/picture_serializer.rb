@@ -2,21 +2,19 @@
 #
 # Table name: pictures
 #
-#  id                 :integer          not null, primary key
-#  user_id            :integer          not null
-#  imageable_id       :integer
-#  imageable_type     :string           not null
-#  image              :string
-#  image_tmp          :string
-#  description        :text
-#  copyright          :string
-#  original_filename  :string
-#  image_secure_token :string
-#  priority           :integer          default(0), not null
-#  accepted           :boolean          default(TRUE), not null
-#  deleted_at         :datetime
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id             :integer          not null, primary key
+#  user_id        :integer          not null
+#  imageable_id   :integer
+#  imageable_type :string           not null
+#  image          :string
+#  image_tmp      :string
+#  description    :text
+#  copyright      :string
+#  priority       :integer          default(0), not null
+#  accepted       :boolean          default(TRUE), not null
+#  deleted_at     :datetime
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 
 class PictureSerializer < ActiveModel::Serializer

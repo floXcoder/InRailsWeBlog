@@ -202,10 +202,11 @@ en:
       models:
         tag:
           already_exist: "Un label avec le même nom existe déjà"
+          already_exist_in_public: "Un label public avec le même nom existe déjà"
           public_name_immutable: "Un label public ne peut changer de nom"
         bookmark:
           already_bookmarked: "Élément déjà ajouté aux favoris !"
-          model_unkown: "Impossible d'ajouter cet élément dans les favoris"
+          model_unknown: "Impossible d'ajouter cet élément dans les favoris"
           not_bookmarked: "Élément non existant dans les favoris !"
         outdated:
           already_outdated: "Article déjà marqué comme périmé !"
@@ -213,6 +214,7 @@ en:
         topic:
           already_selected: "Le nouveau thème est déjà celui utilisé"
           already_exist: "Un thème avec le même nom existe déjà"
+          not_owner: "Vous devez être le propriétaire du thème pour l'utiliser"
         picture:
           image_size: "doit être inférieur à 5Mo"
   errors:

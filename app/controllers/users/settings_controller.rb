@@ -18,7 +18,7 @@ class Users::SettingsController < ApplicationController
 
   def update
     user = User.find(params[:user_id])
-    authorize user, :update_settings
+    authorize user, :update_settings?
 
     if params[:settings]
       params[:settings].each do |pref_type, pref_value|

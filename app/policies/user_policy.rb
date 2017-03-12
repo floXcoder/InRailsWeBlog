@@ -6,10 +6,6 @@ class UserPolicy
     @user         = user
   end
 
-  def show?
-    owner?
-  end
-
   def bookmarks?
     owner?
   end
@@ -26,11 +22,7 @@ class UserPolicy
     owner?
   end
 
-  def settings?
-    owner?
-  end
-
-  def update_settings?
+  def show?
     owner?
   end
 
@@ -43,6 +35,14 @@ class UserPolicy
   end
 
   def destroy?
+    owner?
+  end
+
+  def settings?
+    owner?
+  end
+
+  def update_settings?
     owner?
   end
 

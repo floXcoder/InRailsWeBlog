@@ -66,7 +66,7 @@ RSpec.describe Admin, type: :model do
       end
 
       it { expect(@admin.locale).to eq('fr') }
-      it { expect(@admin.settings).to eq('{}') }
+      it { expect(@admin.settings).to eq({}) }
     end
 
     describe '#pseudo' do
@@ -143,9 +143,9 @@ RSpec.describe Admin, type: :model do
       it { expect(@admin.admin?(create(:admin))).to be false }
     end
 
-    describe '.create_blog' do
-      it { is_expected.to respond_to(:create_blog) }
-    end
+    # describe '.create_blog' do
+    #   it { is_expected.to respond_to(:create_blog) }
+    # end
   end
 
 end

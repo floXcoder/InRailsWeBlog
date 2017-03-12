@@ -65,23 +65,20 @@ class Topic < ApplicationRecord
                                   |picture| picture['picture'].blank? && picture['image_tmp'].blank?
                                 }
 
-  has_many :outdated_articles
-  has_many :marked_as_outdated,
-           through: :outdated_articles,
-           source:  :user
+  has_many :articles
 
-  has_many :bookmarked,
+  has_many :bookmarks,
            as:          :bookmarked,
            class_name:  'Bookmark',
            foreign_key: 'bookmarked_id',
            dependent:   :destroy
   has_many :user_bookmarks,
-           through: :bookmarked,
+           through: :bookmarks,
            source:  :user
 
   has_many :follower,
            -> { where(bookmarks: { follow: true }) },
-           through: :bookmarked,
+           through: :bookmarks,
            source:  :user
 
   # == Validations ==========================================================
@@ -117,7 +114,7 @@ class Topic < ApplicationRecord
   }
 
   scope :bookmarked_by_user,
-        -> (user_id) { joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
+        -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
 
@@ -161,8 +158,8 @@ class Topic < ApplicationRecord
 
     where_options ||= {}
 
-    # Aggregations
-    aggregations  = {}
+    # # Aggregations
+    # aggregations  = {}
 
     # Boost user articles first
     boost_where   = nil
@@ -189,7 +186,7 @@ class Topic < ApplicationRecord
     end
 
     # Perform search
-    results = Article.search(query_string,
+    results = Topic.search(query_string,
                              fields:       fields,
                              boost_where:  boost_where,
                              highlight:    highlight,
@@ -201,16 +198,16 @@ class Topic < ApplicationRecord
                              operator:     operator,
                              where:        where_options,
                              order:        order,
-                             aggs:         aggregations,
+                             # aggs:         aggregations,
                              includes:     [:user])
 
-    formatted_aggregations = {}
-    results.aggs.each do |key, value|
-      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
-    end
+    # formatted_aggregations = {}
+    # results.aggs.each do |key, value|
+    #   formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
+    # end
 
     # Track search results
-    Topic.track_searches(results.records.ids)
+    # Topic.track_searches(results.records.ids)
 
     topics = results.records
     topics = topics.includes(:user)
@@ -220,7 +217,7 @@ class Topic < ApplicationRecord
       topics:       topics.records,
       highlight:    highlight ? Hash[results.with_details.map { |topic, details| [topic.id, details[:highlight]] }] : [],
       suggestions:  results.suggestions,
-      aggregations: formatted_aggregations,
+      # aggregations: formatted_aggregations,
       total_count:  results.total_count,
       total_pages:  results.total_pages
     }
@@ -254,7 +251,7 @@ class Topic < ApplicationRecord
         name:    topic.name,
         summary: topic.summary,
         icon:    'topic',
-        link:    Rails.application.routes.url_helpers.topic_path(topic.slug)
+        link:    Rails.application.routes.url_helpers.user_topic_path(topic.user_id, topic.slug)
       }
     end
   end
@@ -277,7 +274,7 @@ class Topic < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    user.id == self.user_id if user
+    self.user_id == user.id if user
   end
 
   def format_attributes(attributes={})

@@ -7,7 +7,7 @@ class Populate
 
   def self.create_admin
     FactoryGirl.create(:admin,
-                       :with_blog,
+                       # :with_blog,
                        pseudo:                ENV['WEBSITE_ADMIN_NAME'],
                        email:                 ENV['WEBSITE_ADMIN_EMAIL'],
                        locale:                'fr',

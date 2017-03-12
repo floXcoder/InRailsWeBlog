@@ -24,6 +24,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.integer     :articles_count,                  default: 0
       t.integer     :tags_count,                      default: 0
       t.integer     :bookmarks_count,                 default: 0
+      t.integer     :comments_count,                  default: 0
 
       t.string      :slug
 

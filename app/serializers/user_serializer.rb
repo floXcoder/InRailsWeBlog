@@ -58,7 +58,6 @@ class UserSerializer < ActiveModel::Serializer
              :country,
              :additional_info,
              :locale,
-             :admin,
              :slug,
              :avatar
 

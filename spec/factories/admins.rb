@@ -38,9 +38,9 @@ FactoryGirl.define do
 
     after(:build) { |admin| admin.class.skip_callback(:create, :after, :create_blog, raise: false) }
 
-    trait :with_blog do
-      after(:create) { |admin| admin.send(:create_blog) }
-    end
+    # trait :with_blog do
+    #   after(:create) { |admin| admin.send(:create_blog) }
+    # end
   end
 
 end

@@ -35,32 +35,32 @@ class ArticlePolicy
   end
 
   def vote_up?
-    @current_user && !@article.voted_by?(@current_user)
+    @current_user && correct_user? && !@article.user?(@current_user)
   end
 
   def vote_down?
-    @current_user && !@article.voted_by?(@current_user)
+    @current_user && correct_user? && !@article.user?(@current_user)
   end
 
   def add_outdated?
-    @current_user
+    @current_user && correct_user? && !@article.user?(@current_user)
   end
 
   def remove_outdated?
-    @current_user
+    @current_user && correct_user? && !@article.user?(@current_user)
   end
 
   # Comments
   def add_comment?
-    @current_user && correct_user? && @article.allow_comment? && @article.everyone?
+    @current_user && correct_user? && @article.allow_comment? && @article.everyone? && !@article.user?(@current_user)
   end
 
   def update_comment?
-    @current_user && correct_user? && @article.allow_comment? && @article.everyone?
+    @current_user && correct_user? && @article.allow_comment? && @article.everyone? && !@article.user?(@current_user)
   end
 
   def remove_comment?
-    @current_user && correct_user? && @article.allow_comment? && @article.everyone?
+    @current_user && correct_user? && @article.allow_comment? && @article.everyone? && !@article.user?(@current_user)
   end
 
   private

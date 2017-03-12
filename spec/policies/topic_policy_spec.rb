@@ -14,29 +14,29 @@ describe TopicPolicy do
     context 'for a visitor' do
       let(:user) { nil }
 
-      it { should_not grant(:add_topic) }
-      it { should_not grant(:change_topic) }
-      it { should_not grant(:update_topic) }
-      it { should_not grant(:remove_topic) }
+      it { should_not grant(:switch) }
+      it { should_not grant(:new) }
+      it { should_not grant(:update) }
+      it { should_not grant(:destroy) }
     end
 
     context 'for other users' do
       let(:user) { @other_user }
 
-      it { should grant(:add_topic) }
-      it { should grant(:change_topic) }
+      it { should grant(:new) }
 
-      it { should_not grant(:update_topic) }
-      it { should_not grant(:remove_topic) }
+      it { should_not grant(:switch) }
+      it { should_not grant(:update) }
+      it { should_not grant(:destroy) }
     end
 
     context 'for the owner' do
       let(:user) { @user }
 
-      it { should grant(:add_topic) }
-      it { should grant(:change_topic) }
-      it { should grant(:update_topic) }
-      it { should grant(:remove_topic) }
+      it { should grant(:switch) }
+      it { should grant(:new) }
+      it { should grant(:update) }
+      it { should grant(:destroy) }
     end
   end
 
@@ -46,29 +46,29 @@ describe TopicPolicy do
     context 'for a visitor' do
       let(:user) { nil }
 
-      it { should_not grant(:add_topic) }
-      it { should_not grant(:change_topic) }
-      it { should_not grant(:update_topic) }
-      it { should_not grant(:remove_topic) }
+      it { should_not grant(:switch) }
+      it { should_not grant(:new) }
+      it { should_not grant(:update) }
+      it { should_not grant(:destroy) }
     end
 
     context 'for other users' do
       let(:user) { @other_user }
 
-      it { should grant(:add_topic) }
-      it { should grant(:change_topic) }
+      it { should grant(:new) }
 
-      it { should_not grant(:update_topic) }
-      it { should_not grant(:remove_topic) }
+      it { should_not grant(:switch) }
+      it { should_not grant(:update) }
+      it { should_not grant(:destroy) }
     end
 
     context 'for the owner' do
       let(:user) { @user }
 
-      it { should grant(:add_topic) }
-      it { should grant(:change_topic) }
-      it { should grant(:update_topic) }
-      it { should grant(:remove_topic) }
+      it { should grant(:switch) }
+      it { should grant(:new) }
+      it { should grant(:update) }
+      it { should grant(:destroy) }
     end
   end
 

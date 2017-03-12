@@ -8,7 +8,7 @@
 #  description     :text
 #  color           :string
 #  priority        :integer          default(0), not null
-#  visibility      :integer          default(0), not null
+#  visibility      :integer          default("everyone"), not null
 #  accepted        :boolean          default(TRUE), not null
 #  archived        :boolean          default(FALSE), not null
 #  pictures_count  :integer          default(0)
@@ -53,7 +53,9 @@ RSpec.describe Topic, type: :model do
     it { is_expected.to respond_to(:visibility) }
     it { is_expected.to respond_to(:archived) }
     it { is_expected.to respond_to(:accepted) }
-    it { is_expected.to respond_to(:topicged_articles_count) }
+    it { is_expected.to respond_to(:pictures_count) }
+    it { is_expected.to respond_to(:articles_count) }
+    it { is_expected.to respond_to(:bookmarks_count) }
 
     it { expect(@topic.name).to eq('Topic') }
     it { expect(@topic.description).to eq('Topic description') }
@@ -61,7 +63,7 @@ RSpec.describe Topic, type: :model do
     it { expect(@topic.priority).to eq(1) }
     it { expect(@topic.visibility).to eq('everyone') }
     it { expect(@topic.archived).to be false }
-    it { expect(@topic.accepted).to be false }
+    it { expect(@topic.accepted).to be true }
     it { expect(@topic.pictures_count).to eq(0) }
     it { expect(@topic.articles_count).to eq(0) }
     it { expect(@topic.bookmarks_count).to eq(0) }
@@ -77,7 +79,7 @@ RSpec.describe Topic, type: :model do
       it { expect(@topic.priority).to eq(0) }
       it { expect(@topic.visibility).to eq('everyone') }
       it { expect(@topic.archived).to be false }
-      it { expect(@topic.accepted).to be false }
+      it { expect(@topic.accepted).to be true }
       it { expect(@topic.pictures_count).to eq(0) }
       it { expect(@topic.articles_count).to eq(0) }
       it { expect(@topic.bookmarks_count).to eq(0) }
@@ -102,15 +104,37 @@ RSpec.describe Topic, type: :model do
   context 'Properties', basic: true do
     it { is_expected.to have_friendly_id(:slug) }
 
-    # it { is_expected.to act_as_tracked(Topic) }
-
     it { is_expected.to have_activity }
 
-    it { is_expected.to have_strip_attributes([:name]) }
+    it { is_expected.to have_strip_attributes([:name, :color]) }
 
     it { is_expected.to have_paper_trail(Topic) }
 
     it { is_expected.to have_search(Topic) }
+
+    it { is_expected.to act_as_paranoid(Topic) }
+
+    it 'uses counter cache for picture' do
+      picture = create(:picture, user: @user, imageable_type: 'Topic')
+      expect {
+        @topic.picture = picture
+        @topic.reload
+      }.to change(@topic, :pictures_count).by(1)
+    end
+
+    it 'uses counter cache for articles' do
+      article = create(:article, user: @user, topic: @topic)
+      expect {
+        @topic.articles << article
+      }.to change(@topic.reload, :articles_count).by(1)
+    end
+
+    it 'uses counter cache for bookmarks' do
+      bookmark = create(:bookmark, user: @user, bookmarked: @topic)
+      expect {
+        @topic.bookmarks << bookmark
+      }.to change(@topic.reload, :bookmarks_count).by(1)
+    end
   end
 
   context 'Associations', basic: true do
@@ -118,9 +142,7 @@ RSpec.describe Topic, type: :model do
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to have_db_index(:user_id) }
 
-    # it { is_expected.to have_many(:tags) }
-
-    # it { is_expected.to have_many(:articles) }
+    it { is_expected.to have_many(:articles) }
 
     it { is_expected.to have_one(:picture) }
     it { is_expected.to accept_nested_attributes_for(:picture) }
@@ -134,22 +156,77 @@ RSpec.describe Topic, type: :model do
     let!(:other_user) { create(:user) }
     let!(:other_topic) { create(:topic, user: other_user) }
 
-    # describe '::as_json' do
-    #   it { is_expected.to respond_to(:as_json) }
-    #   it { expect(Shop.as_json(@shop)).to be_a(Hash) }
-    #   it { expect(Shop.as_json(@shop)[:shop]).to be_a(Hash) }
-    #   it { expect(Shop.as_json([@shop])).to be_a(Hash) }
-    #   it { expect(Shop.as_json([@shop])[:shops]).to be_a(Array) }
-    # end
-    #
-    # describe '::as_flat_json' do
-    #   it { is_expected.to respond_to(:as_flat_json) }
-    #   it { expect(Shop.as_flat_json(@shop)).to be_a(Hash) }
-    #   it { expect(Shop.as_flat_json([@shop])).to be_a(Array) }
-    # end
+    before do
+      @topic.bookmarks << create(:bookmark, user: @user, bookmarked: @topic)
+
+      Topic.reindex
+      Topic.search_index.refresh
+    end
+
+    describe '::everyone_and_user' do
+      it { is_expected.to respond_to(:everyone_and_user) }
+      it { expect(Topic.everyone_and_user).to include(@topic, other_topic) }
+      it { expect(Topic.everyone_and_user).not_to include(private_topic) }
+      it { expect(Topic.everyone_and_user(@user.id)).to include(@topic, private_topic, other_topic) }
+    end
+
+    describe '::with_visibility' do
+      it { is_expected.to respond_to(:with_visibility) }
+      it { expect(Topic.with_visibility('only_me')).to include(private_topic) }
+      it { expect(Topic.with_visibility('only_me')).not_to include(other_topic) }
+      it { expect(Topic.with_visibility(1)).to include(private_topic) }
+      it { expect(Topic.with_visibility(1)).not_to include(other_topic) }
+    end
+
+    describe '::from_user' do
+      it { is_expected.to respond_to(:from_user) }
+      it { expect(Topic.from_user(@user.id)).to include(@topic) }
+      it { expect(Topic.from_user(@user.id)).not_to include(other_topic) }
+      it { expect(Topic.from_user(@user.id)).not_to include(private_topic) }
+      it { expect(Topic.from_user(@user.id, @user.id)).to include(@topic, private_topic) }
+      it { expect(Topic.from_user(@user.id, @user.id)).not_to include(other_topic) }
+    end
+
+    describe '::bookmarked_by_user' do
+      it { is_expected.to respond_to(:bookmarked_by_user) }
+      it { expect(Topic.bookmarked_by_user(@user)).to include(@topic) }
+      it { expect(Topic.bookmarked_by_user(@user)).not_to include(other_topic) }
+    end
+
+    describe '::search_for' do
+      it { is_expected.to respond_to(:search_for) }
+
+      it 'search for topics' do
+        topic_results = Topic.search_for('topic')
+        expect(topic_results[:topics]).not_to be_empty
+        expect(topic_results[:topics]).to be_a(Array)
+        expect(topic_results[:topics].size).to eq(3)
+        expect(topic_results[:topics].map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
+      end
+    end
+
+    describe '::autocomplete_for' do
+      it { is_expected.to respond_to(:autocomplete_for) }
+
+      it 'autocompletes for topics' do
+        topic_autocompletes = Topic.autocomplete_for('top')
+
+        expect(topic_autocompletes).not_to be_empty
+        expect(topic_autocompletes).to be_a(Array)
+        expect(topic_autocompletes.size).to eq(3)
+        expect(topic_autocompletes.map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
+      end
+    end
+
+    describe '::order_by' do
+      it { is_expected.to respond_to(:order_by) }
+      it { expect(Topic.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
+    end
   end
 
   context 'Instance Methods', basic: true do
+    let!(:other_user) { create(:user) }
+
     describe '.user?' do
       it { is_expected.to respond_to(:user?) }
       it { expect(@topic.user?(@user)).to be true }
@@ -158,6 +235,36 @@ RSpec.describe Topic, type: :model do
 
     describe '.format_attributes' do
       it { is_expected.to respond_to(:format_attributes) }
+    end
+
+    describe '.bookmarked?' do
+      before do
+        create(:bookmark, user: other_user, bookmarked: @topic, follow: true)
+      end
+
+      it { is_expected.to respond_to(:bookmarked?) }
+      it { expect(@topic.bookmarked?(other_user)).to be true }
+      it { expect(@topic.bookmarked?(@user)).to be false }
+    end
+
+    describe '.followed?' do
+      before do
+        create(:bookmark, user: other_user, bookmarked: @topic)
+      end
+
+      it { is_expected.to respond_to(:followed?) }
+      it { expect(@topic.followed?(other_user)).to be true }
+      it { expect(@topic.followed?(@user)).to be false }
+    end
+
+    describe '.slug_candidates' do
+      it { is_expected.to respond_to(:slug_candidates) }
+      it { expect(@topic.slug_candidates).to be_a Array }
+    end
+
+    describe '.search_data' do
+      it { is_expected.to respond_to(:search_data) }
+      it { expect(@topic.search_data).to be_a Hash }
     end
   end
 

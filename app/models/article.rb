@@ -122,9 +122,9 @@ class Article < ApplicationRecord
            through: :bookmarks,
            source:  :user
 
-  has_many :follower,
+  has_many :followers,
            -> { where(bookmarks: { follow: true }) },
-           through: :bookmarked,
+           through: :bookmarks,
            source:  :user
 
   has_many :activities,
@@ -166,14 +166,14 @@ class Article < ApplicationRecord
                                   current_user_id: current_user_id)
   }
 
-  scope :with_tags, -> (tags) { joins(:tags).where(tags: { name: tags }) }
+  scope :with_tags, -> (tag_name) { joins(:tags).where(tags: { name: tag_name }) }
   scope :with_parent_tags, -> (parent_tags) { joins(:tags).where(tagged_articles: { parent: true }, tags: { name: parent_tags }) }
   scope :with_child_tags, -> (child_tags) { joins(:tags).where(tagged_articles: { child: true }, tags: { name: child_tags }) }
 
   scope :published, -> { where(draft: false) }
 
   scope :bookmarked_by_user,
-        -> (user_id) { joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
+        -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
 
@@ -317,13 +317,14 @@ class Article < ApplicationRecord
     where_options = options[:where].compact.map do |key, value|
       [key, value]
     end.to_h if options[:where]
+    where_options ||= {}
 
     # Set result limit
     limit         = options[:limit] ? options[:limit] : CONFIG.per_page
 
     # Perform search
     results       = Article.search(query_string,
-                                   fields:       %w(name^3 summary),
+                                   fields:       %w(title^3 summary),
                                    match:        :word_middle,
                                    misspellings: false,
                                    load:         false,
@@ -332,7 +333,7 @@ class Article < ApplicationRecord
 
     return results.map do |article|
       {
-        name:    article.name,
+        title:    article.title,
         summary: article.summary,
         icon:    'article',
         link:    Rails.application.routes.url_helpers.article_path(article.slug)
@@ -470,7 +471,7 @@ class Article < ApplicationRecord
           previous_article_ids = tag_relationship.article_ids
           tag_relationship.update_attribute(:article_ids, previous_article_ids + [self.id])
         else
-          parent.parent_relationship.create!(child_id: child.id, article_ids: [self.id])
+          parent.parent_relationship.create!(user_id: self.user_id, child_id: child.id, article_ids: [self.id.to_s])
         end
       end
     end unless self.child_tags.empty?
@@ -482,20 +483,24 @@ class Article < ApplicationRecord
         if self.parent_tags.exists?(previous_parent.id)
           unless self.child_tags.exists?(previous_child.id)
             tag_relationship = previous_parent.parent_relationship.find_by(child_id: previous_child.id)
-            new_article_ids  = tag_relationship.article_ids - [self.id]
+            if tag_relationship
+              new_article_ids  = tag_relationship.article_ids - [self.id.to_s]
+              if new_article_ids.empty?
+                tag_relationship.destroy
+              else
+                tag_relationship.update_attribute(:article_ids, new_article_ids)
+              end
+            end
+          end
+        else
+          tag_relationship = previous_child.child_relationship.find_by(parent_id: previous_parent.id)
+          if tag_relationship
+            new_article_ids  = tag_relationship.article_ids - [self.id.to_s]
             if new_article_ids.empty?
               tag_relationship.destroy
             else
               tag_relationship.update_attribute(:article_ids, new_article_ids)
             end
-          end
-        else
-          tag_relationship = previous_child.child_relationship.find_by(parent_id: previous_parent.id)
-          new_article_ids  = tag_relationship.article_ids - [self.id]
-          if new_article_ids.empty?
-            tag_relationship.destroy
-          else
-            tag_relationship.update_attribute(:article_ids, new_article_ids)
           end
         end
       end
@@ -506,11 +511,13 @@ class Article < ApplicationRecord
     previous_parent_tags.each do |previous_parent|
       previous_child_tags.each do |previous_child|
         tag_relationship = previous_parent.parent_relationship.find_by(child_id: previous_child.id)
-        new_article_ids  = tag_relationship.article_ids - [self.id]
-        if new_article_ids.empty?
-          tag_relationship.destroy
-        else
-          tag_relationship.update_attribute(:article_ids, new_article_ids)
+        if tag_relationship
+          new_article_ids  = tag_relationship.article_ids - [self.id.to_s]
+          if new_article_ids.empty?
+            tag_relationship.destroy
+          else
+            tag_relationship.update_attribute(:article_ids, new_article_ids)
+          end
         end
       end
     end unless previous_child_tags.empty?
@@ -552,14 +559,14 @@ class Article < ApplicationRecord
   end
 
   def followed?(user)
-    user ? follower.include?(user) : false
+    user ? followers.include?(user) : false
   end
 
   def slug_candidates
     "#{title}_at_#{user.pseudo}"
   end
 
-  def normalize_friendly_id(_string)
+  def normalize_friendly_id(_string = nil)
     super.tr('-', '_').tr('_at_', '@')
   end
 
@@ -572,7 +579,7 @@ class Article < ApplicationRecord
   end
 
   def has_private_content?
-    self.content =~ /<(\w+) class="secret">.*?<\/\1>/im
+    !!(self.content =~ /<(\w+) class="secret">.*?<\/\1>/im)
   end
 
   def adapted_content(current_user_id)

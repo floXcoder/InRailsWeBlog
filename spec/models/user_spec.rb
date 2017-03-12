@@ -66,8 +66,6 @@ RSpec.describe User, type: :model do
       state:                 'state',
       mobile_number:         '0606060606',
       phone_number:          '0101010101',
-      # settings:              {},
-      pictures_count:        0,
       slug:                  'example_user'
     )
     @user.confirm
@@ -90,14 +88,19 @@ RSpec.describe User, type: :model do
     it { is_expected.to respond_to(:additional_info) }
     it { is_expected.to respond_to(:locale) }
     it { is_expected.to respond_to(:settings) }
-    it { is_expected.to respond_to(:pictures_count) }
-    # it { is_expected.to respond_to(:external) }
     it { is_expected.to respond_to(:birth_date) }
     it { is_expected.to respond_to(:street) }
     it { is_expected.to respond_to(:postcode) }
     it { is_expected.to respond_to(:state) }
     it { is_expected.to respond_to(:mobile_number) }
     it { is_expected.to respond_to(:postcode) }
+    it { is_expected.to respond_to(:pictures_count) }
+    it { is_expected.to respond_to(:topics_count) }
+    it { is_expected.to respond_to(:articles_count) }
+    it { is_expected.to respond_to(:tags_count) }
+    it { is_expected.to respond_to(:bookmarks_count) }
+    it { is_expected.to respond_to(:comments_count) }
+    # it { is_expected.to respond_to(:external) }
 
     it { expect(@user.pseudo).to eq('User') }
     # it { expect(@user.email).to eq('user@example.com') }
@@ -106,7 +109,6 @@ RSpec.describe User, type: :model do
     it { expect(@user.last_name).to eq('User') }
     it { expect(@user.city).to eq('My city') }
     it { expect(@user.country).to eq('My country') }
-    # it { expect(@user.birth_date).to eq(DateTime(Chronic.parse('yesterday 12:00'))) }
     it { expect(@user.mobile_number).to eq('0606060606') }
     it { expect(@user.phone_number).to eq('0101010101') }
     it { expect(@user.additional_info).to eq('My personal info') }
@@ -116,6 +118,11 @@ RSpec.describe User, type: :model do
     it { expect(@user.state).to eq('state') }
     it { expect(@user.settings).to eq({ 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
     it { expect(@user.pictures_count).to eq(0) }
+    it { expect(@user.topics_count).to eq(1) }
+    it { expect(@user.articles_count).to eq(0) }
+    it { expect(@user.tags_count).to eq(0) }
+    it { expect(@user.bookmarks_count).to eq(0) }
+    it { expect(@user.comments_count).to eq(0) }
     # it { expect(@user.external).to be false }
 
     describe 'Default Attributes', basic: true do
@@ -132,8 +139,10 @@ RSpec.describe User, type: :model do
       it { expect(@user.locale).to eq('fr') }
       it { expect(@user.settings).to eq({ 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
       it { expect(@user.pictures_count).to eq(0) }
-      # TODO
-      # it { expect(@user.settings).to be false }
+      it { expect(@user.topics_count).to eq(0) }
+      it { expect(@user.articles_count).to eq(0) }
+      it { expect(@user.tags_count).to eq(0) }
+      it { expect(@user.bookmarks_count).to eq(0) }
     end
 
     describe '#pseudo' do
@@ -198,9 +207,47 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to act_as_tracked(User) }
 
+    it { is_expected.to have_strip_attributes([:first_name, :last_name, :city, :country, :additional_info, :phone_number, :mobile_number]) }
+
     it { is_expected.to act_as_paranoid(User) }
 
-    it { is_expected.to have_strip_attributes([:first_name, :last_name, :city, :country, :additional_info, :phone_number, :mobile_number]) }
+    it 'uses counter cache for pictures' do
+      picture = create(:picture, user: @user, imageable_type: 'User')
+      expect {
+        @user.pictures << picture
+      }.to change(@user.reload, :pictures_count).by(1)
+    end
+
+    it 'uses counter cache for bookmarks' do
+      bookmark = create(:bookmark, user: @user, bookmarked: @user)
+      expect {
+        @user.bookmarks << bookmark
+      }.to change(@user.reload, :bookmarks_count).by(1)
+    end
+
+    it 'uses counter cache for topics' do
+      expect {
+        create(:topic, user: @user)
+      }.to change(@user.reload, :topics_count).by(1)
+    end
+
+    it 'uses counter cache for articles' do
+      expect {
+        create(:article, user: @user, topic: create(:topic, user: @user))
+      }.to change(@user.reload, :articles_count).by(1)
+    end
+
+    it 'uses counter cache for tags' do
+      expect {
+        create(:tag, user: @user)
+      }.to change(@user.reload, :tags_count).by(1)
+    end
+
+    it 'uses counter cache for comments' do
+      expect {
+        create(:comment, user: @user, commentable: @user)
+      }.to change(@user.reload, :comments_count).by(1)
+    end
   end
 
   context 'Associations', basic: true do
@@ -208,16 +255,21 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to have_many(:articles) }
     it { is_expected.to have_many(:draft_articles) }
-
-    # it { is_expected.to have_many(:bookmarked_articles) }
-    it { is_expected.to have_many(:bookmarks) }
-
+    it { is_expected.to have_many(:article_relationships) }
     it { is_expected.to have_many(:outdated_articles) }
-    # it { is_expected.to have_one(:marked_as_outdated) }
+
+    it { is_expected.to have_many(:tags) }
+    it { is_expected.to have_many(:tag_relationships) }
+
+    it { is_expected.to have_many(:bookmarks) }
+    it { is_expected.to have_many(:followers) }
+    it { is_expected.to have_many(:following_users) }
+    it { is_expected.to have_many(:following_articles) }
+    it { is_expected.to have_many(:following_tags) }
 
     it { is_expected.to have_many(:comments) }
 
-    it { is_expected.to have_many(:activities) }
+    it { is_expected.to have_many(:pictures) }
 
     it { is_expected.to have_one(:picture) }
     it { is_expected.to accept_nested_attributes_for(:picture) }
@@ -225,6 +277,51 @@ RSpec.describe User, type: :model do
 
   context 'Public Methods', basic: true do
     subject { User }
+
+    let!(:other_user) { create(:user) }
+
+    before do
+      @user.bookmarks << create(:bookmark, user: @user, bookmarked: other_user)
+
+      User.reindex
+      User.search_index.refresh
+    end
+
+    describe '::bookmarked_by_user' do
+      it { is_expected.to respond_to(:bookmarked_by_user) }
+      it { expect(User.bookmarked_by_user(@user)).to include(@user) }
+      it { expect(User.bookmarked_by_user(@user)).not_to include(other_user) }
+    end
+
+    describe '::search_for' do
+      it { is_expected.to respond_to(:search_for) }
+
+      it 'search for users' do
+        user_results = User.search_for('user')
+        expect(user_results[:users]).not_to be_empty
+        expect(user_results[:users]).to be_a(Array)
+        expect(user_results[:users].size).to eq(1)
+        expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
+      end
+    end
+
+    describe '::autocomplete_for' do
+      it { is_expected.to respond_to(:autocomplete_for) }
+
+      it 'autocompletes for users' do
+        user_autocompletes = User.autocomplete_for('us')
+
+        expect(user_autocompletes).not_to be_empty
+        expect(user_autocompletes).to be_a(Array)
+        expect(user_autocompletes.size).to eq(1)
+        expect(user_autocompletes.map { |user| user[:pseudo] }).to include(@user.pseudo)
+      end
+    end
+
+    describe '::order_by' do
+      it { is_expected.to respond_to(:order_by) }
+      it { expect(User.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
+    end
 
     describe '::pseudo?' do
       it { is_expected.to respond_to(:pseudo?) }
@@ -246,38 +343,92 @@ RSpec.describe User, type: :model do
       it { is_expected.to respond_to(:find_for_database_authentication) }
     end
 
-    # describe '::as_json' do
-    #   it { is_expected.to respond_to(:as_json) }
-    #   it { expect(User.as_json(@user)).to be_a(Hash) }
-    #   it { expect(User.as_json(@user)[:user]).to be_a(Hash) }
-    #   it { expect(User.as_json([@user])).to be_a(Hash) }
-    #   it { expect(User.as_json([@user])[:users]).to be_a(Array) }
-    # end
-    #
-    # describe '::as_flat_json' do
-    #   it { is_expected.to respond_to(:as_flat_json) }
-    #   it { expect(User.as_flat_json(@user)).to be_a(Hash) }
-    #   it { expect(User.as_flat_json([@user])).to be_a(Array) }
-    # end
+    describe '::as_json' do
+      it { is_expected.to respond_to(:as_json) }
+      it { expect(User.as_json(@user)).to be_a(Hash) }
+      it { expect(User.as_json(@user)[:user]).to be_a(Hash) }
+      it { expect(User.as_json([@user])).to be_a(Hash) }
+      it { expect(User.as_json([@user])[:users]).to be_a(Array) }
+    end
+
+    describe '::as_flat_json' do
+      it { is_expected.to respond_to(:as_flat_json) }
+      it { expect(User.as_flat_json(@user)).to be_a(Hash) }
+      it { expect(User.as_flat_json([@user])).to be_a(Array) }
+    end
   end
 
   context 'Instance Methods', basic: true do
+    let!(:other_user) { create(:user) }
+
     describe '.user?' do
       it { is_expected.to respond_to(:user?) }
       it { expect(@user.user?(@user)).to be true }
-      it { expect(@user.user?(create(:user))).to be false }
+      it { expect(@user.user?(other_user)).to be false }
     end
 
     describe '.avatar' do
       it { is_expected.to respond_to(:avatar) }
+      it { expect(@user.avatar).to be_nil }
     end
 
     describe '.current_topic' do
       it { is_expected.to respond_to(:current_topic) }
+      it { expect(@user.current_topic).to eq(Topic.where(user_id: @user.id).first) }
     end
 
     describe '.switch_topic' do
       it { is_expected.to respond_to(:switch_topic) }
+
+      it 'switches topic' do
+        topic = create(:topic, user: @user)
+        other_topic = create(:topic, user: other_user)
+
+        expect(@user.switch_topic(topic)).to eq(topic)
+
+        expect(@user.switch_topic(topic)).to be false
+        expect(@user.errors[:topic].first).to eq(I18n.t('activerecord.errors.models.topic.already_selected'))
+
+        expect(@user.switch_topic(other_topic)).to be false
+        expect(@user.errors[:topic].second).to eq(I18n.t('activerecord.errors.models.topic.not_owner'))
+      end
+    end
+
+    describe '.bookmarkers_count' do
+      before do
+        topic = create(:topic, user: other_user)
+        tag = create(:tag, user: other_user)
+        article = create(:article, user: other_user, topic: topic)
+        create(:bookmark, user: @user, bookmarked: other_user)
+        create(:bookmark, user: @user, bookmarked: tag)
+        create(:bookmark, user: @user, bookmarked: article)
+      end
+
+      it { is_expected.to respond_to(:bookmarkers_count) }
+      it { expect(@user.bookmarkers_count).to eq(3) }
+    end
+
+    describe '.following?' do
+      it { is_expected.to respond_to(:following?) }
+
+      it 'confirms if follow' do
+        topic = create(:topic, user: other_user)
+        tag = create(:tag, user: other_user)
+        article = create(:article, user: other_user, topic: topic)
+        create(:bookmark, user: @user, bookmarked: other_user)
+        create(:bookmark, user: @user, bookmarked: tag)
+        create(:bookmark, user: @user, bookmarked: article)
+
+        expect(@user.following?('User', other_user.id)).to be true
+        expect(@user.following?('Tag', tag.id)).to be true
+        expect(@user.following?('Article', article.id)).to be true
+        expect(@user.following?('Topic', topic.id)).to be false
+      end
+    end
+
+    describe '.search_data' do
+      it { is_expected.to respond_to(:search_data) }
+      it { expect(@user.search_data).to be_a Hash }
     end
   end
 

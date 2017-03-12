@@ -6,11 +6,11 @@ class TopicPolicy
     @topic        = topic
   end
 
-  def new?
-    @current_user
+  def switch?
+    owner?
   end
 
-  def switch?
+  def new?
     @current_user
   end
 

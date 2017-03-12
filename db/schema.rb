@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.integer  "articles_count",         default: 0
     t.integer  "tags_count",             default: 0
     t.integer  "bookmarks_count",        default: 0
+    t.integer  "comments_count",         default: 0
     t.string   "slug"
     t.datetime "deleted_at"
     t.datetime "created_at",                            null: false

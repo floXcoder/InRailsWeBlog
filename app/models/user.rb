@@ -98,45 +98,55 @@ class User < ApplicationRecord
   acts_as_paranoid
 
   # == Relationships ========================================================
-  has_many :topics, dependent: :destroy
+  has_many :topics,
+           dependent: :destroy
 
   has_many :articles,
-           class_name: 'Article',
-           dependent:  :destroy
+           dependent: :destroy
 
   has_many :draft_articles,
            -> { where draft: true },
            class_name: 'Article'
 
-  has_many :tags,
-           class_name: 'Tag',
-           dependent:  :destroy
+  has_many :article_relationships,
+           dependent: :destroy
 
-  has_many :outdated_articles
-  has_many :marked_as_outdated,
-           through: :outdated_articles,
-           source:  :article
+  has_many :outdated_articles,
+           dependent: :destroy
+
+  has_many :tags,
+           dependent: :destroy
+
+  has_many :tag_relationships,
+           dependent: :destroy
 
   has_many :bookmarks,
            dependent: :destroy
+  has_many :followers,
+           -> { where(bookmarks: { follow: true }) },
+           through: :bookmarks,
+           source:  :user
 
-  has_many :following_user,
+  has_many :following_users,
            -> { where(bookmarks: { follow: true }) },
            through:     :bookmarks,
            source:      :bookmarked,
            source_type: 'User'
-  has_many :following_article,
+  has_many :following_articles,
            -> { where(bookmarks: { follow: true }) },
            through:     :bookmarks,
            source:      :bookmarked,
            source_type: 'Article'
-  has_many :following_tag,
+  has_many :following_tags,
            -> { where(bookmarks: { follow: true }) },
            through:     :bookmarks,
            source:      :bookmarked,
            source_type: 'Tag'
 
   has_many :comments,
+           dependent: :destroy
+
+  has_many :pictures,
            dependent: :destroy
 
   has_one :picture,
@@ -151,7 +161,9 @@ class User < ApplicationRecord
                                     picture['remote_image_url'].blank?
                                 }
 
-  has_many :activities, as: :owner, class_name: 'PublicActivity::Activity'
+  has_many :activities,
+           as:         :owner,
+           class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
   validates :pseudo,
@@ -159,10 +171,12 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false },
             length:     { minimum: CONFIG.user_pseudo_min_length, maximum: CONFIG.user_pseudo_max_length }
   validates :email,
-            presence:   true,
-            length: { minimum: CONFIG.user_email_min_length, maximum: CONFIG.user_email_max_length }
+            presence: true,
+            length:   { minimum: CONFIG.user_email_min_length, maximum: CONFIG.user_email_max_length }
 
   # == Scopes ===============================================================
+  scope :bookmarked_by_user,
+        -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
   after_create :create_default_topic
@@ -174,10 +188,10 @@ class User < ApplicationRecord
   #  current_user_id (current user id)
   #  current_topic_id (current topic id for current user)
   #  page (page number for pagination)
-  #  per_page (number of articles per page for pagination)
+  #  per_page (number of users per page for pagination)
   #  exact (exact search or include misspellings, default: 2)
-  #  tags (array of tags associated with articles)
-  #  operator (array of tags associated with articles, default: AND)
+  #  tags (array of tags associated with users)
+  #  operator (array of tags associated with users, default: AND)
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
@@ -207,10 +221,7 @@ class User < ApplicationRecord
 
     where_options ||= {}
 
-    # Aggregations
-    aggregations  = {}
-
-    # Boost user articles first
+    # Boost user users first
     boost_where   = nil
 
     # Page parameters
@@ -235,24 +246,18 @@ class User < ApplicationRecord
     end
 
     # Perform search
-    results = Article.search(query_string,
-                             fields:       fields,
-                             boost_where:  boost_where,
-                             highlight:    highlight,
-                             match:        :word_middle,
-                             misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
-                             suggest:      true,
-                             page:         page,
-                             per_page:     per_page,
-                             operator:     operator,
-                             where:        where_options,
-                             order:        order,
-                             aggs:         aggregations)
-
-    formatted_aggregations = {}
-    results.aggs.each do |key, value|
-      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
-    end
+    results = User.search(query_string,
+                          fields:       fields,
+                          boost_where:  boost_where,
+                          highlight:    highlight,
+                          match:        :word_middle,
+                          misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
+                          suggest:      true,
+                          page:         page,
+                          per_page:     per_page,
+                          operator:     operator,
+                          where:        where_options,
+                          order:        order)
 
     # Track search results
     User.track_searches(results.records.ids)
@@ -261,12 +266,11 @@ class User < ApplicationRecord
     users = users.order_by(options[:order]) if order
 
     {
-      users:        users.records,
-      highlight:    highlight ? Hash[results.with_details.map { |user, details| [user.id, details[:highlight]] }] : [],
-      suggestions:  results.suggestions,
-      aggregations: formatted_aggregations,
-      total_count:  results.total_count,
-      total_pages:  results.total_pages
+      users:       users.records,
+      highlight:   highlight ? Hash[results.with_details.map { |user, details| [user.id, details[:highlight]] }] : [],
+      suggestions: results.suggestions,
+      total_count: results.total_count,
+      total_pages: results.total_pages
     }
   end
 
@@ -295,8 +299,7 @@ class User < ApplicationRecord
 
     return results.map do |user|
       {
-        name:    user.name,
-        summary: user.summary,
+        pseudo:    user.pseudo,
         icon:    'user',
         link:    Rails.application.routes.url_helpers.user_path(user.slug)
       }
@@ -343,6 +346,31 @@ class User < ApplicationRecord
     end
   end
 
+  def self.as_json(users, options = {})
+    return nil unless users
+
+    serializer_options = {}
+
+    serializer_options.merge({
+                               scope:      options.delete(:current_user),
+                               scope_name: :current_user
+                             }) if options.has_key?(:current_user)
+
+    serializer_options[users.is_a?(User) ? :serializer : :each_serializer] = if options[:sample]
+                                                                               UserSampleSerializer
+                                                                             else
+                                                                               UserSerializer
+                                                                             end
+
+    ActiveModelSerializers::SerializableResource.new(users, serializer_options.merge(options)).as_json
+  end
+
+  def self.as_flat_json(users, options = {})
+    return nil unless users
+
+    as_json(users, options)[users.is_a?(User) ? :user : :users]
+  end
+
   # == Instance Methods =====================================================
   def user?(user)
     user.id == self.id
@@ -358,7 +386,10 @@ class User < ApplicationRecord
 
   def switch_topic(new_topic)
     if self.current_topic_id == new_topic.id
-      new_topic.errors.add(:topic, I18n.t('activerecord.errors.models.topic.already_selected'))
+      self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.already_selected'))
+      return false
+    elsif self.id != new_topic.user_id
+      self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.not_owner'))
       return false
     else
       update_attribute(:current_topic_id, new_topic.id)
@@ -367,36 +398,27 @@ class User < ApplicationRecord
   end
 
   ## Bookmarking
-  def bookmarked?(model_name, model_id)
-    if model_name && model_id
-      model_class    = model_name.classify.constantize
-      related_object = model_class.find(model_id)
-
-      return bookmarks.include?(related_object)
-    else
-      return false
-    end
-  end
-
   def bookmarkers_count
-    user_bookmarked    = User.where(id: self.id).merge(User.joins(:bookmarked).where(bookmarks: { bookmarked_type: 'User' })).count
-    article_bookmarked = Article.where(user_id: self.id).merge(Article.joins(:bookmarked).where(bookmarks: { bookmarked_type: 'Article' })).count
-    tag_bookmarked     = Tag.where(user_id: self.id).merge(Tag.joins(:bookmarked).where(bookmarks: { bookmarked_type: 'Tag' })).count
+    user_bookmarked    = User.bookmarked_by_user(self.id).count
+    tag_bookmarked     = Tag.bookmarked_by_user(self.id).count
+    article_bookmarked = Article.bookmarked_by_user(self.id).count
 
     user_bookmarked + article_bookmarked + tag_bookmarked
   end
 
   def following?(model_name, model_id)
     if model_name && model_id
-      model_class    = model_name.classify.constantize
+      model_class    = model_name.classify.constantize rescue nil
       related_object = model_class.find(model_id)
 
+      return false unless model_class && related_object
+
       if model_name.classify == 'User'
-        return following_user.include?(related_object)
+        return following_users.include?(related_object)
       elsif model_name.classify == 'Article'
-        return following_article.include?(related_object)
+        return following_articles.include?(related_object)
       elsif model_name.classify == 'Tag'
-        return following_tag.include?(related_object)
+        return following_tags.include?(related_object)
       else
         return false
       end
@@ -426,7 +448,7 @@ class User < ApplicationRecord
 
   def create_default_topic
     self_topics_create = self.topics.create(user: self, name: I18n.t('topic.default_name'))
-    default_topic = self_topics_create
+    default_topic      = self_topics_create
     update_attribute(:current_topic_id, default_topic.id)
   end
 

@@ -2,19 +2,19 @@
 #
 # Table name: pictures
 #
-#  id                 :integer          not null, primary key
-#  user_id            :integer          not null
-#  imageable_id       :integer
-#  imageable_type     :string           not null
-#  image              :string
-#  image_tmp          :string
-#  priority           :integer          default(0), not null
-#  accepted           :boolean          default(TRUE), not null
-#  deleted_at         :datetime
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  image_secure_token :string
-#  original_filename  :string
+#  id             :integer          not null, primary key
+#  user_id        :integer          not null
+#  imageable_id   :integer
+#  imageable_type :string           not null
+#  image          :string
+#  image_tmp      :string
+#  description    :text
+#  copyright      :string
+#  priority       :integer          default(0), not null
+#  accepted       :boolean          default(TRUE), not null
+#  deleted_at     :datetime
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 
 RSpec.describe Picture, type: :model do
@@ -56,11 +56,11 @@ RSpec.describe Picture, type: :model do
     it { is_expected.to respond_to(:image_secure_token) }
     it { is_expected.to respond_to(:original_filename) }
 
-    it { expect(@picture.imageable_type).to match('Ride') }
-    it { expect(@picture.description).to match('Picture description') }
-    it { expect(@picture.copyright).to match('Picture copyright') }
+    it { expect(@picture.imageable_type).to eq('Ride') }
+    it { expect(@picture.description).to eq('Picture description') }
+    it { expect(@picture.copyright).to eq('Picture copyright') }
     it { expect(@picture.image).to be_a(PictureUploader) }
-    it { expect(@picture.image_tmp).to match('my_tmp_image') }
+    it { expect(@picture.image_tmp).to eq('my_tmp_image') }
     it { expect(@picture.priority).to eq(10) }
     it { expect(@picture.accepted).to be true }
     it { expect(@picture.image_secure_token).to eq('12aa100f-4514-4a48-b1a0-51eece8f35f7') }
@@ -75,10 +75,6 @@ RSpec.describe Picture, type: :model do
       it { is_expected.to validate_presence_of(:imageable_type) }
       it { is_expected.to have_db_index([:imageable_id, :imageable_type]) }
     end
-
-    # describe '.image_size', basic: true do
-    #   it { is_expected.to allow_value(image).for(:image).with_message(I18n.t('activerecord.errors.models.picture.image_size')) }
-    # end
 
     describe 'Default Attributes', basic: true do
       before do
@@ -96,7 +92,10 @@ RSpec.describe Picture, type: :model do
 
   context 'Properties', basic: true do
     it { is_expected.to have_uploader(:image) }
+
     it { is_expected.to have_strip_attributes([:description, :copyright]) }
+
+    it { is_expected.to act_as_paranoid(Picture) }
   end
 
   context 'Associations', basic: true do
@@ -133,6 +132,10 @@ RSpec.describe Picture, type: :model do
         expect(@picture.image).to be_a(PictureUploader)
       end
     end
+
+    # describe '.image_size', basic: true do
+    #   it { is_expected.to allow_value(image).for(:image).with_message(I18n.t('activerecord.errors.models.picture.image_size')) }
+    # end
   end
 
 end

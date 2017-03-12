@@ -8,8 +8,7 @@
 #  description           :text
 #  synonyms              :string           default([]), is an Array
 #  color                 :string
-#  notation              :integer          default(0)
-#  priority              :integer          default(0)
+#  priority              :integer          default(0), not null
 #  visibility            :integer          default("everyone"), not null
 #  accepted              :boolean          default(TRUE), not null
 #  archived              :boolean          default(FALSE), not null
@@ -32,6 +31,11 @@ class Tag < ApplicationRecord
   # Strip whitespaces
   auto_strip_attributes :name, :color
 
+  delegate :popularity,
+           :rank, :rank=,
+           :home_page, :home_page=,
+           to: :tracker, allow_nil: true
+
   # == Extensions ===========================================================
   # Versioning
   has_paper_trail on: [:update], only: [:name, :description, :synonyms]
@@ -49,11 +53,6 @@ class Tag < ApplicationRecord
   # Follow public activities
   include PublicActivity::Model
   tracked owner: :user
-
-  delegate :popularity,
-           :rank, :rank=,
-           :home_page, :home_page=,
-           to: :tracker, allow_nil: true
 
   # Search
   searchkick searchable:  [:name, :description, :synonyms],
@@ -76,8 +75,6 @@ class Tag < ApplicationRecord
   has_many :tagged_articles
   has_many :articles,
            through: :tagged_articles
-
-  has_many :tag_relationships
 
   has_many :parent_relationship,
            class_name:  'TagRelationship',
@@ -103,23 +100,18 @@ class Tag < ApplicationRecord
                                   |picture| picture['picture'].blank? && picture['image_tmp'].blank?
                                 }
 
-  has_many :outdated_articles
-  has_many :marked_as_outdated,
-           through: :outdated_articles,
-           source:  :user
-
-  has_many :bookmarked,
+  has_many :bookmarks,
            as:          :bookmarked,
            class_name:  'Bookmark',
            foreign_key: 'bookmarked_id',
            dependent:   :destroy
   has_many :user_bookmarks,
-           through: :bookmarked,
+           through: :bookmarks,
            source:  :user
 
   has_many :follower,
            -> { where(bookmarks: { follow: true }) },
-           through: :bookmarked,
+           through: :bookmarks,
            source:  :user
 
   has_many :activities,
@@ -131,24 +123,15 @@ class Tag < ApplicationRecord
             presence: true
 
   validates :name,
-            uniqueness: { scope:          [:visibility, :user_id],
-                          case_sensitive: false,
-                          message:        I18n.t('activerecord.errors.models.tag.already_exist') },
-            allow_nil:  false,
-            if:         -> { visibility == 'everyone' }
-  validates :name,
-            presence:   true,
-            uniqueness: { scope:          :user_id,
-                          case_sensitive: false,
-                          message:        I18n.t('activerecord.errors.models.tag.already_exist') },
-            length:     { minimum: CONFIG.tag_name_min_length, maximum: CONFIG.tag_name_max_length },
-            allow_nil:  false,
-            if:         -> { visibility != 'everyone' }
+            presence: true,
+            length:   { minimum: CONFIG.tag_name_min_length, maximum: CONFIG.tag_name_max_length }
+  validate :name_visibility
   validate :public_name_immutable,
            on: :update
 
   validates :description,
-            length: { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
+            allow_nil: true,
+            length:    { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
 
   validates :visibility,
             presence: true
@@ -157,13 +140,13 @@ class Tag < ApplicationRecord
   # validates :articles, length: { minimum: 1 }
 
   # == Scopes ===============================================================
-  scope :everyone_and_user, -> (user_id) {
+  scope :everyone_and_user, -> (user_id = nil) {
     where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id)', user_id: user_id)
   }
 
   # Works only if all tags are in tagged_topics
   scope :everyone_and_user_and_topic, -> (user_id, topic_id) {
-    joins(:tagged_topics).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id) OR (tagged_topics.tag_id = tags.id AND tagged_topics.user_id = :user_id AND tagged_topics.topic_id = :topic_id)', user_id: user_id, topic_id: topic_id)
+    joins(:tagged_topics).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id) OR (tagged_topics.tag_id = tags.id AND tagged_topics.topic_id = :topic_id)', user_id: user_id, topic_id: topic_id)
   }
 
   scope :with_visibility, -> (visibility) {
@@ -171,7 +154,7 @@ class Tag < ApplicationRecord
   }
 
   scope :from_user, -> (user_id = nil, current_user_id = nil) {
-    where(user_id: user_id).where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :current_user_id)',
+    where(user_id: user_id).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :current_user_id)',
                                   current_user_id: current_user_id)
   }
 
@@ -182,12 +165,12 @@ class Tag < ApplicationRecord
   scope :most_used, -> (limit = 20) { order('tagged_articles_count desc').limit(limit) }
   scope :least_used, -> (limit = 20) { order('tagged_articles_count asc').limit(limit) }
 
-  scope :bookmarked_by_user, -> (user_id) {
-    joins(:bookmarked).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id })
-  }
-
   scope :unused, -> {
     where(tagged_articles_count: 0).where('updated_at < :day', { day: 1.day.ago })
+  }
+
+  scope :bookmarked_by_user, -> (user_id) {
+    joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id })
   }
 
   # == Callbacks ============================================================
@@ -322,13 +305,14 @@ class Tag < ApplicationRecord
     where_options = options[:where].compact.map do |key, value|
       [key, value]
     end.to_h if options[:where]
+    where_options ||= {}
 
     # Set result limit
     limit         = options[:limit] ? options[:limit] : CONFIG.per_page
 
     # Perform search
     results       = Tag.search(query_string,
-                               fields:       %w(name^3 description),
+                               fields:       %w(name^3),
                                match:        :word_middle,
                                misspellings: false,
                                load:         false,
@@ -429,7 +413,7 @@ class Tag < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    self.user_id == user.id
+    self.user_id == user.id if user
   end
 
   def format_attributes(attributes = {}, current_user = nil)
@@ -507,6 +491,16 @@ class Tag < ApplicationRecord
   end
 
   private
+
+  def name_visibility
+    if name_changed? && name.present?
+      if Tag.where('visibility = 1 AND user_id = :user_id AND lower(name) = :name', user_id: self.user_id, name: name.mb_chars.downcase.to_s).any?
+        errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist'))
+      elsif Tag.where('visibility = 0 AND lower(name) = :name', name: name.mb_chars.downcase.to_s).any?
+        errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist_in_public'))
+      end
+    end
+  end
 
   def public_name_immutable
     if name_changed? && self.everyone?

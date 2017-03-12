@@ -90,11 +90,11 @@ class Admin < ApplicationRecord
     admin.id == self.id
   end
 
-  def create_blog
-    # admin_blog = Blog.create(admin: self)
-
-    # # Articles for admin pages
-    # Blog::Article.create(blog: admin_blog, title: 'Contact', body: '...')
-  end
+  # def create_blog
+  #   admin_blog = Blog.create(admin: self)
+  #
+  #   # Articles for admin pages
+  #   Blog::Article.create(blog: admin_blog, title: 'Contact', body: '...')
+  # end
 
 end
