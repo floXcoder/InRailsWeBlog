@@ -18,7 +18,7 @@ export default class UserEdit extends Reflux.Component {
         params: React.PropTypes.object
     };
 
-    static childContextTypes = {
+    static contextTypes = {
         router: React.PropTypes.object
     };
 

@@ -26,10 +26,11 @@ class ArticlesController < ApplicationController
   respond_to :html, :json
 
   def index
+    # TODO
     articles = Article
                  .includes(:parent_tags, :child_tags, :tracker, user: [:picture])
-                 .user_related(current_user&.id)
-                 .order('articles.id DESC')
+                 # .user_related(current_user&.id)
+                 # .order('articles.id DESC')
 
     articles = if params[:parent_tags] && params[:child_tags]
                  parent_tags       = params[:parent_tags]

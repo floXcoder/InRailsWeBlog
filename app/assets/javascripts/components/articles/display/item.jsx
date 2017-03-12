@@ -16,7 +16,7 @@ export default class ArticleItemDisplay extends React.Component {
         initialDisplayMode: React.PropTypes.string.isRequired
     };
 
-    static childContextTypes = {
+    static contextTypes = {
         router: React.PropTypes.object
     };
 
@@ -59,7 +59,7 @@ export default class ArticleItemDisplay extends React.Component {
     };
 
     _handleTagClick = (tagName) => {
-        this.context.router.push(`/article/tags/${tagName}`);
+        this.context.router.history.push(`/article/tags/${tagName}`);
 
         ArticleActions.loadArticles({tags: [tagName]});
     };

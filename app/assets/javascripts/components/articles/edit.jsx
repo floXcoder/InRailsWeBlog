@@ -15,7 +15,7 @@ export default class ArticleEdit extends Reflux.Component {
         params: React.PropTypes.object
     };
 
-    static childContextTypes = {
+    static contextTypes = {
         router: React.PropTypes.object
     };
 
@@ -58,7 +58,7 @@ export default class ArticleEdit extends Reflux.Component {
         }
 
         if (articleData.type === 'updateArticle') {
-            this.context.router.push(`/article/${articleData.article.slug}`);
+            this.context.router.history.push(`/article/${articleData.article.slug}`);
         }
 
         if (articleData.type === 'updateArticleError') {
@@ -75,9 +75,9 @@ export default class ArticleEdit extends Reflux.Component {
 
     _onCancel = () => {
         if (this.state.article) {
-            this.context.router.push(`/article/${this.state.article.id}`);
+            this.context.router.history.push(`/article/${this.state.article.id}`);
         } else {
-            this.context.router.push('/');
+            this.context.router.history.push('/');
         }
         return true;
     };

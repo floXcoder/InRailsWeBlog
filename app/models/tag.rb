@@ -8,7 +8,8 @@
 #  description           :text
 #  synonyms              :string           default([]), is an Array
 #  color                 :string
-#  priority              :integer          default(0), not null
+#  notation              :integer          default(0)
+#  priority              :integer          default(0)
 #  visibility            :integer          default("everyone"), not null
 #  accepted              :boolean          default(TRUE), not null
 #  archived              :boolean          default(FALSE), not null

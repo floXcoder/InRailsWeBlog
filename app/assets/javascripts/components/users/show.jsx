@@ -8,7 +8,7 @@ export default class UserShow extends React.Component {
         params: React.PropTypes.object
     };
 
-    static childContextTypes = {
+    static contextTypes = {
         router: React.PropTypes.object
     };
 
@@ -22,7 +22,7 @@ export default class UserShow extends React.Component {
     }
 
     _handleEditClick = () => {
-        this.context.router.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
+        this.context.router.history.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
     };
 
     render() {

@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: votes
+#
+#  id            :integer          not null, primary key
+#  voteable_type :string           not null
+#  voteable_id   :integer          not null
+#  voter_type    :string
+#  voter_id      :integer
+#  vote          :boolean          default(FALSE), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
 RSpec.describe Vote, type: :model do
 
   before(:all) do

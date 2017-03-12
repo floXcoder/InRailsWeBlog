@@ -9,11 +9,16 @@ import Filtering from '../../../modules/filter';
 
 export default class IndexTagList extends React.Component {
     static propTypes = {
-        tags: React.PropTypes.array.isRequired,
-        filterText: React.PropTypes.string.isRequired
+        tags: React.PropTypes.array,
+        filterText: React.PropTypes.string
     };
 
-    static childContextTypes = {
+    static defaultProps = {
+        tags: [],
+        filterText: null
+    };
+
+    static contextTypes = {
         router: React.PropTypes.object
     };
 
@@ -31,7 +36,8 @@ export default class IndexTagList extends React.Component {
     }
 
     _handleTagClick = (tagId, parentTagName, childTagName) => {
-        TagStore.onTrackClick(tagId);
+        // TODO
+        // TagStore.onTrackClick(tagId);
 
         let params = {};
         if (!$.isEmpty(childTagName)) {
@@ -41,7 +47,7 @@ export default class IndexTagList extends React.Component {
             params.tags = [parentTagName];
         }
 
-        this.context.router.push(`/article/tags/${parentTagName}`);
+        this.context.router.history.push(`/article/tags/${parentTagName}`);
         ArticleActions.loadArticles(params);
 
         return true;
@@ -49,7 +55,11 @@ export default class IndexTagList extends React.Component {
 
     render() {
         let tags = _.keyBy(this.props.tags, 'id');
-        let filteredTags = Filtering.filterObjectOfObject(tags, 'name', this.props.filterText);
+
+        // TODO : check first if filterText not null else filter
+        // let filteredTags = Filtering.filterObjectOfObject(tags, 'name', this.props.filterText);
+
+        let filteredTags = this.props.tags;
         let parentFilteredTags = [];
 
         if (filteredTags) {

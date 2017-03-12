@@ -19,10 +19,9 @@ class TagsController < ApplicationController
   respond_to :json
 
   def index
-    tags = Tag.includes(:user, :children).order('tags.name ASC')
+    tags = Tag.includes(:user, :parents, :child_relationship, :children, :parent_relationship).order('tags.name ASC')
 
     tags = tags.for_user_topic(current_user.id, current_user.current_topic_id) if params[:init] && current_user
-    # tags = tags.for_user_topic(tag_params[:user_id], tag_params[:topic_id]) if tag_params[:user_id] && tag_params[:topic_id]
 
     tags = if current_user&.admin?
              tags.all

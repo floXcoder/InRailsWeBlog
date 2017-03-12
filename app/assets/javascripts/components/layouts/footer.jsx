@@ -2,7 +2,7 @@
 
 // import {Link} from 'react-router-dom';
 
-const HomeFooter = ({}) => (
+const FooterLayout = ({}) => (
     <div className="footer blog-footer">
         <div className="container">
             <div className="row">
@@ -54,4 +54,4 @@ const HomeFooter = ({}) => (
     </div>
 );
 
-export default HomeFooter;
+export default FooterLayout;

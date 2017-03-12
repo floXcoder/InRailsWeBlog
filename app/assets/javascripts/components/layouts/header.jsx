@@ -16,7 +16,7 @@ import HomeTopicHeader from './header/topic';
 
 import {Link} from 'react-router-dom';
 
-export default class HomeHeader extends React.PureComponent {
+export default class HeaderLayout extends React.PureComponent {
     static propTypes = {};
 
     static defaultProps = {};

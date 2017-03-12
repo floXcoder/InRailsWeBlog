@@ -8,7 +8,8 @@
 #  description           :text
 #  synonyms              :string           default([]), is an Array
 #  color                 :string
-#  priority              :integer          default(0), not null
+#  notation              :integer          default(0)
+#  priority              :integer          default(0)
 #  visibility            :integer          default("everyone"), not null
 #  accepted              :boolean          default(TRUE), not null
 #  archived              :boolean          default(FALSE), not null
@@ -42,11 +43,13 @@ class TagSerializer < ActiveModel::Serializer
     object.visibility_to_tr
   end
 
-  def parents
-    object.parents.everyone_and_user(current_user&.id) if defined? current_user
-  end
+  # TODO
+  # def parents
+  #   object.parents.everyone_and_user(current_user&.id) if defined? current_user
+  # end
 
-  def children
-    object.children.everyone_and_user(current_user&.id) if defined? current_user
-  end
+  # TODO
+  # def children
+  #   object.children.everyone_and_user(current_user&.id) if defined? current_user
+  # end
 end

@@ -14,7 +14,7 @@ export default class ArticleNew extends Reflux.Component {
         multipleId: React.PropTypes.number
     };
 
-    static childContextTypes = {
+    static contextTypes = {
         router: React.PropTypes.object
     };
 
@@ -60,7 +60,7 @@ export default class ArticleNew extends Reflux.Component {
         let newState = {};
 
         if (articleData.type === 'addArticle') {
-            this.context.router.push({
+            this.context.router.history.push({
                 pathname: `/article/${articleData.article.slug}`,
                 state: {newTags: articleData.article.new_tags}
             });
@@ -100,7 +100,7 @@ export default class ArticleNew extends Reflux.Component {
     // }
 
     _onCancel = () => {
-        this.context.router.push('/');
+        this.context.router.history.push('/');
         return true;
     };
 

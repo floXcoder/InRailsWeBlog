@@ -1,12 +1,21 @@
 # ActAsTrackedConcern
+
+# Popularity is automatically calculated
+# To sort elements, use rank
+# Rank can be included into popularity using the custom_popularity method
+
 # Include this method in the model:
-# acts_as_tracked :queries, :searches, :clicks, :views
+# acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views
 module ActAsTrackedConcern
   extend ActiveSupport::Concern
 
   included do
     # Add relationship with tracker model to store all events
-    has_one :tracker, class_name: 'Tracker', as: :tracked, autosave: true, dependent: :destroy
+    has_one :tracker,
+            class_name: 'Tracker',
+            as:         :tracked,
+            autosave:   true,
+            dependent:  :destroy
     accepts_nested_attributes_for :tracker, allow_destroy: true
 
     # Add the tracker to the new object
@@ -21,52 +30,44 @@ module ActAsTrackedConcern
     # scope :most_commented, -> { joins(:tracker).order('trackers.comments_count DESC') }
     scope :recently_tracked, -> { where(trackers: { updated_at: 15.days.ago..Time.zone.now }) }
 
-    # Rank and popularity
-    before_update :update_rank
-    scope :populars, -> (limit = 10) { joins(:tracker).order('trackers.rank DESC').limit(limit) }
+    # Popularity
+    before_update :update_popularity
+    scope :populars, -> (limit = 10) { joins(:tracker).order('trackers.popularity DESC').limit(limit) }
   end
 
-  # Rank and popularity
-  def popularity
-    if self.tracker.home_page?
-      self.tracker.rank * 10
-    else
-      self.tracker.rank
-    end if self.tracker
-  end
+  # Popularity
+  def update_popularity
+    return if self.destroyed? || (self.has_attribute?(:deleted_at) && self.deleted_at) || !self.tracker || self.tracker.popularity_changed?
 
-  def update_rank
-    return if self.destroyed? || (self.has_attribute?(:deleted_at) && self.deleted_at)
-
-    rank          = 0
+    popularity    = 0
     tracker_count = 0
 
     if self.tracker_metrics.include? :searches
-      rank          += self.tracker.searches_count * 2
+      popularity    += self.tracker.searches_count * 2
       tracker_count += 1
     end
-
     if self.tracker_metrics.include? :clicks
-      rank          += self.tracker.clicks_count * 5
+      popularity    += self.tracker.clicks_count * 5
       tracker_count += 1
     end
-
     if self.tracker_metrics.include? :views
-      rank          += self.tracker.views_count
+      popularity    += self.tracker.views_count
       tracker_count += 1
     end
-
-    # if self.tracker_metrics.include? :comments
-    #   rank          += self.tracker.comments_count * 10
-    #   tracker_count += 1
-    # end
-
+    if self.tracker_metrics.include? :comments
+      popularity    += self.tracker.comments_count * 10
+      tracker_count += 1
+    end
     if self.tracker_metrics.include? :queries
-      rank          += self.tracker.queries_count
+      popularity    += self.tracker.queries_count
       tracker_count += 1
     end
 
-    self.tracker.rank = rank / tracker_count
+    if defined? self.custom_popularity
+      popularity, tracker_count = self.custom_popularity(popularity, tracker_count)
+    end
+
+    self.tracker.popularity = popularity / tracker_count
   end
 
   # Method called after object creation
@@ -86,7 +87,7 @@ module ActAsTrackedConcern
   #     end
   #   end
   # end
-
+  #
   # # Tracker model method to decrement comment count
   # def untrack_comments(comments)
   #   if self.tracker_metrics.include? :comments
@@ -103,12 +104,12 @@ module ActAsTrackedConcern
   # Class methods
   class_methods do
     # Base method to include in model:
-    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :clicks, :views
+    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :comments, :bookmarks, :clicks, :views
     def acts_as_tracked(tracked_name, *trackers)
       self.tracked_name    = tracked_name
       self.tracker_metrics = trackers
 
-      tracker_cron_job unless Rails.env.test?
+      tracker_cron_job
 
       track_queries
     end
@@ -163,12 +164,14 @@ module ActAsTrackedConcern
     def tracker_cron_job
       cron_job_name = "#{name}_tracker"
 
-      unless Sidekiq::Cron::Job.find(name: cron_job_name)
-        Sidekiq::Cron::Job.create(name:  cron_job_name,
-                                  cron:  '*/5 * * * *',
-                                  class: 'UpdateTrackerWorker',
-                                  args:  { tracked_class: name.downcase },
-                                  queue: 'default')
+      if Rails.configuration.x.cron_jobs_active
+        unless Sidekiq::Cron::Job.find(name: cron_job_name)
+          Sidekiq::Cron::Job.create(name:  cron_job_name,
+                                    cron:  '*/5 * * * *',
+                                    class: 'UpdateTrackerWorker',
+                                    args:  { tracked_class: name.downcase },
+                                    queue: 'default')
+        end
       end
     end
 

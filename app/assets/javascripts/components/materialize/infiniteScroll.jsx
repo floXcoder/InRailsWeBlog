@@ -37,7 +37,7 @@ export default class InfiniteScroll extends Reflux.Component {
         this._attachScrollListener();
     }
 
-    _loader() {
+    _loader = () => {
         const loaderClass = classNames(
             {
                 'center': this.props.hasMore,
@@ -50,9 +50,9 @@ export default class InfiniteScroll extends Reflux.Component {
                 <Spinner/>
             </div>
         );
-    }
+    };
 
-    _scrollListener() {
+    _scrollListener = () => {
         let topPosition = function (domElt) {
             if (!domElt) {
                 return 0;
@@ -72,21 +72,21 @@ export default class InfiniteScroll extends Reflux.Component {
             this._detachScrollListener();
             this.props.loadMore(this.pageLoaded += 1);
         }
-    }
+    };
 
-    _attachScrollListener() {
+    _attachScrollListener = () => {
         if (!this.props.hasMore) {
             return;
         }
         window.addEventListener('scroll', this._scrollListener);
         window.addEventListener('resize', this._scrollListener);
         this._scrollListener();
-    }
+    };
 
-    _detachScrollListener() {
+    _detachScrollListener = () => {
         window.removeEventListener('scroll', this._scrollListener);
         window.removeEventListener('resize', this._scrollListener);
-    }
+    };
 
     render() {
         let props = this.props;

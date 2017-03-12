@@ -16,7 +16,8 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
     }
 
     init() {
-        this.onLoadTags({init: true, userTags: true});
+        // TODO
+        // this.onLoadTags({init: true, userTags: true});
 
         return true;
     }

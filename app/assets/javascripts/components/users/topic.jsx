@@ -12,7 +12,7 @@ export default class UserTopic extends Reflux.Component {
         onClick: React.PropTypes.func
     };
 
-    static childContextTypes = {
+    static contextTypes = {
         router: React.PropTypes.object
     };
 
@@ -58,7 +58,7 @@ export default class UserTopic extends Reflux.Component {
         if (topicData.type === 'changeTopic') {
             newState.currentTopic = topicData.topic;
             $app.user.topic.current_topic = topicData.topic;
-            this.context.router.push(`/article/user/${$app.user.current.slug}/topic/${topicData.topic.slug}`);
+            this.context.router.history.push(`/article/user/${$app.user.current.slug}/topic/${topicData.topic.slug}`);
         }
 
         if (topicData.type === 'changeTopicError') {

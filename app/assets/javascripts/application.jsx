@@ -17,7 +17,7 @@ require('materialize-css/dist/js/materialize');
 require('./modules/utils');
 
 // Notifications
-// require('expose-loader?Notification!./components/theme/notification');
+require('expose-loader?Notification!./components/theme/notification');
 
 // Automatic dropdown on hover
 $('.dropdown-button').dropdown({
@@ -36,11 +36,12 @@ I18n.locale = window.locale;
 // Declare Module Helpers
 require('expose-loader?$app!./modules/app');
 
-if (process.env.NODE_ENV !== 'production') {
-    const {whyDidYouUpdate} = require('why-did-you-update');
-    whyDidYouUpdate(React);
-    // whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton)/ });
-}
+// TODO
+// if (process.env.NODE_ENV !== 'production') {
+//     const {whyDidYouUpdate} = require('why-did-you-update');
+//     whyDidYouUpdate(React);
+//     // whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton)/ });
+// }
 
 // Configure log level
 if (window.railsEnv === 'development') {

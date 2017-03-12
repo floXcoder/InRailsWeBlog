@@ -2,6 +2,7 @@
 
 // import AssociatedTagBox from '../../components/tags/associated/box';
 
+import TagActions from '../../actions/tagActions';
 import TagStore from '../../stores/tagStore';
 
 import IndexTagList from './display/relationship';
@@ -14,17 +15,20 @@ export default class TagSidebar extends Reflux.Component {
     };
 
     static defaultProps = {
-        isOpened: false
+        isOpened: true
     };
 
     state = {
         isOpened: this.props.isOpened,
-        filterText: ''
+        filterText: null
     };
 
     constructor(props) {
         super(props);
 
+        this.mapStoreToState(TagStore, this.onTagChange);
+
+        // TODO
         // mixins: [Reflux.connectFilter(TagStore, 'userTags', function (tagData) {
         //     if (tagData.type === 'userTags') {
         //         return tagData.userTags;
@@ -32,6 +36,10 @@ export default class TagSidebar extends Reflux.Component {
         //         return this.state.userTags;
         //     }
         // })],
+    }
+
+    componentWillMount() {
+        TagActions.loadTags();
     }
 
     componentDidMount() {
@@ -45,6 +53,23 @@ export default class TagSidebar extends Reflux.Component {
         this.setState({
             isOpened: nextProps.isOpened
         });
+    }
+
+    onTagChange(tagData) {
+        if ($.isEmpty(tagData)) {
+            return;
+        }
+
+        let newState = {};
+
+        if (tagData.type === 'loadTags') {
+            newState.userTags = tagData.tags;
+            // newState.isLoading = false;
+        }
+
+        if (!$.isEmpty(newState)) {
+            this.setState(newState);
+        }
     }
 
     _handleUserInput = (filterText) => {

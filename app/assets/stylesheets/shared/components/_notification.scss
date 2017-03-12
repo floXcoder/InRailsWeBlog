@@ -1,0 +1,25 @@
+.notification {
+  @media #{$small-and-down} {
+    .notification-bar {
+      border-radius: 0 !important;
+      bottom: 0 !important;
+
+      &.notification-bar-active {
+        left: 0 !important;
+        width: 100% !important;
+      }
+    }
+  }
+
+  .notification-alert {
+    background-color: inherit;
+  }
+
+  .notification-success {
+    background-color: $success-color !important;
+  }
+
+  .notification-error {
+    background-color: $error-color !important;
+  }
+}

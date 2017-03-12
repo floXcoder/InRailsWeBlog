@@ -6,19 +6,14 @@ import UserStore from '../../stores/userStore';
 import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
 
-import TagSidebar from '../tags/sidebar';
-
-import HomeHeader from './header';
-import HomeFooter from './footer';
+import {
+    Link
+} from 'react-router-dom';
 
 export default class HomePage extends Reflux.Component {
     static propTypes = {
         location: React.PropTypes.object,
         children: React.PropTypes.object
-    };
-
-    static childContextTypes = {
-        router: React.PropTypes.object
     };
 
     static defaultProps = {
@@ -69,40 +64,19 @@ export default class HomePage extends Reflux.Component {
 
     _onPaste = (content) => {
         if (this.props.location.pathname !== '/article/new') {
-            this.context.router.push({
+            this.context.router.history.push({
                 pathname: '/article/new',
                 state: {article: {content: SanitizePaste.parse(content), draft: true}}
             });
         }
     };
 
-    _handleGoToTopClick = (event) => {
-        event.preventDefault();
-        window.scrollTo(0, 0);
-        return false;
-    };
-
     render() {
         return (
-            <div className="row">
-                <HomeHeader />
-
-                <div className="col s3">
-                    <div className="blog-sidebar">
-                        <TagSidebar isOpened={this.state.isTags}/>
-                    </div>
-                </div>
-
-                <div className="col s9">
-                    <div className="container blog-main">
-                        {this.props.children}
-                    </div>
-
-                    <a className="goto-top hide-on-small-and-down"
-                       onClick={this._handleGoToTopClick}/>
-                </div>
-
-                <HomeFooter />
+            <div className="">
+                <h1>
+                    HOME
+                </h1>
             </div>
         );
     }

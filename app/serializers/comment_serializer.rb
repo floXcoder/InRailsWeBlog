@@ -13,6 +13,7 @@
 #  positive_reviews :integer          default(0)
 #  negative_reviews :integer          default(0)
 #  accepted         :boolean          default(TRUE), not null
+#  ask_for_deletion :boolean          default(FALSE), not null
 #  deleted_at       :datetime
 #  parent_id        :integer
 #  lft              :integer
