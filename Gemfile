@@ -27,7 +27,7 @@ gem 'i18n-js',                  '3.0.0.rc15'
 gem 'geocoder',                 '1.4.3'
 gem 'maxminddb',                '0.1.12'
 
-# Convert JSON values in database
+# Convert JSON values in database (settings, ...)
 gem 'storext',                  '2.2.2'
 
 # Model versioning

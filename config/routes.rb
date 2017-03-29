@@ -5,6 +5,27 @@ InRailsWeBlog::Application.routes.draw do
   # Root path
   root  'static_pages#home'
 
+  # Concerns
+  concern :tracker do |options|
+    post    :clicked,   to: "#{options[:module].to_s}#clicked"
+    post    :viewed,    to: "#{options[:module].to_s}#viewed"
+  end
+
+  concern :outdated do |options|
+    resource :outdated, controller: 'outdated', only: [:create, :destroy], **options
+  end
+
+  concern :votes do |options|
+    resource :votes, controller: 'votes', only: [:create, :destroy], **options
+  end
+
+  concern :comments do |options|
+    get     :comments,  to: "#{options[:module].to_s}#comments"
+    post    :comments,  to: "#{options[:module].to_s}#add_comment"
+    put     :comments,  to: "#{options[:module].to_s}#update_comment"
+    delete  :comments,  to: "#{options[:module].to_s}#remove_comment"
+  end
+
   # Users (devise)
   devise_scope :user do
     get     'signup', to: 'users/registrations#new',    as: :signup
@@ -24,26 +45,29 @@ InRailsWeBlog::Application.routes.draw do
     end
 
     member do
-      get     :show,          to: 'users#show',               as: :root
+      get      :show,          to: 'users#show',               as: :root
 
-      get     :draft,         to: 'users#draft',              as: :draft
-      get     :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
-      get     :comments,      to: 'users#comments',           as: :comments
-      get     :activities,    to: 'users#activities',         as: :activities
+      get      :draft,         to: 'users#draft',              as: :draft
+      get      :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
+      get      :comments,      to: 'users#comments',           as: :comments
+      get      :activities,    to: 'users#activities',         as: :activities
 
-      post    :clicked,       to: 'users#clicked'
-      post    :viewed,        to: 'users#viewed'
+      concerns :tracker,       module: :users
     end
 
-    resources :topics,        controller: 'users/topics',   only: [:new, :update, :destroy] do
-      member do
+    resources :topics,        controller: 'users/topics',     only: [:index, :create, :update, :destroy] do
+      collection do
         get :switch,          to: 'users/topics#switch'
       end
     end
 
     resources :bookmarks,     controller: 'users/bookmarks',  only: [:create, :destroy]
 
-    resources :settings,      controller: 'users/settings',   only: [:index, :update]
+    resources :settings,      controller: 'users/settings',   only: [:index] do
+      collection do
+        post :update,         to: 'users/settings#update'
+      end
+    end
   end
 
   # Users (activities)
@@ -52,51 +76,41 @@ InRailsWeBlog::Application.routes.draw do
   # Articles
   resources :articles do
     member do
-      get     :history,   to: 'articles#historarticlesy'
-      get     :restore,   to: 'articles#restore'
-      post    :bookmark,  to: 'articles#add_bookmark'
-      delete  :bookmark,  to: 'articles#remove_bookmark'
-      post    :outdate,   to: 'articles#add_outdated'
-      delete  :outdate,   to: 'articles#remove_outdated'
+      get      :history,   to: 'articles#history'
+      get      :restore,   to: 'articles#restore'
+      post     :bookmark,  to: 'articles#add_bookmark'
+      delete   :bookmark,  to: 'articles#remove_bookmark'
 
-      get     :comments,  to: 'articles#comments'
-      post    :comments,  to: 'articles#add_comment'
-      put     :comments,  to: 'articles#update_comment'
-      delete  :comments,  to: 'articles#remove_comment'
+      concerns :tracker,   module: :articles
 
-      post    :clicked,   to: 'articles#clicked'
-      post    :viewed,    to: 'articles#viewed'
+      concerns :comments,  module: :articles
     end
 
-    resources :votes,     controller: 'articles/votes' do
-      collection do
-        post    :up,      to: 'articles/votes#vote_up'
-        post    :down,    to: 'articles/votes#vote_down'
-      end
-    end
+    concerns :outdated,    module: :articles
 
-    resources :outdated,  controller: 'articles/outdated', only: [:create, :destroy]
+    concerns :votes,       module: :articles
   end
 
   # Tags
-  resources :tags do
+  resources :tags, except: [:new, :create, :edit] do
     member do
-      post    :clicked,   to: 'tags#clicked'
-      post    :viewed,    to: 'tags#viewed'
+      concerns :tracker,   module: :tags
+
+      concerns :comments,  module: :tags
     end
   end
 
   # Global search
-  resources :search, only: [ :index ] do
+  resources :search, only: [:index] do
     collection do
-      get   :autocomplete,   to: 'search#autocomplete'
+      get :autocomplete,   to: 'search#autocomplete'
     end
   end
 
-  resources :comments, only: [ :index ]
+  resources :comments, only: [:index]
 
   # Static pages
-  get   :terms_of_use,  to: 'static_pages#terms_of_use'
+  get :terms_of_use,  to: 'static_pages#terms_of_use'
 
   # Routes managed by javascript router
   get '/article/*id',   to: 'static_pages#home'

@@ -13,11 +13,11 @@ module CommentConcern
     comments, comments_tree = record.comments_tree(params[:page])
 
     respond_to do |format|
-      format.json {
+      format.json do
         render json:            comments_tree,
                each_serializer: CommentSerializer,
                meta:            meta_attributes(comments)
-      }
+      end
     end
   end
 
@@ -27,27 +27,23 @@ module CommentConcern
     authorize record
 
     comment = record.comment_threads.build
-    # authorize comment, :create?
 
-    comment.assign_attributes(comment_params)
-    comment.assign_attributes(user_id: current_user.id)
+    comment.assign_attributes(comment_params.merge(user_id: current_user.id))
 
     respond_to do |format|
       if record.new_comment(comment)
-        record.track_comments(comment)
-        current_user.track_comments(comment)
         flash.now[:success] = t('views.comment.flash.successful_creation')
-        format.json {
-          render json: comment,
-                 serializer: CommentFullSerializer,
-                 status: :accepted
-        }
+        format.json do
+          render json:       comment,
+                 serializer: CommentSerializer,
+                 status:     :accepted
+        end
       else
         flash.now[:success] = t('views.comment.flash.error_creation')
-        format.json {
-          render json: comment.errors,
+        format.json do
+          render json:   comment.errors,
                  status: :forbidden
-        }
+        end
       end
     end
   end
@@ -58,21 +54,21 @@ module CommentConcern
     authorize record
 
     comment = record.comments.find(params[:comment][:id])
-    # authorize comment, :update?
 
     respond_to do |format|
       if record.update_comment(comment, comment_update_params)
         flash.now[:success] = t('views.comment.flash.successful_update')
-        format.json {
-          render json: comment,
+        format.json do
+          render json:   comment,
+                 serializer: CommentSerializer,
                  status: :accepted
-        }
+        end
       else
         flash.now[:success] = t('views.comment.flash.error_update')
-        format.json {
-          render json: comment.errors,
+        format.json do
+          render json:   comment.errors,
                  status: :forbidden
-        }
+        end
       end
     end
   end
@@ -83,23 +79,20 @@ module CommentConcern
     authorize record
 
     comment = record.comments.find(params[:comment][:id])
-    # authorize comment, :destroy?
 
     respond_to do |format|
       if (destroyed_comment_ids = record.remove_comment(comment))
-        record.untrack_comments(comment)
-        current_user.untrack_comments(comment)
         flash.now[:success] = t('views.comment.flash.successful_deletion')
-        format.json {
-          render json: { deleted_comment_ids: destroyed_comment_ids },
+        format.json do
+          render json:   { ids: destroyed_comment_ids },
                  status: :accepted
-        }
+        end
       else
         flash.now[:success] = t('views.comment.flash.error_deletion')
-        format.json {
-          render json: comment.errors,
+        format.json do
+          render json:   comment.errors,
                  status: :forbidden
-        }
+        end
       end
     end
   end

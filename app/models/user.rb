@@ -23,6 +23,7 @@
 #  articles_count         :integer          default(0)
 #  tags_count             :integer          default(0)
 #  bookmarks_count        :integer          default(0)
+#  comments_count         :integer          default(0)
 #  slug                   :string
 #  deleted_at             :datetime
 #  created_at             :datetime         not null
@@ -60,12 +61,16 @@ class User < ApplicationRecord
          :confirmable,
          authentication_keys: [:login]
 
+  include EnumsConcern
+  enum visibility: VISIBILITY
+  enums_to_tr('user', [:visibility])
+
   # Store settings
   include Storext.model
   store_attributes :settings do
-    article_display String, default: 'card'
+    article_display String, default: 'card' # inline/card/edit
     search_highlight Boolean, default: true
-    search_operator String, default: 'and'
+    search_operator String, default: 'and' # and/or
     search_exact Boolean, default: true
   end
 
@@ -115,6 +120,9 @@ class User < ApplicationRecord
            dependent: :destroy
 
   has_many :tags,
+           dependent: :destroy
+
+  has_many :tagged_articles,
            dependent: :destroy
 
   has_many :tag_relationships,

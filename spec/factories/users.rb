@@ -23,6 +23,7 @@
 #  articles_count         :integer          default(0)
 #  tags_count             :integer          default(0)
 #  bookmarks_count        :integer          default(0)
+#  comments_count         :integer          default(0)
 #  slug                   :string
 #  deleted_at             :datetime
 #  created_at             :datetime         not null

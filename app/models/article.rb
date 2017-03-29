@@ -49,12 +49,6 @@ class Article < ApplicationRecord
   # Versioning
   has_paper_trail on: [:update], only: [:title, :summary, :content, :topic, :language]
 
-  # Marked as deleted
-  acts_as_paranoid
-
-  # Comments
-  include CommentableConcern
-
   # Track activities
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views
@@ -63,7 +57,7 @@ class Article < ApplicationRecord
   include PublicActivity::Model
   tracked owner: :user
 
-  # Nice url format
+  # SEO
   include NiceUrlConcern
   friendly_id :slug_candidates, use: :slugged
 
@@ -74,6 +68,12 @@ class Article < ApplicationRecord
              highlight:   [:content],
              language:    (I18n.locale == :fr) ? 'French' : 'English'
 
+  # Comments
+  include CommentableConcern
+
+  # Marked as deleted
+  acts_as_paranoid
+
   # == Relationships ========================================================
   belongs_to :user,
              class_name:    'User',
@@ -82,10 +82,11 @@ class Article < ApplicationRecord
   belongs_to :topic,
              counter_cache: true
 
-  has_many :tagged_articles
+  has_many :tagged_articles,
+           autosave:  true,
+           dependent: :destroy
   has_many :tags,
-           through:  :tagged_articles,
-           autosave: true
+           through: :tagged_articles
   has_many :parent_tags,
            -> { where(tagged_articles: { parent: true }) },
            through: :tagged_articles,
@@ -94,24 +95,28 @@ class Article < ApplicationRecord
            -> { where(tagged_articles: { child: true }) },
            through: :tagged_articles,
            source:  :tag
-  # accepts_nested_attributes_for :tags,
-  #                               reject_if:     :all_blank,
-  #                               update_only:   true,
-  #                               allow_destroy: false
 
-  has_many :pictures,
-           -> { order 'created_at ASC' },
-           as:        :imageable,
+  has_many :tag_relationships,
            autosave:  true,
            dependent: :destroy
-  accepts_nested_attributes_for :pictures, allow_destroy: true, reject_if: lambda {
-    |picture| picture['picture'].blank? && picture['image_tmp'].blank?
-  }
 
-  has_many :outdated_articles
+  has_many :outdated_articles,
+           dependent: :destroy
   has_many :marked_as_outdated,
            through: :outdated_articles,
            source:  :user
+
+  has_many :parent_relationships,
+           autosave:    true,
+           class_name:  'ArticleRelationship',
+           foreign_key: 'parent_id',
+           dependent: :destroy
+
+  has_many :child_relationships,
+           autosave:    true,
+           class_name:  'ArticleRelationship',
+           foreign_key: 'child_id',
+           dependent: :destroy
 
   has_many :bookmarks,
            as:          :bookmarked,
@@ -130,6 +135,15 @@ class Article < ApplicationRecord
   has_many :activities,
            as:         :trackable,
            class_name: 'PublicActivity::Activity'
+
+  has_many :pictures,
+           -> { order 'created_at ASC' },
+           as:        :imageable,
+           autosave:  true,
+           dependent: :destroy
+  accepts_nested_attributes_for :pictures, allow_destroy: true, reject_if: lambda {
+    |picture| picture['picture'].blank? && picture['image_tmp'].blank?
+  }
 
   # == Validations ==========================================================
   validates :user,
@@ -151,6 +165,8 @@ class Article < ApplicationRecord
   validates :visibility,
             presence: true
 
+  validate :topic_belongs_to_user
+
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
     where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :user_id)',
@@ -166,9 +182,13 @@ class Article < ApplicationRecord
                                   current_user_id: current_user_id)
   }
 
-  scope :with_tags, -> (tag_name) { joins(:tags).where(tags: { name: tag_name }) }
-  scope :with_parent_tags, -> (parent_tags) { joins(:tags).where(tagged_articles: { parent: true }, tags: { name: parent_tags }) }
-  scope :with_child_tags, -> (child_tags) { joins(:tags).where(tagged_articles: { child: true }, tags: { name: child_tags }) }
+  scope :from_topic, -> (topic_id = nil) {
+    where(topic_id: topic_id)
+  }
+
+  scope :with_tags, -> (tag_id) { joins(:tags).where(tags: { id: tag_id }) }
+  scope :with_parent_tags, -> (parent_tag_ids) { joins(:tags).where(tagged_articles: { parent: true, tag_id: parent_tag_ids }) }
+  scope :with_child_tags, -> (child_tag_ids) { joins(:tags).where(tagged_articles: { child: true, tag_id: child_tag_ids }) }
 
   scope :published, -> { where(draft: false) }
 
@@ -282,6 +302,7 @@ class Article < ApplicationRecord
                                             aggs:         aggregations,
                                             includes:     [:user, :tags])
 
+    # TODO: utility ?
     # words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
 
     formatted_aggregations = {}
@@ -333,12 +354,43 @@ class Article < ApplicationRecord
 
     return results.map do |article|
       {
-        title:    article.title,
+        title:   article.title,
         summary: article.summary,
         icon:    'article',
         link:    Rails.application.routes.url_helpers.article_path(article.slug)
       }
     end
+  end
+
+  def self.default_visibility(current_user = nil, current_admin = nil)
+    if current_admin
+      all
+    elsif current_user
+      everyone_and_user(current_user.id)
+    else
+      everyone
+    end
+  end
+
+  def self.filter_by(records, filter, current_user = nil)
+    records = records.where(id: filter[:article_ids]) if filter[:article_ids]
+
+    records = records.where(accepted: filter[:accepted]) if filter[:accepted]
+    records = records.with_visibility(filter[:visibility]) if filter[:visibility]
+
+    records = records.from_user(filter[:user_id], current_user&.id) if filter[:user_id]
+
+    records = records.from_topic(filter[:topic_id]) if filter[:topic_id]
+
+    records = records.with_tags(filter[:tag_ids]) if filter[:tag_ids]
+    records = records.with_parent_tags(filter[:parent_tag_ids]) if filter[:parent_tag_ids]
+    records = records.with_child_tags(filter[:child_tag_ids]) if filter[:child_tag_ids]
+
+    records = records.where(draft: true) if filter[:draft]
+
+    records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
+
+    return records
   end
 
   def self.order_by(order)
@@ -397,12 +449,12 @@ class Article < ApplicationRecord
     user.id == self.user_id if user
   end
 
-  def format_attributes(attributes = {}, current_user = nil)
+  def format_attributes(attributes = {}, current_user)
     # Topic: Add current topic to article
-    self.topic_id = current_user.current_topic_id if current_user
+    self.topic_id = current_user.current_topic_id
 
     # Language: set current locale for now
-    self.language = current_user ? current_user.locale : I18n.locale
+    self.language = current_user.locale || I18n.locale
 
     # Sanitization
     unless attributes[:title].nil?
@@ -425,20 +477,6 @@ class Article < ApplicationRecord
       self.reference = reference_url
     end
 
-    # Tags
-    # self.tags        = article_tags = []
-    self.parent_tags = parent_tags = []
-    self.child_tags  = child_tags = []
-    unless attributes[:parent_tags].nil?
-      parent_tags = Tag.parse_tags(attributes.delete(:parent_tags), current_user&.id)
-    end
-    unless attributes[:child_tags].nil?
-      child_tags = Tag.parse_tags(attributes.delete(:child_tags), current_user&.id)
-    end
-    self.parent_tags = parent_tags
-    self.child_tags  = child_tags
-    # self.tags        = (parent_tags + child_tags).uniq
-
     # Pictures
     if attributes[:pictures].present? && attributes[:pictures].is_a?(Array)
       attributes.delete(:pictures).each do |pictureId|
@@ -446,6 +484,68 @@ class Article < ApplicationRecord
       end
     else
       attributes.delete(:pictures)
+    end
+
+    # Tags
+    if !attributes[:parent_tags].nil? || !attributes[:child_tags].nil? || !attributes[:tags].nil?
+      tagged_article_attributes = []
+      tag_relationships_attributes = []
+
+      if !attributes[:parent_tags].nil? && !attributes[:child_tags].nil?
+        parent_tags = Tag.parse_tags(attributes.delete(:parent_tags), current_user&.id)
+        parent_tags.map do |tag|
+          tagged_article_attributes << {
+            tag: tag, user_id: self.user_id, topic_id: self.topic_id, parent: true
+          }
+        end
+
+        child_tags = Tag.parse_tags(attributes.delete(:child_tags), current_user&.id)
+        child_tags.map do |tag|
+          tagged_article_attributes << {
+            tag: tag, user_id: self.user_id, topic_id: self.topic_id, child: true
+          }
+        end
+
+        tag_relationships_attributes = parent_tags.map do |parent_tag|
+          child_tags.map do |child_tag|
+            tag_relationships_attributes << {
+              parent: parent_tag, child: child_tag, user_id: self.user_id, topic_id: self.topic_id
+            }
+          end
+        end.flatten
+      elsif !attributes[:tags].nil? || !attributes[:parent_tags].nil?
+        tags = attributes.delete(:tags) || attributes.delete(:parent_tags)
+        Tag.parse_tags(tags, current_user&.id).map do |tag|
+          tagged_article_attributes << {
+            tag: tag, user_id: self.user_id, topic_id: self.topic_id
+          }
+        end
+      end
+
+      new_tagged_articles = tagged_article_attributes.map do |tagged_article_attribute|
+        if self.id
+          if (tagged_article = self.tagged_articles.where(tag_id: tagged_article_attribute[:tag].id).first)
+            tagged_article.assign_attributes(tagged_article_attribute)
+            tagged_article
+          else
+            self.tagged_articles.build(tagged_article_attribute)
+          end
+        else
+          self.tagged_articles.build(tagged_article_attribute)
+        end
+      end
+
+      new_tag_relationships = tag_relationships_attributes.map do |tag_relationships_attribute|
+        if (tag_relationship = self.tag_relationships.where(tag_relationships_attribute).first)
+          tag_relationship.assign_attributes(tag_relationships_attribute)
+          tag_relationship
+        else
+          self.tag_relationships.build(tag_relationships_attribute)
+        end
+      end
+
+      self.tagged_articles = new_tagged_articles
+      self.tag_relationships = new_tag_relationships
     end
 
     self.assign_attributes(attributes)
@@ -463,83 +563,9 @@ class Article < ApplicationRecord
     return AssetManifest.image_path(picture || default_picture)
   end
 
-  def create_tag_relationships
-    self.parent_tags.each do |parent|
-      self.child_tags.each do |child|
-        if parent.children.exists?(child.id)
-          tag_relationship     = parent.parent_relationship.find_by(child_id: child.id)
-          previous_article_ids = tag_relationship.article_ids
-          tag_relationship.update_attribute(:article_ids, previous_article_ids + [self.id])
-        else
-          parent.parent_relationship.create!(user_id: self.user_id, child_id: child.id, article_ids: [self.id.to_s])
-        end
-      end
-    end unless self.child_tags.empty?
-  end
-
-  def update_tag_relationships(previous_parent_tags, previous_child_tags)
-    previous_parent_tags.each do |previous_parent|
-      previous_child_tags.each do |previous_child|
-        if self.parent_tags.exists?(previous_parent.id)
-          unless self.child_tags.exists?(previous_child.id)
-            tag_relationship = previous_parent.parent_relationship.find_by(child_id: previous_child.id)
-            if tag_relationship
-              new_article_ids  = tag_relationship.article_ids - [self.id.to_s]
-              if new_article_ids.empty?
-                tag_relationship.destroy
-              else
-                tag_relationship.update_attribute(:article_ids, new_article_ids)
-              end
-            end
-          end
-        else
-          tag_relationship = previous_child.child_relationship.find_by(parent_id: previous_parent.id)
-          if tag_relationship
-            new_article_ids  = tag_relationship.article_ids - [self.id.to_s]
-            if new_article_ids.empty?
-              tag_relationship.destroy
-            else
-              tag_relationship.update_attribute(:article_ids, new_article_ids)
-            end
-          end
-        end
-      end
-    end unless previous_child_tags.empty?
-  end
-
-  def delete_tag_relationships(previous_parent_tags, previous_child_tags)
-    previous_parent_tags.each do |previous_parent|
-      previous_child_tags.each do |previous_child|
-        tag_relationship = previous_parent.parent_relationship.find_by(child_id: previous_child.id)
-        if tag_relationship
-          new_article_ids  = tag_relationship.article_ids - [self.id.to_s]
-          if new_article_ids.empty?
-            tag_relationship.destroy
-          else
-            tag_relationship.update_attribute(:article_ids, new_article_ids)
-          end
-        end
-      end
-    end unless previous_child_tags.empty?
-  end
-
-  def tags_to_topic(current_user, params = {})
-    if params[:new_tags] && !params[:new_tags].empty?
-      params[:new_tags].map do |tag|
-        tag.tagged_topics.build(topic_id: current_user.current_topic_id,
-                                user_id:  current_user.id)
-      end
-    elsif params[:old_tags] && !params[:old_tags].empty?
-      params[:old_tags].map do |tag|
-        tag.tagged_topics.where(topic_id: current_user.current_topic_id,
-                                user_id:  current_user.id).first&.destroy
-      end
-    end
-  end
-
   def mark_as_outdated(user)
     if self.marked_as_outdated.exists?(user.id)
-      errors.add(:outdated, I18n.t('activerecord.errors.models.outdated.already_outdated'))
+      errors.add(:outdated, I18n.t('activerecord.errors.models.outdated_article.already_outdated'))
       return false
     else
       return self.marked_as_outdated.push(user)
@@ -548,7 +574,7 @@ class Article < ApplicationRecord
 
   def remove_outdated(user)
     if !self.marked_as_outdated.exists?(user.id)
-      errors.add(:outdated, I18n.t('activerecord.errors.models.outdated.not_outdated'))
+      errors.add(:outdated, I18n.t('activerecord.errors.models.outdated_article.not_outdated'))
     else
       return self.marked_as_outdated.delete(user)
     end
@@ -563,7 +589,7 @@ class Article < ApplicationRecord
   end
 
   def slug_candidates
-    "#{title}_at_#{user.pseudo}"
+    "#{self.title}_at_#{self.user.pseudo}" if self.user
   end
 
   def normalize_friendly_id(_string = nil)
@@ -618,8 +644,8 @@ class Article < ApplicationRecord
       id:             id,
       user_id:        user_id,
       topic_id:       topic_id,
-      topic_name:     topic.name,
-      topic_slug:     topic.slug,
+      topic_name:     topic&.name,
+      topic_slug:     topic&.slug,
       title:          title,
       summary:        summary,
       content:        strip_content,
@@ -639,6 +665,16 @@ class Article < ApplicationRecord
       popularity:     popularity,
       slug:           slug
     }
+  end
+
+  private
+
+  def topic_belongs_to_user
+    if self.topic_id.present? && self.topic_id_changed? && (user = User.find(user_id))
+      unless user.topics.exists?(self.topic_id)
+        errors.add(:topic, I18n.t('activerecord.errors.models.article.bad_topic_owner'))
+      end
+    end
   end
 
 end

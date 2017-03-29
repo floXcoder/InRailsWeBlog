@@ -10,11 +10,14 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+require 'rails_helper'
 
 RSpec.describe TagRelationship, type: :model do
 
   before(:all) do
-    @user = create(:user)
+    @user    = create(:user)
+    @topic   = create(:topic, user: @user)
+    @article = create(:article, user: @user, topic: @topic)
 
     @parent_tag = create(:tag, user: @user)
     @child_tag  = create(:tag, user: @user)
@@ -22,10 +25,11 @@ RSpec.describe TagRelationship, type: :model do
 
   before do
     @tag_relation = TagRelationship.create(
-      user:        @user,
-      parent:      @parent_tag,
-      child:       @child_tag,
-      article_ids: []
+      user:    @user,
+      topic:   @topic,
+      parent:  @parent_tag,
+      child:   @child_tag,
+      article: @article
     )
   end
 
@@ -35,18 +39,28 @@ RSpec.describe TagRelationship, type: :model do
     it { is_expected.to be_valid }
   end
 
+  context 'Properties', basic: true do
+    it { is_expected.to act_as_paranoid(TagRelationship) }
+  end
+
   context 'Associations', basic: true do
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:topic) }
+
+    it { is_expected.to belong_to(:article) }
 
     it { is_expected.to belong_to(:parent) }
     it { is_expected.to belong_to(:child) }
 
     it { is_expected.to validate_presence_of(:user) }
+    it { is_expected.to validate_presence_of(:topic) }
+
+    it { is_expected.to validate_presence_of(:article) }
 
     it { is_expected.to validate_presence_of(:parent) }
     it { is_expected.to validate_presence_of(:child) }
 
-    it { is_expected.to validate_uniqueness_of(:parent_id).scoped_to([:user_id, :child_id]) }
+    it { is_expected.to validate_uniqueness_of(:parent_id).scoped_to([:article_id, :child_id]).with_message(I18n.t('activerecord.errors.models.tag_relationship.already_linked')) }
   end
 
 end

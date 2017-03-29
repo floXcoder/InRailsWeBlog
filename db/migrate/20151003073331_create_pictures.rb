@@ -2,6 +2,7 @@ class CreatePictures < ActiveRecord::Migration[5.0]
   def change
     create_table :pictures do |t|
       t.belongs_to  :user,            null: false,  index: false
+
       t.integer     :imageable_id
       t.string      :imageable_type,  null: false
 
@@ -22,6 +23,8 @@ class CreatePictures < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_foreign_key :pictures, :users
 
     add_index :pictures, :user_id,  where: 'deleted_at IS NULL'
     add_index :pictures, [:imageable_id, :imageable_type], where: 'deleted_at IS NULL'

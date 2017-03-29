@@ -1,0 +1,6 @@
+- stylesheet 'users/index'
+
+- javascript "users/index-#{I18n.locale}"
+- javascript_defer 'commons', 'users/index'
+
+= content_tag :div, '', id: 'user-index-component', class: 'react-root'

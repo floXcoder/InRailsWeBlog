@@ -4,18 +4,16 @@ class Articles::VotesController < ApplicationController
 
   respond_to :json
 
-  def up
-    article = Article.find(params[:id])
+  def create
+    article = Article.find(params[:article_id])
     authorize article, :vote_up?
 
     respond_to do |format|
       format.json do
         if current_user.vote_for(article)
-          current_user.create_activity action: :vote_up, recipient: article, owner: current_user
+          article.create_activity action: :vote_up, owner: current_user
 
-          render json:     article,
-                 status:   :accepted,
-                 location: article
+          head :ok
         else
           render json:   article.errors,
                  status: :forbidden
@@ -24,18 +22,16 @@ class Articles::VotesController < ApplicationController
     end
   end
 
-  def down
-    article = Article.find(params[:id])
+  def destroy
+    article = Article.find(params[:article_id])
     authorize article, :vote_down?
 
     respond_to do |format|
       format.json do
         if current_user.vote_against(article)
-          current_user.create_activity action: :vote_down, recipient: article, owner: current_user
+          article.create_activity action: :vote_down, owner: current_user
 
-          render json:     article,
-                 status:   :accepted,
-                 location: article
+          head :ok
         else
           render json:   article.errors,
                  status: :forbidden

@@ -1,12 +1,30 @@
 class Users::TopicsController < ApplicationController
-  before_action :authenticate_user!
-  after_action :verify_authorized
+  before_action :authenticate_user!, except: [:index]
+  after_action :verify_authorized, except: [:index]
 
   respond_to :json
 
+  def index
+    topics = Topic
+             .includes(:user)
+             .order('topics.name ASC')
+             .distinct
+
+    topics = topics.from_user(params[:user_id], current_user&.id)
+
+    topics = Topic.filter_by(topics, filter_params, current_user) unless filter_params.empty?
+
+    respond_to do |format|
+      format.json do
+        render json:            topics,
+               each_serializer: TopicSerializer
+      end
+    end
+  end
+
   def switch
     user  = User.friendly.find(params[:user_id])
-    topic = Topic.friendly.find(params[:id])
+    topic = Topic.friendly.find(params[:new_topic_id])
     authorize topic
 
     respond_to do |format|
@@ -23,7 +41,7 @@ class Users::TopicsController < ApplicationController
     end
   end
 
-  def new
+  def create
     user  = User.find(params[:user_id])
     topic = user.topics.build
     authorize topic
@@ -35,7 +53,7 @@ class Users::TopicsController < ApplicationController
         if topic.save
           render json:       topic,
                  serializer: TopicSerializer,
-                 status:     :accepted
+                 status:     :created
         else
           render json:   topic.errors,
                  status: :forbidden
@@ -93,12 +111,21 @@ class Users::TopicsController < ApplicationController
                                   :archived,
                                   :accepted,
                                   :picture,
-                                  location_attributes: [:longitude,
-                                                        :latitude],
                                   pictures_attributes: [:id,
                                                         :image,
-                                                        :_destroy]).tap do |whitelisted|
-      whitelisted[:pictures] = params[:topic][:pictures]
+                                                        :_destroy])
+  end
+
+  def filter_params
+    if params[:filter]
+      params.require(:filter).permit(:visibility,
+                                     :user_id,
+                                     :accepted,
+                                     :bookmarked,
+                                     user_ids:  []).reject { |_, v| v.blank? }
+    else
+      {}
     end
   end
+
 end

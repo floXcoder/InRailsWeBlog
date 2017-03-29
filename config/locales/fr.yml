@@ -139,11 +139,15 @@ fr:
       country: "Pays"
       local_picture: "Image locale"
       remote_picture: "Url d'une image"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
   article:
-      enums:
-        visibility:
-          everyone: "Public"
-          only_me: "Privé"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
   tag:
     enums:
       visibility:
@@ -201,21 +205,31 @@ fr:
           has_one: "Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record} dépendant(e) existe"
           has_many: "Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent"
       models:
+        article:
+          bad_topic_owner: "Le thème n'appartient pas au créateur de l'article"
+        article_relationship:
+          already_linked: "Ces deux articles sont déjà liés entre eux"
+        outdated_article:
+          already_outdated: "Article déjà marqué comme périmé !"
+          not_outdated: "Article non présent dans les périmés !"
         tag:
           already_exist: "Un label avec le même nom existe déjà"
           already_exist_in_public: "Un label public avec le même nom existe déjà"
           public_name_immutable: "Un label public ne peut changer de nom"
+        tag_relationship:
+          already_linked: "Ces deux labels sont déjà liés entre eux"
+        tagged_article:
+          already_tagged: "Ce label existe déjà pour cet article"
         bookmark:
           already_bookmarked: "Élément déjà ajouté aux favoris !"
-          model_unknown: "Impossible d'ajouter cet élément dans les favoris"
+          model_unknown: "Impossible d'ajouter ou de supprimer cet élément dans les favoris"
           not_bookmarked: "Élément non existant dans les favoris !"
-        outdated:
-          already_outdated: "Article déjà marqué comme périmé !"
-          not_outdated: "Article non présent dans les périmés !"
         topic:
           already_selected: "Le nouveau thème est déjà celui utilisé"
           already_exist: "Un thème avec le même nom existe déjà"
           not_owner: "Vous devez être le propriétaire du thème pour l'utiliser"
+        vote:
+          already_voted: "Vous ne pouvez pas voter une seconde fois"
         picture:
           image_size: "doit être inférieur à 5Mo"
   errors:

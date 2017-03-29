@@ -5,15 +5,13 @@ class Articles::OutdatedController < ApplicationController
   respond_to :json
 
   def create
-    article = Article.find(params[:id])
+    article = Article.find(params[:article_id])
     authorize article, :add_outdated?
 
     respond_to do |format|
       format.json do
         if article.mark_as_outdated(current_user)
-          render json:     article,
-                 status:   :accepted,
-                 location: article
+          head :ok
         else
           render json:   article.errors,
                  status: :forbidden
@@ -23,15 +21,13 @@ class Articles::OutdatedController < ApplicationController
   end
 
   def destroy
-    article = Article.find(params[:id])
+    article = Article.find(params[:article_id])
     authorize article, :remove_outdated?
 
     respond_to do |format|
       format.json do
         if article.remove_outdated(current_user)
-          render json:     article,
-                 status:   :accepted,
-                 location: article
+          head :ok
         else
           render json:   article.errors,
                  status: :forbidden

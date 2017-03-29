@@ -15,25 +15,21 @@ class TagsController < ApplicationController
   after_action :verify_authorized, except: [:index]
 
   include TrackerConcern
-
+  include CommentConcern
+  
   respond_to :json
 
   def index
-    tags = Tag.includes(:user, :parents, :child_relationship, :children, :parent_relationship).order('tags.name ASC')
+    tags = Tag
+             .includes(:user, :parents, :child_relationship, :children, :parent_relationship)
+             .order('tags.name ASC')
+             .distinct
 
-    tags = tags.for_user_topic(current_user.id, current_user.current_topic_id) if params[:init] && current_user
+    tags = tags.default_visibility(current_user, current_admin)
 
-    tags = if current_user&.admin?
-             tags.all
-           elsif current_user && params[:user_tags]
-             tags.everyone_and_user_and_topic(current_user.id, current_user.current_topic_id)
-           elsif current_user && tag_params[:topic_id] && tag_params[:user_id] && current_user.id == tag_params[:user_id].to_i
-             tags.everyone_and_user_and_topic(current_user.id, tag_params[:topic_id].to_i)
-           elsif current_user && tag_params[:user_id] && current_user.id == tag_params[:user_id].to_i
-             tags.everyone_and_user(current_user.id)
-           else
-             tags.everyone
-           end
+    tags = Tag.filter_by(tags, filter_params, current_user) unless filter_params.empty?
+
+    tags = params[:limit] ? tags.limit(params[:limit]) : tags.paginate(page: params[:page], per_page: CONFIG.per_page)
 
     respond_to do |format|
       format.json do
@@ -70,16 +66,78 @@ class TagsController < ApplicationController
     end
   end
 
+  def update
+    tag = Tag.find(params[:id])
+    admin_or_authorize tag
+
+    tag.format_attributes(tag_params, current_user)
+
+    respond_to do |format|
+      format.json do
+        if tag.save
+          render json:   tag,
+                 status: :ok
+        else
+          render json:   tag.errors,
+                 status: :forbidden
+        end
+      end
+    end
+  end
+
+  def destroy
+    tag = Tag.find(params[:id])
+    admin_or_authorize tag
+
+    respond_to do |format|
+      format.json do
+        if params[:permanently] && current_admin ? tag.really_destroy! : tag.destroy
+          flash.now[:success] = I18n.t('views.tag.flash.successful_deletion')
+          render json:   { id: tag.id },
+                 status: :accepted
+        else
+          flash.now[:error] = I18n.t('views.tag.flash.deletion_error', errors: tag.errors.to_s)
+          render json:   tag.errors,
+                 status: :forbidden
+        end
+      end
+    end
+  end
+
   private
 
   def tag_params
-    if params[:tags]
-      params.require(:tags).permit(:name,
-                                   :description,
-                                   :user_id,
-                                   :topic_id)
+    if params[:tag]
+      params.require(:tag).permit(:name,
+                                  :description,
+                                  :color,
+                                  :priority,
+                                  :visibility,
+                                  :accepted,
+                                  :archived,
+                                  :picture,
+                                  synonyms:            [],
+                                  pictures_attributes: [:id,
+                                                        :image,
+                                                        :_destroy])
     else
       {}
     end
   end
+
+  def filter_params
+    if params[:filter]
+      params.require(:filter).permit(:visibility,
+                                     :user_id,
+                                     :topic_id,
+                                     :accepted,
+                                     :bookmarked,
+                                     tag_ids:   [],
+                                     user_ids:  [],
+                                     topic_ids: []).reject { |_, v| v.blank? }
+    else
+      {}
+    end
+  end
+
 end

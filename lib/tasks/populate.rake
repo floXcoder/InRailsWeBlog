@@ -39,9 +39,6 @@ namespace :InRailsWeBlog do
         # Create tag relationships
         Populate::create_tag_relationships_for(articles.sample(120))
 
-        # Associate tags to user current topic
-        Populate::create_tag_to_topics_for(Tag.all)
-
         # Create comments for articles
         Populate::create_comments_for(articles, main_user, 1..10)
         Populate::create_comments_for(articles, users, 1..15)

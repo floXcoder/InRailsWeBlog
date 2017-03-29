@@ -35,10 +35,8 @@
 #
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:validation]
+  before_action :authenticate_user!, except: [:index, :show, :validation]
   after_action :verify_authorized, except: [:index, :validation]
-
-  before_action :reset_cache_headers, only: [:show]
 
   skip_before_action :set_locale, only: [:validation]
 
@@ -131,22 +129,26 @@ class UsersController < ApplicationController
     authorize user
 
     respond_to do |format|
-      format.html do
-        User.track_views(user.id)
-        set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
-                      description: I18n.t('views.user.show.description')
-        render :show, locals: { user: user, mode: nil }
-      end
+      # TODO
+      # format.html do
+      #   User.track_views(user.id)
+      #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
+      #                 description: I18n.t('views.user.show.description')
+      #   render :show, locals: { user: user, mode: nil }
+      # end
 
       format.json do
         if params[:complete_user] && (current_user.id == user.id || current_user.admin?)
           User.track_views(user.id)
-          render json: user, serializer: UserCompleteSerializer
+          render json: user,
+                 serializer: UserCompleteSerializer
         elsif params[:user_profile] && current_user.id == user.id
-          render json: user, serializer: UserProfileSerializer
+          render json: user,
+                 serializer: UserProfileSerializer
         else
           User.track_views(user.id)
-          render json: user, serializer: UserSerializer
+          render json: user,
+                 serializer: UserSerializer
         end
       end
     end

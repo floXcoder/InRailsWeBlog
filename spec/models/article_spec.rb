@@ -26,6 +26,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #
+require 'rails_helper'
 
 RSpec.describe Article, type: :model do
 
@@ -138,6 +139,17 @@ RSpec.describe Article, type: :model do
       it { is_expected.to have_enum(:visibility) }
       it { is_expected.to validate_presence_of(:visibility) }
     end
+
+    describe '#topic_id' do
+      it 'returns an error if topic does not own to current user' do
+        other_user = create(:user)
+        other_topic = create(:topic, user: other_user)
+
+        new_article = build(:article, user: @user, topic: other_topic)
+        expect(new_article.save).to be false
+        expect(new_article.errors[:topic].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
+      end
+    end
   end
 
   context 'Properties', basic: true do
@@ -163,28 +175,27 @@ RSpec.describe Article, type: :model do
       picture = create(:picture, user: @user, imageable_type: 'Article')
       expect {
         @article.pictures << picture
-      }.to change(@topic.reload, :pictures_count).by(1)
+      }.to change(@article.reload, :pictures_count).by(1)
     end
 
     it 'uses counter cache for outdated articles' do
-      outdated_article = create(:outdated_article, user: @user, article: @article)
       expect {
-        @article.outdated_articles << outdated_article
-      }.to change(@topic.reload, :outdated_articles_count).by(1)
+        @article.outdated_articles.create(user: @user)
+      }.to change(@article.reload, :outdated_articles_count).by(1)
     end
 
     it 'uses counter cache for bookmarks' do
       bookmark = create(:bookmark, user: @user, bookmarked: @article)
       expect {
         @article.bookmarks << bookmark
-      }.to change(@topic.reload, :bookmarks_count).by(1)
+      }.to change(@article.reload, :bookmarks_count).by(1)
     end
 
     it 'uses counter cache for comments' do
-      comment = create(:comment, user: @user, commentable: @article)
       expect {
+        comment = create(:comment, user: @user, commentable: @article)
         @article.new_comment(comment)
-      }.to change(@topic.reload, :comments_count).by(1)
+      }.to change(@article.reload, :comments_count).by(1)
     end
   end
 
@@ -200,13 +211,17 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_many(:tags) }
     it { is_expected.to have_many(:parent_tags) }
     it { is_expected.to have_many(:child_tags) }
+    it { is_expected.to have_many(:tag_relationships) }
+
+    it { is_expected.to have_many(:outdated_articles) }
+    it { is_expected.to have_many(:marked_as_outdated) }
+
+    it { is_expected.to have_many(:parent_relationships) }
+    it { is_expected.to have_many(:child_relationships) }
 
     it { is_expected.to have_many(:bookmarks) }
     it { is_expected.to have_many(:user_bookmarks) }
     it { is_expected.to have_many(:followers) }
-
-    it { is_expected.to have_many(:outdated_articles) }
-    it { is_expected.to have_many(:marked_as_outdated) }
 
     it { is_expected.to have_many(:pictures) }
     it { is_expected.to accept_nested_attributes_for(:pictures) }
@@ -218,7 +233,8 @@ RSpec.describe Article, type: :model do
     let!(:private_article) { create(:article, user: @user, topic: @topic, visibility: 'only_me') }
 
     let!(:other_user) { create(:user) }
-    let!(:other_article) { create(:article, user: other_user, topic: @topic, visibility: 'everyone', draft: true, title: 'Title 2') }
+    let!(:other_topic) { create(:topic, user: other_user) }
+    let!(:other_article) { create(:article, user: other_user, topic: other_topic, visibility: 'everyone', draft: true, title: 'Title 2') }
 
     let!(:tag_parent) { create(:tag, user: @user, name: 'Tag parent') }
     let!(:tag_child) { create(:tag, user: @user, name: 'Tag children') }
@@ -226,12 +242,12 @@ RSpec.describe Article, type: :model do
     let!(:other_tag) { create(:tag, user: @user, name: 'Tag other') }
 
     before do
-      @article.parent_tags << tag_parent
-      @article.child_tags << tag_child
+      @article.tagged_articles.create(user: @user, topic: @topic, tag: tag_parent, parent: true)
+      @article.tagged_articles.create(user: @user, topic: @topic, tag: tag_child, child: true)
 
-      other_article.tags << tag_parent
+      other_article.tagged_articles.create(user: @user, topic: other_topic, tag: tag_parent)
 
-      private_article.tags << other_tag
+      private_article.tagged_articles.create(user: @user, topic: other_topic, tag: other_tag)
 
       @article.bookmarks << create(:bookmark, user: @user, bookmarked: @article)
 
@@ -263,22 +279,28 @@ RSpec.describe Article, type: :model do
       it { expect(Article.from_user(@user.id, @user.id)).not_to include(other_article) }
     end
 
+    describe '::from_topic' do
+      it { is_expected.to respond_to(:from_topic) }
+      it { expect(Article.from_topic(@topic.id)).to include(@article) }
+      it { expect(Article.from_topic(other_topic.id)).not_to include(@article) }
+    end
+
     describe '::with_tags' do
       it { is_expected.to respond_to(:with_tags) }
-      it { expect(Article.with_tags(tag_parent.name)).to include(@article, other_article) }
-      it { expect(Article.with_tags(tag_parent.name)).not_to include(private_article) }
+      it { expect(Article.with_tags(tag_parent.id)).to include(@article, other_article) }
+      it { expect(Article.with_tags(tag_parent.id)).not_to include(private_article) }
     end
 
     describe '::with_parent_tags' do
       it { is_expected.to respond_to(:with_parent_tags) }
-      it { expect(Article.with_parent_tags(tag_parent.name)).to include(@article) }
-      it { expect(Article.with_parent_tags(tag_parent.name)).not_to include(other_article) }
+      it { expect(Article.with_parent_tags(tag_parent.id)).to include(@article) }
+      it { expect(Article.with_parent_tags(tag_parent.id)).not_to include(other_article) }
     end
 
     describe '::with_child_tags' do
       it { is_expected.to respond_to(:with_child_tags) }
-      it { expect(Article.with_child_tags(tag_child.name)).to include(@article) }
-      it { expect(Article.with_child_tags(tag_child.name)).not_to include(other_article) }
+      it { expect(Article.with_child_tags(tag_child.id)).to include(@article) }
+      it { expect(Article.with_child_tags(tag_child.id)).not_to include(other_article) }
     end
 
     describe '::published' do
@@ -301,7 +323,7 @@ RSpec.describe Article, type: :model do
         expect(article_results[:articles]).not_to be_empty
         expect(article_results[:articles]).to be_a(Array)
         expect(article_results[:articles].size).to eq(2)
-        expect(article_autocompletes.map { |article| article[:title] }).to include(@article.title, other_article.title)
+        expect(article_results[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
       end
     end
 
@@ -316,6 +338,16 @@ RSpec.describe Article, type: :model do
         expect(article_autocompletes.size).to eq(2)
         expect(article_autocompletes.map { |article| article[:title] }).to include(@article.title, other_article.title)
       end
+    end
+
+    describe '::default_visibility' do
+      it { is_expected.to respond_to(:default_visibility) }
+      it { expect(Article.default_visibility).to be_kind_of(ActiveRecord::Relation) }
+    end
+
+    describe '::filter_by' do
+      it { is_expected.to respond_to(:filter_by) }
+      it { expect(Article.filter_by(Article.all, {topic_id: @topic.id})).to include(@article) }
     end
 
     describe '::order_by' do
@@ -348,8 +380,8 @@ RSpec.describe Article, type: :model do
     let(:content_with_private) { 'test<p class="secret">secret</p>' }
 
     before do
-      @article.parent_tags << tag_parent
-      @article.child_tags << tag_child
+      @article.tagged_articles.create(user: @user, topic: @topic, tag: tag_parent, parent: true)
+      @article.tagged_articles.create(user: @user, topic: @topic, tag: tag_child, child: true)
     end
 
     describe '.user?' do
@@ -365,55 +397,6 @@ RSpec.describe Article, type: :model do
     describe '.default_picture' do
       it { is_expected.to respond_to(:default_picture) }
       it { expect(@article.default_picture).to eq('/assets/') }
-    end
-
-    describe '.create_tag_relationships' do
-      it { is_expected.to respond_to(:create_tag_relationships) }
-
-      it 'builds the relation between tags' do
-        expect {
-          @article.create_tag_relationships
-        }.to change(TagRelationship, :count).by(1)
-
-        expect(TagRelationship.last.parent_id).to eq(tag_parent.id)
-        expect(TagRelationship.last.child_id).to eq(tag_child.id)
-        expect(TagRelationship.last.article_ids).to eq([@article.id.to_s])
-      end
-    end
-
-    describe '.update_tag_relationships' do
-      it { is_expected.to respond_to(:update_tag_relationships) }
-
-      it 'updates the relation between tags' do
-        @article.create_tag_relationships
-
-        new_tag_parent = create(:tag, user: @user)
-        new_tag_child = create(:tag, user: @user)
-
-        @article.parent_tags = [new_tag_parent]
-        @article.child_tags = [new_tag_child]
-        @article.save
-
-        expect {
-          @article.update_tag_relationships([tag_parent], [tag_child])
-        }.to change(TagRelationship, :count).by(-1)
-      end
-    end
-
-    describe '.delete_tag_relationships' do
-      it { is_expected.to respond_to(:delete_tag_relationships) }
-
-      it 'delete the relation between tags' do
-        @article.create_tag_relationships
-
-        @article.parent_tags = []
-        @article.child_tags = []
-        @article.save
-
-        expect {
-          @article.delete_tag_relationships([tag_parent], [tag_child])
-        }.to change(TagRelationship, :count).by(-1)
-      end
     end
 
     describe '.mark_as_outdated' do

@@ -17,14 +17,14 @@ module TrackerConcern
   def clicked
     class_model = params[:controller].classify.constantize
     class_model.track_clicks(params[:id])
-    render json: { success: true }, status: :accepted
+    head :ok
   end
 
   # Tracker action method to get views from clients
   def viewed
     class_model = params[:controller].classify.constantize
     class_model.track_views(params[:id].split(','))
-    render json: { success: true }, status: :accepted
+    head :ok
   end
 
   private

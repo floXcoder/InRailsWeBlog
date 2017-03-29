@@ -10,6 +10,7 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+require 'rails_helper'
 
 RSpec.describe Bookmark, type: :model do
 
@@ -42,7 +43,7 @@ RSpec.describe Bookmark, type: :model do
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to validate_presence_of(:bookmarked) }
 
-    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to([:bookmarked_id, :bookmarked_type]) }
+    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to([:bookmarked_id, :bookmarked_type]).with_message(I18n.t('activerecord.errors.models.bookmark.already_bookmarked')) }
   end
 
   context 'Public Methods', basic: true do
@@ -105,7 +106,7 @@ RSpec.describe Bookmark, type: :model do
     describe '.add' do
       it { is_expected.to respond_to(:add) }
 
-      it 'adds an new bookmark' do
+      it 'adds a bookmark' do
         bookmark       = Bookmark.new
         bookmark_added = bookmark.add(user, 'Article', article.id)
 
@@ -134,15 +135,17 @@ RSpec.describe Bookmark, type: :model do
     describe '.remove' do
       it { is_expected.to respond_to(:remove) }
 
-      it 'adds an new bookmark' do
-        bookmark         = Bookmark.new.add(user, 'Article', article.id)
+      it 'removes a bookmark' do
+        bookmark = Bookmark.new
+        bookmark.add(user, 'Article', article.id)
         bookmark_removed = bookmark.remove(user, 'Article', article.id)
 
         expect(bookmark_removed).to be true
       end
 
       it 'rejects unknown model' do
-        bookmark         = Bookmark.new.add(user, 'Article', article.id)
+        bookmark = Bookmark.new
+        bookmark.add(user, 'Article', article.id)
         bookmark_removed = bookmark.remove(user, 'Unknown', article.id)
 
         expect(bookmark_removed).to be false
@@ -150,12 +153,13 @@ RSpec.describe Bookmark, type: :model do
       end
 
       it 'rejects already unbookmarked' do
-        bookmark = Bookmark.new.add(user, 'Article', article.id)
+        bookmark = Bookmark.new
+        bookmark.add(user, 'Article', article.id)
         bookmark.remove(user, 'Article', article.id)
         bookmark_removed = bookmark.remove(user, 'Article', article.id)
 
         expect(bookmark_removed).to be false
-        expect(bookmark.errors[:base].first).to eq(I18n.t('activerecord.errors.models.bookmark.already_bookmarked'))
+        expect(bookmark.errors[:bookmark].first).to eq(I18n.t('activerecord.errors.models.bookmark.not_bookmarked'))
       end
     end
   end

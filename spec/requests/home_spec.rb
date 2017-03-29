@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe 'Home API', type: :request, basic: true do
 
   before(:all) do

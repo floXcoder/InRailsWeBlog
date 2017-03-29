@@ -28,8 +28,8 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :updated_at,
              :link,
              :slug,
-             :outdated_number,
-             :comments_number
+             :outdated_articles_count,
+             :comments_count
 
   belongs_to :user, serializer: UserSampleSerializer
   has_many :tags, serializer: TagSampleSerializer
@@ -40,14 +40,6 @@ class ArticleSampleSerializer < ActiveModel::Serializer
 
   def updated_at
     I18n.l(object.updated_at, format: :custom).mb_chars.downcase.to_s
-  end
-
-  def outdated_number
-    object.outdated_articles_count
-  end
-
-  def comments_number
-    object.tracker.comments_count unless instance_options[:strict]
   end
 
   include Rails.application.routes.url_helpers

@@ -20,39 +20,22 @@ class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   after_action :verify_authorized, except: [:index]
 
-  include CommentConcern
   include TrackerConcern
+  include CommentConcern
 
   respond_to :html, :json
 
   def index
-    # TODO
     articles = Article
                  .includes(:parent_tags, :child_tags, :tracker, user: [:picture])
-                 # .user_related(current_user&.id)
-                 # .order('articles.id DESC')
+                 .order('articles.updated_at DESC')
+                 .distinct
 
-    articles = if params[:parent_tags] && params[:child_tags]
-                 parent_tags       = params[:parent_tags]
-                 child_tags        = params[:child_tags]
-                 parent_articles   = Article.with_parent_tags(parent_tags)
-                 children_articles = Article.with_child_tags(child_tags)
-                 articles.joins(:tags).where(id: parent_articles.ids & children_articles.ids)
-               elsif params[:tags] || params[:parent_tags] || params[:child_tags]
-                 tag_names = params[:tags] || params[:parent_tags] || params[:child_tags]
-                 articles.with_tags(tag_names)
-               elsif params[:type] == 'bookmark'
-                 articles.where(id: current_user.bookmarks.ids)
-               elsif params[:type] == 'draft'
-                 articles.where(draft: true)
-               else
-                 articles.published
-               end
+    articles = articles.default_visibility(current_user, current_admin)
 
-    articles = articles.where(user_id: User.friendly.find(params[:user_id])) if params[:user_id]
-    articles = articles.where(topic_id: Topic.friendly.find(params[:topic_id])) if params[:topic_id]
+    articles = Article.filter_by(articles, filter_params, current_user) unless filter_params.empty?
+
     articles = params[:limit] ? articles.limit(params[:limit]) : articles.paginate(page: params[:page], per_page: CONFIG.per_page)
-    articles = articles.uniq
 
     respond_to do |format|
       format.json do
@@ -75,7 +58,7 @@ class ArticlesController < ApplicationController
                                :tagged_articles,
                                :tracker)
                 .friendly.find(params[:id])
-    authorize article
+    admin_or_authorize article
 
     Article.track_views(article.id)
     User.track_views(article.user.id)
@@ -105,13 +88,14 @@ class ArticlesController < ApplicationController
 
   def history
     article = Article.friendly.find(params[:id])
-    authorize article
+    admin_or_authorize article
 
-    article_versions = article.versions.select { |history| !history.reify.content.empty? }
+    article_versions = article.versions.select { |history| !history.reify.content.nil? }
 
     respond_to do |format|
       format.json do
         render json:            article_versions,
+               root:            'history',
                each_serializer: HistorySerializer
       end
     end
@@ -119,19 +103,15 @@ class ArticlesController < ApplicationController
 
   def create
     article = current_user.articles.build
-    authorize article
+    admin_or_authorize article
 
     article.format_attributes(article_params, current_user)
 
     respond_to do |format|
       format.json do
         if article.save
-          article.create_tag_relationships
-          article.tags_to_topic(current_user, new_tags: article.tags)
-
           flash.now[:success] = t('views.article.flash.successful_creation')
           render json:       article,
-                 new_tags:   article.tags,
                  serializer: ArticleSerializer,
                  status:     :created
         else
@@ -146,13 +126,9 @@ class ArticlesController < ApplicationController
   def edit
     article = Article.includes(:user,
                                :parent_tags,
-                               :child_tags,
-                               :tagged_articles,
-                               :tracker,
-                               bookmarked_articles: [:user, :article],
-                               comment_threads:     [:user])
+                               :child_tags)
                 .friendly.find(params[:id])
-    authorize article
+    admin_or_authorize article
 
     respond_to do |format|
       format.html do
@@ -170,21 +146,13 @@ class ArticlesController < ApplicationController
 
   def update
     article = Article.find(params[:id])
-    authorize article
-
-    previous_tags        = article.tags
-    previous_parent_tags = Tag.where(id: article.parent_tags.ids)
-    previous_child_tags  = Tag.where(id: article.child_tags.ids)
+    admin_or_authorize article
 
     article.format_attributes(article_params, current_user)
 
     respond_to do |format|
       format.json do
         if article.save
-          article.update_tag_relationships(previous_parent_tags, previous_child_tags)
-          article.tags_to_topic(current_user, new_tags: article.tags - previous_tags, old_tags: previous_tags - article.tags)
-          Tag.remove_unused_tags(previous_tags - article.tags)
-
           render json:   article,
                  status: :ok
         else
@@ -196,51 +164,37 @@ class ArticlesController < ApplicationController
   end
 
   def restore
-    article_version = nil
-
-    article = if params[:article_version_id]
-                if params[:from_deletion]
-                  article_version = PaperTrail::Version.find_by_id(params[:article_version_id])
-                  article_version.reify if article_version
-                end
-              else
-                Article.find(params[:id])
-              end
-    authorize article
+    article = Article.with_deleted.find(params[:id])
+    admin_or_authorize article
 
     version = PaperTrail::Version.find_by_id(params[:version_id])
 
-    if (restored_version = version.reify)
+    if version && (restored_version = version.reify)
       params[:article_version_id] ? article.save : restored_version.save
 
       article.reload
-      article.create_tag_relationships
 
       respond_to do |format|
         flash.now[:success] = t('views.article.flash.undeletion_successful') if params[:from_deletion]
-        format.html do
-          redirect_to article_path(article)
-        end
+        # format.html do
+        #   redirect_to article_path(article)
+        # end
         format.json do
           render json:   article,
                  status: :accepted
         end
       end
     else
-      skip_authorization
-      # For undoing the create action
-      version.item.destroy
-      article_version.item.destroy if article_version && params[:article_version_id] && params[:from_deletion]
       respond_to do |format|
         flash.now[:error] = t('views.article.flash.not_found')
-        format.html do
-          # set_meta_tags title:       titleize(I18n.t('views.article.edit.title')),
-          #               description: I18n.t('views.article.edit.description'),
-          #               canonical:   article_canonical_url("#{article.id}/edit")
-          render json:         {},
-                 formats:      :json,
-                 content_type: 'application/json'
-        end
+        # format.html do
+        #   # set_meta_tags title:       titleize(I18n.t('views.article.edit.title')),
+        #   #               description: I18n.t('views.article.edit.description'),
+        #   #               canonical:   article_canonical_url("#{article.id}/edit")
+        #   render json:         {},
+        #          formats:      :json,
+        #          content_type: 'application/json'
+        # end
         format.json do
           render json:   {},
                  status: :not_found
@@ -251,37 +205,19 @@ class ArticlesController < ApplicationController
 
   def destroy
     article = Article.find(params[:id])
-    authorize article
-
-    item_id = article.versions.last.item_id
-
-    previous_tags        = article.tags
-    previous_parent_tags = Tag.where(id: article.parent_tags.ids)
-    previous_child_tags  = Tag.where(id: article.child_tags.ids)
+    admin_or_authorize article
 
     respond_to do |format|
       format.json do
-        if article.destroy
-          article.delete_tag_relationships(previous_parent_tags, previous_child_tags)
-          article.tags_to_topic(current_user, old_tags: previous_tags)
-          Tag.remove_unused_tags(previous_tags)
+        if params[:permanently] && current_admin ? article.really_destroy! : article.destroy
+          # TODO : remove now or later (cron job) ?
+          # Tag.remove_unused_tags(article.tags)
 
-          last_article_version = article.versions.last
-          last_version         = PaperTrail::Version.where(item_id: item_id, event: 'destroy').last
-          undelete_url         = nil
-          if last_article_version && last_version
-            undelete_url = restore_article_path(article_version_id: last_article_version.id,
-                                                version_id:         last_version.id,
-                                                from_deletion:      true)
-
-            flash.now[:success] = t('views.article.flash.deletion_successful') +
-              ' ' +
-              "<a href='#{undelete_url}'>#{t('views.article.flash.undelete_link')}</a>"
-          end
-          render json:   { id: article.id, url: undelete_url },
+          flash.now[:success] = I18n.t('views.article.flash.successful_deletion')
+          render json:   { id: article.id },
                  status: :accepted
         else
-          flash.now[:error] = t('views.article.flash.deletion_error', errors: article.errors.to_s)
+          flash.now[:error] = I18n.t('views.article.flash.deletion_error', errors: article.errors.to_s)
           render json:   article.errors,
                  status: :forbidden
         end
@@ -292,17 +228,38 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:articles).permit(:title,
-                                     :summary,
-                                     :description,
-                                     :content,
-                                     :visibility,
-                                     :notation,
-                                     :priority,
-                                     :allow_comment,
-                                     :draft,
-                                     :topic,
-                                     parent_tags: [],
-                                     child_tags:  [])
+    params.require(:article).permit(:title,
+                                    :summary,
+                                    :description,
+                                    :content,
+                                    :visibility,
+                                    :notation,
+                                    :priority,
+                                    :allow_comment,
+                                    :draft,
+                                    :topic,
+                                    tags:        [],
+                                    parent_tags: [],
+                                    child_tags:  [])
   end
+
+  def filter_params
+    if params[:filter]
+      params.require(:filter).permit(:visibility,
+                                     :draft,
+                                     :accepted,
+                                     :user_id,
+                                     :topic_id,
+                                     :draft,
+                                     :bookmarked,
+                                     user_ids:       [],
+                                     topic_ids:      [],
+                                     parent_tag_ids: [],
+                                     child_tag_ids:  [],
+                                     tag_ids:        []).reject { |_, v| v.blank? }
+    else
+      {}
+    end
+  end
+
 end

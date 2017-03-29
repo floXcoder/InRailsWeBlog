@@ -26,6 +26,19 @@ class TagPolicy
     owner?
   end
 
+  # Comments
+  def add_comment?
+    @current_user && @tag.everyone? && @tag.allow_comment? && !@tag.user?(@current_user)
+  end
+
+  def update_comment?
+    @current_user && @tag.everyone? && @tag.allow_comment? && !@tag.user?(@current_user)
+  end
+
+  def remove_comment?
+    @current_user && @tag.everyone? && @tag.allow_comment? && !@tag.user?(@current_user)
+  end
+
   private
 
   def correct_user?

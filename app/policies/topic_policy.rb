@@ -10,7 +10,7 @@ class TopicPolicy
     owner?
   end
 
-  def new?
+  def create?
     @current_user
   end
 

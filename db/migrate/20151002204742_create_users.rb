@@ -16,6 +16,8 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string      :locale,                          default: 'fr'
 
       t.jsonb       :settings,        null: false,    default: {}
+      t.boolean     :allow_comment,   null: false,    default: true
+      t.integer     :visibility,      null: false,    default: 0
 
       t.integer     :current_topic_id
 

@@ -16,9 +16,14 @@ class TagRelationship < ApplicationRecord
   # == Attributes ===========================================================
 
   # == Extensions ===========================================================
+  # Marked as deleted
+  acts_as_paranoid
 
   # == Relationships ========================================================
   belongs_to :user
+  belongs_to :topic
+
+  belongs_to :article
 
   belongs_to :parent,
              class_name: 'Tag',
@@ -30,6 +35,11 @@ class TagRelationship < ApplicationRecord
   # == Validations ==========================================================
   validates :user,
             presence: true
+  validates :topic,
+            presence: true
+
+  validates :article,
+            presence: true
 
   validates :parent,
             presence: true,
@@ -38,7 +48,10 @@ class TagRelationship < ApplicationRecord
             presence: true,
             on: :update
 
-  validates_uniqueness_of :parent_id, scope: [:user_id, :child_id], allow_nil: true
+  validates_uniqueness_of :parent_id,
+                          scope: [:article_id, :child_id],
+                          allow_nil: true,
+                          message: I18n.t('activerecord.errors.models.tag_relationship.already_linked')
 
   # == Scopes ===============================================================
 

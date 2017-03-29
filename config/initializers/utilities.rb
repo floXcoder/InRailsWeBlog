@@ -173,7 +173,7 @@ module Kernel
     return unless Rails.env.development? || Rails.env.test?
 
     ap "*** #{Time.zone.now} ***", color: { string: :green }
-    ap msg.class if msg.respond_to?(:class)
+    # ap msg.class if msg.respond_to?(:class)
     src = caller.first.gsub(Rails.root.to_s + '/', '')
     ap src, color: { string: :purpleish }
     ap msg

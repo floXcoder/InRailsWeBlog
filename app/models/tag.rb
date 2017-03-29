@@ -41,12 +41,6 @@ class Tag < ApplicationRecord
   # Versioning
   has_paper_trail on: [:update], only: [:name, :description, :synonyms]
 
-  # Marked as deleted
-  acts_as_paranoid
-
-  include NiceUrlConcern
-  friendly_id :slug_candidates, use: :slugged
-
   # Track activities
   include ActAsTrackedConcern
   acts_as_tracked :queries, :clicks, :views
@@ -55,6 +49,10 @@ class Tag < ApplicationRecord
   include PublicActivity::Model
   tracked owner: :user
 
+  # SEO
+  include NiceUrlConcern
+  friendly_id :slug_candidates, use: :slugged
+
   # Search
   searchkick searchable:  [:name, :description, :synonyms],
              word_middle: [:name, :description],
@@ -62,31 +60,38 @@ class Tag < ApplicationRecord
              highlight:   [:name, :description],
              language:    (I18n.locale == :fr) ? 'French' : 'English'
 
+  # Comments
+  include CommentableConcern
+
+  # Marked as deleted
+  acts_as_paranoid
+
   # == Relationships ========================================================
   belongs_to :user,
              class_name:    'User',
              counter_cache: true
 
-  has_many :tagged_topics
-  has_many :topics,
-           through:   :tagged_topics,
-           autosave:  true,
+  has_many :tagged_articles,
            dependent: :destroy
-
-  has_many :tagged_articles
   has_many :articles,
+           through: :tagged_articles
+  has_many :topics,
            through: :tagged_articles
 
   has_many :parent_relationship,
+           autosave:    true,
            class_name:  'TagRelationship',
-           foreign_key: 'parent_id'
+           foreign_key: 'parent_id',
+           dependent:   :destroy
   has_many :children,
            through: :parent_relationship,
            source:  :child
 
   has_many :child_relationship,
+           autosave:    true,
            class_name:  'TagRelationship',
-           foreign_key: 'child_id'
+           foreign_key: 'child_id',
+           dependent:   :destroy
   has_many :parents,
            through: :child_relationship,
            source:  :parent
@@ -137,17 +142,13 @@ class Tag < ApplicationRecord
   validates :visibility,
             presence: true
 
+  # TODO
   # validates :topics, length: { minimum: 1 }
   # validates :articles, length: { minimum: 1 }
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
     where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id)', user_id: user_id)
-  }
-
-  # Works only if all tags are in tagged_topics
-  scope :everyone_and_user_and_topic, -> (user_id, topic_id) {
-    joins(:tagged_topics).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id) OR (tagged_topics.tag_id = tags.id AND tagged_topics.topic_id = :topic_id)', user_id: user_id, topic_id: topic_id)
   }
 
   scope :with_visibility, -> (visibility) {
@@ -160,7 +161,7 @@ class Tag < ApplicationRecord
   }
 
   scope :for_user_topic, -> (user_id, topic_id) {
-    includes(:tagged_topics).where(user_id: user_id, tagged_topics: { topic_id: topic_id })
+    joins(:tagged_articles).where(user_id: user_id, tagged_articles: { topic_id: topic_id })
   }
 
   scope :most_used, -> (limit = 20) { order('tagged_articles_count desc').limit(limit) }
@@ -356,26 +357,42 @@ class Tag < ApplicationRecord
     end
   end
 
+  def self.default_visibility(current_user = nil, current_admin = nil)
+    if current_admin
+      all
+    elsif current_user
+      everyone_and_user(current_user.id)
+    else
+      everyone
+    end
+  end
+
+  def self.filter_by(records, filter, current_user = nil)
+    records = records.where(id: filter[:tag_ids]) if filter[:tag_ids]
+
+    records = records.for_user_topic(filter[:user_id], filter[:topic_id]) if filter[:user_id] && filter[:topic_id]
+
+    records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
+
+    records = records.where(accepted: filter[:accepted]) if filter[:accepted]
+    records = records.with_visibility(filter[:visibility]) if filter[:visibility]
+
+    return records
+  end
+
   def self.parse_tags(tags, current_user_id)
-    return Tag.none unless tags.is_a?(Array) || !tags.empty?
+    return [] unless tags.is_a?(Array) || !tags.empty?
 
     tags.map do |tag_properties|
-      visibility, name     = tag_properties.split(',')
-      default_attributes   = {
-        name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
-        visibility: Tag.visibilities[visibility]
-      }
-      attributes_with_user = {
+      name, visibility = tag_properties.split(',')
+      visibility       ||= 'everyone'
+      attributes       = {
         user_id:    current_user_id,
         name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
         visibility: Tag.visibilities[visibility]
       }
 
-      if visibility == 'only_me'
-        Tag.find_by(attributes_with_user) || Tag.new(attributes_with_user)
-      else
-        Tag.find_by(default_attributes) || Tag.new(attributes_with_user)
-      end
+      Tag.find_by(attributes) || Tag.new(attributes)
     end
   end
 
@@ -383,7 +400,7 @@ class Tag < ApplicationRecord
     return Tag.none unless tags.is_a?(Array) || !tags.empty?
 
     tags.map do |tag|
-      tag.destroy if tag.tagged_articles_count == 0
+      tag.destroy if tag.tagged_articles_count.zero?
     end
   end
 
@@ -429,7 +446,7 @@ class Tag < ApplicationRecord
     end
 
     unless attributes[:description].nil?
-      self.references = Sanitize.fragment(attributes.delete(:description))
+      self.description = Sanitize.fragment(attributes.delete(:description))
     end
 
     unless attributes[:picture].nil?

@@ -12,7 +12,7 @@ AllCops:
 ##################### Metrics ##################################
 Metrics/AbcSize:
   # The ABC size is a calculated magnitude, so this number can be a Fixnum or a Float.
-  Max: 30
+  Max: 60
 
 Metrics/ClassLength:
   CountComments: false  # count full line comments?
@@ -20,7 +20,7 @@ Metrics/ClassLength:
 
 Metrics/MethodLength:
   CountComments: false  # count full line comments?
-  Max: 40
+  Max: 120
 
 Metrics/CyclomaticComplexity:
   Enabled: false
@@ -68,4 +68,19 @@ Style/MultilineOperationIndentation:
   Enabled: false
 
 Style/AlignParameters:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/SpaceInLambdaLiteral:
+  Enabled: false
+
+Style/MultilineIfModifier:
+  Enabled: false
+
+Style/RedundantReturn:
+  Enabled: false
+
+Bundler/OrderedGems:
   Enabled: false

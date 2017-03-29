@@ -139,10 +139,10 @@ en:
       local_picture: "Local picture"
       remote_picture: "Link to an url"
   article:
-      enums:
-        visibility:
-          everyone: "Public"
-          only_me: "Private"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Private"
   tag:
     enums:
       visibility:

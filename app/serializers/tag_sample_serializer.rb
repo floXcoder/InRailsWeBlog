@@ -35,6 +35,6 @@ class TagSampleSerializer < ActiveModel::Serializer
              :slug
 
   def description
-    object.description.summary
+    object.description.summary if object.description
   end
 end

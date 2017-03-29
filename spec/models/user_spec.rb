@@ -45,6 +45,7 @@
 #  unlock_token           :string
 #  locked_at              :datetime
 #
+require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
@@ -94,6 +95,8 @@ RSpec.describe User, type: :model do
     it { is_expected.to respond_to(:state) }
     it { is_expected.to respond_to(:mobile_number) }
     it { is_expected.to respond_to(:postcode) }
+    it { is_expected.to respond_to(:allow_comment) }
+    it { is_expected.to respond_to(:visibility) }
     it { is_expected.to respond_to(:pictures_count) }
     it { is_expected.to respond_to(:topics_count) }
     it { is_expected.to respond_to(:articles_count) }
@@ -116,6 +119,8 @@ RSpec.describe User, type: :model do
     it { expect(@user.street).to eq('street') }
     it { expect(@user.postcode).to eq('33000') }
     it { expect(@user.state).to eq('state') }
+    it { expect(@user.allow_comment).to be true }
+    it { expect(@user.visibility).to eq('everyone') }
     it { expect(@user.settings).to eq({ 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
     it { expect(@user.pictures_count).to eq(0) }
     it { expect(@user.topics_count).to eq(1) }
@@ -137,6 +142,8 @@ RSpec.describe User, type: :model do
       end
 
       it { expect(@user.locale).to eq('fr') }
+      it { expect(@user.allow_comment).to be true }
+      it { expect(@user.visibility).to eq('everyone') }
       it { expect(@user.settings).to eq({ 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
       it { expect(@user.pictures_count).to eq(0) }
       it { expect(@user.topics_count).to eq(0) }
@@ -259,6 +266,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:outdated_articles) }
 
     it { is_expected.to have_many(:tags) }
+    it { is_expected.to have_many(:tagged_articles) }
     it { is_expected.to have_many(:tag_relationships) }
 
     it { is_expected.to have_many(:bookmarks) }
@@ -381,7 +389,7 @@ RSpec.describe User, type: :model do
       it { is_expected.to respond_to(:switch_topic) }
 
       it 'switches topic' do
-        topic = create(:topic, user: @user)
+        topic       = create(:topic, user: @user)
         other_topic = create(:topic, user: other_user)
 
         expect(@user.switch_topic(topic)).to eq(topic)
@@ -396,8 +404,8 @@ RSpec.describe User, type: :model do
 
     describe '.bookmarkers_count' do
       before do
-        topic = create(:topic, user: other_user)
-        tag = create(:tag, user: other_user)
+        topic   = create(:topic, user: other_user)
+        tag     = create(:tag, user: other_user)
         article = create(:article, user: other_user, topic: topic)
         create(:bookmark, user: @user, bookmarked: other_user)
         create(:bookmark, user: @user, bookmarked: tag)
@@ -412,8 +420,8 @@ RSpec.describe User, type: :model do
       it { is_expected.to respond_to(:following?) }
 
       it 'confirms if follow' do
-        topic = create(:topic, user: other_user)
-        tag = create(:tag, user: other_user)
+        topic   = create(:topic, user: other_user)
+        tag     = create(:tag, user: other_user)
         article = create(:article, user: other_user, topic: topic)
         create(:bookmark, user: @user, bookmarked: other_user)
         create(:bookmark, user: @user, bookmarked: tag)

@@ -1,8 +1,9 @@
 class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration[5.0]
   def change
     create_table :comments, force: true do |t|
-      t.references  :commentable,    polymorphic: true,    null: false, index: false
       t.belongs_to  :user,                                 null: false, index: false
+
+      t.references  :commentable,    polymorphic: true,    null: false, index: false
 
       t.string      :title
       t.text        :body
@@ -23,6 +24,8 @@ class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration[5.0]
 
       t.timestamps null: false
     end
+
+    add_foreign_key :comments, :users
 
     add_index :comments, :user_id,  where: 'deleted_at IS NULL'
     add_index :comments, [:commentable_id, :commentable_type], where: 'deleted_at IS NULL', order: { created_at: 'ASC' }

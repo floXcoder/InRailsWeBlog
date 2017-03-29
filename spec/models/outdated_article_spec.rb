@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+require 'rails_helper'
 
 RSpec.describe OutdatedArticle, type: :model do
 
@@ -42,7 +43,7 @@ RSpec.describe OutdatedArticle, type: :model do
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to validate_presence_of(:article) }
 
-    it { is_expected.to validate_uniqueness_of(:article_id).scoped_to(:user_id) }
+    it { is_expected.to validate_uniqueness_of(:article_id).scoped_to(:user_id).with_message(I18n.t('activerecord.errors.models.outdated_article.already_outdated')) }
   end
 
 end

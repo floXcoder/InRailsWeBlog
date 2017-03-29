@@ -19,6 +19,7 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+require 'rails_helper'
 
 RSpec.describe Topic, type: :model do
 
@@ -144,6 +145,13 @@ RSpec.describe Topic, type: :model do
 
     it { is_expected.to have_many(:articles) }
 
+    it { is_expected.to have_many(:tagged_articles) }
+    it { is_expected.to have_many(:tag_relationships) }
+
+    it { is_expected.to have_many(:bookmarks) }
+    it { is_expected.to have_many(:user_bookmarks) }
+    it { is_expected.to have_many(:follower) }
+
     it { is_expected.to have_one(:picture) }
     it { is_expected.to accept_nested_attributes_for(:picture) }
   end
@@ -216,6 +224,16 @@ RSpec.describe Topic, type: :model do
         expect(topic_autocompletes.size).to eq(3)
         expect(topic_autocompletes.map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
       end
+    end
+
+    describe '::default_visibility' do
+      it { is_expected.to respond_to(:default_visibility) }
+      it { expect(Topic.default_visibility).to be_kind_of(ActiveRecord::Relation) }
+    end
+
+    describe '::filter_by' do
+      it { is_expected.to respond_to(:filter_by) }
+      it { expect(Topic.filter_by(Topic.all, {accepted: true})).to include(@topic) }
     end
 
     describe '::order_by' do

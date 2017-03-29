@@ -35,7 +35,8 @@ class Bookmark < ApplicationRecord
 
   validates_uniqueness_of :user_id,
                           scope:     [:bookmarked_id, :bookmarked_type],
-                          allow_nil: false
+                          allow_nil: false,
+                          message: I18n.t('activerecord.errors.models.bookmark.already_bookmarked')
 
   # == Scopes ===============================================================
   scope :users, -> { where(bookmarked_type: 'User').includes(:bookmarked) }
@@ -86,7 +87,7 @@ class Bookmark < ApplicationRecord
         errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.not_bookmarked'))
         return false
       else
-        return self.destroy
+        return !!self.destroy
       end
     else
       errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.model_unknown'))

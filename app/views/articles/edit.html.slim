@@ -3,4 +3,4 @@
 - javascript "articles/edit-#{I18n.locale}"
 - javascript_defer 'commons', 'articles/edit'
 
-= content_tag :div, '', id: 'article-edit-component', data: { article: Article.as_json(article, current_user: current_user }) }
+= content_tag :div, '', id: 'article-edit-component', data: { article: Article.as_json(article, current_user: current_user) }

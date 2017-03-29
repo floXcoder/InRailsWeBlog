@@ -65,7 +65,18 @@ class Topic < ApplicationRecord
                                   |picture| picture['picture'].blank? && picture['image_tmp'].blank?
                                 }
 
-  has_many :articles
+  has_many :articles,
+           dependent: :destroy
+
+  has_many :tagged_articles,
+           dependent: :destroy
+
+  has_many :tag_relationships,
+           dependent: :destroy
+
+  # TODO
+  # has_many :tags,
+  #          through:   :tagged_articles
 
   has_many :bookmarks,
            as:          :bookmarked,
@@ -256,6 +267,25 @@ class Topic < ApplicationRecord
     end
   end
 
+  def self.default_visibility(current_user = nil, current_admin = nil)
+    if current_admin
+      all
+    elsif current_user
+      everyone_and_user(current_user.id)
+    else
+      everyone
+    end
+  end
+
+  def self.filter_by(records, filter, current_user = nil)
+    records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
+
+    records = records.where(accepted: filter[:accepted]) if filter[:accepted]
+    records = records.with_visibility(filter[:visibility]) if filter[:visibility]
+
+    return records
+  end
+
   def self.order_by(order)
     if order == 'id_first'
       order('id ASC')
@@ -289,7 +319,7 @@ class Topic < ApplicationRecord
     end
 
     unless attributes[:description].nil?
-      self.references = Sanitize.fragment(attributes.delete(:description))
+      self.description = Sanitize.fragment(attributes.delete(:description))
     end
 
     unless attributes[:picture].nil?

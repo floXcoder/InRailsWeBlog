@@ -37,7 +37,10 @@ class ArticleRelationship < ApplicationRecord
             presence: true,
             on: :update
 
-  validates_uniqueness_of :parent_id, scope: [:user_id, :child_id], allow_nil: true
+  validates_uniqueness_of :parent_id,
+                          scope: [:user_id, :child_id],
+                          allow_nil: true,
+                          message: I18n.t('activerecord.errors.models.article_relationship.already_linked')
 
   # == Scopes ===============================================================
 

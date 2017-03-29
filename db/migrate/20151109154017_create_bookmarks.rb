@@ -1,13 +1,16 @@
 class CreateBookmarks < ActiveRecord::Migration[5.0]
   def change
     create_table :bookmarks do |t|
-      t.belongs_to  :user,                          null: false, index: false
-      t.references :bookmarked, polymorphic: true,  null: false, index: false
+      t.belongs_to  :user,                           null: false, index: false
 
-      t.boolean    :follow,     default: false
+      t.references  :bookmarked, polymorphic: true,  null: false, index: false
+
+      t.boolean     :follow,     default: false
 
       t.timestamps
     end
+
+    add_foreign_key :bookmarks, :users
 
     add_index :bookmarks, :user_id
     add_index :bookmarks, [:bookmarked_id, :bookmarked_type]

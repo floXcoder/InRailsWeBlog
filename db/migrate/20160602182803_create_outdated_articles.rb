@@ -7,6 +7,9 @@ class CreateOutdatedArticles < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
+    add_foreign_key :outdated_articles, :users
+    add_foreign_key :outdated_articles, :articles
+
     add_index :outdated_articles, :article_id
     add_index :outdated_articles, :user_id
     add_index :outdated_articles, [:article_id, :user_id], unique: true

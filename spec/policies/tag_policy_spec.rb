@@ -20,6 +20,9 @@ describe TagPolicy do
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
       it { should_not grant(:destroy) }
+      it { should_not grant(:add_comment) }
+      it { should_not grant(:update_comment) }
+      it { should_not grant(:remove_comment) }
     end
 
     context 'for other users' do
@@ -27,6 +30,9 @@ describe TagPolicy do
 
       it { should grant(:show) }
       it { should grant(:create) }
+      it { should grant(:add_comment) }
+      it { should grant(:update_comment) }
+      it { should grant(:remove_comment) }
 
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
@@ -41,6 +47,9 @@ describe TagPolicy do
       it { should grant(:edit) }
       it { should grant(:update) }
       it { should grant(:destroy) }
+      it { should_not grant(:add_comment) }
+      it { should_not grant(:update_comment) }
+      it { should_not grant(:remove_comment) }
     end
   end
 
@@ -55,6 +64,9 @@ describe TagPolicy do
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
       it { should_not grant(:destroy) }
+      it { should_not grant(:add_comment) }
+      it { should_not grant(:update_comment) }
+      it { should_not grant(:remove_comment) }
     end
 
     context 'for other users' do
@@ -66,6 +78,9 @@ describe TagPolicy do
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
       it { should_not grant(:destroy) }
+      it { should_not grant(:add_comment) }
+      it { should_not grant(:update_comment) }
+      it { should_not grant(:remove_comment) }
     end
 
     context 'for the owner' do
@@ -76,6 +91,10 @@ describe TagPolicy do
       it { should grant(:edit) }
       it { should grant(:update) }
       it { should grant(:destroy) }
+
+      it { should_not grant(:add_comment) }
+      it { should_not grant(:update_comment) }
+      it { should_not grant(:remove_comment) }
     end
   end
 

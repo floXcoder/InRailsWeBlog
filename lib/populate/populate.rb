@@ -64,13 +64,12 @@ class Populate
       tags_name.uniq!
     end
 
-    tags = tag_number.times.map { |n|
+    tags = Array.new(tag_number) do |n|
       FactoryGirl.create(:tag,
                          user:       user,
                          visibility: rand(0..1),
-                         name:       tags_name[n].mb_chars.capitalize.to_s
-      )
-    }
+                         name:       tags_name[n].mb_chars.capitalize.to_s)
+    end
 
     return tags
   end
@@ -82,15 +81,13 @@ class Populate
     users.each do |user|
       articles_number = articles_by_users
       articles_number = rand(articles_number) if articles_by_users.is_a?(Range)
-      articles_number.times.map {
-        articles << FactoryGirl.create(:article,
-                                       :with_tag,
+      Array.new(articles_number) do
+        articles << FactoryGirl.create(:article_with_tags,
                                        user:       user,
                                        topic:      Topic.find_by_id(user.current_topic_id),
                                        tags:       tags.sample(rand(1..3)),
-                                       visibility: Article.visibilities.keys.sample
-        )
-      }
+                                       visibility: Article.visibilities.keys.sample)
+      end
     end
 
     return articles.flatten
@@ -99,35 +96,23 @@ class Populate
   def self.create_tag_relationships_for(articles)
     Article.transaction do
       articles.each do |article|
-        tagged_articles = article.tags
+        tags = article.tags
 
-        if tagged_articles.length > 2
-          parent_tag = tagged_articles.first
-          child_tag  = tagged_articles.last
+        if tags.length > 2
+          parent_tag = tags.first
+          child_tag  = tags.last
 
           article.tagged_articles.find_by(tag_id: parent_tag.id).update(parent: true)
           article.tagged_articles.find_by(tag_id: child_tag.id).update(child: true)
 
-          if parent_tag.children.exists?(child_tag.id)
-            previous_article_ids = parent_tag.parent_relationship.find_by(child_id: child_tag.id).article_ids
-            parent_tag.parent_relationship.find_by(child_id: child_tag.id).update_attribute(:article_ids, previous_article_ids + [article.id])
-          else
-            parent_tag.parent_relationship.build(child_id: child_tag.id, article_ids: [article.id])
-          end
+          # if parent_tag.children.exists?(child_tag.id)
+          #   previous_article_ids = parent_tag.parent_relationship.find_by(child_id: child_tag.id).article_ids
+          #   parent_tag.parent_relationship.find_by(child_id: child_tag.id).update_attribute(:article_ids, previous_article_ids + [article.id])
+          # else
+          #   parent_tag.parent_relationship.build(child_id: child_tag.id, article_ids: [article.id])
+          # end
           parent_tag.save
         end
-      end
-    end
-  end
-
-  def self.create_tag_to_topics_for(tags)
-    TaggedTopic.transaction do
-      tags.each do |tag|
-        current_user = tag.user
-        TaggedTopic.create(
-          topic: current_user.current_topic,
-          tag:   tag
-        )
       end
     end
   end
@@ -201,10 +186,10 @@ class Populate
   def self.create_activities_for_articles
     Tracker.transaction do
       Article.all.each do |article|
-        article.tracker.queries_count   = rand(1..100)
-        article.tracker.searches_count  = rand(1..20)
-        article.tracker.clicks_count    = rand(1..60)
-        article.tracker.views_count     = rand(1..200)
+        article.tracker.queries_count  = rand(1..100)
+        article.tracker.searches_count = rand(1..20)
+        article.tracker.clicks_count   = rand(1..60)
+        article.tracker.views_count    = rand(1..200)
         article.tracker.save
       end
     end
@@ -213,9 +198,9 @@ class Populate
   def self.create_activities_for_users
     Tracker.transaction do
       User.all.each do |user|
-        user.tracker.queries_count   = rand(1..100)
-        user.tracker.clicks_count    = rand(1..60)
-        user.tracker.views_count     = rand(1..200)
+        user.tracker.queries_count = rand(1..100)
+        user.tracker.clicks_count  = rand(1..60)
+        user.tracker.views_count   = rand(1..200)
         user.tracker.save
       end
     end

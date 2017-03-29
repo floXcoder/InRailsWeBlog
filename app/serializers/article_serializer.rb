@@ -31,6 +31,7 @@ class ArticleSerializer < ActiveModel::Serializer
   cache key: 'article', expires_in: 12.hours
 
   attributes :id,
+             :topic_id,
              :title,
              :summary,
              :content,

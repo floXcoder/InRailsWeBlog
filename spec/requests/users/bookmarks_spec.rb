@@ -1,15 +1,20 @@
+require 'rails_helper'
+
 describe 'User Bookmark API', type: :request, basic: true do
 
   before(:all) do
     @user  = create(:user)
     @topic = create(:topic, user: @user)
 
+    @tag     = create(:tag, user: @user)
     @article = create(:article, user: @user, topic: @topic)
+
+    @tag_bookmark = create(:bookmark, user: @user, bookmarked: @tag)
   end
 
   let(:bookmark_attributes) {
     {
-      bookmark: { type: 'article', model_id: @article.id }
+      bookmark: { model_type: 'article', model_id: @article.id }
     }
   }
 
@@ -41,31 +46,31 @@ describe 'User Bookmark API', type: :request, basic: true do
     end
   end
 
-  # describe '/users/:user_id/blog/articles (DELETE)' do
-  #   context 'when user is not connected' do
-  #     it 'returns an error message' do
-  #       delete "/users/#{@user.id}/blog/articles/#{@articles.first.id}", as: :json
-  #
-  #       expect(response).to be_unauthenticated
-  #     end
-  #   end
-  #
-  #   context 'when user is connected' do
-  #     before do
-  #       login_as(@user, scope: :user, run_callbacks: false)
-  #     end
-  #
-  #     it 'returns the deleted article id' do
-  #       expect {
-  #         delete "/users/#{@user.id}/blog/articles/#{@articles.first.id}", as: :json
-  #       }.to change(Blog::Article, :count).by(-1)
-  #
-  #       expect(response).to be_json_response(202)
-  #
-  #       article = JSON.parse(response.body)
-  #       expect(article['redirect_to']).not_to be_empty
-  #     end
-  #   end
-  # end
+  describe '/users/:user_id/bookmarks (DELETE)' do
+    context 'when user is not connected' do
+      it 'returns an error message' do
+        delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", as: :json
+
+        expect(response).to be_unauthenticated
+      end
+    end
+
+    context 'when user is connected' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns the deleted bookmark id' do
+        expect {
+          delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", params: { bookmark: { model_type: 'tag', model_id: @tag.id } }, as: :json
+        }.to change(Bookmark, :count).by(-1)
+
+        expect(response).to be_json_response(202)
+
+        bookmark = JSON.parse(response.body)
+        expect(bookmark['bookmark']['id']).to eq(@tag_bookmark.id)
+      end
+    end
+  end
 
 end

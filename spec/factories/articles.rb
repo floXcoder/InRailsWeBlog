@@ -42,11 +42,41 @@ FactoryGirl.define do
     notation        0
     priority        0
     visibility      'everyone'
-  end
 
-  # Add equipments if :with_tag
-  trait :with_tag do
-    association     :tags, strategy: :build, user: user
+    factory :article_with_tags do
+      transient do
+        tags []
+      end
+
+      after(:build) do |article, evaluator|
+        evaluator.tags.map do |tag|
+          article.tagged_articles << build(:tagged_article, tag: tag, user: article.user, topic: article.topic)
+        end
+      end
+    end
+
+    factory :article_with_relation_tags do
+      transient do
+        parent_tags []
+        child_tags []
+      end
+
+      after(:build) do |article, evaluator|
+        evaluator.parent_tags.flatten.map do |tag|
+          article.tagged_articles << build(:tagged_article, tag: tag, user: article.user, topic: article.topic, parent: true)
+        end
+
+        evaluator.child_tags.flatten.map do |tag|
+          article.tagged_articles << build(:tagged_article, tag: tag, user: article.user, topic: article.topic, child: true)
+        end
+
+        evaluator.parent_tags.map do |parent_tag|
+          evaluator.child_tags.map do |child_tag|
+            article.tag_relationships << build(:tag_relationship, parent: parent_tag, child: child_tag, user: article.user, topic: article.topic)
+          end
+        end
+      end
+    end
   end
 
 end

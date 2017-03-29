@@ -183,7 +183,11 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!(options = {})
-    if user_signed_in?
+    if admin_signed_in? && !user_signed_in?
+      # TODO: create first user by default in seed
+      sign_in(:user, User.first)
+      super(options)
+    elsif user_signed_in?
       super(options)
     else
       self.response_body = nil

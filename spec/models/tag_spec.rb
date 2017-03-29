@@ -21,6 +21,7 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
+require 'rails_helper'
 
 RSpec.describe Tag, type: :model do
 
@@ -57,7 +58,11 @@ RSpec.describe Tag, type: :model do
     it { is_expected.to respond_to(:visibility) }
     it { is_expected.to respond_to(:archived) }
     it { is_expected.to respond_to(:accepted) }
+    it { is_expected.to respond_to(:allow_comment) }
+    it { is_expected.to respond_to(:pictures_count) }
     it { is_expected.to respond_to(:tagged_articles_count) }
+    it { is_expected.to respond_to(:bookmarks_count) }
+    it { is_expected.to respond_to(:comments_count) }
 
     it { expect(@tag.name).to eq('Tag') }
     it { expect(@tag.description).to eq('Tag description') }
@@ -67,9 +72,11 @@ RSpec.describe Tag, type: :model do
     it { expect(@tag.visibility).to eq('only_me') }
     it { expect(@tag.archived).to be false }
     it { expect(@tag.accepted).to be true }
+    it { expect(@tag.allow_comment).to be true }
     it { expect(@tag.pictures_count).to eq(0) }
     it { expect(@tag.tagged_articles_count).to eq(0) }
     it { expect(@tag.bookmarks_count).to eq(0) }
+    it { expect(@tag.comments_count).to eq(0) }
 
     describe 'Default Attributes', basic: true do
       before do
@@ -84,9 +91,11 @@ RSpec.describe Tag, type: :model do
       it { expect(@tag.visibility).to eq('everyone') }
       it { expect(@tag.archived).to be false }
       it { expect(@tag.accepted).to be true }
+      it { expect(@tag.allow_comment).to be true }
       it { expect(@tag.pictures_count).to eq(0) }
       it { expect(@tag.tagged_articles_count).to eq(0) }
       it { expect(@tag.bookmarks_count).to eq(0) }
+      it { expect(@tag.comments_count).to eq(0) }
     end
 
     describe '#name' do
@@ -137,6 +146,8 @@ RSpec.describe Tag, type: :model do
 
     it { is_expected.to have_activity }
 
+    it { is_expected.to acts_as_commentable(Tag) }
+
     it { is_expected.to have_strip_attributes([:name, :color]) }
 
     it { is_expected.to have_paper_trail(Tag) }
@@ -146,7 +157,7 @@ RSpec.describe Tag, type: :model do
     it { is_expected.to act_as_paranoid(Tag) }
 
     it 'uses counter cache for picture' do
-      picture      = create(:picture, user: @user, imageable_type: 'Tag')
+      picture = create(:picture, user: @user, imageable_type: 'Tag')
       expect {
         @tag.picture = picture
         @tag.reload
@@ -154,9 +165,9 @@ RSpec.describe Tag, type: :model do
     end
 
     it 'uses counter cache for outdated articles' do
-      outdated_article = create(:tagged_article, tag: @tag, article: create(:article, user: @user, topic: create(:topic, user: @user)))
+      topic = create(:topic, user: @user)
       expect {
-        @tag.tagged_articles << outdated_article
+        @tag.tagged_articles.create(user: @user, topic: topic, article: create(:article, user: @user, topic: topic))
       }.to change(@tag.reload, :tagged_articles_count).by(1)
     end
 
@@ -172,11 +183,9 @@ RSpec.describe Tag, type: :model do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to validate_presence_of(:user) }
 
-    it { is_expected.to have_many(:tagged_topics) }
-    it { is_expected.to have_many(:topics) }
-
     it { is_expected.to have_many(:tagged_articles) }
     it { is_expected.to have_many(:articles) }
+    it { is_expected.to have_many(:topics) }
 
     it { is_expected.to have_many(:parent_relationship) }
     it { is_expected.to have_many(:children) }
@@ -201,9 +210,10 @@ RSpec.describe Tag, type: :model do
     let!(:other_tag) { create(:tag, user: other_user, tagged_articles_count: 20) }
 
     let!(:topic) { create(:topic, user: @user) }
+    let!(:article) { create(:article, user: @user, topic: topic) }
 
     before do
-      @tag.topics << topic
+      @tag.tagged_articles.create(user: @user, topic: topic, article: article)
 
       @tag.bookmarks << create(:bookmark, user: @user, bookmarked: @tag)
 
@@ -216,12 +226,6 @@ RSpec.describe Tag, type: :model do
       it { expect(Tag.everyone_and_user).to include(other_tag) }
       it { expect(Tag.everyone_and_user).not_to include(@tag, private_tag) }
       it { expect(Tag.everyone_and_user(@user.id)).to include(@tag, private_tag, other_tag) }
-    end
-
-    describe '::everyone_and_user_and_topic' do
-      it { is_expected.to respond_to(:everyone_and_user_and_topic) }
-      it { expect(Tag.everyone_and_user_and_topic(@user.id, topic.id)).to include(@tag) }
-      it { expect(Tag.everyone_and_user_and_topic(@user.id, topic.id)).not_to include(other_tag, private_tag) }
     end
 
     describe '::with_visibility' do
@@ -300,10 +304,20 @@ RSpec.describe Tag, type: :model do
       it { expect(Tag.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
     end
 
+    describe '::default_visibility' do
+      it { is_expected.to respond_to(:default_visibility) }
+      it { expect(Tag.default_visibility).to be_kind_of(ActiveRecord::Relation) }
+    end
+
+    describe '::filter_by' do
+      it { is_expected.to respond_to(:filter_by) }
+      it { expect(Tag.filter_by(Tag.all, { user_id: @user.id, topic_id: topic.id })).to include(@tag) }
+    end
+
     describe '::parse_tags' do
       it { is_expected.to respond_to(:parse_tags) }
-      it { expect(Tag.parse_tags(["only_me,#{@tag.name}"], @user.id)).to eq([@tag]) }
-      it { expect(Tag.parse_tags(['everyone,new tag'], @user.id).first).to be_a(Tag) }
+      it { expect(Tag.parse_tags(["#{@tag.name},only_me"], @user.id)).to eq([@tag]) }
+      it { expect(Tag.parse_tags(['new tag,everyone'], @user.id).first).to be_a(Tag) }
     end
 
     describe '::remove_unused_tags' do

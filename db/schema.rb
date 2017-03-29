@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
   end
 
   create_table "article_relationships", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "user_id",    null: false
     t.integer  "parent_id",  null: false
     t.integer  "child_id",   null: false
     t.datetime "created_at", null: false
@@ -81,10 +81,10 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.string   "language"
     t.integer  "notation",                default: 0
     t.integer  "priority",                default: 0
-    t.boolean  "allow_comment",           default: true,  null: false
     t.integer  "visibility",              default: 0,     null: false
     t.boolean  "accepted",                default: true,  null: false
     t.boolean  "archived",                default: false, null: false
+    t.boolean  "allow_comment",           default: true,  null: false
     t.integer  "pictures_count",          default: 0
     t.integer  "outdated_articles_count", default: 0
     t.integer  "bookmarks_count",         default: 0
@@ -112,9 +112,9 @@ ActiveRecord::Schema.define(version: 20170225200735) do
   end
 
   create_table "comments", force: :cascade do |t|
+    t.integer  "user_id",                          null: false
     t.string   "commentable_type",                 null: false
     t.integer  "commentable_id",                   null: false
-    t.integer  "user_id",                          null: false
     t.string   "title"
     t.text     "body"
     t.string   "subject"
@@ -184,36 +184,35 @@ ActiveRecord::Schema.define(version: 20170225200735) do
   end
 
   create_table "tag_relationships", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "parent_id",   null: false
-    t.integer  "child_id",    null: false
-    t.string   "article_ids", null: false, array: true
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["user_id", "parent_id", "child_id"], name: "index_tag_relationship_uniqueness", unique: true, using: :btree
+    t.integer  "user_id",    null: false
+    t.integer  "topic_id",   null: false
+    t.integer  "article_id", null: false
+    t.integer  "parent_id",  null: false
+    t.integer  "child_id",   null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_tag_relationships_on_deleted_at", using: :btree
+    t.index ["topic_id", "parent_id", "child_id"], name: "index_tag_relationship_uniqueness", unique: true, using: :btree
     t.index ["user_id"], name: "index_tag_relationships_on_user_id", using: :btree
   end
 
   create_table "tagged_articles", force: :cascade do |t|
-    t.integer  "article_id",                 null: false
+    t.integer  "user_id",                    null: false
+    t.integer  "topic_id",                   null: false
     t.integer  "tag_id",                     null: false
+    t.integer  "article_id",                 null: false
     t.boolean  "parent",     default: false, null: false
     t.boolean  "child",      default: false, null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.index ["article_id", "tag_id"], name: "index_tagged_articles_on_article_id_and_tag_id", unique: true, using: :btree
     t.index ["article_id"], name: "index_tagged_articles_on_article_id", using: :btree
+    t.index ["deleted_at"], name: "index_tagged_articles_on_deleted_at", using: :btree
     t.index ["tag_id"], name: "index_tagged_articles_on_tag_id", using: :btree
-  end
-
-  create_table "tagged_topics", force: :cascade do |t|
-    t.integer  "topic_id",   null: false
-    t.integer  "tag_id",     null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tag_id"], name: "index_tagged_topics_on_tag_id", using: :btree
-    t.index ["topic_id", "tag_id"], name: "index_tagged_topics_on_topic_id_and_tag_id", unique: true, using: :btree
-    t.index ["topic_id"], name: "index_tagged_topics_on_topic_id", using: :btree
+    t.index ["topic_id"], name: "index_tagged_articles_on_topic_id", using: :btree
+    t.index ["user_id"], name: "index_tagged_articles_on_user_id", using: :btree
   end
 
   create_table "tags", force: :cascade do |t|
@@ -227,9 +226,11 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.integer  "visibility",            default: 0,     null: false
     t.boolean  "accepted",              default: true,  null: false
     t.boolean  "archived",              default: false, null: false
+    t.boolean  "allow_comment",         default: true,  null: false
     t.integer  "pictures_count",        default: 0
     t.integer  "tagged_articles_count", default: 0
     t.integer  "bookmarks_count",       default: 0
+    t.integer  "comments_count",        default: 0
     t.string   "slug"
     t.datetime "deleted_at"
     t.datetime "created_at",                            null: false
@@ -291,6 +292,8 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.date     "birth_date"
     t.string   "locale",                 default: "fr"
     t.jsonb    "settings",               default: {},   null: false
+    t.boolean  "allow_comment",          default: true, null: false
+    t.integer  "visibility",             default: 0,    null: false
     t.integer  "current_topic_id"
     t.integer  "pictures_count",         default: 0
     t.integer  "topics_count",           default: 0
@@ -354,8 +357,25 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["voter_type", "voter_id"], name: "index_votes_on_voter_type_and_voter_id", using: :btree
   end
 
+  add_foreign_key "article_relationships", "articles", column: "child_id"
+  add_foreign_key "article_relationships", "articles", column: "parent_id"
+  add_foreign_key "article_relationships", "users"
   add_foreign_key "articles", "topics"
   add_foreign_key "articles", "users"
+  add_foreign_key "bookmarks", "users"
+  add_foreign_key "comments", "users"
+  add_foreign_key "outdated_articles", "articles"
+  add_foreign_key "outdated_articles", "users"
+  add_foreign_key "pictures", "users"
+  add_foreign_key "tag_relationships", "articles"
+  add_foreign_key "tag_relationships", "tags", column: "child_id"
+  add_foreign_key "tag_relationships", "tags", column: "parent_id"
+  add_foreign_key "tag_relationships", "topics"
+  add_foreign_key "tag_relationships", "users"
+  add_foreign_key "tagged_articles", "articles"
+  add_foreign_key "tagged_articles", "tags"
+  add_foreign_key "tagged_articles", "topics"
+  add_foreign_key "tagged_articles", "users"
   add_foreign_key "tags", "users"
   add_foreign_key "topics", "users"
 end

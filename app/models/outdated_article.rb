@@ -28,7 +28,10 @@ class OutdatedArticle < ApplicationRecord
   validates :user,
             presence: true
 
-  validates_uniqueness_of :article_id, scope: :user_id, allow_nil: true
+  validates_uniqueness_of :article_id,
+                          scope: :user_id,
+                          allow_nil: true,
+                          message: I18n.t('activerecord.errors.models.outdated_article.already_outdated')
 
   # == Scopes ===============================================================
 

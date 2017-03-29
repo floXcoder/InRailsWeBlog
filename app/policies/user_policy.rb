@@ -23,7 +23,7 @@ class UserPolicy
   end
 
   def show?
-    owner?
+    correct_user?
   end
 
   def edit?
@@ -42,11 +42,11 @@ class UserPolicy
     owner?
   end
 
-  def update_settings?
-    owner?
-  end
-
   private
+
+  def correct_user?
+    @user.everyone? || (@user.only_me? && owner?)
+  end
 
   def owner?
     @current_user && @user.user?(@current_user)

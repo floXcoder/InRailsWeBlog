@@ -11,7 +11,7 @@ class Users::BookmarksController < ApplicationController
 
     respond_to do |format|
       format.json do
-        if bookmark.add(user, bookmark_params[:type], bookmark_params[:model_id])
+        if bookmark.add(user, bookmark_params[:model_type], bookmark_params[:model_id])
           render json:       bookmark,
                  serializer: BookmarkSerializer,
                  status:     :created
@@ -30,7 +30,7 @@ class Users::BookmarksController < ApplicationController
 
     respond_to do |format|
       format.json do
-        if bookmark.remove_bookmark(user, bookmark_params[:type], bookmark_params[:model_id])
+        if bookmark.remove(user, bookmark_params[:model_type], bookmark_params[:model_id])
           render json:     bookmark,
                  status:   :accepted
         else
@@ -44,7 +44,7 @@ class Users::BookmarksController < ApplicationController
   private
 
   def bookmark_params
-    params.require(:bookmark).permit(:type,
+    params.require(:bookmark).permit(:model_type,
                                      :model_id)
   end
 end

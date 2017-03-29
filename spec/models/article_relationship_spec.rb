@@ -9,6 +9,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+require 'rails_helper'
 
 RSpec.describe ArticleRelationship, type: :model do
 
@@ -45,7 +46,7 @@ RSpec.describe ArticleRelationship, type: :model do
     it { is_expected.to validate_presence_of(:parent) }
     it { is_expected.to validate_presence_of(:child) }
 
-    it { is_expected.to validate_uniqueness_of(:parent_id).scoped_to([:user_id, :child_id]) }
+    it { is_expected.to validate_uniqueness_of(:parent_id).scoped_to([:user_id, :child_id]).with_message(I18n.t('activerecord.errors.models.article_relationship.already_linked')) }
   end
 
 end
