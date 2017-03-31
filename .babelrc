@@ -1,6 +1,11 @@
 {
   "presets": [
-    ["es2015", {"modules": false}],
+    [
+      "es2015",
+      {
+        "modules": false
+      }
+    ],
     "stage-2",
     "react"
   ],
@@ -9,6 +14,11 @@
   "env": {
     "development": {
       "plugins": []
+    },
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
     },
     "production": {
       "plugins": [

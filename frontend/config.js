@@ -81,7 +81,7 @@ module.exports = {
             }
         ],
         happyPack: {
-            id: 'jsx',
+            id: 'happyCache',
             loaders: [
                 'babel-loader?presets[]=es2015', 'babel-loader?presets[]=react', 'babel-loader?presets[]=stage-2'
             ],

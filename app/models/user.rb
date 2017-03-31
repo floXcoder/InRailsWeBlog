@@ -17,6 +17,8 @@
 #  birth_date             :date
 #  locale                 :string           default("fr")
 #  settings               :jsonb            not null
+#  allow_comment          :boolean          default(TRUE), not null
+#  visibility             :integer          default("everyone"), not null
 #  current_topic_id       :integer
 #  pictures_count         :integer          default(0)
 #  topics_count           :integer          default(0)

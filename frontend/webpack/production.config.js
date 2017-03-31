@@ -5,7 +5,7 @@ const _ = require('lodash');
 const config = require('../config').webpack;
 let webPackConfig = module.exports = require('./main.config.js');
 
-webPackConfig.output = _.merge(config.output, {
+webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.production.filename
 });
 

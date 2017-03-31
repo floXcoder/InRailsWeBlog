@@ -13,9 +13,11 @@
 #  visibility            :integer          default("everyone"), not null
 #  accepted              :boolean          default(TRUE), not null
 #  archived              :boolean          default(FALSE), not null
+#  allow_comment         :boolean          default(TRUE), not null
 #  pictures_count        :integer          default(0)
 #  tagged_articles_count :integer          default(0)
 #  bookmarks_count       :integer          default(0)
+#  comments_count        :integer          default(0)
 #  slug                  :string
 #  deleted_at            :datetime
 #  created_at            :datetime         not null

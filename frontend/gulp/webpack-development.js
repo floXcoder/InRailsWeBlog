@@ -2,13 +2,13 @@ const gulp = require('gulp');
 const webpack = require('webpack');
 const browserSync = require('browser-sync');
 const logger = require('../lib/compileLogger');
-const webpackConfig = require('../webpack/development.config.js');
+const webPackConfig = require('../webpack/development.config.js');
 
 gulp.task('webpack:development', (callback) => {
     var built = false;
 
     if (global.watch) {
-        webpack(webpackConfig).watch(200, (err, stats) => {
+        webpack(webPackConfig).watch(200, (err, stats) => {
             logger(err, stats);
             browserSync.reload();
             // On the initial compile, let gulp know the task is done
@@ -18,7 +18,7 @@ gulp.task('webpack:development', (callback) => {
             }
         });
     } else {
-        webpack(webpackConfig, (err, stats) => {
+        webpack(webPackConfig, (err, stats) => {
             logger(err, stats);
             callback();
         });

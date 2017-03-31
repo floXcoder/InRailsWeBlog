@@ -1,0 +1,20 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "jsx"
+  ],
+  "moduleDirectories": [
+    "node_modules"
+  ],
+  "moduleNameMapper": {
+    "picker": "<rootDir>/node_modules/materialize-css/js/date_picker/picker.js"
+  },
+  "modulePaths": [
+  ],
+  "setupFiles": [
+  ],
+  "snapshotSerializers": [
+    "<rootDir>/node_modules/enzyme-to-json/serializer"
+  ],
+  "testRegex": "/spec/javascripts/.*?/.*\\.jsx?$"
+}
