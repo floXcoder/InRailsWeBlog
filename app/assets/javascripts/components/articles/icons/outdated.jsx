@@ -23,7 +23,7 @@ export default class ArticleOutdatedIcon extends React.PureComponent {
     };
 
     render() {
-        if ($app.user.isConnected()) {
+        if ($app.isUserConnected()) {
             let outdatedClasses = classNames('material-icons', {'article-outdated': this.state.isOutdated});
             let outdatedTooltip = this.state.isOutdated ?
                 I18n.t('js.article.tooltip.remove_outdated') :

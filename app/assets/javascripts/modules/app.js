@@ -1,45 +1,53 @@
 'use strict';
 
-// user: {
-//         settings: {
-//         article_display: window.parameters.article_display,
-//             search_highlight: window.parameters.search_highlight,
-//             search_operator: window.parameters.search_operator,
-//             search_exact: window.parameters.search_exact
-//     },
-// },
-
 class App {
-    constructor(props) {
-        this.current = null;
-        this.currentId = null;
-
+    constructor() {
         this.user = {
             currentId: $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10),
+            current: {},
+            settings: {},
+            currentTopic: {},
+            topics: []
+        };
+
+        this.admin = {
+            currentId: $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10),
             current: null,
-            topic: null,
-            settings: null,
-            isConnected: function () {
-                return !!this.currentId && !$.isEmpty(this.current);
-            },
-            isPresent: function () {
-                return !!this.currentId;
-            },
-            isValidUser: function (userId) {
-                if (userId) {
-                    return (userId === this.currentUserId);
-                } else {
-                    return false;
-                }
-            },
-            isAdmin: function () {
-                return !!this.current && this.current.admin;
-            }
+            settings: null
         };
     }
 
-    // init() {
-    // }
+    isUserConnected() {
+        return !!this.user.currentId;
+    }
+
+    getCurrentUser() {
+        return !!this.user.current;
+    }
+
+    getCurrentTopic() {
+        if (this.getCurrentUser()) {
+            return this.user.currentTopic;
+        } else {
+            return false;
+        }
+    }
+
+    isOwner () {
+        return this.user.currentId === 1;
+    }
+
+    isValidUser(userId) {
+        if (userId) {
+            return (userId === this.user.currentId);
+        } else {
+            return false;
+        }
+    }
+
+    isAdminConnected() {
+        return !!this.admin.currentId;
+    }
 }
 
 const $app = new App();

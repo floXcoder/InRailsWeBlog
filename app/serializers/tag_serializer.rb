@@ -34,24 +34,21 @@ class TagSerializer < ActiveModel::Serializer
              :priority,
              :visibility,
              :visibility_translated,
+             :parents,
+             :children,
              :slug
 
   belongs_to :user, serializer: UserSampleSerializer
-
-  has_many :parents, serializer: TagSampleSerializer
-  has_many :children, serializer: TagSampleSerializer
 
   def visibility_translated
     object.visibility_to_tr
   end
 
-  # TODO
-  # def parents
-  #   object.parents.everyone_and_user(current_user&.id) if defined? current_user
-  # end
+  def parents
+    object.parent_ids
+  end
 
-  # TODO
-  # def children
-  #   object.children.everyone_and_user(current_user&.id) if defined? current_user
-  # end
+  def children
+    object.child_ids
+  end
 end

@@ -20,10 +20,10 @@ class CreateTaggedArticles < ActiveRecord::Migration[5.0]
     add_foreign_key :tagged_articles, :tags
     add_foreign_key :tagged_articles, :articles
 
-    add_index :tagged_articles, :article_id
-    add_index :tagged_articles, :tag_id
-    add_index :tagged_articles, :user_id
-    add_index :tagged_articles, :topic_id
-    add_index :tagged_articles, [:article_id, :tag_id], unique: true
+    add_index :tagged_articles, :article_id, where: 'deleted_at IS NULL'
+    add_index :tagged_articles, :tag_id, where: 'deleted_at IS NULL'
+    add_index :tagged_articles, :user_id, where: 'deleted_at IS NULL'
+    add_index :tagged_articles, :topic_id, where: 'deleted_at IS NULL'
+    add_index :tagged_articles, [:article_id, :tag_id], where: 'deleted_at IS NULL', unique: true
   end
 end

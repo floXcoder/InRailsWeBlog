@@ -4,12 +4,9 @@ import UserComplete from './complete';
 
 export default class UserShow extends React.Component {
     static propTypes = {
+        router: React.PropTypes.object.isRequired,
         userId: React.PropTypes.number,
         params: React.PropTypes.object
-    };
-
-    static contextTypes = {
-        router: React.PropTypes.object
     };
 
     static defaultProps = {
@@ -22,7 +19,7 @@ export default class UserShow extends React.Component {
     }
 
     _handleEditClick = () => {
-        this.context.router.history.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
+        this.props.router.history.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
     };
 
     render() {
@@ -31,7 +28,7 @@ export default class UserShow extends React.Component {
                 {
                     (this.props.userId || this.props.params.userPseudo) &&
                     <UserComplete userId={this.props.userId || this.props.params.userPseudo}
-                                  isAdmin={$app.user.isAdmin()}
+                                  isAdmin={$app.isAdminConnected()}
                                   onEditClick={this._handleEditClick}/>
                 }
             </div>

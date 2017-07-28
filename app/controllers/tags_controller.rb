@@ -16,12 +16,12 @@ class TagsController < ApplicationController
 
   include TrackerConcern
   include CommentConcern
-  
+
   respond_to :json
 
   def index
     tags = Tag
-             .includes(:user, :parents, :child_relationship, :children, :parent_relationship)
+             .includes(:user, :parents, :child_relationships, :children, :parent_relationships)
              .order('tags.name ASC')
              .distinct
 
@@ -29,7 +29,11 @@ class TagsController < ApplicationController
 
     tags = Tag.filter_by(tags, filter_params, current_user) unless filter_params.empty?
 
-    tags = params[:limit] ? tags.limit(params[:limit]) : tags.paginate(page: params[:page], per_page: CONFIG.per_page)
+    # TODO: set a tag limit?
+    # tags = params[:limit] ? tags.limit(params[:limit]) : tags.paginate(page: params[:page], per_page: CONFIG.per_page)
+
+    w params
+    w tags.map(&:name).sort
 
     respond_to do |format|
       format.json do

@@ -8,10 +8,6 @@ export default Reflux.createActions([
     'loadUser',
     'updateUser',
     'updateUserPreference',
-    'addTopic',
-    'changeTopic',
-    'updateTopic',
-    'deleteTopic',
     'trackClick',
     'trackView'
 ]);

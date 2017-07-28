@@ -1,8 +1,6 @@
 fr:
   js:
     views:
-      home:
-        title: ""
       header:
         topic:
           button: "Thèmes"
@@ -39,6 +37,8 @@ fr:
           about: "A propos de moi"
           github: "Source sous Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
+      home:
+        title: ""
     user:
       model:
         pseudo: "Pseudo"
@@ -147,6 +147,25 @@ fr:
               or: "Au moins un mot"
           highlight: "Sur-brillance"
           exact: "Le(s) mot(s) précis"
+    topic:
+      common:
+        visibility: "Choisissez la visibilité"
+        user_topics: "Mes thèmes"
+        user_current_topic: "Thème en cours"
+      model:
+        name: "Nom"
+        visibility: "Visibilité"
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Privé"
+        visibility_order:
+          - everyone
+          - only_me
+      new:
+        title: "Ajouter un thème"
+        input: "Nom du thème"
+        submit: "Ajouter"
     article:
       common:
         draft: "Note temporaire ?"
@@ -388,14 +407,6 @@ fr:
         not_authorized: "Vous n'avez pas la permission d'accéder à ce commentaire !"
         title: "Le titre du commentaire est %{message}"
         body: "Le message du commentaire est %{message}"
-    topic:
-      common:
-        user_topics: "Mes thèmes"
-        user_current_topic: "Thème en cours"
-      new:
-        title: "Créer un nouveau thème"
-        input: "Nom du thème"
-        button: "Créer"
     picture:
       copyright:
         default: "De "

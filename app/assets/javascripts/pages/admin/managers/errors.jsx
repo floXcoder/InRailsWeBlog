@@ -5,7 +5,7 @@
 let ErrorIndex = require('../../../components/errors/index');
 
 // Main
-if ($app.user.isConnected()) {
+if ($app.isUserConnected()) {
     ReactDOM.render(
         <ErrorIndex />,
         document.getElementById('errors-admin-component')

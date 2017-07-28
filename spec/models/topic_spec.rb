@@ -277,12 +277,12 @@ RSpec.describe Topic, type: :model do
 
     describe '.slug_candidates' do
       it { is_expected.to respond_to(:slug_candidates) }
-      it { expect(@topic.slug_candidates).to be_a Array }
+      it { expect(@topic.slug_candidates).to be_a(Array) }
     end
 
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
-      it { expect(@topic.search_data).to be_a Hash }
+      it { expect(@topic.search_data).to be_a(Hash) }
     end
   end
 

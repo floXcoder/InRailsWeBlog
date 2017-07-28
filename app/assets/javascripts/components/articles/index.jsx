@@ -11,12 +11,10 @@ import ArticleNone from '../../components/articles/display/none';
 
 export default class ArticleIndex extends Reflux.Component {
     static propTypes = {
-        // Populate by react-router
-        params: React.PropTypes.object
+        router: React.PropTypes.object.isRequired
     };
 
     static defaultProps = {
-        params: {}
     };
 
     state = {
@@ -33,15 +31,17 @@ export default class ArticleIndex extends Reflux.Component {
         this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
 
-    componentDidMount() {
-        ArticleActions.loadArticles(this.props.params);
+    componentWillMount() {
+        ArticleActions.loadArticles(this.props.router.match.params);
+    }
 
+    componentDidMount() {
         this._activateTooltip();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(this.props.params, nextProps.params)) {
-            ArticleActions.loadArticles(nextProps.params);
+        if (!_.isEqual(this.props.router.match, nextProps.router.match)) {
+            ArticleActions.loadArticles(nextProps.router.match.params);
         }
     }
 
@@ -104,15 +104,17 @@ export default class ArticleIndex extends Reflux.Component {
 
                 {
                     this.state.articles && this.state.articles.length > 0 &&
-                    <ArticleListDisplay articles={this.state.articles}
+                    <ArticleListDisplay router={this.props.router}
+                                        articles={this.state.articles}
                                         hasMore={this.state.hasMore}
                                         highlightResults={this.state.highlightResults}
                                         articleDisplayMode={this.state.articleDisplayMode}/>
                 }
 
                 {
-                    this.state.articles && this.state.articles.length == 0 &&
-                    <ArticleNone isTopicPage={!!this.props.params.topicId}/>
+                    this.state.articles && this.state.articles.length === 0 &&
+                    <ArticleNone router={this.props.router}
+                                 isTopicPage={!!this.props.router.match.params.topicSlug}/>
                 }
             </div>
         );

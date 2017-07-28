@@ -193,8 +193,8 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_tag_relationships_on_deleted_at", using: :btree
-    t.index ["topic_id", "parent_id", "child_id"], name: "index_tag_relationship_uniqueness", unique: true, using: :btree
-    t.index ["user_id"], name: "index_tag_relationships_on_user_id", using: :btree
+    t.index ["topic_id", "parent_id", "child_id"], name: "index_tag_relationship_uniqueness", unique: true, where: "(deleted_at IS NULL)", using: :btree
+    t.index ["user_id", "topic_id"], name: "index_tag_relationships_on_user_id_and_topic_id", where: "(deleted_at IS NULL)", using: :btree
   end
 
   create_table "tagged_articles", force: :cascade do |t|
@@ -207,12 +207,12 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.datetime "deleted_at"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.index ["article_id", "tag_id"], name: "index_tagged_articles_on_article_id_and_tag_id", unique: true, using: :btree
-    t.index ["article_id"], name: "index_tagged_articles_on_article_id", using: :btree
+    t.index ["article_id", "tag_id"], name: "index_tagged_articles_on_article_id_and_tag_id", unique: true, where: "(deleted_at IS NULL)", using: :btree
+    t.index ["article_id"], name: "index_tagged_articles_on_article_id", where: "(deleted_at IS NULL)", using: :btree
     t.index ["deleted_at"], name: "index_tagged_articles_on_deleted_at", using: :btree
-    t.index ["tag_id"], name: "index_tagged_articles_on_tag_id", using: :btree
-    t.index ["topic_id"], name: "index_tagged_articles_on_topic_id", using: :btree
-    t.index ["user_id"], name: "index_tagged_articles_on_user_id", using: :btree
+    t.index ["tag_id"], name: "index_tagged_articles_on_tag_id", where: "(deleted_at IS NULL)", using: :btree
+    t.index ["topic_id"], name: "index_tagged_articles_on_topic_id", where: "(deleted_at IS NULL)", using: :btree
+    t.index ["user_id"], name: "index_tagged_articles_on_user_id", where: "(deleted_at IS NULL)", using: :btree
   end
 
   create_table "tags", force: :cascade do |t|

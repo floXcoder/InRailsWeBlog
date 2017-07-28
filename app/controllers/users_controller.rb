@@ -138,11 +138,11 @@ class UsersController < ApplicationController
       # end
 
       format.json do
-        if params[:complete_user] && (current_user.id == user.id || current_user.admin?)
+        if params[:complete_user] && current_user && (current_user.id == user.id || current_user.admin?)
           User.track_views(user.id)
           render json: user,
                  serializer: UserCompleteSerializer
-        elsif params[:user_profile] && current_user.id == user.id
+        elsif params[:user_profile] && current_user && current_user.id == user.id
           render json: user,
                  serializer: UserProfileSerializer
         else

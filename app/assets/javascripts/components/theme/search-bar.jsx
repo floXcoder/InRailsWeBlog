@@ -1,33 +1,33 @@
 'use strict';
 
-import Input from '../../components/materialize/input';
-
-const SearchBar = ({label, children, onUserInput}) => (
+const SearchBar = ({label, children, onSearchInput}) => (
     <form className="tag-search"
-          onSubmit={SearchBar._handleSubmit}>
-        <Input id="filter-text-input"
-               title={label}
-               onChange={(event) => SearchBar._handleSearchChange(onUserInput, event)}/>
+          onSubmit={_handleSubmit}>
+        <input id="search"
+               type="text"
+               name="search"
+               placeholder="Tag name ?"
+               onChange={onSearchInput}/>
+
+        <input id="search_submit"
+               type="submit"
+               value="Rechercher"/>
     </form>
 );
 
-SearchBar._handleSearchChange = (onUserInput, event) => {
-    onUserInput(event.target.value);
-};
-
-SearchBar._handleSubmit = () => {
+const _handleSubmit = () => {
     return false;
 };
 
 SearchBar.propTypes = {
     label: React.PropTypes.string.isRequired,
     children: React.PropTypes.string,
-    onUserInput: React.PropTypes.func
+    onSearchInput: React.PropTypes.func
 };
 
 SearchBar.defaultProps = {
     children: null,
-    onUserInput: null
+    onSearchInput: null
 };
 
 export default SearchBar;

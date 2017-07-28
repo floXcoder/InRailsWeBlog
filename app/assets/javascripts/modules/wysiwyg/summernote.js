@@ -1797,7 +1797,8 @@
                 tabContainer.tabs();
             });
 
-            $('.dropdown-button').dropdown();
+            // TODO : only for this
+            // $('.dropdown-button').dropdown();
 
             var $note = this.first();
             if ($note.length) {

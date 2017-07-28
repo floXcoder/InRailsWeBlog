@@ -6,7 +6,7 @@ import UserStore from '../../stores/userStore';
 import ArticleActions from '../../actions/articleActions';
 import ArticleStore from '../../stores/articleStore';
 
-import Switch from '../../components/materialize/switch';
+import SwitchButton from '../../components/materialize/switch-button';
 import Spinner from '../../components/materialize/spinner';
 import ArticleTimelineDisplay from '../../components/articles/display/timeline';
 import CommentTimeline from '../../components/comments/display/timeline';
@@ -124,7 +124,7 @@ export default class UserComplete extends Reflux.Component {
     }
 
     _onAdminChange = (newAdminState) => {
-        if ($app.user.isAdmin()) {
+        if ($app.isAdminConnected()) {
             UserActions.updateUser({
                 id: this.state.user.id,
                 admin: newAdminState,
@@ -355,7 +355,7 @@ export default class UserComplete extends Reflux.Component {
                                                         </div>
                                                     </li>
                                                     {
-                                                        $app.user.isAdmin() &&
+                                                        $app.isAdminConnected() &&
                                                         <li>
                                                             <div className="activity-list-addon-element">
                                                                 <i className="activity-list-addon-icon material-icons">verified_user</i>
@@ -409,7 +409,7 @@ export default class UserComplete extends Reflux.Component {
                         </div>
 
                         {
-                            $app.user.isAdmin() &&
+                            $app.isAdminConnected() &&
                             <div className="card">
                                 <div className="card-content">
                                     <div>
@@ -426,16 +426,16 @@ export default class UserComplete extends Reflux.Component {
                         }
 
                         {
-                            $app.user.isAdmin() &&
+                            $app.isAdminConnected() &&
                             <div className="card">
                                 <div className="card-content">
                                     <div className="heading-3 margin-top-20 margin-bottom-20">
-                                        <Switch id="administrator"
+                                        <SwitchButton id="administrator"
                                                 values={I18n.t('js.user.show.administrator')}
                                                 title={I18n.t('js.user.show.admin')}
                                                 onSwitchChange={this._onAdminChange}>
                                             {this.state.user.admin}
-                                        </Switch>
+                                        </SwitchButton>
                                     </div>
                                 </div>
                             </div>

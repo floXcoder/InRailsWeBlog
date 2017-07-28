@@ -31,7 +31,7 @@ class Users::TopicsController < ApplicationController
       format.json do
         if user.switch_topic(topic)
           render json:       topic,
-                 serializer: TopicSerializer,
+                 serializer: TopicTaggedSerializer,
                  status:     :ok
         else
           render json:   topic.errors,
@@ -50,7 +50,7 @@ class Users::TopicsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        if topic.save
+        if topic.save && user.switch_topic(topic)
           render json:       topic,
                  serializer: TopicSerializer,
                  status:     :created

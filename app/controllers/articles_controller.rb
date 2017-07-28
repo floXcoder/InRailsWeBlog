@@ -27,7 +27,7 @@ class ArticlesController < ApplicationController
 
   def index
     articles = Article
-                 .includes(:parent_tags, :child_tags, :tracker, user: [:picture])
+                 .includes(:parent_tags, :child_tags, :tags, user: [:picture])
                  .order('articles.updated_at DESC')
                  .distinct
 
@@ -249,14 +249,16 @@ class ArticlesController < ApplicationController
                                      :draft,
                                      :accepted,
                                      :user_id,
+                                     :user_slug,
                                      :topic_id,
+                                     :topic_slug,
                                      :draft,
                                      :bookmarked,
-                                     user_ids:       [],
-                                     topic_ids:      [],
-                                     parent_tag_ids: [],
-                                     child_tag_ids:  [],
-                                     tag_ids:        []).reject { |_, v| v.blank? }
+                                     user_ids:         [],
+                                     topic_ids:        [],
+                                     parent_tag_slugs: [],
+                                     child_tag_slugs:  [],
+                                     tag_slugs:        []).reject { |_, v| v.blank? }
     else
       {}
     end

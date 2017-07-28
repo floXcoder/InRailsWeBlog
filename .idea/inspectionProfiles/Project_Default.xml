@@ -29,6 +29,7 @@
     </inspection_tool>
     <inspection_tool class="JSHint" enabled="false" level="SERVER PROBLEM" enabled_by_default="false" />
     <inspection_tool class="JSUndefinedPropertyAssignment" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="JSXNamespaceValidation" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="NodeModulesDependencies" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="RailsChecklist01" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="RubocopInspection" enabled="true" level="SERVER PROBLEM" enabled_by_default="true" />

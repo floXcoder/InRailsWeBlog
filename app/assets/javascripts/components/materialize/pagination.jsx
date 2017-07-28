@@ -9,6 +9,7 @@ export default class Pagination extends mix(React.Component).with(HistoryMixin) 
     static propTypes = {
         totalPages: React.PropTypes.number,
         initialPage: React.PropTypes.number,
+        currentPage: React.PropTypes.number,
         numOfPageShow: React.PropTypes.number,
         className: React.PropTypes.string,
         hasHistory: React.PropTypes.bool,
@@ -18,6 +19,7 @@ export default class Pagination extends mix(React.Component).with(HistoryMixin) 
     static defaultProps = {
         totalPages: 0,
         initialPage: 1,
+        currentPage: null,
         numOfPageShow: 10,
         className: null,
         hasHistory: true,
@@ -36,7 +38,7 @@ export default class Pagination extends mix(React.Component).with(HistoryMixin) 
         }
     }
 
-    _onHistoryChanged = (pagination) => {
+    onHistoryChanged = (pagination) => {
         pagination = pagination || {selected: 0};
 
         this._handlePaginationClick(pagination, false);
@@ -59,7 +61,7 @@ export default class Pagination extends mix(React.Component).with(HistoryMixin) 
     };
 
     render() {
-        const {totalPages, initialPage, numOfPageShow, className} = this.props;
+        const {totalPages, initialPage, currentPage, numOfPageShow, className} = this.props;
 
         const pageRangeDisplayed = Math.ceil(numOfPageShow / 2);
         const marginPagesDisplayed = Math.ceil(numOfPageShow / 4);
@@ -73,6 +75,7 @@ export default class Pagination extends mix(React.Component).with(HistoryMixin) 
                 <ReactPaginate ref={(pagination) => this._pagination = pagination}
                                pageCount={totalPages}
                                initialPage={initialPage - 1}
+                               forcePage={currentPage ? currentPage - 1 : currentPage}
                                disableInitialCallback={true}
                                pageRangeDisplayed={pageRangeDisplayed}
                                marginPagesDisplayed={marginPagesDisplayed}

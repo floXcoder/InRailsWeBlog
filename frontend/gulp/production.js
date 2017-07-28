@@ -97,5 +97,5 @@ gulp.task('rev', (callback) => {
 
 gulp.task('production', (callback) => {
     // Do not clean in production to keep previously generated translation files
-    gulpSequence(['fonts', 'images', 'sprites', 'data', 'sass-production', 'webpack:production'], 'rev', callback);
+    gulpSequence(['fonts', 'images', 'sprites', 'data', 'sass:production', 'webpack:production'], 'rev', callback);
 });

@@ -4,31 +4,31 @@ import Login from '../users/login';
 import Signup from '../users/signup';
 
 // import UserTopic from '../users/topic';
-import UserSettings from '../users/settings';
-import SearchModule from '../search/module';
+// import UserSettings from '../users/settings';
+// import SearchModule from '../search/module';
 
-import HomeSearchHeader from './header/search';
-import HomeArticleHeader from './header/article';
-import HomeTagHeader from './header/tag';
-import HomePreferenceHeader from './header/preference';
+// import HomeSearchHeader from './header/search';
+// import HomeArticleHeader from './header/article';
+// import HomeTagHeader from './header/tag';
+// import HomePreferenceHeader from './header/preference';
 import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
-import {Link} from 'react-router-dom';
+import {
+    Link
+} from 'react-router-dom';
 
 export default class HeaderLayout extends React.PureComponent {
-    static propTypes = {};
+    static propTypes = {
+        router: React.PropTypes.object.isRequired,
+        onReloadPage: React.PropTypes.func.isRequired
+    };
 
     static defaultProps = {};
 
     state = {
-        isMobile: false,
-        isTopic: false,
-        isSearch: false,
-        isTags: false,
-        isSettings: false,
-        isLogin: false,
-        isSignup: false
+        isShowingSignup: true,
+        isShowingLogin: true
     };
 
     constructor(props) {
@@ -36,48 +36,24 @@ export default class HeaderLayout extends React.PureComponent {
     }
 
     componentDidMount() {
+        // $(ReactDOM.findDOMNode(this)).find('.dropdown-button').dropdown({
+        //     hover: false,
+        //     belowOrigin: true
+        // });
+
+        // log.info($app)
+        // log.info($app.isUserConnected())
     }
-
-    _handleMobileDrawerClick = (event) => {
-        event.preventDefault();
-        this.setState({
-            isMobile: !this.state.isMobile
-        });
-    };
-
-    _handleTopicClick = () => {
-        this.setState({
-            isTopic: !this.state.isTopic
-        });
-    };
-
-    _handleSearchClick = () => {
-        this.setState({
-            isSearch: !this.state.isSearch
-        });
-    };
-
-    _handleTagClick = () => {
-        this.setState({
-            isTags: !this.state.isTags
-        });
-    };
-
-    _handlePreferenceClick = () => {
-        this.setState({
-            isSettings: !this.state.isSettings
-        });
-    };
 
     _handleLoginClick = () => {
         this.setState({
-            isLogin: true
+            isShowingLogin: true
         });
     };
 
     _handleSignupClick = () => {
         this.setState({
-            isSignup: true
+            isShowingSignup: true
         });
     };
 
@@ -87,69 +63,67 @@ export default class HeaderLayout extends React.PureComponent {
                 <div className="navbar-fixed">
                     <nav>
                         <div className="nav-wrapper">
-                            <a className="brand-logo"
-                               href="/">
-                                InRailsWeBlog
-                            </a>
+                            <div className="header-normal left hide-on-med-and-down">
+                                <HomeTopicHeader router={this.props.router}
+                                                 onTopicClick={this.props.onReloadPage}/>
+                            </div>
 
-                            {/*<div className="header-mobile hide-on-large-only">*/}
-                                {/*<Drawer docked={false}*/}
-                                        {/*width={200}*/}
-                                        {/*open={this.state.isMobile}*/}
-                                        {/*onRequestChange={(open) => this.setState({isMobile: open})}>*/}
-                                    {/*<HomeSearchHeader onSearchClick={this._handleSearchClick}/>*/}
-
-                                    {/*<HomeArticleHeader />*/}
-
-                                    {/*<HomeTagHeader onTagClick={this._handleTagClick}/>*/}
-
-                                    {/*<HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>*/}
-
-                                    {/*<HomeUserHeader onLoginClick={this._handleLoginClick}*/}
-                                                    {/*onSignupClick={this._handleSignupClick}/>*/}
-                                {/*</Drawer>*/}
-                            {/*</div>*/}
+                            <div className="center-align">
+                                <a className="brand-logo"
+                                   href="/">
+                                    InRailsWeBlog
+                                </a>
+                            </div>
 
                             <div className="header-normal right hide-on-med-and-down">
-                                <HomeTopicHeader onTopicClick={this._handleTopicClick}/>
-
-                                <HomeSearchHeader onSearchClick={this._handleSearchClick}/>
-
-                                {/*<HomeArticleHeader />*/}
-
-                                <HomeTagHeader onTagClick={this._handleTagClick}/>
-
-                                <HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>
-
-                                {/*<HomeUserHeader onLoginClick={this._handleLoginClick}*/}
-                                                {/*onSignupClick={this._handleSignupClick}/>*/}
+                                <HomeUserHeader onLoginClick={this._handleLoginClick}
+                                                onSignupClick={this._handleSignupClick}/>
                             </div>
+
+                            {/*<HomeSearchHeader onSearchClick={this._handleSearchClick}/>*/}
+
+                            {/*<HomeTagHeader onTagClick={this._handleTagClick}/>*/}
+
+                            {/*<HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>*/}
+
+                            {/*<HomeArticleHeader />*/}
+
+                            {/*<div className="header-mobile hide-on-large-only">*/}
+                            {/*<Drawer docked={false}*/}
+                            {/*width={200}*/}
+                            {/*open={this.state.isMobile}*/}
+                            {/*onRequestChange={(open) => this.setState({isMobile: open})}>*/}
+                            {/*<HomeSearchHeader onSearchClick={this._handleSearchClick}/>*/}
+
+                            {/*<HomeArticleHeader />*/}
+
+                            {/*<HomeTagHeader onTagClick={this._handleTagClick}/>*/}
                         </div>
                     </nav>
                 </div>
 
                 {/*<div className="blog-user-pref">*/}
-                    {/*<UserSettings isOpened={this.state.isSettings}/>*/}
+                {/*<UserSettings isOpened={this.state.isSettings}/>*/}
                 {/*</div>*/}
 
-                <div className="blog-search-nav row">
-                    <SearchModule isOpened={this.state.isSearch}/>
-                </div>
+                {/*<div className="blog-search-nav row">*/}
+                {/*<SearchModule isOpened={this.state.isSearch}/>*/}
+                {/*</div>*/}
 
-                <div id="clipboard-area"
-                     className="hidden">
-                        <textarea id="clipboard"
-                                  title="clipboard"/>
-                </div>
+                {/*<div id="clipboard-area"*/}
+                {/*className="hidden">*/}
+                {/*<textarea id="clipboard"*/}
+                {/*title="clipboard"/>*/}
+                {/*</div>*/}
 
                 {
-                    this.state.isLogin &&
-                    <Login isOpened={true}/>
+                    this.state.isShowingSignup &&
+                    <Signup launcherClass="signup-link"/>
                 }
 
                 {
-                    this.state.isSignup &&
-                    <Signup isOpened={true}/>
+                    this.state.isShowingLogin &&
+                    <Login launcherClass="login-link"/>
                 }
             </header>
         );

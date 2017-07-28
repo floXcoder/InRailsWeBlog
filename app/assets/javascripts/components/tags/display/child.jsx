@@ -1,22 +1,24 @@
 'use strict';
 
-let ChildTag = ({tag, parentTagName, onClickTag}) => (
+const ChildTag = ({tag, parentTagSlug, onClickTag}) => (
     <div className="tag-child"
-         onClick={ChildTag._handleTagClick.bind(null, tag.id, tag.name, parentTagName, onClickTag)}>
-        {tag.name.toUpperCase()}
+         onClick={_handleTagClick.bind(null, tag.slug, tag.slug, parentTagSlug, onClickTag)}>
+        <div className="tag-child-name">
+            {tag.name}
+        </div>
     </div>
 );
 
-ChildTag.propTypes = {
-    tag: React.PropTypes.object.isRequired,
-    parentTagName: React.PropTypes.string.isRequired,
-    onClickTag: React.PropTypes.func.isRequired
+const _handleTagClick = (tagSlug, parentTagSlug, childTagSlug, onClickTag, event) => {
+    event.preventDefault();
+
+    onClickTag(tagSlug, parentTagSlug, childTagSlug);
 };
 
-ChildTag._handleTagClick = (tagId, tagName, parentTagName, onClickTag, event) => {
-    event.preventDefault();
-    onClickTag(tagId, parentTagName, tagName);
-    return false;
+ChildTag.propTypes = {
+    tag: React.PropTypes.object.isRequired,
+    parentTagSlug: React.PropTypes.string.isRequired,
+    onClickTag: React.PropTypes.func.isRequired
 };
 
 export default ChildTag;

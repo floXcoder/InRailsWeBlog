@@ -27,17 +27,20 @@ namespace :InRailsWeBlog do
 
         # Create users
         users     = Populate::create_dummy_users(10)
-        Populate::add_profile_picture_to(users, 5)
+        # Populate::add_profile_picture_to(users, 5)
+
+        # Create topics
+        topics    = Populate::create_dummy_topics(main_user, 5)
 
         # Create tags
-        tags     = Populate::create_dummy_tags(main_user, 20)
+        tags      = Populate::create_dummy_tags(main_user, 30)
 
         # Create articles with tags
-        articles = Populate::create_dummy_articles_for(main_user, tags, 20)
-        articles += Populate::create_dummy_articles_for(users, tags, 5..15)
+        articles  = Populate::create_dummy_articles_for(main_user, tags, 15)
+        articles  += Populate::create_dummy_articles_for(users, tags, 5..15)
 
-        # Create tag relationships
-        Populate::create_tag_relationships_for(articles.sample(120))
+        # # Create tag relationships from tagged articles
+        # Populate::create_tag_relationships_for(articles.sample(120))
 
         # Create comments for articles
         Populate::create_comments_for(articles, main_user, 1..10)

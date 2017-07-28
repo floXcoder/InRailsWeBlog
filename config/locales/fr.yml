@@ -120,7 +120,7 @@ fr:
           '422': "Impossible de satisfaire votre requête"
           '500': "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
       back_button: "Page précédente"
-      home_button: "Retourner à l'acceuil !"
+      home_button: "Retourner à l'acceuil"
   user:
     model:
       login: "Pseudo ou Email"

@@ -3,7 +3,7 @@ require 'sidekiq/cron/web'
 
 InRailsWeBlog::Application.routes.draw do
   # Root path
-  root  'static_pages#home'
+  root 'static_pages#home'
 
   # Concerns
   concern :tracker do |options|
@@ -55,9 +55,10 @@ InRailsWeBlog::Application.routes.draw do
       concerns :tracker,       module: :users
     end
 
+    # TODO: use scope instead of users/
     resources :topics,        controller: 'users/topics',     only: [:index, :create, :update, :destroy] do
       collection do
-        get :switch,          to: 'users/topics#switch'
+        post  :switch,          to: 'users/topics#switch'
       end
     end
 
@@ -113,9 +114,10 @@ InRailsWeBlog::Application.routes.draw do
   get :terms_of_use,  to: 'static_pages#terms_of_use'
 
   # Routes managed by javascript router
-  get '/article/*id',   to: 'static_pages#home'
-  get '/tag/*id',       to: 'static_pages#home'
   get '/user/*id',      to: 'static_pages#home'
+  get '/topic/*id',     to: 'static_pages#home'
+  get '/tag/*id',       to: 'static_pages#home'
+  get '/article/*id',   to: 'static_pages#home'
 
   # Errors
   %w( 404 422 500 ).each do |code|

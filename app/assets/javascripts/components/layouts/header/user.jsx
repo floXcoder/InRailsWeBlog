@@ -2,88 +2,106 @@
 
 import {Link} from 'react-router-dom';
 
-// TODO : convert into dropdown
+import {
+    Dropdown,
+    // Icon,
+    Menu
+} from 'semantic-ui-react'
+
+// $app.isUserConnected()
+//     ?
+//     $app.isUserConnected() && $app.getCurrentUser().avatar
+//         ?
+//         <img src={$app.getCurrentUser().avatar}
+//              alt="User Avatar"
+//              className="header-avatar"/>
+//         :
+//         <div className="header-avatar">
+//             <i className="material-icons left dropdown-icon">account_circle</i>
+//         </div>
+//     :
+//     <div className="header-avatar">
+//         <i className="material-icons left dropdown-icon">account_circle</i>
+//     </div>
+
 const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
-    <IconMenu
-        iconButtonElement={
-            <FlatButton secondary={true}
-                        className="header-button"
-                        icon={
-                            $app.user.isConnected() && $app.user.current.avatar
-                                ?
-                                <img src={$app.user.current.avatar}
-                                     alt="User Avatar"
-                                     className="header-avatar"/>
-                                :
-                                <FontIcon className="material-icons">account_circle</FontIcon>
-                        }/>
-        }
-        anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-        targetOrigin={{horizontal: 'left', vertical: 'top'}}>
+    <div>
+        <Menu>
+            <Dropdown text='User'
+                      pointing
+                      className='link item'>
+                <Dropdown.Menu>
+                    <Dropdown.Header>Mon compte</Dropdown.Header>
 
-        <MenuItem primaryText={I18n.t('js.views.header.user.languages.french')}
-                  href={window.location.href + '?locale=fr'}/>
-        <MenuItem primaryText={I18n.t('js.views.header.user.languages.english')}
-                  href={window.location.href + '?locale=en'}/>
+                    {
+                        $app.isAdminConnected() &&
+                        <Dropdown.Item>
+                            <a href="/admin">
+                                {I18n.t('js.views.header.user.administration')}
+                            </a>
+                        </Dropdown.Item>
+                    }
 
-        <Divider />
+                    {
+                        $app.isAdminConnected() &&
+                        <Dropdown.Divider />
+                    }
 
-        {
-            $app.user.isAdmin() &&
-            <MenuItem primaryText={I18n.t('js.views.header.user.administration')}
-                      activeClassName="link-active"
-                      href="/admin"/>
-        }
+                    {
+                        $app.isUserConnected() &&
+                        <Dropdown.Divider />
+                    }
 
-        {
-            $app.user.isAdmin() &&
-            <Divider />
-        }
+                    {
+                        !$app.isUserConnected() &&
+                        <Dropdown.Item>
+                            <a className="signup-link"
+                               href="/signup"
+                               onClick={onSignupClick}>
+                                {I18n.t('js.views.header.user.sign_up')}
+                            </a>
+                        </Dropdown.Item>
+                    }
 
-        {
-            !$app.user.isConnected() &&
-            <MenuItem primaryText={I18n.t('js.views.header.user.log_in')}
-                      onTouchTap={(event) => HomeUserHeader._handleLoginClick(onLoginClick, event)}/>
-        }
-        {
-            !$app.user.isConnected() &&
-            <MenuItem primaryText={I18n.t('js.views.header.user.sign_up')}
-                      onTouchTap={(event) => HomeUserHeader._handleSignupClick(onSignupClick, event)}/>
-        }
-        {
-            $app.user.isConnected() &&
-            <MenuItem
-                primaryText={
-                    <Link to={`/user/profile/${$app.user.current.slug}`}>
-                        {I18n.t('js.views.header.user.profile')}
-                    </Link>
-                }/>
-        }
-        {
-            $app.user.isConnected() &&
-            <MenuItem primaryText={I18n.t('js.views.header.user.log_out')}
-                      href="/logout"
-                      data-method="delete"
-                      rel="nofollow"/>
-        }
-    </IconMenu>
+                    {
+                        !$app.isUserConnected() &&
+                        <Dropdown.Item>
+                            <a className="login-link"
+                               href="/login"
+                               onClick={onLoginClick}>
+                                {I18n.t('js.views.header.user.log_in')}
+                            </a>
+                        </Dropdown.Item>
+                    }
+
+                    {
+                        $app.isUserConnected() &&
+                        <Dropdown.Item>
+                            <a href={`/user/profile/${$app.getCurrentUser().slug}`}>
+                                {I18n.t('js.views.header.user.profile')}
+                            </a>
+                        </Dropdown.Item>
+                    }
+
+                    {
+                        $app.isUserConnected() &&
+                        <Dropdown.Item>
+                            <a href="/logout"
+                               data-method="delete"
+                               rel="nofollow">
+                                {I18n.t('js.views.header.user.log_out')}
+                            </a>
+                        </Dropdown.Item>
+                    }
+                </Dropdown.Menu>
+            </Dropdown>
+        </Menu>
+    </div>
 );
 
 HomeUserHeader.propTypes = {
     onLoginClick: React.PropTypes.func.isRequired,
     onSignupClick: React.PropTypes.func.isRequired
-};
-
-HomeUserHeader._handleLoginClick = (onLoginClick, event) => {
-    event.preventDefault();
-    onLoginClick();
-    return false;
-};
-
-HomeUserHeader._handleSignupClick = (onSignupClick, event) => {
-    event.preventDefault();
-    onSignupClick();
-    return false;
 };
 
 export default HomeUserHeader;

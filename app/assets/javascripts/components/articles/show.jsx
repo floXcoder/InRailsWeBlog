@@ -22,7 +22,9 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import CommentBox from '../comments/box';
 
-import {Link} from 'react-router-dom';
+import {
+    Link
+} from 'react-router-dom';
 
 export default class ArticleShow extends Reflux.Component {
     static propTypes = {
@@ -232,7 +234,7 @@ export default class ArticleShow extends Reflux.Component {
                                                         onHistoryClick={this._handleHistoryClick}/>
 
                                     {
-                                        $app.user.isConnected(this.state.article.user.id) &&
+                                        $app.isUserConnected(this.state.article.user.id) &&
                                         <Link className="article-edit btn-floating tooltipped"
                                               data-tooltip={I18n.t('js.article.tooltip.edit')}
                                               to={`/article/${this.state.article.id}/edit`}>
@@ -272,7 +274,7 @@ export default class ArticleShow extends Reflux.Component {
                             <CommentBox id="comments"
                                         commentableType="articles"
                                         commentableId={this.state.article.id}
-                                        isUserConnected={$app.user.isConnected()}
+                                        isUserConnected={$app.isUserConnected()}
                                         currentUserId={$app.user.currentId}
                                         isPaginated={true}
                                         isRated={true}/>

@@ -21,7 +21,7 @@ export default class ArticleEditionIcons extends React.PureComponent {
     }
 
     render() {
-        if ($app.user.isConnected(this.props.article.user.id)) {
+        if ($app.isUserConnected(this.props.article.user.id)) {
             return (
                 <div className="article-editing">
                     <a className="article-delete tooltipped btn-floating"

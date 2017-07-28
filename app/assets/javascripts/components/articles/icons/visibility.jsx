@@ -17,7 +17,7 @@ const ArticleVisibilityIcon = ({article, hasFloatingButton}) => {
     let visibilityName = I18n.t('js.article.enums.visibility.' + article.visibility);
     let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
-    if ($app.user.isConnected(article.user.id)) {
+    if ($app.isUserConnected(article.user.id)) {
         return (
             <a className={visibilityClasses}
                data-tooltip={visibilityTooltip}>

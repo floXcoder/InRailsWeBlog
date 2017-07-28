@@ -1,7 +1,7 @@
 'use strict';
 
 const ArticleDeleteIcon = ({article, onDeleteClick}) => {
-    if ($app.user.isConnected(article.user.id)) {
+    if ($app.isUserConnected(article.user.id)) {
         return (
             <a className="article-delete tooltipped btn-floating"
                data-tooltip={I18n.t('js.article.tooltip.delete')}

@@ -56,15 +56,33 @@ class Populate
     end
   end
 
-  def self.create_dummy_tags(user, tag_number)
+  def self.create_dummy_topics(user, topic_number)
+    topics_name = []
+
+    while topics_name.size < topic_number
+      topics_name << Faker::Hacker.noun
+      topics_name.uniq!
+    end
+
+    topics = Array.new(topic_number) do |n|
+      FactoryGirl.create(:topic,
+                         user:       user,
+                         visibility: rand(0..1),
+                         name:       topics_name[n].mb_chars.capitalize.to_s)
+    end
+
+    return topics
+  end
+
+  def self.create_dummy_tags(user, tags_number)
     tags_name = []
 
-    while tags_name.size < tag_number
-      tags_name << [Faker::Hacker.adjective, Faker::Hacker.verb, Faker::Hacker.noun].sample
+    while tags_name.size < tags_number
+      tags_name << [Faker::Hacker.adjective, Faker::Hacker.verb, Faker::Hacker.noun, Faker::Hacker.abbreviation, Faker::Hacker.verb].sample
       tags_name.uniq!
     end
 
-    tags = Array.new(tag_number) do |n|
+    tags = Array.new(tags_number) do |n|
       FactoryGirl.create(:tag,
                          user:       user,
                          visibility: rand(0..1),
@@ -74,47 +92,39 @@ class Populate
     return tags
   end
 
-  def self.create_dummy_articles_for(users, tags, articles_by_users)
+  def self.create_dummy_articles_for(users, tags, articles_by_users_and_topics)
     articles = []
     users    = [users] if users.is_a?(User)
 
     users.each do |user|
-      articles_number = articles_by_users
-      articles_number = rand(articles_number) if articles_by_users.is_a?(Range)
-      Array.new(articles_number) do
-        articles << FactoryGirl.create(:article_with_tags,
-                                       user:       user,
-                                       topic:      Topic.find_by_id(user.current_topic_id),
-                                       tags:       tags.sample(rand(1..3)),
-                                       visibility: Article.visibilities.keys.sample)
+      articles_number = if articles_by_users_and_topics.is_a?(Range)
+                          rand(articles_by_users_and_topics)
+                        else
+                          articles_by_users_and_topics
+                        end
+      articles        = Array.new(articles_number) do |n|
+        Topic.where(user_id: user.id).map do |topic|
+          if (n % 2).zero?
+            parent_tags = tags.sample(rand(1..2))
+            child_tags  = tags.sample(rand(1..2))
+            FactoryGirl.create(:article_with_relation_tags,
+                               user:        user,
+                               topic:       topic,
+                               visibility:  Article.visibilities.keys.sample,
+                               parent_tags: parent_tags,
+                               child_tags:  child_tags - parent_tags)
+          else
+            FactoryGirl.create(:article_with_tags,
+                               user:       user,
+                               topic:      topic,
+                               visibility: Article.visibilities.keys.sample,
+                               tags:       tags.sample(rand(1..3)))
+          end
+        end
       end
     end
 
     return articles.flatten
-  end
-
-  def self.create_tag_relationships_for(articles)
-    Article.transaction do
-      articles.each do |article|
-        tags = article.tags
-
-        if tags.length > 2
-          parent_tag = tags.first
-          child_tag  = tags.last
-
-          article.tagged_articles.find_by(tag_id: parent_tag.id).update(parent: true)
-          article.tagged_articles.find_by(tag_id: child_tag.id).update(child: true)
-
-          # if parent_tag.children.exists?(child_tag.id)
-          #   previous_article_ids = parent_tag.parent_relationship.find_by(child_id: child_tag.id).article_ids
-          #   parent_tag.parent_relationship.find_by(child_id: child_tag.id).update_attribute(:article_ids, previous_article_ids + [article.id])
-          # else
-          #   parent_tag.parent_relationship.build(child_id: child_tag.id, article_ids: [article.id])
-          # end
-          parent_tag.save
-        end
-      end
-    end
   end
 
   def self.create_comments_for(articles, users, comment_number)
@@ -126,7 +136,7 @@ class Populate
         comments_number  = comment_number
         comments_number  = rand(comment_number) if comment_number.is_a?(Range)
         rand(comments_number).times.each do |i|
-          if i % 5 == 0
+          if (i % 5).zero?
             if previous_comment
               child_comment = Comment.build_from(article, users.sample.id, Faker::Hipster.paragraph(2, true, 1))
               child_comment.save

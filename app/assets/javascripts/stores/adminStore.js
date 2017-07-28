@@ -13,10 +13,6 @@ export default class AdminStore extends mix(Reflux.Store).with(Errors) {
         this.url = '/admin/managers';
     }
 
-    init() {
-        return true;
-    }
-
     onPendingValidation(data) {
         const url = this.url + '/pending_validation';
 

@@ -1,6 +1,6 @@
 'use strict';
 
-export default class Switch extends React.Component {
+export default class SwitchButton extends React.Component {
     static propTypes = {
         id: React.PropTypes.string.isRequired,
         name: React.PropTypes.string,

@@ -29,10 +29,10 @@ FactoryGirl.define do
 
   factory :admin do
     sequence(:pseudo)     { |n| "Admin #{n+1}" }
-    sequence(:email)      { |n| "admin_#{n+1}@example.com"}
+    sequence(:email)      { |n| "admin_#{n+1}@example.com" }
     additional_info       'Personal information'
     locale                'fr'
-    settings           { {} }
+    settings              { {} }
     password              'password'
     password_confirmation 'password'
 

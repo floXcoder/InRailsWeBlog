@@ -225,7 +225,7 @@ class Topic < ApplicationRecord
     topics = topics.order_by(options[:order]) if order
 
     {
-      topics:       topics.records,
+      topics:       topics,
       highlight:    highlight ? Hash[results.with_details.map { |topic, details| [topic.id, details[:highlight]] }] : [],
       suggestions:  results.suggestions,
       # aggregations: formatted_aggregations,

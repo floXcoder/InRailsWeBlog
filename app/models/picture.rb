@@ -61,7 +61,7 @@ class Picture < ApplicationRecord
     self.user_id == user.id if user
   end
 
-  def format_attributes(attributes={})
+  def format_attributes(attributes = {})
     # Imageable
     unless attributes[:model_id].blank?
       self.imageable_id = attributes.delete(:model_id).to_i
@@ -77,13 +77,14 @@ class Picture < ApplicationRecord
       self.copyright = Sanitize.fragment(attributes.delete(:copyright))
     end
 
+    # Set this attribute before setting image otherwise thumb version are not created
+    unless attributes[:process_now].nil?
+      self.process_image_upload = !!attributes.delete(:process_now)
+    end
+
     # Pictures
     unless attributes[:file].blank?
       self.image = attributes.delete(:file)
-    end
-
-    unless attributes[:process_now].nil?
-      self.process_image_upload = !!attributes.delete(:process_now)
     end
 
     self.assign_attributes(attributes)

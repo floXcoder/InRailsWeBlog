@@ -47,7 +47,7 @@ export default class ArticleTags extends React.PureComponent {
     render() {
         const parentTags = _.keyBy(this.props.article.parent_tags, 'id');
         const childTags = _.keyBy(this.props.article.child_tags, 'id');
-        const tagList = this.props.article.parent_tags.concat(this.props.article.child_tags);
+        const tags = this.props.article.tags;
 
         let style = {
             style: {
@@ -65,14 +65,14 @@ export default class ArticleTags extends React.PureComponent {
         };
 
         return (
-            <div className={classNames('article-tags', {'article-tags-empty': tagList.length === 0})}>
+            <div className={classNames('article-tags', {'article-tags-empty': tags.length === 0})}>
                 {
-                    tagList.map((tag, i) =>
+                    tags.map((tag, i) =>
                         <div key={i}
                              className="article-tag">
                             <Link id={`article-${this.props.article.id}-tags-${tag.id}`}
                                   className={classNames(
-                                      'waves-effect', 'waves-light', 'btn-small',
+                                      'waves-effect', 'waves-light', 'btn-small', 'tag-default',
                                       {
                                           'tag-parent': parentTags[tag.id],
                                           'tag-child': childTags[tag.id]
@@ -99,15 +99,19 @@ export default class ArticleTags extends React.PureComponent {
                                         <p>
                                             {tag.description}
                                         </p>
+
                                         <p>
                                             {
-                                                tag.synonyms &&
+                                                !$.isEmpty(tag.synonyms) &&
                                                 I18n.t('js.tag.model.synonyms') + ' : ' + tag.synonyms.join(', ')
                                             }
                                         </p>
-                                        <Link to={`/tag/${tag.slug}`}>
-                                            {I18n.t('js.tag.common.link')}
-                                        </Link>
+
+                                        <div className="margin-top-10">
+                                            <Link to={`/tag/${tag.slug}`}>
+                                                {I18n.t('js.tag.common.link')}
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </ToolTip>

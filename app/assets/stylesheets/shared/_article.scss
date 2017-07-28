@@ -15,12 +15,14 @@
     padding: 0 20px;
   }
 
-  .blog-article-box {}
+  .blog-article-box {
+  }
 
-  .blog-article-list {}
+  .blog-article-list {
+  }
 
   .article-outdated {
-   background-color: #808080;
+    background-color: #808080;
   }
 
   .blog-article-history {
@@ -119,14 +121,27 @@
     }
 
     .article-tags {
-      .article-tag {
-        display: inline-block;
-        margin: 5px;
-      }
-
       &.article-tags-empty {
         content: '.';
         visibility: hidden;
+      }
+
+      .article-tag {
+        display: inline-block;
+        margin: 5px;
+
+        .tag-default {
+          background-color: #fff;
+          color: rgba(0, 0, 0, 0.63);
+
+          &.tag-parent {
+            box-shadow: 0 0 4px darkred !important;
+          }
+
+          &.tag-child {
+            box-shadow: 0 0 4px darkgreen !important;
+          }
+        }
       }
     }
 

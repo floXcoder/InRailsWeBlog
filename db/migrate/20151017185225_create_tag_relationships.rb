@@ -20,7 +20,7 @@ class CreateTagRelationships < ActiveRecord::Migration[5.0]
     add_foreign_key :tag_relationships, :tags, column: :parent_id
     add_foreign_key :tag_relationships, :tags, column: :child_id
 
-    add_index :tag_relationships, :user_id
-    add_index :tag_relationships, [:topic_id, :parent_id, :child_id], name: 'index_tag_relationship_uniqueness', unique: true
+    add_index :tag_relationships, [:user_id, :topic_id], where: 'deleted_at IS NULL'
+    add_index :tag_relationships, [:topic_id, :parent_id, :child_id], where: 'deleted_at IS NULL', name: 'index_tag_relationship_uniqueness', unique: true
   end
 end

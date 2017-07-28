@@ -138,9 +138,8 @@ module.exports = {
         src: [
             './app/views/**/*.slim',
             './app/helpers/**/*.rb',
-            './app/inputs/**/*.rb',
-            './app/controllers/**/*.rb',
-            './app/serializers/**/*.rb',
+            // './app/controllers/**/*.rb', TODO: BUG Rubymine save file
+            // './app/serializers/**/*.rb', TODO: BUG Rubymine save file
             './config/locales/**/*.yml'
         ]
     },

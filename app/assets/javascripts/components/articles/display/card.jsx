@@ -23,10 +23,6 @@ export default class ArticleCardDisplay extends React.Component {
         onVisibilityClick: React.PropTypes.func
     };
 
-    static contextTypes = {
-        router: React.PropTypes.object
-    };
-
     static defaultProps = {
         onClickEdit: null,
         onClickVisibility: null

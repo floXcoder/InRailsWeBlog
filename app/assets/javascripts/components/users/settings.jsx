@@ -3,7 +3,7 @@
 import UserActions from '../../actions/userActions';
 import UserStore from '../../stores/userStore';
 import RadioButtons from '../../components/materialize/radio-buttons';
-import Switch from '../../components/materialize/switch';
+import SwitchButton from '../../components/materialize/switch-button';
 
 // TODO : replace it
 export default class UserSettings extends Reflux.Component {
@@ -122,22 +122,22 @@ export default class UserSettings extends Reflux.Component {
                                                   onRadioChanged={this._onOperatorSearchChanged}/>
                                 </div>
                                 <div className="col s4">
-                                    <Switch ref="searchHighlight"
+                                    <SwitchButton ref="searchHighlight"
                                             id="search-highlight"
                                             title={I18n.t('js.user.settings.search.highlight')}
                                             values={I18n.t('js.checkbox')}
                                             onSwitchChange={this._onHighlightChanged}>
                                         {this.state.search_highlight}
-                                    </Switch>
+                                    </SwitchButton>
                                 </div>
                                 <div className="col s4">
-                                    <Switch ref="searchExact"
+                                    <SwitchButton ref="searchExact"
                                             id="search-exact"
                                             title={I18n.t('js.user.settings.search.exact')}
                                             values={I18n.t('js.checkbox')}
                                             onSwitchChange={this._onExactSearchChanged}>
                                         {this.state.search_exact}
-                                    </Switch>
+                                    </SwitchButton>
                                 </div>
                             </div>
                         </div>

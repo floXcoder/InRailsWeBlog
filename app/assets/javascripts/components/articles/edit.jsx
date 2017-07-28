@@ -10,13 +10,10 @@ import 'jquery-serializejson';
 
 export default class ArticleEdit extends Reflux.Component {
     static propTypes = {
+        router: React.PropTypes.object.isRequired,
         article: React.PropTypes.object,
         multipleId: React.PropTypes.number,
         params: React.PropTypes.object
-    };
-
-    static contextTypes = {
-        router: React.PropTypes.object
     };
 
     static defaultProps = {
@@ -58,7 +55,7 @@ export default class ArticleEdit extends Reflux.Component {
         }
 
         if (articleData.type === 'updateArticle') {
-            this.context.router.history.push(`/article/${articleData.article.slug}`);
+            this.props.router.history.push(`/article/${articleData.article.slug}`);
         }
 
         if (articleData.type === 'updateArticleError') {
@@ -75,9 +72,9 @@ export default class ArticleEdit extends Reflux.Component {
 
     _onCancel = () => {
         if (this.state.article) {
-            this.context.router.history.push(`/article/${this.state.article.id}`);
+            this.props.router.history.push(`/article/${this.state.article.id}`);
         } else {
-            this.context.router.history.push('/');
+            this.props.router.history.push('/');
         }
         return true;
     };

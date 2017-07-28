@@ -66,6 +66,7 @@ RSpec.describe Admin, type: :model do
         )
       end
 
+      it { expect(@admin.additional_info).to eq('') }
       it { expect(@admin.locale).to eq('fr') }
       it { expect(@admin.settings).to eq({}) }
     end

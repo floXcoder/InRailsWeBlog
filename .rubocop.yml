@@ -9,78 +9,82 @@ AllCops:
   Exclude:
     - 'node_modules/**/*'
 
-##################### Metrics ##################################
+Bundler/OrderedGems:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
 Metrics/AbcSize:
   # The ABC size is a calculated magnitude, so this number can be a Fixnum or a Float.
   Max: 60
 
+Metrics/BlockNesting:
+  Max: 4
+
 Metrics/ClassLength:
   CountComments: false  # count full line comments?
-  Max: 400
+  Max: 600
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
 
 Metrics/MethodLength:
   CountComments: false  # count full line comments?
   Max: 120
 
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
 Metrics/PerceivedComplexity:
-  Enabled: false
-
-Metrics/BlockNesting:
-  Max: 4
-
-Style/ExtraSpacing:
-  AllowForAlignment: true
-
-Style/RedundantSelf:
-  Enabled: false
-
-Style/RedundantReturn:
-  AllowMultipleReturnValues: true
-
-Style/FirstParameterIndentation:
-  Enabled: false
-
-Style/ExtraSpacing:
-  Enabled: false
-
-Style/ColonMethodCall:
-  Enabled: false
-
-Style/LeadingCommentSpace:
   Enabled: false
 
 Style/AsciiComments:
   Enabled: false
 
+Style/AlignParameters:
+  Enabled: false
+
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 
+Style/ColonMethodCall:
+  Enabled: false
+
+Style/ExtraSpacing:
+  Enabled: false
+  AllowForAlignment: true
+
+Style/FirstParameterIndentation:
+  Enabled: false
+
 Style/IndentHash:
-  Enabled: false
-
-Style/MultilineBlockLayout:
-  Enabled: false
-
-Style/MultilineOperationIndentation:
-  Enabled: false
-
-Style/AlignParameters:
   Enabled: false
 
 Style/Lambda:
   Enabled: false
 
-Style/SpaceInLambdaLiteral:
+Style/LeadingCommentSpace:
+  Enabled: false
+
+Style/MultilineBlockLayout:
   Enabled: false
 
 Style/MultilineIfModifier:
   Enabled: false
 
-Style/RedundantReturn:
+Style/MultilineOperationIndentation:
   Enabled: false
 
-Bundler/OrderedGems:
+Style/RedundantReturn:
+  Enabled: false
+  AllowMultipleReturnValues: true
+
+Style/RedundantSelf:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/SpaceInLambdaLiteral:
+  Enabled: false
+
+Style/SymbolArray:
   Enabled: false

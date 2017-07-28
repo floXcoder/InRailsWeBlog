@@ -2,43 +2,83 @@
 
 import ChildTag from './child';
 
-let ParentTag = ({filteredTags, parentTag, isFiltered, onClickTag}) => {
-    let childItem = parentTag.children.map((tag, i) => {
-        let childTag = filteredTags[tag.id];
-        if (childTag) {
-            return (
-                <ChildTag key={i}
-                          tag={childTag}
-                          parentTagName={parentTag.name}
-                          onClickTag={onClickTag}/>
-            );
+export default class ParentTag extends Reflux.PureComponent {
+    static propTypes = {
+        tag: React.PropTypes.object.isRequired,
+        onClickTag: React.PropTypes.func.isRequired,
+        isSearching: React.PropTypes.bool
+    };
+
+    static defaultProps = {
+        isSearching: false
+    };
+
+    state = {
+        isExpanded: false
+    };
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            isExpanded: nextProps.isSearching
+        });
+    }
+
+    _handleTagClick = (tagId, parentTagSlug, childTagSlug, event) => {
+        event.preventDefault();
+
+        if (this.props.onClickTag) {
+            this.props.onClickTag(tagId, tagId, childTagSlug);
         }
-    });
 
-    return (
-        <div className="tag-parent"
-             onClick={ParentTag._handleTagClick.bind(null, parentTag.id, parentTag.name, null, onClickTag)}>
-            {parentTag.name.toUpperCase()}
-            {childItem}
-        </div>
-    );
-};
+        if (!this.state.isExpanded) {
+            this.setState({
+                isExpanded: !this.state.isExpanded
+            });
+        }
+    };
 
-ParentTag._handleTagClick = (tagId, parentTagName, childTagName, onClickTag, event) => {
-    event.preventDefault();
-    onClickTag(tagId, parentTagName, childTagName);
-    return false;
-};
+    _handleTagIconClick = (event) => {
+        event.preventDefault();
 
-ParentTag.propTypes = {
-    filteredTags: React.PropTypes.array.isRequired,
-    parentTag: React.PropTypes.object.isRequired,
-    onClickTag: React.PropTypes.func.isRequired,
-    isFiltered: React.PropTypes.bool
-};
+        this.setState({
+            isExpanded: !this.state.isExpanded
+        });
+    };
 
-ParentTag.defaultProps = {
-    isFiltered: false
-};
+    render() {
+        const hasChild = !$.isEmpty(this.props.tag.children);
 
-export default ParentTag;
+        return (
+            <div className="tag-parent">
+                {
+                    hasChild
+                        ?
+                        <i className="material-icons tag-parent-icon"
+                           onClick={this._handleTagIconClick}>
+                            {this.state.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }
+                        </i>
+                        :
+                        <div className="tag-parent-icon">
+                            &nbsp;
+                        </div>
+                }
+
+                <div className="tag-parent-name"
+                     onClick={this._handleTagClick.bind(this, this.props.tag.slug, this.props.tag.slug, null)}>
+                    {this.props.tag.name}
+                </div>
+
+                <div className="tag-parent-children">
+                    {
+                        this.state.isExpanded && this.props.tag.children.map((tag, i) =>
+                            <ChildTag key={i}
+                                      tag={tag}
+                                      parentTagSlug={this.props.tag.slug}
+                                      onClickTag={this.props.onClickTag}/>
+                        )
+                    }
+                </div>
+            </div>
+        );
+    };
+}

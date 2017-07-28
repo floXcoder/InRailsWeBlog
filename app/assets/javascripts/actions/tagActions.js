@@ -2,6 +2,7 @@
 
 export default Reflux.createActions([
     'loadTags',
+    'refreshTags',
     'loadTag',
     'updateTag',
     'deleteTag',

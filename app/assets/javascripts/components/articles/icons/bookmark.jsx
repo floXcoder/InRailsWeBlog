@@ -23,7 +23,7 @@ export default class ArticleBookmarkIcon extends React.PureComponent {
     };
 
     render() {
-        if ($app.user.isConnected()) {
+        if ($app.isUserConnected()) {
             let bookmarkClasses = classNames('material-icons', {'article-bookmarked': this.state.isBookmarked});
             let bookmarkTooltip = this.state.isBookmarked ?
                 I18n.t('js.article.tooltip.remove_bookmark') :

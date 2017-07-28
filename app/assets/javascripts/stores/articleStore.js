@@ -55,65 +55,51 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
     }
 
     _fetchArticles(data, callback) {
-        let requestParam = {};
-
         let url = this.url;
 
+        let requestParam = {};
+
         if (data) {
+            requestParam = {
+                filter: {}
+            };
+
+            if (data.topicSlug) {
+                requestParam.filter.topic_slug = data.topicSlug;
+            }
+
+            if (data.tagSlug) {
+                requestParam.filter.tag_slugs = [data.tagSlug];
+            }
+
+            if (data.tagParentSlug) {
+                requestParam.filter.parent_tag_slugs = [data.tagParentSlug];
+            }
+
+            if (data.tagChildSlug) {
+                requestParam.filter.child_tag_slugs = [data.tagChildSlug];
+            }
+
             if (data.page) {
                 requestParam.page = data.page;
             } else {
                 requestParam.page = 1;
             }
 
-            if (data.tagName) {
-                requestParam.tags = [data.tagName];
-            }
-            if (data.tags) {
-                requestParam.tags = data.tags;
-            }
-
-            if (data.parentTags) {
-                requestParam.parent_tags = data.parentTags;
-            }
-
-            if (data.childTags) {
-                requestParam.child_tags = data.childTags;
-            }
-
-            if (data.userId) {
-                requestParam.user_id = data.userId;
-            }
-
-            if (data.userPseudo) {
-                requestParam.user_pseudo = data.userPseudo;
-            }
-
-            if (data.topicId) {
-                requestParam.topic_id = data.topicId;
-            }
-
-            if (data.type) {
-                requestParam.type = data.type;
-            }
-
-            if (data.summary) {
-                requestParam.summary = data.summary;
-            }
-
-            if (data.query) {
-                requestParam.query = data.query;
-                url += '/search';
-
-                if (data.searchOptions) {
-                    requestParam.search_options = data.searchOptions;
-                }
-            }
-
-            if (data.autocompleteQuery) {
-                requestParam.autocompleteQuery = data.autocompleteQuery;
-                url += '/autocomplete';
-            }
+            // TODO: move in search action
+            // if (data.query) {
+            //     requestParam.query = data.query;
+            //     url += '/search';
+            //
+            //     if (data.searchOptions) {
+            //         requestParam.search_options = data.searchOptions;
+            //     }
+            // }
+            //
+            // if (data.autocompleteQuery) {
+            //     requestParam.autocompleteQuery = data.autocompleteQuery;
+            //     url += '/autocomplete';
+            // }
         }
 
         $.getJSON(

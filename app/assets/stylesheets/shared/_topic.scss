@@ -1,0 +1,197 @@
+.blog {
+  .topic-header-button {
+    color: #f3f3f3;
+    font-weight: 700;
+
+    .topic-header-text {
+      color: #f3f3f3;
+      font-weight: 700;
+      line-height: 36px;
+
+      .material-icons {
+        line-height: 36px;
+      }
+    }
+  }
+
+  .topics-sidebar {
+    position: relative;
+    margin: .2rem;
+    border: 1px solid rgba(34, 36, 38, .15);
+    box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
+    border-radius: 0 3px 3px 0;
+    background-color: #fff;
+    line-height: 2rem;
+    width: 280px;
+    z-index: 60;
+    padding: .4rem;
+    max-height: 500px;
+    overflow: auto;
+
+    &.topic-sidebar-overhead {
+      overflow: hidden;
+    }
+
+    .topic-overhead {
+      position: absolute;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+      background-color: rgba(0, 0, 0, .8);
+      opacity: 0;
+      transition: opacity .4s linear;
+      user-select: none;
+      will-change: opacity;
+      z-index: -1;
+
+      &.topic-overhead-active {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        z-index: 1000;
+      }
+    }
+
+    .topics-list-name {
+      margin: 1pc 30px 10px 8px;
+      position: relative;
+      color: #8c8c8c;
+      font-size: 1rem;
+    }
+
+    .topics-list {
+      position: relative;
+
+      .topic-item {
+        box-sizing: border-box;
+        position: relative;
+        padding: 0 0 0 .8rem;
+        width: 100%;
+        height: 3rem;
+        line-height: 3rem;
+        border-radius: 3px;
+        background-color: #00afbf;
+        margin: .6rem 0;
+        cursor: pointer;
+
+        .topic-item-details {
+          position: relative;
+          background: rgba(255, 255, 255, .88);
+          padding: 0 .8rem;
+          transition: .25s color ease .1s, .25s padding-left ease .1s, .25s background-color ease .1s;
+
+          &:hover {
+            padding-left: 1.4rem;
+          }
+
+          a {
+            color: #000;
+
+            &.topic-item-current {
+              font-weight: 600;
+            }
+          }
+
+          //.topic-item-edit {
+          //  position: absolute;
+          //  right: 0;
+          //  line-height: 1rem;
+          //  color: #a0a0a0;
+          //  display: inline-block;
+          //  height: 3rem;
+          //  top: 0;
+          //  margin: 0 .4rem;
+          //
+          //  &:hover {
+          //    color: #000;
+          //  }
+          //
+          //  .material-icons {
+          //    font-size: 1.4rem;
+          //    height: 3rem;
+          //    line-height: 3rem;
+          //  }
+          //}
+        }
+      }
+    }
+
+    .topics-add {
+      margin: 6px 4px 0 0;
+      padding: 8px;
+      color: #8c8c8c;
+      position: relative;
+      cursor: pointer;
+
+      &:hover {
+        color: #4d4d4d;
+        text-decoration: underline;
+      }
+    }
+
+    .topic-edit-content {
+      width: 100%;
+      height: 100%;
+      display: table;
+      padding: .6rem;
+
+      .topic-edit-center {
+        display: table-cell;
+        vertical-align: middle;
+        color: #fff;
+      }
+
+      .topic-edit-title {
+        color: #fff;
+        margin-bottom: 20px;
+      }
+
+      input {
+        height: 100%;
+        font-size: 1.2rem;
+        border-bottom: 1px solid #f6f6f6 !important;
+        padding: 0;
+        margin: .2rem .4rem;
+
+        &::-webkit-input-placeholder {
+          color: rgba(255, 255, 255, .8);
+        }
+        &::-moz-placeholder {
+          color: rgba(255, 255, 255, .8);
+        }
+        &:-ms-input-placeholder {
+          color: rgba(255, 255, 255, .8);
+        }
+        &:-moz-placeholder {
+          color: rgba(255, 255, 255, .8);
+        }
+      }
+
+      label {
+        color: #fff;
+        top: -14px;
+      }
+    }
+
+    input.topic-button {
+      box-shadow: 0 1px 0 #3F6F21;
+      border-bottom: none !important;
+      color: #fff;
+      padding: 5px 30px;
+      cursor: pointer;
+      display: inline-block;
+      font-weight: 700;
+      line-height: 22px;
+      margin: 25px 4px 0 0;
+      text-align: center;
+      box-sizing: border-box;
+      background-color: #3F6F21;
+      border-radius: 3px;
+      height: 36px;
+      font-size: 1rem;
+    }
+  }
+}

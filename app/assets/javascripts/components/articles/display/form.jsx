@@ -9,7 +9,7 @@ import ArticleErrorField from './fields/error';
 
 import Submit from '../../materialize/submit';
 
-export default class ArticleFormDisplay extends React.Component {
+export default class ArticleFormDisplay extends Reflux.Component {
     static propTypes = {
         id: React.PropTypes.string.isRequired,
         multipleId: React.PropTypes.number,

@@ -19,17 +19,18 @@ require('./modules/utils');
 // Notifications
 require('expose-loader?Notification!./components/theme/notification');
 
+// TODO: useless ?
 // Automatic dropdown on hover
-$('.dropdown-button').dropdown({
-    hover: false,
-    belowOrigin: true
-});
+// $('.dropdown-button').dropdown({
+//     hover: true,
+//     belowOrigin: true
+// });
 
 // Keyboard inputs
 require('expose-loader?Mousetrap!mousetrap');
 
 // Translation
-require('expose-loader?I18n!imports-loader?define=>false,require=>false!./modules/i18n');
+require('expose-loader?I18n!imports-loader?this=>window!./modules/i18n');
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
 

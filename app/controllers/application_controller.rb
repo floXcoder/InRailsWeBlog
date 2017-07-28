@@ -3,12 +3,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :reset_session
 
   # Handle exceptions
-  rescue_from StandardError, with: :handle_error
-  rescue_from ActiveRecord::RecordNotFound, with: :handle_error
-  rescue_from AbstractController::ActionNotFound, with: :handle_error
-  rescue_from ActionController::RoutingError, with: :handle_error
-  rescue_from ActionController::UnknownController, with: :handle_error
-  rescue_from ActionController::InvalidAuthenticityToken, with: :handle_error
+  rescue_from StandardError, with: :server_error
+  rescue_from ActionController::InvalidAuthenticityToken, with: :server_error
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found_error
+  rescue_from ActionController::RoutingError, with: :not_found_error
+  rescue_from AbstractController::ActionNotFound, with: :not_found_error
+  rescue_from ActionController::UnknownController, with: :not_found_error
 
   # Pundit
   include Pundit
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   after_action :flash_to_headers
 
   def set_locale
-    I18n.locale         =
+    I18n.locale =
       if params[:locale].present?
         session[:locale] = params[:locale]
       elsif session[:locale].present?
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
       elsif defined?(current_user) && current_user
         current_user.locale
       elsif request.location&.present? && !request.location.country_code.empty?
-        if %w(FR BE CH).any? { |country_code| request.location.country_code.casecmp(country_code) == 0 }
+        if %w(FR BE CH).any? { |country_code| request.location.country_code.casecmp(country_code).zero? }
           :fr
         else
           :en
@@ -47,11 +47,13 @@ class ApplicationController < ActionController::Base
         :fr
       end
 
-    current_user.locale = I18n.locale if current_user && current_user.locale.to_s != I18n.locale.to_s
+    if params[:new_lang] && current_user && current_user.locale.to_s != params[:new_lang]
+      current_user.update_columns(locale: params[:new_lang])
+    end
 
     # Set user location
-    @user_latitude      = request.location.latitude
-    @user_longitude     = request.location.longitude
+    @user_latitude  = request.location.latitude
+    @user_longitude = request.location.longitude
   end
 
   # Redirection when Javascript is used.
@@ -129,14 +131,30 @@ class ApplicationController < ActionController::Base
     # Display in logger
     Rails.logger.fatal(exception.class.to_s + ' : ' + exception.to_s)
     Rails.logger.fatal(exception.backtrace.join("\n"))
+  end
+
+  def not_found_error(exception)
+    handle_error(exception)
+
+    raise if Rails.env.development?
 
     respond_to do |format|
       format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: 404 }
-      format.json { render json: { error: t('views.error.status.explanation.default'), status: :not_found } }
+      format.json { render json: { error: t('views.error.status.explanation.404'), status: :not_found } }
       format.all { render body: nil, status: :not_found }
     end
+  end
 
-    return true
+  def server_error(exception)
+    handle_error(exception)
+
+    raise if Rails.env.development?
+
+    respond_to do |format|
+      format.html { render 'errors/show', layout: 'full_page', locals: { status: 500 }, status: 500 }
+      format.json { render json: { error: t('views.error.status.explanation.500'), status: :internal_server_error } }
+      format.all { render body: nil, status: :internal_server_error }
+    end
   end
 
   def json_request?

@@ -25,7 +25,6 @@ export default class Signup extends React.PureComponent {
     };
 
     state = {
-        isPro: 0
     };
 
     constructor(props) {
@@ -154,31 +153,6 @@ export default class Signup extends React.PureComponent {
                                    }}
                                    icon="lock"/>
                         </div>
-                    </div>
-
-                    <div className="connection-pro">
-                        <input type="hidden"
-                               name="user[professional]"
-                               value={this.state.isPro}/>
-
-                        <a className="connection-pro-button"
-                           href="#"
-                           onClick={this._handleProClick}>
-                            {I18n.t('js.user.signup.professional')}
-                            <i className="material-icons">{!!this.state.isPro ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</i>
-                        </a>
-
-                        <div
-                            className={classNames('connection-pro-type', {'connection-pro-visible': this.state.isPro})}>
-                            <Select id="user_professional_type"
-                                    title={I18n.t('js.user.model.professional_type')}
-                                    default={I18n.t('js.user.signup.professional_type')}
-                                    options={_.omit(I18n.t('js.user.enums.professional_type'), 'unknown')}
-                                    validator={{
-                                        'data-parsley-required': !!this.state.isPro
-                                    }}/>
-                        </div>
-
                     </div>
 
                     <div className="connection-checkbox margin-bottom-20">

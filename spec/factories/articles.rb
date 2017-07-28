@@ -72,7 +72,7 @@ FactoryGirl.define do
 
         evaluator.parent_tags.map do |parent_tag|
           evaluator.child_tags.map do |child_tag|
-            article.tag_relationships << build(:tag_relationship, parent: parent_tag, child: child_tag, user: article.user, topic: article.topic)
+            article.tag_relationships << TagRelationship.find_or_initialize_by(parent: parent_tag, child: child_tag, user: article.user, topic: article.topic)
           end
         end
       end

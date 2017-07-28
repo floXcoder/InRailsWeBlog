@@ -13,13 +13,9 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
         this.listenables = TagActions;
         this.url = '/tags';
         this.userTags = [];
-    }
 
-    init() {
         // TODO
         // this.onLoadTags({init: true, userTags: true});
-
-        return true;
     }
 
     getInitialState() {
@@ -68,6 +64,15 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
             .fail((xhr, status, error) => {
                 this.handleErrors(this.url, xhr, status, error);
             });
+    }
+
+    onRefreshTags() {
+        if ($app.user.tags) {
+            this.trigger({
+                type: 'refreshTags',
+                tags: $app.user.tags
+            });
+        }
     }
 
     onLoadTag(data) {

@@ -11,13 +11,10 @@ import ArticleEditionDisplay from './inline-edition';
 
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
+        router: React.PropTypes.object.isRequired,
         children: React.PropTypes.string.isRequired,
         article: React.PropTypes.object.isRequired,
         initialDisplayMode: React.PropTypes.string.isRequired
-    };
-
-    static contextTypes = {
-        router: React.PropTypes.object
     };
 
     static defaultProps = {};
@@ -59,7 +56,7 @@ export default class ArticleItemDisplay extends React.Component {
     };
 
     _handleTagClick = (tagName) => {
-        this.context.router.history.push(`/article/tags/${tagName}`);
+        this.props.router.history.push(`/article/tags/${tagName}`);
 
         ArticleActions.loadArticles({tags: [tagName]});
     };

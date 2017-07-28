@@ -13,11 +13,6 @@ export default class UploadStore extends mix(Reflux.Store).with(Errors) {
         this.url = '/uploads';
     }
 
-    init() {
-        // Will call handleParams
-        return true;
-    }
-
     // Called by handleErrors function of Errors mixin
     displayUnauthorizedMessage() {
         Notification.error(I18n.t('js.helpers.errors.not_authorized'));

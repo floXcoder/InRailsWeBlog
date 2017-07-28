@@ -1,7 +1,7 @@
 'use strict';
 
 import Select from '../../../materialize/select';
-import Switch from '../../../materialize/switch';
+import SwitchButton from '../../../materialize/switch-button';
 import Checkbox from '../../../materialize/checkbox';
 import CategorizedTag from '../../../materialize/categorized-tag';
 
@@ -41,12 +41,12 @@ const ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
         </div>
 
         <div className="col s12 m6 l3">
-            <Switch id="article_allow_comment"
+            <SwitchButton id="article_allow_comment"
                     multipleId={multipleId}
                     title={I18n.t('js.article.common.allow_comment.title')}
                     values={I18n.t('js.article.common.allow_comment')}>
                 {article.allow_comment}
-            </Switch>
+            </SwitchButton>
 
             <div className="margin-bottom-40"/>
 

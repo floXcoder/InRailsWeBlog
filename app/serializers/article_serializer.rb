@@ -42,11 +42,11 @@ class ArticleSerializer < ActiveModel::Serializer
              :visibility,
              :visibility_translated,
              :draft,
-             :bookmarked,
-             :outdated,
+             # :bookmarked,
+             # :outdated,
              :slug,
-             :votes_up,
-             :votes_down,
+             # :votes_up,
+             # :votes_down,
              :outdated_number,
              :comments_number,
              :new_tags
@@ -80,29 +80,33 @@ class ArticleSerializer < ActiveModel::Serializer
     object.visibility_to_tr
   end
 
-  def bookmarked
-    if defined?(current_user) && current_user
-      object.user_bookmarks.exists?(current_user.id)
-    else
-      false
-    end
-  end
+  # TODO: N+1 query problem
+  # def bookmarked
+  #   if defined?(current_user) && current_user
+  #     object.user_bookmarks.exists?(current_user.id)
+  #   else
+  #     false
+  #   end
+  # end
 
-  def outdated
-    if defined?(current_user) && current_user
-      object.marked_as_outdated.exists?(current_user.id)
-    else
-      false
-    end
-  end
+  # TODO: N+1 query problem
+  # def outdated
+  #   if defined?(current_user) && current_user
+  #     object.marked_as_outdated.exists?(current_user.id)
+  #   else
+  #     false
+  #   end
+  # end
 
-  def votes_up
-    object.votes_for
-  end
+  # TODO: N+1 query problem
+  # def votes_up
+  #   object.votes_for
+  # end
 
-  def votes_down
-    object.votes_against
-  end
+  # TODO: N+1 query problem
+  # def votes_down
+  #   object.votes_against
+  # end
 
   def outdated_number
     object.outdated_articles_count

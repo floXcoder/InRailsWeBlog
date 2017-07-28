@@ -110,13 +110,13 @@ class Article < ApplicationRecord
            autosave:    true,
            class_name:  'ArticleRelationship',
            foreign_key: 'parent_id',
-           dependent: :destroy
+           dependent:   :destroy
 
   has_many :child_relationships,
            autosave:    true,
            class_name:  'ArticleRelationship',
            foreign_key: 'child_id',
-           dependent: :destroy
+           dependent:   :destroy
 
   has_many :bookmarks,
            as:          :bookmarked,
@@ -182,13 +182,17 @@ class Article < ApplicationRecord
                                   current_user_id: current_user_id)
   }
 
-  scope :from_topic, -> (topic_id = nil) {
+  scope :from_topic, -> (topic_slug) {
+    where(topic_id: Topic.find_by(slug: topic_slug))
+    # includes(:topic).where(topics: { slug: topic_slug }) # Slower ??
+  }
+  scope :from_topic_id, -> (topic_id = nil) {
     where(topic_id: topic_id)
   }
 
-  scope :with_tags, -> (tag_id) { joins(:tags).where(tags: { id: tag_id }) }
-  scope :with_parent_tags, -> (parent_tag_ids) { joins(:tags).where(tagged_articles: { parent: true, tag_id: parent_tag_ids }) }
-  scope :with_child_tags, -> (child_tag_ids) { joins(:tags).where(tagged_articles: { child: true, tag_id: child_tag_ids }) }
+  scope :with_tags, -> (tag_slugs) { includes(:tags).where(tags: { slug: tag_slugs }) }
+  scope :with_parent_tags, -> (parent_tag_slugs) { joins(:tags).where(tagged_articles: { parent: true }, tags: { slug: parent_tag_slugs }) }
+  scope :with_child_tags, -> (child_tag_slugs) { joins(:tags).where(tagged_articles: { child: true }, tags: { slug: child_tag_slugs }) }
 
   scope :published, -> { where(draft: false) }
 
@@ -318,7 +322,7 @@ class Article < ApplicationRecord
     articles = articles.order_by(options[:order]) if order
 
     {
-      articles:     articles.records,
+      articles:     articles,
       highlight:    highlight ? Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }] : [],
       suggestions:  results.suggestions,
       aggregations: formatted_aggregations,
@@ -378,13 +382,14 @@ class Article < ApplicationRecord
     records = records.where(accepted: filter[:accepted]) if filter[:accepted]
     records = records.with_visibility(filter[:visibility]) if filter[:visibility]
 
-    records = records.from_user(filter[:user_id], current_user&.id) if filter[:user_id]
+    records = records.from_user(filter[:user_slug], current_user&.id) if filter[:user_slug]
 
-    records = records.from_topic(filter[:topic_id]) if filter[:topic_id]
+    records = records.from_topic(filter[:topic_slug]) if filter[:topic_slug]
+    records = records.from_topic_id(filter[:topic_id]) if filter[:topic_id]
 
-    records = records.with_tags(filter[:tag_ids]) if filter[:tag_ids]
-    records = records.with_parent_tags(filter[:parent_tag_ids]) if filter[:parent_tag_ids]
-    records = records.with_child_tags(filter[:child_tag_ids]) if filter[:child_tag_ids]
+    records = records.with_tags(filter[:tag_slugs]) if filter[:tag_slugs]
+    records = records.with_parent_tags(filter[:parent_tag_slugs]) if filter[:parent_tag_slugs]
+    records = records.with_child_tags(filter[:child_tag_slugs]) if filter[:child_tag_slugs]
 
     records = records.where(draft: true) if filter[:draft]
 
@@ -488,7 +493,7 @@ class Article < ApplicationRecord
 
     # Tags
     if !attributes[:parent_tags].nil? || !attributes[:child_tags].nil? || !attributes[:tags].nil?
-      tagged_article_attributes = []
+      tagged_article_attributes    = []
       tag_relationships_attributes = []
 
       if !attributes[:parent_tags].nil? && !attributes[:child_tags].nil?
@@ -544,7 +549,7 @@ class Article < ApplicationRecord
         end
       end
 
-      self.tagged_articles = new_tagged_articles
+      self.tagged_articles   = new_tagged_articles
       self.tag_relationships = new_tag_relationships
     end
 
@@ -593,7 +598,7 @@ class Article < ApplicationRecord
   end
 
   def normalize_friendly_id(_string = nil)
-    super.tr('-', '_').tr('_at_', '@')
+    super.tr('-', '_').gsub('_at_', '@')
   end
 
   def strip_content
@@ -605,7 +610,7 @@ class Article < ApplicationRecord
   end
 
   def has_private_content?
-    !!(self.content =~ /<(\w+) class="secret">.*?<\/\1>/im)
+    self.content =~ /<(\w+) class="secret">.*?<\/\1>/im
   end
 
   def adapted_content(current_user_id)

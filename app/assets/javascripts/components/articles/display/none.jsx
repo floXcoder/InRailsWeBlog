@@ -2,7 +2,7 @@
 
 import {Link} from 'react-router-dom';
 
-const ArticleNone = ({isTopicPage, isSearchPage}) => (
+const ArticleNone = ({router, isTopicPage, isSearchPage}) => (
     <div className="row">
         <div className="col s6 offset-s3">
             <div className="card center-align blue-grey darken-1">
@@ -31,7 +31,7 @@ const ArticleNone = ({isTopicPage, isSearchPage}) => (
                         isTopicPage &&
                         <p>
                             {I18n.t('js.article.common.no_results.topic.content')}
-                            <Link to="/article/new"
+                            <Link to={`/topic/${router.match.params.topicSlug}/article/new`}
                                   className="waves-effect waves-light btn margin-top-20">
                                 {I18n.t('js.article.common.no_results.topic.button')}
                             </Link>
@@ -44,6 +44,7 @@ const ArticleNone = ({isTopicPage, isSearchPage}) => (
 );
 
 ArticleNone.propTypes = {
+    router: React.PropTypes.object.isRequired,
     isSearchPage: React.PropTypes.bool,
     isTopicPage: React.PropTypes.bool
 };

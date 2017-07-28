@@ -25,7 +25,7 @@ export default class ArticleHistoryIcon extends React.PureComponent {
     }
 
     render() {
-        if ($app.user.isConnected(this.props.article.user.id)) {
+        if ($app.isUserConnected(this.props.article.user.id)) {
             return (
                 <a className="article-history tooltipped btn-floating"
                    data-tooltip={I18n.t('js.article.tooltip.history')}

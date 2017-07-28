@@ -87,9 +87,10 @@ autocomplete_search_index GET    /search/autocomplete(.:format)           search
              search_index GET    /search(.:format)                        search#index
                  comments GET    /comments(.:format)                      comments#index
              terms_of_use GET    /terms_of_use(.:format)                  static_pages#terms_of_use
-                          GET    /article/*id(.:format)                   static_pages#home
-                          GET    /tag/*id(.:format)                       static_pages#home
                           GET    /user/*id(.:format)                      static_pages#home
+                          GET    /topic/*id(.:format)                     static_pages#home
+                          GET    /tag/*id(.:format)                       static_pages#home
+                          GET    /article/*id(.:format)                   static_pages#home
                           GET    /404(.:format)                           errors#show {:code=>"404"}
                           GET    /422(.:format)                           errors#show {:code=>"422"}
                           GET    /500(.:format)                           errors#show {:code=>"500"}

@@ -10,16 +10,10 @@ import Checkbox from '../materialize/checkbox';
 import File from '../materialize/file';
 import Submit from '../materialize/submit';
 
-import {Link} from 'react-router-dom';
-
 export default class UserEdit extends Reflux.Component {
     static propTypes = {
         userId: React.PropTypes.string,
         params: React.PropTypes.object
-    };
-
-    static contextTypes = {
-        router: React.PropTypes.object
     };
 
     static defaultProps = {

@@ -80,22 +80,22 @@ class Tag < ApplicationRecord
   has_many :topics,
            through: :tagged_articles
 
-  has_many :parent_relationship,
+  has_many :parent_relationships,
            autosave:    true,
            class_name:  'TagRelationship',
            foreign_key: 'parent_id',
            dependent:   :destroy
   has_many :children,
-           through: :parent_relationship,
+           through: :parent_relationships,
            source:  :child
 
-  has_many :child_relationship,
+  has_many :child_relationships,
            autosave:    true,
            class_name:  'TagRelationship',
            foreign_key: 'child_id',
            dependent:   :destroy
   has_many :parents,
-           through: :child_relationship,
+           through: :child_relationships,
            source:  :parent
 
   has_one :picture,
@@ -163,14 +163,14 @@ class Tag < ApplicationRecord
   }
 
   scope :for_user_topic, -> (user_id, topic_id) {
-    joins(:tagged_articles).where(user_id: user_id, tagged_articles: { topic_id: topic_id })
+    includes(:tagged_articles).where(user_id: user_id, tagged_articles: { topic_id: topic_id })
   }
 
   scope :most_used, -> (limit = 20) { order('tagged_articles_count desc').limit(limit) }
   scope :least_used, -> (limit = 20) { order('tagged_articles_count asc').limit(limit) }
 
   scope :unused, -> {
-    where(tagged_articles_count: 0).where('updated_at < :day', { day: 1.day.ago })
+    where(tagged_articles_count: 0).where('updated_at < :day', day: 1.day.ago)
   }
 
   scope :bookmarked_by_user, -> (user_id) {
@@ -237,6 +237,7 @@ class Tag < ApplicationRecord
     per_page      = options[:per_page] ? options[:per_page] : CONFIG.per_page
 
     # Order search
+    order = nil
     if options[:order]
       order = if options[:order] == 'id_first'
                 { id: :asc }
@@ -290,7 +291,7 @@ class Tag < ApplicationRecord
     tags = tags.order_by(options[:order]) if order
 
     {
-      tags:         tags.records,
+      tags:         tags,
       highlight:    highlight ? Hash[results.with_details.map { |tag, details| [tag.id, details[:highlight]] }] : [],
       suggestions:  results.suggestions,
       aggregations: formatted_aggregations,
@@ -411,10 +412,8 @@ class Tag < ApplicationRecord
 
     serializer_options = {}
 
-    serializer_options.merge({
-                               scope:      options.delete(:current_user),
-                               scope_name: :current_user
-                             }) if options.has_key?(:current_user)
+    serializer_options.merge(scope:      options.delete(:current_user),
+                             scope_name: :current_user) if options.has_key?(:current_user)
 
     serializer_options[tags.is_a?(Tag) ? :serializer : :each_serializer] = if options[:sample]
                                                                              TagSampleSerializer
@@ -436,7 +435,7 @@ class Tag < ApplicationRecord
     self.user_id == user.id if user
   end
 
-  def format_attributes(attributes = {}, current_user = nil)
+  def format_attributes(attributes = {})
     # Clean attributes
     attributes = attributes.reject { |_, v| v.blank? }
 

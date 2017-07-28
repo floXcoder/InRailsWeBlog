@@ -1,10 +1,25 @@
 'use strict';
 
-// Init user if connected
-import UserStore from '../../stores/userStore';
+import routes from '../../routes';
 
-import ClipboardManager from '../../modules/clipboard';
-import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
+import UserStore from '../../stores/userStore';
+import TopicStore from '../../stores/topicStore';
+
+import DefaultLayout from '../layouts/default';
+import LoadingLayout from '../layouts/loading';
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory'
+
+const browserHistory = createBrowserHistory();
+
+// TODO: move to default layout
+// import ClipboardManager from '../../modules/clipboard';
+// import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
 
 import {
     Link
@@ -20,25 +35,17 @@ export default class HomePage extends Reflux.Component {
         location: {}
     };
 
+    // TODO : move loading user to App
     state = {
-        isLoadingUser: false
+        isLoadingPage:
+            $app.isUserConnected()
     };
 
     constructor(props) {
         super(props);
 
         this.mapStoreToState(UserStore, this.onUserChange);
-    }
-
-    componentWillMount() {
-        if ($app.user.isPresent() && !$app.user.isConnected()) {
-            this.setState({
-                isLoadingUser: true
-            });
-        }
-    }
-
-    componentDidMount() {
+        this.mapStoreToState(TopicStore, this.onTopicChange);
     }
 
     onUserChange(userData) {
@@ -48,9 +55,9 @@ export default class HomePage extends Reflux.Component {
 
         let newState = {};
 
-        if (userData.type === 'loadUser') {
-            newState.isLoadingUser = false;
-            this._userLoaded();
+        if (userData.type === 'InitUser') {
+            newState.isLoadingPage = false;
+            browserHistory.replace(`/topic/${$app.getCurrentTopic().slug}`);
         }
 
         if (!$.isEmpty(newState)) {
@@ -58,25 +65,69 @@ export default class HomePage extends Reflux.Component {
         }
     }
 
-    _userLoaded = () => {
-        ClipboardManager.initialize(this._onPaste);
-    };
-
-    _onPaste = (content) => {
-        if (this.props.location.pathname !== '/article/new') {
-            this.context.router.history.push({
-                pathname: '/article/new',
-                state: {article: {content: SanitizePaste.parse(content), draft: true}}
-            });
+    onTopicChange(topicData) {
+        if ($.isEmpty(topicData)) {
+            return;
         }
+
+        let newState = {};
+
+        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
+            newState.isLoadingPage = false;
+            browserHistory.push(`/topic/${topicData.topic.slug}`);
+        }
+
+        if (!$.isEmpty(newState)) {
+            this.setState(newState);
+        }
+    }
+
+    // TODO: move to default layout
+    // _userLoaded = () => {
+    //     ClipboardManager.initialize(this._onPaste);
+    // };
+
+    // TODO: move to default layout
+    // _onPaste = (content) => {
+    //     if (this.props.location.pathname !== '/article/new') {
+    //         this.props.router.history.push({
+    //             pathname: '/article/new',
+    //             state: {article: {content: SanitizePaste.parse(content), draft: true}}
+    //         });
+    //     }
+    // };
+
+    _handleReloadPage = () => {
+        this.setState({
+            isLoadingPage: true
+        });
     };
 
     render() {
         return (
-            <div className="">
-                <h1>
-                    HOME
-                </h1>
+            <div>
+                {
+                    this.state.isLoadingPage
+                        ?
+                        <div>
+                            <LoadingLayout path={routes.init.path}
+                                           exact={routes.init.exact}/>
+                        </div>
+                        :
+                        <Router history={browserHistory}>
+                            <Switch>
+                                {
+                                    routes.home.mainView.map((route, index) => (
+                                        <DefaultLayout key={index}
+                                                       path={route.path}
+                                                       exact={route.exact}
+                                                       component={route.component}
+                                                       onReloadPage={this._handleReloadPage}/>
+                                    ))
+                                }
+                            </Switch>
+                        </Router>
+                }
             </div>
         );
     }

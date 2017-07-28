@@ -427,7 +427,7 @@ describe 'Article API', type: :request, basic: true do
       it 'returns updated article and tags relationship' do
         expect {
           put "/articles/#{@relation_tags_article.id}", params: article_attributes.deep_merge(article: { parent_tags: [@tags[1].name], child_tags: [@tags[3].name] }), as: :json
-        }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TagRelationship, :count).by(-1 )
+        }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TagRelationship, :count).by(-1)
 
         expect(response).to be_json_response
 
@@ -552,7 +552,7 @@ describe 'Article API', type: :request, basic: true do
 
   context 'comments' do
     before(:all) do
-      @comments       = create_list(:comment, 5, user: @other_user, commentable: @relation_tags_article_2)
+      @comments = create_list(:comment, 5, user: @other_user, commentable: @relation_tags_article_2)
     end
 
     let(:comment_attributes) {

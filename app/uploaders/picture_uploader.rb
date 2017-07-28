@@ -60,7 +60,7 @@ class PictureUploader < CarrierWave::Uploader::Base
     model.original_filename ||= file.original_filename if file.respond_to?(:original_filename)
   end
 
-  def secure_token(length=16)
+  def secure_token(length = 16)
     model.image_secure_token ||= SecureRandom.hex(length / 2)
   end
 

@@ -6,12 +6,12 @@ import InfiniteScroll from '../../../components/materialize/infiniteScroll';
 import ArticleActions from '../../../actions/articleActions';
 import ArticleItemDisplay from './item';
 
-const ArticleListDisplay = ({articles, hasMore, articleDisplayMode, isHighlightingResults}) => {
+const ArticleListDisplay = ({router, articles, hasMore, articleDisplayMode, isHighlightingResults}) => {
     const ArticleNodes = articles.map((article) =>
-        <ArticleItemDisplay
-            key={article.id}
-            article={article}
-            initialDisplayMode={articleDisplayMode}>
+        <ArticleItemDisplay key={article.id}
+                            router={router}
+                            article={article}
+                            initialDisplayMode={articleDisplayMode}>
             {
                 isHighlightingResults && !$.isEmpty(article.highlight_content) ?
                     article.highlight_content :
@@ -68,6 +68,7 @@ const ArticleListDisplay = ({articles, hasMore, articleDisplayMode, isHighlighti
 };
 
 ArticleListDisplay.propTypes = {
+    router: React.PropTypes.object.isRequired,
     articles: React.PropTypes.array.isRequired,
     hasMore: React.PropTypes.bool.isRequired,
     articleDisplayMode: React.PropTypes.string.isRequired,
@@ -79,9 +80,10 @@ ArticleListDisplay.getDefaultProps = {
 };
 
 ArticleListDisplay._loadNextArticles = (hasMore) => {
-    if (hasMore) {
-        ArticleActions.loadNextArticles();
-    }
+    // TODO: infinite loading
+    // if (hasMore) {
+    //     ArticleActions.loadNextArticles();
+    // }
 };
 
 export default ArticleListDisplay;
