@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Specify exact Ruby version (mandatory)
-ruby '2.3.3'
+ruby '2.4.1'
 
 # Rails version
 gem 'rails',                    '5.0.2'
