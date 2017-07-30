@@ -1,6 +1,6 @@
+const _ = require('lodash');
 const webpack = require('webpack');
 const manifestPlugin = require('webpack-manifest-plugin');
-const _ = require('lodash');
 
 const config = require('../config').webpack;
 let webPackConfig = module.exports = require('./main.config.js');
@@ -39,10 +39,13 @@ webPackConfig.plugins.push(
         stripSrc: '-[chunkhash].js'
     }),
     new webpack.DefinePlugin({
+        'global.WEBPACK': JSON.stringify(true),
         'process.env': {
             'NODE_ENV': JSON.stringify('production')
-        }
+        },
+        'NODE_ENV': JSON.stringify('production')
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
         beautify: false,

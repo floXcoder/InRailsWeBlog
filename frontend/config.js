@@ -55,19 +55,11 @@ module.exports = {
             path: './public/assets',
             publicPath: '/assets/'
         },
-        development: {
-            filename: '[name].js',
-            commonFilename: '.js'
-        },
-        production: {
-            filename: '[name]-[chunkhash].js',
-            commonFilename: '-[chunkhash].js',
-            manifestFilename: 'rev-manifest.json'
-        },
         modules: {
             includes: [
                 'node_modules'
-            ]
+            ],
+            // noParse: []
         },
         rules: [
             {
@@ -80,6 +72,24 @@ module.exports = {
                 }
             }
         ],
+        alias: {
+            react: 'node_modules/react',
+            jquery: 'node_modules/jquery/dist/jquery'
+        },
+        plugins: {
+            $: 'jquery',
+            jQuery: 'jquery',
+            jquery: 'jquery',
+            'window.$': 'jquery',
+            'window.jQuery': 'jquery',
+            log: 'loglevel',
+            React: 'react',
+            ReactDOM: 'react-dom',
+            PropTypes: 'prop-types',
+            Reflux: 'reflux',
+            classNames: 'classnames',
+            Promise: 'promise-polyfill'
+        },
         happyPack: {
             id: 'happyCache',
             loaders: [
@@ -90,23 +100,25 @@ module.exports = {
             cachePath: 'tmp/happypack/cache--[id].json',
             threads: 4,
         },
-        plugins: {
-            $: 'jquery',
-            jQuery: 'jquery',
-            jquery: 'jquery',
-            'window.$': 'jquery',
-            'window.jQuery': 'jquery',
-            _: 'lodash',
-            log: 'loglevel',
-            React: 'react',
-            ReactDOM: 'react-dom',
-            Reflux: 'reflux',
-            classNames: 'classnames',
-            Promise: 'promise-polyfill'
+        development: {
+            filename: '[name].js',
+            commonFilename: '.js'
+        },
+        production: {
+            filename: '[name]-[chunkhash].js',
+            commonFilename: '-[chunkhash].js',
+            manifestFilename: 'rev-manifest.json'
         }
     },
     browserSync: {
-        proxy: {target: 'http://localhost:3001'},
+        proxy: {
+            target: 'localhost:3001',
+            reqHeaders: function () {
+                return {
+                    host: 'localhost:3000'
+                };
+            }
+        },
         notify: false,
         open: false
     },
@@ -138,8 +150,8 @@ module.exports = {
         src: [
             './app/views/**/*.slim',
             './app/helpers/**/*.rb',
-            // './app/controllers/**/*.rb', TODO: BUG Rubymine save file
-            // './app/serializers/**/*.rb', TODO: BUG Rubymine save file
+            './app/controllers/**/*.rb',
+            './app/serializers/**/*.rb',
             './config/locales/**/*.yml'
         ]
     },
@@ -167,7 +179,7 @@ module.exports = {
         publicDir + '/fonts',
         publicDir + '/assets',
         publicDir + 'rev-manifest.json'
-    ],
+    ]
 
     // devServer: {
     //     contentBase: path.resolve('./public/assets'),

@@ -1,6 +1,6 @@
+const _ = require('lodash');
 const webpack = require('webpack');
 const HappyPack = require('happypack');
-const _ = require('lodash');
 
 const config = require('../config').webpack;
 let webPackConfig = module.exports = require('./main.config.js');
@@ -11,7 +11,6 @@ webPackConfig.output = _.merge(webPackConfig.output, {
 
 webPackConfig = _.merge(webPackConfig, {
     // debug: true,
-
     stats: {
         assets: false,
         colors: true,
@@ -23,24 +22,12 @@ webPackConfig = _.merge(webPackConfig, {
     },
 
     // displayErrorDetails: true,
-
     output: {
         pathinfo: true
     },
 
     // devtool: 'source-map'
     devtool: 'cheap-module-source-map'
-});
-
-// Common chunks
-_.each(config.commons, function (common) {
-    webPackConfig.plugins.push(
-        new webpack.optimize.CommonsChunkPlugin({
-            name: common.name,
-            filename: common.name + config.development.commonFilename,
-            chunks: common.files
-        })
-    );
 });
 
 webPackConfig.plugins.push(
@@ -54,3 +41,14 @@ webPackConfig.plugins.push(
     // new webpack.HotModuleReplacementPlugin(),
     // new webpack.NamedModulesPlugin(),
 );
+
+// Common chunks
+_.forEach(config.commons, (common) => {
+    webPackConfig.plugins.push(
+        new webpack.optimize.CommonsChunkPlugin({
+            name: common.name,
+            filename: common.name + config.development.commonFilename,
+            chunks: common.files
+        })
+    );
+});

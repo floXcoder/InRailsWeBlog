@@ -1,5 +1,7 @@
+const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
+
 const config = require('../config').webpack;
 
 let webPackConfig = module.exports = {
@@ -28,8 +30,13 @@ webPackConfig.resolve = {
     extensions: ['.js', '.jsx'],
     // by default, webpack will search in `web_modules` and `node_modules`. Because we're using
     // vendor, we want it to look in there too
-    modules: config.modules.includes
+    modules: config.modules.includes,
+    alias: {}
 };
+
+_.forEach(config.alias, (value, key) => {
+    webPackConfig.resolve.alias[key] = path.resolve(value);
+});
 
 webPackConfig.plugins = [
     new webpack.ProvidePlugin(config.plugins)
