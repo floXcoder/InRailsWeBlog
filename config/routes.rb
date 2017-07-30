@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
-InRailsWeBlog::Application.routes.draw do
+Rails.application.routes.draw do
   # Root path
   root 'static_pages#home'
 

@@ -1,16 +1,21 @@
 source 'https://rubygems.org'
 
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
+  "https://github.com/#{repo_name}.git"
+end
+
 # Specify exact Ruby version (mandatory)
 ruby '2.4.1'
 
 # Rails version
-gem 'rails',                    '5.0.2'
+gem 'rails',                    '5.1.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '0.20.0'
 
 # HTTP Response
-gem 'responders',               '2.3.0'
+gem 'responders',               '2.4.0'
 gem 'http_accept_language',     '2.1.0'
 gem 'secure_headers',           '3.6.2'
 
@@ -34,7 +39,7 @@ gem 'storext',                  '2.2.2'
 gem 'paper_trail',              '6.0.2'
 
 # Marked as deleted
-gem 'paranoia',                 '2.2.1'
+gem 'paranoia',                 '2.3.1'
 
 # User activities
 gem 'public_activity',          '1.5.0'
@@ -51,7 +56,7 @@ gem 'whenever',                 '0.9.7',     require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.5.3'
-gem 'redis-session-store',      '0.9.1'
+gem 'redis-session-store',      github: 'Jesterovskiy/redis-session-store'
 gem 'readthis',                 '2.0.2'
 gem 'hiredis',                  '0.6.1'
 gem 'redis-rack-cache',         '2.0.1'
@@ -63,13 +68,13 @@ gem 'date_validator',           '0.9.0'
 gem 'simpleconfig',             '2.0.1'
 
 # Authentification
-gem 'devise',                   '4.2.1'
+gem 'devise',                   '4.3.0'
 
 # Authorization mechanism
 gem 'pundit',                   '1.1.0'
 
 # Forms
-gem 'simple_form',              '3.4.0'
+gem 'simple_form',              '3.5.0'
 gem 'country_select',           '3.0.0'
 
 # Upload pictures
@@ -90,8 +95,8 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'rack-attack',              '5.0.1'
 
 # SEO
-gem 'friendly_id',              '5.2.0'
-gem 'meta-tags',                '2.4.0'
+gem 'friendly_id',              '5.2.1'
+gem 'meta-tags',                '2.4.1'
 
 # Deployment
 gem 'capistrano',               '3.8.0'
@@ -141,7 +146,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',            '3.5.2'
+  gem 'rspec-rails',            '3.6.0'
   gem 'capybara',               '2.13.0'
   gem 'capybara-email',         '2.5.0'
   gem 'capybara-screenshot',    '1.0.14'
@@ -157,7 +162,7 @@ group :test do
   gem 'rails_best_practices',   '1.18.0',   require: false
   gem 'brakeman',               '3.6.1',    require: false
   gem 'metric_fu',              '4.12.0',   require: false
-  gem 'i18n-tasks',             '0.9.13',   require: false
+  gem 'i18n-tasks',             '0.9.16',   require: false
 
   # Security
   gem 'dawnscanner',            '1.6.7',    require: false
@@ -180,7 +185,7 @@ group :production do
   gem 'passenger',      '~> 5'
 
   # Improve log outputs
-  gem 'lograge',        '0.4.1'
+  gem 'lograge',        '0.5.1'
 
   # Website analysis
   gem 'newrelic_rpm',             '4.0.0.332'

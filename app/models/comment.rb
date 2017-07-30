@@ -54,7 +54,7 @@ class Comment < ApplicationRecord
 
   validates :title,
             length: { minimum: CONFIG.comment_title_min_length, maximum: CONFIG.comment_title_max_length },
-            if:     'title.present?'
+            if:     -> { title.present? }
   validates :body,
             presence: true,
             length:   { minimum: CONFIG.comment_body_min_length, maximum: CONFIG.comment_body_max_length }

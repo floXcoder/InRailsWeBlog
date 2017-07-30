@@ -153,14 +153,15 @@ class Article < ApplicationRecord
 
   validates :title,
             length: { minimum: CONFIG.article_title_min_length, maximum: CONFIG.article_title_max_length },
-            if:     'title.present?'
+            if:     -> { title.present? }
   validates :summary,
             length: { minimum: CONFIG.article_summary_min_length, maximum: CONFIG.article_summary_max_length },
-            if:     'summary.present?'
+            if:     -> { summary.present? }
   validates :content,
             presence: true,
             length:   { minimum: CONFIG.article_content_min_length, maximum: CONFIG.article_content_max_length }
-  validates :notation, inclusion: CONFIG.notation_min..CONFIG.notation_max
+  validates :notation,
+            inclusion: CONFIG.notation_min..CONFIG.notation_max
 
   validates :visibility,
             presence: true
