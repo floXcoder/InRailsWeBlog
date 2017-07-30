@@ -1,5 +1,5 @@
 # Limit directory being watched
-directories %w(app db config frontend lib spec)
+directories %w[app db config frontend lib spec]
 # Clear console when launching guard
 clearing :on
 # Display notification in OS
@@ -27,8 +27,6 @@ end
 # Option "force_run: true" does not work on Windows
 guard :rails, server: :puma, port: 3001, timeout: 60 do
   # watch(%r{^Gemfile\.lock$})
-  watch(%r{^app/channels/.+\.rb})
-  watch(%r{^app/inputs/.+\.rb})
   watch(%r{^app/mailers/.+\.rb})
   watch(%r{^app/uploaders/.+\.rb})
   # watch(%r{^app/workers/.+\.rb})

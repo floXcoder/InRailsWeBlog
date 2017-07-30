@@ -26,7 +26,6 @@ class Picture < ApplicationRecord
 
   # == Extensions ===========================================================
   mount_uploader :image, PictureUploader
-  store_in_background :image
 
   # Marked as deleted
   acts_as_paranoid
