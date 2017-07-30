@@ -56,6 +56,5 @@ webPackConfig.plugins.push(
             screw_ie8: true
         },
         comments: false
-    }),
-    new webpack.NoErrorsPlugin()
+    })
 );

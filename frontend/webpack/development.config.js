@@ -12,13 +12,21 @@ webPackConfig.output = _.merge(webPackConfig.output, {
 webPackConfig = _.merge(webPackConfig, {
     // debug: true,
     stats: {
-        assets: false,
         colors: true,
+        warnings: true,
+        errors: true,
+        errorDetails: true,
+        assets: false,
         version: false,
         hash: false,
         timings: false,
         chunks: false,
-        chunkModules: false
+        chunkModules: false,
+        modules: false,
+        reasons: false,
+        children: false,
+        source: false,
+        publicPath: false
     },
 
     // displayErrorDetails: true,
@@ -34,7 +42,6 @@ webPackConfig.plugins.push(
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),
-    new webpack.NoErrorsPlugin(),
     new HappyPack(config.happyPack)
 
     // For webpack dev server:

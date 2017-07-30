@@ -102,3 +102,4 @@ CommentItem.defaultProps = {
     isAdmin: false
 };
 
+export default CommentItem;

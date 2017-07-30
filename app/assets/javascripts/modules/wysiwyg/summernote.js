@@ -405,20 +405,21 @@
     var isEdge = /Edge\/\d+/.test(userAgent);
 
     var hasCodeMirror = !!window.CodeMirror;
-    if (!hasCodeMirror && isSupportAmd && require) {
-        if (require.hasOwnProperty('resolve')) {
-            try {
-                // If CodeMirror can't be resolved, `require.resolve` will throw an
-                // exception and `hasCodeMirror` won't be set to `true`.
-                require.resolve('codemirror');
-                hasCodeMirror = true;
-            } catch (e) {
-                hasCodeMirror = false;
-            }
-        } else if (require.hasOwnProperty('specified')) {
-            hasCodeMirror = require.specified('codemirror');
-        }
-    }
+    // TODO: improve import
+    // if (!hasCodeMirror && isSupportAmd && require) {
+    //     if (require.hasOwnProperty('resolve')) {
+    //         try {
+    //             // If CodeMirror can't be resolved, `require.resolve` will throw an
+    //             // exception and `hasCodeMirror` won't be set to `true`.
+    //             require.resolve('codemirror');
+    //             hasCodeMirror = true;
+    //         } catch (e) {
+    //             hasCodeMirror = false;
+    //         }
+    //     } else if (require.hasOwnProperty('specified')) {
+    //         hasCodeMirror = require.specified('codemirror');
+    //     }
+    // }
 
     /**
      * @class core.agent
