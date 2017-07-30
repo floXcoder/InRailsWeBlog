@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 const LocalDataMixin = (superclass) => class extends superclass {
     static hasLocalStorage = !!window.localStorage;
     static localDataPrefix = 'sync-';

@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import CommentActions from '../../actions/commentActions';
 import CommentStore from '../../stores/commentStore';
 import CommentTableDisplay from './display/table';

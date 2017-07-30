@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import UploadActions from '../../actions/uploadActions';
 import UploadStore from '../../stores/uploadStore';
 

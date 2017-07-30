@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import CommentAction from '../../../actions/commentActions';
 
 import Select from '../../materialize/select';

@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const config = require('../config').webpack;
 
@@ -39,7 +40,13 @@ _.forEach(config.alias, (value, key) => {
 });
 
 webPackConfig.plugins = [
-    new webpack.ProvidePlugin(config.plugins)
+    new webpack.ProvidePlugin(config.plugins),
+    new LodashModuleReplacementPlugin({
+        'shorthands': true,
+        'cloning': true,
+        'collections': true,
+        'flattening': true
+    })
 ];
 
 webPackConfig.module = {

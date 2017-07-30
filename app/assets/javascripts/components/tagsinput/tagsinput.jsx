@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import ReactTags from './reactTags';
 import Tag from './tag';
 import TagStore from '../../stores/tagStore';

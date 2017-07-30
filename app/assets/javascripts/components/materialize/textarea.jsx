@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default class Textarea extends React.Component {
     static propTypes = {
         id: React.PropTypes.string.isRequired,

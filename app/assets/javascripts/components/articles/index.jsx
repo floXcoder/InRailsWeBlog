@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import Spinner from '../../components/materialize/spinner';
 
 import UserStore from '../../stores/userStore';

@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 // TODO: how to use it?
 // import AssociatedTagBox from '../../components/tags/associated/box';
 

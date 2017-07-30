@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default class Rating extends React.PureComponent {
     static propTypes = {
         initialRating: React.PropTypes.number,

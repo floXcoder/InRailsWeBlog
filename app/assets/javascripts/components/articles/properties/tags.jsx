@@ -1,5 +1,6 @@
 'use strict';
 
+import _ from 'lodash';
 
 import TagStore from '../../../stores/tagStore';
 

@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import UserActions from '../../actions/userActions';
 import UserStore from '../../stores/userStore';
 

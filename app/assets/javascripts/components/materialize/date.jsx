@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default class Date extends React.PureComponent {
     static propTypes = {
         id: React.PropTypes.string.isRequired,

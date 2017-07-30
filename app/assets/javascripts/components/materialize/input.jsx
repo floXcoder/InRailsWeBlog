@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default class Input extends React.Component {
     static propTypes = {
         children: React.PropTypes.oneOfType([

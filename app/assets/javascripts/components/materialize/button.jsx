@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default class Button extends React.PureComponent {
     static propTypes = {
         children: React.PropTypes.string.isRequired,

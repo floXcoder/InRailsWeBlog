@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import ReactSelectize from 'react-selectize';
 const MultiSelect = ReactSelectize.MultiSelect;
 

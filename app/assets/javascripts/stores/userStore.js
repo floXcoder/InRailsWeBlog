@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import mix from '../mixins/mixin';
 import Errors from '../mixins/errors';
 import Tracker from '../mixins/tracker';

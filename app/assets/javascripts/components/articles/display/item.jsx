@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import Tracker from '../../../modules/tracker';
 import UserActions from '../../../actions/userActions';
 import TagActions from '../../../actions/tagActions';

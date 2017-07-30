@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import noUiSlider from 'materialize-css/extras/noUiSlider/nouislider';
 
 export default class RangeSlider extends React.Component {

@@ -1,5 +1,6 @@
 'use strict';
 
+import _ from 'lodash';
 
 import AssociatedTagList from './list';
 import ArticleActions from '../../../actions/articleActions';

@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 // Load Login and Signup modals
 import ConnectionLoader from '../../loaders/connection';
 
