@@ -1,41 +1,27 @@
 'use strict';
 
 // jQuery
-require('jquery-ujs');
-// send CSRF tokens for all ajax requests
-$.ajaxSetup({
-    cache: false,
-    beforeSend: function (xhr) {
-        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-    }
-});
+import 'jquery-ujs';
 
 // Materialize
-require('materialize-css/dist/js/materialize');
+import 'materialize-css/dist/js/materialize';
 
 // Expose global variables
-require('./modules/utils');
+import './modules/utils';
 
 // Notifications
-require('expose-loader?Notification!./components/theme/notification');
-
-// TODO: useless ?
-// Automatic dropdown on hover
-// $('.dropdown-button').dropdown({
-//     hover: true,
-//     belowOrigin: true
-// });
-
-// Keyboard inputs
-require('expose-loader?Mousetrap!mousetrap');
+import 'expose-loader?Notification!./components/theme/notification';
 
 // Translation
-require('expose-loader?I18n!imports-loader?this=>window!./modules/i18n');
+import 'expose-loader?I18n!imports-loader?this=>window!./modules/i18n';
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
 
+// Keyboard inputs
+import 'expose-loader?Mousetrap!mousetrap';
+
 // Declare Module Helpers
-require('expose-loader?$app!./modules/app');
+import 'expose-loader?$app!./modules/app';
 
 // TODO
 // if (process.env.NODE_ENV !== 'production') {
@@ -47,7 +33,7 @@ require('expose-loader?$app!./modules/app');
 // Configure log level
 if (window.railsEnv === 'development') {
     log.setLevel('info');
-    const screenLog = require('./modules/screenLog');
+    const screenLog = require('./modules/screenLog').default;
     screenLog.init({freeConsole: true});
     log.now = function (data, colorStyle) {
         screenLog.log(data, colorStyle);
@@ -71,13 +57,13 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
         if (reactRootComponent[0]) {
             // Test if React component
             if (!ReactDOM.findDOMNode(reactRootComponent[0]).children[0]) {
-                Materialize.toast(I18n.t('js.helpers.errors.frontend') + '&nbsp;<a href="/">' + I18n.t('js.helpers.home') + '</a>');
+                Notification.alert(I18n.t('js.helpers.errors.frontend'), 300, I18n.t('js.helpers.home'), () => window.location = '/');
             }
         }
     }
     catch (e) {
         // Root node is not a React component so React is not mounted
-        Materialize.toast(I18n.t('js.helpers.errors.frontend') + '&nbsp;<a href="/">' + I18n.t('js.helpers.home') + '</a>');
+        Notification.alert(I18n.t('js.helpers.errors.frontend'), 300, I18n.t('js.helpers.home'), () => window.location = '/');
     }
 
     if (!trace) {
@@ -94,7 +80,7 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
     });
 
     if (window.railsEnv === 'development') {
-        log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'red');
+        log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'text-error');
     }
 };
 

@@ -1,2 +1,2 @@
-require('respond.js/dest/respond.src');
-require('html5shiv');
+import 'respond.js/dest/respond.src';
+import 'html5shiv';

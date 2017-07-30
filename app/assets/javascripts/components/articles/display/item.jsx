@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 
-import Tracker from '../../../modules/tracker';
+// import Tracker from '../../../modules/tracker';
 import UserActions from '../../../actions/userActions';
 import TagActions from '../../../actions/tagActions';
 import ArticleActions from '../../../actions/articleActions';
@@ -21,13 +21,13 @@ export default class ArticleItemDisplay extends React.Component {
 
     static defaultProps = {};
 
-    state = {
-        articleDisplayMode: this.props.initialDisplayMode
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        articleDisplayMode: this.props.initialDisplayMode
+    };
 
     componentDidMount() {
         $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {

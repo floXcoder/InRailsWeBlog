@@ -12,13 +12,17 @@ const ErrorsMixin = (superclass) => class extends superclass {
                     Notification.error(I18n.t('js.helpers.errors.not_authorized'), 10);
                 }
             } else if (error === 'Unprocessable Entity') {
-                var errorMessage = JSON.parse(xhr.responseText);
+                const errorMessage = JSON.parse(xhr.responseText);
                 // Function called for each shop
                 if (this.displayErrorsMessage !== undefined) {
                     this.displayErrorsMessage(url, errorMessage);
                 }
             } else if (error === 'Internal Server Error') {
-                Notification.error(I18n.t('js.helpers.errors.server'), 10);
+                if (window.railsEnv === 'development') {
+                    log.now(xhr.responseText.split("\n").slice(0, 6))
+                } else {
+                    Notification.error(I18n.t('js.helpers.errors.server'), 10);
+                }
             }
         } else {
             log.error('Unknown Error in JSON request: ' + error + ', status:' + status);

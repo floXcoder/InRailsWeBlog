@@ -11,7 +11,7 @@ const HistoryMixin = (superclass) => class extends superclass {
         if (window.history) {
             window.addEventListener('popstate', (event) => {
                 const data = (!!event.state && !!event.state[paramName]) ? event.state[paramName] : null;
-                this._onHistoryChanged(data);
+                this.onHistoryChanged(data);
             });
         }
     }

@@ -1,1 +1,1 @@
-require('jquery-placeholder');
+import 'jquery-placeholder';

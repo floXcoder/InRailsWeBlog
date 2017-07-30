@@ -15,7 +15,7 @@ const TrackerMixin = (superclass) => class extends superclass {
 
         $.ajax({
             url: url,
-            // async: false,
+            async: false,
             dataType: 'json',
             type: 'POST',
             data: requestParam
