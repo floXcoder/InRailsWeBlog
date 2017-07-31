@@ -1,17 +1,18 @@
 'use strict';
 
-const NotificationStack = require('react-notification').NotificationStack;
-const OrderedSet = require('immutable').OrderedSet;
+import {NotificationStack} from 'react-notification';
+import {OrderedSet} from 'immutable';
 
 class Notification extends React.Component {
-    state = {
-        notifications: OrderedSet()
-    };
-
     constructor(props) {
         super(props);
     }
 
+    state = {
+        notifications: OrderedSet()
+    };
+
+    // Time in seconds
     alert = (message, time = 5, actionButton, actionCallback) => {
         this._add('alert', message, time, actionButton, actionCallback);
     };

@@ -3,12 +3,12 @@
 export default class Select extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
-        default: PropTypes.string.isRequired,
         options: PropTypes.oneOfType([
             PropTypes.object,
             PropTypes.array
         ]).isRequired,
         title: PropTypes.string.isRequired,
+        default: PropTypes.string,
         className: PropTypes.string,
         children: PropTypes.oneOfType([
             PropTypes.string,
@@ -29,6 +29,7 @@ export default class Select extends React.Component {
     };
 
     static defaultProps = {
+        default: null,
         children: null,
         name: null,
         className: null,
@@ -200,10 +201,13 @@ export default class Select extends React.Component {
                             value={value}
                             onChange={this._handleSelectChange}
                             {...this.props.validator}>
-                        <option value="default"
-                                disabled="true">
-                            {this.props.default}
-                        </option>
+                        {
+                            this.props.default &&
+                            <option value="default"
+                                    disabled="true">
+                                {this.props.default}
+                            </option>
+                        }
                         {SelectOptions}
                     </select>
 

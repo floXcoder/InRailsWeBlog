@@ -52,12 +52,12 @@ class Tag extends React.PureComponent {
         return content;
     };
 
-    _onClick = (event) => {
-        event.preventDefault();
-        if (this.props.addable) {
-            this.props.onAdd(event);
-        }
-    };
+    // _onClick = (event) => {
+    //     event.preventDefault();
+    //     if (this.props.addable) {
+    //         this.props.onAdd(event);
+    //     }
+    // };
 
     _onDelete = (event) => {
         // Prevents onClick event of the whole tag from being triggered
@@ -118,7 +118,7 @@ class CategorizedInput extends React.Component {
     }
 
     focusInput = () => {
-        this.refs.input.focus();
+        this._input.focus();
     };
 
     getSelectedTags = () => {
@@ -154,8 +154,8 @@ class CategorizedInput extends React.Component {
             <div className="cti__input"
                  onClick={this.focusInput}>
                 {this.getSelectedTags()}
-                <input type="text"
-                       ref="input"
+                <input ref={(input) => this._input = input}
+                       type="text"
                        id={this.props.id}
                        name={this.props.name}
                        value={this.props.value}
@@ -215,7 +215,7 @@ class Category extends React.Component {
     };
 
     itemToTag = (value, i) => {
-        if (this.props.overhead && i == this.props.overhead) {
+        if (this.props.overhead && i === this.props.overhead) {
             return (
                 <div key={value + '_' + i}
                      className='cti__tag__overhead'>
@@ -392,6 +392,10 @@ class CategorizedTagInput extends React.Component {
         maxAutocompleteValue: '...'
     };
 
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         value: '',
         selection: {
@@ -404,10 +408,6 @@ class CategorizedTagInput extends React.Component {
         animateTagValue: null,
         addNew: this.props.addNew === undefined ? true : this.props.addNew
     };
-
-    constructor(props) {
-        super(props);
-    }
 
     componentWillMount() {
         if (!this.props.categories.every(isCategoryValid)) {
@@ -559,7 +559,7 @@ class CategorizedTagInput extends React.Component {
                 panelOpened: true
             });
 
-            this.refs.input.focusInput();
+            this._input.focusInput();
             if (typeof this.props.onChange === 'function') {
                 this.props.onChange(newTags);
             }
@@ -665,7 +665,8 @@ class CategorizedTagInput extends React.Component {
     render() {
         return (
             <div className='cti__root'>
-                <CategorizedInput id={this.props.id}
+                <CategorizedInput ref={(input) => this._input = input}
+                                  id={this.props.id}
                                   name={this.props.name}
                                   openPanel={this.openPanel}
                                   closePanel={this.closePanel}
@@ -677,8 +678,7 @@ class CategorizedTagInput extends React.Component {
                                   animateTagValue={this.state.animateTagValue}
                                   value={this.state.value}
                                   selectedTags={this.state.selectedTags}
-                                  onBlur={this.props.onBlur}
-                                  ref='input'/>
+                                  onBlur={this.props.onBlur}/>
                 {
                     this.state.panelOpened && this.state.value.length > 0
                         ?

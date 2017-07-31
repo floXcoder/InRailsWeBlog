@@ -1,33 +1,33 @@
 'use strict';
 
-const SearchBar = ({label, children, onSearchInput}) => (
-    <form className="tag-search"
-          onSubmit={_handleSubmit}>
-        <input id="search"
-               type="text"
-               name="search"
-               placeholder="Tag name ?"
-               onChange={onSearchInput}/>
+import Input from '../materialize/input';
 
-        <input id="search_submit"
-               type="submit"
-               value="Rechercher"/>
+const SearchBar = ({label, children, onUserInput}) => (
+    <form className="tag-search"
+          onSubmit={SearchBar._handleSubmit}>
+        <Input id="filter-text-input"
+               title={label}
+               onChange={(event) => SearchBar._handleSearchChange(onUserInput, event)}/>
     </form>
 );
 
-const _handleSubmit = () => {
+SearchBar._handleSearchChange = (onUserInput, event) => {
+    onUserInput(event.target.value);
+};
+
+SearchBar._handleSubmit = () => {
     return false;
 };
 
 SearchBar.propTypes = {
     label: PropTypes.string.isRequired,
     children: PropTypes.string,
-    onSearchInput: PropTypes.func
+    onUserInput: PropTypes.func
 };
 
 SearchBar.defaultProps = {
     children: null,
-    onSearchInput: null
+    onUserInput: null
 };
 
 export default SearchBar;

@@ -1,4 +1,21 @@
-@import 'materialize-css/sass/materialize';
+@import 'materialize-css/sass/components/variables';
+@import 'materialize-css/sass/components/normalize';
+@import 'materialize-css/sass/components/global';
+@import 'materialize-css/sass/components/grid';
+@import 'materialize-css/sass/components/navbar';
+@import 'materialize-css/sass/components/typography';
+@import 'materialize-css/sass/components/cards';
+@import 'materialize-css/sass/components/tabs';
+@import 'materialize-css/sass/components/tooltip';
+@import 'materialize-css/sass/components/buttons';
+@import 'materialize-css/sass/components/dropdown';
+@import 'materialize-css/sass/components/waves';
+@import 'materialize-css/sass/components/modal';
+@import 'materialize-css/sass/components/collapsible';
+@import 'materialize-css/sass/components/chips';
+@import 'materialize-css/sass/components/forms/forms';
+@import 'materialize-css/sass/components/sideNav';
+@import 'materialize-css/sass/components/preloader';
 @import 'base/material-design';
 
 .container {
@@ -216,6 +233,40 @@ input[type="digits"] {
   }
 }
 
+@for $i from 0 through 20 {
+  .margin-bottom-#{$i * 5} {
+    clear: both;
+    margin-bottom: $i * 5px !important;
+  }
+
+  .margin-top-#{$i * 5} {
+    clear: both;
+    margin-top: $i * 5px !important;
+  }
+}
+
+@for $i from 0 through 10 {
+  @media (max-width: $small-screen) {
+    .sm-margin-top-#{$i * 10} {
+      margin-top: $i * 10px !important;
+    }
+
+    .sm-margin-bottom-#{$i * 10} {
+      margin-bottom: $i * 10px !important;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    .md-margin-top-#{$i * 10} {
+      margin-top: $i * 10px !important;
+    }
+
+    .md-margin-bottom-#{$i * 10} {
+      margin-bottom: $i * 10px !important;
+    }
+  }
+}
+
 // Media queries
 .hide-on-med-to-large-only {
   @media only screen and (min-width: $medium-screen) and (max-width: $large-screen) {
@@ -263,6 +314,11 @@ input[type="digits"] {
   .input-field-explanation {
     margin-top: -20px;
   }
+
+  label.important {
+    font-size: 1rem;
+    font-weight: 600;
+  }
 }
 
 .input-field-explanation {
@@ -282,37 +338,41 @@ input[type="checkbox"] + label {
   padding: 1.5rem;
 }
 
-.collection .collection-item.avatar {
-  .title {
-    line-height: 2.2rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.collection {
+  overflow: visible;
+
+  &.without-border {
+    border: 0;
   }
 
-  .summary {
-    font-size: .9rem;
-    font-style: italic;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  .collection-item.avatar {
+    .title {
+      line-height: 2.2rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-  .secondary-content {
-    bottom: -6px;
-    right: 6px;
-    top: auto;
-  }
-}
+    .summary {
+      font-size: .9rem;
+      font-style: italic;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-.toast {
-  word-break: initial;
+    .secondary-content {
+      bottom: -6px;
+      right: 6px;
+      top: auto;
+    }
+  }
 }
 
 // Filled in Style
 [type="checkbox"].invalid {
   + label:after {
-    border: 2px solid $input-error-color !important;
+    border: 2px solid $error-color !important;
     //content: attr(data-error);
   }
 }
@@ -346,14 +406,6 @@ input[type="checkbox"] + label {
   }
 }
 
-// Important input label
-.input-field {
-  label.important {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-}
-
 // Horizontal form input
 .input-horizontal-field {
   margin-top: 1rem;
@@ -379,15 +431,6 @@ input[type="checkbox"] + label {
 
   .materialize-textarea {
     min-height: 5rem;
-  }
-}
-
-// Collection display
-.collection {
-  overflow: visible;
-
-  &.without-border {
-    border: 0;
   }
 }
 
@@ -427,4 +470,12 @@ input[type="checkbox"] + label {
     margin: 12px 0;
     text-transform: uppercase;
   }
+}
+
+// Show full text button
+.btn-full-text {
+  height: 100%;
+  line-height: 28px;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }

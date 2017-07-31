@@ -28,21 +28,21 @@ const CommentItem = (props) => {
             <div id={`comment-${props.id}`}
                  className="comment-item">
                 {
-                    (props.ownerId === props.user.id && !props.askedForDeletion) &&
+                    (props.ownerId === props.user.id && !props.isAskedForDeletion) &&
                     <span className="comment-reply-owner">
                         {I18n.t('js.comment.reply.owner')}
                     </span>
                 }
 
                 {
-                    props.askedForDeletion &&
+                    props.isAskedForDeletion &&
                     <span className="comment-ask-for-deletion">
                         {I18n.t('js.comment.reply.ask_for_deletion')}
                     </span>
                 }
 
                 {
-                    (props.ownerId !== props.user.id && !props.askedForDeletion) &&
+                    (props.ownerId !== props.user.id && !props.isAskedForDeletion) &&
                     <UserAvatarIcon user={props.user}/>
                 }
 
@@ -81,7 +81,7 @@ CommentItem.propTypes = {
     title: PropTypes.string,
     rating: PropTypes.number,
     isModifying: PropTypes.bool,
-    askedForDeletion: PropTypes.bool,
+    isAskedForDeletion: PropTypes.bool,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func,
     isAskingForDeletion: PropTypes.bool,
@@ -95,7 +95,7 @@ CommentItem.defaultProps = {
     title: null,
     rating: null,
     isModifying: false,
-    askedForDeletion: false,
+    isAskedForDeletion: false,
     onCancel: null,
     onSubmit: null,
     isAskingForDeletion: false,

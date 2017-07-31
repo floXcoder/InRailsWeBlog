@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 export default class Rating extends React.PureComponent {
     static propTypes = {
         initialRating: PropTypes.number,
@@ -33,17 +31,17 @@ export default class Rating extends React.PureComponent {
         labelName: null
     };
 
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         value: this.props.initialRating,
         prospectiveValue: 0
     };
 
-    constructor(props) {
-        super(props);
-    }
-
     shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(this.state, nextState);
+        return this.state.value !== nextState.value && this.state.prospectiveValue !== nextState.prospectiveValue;
     }
 
     anchorMode = (value) => {
@@ -74,7 +72,7 @@ export default class Rating extends React.PureComponent {
         });
 
         if (this.props.hasInput && this.props.inputId) {
-            this.refs.ratingInput.value = value;
+            this._ratingInput.value = value;
         }
 
         if (this.props.onChange) {
@@ -122,7 +120,6 @@ export default class Rating extends React.PureComponent {
                         <a className="star-rating-clear"
                            title="Clear"
                            href=""
-                           ref="s0"
                            style={this.props.hasClear ? null : {display: 'none'}}
                            onClick={!this.props.isReadOnly ? this._handleMouseClick.bind(this, 0) : null}>
                             {I18n.t('js.rating.clear')}
@@ -130,16 +127,16 @@ export default class Rating extends React.PureComponent {
                     </div>
 
                     {/*<meta itemProp="ratingValue"*/
-                        /*content={this.props.initialRating}/>*/}
+                          /*content={this.props.initialRating}/>*/}
 
                     {
                         /*this.props.ratingCount &&*/
                         /*<meta itemProp="reviewCount"*/
-                        /*content={this.props.ratingCount}/>*/
+                              /*content={this.props.ratingCount}/>*/
                     }
 
                     {
-                        _.times(this.props.starNumber, (i) => {
+                        [...Array(this.props.starNumber)].map((number, i) => {
                             let value = i + 1;
                             let mode = this.anchorMode(i + 1);
 
@@ -149,8 +146,7 @@ export default class Rating extends React.PureComponent {
                             return (
                                 <div key={i}
                                      className="star-rating-star-container">
-                                    <a ref={'s' + value}
-                                       className={linkClasses}
+                                    <a className={linkClasses}
                                        title={value}
                                        onMouseEnter={!this.props.isReadOnly ? this._handleMouseEnter.bind(this, value) : null}
                                        onMouseLeave={!this.props.isReadOnly ? this._handleMouseLeave : null}
@@ -166,7 +162,7 @@ export default class Rating extends React.PureComponent {
 
                     {
                         this.props.hasInput &&
-                        <input ref="ratingInput"
+                        <input ref={(ratingInput) => this._ratingInput = ratingInput}
                                id={this.props.inputId}
                                name={name}
                                type="hidden"/>

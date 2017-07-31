@@ -244,7 +244,7 @@ export default class CommentList extends React.PureComponent {
                                                  rating={this.props.isRated ? comment.rating : null}
                                                  commentId={comment.id}
                                                  parentCommentId={comment.parent_id}
-                                                 askedForDeletion={comment.ask_for_deletion}
+                                                 isAskedForDeletion={comment.ask_for_deletion}
                                                  isModifying={this.state.modifyCommentIndex === index}
                                                  onCancel={this._handleModifyCancel}
                                                  onSubmit={this._handleModifySubmit}>

@@ -24,13 +24,13 @@ export default class Button extends React.PureComponent {
         onButtonClick: null
     };
 
-    state = {
-        isDisabled: false
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        isDisabled: false
+    };
 
     componentDidMount() {
         if (this.props.tooltip) {

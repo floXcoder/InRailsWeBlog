@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../modules/validation';
+
 export default class Form extends React.Component {
     static propTypes = {
         children: PropTypes.oneOfType([

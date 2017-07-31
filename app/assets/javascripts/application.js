@@ -4,7 +4,7 @@
 import 'jquery-ujs';
 
 // Materialize
-import 'materialize-css/dist/js/materialize';
+import './common/materialize';
 
 // Expose global variables
 import './modules/utils';

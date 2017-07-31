@@ -81,21 +81,13 @@ export default class Input extends React.Component {
         validator: null
     };
 
-    state = {
-        value: this.props.children || ''
-    };
-
     constructor(props) {
         super(props);
     }
 
-    componentDidMount() {
-        if (this.props.characterCount) {
-            const $currentElement = $(ReactDOM.findDOMNode(this.refs[this.props.id]));
-            $currentElement.attr('length', this.props.characterCount);
-            // $currentElement.characterCounter();
-        }
-    }
+    state = {
+        value: this.props.children || ''
+    };
 
     shouldComponentUpdate(nextProps, nextState) {
         return !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.isRequired, nextProps.isRequired) || !_.isEqual(this.props.validator, nextProps.validator);
@@ -217,6 +209,7 @@ export default class Input extends React.Component {
                            onKeyUp={this.props.onKeyUp}
                            onBlur={this.props.onBlur}
                            value={this.state.value}
+                           data-length={this.props.characterCount}
                            {...this.props.validator}
                            {...this.props.mask}/>
 

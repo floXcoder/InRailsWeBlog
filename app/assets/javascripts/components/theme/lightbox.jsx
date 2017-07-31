@@ -12,25 +12,27 @@ export default class LightBox extends React.Component {
             user: PropTypes.object
         })).isRequired,
         id: PropTypes.string,
-        fullFormat: PropTypes.bool,
-        hasSlider: PropTypes.bool
+        isFullFormat: PropTypes.bool,
+        hasSlider: PropTypes.bool,
+        isSliderAbove: PropTypes.bool
     };
 
     static defaultProps = {
         id: null,
-        fullFormat: false,
-        hasSlider: false
+        isFullFormat: false,
+        hasSlider: false,
+        isSliderAbove: false
     };
+
+    constructor(props) {
+        super(props);
+    }
 
     state = {
         pictureIndex: 0,
         isOpen: false,
         sliderIndex: 0
     };
-
-    constructor(props) {
-        super(props);
-    }
 
     _handleSliderClick = (sliderIndex) => {
         this.setState({
@@ -64,12 +66,12 @@ export default class LightBox extends React.Component {
     render() {
         const currentPicture = this.props.children[this.state.pictureIndex];
 
-        let imageTitle =
+        const imageTitle = (
             <span>
-            {
-                currentPicture.title &&
-                currentPicture.title
-            }
+                {
+                    currentPicture.title &&
+                    currentPicture.title
+                }
 
                 {
                     currentPicture.copyright &&
@@ -78,32 +80,61 @@ export default class LightBox extends React.Component {
 
                 {
                     (!currentPicture.copyright && currentPicture.user && currentPicture.user.id !== 1) &&
-                    <span> ({I18n.t('js.picture.copyright.default')} <a
-                        href={`/users/${currentPicture.user.slug}`}>{currentPicture.user.pseudo}</a>)</span>
+                    <span>
+                        {` (${I18n.t('js.picture.copyright.default')} `}
+                        <a href={`/users/${currentPicture.user.slug}`}>{currentPicture.user.pseudo}</a>
+                        )
+                    </span>
                 }
-        </span>;
+            </span>
+        );
+
+        const slider = (
+            <div className="lightbox-slider">
+                <div className="lightbox-slider-footer">
+                    <ul className="lightbox-slider-thumbnails">
+                        {
+                            this.props.children.map((picture, i) =>
+                                <li key={i}
+                                    className={classNames('lightbox-slider-thumbnail', {'lightbox-slider-thumbnail-selected': i === this.state.sliderIndex})}
+                                    onClick={this._handleSliderClick.bind(this, i)}>
+                                    <img src={picture.thumbnail}
+                                         alt={picture.title}/>
+                                </li>
+                            )
+                        }
+                    </ul>
+                </div>
+            </div>
+        );
 
         return (
             <div id={this.props.id}
                  className="lightbox">
                 {
                     !this.props.hasSlider &&
-                    this.props.children.map((picture, i) =>
-                        <img key={i}
-                             className={classNames('img-helper', {
-                                 'lightbox-img-full': this.props.fullFormat,
-                                 'lightbox-img-thumbnail': !this.props.fullFormat
-                             })}
-                             src={!!picture.thumbnail ? picture.thumbnail : picture.src}
-                             alt={picture.title}
-                             itemProp="image"
-                             onClick={this.openLightBox.bind(this, i)}/>
+                    this.props.children.map((picture, i) => (
+                            <img key={i}
+                                 className={classNames('img-helper', {
+                                     'lightbox-img-full': this.props.isFullFormat,
+                                     'lightbox-img-thumbnail': !this.props.isFullFormat
+                                 })}
+                                 src={!!picture.thumbnail ? picture.thumbnail : picture.src}
+                                 alt={picture.title}
+                                 itemProp="image"
+                                 onClick={this.openLightBox.bind(this, i)}/>
+                        )
                     )
                 }
 
                 {
                     this.props.hasSlider &&
                     <div className="lightbox-slider">
+                        {
+                            this.props.isSliderAbove &&
+                            slider
+                        }
+
                         <div className="lightbox-slider-main">
                             <img className="lightbox-img-full"
                                  src={this.props.children[this.state.sliderIndex].src}
@@ -111,20 +142,10 @@ export default class LightBox extends React.Component {
                                  onClick={this.openLightBox.bind(this, this.state.sliderIndex)}/>
                         </div>
 
-                        <div className="lightbox-slider-footer">
-                            <ul className="lightbox-slider-thumbnails">
-                                {
-                                    this.props.children.map((picture, i) =>
-                                        <li key={i}
-                                            className={classNames('lightbox-slider-thumbnail', {'lightbox-slider-thumbnail-selected': i === this.state.sliderIndex})}
-                                            onClick={this._handleSliderClick.bind(this, i)}>
-                                            <img src={picture.thumbnail}
-                                                 alt={picture.title}/>
-                                        </li>
-                                    )
-                                }
-                            </ul>
-                        </div>
+                        {
+                            !this.props.isSliderAbove &&
+                            slider
+                        }
                     </div>
                 }
 

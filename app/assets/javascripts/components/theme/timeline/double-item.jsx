@@ -2,7 +2,7 @@
 
 const DoubleTimelineItem = (props) => (
     <div className="timeline-block">
-        <div className="timeline-icon red lighten-2 white-text">
+        <div className="timeline-icon">
             <i className="material-icons">{props.icon}</i>
         </div>
 

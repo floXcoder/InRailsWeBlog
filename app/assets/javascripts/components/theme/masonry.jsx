@@ -24,6 +24,12 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         onPaginationClick: null
     };
 
+    constructor(props) {
+        super(props);
+
+        this.masonry = null;
+    }
+
     state = {
         Masonry: null,
         masonryOptions: {
@@ -34,15 +40,9 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         exposedComponents: {}
     };
 
-    constructor(props) {
-        super(props);
-
-        this.masonry = null;
-    }
-
     componentWillMount() {
         if (this.props.isActive) {
-            MasonryLoader().then(({Masonry}) => {
+            MasonryLoader(({Masonry}) => {
                 this.setState({Masonry: Masonry});
             });
         }

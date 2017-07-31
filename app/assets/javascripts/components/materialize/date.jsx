@@ -32,13 +32,13 @@ export default class Date extends React.PureComponent {
         validator: null
     };
 
-    state = {
-        dateSelected: false
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        dateSelected: false
+    };
 
     componentDidMount() {
         let name = this.props.name;

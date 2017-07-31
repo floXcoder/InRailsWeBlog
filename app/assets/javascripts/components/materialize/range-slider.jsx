@@ -32,13 +32,13 @@ export default class RangeSlider extends React.Component {
         onSliderChange: null
     };
 
-    state = {
-        values: null
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        values: null
+    };
 
     componentDidMount() {
         let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
@@ -66,12 +66,12 @@ export default class RangeSlider extends React.Component {
         sliderIdSelector.noUiSlider.on('update', (values, handle) => {
             if (!this.props.hasInputForDefaultValues) {
                 if (!_.isEqual(this.props.range, values)) {
-                    this.refs.sliderInputValues.value = values;
+                    this._sliderInputValues.value = values;
                 } else {
-                    this.refs.sliderInputValues.value = null;
+                    this._sliderInputValues.value = null;
                 }
             } else {
-                this.refs.sliderInputValues.value = values;
+                this._sliderInputValues.value = values;
             }
 
             if (this.props.onSliderChange) {
@@ -90,7 +90,7 @@ export default class RangeSlider extends React.Component {
     }
 
     values = () => {
-        return this.refs.sliderInputValues.value;
+        return this._sliderInputValues.value;
     };
 
     setValues = (values) => {
@@ -153,7 +153,7 @@ export default class RangeSlider extends React.Component {
                     }
                 </div>
 
-                <input ref="sliderInputValues"
+                <input ref={(sliderInputValues) => this._sliderInputValues = sliderInputValues}
                        id={id}
                        name={name}
                        type="hidden"/>

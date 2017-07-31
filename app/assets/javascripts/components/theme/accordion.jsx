@@ -5,26 +5,26 @@ class AccordionItem extends React.Component {
         title: PropTypes.string.isRequired,
         children: PropTypes.oneOfType([
             PropTypes.element,
-            PropTypes.arrayOf(PropTypes.element)
+            PropTypes.array
         ]).isRequired,
         isOpen: PropTypes.bool.isRequired,
         id: PropTypes.string,
-        onHeaderClicked: PropTypes.func
+        onHeaderClick: PropTypes.func
     };
 
     static defaultProps = {
         id: null,
         isOpen: true,
-        onHeaderClicked: null
-    };
-
-    state = {
-        isOpen: this.props.isOpen
+        onHeaderClick: null
     };
 
     constructor(props) {
         super(props);
     }
+
+    state = {
+        isOpen: this.props.isOpen
+    };
 
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -45,8 +45,8 @@ class AccordionItem extends React.Component {
             });
         }
 
-        if (this.props.onHeaderClicked && !this.state.isOpen) {
-            this.props.onHeaderClicked();
+        if (this.props.onHeaderClick) {
+            this.props.onHeaderClick(this.state.isOpen);
         }
     };
 

@@ -39,14 +39,14 @@ export default class Checkbox extends React.PureComponent {
         validator: null
     };
 
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         isChecked: (this.props.children === true || this.props.children === '1' || this.props.children === 'on' || this.props.isDefaultChecked) && this.props.children !== false,
         isValid: true
     };
-
-    constructor(props) {
-        super(props);
-    }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.children !== nextProps.children) {

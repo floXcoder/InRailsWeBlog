@@ -13,14 +13,16 @@ export default class Modal extends React.Component {
         launcherId: PropTypes.string,
         launcherClass: PropTypes.string,
         isBottom: PropTypes.bool,
-        onOpen: PropTypes.func
+        onOpen: PropTypes.func,
+        onClose: PropTypes.func
     };
 
     static defaultProps = {
         launcherId: null,
         launcherClass: null,
         isBottom: false,
-        onOpen: null
+        onOpen: null,
+        onClose: null
     };
 
     constructor(props) {
@@ -43,6 +45,11 @@ export default class Modal extends React.Component {
                 ready: () => {
                     if (this.props.onOpen) {
                         this.props.onOpen();
+                    }
+                },
+                complete: () => {
+                    if (this.props.onClose) {
+                        this.props.onClose();
                     }
                 }
             }

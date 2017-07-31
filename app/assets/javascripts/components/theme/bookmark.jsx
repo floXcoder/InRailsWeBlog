@@ -18,6 +18,12 @@ export default class Bookmark extends Reflux.Component {
         bookmarkCount: 0
     };
 
+    constructor(props) {
+        super(props);
+
+        this.mapStoreToState(UserStore, this.onUserChange);
+    }
+
     state = {
         isBookmarked: (() => {
             if (this.props.isBookmarked === true) {
@@ -38,12 +44,6 @@ export default class Bookmark extends Reflux.Component {
             }
         })()
     };
-
-    constructor(props) {
-        super(props);
-
-        this.mapStoreToState(UserStore, this.onUserChange);
-    }
 
     componentDidMount() {
         if (this.props.isIcon) {

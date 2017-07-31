@@ -33,6 +33,11 @@ export default class ShowMore extends React.PureComponent {
     }
 
     render() {
+        let content = this.props.children;
+        if (!/^<p>/.test(content) || !/^<div>/.test(content)) {
+            content = '<p>' + content + '</p>';
+        }
+
         return (
             <div id={`read-more-${this.props.id}`}
                  className={this.props.className}>
@@ -44,7 +49,7 @@ export default class ShowMore extends React.PureComponent {
                     <div ref={(showMoreText) => this._showMoreText = showMoreText}
                          className="read-more-content"
                          itemProp="description"
-                         dangerouslySetInnerHTML={{__html: this.props.children}}/>
+                         dangerouslySetInnerHTML={{__html: content}}/>
                 </div>
 
                 <label htmlFor={this.props.id}

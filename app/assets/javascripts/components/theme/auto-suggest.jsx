@@ -24,10 +24,11 @@ export default class AutoSuggest extends React.Component {
         minLength: PropTypes.number,
         limit: PropTypes.number,
         isAsync: PropTypes.bool,
-        onFetchSuggestions: PropTypes.func,
         isHorizontal: PropTypes.bool,
         labelClass: PropTypes.string,
-        children: PropTypes.string
+        children: PropTypes.string,
+        onFetchSuggestions: PropTypes.func,
+        onBlur: PropTypes.func
     };
 
     static defaultProps = {
@@ -42,11 +43,16 @@ export default class AutoSuggest extends React.Component {
         minLength: 3,
         limit: 10,
         isAsync: false,
-        onFetchSuggestions: null,
         children: null,
         labelClass: null,
-        isHorizontal: false
+        isHorizontal: false,
+        onFetchSuggestions: null,
+        onBlur: null
     };
+
+    constructor(props) {
+        super(props);
+    }
 
     state = {
         value: this.props.children || '',
@@ -55,10 +61,6 @@ export default class AutoSuggest extends React.Component {
         isLoading: false,
         suggestions: [],
     };
-
-    constructor(props) {
-        super(props);
-    }
 
     // _getSuggestions = (value) => {
     //     const escapedValue = value.trim().escapeRegexCharacters();
@@ -102,6 +104,10 @@ export default class AutoSuggest extends React.Component {
         this.setState({
             isActiveLabel: false
         });
+
+        if (this.props.onBlur) {
+            this.props.onBlur(event.target.value);
+        }
 
         return event;
     };
@@ -256,8 +262,7 @@ export default class AutoSuggest extends React.Component {
                 </label>
 
                 <div className={inputClass}>
-                    <ReactAutoSuggest ref="autoSuggest"
-                                      id={this.props.id}
+                    <ReactAutoSuggest id={this.props.id}
                                       suggestions={suggestions}
                                       onSuggestionsFetchRequested={this._handleSuggestionsFetchRequested}
                                       onSuggestionsClearRequested={this._handleSuggestionsClearRequested}

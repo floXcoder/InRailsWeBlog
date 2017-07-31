@@ -131,6 +131,11 @@ export default class DropZone extends Reflux.Component {
     };
 
     _sending = (file, xhr, formData) => {
+        if (/[~`!#$%\^&*+=\[\]\\';,/{}|\\":<>?]/g.test(file.name)) {
+            alert(I18n.t('js.drop_zone.error.special_characters', {name: file.name}));
+            this._dropZone.removeFile(file)
+        }
+
         let uploadData = this.props.defaultData || {};
 
         if (this.props.isAutoUploaded) {
@@ -256,7 +261,7 @@ export default class DropZone extends Reflux.Component {
             success: this._success
         };
 
-        let maxFileSize = window.parameters.image_size / (1024 * 1024);
+        let maxFileSize = window.settings.image_size / (1024 * 1024);
         if (this.props.acceptedFiles && this.props.maxFileSize) {
             maxFileSize = this.props.maxFileSize;
         }
@@ -287,15 +292,29 @@ export default class DropZone extends Reflux.Component {
             thumbnailWidth: 160,
             previewTemplate: ReactDOMServer.renderToStaticMarkup(
                 <div className="dz-preview dz-file-preview">
-                    <div className="dz-image"><img data-dz-thumbnail={true}/></div>
-                    <div className="dz-details">
-                        <div className="dz-size" data-dz-size={true}></div>
-                        <div className="dz-filename"><span data-dz-name={true}/></div>
+                    <div className="dz-image">
+                        <img data-dz-thumbnail={true}/>
                     </div>
-                    <div className="dz-progress"><span className="dz-upload" data-dz-uploadprogress={true}/></div>
-                    <div className="dz-error-message"><span data-dz-errormessage={true}/></div>
-                    <div className="dz-success-mark"><span>✔</span></div>
-                    <div className="dz-error-mark"><span>✘</span></div>
+                    <div className="dz-details">
+                        <div className="dz-size"
+                             data-dz-size={true}/>
+                        <div className="dz-filename">
+                            <span data-dz-name={true}/>
+                        </div>
+                    </div>
+                    <div className="dz-progress">
+                        <span className="dz-upload"
+                              data-dz-uploadprogress={true}/>
+                    </div>
+                    <div className="dz-error-message">
+                        <span data-dz-errormessage={true}/>
+                    </div>
+                    <div className="dz-success-mark">
+                        <span>✔</span>
+                    </div>
+                    <div className="dz-error-mark">
+                        <span>✘</span>
+                    </div>
 
                     {
                         this.props.isAutoUploaded &&

@@ -38,7 +38,7 @@ export default class Progress extends React.PureComponent {
             <div className="progress"
                  style={completionStyle}>
                 <div className="determinate"
-                     style={progressStyle}></div>
+                     style={progressStyle}/>
             </div>
         );
     }

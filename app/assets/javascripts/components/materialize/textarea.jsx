@@ -46,13 +46,13 @@ export default class Textarea extends React.Component {
         validator: null
     };
 
-    state = {
-        hasValue: false
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        hasValue: false
+    };
 
     componentDidMount() {
         if (this.props.characterCount) {

@@ -31,14 +31,14 @@ export default class FormWizard extends React.Component {
         onNextClick: null
     };
 
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         totalSteps: this.props.children.length - 1,
         currentStep: (() => ($.getUrlAnchor() && $.getUrlAnchor().includes(this.props.id)) ? parseInt($.getUrlAnchor().replace(this.props.id, ''), 10) : 0)(),
     };
-
-    constructor(props) {
-        super(props);
-    }
 
     _handleStepClick = (i) => {
         if (this.state.currentStep < i) {
@@ -208,7 +208,10 @@ export default class FormWizard extends React.Component {
                                 :
                                 <a className={nextClasses}
                                    onClick={this._handleNextClick.bind(this, 1)}>
-                                    <i className="material-icons right">chevron_right</i>
+                                    {
+                                        !isLastStep &&
+                                        <i className="material-icons right">chevron_right</i>
+                                    }
                                     {
                                         (isLastStep && this.props.lastButton)
                                             ?
