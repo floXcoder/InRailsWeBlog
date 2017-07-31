@@ -19,6 +19,9 @@ Metrics/AbcSize:
   # The ABC size is a calculated magnitude, so this number can be a Fixnum or a Float.
   Max: 60
 
+Metrics/BlockLength:
+  Max: 90
+
 Metrics/BlockNesting:
   Max: 4
 
@@ -46,6 +49,9 @@ Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 
 Style/ColonMethodCall:
+  Enabled: false
+
+Style/CommandLiteral:
   Enabled: false
 
 Style/ExtraSpacing:
