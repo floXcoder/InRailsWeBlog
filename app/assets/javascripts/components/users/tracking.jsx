@@ -23,7 +23,7 @@ const UserTracking = ({tracking}) => {
 };
 
 UserTracking.propTypes = {
-    tracking: React.PropTypes.object.isRequired
+    tracking: PropTypes.object.isRequired
 };
 
 export default UserTracking;

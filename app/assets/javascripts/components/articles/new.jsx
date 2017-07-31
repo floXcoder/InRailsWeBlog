@@ -12,9 +12,9 @@ import 'jquery-serializejson';
 
 export default class ArticleNew extends Reflux.Component {
     static propTypes = {
-        router: React.PropTypes.object.isRequired,
-        location: React.PropTypes.object,
-        multipleId: React.PropTypes.number
+        router: PropTypes.object.isRequired,
+        location: PropTypes.object,
+        multipleId: PropTypes.number
     };
 
     static defaultProps = {
@@ -22,16 +22,16 @@ export default class ArticleNew extends Reflux.Component {
         multipleId: null
     };
 
-    state = {
-        draftArticle: null,
-        articleErrors: null
-    };
-
     constructor(props) {
         super(props);
 
         this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
+
+    state = {
+        draftArticle: null,
+        articleErrors: null
+    };
 
     componentWillMount() {
         if (this.props.location.state && this.props.location.state.article) {

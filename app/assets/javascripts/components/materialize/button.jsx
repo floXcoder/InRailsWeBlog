@@ -4,14 +4,14 @@ import _ from 'lodash';
 
 export default class Button extends React.PureComponent {
     static propTypes = {
-        children: React.PropTypes.string.isRequired,
-        id: React.PropTypes.string,
-        type: React.PropTypes.string,
-        className: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        iconPosition: React.PropTypes.string,
-        tooltip: React.PropTypes.string,
-        onButtonClick: React.PropTypes.func
+        children: PropTypes.string.isRequired,
+        id: PropTypes.string,
+        type: PropTypes.string,
+        className: PropTypes.string,
+        icon: PropTypes.string,
+        iconPosition: PropTypes.string,
+        tooltip: PropTypes.string,
+        onButtonClick: PropTypes.func
     };
 
     static defaultProps = {

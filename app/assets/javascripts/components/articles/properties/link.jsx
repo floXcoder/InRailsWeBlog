@@ -14,8 +14,8 @@ const ArticleLink = ({article, onArticleClick}) => (
 );
 
 ArticleLink.propTypes = {
-    article: React.PropTypes.object.isRequired,
-    onArticleClick: React.PropTypes.func
+    article: PropTypes.object.isRequired,
+    onArticleClick: PropTypes.func
 };
 
 ArticleLink.getDefaultProps = {

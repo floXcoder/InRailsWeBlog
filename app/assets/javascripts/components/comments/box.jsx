@@ -16,18 +16,18 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class CommentBox extends Reflux.Component {
     static propTypes = {
-        commentableId: React.PropTypes.number.isRequired,
-        isUserConnected: React.PropTypes.bool.isRequired,
-        isUserOwner: React.PropTypes.bool.isRequired,
-        ownerId: React.PropTypes.number.isRequired,
-        currentUserId: React.PropTypes.number,
-        commentableType: React.PropTypes.string,
-        id: React.PropTypes.string,
-        initialComments: React.PropTypes.array,
-        commentsCount: React.PropTypes.number,
-        isPaginated: React.PropTypes.bool,
-        isRated: React.PropTypes.bool,
-        isUserAdmin: React.PropTypes.bool
+        commentableId: PropTypes.number.isRequired,
+        isUserConnected: PropTypes.bool.isRequired,
+        isUserOwner: PropTypes.bool.isRequired,
+        ownerId: PropTypes.number.isRequired,
+        currentUserId: PropTypes.number,
+        commentableType: PropTypes.string,
+        id: PropTypes.string,
+        initialComments: PropTypes.array,
+        commentsCount: PropTypes.number,
+        isPaginated: PropTypes.bool,
+        isRated: PropTypes.bool,
+        isUserAdmin: PropTypes.bool
     };
 
     static defaultProps = {
@@ -41,6 +41,12 @@ export default class CommentBox extends Reflux.Component {
         isUserAdmin: false
     };
 
+    constructor(props) {
+        super(props);
+
+        this.mapStoreToState(CommentStore, this.onCommentChange);
+    }
+
     state = {
         comments: [],
         commentsPagination: null,
@@ -48,12 +54,6 @@ export default class CommentBox extends Reflux.Component {
         isCommentsLoaded: false,
         isShowingCommentForm: false
     };
-
-    constructor(props) {
-        super(props);
-
-        this.mapStoreToState(CommentStore, this.onCommentChange);
-    }
 
     componentWillMount() {
         if (!$.isEmpty(this.props.initialComments)) {

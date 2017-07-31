@@ -14,8 +14,8 @@ import {Link} from 'react-router-dom';
 
 export default class TagEdit extends Reflux.Component {
     static propTypes = {
-        tagId: React.PropTypes.object,
-        params: React.PropTypes.object
+        tagId: PropTypes.object,
+        params: PropTypes.object
     };
 
     static defaultProps = {
@@ -23,15 +23,15 @@ export default class TagEdit extends Reflux.Component {
         params: {}
     };
 
-    state = {
-        tag: {}
-    };
-
     constructor(props) {
         super(props);
 
         this.mapStoreToState(TagStore, this.onTagChange);
     }
+
+    state = {
+        tag: {}
+    };
 
     componentWillMount() {
         TagActions.loadTag({

@@ -8,15 +8,15 @@ import CommentTableDisplay from './display/table';
 
 export default class CommentIndex extends Reflux.Component {
     static propTypes = {
-        comments: React.PropTypes.array,
-        limit: React.PropTypes.number,
-        userId: React.PropTypes.number,
-        isShowingLast: React.PropTypes.bool,
-        filters: React.PropTypes.object,
-        commentTotalPages: React.PropTypes.number,
-        isPaginated: React.PropTypes.bool,
-        onPaginationClick: React.PropTypes.func,
-        isTable: React.PropTypes.bool
+        comments: PropTypes.array,
+        limit: PropTypes.number,
+        userId: PropTypes.number,
+        isShowingLast: PropTypes.bool,
+        filters: PropTypes.object,
+        commentTotalPages: PropTypes.number,
+        isPaginated: PropTypes.bool,
+        onPaginationClick: PropTypes.func,
+        isTable: PropTypes.bool
     };
 
     static defaultProps = {
@@ -31,17 +31,17 @@ export default class CommentIndex extends Reflux.Component {
         isTable: false
     };
 
-    state = {
-        comments: this.props.comments || [],
-        commentsPagination: this.props.commentTotalPages ? {total_pages: this.props.commentTotalPages} : {},
-        isLoaded: false
-    };
-
     constructor(props) {
         super(props);
 
         this.mapStoreToState(CommentStore, this.onCommentChange);
     }
+
+    state = {
+        comments: this.props.comments || [],
+        commentsPagination: this.props.commentTotalPages ? {total_pages: this.props.commentTotalPages} : {},
+        isLoaded: false
+    };
 
     componentWillMount() {
         if (!this.props.comments) {

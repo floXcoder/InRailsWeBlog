@@ -3,7 +3,7 @@
 import Token from './token';
 import Typeahead from './typeahead';
 
-var KeyEvent = KeyEvent || {};
+let KeyEvent = KeyEvent || {};
 KeyEvent.DOM_VK_UP = KeyEvent.DOM_VK_UP || 38;
 KeyEvent.DOM_VK_DOWN = KeyEvent.DOM_VK_DOWN || 40;
 KeyEvent.DOM_VK_BACK_SPACE = KeyEvent.DOM_VK_BACK_SPACE || 8;
@@ -13,10 +13,10 @@ KeyEvent.DOM_VK_ESCAPE = KeyEvent.DOM_VK_ESCAPE || 27;
 KeyEvent.DOM_VK_TAB = KeyEvent.DOM_VK_TAB || 9;
 
 function _arraysAreDifferent(array1, array2) {
-    if (array1.length != array2.length) {
+    if (array1.length !== array2.length) {
         return true;
     }
-    for (var i = array2.length - 1; i >= 0; i--) {
+    for (let i = array2.length - 1; i >= 0; i--) {
         if (array2[i] !== array1[i]) {
             return true;
         }
@@ -30,36 +30,30 @@ function _arraysAreDifferent(array1, array2) {
  */
 export default class TypeaheadTokenizer extends React.Component {
     static propTypes = {
-        name: React.PropTypes.string,
-        options: React.PropTypes.array,
-        customClasses: React.PropTypes.object,
-        allowCustomValues: React.PropTypes.number,
-        defaultSelected: React.PropTypes.array,
-        defaultValue: React.PropTypes.string,
-        placeholder: React.PropTypes.string,
-        inputProps: React.PropTypes.object,
-        onTokenRemove: React.PropTypes.func,
-        onKeyDown: React.PropTypes.func,
-        onKeyUp: React.PropTypes.func,
-        onTokenAdd: React.PropTypes.func,
-        onFocus: React.PropTypes.func,
-        onBlur: React.PropTypes.func,
-        filterOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
+        name: PropTypes.string,
+        options: PropTypes.array,
+        customClasses: PropTypes.object,
+        allowCustomValues: PropTypes.number,
+        defaultSelected: PropTypes.array,
+        defaultValue: PropTypes.string,
+        placeholder: PropTypes.string,
+        inputProps: PropTypes.object,
+        onTokenRemove: PropTypes.func,
+        onKeyDown: PropTypes.func,
+        onKeyUp: PropTypes.func,
+        onTokenAdd: PropTypes.func,
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
+        filterOption: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func
         ]),
-        displayOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
+        displayOption: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func
         ]),
-        maxVisible: React.PropTypes.number,
-        hasDefaultClassNames: React.PropTypes.bool
-    };
-
-    state = {
-        // We need to copy this to avoid incorrect sharing
-        // of state across instances (e.g., via getDefaultProps())
-        selected: this.props.defaultSelected.slice(0)
+        maxVisible: PropTypes.number,
+        hasDefaultClassNames: PropTypes.bool
     };
 
     static defaultProps = {
@@ -85,6 +79,12 @@ export default class TypeaheadTokenizer extends React.Component {
         },
         onTokenRemove () {
         }
+    };
+
+    state = {
+        // We need to copy this to avoid incorrect sharing
+        // of state across instances (e.g., via getDefaultProps())
+        selected: this.props.defaultSelected.slice(0)
     };
 
     componentWillReceiveProps(nextProps) {
@@ -142,8 +142,8 @@ export default class TypeaheadTokenizer extends React.Component {
         // Remove token ONLY when bksp pressed at beginning of line
         // without a selection
         var entry = this.refs.typeahead.refs.entry;
-        if (entry.selectionStart == entry.selectionEnd &&
-            entry.selectionStart == 0) {
+        if (entry.selectionStart === entry.selectionEnd &&
+            entry.selectionStart === 0) {
             this._removeTokenForValue(
                 this.state.selected[this.state.selected.length - 1]);
             event.preventDefault();

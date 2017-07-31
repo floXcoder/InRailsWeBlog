@@ -1,8 +1,6 @@
 'use strict';
 
-// require('./admin');
-
-let ErrorIndex = require('../../../components/errors/index');
+import ErrorIndex from '../../../components/errors/index';
 
 // Main
 if ($app.isUserConnected()) {

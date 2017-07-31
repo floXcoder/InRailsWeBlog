@@ -14,15 +14,15 @@ var Keys = {
 
 export default class ReactTags extends React.Component {
     static propTypes = {
-        handleDelete: React.PropTypes.func.isRequired,
-        handleAddition: React.PropTypes.func.isRequired,
-        selectedTags: React.PropTypes.array,
-        placeholder: React.PropTypes.string,
-        tagList: React.PropTypes.array,
-        labelField: React.PropTypes.string,
-        isAutofocus: React.PropTypes.bool,
-        tagMinLength: React.PropTypes.number,
-        tagMaxLength: React.PropTypes.number
+        handleDelete: PropTypes.func.isRequired,
+        handleAddition: PropTypes.func.isRequired,
+        selectedTags: PropTypes.array,
+        placeholder: PropTypes.string,
+        tagList: PropTypes.array,
+        labelField: PropTypes.string,
+        isAutofocus: PropTypes.bool,
+        tagMinLength: PropTypes.number,
+        tagMaxLength: PropTypes.number
     };
 
     static defaultProps = {
@@ -35,6 +35,12 @@ export default class ReactTags extends React.Component {
         tagMaxLength: null
     };
 
+    constructor(props) {
+        super(props);
+
+        this._input = null;
+    }
+
     state = {
         tagList: this.props.tagList,
         query: '',
@@ -42,13 +48,9 @@ export default class ReactTags extends React.Component {
         selectionMode: false
     };
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         if (this.props.isAutofocus) {
-            this.refs.input.focus();
+            this._input.focus();
         }
     }
 
@@ -131,7 +133,7 @@ export default class ReactTags extends React.Component {
     };
 
     addTag = (tag) => {
-        var input = this.refs.input;
+        var input = this._input;
 
         // call method to add
         this.props.handleAddition(tag);
@@ -171,7 +173,7 @@ export default class ReactTags extends React.Component {
                 <label htmlFor="tag-selection">
                     {I18n.t('js.article.new.tags.placeholder')}
                 </label>
-                <input ref="input"
+                <input ref={(input) => this._input = input}
                        id="tag-selection"
                        type="text"
                        minLength={this.props.tagMinLength}

@@ -28,8 +28,8 @@ let Spinner = ({size, className}) => {
 };
 
 Spinner.propTypes = {
-    size: React.PropTypes.string,
-    className: React.PropTypes.string
+    size: PropTypes.string,
+    className: PropTypes.string
 };
 
 Spinner.defaultProps = {

@@ -2,8 +2,8 @@
 
 class LazilyLoad extends React.Component {
     static propTypes = {
-        modules: React.PropTypes.object.isRequired,
-        children: React.PropTypes.func.isRequired
+        modules: PropTypes.object.isRequired,
+        children: PropTypes.func.isRequired
     };
 
     constructor() {

@@ -2,30 +2,30 @@
 
 export default class Select extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        default: React.PropTypes.string.isRequired,
-        options: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.array
+        id: PropTypes.string.isRequired,
+        default: PropTypes.string.isRequired,
+        options: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.array
         ]).isRequired,
-        title: React.PropTypes.string.isRequired,
-        className: React.PropTypes.string,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.array
+        title: PropTypes.string.isRequired,
+        className: PropTypes.string,
+        children: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.array
         ]),
-        name: React.PropTypes.string,
-        optionsOrder: React.PropTypes.array,
-        multipleId: React.PropTypes.number,
-        isDisabled: React.PropTypes.bool,
-        isMultiple: React.PropTypes.bool,
-        isRequired: React.PropTypes.bool,
-        isCategorized: React.PropTypes.bool,
-        categories: React.PropTypes.object,
-        icon: React.PropTypes.string,
-        isHorizontal: React.PropTypes.bool,
-        validator: React.PropTypes.object,
-        onSelectChange: React.PropTypes.func
+        name: PropTypes.string,
+        optionsOrder: PropTypes.array,
+        multipleId: PropTypes.number,
+        isDisabled: PropTypes.bool,
+        isMultiple: PropTypes.bool,
+        isRequired: PropTypes.bool,
+        isCategorized: PropTypes.bool,
+        categories: PropTypes.object,
+        icon: PropTypes.string,
+        isHorizontal: PropTypes.bool,
+        validator: PropTypes.object,
+        onSelectChange: PropTypes.func
     };
 
     static defaultProps = {

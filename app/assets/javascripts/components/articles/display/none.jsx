@@ -44,9 +44,9 @@ const ArticleNone = ({router, isTopicPage, isSearchPage}) => (
 );
 
 ArticleNone.propTypes = {
-    router: React.PropTypes.object.isRequired,
-    isSearchPage: React.PropTypes.bool,
-    isTopicPage: React.PropTypes.bool
+    router: PropTypes.object.isRequired,
+    isSearchPage: PropTypes.bool,
+    isTopicPage: PropTypes.bool
 };
 
 ArticleNone.getDefaultProps = {

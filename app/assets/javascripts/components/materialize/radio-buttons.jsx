@@ -24,11 +24,11 @@ const RadioButtons = (props) => {
 };
 
 RadioButtons.propTypes = {
-    buttons: React.PropTypes.object.isRequired,
-    group: React.PropTypes.string.isRequired,
-    checkedButton: React.PropTypes.string,
-    onRadioChanged: React.PropTypes.func,
-    validator: React.PropTypes.object
+    buttons: PropTypes.object.isRequired,
+    group: PropTypes.string.isRequired,
+    checkedButton: PropTypes.string,
+    onRadioChanged: PropTypes.func,
+    validator: PropTypes.object
 };
 
 RadioButtons.defaultProps = {

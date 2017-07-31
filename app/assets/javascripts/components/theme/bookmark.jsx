@@ -5,11 +5,11 @@ import UserStore from '../../stores/userStore';
 
 export default class Bookmark extends Reflux.Component {
     static propTypes = {
-        modelId: React.PropTypes.number.isRequired,
-        modelName: React.PropTypes.string.isRequired,
-        isBookmarked: React.PropTypes.bool,
-        isIcon: React.PropTypes.bool,
-        bookmarkCount: React.PropTypes.number
+        modelId: PropTypes.number.isRequired,
+        modelName: PropTypes.string.isRequired,
+        isBookmarked: PropTypes.bool,
+        isIcon: PropTypes.bool,
+        bookmarkCount: PropTypes.number
     };
 
     static defaultProps = {

@@ -10,7 +10,7 @@ export default class CommentStore extends mix(Reflux.Store).with(Errors) {
         super();
 
         this.listenables = CommentActions;
-        this.url = '/comments';
+        this.url = `/${I18n.t('js.comment.common.route')}`;
     }
 
     // Called by handleErrors function from Errors mixin
@@ -41,9 +41,11 @@ export default class CommentStore extends mix(Reflux.Store).with(Errors) {
             requestParam = data;
 
             if (data.commentableType && data.commentableId) {
-                url = `/${data.commentableType}/${data.commentableId}/comments`;
+                url = `/${data.commentableType}/${data.commentableId}/${I18n.t('js.comment.common.route')}`;
             } else if (data.commentableId) {
                 url = data.commentableId + url;
+            } else {
+                url = '/comments';
             }
 
             if (data.page) {
@@ -51,6 +53,8 @@ export default class CommentStore extends mix(Reflux.Store).with(Errors) {
             } else if (data.isPaginated) {
                 requestParam.page = 1;
             }
+
+            requestParam.per_page = 6;
         }
 
         $.getJSON(url, requestParam)

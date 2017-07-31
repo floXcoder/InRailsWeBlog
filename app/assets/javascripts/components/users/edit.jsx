@@ -14,8 +14,8 @@ import Submit from '../materialize/submit';
 
 export default class UserEdit extends Reflux.Component {
     static propTypes = {
-        userId: React.PropTypes.string,
-        params: React.PropTypes.object
+        userId: PropTypes.string,
+        params: PropTypes.object
     };
 
     static defaultProps = {
@@ -23,15 +23,15 @@ export default class UserEdit extends Reflux.Component {
         params: {}
     };
 
-    state = {
-        user: {}
-    };
-
     constructor(props) {
         super(props);
 
         this.mapStoreToState(UserStore, this.onUserChange);
     }
+
+    state = {
+        user: {}
+    };
 
     componentWillMount() {
         UserActions.loadUser({

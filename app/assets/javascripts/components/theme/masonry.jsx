@@ -6,14 +6,14 @@ import Pagination from '../materialize/pagination';
 
 const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, componentExposedProps) => class extends React.Component {
     static propTypes = {
-        elements: React.PropTypes.array.isRequired,
-        isActive: React.PropTypes.bool.isRequired,
-        type: React.PropTypes.string.isRequired,
-        hasExposed: React.PropTypes.bool,
-        componentsToExposed: React.PropTypes.array,
-        isPaginated: React.PropTypes.bool,
-        totalPages: React.PropTypes.number,
-        onPaginationClick: React.PropTypes.func
+        elements: PropTypes.array.isRequired,
+        isActive: PropTypes.bool.isRequired,
+        type: PropTypes.string.isRequired,
+        hasExposed: PropTypes.bool,
+        componentsToExposed: PropTypes.array,
+        isPaginated: PropTypes.bool,
+        totalPages: PropTypes.number,
+        onPaginationClick: PropTypes.func
     };
 
     static defaultProps = {

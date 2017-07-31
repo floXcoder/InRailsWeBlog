@@ -2,19 +2,19 @@
 
 export default class ArticleOutdatedIcon extends React.PureComponent {
     static propTypes = {
-        article: React.PropTypes.object.isRequired,
-        onOutdatedClick: React.PropTypes.func.isRequired
+        article: PropTypes.object.isRequired,
+        onOutdatedClick: PropTypes.func.isRequired
     };
 
     static defaultProps = {};
 
-    state = {
-        isOutdated: this.props.article.outdated
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        isOutdated: this.props.article.outdated
+    };
 
     _handleOutdatedClick = (articleId, event) => {
         event.preventDefault();

@@ -105,8 +105,8 @@ class CategorizedInput extends React.Component {
         onKeyDown: PropTypes.func.isRequired,
         value: PropTypes.string.isRequired,
         selectedTags: PropTypes.arrayOf(PropTypes.object).isRequired,
-        id: React.PropTypes.string,
-        name: React.PropTypes.string,
+        id: PropTypes.string,
+        name: PropTypes.string,
         animateTagValue: PropTypes.string,
         placeholder: PropTypes.string,
         placeholderWithTags: PropTypes.string,
@@ -698,19 +698,19 @@ class CategorizedTagInput extends React.Component {
 
 export default class CategorizedTag extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string.isRequired,
-        categorizedTags: React.PropTypes.array.isRequired,
-        placeholder: React.PropTypes.string.isRequired,
-        placeholderWithTags: React.PropTypes.string,
-        name: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        icon: React.PropTypes.string,
-        children: React.PropTypes.array,
-        isSortingCategoriesByAlpha: React.PropTypes.bool,
-        isHorizontal: React.PropTypes.bool,
-        transformInitialTags: React.PropTypes.func,
-        onTagChange: React.PropTypes.func
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        categorizedTags: PropTypes.array.isRequired,
+        placeholder: PropTypes.string.isRequired,
+        placeholderWithTags: PropTypes.string,
+        name: PropTypes.string,
+        multipleId: PropTypes.number,
+        icon: PropTypes.string,
+        children: PropTypes.array,
+        isSortingCategoriesByAlpha: PropTypes.bool,
+        isHorizontal: PropTypes.bool,
+        transformInitialTags: PropTypes.func,
+        onTagChange: PropTypes.func
     };
 
     static defaultProps = {

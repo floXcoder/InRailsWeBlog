@@ -20,9 +20,9 @@ const FixedActionButton = ({children}) => (
 );
 
 FixedActionButton.propTypes = {
-    children: React.PropTypes.oneOfType([
-        React.PropTypes.array,
-        React.PropTypes.element
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.element
     ]).isRequired
 };
 

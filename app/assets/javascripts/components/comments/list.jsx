@@ -7,15 +7,15 @@ import CommentForm from './form';
 
 export default class CommentList extends React.PureComponent {
     static propTypes = {
-        comments: React.PropTypes.array.isRequired,
-        isUserConnected: React.PropTypes.bool.isRequired,
-        isUserOwner: React.PropTypes.bool.isRequired,
-        ownerId: React.PropTypes.number.isRequired,
-        isRated: React.PropTypes.bool.isRequired,
-        onSubmit: React.PropTypes.func.isRequired,
-        onDelete: React.PropTypes.func.isRequired,
-        currentUserId: React.PropTypes.number,
-        isAdmin: React.PropTypes.bool
+        comments: PropTypes.array.isRequired,
+        isUserConnected: PropTypes.bool.isRequired,
+        isUserOwner: PropTypes.bool.isRequired,
+        ownerId: PropTypes.number.isRequired,
+        isRated: PropTypes.bool.isRequired,
+        onSubmit: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired,
+        currentUserId: PropTypes.number,
+        isAdmin: PropTypes.bool
     };
 
     static defaultProps = {
@@ -23,16 +23,16 @@ export default class CommentList extends React.PureComponent {
         isAdmin: false
     };
 
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         modifyCommentIndex: null,
         replyCommentIndex: null,
         replyAsOwner: false,
         replyForDeletion: false
     };
-
-    constructor(props) {
-        super(props);
-    }
 
     componentDidUpdate() {
         setTimeout(() => {

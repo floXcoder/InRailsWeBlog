@@ -3,16 +3,11 @@
 import ErrorActions from '../actions/errorActions';
 
 export default class ErrorStore extends Reflux.Store {
-    constructor() {
-        super();
-
-        this.listenables = ErrorActions;
-        this.url = '/errors';
-    }
-
     static pushError(error) {
-        let requestParam = {};
-        requestParam.error = {};
+        let requestParam = {
+            error : {}
+        };
+
         if (error) {
             requestParam.error.message = error.message;
             requestParam.error.class_name = error.url;
@@ -37,12 +32,16 @@ export default class ErrorStore extends Reflux.Store {
         });
     }
 
-    init() {
-        return true;
+    constructor() {
+        super();
+
+        this.listenables = ErrorActions;
+        this.url = '/errors';
     }
 
     onLoadErrors(data) {
         let requestParam = {};
+
         if (data) {
             if (data.page) {
                 requestParam.page = data.page;
@@ -71,10 +70,11 @@ export default class ErrorStore extends Reflux.Store {
             return;
         }
 
-        let url = this.url + '/' + errorId;
+        const url = this.url + '/' + errorId;
 
-        let requestParam = {};
-        requestParam._method = 'delete';
+        let requestParam = {
+            _method: 'delete'
+        };
 
         $.ajax({
             url: url,
@@ -102,9 +102,12 @@ export default class ErrorStore extends Reflux.Store {
     }
 
     onDeleteAllErrors() {
-        let url = this.url + '/delete_all';
+        const url = this.url + '/delete_all';
 
-        let requestParam = {destroy_all: true};
+        let requestParam = {
+            _method: 'delete',
+            destroy_all: true
+        };
 
         $.ajax({
             url: url,

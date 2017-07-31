@@ -89,14 +89,14 @@ const CommentTableDisplay = ({comments, isLoaded, hasFilter, filters, isInlineEd
 );
 
 CommentTableDisplay.propTypes = {
-    comments: React.PropTypes.array.isRequired,
-    isLoaded: React.PropTypes.bool.isRequired,
-    hasFilter: React.PropTypes.bool,
-    filters: React.PropTypes.object,
-    isInlineEditing: React.PropTypes.bool,
-    isPaginated: React.PropTypes.bool,
-    totalPages: React.PropTypes.number,
-    onPaginationClick: React.PropTypes.func
+    comments: PropTypes.array.isRequired,
+    isLoaded: PropTypes.bool.isRequired,
+    hasFilter: PropTypes.bool,
+    filters: PropTypes.object,
+    isInlineEditing: PropTypes.bool,
+    isPaginated: PropTypes.bool,
+    totalPages: PropTypes.number,
+    onPaginationClick: PropTypes.func
 };
 
 CommentTableDisplay.defaultProps = {

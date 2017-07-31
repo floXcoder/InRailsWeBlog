@@ -11,13 +11,13 @@ import Submit from '../../materialize/submit';
 
 export default class ArticleFormDisplay extends Reflux.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        multipleId: React.PropTypes.number,
-        children: React.PropTypes.object,
-        isDraft: React.PropTypes.bool,
-        articleErrors: React.PropTypes.array,
-        onCancel: React.PropTypes.func,
-        onSubmit: React.PropTypes.func
+        id: PropTypes.string.isRequired,
+        multipleId: PropTypes.number,
+        children: PropTypes.object,
+        isDraft: PropTypes.bool,
+        articleErrors: PropTypes.array,
+        onCancel: PropTypes.func,
+        onSubmit: PropTypes.func
     };
 
     static defaultProps = {
@@ -29,15 +29,6 @@ export default class ArticleFormDisplay extends Reflux.Component {
         onSubmit: null
     };
 
-    state = {
-        tags: [],
-        isValid: false,
-        isLink: null,
-        submitTooltipMessage: I18n.t('js.article.common.tooltips.title_too_short'),
-        isProcessing: false,
-        isDraft: this.props.isDraft || false
-    };
-
     constructor(props) {
         super(props);
 
@@ -46,6 +37,14 @@ export default class ArticleFormDisplay extends Reflux.Component {
         this._commonFields = null;
     }
 
+    state = {
+        tags: [],
+        isValid: false,
+        isLink: null,
+        submitTooltipMessage: I18n.t('js.article.common.tooltips.title_too_short'),
+        isProcessing: false,
+        isDraft: this.props.isDraft || false
+    };
 
     componentWillMount() {
         TagActions.loadTags({user_tags: true});

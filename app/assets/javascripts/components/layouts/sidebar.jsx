@@ -4,21 +4,21 @@ import TagSidebar from '../tags/sidebar';
 
 export default class SidebarLayout extends React.PureComponent {
     static propTypes = {
-        router: React.PropTypes.object.isRequired,
-        onOpened: React.PropTypes.func
+        router: PropTypes.object.isRequired,
+        onOpened: PropTypes.func
     };
 
     static defaultProps = {
         onOpened: null
     };
 
-    state = {
-        isPinned: true
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        isPinned: true
+    };
 
     componentDidMount() {
     }

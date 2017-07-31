@@ -7,7 +7,7 @@ const ModalTitle = ({children}) => (
 );
 
 ModalTitle.propTypes = {
-    children: React.PropTypes.string.isRequired
+    children: PropTypes.string.isRequired
 };
 
 export default ModalTitle;

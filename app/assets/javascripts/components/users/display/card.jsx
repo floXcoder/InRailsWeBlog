@@ -28,8 +28,8 @@ const UserCardDisplay = ({user, onUserClick}) => (
 );
 
 UserCardDisplay.propTypes = {
-    user: React.PropTypes.object.isRequired,
-    onUserClick: React.PropTypes.func
+    user: PropTypes.object.isRequired,
+    onUserClick: PropTypes.func
 };
 
 UserCardDisplay.defaultProps = {

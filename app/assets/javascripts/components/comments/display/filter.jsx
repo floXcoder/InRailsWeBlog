@@ -12,7 +12,7 @@ import 'jquery-serializejson';
 
 export default class CommentFilterDisplay extends React.Component {
     static propTypes = {
-        filters: React.PropTypes.object
+        filters: PropTypes.object
     };
 
     static defaultProps = {

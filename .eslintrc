@@ -1,19 +1,16 @@
 {
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+  "ecmaFeatures": {
+    "jsx": true
   },
   "globals": {
-    "$": true,
     "jQuery": true,
+    "_": true,
     "log": true,
+    "PropTypes": true,
     "React": true,
     "ReactDOM": true,
-    "PropTypes": true,
     "Reflux": true,
+    "Mousetrap": true,
     "Materialize": true,
     "I18n": true,
     "classNames": true,
@@ -106,7 +103,7 @@
     "react/jsx-max-props-per-line": 1,
     "react/jsx-no-bind": 0,
     "react/jsx-no-duplicate-props": 1,
-    "react/jsx-no-literals": 0,
+    "react/jsx-no-literals": 1,
     "react/jsx-no-undef": 1,
     "react/jsx-sort-prop-types": 0,
     "react/jsx-sort-props": 0,
@@ -122,10 +119,10 @@
     "react/prefer-es6-class": 0,
     "react/prop-types": 1,
     "react/react-in-jsx-scope": 0,
-    "react/require-extension": "off",
+    "react/require-extension": 1,
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
-    "react/jsx-wrap-multilines": 1,
+    "react/wrap-multilines": 1,
     "vars-on-top": 0,
     "wrap-iife": 0,
     "yoda": [

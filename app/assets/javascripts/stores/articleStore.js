@@ -197,7 +197,7 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             return;
         }
 
-        var requestParam = {};
+        let requestParam = {};
 
         if (article) {
             requestParam.articles = article;
@@ -239,8 +239,8 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             return;
         }
 
-        var url = this.url + '/' + article.id;
-        var requestParam = {
+        const url = this.url + '/' + article.id;
+        let requestParam = {
             _method: 'put',
             articles: article
         };
@@ -318,8 +318,9 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             return;
         }
 
-        let requestParam = {};
-        requestParam.articles = data;
+        let requestParam = {
+            articles: data
+        };
 
         $.ajax({
             url: this.url,
@@ -343,6 +344,7 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
         }
 
         const url = this.url + '/' + data.history + '/history';
+
         const requestParam = {};
 
         $.getJSON(url, requestParam)
@@ -364,6 +366,7 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
         }
 
         const url = this.url + '/' + data.restore.articleId + '/restore';
+
         const requestParam = {
             version_id: data.restore.versionId
         };
@@ -386,10 +389,11 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             return;
         }
 
-        let requestParam = {};
-        requestParam.article_id = data.articleId;
+        const url = this.url + '/' + data.articleId + '/bookmark';
 
-        let url = this.url + '/' + data.articleId + '/bookmark';
+        let requestParam = {
+            article_id: data.articleId
+        };
 
         if (data.isBookmarked) {
             requestParam._method = 'delete';
@@ -420,10 +424,12 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             return;
         }
 
-        let requestParam = {};
-        requestParam.article_id = data.articleId;
-
         let url = this.url + '/' + data.articleId;
+
+        let requestParam = {
+            article_id: data.articleId
+        };
+
         if (data.isUp) {
             url += '/vote_up';
         } else {
@@ -451,10 +457,11 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             return;
         }
 
-        let requestParam = {};
-        requestParam.article_id = data.articleId;
+        const url = this.url + '/' + data.articleId + '/outdate';
 
-        let url = this.url + '/' + data.articleId + '/outdate';
+        let requestParam = {
+            article_id: data.articleId
+        };
 
         if (data.isOutdated) {
             requestParam._method = 'delete';

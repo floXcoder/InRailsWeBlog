@@ -10,11 +10,11 @@ import Submit from '../materialize/submit';
 
 export default class Signup extends React.PureComponent {
     static propTypes = {
-        launcherClass: React.PropTypes.string.isRequired,
-        formId: React.PropTypes.string,
-        modalId: React.PropTypes.string,
-        url: React.PropTypes.string,
-        validationUrl: React.PropTypes.string
+        launcherClass: PropTypes.string.isRequired,
+        formId: PropTypes.string,
+        modalId: PropTypes.string,
+        url: PropTypes.string,
+        validationUrl: PropTypes.string
     };
 
     static defaultProps = {
@@ -22,9 +22,6 @@ export default class Signup extends React.PureComponent {
         modalId: 'signup-modal',
         url: '/users',
         validationUrl: '/users/validation'
-    };
-
-    state = {
     };
 
     constructor(props) {

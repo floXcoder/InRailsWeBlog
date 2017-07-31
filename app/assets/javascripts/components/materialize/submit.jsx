@@ -2,18 +2,18 @@
 
 export default class Submit extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.object,
-            React.PropTypes.array,
-            React.PropTypes.string
+        id: PropTypes.string.isRequired,
+        children: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.object,
+            PropTypes.array,
+            PropTypes.string
         ]).isRequired,
-        className: React.PropTypes.string,
-        isDisabled: React.PropTypes.bool,
-        isButton: React.PropTypes.bool,
-        tooltipMessage: React.PropTypes.string,
-        onClick: React.PropTypes.func
+        className: PropTypes.string,
+        isDisabled: PropTypes.bool,
+        isButton: PropTypes.bool,
+        tooltipMessage: PropTypes.string,
+        onClick: PropTypes.func
     };
 
     static defaultProps = {

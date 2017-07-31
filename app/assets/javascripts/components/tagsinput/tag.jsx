@@ -3,25 +3,25 @@
 
 export default class Tag extends React.Component {
     static propTypes = {
-        labelField: React.PropTypes.string.isRequired,
-        onDelete: React.PropTypes.func.isRequired,
-        tag: React.PropTypes.object.isRequired,
-        onClickTag: React.PropTypes.func,
-        handleContextMenu: React.PropTypes.func,
-        labelClass: React.PropTypes.string
+        labelField: PropTypes.string.isRequired,
+        onDelete: PropTypes.func.isRequired,
+        tag: PropTypes.object.isRequired,
+        onClickTag: PropTypes.func,
+        handleContextMenu: PropTypes.func,
+        labelClass: PropTypes.string
     };
 
     static defaultProps = {
         labelField: 'name'
     };
 
-    state = {
-        hover: false
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        hover: false
+    };
 
     _onMouseOver = () => {
         this.setState({hover: true});

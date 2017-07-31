@@ -30,10 +30,10 @@ const ArticleActions = ({article, onBookmarkClick, onEditClick, onVisibilityClic
 );
 
 ArticleActions.propTypes = {
-    article: React.PropTypes.object.isRequired,
-    onBookmarkClick: React.PropTypes.func.isRequired,
-    onEditClick: React.PropTypes.func,
-    onVisibilityClick: React.PropTypes.func
+    article: PropTypes.object.isRequired,
+    onBookmarkClick: PropTypes.func.isRequired,
+    onEditClick: PropTypes.func,
+    onVisibilityClick: PropTypes.func
 };
 
 ArticleActions.defaultProps = {

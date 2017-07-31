@@ -10,12 +10,21 @@ import SwitchButton from '../../components/materialize/switch-button';
 // TODO : replace it
 export default class UserSettings extends Reflux.Component {
     static propTypes = {
-        isOpened: React.PropTypes.bool
+        isOpened: PropTypes.bool
     };
 
     static defaultProps = {
         isOpened: false
     };
+
+    constructor(props) {
+        super(props);
+
+        this.mapStoreToState(UserStore, this.onSettingsChange);
+
+        this._searchHighlight = null;
+        this._searchExact = null;
+    }
 
     state = {
         isOpened: this.props.isOpened,
@@ -24,12 +33,6 @@ export default class UserSettings extends Reflux.Component {
         search_operator: window.parameters.search_operator,
         search_exact: window.parameters.search_exact
     };
-
-    constructor(props) {
-        super(props);
-
-        this.mapStoreToState(UserStore, this.onSettingsChange);
-    }
 
     shouldComponentUpdate(nextProps, nextState) {
         return (this.props.isOpened != nextProps.isOpened || !_.isEqual(this.state, nextState));
@@ -124,20 +127,20 @@ export default class UserSettings extends Reflux.Component {
                                                   onRadioChanged={this._onOperatorSearchChanged}/>
                                 </div>
                                 <div className="col s4">
-                                    <SwitchButton ref="searchHighlight"
-                                            id="search-highlight"
-                                            title={I18n.t('js.user.settings.search.highlight')}
-                                            values={I18n.t('js.checkbox')}
-                                            onSwitchChange={this._onHighlightChanged}>
+                                    <SwitchButton ref={(searchHighlight) => this._searchHighlight = searchHighlight}
+                                                  id="search-highlight"
+                                                  title={I18n.t('js.user.settings.search.highlight')}
+                                                  values={I18n.t('js.checkbox')}
+                                                  onSwitchChange={this._onHighlightChanged}>
                                         {this.state.search_highlight}
                                     </SwitchButton>
                                 </div>
                                 <div className="col s4">
-                                    <SwitchButton ref="searchExact"
-                                            id="search-exact"
-                                            title={I18n.t('js.user.settings.search.exact')}
-                                            values={I18n.t('js.checkbox')}
-                                            onSwitchChange={this._onExactSearchChanged}>
+                                    <SwitchButton ref={(searchExact) => this._searchExact = searchExact}
+                                                  id="search-exact"
+                                                  title={I18n.t('js.user.settings.search.exact')}
+                                                  values={I18n.t('js.checkbox')}
+                                                  onSwitchChange={this._onExactSearchChanged}>
                                         {this.state.search_exact}
                                     </SwitchButton>
                                 </div>

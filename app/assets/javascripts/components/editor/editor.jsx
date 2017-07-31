@@ -4,11 +4,11 @@ import EditorLoader from '../../loaders/editor';
 
 export default class Editor extends React.Component {
     static propTypes = {
-        mode: React.PropTypes.number,
-        id: React.PropTypes.string,
-        children: React.PropTypes.string,
-        onEditorLoaded: React.PropTypes.func,
-        onEditorInput: React.PropTypes.func
+        mode: PropTypes.number,
+        id: PropTypes.string,
+        children: PropTypes.string,
+        onEditorLoaded: PropTypes.func,
+        onEditorInput: PropTypes.func
     };
 
     static defaultProps = {
@@ -19,21 +19,22 @@ export default class Editor extends React.Component {
         onEditorInput: null
     };
 
+    constructor(props) {
+        super(props);
+
+        this._editorRef = null;
+        this._editor = null;
+    }
+
     mode = {
         SHOW: 1,
         EDIT: 2,
         INLINE_EDIT: 3
     };
 
-    constructor(props) {
-        super(props);
-
-        this.editor = null;
-    }
-
     componentDidMount() {
         EditorLoader().then(({}) => {
-            let $editor = $(ReactDOM.findDOMNode(this.refs.editor));
+            let $editor = $(ReactDOM.findDOMNode(this._editorRef));
 
             if (this.props.mode === this.mode.INLINE_EDIT) {
                 let airToolbar = [
@@ -79,7 +80,7 @@ export default class Editor extends React.Component {
                     ];
                 }
 
-                this.editor = $editor.summernote({
+                this._editor = $editor.summernote({
                     lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
                     toolbar: toolbar,
                     otherStaticBarClass: 'nav-wrapper',
@@ -106,25 +107,25 @@ export default class Editor extends React.Component {
     }
 
     setContent = (content) => {
-        if (this.editor) {
-            this.editor.summernote('code', content);
+        if (this._editor) {
+            this._editor.summernote('code', content);
         } else {
             return false;
         }
     };
 
     contentLength = () => {
-        if (this.editor) {
-            return this.editor.summernote('code').replace(/<(?:.|\n)*?>/gm, '').length;
+        if (this._editor) {
+            return this._editor.summernote('code').replace(/<(?:.|\n)*?>/gm, '').length;
         } else {
             return false;
         }
     };
 
     createLink = () => {
-        if (this.editor) {
-            this.editor.summernote('code', '');
-            this.editor.summernote('createLink', {
+        if (this._editor) {
+            this._editor.summernote('code', '');
+            this._editor.summernote('createLink', {
                 text: text.trim(),
                 url: text.trim(),
                 isNewWindow: true
@@ -135,34 +136,34 @@ export default class Editor extends React.Component {
     };
 
     focus = () => {
-        if (this.editor) {
-            this.editor.summernote('focus');
+        if (this._editor) {
+            this._editor.summernote('focus');
         } else {
             return false;
         }
     };
 
     serialize = () => {
-        if (this.editor) {
-            $('#' + this.props.id + '-serialized').val(this.editor.summernote('code'));
-            return this.editor.summernote('code');
+        if (this._editor) {
+            $('#' + this.props.id + '-serialized').val(this._editor.summernote('code'));
+            return this._editor.summernote('code');
         } else {
             return false;
         }
     };
 
     reset = () => {
-        if (this.editor) {
-            this.editor.summernote('code', '');
+        if (this._editor) {
+            this._editor.summernote('code', '');
         } else {
             return false;
         }
     };
 
     remove = () => {
-        if (this.editor) {
-            this.editor.summernote('destroy');
-            this.editor.empty();
+        if (this._editor) {
+            this._editor.summernote('destroy');
+            this._editor.empty();
         } else {
             return false;
         }
@@ -181,13 +182,12 @@ export default class Editor extends React.Component {
         return (
             <div>
                 <div className={containerClassName}>
-                    <div ref="editor"
+                    <div ref={(editor) => this._editorRef = editor}
                          id={this.props.id}
                          className={editorClassName}
                          dangerouslySetInnerHTML={{__html: this.props.children}}/>
                 </div>
-                <textarea ref="editorSerialized"
-                          id={this.props.id + '-serialized'}
+                <textarea id={this.props.id + '-serialized'}
                           name="article[content]"
                           style={{display: 'none'}}
                           data-parsley-required={true}

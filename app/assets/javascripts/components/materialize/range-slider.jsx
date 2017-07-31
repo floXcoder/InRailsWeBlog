@@ -6,18 +6,18 @@ import noUiSlider from 'materialize-css/extras/noUiSlider/nouislider';
 
 export default class RangeSlider extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string.isRequired,
-        range: React.PropTypes.array.isRequired,
-        name: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        unit: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        children: React.PropTypes.array,
-        isHorizontal: React.PropTypes.bool,
-        isDisplayRange: React.PropTypes.bool,
-        hasInputForDefaultValues: React.PropTypes.bool,
-        onSliderChange: React.PropTypes.func
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        range: PropTypes.array.isRequired,
+        name: PropTypes.string,
+        multipleId: PropTypes.number,
+        unit: PropTypes.string,
+        icon: PropTypes.string,
+        children: PropTypes.array,
+        isHorizontal: PropTypes.bool,
+        isDisplayRange: PropTypes.bool,
+        hasInputForDefaultValues: PropTypes.bool,
+        onSliderChange: PropTypes.func
     };
 
     static defaultProps = {

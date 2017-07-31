@@ -5,9 +5,9 @@ import ParentTag from './parent';
 
 export default class TagRelationshipDisplay extends React.Component {
     static propTypes = {
-        router: React.PropTypes.object.isRequired,
-        tags: React.PropTypes.array,
-        isSearching: React.PropTypes.bool
+        router: PropTypes.object.isRequired,
+        tags: PropTypes.array,
+        isSearching: PropTypes.bool
     };
 
     static defaultProps = {

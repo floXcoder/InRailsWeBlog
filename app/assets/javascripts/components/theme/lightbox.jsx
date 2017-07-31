@@ -4,16 +4,16 @@ import ReactImageLightbox from 'react-image-lightbox';
 
 export default class LightBox extends React.Component {
     static propTypes = {
-        children: React.PropTypes.arrayOf(React.PropTypes.shape({
-            src: React.PropTypes.string.isRequired,
-            thumbnail: React.PropTypes.string,
-            title: React.PropTypes.string,
-            copyright: React.PropTypes.string,
-            user: React.PropTypes.object
+        children: PropTypes.arrayOf(PropTypes.shape({
+            src: PropTypes.string.isRequired,
+            thumbnail: PropTypes.string,
+            title: PropTypes.string,
+            copyright: PropTypes.string,
+            user: PropTypes.object
         })).isRequired,
-        id: React.PropTypes.string,
-        fullFormat: React.PropTypes.bool,
-        hasSlider: React.PropTypes.bool
+        id: PropTypes.string,
+        fullFormat: PropTypes.bool,
+        hasSlider: PropTypes.bool
     };
 
     static defaultProps = {

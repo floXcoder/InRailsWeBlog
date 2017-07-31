@@ -2,10 +2,10 @@
 
 export default class ShowMore extends React.PureComponent {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        children: React.PropTypes.string,
-        className: React.PropTypes.string,
-        maxHeight: React.PropTypes.number
+        id: PropTypes.string.isRequired,
+        children: PropTypes.string,
+        className: PropTypes.string,
+        maxHeight: PropTypes.number
     };
 
     static defaultProps = {

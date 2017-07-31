@@ -95,11 +95,11 @@ ArticleAdvancedField._categorizedTags = (tags) => {
 };
 
 ArticleAdvancedField.propTypes = {
-    article: React.PropTypes.object,
-    tags: React.PropTypes.array,
-    isDraft: React.PropTypes.bool,
-    isLink: React.PropTypes.bool,
-    multipleId: React.PropTypes.number
+    article: PropTypes.object,
+    tags: PropTypes.array,
+    isDraft: PropTypes.bool,
+    isLink: PropTypes.bool,
+    multipleId: PropTypes.number
 };
 
 ArticleAdvancedField.defaultProps = {

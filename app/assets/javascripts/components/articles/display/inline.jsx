@@ -4,8 +4,8 @@ import HighlightCode from 'highlight.js';
 
 export default class ArticleInlineDisplay extends React.Component {
     static propTypes = {
-        children: React.PropTypes.string.isRequired,
-        article: React.PropTypes.object.isRequired
+        children: PropTypes.string.isRequired,
+        article: PropTypes.object.isRequired
     };
 
     constructor(props) {

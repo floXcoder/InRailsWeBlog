@@ -8,17 +8,12 @@ import TagStore from '../../stores/tagStore';
 
 export default class TagsInput extends React.Component {
     static propTypes = {
-        labelField: React.PropTypes.string,
-        initialSelectedTags: React.PropTypes.array
+        labelField: PropTypes.string,
+        initialSelectedTags: PropTypes.array
     };
 
     static defaultProps = {
         labelField: 'name'
-    };
-
-    state = {
-        selectedTags: this.props.initialSelectedTags || [],
-        tagList: []
     };
 
     constructor(props) {
@@ -26,6 +21,11 @@ export default class TagsInput extends React.Component {
 
         this.mapStoreToState(TagStore, this.onTagChange);
     }
+
+    state = {
+        selectedTags: this.props.initialSelectedTags || [],
+        tagList: []
+    };
 
     selectedTags = () => {
         return this.state.selectedTags;
@@ -152,8 +152,7 @@ export default class TagsInput extends React.Component {
         });
 
         return (
-            <div ref="tagsSelection"
-                 className="tagsinput-tags">
+            <div className="tagsinput-tags">
                 <div className="tagsinput-selected">
                     {tagItems}
                     <ReactTags selectedTags={this.state.selectedTags}

@@ -69,23 +69,23 @@ const CommentItem = (props) => {
 };
 
 CommentItem.propTypes = {
-    id: React.PropTypes.number.isRequired,
-    user: React.PropTypes.object.isRequired,
-    date: React.PropTypes.string.isRequired,
-    children: React.PropTypes.string.isRequired,
-    ownerId: React.PropTypes.number.isRequired,
-    isOwner: React.PropTypes.bool.isRequired,
-    currentUserId: React.PropTypes.number,
-    commentId: React.PropTypes.number,
-    parentCommentId: React.PropTypes.number,
-    title: React.PropTypes.string,
-    rating: React.PropTypes.number,
-    isModifying: React.PropTypes.bool,
-    askedForDeletion: React.PropTypes.bool,
-    onCancel: React.PropTypes.func,
-    onSubmit: React.PropTypes.func,
-    isAskingForDeletion: React.PropTypes.bool,
-    isAdmin: React.PropTypes.bool
+    id: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
+    date: PropTypes.string.isRequired,
+    children: PropTypes.string.isRequired,
+    ownerId: PropTypes.number.isRequired,
+    isOwner: PropTypes.bool.isRequired,
+    currentUserId: PropTypes.number,
+    commentId: PropTypes.number,
+    parentCommentId: PropTypes.number,
+    title: PropTypes.string,
+    rating: PropTypes.number,
+    isModifying: PropTypes.bool,
+    askedForDeletion: PropTypes.bool,
+    onCancel: PropTypes.func,
+    onSubmit: PropTypes.func,
+    isAskingForDeletion: PropTypes.bool,
+    isAdmin: PropTypes.bool
 };
 
 CommentItem.defaultProps = {

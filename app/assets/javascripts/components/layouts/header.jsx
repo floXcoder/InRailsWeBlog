@@ -20,20 +20,20 @@ import {
 
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
-        router: React.PropTypes.object.isRequired,
-        onReloadPage: React.PropTypes.func.isRequired
+        router: PropTypes.object.isRequired,
+        onReloadPage: PropTypes.func.isRequired
     };
 
     static defaultProps = {};
+
+    constructor(props) {
+        super(props);
+    }
 
     state = {
         isShowingSignup: true,
         isShowingLogin: true
     };
-
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
         // $(ReactDOM.findDOMNode(this)).find('.dropdown-button').dropdown({

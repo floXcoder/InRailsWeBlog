@@ -1,8 +1,6 @@
 'use strict';
 
-// require('../admin');
-
-let UserShow = require('../../../components/users/show');
+import UserShow from '../../../components/users/show';
 
 const userId = JSON.parse(document.getElementById('user-admin-component').getAttribute('data-user-id'));
 

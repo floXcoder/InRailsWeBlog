@@ -20,9 +20,9 @@ const _handleSubmit = () => {
 };
 
 SearchBar.propTypes = {
-    label: React.PropTypes.string.isRequired,
-    children: React.PropTypes.string,
-    onSearchInput: React.PropTypes.func
+    label: PropTypes.string.isRequired,
+    children: PropTypes.string,
+    onSearchInput: PropTypes.func
 };
 
 SearchBar.defaultProps = {

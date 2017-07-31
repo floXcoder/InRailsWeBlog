@@ -2,14 +2,14 @@
 
 class AccordionItem extends React.Component {
     static propTypes = {
-        title: React.PropTypes.string.isRequired,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.arrayOf(React.PropTypes.element)
+        title: PropTypes.string.isRequired,
+        children: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.arrayOf(PropTypes.element)
         ]).isRequired,
-        isOpen: React.PropTypes.bool.isRequired,
-        id: React.PropTypes.string,
-        onHeaderClicked: React.PropTypes.func
+        isOpen: PropTypes.bool.isRequired,
+        id: PropTypes.string,
+        onHeaderClicked: PropTypes.func
     };
 
     static defaultProps = {
@@ -95,13 +95,13 @@ const Accordion = ({title, children, className, id}) => (
 );
 
 Accordion.propTypes = {
-    children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
-    title: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.element
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element
     ]),
-    id: React.PropTypes.string,
-    className: React.PropTypes.string
+    id: PropTypes.string,
+    className: PropTypes.string
 };
 
 Accordion.defaultProps = {

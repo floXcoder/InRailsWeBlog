@@ -9,7 +9,7 @@ const BounceSpinner = ({className}) => (
 );
 
 BounceSpinner.propTypes = {
-    className: React.PropTypes.string
+    className: PropTypes.string
 };
 
 BounceSpinner.defaultProps = {

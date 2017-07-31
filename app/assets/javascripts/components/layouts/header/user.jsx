@@ -100,8 +100,8 @@ const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
 );
 
 HomeUserHeader.propTypes = {
-    onLoginClick: React.PropTypes.func.isRequired,
-    onSignupClick: React.PropTypes.func.isRequired
+    onLoginClick: PropTypes.func.isRequired,
+    onSignupClick: PropTypes.func.isRequired
 };
 
 export default HomeUserHeader;

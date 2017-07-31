@@ -4,30 +4,30 @@ import ReactAutoSuggest from 'react-autosuggest';
 
 export default class AutoSuggest extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        suggestionKeyValue: React.PropTypes.string.isRequired,
-        label: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.object,
-            React.PropTypes.string
+        id: PropTypes.string.isRequired,
+        suggestionKeyValue: PropTypes.string.isRequired,
+        label: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.object,
+            PropTypes.string
         ]).isRequired,
-        name: React.PropTypes.string,
-        placeholder: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        inputId: React.PropTypes.string,
-        inputName: React.PropTypes.string,
-        suggestionKeyPicture: React.PropTypes.string,
-        suggestionKeyIcon: React.PropTypes.string,
-        isRequired: React.PropTypes.bool,
-        isDisabled: React.PropTypes.bool,
-        suggestions: React.PropTypes.array,
-        minLength: React.PropTypes.number,
-        limit: React.PropTypes.number,
-        isAsync: React.PropTypes.bool,
-        onFetchSuggestions: React.PropTypes.func,
-        isHorizontal: React.PropTypes.bool,
-        labelClass: React.PropTypes.string,
-        children: React.PropTypes.string
+        name: PropTypes.string,
+        placeholder: PropTypes.string,
+        icon: PropTypes.string,
+        inputId: PropTypes.string,
+        inputName: PropTypes.string,
+        suggestionKeyPicture: PropTypes.string,
+        suggestionKeyIcon: PropTypes.string,
+        isRequired: PropTypes.bool,
+        isDisabled: PropTypes.bool,
+        suggestions: PropTypes.array,
+        minLength: PropTypes.number,
+        limit: PropTypes.number,
+        isAsync: PropTypes.bool,
+        onFetchSuggestions: PropTypes.func,
+        isHorizontal: PropTypes.bool,
+        labelClass: PropTypes.string,
+        children: PropTypes.string
     };
 
     static defaultProps = {

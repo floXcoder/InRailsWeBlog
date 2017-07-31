@@ -4,10 +4,10 @@ import Spinner from './spinner';
 
 export default class InfiniteScroll extends Reflux.Component {
     static propTypes = {
-        pageStart: React.PropTypes.number,
-        hasMore: React.PropTypes.bool,
-        loadMore: React.PropTypes.func,
-        threshold: React.PropTypes.number
+        pageStart: PropTypes.number,
+        hasMore: PropTypes.bool,
+        loadMore: PropTypes.func,
+        threshold: PropTypes.number
     };
 
     static defaultProps = {

@@ -4,18 +4,18 @@ import _ from 'lodash';
 
 export default class Date extends React.PureComponent {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string.isRequired,
-        children: React.PropTypes.string,
-        isDisabled: React.PropTypes.bool,
-        isRequired: React.PropTypes.bool,
-        name: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        icon: React.PropTypes.string,
-        onChange: React.PropTypes.func,
-        onInput: React.PropTypes.func,
-        isHorizontal: React.PropTypes.bool,
-        validator: React.PropTypes.object
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        children: PropTypes.string,
+        isDisabled: PropTypes.bool,
+        isRequired: PropTypes.bool,
+        name: PropTypes.string,
+        multipleId: PropTypes.number,
+        icon: PropTypes.string,
+        onChange: PropTypes.func,
+        onInput: PropTypes.func,
+        isHorizontal: PropTypes.bool,
+        validator: PropTypes.object
     };
 
     static defaultProps = {

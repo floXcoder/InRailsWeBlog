@@ -103,7 +103,7 @@ export default class UploadStore extends mix(Reflux.Store).with(Errors) {
             return;
         }
 
-        let url = this.url + '/' + uploadId;
+        const url = this.url + '/' + uploadId;
 
         let requestParam = {};
         requestParam._method = 'delete';

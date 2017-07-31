@@ -22,7 +22,7 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
     }
 
     onLoadUsers(data) {
-        let url = this.url;
+        const url = this.url;
 
         let requestParam = {};
 
@@ -59,11 +59,11 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
             return;
         }
 
-        const validationUrl = this.url + '/validation';
+        const url = this.url + '/validation';
 
         let requestParam = data;
 
-        $.getJSON(validationUrl, requestParam)
+        $.getJSON(url, requestParam)
             .done((dataReceived) => {
                 if (!$.isEmpty(dataReceived)) {
                     this.trigger(dataReceived);
@@ -72,7 +72,7 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
                 }
             })
             .fail((xhr, status, error) => {
-                this.handleErrors(validationUrl, xhr, status, error);
+                this.handleErrors(url, xhr, status, error);
             });
     }
 
@@ -128,9 +128,9 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
             return;
         }
 
-        let requestParam = {};
+        const url = this.url + '/' + userId + '/comments';
 
-        let url = this.url + '/' + userId + '/comments';
+        let requestParam = {};
 
         if (data) {
             requestParam = data;
@@ -165,9 +165,9 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
             return;
         }
 
-        let requestParam = {};
+        const url = this.url + '/' + userId + '/activities';
 
-        let url = this.url + '/' + userId + '/activities';
+        let requestParam = {};
 
         if (data) {
             requestParam = data;
@@ -202,7 +202,7 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
             return;
         }
 
-        let url = this.url + '/' + user.id;
+        const url = this.url + '/' + user.id;
 
         let requestParam = {
             _method: 'put',
@@ -240,10 +240,11 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
             return;
         }
 
-        let requestParam = {};
-        requestParam.settings = {};
-
         const url = this.url + '/' + this.user.id + '/settings';
+
+        let requestParam = {
+            settings: {}
+        };
 
         if (data.displayType) {
             requestParam.settings.article_display = data.article_display;

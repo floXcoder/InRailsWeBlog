@@ -11,9 +11,9 @@ import {Link} from 'react-router-dom';
 
 export default class TagShow extends Reflux.Component {
     static propTypes = {
-        tag: React.PropTypes.object,
-        params: React.PropTypes.object,
-        location: React.PropTypes.object,
+        tag: PropTypes.object,
+        params: PropTypes.object,
+        location: PropTypes.object,
     };
 
     static defaultProps = {
@@ -22,15 +22,15 @@ export default class TagShow extends Reflux.Component {
         location: {}
     };
 
-    state = {
-        tag: null
-    };
-
     constructor(props) {
         super(props);
 
         this.mapStoreToState(TagStore, this.onTagChange);
     }
+
+    state = {
+        tag: null
+    };
 
     componentWillMount() {
         if (this.props.tag) {

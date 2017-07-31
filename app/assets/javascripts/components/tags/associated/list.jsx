@@ -2,17 +2,17 @@
 
 export default class AssociatedTagList extends React.Component {
     static propTypes = {
-        tags: React.PropTypes.array.isRequired,
-        onClickTag: React.PropTypes.func.isRequired
-    };
-
-    state = {
-        classByTag: {}
+        tags: PropTypes.array.isRequired,
+        onClickTag: PropTypes.func.isRequired
     };
 
     constructor(props) {
         super(props);
     }
+
+    state = {
+        classByTag: {}
+    };
 
     _handleTagClick = (tagId, event) => {
         event.preventDefault();

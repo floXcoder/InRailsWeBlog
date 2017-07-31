@@ -8,19 +8,21 @@ import Editor from '../../editor/editor';
 
 export default class ArticleEditionDisplay extends React.Component {
     static propTypes = {
-        children: React.PropTypes.string.isRequired,
-        article: React.PropTypes.object.isRequired,
-        onTagClick: React.PropTypes.func.isRequired,
-        setDefaultDisplay: React.PropTypes.func.isRequired
-    };
-
-    state = {
-        isLink: false
+        children: PropTypes.string.isRequired,
+        article: PropTypes.object.isRequired,
+        onTagClick: PropTypes.func.isRequired,
+        setDefaultDisplay: PropTypes.func.isRequired
     };
 
     constructor(props) {
         super(props);
+
+        this._editor = null;
     }
+
+    state = {
+        isLink: false
+    };
 
     // _handleEditorChange (event) {
     //     let text = event.currentTarget.textContent;
@@ -71,7 +73,7 @@ export default class ArticleEditionDisplay extends React.Component {
                         </h1>
                     </div>
 
-                    <Editor ref="editor"
+                    <Editor ref={(editor) => this._editor = editor}
                             mode={Editor.mode.INLINE_EDIT}
                             id={'editor-summernote-' + this.props.article.id}
                             onEditorLoaded={this._handleEditorLoaded}>

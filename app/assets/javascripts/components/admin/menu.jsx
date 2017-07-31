@@ -1,6 +1,6 @@
 'use strict';
 
-const BurgerMenu = require('react-burger-menu').scaleDown;
+import {scaleDown as BurgerMenu} from 'react-burger-menu';
 
 const AdminMenu = ({}) => (
     <BurgerMenu

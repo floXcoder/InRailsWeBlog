@@ -11,9 +11,9 @@ import UserAvatarIcon from '../../users/icons/avatar';
 
 export default class CommentInlineDisplay extends React.Component {
     static propTypes = {
-        comment: React.PropTypes.object.isRequired,
-        isInlineEditing: React.PropTypes.bool,
-        onClick: React.PropTypes.func
+        comment: PropTypes.object.isRequired,
+        isInlineEditing: PropTypes.bool,
+        onClick: PropTypes.func
     };
 
     static defaultProps = {
@@ -21,13 +21,13 @@ export default class CommentInlineDisplay extends React.Component {
         onClick: null
     };
 
-    state = {
-        editingField: null
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        editingField: null
+    };
 
     componentDidMount() {
         $('#comment-actions').find('.tooltipped').tooltip();

@@ -11,8 +11,8 @@ const ProcessingButton = ({title, isButton}) => (
 );
 
 ProcessingButton.propTypes = {
-    title: React.PropTypes.string.isRequired,
-    isButton: React.PropTypes.bool,
+    title: PropTypes.string.isRequired,
+    isButton: PropTypes.bool,
 };
 
 ProcessingButton.defaultProps = {

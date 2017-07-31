@@ -22,8 +22,8 @@ const AnimatedText = ({title, subtitle}) => (
 );
 
 AnimatedText.propTypes = {
-    title: React.PropTypes.string.isRequired,
-    subtitle: React.PropTypes.string
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string
 };
 
 AnimatedText.defaultProps = {

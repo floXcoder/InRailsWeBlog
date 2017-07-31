@@ -9,7 +9,7 @@ const HomePreferenceHeader = ({onPreferenceClick}) => (
 );
 
 HomePreferenceHeader.propTypes = {
-    onPreferenceClick: React.PropTypes.func.isRequired
+    onPreferenceClick: PropTypes.func.isRequired
 };
 
 HomePreferenceHeader._handlePreferenceClick = (onPreferenceClick, event) => {

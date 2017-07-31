@@ -27,18 +27,12 @@ import {
 
 export default class HomePage extends Reflux.Component {
     static propTypes = {
-        location: React.PropTypes.object,
-        children: React.PropTypes.object
+        location: PropTypes.object,
+        children: PropTypes.object
     };
 
     static defaultProps = {
         location: {}
-    };
-
-    // TODO : move loading user to App
-    state = {
-        isLoadingPage:
-            $app.isUserConnected()
     };
 
     constructor(props) {
@@ -47,6 +41,12 @@ export default class HomePage extends Reflux.Component {
         this.mapStoreToState(UserStore, this.onUserChange);
         this.mapStoreToState(TopicStore, this.onTopicChange);
     }
+
+    // TODO : move loading user to App
+    state = {
+        isLoadingPage:
+            $app.isUserConnected()
+    };
 
     onUserChange(userData) {
         if ($.isEmpty(userData)) {

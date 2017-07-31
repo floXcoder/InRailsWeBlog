@@ -15,12 +15,12 @@ import {Link} from 'react-router-dom';
 
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
-        children: React.PropTypes.string.isRequired,
-        article: React.PropTypes.object.isRequired,
-        onTagClick: React.PropTypes.func.isRequired,
-        onBookmarkClick: React.PropTypes.func.isRequired,
-        onEditClick: React.PropTypes.func,
-        onVisibilityClick: React.PropTypes.func
+        children: PropTypes.string.isRequired,
+        article: PropTypes.object.isRequired,
+        onTagClick: PropTypes.func.isRequired,
+        onBookmarkClick: PropTypes.func.isRequired,
+        onEditClick: PropTypes.func,
+        onVisibilityClick: PropTypes.func
     };
 
     static defaultProps = {

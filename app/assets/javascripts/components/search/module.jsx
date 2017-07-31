@@ -8,6 +8,13 @@ import UserStore from '../../stores/userStore';
 import Tokenizer from '../../components/autocomplete/tokenizer';
 
 export default class SearchModule extends Reflux.Component {
+    constructor(props) {
+        super(props);
+
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        this.mapStoreToState(UserStore, this.onSearchChange);
+    }
+
     state = {
         autocompleteValues: [],
         selectedTags: [],
@@ -16,13 +23,6 @@ export default class SearchModule extends Reflux.Component {
         suggestions: [],
         query: ''
     };
-
-    constructor(props) {
-        super(props);
-
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
-        this.mapStoreToState(UserStore, this.onSearchChange);
-    }
 
     componentDidMount() {
         Mousetrap.bind('alt+r', () => {
@@ -179,13 +179,13 @@ export default class SearchModule extends Reflux.Component {
     _displayOption = (option) => {
         if (!$.isEmpty(option.title)) {
             return (
-                <div ref={option.entry}>
+                <div>
                     {option.title}
                 </div>
             );
         } else if (!$.isEmpty(option.tag)) {
             return (
-                <div ref={option.entry}>
+                <div>
                     {option.tag}
                     <span className="badge">Tag</span>
                 </div>
@@ -221,9 +221,10 @@ export default class SearchModule extends Reflux.Component {
         event.preventDefault();
         $('.blog-search-nav').slideUp();
 
-        this.refs.typeahead.setEntryText('');
+        // TODO
+        // this.refs.typeahead.setEntryText('');
         this.setState({selectedTags: []});
-        this.refs.typeahead.setState({selected: []});
+        // this.refs.typeahead.setState({selected: []});
     };
 
     render() {
@@ -233,7 +234,7 @@ export default class SearchModule extends Reflux.Component {
                     //     <form className="search-form"
                     //           onSubmit={this._handleSubmit}>
                     //         <Tokenizer
-                    //             ref="typeahead"
+                    //             ref={(typeahead) => this._typeahead = typeahead}
                     //             options={this.state.autocompleteValues}
                     //             onKeyUp={this._onKeyUp}
                     //             placeholder={I18n.t('js.article.search.placeholder')}

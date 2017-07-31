@@ -28,11 +28,11 @@ const DoubleTimelineItem = (props) => (
 );
 
 DoubleTimelineItem.propTypes = {
-    date: React.PropTypes.string.isRequired,
-    content: React.PropTypes.string.isRequired,
-    children: React.PropTypes.array.isRequired,
-    icon: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string
+    date: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    children: PropTypes.array.isRequired,
+    icon: PropTypes.string.isRequired,
+    title: PropTypes.string
 };
 
 DoubleTimelineItem.defaultProps = {

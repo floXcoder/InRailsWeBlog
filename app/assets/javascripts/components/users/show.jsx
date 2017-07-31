@@ -4,9 +4,9 @@ import UserComplete from './complete';
 
 export default class UserShow extends React.Component {
     static propTypes = {
-        router: React.PropTypes.object.isRequired,
-        userId: React.PropTypes.number,
-        params: React.PropTypes.object
+        router: PropTypes.object.isRequired,
+        userId: PropTypes.number,
+        params: PropTypes.object
     };
 
     static defaultProps = {

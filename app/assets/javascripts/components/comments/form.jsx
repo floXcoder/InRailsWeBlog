@@ -7,17 +7,17 @@ import Rating from '../theme/rating';
 
 export default class CommentForm extends React.PureComponent {
     static propTypes = {
-        onSubmit: React.PropTypes.func.isRequired,
-        onCancel: React.PropTypes.func.isRequired,
-        isOwner: React.PropTypes.bool.isRequired,
-        isRated: React.PropTypes.bool.isRequired,
-        parentCommentId: React.PropTypes.number,
-        commentId: React.PropTypes.number,
-        formTitle: React.PropTypes.string,
-        title: React.PropTypes.string,
-        body: React.PropTypes.string,
-        rating: React.PropTypes.number,
-        isAskingForDeletion: React.PropTypes.bool
+        onSubmit: PropTypes.func.isRequired,
+        onCancel: PropTypes.func.isRequired,
+        isOwner: PropTypes.bool.isRequired,
+        isRated: PropTypes.bool.isRequired,
+        parentCommentId: PropTypes.number,
+        commentId: PropTypes.number,
+        formTitle: PropTypes.string,
+        title: PropTypes.string,
+        body: PropTypes.string,
+        rating: PropTypes.number,
+        isAskingForDeletion: PropTypes.bool
     };
 
     static defaultProps = {
@@ -32,21 +32,25 @@ export default class CommentForm extends React.PureComponent {
 
     constructor(props) {
         super(props);
+
+        this._title = null;
+        this._body = null;
+        this._commentRating = null;
     }
 
     componentDidMount() {
         if (this.props.title) {
-            this.refs.title.setValue(this.props.title);
+            this._title.setValue(this.props.title);
         }
         if (this.props.body) {
-            this.refs.body.setValue(this.props.body);
+            this._body.setValue(this.props.body);
         }
 
         if (this.props.isAskingForDeletion) {
-            this.refs.title.setValue(I18n.t('js.comment.form.title.deletion_reply'));
-            this.refs.body.focus();
+            this._title.setValue(I18n.t('js.comment.form.title.deletion_reply'));
+            this._body.focus();
         } else {
-            this.refs.title.focus();
+            this._title.focus();
         }
     }
 
@@ -59,8 +63,8 @@ export default class CommentForm extends React.PureComponent {
             return;
         }
 
-        let title = this.refs.title.value().trim();
-        let body = this.refs.body.value().trim();
+        let title = this._title.value().trim();
+        let body = this._body.value().trim();
 
         if (!title || !body) {
             return;
@@ -69,7 +73,7 @@ export default class CommentForm extends React.PureComponent {
         let submitData = {};
 
         if (this.props.isRated && !this.props.isAskingForDeletion) {
-            let rating = this.refs.commentRating.value();
+            let rating = this._commentRating.value();
             submitData = {
                 title: title,
                 body: body,
@@ -78,7 +82,7 @@ export default class CommentForm extends React.PureComponent {
                 id: this.props.commentId
             };
 
-            this.refs.commentRating.setValue(0);
+            this._commentRating.setValue(0);
         } else {
             submitData = {
                 title: title,
@@ -94,8 +98,8 @@ export default class CommentForm extends React.PureComponent {
 
         this.props.onSubmit(submitData);
 
-        this.refs.title.setValue('');
-        this.refs.body.setValue('');
+        this._title.setValue('');
+        this._body.setValue('');
     };
 
     render() {
@@ -118,7 +122,7 @@ export default class CommentForm extends React.PureComponent {
                               className="comment-form"
                               data-parsley-validate={true}
                               onSubmit={this._handleSubmit}>
-                            <Input ref="title"
+                            <Input ref={(title) => this._title = title}
                                    id="comment-title"
                                    title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.title_for_deletion') : I18n.t('js.comment.form.comment.title')}
                                    autoComplete="off"
@@ -130,7 +134,7 @@ export default class CommentForm extends React.PureComponent {
                                        'data-parsley-maxlength': window.parameters.comment_title_max_length
                                    }}/>
 
-                            <Textarea ref="body"
+                            <Textarea ref={(body) => this._body = body}
                                       id="comment-body"
                                       title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.body_for_deletion') : I18n.t('js.comment.form.comment.body')}
                                       maxLength={window.parameters.comment_body_max_length}
@@ -144,7 +148,7 @@ export default class CommentForm extends React.PureComponent {
                             {
                                 this.props.isRated && !this.props.isAskingForDeletion &&
                                 <div className="margin-top-20 margin-bottom-30">
-                                    <Rating ref="commentRating"
+                                    <Rating ref={(commentRating) => this._commentRating = commentRating}
                                             initialRating={this.props.rating}
                                             isReadOnly={false}
                                             hasInput={true}

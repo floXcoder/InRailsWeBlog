@@ -13,11 +13,17 @@ import ArticleNone from '../../components/articles/display/none';
 
 export default class ArticleIndex extends Reflux.Component {
     static propTypes = {
-        router: React.PropTypes.object.isRequired
+        router: PropTypes.object.isRequired
     };
 
     static defaultProps = {
     };
+
+    constructor(props) {
+        super(props);
+
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+    }
 
     state = {
         articles: null,
@@ -26,12 +32,6 @@ export default class ArticleIndex extends Reflux.Component {
         articleDisplayMode: 'card',
         highlightResults: true
     };
-
-    constructor(props) {
-        super(props);
-
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
-    }
 
     componentWillMount() {
         ArticleActions.loadArticles(this.props.router.match.params);

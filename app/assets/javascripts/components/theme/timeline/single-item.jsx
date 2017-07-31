@@ -18,10 +18,10 @@ const SingleTimelineItem = (props) => (
 );
 
 SingleTimelineItem.propTypes = {
-    icon: React.PropTypes.string.isRequired,
-    title: React.PropTypes.element.isRequired,
-    children: React.PropTypes.element.isRequired,
-    date: React.PropTypes.string
+    icon: PropTypes.string.isRequired,
+    title: PropTypes.element.isRequired,
+    children: PropTypes.element.isRequired,
+    date: PropTypes.string
 };
 
 SingleTimelineItem.defaultProps = {

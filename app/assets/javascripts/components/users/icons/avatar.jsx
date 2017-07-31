@@ -28,8 +28,8 @@ const UserAvatarIcon = ({user, className}) => (
 );
 
 UserAvatarIcon.propTypes = {
-    user: React.PropTypes.object.isRequired,
-    className: React.PropTypes.string
+    user: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 UserAvatarIcon.getDefaultProps = {

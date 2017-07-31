@@ -17,18 +17,25 @@ import UserTracking from '../../components/users/tracking';
 
 export default class UserComplete extends Reflux.Component {
     static propTypes = {
-        userId: React.PropTypes.oneOfType([
-            React.PropTypes.number,
-            React.PropTypes.string
+        userId: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
         ]).isRequired,
-        isAdmin: React.PropTypes.bool,
-        onEditClick: React.PropTypes.func
+        isAdmin: PropTypes.bool,
+        onEditClick: PropTypes.func
     };
 
     static defaultProps = {
         isAdmin: false,
         onEditClick: null
     };
+
+    constructor(props) {
+        super(props);
+
+        this.mapStoreToState(UserStore, this.onUserChange);
+        this.mapStoreToState(ArticleStore, this.onArticleChange);
+    }
 
     state = {
         user: {},
@@ -40,13 +47,6 @@ export default class UserComplete extends Reflux.Component {
         userActivities: null,
         activitiesPagination: null
     };
-
-    constructor(props) {
-        super(props);
-
-        this.mapStoreToState(UserStore, this.onUserChange);
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
-    }
 
     componentWillMount() {
         UserActions.loadUser({

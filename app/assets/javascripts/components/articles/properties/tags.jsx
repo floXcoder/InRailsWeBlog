@@ -10,9 +10,9 @@ import {Link} from 'react-router-dom';
 
 export default class ArticleTags extends React.PureComponent {
     static propTypes = {
-        article: React.PropTypes.object.isRequired,
-        onTagClick: React.PropTypes.func,
-        linkTag: React.PropTypes.string
+        article: PropTypes.object.isRequired,
+        onTagClick: PropTypes.func,
+        linkTag: PropTypes.string
     };
 
     static defaultProps = {
@@ -20,13 +20,13 @@ export default class ArticleTags extends React.PureComponent {
         linkTag: null
     };
 
-    state = {
-        tagTooltipActive: null
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        tagTooltipActive: null
+    };
 
     _handleTagClick = (tagId, tagName, event) => {
         TagStore.onTrackClick(tagId);

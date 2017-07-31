@@ -7,7 +7,7 @@ const SingleTimeline = ({children}) => (
 );
 
 SingleTimeline.propTypes = {
-    children: React.PropTypes.array.isRequired
+    children: PropTypes.array.isRequired
 };
 
 export default SingleTimeline;

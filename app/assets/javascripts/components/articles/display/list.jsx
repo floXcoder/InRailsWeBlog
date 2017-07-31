@@ -68,11 +68,11 @@ const ArticleListDisplay = ({router, articles, hasMore, articleDisplayMode, isHi
 };
 
 ArticleListDisplay.propTypes = {
-    router: React.PropTypes.object.isRequired,
-    articles: React.PropTypes.array.isRequired,
-    hasMore: React.PropTypes.bool.isRequired,
-    articleDisplayMode: React.PropTypes.string.isRequired,
-    isHighlightingResults: React.PropTypes.bool
+    router: PropTypes.object.isRequired,
+    articles: PropTypes.array.isRequired,
+    hasMore: PropTypes.bool.isRequired,
+    articleDisplayMode: PropTypes.string.isRequired,
+    isHighlightingResults: PropTypes.bool
 };
 
 ArticleListDisplay.getDefaultProps = {

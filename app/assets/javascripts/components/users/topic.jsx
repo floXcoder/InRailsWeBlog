@@ -13,13 +13,21 @@ import {
 
 export default class UserTopic extends Reflux.Component {
     static propTypes = {
-        router: React.PropTypes.object.isRequired,
-        onTopicClick: React.PropTypes.func
+        router: PropTypes.object.isRequired,
+        onTopicClick: PropTypes.func
     };
 
     static defaultProps = {
         onTopicClick: null
     };
+
+    constructor(props) {
+        super(props);
+
+        this.mapStoreToState(TopicStore, this.onTopicChange);
+
+        this._topicInput = null;
+    }
 
     state = {
         currentTopicId: null,
@@ -30,14 +38,6 @@ export default class UserTopic extends Reflux.Component {
         // topicEditingId: null,
         // isCreateTopicOpened: false,
     };
-
-    constructor(props) {
-        super(props);
-
-        this.mapStoreToState(TopicStore, this.onTopicChange);
-
-        this._topicInput = null;
-    }
 
     componentWillMount() {
         if ($app.isUserConnected()) {

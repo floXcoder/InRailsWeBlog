@@ -14,7 +14,7 @@ const ArticleErrorField = ({errors}) => (
 );
 
 ArticleErrorField.propTypes = {
-    errors: React.PropTypes.array.isRequired
+    errors: PropTypes.array.isRequired
 };
 
 export default ArticleErrorField;

@@ -10,19 +10,19 @@ import {
 
 export default class DefaultLayout extends React.PureComponent {
     static propTypes = {
-        component: React.PropTypes.func.isRequired,
-        onReloadPage: React.PropTypes.func.isRequired
+        component: PropTypes.func.isRequired,
+        onReloadPage: PropTypes.func.isRequired
     };
 
     static defaultProps = {};
 
-    state = {
-        isSidebarOpened: true
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        isSidebarOpened: true
+    };
 
     // TODO
     // componentDidUpdate(prevProps) {

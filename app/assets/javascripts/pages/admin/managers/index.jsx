@@ -1,8 +1,6 @@
 'use strict';
 
-// require('../admin');
-
-let UserIndex = require('../../../components/users/index');
+import UserIndex from '../../../components/users/index';
 
 // Main
 if ($app.isUserConnected()) {

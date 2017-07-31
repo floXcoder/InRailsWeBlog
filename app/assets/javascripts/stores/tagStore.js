@@ -81,9 +81,9 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
             return;
         }
 
-        let requestParam = {};
+        const url = this.url + '/' + data.id;
 
-        let url = this.url + '/' + data.id;
+        let requestParam = {};
 
         $.getJSON(url, requestParam)
             .done((dataReceived) => {
@@ -107,8 +107,9 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
             return;
         }
 
-        var url = this.url + '/' + tag.id;
-        var requestParam = {
+        const url = this.url + '/' + tag.id;
+
+        let requestParam = {
             _method: 'put',
             tags: tag
         };
@@ -147,8 +148,9 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
             return;
         }
 
-        let requestParam = {};
         let url = this.url;
+
+        let requestParam = {};
         let showMode = false;
 
         if (tag.id) {

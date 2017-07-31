@@ -5,11 +5,11 @@
  */
 export default class TypeaheadOption extends React.Component {
     static propTypes = {
-        customClasses: React.PropTypes.object,
-        customValue: React.PropTypes.string,
-        onClick: React.PropTypes.func,
-        children: React.PropTypes.object,
-        isOnHover: React.PropTypes.bool
+        customClasses: PropTypes.object,
+        customValue: PropTypes.string,
+        onClick: PropTypes.func,
+        children: PropTypes.object,
+        isOnHover: PropTypes.bool
     };
 
     static defaultProps = {

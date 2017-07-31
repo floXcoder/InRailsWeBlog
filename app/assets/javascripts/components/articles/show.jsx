@@ -28,9 +28,9 @@ import {
 
 export default class ArticleShow extends Reflux.Component {
     static propTypes = {
-        article: React.PropTypes.object,
-        params: React.PropTypes.object,
-        location: React.PropTypes.object,
+        article: PropTypes.object,
+        params: PropTypes.object,
+        location: PropTypes.object,
     };
 
     static defaultProps = {
@@ -39,17 +39,17 @@ export default class ArticleShow extends Reflux.Component {
         location: {}
     };
 
-    state = {
-        article: null,
-        articleVersions: null,
-        isHistoryDisplayed: false
-    };
-
     constructor(props) {
         super(props);
 
         this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
+
+    state = {
+        article: null,
+        articleVersions: null,
+        isHistoryDisplayed: false
+    };
 
     componentWillMount() {
         if (this.props.article) {

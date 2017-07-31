@@ -7,12 +7,12 @@ const MIN_QUERY_LENGTH = 1;
 
 export default class Suggestions extends React.Component {
     static propTypes = {
-        query: React.PropTypes.string.isRequired,
-        labelField: React.PropTypes.string,
-        selectedIndex: React.PropTypes.number.isRequired,
-        tags: React.PropTypes.array.isRequired,
-        onClickSuggestion: React.PropTypes.func.isRequired,
-        handleHover: React.PropTypes.func.isRequired
+        query: PropTypes.string.isRequired,
+        labelField: PropTypes.string,
+        selectedIndex: PropTypes.number.isRequired,
+        tags: PropTypes.array.isRequired,
+        onClickSuggestion: PropTypes.func.isRequired,
+        handleHover: PropTypes.func.isRequired
     };
 
     constructor(props) {

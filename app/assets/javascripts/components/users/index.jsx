@@ -15,17 +15,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class UserIndex extends Reflux.Component {
     static propTypes = {
-        onUserClick: React.PropTypes.func
+        onUserClick: PropTypes.func
     };
 
     static defaultProps = {
         onUserClick: null
-    };
-
-    state = {
-        users: [],
-        usersPagination: null,
-        filteredUsers: null
     };
 
     constructor(props) {
@@ -33,6 +27,12 @@ export default class UserIndex extends Reflux.Component {
 
         this.mapStoreToState(UserStore, this.onUserChange);
     }
+
+    state = {
+        users: [],
+        usersPagination: null,
+        filteredUsers: null
+    };
 
     componentWillMount() {
         UserActions.loadUsers({page: 1});

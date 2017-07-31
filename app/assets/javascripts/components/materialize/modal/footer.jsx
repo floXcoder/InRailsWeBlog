@@ -11,10 +11,10 @@ const ModalFooter = ({children}) => (
 );
 
 ModalFooter.propTypes = {
-    children: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.element),
-        React.PropTypes.element,
-        React.PropTypes.object
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.element),
+        PropTypes.element,
+        PropTypes.object
     ]).isRequired
 };
 

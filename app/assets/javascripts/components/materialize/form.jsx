@@ -2,22 +2,22 @@
 
 export default class Form extends React.Component {
     static propTypes = {
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.array,
-            React.PropTypes.element
+        children: PropTypes.oneOfType([
+            PropTypes.array,
+            PropTypes.element
         ]).isRequired,
-        model: React.PropTypes.string,
-        id: React.PropTypes.string,
-        modelId: React.PropTypes.number,
-        action: React.PropTypes.string,
-        isEdition: React.PropTypes.bool,
-        dataType: React.PropTypes.oneOf(['json', 'js']),
-        isValidating: React.PropTypes.bool,
-        validationExcluded: React.PropTypes.string,
-        isMultipart: React.PropTypes.bool,
-        isRemote: React.PropTypes.bool,
-        className: React.PropTypes.string,
-        onSubmit: React.PropTypes.func
+        model: PropTypes.string,
+        id: PropTypes.string,
+        modelId: PropTypes.number,
+        action: PropTypes.string,
+        isEdition: PropTypes.bool,
+        dataType: PropTypes.oneOf(['json', 'js']),
+        isValidating: PropTypes.bool,
+        validationExcluded: PropTypes.string,
+        isMultipart: PropTypes.bool,
+        isRemote: PropTypes.bool,
+        className: PropTypes.string,
+        onSubmit: PropTypes.func
     };
 
     static defaultProps = {

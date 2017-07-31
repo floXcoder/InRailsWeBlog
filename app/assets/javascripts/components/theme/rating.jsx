@@ -4,18 +4,18 @@ import _ from 'lodash';
 
 export default class Rating extends React.PureComponent {
     static propTypes = {
-        initialRating: React.PropTypes.number,
-        ratingCount: React.PropTypes.number,
-        isReadOnly: React.PropTypes.bool,
-        starNumber: React.PropTypes.number,
-        hasClear: React.PropTypes.bool,
-        isCentered: React.PropTypes.bool,
-        onChange: React.PropTypes.func,
-        hasInput: React.PropTypes.bool,
-        inputId: React.PropTypes.string,
-        inputName: React.PropTypes.string,
-        size: React.PropTypes.oneOf(['small', 'normal', 'big']),
-        labelName: React.PropTypes.string
+        initialRating: PropTypes.number,
+        ratingCount: PropTypes.number,
+        isReadOnly: PropTypes.bool,
+        starNumber: PropTypes.number,
+        hasClear: PropTypes.bool,
+        isCentered: PropTypes.bool,
+        onChange: PropTypes.func,
+        hasInput: PropTypes.bool,
+        inputId: PropTypes.string,
+        inputName: PropTypes.string,
+        size: PropTypes.oneOf(['small', 'normal', 'big']),
+        labelName: PropTypes.string
     };
 
     static defaultProps = {

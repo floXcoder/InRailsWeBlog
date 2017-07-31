@@ -2,19 +2,19 @@
 
 export default class File extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        buttonName: React.PropTypes.string.isRequired,
-        name: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        placeholder: React.PropTypes.string,
-        children: React.PropTypes.string,
-        isDisabled: React.PropTypes.bool,
-        isRequired: React.PropTypes.bool,
-        isMultiple: React.PropTypes.bool,
-        icon: React.PropTypes.string,
-        onChange: React.PropTypes.func,
-        onInput: React.PropTypes.func,
-        validator: React.PropTypes.object
+        id: PropTypes.string.isRequired,
+        buttonName: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        multipleId: PropTypes.number,
+        placeholder: PropTypes.string,
+        children: PropTypes.string,
+        isDisabled: PropTypes.bool,
+        isRequired: PropTypes.bool,
+        isMultiple: PropTypes.bool,
+        icon: PropTypes.string,
+        onChange: PropTypes.func,
+        onInput: PropTypes.func,
+        validator: PropTypes.object
     };
 
     static defaultProps = {

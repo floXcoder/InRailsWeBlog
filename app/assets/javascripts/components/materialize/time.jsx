@@ -4,18 +4,18 @@ import '../../modules/clockpicker';
 
 export default class Time extends React.PureComponent {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string.isRequired,
-        name: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        children: React.PropTypes.string,
-        isDisabled: React.PropTypes.bool,
-        isRequired: React.PropTypes.bool,
-        icon: React.PropTypes.string,
-        onChange: React.PropTypes.func,
-        onInput: React.PropTypes.func,
-        isHorizontal: React.PropTypes.bool,
-        validator: React.PropTypes.object
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        multipleId: PropTypes.number,
+        children: PropTypes.string,
+        isDisabled: PropTypes.bool,
+        isRequired: PropTypes.bool,
+        icon: PropTypes.string,
+        onChange: PropTypes.func,
+        onInput: PropTypes.func,
+        isHorizontal: PropTypes.bool,
+        validator: PropTypes.object
     };
 
     static defaultProps = {

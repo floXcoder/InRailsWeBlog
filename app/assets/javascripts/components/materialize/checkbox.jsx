@@ -2,26 +2,26 @@
 
 export default class Checkbox extends React.PureComponent {
     static propTypes = {
-        title: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.element
+        title: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.element
         ]).isRequired,
-        id: React.PropTypes.string,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.bool,
-            React.PropTypes.string
+        id: PropTypes.string,
+        children: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string
         ]),
-        name: React.PropTypes.string,
-        className: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        onCheckboxChange: React.PropTypes.func,
-        isDefaultChecked: React.PropTypes.bool,
-        isInputField: React.PropTypes.bool,
-        isDisabled: React.PropTypes.bool,
-        isMultiple: React.PropTypes.bool,
-        isRequired: React.PropTypes.bool,
-        isHorizontal: React.PropTypes.bool,
-        validator: React.PropTypes.object
+        name: PropTypes.string,
+        className: PropTypes.string,
+        multipleId: PropTypes.number,
+        onCheckboxChange: PropTypes.func,
+        isDefaultChecked: PropTypes.bool,
+        isInputField: PropTypes.bool,
+        isDisabled: PropTypes.bool,
+        isMultiple: PropTypes.bool,
+        isRequired: PropTypes.bool,
+        isHorizontal: PropTypes.bool,
+        validator: PropTypes.object
     };
 
     static defaultProps = {

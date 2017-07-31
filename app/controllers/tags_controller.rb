@@ -32,9 +32,6 @@ class TagsController < ApplicationController
     # TODO: set a tag limit?
     # tags = params[:limit] ? tags.limit(params[:limit]) : tags.paginate(page: params[:page], per_page: CONFIG.per_page)
 
-    w params
-    w tags.map(&:name).sort
-
     respond_to do |format|
       format.json do
         render json:            tags,

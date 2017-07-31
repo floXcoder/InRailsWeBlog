@@ -41,9 +41,9 @@ const CommentTimelineDisplay = ({comments, pagination, loadComments}) => (
 );
 
 CommentTimelineDisplay.propTypes = {
-    comments: React.PropTypes.array,
-    pagination: React.PropTypes.object,
-    loadComments: React.PropTypes.func
+    comments: PropTypes.array,
+    pagination: PropTypes.object,
+    loadComments: PropTypes.func
 };
 
 CommentTimelineDisplay.getDefaultProps = {

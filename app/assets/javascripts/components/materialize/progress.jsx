@@ -2,9 +2,9 @@
 
 export default class Progress extends React.PureComponent {
     static propTypes = {
-        value: React.PropTypes.number,
-        totalValues: React.PropTypes.number,
-        progressClass: React.PropTypes.string
+        value: PropTypes.number,
+        totalValues: PropTypes.number,
+        progressClass: PropTypes.string
     };
 
     static defaultProps = {

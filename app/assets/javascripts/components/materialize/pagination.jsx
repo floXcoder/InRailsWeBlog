@@ -7,13 +7,13 @@ import ReactPaginate from 'react-paginate';
 
 export default class Pagination extends mix(React.Component).with(HistoryMixin) {
     static propTypes = {
-        totalPages: React.PropTypes.number,
-        initialPage: React.PropTypes.number,
-        currentPage: React.PropTypes.number,
-        numOfPageShow: React.PropTypes.number,
-        className: React.PropTypes.string,
-        hasHistory: React.PropTypes.bool,
-        onPaginationClick: React.PropTypes.func
+        totalPages: PropTypes.number,
+        initialPage: PropTypes.number,
+        currentPage: PropTypes.number,
+        numOfPageShow: PropTypes.number,
+        className: PropTypes.string,
+        hasHistory: PropTypes.bool,
+        onPaginationClick: PropTypes.func
     };
 
     static defaultProps = {

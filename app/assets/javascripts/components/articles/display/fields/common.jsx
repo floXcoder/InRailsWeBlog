@@ -5,10 +5,10 @@ import Editor from '../../../editor/editor';
 
 export default class ArticleCommonField extends React.Component {
     static propTypes = {
-        article: React.PropTypes.object,
-        multipleId: React.PropTypes.number,
-        onInputsChange: React.PropTypes.func,
-        onIsLinkChange: React.PropTypes.func
+        article: PropTypes.object,
+        multipleId: PropTypes.number,
+        onInputsChange: PropTypes.func,
+        onIsLinkChange: PropTypes.func
     };
 
     static defaultProps = {
@@ -17,8 +17,6 @@ export default class ArticleCommonField extends React.Component {
         onInputsChange: null,
         onIsLinkChange: null
     };
-
-    state = {};
 
     constructor(props) {
         super(props);

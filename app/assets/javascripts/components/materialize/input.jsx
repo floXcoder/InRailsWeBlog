@@ -4,49 +4,49 @@ import _ from 'lodash';
 
 export default class Input extends React.Component {
     static propTypes = {
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.number
+        children: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
         ]),
-        id: React.PropTypes.string.isRequired,
-        className: React.PropTypes.string,
-        title: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.object,
-            React.PropTypes.string
+        id: PropTypes.string.isRequired,
+        className: PropTypes.string,
+        title: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.object,
+            PropTypes.string
         ]),
-        placeholder: React.PropTypes.string,
-        explanation: React.PropTypes.string,
-        type: React.PropTypes.string,
-        isHorizontal: React.PropTypes.bool,
-        isRequired: React.PropTypes.bool,
-        isReadOnly: React.PropTypes.bool,
-        isDisabled: React.PropTypes.bool,
-        labelClass: React.PropTypes.string,
-        name: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        icon: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.object,
-            React.PropTypes.string
+        placeholder: PropTypes.string,
+        explanation: PropTypes.string,
+        type: PropTypes.string,
+        isHorizontal: PropTypes.bool,
+        isRequired: PropTypes.bool,
+        isReadOnly: PropTypes.bool,
+        isDisabled: PropTypes.bool,
+        labelClass: PropTypes.string,
+        name: PropTypes.string,
+        multipleId: PropTypes.number,
+        icon: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.object,
+            PropTypes.string
         ]),
-        step: React.PropTypes.number,
-        min: React.PropTypes.number,
-        max: React.PropTypes.number,
-        minLength: React.PropTypes.number,
-        maxLength: React.PropTypes.number,
-        hasAutoFocus: React.PropTypes.bool,
-        isAutoComplete: React.PropTypes.bool,
-        onFocus: React.PropTypes.func,
-        onChange: React.PropTypes.func,
-        onInput: React.PropTypes.func,
-        onKeyDown: React.PropTypes.func,
-        onKeyPress: React.PropTypes.func,
-        onKeyUp: React.PropTypes.func,
-        onBlur: React.PropTypes.func,
-        characterCount: React.PropTypes.number,
-        mask: React.PropTypes.object,
-        validator: React.PropTypes.object
+        step: PropTypes.number,
+        min: PropTypes.number,
+        max: PropTypes.number,
+        minLength: PropTypes.number,
+        maxLength: PropTypes.number,
+        hasAutoFocus: PropTypes.bool,
+        isAutoComplete: PropTypes.bool,
+        onFocus: PropTypes.func,
+        onChange: PropTypes.func,
+        onInput: PropTypes.func,
+        onKeyDown: PropTypes.func,
+        onKeyPress: PropTypes.func,
+        onKeyUp: PropTypes.func,
+        onBlur: PropTypes.func,
+        characterCount: PropTypes.number,
+        mask: PropTypes.object,
+        validator: PropTypes.object
     };
 
     static defaultProps = {

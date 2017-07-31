@@ -15,8 +15,8 @@ const ArticleDeleteIcon = ({article, onDeleteClick}) => {
 };
 
 ArticleDeleteIcon.propTypes = {
-    article: React.PropTypes.object.isRequired,
-    onDeleteClick: React.PropTypes.func.isRequired
+    article: PropTypes.object.isRequired,
+    onDeleteClick: PropTypes.func.isRequired
 };
 
 export default ArticleDeleteIcon;

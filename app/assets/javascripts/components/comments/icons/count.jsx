@@ -12,8 +12,8 @@ const CountCommentIcon = ({linkToComment, commentsNumber}) => (
 );
 
 CountCommentIcon.propTypes = {
-    linkToComment: React.PropTypes.string.isRequired,
-    commentsNumber: React.PropTypes.number.isRequired
+    linkToComment: PropTypes.string.isRequired,
+    commentsNumber: PropTypes.number.isRequired
 };
 
 export default CountCommentIcon;

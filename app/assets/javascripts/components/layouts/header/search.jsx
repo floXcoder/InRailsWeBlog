@@ -9,7 +9,7 @@ const HomeSearchHeader = ({onSearchClick}) => (
 );
 
 HomeSearchHeader.propTypes = {
-    onSearchClick: React.PropTypes.func.isRequired
+    onSearchClick: PropTypes.func.isRequired
 };
 
 HomeSearchHeader._handleSearchClick = (onSearchClick, event) => {

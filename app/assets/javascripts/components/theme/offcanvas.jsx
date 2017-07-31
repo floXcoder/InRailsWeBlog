@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 export default class OffCanvas extends React.PureComponent {
     static propTypes = {
-        onToggle: React.PropTypes.func
+        onToggle: PropTypes.func
     };
 
     static defaultProps = {

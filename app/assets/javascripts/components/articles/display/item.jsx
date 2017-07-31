@@ -13,10 +13,10 @@ import ArticleEditionDisplay from './inline-edition';
 
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
-        router: React.PropTypes.object.isRequired,
-        children: React.PropTypes.string.isRequired,
-        article: React.PropTypes.object.isRequired,
-        initialDisplayMode: React.PropTypes.string.isRequired
+        router: PropTypes.object.isRequired,
+        children: PropTypes.string.isRequired,
+        article: PropTypes.object.isRequired,
+        initialDisplayMode: PropTypes.string.isRequired
     };
 
     static defaultProps = {};
@@ -34,16 +34,17 @@ export default class ArticleItemDisplay extends React.Component {
             $(this).tooltip();
         });
 
-        Tracker.trackViews($(ReactDOM.findDOMNode(this)), () => {
-            ArticleActions.trackView(this.props.article.id);
-            if (this.props.article.user) {
-                UserActions.trackView(this.props.article.user.id);
-            }
-
-            if (this.props.article.tags.length > 0) {
-                TagActions.trackView(_.map(this.props.article.tags, 'id'));
-            }
-        });
+        // TODO : use mixin
+        // Tracker.trackViews($(ReactDOM.findDOMNode(this)), () => {
+        //     ArticleActions.trackView(this.props.article.id);
+        //     if (this.props.article.user) {
+        //         UserActions.trackView(this.props.article.user.id);
+        //     }
+        //
+        //     if (this.props.article.tags.length > 0) {
+        //         TagActions.trackView(_.map(this.props.article.tags, 'id'));
+        //     }
+        // });
     }
 
     componentDidUpdate() {

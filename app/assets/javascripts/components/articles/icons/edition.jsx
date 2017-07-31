@@ -1,11 +1,11 @@
 'use strict';
 
-export default class ArticleEditionIcons extends React.PureComponent {
+export default class ArticleEditionIcons extends React.Component {
     static propTypes = {
-        article: React.PropTypes.object.isRequired,
-        onDeleteClick: React.PropTypes.func.isRequired,
-        onCancelClick: React.PropTypes.func.isRequired,
-        onSaveClick: React.PropTypes.func.isRequired
+        article: PropTypes.object.isRequired,
+        onDeleteClick: PropTypes.func.isRequired,
+        onCancelClick: PropTypes.func.isRequired,
+        onSaveClick: PropTypes.func.isRequired
     };
 
     constructor(props) {

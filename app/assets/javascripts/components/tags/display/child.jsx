@@ -16,9 +16,9 @@ const _handleTagClick = (tagSlug, parentTagSlug, childTagSlug, onClickTag, event
 };
 
 ChildTag.propTypes = {
-    tag: React.PropTypes.object.isRequired,
-    parentTagSlug: React.PropTypes.string.isRequired,
-    onClickTag: React.PropTypes.func.isRequired
+    tag: PropTypes.object.isRequired,
+    parentTagSlug: PropTypes.string.isRequired,
+    onClickTag: PropTypes.func.isRequired
 };
 
 export default ChildTag;

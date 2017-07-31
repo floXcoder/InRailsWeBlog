@@ -8,7 +8,7 @@ const ArticleTime = ({article}) => (
 );
 
 ArticleTime.propTypes = {
-    article: React.PropTypes.object.isRequired
+    article: PropTypes.object.isRequired
 };
 
 export default ArticleTime;

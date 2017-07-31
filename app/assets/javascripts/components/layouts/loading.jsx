@@ -53,7 +53,7 @@ const LoadingLayout = ({component: Component, ...rest}) => {
 };
 
 LoadingLayout.propTypes = {
-    component: React.PropTypes.func
+    component: PropTypes.func
 };
 
 LoadingLayout.defaultProps = {

@@ -10,16 +10,11 @@ import Spinner from '../../../components/materialize/spinner';
 
 export default class AssociatedTagBox extends Reflux.Component {
     static propTypes = {
-        hasMore: React.PropTypes.bool
+        hasMore: PropTypes.bool
     };
 
     static defaultProps = {
         hasMore: false
-    };
-
-    state = {
-        associatedTags: null,
-        isLoading: true
     };
 
     constructor(props) {
@@ -27,6 +22,11 @@ export default class AssociatedTagBox extends Reflux.Component {
 
         this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
+
+    state = {
+        associatedTags: null,
+        isLoading: true
+    };
 
     onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {

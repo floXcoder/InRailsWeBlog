@@ -7,33 +7,18 @@
  */
 export default class Token extends React.Component {
     static propTypes = {
-        className: React.PropTypes.string,
-        name: React.PropTypes.string,
-        children: React.PropTypes.string,
-        object: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.object
+        className: PropTypes.string,
+        name: PropTypes.string,
+        children: PropTypes.string,
+        object: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
         ]),
-        onRemove: React.PropTypes.func
+        onRemove: PropTypes.func
     };
 
     constructor(props) {
         super(props);
-    }
-
-    render() {
-        let className = classNames([
-            "typeahead-token",
-            this.props.className
-        ]);
-
-        return (
-            <div className={className}>
-                {this._renderHiddenInput()}
-                {this.props.children}
-                {this._renderCloseButton()}
-            </div>
-        );
     }
 
     _renderHiddenInput = () => {
@@ -60,6 +45,21 @@ export default class Token extends React.Component {
                 this.props.onRemove(this.props.object);
                 event.preventDefault();
             }}>&#x00d7;</a>
+        );
+    };
+
+    render() {
+        let className = classNames([
+            "typeahead-token",
+            this.props.className
+        ]);
+
+        return (
+            <div className={className}>
+                {this._renderHiddenInput()}
+                {this.props.children}
+                {this._renderCloseButton()}
+            </div>
         );
     }
 }

@@ -32,38 +32,39 @@ var _generateAccessor = function (field) {
  */
 export default class Typeahead extends React.Component {
     static propTypes = {
-        name: React.PropTypes.string,
-        customClasses: React.PropTypes.object,
-        maxVisible: React.PropTypes.number,
-        options: React.PropTypes.array,
-        allowCustomValues: React.PropTypes.number,
-        defaultValue: React.PropTypes.string,
-        value: React.PropTypes.string,
-        placeholder: React.PropTypes.string,
-        textarea: React.PropTypes.bool,
-        inputProps: React.PropTypes.object,
-        onOptionSelected: React.PropTypes.func,
-        onChange: React.PropTypes.func,
-        onKeyDown: React.PropTypes.func,
-        onKeyUp: React.PropTypes.func,
-        onFocus: React.PropTypes.func,
-        onBlur: React.PropTypes.func,
-        filterOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
+        name: PropTypes.string,
+        customClasses: PropTypes.object,
+        maxVisible: PropTypes.number,
+        options: PropTypes.array,
+        allowCustomValues: PropTypes.number,
+        defaultValue: PropTypes.string,
+        value: PropTypes.string,
+        placeholder: PropTypes.string,
+        className: PropTypes.string,
+        isTextarea: PropTypes.bool,
+        inputProps: PropTypes.object,
+        onOptionSelected: PropTypes.func,
+        onChange: PropTypes.func,
+        onKeyDown: PropTypes.func,
+        onKeyUp: PropTypes.func,
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
+        filterOption: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func
         ]),
-        displayOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
+        displayOption: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func
         ]),
-        formInputOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
+        formInputOption: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func
         ]),
-        defaultClassNames: React.PropTypes.bool,
-        customListComponent: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.func
+        hasDefaultClassNames: PropTypes.bool,
+        customListComponent: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.func
         ])
     };
 
@@ -74,22 +75,22 @@ export default class Typeahead extends React.Component {
         defaultValue: "",
         value: null,
         placeholder: "",
-        textarea: false,
+        isTextarea: false,
         inputProps: {},
-        onOptionSelected (option) {
+        onOptionSelected(option) {
         },
-        onChange (event) {
+        onChange(event) {
         },
-        onKeyDown (event) {
+        onKeyDown(event) {
         },
-        onKeyUp (event) {
+        onKeyUp(event) {
         },
-        onFocus (event) {
+        onFocus(event) {
         },
-        onBlur (event) {
+        onBlur(event) {
         },
         filterOption: null,
-        defaultClassNames: true,
+        hasDefaultClassNames: true,
         customListComponent: TypeaheadSelector
     };
 
@@ -106,6 +107,12 @@ export default class Typeahead extends React.Component {
         // Index of the selection
         selectionIndex: null
     };
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            visible: this.getOptionsForValue(this.state.entryValue, nextProps.options)
+        });
+    }
 
     getOptionsForValue = (value, options) => {
         if (!SHOULD_SEARCH_VALUE(value)) {
@@ -166,7 +173,7 @@ export default class Typeahead extends React.Component {
                 customValue: this._getCustomValue(),
                 customClasses: this.props.customClasses,
                 selectionIndex: this.state.selectionIndex,
-                defaultClassNames: this.props.defaultClassNames,
+                defaultClassNames: this.props.hasDefaultClassNames,
                 displayOption: this._generateOptionToStringFor(this.props.displayOption)
             })
         );
@@ -312,47 +319,6 @@ export default class Typeahead extends React.Component {
         event.preventDefault();
     };
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            visible: this.getOptionsForValue(this.state.entryValue, nextProps.options)
-        });
-    }
-
-    render() {
-        var inputClasses = {};
-        inputClasses[this.props.customClasses.input] = !!this.props.customClasses.input;
-        var inputClassList = classNames(inputClasses);
-
-        var classes = {
-            typeahead: this.props.defaultClassNames
-        };
-        classes[this.props.className] = !!this.props.className;
-        var classList = classNames(classes);
-
-        var InputElement = this.props.textarea ? 'textarea' : 'input';
-
-        return (
-            React.createElement("div", {className: classList},
-                this._renderHiddenInput(),
-                React.createElement(InputElement, React.__spread({ref: "entry", type: "text"},
-                    this.props.inputProps,
-                    {
-                        placeholder: this.props.placeholder,
-                        className: inputClassList,
-                        value: this.state.entryValue,
-                        defaultValue: this.props.defaultValue,
-                        onChange: this._onChange,
-                        onKeyDown: this._onKeyDown,
-                        onKeyUp: this.props.onKeyUp,
-                        onFocus: this.props.onFocus,
-                        onBlur: this.props.onBlur
-                    })
-                ),
-                this._renderIncrementalSearchResults()
-            )
-        );
-    }
-
     _renderHiddenInput = () => {
         if (!this.props.name) {
             return null;
@@ -405,5 +371,40 @@ export default class Typeahead extends React.Component {
 
     _hasHint = () => {
         return this.state.visible.length > 0 || this._hasCustomValue();
+    };
+
+    render() {
+        var inputClasses = {};
+        inputClasses[this.props.customClasses.input] = !!this.props.customClasses.input;
+        var inputClassList = classNames(inputClasses);
+
+        var classes = {
+            typeahead: this.props.hasDefaultClassNames
+        };
+        classes[this.props.className] = !!this.props.className;
+        var classList = classNames(classes);
+
+        var InputElement = this.props.isTextarea ? 'textarea' : 'input';
+
+        return (
+            React.createElement("div", {className: classList},
+                this._renderHiddenInput(),
+                React.createElement(InputElement, React.__spread({ref: "entry", type: "text"},
+                    this.props.inputProps,
+                    {
+                        placeholder: this.props.placeholder,
+                        className: inputClassList,
+                        value: this.state.entryValue,
+                        defaultValue: this.props.defaultValue,
+                        onChange: this._onChange,
+                        onKeyDown: this._onKeyDown,
+                        onKeyUp: this.props.onKeyUp,
+                        onFocus: this.props.onFocus,
+                        onBlur: this.props.onBlur
+                    })
+                ),
+                this._renderIncrementalSearchResults()
+            )
+        );
     }
 }

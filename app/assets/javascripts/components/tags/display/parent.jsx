@@ -4,9 +4,9 @@ import ChildTag from './child';
 
 export default class ParentTag extends Reflux.PureComponent {
     static propTypes = {
-        tag: React.PropTypes.object.isRequired,
-        onClickTag: React.PropTypes.func.isRequired,
-        isSearching: React.PropTypes.bool
+        tag: PropTypes.object.isRequired,
+        onClickTag: PropTypes.func.isRequired,
+        isSearching: PropTypes.bool
     };
 
     static defaultProps = {

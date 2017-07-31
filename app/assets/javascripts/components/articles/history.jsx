@@ -4,14 +4,14 @@ import ArticleActions from '../../actions/articleActions';
 
 export default class ArticleHistory extends React.Component {
     static propTypes = {
-        articleVersions: React.PropTypes.array.isRequired
+        articleVersions: PropTypes.array.isRequired
     };
-
-    state = {};
 
     constructor(props) {
         super(props);
     }
+
+    state = {};
 
     componentDidMount() {
         $('.blog-article-history.collapsible').collapsible();

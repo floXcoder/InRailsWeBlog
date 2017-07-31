@@ -4,14 +4,14 @@ import _ from 'lodash';
 
 export default class PictureSlider extends React.PureComponent {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.string),
-            React.PropTypes.arrayOf(React.PropTypes.object)
+        id: PropTypes.string.isRequired,
+        children: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.string),
+            PropTypes.arrayOf(PropTypes.object)
         ]).isRequired,
-        hasIndicators: React.PropTypes.bool,
-        height: React.PropTypes.number,
-        interval: React.PropTypes.number
+        hasIndicators: PropTypes.bool,
+        height: PropTypes.number,
+        interval: PropTypes.number
     };
 
     static defaultProps = {

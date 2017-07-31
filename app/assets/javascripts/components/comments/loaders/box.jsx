@@ -2,14 +2,12 @@
 
 import {LazilyLoadFactory} from '../../../loaders/hoc-loader';
 
-const CommentLoader = ({CommentBox, ...props}) => {
-    return (
-        <CommentBox {...props}/>
-    )
-};
+const CommentLoader = ({CommentBox, ...props}) => (
+    <CommentBox {...props}/>
+);
 
 CommentLoader.propTypes = {
-    CommentBox: React.PropTypes.func
+    CommentBox: PropTypes.func
 };
 
 export default LazilyLoadFactory(CommentLoader, {

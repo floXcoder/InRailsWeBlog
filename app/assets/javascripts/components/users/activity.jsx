@@ -68,9 +68,9 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
 };
 
 UserActivity.propTypes = {
-    activities: React.PropTypes.array,
-    pagination: React.PropTypes.object,
-    loadActivities: React.PropTypes.func
+    activities: PropTypes.array,
+    pagination: PropTypes.object,
+    loadActivities: PropTypes.func
 };
 
 UserActivity.getDefaultProps = {

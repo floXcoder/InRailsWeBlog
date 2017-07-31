@@ -1,9 +1,9 @@
 'use strict';
 
-export default class ArticleHistoryIcon extends React.PureComponent {
+export default class ArticleHistoryIcon extends React.Component {
     static propTypes = {
-        article: React.PropTypes.object.isRequired,
-        onHistoryClick: React.PropTypes.func.isRequired
+        article: PropTypes.object.isRequired,
+        onHistoryClick: PropTypes.func.isRequired
     };
 
     static defaultProps = {};

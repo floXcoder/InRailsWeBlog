@@ -16,21 +16,21 @@ import Fuzzy from 'fuzzy';
 
 export default class TagSidebar extends Reflux.Component {
     static propTypes = {
-        router: React.PropTypes.object.isRequired
+        router: PropTypes.object.isRequired
     };
 
     static defaultProps = {};
-
-    state = {
-        userTags: [],
-        filterText: null
-    };
 
     constructor(props) {
         super(props);
 
         this.mapStoreToState(TagStore, this.onTagChange);
     }
+
+    state = {
+        userTags: [],
+        filterText: null
+    };
 
     componentWillMount() {
         if ($app.isUserConnected()) {

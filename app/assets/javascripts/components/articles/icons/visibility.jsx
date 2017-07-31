@@ -30,8 +30,8 @@ const ArticleVisibilityIcon = ({article, hasFloatingButton}) => {
 };
 
 ArticleVisibilityIcon.propTypes = {
-    article: React.PropTypes.object.isRequired,
-    hasFloatingButton: React.PropTypes.bool
+    article: PropTypes.object.isRequired,
+    hasFloatingButton: PropTypes.bool
 };
 
 ArticleVisibilityIcon.getDefaultProps = {

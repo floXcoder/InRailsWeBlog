@@ -55,9 +55,9 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
 );
 
 ArticleTimelineDisplay.propTypes = {
-    articles: React.PropTypes.array.isRequired,
-    pagination: React.PropTypes.object,
-    loadArticles: React.PropTypes.func
+    articles: PropTypes.array.isRequired,
+    pagination: PropTypes.object,
+    loadArticles: PropTypes.func
 };
 
 ArticleTimelineDisplay.getDefaultProps = {

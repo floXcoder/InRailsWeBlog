@@ -4,16 +4,16 @@ import ModalTitle from './title';
 
 export default class Modal extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string.isRequired,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        children: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.element),
+            PropTypes.element
         ]).isRequired,
-        launcherId: React.PropTypes.string,
-        launcherClass: React.PropTypes.string,
-        isBottom: React.PropTypes.bool,
-        onOpen: React.PropTypes.func
+        launcherId: PropTypes.string,
+        launcherClass: PropTypes.string,
+        isBottom: PropTypes.bool,
+        onOpen: PropTypes.func
     };
 
     static defaultProps = {

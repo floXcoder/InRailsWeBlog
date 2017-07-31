@@ -2,19 +2,19 @@
 
 export default class ArticleBookmarkIcon extends React.PureComponent {
     static propTypes = {
-        article: React.PropTypes.object.isRequired,
-        onBookmarkClick: React.PropTypes.func.isRequired
+        article: PropTypes.object.isRequired,
+        onBookmarkClick: PropTypes.func.isRequired
     };
 
     static defaultProps = {};
 
-    state = {
-        isBookmarked: this.props.article.bookmarked
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        isBookmarked: this.props.article.bookmarked
+    };
 
     _handleBookmarkClick = (articleId, event) => {
         event.preventDefault();

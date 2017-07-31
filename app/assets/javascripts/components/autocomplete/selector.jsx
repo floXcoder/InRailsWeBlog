@@ -8,13 +8,13 @@ import TypeaheadOption from './option';
  */
 export default class TypeaheadSelector extends React.Component {
     static propTypes = {
-        options: React.PropTypes.array,
-        customClasses: React.PropTypes.object,
-        customValue: React.PropTypes.string,
-        selectionIndex: React.PropTypes.number,
-        onOptionSelected: React.PropTypes.func,
-        displayOption: React.PropTypes.func.isRequired,
-        hasDefaultClassNames: React.PropTypes.bool
+        options: PropTypes.array,
+        customClasses: PropTypes.object,
+        customValue: PropTypes.string,
+        selectionIndex: PropTypes.number,
+        onOptionSelected: PropTypes.func,
+        displayOption: PropTypes.func.isRequired,
+        hasDefaultClassNames: PropTypes.bool
     };
 
     static defaultProps = {

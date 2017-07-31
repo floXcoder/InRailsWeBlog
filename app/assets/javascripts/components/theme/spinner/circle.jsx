@@ -27,8 +27,8 @@ const CircleSpinner = ({size, className}) => {
 };
 
 CircleSpinner.propTypes = {
-    size: React.PropTypes.string,
-    className: React.PropTypes.string
+    size: PropTypes.string,
+    className: PropTypes.string
 };
 
 CircleSpinner.defaultProps = {

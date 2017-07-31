@@ -15,8 +15,8 @@ const ArticleEditIcon = ({article, onEditClick}) => {
 };
 
 ArticleEditIcon.propTypes = {
-    article: React.PropTypes.object.isRequired,
-    onEditClick: React.PropTypes.func
+    article: PropTypes.object.isRequired,
+    onEditClick: PropTypes.func
 };
 
 ArticleEditIcon.getDefaultProps = {

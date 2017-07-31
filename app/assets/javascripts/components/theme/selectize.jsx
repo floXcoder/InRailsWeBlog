@@ -7,24 +7,24 @@ const MultiSelect = ReactSelectize.MultiSelect;
 
 export default class Selectize extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        placeholder: React.PropTypes.string.isRequired,
-        elements: React.PropTypes.oneOfType([
-            React.PropTypes.array,
-            React.PropTypes.object
+        id: PropTypes.string.isRequired,
+        placeholder: PropTypes.string.isRequired,
+        elements: PropTypes.oneOfType([
+            PropTypes.array,
+            PropTypes.object
         ]).isRequired,
-        title: React.PropTypes.string,
-        name: React.PropTypes.string,
-        children: React.PropTypes.array,
-        icon: React.PropTypes.string,
-        isCategorized: React.PropTypes.bool,
-        maxValues: React.PropTypes.number,
-        maxLength: React.PropTypes.number,
-        multipleId: React.PropTypes.number,
-        isMultiple: React.PropTypes.bool,
-        isEditing: React.PropTypes.bool,
-        isHorizontal: React.PropTypes.bool,
-        onValuesChange: React.PropTypes.func
+        title: PropTypes.string,
+        name: PropTypes.string,
+        children: PropTypes.array,
+        icon: PropTypes.string,
+        isCategorized: PropTypes.bool,
+        maxValues: PropTypes.number,
+        maxLength: PropTypes.number,
+        multipleId: PropTypes.number,
+        isMultiple: PropTypes.bool,
+        isEditing: PropTypes.bool,
+        isHorizontal: PropTypes.bool,
+        onValuesChange: PropTypes.func
     };
 
     static defaultProps = {

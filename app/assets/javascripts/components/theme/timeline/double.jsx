@@ -7,7 +7,7 @@ const DoubleTimeline = ({children}) => (
 );
 
 DoubleTimeline.propTypes = {
-    children: React.PropTypes.array.isRequired
+    children: PropTypes.array.isRequired
 };
 
 export default DoubleTimeline;

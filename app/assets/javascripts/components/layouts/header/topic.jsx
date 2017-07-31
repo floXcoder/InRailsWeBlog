@@ -4,21 +4,21 @@ import UserTopic from '../../users/topic';
 
 export default class HomeTopicHeader extends React.PureComponent {
     static propTypes = {
-        router: React.PropTypes.object.isRequired,
-        onTopicClick: React.PropTypes.func
+        router: PropTypes.object.isRequired,
+        onTopicClick: PropTypes.func
     };
 
     static defaultProps = {
         onTopicClick: null
     };
 
-    state = {
-        isOpened: false
-    };
-
     constructor(props) {
         super(props);
     }
+
+    state = {
+        isOpened: false
+    };
 
     componentDidUpdate(prevProps, prevState) {
         if (!prevState.isOpened && this.state.isOpened) {

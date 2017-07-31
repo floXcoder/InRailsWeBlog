@@ -24,15 +24,15 @@ const Slider = ({children, isAutoPlay, hasArrows, hasDots, isLoop, showSlideNumb
 };
 
 Slider.propTypes = {
-    children: React.PropTypes.oneOfType([
-        React.PropTypes.array,
-        React.PropTypes.object
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object
     ]).isRequired,
-    isAutoPlay: React.PropTypes.bool,
-    hasArrows: React.PropTypes.bool,
-    hasDots: React.PropTypes.bool,
-    isLoop: React.PropTypes.bool,
-    showSlideNumber: React.PropTypes.number
+    isAutoPlay: PropTypes.bool,
+    hasArrows: PropTypes.bool,
+    hasDots: PropTypes.bool,
+    isLoop: PropTypes.bool,
+    showSlideNumber: PropTypes.number
 };
 
 Slider.defaultProps = {

@@ -9,7 +9,7 @@ const Separator = ({className}) => (
 );
 
 Separator.propTypes = {
-    className: React.PropTypes.string
+    className: PropTypes.string
 };
 
 Separator.defaultProps = {

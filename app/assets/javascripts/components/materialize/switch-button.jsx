@@ -2,25 +2,25 @@
 
 export default class SwitchButton extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        name: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        values: React.PropTypes.shape({
-            truthy: React.PropTypes.string,
-            falsy: React.PropTypes.string
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        multipleId: PropTypes.number,
+        values: PropTypes.shape({
+            truthy: PropTypes.string,
+            falsy: PropTypes.string
         }),
-        title: React.PropTypes.string,
-        isTitleDown: React.PropTypes.bool,
-        titleClass: React.PropTypes.string,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.bool,
-            React.PropTypes.string
+        title: PropTypes.string,
+        isTitleDown: PropTypes.bool,
+        titleClass: PropTypes.string,
+        children: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string
         ]),
-        isDefaultChecked: React.PropTypes.bool,
-        isDisabled: React.PropTypes.bool,
-        onSwitchChange: React.PropTypes.func,
-        isHorizontal: React.PropTypes.bool,
-        validator: React.PropTypes.object
+        isDefaultChecked: PropTypes.bool,
+        isDisabled: PropTypes.bool,
+        onSwitchChange: PropTypes.func,
+        isHorizontal: PropTypes.bool,
+        validator: PropTypes.object
     };
 
     static defaultProps = {

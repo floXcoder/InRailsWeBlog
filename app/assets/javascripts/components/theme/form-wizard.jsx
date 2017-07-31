@@ -5,18 +5,18 @@ import ProcessingButton from '../theme/processing-button';
 
 export default class FormWizard extends React.Component {
     static propTypes = {
-        titles: React.PropTypes.array.isRequired,
-        children: React.PropTypes.array.isRequired,
-        id: React.PropTypes.string,
-        lastButton: React.PropTypes.string,
-        isButtonsDisabled: React.PropTypes.bool,
-        isProcessing: React.PropTypes.bool,
-        isProcessingButton: React.PropTypes.string,
-        isPrevValid: React.PropTypes.bool,
-        isNextValid: React.PropTypes.bool,
-        onPrevClick: React.PropTypes.func,
-        onNextClick: React.PropTypes.func,
-        onLastClick: React.PropTypes.func
+        titles: PropTypes.array.isRequired,
+        children: PropTypes.array.isRequired,
+        id: PropTypes.string,
+        lastButton: PropTypes.string,
+        isButtonsDisabled: PropTypes.bool,
+        isProcessing: PropTypes.bool,
+        isProcessingButton: PropTypes.string,
+        isPrevValid: PropTypes.bool,
+        isNextValid: PropTypes.bool,
+        onPrevClick: PropTypes.func,
+        onNextClick: PropTypes.func,
+        onLastClick: PropTypes.func
     };
 
     static defaultProps = {

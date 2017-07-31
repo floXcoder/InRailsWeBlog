@@ -4,27 +4,27 @@ import _ from 'lodash';
 
 export default class Textarea extends React.Component {
     static propTypes = {
-        id: React.PropTypes.string.isRequired,
-        title: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.object,
-            React.PropTypes.string
+        id: PropTypes.string.isRequired,
+        title: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.object,
+            PropTypes.string
         ]),
-        placeholder: React.PropTypes.string,
-        children: React.PropTypes.string,
-        name: React.PropTypes.string,
-        multipleId: React.PropTypes.number,
-        isHorizontal: React.PropTypes.bool,
-        isRequired: React.PropTypes.bool,
-        isDisabled: React.PropTypes.bool,
-        icon: React.PropTypes.string,
-        minLength: React.PropTypes.number,
-        maxLength: React.PropTypes.number,
-        onChange: React.PropTypes.func,
-        onKeyDown: React.PropTypes.func,
-        onBlur: React.PropTypes.func,
-        characterCount: React.PropTypes.number,
-        validator: React.PropTypes.object
+        placeholder: PropTypes.string,
+        children: PropTypes.string,
+        name: PropTypes.string,
+        multipleId: PropTypes.number,
+        isHorizontal: PropTypes.bool,
+        isRequired: PropTypes.bool,
+        isDisabled: PropTypes.bool,
+        icon: PropTypes.string,
+        minLength: PropTypes.number,
+        maxLength: PropTypes.number,
+        onChange: PropTypes.func,
+        onKeyDown: PropTypes.func,
+        onBlur: PropTypes.func,
+        characterCount: PropTypes.number,
+        validator: PropTypes.object
     };
 
     static defaultProps = {

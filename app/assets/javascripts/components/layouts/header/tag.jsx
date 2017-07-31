@@ -9,7 +9,7 @@ const HomeTagHeader = ({onTagClick}) => (
 );
 
 HomeTagHeader.propTypes = {
-    onTagClick: React.PropTypes.func.isRequired
+    onTagClick: PropTypes.func.isRequired
 };
 
 HomeTagHeader._handleTagClick = (onTagClick, event) => {

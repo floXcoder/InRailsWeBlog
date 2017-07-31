@@ -9,7 +9,7 @@ const DropZoneLoader = ({DropZone, ...props}) => {
 };
 
 DropZoneLoader.propTypes = {
-    DropZone: React.PropTypes.func
+    DropZone: PropTypes.func
 };
 
 export const loadDropZone = () => (
