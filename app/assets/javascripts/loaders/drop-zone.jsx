@@ -13,9 +13,9 @@ DropZoneLoader.propTypes = {
 };
 
 export const loadDropZone = () => (
-    importLazy(System.import('../components/theme/drop-zone'))
+    importLazy(import(/* webpackChunkName: "dropzone" */ '../components/theme/drop-zone'))
 );
 
 export default LazilyLoadFactory(DropZoneLoader, {
-    DropZone: () => System.import('../components/theme/drop-zone')
+    DropZone: () => import(/* webpackChunkName: "dropzone" */ '../components/theme/drop-zone')
 });

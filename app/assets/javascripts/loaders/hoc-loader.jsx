@@ -60,7 +60,10 @@ class LazilyLoad extends React.Component {
 export const LazilyLoadFactory = (Component, modules) => {
     return (props) => (
         <LazilyLoad modules={modules}>
-            {(mods) => <Component {...mods} {...props} />}
+            {
+                (mods) => <Component {...mods}
+                                     {...props} />
+            }
         </LazilyLoad>
     );
 };

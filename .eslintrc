@@ -1,6 +1,10 @@
 {
-  "ecmaFeatures": {
-    "jsx": true
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "globals": {
     "jQuery": true,
@@ -119,10 +123,10 @@
     "react/prefer-es6-class": 0,
     "react/prop-types": 1,
     "react/react-in-jsx-scope": 0,
-    "react/require-extension": 1,
+    "react/require-extension": "off",
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
-    "react/wrap-multilines": 1,
+    "react/jsx-wrap-multilines": 1,
     "vars-on-top": 0,
     "wrap-iife": 0,
     "yoda": [

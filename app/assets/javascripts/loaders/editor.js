@@ -8,6 +8,6 @@ module.exports = () => {
             require('../modules/wysiwyg/lang/summernote-fr-FR');
 
             resolve({});
-        });
+        }, 'editor');
     });
 };
