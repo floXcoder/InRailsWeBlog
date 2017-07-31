@@ -328,11 +328,6 @@ fr:
     precision:
       format:
         delimiter: ""
-  metrics:
-    distance_unit: "m"
-    distance_unit_k: "km"
-    duration_unit: "h"
-    speed_unit: "km/h"
   date:
     abbr_day_names:
       - "dim"
