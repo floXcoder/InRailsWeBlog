@@ -4679,7 +4679,7 @@ jquery.inputmask@3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/jquery.inputmask/-/jquery.inputmask-3.3.4.tgz#ff4a8fd196f9fe28a17fd77a2da579c15a78a606"
 
-jquery@3.2.1, jquery@>=1.8.0, "jquery@^3.0.0 || ^2.1.4", jquery@x.*:
+jquery@3.2.1, jquery@>=1.8.0, "jquery@^3.0.0 || ^2.1.4":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
 
@@ -7016,12 +7016,6 @@ seek-bzip@^1.0.3:
   dependencies:
     commander "~2.8.1"
 
-semantic-ui-css@2.2.11:
-  version "2.2.11"
-  resolved "https://registry.yarnpkg.com/semantic-ui-css/-/semantic-ui-css-2.2.11.tgz#875aabb28897cc08d637d69f18ebbce6a28d49bb"
-  dependencies:
-    jquery x.*
-
 semantic-ui-react@0.71.3:
   version "0.71.3"
   resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.71.3.tgz#3313ade18ad11db88efcf2cade42ce7fa5ed9fd6"
@@ -7031,6 +7025,10 @@ semantic-ui-react@0.71.3:
     debug "^2.6.3"
     lodash "^4.17.2"
     prop-types "15.5.8"
+
+semantic-ui-sass@2.2.11:
+  version "2.2.11"
+  resolved "https://registry.yarnpkg.com/semantic-ui-sass/-/semantic-ui-sass-2.2.11.tgz#f77677cfc6ebe874f0da29e2787b64facccd1f4b"
 
 semver-regex@^1.0.0:
   version "1.0.0"

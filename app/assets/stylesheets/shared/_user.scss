@@ -3,7 +3,7 @@
 
 .blog {
   //.blog-user-pref {
-  //  background-color: color('blue-grey', 'darken-1');
+  //  background-color: #546e7a;
   //  border-top: 1px solid #111;
   //  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .5), 0 2px 10px 0 rgba(0, 0, 0, .5);
   //  display: none;
@@ -60,13 +60,13 @@
           width: 100%;
           font-size: 80px;
           line-height: 80px;
-          color: color('light-green', 'darken-3');
+          color: #558b2f;
         }
       }
 
       .user-action {
         a {
-          color: color('orange', 'accent-2') !important;
+          color: #ffab40 !important;
         }
       }
     }
@@ -178,7 +178,7 @@
       & > .activity-list-addon-icon {
         font-size: 28px;
         margin-top: 4px;
-        color: color('light-green', 'darken-1');
+        color: #7cb342;
       }
     }
 

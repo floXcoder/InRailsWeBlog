@@ -333,6 +333,7 @@
     <orderEntry type="library" scope="PROVIDED" name="redis (v3.3.3, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-namespace (v1.5.3, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-rack-cache (v2.0.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="redis-session-store (v0.9.1@0a5323, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-store (v1.3.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="reek (v2.2.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="request_store (v1.3.2, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />

@@ -11,6 +11,8 @@ import './modules/utils';
 
 // Notifications
 import 'expose-loader?Notification!./components/theme/notification';
+// noinspection JSUnresolvedVariable
+Notification = Notification.default;
 
 // Translation
 import 'expose-loader?I18n!imports-loader?this=>window!./modules/i18n';

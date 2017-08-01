@@ -44,8 +44,7 @@ export default class HomePage extends Reflux.Component {
 
     // TODO : move loading user to App
     state = {
-        isLoadingPage:
-            $app.isUserConnected()
+        isLoadingPage: $app.isUserConnected()
     };
 
     onUserChange(userData) {
@@ -72,7 +71,7 @@ export default class HomePage extends Reflux.Component {
 
         let newState = {};
 
-        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
+        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
             newState.isLoadingPage = false;
             browserHistory.push(`/topic/${topicData.topic.slug}`);
         }

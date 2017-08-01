@@ -149,13 +149,13 @@
 
     .timeline-link {
       margin: .6rem 0;
-      color: color('grey', 'darken-1');
+      color: #757575;
 
       a {
         color: inherit;
 
         &:hover {
-          color: color('grey', 'darken-4');
+          color: #212121;
         }
       }
     }

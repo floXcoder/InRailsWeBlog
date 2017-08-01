@@ -44,11 +44,11 @@
           text-align: center;
 
           &.on {
-            background-color: color('green', 'darken-2');
+            background-color: #388e3c;
           }
 
           &.off {
-            background-color: color('grey', 'darken-1');
+            background-color: #757575;
           }
         }
       }

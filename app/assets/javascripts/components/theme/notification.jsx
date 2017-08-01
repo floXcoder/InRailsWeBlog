@@ -68,7 +68,7 @@ class Notification extends React.Component {
     }
 }
 
-module.exports = ReactDOM.render(
+export default ReactDOM.render(
     <Notification />,
     document.getElementById('notification-component')
 );

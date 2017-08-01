@@ -130,14 +130,14 @@
 
     .article-tag {
       color: black;
-      background-color: color('grey', 'lighten-5');
+      background-color: #fafafa;
       margin: 5px;
 
       &.tag-active {
       }
 
       &.tag-inactive {
-        background-color: color('grey', 'lighten-2');
+        background-color: #e0e0e0;
         color: white;
       }
     }

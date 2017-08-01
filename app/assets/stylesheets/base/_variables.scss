@@ -11,8 +11,6 @@ $transparency-color: .5;
 
 $matisse-color: #1a7c96;
 $matisse-color-transparent: rgba(26, 124, 150, $transparency-color);
-$fountain-color: #49b6a9;
-$fountain-color-transparent: rgba(73, 182, 169, $transparency-color);
 $citron-color: #9ac31b;
 $citron-color-transparent: rgba(154, 195, 27, $transparency-color);
 
@@ -23,20 +21,13 @@ $citron-color-transparent: rgba(154, 195, 27, $transparency-color);
 //$color-transparent: rgba(52, 152, 219, .3);
 //$color-bg: #fff;
 
-// Ride and Shop properties
+// Article and tag properties
 // ------------------------------------
-$ride-color: $matisse-color;
-$ride-color-background: $matisse-color-transparent;
+$article-color: $matisse-color;
+$article-color-background: $matisse-color-transparent;
 
-$shop-color: $citron-color;
-$shop-color-background: $citron-color-transparent;
-
-$product-color: $citron-color;
-$product-color-background: $citron-color-transparent;
-
-// Mapbox
-// ------------------------------------
-$map-height: 70vh;
+$tag-color: $citron-color;
+$tag-color-background: $citron-color-transparent;
 
 // Materialize theme
 // ------------------------------------
@@ -55,6 +46,8 @@ $secondary-color: #5f5f5f !default;
 $success-color: #4caf50 !default;
 $error-color: #ef5350 !default;
 $link-color: #03a9f4 !default;
+
+$card-link-color: $text-color;
 
 // Media Query Ranges
 $small-screen-up: 601px;
@@ -88,6 +81,10 @@ $num-cols: 12;
 // Buttons
 $button-raised-background-hover: $primary-color;
 
+// Semantic
+// ------------------------------------
+$import-google-fonts: false;
+
 // Mixins
 // ------------------------------------
 @mixin bordered-item($color) {
@@ -108,3 +105,35 @@ $deadend-color: #bcaaa4;
   box-shadow: 0 0 4px $color;
   padding-left: 10px;
 }
+
+// Editor
+// ------------------------------------
+//$toolbarColor: color('grey', 'darken-4') !default;
+//$toolbarTextColor: color('grey', 'lighten-5') !default;
+//$borderColor: color('grey', 'base') !default;
+
+$toolbar-color: #37474f !default;
+$toolbar-text-color: #fafafa !default;
+$border-color: #37474f !default;
+
+$first-button-color: #263238 !default;
+$first-button-hover-color: #3f51b5 !default;
+$second-button-color: #b71c1c !default;
+$second-button-hover-color: #3f51b5 !default;
+$third-button-color: #4a148c !default;
+$third-button-hover-color: #3f51b5 !default;
+
+$first-focus-color: #9c27b0 !default;
+$second-focus-color: #ff1744 !default;
+
+$selection-color: #757575 !default;
+
+$help-background-color: #e0e0e0 !default;
+
+$border-color: #a9a9a9;
+$background-color: #f5f5f5;
+
+$dropzone-color: #87cefa;
+$dropzone-active-color: darken($dropzone-color, 30);
+
+$note-shortcut-hl: #dd0;

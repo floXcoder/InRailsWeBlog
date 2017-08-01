@@ -106,7 +106,7 @@
     "reflux": "6.4.1",
     "require-dir": "0.3.2",
     "respond.js": "1.4.2",
-    "semantic-ui-css": "2.2.11",
+    "semantic-ui-sass": "2.2.11",
     "semantic-ui-react": "0.71.3",
     "vinyl-buffer": "1.0.0",
     "waypoints": "4.0.1",
