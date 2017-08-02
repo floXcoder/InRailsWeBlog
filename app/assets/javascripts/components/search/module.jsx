@@ -3,11 +3,17 @@
 import _ from 'lodash';
 
 import ArticleActions from '../../actions/articleActions';
+
 import ArticleStore from '../../stores/articleStore';
 import UserStore from '../../stores/userStore';
+
 import Tokenizer from '../../components/autocomplete/tokenizer';
 
 export default class SearchModule extends Reflux.Component {
+    static propTypes = {
+        isOpened: PropTypes.bool.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -32,10 +38,12 @@ export default class SearchModule extends Reflux.Component {
             return false;
         }, 'keydown');
 
-        $('#toggle-search').click(() => {
-            this._toggleSearchNav();
-            return false;
-        });
+        // $('#toggle-search').click(() => {
+        //     this._toggleSearchNav();
+        //     return false;
+        // });
+
+        // this._toggleSearchNav();
     }
 
     _activateSearch = (state) => {
@@ -75,7 +83,7 @@ export default class SearchModule extends Reflux.Component {
             let autocompletionValues = [];
             let tags = [];
 
-            articleData.autocompletion.forEach((autocompleteValue) => {
+            articleData.autocompletion.articles.forEach((autocompleteValue) => {
                 autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
                 autocompleteValue.tags.forEach((tag) => {
                     tags.push(tag.name);
@@ -234,18 +242,17 @@ export default class SearchModule extends Reflux.Component {
             <div className="container blog-search">
                 <form className="search-form"
                       onSubmit={this._handleSubmit}>
-                    <Tokenizer
-                        ref={(typeahead) => this._typeahead = typeahead}
-                        options={this.state.autocompleteValues}
-                        onKeyUp={this._onKeyUp}
-                        placeholder={I18n.t('js.article.search.placeholder')}
-                        filterOption="entry"
-                        displayOption={this._displayOption}
-                        maxVisible={6}
-                        addTokenCondition="tag"
-                        customClasses={{listItem: 'typeahead-list-item'}}
-                        onTokenAdd={this._onTokenAdd}
-                        onTokenRemove={this._onTokenRemove}/>
+                    <Tokenizer ref={(typeahead) => this._typeahead = typeahead}
+                               options={this.state.autocompleteValues}
+                               onKeyUp={this._onKeyUp}
+                               placeholder={I18n.t('js.article.search.placeholder')}
+                               filterOption="entry"
+                               displayOption={this._displayOption}
+                               maxVisible={6}
+                               addTokenCondition="tag"
+                               customClasses={{listItem: 'typeahead-list-item'}}
+                               onTokenAdd={this._onTokenAdd}
+                               onTokenRemove={this._onTokenRemove}/>
 
                     <a className="material-icons search-form-close"
                        onClick={this._handleCloseClick}

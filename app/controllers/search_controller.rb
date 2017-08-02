@@ -25,20 +25,19 @@ class SearchController < ApplicationController
 
     if search_type('article', search_params[:type])
       article_results = Article.search_for(search_params[:query],
-                                           {
-                                             page:             search_params[:ride_page] || search_params[:page],
-                                             per_page:         search_params[:ride_per_page] || search_params[:per_page] || CONFIG.per_page,
-                                             current_user_id:  current_user&.id,
-                                             current_topic_id: current_user&.current_topic_id,
-                                             where:            {
-                                               notation:   search_params[:notation],
-                                               accepted:   search_params[:accepted],
-                                               home_page:  search_params[:home_page],
-                                               visibility: !current_admin ? 'everyone' : search_params[:visibility],
-                                               tags:       search_params[:tags] ? search_params[:tags].first.split(',') : nil
-                                             },
-                                             order:            search_params[:order]
-                                           })
+                                           page:             search_params[:ride_page] || search_params[:page],
+                                           per_page:         search_params[:ride_per_page] || search_params[:per_page] || CONFIG.per_page,
+                                           current_user_id:  current_user&.id,
+                                           current_topic_id: current_user&.current_topic_id,
+                                           where:            {
+                                             notation:   search_params[:notation],
+                                             accepted:   search_params[:accepted],
+                                             home_page:  search_params[:home_page],
+                                             visibility: !current_admin ? 'everyone' : search_params[:visibility],
+                                             tags:       search_params[:tags] ? search_params[:tags].first.split(',') : nil
+                                           },
+                                           order:            search_params[:order]
+      )
 
       unless article_results.empty?
         search_results.merge!(Article.as_json(article_results[:articles], sample: !search_params[:complete], current_user: current_user))
@@ -52,19 +51,18 @@ class SearchController < ApplicationController
 
     if search_type('tag', search_params[:type])
       tag_results = Tag.search_for(search_params[:query],
-                                   {
-                                     page:             search_params[:ride_page] || search_params[:page],
-                                     per_page:         search_params[:ride_per_page] || search_params[:per_page] || CONFIG.per_page,
-                                     current_user_id:  current_user&.id,
-                                     current_topic_id: current_user&.current_topic_id,
-                                     where:            {
-                                       notation:   search_params[:notation],
-                                       accepted:   search_params[:accepted],
-                                       home_page:  search_params[:home_page],
-                                       visibility: !current_admin ? 'everyone' : search_params[:visibility]
-                                     },
-                                     order:            search_params[:order]
-                                   })
+                                   page:             search_params[:ride_page] || search_params[:page],
+                                   per_page:         search_params[:ride_per_page] || search_params[:per_page] || CONFIG.per_page,
+                                   current_user_id:  current_user&.id,
+                                   current_topic_id: current_user&.current_topic_id,
+                                   where:            {
+                                     notation:   search_params[:notation],
+                                     accepted:   search_params[:accepted],
+                                     home_page:  search_params[:home_page],
+                                     visibility: !current_admin ? 'everyone' : search_params[:visibility]
+                                   },
+                                   order:            search_params[:order]
+      )
 
       unless tag_results.empty?
         search_results.merge!(Tag.as_json(tag_results[:tags], sample: !search_params[:complete], current_user: current_user))
@@ -91,23 +89,23 @@ class SearchController < ApplicationController
     autocomplete_results = {}
 
     if search_type('article', search_params[:type])
-      autocomplete_articles           = Article.search(search_params[:query], {
-        limit: search_params[:limit] || CONFIG.per_page,
-        where: {
-          visibility: !current_admin ? 'everyone' : nil
-        }
-      })
+      autocomplete_articles           = Article.search(search_params[:query],
+                                                       limit: search_params[:limit] || CONFIG.per_page,
+                                                       where: {
+                                                         visibility: !current_admin ? 'everyone' : nil
+                                                       }
+      )
 
       autocomplete_results[:articles] = autocomplete_articles unless autocomplete_articles.empty?
     end
 
     if search_type('tag', search_params[:type])
-      autocomplete_tags           = Tag.search(search_params[:query], {
-        limit: search_params[:limit] || CONFIG.per_page,
-        where: {
-          visibility: !current_admin ? 'everyone' : nil
-        }
-      })
+      autocomplete_tags           = Tag.search(search_params[:query],
+                                               limit: search_params[:limit] || CONFIG.per_page,
+                                               where: {
+                                                 visibility: !current_admin ? 'everyone' : nil
+                                               }
+      )
 
       autocomplete_results[:tags] = autocomplete_tags unless autocomplete_tags.empty?
     end
@@ -153,10 +151,10 @@ class SearchController < ApplicationController
     if current_type.is_a? Array
       return current_type.map(&:downcase).include?(type.downcase)
     else
-      if type.casecmp(current_type) == 0
+      if type.casecmp(current_type).zero?
         return true
       else
-        return !%w(article tag).include?(current_type.downcase)
+        return !%w[article tag].include?(current_type.downcase)
       end
     end
   end

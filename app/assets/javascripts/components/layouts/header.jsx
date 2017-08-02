@@ -26,8 +26,6 @@ export default class HeaderLayout extends React.PureComponent {
         onReloadPage: PropTypes.func.isRequired
     };
 
-    static defaultProps = {};
-
     constructor(props) {
         super(props);
     }

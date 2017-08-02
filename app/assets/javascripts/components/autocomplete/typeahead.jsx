@@ -94,20 +94,20 @@ export default class Typeahead extends React.Component {
         customListComponent: TypeaheadSelector
     };
 
-    static getOptionsForValue(value, options) {
+    static getOptionsForValue(value, options, maxVisible, filterOption) {
         if (!SHOULD_SEARCH_VALUE(value)) {
             return [];
         }
-        var filterOptions = Typeahead._generateFilterFunction();
+        var filterOptions = Typeahead._generateFilterFunction(filterOption);
         var result = filterOptions(value, options);
-        if (this.props.maxVisible) {
-            result = result.slice(0, this.props.maxVisible);
+        if (maxVisible) {
+            result = result.slice(0, maxVisible);
         }
         return result;
     };
 
-    static _generateFilterFunction() {
-        var filterOptionProp = this.props.filterOption;
+    static _generateFilterFunction(filterOption) {
+        var filterOptionProp = filterOption;
         if (typeof filterOptionProp === 'function') {
             return function (value, options) {
                 return options.filter(function (o) {
@@ -133,7 +133,7 @@ export default class Typeahead extends React.Component {
 
     state = {
         // The currently visible set of options
-        visible: Typeahead.getOptionsForValue(this.props.defaultValue, this.props.options),
+        visible: Typeahead.getOptionsForValue(this.props.defaultValue, this.props.options, this.props.maxVisible, this.props.filterOption),
 
         // This should be called something else, "entryValue"
         entryValue: this.props.value || this.props.defaultValue,

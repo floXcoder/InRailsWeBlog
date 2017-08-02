@@ -27,7 +27,7 @@ fr:
             english: "English"
           profile: "Mon compte"
           administration: "Administration"
-      sidepar:
+      sidebar:
         pin: "Pin"
         unpin: "Unpin"
       footer:
