@@ -3,14 +3,16 @@
 import Login from '../users/login';
 import Signup from '../users/signup';
 
-// import UserTopic from '../users/topic';
-// import UserSettings from '../users/settings';
-// import SearchModule from '../search/module';
+// TODO
+import UserTopic from '../users/topic';
+import UserSettings from '../users/settings';
+import SearchModule from '../search/module';
 
-// import HomeSearchHeader from './header/search';
-// import HomeArticleHeader from './header/article';
-// import HomeTagHeader from './header/tag';
-// import HomePreferenceHeader from './header/preference';
+// TODO
+import HomeSearchHeader from './header/search';
+import HomeArticleHeader from './header/article';
+import HomeTagHeader from './header/tag';
+import HomePreferenceHeader from './header/preference';
 import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
@@ -32,15 +34,22 @@ export default class HeaderLayout extends React.PureComponent {
 
     state = {
         isShowingSignup: true,
-        isShowingLogin: true
+        isShowingLogin: true,
+
+        isTopic: false,
+        isSearch: false,
+        isTags: false,
+        isSettings: false
     };
 
     componentDidMount() {
+        // TODO
         // $(ReactDOM.findDOMNode(this)).find('.dropdown-button').dropdown({
         //     hover: false,
         //     belowOrigin: true
         // });
 
+        // TODO
         // log.info($app)
         // log.info($app.isUserConnected())
     }
@@ -54,6 +63,30 @@ export default class HeaderLayout extends React.PureComponent {
     _handleSignupClick = () => {
         this.setState({
             isShowingSignup: true
+        });
+    };
+
+    _handleTopicClick = () => {
+        this.setState({
+            isTopic: !this.state.isTopic
+        });
+    };
+
+    _handleSearchClick = () => {
+        this.setState({
+            isSearch: !this.state.isSearch
+        });
+    };
+
+    _handleTagClick = () => {
+        this.setState({
+            isTags: !this.state.isTags
+        });
+    };
+
+    _handlePreferenceClick = () => {
+        this.setState({
+            isSettings: !this.state.isSettings
         });
     };
 
@@ -71,7 +104,7 @@ export default class HeaderLayout extends React.PureComponent {
                             <div className="center-align">
                                 <a className="brand-logo"
                                    href="/">
-                                    InRailsWeBlog
+                                    {I18n.t('js.views.header.title')}
                                 </a>
                             </div>
 
@@ -80,41 +113,33 @@ export default class HeaderLayout extends React.PureComponent {
                                                 onSignupClick={this._handleSignupClick}/>
                             </div>
 
-                            {/*<HomeSearchHeader onSearchClick={this._handleSearchClick}/>*/}
+                            <HomeSearchHeader onSearchClick={this._handleSearchClick}/>
 
-                            {/*<HomeTagHeader onTagClick={this._handleTagClick}/>*/}
+                            <HomeTagHeader onTagClick={this._handleTagClick}/>
 
-                            {/*<HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>*/}
+                            <HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>
 
-                            {/*<HomeArticleHeader />*/}
-
-                            {/*<div className="header-mobile hide-on-large-only">*/}
-                            {/*<Drawer docked={false}*/}
-                            {/*width={200}*/}
-                            {/*open={this.state.isMobile}*/}
-                            {/*onRequestChange={(open) => this.setState({isMobile: open})}>*/}
-                            {/*<HomeSearchHeader onSearchClick={this._handleSearchClick}/>*/}
-
-                            {/*<HomeArticleHeader />*/}
-
-                            {/*<HomeTagHeader onTagClick={this._handleTagClick}/>*/}
+                            <HomeArticleHeader/>
                         </div>
                     </nav>
                 </div>
 
-                {/*<div className="blog-user-pref">*/}
-                {/*<UserSettings isOpened={this.state.isSettings}/>*/}
-                {/*</div>*/}
+                {
+                    // TODO
+                    // <div className="blog-user-pref">
+                    //    <UserSettings isOpened={this.state.isSettings}/>
+                    // </div>
+                }
 
-                {/*<div className="blog-search-nav row">*/}
-                {/*<SearchModule isOpened={this.state.isSearch}/>*/}
-                {/*</div>*/}
+                <div className="blog-search-nav row">
+                    <SearchModule isOpened={this.state.isSearch}/>
+                </div>
 
-                {/*<div id="clipboard-area"*/}
-                {/*className="hidden">*/}
-                {/*<textarea id="clipboard"*/}
-                {/*title="clipboard"/>*/}
-                {/*</div>*/}
+                <div id="clipboard-area"
+                     className="hidden">
+                    <textarea id="clipboard"
+                              title="clipboard"/>
+                </div>
 
                 {
                     this.state.isShowingSignup &&

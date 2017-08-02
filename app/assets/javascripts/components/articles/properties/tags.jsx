@@ -29,7 +29,8 @@ export default class ArticleTags extends React.PureComponent {
     };
 
     _handleTagClick = (tagId, tagName, event) => {
-        TagStore.onTrackClick(tagId);
+        // TODO: onTrackClick is not a function
+        // TagStore.onTrackClick(tagId);
 
         if (this.props.onTagClick) {
             event.preventDefault();

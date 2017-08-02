@@ -47,10 +47,10 @@ export default class SidebarLayout extends React.PureComponent {
 
     render() {
         return (
-            <div className={classNames('sidebar', {sidebarpin: this.state.isPinned})}
+            <div className={classNames('sidebar', {'sidebarpin': this.state.isPinned})}
                  onMouseEnter={this._handleMouseEnter}
                  onMouseLeave={this._handleMouseLeave}>
-                <div className={classNames('label', {labelpin: this.state.isPinned})}>
+                <div className={classNames('label', {'labelpin': this.state.isPinned})}>
                     <i className="material-icons">menu</i>
                 </div>
 
@@ -60,9 +60,9 @@ export default class SidebarLayout extends React.PureComponent {
                         {
                             this.state.isPinned
                             ?
-                                'Pin'
+                                I18n.t('js.views.sidebar.pin')
                             :
-                                'Unpin'
+                                I18n.t('js.views.sidebar.unpin')
                         }
                     </strong>
                 </p>

@@ -29,9 +29,9 @@ export default class TagRelationshipDisplay extends React.Component {
         // TagStore.onTrackClick(tagId);
 
         if (!$.isEmpty(childTagSlug)) {
-            this.props.router.history.push(`${this.props.router.match.url}/tags/${parentTagSlug}/${childTagSlug}`);
+            this.props.router.history.push(`/article/tags/${parentTagSlug}/${childTagSlug}`);
         } else if (!$.isEmpty(parentTagSlug)) {
-            this.props.router.history.push(`${this.props.router.match.url}/tags/${parentTagSlug}`);
+            this.props.router.history.push(`/article/tags/${parentTagSlug}`);
         }
     };
 
@@ -39,11 +39,12 @@ export default class TagRelationshipDisplay extends React.Component {
         return (
             <div>
                 {
-                    this.props.tags.map((tag, i) =>
-                        <ParentTag key={i}
-                                   tag={tag}
-                                   isSearching={this.props.isSearching}
-                                   onClickTag={this._handleTagClick}/>
+                    this.props.tags.map((tag, i) => (
+                            <ParentTag key={i}
+                                       tag={tag}
+                                       isSearching={this.props.isSearching}
+                                       onClickTag={this._handleTagClick}/>
+                        )
                     )
                 }
             </div>

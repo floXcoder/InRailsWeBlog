@@ -1,19 +1,9 @@
 'use strict';
 
-// import HeaderLayout from './header';
-// import FooterLayout from './footer';
-
-// TODO: loader
 import {
     Dimmer,
-    Loader,
-    Image,
-    Segment
+    Loader
 } from 'semantic-ui-react'
-
-// import {
-//     Route
-// } from 'react-router-dom';
 
 const LoadingLayout = ({component: Component, ...rest}) => {
     return (
@@ -27,21 +17,26 @@ const LoadingLayout = ({component: Component, ...rest}) => {
             </header>
 
             <div className="col s3">
-                <div className="blog-sidebar">
-                    {/*<Segment>*/}
-                    {/*<Dimmer active*/}
-                    {/*inverted>*/}
-                    {/*<Loader inverted*/}
-                    {/*content='Loading'/>*/}
-                    {/*</Dimmer>*/}
-
-                    {/*<Image src='/assets/images/wireframe/short-paragraph.png' />*/}
-                    {/*</Segment>*/}
+                <div className="sidebar sidebarpin">
+                    <Dimmer active={true}
+                            inverted={true}>
+                        <Loader inverted={true}>
+                            {I18n.t('js.views.home.loader')}
+                        </Loader>
+                    </Dimmer>
                 </div>
             </div>
 
             <div className="col s9">
                 <div className="container blog-main">
+                    <Dimmer active={true}
+                            inverted={true}>
+                        <Loader inverted={true}
+                                size="large">
+                            {I18n.t('js.views.home.loader')}
+                        </Loader>
+                    </Dimmer>
+
                     {
                         Component &&
                         <Component {...rest}/>

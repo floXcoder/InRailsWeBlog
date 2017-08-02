@@ -8,28 +8,47 @@ import {
     Route
 } from 'react-router-dom';
 
+import ClipboardManager from '../../modules/clipboard';
+import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
+
 export default class DefaultLayout extends React.PureComponent {
     static propTypes = {
+        path: PropTypes.string.isRequired,
         component: PropTypes.func.isRequired,
-        onReloadPage: PropTypes.func.isRequired
+        onReloadPage: PropTypes.func.isRequired,
+        exact: PropTypes.bool
     };
 
-    static defaultProps = {};
+    static defaultProps = {
+        exact: false
+    };
 
     constructor(props) {
         super(props);
+
+        this._router = null;
     }
 
     state = {
         isSidebarOpened: true
     };
 
-    // TODO
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.location !== prevProps.location) {
-    //         window.scrollTo(0, 0)
-    //     }
-    // }
+    componentDidMount() {
+        this._onInit();
+    }
+
+    _onInit = () => {
+        ClipboardManager.initialize(this._onPaste);
+    };
+
+    _onPaste = (content) => {
+        if (this._router && this.props.path !== '/article/new') {
+            this._router.history.push({
+                pathname: '/article/new',
+                state: {article: {content: SanitizePaste.parse(content), draft: true}}
+            });
+        }
+    };
 
     _handleSidebarPinClick = (isPinned) => {
         this.setState({
@@ -43,46 +62,35 @@ export default class DefaultLayout extends React.PureComponent {
     };
 
     render() {
-        const {component: Component, ...rest} = this.props;
+        const {component: Component, ...props} = this.props;
 
         return (
-            <Route {...rest}
-                   render={router => (
-                       <div className="blog-content">
-                           <HeaderLayout router={router}
-                                         onReloadPage={this.props.onReloadPage}/>
+            <Route {...props}
+                   render={router => {
+                       this._router = router;
 
-                           <SidebarLayout router={router}
-                                          onOpened={this._handleSidebarPinClick}/>
+                       return (
+                           <div className="blog-content">
+                               <HeaderLayout router={router}
+                                             onReloadPage={this.props.onReloadPage}/>
 
-                           <div
-                               className={classNames('blog-main-content', {'blog-main-pinned': this.state.isSidebarOpened})}>
-                               <div className="container blog-main">
-                                   <Component router={router}/>
+                               <SidebarLayout router={router}
+                                              onOpened={this._handleSidebarPinClick}/>
+
+                               <div
+                                   className={classNames('blog-main-content', {'blog-main-pinned': this.state.isSidebarOpened})}>
+                                   <div className="container blog-main">
+                                       <Component router={router}/>
+                                   </div>
+
+                                   <a className="goto-top hide-on-small-and-down"
+                                      onClick={this._handleGoToTopClick}/>
                                </div>
 
-                               <a className="goto-top hide-on-small-and-down"
-                                  onClick={this._handleGoToTopClick}/>
+                               <FooterLayout/>
                            </div>
-
-                           <FooterLayout />
-                       </div>
-                   )}/>
+                       );
+                   }}/>
         );
     }
 };
-
-// const PostLayout = ({component: Component, ...rest}) => {
-//     return (
-//         <DefaultLayout {...rest} component={matchProps => (
-//             <div className="Post">
-//                 <div className="Post-content">
-//                     <Component {...matchProps} />
-//                 </div>
-//                 <div className="Post-aside">
-//                     <SomeSideBar />
-//                 </div>
-//             </div>
-//         )} />
-//     );
-// };

@@ -35,7 +35,7 @@ export default class UserSettings extends Reflux.Component {
     };
 
     shouldComponentUpdate(nextProps, nextState) {
-        return (this.props.isOpened != nextProps.isOpened || !_.isEqual(this.state, nextState));
+        return (this.props.isOpened !== nextProps.isOpened || !_.isEqual(this.state, nextState));
     }
 
     onSettingsChange(userData) {

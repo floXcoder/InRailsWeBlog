@@ -17,28 +17,28 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 export default class CommentBox extends Reflux.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,
-        isUserConnected: PropTypes.bool.isRequired,
-        isUserOwner: PropTypes.bool.isRequired,
+        isConnected: PropTypes.bool.isRequired,
+        isOwner: PropTypes.bool.isRequired,
         ownerId: PropTypes.number.isRequired,
         currentUserId: PropTypes.number,
+        isAdmin: PropTypes.bool,
         commentableType: PropTypes.string,
         id: PropTypes.string,
         initialComments: PropTypes.array,
         commentsCount: PropTypes.number,
         isPaginated: PropTypes.bool,
-        isRated: PropTypes.bool,
-        isUserAdmin: PropTypes.bool
+        isRated: PropTypes.bool
     };
 
     static defaultProps = {
         currentUserId: null,
-        id: null,
+        isUserAdmin: false,
         commentableType: null,
+        id: null,
         initialComments: [],
         commentsCount: null,
         isPaginated: false,
-        isRated: true,
-        isUserAdmin: false
+        isRated: true
     };
 
     constructor(props) {
@@ -157,7 +157,7 @@ export default class CommentBox extends Reflux.Component {
 
     _handleShowFormComment = (event) => {
         event.preventDefault();
-        if (this.props.isUserConnected || this.props.isUserAdmin) {
+        if (this.props.isConnected || this.props.isUserAdmin) {
             this.setState({isShowingCommentForm: true});
         } else {
             Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
@@ -170,7 +170,7 @@ export default class CommentBox extends Reflux.Component {
     };
 
     _handleCommentDelete = (commentId) => {
-        if (this.props.isUserConnected || this.props.isUserAdmin) {
+        if (this.props.isConnected || this.props.isUserAdmin) {
             if (commentId) {
                 CommentActions.deleteComment(commentId, this.props.commentableId, this.props.commentableType);
             }
@@ -182,7 +182,7 @@ export default class CommentBox extends Reflux.Component {
     _handleCommentSubmit = (commentData) => {
         this.setState({isShowingCommentForm: false});
 
-        if (this.props.isUserConnected || this.props.isUserAdmin) {
+        if (this.props.isConnected || this.props.isUserAdmin) {
             if (commentData.id) {
                 CommentActions.updateComment(commentData, this.props.commentableId, this.props.commentableType);
             } else {
@@ -217,8 +217,8 @@ export default class CommentBox extends Reflux.Component {
                     }
 
                     <CommentList comments={this.state.comments}
-                                 isUserConnected={this.props.isUserConnected}
-                                 isUserOwner={this.props.isUserOwner}
+                                 isConnected={this.props.isConnected}
+                                 isOwner={this.props.isOwner}
                                  currentUserId={this.props.currentUserId}
                                  ownerId={this.props.ownerId}
                                  isAdmin={this.props.isUserAdmin}
@@ -227,7 +227,7 @@ export default class CommentBox extends Reflux.Component {
                                  onSubmit={this._handleCommentSubmit}/>
 
                     {
-                        this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isUserOwner &&
+                        this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isOwner &&
                         <div className="center-align">
                             <Button icon="comment"
                                     className="btn-full-text"
@@ -245,7 +245,7 @@ export default class CommentBox extends Reflux.Component {
                                                  transitionAppearTimeout={600}
                                                  transitionEnterTimeout={500}
                                                  transitionLeaveTimeout={300}>
-                            <CommentForm isOwner={this.props.isUserOwner}
+                            <CommentForm isOwner={this.props.isOwner}
                                          isRated={this.props.isRated}
                                          onCancel={this._handleCommentCancel}
                                          onSubmit={this._handleCommentSubmit}/>

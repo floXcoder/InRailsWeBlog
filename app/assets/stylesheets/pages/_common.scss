@@ -282,6 +282,7 @@ html {
   .blog-main {
     flex: 1 0 auto;
     margin-bottom: 160px;
+    margin-top: 50px;
 
     @media #{$small-and-down} {
       &.container {
@@ -292,9 +293,8 @@ html {
 
   .blog-footer {
     background-color: #37474f;
-    //bottom: 0;
-    height: 140px;
-    //position: absolute;
+    height: 100%;
+    padding: .6rem;
     width: 100%;
   }
 

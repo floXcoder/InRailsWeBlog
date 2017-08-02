@@ -44,7 +44,7 @@ const HomeArticleHeader = ({}) => {
                         {I18n.t('js.views.header.articles.menu.draft')}
                     </Link>
                 }
-                          rightIcon={<Badge badgeContent={$app.getCurrentUser().draft_count} secondary={true}/>}/>
+                          rightIcon={<Badge badgeContent={$app.isUserLoaded().draft_count} secondary={true}/>}/>
             </IconMenu>
         );
     } else {

@@ -10,9 +10,9 @@ import {
 
 // $app.isUserConnected()
 //     ?
-//     $app.isUserConnected() && $app.getCurrentUser().avatar
+//     $app.isUserConnected() && $app.isUserLoaded().avatar
 //         ?
-//         <img src={$app.getCurrentUser().avatar}
+//         <img src={$app.isUserLoaded().avatar}
 //              alt="User Avatar"
 //              className="header-avatar"/>
 //         :
@@ -77,7 +77,7 @@ const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
                     {
                         $app.isUserConnected() &&
                         <Dropdown.Item>
-                            <a href={`/user/profile/${$app.getCurrentUser().slug}`}>
+                            <a href={`/user/profile/${$app.isUserLoaded().slug}`}>
                                 {I18n.t('js.views.header.user.profile')}
                             </a>
                         </Dropdown.Item>

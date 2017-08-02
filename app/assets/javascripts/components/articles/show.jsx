@@ -274,7 +274,7 @@ export default class ArticleShow extends Reflux.Component {
                             <CommentBox id="comments"
                                         commentableType="articles"
                                         commentableId={this.state.article.id}
-                                        isUserConnected={$app.isUserConnected()}
+                                        isConnected={$app.isUserConnected()}
                                         currentUserId={$app.user.currentId}
                                         isPaginated={true}
                                         isRated={true}/>

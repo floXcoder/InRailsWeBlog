@@ -94,9 +94,46 @@ export default class Typeahead extends React.Component {
         customListComponent: TypeaheadSelector
     };
 
+    static getOptionsForValue(value, options) {
+        if (!SHOULD_SEARCH_VALUE(value)) {
+            return [];
+        }
+        var filterOptions = Typeahead._generateFilterFunction();
+        var result = filterOptions(value, options);
+        if (this.props.maxVisible) {
+            result = result.slice(0, this.props.maxVisible);
+        }
+        return result;
+    };
+
+    static _generateFilterFunction() {
+        var filterOptionProp = this.props.filterOption;
+        if (typeof filterOptionProp === 'function') {
+            return function (value, options) {
+                return options.filter(function (o) {
+                    return filterOptionProp(value, o);
+                });
+            };
+        } else {
+            var mapper;
+            if (typeof filterOptionProp === 'string') {
+                mapper = _generateAccessor(filterOptionProp);
+            } else {
+                mapper = IDENTITY_FN;
+            }
+            return function (value, options) {
+                return fuzzy
+                    .filter(value, options, {extract: mapper})
+                    .map(function (res) {
+                        return options[res.index];
+                    });
+            };
+        }
+    };
+
     state = {
         // The currently visible set of options
-        visible: this.getOptionsForValue(this.props.defaultValue, this.props.options),
+        visible: Typeahead.getOptionsForValue(this.props.defaultValue, this.props.options),
 
         // This should be called something else, "entryValue"
         entryValue: this.props.value || this.props.defaultValue,
@@ -110,21 +147,9 @@ export default class Typeahead extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            visible: this.getOptionsForValue(this.state.entryValue, nextProps.options)
+            visible: Typeahead.getOptionsForValue(this.state.entryValue, nextProps.options)
         });
     }
-
-    getOptionsForValue = (value, options) => {
-        if (!SHOULD_SEARCH_VALUE(value)) {
-            return [];
-        }
-        var filterOptions = this._generateFilterFunction();
-        var result = filterOptions(value, options);
-        if (this.props.maxVisible) {
-            result = result.slice(0, this.props.maxVisible);
-        }
-        return result;
-    };
 
     setEntryText = (value) => {
         this.refs.entry.value = value;
@@ -209,7 +234,7 @@ export default class Typeahead extends React.Component {
 
         nEntry.value = optionString;
         this.setState({
-            visible: this.getOptionsForValue(optionString, this.props.options),
+            visible: Typeahead.getOptionsForValue(optionString, this.props.options),
             selection: formInputOptionString,
             entryValue: optionString
         });
@@ -219,7 +244,7 @@ export default class Typeahead extends React.Component {
     _onTextEntryUpdated = () => {
         var value = this.refs.entry.value;
         this.setState({
-            visible: this.getOptionsForValue(value, this.props.options),
+            visible: Typeahead.getOptionsForValue(value, this.props.options),
             selection: null,
             entryValue: value
         });
@@ -332,31 +357,6 @@ export default class Typeahead extends React.Component {
                 }
             )
         );
-    };
-
-    _generateFilterFunction = () => {
-        var filterOptionProp = this.props.filterOption;
-        if (typeof filterOptionProp === 'function') {
-            return function (value, options) {
-                return options.filter(function (o) {
-                    return filterOptionProp(value, o);
-                });
-            };
-        } else {
-            var mapper;
-            if (typeof filterOptionProp === 'string') {
-                mapper = _generateAccessor(filterOptionProp);
-            } else {
-                mapper = IDENTITY_FN;
-            }
-            return function (value, options) {
-                return fuzzy
-                    .filter(value, options, {extract: mapper})
-                    .map(function (res) {
-                        return options[res.index];
-                    });
-            };
-        }
     };
 
     _generateOptionToStringFor = (prop) => {

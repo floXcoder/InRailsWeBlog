@@ -11,6 +11,8 @@ export default class SearchModule extends Reflux.Component {
     constructor(props) {
         super(props);
 
+        this._typeahead = null;
+
         this.mapStoreToState(ArticleStore, this.onArticleChange);
         this.mapStoreToState(UserStore, this.onSearchChange);
     }
@@ -41,19 +43,19 @@ export default class SearchModule extends Reflux.Component {
 
         if (!$.isEmpty(state.tags)) {
             state.tags.forEach((tag) => {
-                this.refs.typeahead._addTokenForValue({tag: tag}, true);
+                this._typeahead._addTokenForValue({tag: tag}, true);
             });
         }
 
-        this.refs.typeahead.setEntryText(state.query);
+        this._typeahead.setEntryText(state.query);
     };
 
     _toggleSearchNav = () => {
         let $searchDiv = $('.blog-search-nav');
 
         $searchDiv.is(":visible") ? $searchDiv.slideUp() : $searchDiv.slideDown(() => {
-                $searchDiv.find('input').focus()
-            });
+            $searchDiv.find('input').focus()
+        });
     };
 
     onSearchChange(userData) {
@@ -106,15 +108,15 @@ export default class SearchModule extends Reflux.Component {
     _handleSuggestionClick = (suggestion, event) => {
         event.preventDefault();
 
-        this.refs.typeahead.setEntryText(suggestion);
-        this.refs.typeahead.refs.typeahead.setState({entryValue: suggestion, selection: suggestion});
+        this._typeahead.setEntryText(suggestion);
+        this._typeahead._typeahead.setState({entryValue: suggestion, selection: suggestion});
 
         this.setState({suggestions: []});
         this._handleSubmit(event, {});
     };
 
     _onKeyUp = (event) => {
-        let entryValue = this.refs.typeahead.getEntryText().trim();
+        let entryValue = this._typeahead.getEntryText().trim();
 
         if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
             ArticleActions.autocompleteArticles({autocompleteQuery: entryValue});
@@ -122,7 +124,7 @@ export default class SearchModule extends Reflux.Component {
 
         let pressedKey = $.NAVIGATION_KEYMAP[event.which];
         if (pressedKey === 'tab' || pressedKey === 'enter') {
-            this.refs.typeahead.refs.typeahead.setState({entryValue: entryValue, selection: entryValue});
+            this._typeahead._typeahead.setState({entryValue: entryValue, selection: entryValue});
             this._handleSubmit(event, {});
         }
     };
@@ -136,7 +138,7 @@ export default class SearchModule extends Reflux.Component {
             searchOptions = {};
         }
 
-        let query = this.refs.typeahead.getEntryText().trim();
+        let query = this._typeahead.getEntryText().trim();
 
         if ($.isEmpty(query) && !$.isEmpty(this.state.selectedTags)) {
             query = '*';
@@ -222,49 +224,48 @@ export default class SearchModule extends Reflux.Component {
         $('.blog-search-nav').slideUp();
 
         // TODO
-        // this.refs.typeahead.setEntryText('');
+        // this._typeahead.setEntryText('');
         this.setState({selectedTags: []});
-        // this.refs.typeahead.setState({selected: []});
+        // this._typeahead.setState({selected: []});
     };
 
     render() {
         return (
             <div className="container blog-search">
-                {
-                    //     <form className="search-form"
-                    //           onSubmit={this._handleSubmit}>
-                    //         <Tokenizer
-                    //             ref={(typeahead) => this._typeahead = typeahead}
-                    //             options={this.state.autocompleteValues}
-                    //             onKeyUp={this._onKeyUp}
-                    //             placeholder={I18n.t('js.article.search.placeholder')}
-                    //             filterOption="entry"
-                    //             displayOption={this._displayOption}
-                    //             maxVisible={6}
-                    //             addTokenCondition="tag"
-                    //             customClasses={{listItem: 'typeahead-list-item'}}
-                    //             onTokenAdd={this._onTokenAdd}
-                    //             onTokenRemove={this._onTokenRemove} />
-                    //
-                    //         <a className="material-icons search-form-close"
-                    //            onClick={this._handleCloseClick}
-                    //            href="#">
-                    //             <i className="material-icons">close</i>
-                    //         </a>
-                    //     </form>
-                    //
-                    //     <div className="blog-search-suggestion">
-                    // {
-                    //     this.state.suggestions.map((suggestion) =>
-                    //     <a key={suggestion}
-                    //     onClick={this._handleSuggestionClick.bind(this, suggestion)}
-                    //     className="waves-effect waves-light btn-small">
-                    //     {suggestion}
-                    //     </a>
-                    //     )
-                    // }
-                    //     </div>
-                }
+                <form className="search-form"
+                      onSubmit={this._handleSubmit}>
+                    <Tokenizer
+                        ref={(typeahead) => this._typeahead = typeahead}
+                        options={this.state.autocompleteValues}
+                        onKeyUp={this._onKeyUp}
+                        placeholder={I18n.t('js.article.search.placeholder')}
+                        filterOption="entry"
+                        displayOption={this._displayOption}
+                        maxVisible={6}
+                        addTokenCondition="tag"
+                        customClasses={{listItem: 'typeahead-list-item'}}
+                        onTokenAdd={this._onTokenAdd}
+                        onTokenRemove={this._onTokenRemove}/>
+
+                    <a className="material-icons search-form-close"
+                       onClick={this._handleCloseClick}
+                       href="#">
+                        <i className="material-icons">close</i>
+                    </a>
+                </form>
+
+                <div className="blog-search-suggestion">
+                    {
+                        this.state.suggestions.map((suggestion) => (
+                                <a key={suggestion}
+                                   onClick={this._handleSuggestionClick.bind(this, suggestion)}
+                                   className="waves-effect waves-light btn-small">
+                                    {suggestion}
+                                </a>
+                            )
+                        )
+                    }
+                </div>
             </div>
         );
     }

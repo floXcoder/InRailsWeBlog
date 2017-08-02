@@ -19,6 +19,8 @@
 @import 'base/material-design';
 
 .container {
+  position: relative;
+
   @media #{$large-and-down} {
     width: 85%;
   }

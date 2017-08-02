@@ -21,12 +21,12 @@ class App {
         return !!this.user.currentId;
     }
 
-    getCurrentUser() {
+    isUserLoaded() {
         return !!this.user.current;
     }
 
     getCurrentTopic() {
-        if (this.getCurrentUser()) {
+        if (this.isUserLoaded()) {
             return this.user.currentTopic;
         } else {
             return false;

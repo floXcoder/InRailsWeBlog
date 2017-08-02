@@ -2,6 +2,7 @@ fr:
   js:
     views:
       header:
+        title: "InRailsWeBlog"
         topic:
           button: "Thèmes"
         search:
@@ -26,6 +27,9 @@ fr:
             english: "English"
           profile: "Mon compte"
           administration: "Administration"
+      sidepar:
+        pin: "Pin"
+        unpin: "Unpin"
       footer:
         title: "In Rails We Blog"
         description: "Un blog pensé pour les développeurs"
@@ -39,6 +43,7 @@ fr:
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
       home:
         title: ""
+        loader: "Chargement"
     user:
       model:
         pseudo: "Pseudo"

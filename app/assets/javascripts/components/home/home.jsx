@@ -13,17 +13,14 @@ import {
     Switch,
     Route
 } from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory'
 
-const browserHistory = createBrowserHistory();
-
-// TODO: move to default layout
-// import ClipboardManager from '../../modules/clipboard';
-// import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
+import createBrowserHistory from 'history/createBrowserHistory';
 
 import {
     Link
 } from 'react-router-dom';
+
+const browserHistory = createBrowserHistory();
 
 export default class HomePage extends Reflux.Component {
     static propTypes = {
@@ -42,9 +39,8 @@ export default class HomePage extends Reflux.Component {
         this.mapStoreToState(TopicStore, this.onTopicChange);
     }
 
-    // TODO : move loading user to App
     state = {
-        isLoadingPage: $app.isUserConnected()
+        isUserLoading: $app.isUserConnected() && !$app.isUserLoaded()
     };
 
     onUserChange(userData) {
@@ -55,7 +51,7 @@ export default class HomePage extends Reflux.Component {
         let newState = {};
 
         if (userData.type === 'InitUser') {
-            newState.isLoadingPage = false;
+            newState.isUserLoading = false;
             browserHistory.replace(`/topic/${$app.getCurrentTopic().slug}`);
         }
 
@@ -72,7 +68,7 @@ export default class HomePage extends Reflux.Component {
         let newState = {};
 
         if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
-            newState.isLoadingPage = false;
+            newState.isUserLoading = false;
             browserHistory.push(`/topic/${topicData.topic.slug}`);
         }
 
@@ -81,24 +77,9 @@ export default class HomePage extends Reflux.Component {
         }
     }
 
-    // TODO: move to default layout
-    // _userLoaded = () => {
-    //     ClipboardManager.initialize(this._onPaste);
-    // };
-
-    // TODO: move to default layout
-    // _onPaste = (content) => {
-    //     if (this.props.location.pathname !== '/article/new') {
-    //         this.props.router.history.push({
-    //             pathname: '/article/new',
-    //             state: {article: {content: SanitizePaste.parse(content), draft: true}}
-    //         });
-    //     }
-    // };
-
     _handleReloadPage = () => {
         this.setState({
-            isLoadingPage: true
+            isUserLoading: true
         });
     };
 
@@ -106,7 +87,7 @@ export default class HomePage extends Reflux.Component {
         return (
             <div>
                 {
-                    this.state.isLoadingPage
+                    this.state.isUserLoading
                         ?
                         <div>
                             <LoadingLayout path={routes.init.path}
@@ -116,7 +97,7 @@ export default class HomePage extends Reflux.Component {
                         <Router history={browserHistory}>
                             <Switch>
                                 {
-                                    routes.home.mainView.map((route, index) => (
+                                    routes.home.views.map((route, index) => (
                                         <DefaultLayout key={index}
                                                        path={route.path}
                                                        exact={route.exact}

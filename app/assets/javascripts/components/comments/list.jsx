@@ -8,14 +8,14 @@ import CommentForm from './form';
 export default class CommentList extends React.PureComponent {
     static propTypes = {
         comments: PropTypes.array.isRequired,
-        isUserConnected: PropTypes.bool.isRequired,
-        isUserOwner: PropTypes.bool.isRequired,
+        isConnected: PropTypes.bool.isRequired,
+        isOwner: PropTypes.bool.isRequired,
         ownerId: PropTypes.number.isRequired,
+        currentUserId: PropTypes.number,
+        isAdmin: PropTypes.bool,
         isRated: PropTypes.bool.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        onDelete: PropTypes.func.isRequired,
-        currentUserId: PropTypes.number,
-        isAdmin: PropTypes.bool
+        onDelete: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -47,7 +47,7 @@ export default class CommentList extends React.PureComponent {
     _handleReplyClick = (index, isOwner, event) => {
         event.preventDefault();
 
-        if (this.props.isUserConnected || this.props.isAdmin) {
+        if (this.props.isConnected || this.props.isAdmin) {
             this.setState({
                 replyCommentIndex: index,
                 replyAsOwner: isOwner
@@ -60,7 +60,7 @@ export default class CommentList extends React.PureComponent {
     _handleAskForDeletionClick = (index, event) => {
         event.preventDefault();
 
-        if (this.props.isUserOwner) {
+        if (this.props.isOwner) {
             this.setState({
                 replyCommentIndex: index,
                 replyForDeletion: true
@@ -123,8 +123,8 @@ export default class CommentList extends React.PureComponent {
                     {
                         commentNestedLevel < 4 &&
                         <li>
-                            <a onClick={this._handleReplyClick.bind(this, index, this.props.isUserOwner)}>
-                                {I18n.t(`js.comment.reply.${(this.props.isUserOwner ? 'owner_button' : 'button')}`)}
+                            <a onClick={this._handleReplyClick.bind(this, index, this.props.isOwner)}>
+                                {I18n.t(`js.comment.reply.${(this.props.isOwner ? 'owner_button' : 'button')}`)}
                             </a>
                         </li>
                     }
@@ -153,19 +153,19 @@ export default class CommentList extends React.PureComponent {
                     {
                         commentNestedLevel < 4 &&
                         <li>
-                            <a onClick={this._handleReplyClick.bind(this, index, this.props.isUserOwner)}>
-                                {I18n.t(`js.comment.reply.${(this.props.isUserOwner ? 'owner_button' : 'button')}`)}
+                            <a onClick={this._handleReplyClick.bind(this, index, this.props.isOwner)}>
+                                {I18n.t(`js.comment.reply.${(this.props.isOwner ? 'owner_button' : 'button')}`)}
                             </a>
                         </li>
                     }
 
                     {
-                        this.props.isUserOwner &&
+                        this.props.isOwner &&
                         <li className="divider"/>
                     }
 
                     {
-                        this.props.isUserOwner &&
+                        this.props.isOwner &&
                         <li>
                             <a onClick={this._handleAskForDeletionClick.bind(this, index)}>
                                 {I18n.t('js.comment.ask_for_deletion.button')}
@@ -224,7 +224,7 @@ export default class CommentList extends React.PureComponent {
                                      transitionLeaveTimeout={300}>
                 {
                     this.props.comments.map((comment, index) => {
-                        if (!$.isEmpty(comment.body) && (!(!this.props.isUserOwner && comment.ask_for_deletion) || this.props.isAdmin)) {
+                        if (!$.isEmpty(comment.body) && (!(!this.props.isOwner && comment.ask_for_deletion) || this.props.isAdmin)) {
                             let classes = {};
                             classes[`comment-child-item-${comment.nested_level}`] = comment.parent_id;
                             let itemClasses = classNames('collection-item', 'avatar', classes);
@@ -235,7 +235,7 @@ export default class CommentList extends React.PureComponent {
                                     <CommentItem id={comment.id}
                                                  currentUserId={this.props.currentUserId}
                                                  ownerId={this.props.ownerId}
-                                                 isOwner={this.props.isUserOwner}
+                                                 isOwner={this.props.isOwner}
                                                  isAdmin={this.props.isAdmin}
                                                  isAskingForDeletion={this.state.replyForDeletion}
                                                  user={comment.user}

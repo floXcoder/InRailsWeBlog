@@ -16,8 +16,7 @@ export default class ArticleIndex extends Reflux.Component {
         router: PropTypes.object.isRequired
     };
 
-    static defaultProps = {
-    };
+    static defaultProps = {};
 
     constructor(props) {
         super(props);
@@ -61,7 +60,7 @@ export default class ArticleIndex extends Reflux.Component {
         });
     };
 
-    onPreferenceChange = (userData) => {
+    onPreferenceChange(userData) {
         let newState = {};
 
         if (!$.isEmpty(userData.settings) && userData.settings.article_display) {
