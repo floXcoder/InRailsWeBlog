@@ -102,7 +102,7 @@ export default class ArticleShow extends Reflux.Component {
         if (articleData.type === 'restoreArticle') {
             newState.isHistoryDisplayed = false;
             newState.article = articleData.articleRestored;
-            Materialize.toast(I18n.t('js.article.history.restored'));
+            Notification.success(I18n.t('js.article.history.restored'), 10);
         }
 
         if (!$.isEmpty(newState)) {

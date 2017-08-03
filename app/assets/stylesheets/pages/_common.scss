@@ -10,7 +10,7 @@
 @import 'shared/tag';
 @import 'shared/user';
 @import 'shared/search';
-//@import 'shared/components/notification';
+@import 'shared/components/notification';
 @import 'shared/components/rating';
 @import 'shared/components/single-timeline';
 @import 'shared/components/double-timeline';
@@ -21,53 +21,6 @@ html {
   color: $text-color;
   font-family: "Open Sans", sans-serif;
   font-weight: normal;
-}
-
-// Notifications
-.notification-container {
-  z-index: 1005;
-}
-
-// New messages
-.notification-messages {
-  background-color: $primary-color;
-  border-radius: 50%;
-  color: #fff;
-  display: inline;
-  font-size: .9rem;
-  font-weight: 700;
-  height: 1.8rem;
-  line-height: 1.8rem;
-  position: absolute;
-  right: 5%;
-  text-align: center;
-  top: 10%;
-  vertical-align: middle;
-  white-space: nowrap;
-  width: 1.8rem;
-}
-
-.notification-messages-dropdown {
-  background-color: $primary-color;
-  border-radius: 50%;
-  color: #fff;
-  display: inline;
-  font-size: .8rem;
-  font-weight: 700;
-  height: 1.8rem;
-  line-height: 1.8rem;
-  margin-left: 12px;
-  padding: 4px 6px 4px 8px;
-  text-align: right;
-  top: 10%;
-  vertical-align: middle;
-  white-space: nowrap;
-  width: 1.8rem;
-
-  @media #{$medium-and-down} {
-    font-size: .8rem;
-    padding: 3px 5px;
-  }
 }
 
 // Cookies

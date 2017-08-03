@@ -86,7 +86,7 @@ export default class ArticleEdit extends Reflux.Component {
 
         if (!validator.isValid()) {
             validator.validate();
-            Materialize.toast(I18n.t('js.article.common.validation_error.common'), 5000);
+            Notification.error(I18n.t('js.article.common.validation_error.common'));
             return false;
         }
 

@@ -36,7 +36,7 @@ export default class ArticleNew extends Reflux.Component {
     componentWillMount() {
         if (this.props.location.state && this.props.location.state.article) {
             this.setState({draftArticle: this.props.location.state.article});
-            Materialize.toast(I18n.t('js.article.clipboard.toast.done'), 5000);
+            Notification.success(I18n.t('js.article.clipboard.toast.done'));
         }
     }
 
@@ -110,7 +110,7 @@ export default class ArticleNew extends Reflux.Component {
 
         if (!validator.isValid()) {
             validator.validate();
-            Materialize.toast(I18n.t('js.article.common.validation_error.common'), 5000);
+            Notification.error(I18n.t('js.article.common.validation_error.common'));
             return false;
         }
 

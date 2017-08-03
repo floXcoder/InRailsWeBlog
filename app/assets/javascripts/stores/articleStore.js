@@ -16,14 +16,14 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
 
     // Called by handleErrors function of Errors mixin
     displayUnauthorizedMessage() {
-        Materialize.toast(I18n.t('js.article.errors.not_authorized'), 10000);
+        Notification.error(I18n.t('js.article.errors.not_authorized'));
     }
 
     // Called by handleErrors function of Errors mixin
     displayErrorsMessage(url, errorMessage) {
         if (url.includes('comments')) {
             Object.keys(errorMessage).forEach((errorField) => {
-                Materialize.toast(
+                Notification.error(
                     I18n.t('js.comment.model.errors.' + errorField,
                         {
                             message: errorMessage[errorField],
@@ -33,7 +33,7 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             });
         } else if (url.includes('bookmark')) {
             Object.keys(errorMessage).forEach((errorField) => {
-                Materialize.toast(
+                Notification.error(
                     I18n.t('js.article.model.errors.bookmark.' + errorField,
                         {
                             message: errorMessage[errorField],
@@ -43,7 +43,7 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             });
         } else {
             Object.keys(errorMessage).forEach((errorField) => {
-                Materialize.toast(
+                Notification.error(
                     I18n.t('js.article.model.errors.' + errorField,
                         {
                             message: errorMessage[errorField],
@@ -406,9 +406,9 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             data: requestParam,
             success: (dataReceived) => {
                 if (data.isBookmarked) {
-                    Materialize.toast(I18n.t('js.article.bookmark.removed'), 3000);
+                    Notification.success(I18n.t('js.article.bookmark.removed'));
                 } else {
-                    Materialize.toast(I18n.t('js.article.bookmark.added'), 3000);
+                    Notification.success(I18n.t('js.article.bookmark.added'));
                 }
                 return true;
             },
@@ -442,7 +442,7 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             type: 'POST',
             data: requestParam,
             success: (dataReceived) => {
-                Materialize.toast(I18n.t('js.article.vote.added'), 3000);
+                Notification.success(I18n.t('js.article.vote.added'));
                 return true;
             },
             error: (xhr, status, error) => {
@@ -474,9 +474,9 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             data: requestParam,
             success: (dataReceived) => {
                 if (data.isOutdated) {
-                    Materialize.toast(I18n.t('js.article.outdated.removed'), 3000);
+                    Notification.success(I18n.t('js.article.outdated.removed'));
                 } else {
-                    Materialize.toast(I18n.t('js.article.outdated.added'), 3000);
+                    Notification.success(I18n.t('js.article.outdated.added'));
                 }
                 return true;
             },
