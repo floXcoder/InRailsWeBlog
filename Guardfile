@@ -17,6 +17,15 @@ guard 'migrate' do
   watch(%r{^db/migrate/(\d+).+\.rb})
 end
 
+# Not watching root files
+# guard 'process', name: 'NPM packages', command: 'yarn' do
+#   watch(%r{^package\.json$})
+# end
+
+guard 'process', name: 'Gulp', command: 'npm run development' do
+  watch(%r{^frontend/.+\.js$})
+end
+
 guard 'sidekiq', environment: 'development' do
   watch(%r{^app/workers/.+\.rb})
   watch(%r{^app/mailers/.+\.rb})
@@ -38,15 +47,6 @@ end
 guard 'process', name: 'i18n-js', command: 'rails i18n:js:export' do
   watch(%r{^config/i18n-js\.yml})
   watch(%r{^config/locales/js\..+\.yml})
-end
-
-# Not watching root files
-# guard 'process', name: 'NPM packages', command: 'yarn' do
-#   watch(%r{^package\.json$})
-# end
-
-guard 'process', name: 'Gulp', command: 'npm run development' do
-  watch(%r{^frontend/.+\.js$})
 end
 
 guard 'annotate', routes: false do
