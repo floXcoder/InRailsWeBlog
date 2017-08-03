@@ -52,4 +52,4 @@ class App {
 
 const $app = new App();
 
-module.exports = $app;
+export default $app;

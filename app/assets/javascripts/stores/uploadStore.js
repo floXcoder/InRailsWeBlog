@@ -28,11 +28,14 @@ export default class UploadStore extends mix(Reflux.Store).with(Errors) {
             return;
         }
 
-        var requestParam = {};
-        requestParam.upload = upload;
+        const url = this.url;
+
+        let requestParam = {
+            upload: upload
+        };
 
         $.ajax({
-            url: this.url,
+            url: url,
             dataType: 'json',
             type: 'POST',
             data: requestParam
@@ -54,7 +57,7 @@ export default class UploadStore extends mix(Reflux.Store).with(Errors) {
                         uploadErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }
@@ -65,12 +68,15 @@ export default class UploadStore extends mix(Reflux.Store).with(Errors) {
             return;
         }
 
-        var requestParam = {};
-        requestParam.upload = upload;
-        requestParam._method = 'put';
+        const url = this.url + '/' + upload.id;
+
+        let requestParam = {
+            upload: upload,
+            _method: 'put'
+        };
 
         $.ajax({
-            url: this.url + '/' + upload.id,
+            url: url,
             dataType: 'json',
             type: 'POST',
             data: requestParam
@@ -92,7 +98,7 @@ export default class UploadStore extends mix(Reflux.Store).with(Errors) {
                         uploadErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }
@@ -105,8 +111,9 @@ export default class UploadStore extends mix(Reflux.Store).with(Errors) {
 
         const url = this.url + '/' + uploadId;
 
-        let requestParam = {};
-        requestParam._method = 'delete';
+        let requestParam = {
+            _method: 'delete'
+        };
 
         if (options) {
             if (options.isPermanently) {
@@ -137,7 +144,7 @@ export default class UploadStore extends mix(Reflux.Store).with(Errors) {
                         uploadErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }

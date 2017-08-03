@@ -197,6 +197,8 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
             return;
         }
 
+        const url = this.url;
+
         let requestParam = {};
 
         if (article) {
@@ -228,7 +230,7 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
                         articleErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }
@@ -268,7 +270,7 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
                         articleErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }

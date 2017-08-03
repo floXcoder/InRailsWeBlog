@@ -16,7 +16,7 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
         this.listenables = UserActions;
         this.url = '/users';
 
-        if ($app.user.currentId) {
+        if ($app.isUserConnected()) {
             this.onLoadUser({userId: $app.user.currentId, userProfile: true});
         }
     }
@@ -104,7 +104,7 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
 
                     if (data.userProfile) {
                         this.trigger({
-                            type: 'InitUser',
+                            type: 'initUser',
                             user: $app.user.current
                         });
                     } else {

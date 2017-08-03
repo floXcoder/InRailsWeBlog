@@ -85,7 +85,7 @@ export default class TopicStore extends mix(Reflux.Store).with(Errors) {
                         topicErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }
@@ -129,7 +129,7 @@ export default class TopicStore extends mix(Reflux.Store).with(Errors) {
                         topicErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }
@@ -170,7 +170,7 @@ export default class TopicStore extends mix(Reflux.Store).with(Errors) {
                         topicErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }

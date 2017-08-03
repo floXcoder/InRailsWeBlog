@@ -26,6 +26,8 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
     }
 
     onLoadTags(params) {
+        const url = this.url;
+
         let requestParam = {};
 
         if (params) {
@@ -62,7 +64,7 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
                 }
             })
             .fail((xhr, status, error) => {
-                this.handleErrors(this.url, xhr, status, error);
+                this.handleErrors(url, xhr, status, error);
             });
     }
 
@@ -137,7 +139,7 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
                         tagErrors: xhr.responseJSON
                     });
                 } else {
-                    this.handleErrors(this.url, xhr, status, error);
+                    this.handleErrors(url, xhr, status, error);
                 }
             });
     }

@@ -24,6 +24,8 @@ import 'expose-loader?Mousetrap!mousetrap';
 
 // Declare Module Helpers
 import 'expose-loader?$app!./modules/app';
+// noinspection JSUnresolvedVariable
+$app = $app.default;
 
 // TODO
 // if (process.env.NODE_ENV !== 'production') {

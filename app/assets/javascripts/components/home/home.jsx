@@ -50,7 +50,7 @@ export default class HomePage extends Reflux.Component {
 
         let newState = {};
 
-        if (userData.type === 'InitUser') {
+        if (userData.type === 'initUser') {
             newState.isUserLoading = false;
             browserHistory.replace(`/topic/${$app.getCurrentTopic().slug}`);
         }
