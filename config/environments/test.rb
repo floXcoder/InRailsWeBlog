@@ -47,4 +47,7 @@ Rails.application.configure do
 
   # "Pretty" HTML format output
   Slim::Engine.set_options pretty: true
+
+  # Custom configurations
+  config.x.cron_jobs_active = false
 end

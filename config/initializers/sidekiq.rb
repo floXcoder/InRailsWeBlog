@@ -4,7 +4,7 @@ Sidekiq.configure_server do |config|
 
   if Rails.configuration.x.cron_jobs_active
     schedule_file = 'config/sidekiq_schedule.yml'
-    if File.exists?(schedule_file) && Sidekiq.server?
+    if File.exist?(schedule_file) && Sidekiq.server?
       Sidekiq::Cron::Job.load_from_hash! YAML.load_file(schedule_file)
     end
   else

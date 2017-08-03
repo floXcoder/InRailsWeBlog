@@ -109,7 +109,7 @@ module ActAsTrackedConcern
       self.tracked_name    = tracked_name
       self.tracker_metrics = trackers
 
-      tracker_cron_job
+      tracker_cron_job if Rails.configuration.x.cron_jobs_active
 
       track_queries
     end
@@ -164,14 +164,12 @@ module ActAsTrackedConcern
     def tracker_cron_job
       cron_job_name = "#{name}_tracker"
 
-      if Rails.configuration.x.cron_jobs_active
-        unless Sidekiq::Cron::Job.find(name: cron_job_name)
-          Sidekiq::Cron::Job.create(name:  cron_job_name,
-                                    cron:  '*/5 * * * *',
-                                    class: 'UpdateTrackerWorker',
-                                    args:  { tracked_class: name.downcase },
-                                    queue: 'default')
-        end
+      unless Sidekiq::Cron::Job.find(name: cron_job_name)
+        Sidekiq::Cron::Job.create(name:  cron_job_name,
+                                  cron:  '*/5 * * * *',
+                                  class: 'UpdateTrackerWorker',
+                                  args:  { tracked_class: name.downcase },
+                                  queue: 'default')
       end
     end
 

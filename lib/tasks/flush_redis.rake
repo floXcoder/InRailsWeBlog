@@ -12,14 +12,14 @@ namespace :InRailsWeBlog do
     # _InRailsWeBlog_#{Rails.env}:cache
     # _InRailsWeBlog_#{Rails.env}:session
     # _InRailsWeBlog_#{Rails.env}:geocoder
+    # _InRailsWeBlog_#{Rails.env}:cron_job
     # _InRailsWeBlog_#{Rails.env}:(sidekiq)
 
-    if args.option == 'all'
-      app = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}", redis: Redis.new)
-      app.keys.each { |key| app.del(key) }
-    else
-      app = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache", redis: Redis.new)
-      app.keys.each { |key| app.del(key) }
-    end
+    app = if args.option == 'all'
+            Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}", redis: Redis.new)
+          else
+            Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache", redis: Redis.new)
+          end
+    app.keys.each { |key| app.del(key) }
   end
 end

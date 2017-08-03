@@ -3,6 +3,8 @@ class UpdateTrackerWorker
   sidekiq_options queue: :default
 
   def perform(*args)
+    return if Rails.env.test?
+
     tracked_class = args.first['tracked_class']
 
     class_model = tracked_class.classify.constantize
@@ -13,7 +15,7 @@ class UpdateTrackerWorker
 
     class_model.transaction do
       metrics_used.each do |metric|
-        $redis.keys("#{tracked_class}:#{metric.to_s}:*").each do |tracked_element|
+        $redis.keys("#{tracked_class}:#{metric}:*").each do |tracked_element|
           _element_type, _element_metric, element_id = tracked_element.split(':')
           element_value = $redis.get(tracked_element)
 
