@@ -7,7 +7,7 @@ import Form from '../materialize/form';
 import Input from '../materialize/input';
 import Textarea from '../materialize/textarea';
 import Select from '../materialize/select';
-import Selectize from '../theme/selectize';
+import Selecter from '../theme/selecter';
 import Submit from '../materialize/submit';
 
 import {Link} from 'react-router-dom';
@@ -101,14 +101,14 @@ export default class TagEdit extends Reflux.Component {
                             </div>
 
                             <div className="col s12 m6">
-                                <Selectize id="tag_synonyms"
+                                <Selecter id="tag_synonyms"
                                            elements={[]}
                                            title={I18n.t('js.tag.model.synonyms')}
                                            placeholder={I18n.t('js.tag.common.synonyms')}
                                            isEditing={true}
                                            isHorizontal={true}>
                                     {this.state.tag.synonyms}
-                                </Selectize>
+                                </Selecter>
                             </div>
                         </div>
                     </div>

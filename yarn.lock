@@ -1502,7 +1502,7 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-classnames@2.2.5, classnames@^2.1.1, classnames@^2.1.5, classnames@^2.2.5:
+classnames@2.2.5, classnames@^2.1.1, classnames@^2.1.5, classnames@^2.2.4, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -6269,13 +6269,7 @@ postcss@^6.0.1, postcss@^6.0.6:
     source-map "^0.5.6"
     supports-color "^4.2.0"
 
-prelude-extension@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/prelude-extension/-/prelude-extension-0.1.0.tgz#e5330b6a513d3fc9f81fb04b826f01207ca9028c"
-  dependencies:
-    prelude-ls "^1.1.2"
-
-prelude-ls@^1.1.1, prelude-ls@^1.1.2, prelude-ls@~1.1.2:
+prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
 
@@ -6512,6 +6506,13 @@ react-image-lightbox@4.1.0:
     prop-types "^15.5.8"
     react-modal "^1.4.0"
 
+react-input-autosize@^1.1.3:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-1.1.4.tgz#cbc45072d4084ddc57806db8e3b34e644b8366ac"
+  dependencies:
+    create-react-class "^15.5.2"
+    prop-types "^15.5.8"
+
 react-lazyload@2.2.7:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/react-lazyload/-/react-lazyload-2.2.7.tgz#6adf0713f32240a21c630ab5d1e8cf62d0c264af"
@@ -6584,13 +6585,14 @@ react-router@^4.1.1:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
-react-selectize@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/react-selectize/-/react-selectize-3.0.1.tgz#92efefd26ac68ba9caca971bc1cffd5851217f89"
+react-select@1.0.0-rc.5:
+  version "1.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-1.0.0-rc.5.tgz#9d316f252b1adc372ddb5cdf1f119c6b7cfdb5d6"
   dependencies:
-    prelude-extension "^0.1.0"
-    prelude-ls "^1.1.1"
-    tether "^1.1.1"
+    classnames "^2.2.4"
+    create-react-class "^15.5.2"
+    prop-types "^15.5.8"
+    react-input-autosize "^1.1.3"
 
 react-test-renderer@15.6.1:
   version "15.6.1"
@@ -7668,10 +7670,6 @@ test-exclude@^4.1.1:
     object-assign "^4.1.0"
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
-
-tether@^1.1.1:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/tether/-/tether-1.4.0.tgz#0f9fa171f75bf58485d8149e94799d7ae74d1c1a"
 
 text-table@~0.2.0:
   version "0.2.0"

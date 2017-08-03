@@ -492,7 +492,7 @@ fr:
       loading:
         message: "Chargement des éléments suivants ..."
         finish: "Tous les éléments ont été chargés."
-    selectize:
+    selecter:
       no_results: "Pas de résultats trouvés"
       tags:
         type: "Taper des caractères pour ajouter un label"

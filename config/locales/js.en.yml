@@ -476,7 +476,7 @@ en:
       loading:
         message: "Chargement des éléments suivants ..."
         finish: "Tous les éléments ont été chargés."
-    selectize:
+    selecter:
       no_results: "No results found"
       tags:
         type: "Type characters to add a tag"
