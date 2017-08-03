@@ -1,67 +1,59 @@
 'use strict';
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+// import ArticleActions from '../../../actions/articleActions';
+
 import InfiniteScroll from '../../../components/materialize/infiniteScroll';
 
-import ArticleActions from '../../../actions/articleActions';
 import ArticleItemDisplay from './item';
 
+import {TransitionGroup, CSSTransition} from 'react-transition-group';
+
 const ArticleListDisplay = ({router, articles, hasMore, articleDisplayMode, isHighlightingResults}) => {
-    const ArticleNodes = articles.map((article) =>
-        <ArticleItemDisplay key={article.id}
-                            router={router}
-                            article={article}
-                            initialDisplayMode={articleDisplayMode}>
-            {
-                isHighlightingResults && !$.isEmpty(article.highlight_content) ?
-                    article.highlight_content :
-                    article.content
-            }
-        </ArticleItemDisplay>
+    const ArticleNodes = articles.map((article) => (
+            <CSSTransition key={article.id}
+                           timeout={500}
+                           classNames="article">
+                <ArticleItemDisplay router={router}
+                                    article={article}
+                                    initialDisplayMode={articleDisplayMode}>
+                    {
+                        isHighlightingResults && !$.isEmpty(article.highlight_content) ?
+                            article.highlight_content :
+                            article.content
+                    }
+                </ArticleItemDisplay>
+            </CSSTransition>
+        )
     );
 
     return (
         <div className="row">
             <div className="col s12">
-                <ReactCSSTransitionGroup transitionName="article"
-                                         transitionAppear={true}
-                                         transitionAppearTimeout={500}
-                                         transitionEnterTimeout={500}
-                                         transitionLeaveTimeout={300}>
-                    {
-                        articleDisplayMode === 'inline' &&
-                        <div className="card-panel">
-                            <div className="blog-article-list">
-                                <InfiniteScroll loadMore={ArticleListDisplay._loadNextArticles.bind(hasMore)}
-                                                hasMore={hasMore}>
-                                    <ReactCSSTransitionGroup transitionName="article"
-                                                             transitionAppear={true}
-                                                             transitionAppearTimeout={500}
-                                                             transitionEnterTimeout={500}
-                                                             transitionLeaveTimeout={300}>
-                                        {ArticleNodes}
-                                    </ReactCSSTransitionGroup>
-                                </InfiniteScroll>
-                            </div>
-                        </div>
-                    }
-
-                    {
-                        articleDisplayMode === 'card' &&
+                {
+                    articleDisplayMode === 'inline' &&
+                    <div className="card-panel">
                         <div className="blog-article-list">
                             <InfiniteScroll loadMore={ArticleListDisplay._loadNextArticles.bind(hasMore)}
                                             hasMore={hasMore}>
-                                <ReactCSSTransitionGroup transitionName="article"
-                                                         transitionAppear={true}
-                                                         transitionAppearTimeout={500}
-                                                         transitionEnterTimeout={500}
-                                                         transitionLeaveTimeout={300}>
+                                <TransitionGroup component="div">
                                     {ArticleNodes}
-                                </ReactCSSTransitionGroup>
+                                </TransitionGroup>
                             </InfiniteScroll>
                         </div>
-                    }
-                </ReactCSSTransitionGroup>
+                    </div>
+                }
+
+                {
+                    articleDisplayMode === 'card' &&
+                    <div className="blog-article-list">
+                        <InfiniteScroll loadMore={ArticleListDisplay._loadNextArticles.bind(hasMore)}
+                                        hasMore={hasMore}>
+                            <TransitionGroup component="div">
+                                {ArticleNodes}
+                            </TransitionGroup>
+                        </InfiniteScroll>
+                    </div>
+                }
             </div>
         </div>
     );

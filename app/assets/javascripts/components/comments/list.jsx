@@ -1,9 +1,9 @@
 'use strict';
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
 import CommentItem from './item';
 import CommentForm from './form';
+
+import {TransitionGroup, CSSTransition} from 'react-transition-group';
 
 export default class CommentList extends React.PureComponent {
     static propTypes = {
@@ -11,11 +11,11 @@ export default class CommentList extends React.PureComponent {
         isConnected: PropTypes.bool.isRequired,
         isOwner: PropTypes.bool.isRequired,
         ownerId: PropTypes.number.isRequired,
-        currentUserId: PropTypes.number,
-        isAdmin: PropTypes.bool,
         isRated: PropTypes.bool.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        onDelete: PropTypes.func.isRequired
+        onDelete: PropTypes.func.isRequired,
+        currentUserId: PropTypes.number,
+        isAdmin: PropTypes.bool
     };
 
     static defaultProps = {
@@ -187,22 +187,22 @@ export default class CommentList extends React.PureComponent {
             }
 
             return (
-                <ReactCSSTransitionGroup transitionName="comment-form"
-                                         transitionAppear={true}
-                                         transitionAppearTimeout={600}
-                                         transitionEnterTimeout={500}
-                                         transitionLeaveTimeout={300}>
-                    <hr/>
-                    <div className="comment-reply">
-                        <CommentForm formTitle={commentFormTitle}
-                                     parentCommentId={commentId}
-                                     isOwner={this.state.replyAsOwner}
-                                     isAskingForDeletion={this.state.replyForDeletion}
-                                     isRated={this.props.isRated}
-                                     onCancel={this._handleReplyCancel}
-                                     onSubmit={this._handleReplySubmit}/>
+                <CSSTransition classNames="comment-form"
+                               timeout={400}
+                               in={this.state.replyCommentIndex === index}>
+                    <div>
+                        <hr/>
+                        <div className="comment-reply">
+                            <CommentForm formTitle={commentFormTitle}
+                                         parentCommentId={commentId}
+                                         isOwner={this.state.replyAsOwner}
+                                         isAskingForDeletion={this.state.replyForDeletion}
+                                         isRated={this.props.isRated}
+                                         onCancel={this._handleReplyCancel}
+                                         onSubmit={this._handleReplySubmit}/>
+                        </div>
                     </div>
-                </ReactCSSTransitionGroup>
+                </CSSTransition>
             );
         } else {
             return null;
@@ -215,59 +215,57 @@ export default class CommentList extends React.PureComponent {
         }
 
         return (
-            <ReactCSSTransitionGroup component="ul"
-                                     className="collection"
-                                     transitionName="comment"
-                                     transitionAppear={true}
-                                     transitionAppearTimeout={900}
-                                     transitionEnterTimeout={500}
-                                     transitionLeaveTimeout={300}>
+            <TransitionGroup component="ul"
+                             className="collection">
                 {
                     this.props.comments.map((comment, index) => {
                         if (!$.isEmpty(comment.body) && (!(!this.props.isOwner && comment.ask_for_deletion) || this.props.isAdmin)) {
-                            let classes = {};
-                            classes[`comment-child-item-${comment.nested_level}`] = comment.parent_id;
-                            let itemClasses = classNames('collection-item', 'avatar', classes);
+                            const itemClasses = classNames('collection-item', 'avatar', {
+                                [`comment-child-item-${comment.nested_level}`]: comment.parent_id
+                            });
 
                             return (
-                                <li key={comment.id}
-                                    className={itemClasses}>
-                                    <CommentItem id={comment.id}
-                                                 currentUserId={this.props.currentUserId}
-                                                 ownerId={this.props.ownerId}
-                                                 isOwner={this.props.isOwner}
-                                                 isAdmin={this.props.isAdmin}
-                                                 isAskingForDeletion={this.state.replyForDeletion}
-                                                 user={comment.user}
-                                                 date={comment.posted_at}
-                                                 title={comment.title}
-                                                 rating={this.props.isRated ? comment.rating : null}
-                                                 commentId={comment.id}
-                                                 parentCommentId={comment.parent_id}
-                                                 isAskedForDeletion={comment.ask_for_deletion}
-                                                 isModifying={this.state.modifyCommentIndex === index}
-                                                 onCancel={this._handleModifyCancel}
-                                                 onSubmit={this._handleModifySubmit}>
-                                        {comment.body}
-                                    </CommentItem>
+                                <CSSTransition key={comment.id}
+                                               timeout={500}
+                                               classNames="comment">
+                                    <li className={itemClasses}>
+                                        <CommentItem id={comment.id}
+                                                     currentUserId={this.props.currentUserId}
+                                                     ownerId={this.props.ownerId}
+                                                     isOwner={this.props.isOwner}
+                                                     isAdmin={this.props.isAdmin}
+                                                     isAskingForDeletion={this.state.replyForDeletion}
+                                                     user={comment.user}
+                                                     date={comment.posted_at}
+                                                     title={comment.title}
+                                                     rating={this.props.isRated ? comment.rating : null}
+                                                     commentId={comment.id}
+                                                     parentCommentId={comment.parent_id}
+                                                     isAskedForDeletion={comment.ask_for_deletion}
+                                                     isModifying={this.state.modifyCommentIndex === index}
+                                                     onCancel={this._handleModifyCancel}
+                                                     onSubmit={this._handleModifySubmit}>
+                                            {comment.body}
+                                        </CommentItem>
 
-                                    {
-                                        this.state.modifyCommentIndex !== index &&
-                                        <a className="secondary-content dropdown-button tooltipped waves-effect waves-matisse btn-flat"
-                                           data-tooltip={I18n.t('js.comment.common.actions')}
-                                           data-activates={`dropdown-comment-${index}`}>
-                                            <i className="material-icons">reply</i>
-                                        </a>
-                                    }
+                                        {
+                                            this.state.modifyCommentIndex !== index &&
+                                            <a className="secondary-content dropdown-button tooltipped waves-effect waves-matisse btn-flat"
+                                               data-tooltip={I18n.t('js.comment.common.actions')}
+                                               data-activates={`dropdown-comment-${index}`}>
+                                                <i className="material-icons">reply</i>
+                                            </a>
+                                        }
 
-                                    {this._renderDropdown(index, comment.id, comment.user.id, comment.nested_level)}
-                                    {this._renderReplyForm(index, comment.id)}
-                                </li>
+                                        {this._renderDropdown(index, comment.id, comment.user.id, comment.nested_level)}
+                                        {this._renderReplyForm(index, comment.id)}
+                                    </li>
+                                </CSSTransition>
                             );
                         }
                     })
                 }
-            </ReactCSSTransitionGroup>
+            </TransitionGroup>
         );
     }
 }
