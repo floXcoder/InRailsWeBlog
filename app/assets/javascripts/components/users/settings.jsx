@@ -8,7 +8,7 @@ import RadioButtons from '../../components/materialize/radio-buttons';
 import SwitchButton from '../../components/materialize/switch-button';
 
 // TODO : replace it
-export default class UserSettings extends Reflux.Component {
+export default class UserSettings extends Reflux.PureComponent {
     static propTypes = {
         isOpened: PropTypes.bool
     };

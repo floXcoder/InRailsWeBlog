@@ -2,7 +2,7 @@
 
 import EditorLoader from '../../loaders/editor';
 
-export default class Editor extends React.Component {
+export default class Editor extends React.PureComponent {
     static propTypes = {
         mode: PropTypes.number,
         id: PropTypes.string,

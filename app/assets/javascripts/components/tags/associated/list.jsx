@@ -1,6 +1,6 @@
 'use strict';
 
-export default class AssociatedTagList extends React.Component {
+export default class AssociatedTagList extends React.PureComponent {
     static propTypes = {
         tags: PropTypes.array.isRequired,
         onClickTag: PropTypes.func.isRequired
@@ -28,19 +28,20 @@ export default class AssociatedTagList extends React.Component {
         return (
             <div className="blog-associated-tag">
                 {
-                    this.props.tags.map((tag, i) =>
-                        <div key={i}
-                             className={
-                                 classNames(
-                                     'waves-light', 'btn-small', 'article-tag',
-                                     {
-                                         'tag-inactive': this.state.classByTag[tag.id],
-                                         'tag-active': !this.state.classByTag[tag.id]
-                                     })
-                             }
-                             onClick={this._handleTagClick.bind(this, tag.id)}>
-                            {tag.name}
-                        </div>
+                    this.props.tags.map((tag, i) => (
+                            <div key={i}
+                                 className={
+                                     classNames(
+                                         'waves-light', 'btn-small', 'article-tag',
+                                         {
+                                             'tag-inactive': this.state.classByTag[tag.id],
+                                             'tag-active': !this.state.classByTag[tag.id]
+                                         })
+                                 }
+                                 onClick={this._handleTagClick.bind(this, tag.id)}>
+                                {tag.name}
+                            </div>
+                        )
                     )
                 }
             </div>
