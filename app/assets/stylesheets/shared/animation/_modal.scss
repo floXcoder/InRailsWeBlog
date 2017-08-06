@@ -1,0 +1,38 @@
+.modal-enter {
+  opacity: .01;
+
+  &.modal-enter-active {
+    transition: opacity 500ms ease-in;
+  }
+}
+
+.modal-leave {
+  opacity: 1;
+
+  &.modal-leave-active {
+    opacity: .01;
+    transition: opacity 300ms ease-in;
+  }
+}
+
+.modal-appear {
+  opacity: .01;
+  transform: scaleY(0);
+
+  &.modal-appear-active {
+    opacity: 1;
+    transform: scaleY(1);
+    transition-duration: 900ms;
+    transition-property: transform, opacity;
+    transition-timing-function: cubic-bezier(.175, .665, .320, 1), linear;
+  }
+}
+
+.modal-form-appear {
+  transform: scaleY(0);
+
+  &.modal-form-appear-active {
+    transform: scaleY(1);
+    transition: transform 600ms ease;
+  }
+}

@@ -1,55 +1,49 @@
 'use strict';
 
-import {Link} from 'react-router-dom';
+import {
+    Popup
+} from 'semantic-ui-react';
 
-// TODO : replace by dropdown
-const HomeArticleHeader = ({}) => {
-    if ($app.isUserConnected()) {
-        return (
-            <IconMenu
-                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-                iconButtonElement={
-                    <FlatButton label={I18n.t('js.views.header.articles.button')}
-                                className="header-button"
-                                secondary={true}
-                                icon={<FontIcon className="material-icons">message</FontIcon>}/>
-                }>
-                <MenuItem primaryText={
-                    <Link to={`/article/user/${$app.user.currentId}`}
-                          activeClassName="link-active">
-                        {I18n.t('js.views.header.articles.menu.user')}
-                    </Link>
-                }/>
+// import {Link} from 'react-router-dom';
 
-                <Divider />
+const HomeArticleHeader = ({router}) => {
+    const button = (
+        <a className="btn-floating waves-effect waves-light header-button topic-header-button"
+           href="#">
+            <i className="material-icons">add</i>
+        </a>
+    );
 
-                <MenuItem primaryText={
-                    <Link to="/article/new"
-                          activeClassName="link-active">
-                        {I18n.t('js.views.header.articles.menu.new')}
-                    </Link>
-                }/>
-                <MenuItem primaryText={
-                    <Link to={`/article/user/${$app.user.currentId}/bookmark`}
-                          activeClassName="link-active">
-                        {I18n.t('js.views.header.articles.menu.bookmark')}
-                    </Link>
-                }/>
+    const popup = (
+        <ul className="collection">
+            <li className="collection-item">
+                <span className="title">
+                    {I18n.t('js.views.header.article.menu.add_note')}
+                </span>
+            </li>
+            <li className="collection-item">
+                <span className="title">
+                    {I18n.t('js.views.header.article.menu.add_article')}
+                </span>
+            </li>
+        </ul>
+    );
 
-                <Divider />
+    return (
+        <div>
+            <Popup
+                trigger={button}
+                content={popup}
+                on='click'
+                hideOnScroll={true}
+                flowing={true}
+                position='bottom center'/>
+        </div>
+    );
+};
 
-                <MenuItem primaryText={
-                    <Link to={`/article/user/${$app.user.currentId}/draft`}
-                          activeClassName="link-active">
-                        {I18n.t('js.views.header.articles.menu.draft')}
-                    </Link>
-                }
-                          rightIcon={<Badge badgeContent={$app.isUserLoaded().draft_count} secondary={true}/>}/>
-            </IconMenu>
-        );
-    } else {
-        return null;
-    }
+HomeArticleHeader.propTypes = {
+    router: PropTypes.object.isRequired
 };
 
 export default HomeArticleHeader;

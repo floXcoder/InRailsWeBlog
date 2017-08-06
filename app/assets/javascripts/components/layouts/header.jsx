@@ -1,17 +1,16 @@
 'use strict';
 
+import ModalHOC from '../../hoc/modal';
+
 import Login from '../users/login';
 import Signup from '../users/signup';
 
-// TODO
-import UserTopic from '../users/topic';
-import UserSettings from '../users/settings';
+import TopicModule from '../topic/module';
+
 import SearchModule from '../search/module';
 
-// TODO
 import HomeSearchHeader from './header/search';
 import HomeArticleHeader from './header/article';
-import HomeTagHeader from './header/tag';
 import HomePreferenceHeader from './header/preference';
 import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
@@ -31,26 +30,12 @@ export default class HeaderLayout extends React.PureComponent {
     }
 
     state = {
+        isUserConnected: $app.isUserConnected(),
         isShowingSignup: true,
         isShowingLogin: true,
-
-        isTopic: false,
-        isSearch: false,
-        isTags: false,
-        isSettings: false
+        isTopicOpened: false,
+        isSearchOpened: false
     };
-
-    componentDidMount() {
-        // TODO
-        // $(ReactDOM.findDOMNode(this)).find('.dropdown-button').dropdown({
-        //     hover: false,
-        //     belowOrigin: true
-        // });
-
-        // TODO
-        // log.info($app)
-        // log.info($app.isUserConnected())
-    }
 
     _handleLoginClick = () => {
         this.setState({
@@ -66,25 +51,13 @@ export default class HeaderLayout extends React.PureComponent {
 
     _handleTopicClick = () => {
         this.setState({
-            isTopic: !this.state.isTopic
+            isTopicOpened: !this.state.isTopicOpened
         });
     };
 
     _handleSearchClick = () => {
         this.setState({
-            isSearch: !this.state.isSearch
-        });
-    };
-
-    _handleTagClick = () => {
-        this.setState({
-            isTags: !this.state.isTags
-        });
-    };
-
-    _handlePreferenceClick = () => {
-        this.setState({
-            isSettings: !this.state.isSettings
+            isSearchOpened: !this.state.isSearchOpened
         });
     };
 
@@ -94,43 +67,55 @@ export default class HeaderLayout extends React.PureComponent {
                 <div className="navbar-fixed">
                     <nav>
                         <div className="nav-wrapper">
-                            <div className="header-normal left hide-on-med-and-down">
-                                <HomeTopicHeader router={this.props.router}
-                                                 onTopicClick={this.props.onReloadPage}/>
-                            </div>
+                            <ul className="left hide-on-med-and-down">
+                                {
+                                    this.state.isUserConnected &&
+                                    <li>
+                                        <HomeTopicHeader onTopicClick={this._handleTopicClick}/>
+                                    </li>
+                                }
 
-                            <div className="center-align">
-                                <a className="brand-logo"
-                                   href="/">
-                                    {I18n.t('js.views.header.title')}
-                                </a>
-                            </div>
+                                <li>
+                                    <HomeSearchHeader onSearchClick={this._handleSearchClick}/>
+                                </li>
+                            </ul>
 
-                            <div className="header-normal right hide-on-med-and-down">
-                                <HomeUserHeader onLoginClick={this._handleLoginClick}
-                                                onSignupClick={this._handleSignupClick}/>
-                            </div>
+                            <a className="brand-logo center"
+                               href="/">
+                                {I18n.t('js.views.header.title')}
+                            </a>
 
-                            <HomeSearchHeader onSearchClick={this._handleSearchClick}/>
+                            <ul className="right hide-on-med-and-down">
+                                <li>
+                                    <HomeArticleHeader router={this.props.router}/>
+                                </li>
 
-                            <HomeTagHeader onTagClick={this._handleTagClick}/>
 
-                            <HomePreferenceHeader onPreferenceClick={this._handlePreferenceClick}/>
+                                {
+                                    this.state.isUserConnected &&
+                                    <li>
+                                        <HomePreferenceHeader />
+                                    </li>
+                                }
 
-                            <HomeArticleHeader/>
+
+                                <li>
+                                    <HomeUserHeader isUserConnected={$app.isUserConnected()}
+                                                    isAdminConnected={$app.isAdminConnected()}
+                                                    onLoginClick={this._handleLoginClick}
+                                                    onSignupClick={this._handleSignupClick}/>
+                                </li>
+                            </ul>
                         </div>
                     </nav>
                 </div>
 
-                {
-                    // TODO
-                    // <div className="blog-user-pref">
-                    //    <UserSettings isOpened={this.state.isSettings}/>
-                    // </div>
-                }
+                <ModalHOC isOpened={this.state.isTopicOpened}>
+                    <TopicModule router={this.props.router}/>
+                </ModalHOC>
 
                 <div className="blog-search-nav row">
-                    <SearchModule isOpened={this.state.isSearch}/>
+                    <SearchModule isOpened={this.state.isSearchOpened}/>
                 </div>
 
                 <div id="clipboard-area"

@@ -399,12 +399,12 @@ input[type="checkbox"] + label {
 
 // Button waves color
 .waves-effect {
-  &.waves-matisse .waves-ripple {
-    background-color: $matisse-color-transparent;
+  &.waves-spectra .waves-ripple {
+    background-color: $spectra-color-transparent;
   }
 
-  &.waves-citron .waves-ripple {
-    background-color: $citron-color-transparent;
+  &.waves-astral .waves-ripple {
+    background-color: $astral-color-transparent;
   }
 }
 

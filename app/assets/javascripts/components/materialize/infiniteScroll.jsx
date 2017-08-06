@@ -90,6 +90,10 @@ export default class InfiniteScroll extends Reflux.Component {
 
     render() {
         let props = this.props;
-        return React.DOM.div(null, props.children, props.hasMore && (this._loader));
+
+        // TODO
+        // return React.DOM.div(null, props.children, props.hasMore && (this._loader));
+
+        return props.children;
     }
 }

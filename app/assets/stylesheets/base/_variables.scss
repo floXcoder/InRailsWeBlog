@@ -9,10 +9,10 @@ $icons-font-path: '/assets/fonts/';
 // Base colors
 $transparency-color: .5;
 
-$matisse-color: #1a7c96;
-$matisse-color-transparent: rgba(26, 124, 150, $transparency-color);
-$citron-color: #9ac31b;
-$citron-color-transparent: rgba(154, 195, 27, $transparency-color);
+$spectra-color: #375962;
+$spectra-color-transparent: rgba(55, 89, 98, $transparency-color);
+$astral-color: #3c8ca1;
+$astral-color-transparent: rgba(60, 140, 161, $transparency-color);
 
 //$text-color-base: rgba(0, 0, 0, .87);
 //$color-base: #37474f;
@@ -23,11 +23,11 @@ $citron-color-transparent: rgba(154, 195, 27, $transparency-color);
 
 // Article and tag properties
 // ------------------------------------
-$article-color: $matisse-color;
-$article-color-background: $matisse-color-transparent;
+$article-color: $spectra-color;
+$article-color-background: $spectra-color-transparent;
 
-$tag-color: $citron-color;
-$tag-color-background: $citron-color-transparent;
+$tag-color: $astral-color;
+$tag-color-background: $astral-color-transparent;
 
 // Materialize theme
 // ------------------------------------
@@ -38,7 +38,7 @@ $background-color: #fffffa;
 
 $off-black: $text-color;
 
-$primary-color: $matisse-color !default;
+$primary-color: $spectra-color !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
 $primary-color-dark: darken($primary-color, 15%) !default;
 

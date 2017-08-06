@@ -1,10 +1,10 @@
 'use strict';
 
 const HomeSearchHeader = ({onSearchClick}) => (
-    <div className="btn header-button"
+    <div className="header-normal header-button left btn waves-effect waves-light search-header-button"
          href="#"
          onClick={_handleSearchClick.bind(null, onSearchClick)}>
-        {I18n.t('js.views.header.search.button')}
+        <i className="material-icons left">search</i>
     </div>
 );
 

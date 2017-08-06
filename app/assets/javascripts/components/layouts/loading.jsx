@@ -17,7 +17,7 @@ const LoadingLayout = ({component: Component, ...rest}) => {
             </header>
 
             <div className="col s3">
-                <div className="sidebar sidebarpin">
+                <div className="sidebar sidebar-pin">
                     <Dimmer active={true}
                             inverted={true}>
                         <Loader inverted={true}>

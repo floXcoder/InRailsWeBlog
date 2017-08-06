@@ -35,7 +35,7 @@ export default class TagSidebar extends Reflux.Component {
     componentWillMount() {
         if ($app.isUserConnected()) {
             this.setState({
-                userTags: $app.user.tags
+                userTags: $app.user.tags || []
             });
         } else {
             TagActions.loadTags();
@@ -51,7 +51,10 @@ export default class TagSidebar extends Reflux.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return !this.state.userTags.isEqualIds(nextState.userTags) || !this.state.filterText !== nextState.filterText;
+        // TODO
+        // return !this.state.userTags.isEqualIds(nextState.userTags) || !this.state.filterText !== nextState.filterText;
+
+        return true;
     }
 
     onTagChange(tagData) {
@@ -139,7 +142,7 @@ export default class TagSidebar extends Reflux.Component {
                                                 isSearching={isSearching}/>
                         :
                         <div>
-                            {I18n.t('js.tag.common.no_results') + ' ' + this.props.filterText}
+                            {I18n.t('js.tag.common.no_results') + ' ' + this.state.filterText}
                         </div>
                 }
 

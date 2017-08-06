@@ -159,7 +159,7 @@ export default class CommentForm extends React.PureComponent {
 
                             <div className="row margin-top-10">
                                 <div className="col s6">
-                                    <a className="waves-effect waves-matisse btn-flat"
+                                    <a className="waves-effect waves-spectra btn-flat"
                                        onClick={this.props.onCancel}>
                                         {I18n.t('js.comment.form.cancel')}
                                     </a>

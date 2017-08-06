@@ -4,12 +4,16 @@ fr:
       header:
         title: "InRailsWeBlog"
         topic:
-          button: "Thèmes"
+          button: "Thèmes (%{current})"
+          title: "Vos thèmes"
+          add: "Ajouter un nouveau thème"
         search:
           button: "Rechercher"
-        articles:
+        article:
           button: "Articles"
           menu:
+            add_note: "Prendre une note"
+            add_article: "Écrire un article"
             user: "Mes articles"
             new: "Nouvel article"
             bookmark: "Articles favoris"
@@ -19,6 +23,8 @@ fr:
         settings:
           button: "Préférences"
         user:
+          settings:
+            title: "Mes paramètres"
           sign_up: "S'inscrire"
           log_in: "Se connecter"
           log_out: "Déconnexion"

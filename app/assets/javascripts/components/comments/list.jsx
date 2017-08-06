@@ -250,7 +250,7 @@ export default class CommentList extends React.PureComponent {
 
                                         {
                                             this.state.modifyCommentIndex !== index &&
-                                            <a className="secondary-content dropdown-button tooltipped waves-effect waves-matisse btn-flat"
+                                            <a className="secondary-content dropdown-button tooltipped waves-effect waves-spectra btn-flat"
                                                data-tooltip={I18n.t('js.comment.common.actions')}
                                                data-activates={`dropdown-comment-${index}`}>
                                                 <i className="material-icons">reply</i>

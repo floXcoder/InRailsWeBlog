@@ -15,6 +15,7 @@
 @import 'shared/components/single-timeline';
 @import 'shared/components/double-timeline';
 @import 'shared/components/selecter';
+@import 'shared/animation/modal';
 
 // Global font
 html {
@@ -65,7 +66,7 @@ html {
 //    @include sprite($icon-facebook);
 //
 //    &.active {
-//      @include sprite($icon-facebook-citron);
+//      @include sprite($icon-facebook-astral);
 //    }
 //  }
 //
@@ -73,10 +74,25 @@ html {
 //    @include sprite($icon-twitter);
 //
 //    &.active {
-//      @include sprite($icon-twitter-citron);
+//      @include sprite($icon-twitter-astral);
 //    }
 //  }
 //}
+
+// Header
+// TODO : create common class for all elements in header
+.ui.bottom.popup {
+  padding: 0;
+
+  .collection {
+    margin: 0;
+
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+}
 
 .blog {
   background-color: #cfd8dc;
@@ -139,13 +155,14 @@ html {
     }
 
     .navbar-fixed {
-      height: 48px;
+      height: 54px;
     }
 
     nav {
+      background-color: #375962;
       box-shadow: 0 0 3px #b5b5b5;
-      height: 48px;
-      line-height: 48px;
+      height: 54px;
+      line-height: 54px;
 
       a {
         color: inherit;
@@ -153,36 +170,34 @@ html {
 
       .button-collapse {
         color: #000;
-        height: 48px;
+        height: 54px
       }
 
       .nav-wrapper {
         padding: 0 30px;
 
-        .header-normal {
-          .header-button {
-            margin: 0 1rem;
-          }
+        .header-button {
+          background-color: $astral-color;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .16), 0 1px 3px 0 rgba(0, 0, 0, .12);
+          margin: 0 1rem;
         }
 
-        .header-mobile {
-          .header-button {
-            //width: 200px;
-          }
+        .ui.menu {
+          background-color: $astral-color;
         }
       }
 
       //.nav-wrapper i,
       //nav a.button-collapse,
       //nav a.button-collapse i {
-      //  height: 48px;
-      //  line-height: 48px;
+      //  height: 52;
+      //  line-height: 52;
       //}
     }
 
     @media #{$medium-and-down} {
       .side-nav {
-        line-height: 48px;
+        line-height: 54px;
 
         .collapsible-header {
           margin: 0;
@@ -190,8 +205,8 @@ html {
 
         i {
           font-size: 2.3rem;
-          height: 48px;
-          line-height: 48px;
+          height: 54px;
+          line-height: 54px;
           margin-right: 1rem;
           position: absolute;
           right: 1rem;
@@ -203,7 +218,7 @@ html {
       }
 
       .header-icon {
-        height: 48px;
+        height: 54px;
         position: relative;
         z-index: 1;
 
@@ -213,8 +228,8 @@ html {
 
         .material-icons {
           font-size: 2.5rem;
-          height: 48px;
-          line-height: 48px;
+          height: 54px;
+          line-height: 54px;
         }
       }
     }
@@ -440,7 +455,7 @@ html {
 }
 
 .blog-main-content {
-  transition: margin 0.2s;
+  transition: margin .2s;
 }
 
 .blog-main-pinned {
@@ -448,46 +463,46 @@ html {
 }
 
 .sidebar {
-  width: 280px;
+  background: #efefef;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, .5);
+  float: left;
   height: 100%;
   padding: 5px;
-  float: left;
+  position: fixed;
   transform: translate(-100%);
   transition: transform .2s linear;
-  box-shadow: 3px 0 5px rgba(0, 0, 0, .5);
-  position: fixed;
-  background: #EFEFEF;
+  width: 280px;
 
   p {
     color: #ccc;
-    margin: 0;
     line-height: 1.5em;
+    margin: 0;
   }
 
   img {
-    width: 50%;
     left: 25%;
+    position: relative;
 
     /* Magic vertical align css */
-    position: relative; /* not sure if necessary */
-    top: 50%;
-    transform: translateY(-50%); /* not sure if necessary */
+    top: 50%; /* not sure if necessary */
+    transform: translateY(-50%);
+    width: 50%; /* not sure if necessary */
   }
 }
 
 .sidebar-pin-button {
-  float: right;
+  border: 1px solid rgba(0, 0, 0, .1);
   border-radius: 2px;
+  color: rgba(70, 70, 70, .35);
+  cursor: pointer;
+  float: right;
   font-size: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  line-height: 14px;
+  margin-bottom: 7px;
+  margin-top: 7px;
   padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
-  line-height: 14px;
-  margin-top: 7px;
-  margin-bottom: 7px;
-  cursor: pointer;
-  color: rgba(70, 70, 70, 0.35);
 }
 
 .sidebar:hover {
@@ -498,36 +513,36 @@ html {
   opacity: 0;
 }
 
-.sidebarpin {
+.sidebar-pin {
   overflow: auto;
   transform: translate(0);
 }
 
-.labelpin {
+.label-pin {
   //opacity: 0;
 }
 
 .clicktopin {
-  cursor: pointer;
   color: #333;
+  cursor: pointer;
   font-size: 15px;
 }
 
 .label {
-  width: 50px;
+  background: #efefef;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, .5);
   height: 100%;
-  background: #EFEFEF;
   position: absolute;
   right: -50px;
   top: 0;
-  box-shadow: 3px 0 5px rgba(0, 0, 0, .5);
   transition: opacity .2s linear;
+  width: 50px;
 
   .material-icons {
-    height: 34px;
-    line-height: 34px;
     font-size: 2rem;
     font-weight: 500;
+    height: 34px;
+    line-height: 34px;
     padding: 8px;
   }
 }

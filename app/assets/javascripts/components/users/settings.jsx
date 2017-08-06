@@ -1,64 +1,61 @@
 'use strict';
 
-import _ from 'lodash';
-
 import UserActions from '../../actions/userActions';
 import UserStore from '../../stores/userStore';
 import RadioButtons from '../../components/materialize/radio-buttons';
 import SwitchButton from '../../components/materialize/switch-button';
 
-// TODO : replace it
-export default class UserSettings extends Reflux.PureComponent {
-    static propTypes = {
-        isOpened: PropTypes.bool
-    };
+import {
+    Menu
+} from 'semantic-ui-react';
 
-    static defaultProps = {
-        isOpened: false
-    };
+
+export default class UserSettings extends Reflux.PureComponent {
+    static propTypes = {};
+
+    static defaultProps = {};
 
     constructor(props) {
         super(props);
 
         this.mapStoreToState(UserStore, this.onSettingsChange);
-
-        this._searchHighlight = null;
-        this._searchExact = null;
     }
 
     state = {
-        isOpened: this.props.isOpened,
+        activeItem: I18n.t('js.user.settings.article.title'),
         article_display: window.parameters.article_display,
         search_highlight: window.parameters.search_highlight,
         search_operator: window.parameters.search_operator,
         search_exact: window.parameters.search_exact
     };
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return (this.props.isOpened !== nextProps.isOpened || !_.isEqual(this.state, nextState));
-    }
-
     onSettingsChange(userData) {
-        let usersettings = userData.settings;
-        if (!$.isEmpty(usersettings)) {
+        let userSettings = userData.settings;
+        if (!$.isEmpty(userSettings)) {
             let newState = {};
 
-            if (usersettings.article_display) {
-                newState.article_display = usersettings.article_display;
+            if (userSettings.article_display) {
+                newState.article_display = userSettings.article_display;
             }
-            if (usersettings.search_highlight) {
-                newState.search_highlight = usersettings.search_highlight;
+            if (userSettings.search_highlight) {
+                newState.search_highlight = userSettings.search_highlight;
             }
-            if (usersettings.search_operator) {
-                newState.search_operator = usersettings.search_operator;
+            if (userSettings.search_operator) {
+                newState.search_operator = userSettings.search_operator;
             }
-            if (usersettings.search_exact) {
-                newState.search_exact = usersettings.search_exact;
+            if (userSettings.search_exact) {
+                newState.search_exact = userSettings.search_exact;
             }
 
             this.setState(newState);
         }
     }
+
+    handleItemClick = (event, {name}) => {
+        this.setState({
+            activeItem: name
+        });
+    };
 
     _onDisplayChanged = (event) => {
         let article_display = event.target.id;
@@ -85,70 +82,62 @@ export default class UserSettings extends Reflux.PureComponent {
     };
 
     render() {
-        const isOpened = this.props.isOpened;
+        const {activeItem} = this.state;
 
         return (
-            <Drawer width={300}
-                    openSecondary={true}
-                    docked={false}
-                    open={isOpened}
-                    onRequestChange={(open) => this.setState({isOpened: open})}>
-                <ul data-collapsible="accordion"
-                    className="collapsible popout user-pref-collapsible">
-                    <li>
-                        <div className="collapsible-header">
-                            <i className="material-icons">list</i>
-                            {I18n.t('js.user.settings.article.title')}
+            <div>
+                <Menu pointing={true}
+                      secondary={true}>
+                    <Menu.Item name={I18n.t('js.user.settings.article.title')}
+                               active={activeItem === I18n.t('js.user.settings.article.title')}
+                               onClick={this.handleItemClick}/>
+                    <Menu.Item name={I18n.t('js.user.settings.search.title')}
+                               active={activeItem === I18n.t('js.user.settings.search.title')}
+                               onClick={this.handleItemClick}/>
+                </Menu>
+
+                {
+                    activeItem === I18n.t('js.user.settings.article.title') &&
+                    <div className="row">
+                        <div className="col s12">
+                            <h6>{I18n.t('js.user.settings.article.display.title')}</h6>
+                            <RadioButtons group="articleDisplay"
+                                          buttons={I18n.t('js.user.settings.article.display.mode')}
+                                          checkedButton={this.state.article_display}
+                                          onRadioChanged={this._onDisplayChanged}/>
                         </div>
-                        <div className="collapsible-body">
-                            <div className="row">
-                                <div className="col s6">
-                                    <h6>{I18n.t('js.user.settings.article.display.title')}</h6>
-                                    <RadioButtons group="articleDisplay"
-                                                  buttons={I18n.t('js.user.settings.article.display.mode')}
-                                                  checkedButton={this.state.article_display}
-                                                  onRadioChanged={this._onDisplayChanged}/>
-                                </div>
-                            </div>
+                    </div>
+                }
+
+                {
+                    activeItem === I18n.t('js.user.settings.search.title') &&
+                    <div className="row">
+                        <div className="col s12">
+                            <h6>{I18n.t('js.user.settings.search.operator.title')}</h6>
+                            <RadioButtons group="searchOperator"
+                                          buttons={I18n.t('js.user.settings.search.operator.mode')}
+                                          checkedButton={this.state.search_operator}
+                                          onRadioChanged={this._onOperatorSearchChanged}/>
                         </div>
-                    </li>
-                    <li>
-                        <div className="collapsible-header">
-                            <i className="material-icons">view_modules</i>
-                            {I18n.t('js.user.settings.search.title')}
+                        <div className="col s12">
+                            <SwitchButton id="search-highlight"
+                                          title={I18n.t('js.user.settings.search.highlight')}
+                                          values={I18n.t('js.checkbox')}
+                                          onSwitchChange={this._onHighlightChanged}>
+                                {this.state.search_highlight}
+                            </SwitchButton>
                         </div>
-                        <div className="collapsible-body">
-                            <div className="row">
-                                <div className="col s4">
-                                    <h6>{I18n.t('js.user.settings.search.operator.title')}</h6>
-                                    <RadioButtons group="searchOperator"
-                                                  buttons={I18n.t('js.user.settings.search.operator.mode')}
-                                                  checkedButton={this.state.search_operator}
-                                                  onRadioChanged={this._onOperatorSearchChanged}/>
-                                </div>
-                                <div className="col s4">
-                                    <SwitchButton ref={(searchHighlight) => this._searchHighlight = searchHighlight}
-                                                  id="search-highlight"
-                                                  title={I18n.t('js.user.settings.search.highlight')}
-                                                  values={I18n.t('js.checkbox')}
-                                                  onSwitchChange={this._onHighlightChanged}>
-                                        {this.state.search_highlight}
-                                    </SwitchButton>
-                                </div>
-                                <div className="col s4">
-                                    <SwitchButton ref={(searchExact) => this._searchExact = searchExact}
-                                                  id="search-exact"
-                                                  title={I18n.t('js.user.settings.search.exact')}
-                                                  values={I18n.t('js.checkbox')}
-                                                  onSwitchChange={this._onExactSearchChanged}>
-                                        {this.state.search_exact}
-                                    </SwitchButton>
-                                </div>
-                            </div>
+                        <div className="col s12">
+                            <SwitchButton id="search-exact"
+                                          title={I18n.t('js.user.settings.search.exact')}
+                                          values={I18n.t('js.checkbox')}
+                                          onSwitchChange={this._onExactSearchChanged}>
+                                {this.state.search_exact}
+                            </SwitchButton>
                         </div>
-                    </li>
-                </ul>
-            </Drawer>
+                    </div>
+                }
+            </div>
         );
     }
 }

@@ -106,7 +106,7 @@ export default class Login extends React.PureComponent {
 
                     <ModalFooter>
                         <div className="left">
-                            <a className="waves-effect waves-matisse btn-flat"
+                            <a className="waves-effect waves-spectra btn-flat"
                                href="#"
                                onClick={this._handleCancelClick}>
                                 {I18n.t('js.user.login.cancel')}

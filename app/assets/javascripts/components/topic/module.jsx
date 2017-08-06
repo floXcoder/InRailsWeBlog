@@ -11,7 +11,7 @@ import {
     Link
 } from 'react-router-dom';
 
-export default class UserTopic extends Reflux.Component {
+export default class TopicModule extends Reflux.Component {
     static propTypes = {
         router: PropTypes.object.isRequired,
         onTopicClick: PropTypes.func
@@ -62,6 +62,7 @@ export default class UserTopic extends Reflux.Component {
             newState.topics = topicData.topics;
         }
 
+        // TODO
         // if (topicData.type === 'addTopic') {
         //     newState.topics = topicData.topics;
         // }
@@ -109,16 +110,9 @@ export default class UserTopic extends Reflux.Component {
                 this.props.onTopicClick();
             }
         }
-
-        // TODO: edit
-        // if ($app.getCurrentTopic().id !== topicId) {
-        //     TopicActions.updateTopic($app.user.currentId, topicId);
-        // }
     };
 
     render() {
-        const {topics} = this.state;
-
         return (
             <div className={classNames('topics-sidebar', {'topic-sidebar-overhead': this.state.isAddingTopic})}>
                 <div className={classNames('topic-overhead', {'topic-overhead-active': this.state.isAddingTopic})}>
@@ -154,21 +148,22 @@ export default class UserTopic extends Reflux.Component {
                 </div>
 
                 <div className="topics-list-name">
-                    Vos thèmes
+                    {I18n.t('js.views.header.topic.title')}
                 </div>
 
                 <div className="topics-list">
                     {
-                        topics.map((topic) =>
-                            <div key={topic.id}
-                                 className="topic-item">
-                                <div className="topic-item-details"
-                                     onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug)}>
-                                    <a className={classNames({'topic-item-current': topic.id === this.state.currentTopicId})}>
-                                        {topic.name}
-                                    </a>
+                        this.state.topics.map((topic) => (
+                                <div key={topic.id}
+                                     className="topic-item">
+                                    <div className="topic-item-details"
+                                         onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug)}>
+                                        <a className={classNames({'topic-item-current': topic.id === this.state.currentTopicId})}>
+                                            {topic.name}
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            )
                         )
                     }
                 </div>
@@ -176,93 +171,10 @@ export default class UserTopic extends Reflux.Component {
                 <div className="topics-add"
                      onClick={this._handleAddTopicClick}>
                     <a>
-                        Ajouter un nouveau thème
+                        {I18n.t('js.views.header.topic.add')}
                     </a>
                 </div>
             </div>
         );
     }
-}
-
-// TODO
-{/*<List>*/
-}
-{/*<Subheader>*/
-}
-{/*{I18n.t('js.topic.common.user_topics')}*/
-}
-{/*</Subheader>*/
-}
-
-{/*{*/
-}
-{/*this.state.topics.map((topic, i) =>*/
-}
-{/*<ListItem key={i}*/
-}
-{/*className={classNames('topic-list-item', {'topic-list-current': topic.id === this.state.currentTopic.id})}*/
-}
-{/*primaryText={topic.name}*/
-}
-{/*secondaryText={topic.description}*/
-}
-{/*onTouchTap={this._handleTopicClick.bind(this, topic.slug)}/>*/
-}
-{/*)*/
-}
-{/*}*/
-}
-{/*</List>*/
-}
-
-{/*<Divider />*/
-}
-
-{/*<List>*/
-}
-{/*<ListItem primaryText={I18n.t('js.topic.new.title')}*/
-}
-{/*leftIcon={<FontIcon className="material-icons">add_circle</FontIcon>}*/
-}
-{/*onTouchTap={this._handleShowCreateTopicClick}/>*/
-}
-{/*{*/
-}
-{/*this.state.isCreateTopicOpened &&*/
-}
-{/*<form className="topic-new"*/
-}
-{/*onSubmit={this._handleCreateTopicClick}>*/
-}
-{/*<Input ref={(topicInput) => this._topicInput = topicInput}*/
-}
-{/*id="topic-new-input"*/
-}
-{/*autoFocus={true}*/
-}
-{/*title={I18n.t('js.topic.new.input')}/>*/
-}
-{/*<Submit id="topic-new-submit"*/
-}
-{/*onClick={this._handleCreateTopicClick}>*/
-}
-{/*{I18n.t('js.topic.new.button')}*/
-}
-{/*</Submit>*/
-}
-{/*</form>*/
-}
-{/*}*/
-}
-{/*</List>*/
-}
-
-
-{/*<div className="topic-item-edit"*/
-}
-{/*onClick={this._handleEditTopicClick.bind(this, topic.id)}>*/
-}
-{/*<i className="material-icons">edit</i>*/
-}
-{/*</div>*/
 }

@@ -1,21 +1,48 @@
 'use strict';
 
-const HomePreferenceHeader = ({onPreferenceClick}) => (
-    <div className="btn header-button"
-         href="#"
-         onClick={_handlePreferenceClick.bind(null, onPreferenceClick)}>
-        {I18n.t('js.views.header.settings.button')}
-    </div>
-);
+import UserSettings from '../../users/settings';
 
-HomePreferenceHeader.propTypes = {
-    onPreferenceClick: PropTypes.func.isRequired
+import {
+    Popup
+} from 'semantic-ui-react';
+
+const HomePreferenceHeader = ({}) => {
+    const button = (
+        <a className="btn-floating waves-effect waves-light header-button topic-header-button"
+           href="#">
+            <i className="material-icons left">settings_applications</i>
+        </a>
+    );
+
+    const popup = (
+        <ul className="collection">
+            <li className="collection-item">
+                <span className="title">
+                    {I18n.t('js.views.header.user.settings.title')}
+                </span>
+            </li>
+
+            <li className="collection-item">
+                <div className="blog-user-pref">
+                    <UserSettings />
+                </div>
+            </li>
+        </ul>
+    );
+
+    return (
+        <div>
+            <Popup
+                trigger={button}
+                content={popup}
+                on='click'
+                hideOnScroll={true}
+                flowing={true}
+                position='bottom center'/>
+        </div>
+    );
 };
 
-const _handlePreferenceClick = (onPreferenceClick, event) => {
-    event.preventDefault();
-
-    onPreferenceClick();
-};
+HomePreferenceHeader.propTypes = {};
 
 export default HomePreferenceHeader;

@@ -1,105 +1,108 @@
 'use strict';
 
-import {Link} from 'react-router-dom';
+import {
+    Link
+} from 'react-router-dom';
 
 import {
-    Dropdown,
-    // Icon,
-    Menu
-} from 'semantic-ui-react'
+    Popup
+} from 'semantic-ui-react';
 
-// $app.isUserConnected()
-//     ?
-//     $app.isUserConnected() && $app.isUserLoaded().avatar
-//         ?
-//         <img src={$app.isUserLoaded().avatar}
-//              alt="User Avatar"
-//              className="header-avatar"/>
-//         :
-//         <div className="header-avatar">
-//             <i className="material-icons left dropdown-icon">account_circle</i>
-//         </div>
-//     :
-//     <div className="header-avatar">
-//         <i className="material-icons left dropdown-icon">account_circle</i>
-//     </div>
+const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSignupClick}) => {
+    const button = (
+        <a className="btn-floating waves-effect waves-light header-button topic-header-button"
+           href="#">
+            <i className="material-icons left">account_circle</i>
+        </a>
+    );
 
-const HomeUserHeader = ({onLoginClick, onSignupClick}) => (
-    <div>
-        <Menu>
-            <Dropdown text='User'
-                      pointing
-                      className='link item'>
-                <Dropdown.Menu>
-                    <Dropdown.Header>Mon compte</Dropdown.Header>
+    const popup = (
+        <ul className="collection">
+            <li className="collection-item">
+                <span className="title">
+                    {I18n.t('js.views.header.user.profile')}
+                </span>
+            </li>
 
-                    {
-                        $app.isAdminConnected() &&
-                        <Dropdown.Item>
-                            <a href="/admin">
-                                {I18n.t('js.views.header.user.administration')}
-                            </a>
-                        </Dropdown.Item>
-                    }
+            {
+                isAdminConnected &&
+                <li className="collection-item">
+                    <a href="/admin">
+                        {I18n.t('js.views.header.user.administration')}
+                    </a>
+                </li>
+            }
 
-                    {
-                        $app.isAdminConnected() &&
-                        <Dropdown.Divider />
-                    }
+            {
+                isAdminConnected &&
+                <hr/>
+            }
 
-                    {
-                        $app.isUserConnected() &&
-                        <Dropdown.Divider />
-                    }
+            {
+                isUserConnected &&
+                <hr/>
+            }
 
-                    {
-                        !$app.isUserConnected() &&
-                        <Dropdown.Item>
-                            <a className="signup-link"
-                               href="/signup"
-                               onClick={onSignupClick}>
-                                {I18n.t('js.views.header.user.sign_up')}
-                            </a>
-                        </Dropdown.Item>
-                    }
+            {
+                !isUserConnected &&
+                <li className="collection-item">
+                    <a className="signup-link"
+                       href="/signup"
+                       onClick={onSignupClick}>
+                        {I18n.t('js.views.header.user.sign_up')}
+                    </a>
+                </li>
+            }
 
-                    {
-                        !$app.isUserConnected() &&
-                        <Dropdown.Item>
-                            <a className="login-link"
-                               href="/login"
-                               onClick={onLoginClick}>
-                                {I18n.t('js.views.header.user.log_in')}
-                            </a>
-                        </Dropdown.Item>
-                    }
+            {
+                !isUserConnected &&
+                <li className="collection-item">
+                    <a className="login-link"
+                       href="/login"
+                       onClick={onLoginClick}>
+                        {I18n.t('js.views.header.user.log_in')}
+                    </a>
+                </li>
+            }
 
-                    {
-                        $app.isUserConnected() &&
-                        <Dropdown.Item>
-                            <a href={`/user/profile/${$app.isUserLoaded().slug}`}>
-                                {I18n.t('js.views.header.user.profile')}
-                            </a>
-                        </Dropdown.Item>
-                    }
+            {
+                isUserConnected &&
+                <li className="collection-item">
+                    <a href={`/user/profile/${$app.user.slug}`}>
+                        {I18n.t('js.views.header.user.profile')}
+                    </a>
+                </li>
+            }
 
-                    {
-                        $app.isUserConnected() &&
-                        <Dropdown.Item>
-                            <a href="/logout"
-                               data-method="delete"
-                               rel="nofollow">
-                                {I18n.t('js.views.header.user.log_out')}
-                            </a>
-                        </Dropdown.Item>
-                    }
-                </Dropdown.Menu>
-            </Dropdown>
-        </Menu>
-    </div>
-);
+            {
+                isUserConnected &&
+                <li className="collection-item">
+                    <a href="/logout"
+                       data-method="delete"
+                       rel="nofollow">
+                        {I18n.t('js.views.header.user.log_out')}
+                    </a>
+                </li>
+            }
+        </ul>
+    );
+
+    return (
+        <div>
+            <Popup
+                trigger={button}
+                content={popup}
+                on='click'
+                hideOnScroll={true}
+                flowing={true}
+                position='bottom center'/>
+        </div>
+    );
+};
 
 HomeUserHeader.propTypes = {
+    isUserConnected: PropTypes.bool.isRequired,
+    isAdminConnected: PropTypes.bool.isRequired,
     onLoginClick: PropTypes.func.isRequired,
     onSignupClick: PropTypes.func.isRequired
 };
