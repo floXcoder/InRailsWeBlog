@@ -95,31 +95,31 @@ describe 'Article API', type: :request, basic: true do
       end
 
       it 'returns articles for tags' do
-        get '/articles', params: { filter: { tag_ids: [@tags[0].id] } }, as: :json
+        get '/articles', params: { filter: { tag_slugs: [@tags[0].slug] } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(1)
 
-        get '/articles', params: { filter: { tag_ids: [@tags[0].id, @tags[1].id] } }, as: :json
+        get '/articles', params: { filter: { tag_slugs: [@tags[0].slug, @tags[1].slug] } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(3)
       end
 
       it 'returns articles for parent tags' do
-        get '/articles', params: { filter: { parent_tag_ids: [@tags[0].id] } }, as: :json
+        get '/articles', params: { filter: { parent_tag_slugs: [@tags[0].slug] } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).to be_empty
 
-        get '/articles', params: { filter: { parent_tag_ids: [@tags[1].id] } }, as: :json
+        get '/articles', params: { filter: { parent_tag_slugs: [@tags[1].slug] } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(2)
       end
 
       it 'returns articles for child tags' do
-        get '/articles', params: { filter: { child_tag_ids: [@tags[0].id] } }, as: :json
+        get '/articles', params: { filter: { child_tag_slugs: [@tags[0].slug] } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).to be_empty
 
-        get '/articles', params: { filter: { child_tag_ids: [@tags[2].id] } }, as: :json
+        get '/articles', params: { filter: { child_tag_slugs: [@tags[2].slug] } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(1)
       end

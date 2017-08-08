@@ -76,11 +76,6 @@ class Picture < ApplicationRecord
       self.copyright = Sanitize.fragment(attributes.delete(:copyright))
     end
 
-    # Set this attribute before setting image otherwise thumb version are not created
-    unless attributes[:process_now].nil?
-      self.process_image_upload = !!attributes.delete(:process_now)
-    end
-
     # Pictures
     unless attributes[:file].blank?
       self.image = attributes.delete(:file)

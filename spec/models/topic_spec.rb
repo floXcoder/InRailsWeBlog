@@ -21,7 +21,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Topic, type: :model do
+RSpec.describe Topic, type: :model, basic: true do
 
   before(:all) do
     @user = create(:user)
@@ -42,11 +42,11 @@ RSpec.describe Topic, type: :model do
 
   subject { @topic }
 
-  describe 'Object', basic: true do
+  describe 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:description) }
     it { is_expected.to respond_to(:color) }
@@ -69,7 +69,7 @@ RSpec.describe Topic, type: :model do
     it { expect(@topic.articles_count).to eq(0) }
     it { expect(@topic.bookmarks_count).to eq(0) }
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       before do
         @topic = Topic.create(
           user: @user,
@@ -102,7 +102,25 @@ RSpec.describe Topic, type: :model do
     end
   end
 
-  context 'Properties', basic: true do
+  context 'Associations' do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to validate_presence_of(:user) }
+    it { is_expected.to have_db_index(:user_id) }
+
+    it { is_expected.to have_many(:articles) }
+
+    it { is_expected.to have_many(:tagged_articles) }
+    it { is_expected.to have_many(:tag_relationships) }
+
+    it { is_expected.to have_many(:bookmarks) }
+    it { is_expected.to have_many(:user_bookmarks) }
+    it { is_expected.to have_many(:follower) }
+
+    it { is_expected.to have_one(:picture) }
+    it { is_expected.to accept_nested_attributes_for(:picture) }
+  end
+
+  context 'Properties' do
     it { is_expected.to have_friendly_id(:slug) }
 
     it { is_expected.to have_activity }
@@ -138,25 +156,7 @@ RSpec.describe Topic, type: :model do
     end
   end
 
-  context 'Associations', basic: true do
-    it { is_expected.to belong_to(:user) }
-    it { is_expected.to validate_presence_of(:user) }
-    it { is_expected.to have_db_index(:user_id) }
-
-    it { is_expected.to have_many(:articles) }
-
-    it { is_expected.to have_many(:tagged_articles) }
-    it { is_expected.to have_many(:tag_relationships) }
-
-    it { is_expected.to have_many(:bookmarks) }
-    it { is_expected.to have_many(:user_bookmarks) }
-    it { is_expected.to have_many(:follower) }
-
-    it { is_expected.to have_one(:picture) }
-    it { is_expected.to accept_nested_attributes_for(:picture) }
-  end
-
-  context 'Public Methods', basic: true do
+  context 'Public Methods' do
     subject { Topic }
 
     let!(:private_topic) { create(:topic, user: @user, visibility: 'only_me') }
@@ -202,18 +202,29 @@ RSpec.describe Topic, type: :model do
     end
 
     describe '::search_for' do
+      before do
+        Topic.reindex
+        Topic.search_index.refresh
+      end
+
       it { is_expected.to respond_to(:search_for) }
 
       it 'search for topics' do
         topic_results = Topic.search_for('topic')
+
         expect(topic_results[:topics]).not_to be_empty
-        expect(topic_results[:topics]).to be_a(Array)
+        expect(topic_results[:topics]).to be_a(ActiveRecord::Relation)
         expect(topic_results[:topics].size).to eq(3)
         expect(topic_results[:topics].map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
       end
     end
 
     describe '::autocomplete_for' do
+      before do
+        Topic.reindex
+        Topic.search_index.refresh
+      end
+
       it { is_expected.to respond_to(:autocomplete_for) }
 
       it 'autocompletes for topics' do
@@ -242,7 +253,7 @@ RSpec.describe Topic, type: :model do
     end
   end
 
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
     let!(:other_user) { create(:user) }
 
     describe '.user?' do
@@ -253,6 +264,8 @@ RSpec.describe Topic, type: :model do
 
     describe '.format_attributes' do
       it { is_expected.to respond_to(:format_attributes) }
+      it { expect(@topic.format_attributes).to be_nil }
+      it { expect(@topic.format_attributes(@topic.attributes)).to be_nil }
     end
 
     describe '.bookmarked?' do

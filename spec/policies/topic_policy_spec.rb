@@ -1,4 +1,6 @@
-describe TopicPolicy do
+require 'rails_helper'
+
+describe TopicPolicy, basic: true do
 
   before(:all) do
     @user = create(:user)

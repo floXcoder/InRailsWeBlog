@@ -20,7 +20,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Picture, type: :model do
+RSpec.describe Picture, type: :model, basic: true do
 
   before(:all) do
     @user = create(:user)
@@ -43,11 +43,11 @@ RSpec.describe Picture, type: :model do
 
   subject { @picture }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:imageable_id) }
     it { is_expected.to respond_to(:imageable_type) }
     it { is_expected.to respond_to(:description) }
@@ -79,10 +79,10 @@ RSpec.describe Picture, type: :model do
       it { is_expected.to have_db_index([:imageable_id, :imageable_type]) }
     end
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       before do
         @picture = Picture.create(
-          imageable_type: 'Ride',
+          imageable_type: 'Article',
           image:          'my_image.jpg',
           image_tmp:      'my_tmp_image'
         )
@@ -93,7 +93,12 @@ RSpec.describe Picture, type: :model do
     end
   end
 
-  context 'Properties', basic: true do
+  context 'Associations' do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:imageable) }
+  end
+
+  context 'Properties' do
     it { is_expected.to have_uploader(:image) }
 
     it { is_expected.to have_strip_attributes([:description, :copyright]) }
@@ -101,12 +106,7 @@ RSpec.describe Picture, type: :model do
     it { is_expected.to act_as_paranoid(Picture) }
   end
 
-  context 'Associations', basic: true do
-    it { is_expected.to belong_to(:user) }
-    it { is_expected.to belong_to(:imageable) }
-  end
-
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
     describe '.user?' do
       it { is_expected.to respond_to(:user?) }
       it { expect(@picture.user?(@user)).to be true }
@@ -119,24 +119,24 @@ RSpec.describe Picture, type: :model do
       it 'format attributes' do
         picture_attributes = {
           model_id:    1,
-          model:       'ride',
+          model:       'Article',
           description: 'Image description',
           copyright:   'Image copyright',
-          file:        'image.jpg',
+          file:        'image.jpg'
         }
 
         picture = Picture.new
         picture.format_attributes(picture_attributes)
 
         expect(picture.imageable_id).to eq(1)
-        expect(picture.imageable_type).to eq('Ride')
+        expect(picture.imageable_type).to eq('Article')
         expect(picture.description).to eq('Image description')
         expect(picture.copyright).to eq('Image copyright')
         expect(@picture.image).to be_a(PictureUploader)
       end
     end
 
-    # describe '.image_size', basic: true do
+    # describe '.image_size' do
     #   it { is_expected.to allow_value(image).for(:image).with_message(I18n.t('activerecord.errors.models.picture.image_size')) }
     # end
   end

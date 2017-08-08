@@ -66,7 +66,7 @@ class Article < ApplicationRecord
              word_middle: [:title, :summary, :content],
              suggest:     [:title, :summary],
              highlight:   [:content],
-             language:    (I18n.locale == :fr) ? 'French' : 'English'
+             language:    I18n.locale == :fr ? 'French' : 'English'
 
   # Comments
   include CommentableConcern
@@ -219,24 +219,24 @@ class Article < ApplicationRecord
     return { articles: [] } if Article.count.zero?
 
     # If query not defined or blank, search for everything
-    query_string          = !query || query.blank? ? '*' : query
+    query_string = !query || query.blank? ? '*' : query
 
     # Fields with boost
-    fields                = %w(title^10 summary^5 content)
+    fields = %w[title^10 summary^5 content]
 
     # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
     misspellings_distance = options[:exact] || query_string.length < 7 ? 0 : 2
     misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
-    operator              = options[:operator] ? options[:operator] : 'and'
+    operator = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
     # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight             = { tag: '<span class="blog-highlight">' }
+    highlight     = { tag: '<span class="blog-highlight">' }
 
     # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options         = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
+    where_options = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
       if key == :notation
         [
           key,
@@ -247,12 +247,12 @@ class Article < ApplicationRecord
       end
     end.to_h if options[:where]
 
-    where_options          ||= {}
+    where_options        ||= {}
 
-    where_options[:tags]   = { all: options[:tags] } if options[:tags]
+    where_options[:tags] = { all: options[:tags] } if options[:tags]
 
     # Aggregations
-    aggregations           = {
+    aggregations = {
       notation: { where: { notation: { not: 0 } } },
       tags:     {}
     }
@@ -263,8 +263,8 @@ class Article < ApplicationRecord
     boost_where[:topic_id] = options[:current_topic_id] if options[:current_topic_id]
 
     # Page parameters
-    page                   = options[:page] ? options[:page] : 1
-    per_page               = options[:per_page] ? options[:per_page] : CONFIG.per_page
+    page     = options[:page] ? options[:page] : 1
+    per_page = options[:per_page] ? options[:per_page] : CONFIG.per_page
 
     # Order search
     if options[:order]
@@ -292,23 +292,20 @@ class Article < ApplicationRecord
     end
 
     # Perform search
-    results                = Article.search(query_string,
-                                            fields:       fields,
-                                            boost_where:  boost_where,
-                                            highlight:    highlight,
-                                            match:        :word_middle,
-                                            misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
-                                            suggest:      true,
-                                            page:         page,
-                                            per_page:     per_page,
-                                            operator:     operator,
-                                            where:        where_options,
-                                            order:        order,
-                                            aggs:         aggregations,
-                                            includes:     [:user, :tags])
-
-    # TODO: utility ?
-    # words_search = Article.searchkick_index.tokens(query_string, analyzer: 'searchkick_search2') & query_string.squish.split(' ')
+    results = Article.search(query_string,
+                             fields:       fields,
+                             boost_where:  boost_where,
+                             highlight:    highlight,
+                             match:        :word_middle,
+                             misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
+                             suggest:      true,
+                             page:         page,
+                             per_page:     per_page,
+                             operator:     operator,
+                             where:        where_options,
+                             order:        order,
+                             aggs:         aggregations,
+                             includes:     [:user, :tags])
 
     formatted_aggregations = {}
     results.aggs.each do |key, value|
@@ -329,7 +326,6 @@ class Article < ApplicationRecord
       aggregations: formatted_aggregations,
       total_count:  results.total_count,
       total_pages:  results.total_pages
-      # words:       words_search.uniq
     }
   end
 
@@ -346,16 +342,16 @@ class Article < ApplicationRecord
     where_options ||= {}
 
     # Set result limit
-    limit         = options[:limit] ? options[:limit] : CONFIG.per_page
+    limit = options[:limit] ? options[:limit] : CONFIG.per_page
 
     # Perform search
-    results       = Article.search(query_string,
-                                   fields:       %w(title^3 summary),
-                                   match:        :word_middle,
-                                   misspellings: false,
-                                   load:         false,
-                                   where:        where_options,
-                                   limit:        limit)
+    results = Article.search(query_string,
+                             fields:       %w[title^3 summary],
+                             match:        :word_middle,
+                             misspellings: false,
+                             load:         false,
+                             where:        where_options,
+                             limit:        limit)
 
     return results.map do |article|
       {
@@ -421,7 +417,7 @@ class Article < ApplicationRecord
     elsif order == 'popularity_last'
       joins(:tracker).order('popularity DESC')
     else
-      self
+      all
     end
   end
 
@@ -430,10 +426,10 @@ class Article < ApplicationRecord
 
     serializer_options = {}
 
-    serializer_options.merge({
-                               scope:      options.delete(:current_user),
-                               scope_name: :current_user
-                             }) if options.has_key?(:current_user)
+    serializer_options.merge(
+      scope:      options.delete(:current_user),
+      scope_name: :current_user
+    ) if options.has_key?(:current_user)
 
     serializer_options[articles.is_a?(Article) ? :serializer : :each_serializer] = if options[:sample]
                                                                                      ArticleSampleSerializer
@@ -455,12 +451,12 @@ class Article < ApplicationRecord
     user.id == self.user_id if user
   end
 
-  def format_attributes(attributes = {}, current_user)
+  def format_attributes(attributes = {}, current_user = nil)
     # Topic: Add current topic to article
-    self.topic_id = current_user.current_topic_id
+    self.topic_id = current_user&.current_topic_id
 
     # Language: set current locale for now
-    self.language = current_user.locale || I18n.locale
+    self.language = current_user&.locale || I18n.locale
 
     # Sanitization
     unless attributes[:title].nil?
@@ -479,14 +475,14 @@ class Article < ApplicationRecord
 
     unless attributes[:reference].nil?
       reference_url  = ActionController::Base.helpers.sanitize(attributes.delete(:reference))
-      reference_url  = "http://#{reference_url}" if reference_url.present? && reference_url !~/^https?:\/\//
+      reference_url  = "http://#{reference_url}" if reference_url.present? && reference_url !~ /^https?:\/\//
       self.reference = reference_url
     end
 
     # Pictures
     if attributes[:pictures].present? && attributes[:pictures].is_a?(Array)
-      attributes.delete(:pictures).each do |pictureId|
-        self.pictures << Picture.find_by(id: pictureId.to_i) if pictureId.present?
+      attributes.delete(:pictures).each do |picture_id|
+        self.pictures << Picture.find_by(id: picture_id.to_i) if picture_id.present?
       end
     else
       attributes.delete(:pictures)
@@ -595,7 +591,9 @@ class Article < ApplicationRecord
   end
 
   def slug_candidates
-    "#{self.title}_at_#{self.user.pseudo}" if self.user
+    [
+      "#{self.title}_at_#{self.user.pseudo}"
+    ]
   end
 
   def normalize_friendly_id(_string = nil)
@@ -610,12 +608,12 @@ class Article < ApplicationRecord
     self.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
   end
 
-  def has_private_content?
-    self.content =~ /<(\w+) class="secret">.*?<\/\1>/im
+  def private_content?
+    self.content.match?(/<(\w+) class="secret">.*?<\/\1>/im)
   end
 
   def adapted_content(current_user_id)
-    if has_private_content? && self.user_id != current_user_id
+    if private_content? && self.user_id != current_user_id
       public_content
     else
       content
@@ -636,7 +634,7 @@ class Article < ApplicationRecord
     # Remove empty beginning block
     html = html.sub(/^<p><br><\/p>/, '')
 
-    html = sanitize(html, tags: %w(h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img), attributes: %w(class href name target src alt center align))
+    html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[class href name target src alt center align])
 
     # Remplace pre by pre > code
     html = html.gsub(/<pre>/i, '<pre><code>')

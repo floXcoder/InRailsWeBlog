@@ -1,7 +1,7 @@
 # figure out where we are being loaded from
 if $LOADED_FEATURES.grep(/spec\/spec_helper\.rb/).any?
   begin
-    raise "foo"
+    raise 'foo'
   rescue => e
     puts <<-MSG
   ===================================================

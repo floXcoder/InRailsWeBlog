@@ -47,7 +47,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User, type: :model, basic: true do
 
   before do
     @user = User.create(
@@ -74,11 +74,11 @@ RSpec.describe User, type: :model do
 
   subject { @user }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:pseudo) }
     it { is_expected.to respond_to(:email) }
     it { is_expected.to respond_to(:first_name) }
@@ -130,7 +130,7 @@ RSpec.describe User, type: :model do
     it { expect(@user.comments_count).to eq(0) }
     # it { expect(@user.external).to be false }
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       before do
         @user = User.create(
           pseudo:                'User',
@@ -207,7 +207,33 @@ RSpec.describe User, type: :model do
     # end
   end
 
-  context 'Properties', basic: true do
+  context 'Associations' do
+    it { is_expected.to have_many(:topics) }
+
+    it { is_expected.to have_many(:articles) }
+    it { is_expected.to have_many(:draft_articles) }
+    it { is_expected.to have_many(:article_relationships) }
+    it { is_expected.to have_many(:outdated_articles) }
+
+    it { is_expected.to have_many(:tags) }
+    it { is_expected.to have_many(:tagged_articles) }
+    it { is_expected.to have_many(:tag_relationships) }
+
+    it { is_expected.to have_many(:bookmarks) }
+    it { is_expected.to have_many(:followers) }
+    it { is_expected.to have_many(:following_users) }
+    it { is_expected.to have_many(:following_articles) }
+    it { is_expected.to have_many(:following_tags) }
+
+    it { is_expected.to have_many(:comments) }
+
+    it { is_expected.to have_many(:pictures) }
+
+    it { is_expected.to have_one(:picture) }
+    it { is_expected.to accept_nested_attributes_for(:picture) }
+  end
+
+  context 'Properties' do
     it { is_expected.to callback(:create_default_topic).after(:create) }
 
     it { is_expected.to have_friendly_id(:slug) }
@@ -257,42 +283,13 @@ RSpec.describe User, type: :model do
     end
   end
 
-  context 'Associations', basic: true do
-    it { is_expected.to have_many(:topics) }
-
-    it { is_expected.to have_many(:articles) }
-    it { is_expected.to have_many(:draft_articles) }
-    it { is_expected.to have_many(:article_relationships) }
-    it { is_expected.to have_many(:outdated_articles) }
-
-    it { is_expected.to have_many(:tags) }
-    it { is_expected.to have_many(:tagged_articles) }
-    it { is_expected.to have_many(:tag_relationships) }
-
-    it { is_expected.to have_many(:bookmarks) }
-    it { is_expected.to have_many(:followers) }
-    it { is_expected.to have_many(:following_users) }
-    it { is_expected.to have_many(:following_articles) }
-    it { is_expected.to have_many(:following_tags) }
-
-    it { is_expected.to have_many(:comments) }
-
-    it { is_expected.to have_many(:pictures) }
-
-    it { is_expected.to have_one(:picture) }
-    it { is_expected.to accept_nested_attributes_for(:picture) }
-  end
-
-  context 'Public Methods', basic: true do
+  context 'Public Methods' do
     subject { User }
 
     let!(:other_user) { create(:user) }
 
     before do
       @user.bookmarks << create(:bookmark, user: @user, bookmarked: other_user)
-
-      User.reindex
-      User.search_index.refresh
     end
 
     describe '::bookmarked_by_user' do
@@ -302,18 +299,29 @@ RSpec.describe User, type: :model do
     end
 
     describe '::search_for' do
+      before do
+        User.reindex
+        User.search_index.refresh
+      end
+
       it { is_expected.to respond_to(:search_for) }
 
       it 'search for users' do
         user_results = User.search_for('user')
+
         expect(user_results[:users]).not_to be_empty
-        expect(user_results[:users]).to be_a(Array)
+        expect(user_results[:users]).to be_a(ActiveRecord::Relation)
         expect(user_results[:users].size).to eq(1)
         expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
       end
     end
 
     describe '::autocomplete_for' do
+      before do
+        User.reindex
+        User.search_index.refresh
+      end
+
       it { is_expected.to respond_to(:autocomplete_for) }
 
       it 'autocompletes for users' do
@@ -349,6 +357,7 @@ RSpec.describe User, type: :model do
 
     describe '::find_for_database_authentication' do
       it { is_expected.to respond_to(:find_for_database_authentication) }
+      it { expect(User.find_for_database_authentication(login: @user.login, email: @user.email)).to eq(@user) }
     end
 
     describe '::as_json' do
@@ -366,7 +375,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
     let!(:other_user) { create(:user) }
 
     describe '.user?' do
@@ -376,8 +385,8 @@ RSpec.describe User, type: :model do
     end
 
     describe '.avatar' do
-      it { is_expected.to respond_to(:avatar) }
-      it { expect(@user.avatar).to be_nil }
+      it { is_expected.to respond_to(:avatar_url) }
+      it { expect(@user.avatar_url).to be_nil }
     end
 
     describe '.current_topic' do

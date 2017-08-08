@@ -13,7 +13,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Vote, type: :model do
+RSpec.describe Vote, type: :model, basic: true do
 
   before(:all) do
     @user     = create(:user)
@@ -29,15 +29,11 @@ RSpec.describe Vote, type: :model do
 
   subject { @vote }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Properties', basic: true do
-    it { is_expected.to have_activity }
-  end
-
-  context 'Associations', basic: true do
+  context 'Associations' do
     it { is_expected.to belong_to(:voter) }
     it { is_expected.to belong_to(:voteable) }
 
@@ -47,7 +43,11 @@ RSpec.describe Vote, type: :model do
     # it { is_expected.to validate_uniqueness_of(:voteable_id).scoped_to([:voteable_type, :voter_type, :voter_id]) }
   end
 
-  context 'Public Methods', basic: true do
+  context 'Properties' do
+    it { is_expected.to have_activity }
+  end
+
+  context 'Public Methods' do
     subject { Vote }
 
     let(:other_user) { create(:user) }

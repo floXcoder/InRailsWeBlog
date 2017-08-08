@@ -1,4 +1,6 @@
-describe ArticlePolicy do
+require 'rails_helper'
+
+describe ArticlePolicy, basic: true do
 
   before(:all) do
     @user = create(:user)

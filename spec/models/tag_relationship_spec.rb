@@ -12,7 +12,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe TagRelationship, type: :model do
+RSpec.describe TagRelationship, type: :model, basic: true do
 
   before(:all) do
     @user    = create(:user)
@@ -35,15 +35,11 @@ RSpec.describe TagRelationship, type: :model do
 
   subject { @tag_relation }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Properties', basic: true do
-    it { is_expected.to act_as_paranoid(TagRelationship) }
-  end
-
-  context 'Associations', basic: true do
+  context 'Associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:topic) }
 
@@ -61,6 +57,10 @@ RSpec.describe TagRelationship, type: :model do
     it { is_expected.to validate_presence_of(:child) }
 
     it { is_expected.to validate_uniqueness_of(:parent_id).scoped_to([:article_id, :child_id]).with_message(I18n.t('activerecord.errors.models.tag_relationship.already_linked')) }
+  end
+
+  context 'Properties' do
+    it { is_expected.to act_as_paranoid(TagRelationship) }
   end
 
 end

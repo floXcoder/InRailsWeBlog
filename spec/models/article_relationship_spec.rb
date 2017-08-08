@@ -11,7 +11,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe ArticleRelationship, type: :model do
+RSpec.describe ArticleRelationship, type: :model, basic: true do
 
   before(:all) do
     @user  = create(:user)
@@ -31,11 +31,11 @@ RSpec.describe ArticleRelationship, type: :model do
 
   subject { @article_relation }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Associations', basic: true do
+  context 'Associations' do
     it { is_expected.to belong_to(:user) }
 
     it { is_expected.to belong_to(:parent) }

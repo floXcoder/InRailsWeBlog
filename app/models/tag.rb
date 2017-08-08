@@ -60,7 +60,7 @@ class Tag < ApplicationRecord
              word_middle: [:name, :description],
              suggest:     [:name],
              highlight:   [:name, :description],
-             language:    (I18n.locale == :fr) ? 'French' : 'English'
+             language:    I18n.locale == :fr ? 'French' : 'English'
 
   # Comments
   include CommentableConcern
@@ -194,24 +194,24 @@ class Tag < ApplicationRecord
     return { tags: [] } if Tag.count.zero?
 
     # If query not defined or blank, search for everything
-    query_string          = !query || query.blank? ? '*' : query
+    query_string = !query || query.blank? ? '*' : query
 
     # Fields with boost
-    fields                = %w(name^10 description)
+    fields = %w[name^10 description]
 
     # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
     misspellings_distance = options[:exact] || query_string.length < 7 ? 0 : 2
     misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
-    operator              = options[:operator] ? options[:operator] : 'and'
+    operator = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
     # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight             = false
+    highlight     = false
 
     # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options         = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
+    where_options = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
       if key == :notation
         [
           key,
@@ -225,16 +225,16 @@ class Tag < ApplicationRecord
     where_options ||= {}
 
     # Aggregations
-    aggregations  = {
+    aggregations = {
       notation: { where: { notation: { not: 0 } } }
     }
 
     # Boost user articles first
-    boost_where   = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
+    boost_where = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
 
     # Page parameters
-    page          = options[:page] ? options[:page] : 1
-    per_page      = options[:per_page] ? options[:per_page] : CONFIG.per_page
+    page     = options[:page] ? options[:page] : 1
+    per_page = options[:per_page] ? options[:per_page] : CONFIG.per_page
 
     # Order search
     order = nil
@@ -313,16 +313,16 @@ class Tag < ApplicationRecord
     where_options ||= {}
 
     # Set result limit
-    limit         = options[:limit] ? options[:limit] : CONFIG.per_page
+    limit = options[:limit] ? options[:limit] : CONFIG.per_page
 
     # Perform search
-    results       = Tag.search(query_string,
-                               fields:       %w(name^3),
-                               match:        :word_middle,
-                               misspellings: false,
-                               load:         false,
-                               where:        where_options,
-                               limit:        limit)
+    results = Tag.search(query_string,
+                         fields:       %w[name^3],
+                         match:        :word_middle,
+                         misspellings: false,
+                         load:         false,
+                         where:        where_options,
+                         limit:        limit)
 
     return results.map do |tag|
       {
@@ -356,7 +356,7 @@ class Tag < ApplicationRecord
     elsif order == 'popularity_last'
       joins(:tracker).order('popularity DESC')
     else
-      self
+      all
     end
   end
 

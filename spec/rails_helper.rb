@@ -1,5 +1,7 @@
-# BUG: PREVENT TEST RUNNING
-# require 'simplecov'
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -22,7 +24,12 @@ require 'capybara-screenshot/rspec'
 require 'capybara/email/rspec'
 include PageValidations
 include Warden::Test::Helpers
+
+# Setup warden in test mode
 Warden.test_mode!
+
+# A test fake that pushes all jobs into a jobs array
+Sidekiq::Testing.fake!
 
 # The following line is provided for convenience purposes. It has the downside
 # of increasing the boot-up time by auto-requiring all files in the support

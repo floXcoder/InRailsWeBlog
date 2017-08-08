@@ -28,7 +28,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Article, type: :model do
+RSpec.describe Article, type: :model, basic: true do
 
   before(:all) do
     @user  = create(:user)
@@ -56,11 +56,11 @@ RSpec.describe Article, type: :model do
 
   subject { @article }
 
-  describe 'Object', basic: true do
+  describe 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:title) }
     it { is_expected.to respond_to(:summary) }
     it { is_expected.to respond_to(:content) }
@@ -152,7 +152,37 @@ RSpec.describe Article, type: :model do
     end
   end
 
-  context 'Properties', basic: true do
+  context 'Associations' do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to validate_presence_of(:user) }
+    it { is_expected.to have_db_index([:user_id, :visibility]) }
+
+    it { is_expected.to belong_to(:topic) }
+    it { is_expected.to have_db_index([:topic_id, :visibility]) }
+
+    it { is_expected.to have_many(:tagged_articles) }
+    it { is_expected.to have_many(:tags) }
+    it { is_expected.to have_many(:parent_tags) }
+    it { is_expected.to have_many(:child_tags) }
+    it { is_expected.to have_many(:tag_relationships) }
+
+    it { is_expected.to have_many(:outdated_articles) }
+    it { is_expected.to have_many(:marked_as_outdated) }
+
+    it { is_expected.to have_many(:parent_relationships) }
+    it { is_expected.to have_many(:child_relationships) }
+
+    it { is_expected.to have_many(:bookmarks) }
+    it { is_expected.to have_many(:user_bookmarks) }
+    it { is_expected.to have_many(:followers) }
+
+    it { is_expected.to have_many(:pictures) }
+    it { is_expected.to accept_nested_attributes_for(:pictures) }
+  end
+
+  context 'Properties' do
+    it { is_expected.to have_strip_attributes([:title, :summary, :language]) }
+
     it { is_expected.to have_friendly_id(:slug) }
 
     it { is_expected.to act_as_tracked(Article) }
@@ -160,8 +190,6 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_activity }
 
     it { is_expected.to acts_as_commentable(Article) }
-
-    it { is_expected.to have_strip_attributes([:title, :summary]) }
 
     it { is_expected.to acts_as_voteable(Article) }
 
@@ -199,35 +227,7 @@ RSpec.describe Article, type: :model do
     end
   end
 
-  context 'Associations', basic: true do
-    it { is_expected.to belong_to(:user) }
-    it { is_expected.to validate_presence_of(:user) }
-    it { is_expected.to have_db_index([:user_id, :visibility]) }
-
-    it { is_expected.to belong_to(:topic) }
-    it { is_expected.to have_db_index([:topic_id, :visibility]) }
-
-    it { is_expected.to have_many(:tagged_articles) }
-    it { is_expected.to have_many(:tags) }
-    it { is_expected.to have_many(:parent_tags) }
-    it { is_expected.to have_many(:child_tags) }
-    it { is_expected.to have_many(:tag_relationships) }
-
-    it { is_expected.to have_many(:outdated_articles) }
-    it { is_expected.to have_many(:marked_as_outdated) }
-
-    it { is_expected.to have_many(:parent_relationships) }
-    it { is_expected.to have_many(:child_relationships) }
-
-    it { is_expected.to have_many(:bookmarks) }
-    it { is_expected.to have_many(:user_bookmarks) }
-    it { is_expected.to have_many(:followers) }
-
-    it { is_expected.to have_many(:pictures) }
-    it { is_expected.to accept_nested_attributes_for(:pictures) }
-  end
-
-  context 'Public Methods', basic: true do
+  context 'Public Methods' do
     subject { Article }
 
     let!(:private_article) { create(:article, user: @user, topic: @topic, visibility: 'only_me') }
@@ -250,9 +250,6 @@ RSpec.describe Article, type: :model do
       private_article.tagged_articles.create(user: @user, topic: other_topic, tag: other_tag)
 
       @article.bookmarks << create(:bookmark, user: @user, bookmarked: @article)
-
-      Article.reindex
-      Article.search_index.refresh
     end
 
     describe '::everyone_and_user' do
@@ -281,26 +278,32 @@ RSpec.describe Article, type: :model do
 
     describe '::from_topic' do
       it { is_expected.to respond_to(:from_topic) }
-      it { expect(Article.from_topic(@topic.id)).to include(@article) }
-      it { expect(Article.from_topic(other_topic.id)).not_to include(@article) }
+      it { expect(Article.from_topic(@topic.slug)).to include(@article) }
+      it { expect(Article.from_topic(other_topic.slug)).not_to include(@article) }
+    end
+
+    describe '::from_topic_id' do
+      it { is_expected.to respond_to(:from_topic_id) }
+      it { expect(Article.from_topic_id(@topic.id)).to include(@article) }
+      it { expect(Article.from_topic_id(other_topic.id)).not_to include(@article) }
     end
 
     describe '::with_tags' do
       it { is_expected.to respond_to(:with_tags) }
-      it { expect(Article.with_tags(tag_parent.id)).to include(@article, other_article) }
-      it { expect(Article.with_tags(tag_parent.id)).not_to include(private_article) }
+      it { expect(Article.with_tags(tag_parent.slug)).to include(@article, other_article) }
+      it { expect(Article.with_tags(tag_parent.slug)).not_to include(private_article) }
     end
 
     describe '::with_parent_tags' do
       it { is_expected.to respond_to(:with_parent_tags) }
-      it { expect(Article.with_parent_tags(tag_parent.id)).to include(@article) }
-      it { expect(Article.with_parent_tags(tag_parent.id)).not_to include(other_article) }
+      it { expect(Article.with_parent_tags(tag_parent.slug)).to include(@article) }
+      it { expect(Article.with_parent_tags(tag_parent.slug)).not_to include(other_article) }
     end
 
     describe '::with_child_tags' do
       it { is_expected.to respond_to(:with_child_tags) }
-      it { expect(Article.with_child_tags(tag_child.id)).to include(@article) }
-      it { expect(Article.with_child_tags(tag_child.id)).not_to include(other_article) }
+      it { expect(Article.with_child_tags(tag_child.slug)).to include(@article) }
+      it { expect(Article.with_child_tags(tag_child.slug)).not_to include(other_article) }
     end
 
     describe '::published' do
@@ -316,18 +319,29 @@ RSpec.describe Article, type: :model do
     end
 
     describe '::search_for' do
+      before do
+        Article.reindex
+        Article.search_index.refresh
+      end
+
       it { is_expected.to respond_to(:search_for) }
 
       it 'search for articles' do
         article_results = Article.search_for('title')
+
         expect(article_results[:articles]).not_to be_empty
-        expect(article_results[:articles]).to be_a(Array)
+        expect(article_results[:articles]).to be_kind_of(ActiveRecord::Relation)
         expect(article_results[:articles].size).to eq(2)
         expect(article_results[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
       end
     end
 
     describe '::autocomplete_for' do
+      before do
+        Article.reindex
+        Article.search_index.refresh
+      end
+
       it { is_expected.to respond_to(:autocomplete_for) }
 
       it 'autocompletes for articles' do
@@ -370,7 +384,7 @@ RSpec.describe Article, type: :model do
     end
   end
 
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
     let!(:other_user) { create(:user) }
 
     let!(:tag_parent) { create(:tag, user: @user, name: 'Tag parent') }
@@ -392,6 +406,8 @@ RSpec.describe Article, type: :model do
 
     describe '.format_attributes' do
       it { is_expected.to respond_to(:format_attributes) }
+      it { expect(@article.format_attributes).to be_nil }
+      it { expect(@article.format_attributes(@article.attributes)).to be_nil }
     end
 
     describe '.default_picture' do
@@ -446,38 +462,37 @@ RSpec.describe Article, type: :model do
 
     describe '.slug_candidates' do
       it { is_expected.to respond_to(:slug_candidates) }
-      it { expect(@article.slug_candidates).to be_a String }
+      it { expect(@article.slug_candidates).to be_a(Array) }
     end
 
     describe '.normalize_friendly_id' do
       it { is_expected.to respond_to(:normalize_friendly_id) }
-      it { expect(@article.normalize_friendly_id).to be_a String }
+      it { expect(@article.normalize_friendly_id).to be_a(String) }
     end
 
     describe '.strip_content' do
       it { is_expected.to respond_to(:strip_content) }
-      it { expect(@article.strip_content).to be_a String }
+      it { expect(@article.strip_content).to be_a(String) }
     end
 
     describe '.public_content' do
       it { is_expected.to respond_to(:public_content) }
 
       it 'removes private content' do
-        expect(@article.public_content).to be_a String
+        expect(@article.public_content).to be_a(String)
 
         @article.update_attribute(:content, content_with_private)
         expect(@article.public_content).to eq('test')
       end
     end
 
-    describe '.has_private_content?' do
-      it { is_expected.to respond_to(:has_private_content?) }
+    describe '.private_content?' do
+      it { is_expected.to respond_to(:private_content?) }
 
       it 'checks for private content' do
-        expect(@article.has_private_content?).to be false
-
+        expect(@article.private_content?).to be false
         @article.update_attribute(:content, content_with_private)
-        expect(@article.has_private_content?).to be true
+        expect(@article.private_content?).to be true
       end
     end
 
@@ -494,17 +509,17 @@ RSpec.describe Article, type: :model do
 
     describe '.summary_content' do
       it { is_expected.to respond_to(:summary_content) }
-      it { expect(@article.summary_content).to be_a String }
+      it { expect(@article.summary_content).to be_a(String) }
     end
 
     describe '.sanitize_html' do
       it { is_expected.to respond_to(:sanitize_html) }
-      it { expect(@article.sanitize_html(content)).to be_a String }
+      it { expect(@article.sanitize_html(content)).to be_a(String) }
     end
 
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
-      it { expect(@article.search_data).to be_a Hash }
+      it { expect(@article.search_data).to be_a(Hash) }
     end
   end
 

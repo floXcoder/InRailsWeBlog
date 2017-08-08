@@ -90,7 +90,7 @@ describe 'Topic API', type: :request, basic: true do
   describe '/users/:user_id/topics/switch' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        get "/users/#{@user.id}/topics/switch", as: :json
+        post "/users/#{@user.id}/topics/switch", as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -102,7 +102,7 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        get "/users/#{@user.id}/topics/switch", params: { new_topic_id: @first_topic.id }, as: :json
+        post "/users/#{@user.id}/topics/switch", params: { new_topic_id: @first_topic.id }, as: :json
 
         expect(response).to be_unauthorized
       end
@@ -114,7 +114,7 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns the new topic' do
-        get "/users/#{@user.id}/topics/switch", params: { new_topic_id: @first_topic.id }, as: :json
+        post "/users/#{@user.id}/topics/switch", params: { new_topic_id: @first_topic.id }, as: :json
 
         expect(response).to be_json_response
 

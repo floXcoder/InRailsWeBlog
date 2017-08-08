@@ -22,7 +22,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe ErrorMessage, type: :model do
+RSpec.describe ErrorMessage, type: :model, basic: true do
 
   before do
     @error_message = ErrorMessage.create(
@@ -45,11 +45,11 @@ RSpec.describe ErrorMessage, type: :model do
 
   subject { @error_message }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:class_name) }
     it { is_expected.to respond_to(:message) }
     it { is_expected.to respond_to(:trace) }
@@ -85,25 +85,27 @@ RSpec.describe ErrorMessage, type: :model do
     end
   end
 
-  context 'Public Methods', basic: true do
+  context 'Public Methods' do
     subject { ErrorMessage }
 
     describe '::new_error' do
       it { is_expected.to respond_to(:new_error) }
-      it { expect(ErrorMessage.new_error({
-                                           class_name:    'User',
-                                           message:       'Error User class',
-                                           trace:         'user.rb: line 20',
-                                           line_number:   '20',
-                                           column_number: '5',
-                                           params:        '{model => "user"}',
-                                           target_url:    '/users',
-                                           referer_url:   '/',
-                                           user_info:     'browser',
-                                           app_name:      'My App',
-                                           doc_root:      '/my_app',
-                                           origin:        'server'
-                                         })).to be_a(ErrorMessage) }
+      it {
+        expect(ErrorMessage.new_error(
+          class_name:    'User',
+          message:       'Error User class',
+          trace:         'user.rb: line 20',
+          line_number:   '20',
+          column_number: '5',
+          params:        '{model => "user"}',
+          target_url:    '/users',
+          referer_url:   '/',
+          user_info:     'browser',
+          app_name:      'My App',
+          doc_root:      '/my_app',
+          origin:        'server')
+        ).to be_a(ErrorMessage)
+      }
     end
   end
 

@@ -32,12 +32,12 @@ class Comment < ApplicationRecord
   # Act as a nested tree
   acts_as_nested_set scope: [:commentable_id, :commentable_type]
 
-  # Marked as deleted
-  acts_as_paranoid
-
   # Follow public activities
   include PublicActivity::Model
   tracked owner: :user, recipient: :commentable
+
+  # Marked as deleted
+  acts_as_paranoid
 
   # == Relationships ========================================================
   belongs_to :user
@@ -47,9 +47,10 @@ class Comment < ApplicationRecord
              counter_cache: true
 
   # == Validations ==========================================================
-  validates :commentable,
-            presence: true
   validates :user,
+            presence: true
+
+  validates :commentable,
             presence: true
 
   validates :title,
@@ -90,7 +91,34 @@ class Comment < ApplicationRecord
     commentable_str.constantize.find(commentable_id)
   end
 
+  def self.filter_by(records, filter, _current_user = nil)
+    records = records.where(accepted: filter[:accepted]) if filter[:accepted]
+    records = records.where(ask_for_deletion: filter[:ask_for_deletion]) if filter[:ask_for_deletion]
+    records = records.find_comments_by_user(filter[:user_id]) if filter[:user_id]
+
+    return records
+  end
+
+  def self.order_by(order)
+    if order == 'id_first'
+      order('id ASC')
+    elsif order == 'id_last'
+      order('id DESC')
+    elsif order == 'updated_first'
+      order('updated_at ASC')
+    elsif order == 'updated_last'
+      order('updated_at DESC')
+    else
+      all
+    end
+  end
+
   # == Instance Methods =====================================================
+  #helper method to check if a comment has children
+  def has_children?
+    self.children.any?
+  end
+
   # Delete comment with his children
   def destroy_with_children
     destroyed_comment_ids = []
@@ -100,11 +128,6 @@ class Comment < ApplicationRecord
     end
 
     self.destroy ? destroyed_comment_ids << self.id : false
-  end
-
-  #helper method to check if a comment has children
-  def has_children?
-    self.children.any?
   end
 
 end

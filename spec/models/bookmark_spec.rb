@@ -12,7 +12,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Bookmark, type: :model do
+RSpec.describe Bookmark, type: :model, basic: true do
 
   before(:all) do
     @user       = create(:user)
@@ -28,15 +28,11 @@ RSpec.describe Bookmark, type: :model do
 
   subject { @bookmark }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Properties', basic: true do
-    it { is_expected.to have_activity }
-  end
-
-  context 'Associations', basic: true do
+  context 'Associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:bookmarked) }
 
@@ -46,7 +42,11 @@ RSpec.describe Bookmark, type: :model do
     it { is_expected.to validate_uniqueness_of(:user_id).scoped_to([:bookmarked_id, :bookmarked_type]).with_message(I18n.t('activerecord.errors.models.bookmark.already_bookmarked')) }
   end
 
-  context 'Public Methods', basic: true do
+  context 'Properties' do
+    it { is_expected.to have_activity }
+  end
+
+  context 'Public Methods' do
     subject { Bookmark }
 
     let(:user) { create(:user) }
@@ -87,7 +87,7 @@ RSpec.describe Bookmark, type: :model do
     end
   end
 
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
 

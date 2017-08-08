@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe PicturePolicy, basic: true do
 
   before(:all) do

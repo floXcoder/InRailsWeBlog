@@ -58,7 +58,7 @@ Rails.application.routes.draw do
     # TODO: use scope instead of users/
     resources :topics,        controller: 'users/topics',     only: [:index, :create, :update, :destroy] do
       collection do
-        post  :switch,          to: 'users/topics#switch'
+        post :switch,          to: 'users/topics#switch'
       end
     end
 

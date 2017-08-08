@@ -1,6 +1,7 @@
 RSpec::Matchers.define :have_search do |model|
   match do |actual|
     expect(actual).to respond_to(:search_data)
+
     expect(actual.search_data).to be_a(Hash)
     expect(actual).to respond_to(:searchkick_options)
 

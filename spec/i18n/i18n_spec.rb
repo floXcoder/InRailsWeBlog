@@ -1,3 +1,4 @@
+require 'rails_helper'
 require 'i18n/tasks'
 
 describe 'I18n', basic: true do

@@ -12,7 +12,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe TaggedArticle, type: :model do
+RSpec.describe TaggedArticle, type: :model, basic: true do
 
   before(:all) do
     @user  = create(:user)
@@ -33,27 +33,21 @@ RSpec.describe TaggedArticle, type: :model do
 
   subject { @tagged_article }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:parent) }
     it { is_expected.to respond_to(:child) }
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       it { expect(@tagged_article.parent).to be false }
       it { expect(@tagged_article.child).to be false }
     end
   end
 
-  context 'Properties', basic: true do
-    it { is_expected.to have_activity }
-
-    it { is_expected.to act_as_paranoid(TaggedArticle) }
-  end
-
-  context 'Associations', basic: true do
+  context 'Associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:topic) }
 
@@ -68,6 +62,12 @@ RSpec.describe TaggedArticle, type: :model do
     it { is_expected.to validate_presence_of(:tag).on(:update) }
 
     it { is_expected.to validate_uniqueness_of(:article_id).scoped_to(:tag_id).with_message(I18n.t('activerecord.errors.models.tagged_article.already_tagged')) }
+  end
+
+  context 'Properties' do
+    it { is_expected.to have_activity }
+
+    it { is_expected.to act_as_paranoid(TaggedArticle) }
   end
 
 end

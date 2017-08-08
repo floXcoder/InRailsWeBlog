@@ -17,10 +17,11 @@
 #
 require 'rails_helper'
 
-RSpec.describe Tracker, type: :model do
+RSpec.describe Tracker, type: :model, basic: true do
 
   before(:all) do
     @user    = create(:user)
+
     @article = create(:article, user: @user, topic: create(:topic, user: @user))
   end
 
@@ -39,11 +40,11 @@ RSpec.describe Tracker, type: :model do
 
   subject { @tracker }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:views_count) }
     it { is_expected.to respond_to(:queries_count) }
     it { is_expected.to respond_to(:searches_count) }
@@ -60,7 +61,7 @@ RSpec.describe Tracker, type: :model do
     it { expect(@tracker.home_page).to be true }
     it { expect(@tracker.popularity).to eq(10) }
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       before do
         @tracker = Tracker.create(tracked: @article)
       end
@@ -75,13 +76,13 @@ RSpec.describe Tracker, type: :model do
     end
   end
 
-  context 'Associations', basic: true do
+  context 'Associations' do
     it { is_expected.to belong_to(:tracked) }
 
     it { is_expected.to have_db_index([:tracked_id, :tracked_type]) }
   end
 
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
   end
 
 end

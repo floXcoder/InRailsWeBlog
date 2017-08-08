@@ -27,7 +27,7 @@ class ArticlesController < ApplicationController
 
   def index
     articles = Article
-                 .includes(:parent_tags, :child_tags, :tags, user: [:picture])
+                 .includes(:tags, user: [:picture])
                  .order('articles.updated_at DESC')
                  .distinct
 

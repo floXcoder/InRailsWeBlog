@@ -71,7 +71,7 @@ class TagsController < ApplicationController
     tag = Tag.find(params[:id])
     admin_or_authorize tag
 
-    tag.format_attributes(tag_params, current_user)
+    tag.format_attributes(tag_params)
 
     respond_to do |format|
       format.json do

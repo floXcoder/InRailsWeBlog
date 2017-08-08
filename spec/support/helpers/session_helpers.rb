@@ -24,5 +24,4 @@ module Features
     end
 
   end
-
 end

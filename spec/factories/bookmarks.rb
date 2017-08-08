@@ -17,7 +17,7 @@ FactoryGirl.define do
     # user
     # bookmarked
 
-    follow    true
+    follow true
   end
 
 end

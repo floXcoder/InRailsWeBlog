@@ -23,7 +23,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Comment, type: :model do
+RSpec.describe Comment, type: :model, basic: true do
 
   before(:all) do
     @user  = create(:user)
@@ -49,11 +49,11 @@ RSpec.describe Comment, type: :model do
 
   subject { @comment }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:commentable_id) }
     it { is_expected.to respond_to(:commentable_type) }
     it { is_expected.to respond_to(:user_id) }
@@ -100,7 +100,7 @@ RSpec.describe Comment, type: :model do
       it { is_expected.to validate_length_of(:body).is_at_most(CONFIG.comment_body_max_length) }
     end
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       before do
         @comment = Comment.create(
           user:             @user,
@@ -116,7 +116,7 @@ RSpec.describe Comment, type: :model do
     end
   end
 
-  context 'Properties', basic: true do
+  context 'Properties' do
     it { is_expected.to have_strip_attributes([:title, :subject, :body]) }
 
     it { is_expected.to have_activity }
@@ -124,12 +124,12 @@ RSpec.describe Comment, type: :model do
     it { is_expected.to act_as_paranoid(Comment) }
   end
 
-  context 'Associations', basic: true do
+  context 'Associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:commentable) }
   end
 
-  context 'Public Methods', basic: true do
+  context 'Public Methods' do
     subject { Comment }
 
     let!(:comment1) { create(:comment, user: @user, commentable: @commentable) }
@@ -146,20 +146,32 @@ RSpec.describe Comment, type: :model do
       it { expect(Comment.find_comments_for_commentable(@commentable.class.name, @commentable.id)).to match_array([comment2, comment1, @comment]) }
     end
 
-    describe '::build_from' do
-      it { is_expected.to respond_to(:build_from) }
-    end
-
     describe '::find_commentable' do
       it { is_expected.to respond_to(:find_commentable) }
+      it { expect(Comment.find_commentable('Article', @commentable.id)).to eq(@commentable) }
+    end
+
+    describe '::build_from' do
+      it { is_expected.to respond_to(:build_from) }
+      it { expect(Comment.build_from(@commentable, @user, 'my message')).to be_a(Comment) }
+    end
+
+    describe '::filter_by' do
+      it { is_expected.to respond_to(:filter_by) }
+      it { expect(Comment.filter_by(Comment.all, accepted: true).size).to eq(4) }
+    end
+
+    describe '::order_by' do
+      it { is_expected.to respond_to(:order_by) }
+      it { expect(Comment.order_by('id_last').size).to eq(4) }
     end
   end
 
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
     describe '.has_children?' do
       it { is_expected.to respond_to(:has_children?) }
 
-      it 'has no chidlren' do
+      it 'has no children' do
         expect(@comment.has_children?).to be false
       end
 

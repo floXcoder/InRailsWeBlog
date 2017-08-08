@@ -25,29 +25,16 @@ FactoryGirl.define do
     # user
     # imageable
 
-    sequence(:description)  { |n| "Picture description #{n+1}" }
-    sequence(:copyright)    { |n| "Picture copyright #{n+1}" }
-
+    sequence(:description)  { |n| "Picture description #{n + 1}" }
+    sequence(:copyright)    { |n| "Picture copyright #{n + 1}" }
     priority                { Random.rand(0..10) }
     accepted                true
-
     image_secure_token      { SecureRandom.uuid }
     original_filename       { Faker::Lorem.word }
 
-    # Directly upload images without using background process
-    transient do
-      upload_now false
-    end
-
     before(:create) do |picture, evaluator|
-      if evaluator.upload_now
-        # Bug in carrierwave backgrounder, direct upload must be set before image
-        image = picture.image
-        picture.image = nil
-        picture.image_tmp = nil
-        picture.process_image_upload = true
-        picture.image = image
-      end
+      picture.image_tmp = nil
+      picture.image = picture.image
     end
   end
 

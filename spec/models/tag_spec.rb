@@ -23,7 +23,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Tag, type: :model do
+RSpec.describe Tag, type: :model, basic: true do
 
   before(:all) do
     @user = create(:user)
@@ -45,11 +45,11 @@ RSpec.describe Tag, type: :model do
 
   subject { @tag }
 
-  describe 'Object', basic: true do
+  describe 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:description) }
     it { is_expected.to respond_to(:synonyms) }
@@ -78,7 +78,7 @@ RSpec.describe Tag, type: :model do
     it { expect(@tag.bookmarks_count).to eq(0) }
     it { expect(@tag.comments_count).to eq(0) }
 
-    describe 'Default Attributes', basic: true do
+    describe 'Default Attributes' do
       before do
         @tag = Tag.create(
           user: @user,
@@ -139,7 +139,31 @@ RSpec.describe Tag, type: :model do
     end
   end
 
-  context 'Properties', basic: true do
+  context 'Associations' do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to validate_presence_of(:user) }
+
+    it { is_expected.to have_many(:tagged_articles) }
+    it { is_expected.to have_many(:articles) }
+    it { is_expected.to have_many(:topics) }
+
+    it { is_expected.to have_many(:parent_relationships) }
+    it { is_expected.to have_many(:children) }
+
+    it { is_expected.to have_many(:child_relationships) }
+    it { is_expected.to have_many(:parents) }
+
+    it { is_expected.to have_one(:picture) }
+    it { is_expected.to accept_nested_attributes_for(:picture) }
+
+    it { is_expected.to have_many(:bookmarks) }
+    it { is_expected.to have_many(:user_bookmarks) }
+    it { is_expected.to have_many(:follower) }
+  end
+
+  context 'Properties' do
+    it { is_expected.to have_strip_attributes([:name, :color]) }
+
     it { is_expected.to have_friendly_id(:slug) }
 
     it { is_expected.to act_as_tracked(Tag) }
@@ -147,8 +171,6 @@ RSpec.describe Tag, type: :model do
     it { is_expected.to have_activity }
 
     it { is_expected.to acts_as_commentable(Tag) }
-
-    it { is_expected.to have_strip_attributes([:name, :color]) }
 
     it { is_expected.to have_paper_trail(Tag) }
 
@@ -179,29 +201,7 @@ RSpec.describe Tag, type: :model do
     end
   end
 
-  context 'Associations', basic: true do
-    it { is_expected.to belong_to(:user) }
-    it { is_expected.to validate_presence_of(:user) }
-
-    it { is_expected.to have_many(:tagged_articles) }
-    it { is_expected.to have_many(:articles) }
-    it { is_expected.to have_many(:topics) }
-
-    it { is_expected.to have_many(:parent_relationship) }
-    it { is_expected.to have_many(:children) }
-
-    it { is_expected.to have_many(:child_relationship) }
-    it { is_expected.to have_many(:parents) }
-
-    it { is_expected.to have_one(:picture) }
-    it { is_expected.to accept_nested_attributes_for(:picture) }
-
-    it { is_expected.to have_many(:bookmarks) }
-    it { is_expected.to have_many(:user_bookmarks) }
-    it { is_expected.to have_many(:follower) }
-  end
-
-  context 'Public Methods', basic: true do
+  context 'Public Methods' do
     subject { Tag }
 
     let!(:private_tag) { create(:tag, user: @user, visibility: 'only_me', tagged_articles_count: 0) }
@@ -216,9 +216,6 @@ RSpec.describe Tag, type: :model do
       @tag.tagged_articles.create(user: @user, topic: topic, article: article)
 
       @tag.bookmarks << create(:bookmark, user: @user, bookmarked: @tag)
-
-      Tag.reindex
-      Tag.search_index.refresh
     end
 
     describe '::everyone_and_user' do
@@ -275,18 +272,29 @@ RSpec.describe Tag, type: :model do
     end
 
     describe '::search_for' do
+      before do
+        Tag.reindex
+        Tag.search_index.refresh
+      end
+
       it { is_expected.to respond_to(:search_for) }
 
       it 'search for tags' do
         tag_results = Tag.search_for('tag')
+
         expect(tag_results[:tags]).not_to be_empty
-        expect(tag_results[:tags]).to be_a(Array)
+        expect(tag_results[:tags]).to be_a(ActiveRecord::Relation)
         expect(tag_results[:tags].size).to eq(3)
         expect(tag_results[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
       end
     end
 
     describe '::autocomplete_for' do
+      before do
+        Tag.reindex
+        Tag.search_index.refresh
+      end
+
       it { is_expected.to respond_to(:autocomplete_for) }
 
       it 'autocompletes for tags' do
@@ -340,7 +348,7 @@ RSpec.describe Tag, type: :model do
     end
   end
 
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
     let!(:other_user) { create(:user) }
 
     describe '.user?' do
@@ -351,6 +359,8 @@ RSpec.describe Tag, type: :model do
 
     describe '.format_attributes' do
       it { is_expected.to respond_to(:format_attributes) }
+      it { expect(@tag.format_attributes).to be_nil }
+      it { expect(@tag.format_attributes(@tag.attributes)).to be_nil }
     end
 
     describe '.default_picture' do
@@ -380,12 +390,12 @@ RSpec.describe Tag, type: :model do
 
     describe '.slug_candidates' do
       it { is_expected.to respond_to(:slug_candidates) }
-      it { expect(@tag.slug_candidates).to be_a Array }
+      it { expect(@tag.slug_candidates).to be_a(Array) }
     end
 
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
-      it { expect(@tag.search_data).to be_a Hash }
+      it { expect(@tag.search_data).to be_a(Hash) }
     end
   end
 

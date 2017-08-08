@@ -1,11 +1,13 @@
-describe UserPolicy do
+require 'rails_helper'
+
+describe UserPolicy, basic: true do
 
   before(:all) do
     @user = create(:user)
     @other_user = create(:user)
   end
 
-  context 'for a visitor', basic: true do
+  context 'for a visitor' do
     let(:current_user) { nil }
     let(:user) { nil }
 
@@ -23,7 +25,7 @@ describe UserPolicy do
     it { should_not grant(:settings) }
   end
 
-  context 'for another user', basic: true do
+  context 'for another user' do
     let(:user) { @other_user }
 
     subject { UserPolicy.new(user, @user) }
@@ -40,7 +42,7 @@ describe UserPolicy do
     it { should_not grant(:settings) }
   end
 
-  context 'for the current user', basic: true do
+  context 'for the current user' do
     let(:user) { @user }
 
     subject { UserPolicy.new(user, @user) }

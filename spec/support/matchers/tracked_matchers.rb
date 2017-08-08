@@ -6,9 +6,7 @@ RSpec::Matchers.define :act_as_tracked do |model|
 
     expect(actual).to delegate_method(:popularity).to(:tracker)
     expect(actual).to delegate_method(:rank).to(:tracker)
-    # expect(actual).to delegate_method(:rank=).to(:tracker)
     expect(actual).to delegate_method(:home_page).to(:tracker)
-    # expect(actual).to delegate_method(:home_page=).to(:tracker)
 
     expect(actual).to respond_to(:tracked_name)
     expect(actual).to respond_to(:tracker_metrics)

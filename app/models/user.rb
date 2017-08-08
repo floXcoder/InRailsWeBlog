@@ -88,7 +88,7 @@ class User < ApplicationRecord
   searchkick searchable:  [:pseudo, :first_name, :last_name, :additional_info, :street, :state, :city, :postcode, :phone_number, :mobile_number],
              word_middle: [:pseudo, :first_name, :last_name, :additional_info, :street, :state, :city, :postcode, :phone_number, :mobile_number],
              suggest:     [:pseudo],
-             language:    (I18n.locale == :fr) ? 'french' : 'english'
+             language:    I18n.locale == :fr ? 'french' : 'english'
 
   # Track activities
   include ActAsTrackedConcern
@@ -208,35 +208,35 @@ class User < ApplicationRecord
     return { users: [] } if User.count.zero?
 
     # If query not defined or blank, search for everything
-    query_string          = !query || query.blank? ? '*' : query
+    query_string = !query || query.blank? ? '*' : query
 
     # Fields with boost
-    fields                = %w(pseudo)
+    fields = %w[pseudo]
 
     # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
     misspellings_distance = options[:exact] || query_string.length < 7 ? 0 : 2
     misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
-    operator              = options[:operator] ? options[:operator] : 'and'
+    operator = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
     # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight             = false
+    highlight     = false
 
     # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options         = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
+    where_options = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
       [key, value]
     end.to_h if options[:where]
 
     where_options ||= {}
 
     # Boost user users first
-    boost_where   = nil
+    boost_where = nil
 
     # Page parameters
-    page          = options[:page] ? options[:page] : 1
-    per_page      = options[:per_page] ? options[:per_page] : CONFIG.per_page
+    page     = options[:page] ? options[:page] : 1
+    per_page = options[:per_page] ? options[:per_page] : CONFIG.per_page
 
     # Order search
     if options[:order]
@@ -276,7 +276,7 @@ class User < ApplicationRecord
     users = users.order_by(options[:order]) if order
 
     {
-      users:       users.records,
+      users:       users,
       highlight:   highlight ? Hash[results.with_details.map { |user, details| [user.id, details[:highlight]] }] : [],
       suggestions: results.suggestions,
       total_count: results.total_count,
@@ -296,22 +296,22 @@ class User < ApplicationRecord
     end.to_h if options[:where]
 
     # Set result limit
-    limit         = options[:limit] ? options[:limit] : CONFIG.per_page
+    limit = options[:limit] ? options[:limit] : CONFIG.per_page
 
     # Perform search
-    results       = User.search(query_string,
-                                fields:       %w(pseudo),
-                                match:        :word_middle,
-                                misspellings: false,
-                                load:         false,
-                                where:        where_options,
-                                limit:        limit)
+    results = User.search(query_string,
+                          fields:       %w[pseudo],
+                          match:        :word_middle,
+                          misspellings: false,
+                          load:         false,
+                          where:        where_options,
+                          limit:        limit)
 
     return results.map do |user|
       {
-        pseudo:    user.pseudo,
-        icon:    'user',
-        link:    Rails.application.routes.url_helpers.user_path(user.slug)
+        pseudo: user.pseudo,
+        icon:   'user',
+        link:   Rails.application.routes.url_helpers.user_path(user.slug)
       }
     end
   end
@@ -330,7 +330,7 @@ class User < ApplicationRecord
     elsif order == 'updated_last'
       order('updated_at DESC')
     else
-      self
+      all
     end
   end
 
@@ -361,10 +361,10 @@ class User < ApplicationRecord
 
     serializer_options = {}
 
-    serializer_options.merge({
-                               scope:      options.delete(:current_user),
-                               scope_name: :current_user
-                             }) if options.has_key?(:current_user)
+    serializer_options.merge(
+      scope:      options.delete(:current_user),
+      scope_name: :current_user
+    ) if options.has_key?(:current_user)
 
     serializer_options[users.is_a?(User) ? :serializer : :each_serializer] = if options[:sample]
                                                                                UserSampleSerializer
@@ -386,8 +386,39 @@ class User < ApplicationRecord
     user.id == self.id
   end
 
-  def avatar
+  def avatar_url
     self.picture.image.url(:thumb) if self.picture
+  end
+
+  def format_attributes(attributes = {})
+    # Sanitization
+    unless attributes[:first_name].nil?
+      attributes[:first_name] = Sanitize.fragment(attributes.delete(:first_name))
+    end
+    unless attributes[:last_name].nil?
+      attributes[:last_name] = Sanitize.fragment(attributes.delete(:last_name))
+    end
+    unless attributes[:city].nil?
+      attributes[:city] = Sanitize.fragment(attributes.delete(:city))
+    end
+    unless attributes[:additional_info].nil?
+      attributes[:additional_info] = Sanitize.fragment(attributes.delete(:additional_info))
+    end
+
+    # User picture: take uploaded picture otherwise remote url
+    if attributes[:picture_attributes] &&
+      attributes[:picture_attributes][:image] &&
+      attributes[:picture_attributes][:remote_image_url] &&
+      !attributes[:picture_attributes][:remote_image_url].blank?
+      attributes[:picture_attributes].delete(:remote_image_url)
+    end
+
+    if attributes[:picture_attributes] &&
+      !attributes[:picture_attributes][:user_id]
+      attributes[:picture_attributes][:user_id] = self.id
+    end
+
+    return attributes
   end
 
   def current_topic
@@ -418,7 +449,7 @@ class User < ApplicationRecord
 
   def following?(model_name, model_id)
     if model_name && model_id
-      model_class    = model_name.classify.constantize rescue nil
+      model_class = model_name.classify.constantize rescue nil
       related_object = model_class.find(model_id)
 
       return false unless model_class && related_object
@@ -435,6 +466,12 @@ class User < ApplicationRecord
     else
       return false
     end
+  end
+
+  def slug_candidates
+    [
+      [:pseudo]
+    ]
   end
 
   def search_data

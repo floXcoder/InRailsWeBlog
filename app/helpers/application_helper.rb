@@ -99,4 +99,24 @@ module ApplicationHelper
     super((ActionController::Base.asset_host || '') + url, options)
   end
 
+  def webmail_from_email(email)
+    if email =~ /@(.*)\z/i
+      case $1
+        when 'gmail.com'
+          %w[gmail https://mail.google.com/]
+        when 'yahoo.com'
+          %w[yahoo https://mail.yahoo.com/]
+        when 'aol.com'
+          %w[yahoo http://webmail.aol.fr/]
+        when 'mobile.me'
+          %w[apple https://www.icloud.com/]
+        when 'outlook.com'
+          %w[outlook https://www.outlook.com/]
+        else
+          false
+      end
+    else
+      false
+    end
+  end
 end

@@ -62,7 +62,7 @@ class UserSerializer < ActiveModel::Serializer
              :additional_info,
              :locale,
              :slug,
-             :avatar
+             :avatar_url
 
   has_one :tracker
   has_many :activities, serializer: PublicActivitiesSerializer

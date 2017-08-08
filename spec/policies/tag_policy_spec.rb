@@ -1,4 +1,6 @@
-describe TagPolicy do
+require 'rails_helper'
+
+describe TagPolicy, basic: true do
 
   before(:all) do
     @user = create(:user)

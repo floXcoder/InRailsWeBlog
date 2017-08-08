@@ -59,7 +59,7 @@ class UserProfileSerializer < ActiveModel::Serializer
              :last_name,
              :locale,
              :slug,
-             :avatar,
+             :avatar_url,
              :articles_count,
              :draft_count,
              :settings,

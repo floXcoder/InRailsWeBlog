@@ -60,7 +60,7 @@ class Admin < ApplicationRecord
   # == Scopes ===============================================================
 
   # == Callbacks ============================================================
-  # after_create :create_blog
+  # after_create :create_blog_environment
 
   # == Class Methods ========================================================
   def self.pseudo?(pseudo)
@@ -90,11 +90,17 @@ class Admin < ApplicationRecord
     admin.id == self.id
   end
 
-  # def create_blog
+  # def create_blog_environment
   #   admin_blog = Blog.create(admin: self)
   #
   #   # Articles for admin pages
   #   Blog::Article.create(blog: admin_blog, title: 'Contact', body: '...')
   # end
+
+  def slug_candidates
+    [
+      :pseudo
+    ]
+  end
 
 end

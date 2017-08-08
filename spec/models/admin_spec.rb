@@ -26,7 +26,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Admin, type: :model do
+RSpec.describe Admin, type: :model, basic: true do
 
   before do
     @admin = Admin.create(
@@ -43,11 +43,11 @@ RSpec.describe Admin, type: :model do
 
   subject { @admin }
 
-  describe 'Object', basic: true do
+  describe 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Attributes', basic: true do
+  context 'Attributes' do
     it { is_expected.to respond_to(:pseudo) }
     it { is_expected.to respond_to(:email) }
     it { is_expected.to respond_to(:additional_info) }
@@ -66,7 +66,6 @@ RSpec.describe Admin, type: :model do
         )
       end
 
-      it { expect(@admin.additional_info).to eq('') }
       it { expect(@admin.locale).to eq('fr') }
       it { expect(@admin.settings).to eq({}) }
     end
@@ -107,14 +106,15 @@ RSpec.describe Admin, type: :model do
     # end
   end
 
-  context 'Properties', basic: true do
+  context 'Properties' do
     it { is_expected.to have_friendly_id(:slug) }
   end
 
-  context 'Associations', basic: true do
+  context 'Associations' do
+    # it { is_expected.to have_one(:blog) }
   end
 
-  context 'Public Methods', basic: true do
+  context 'Public Methods' do
     subject { Admin }
 
     describe '::pseudo?' do
@@ -135,18 +135,25 @@ RSpec.describe Admin, type: :model do
 
     describe '::find_for_database_authentication' do
       it { is_expected.to respond_to(:find_for_database_authentication) }
+      it { expect(Admin.find_for_database_authentication(login: @admin.login, email: @admin.email)).to eq(@admin) }
     end
   end
 
-  context 'Instance Methods', basic: true do
+  context 'Instance Methods' do
     describe '.admin?' do
       it { is_expected.to respond_to(:admin?) }
       it { expect(@admin.admin?(@admin)).to be true }
       it { expect(@admin.admin?(create(:admin))).to be false }
     end
 
-    # describe '.create_blog' do
-    #   it { is_expected.to respond_to(:create_blog) }
+    # describe '.create_blog_environment' do
+    #   it { is_expected.to respond_to(:create_blog_environment) }
+    #
+    #   it 'add new blogs' do
+    #     expect {
+    #       @admin.create_blog_environment
+    #     }.to change(Blog::Article, :count).by(9)
+    #   end
     # end
   end
 

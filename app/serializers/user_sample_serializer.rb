@@ -55,5 +55,5 @@ class UserSampleSerializer < ActiveModel::Serializer
   attributes :id,
              :pseudo,
              :slug,
-             :avatar
+             :avatar_url
 end

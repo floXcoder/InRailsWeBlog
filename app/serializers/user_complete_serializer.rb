@@ -62,7 +62,7 @@ class UserCompleteSerializer < ActiveModel::Serializer
              :additional_info,
              :locale,
              :created_at,
-             :avatar,
+             :avatar_url,
              :slug,
              :sign_in_count,
              :last_sign_in_at,
@@ -75,10 +75,6 @@ class UserCompleteSerializer < ActiveModel::Serializer
 
   def created_at
     I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
-  end
-
-  def avatar
-    object.picture.image.url(:thumb) if object.picture
   end
 
   def last_sign_in_at

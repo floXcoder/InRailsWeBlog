@@ -10,7 +10,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe OutdatedArticle, type: :model do
+RSpec.describe OutdatedArticle, type: :model, basic: true do
 
   before(:all) do
     @user    = create(:user)
@@ -28,15 +28,11 @@ RSpec.describe OutdatedArticle, type: :model do
 
   subject { @outdated_article }
 
-  context 'Object', basic: true do
+  context 'Object' do
     it { is_expected.to be_valid }
   end
 
-  context 'Properties', basic: true do
-    it { is_expected.to have_activity }
-  end
-
-  context 'Associations', basic: true do
+  context 'Associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:article) }
 
@@ -44,6 +40,10 @@ RSpec.describe OutdatedArticle, type: :model do
     it { is_expected.to validate_presence_of(:article) }
 
     it { is_expected.to validate_uniqueness_of(:article_id).scoped_to(:user_id).with_message(I18n.t('activerecord.errors.models.outdated_article.already_outdated')) }
+  end
+
+  context 'Properties' do
+    it { is_expected.to have_activity }
   end
 
 end
