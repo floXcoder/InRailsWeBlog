@@ -58,20 +58,3 @@ export default class ShowMore extends React.PureComponent {
         );
     }
 }
-
-
-// <div>
-//     <input id={`show-more-${this.props.ride.id}`}
-//            type="checkbox"
-//            className="read-more-state"/>
-//
-//     <ul className="read-more-wrap">
-//         <li>lorem</li>
-//         <li>lorem 2</li>
-//         <li className="read-more-target">lorem 3</li>
-//         <li className="read-more-target">lorem 4</li>
-//     </ul>
-//
-//     <label htmlFor={`show-more-${this.props.ride.id}`}
-//            className="read-more-trigger"/>
-// </div>

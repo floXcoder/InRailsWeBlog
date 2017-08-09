@@ -1,24 +1,28 @@
 Capybara.run_server = true
 
-Capybara.app_host = 'http://localhost:3020'
+Capybara.app_host    = 'http://localhost:3020'
 Capybara.server_host = 'localhost'
 Capybara.server_port = '3020'
 Capybara.configure do |config|
   config.default_host = 'http://localhost:3020'
 end
 
-# Capybara.register_driver :selenium_chrome do |app|
-#   Capybara::Selenium::Driver.new(app, browser: :chrome, args: ['--window-size=1920x1080'])
-# end
-# Capybara.javascript_driver = :selenium_chrome
-
-Capybara.register_driver :headless_chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome, args: ['headless', '--window-size=1920x1080'])
-  # options = Selenium::WebDriver::Chrome::Options.new
-  # options.add_argument('headless')
-  # options.add_argument('--window-size=1920x1080')
+# Full chrome version
+Capybara.register_driver :selenium_chrome do |app|
+  browser_options = ::Selenium::WebDriver::Chrome::Options.new
+  browser_options.args << '--window-size=1920x1080'
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 end
-Capybara.javascript_driver = :headless_chrome
+
+# Headless chrome version
+Capybara.register_driver :selenium_chrome_headless do |app|
+  browser_options = ::Selenium::WebDriver::Chrome::Options.new
+  browser_options.args << '--headless'
+  browser_options.args << '--window-size=1920x1080'
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+end
+
+Capybara.javascript_driver = :selenium_chrome_headless
 
 Capybara.configure do |config|
   config.default_max_wait_time = 10 # seconds

@@ -1,10 +1,12 @@
-feature 'User Confirmation', advanced: true do
+feature 'User Confirmation', advanced: true, js: true do
 
-  given(:user_info) { {pseudo: 'Pseudo',
-                       email: 'test@example.com',
-                       password: 'new_password'}
-  }
-  given(:user) { FactoryGirl.create(:user, :confirmed, email: user_info[:email]) }
+  background(:all) do
+    @user_info = { pseudo:   'Pseudo',
+                   email:    'test@locatipic.fr',
+                   password: 'new_password' }
+
+    @user = create(:user, pseudo: @user_info[:email], email: @user_info[:email])
+  end
 
   given(:new_confirmation_page) { UserPage.new(new_user_confirmation_path) }
 
@@ -14,15 +16,16 @@ feature 'User Confirmation', advanced: true do
 
   subject { new_confirmation_page }
 
-  feature 'New Unlock page', js: true do
+  feature 'New Unlock page' do
     it_behaves_like 'a valid page' do
       let(:content) {
         {
-            current_page: new_confirmation_page,
-            title: t('devise.resend.page_title'),
-            stylesheet_name: 'users/new',
-            javascript_name: 'users/signup',
-            common_js: %w(commons common-user)
+          current_page:    new_confirmation_page,
+          title:           t('devise.resend.title'),
+          stylesheet_name: 'users/new',
+          javascript_name: 'users/signup',
+          common_js:       ['commons-full-page'],
+          full_page:       true
         }
       }
     end

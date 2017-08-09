@@ -29,7 +29,7 @@ RSpec.describe Picture, type: :model, basic: true do
   before do
     @picture = Picture.create(
       user:               @user,
-      imageable_type:     'Ride',
+      imageable_type:     'Article',
       description:        'Picture description',
       copyright:          'Picture copyright',
       image:              'my_image.jpg',
@@ -59,7 +59,7 @@ RSpec.describe Picture, type: :model, basic: true do
     it { is_expected.to respond_to(:image_secure_token) }
     it { is_expected.to respond_to(:original_filename) }
 
-    it { expect(@picture.imageable_type).to eq('Ride') }
+    it { expect(@picture.imageable_type).to eq('Article') }
     it { expect(@picture.description).to eq('Picture description') }
     it { expect(@picture.copyright).to eq('Picture copyright') }
     it { expect(@picture.image).to be_a(PictureUploader) }

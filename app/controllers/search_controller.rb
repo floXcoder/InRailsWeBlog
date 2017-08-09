@@ -25,8 +25,8 @@ class SearchController < ApplicationController
 
     if search_type('article', search_params[:type])
       article_results = Article.search_for(search_params[:query],
-                                           page:             search_params[:ride_page] || search_params[:page],
-                                           per_page:         search_params[:ride_per_page] || search_params[:per_page] || CONFIG.per_page,
+                                           page:             search_params[:article_page] || search_params[:page],
+                                           per_page:         search_params[:article_per_page] || search_params[:per_page] || CONFIG.per_page,
                                            current_user_id:  current_user&.id,
                                            current_topic_id: current_user&.current_topic_id,
                                            where:            {
@@ -51,8 +51,8 @@ class SearchController < ApplicationController
 
     if search_type('tag', search_params[:type])
       tag_results = Tag.search_for(search_params[:query],
-                                   page:             search_params[:ride_page] || search_params[:page],
-                                   per_page:         search_params[:ride_per_page] || search_params[:per_page] || CONFIG.per_page,
+                                   page:             search_params[:article_page] || search_params[:page],
+                                   per_page:         search_params[:article_per_page] || search_params[:per_page] || CONFIG.per_page,
                                    current_user_id:  current_user&.id,
                                    current_topic_id: current_user&.current_topic_id,
                                    where:            {

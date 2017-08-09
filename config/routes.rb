@@ -47,8 +47,9 @@ Rails.application.routes.draw do
     member do
       get      :show,          to: 'users#show',               as: :root
 
-      get      :draft,         to: 'users#draft',              as: :draft
+      get      :profile,       to: 'users#profile',            as: :profile
       get      :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
+      get      :draft,         to: 'users#draft',              as: :draft
       get      :comments,      to: 'users#comments',           as: :comments
       get      :activities,    to: 'users#activities',         as: :activities
 

@@ -13,7 +13,6 @@ const ErrorsMixin = (superclass) => class extends superclass {
                 }
             } else if (error === 'Unprocessable Entity') {
                 const errorMessage = JSON.parse(xhr.responseText);
-                // Function called for each shop
                 if (this.displayErrorsMessage !== undefined) {
                     this.displayErrorsMessage(url, errorMessage);
                 }

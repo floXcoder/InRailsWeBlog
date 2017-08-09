@@ -34,7 +34,7 @@
           activities_user GET    /users/:id/activities(.:format)          users#activities
              clicked_user POST   /users/:id/clicked(.:format)             users#clicked
               viewed_user POST   /users/:id/viewed(.:format)              users#viewed
-       switch_user_topics GET    /users/:user_id/topics/switch(.:format)  users/topics#switch
+       switch_user_topics POST   /users/:user_id/topics/switch(.:format)  users/topics#switch
               user_topics GET    /users/:user_id/topics(.:format)         users/topics#index
                           POST   /users/:user_id/topics(.:format)         users/topics#create
                user_topic PATCH  /users/:user_id/topics/:id(.:format)     users/topics#update

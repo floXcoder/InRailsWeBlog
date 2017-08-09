@@ -33,7 +33,7 @@ describe 'Activities API', type: :request, basic: true do
         login_as(@admin, scope: :admin, run_callbacks: false)
       end
 
-      it 'returns all POIs associated to the ride' do
+      it 'returns last activities' do
         get '/activities', as: :json
 
         expect(response).to be_json_response

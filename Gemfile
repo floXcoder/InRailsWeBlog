@@ -9,7 +9,7 @@ end
 ruby '2.4.1'
 
 # Rails version
-gem 'rails',                    '5.1.2'
+gem 'rails',                    '5.1.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '0.21.0'
@@ -21,7 +21,7 @@ gem 'secure_headers',           '3.6.7'
 
 # JSON
 gem 'active_model_serializers', '0.10.6'
-gem 'oj',                       '3.3.2'
+gem 'oj',                       '3.3.4'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
@@ -49,8 +49,8 @@ gem 'auto_strip_attributes',    '2.1.0'
 gem 'sanitize',                 '4.5.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '4.2.10'
-gem 'sidekiq-statistic',        '1.2.0'
+gem 'sidekiq',                  '5.0.4'
+gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '0.6.3'
 gem 'whenever',                 '0.9.7',     require: false
 
@@ -115,8 +115,11 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.2.0'
+  gem 'better_errors',          '2.3.0'
   gem 'binding_of_caller',      '0.7.2'
+
+  # N+1 database query
+  gem 'bullet',                 '5.6.1'
 
   # Scss lint
   gem 'scss-lint',              '0.38.0', require: false
@@ -133,9 +136,6 @@ group :development do
   gem 'guard-process',          '1.2.1'
   # gem 'libnotify',              '0.9.1'
 
-  # N+1 database query
-  gem 'bullet',                 '5.6.0'
-
   # Find index to add
   gem 'lol_dba',                '2.1.4'
 
@@ -146,16 +146,21 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',            '3.6.0'
-  gem 'capybara',               '2.14.4'
-  gem 'capybara-email',         '2.5.0'
-  gem 'capybara-screenshot',    '1.0.17'
   gem 'shoulda-matchers',       '3.1.2',    require: false
   gem 'shoulda-callback-matchers', '1.1.4', require: false
-  gem 'html_validation',        '1.1.3'
   gem 'simplecov',              '0.14.1',   require: false
   gem 'fuubar',                 '2.2.0'
   gem 'database_cleaner',       '1.6.1'
   gem 'spring-commands-rspec',  '1.0.4'
+
+  # Browser tests
+  gem 'capybara',               '2.15.1'
+  gem 'capybara-email',         '2.5.0'
+  gem 'capybara-screenshot',    '1.0.17'
+  gem 'selenium-webdriver',     '3.4.4'
+  gem 'chromedriver-helper',    '1.1.0'
+  gem 'html_validation',        '1.1.3'
+  gem 'launchy',                '2.4.3'
 
   # static analyzer
   gem 'rails_best_practices',   '1.19.0',   require: false
@@ -184,7 +189,7 @@ group :production do
   gem 'passenger',      '~> 5'
 
   # Improve log outputs
-  gem 'lograge',        '0.5.1'
+  gem 'lograge',        '0.6.0'
 
   # Website analysis
   gem 'newrelic_rpm',   '4.3.0.335'

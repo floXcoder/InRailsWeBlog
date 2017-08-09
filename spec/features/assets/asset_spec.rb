@@ -1,4 +1,4 @@
-feature 'Assets', advanced: true do
+feature 'Assets', advanced: true, js: true do
 
   scenario 'generates all assets' do
     # Clean and generate all assets
