@@ -272,7 +272,7 @@ describe 'Article API', type: :request, basic: true do
         expect(article['article']['tags'].size).to eq(0)
       end
 
-      it 'returns a new article associated to specified topic if user owns the topic' do
+      it 'returns a new article associated to a specific topic if user owns the topic' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { topic_id: @second_topic.id }), as: :json
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
@@ -284,7 +284,7 @@ describe 'Article API', type: :request, basic: true do
         expect(article['article']['topic_id']).to eq(@second_topic.id)
       end
 
-      it 'returns a new article with new tags associated to current topic' do
+      it 'returns a new article with new tags associated to the current topic' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { tags: ['new tag 1', 'new tag 2'] }), as: :json
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
@@ -335,7 +335,7 @@ describe 'Article API', type: :request, basic: true do
         expect(@tags[3].parents.last).to eq(@tags[2])
       end
 
-      it 'returns a new article with selected visibility' do
+      it 'returns a new article with tags having the correct visibility' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { tags: ['tag public,everyone', 'tag private,only_me'] }), as: :json
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
@@ -348,6 +348,25 @@ describe 'Article API', type: :request, basic: true do
 
         expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('everyone')
         expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('only_me')
+      end
+
+      it 'returns a new article with tags having the correct association and visibility' do
+        expect {
+          post '/articles', params: article_attributes.deep_merge(article: { parent_tags: ['parent tag public,everyone'], child_tags: ['child tag private,only_me'] }), as: :json
+        }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
+
+        expect(response).to be_json_response(201)
+
+        article = JSON.parse(response.body)
+        expect(article['article']).not_to be_empty
+        expect(article['article']['tags'].size).to eq(2)
+
+        public_parent_tag = Tag.find(article['article']['tags'][0]['id'])
+        private_child_tag = Tag.find(article['article']['tags'][1]['id'])
+        expect(public_parent_tag.children.last).to eq(private_child_tag)
+        expect(private_child_tag.parents.last).to eq(public_parent_tag)
+        expect(public_parent_tag.visibility).to eq('everyone')
+        expect(private_child_tag.visibility).to eq('only_me')
       end
     end
 
