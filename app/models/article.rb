@@ -166,7 +166,7 @@ class Article < ApplicationRecord
   validates :visibility,
             presence: true
 
-  validate :topic_belongs_to_user
+  validate :current_topic_belongs_to_user
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
@@ -673,9 +673,9 @@ class Article < ApplicationRecord
 
   private
 
-  def topic_belongs_to_user
-    if self.topic_id.present? && self.topic_id_changed? && (user = User.find(user_id))
-      unless user.topics.exists?(self.topic_id)
+  def current_topic_belongs_to_user
+    if self.topic_id.present? && self.topic_id_changed?
+      unless self.user.topics.exists?(self.topic_id)
         errors.add(:topic, I18n.t('activerecord.errors.models.article.bad_topic_owner'))
       end
     end

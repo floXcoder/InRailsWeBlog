@@ -141,13 +141,18 @@ RSpec.describe Article, type: :model, basic: true do
     end
 
     describe '#topic_id' do
-      it 'returns an error if topic does not own to current user' do
+      it 'returns an error if topic does not own by same user than article' do
         other_user = create(:user)
         other_topic = create(:topic, user: other_user)
 
         new_article = build(:article, user: @user, topic: other_topic)
         expect(new_article.save).to be false
         expect(new_article.errors[:topic].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
+
+        updated_article = create(:article, user: @user, topic: @topic)
+        updated_article.topic_id = other_topic.id
+        expect(updated_article.save).to be false
+        expect(updated_article.errors[:topic].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
       end
     end
   end
