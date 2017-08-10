@@ -166,6 +166,9 @@ class Article < ApplicationRecord
   validates :visibility,
             presence: true
 
+  validate :prevent_revert_to_draft,
+           on: :update
+
   validate :current_topic_belongs_to_user
 
   # == Scopes ===============================================================
@@ -201,6 +204,9 @@ class Article < ApplicationRecord
         -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
+  before_create do |article|
+    article.visibility = 'only_me' if article.draft?
+  end
 
   # == Class Methods ========================================================
   # Article Search
@@ -458,6 +464,9 @@ class Article < ApplicationRecord
     # Language: set current locale for now
     self.language = current_user&.locale || I18n.locale
 
+    # Visibility private mandatory for draft articles
+    self.visibility = 'only_me' if attributes[:draft]
+
     # Sanitization
     unless attributes[:title].nil?
       sanitized_title = Sanitize.fragment(attributes.delete(:title))
@@ -672,6 +681,12 @@ class Article < ApplicationRecord
   end
 
   private
+
+  def prevent_revert_to_draft
+    if self.everyone? && draft_changed? && !draft_was
+      errors.add(:base, I18n.t('activerecord.errors.models.article.prevent_revert_to_draft'))
+    end
+  end
 
   def current_topic_belongs_to_user
     if self.topic_id.present? && self.topic_id_changed?

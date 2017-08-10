@@ -207,6 +207,7 @@ fr:
       models:
         article:
           bad_topic_owner: "Le thème n'appartient pas au créateur de l'article"
+          prevent_revert_to_draft: "Un article public ne peut pas être un brouillon"
         article_relationship:
           already_linked: "Ces deux articles sont déjà liés entre eux"
         outdated_article:

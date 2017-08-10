@@ -138,6 +138,29 @@ RSpec.describe Article, type: :model, basic: true do
     describe '#visibility' do
       it { is_expected.to have_enum(:visibility) }
       it { is_expected.to validate_presence_of(:visibility) }
+
+      it 'set visibility to private automatically if article is a draft' do
+        new_article = build(:article, topic: @topic, user: @user, draft: true)
+        expect(new_article.save).to be true
+        expect(new_article.visibility).to eq('only_me')
+
+        new_article = build(:article, topic: @topic, user: @user, draft: true, visibility: 'everyone')
+        expect(new_article.save).to be true
+        expect(new_article.visibility).to eq('only_me')
+      end
+    end
+
+    describe '#draft' do
+      it 'prevent to change back to draft if article is already public' do
+        updated_article = create(:article, user: @user, topic: @topic, draft: false, visibility: 'only_me')
+        updated_article.draft = true
+        expect(updated_article.save).to be true
+
+        updated_article = create(:article, user: @user, topic: @topic, draft: false, visibility: 'everyone')
+        updated_article.draft = true
+        expect(updated_article.save).to be false
+        expect(updated_article.errors[:base].first).to eq(I18n.t('activerecord.errors.models.article.prevent_revert_to_draft'))
+      end
     end
 
     describe '#topic_id' do

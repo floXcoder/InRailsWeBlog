@@ -200,6 +200,8 @@ en:
           has_one: "Cannot delete record because a dependent %{record} exists"
           has_many: "Cannot delete record because dependent %{record} exist"
       models:
+        article:
+          prevent_revert_to_draft: "A public article cannot be a draft"
         tag:
           already_exist: "Un label avec le même nom existe déjà"
           already_exist_in_public: "Un label public avec le même nom existe déjà"

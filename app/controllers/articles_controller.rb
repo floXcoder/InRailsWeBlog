@@ -252,7 +252,6 @@ class ArticlesController < ApplicationController
                                      :user_slug,
                                      :topic_id,
                                      :topic_slug,
-                                     :draft,
                                      :bookmarked,
                                      user_ids:         [],
                                      topic_ids:        [],
