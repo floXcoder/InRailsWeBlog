@@ -350,12 +350,12 @@ class Topic < ApplicationRecord
       name:        name,
       description: description,
       priority:    priority,
-      # visibility:  visibility,
-      archived:   archived,
-      accepted:   accepted,
-      created_at: created_at,
-      updated_at: updated_at,
-      slug:       slug
+      visibility:  visibility,
+      archived:    archived,
+      accepted:    accepted,
+      created_at:  created_at,
+      updated_at:  updated_at,
+      slug:        slug
     }
   end
 

@@ -462,7 +462,7 @@ class Article < ApplicationRecord
     self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
 
     # Language: set current locale for now
-    self.language = current_user&.locale || I18n.locale
+    self.language   = current_user&.locale || I18n.locale
 
     # Visibility private mandatory for draft articles
     self.visibility = 'only_me' if attributes[:draft]
@@ -664,10 +664,10 @@ class Article < ApplicationRecord
       content:        strip_content,
       public_content: public_content,
       reference:      reference,
-      notation:       notation,
-      priority:       priority,
       draft:          draft,
       language:       language,
+      notation:       notation,
+      priority:       priority,
       visibility:     visibility,
       archived:       archived,
       accepted:       accepted,
