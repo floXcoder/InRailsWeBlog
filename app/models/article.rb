@@ -453,7 +453,7 @@ class Article < ApplicationRecord
 
   def format_attributes(attributes = {}, current_user = nil)
     # Topic: Add current topic to article
-    self.topic_id = current_user&.current_topic_id
+    self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
 
     # Language: set current locale for now
     self.language = current_user&.locale || I18n.locale

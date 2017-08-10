@@ -237,7 +237,7 @@ class ArticlesController < ApplicationController
                                     :priority,
                                     :allow_comment,
                                     :draft,
-                                    :topic,
+                                    :topic_id,
                                     tags:        [],
                                     parent_tags: [],
                                     child_tags:  [])

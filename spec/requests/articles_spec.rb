@@ -14,8 +14,10 @@ describe 'Article API', type: :request, basic: true do
     @relation_tags_article   = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[1], @tags[2]], child_tags: [@tags[3]])
     @relation_tags_article_2 = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[1], @tags[3]], child_tags: [@tags[2], @tags[4]])
 
-    @other_topic     = create(:topic, user: @user)
-    @private_article = create(:article, user: @user, topic: @other_topic, visibility: 'only_me')
+    @second_topic    = create(:topic, user: @user)
+    @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me')
+
+    @other_topic = create(:topic, user: @other_user)
   end
 
   let(:article_attributes) {
@@ -89,7 +91,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(3)
 
-        get '/articles', params: { filter: { topic_id: @other_topic.id } }, as: :json
+        get '/articles', params: { filter: { topic_id: @second_topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(1)
       end
@@ -256,7 +258,7 @@ describe 'Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns a new article associated to current topic' do
+      it 'returns a new article associated to current topic of the user by default' do
         expect {
           post '/articles', params: article_attributes, as: :json
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
@@ -268,6 +270,18 @@ describe 'Article API', type: :request, basic: true do
         expect(article['article']['title']).to eq(article_attributes[:article][:title])
         expect(article['article']['topic_id']).to eq(@user.current_topic_id)
         expect(article['article']['tags'].size).to eq(0)
+      end
+
+      it 'returns a new article associated to specified topic if user owns the topic' do
+        expect {
+          post '/articles', params: article_attributes.deep_merge(article: { topic_id: @second_topic.id }), as: :json
+        }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
+
+        expect(response).to be_json_response(201)
+
+        article = JSON.parse(response.body)
+        expect(article['article']).not_to be_empty
+        expect(article['article']['topic_id']).to eq(@second_topic.id)
       end
 
       it 'returns a new article with new tags associated to current topic' do
@@ -342,7 +356,7 @@ describe 'Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns the errors' do
+      it 'returns the errors for incorrect attributes' do
         expect {
           post '/articles', params: article_error_attributes, as: :json
         }.to_not change(Article, :count)
@@ -352,6 +366,17 @@ describe 'Article API', type: :request, basic: true do
         article = JSON.parse(response.body)
         expect(article['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
         expect(article['content'].first).to eq(I18n.t('errors.messages.blank'))
+      end
+
+      it 'returns a error if topic do not belong to current user' do
+        expect {
+          post '/articles', params: article_attributes.deep_merge(article: { topic_id: @other_topic.id }), as: :json
+        }.to_not change(Article, :count)
+
+        expect(response).to be_json_response(403)
+
+        article = JSON.parse(response.body)
+        expect(article['topic'].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
       end
     end
   end
