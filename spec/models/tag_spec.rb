@@ -126,6 +126,14 @@ RSpec.describe Tag, type: :model, basic: true do
         expect(tag_public.save).to be false
         expect(tag_public.errors[:name].first).to eq(I18n.t('activerecord.errors.models.tag.public_name_immutable'))
       end
+
+      it 'cannot change visibility if public' do
+        tag_public = Tag.create(user: @user, name: 'tag 1', visibility: 'everyone')
+
+        tag_public.visibility = 'only_me'
+        expect(tag_public.save).to be false
+        expect(tag_public.errors[:visibility].first).to eq(I18n.t('activerecord.errors.models.tag.public_visibility_immutable'))
+      end
     end
 
     describe '#description' do

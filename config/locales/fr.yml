@@ -216,6 +216,7 @@ fr:
           already_exist: "Un label avec le même nom existe déjà"
           already_exist_in_public: "Un label public avec le même nom existe déjà"
           public_name_immutable: "Un label public ne peut changer de nom"
+          public_visibility_immutable: "La visibilité d'un label public ne peut plus être changé (utilisé par d'autres utilisateurs)"
         tag_relationship:
           already_linked: "Ces deux labels sont déjà liés entre eux"
         tagged_article:

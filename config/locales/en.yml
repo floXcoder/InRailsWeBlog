@@ -204,6 +204,7 @@ en:
           already_exist: "Un label avec le même nom existe déjà"
           already_exist_in_public: "Un label public avec le même nom existe déjà"
           public_name_immutable: "Un label public ne peut changer de nom"
+          public_visibility_immutable: "Visibility of a public label cannot be changed (used by other users)"
         bookmark:
           already_bookmarked: "Élément déjà ajouté aux favoris !"
           model_unknown: "Impossible d'ajouter cet élément dans les favoris"
