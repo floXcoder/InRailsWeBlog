@@ -34,9 +34,9 @@ Rails.application.routes.draw do
     post    'login',  to: 'users/sessions#create'
     delete  'logout', to: 'users/sessions#destroy',     as: :logout
   end
-  devise_for :users, controllers: { registrations:  'users/registrations',
-                                    sessions:       'users/sessions',
-                                    passwords:      'users/passwords' }
+  devise_for :users, controllers: { registrations: 'users/registrations',
+                                    sessions:      'users/sessions',
+                                    passwords:     'users/passwords' }
 
   # Users
   resources :users, except: [:new, :create, :destroy] do
@@ -56,18 +56,17 @@ Rails.application.routes.draw do
       concerns :tracker,       module: :users
     end
 
-    # TODO: use scope instead of users/
-    resources :topics,        controller: 'users/topics',     only: [:index, :create, :update, :destroy] do
+    resources :topics, controller: 'users/topics', only: [:index, :create, :update, :destroy] do
       collection do
         post :switch,          to: 'users/topics#switch'
       end
     end
 
-    resources :bookmarks,     controller: 'users/bookmarks',  only: [:create, :destroy]
+    resources :bookmarks, controller: 'users/bookmarks', only: [:create, :destroy]
 
-    resources :settings,      controller: 'users/settings',   only: [:index] do
+    resources :settings, controller: 'users/settings', only: [:index] do
       collection do
-        post :update,         to: 'users/settings#update'
+        post :update,          to: 'users/settings#update'
       end
     end
   end
@@ -121,11 +120,11 @@ Rails.application.routes.draw do
   get '/article/*id',   to: 'static_pages#home'
 
   # Errors
-  %w( 404 422 500 ).each do |code|
+  %w[404 422 500].each do |code|
     get code, to: 'errors#show', code: code
   end
 
-  resources :errors, only: [ :index, :show, :create, :destroy ] do
+  resources :errors, only: [:index, :show, :create, :destroy] do
     collection do
       post 'delete_all',     to: 'errors#destroy_all'
     end
@@ -137,8 +136,8 @@ Rails.application.routes.draw do
     post    '/admin/login',  to: 'users/sessions#create'
     delete  '/admin/logout', to: 'users/sessions#destroy',  as: :logout_admin
   end
-  devise_for :admins, controllers: {  sessions: 'users/sessions',
-                                      passwords: 'users/passwords' }
+  devise_for :admins, controllers: { sessions:  'users/sessions',
+                                     passwords: 'users/passwords' }
 
   # Admin interface
   authenticate :admin do

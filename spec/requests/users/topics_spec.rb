@@ -32,7 +32,7 @@ describe 'Topic API', type: :request, basic: true do
   }
 
   describe '/users/:user_id/topics' do
-    context 'when no parameters and not connected' do
+    context 'when not connected with no parameters' do
       it 'returns all public topics for current user' do
         get "/users/#{@user.id}/topics", as: :json
 
@@ -44,7 +44,7 @@ describe 'Topic API', type: :request, basic: true do
       end
     end
 
-    context 'when no parameters and owner is connected' do
+    context 'when owner is connected with no parameters' do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
       end
@@ -139,17 +139,19 @@ describe 'Topic API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns a new topic associated to current user' do
+      it 'returns a new topic and switch to this topic' do
         expect {
           post "/users/#{@user.id}/topics", params: topic_attributes, as: :json
         }.to change(Topic, :count).by(1)
 
         expect(response).to be_json_response(201)
 
-        article = JSON.parse(response.body)
-        expect(article['topic']).not_to be_empty
-        expect(article['topic']['user_id']).to eq(@user.id)
-        expect(article['topic']['name']).to eq(topic_attributes[:topic][:name])
+        topic = JSON.parse(response.body)
+        expect(topic['topic']).not_to be_empty
+        expect(topic['topic']['user_id']).to eq(@user.id)
+        expect(topic['topic']['name']).to eq(topic_attributes[:topic][:name])
+
+        expect(@user.reload.current_topic_id).to eq(topic['topic']['id'])
       end
     end
 
@@ -158,7 +160,9 @@ describe 'Topic API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns the errors' do
+      it 'returns the errors and stay on the same topic' do
+        previous_topic_id = @user.reload.current_topic_id
+
         expect {
           post "/users/#{@user.id}/topics", params: topic_error_attributes, as: :json
         }.to_not change(Topic, :count)
@@ -167,6 +171,8 @@ describe 'Topic API', type: :request, basic: true do
 
         article = JSON.parse(response.body)
         expect(article['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
+
+        expect(@user.reload.current_topic_id).to eq(previous_topic_id)
       end
     end
   end
