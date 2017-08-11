@@ -47,7 +47,7 @@ class ArticlePolicy
   end
 
   def remove_outdated?
-    @current_user && @article.everyone? && !@article.user?(@current_user)
+    @current_user && @article.everyone? && !@article.user?(@current_user) && @article.outdated?(@current_user)
   end
 
   # Comments

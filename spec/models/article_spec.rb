@@ -468,6 +468,17 @@ RSpec.describe Article, type: :model, basic: true do
       end
     end
 
+    describe '.outdated?' do
+      it { is_expected.to respond_to(:outdated?) }
+
+      it 'checks if outdated by user' do
+        @article.mark_as_outdated(other_user)
+
+        @article.outdated?(@user)
+        @article.outdated?(other_user)
+      end
+    end
+
     describe '.bookmarked?' do
       before do
         create(:bookmark, user: other_user, bookmarked: @article, follow: true)

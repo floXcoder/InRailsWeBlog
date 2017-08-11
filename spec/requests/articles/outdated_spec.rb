@@ -3,8 +3,9 @@ require 'rails_helper'
 describe 'Outdated Article API', type: :request, basic: true do
 
   before(:all) do
-    @user       = create(:user)
-    @other_user = create(:user)
+    @user         = create(:user)
+    @other_user   = create(:user)
+    @another_user = create(:user)
 
     @topic = create(:topic, user: @user)
 
@@ -14,7 +15,9 @@ describe 'Outdated Article API', type: :request, basic: true do
   describe '/articles/:article_id/outdated (POST)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/articles/#{@article.id}/outdated", as: :json
+        expect {
+          post "/articles/#{@article.id}/outdated", as: :json
+        }.not_to change(OutdatedArticle, :count)
 
         expect(response).to be_unauthenticated
       end
@@ -25,14 +28,16 @@ describe 'Outdated Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'cannot marked as outdated his article' do
-        post "/articles/#{@article.id}/outdated", as: :json
+      it 'cannot mark his own article as outdated' do
+        expect {
+          post "/articles/#{@article.id}/outdated", as: :json
+        }.not_to change(OutdatedArticle, :count)
 
         expect(response).to be_unauthorized
       end
     end
 
-    context 'when another user is connected' do
+    context 'when another user is connected and article is public' do
       before do
         login_as(@other_user, scope: :user, run_callbacks: false)
       end
@@ -51,7 +56,9 @@ describe 'Outdated Article API', type: :request, basic: true do
   describe '/articles/:article_id/outdated (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/articles/#{@article.id}/outdated", as: :json
+        expect {
+          delete "/articles/#{@article.id}/outdated", as: :json
+        }.not_to change(OutdatedArticle, :count)
 
         expect(response).to be_unauthenticated
       end
@@ -62,14 +69,32 @@ describe 'Outdated Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'cannot marked as outdated his article' do
-        post "/articles/#{@article.id}/outdated", as: :json
+      it 'cannot unmark his own article' do
+        expect {
+          post "/articles/#{@article.id}/outdated", as: :json
+        }.not_to change(OutdatedArticle, :count)
 
         expect(response).to be_unauthorized
       end
     end
 
-    context 'when another user is connected' do
+    context 'when another user is connected but he did not marked as outdated and article is public' do
+      before do
+        login_as(@other_user, scope: :user, run_callbacks: false)
+
+        @article.mark_as_outdated(@another_user)
+      end
+
+      it 'cannot unmark an article not outdated' do
+        expect {
+          delete "/articles/#{@article.id}/outdated", as: :json
+        }.not_to change(OutdatedArticle, :count)
+
+        expect(response).to be_unauthorized
+      end
+    end
+
+    context 'when another user is connected and he marked it as outdated and article is public' do
       before do
         login_as(@other_user, scope: :user, run_callbacks: false)
 

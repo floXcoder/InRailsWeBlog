@@ -591,6 +591,10 @@ class Article < ApplicationRecord
     end
   end
 
+  def outdated?(user)
+    self.marked_as_outdated.exists?(user.id)
+  end
+
   def bookmarked?(user)
     user ? user_bookmarks.include?(user) : false
   end
