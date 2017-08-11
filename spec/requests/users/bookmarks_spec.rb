@@ -21,7 +21,9 @@ describe 'User Bookmarks API', type: :request, basic: true do
   describe '/users/:user_id/bookmarks (POST)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/users/#{@user.id}/bookmarks", params: bookmark_attributes, as: :json
+        expect {
+          post "/users/#{@user.id}/bookmarks", params: bookmark_attributes, as: :json
+        }.not_to change(Bookmark, :count)
 
         expect(response).to be_unauthenticated
       end
@@ -49,7 +51,9 @@ describe 'User Bookmarks API', type: :request, basic: true do
   describe '/users/:user_id/bookmarks (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", as: :json
+        expect {
+          delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", as: :json
+        }.not_to change(Bookmark, :count)
 
         expect(response).to be_unauthenticated
       end
