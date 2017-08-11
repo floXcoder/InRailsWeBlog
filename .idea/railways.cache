@@ -1,125 +1,125 @@
-                   Prefix Verb   URI Pattern                                   Controller#Action
-                     root GET    /                                             static_pages#home
-                   signup GET    /signup(.:format)                             users/registrations#new
-                          POST   /signup(.:format)                             users/registrations#create
-                    login GET    /login(.:format)                              users/sessions#new
-                          POST   /login(.:format)                              users/sessions#create
-                   logout DELETE /logout(.:format)                             users/sessions#destroy
-         new_user_session GET    /users/sign_in(.:format)                      users/sessions#new
-             user_session POST   /users/sign_in(.:format)                      users/sessions#create
-     destroy_user_session DELETE /users/sign_out(.:format)                     users/sessions#destroy
-        new_user_password GET    /users/password/new(.:format)                 users/passwords#new
-       edit_user_password GET    /users/password/edit(.:format)                users/passwords#edit
-            user_password PATCH  /users/password(.:format)                     users/passwords#update
-                          PUT    /users/password(.:format)                     users/passwords#update
-                          POST   /users/password(.:format)                     users/passwords#create
- cancel_user_registration GET    /users/cancel(.:format)                       users/registrations#cancel
-    new_user_registration GET    /users/sign_up(.:format)                      users/registrations#new
-   edit_user_registration GET    /users/edit(.:format)                         users/registrations#edit
-        user_registration PATCH  /users(.:format)                              users/registrations#update
-                          PUT    /users(.:format)                              users/registrations#update
-                          DELETE /users(.:format)                              users/registrations#destroy
-                          POST   /users(.:format)                              users/registrations#create
-    new_user_confirmation GET    /users/confirmation/new(.:format)             devise/confirmations#new
-        user_confirmation GET    /users/confirmation(.:format)                 devise/confirmations#show
-                          POST   /users/confirmation(.:format)                 devise/confirmations#create
-          new_user_unlock GET    /users/unlock/new(.:format)                   devise/unlocks#new
-              user_unlock GET    /users/unlock(.:format)                       devise/unlocks#show
-                          POST   /users/unlock(.:format)                       devise/unlocks#create
-         validation_users GET    /users/validation(.:format)                   users#validation
-                root_user GET    /users/:id(.:format)                          users#show
-             profile_user GET    /users/:id/profile(.:format)                  users#profile
-           bookmarks_user GET    /users/:id/bookmarks(.:format)                users#bookmarks
-               draft_user GET    /users/:id/draft(.:format)                    users#draft
-            comments_user GET    /users/:id/comments(.:format)                 users#comments
-          activities_user GET    /users/:id/activities(.:format)               users#activities
-             clicked_user POST   /users/:id/clicked(.:format)                  users#clicked
-              viewed_user POST   /users/:id/viewed(.:format)                   users#viewed
-       switch_user_topics POST   /users/users/:user_id/topics/switch(.:format) users/topics#switch
-              user_topics GET    /users/users/:user_id/topics(.:format)        users/topics#index
-                          POST   /users/users/:user_id/topics(.:format)        users/topics#create
-               user_topic PATCH  /users/users/:user_id/topics/:id(.:format)    users/topics#update
-                          PUT    /users/users/:user_id/topics/:id(.:format)    users/topics#update
-                          DELETE /users/users/:user_id/topics/:id(.:format)    users/topics#destroy
-           user_bookmarks POST   /users/:user_id/bookmarks(.:format)           users/bookmarks#create
-            user_bookmark DELETE /users/:user_id/bookmarks/:id(.:format)       users/bookmarks#destroy
-            user_settings POST   /users/:user_id/settings(.:format)            users/settings#update
-                          GET    /users/:user_id/settings(.:format)            users/settings#index
-                    users GET    /users(.:format)                              users#index
-                edit_user GET    /users/:id/edit(.:format)                     users#edit
-                     user GET    /users/:id(.:format)                          users#show
-                          PATCH  /users/:id(.:format)                          users#update
-                          PUT    /users/:id(.:format)                          users#update
-               activities GET    /activities(.:format)                         activities#index
-          history_article GET    /articles/:id/history(.:format)               articles#history
-          restore_article GET    /articles/:id/restore(.:format)               articles#restore
-         bookmark_article POST   /articles/:id/bookmark(.:format)              articles#add_bookmark
-                          DELETE /articles/:id/bookmark(.:format)              articles#remove_bookmark
-          clicked_article POST   /articles/:id/clicked(.:format)               articles#clicked
-           viewed_article POST   /articles/:id/viewed(.:format)                articles#viewed
-         comments_article GET    /articles/:id/comments(.:format)              articles#comments
-                          POST   /articles/:id/comments(.:format)              articles#add_comment
-                          PUT    /articles/:id/comments(.:format)              articles#update_comment
-                          DELETE /articles/:id/comments(.:format)              articles#remove_comment
-         article_outdated DELETE /articles/:article_id/outdated(.:format)      articles/outdated#destroy
-                          POST   /articles/:article_id/outdated(.:format)      articles/outdated#create
-            article_votes DELETE /articles/:article_id/votes(.:format)         articles/votes#destroy
-                          POST   /articles/:article_id/votes(.:format)         articles/votes#create
-                 articles GET    /articles(.:format)                           articles#index
-                          POST   /articles(.:format)                           articles#create
-              new_article GET    /articles/new(.:format)                       articles#new
-             edit_article GET    /articles/:id/edit(.:format)                  articles#edit
-                  article GET    /articles/:id(.:format)                       articles#show
-                          PATCH  /articles/:id(.:format)                       articles#update
-                          PUT    /articles/:id(.:format)                       articles#update
-                          DELETE /articles/:id(.:format)                       articles#destroy
-              clicked_tag POST   /tags/:id/clicked(.:format)                   tags#clicked
-               viewed_tag POST   /tags/:id/viewed(.:format)                    tags#viewed
-             comments_tag GET    /tags/:id/comments(.:format)                  tags#comments
-                          POST   /tags/:id/comments(.:format)                  tags#add_comment
-                          PUT    /tags/:id/comments(.:format)                  tags#update_comment
-                          DELETE /tags/:id/comments(.:format)                  tags#remove_comment
-                     tags GET    /tags(.:format)                               tags#index
-                      tag GET    /tags/:id(.:format)                           tags#show
-                          PATCH  /tags/:id(.:format)                           tags#update
-                          PUT    /tags/:id(.:format)                           tags#update
-                          DELETE /tags/:id(.:format)                           tags#destroy
-autocomplete_search_index GET    /search/autocomplete(.:format)                search#autocomplete
-             search_index GET    /search(.:format)                             search#index
-                 comments GET    /comments(.:format)                           comments#index
-             terms_of_use GET    /terms_of_use(.:format)                       static_pages#terms_of_use
-                          GET    /user/*id(.:format)                           static_pages#home
-                          GET    /topic/*id(.:format)                          static_pages#home
-                          GET    /tag/*id(.:format)                            static_pages#home
-                          GET    /article/*id(.:format)                        static_pages#home
-                          GET    /404(.:format)                                errors#show {:code=>"404"}
-                          GET    /422(.:format)                                errors#show {:code=>"422"}
-                          GET    /500(.:format)                                errors#show {:code=>"500"}
-        delete_all_errors POST   /errors/delete_all(.:format)                  errors#destroy_all
-                   errors GET    /errors(.:format)                             errors#index
-                          POST   /errors(.:format)                             errors#create
-                    error GET    /errors/:id(.:format)                         errors#show
-                          DELETE /errors/:id(.:format)                         errors#destroy
-              login_admin GET    /admin/login(.:format)                        users/sessions#new
-              admin_login POST   /admin/login(.:format)                        users/sessions#create
-             logout_admin DELETE /admin/logout(.:format)                       users/sessions#destroy
-        new_admin_session GET    /admins/sign_in(.:format)                     users/sessions#new
-            admin_session POST   /admins/sign_in(.:format)                     users/sessions#create
-    destroy_admin_session DELETE /admins/sign_out(.:format)                    users/sessions#destroy
-       new_admin_password GET    /admins/password/new(.:format)                users/passwords#new
-      edit_admin_password GET    /admins/password/edit(.:format)               users/passwords#edit
-           admin_password PATCH  /admins/password(.:format)                    users/passwords#update
-                          PUT    /admins/password(.:format)                    users/passwords#update
-                          POST   /admins/password(.:format)                    users/passwords#create
-cancel_admin_registration GET    /admins/cancel(.:format)                      devise/registrations#cancel
-   new_admin_registration GET    /admins/sign_up(.:format)                     devise/registrations#new
-  edit_admin_registration GET    /admins/edit(.:format)                        devise/registrations#edit
-       admin_registration PATCH  /admins(.:format)                             devise/registrations#update
-                          PUT    /admins(.:format)                             devise/registrations#update
-                          DELETE /admins(.:format)                             devise/registrations#destroy
-                          POST   /admins(.:format)                             devise/registrations#create
-         new_admin_unlock GET    /admins/unlock/new(.:format)                  devise/unlocks#new
-             admin_unlock GET    /admins/unlock(.:format)                      devise/unlocks#show
-                          POST   /admins/unlock(.:format)                      devise/unlocks#create
-              sidekiq_web        /admin/sidekiq                                Sidekiq::Web
-                    admin GET    /admin(.:format)                              admins#index
+                   Prefix Verb   URI Pattern                              Controller#Action
+                     root GET    /                                        static_pages#home
+                   signup GET    /signup(.:format)                        users/registrations#new
+                          POST   /signup(.:format)                        users/registrations#create
+                    login GET    /login(.:format)                         users/sessions#new
+                          POST   /login(.:format)                         users/sessions#create
+                   logout DELETE /logout(.:format)                        users/sessions#destroy
+         new_user_session GET    /users/sign_in(.:format)                 users/sessions#new
+             user_session POST   /users/sign_in(.:format)                 users/sessions#create
+     destroy_user_session DELETE /users/sign_out(.:format)                users/sessions#destroy
+        new_user_password GET    /users/password/new(.:format)            users/passwords#new
+       edit_user_password GET    /users/password/edit(.:format)           users/passwords#edit
+            user_password PATCH  /users/password(.:format)                users/passwords#update
+                          PUT    /users/password(.:format)                users/passwords#update
+                          POST   /users/password(.:format)                users/passwords#create
+ cancel_user_registration GET    /users/cancel(.:format)                  users/registrations#cancel
+    new_user_registration GET    /users/sign_up(.:format)                 users/registrations#new
+   edit_user_registration GET    /users/edit(.:format)                    users/registrations#edit
+        user_registration PATCH  /users(.:format)                         users/registrations#update
+                          PUT    /users(.:format)                         users/registrations#update
+                          DELETE /users(.:format)                         users/registrations#destroy
+                          POST   /users(.:format)                         users/registrations#create
+    new_user_confirmation GET    /users/confirmation/new(.:format)        devise/confirmations#new
+        user_confirmation GET    /users/confirmation(.:format)            devise/confirmations#show
+                          POST   /users/confirmation(.:format)            devise/confirmations#create
+          new_user_unlock GET    /users/unlock/new(.:format)              devise/unlocks#new
+              user_unlock GET    /users/unlock(.:format)                  devise/unlocks#show
+                          POST   /users/unlock(.:format)                  devise/unlocks#create
+         validation_users GET    /users/validation(.:format)              users#validation
+                root_user GET    /users/:id(.:format)                     users#show
+             profile_user GET    /users/:id/profile(.:format)             users#profile
+           bookmarks_user GET    /users/:id/bookmarks(.:format)           users#bookmarks
+               draft_user GET    /users/:id/draft(.:format)               users#draft
+            comments_user GET    /users/:id/comments(.:format)            users#comments
+          activities_user GET    /users/:id/activities(.:format)          users#activities
+             clicked_user POST   /users/:id/clicked(.:format)             users#clicked
+              viewed_user POST   /users/:id/viewed(.:format)              users#viewed
+       switch_user_topics POST   /users/:user_id/topics/switch(.:format)  users/topics#switch
+              user_topics GET    /users/:user_id/topics(.:format)         users/topics#index
+                          POST   /users/:user_id/topics(.:format)         users/topics#create
+               user_topic PATCH  /users/:user_id/topics/:id(.:format)     users/topics#update
+                          PUT    /users/:user_id/topics/:id(.:format)     users/topics#update
+                          DELETE /users/:user_id/topics/:id(.:format)     users/topics#destroy
+           user_bookmarks POST   /users/:user_id/bookmarks(.:format)      users/bookmarks#create
+            user_bookmark DELETE /users/:user_id/bookmarks/:id(.:format)  users/bookmarks#destroy
+            user_settings POST   /users/:user_id/settings(.:format)       users/settings#update
+                          GET    /users/:user_id/settings(.:format)       users/settings#index
+                    users GET    /users(.:format)                         users#index
+                edit_user GET    /users/:id/edit(.:format)                users#edit
+                     user GET    /users/:id(.:format)                     users#show
+                          PATCH  /users/:id(.:format)                     users#update
+                          PUT    /users/:id(.:format)                     users#update
+               activities GET    /activities(.:format)                    activities#index
+          history_article GET    /articles/:id/history(.:format)          articles#history
+          restore_article GET    /articles/:id/restore(.:format)          articles#restore
+         bookmark_article POST   /articles/:id/bookmark(.:format)         articles#add_bookmark
+                          DELETE /articles/:id/bookmark(.:format)         articles#remove_bookmark
+          clicked_article POST   /articles/:id/clicked(.:format)          articles#clicked
+           viewed_article POST   /articles/:id/viewed(.:format)           articles#viewed
+         comments_article GET    /articles/:id/comments(.:format)         articles#comments
+                          POST   /articles/:id/comments(.:format)         articles#add_comment
+                          PUT    /articles/:id/comments(.:format)         articles#update_comment
+                          DELETE /articles/:id/comments(.:format)         articles#remove_comment
+         article_outdated DELETE /articles/:article_id/outdated(.:format) articles/outdated#destroy
+                          POST   /articles/:article_id/outdated(.:format) articles/outdated#create
+            article_votes DELETE /articles/:article_id/votes(.:format)    articles/votes#destroy
+                          POST   /articles/:article_id/votes(.:format)    articles/votes#create
+                 articles GET    /articles(.:format)                      articles#index
+                          POST   /articles(.:format)                      articles#create
+              new_article GET    /articles/new(.:format)                  articles#new
+             edit_article GET    /articles/:id/edit(.:format)             articles#edit
+                  article GET    /articles/:id(.:format)                  articles#show
+                          PATCH  /articles/:id(.:format)                  articles#update
+                          PUT    /articles/:id(.:format)                  articles#update
+                          DELETE /articles/:id(.:format)                  articles#destroy
+              clicked_tag POST   /tags/:id/clicked(.:format)              tags#clicked
+               viewed_tag POST   /tags/:id/viewed(.:format)               tags#viewed
+             comments_tag GET    /tags/:id/comments(.:format)             tags#comments
+                          POST   /tags/:id/comments(.:format)             tags#add_comment
+                          PUT    /tags/:id/comments(.:format)             tags#update_comment
+                          DELETE /tags/:id/comments(.:format)             tags#remove_comment
+                     tags GET    /tags(.:format)                          tags#index
+                      tag GET    /tags/:id(.:format)                      tags#show
+                          PATCH  /tags/:id(.:format)                      tags#update
+                          PUT    /tags/:id(.:format)                      tags#update
+                          DELETE /tags/:id(.:format)                      tags#destroy
+autocomplete_search_index GET    /search/autocomplete(.:format)           search#autocomplete
+             search_index GET    /search(.:format)                        search#index
+                 comments GET    /comments(.:format)                      comments#index
+             terms_of_use GET    /terms_of_use(.:format)                  static_pages#terms_of_use
+                          GET    /user/*id(.:format)                      static_pages#home
+                          GET    /topic/*id(.:format)                     static_pages#home
+                          GET    /tag/*id(.:format)                       static_pages#home
+                          GET    /article/*id(.:format)                   static_pages#home
+                          GET    /404(.:format)                           errors#show {:code=>"404"}
+                          GET    /422(.:format)                           errors#show {:code=>"422"}
+                          GET    /500(.:format)                           errors#show {:code=>"500"}
+        delete_all_errors POST   /errors/delete_all(.:format)             errors#destroy_all
+                   errors GET    /errors(.:format)                        errors#index
+                          POST   /errors(.:format)                        errors#create
+                    error GET    /errors/:id(.:format)                    errors#show
+                          DELETE /errors/:id(.:format)                    errors#destroy
+              login_admin GET    /admin/login(.:format)                   users/sessions#new
+              admin_login POST   /admin/login(.:format)                   users/sessions#create
+             logout_admin DELETE /admin/logout(.:format)                  users/sessions#destroy
+        new_admin_session GET    /admins/sign_in(.:format)                users/sessions#new
+            admin_session POST   /admins/sign_in(.:format)                users/sessions#create
+    destroy_admin_session DELETE /admins/sign_out(.:format)               users/sessions#destroy
+       new_admin_password GET    /admins/password/new(.:format)           users/passwords#new
+      edit_admin_password GET    /admins/password/edit(.:format)          users/passwords#edit
+           admin_password PATCH  /admins/password(.:format)               users/passwords#update
+                          PUT    /admins/password(.:format)               users/passwords#update
+                          POST   /admins/password(.:format)               users/passwords#create
+cancel_admin_registration GET    /admins/cancel(.:format)                 devise/registrations#cancel
+   new_admin_registration GET    /admins/sign_up(.:format)                devise/registrations#new
+  edit_admin_registration GET    /admins/edit(.:format)                   devise/registrations#edit
+       admin_registration PATCH  /admins(.:format)                        devise/registrations#update
+                          PUT    /admins(.:format)                        devise/registrations#update
+                          DELETE /admins(.:format)                        devise/registrations#destroy
+                          POST   /admins(.:format)                        devise/registrations#create
+         new_admin_unlock GET    /admins/unlock/new(.:format)             devise/unlocks#new
+             admin_unlock GET    /admins/unlock(.:format)                 devise/unlocks#show
+                          POST   /admins/unlock(.:format)                 devise/unlocks#create
+              sidekiq_web        /admin/sidekiq                           Sidekiq::Web
+                    admin GET    /admin(.:format)                         admins#index

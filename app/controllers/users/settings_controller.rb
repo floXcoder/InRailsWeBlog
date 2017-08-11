@@ -41,4 +41,5 @@ class Users::SettingsController < ApplicationController
       end
     end
   end
+
 end

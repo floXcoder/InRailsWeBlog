@@ -1,17 +1,11 @@
 require 'rails_helper'
 
-describe 'Setting API', type: :request, basic: true do
+describe 'User Settings API', type: :request, basic: true do
 
   before(:all) do
     @user       = create(:user)
     @other_user = create(:user)
   end
-
-  let(:updated_setting_attributes) {
-    {
-      settings: { article_display: 'inline', search_highlight: false }
-    }
-  }
 
   describe '/users/:user_id/settings' do
     context 'when user is not connected' do
@@ -54,7 +48,7 @@ describe 'Setting API', type: :request, basic: true do
   describe '/users/:user_id/settings (POST)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/users/#{@user.id}/settings", params: updated_setting_attributes, as: :json
+        post "/users/#{@user.id}/settings", params: { settings: { article_display: 'inline', search_highlight: false } }, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -66,7 +60,7 @@ describe 'Setting API', type: :request, basic: true do
       end
 
       it 'returns the updated topic' do
-        post "/users/#{@user.id}/settings", params: updated_setting_attributes, as: :json
+        post "/users/#{@user.id}/settings", params: { settings: { article_display: 'inline', search_highlight: false } }, as: :json
 
         expect(response).to be_json_response
 

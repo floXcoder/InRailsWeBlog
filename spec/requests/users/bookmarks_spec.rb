@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'User Bookmark API', type: :request, basic: true do
+describe 'User Bookmarks API', type: :request, basic: true do
 
   before(:all) do
     @user  = create(:user)
