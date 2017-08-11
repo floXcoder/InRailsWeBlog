@@ -202,6 +202,16 @@ RSpec.describe User, type: :model, basic: true do
       it { is_expected.to respond_to(:login) }
     end
 
+    describe '#current_topic_id' do
+      it { is_expected.to respond_to(:login) }
+
+      it 'creates a default topic when creating a user' do
+        default_topic = Topic.where(user_id: @user.id).first
+        expect(@user.current_topic_id).to eq(default_topic.id)
+        expect(default_topic.name).to eq(I18n.t('topic.default_name'))
+      end
+    end
+
     # describe '#settings' do
     #   it { is_expected.to serialize(:settings) }
     # end

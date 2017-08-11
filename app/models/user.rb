@@ -433,7 +433,7 @@ class User < ApplicationRecord
       self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.not_owner'))
       return false
     else
-      update_attribute(:current_topic_id, new_topic.id)
+      update_column(:current_topic_id, new_topic.id)
       return new_topic
     end
   end
@@ -494,9 +494,8 @@ class User < ApplicationRecord
   private
 
   def create_default_topic
-    self_topics_create = self.topics.create(user: self, name: I18n.t('topic.default_name'))
-    default_topic      = self_topics_create
-    update_attribute(:current_topic_id, default_topic.id)
+    default_topic = self.topics.create(name: I18n.t('topic.default_name'))
+    update_column(:current_topic_id, default_topic.id)
   end
 
 end
