@@ -52,8 +52,13 @@ class ApplicationController < ActionController::Base
     end
 
     # Set user location
-    @user_latitude  = request.location.latitude
-    @user_longitude = request.location.longitude
+    begin
+      @user_latitude  = request.location.latitude
+      @user_longitude = request.location.longitude
+    rescue
+      @user_latitude  = 0
+      @user_longitude = 0
+    end
   end
 
   # Redirection when Javascript is used.
