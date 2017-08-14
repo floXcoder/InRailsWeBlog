@@ -44,9 +44,13 @@ fr:
           webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email"
       index:
         title: "Tous les utilisateurs"
+        description: "Liste de tous les utilisateurs"
       show:
         title: "%{pseudo} sur InRailsWeBlog"
         description: "Détails de l'utilisateur : %{pseudo}"
+      bookmarks:
+        title: "%{pseudo} : Mes favoris"
+        description: "%{pseudo} : Mes favoris"
       edit:
         title: "Mise à jour de mes informations personnelles"
         connection_parameters: "Modifier vos paramètres de connexion"
@@ -71,6 +75,12 @@ fr:
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
       show:
         title: "Article : %{title}"
+      edit:
+        title: "Modification de l'article : %{title}"
+        description: "Modification de l'article : %{title}"
+    tag:
+      show:
+        title: "Label : %{name}"
     picture:
       flash:
         successful_deletion: "L'image a bien été supprimée"

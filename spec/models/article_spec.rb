@@ -262,7 +262,7 @@ RSpec.describe Article, type: :model, basic: true do
 
     let!(:other_user) { create(:user) }
     let!(:other_topic) { create(:topic, user: other_user) }
-    let!(:other_article) { create(:article, user: other_user, topic: other_topic, visibility: 'everyone', draft: true, title: 'Title 2') }
+    let!(:other_article) { create(:article, user: other_user, topic: other_topic, visibility: 'everyone', title: 'Title 2') }
 
     let!(:tag_parent) { create(:tag, user: @user, name: 'Tag parent') }
     let!(:tag_child) { create(:tag, user: @user, name: 'Tag children') }
@@ -559,6 +559,11 @@ RSpec.describe Article, type: :model, basic: true do
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
       it { expect(@article.search_data).to be_a(Hash) }
+    end
+
+    describe '.meta_description' do
+      it { is_expected.to respond_to(:meta_description) }
+      it { expect(@article.meta_description).to be_a(String) }
     end
   end
 

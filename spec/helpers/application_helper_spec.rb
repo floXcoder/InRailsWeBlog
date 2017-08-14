@@ -11,12 +11,6 @@ RSpec.describe ApplicationHelper, type: :helper, basic: true do
     end
   end
 
-  describe '#navbar_class' do
-    it 'returns the navbar class in function of controller' do
-      expect(helper.navbar_class('article')).to eq(nil)
-    end
-  end
-
   describe '#webmail_from_email', advanced: true do
     it 'returns webmail from email address' do
       expect(helper.webmail_from_email('test@gmail.com')).to eq(['gmail', 'https://mail.google.com/'])

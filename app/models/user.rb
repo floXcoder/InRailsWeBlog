@@ -491,6 +491,11 @@ class User < ApplicationRecord
     }
   end
 
+  # SEO
+  def meta_description
+    [self.pseudo, self.additional_info.summary(60)].join(I18n.t('helpers.colon'))
+  end
+
   private
 
   def create_default_topic

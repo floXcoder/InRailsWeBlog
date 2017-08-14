@@ -359,4 +359,9 @@ class Topic < ApplicationRecord
     }
   end
 
+  # SEO
+  def meta_description
+    [self.name, self.description.summary(60)].join(I18n.t('helpers.colon'))
+  end
+
 end

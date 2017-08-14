@@ -69,12 +69,12 @@ class ArticlesController < ApplicationController
       format.html do
         expires_in 3.hours, public: true
         set_meta_tags title:       titleize(I18n.t('views.article.show.title')),
-                      description: I18n.t('views.article.show.description'),
-                      author:      user_canonical_url(article.user.slug),
-                      canonical:   article_canonical_url(article.slug),
+                      description: article.meta_description,
+                      author:      alternate_urls(article.user.slug)['fr'],
+                      canonical:   alternate_urls(article.slug)['fr'],
                       alternate:   alternate_urls('articles', article.slug),
                       og:          {
-                        type:  'InRailsWeBlog:article',
+                        type:  "#{ENV['WEBSITE_NAME']}:article",
                         url:   article_url(article),
                         image: root_url + article.default_picture
                       }
@@ -133,14 +133,13 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        set_meta_tags title:       titleize(I18n.t('views.article.edit.title')),
-                      description: I18n.t('views.article.edit.description'),
+        set_meta_tags title:       titleize(I18n.t('views.article.edit.title', title: article.title)),
+                      description: I18n.t('views.article.edit.description', title: article.title),
                       canonical:   article_canonical_url("#{article.id}/edit")
-        render :edit, locals:
-          {
-            article:         article,
-            current_user_id: current_user&.id,
-          }
+        render :edit, locals: {
+          article:         article,
+          current_user_id: current_user&.id
+        }
       end
     end
   end

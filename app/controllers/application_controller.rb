@@ -104,6 +104,10 @@ class ApplicationController < ActionController::Base
     "#{root_url}users/#{slug}" + request.fullpath[/\?.*/].to_s
   end
 
+  def topic_canonical_url(slug)
+    "#{root_url}topics/#{slug}" + request.fullpath[/\?.*/].to_s
+  end
+
   def article_canonical_url(slug)
     "#{root_url}articles/#{slug}" + request.fullpath[/\?.*/].to_s
   end
@@ -112,8 +116,20 @@ class ApplicationController < ActionController::Base
     "#{root_url}tags/#{slug}" + request.fullpath[/\?.*/].to_s
   end
 
-  def alternate_urls(route, slug)
-    Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + route, locale: local)}/#{slug}" +  + request.fullpath[/\?.*/].to_s] }]
+  def alternate_urls(route, slug = nil, options = {})
+    if options[:parent_main_route] && options[:parent_route] && options[:parent_slug]
+      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + options[:parent_route], locale: local)}/#{options[:parent_slug]}/#{I18n.t('routes.' + options[:parent_main_route], locale: local)}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/].to_s}"] }]
+    elsif options[:parent_route] && options[:parent_slug]
+      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + options[:parent_route], locale: local)}/#{options[:parent_slug]}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/].to_s}"] }]
+    elsif route.empty?
+      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{request.fullpath[/\?.*/].to_s}"] }]
+    else
+      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/].to_s}"] }]
+    end
+  end
+
+  def image_url(url)
+    root_url + 'assets/' + url
   end
 
   def handle_error(exception)

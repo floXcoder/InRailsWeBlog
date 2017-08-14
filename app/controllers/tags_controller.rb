@@ -18,7 +18,7 @@ class TagsController < ApplicationController
   include TrackerConcern
   include CommentConcern
 
-  respond_to :json
+  respond_to :html, :json
 
   def index
     tags = Tag
@@ -48,13 +48,13 @@ class TagsController < ApplicationController
     respond_to do |format|
       format.html do
         expires_in 3.hours, public: true
-        set_meta_tags title:       titleize(I18n.t('views.tag.show.title')),
-                      description: I18n.t('views.tag.show.description'),
-                      author:      user_canonical_url(tag.user.slug),
-                      canonical:   tag_canonical_url(tag.slug),
+        set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
+                      description: tag.meta_description,
+                      author:      alternate_urls(tag.user.slug)['fr'],
+                      canonical:   alternate_urls(tag.slug)['fr'],
                       alternate:   alternate_urls('tags', tag.slug),
                       og:          {
-                        type:  'InRailsWeBlog:tag',
+                        type:  "#{ENV['WEBSITE_NAME']}:tag",
                         url:   tag_url(tag),
                         image: root_url + tag.default_picture
                       }

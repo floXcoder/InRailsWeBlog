@@ -13,35 +13,6 @@ module ApplicationHelper
     base_title.html_safe
   end
 
-  def nav_brand
-    if user_signed_in?
-      link_to ENV['WEBSITE_NAME'], root_user_path(current_user), class: 'navbar-brand'
-    else
-      link_to ENV['WEBSITE_NAME'], root_path, class: 'navbar-brand'
-    end
-  end
-
-  def navbar_link(link_name, link_path, options = {})
-    options = { class: "#{'active' if current_page?(link_path)}" }.merge(options)
-    link_to link_name, link_path, options
-  end
-
-  def navbar_class(url)
-    url = [url] unless url.is_a? Array
-
-    if url.include? controller.controller_name
-      'loca-header-active'
-    end
-  end
-
-  def format_datetime(date)
-    I18n.l(date, format: :custom)
-  end
-
-  def format_date(date)
-    I18n.l(date, format: :custom_full_date)
-  end
-
   def controller?(*controller)
     controller.include?(params[:controller])
   end

@@ -297,6 +297,11 @@ RSpec.describe Topic, type: :model, basic: true do
       it { is_expected.to respond_to(:search_data) }
       it { expect(@topic.search_data).to be_a(Hash) }
     end
+
+    describe '.meta_description' do
+      it { is_expected.to respond_to(:meta_description) }
+      it { expect(@topic.meta_description).to be_a(String) }
+    end
   end
 
 end

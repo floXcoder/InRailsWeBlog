@@ -63,11 +63,80 @@ class UsersController < ApplicationController
     end
   end
 
+  def validation
+    user_exists = false
+
+    user_exists = User.pseudo?(user_validation_params[:pseudo]) if user_validation_params[:pseudo]
+    user_exists = User.email?(user_validation_params[:email]) if user_validation_params[:email]
+    user_exists = User.login?(user_validation_params[:login]) if user_validation_params[:login]
+
+    respond_to do |format|
+      if user_exists
+        format.json { render json: { success: true }, status: :accepted }
+      else
+        format.json { render nothing: true, status: :not_found }
+      end
+    end
+  end
+
+  def show
+    user = User.friendly.find(params[:id])
+    authorize user
+
+    respond_to do |format|
+      # TODO
+      # format.html do
+      #   User.track_views(user.id)
+      #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
+      #                 description: I18n.t('views.user.show.description')
+
+      # set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
+      #               description: I18n.t('views.user.show.description', pseudo: user.pseudo),
+      #               author:      alternate_urls('users', user.slug)['fr'],
+      #               canonical:   alternate_urls('users', user.slug)['fr'],
+      #               alternate:   alternate_urls('users', user.slug),
+      #               og:          {
+      #                 type:  "#{ENV['WEBSITE_NAME']}:user",
+      #                 url:   user_url(user),
+      #                 image: user.avatar_url
+      #               }
+
+      #   render :show, locals: { user: user, mode: nil }
+      # end
+
+      format.json do
+        if params[:complete_user] && current_user && (current_user.id == user.id || current_user.admin?)
+          User.track_views(user.id)
+          render json:       user,
+                 serializer: UserCompleteSerializer
+        elsif params[:user_profile] && current_user && current_user.id == user.id
+          render json:       user,
+                 serializer: UserProfileSerializer
+        else
+          User.track_views(user.id)
+          render json:       user,
+                 serializer: UserSerializer
+        end
+      end
+    end
+  end
+
   def bookmarks
     user = User.friendly.find(params[:id])
     authorize user
 
-    render :show, locals: { user: user, mode: 'bookmark' }
+    respond_to do |format|
+      format.html do
+        set_meta_tags title:       titleize(I18n.t('views.user.bookmarks.title', pseudo: user.pseudo)),
+                      description: I18n.t('views.user.bookmarks.description', pseudo: user.pseudo),
+                      author:      user_canonical_url(user.slug),
+                      canonical:   user_canonical_url("#{user.slug}/bookmarks")
+        render :show, locals: {
+          user: user,
+          mode: 'bookmark'
+        }
+      end
+    end
   end
 
   # def draft
@@ -109,59 +178,19 @@ class UsersController < ApplicationController
     end
   end
 
-  def validation
-    user_exists = false
-
-    user_exists = User.pseudo?(user_validation_params[:pseudo]) if user_validation_params[:pseudo]
-    user_exists = User.email?(user_validation_params[:email]) if user_validation_params[:email]
-    user_exists = User.login?(user_validation_params[:login]) if user_validation_params[:login]
-
-    respond_to do |format|
-      if user_exists
-        format.json { render json: { success: true }, status: :accepted }
-      else
-        format.json { render nothing: true, status: :not_found }
-      end
-    end
-  end
-
-  def show
-    user = User.friendly.find(params[:id])
-    authorize user
-
-    respond_to do |format|
-      # TODO
-      # format.html do
-      #   User.track_views(user.id)
-      #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
-      #                 description: I18n.t('views.user.show.description')
-      #   render :show, locals: { user: user, mode: nil }
-      # end
-
-      format.json do
-        if params[:complete_user] && current_user && (current_user.id == user.id || current_user.admin?)
-          User.track_views(user.id)
-          render json: user,
-                 serializer: UserCompleteSerializer
-        elsif params[:user_profile] && current_user && current_user.id == user.id
-          render json: user,
-                 serializer: UserProfileSerializer
-        else
-          User.track_views(user.id)
-          render json: user,
-                 serializer: UserSerializer
-        end
-      end
-    end
-  end
-
   def edit
     user = User.friendly.find(params[:id])
     authorize user
 
     user.build_picture unless user.picture
 
-    render :edit, locals: { user: user }
+    respond_to do |format|
+      format.html do
+        set_meta_tags title:     titleize(I18n.t('views.user.edit.title')),
+                      canonical: ride_canonical_url("#{user.id}/edit")
+        render :edit, locals: { user: user }
+      end
+    end
   end
 
   def update
@@ -189,7 +218,7 @@ class UsersController < ApplicationController
         format.json do
           if params[:complete_user] && current_user
             authorize current_user, :admin?
-            render json: user,
+            render json:       user,
                    serializer: UserCompleteSerializer,
                    status:     :ok
           else
@@ -206,11 +235,11 @@ class UsersController < ApplicationController
         format.json do
           if params[:complete_user] && current_user
             authorize current_user, :admin?
-            render json: user,
+            render json:       user,
                    serializer: UserCompleteSerializer,
                    status:     :ok
           else
-            render json: user,
+            render json:   user,
                    status: :forbidden
           end
         end
