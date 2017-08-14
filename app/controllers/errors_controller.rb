@@ -2,6 +2,7 @@ class ErrorsController < ApplicationController
   layout 'full_page'
 
   before_action :authenticate_admin!, except: [:show, :create]
+  before_action :verify_requested_format!
 
   skip_before_action :set_locale, only: [:show, :create]
 

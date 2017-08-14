@@ -22,8 +22,7 @@
 #
 
 class CommentsController < ApplicationController
-  # before_action :authenticate_user!, except: [:index, :show]
-  # after_action :verify_authorized, except: [:index]
+  before_action :verify_requested_format!
 
   respond_to :json
 

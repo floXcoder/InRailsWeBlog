@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::RoutingError, with: :not_found_error
   rescue_from AbstractController::ActionNotFound, with: :not_found_error
   rescue_from ActionController::UnknownController, with: :not_found_error
+  rescue_from ActionController::UnknownFormat, with: :not_found_error
 
   # Pundit
   include Pundit

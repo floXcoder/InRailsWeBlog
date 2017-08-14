@@ -12,6 +12,7 @@
 
 class TagsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :verify_requested_format!
   after_action :verify_authorized, except: [:index]
 
   include TrackerConcern

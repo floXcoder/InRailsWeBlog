@@ -36,6 +36,7 @@
 
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :validation]
+  before_action :verify_requested_format!
   after_action :verify_authorized, except: [:index, :validation]
 
   skip_before_action :set_locale, only: [:validation]

@@ -1,4 +1,5 @@
 class SearchController < ApplicationController
+  before_action :verify_requested_format!
 
   respond_to :json
 

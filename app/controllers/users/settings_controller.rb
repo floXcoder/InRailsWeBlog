@@ -1,5 +1,6 @@
 class Users::SettingsController < ApplicationController
   before_action :authenticate_user!
+  before_action :verify_requested_format!
   after_action :verify_authorized
 
   respond_to :json

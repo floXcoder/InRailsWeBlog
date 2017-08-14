@@ -29,6 +29,7 @@ class AdminsController < ApplicationController
   layout 'admin'
 
   before_action :authenticate_admin!
+  before_action :verify_requested_format!
   before_action :reset_cache_headers
 
   respond_to :html
