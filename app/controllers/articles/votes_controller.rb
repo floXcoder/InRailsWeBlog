@@ -11,7 +11,7 @@ class Articles::VotesController < ApplicationController
     respond_to do |format|
       format.json do
         if current_user.vote_for(article)
-          article.create_activity action: :vote_up, owner: current_user
+          article.create_activity(action: :vote_up, owner: current_user)
 
           head :ok
         else
@@ -29,7 +29,7 @@ class Articles::VotesController < ApplicationController
     respond_to do |format|
       format.json do
         if current_user.vote_against(article)
-          article.create_activity action: :vote_down, owner: current_user
+          article.create_activity(action: :vote_down, owner: current_user)
 
           head :ok
         else

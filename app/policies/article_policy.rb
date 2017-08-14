@@ -35,11 +35,11 @@ class ArticlePolicy
   end
 
   def vote_up?
-    @current_user && @article.everyone? && !@article.user?(@current_user)
+    @current_user && @article.everyone? && !@article.user?(@current_user) && !@article.voted_by?(@current_user)
   end
 
   def vote_down?
-    @current_user && @article.everyone? && !@article.user?(@current_user)
+    @current_user && @article.everyone? && !@article.user?(@current_user) && !@article.voted_by?(@current_user)
   end
 
   def add_outdated?
