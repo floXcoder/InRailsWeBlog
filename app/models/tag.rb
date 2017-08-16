@@ -98,11 +98,12 @@ class Tag < ApplicationRecord
            through: :child_relationships,
            source:  :parent
 
-  has_one :picture,
-          as:        :imageable,
-          autosave:  true,
-          dependent: :destroy
-  accepts_nested_attributes_for :picture,
+  has_one :icon,
+          as:         :imageable,
+          class_name: 'Picture',
+          autosave:   true,
+          dependent:  :destroy
+  accepts_nested_attributes_for :icon,
                                 allow_destroy: true,
                                 reject_if:     lambda {
                                   |picture| picture['picture'].blank? && picture['image_tmp'].blank?
@@ -180,6 +181,7 @@ class Tag < ApplicationRecord
   }
 
   # == Callbacks ============================================================
+  before_create :set_default_color
 
   # == Class Methods ========================================================
   # Tag Search
@@ -452,8 +454,8 @@ class Tag < ApplicationRecord
       self.description = Sanitize.fragment(attributes.delete(:description))
     end
 
-    unless attributes[:picture].nil?
-      self.build_picture(image: attributes.delete(:picture))
+    unless attributes[:icon].nil?
+      self.build_icon(image: attributes.delete(:icon))
     end
 
     self.assign_attributes(attributes)
@@ -462,8 +464,8 @@ class Tag < ApplicationRecord
   def default_picture
     default_picture = ''
 
-    picture = if self.pictures_count > 0
-                self.picture.image.thumb.url
+    picture = if self.icon
+                self.icon.image.thumb.url
               else
                 default_picture
               end
@@ -539,4 +541,9 @@ class Tag < ApplicationRecord
       errors.add(:visibility, I18n.t('activerecord.errors.models.tag.public_visibility_immutable'))
     end
   end
+
+  def set_default_color
+    self.color = '#e5e5e5' unless self.color
+  end
+
 end

@@ -45,8 +45,7 @@ describe 'Activities API', type: :request, basic: true do
         activities = JSON.parse(response.body)
 
         expect(activities).not_to be_empty
-        # expect(activities.size).to eq(5)
-        expect(activities.first['key']).to eq('article.update')
+        expect(activities.first['key']).to eq('topic.create')
       end
     end
 

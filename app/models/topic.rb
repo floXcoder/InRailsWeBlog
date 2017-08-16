@@ -56,9 +56,10 @@ class Topic < ApplicationRecord
              counter_cache: true
 
   has_one :icon,
-          as:        :imageable,
-          autosave:  true,
-          dependent: :destroy
+          as:         :imageable,
+          class_name: 'Picture',
+          autosave:   true,
+          dependent:  :destroy
   accepts_nested_attributes_for :icon,
                                 allow_destroy: true,
                                 reject_if:     lambda {

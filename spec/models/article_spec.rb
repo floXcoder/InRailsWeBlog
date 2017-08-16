@@ -258,7 +258,7 @@ RSpec.describe Article, type: :model, basic: true do
   context 'Public Methods' do
     subject { Article }
 
-    let!(:private_article) { create(:article, user: @user, topic: @topic, visibility: 'only_me') }
+    let!(:private_article) { create(:article, user: @user, topic: @topic, visibility: 'only_me', draft: true) }
 
     let!(:other_user) { create(:user) }
     let!(:other_topic) { create(:topic, user: other_user) }
@@ -337,7 +337,7 @@ RSpec.describe Article, type: :model, basic: true do
     describe '::published' do
       it { is_expected.to respond_to(:published) }
       it { expect(Article.published).to include(@article) }
-      it { expect(Article.published).not_to include(other_article) }
+      it { expect(Article.published).not_to include(private_article) }
     end
 
     describe '::bookmarked_by_user' do

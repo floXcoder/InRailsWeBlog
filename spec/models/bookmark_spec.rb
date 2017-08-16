@@ -42,9 +42,9 @@ RSpec.describe Bookmark, type: :model, basic: true do
     it { is_expected.to validate_uniqueness_of(:user_id).scoped_to([:bookmarked_id, :bookmarked_type]).with_message(I18n.t('activerecord.errors.models.bookmark.already_bookmarked')) }
   end
 
-  context 'Properties' do
-    it { is_expected.to have_activity }
-  end
+  # context 'Properties' do
+  #   it { is_expected.to have_activity }
+  # end
 
   context 'Public Methods' do
     subject { Bookmark }

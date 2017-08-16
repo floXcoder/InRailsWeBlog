@@ -35,7 +35,7 @@ RSpec.describe Tag, type: :model, basic: true do
       name:        'Tag',
       description: 'Tag description',
       synonyms:    ['tagged'],
-      color:       'black',
+      color:       '#000000',
       priority:    1,
       visibility:  'only_me',
       archived:    false,
@@ -59,7 +59,6 @@ RSpec.describe Tag, type: :model, basic: true do
     it { is_expected.to respond_to(:archived) }
     it { is_expected.to respond_to(:accepted) }
     it { is_expected.to respond_to(:allow_comment) }
-    it { is_expected.to respond_to(:pictures_count) }
     it { is_expected.to respond_to(:tagged_articles_count) }
     it { is_expected.to respond_to(:bookmarks_count) }
     it { is_expected.to respond_to(:comments_count) }
@@ -67,13 +66,12 @@ RSpec.describe Tag, type: :model, basic: true do
     it { expect(@tag.name).to eq('Tag') }
     it { expect(@tag.description).to eq('Tag description') }
     it { expect(@tag.synonyms).to eq(['tagged']) }
-    it { expect(@tag.color).to eq('black') }
+    it { expect(@tag.color).to eq('#000000') }
     it { expect(@tag.priority).to eq(1) }
     it { expect(@tag.visibility).to eq('only_me') }
     it { expect(@tag.archived).to be false }
     it { expect(@tag.accepted).to be true }
     it { expect(@tag.allow_comment).to be true }
-    it { expect(@tag.pictures_count).to eq(0) }
     it { expect(@tag.tagged_articles_count).to eq(0) }
     it { expect(@tag.bookmarks_count).to eq(0) }
     it { expect(@tag.comments_count).to eq(0) }
@@ -92,7 +90,6 @@ RSpec.describe Tag, type: :model, basic: true do
       it { expect(@tag.archived).to be false }
       it { expect(@tag.accepted).to be true }
       it { expect(@tag.allow_comment).to be true }
-      it { expect(@tag.pictures_count).to eq(0) }
       it { expect(@tag.tagged_articles_count).to eq(0) }
       it { expect(@tag.bookmarks_count).to eq(0) }
       it { expect(@tag.comments_count).to eq(0) }
@@ -145,6 +142,14 @@ RSpec.describe Tag, type: :model, basic: true do
       it { is_expected.to have_enum(:visibility) }
       it { is_expected.to validate_presence_of(:visibility) }
     end
+
+    describe '#color' do
+      it 'set the default color' do
+        topic = Topic.create(user: @user, name: 'default color')
+
+        expect(topic.color).to eq('#e5e5e5')
+      end
+    end
   end
 
   context 'Associations' do
@@ -161,8 +166,8 @@ RSpec.describe Tag, type: :model, basic: true do
     it { is_expected.to have_many(:child_relationships) }
     it { is_expected.to have_many(:parents) }
 
-    it { is_expected.to have_one(:picture) }
-    it { is_expected.to accept_nested_attributes_for(:picture) }
+    it { is_expected.to have_one(:icon) }
+    it { is_expected.to accept_nested_attributes_for(:icon) }
 
     it { is_expected.to have_many(:bookmarks) }
     it { is_expected.to have_many(:user_bookmarks) }
@@ -170,6 +175,8 @@ RSpec.describe Tag, type: :model, basic: true do
   end
 
   context 'Properties' do
+    it { is_expected.to callback(:set_default_color).before(:create) }
+
     it { is_expected.to have_strip_attributes([:name, :color]) }
 
     it { is_expected.to have_friendly_id(:slug) }
@@ -185,14 +192,6 @@ RSpec.describe Tag, type: :model, basic: true do
     it { is_expected.to have_search(Tag) }
 
     it { is_expected.to act_as_paranoid(Tag) }
-
-    it 'uses counter cache for picture' do
-      picture = create(:picture, user: @user, imageable_type: 'Tag')
-      expect {
-        @tag.picture = picture
-        @tag.reload
-      }.to change(@tag, :pictures_count).by(1)
-    end
 
     it 'uses counter cache for outdated articles' do
       topic = create(:topic, user: @user)
