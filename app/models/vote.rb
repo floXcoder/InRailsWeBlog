@@ -17,8 +17,8 @@ class Vote < ApplicationRecord
   # == Attributes ===========================================================
 
   # == Extensions ===========================================================
-  include PublicActivity::Model
-  tracked owner: :voter, recipient: :voteable
+  # include PublicActivity::Model
+  # tracked owner: :voter, recipient: :voteable
 
   # == Relationships ========================================================
   belongs_to :voter,

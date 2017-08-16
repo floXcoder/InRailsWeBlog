@@ -7,6 +7,16 @@ GIT
       redis (~> 3)
 
 GIT
+  remote: https://github.com/chaps-io/public_activity.git
+  revision: aff5b50ff474c9434e619c0fb0f8daa6acf47655
+  specs:
+    public_activity (2.0)
+      actionpack (>= 3.0.0)
+      activerecord (>= 3.0)
+      i18n (>= 0.5.0)
+      railties (>= 3.0.0)
+
+GIT
   remote: https://github.com/davydovanton/sidekiq-statistic.git
   revision: f7476c9a9ab30a1988ae4127e256c63f38f782e1
   specs:
@@ -474,11 +484,6 @@ GEM
     pry-rails (0.3.6)
       pry (>= 0.10.4)
     ptools (1.3.4)
-    public_activity (1.5.0)
-      actionpack (>= 3.0.0)
-      activerecord (>= 3.0)
-      i18n (>= 0.5.0)
-      railties (>= 3.0.0)
     public_suffix (2.0.5)
     puma (3.9.1)
     pundit (1.1.0)
@@ -775,7 +780,7 @@ DEPENDENCIES
   passenger (~> 5)
   pg (= 0.21.0)
   pry-rails (= 0.3.6)
-  public_activity (= 1.5.0)
+  public_activity!
   puma (= 3.9.1)
   pundit (= 1.1.0)
   rack-attack (= 5.0.1)

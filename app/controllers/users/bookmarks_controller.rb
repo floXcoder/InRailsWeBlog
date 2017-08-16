@@ -32,6 +32,8 @@ class Users::BookmarksController < ApplicationController
     respond_to do |format|
       format.json do
         if bookmark.remove(user, bookmark_params[:model_type], bookmark_params[:model_id])
+          record.create_activity(action: :unbookmark, owner: current_user) if record.respond_to?(:create_activity)
+
           render json:   bookmark,
                  status: :accepted
         else

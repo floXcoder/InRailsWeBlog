@@ -16,8 +16,8 @@ class Bookmark < ApplicationRecord
   # == Attributes ===========================================================
 
   # == Extensions ===========================================================
-  include PublicActivity::Model
-  tracked owner: :user, recipient: :bookmarked
+  # include PublicActivity::Model
+  # tracked owner: :user, recipient: :bookmarked
 
   # == Relationships ========================================================
   belongs_to :user
@@ -64,6 +64,8 @@ class Bookmark < ApplicationRecord
         errors.add(:base, I18n.t('activerecord.errors.models.bookmark.already_bookmarked'))
         return false
       else
+        related_object.create_activity(action: :bookmarked, owner: user) if related_object.respond_to?(:create_activity)
+
         self.user_id         = user.id
         self.bookmarked_id   = model_id
         self.bookmarked_type = model_name.classify
@@ -87,6 +89,8 @@ class Bookmark < ApplicationRecord
         errors.add(:bookmark, I18n.t('activerecord.errors.models.bookmark.not_bookmarked'))
         return false
       else
+        related_object.create_activity(action: :unbookmarked, owner: user) if related_object.respond_to?(:create_activity)
+
         return !!self.destroy
       end
     else

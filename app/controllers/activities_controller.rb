@@ -5,11 +5,20 @@ class ActivitiesController < ApplicationController
   respond_to :json
 
   def index
-    activities = PublicActivity::Activity.order('created_at desc')
+    activities = if params[:user_id]
+                   PublicActivity::Activity.where(owner_id: params[:user_id], owner_type: 'User')
+                 else
+                   PublicActivity::Activity.all
+                 end
+
+    activities = activities.order('created_at desc')
+
+    activities = params[:limit] ? activities.limit(params[:limit]) : activities.paginate(page: params[:page], per_page: CONFIG.per_page)
 
     respond_to do |format|
       format.json do
-        render json: activities
+        render json: activities,
+               meta: meta_attributes(activities)
       end
     end
   end

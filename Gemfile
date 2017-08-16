@@ -42,7 +42,7 @@ gem 'paper_trail',              '7.1.0'
 gem 'paranoia',                 '2.3.1'
 
 # User activities
-gem 'public_activity',          '1.5.0'
+gem 'public_activity',          github: 'chaps-io/public_activity'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.1.0'
