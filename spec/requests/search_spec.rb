@@ -6,8 +6,8 @@ describe 'Search API', type: :request, basic: true do
     @user  = create(:user)
     @topic = create(:topic, user: @user)
 
-    @tags = create_list(:tag, 5, user: @user)
-    @articles = create_list(:article, 5, user: @user, topic: @topic)
+    @tags = create_list(:tag, 5, user: @user) # Tags are generated with "tag" in name
+    @articles = create_list(:article, 5, user: @user, topic: @topic, title: 'article name')
 
     Article.reindex
     Tag.reindex
@@ -23,20 +23,24 @@ describe 'Search API', type: :request, basic: true do
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
-
         expect(results).not_to be_empty
+        expect(results['query']).to be_nil
+        expect(results['articles'].size).to be >= 5
+        expect(results['tags'].size).to be >= 5
       end
     end
 
     context 'when query is set' do
-      it 'returns results containing the query for article' do
-        get '/search', params: { search: { query: 'a' } }, as: :json
+      it 'returns results containing the query for articles' do
+        get '/search', params: { search: { query: 'article' } }, as: :json
 
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
-
-        expect(results).not_to be_empty
+        expect(results['query']).to eq('article')
+        expect(results['articles'].size).to eq(5)
+        expect(results['total_count']['articles']).to eq(5)
+        expect(results['total_pages']['articles']).to eq(1)
       end
     end
   end
@@ -49,20 +53,29 @@ describe 'Search API', type: :request, basic: true do
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
-
-        # expect(results['articles']).not_to be_empty
+        expect(results).to be_empty
       end
     end
 
     context 'when query is set' do
-      it 'returns the autocompletion result' do
-        get '/search/autocomplete', params: { search: { query: 'ar' } }, as: :json
+      it 'returns the autocompletion result for articles' do
+        get '/search/autocomplete', params: { search: { query: 'art' } }, as: :json
 
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
-
         expect(results['articles']).not_to be_empty
+        expect(results['articles'].size).to be > 1
+      end
+
+      it 'returns the autocompletion result for tags' do
+        get '/search/autocomplete', params: { search: { query: 'ta' } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+        expect(results['tags']).not_to be_empty
+        expect(results['tags'].size).to be > 1
       end
     end
   end

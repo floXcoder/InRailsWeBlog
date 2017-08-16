@@ -12,6 +12,7 @@ class SearchController < ApplicationController
 
     search_options = {}
 
+    # TODO
     # params[:search_options] = {} if !search_params[:search_options] || search_params[:search_options].is_a?(String)
     # if current_user && (user_settings = User.find(current_user.id))
     #   search_options[:highlight] = user_settings.settings[:search_highlight]
@@ -31,6 +32,8 @@ class SearchController < ApplicationController
                                            current_user_id:  current_user&.id,
                                            current_topic_id: current_user&.current_topic_id,
                                            where:            {
+                                             draft:      search_params[:draft],
+                                             language:   search_params[:language],
                                              notation:   search_params[:notation],
                                              accepted:   search_params[:accepted],
                                              home_page:  search_params[:home_page],
@@ -80,6 +83,8 @@ class SearchController < ApplicationController
     search_results[:aggregations] = aggregations
     search_results[:total_count]  = total_count
     search_results[:total_pages]  = total_pages
+
+    current_user&.create_activity(:search, params: { query: search_params[:query], count: total_count })
 
     respond_to do |format|
       format.json { render json: search_results }
@@ -131,6 +136,8 @@ class SearchController < ApplicationController
                                      :limit,
                                      :query,
                                      :rating,
+                                     :draft,
+                                     :language,
                                      :notation,
                                      :visibility,
                                      :accepted,
@@ -146,16 +153,16 @@ class SearchController < ApplicationController
     end
   end
 
-  def search_type(type, current_type)
-    return true unless current_type
+  def search_type(type, current_type, options = {})
+    (return options[:strict] ? false : true) unless current_type
 
     if current_type.is_a? Array
-      return current_type.map(&:downcase).include?(type.downcase)
+      return current_type.map(&:downcase).include?(type.to_s.downcase)
     else
-      if type.casecmp(current_type).zero?
+      if type.to_s.casecmp(current_type).zero?
         return true
       else
-        return !%w[article tag].include?(current_type.downcase)
+        return !%w[article tag].include?(current_type.to_s.downcase)
       end
     end
   end
