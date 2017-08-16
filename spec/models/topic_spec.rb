@@ -32,7 +32,7 @@ RSpec.describe Topic, type: :model, basic: true do
       user:        @user,
       name:        'Topic',
       description: 'Topic description',
-      color:       'black',
+      color:       '#000000',
       priority:    1,
       visibility:  'everyone',
       archived:    false,
@@ -54,18 +54,16 @@ RSpec.describe Topic, type: :model, basic: true do
     it { is_expected.to respond_to(:visibility) }
     it { is_expected.to respond_to(:archived) }
     it { is_expected.to respond_to(:accepted) }
-    it { is_expected.to respond_to(:pictures_count) }
     it { is_expected.to respond_to(:articles_count) }
     it { is_expected.to respond_to(:bookmarks_count) }
 
     it { expect(@topic.name).to eq('Topic') }
     it { expect(@topic.description).to eq('Topic description') }
-    it { expect(@topic.color).to eq('black') }
+    it { expect(@topic.color).to eq('#000000') }
     it { expect(@topic.priority).to eq(1) }
     it { expect(@topic.visibility).to eq('everyone') }
     it { expect(@topic.archived).to be false }
     it { expect(@topic.accepted).to be true }
-    it { expect(@topic.pictures_count).to eq(0) }
     it { expect(@topic.articles_count).to eq(0) }
     it { expect(@topic.bookmarks_count).to eq(0) }
 
@@ -81,7 +79,6 @@ RSpec.describe Topic, type: :model, basic: true do
       it { expect(@topic.visibility).to eq('everyone') }
       it { expect(@topic.archived).to be false }
       it { expect(@topic.accepted).to be true }
-      it { expect(@topic.pictures_count).to eq(0) }
       it { expect(@topic.articles_count).to eq(0) }
       it { expect(@topic.bookmarks_count).to eq(0) }
     end
@@ -100,6 +97,14 @@ RSpec.describe Topic, type: :model, basic: true do
       it { is_expected.to have_enum(:visibility) }
       it { is_expected.to validate_presence_of(:visibility) }
     end
+
+    describe '#color' do
+      it 'set the default color' do
+        topic = Topic.create(user: @user, name: 'default color')
+
+        expect(topic.color).to eq('#e5e5e5')
+      end
+    end
   end
 
   context 'Associations' do
@@ -116,11 +121,13 @@ RSpec.describe Topic, type: :model, basic: true do
     it { is_expected.to have_many(:user_bookmarks) }
     it { is_expected.to have_many(:follower) }
 
-    it { is_expected.to have_one(:picture) }
-    it { is_expected.to accept_nested_attributes_for(:picture) }
+    it { is_expected.to have_one(:icon) }
+    it { is_expected.to accept_nested_attributes_for(:icon) }
   end
 
   context 'Properties' do
+    it { is_expected.to callback(:set_default_color).before(:create) }
+
     it { is_expected.to have_friendly_id(:slug) }
 
     it { is_expected.to have_activity }
@@ -132,14 +139,6 @@ RSpec.describe Topic, type: :model, basic: true do
     it { is_expected.to have_search(Topic) }
 
     it { is_expected.to act_as_paranoid(Topic) }
-
-    it 'uses counter cache for picture' do
-      picture = create(:picture, user: @user, imageable_type: 'Topic')
-      expect {
-        @topic.picture = picture
-        @topic.reload
-      }.to change(@topic, :pictures_count).by(1)
-    end
 
     it 'uses counter cache for articles' do
       article = create(:article, user: @user, topic: @topic)
@@ -244,7 +243,7 @@ RSpec.describe Topic, type: :model, basic: true do
 
     describe '::filter_by' do
       it { is_expected.to respond_to(:filter_by) }
-      it { expect(Topic.filter_by(Topic.all, {accepted: true})).to include(@topic) }
+      it { expect(Topic.filter_by(Topic.all, { accepted: true })).to include(@topic) }
     end
 
     describe '::order_by' do

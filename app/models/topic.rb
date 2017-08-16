@@ -55,11 +55,11 @@ class Topic < ApplicationRecord
   belongs_to :user,
              counter_cache: true
 
-  has_one :picture,
+  has_one :icon,
           as:        :imageable,
           autosave:  true,
           dependent: :destroy
-  accepts_nested_attributes_for :picture,
+  accepts_nested_attributes_for :icon,
                                 allow_destroy: true,
                                 reject_if:     lambda {
                                   |picture| picture['picture'].blank? && picture['image_tmp'].blank?
@@ -128,6 +128,7 @@ class Topic < ApplicationRecord
         -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
+  before_create :set_default_color
 
   # == Class Methods ========================================================
   # Article Search
@@ -322,8 +323,8 @@ class Topic < ApplicationRecord
       self.description = Sanitize.fragment(attributes.delete(:description))
     end
 
-    unless attributes[:picture].nil?
-      self.build_picture(image: attributes.delete(:picture))
+    unless attributes[:icon].nil?
+      self.build_icon(image: attributes.delete(:icon))
     end
 
     self.assign_attributes(attributes)
@@ -362,6 +363,12 @@ class Topic < ApplicationRecord
   # SEO
   def meta_description
     [self.name, self.description.summary(60)].join(I18n.t('helpers.colon'))
+  end
+
+  private
+
+  def set_default_color
+    self.color = '#e5e5e5' unless self.color
   end
 
 end
