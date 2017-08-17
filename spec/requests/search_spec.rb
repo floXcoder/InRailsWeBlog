@@ -6,8 +6,8 @@ describe 'Search API', type: :request, basic: true do
     @user  = create(:user)
     @topic = create(:topic, user: @user)
 
-    @tags = create_list(:tag, 5, user: @user) # Tags are generated with "tag" in name
-    @articles = create_list(:article, 5, user: @user, topic: @topic, title: 'article name')
+    @tags = create_list(:tag, 5, user: @user, visibility: 'everyone') # Tags are generated with "tag" in name
+    @articles = create_list(:article, 5, user: @user, topic: @topic, title: 'article name', visibility: 'everyone')
 
     Article.reindex
     Tag.reindex

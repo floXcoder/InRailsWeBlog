@@ -256,6 +256,7 @@ class Article < ApplicationRecord
     where_options        ||= {}
 
     where_options[:tags] = { all: options[:tags] } if options[:tags]
+    where_options[:topics] = { all: options[:topics] } if options[:topics]
 
     # Aggregations
     aggregations = {
