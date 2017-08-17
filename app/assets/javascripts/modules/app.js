@@ -22,7 +22,7 @@ class App {
     }
 
     isUserLoaded() {
-        return !!this.user.current;
+        return !$.isEmpty(this.user.current);
     }
 
     getCurrentTopic() {

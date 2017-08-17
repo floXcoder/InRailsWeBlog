@@ -77,11 +77,9 @@ export default class TagSidebar extends Reflux.Component {
         }
     }
 
-    _handleSearchInput = (event) => {
-        const filterText = event.target.value;
-
+    _handleSearchInput = (value) => {
         this.setState({
-            filterText: filterText
+            filterText: value
         });
     };
 

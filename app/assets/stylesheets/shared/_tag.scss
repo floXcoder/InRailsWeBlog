@@ -1,69 +1,12 @@
 .blog {
   .blog-sidebar-tag {
-    margin-top: 20px;
     margin-bottom: 35px;
+    margin-top: 20px;
     padding: 0 15px;
 
     .tag-search {
-      padding: 5px 0;
-      display: inline-block;
+      display: block;
       position: relative;
-      height: 60px;
-      float: right;
-      margin-bottom: 1rem;
-
-      input[type="text"] {
-        height: 45px;
-        font-size: 1.4rem;
-        display: inline-block;
-        font-weight: 400;
-        border: none;
-        outline: none;
-        color: #555;
-        padding: 3px;
-        padding-right: 60px;
-        width: 0;
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: none;
-        z-index: 3;
-        transition: width .4s cubic-bezier(0.000, 0.795, 0.000, 1.000);
-        cursor: pointer;
-      }
-
-      input[type="text"]:focus:hover {
-        border-bottom: 1px solid #BBB;
-      }
-
-      input[type="text"]:focus {
-        width: 170px;
-        z-index: 1;
-        border-bottom: 1px solid #BBB;
-        cursor: text;
-      }
-
-      input[type="submit"] {
-        height: 45px;
-        width: 63px;
-        display: inline-block;
-        color:red;
-        float: right;
-        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRFU1NT9fX1lJSUXl5e1dXVfn5+c3Nz6urqv7+/tLS0iYmJqampn5+fysrK39/faWlp////Vi4ZywAAABF0Uk5T/////////////////////wAlrZliAAABLklEQVR42rSWWRbDIAhFHeOUtN3/ags1zaA4cHrKZ8JFRHwoXkwTvwGP1Qo0bYObAPwiLmbNAHBWFBZlD9j0JxflDViIObNHG/Do8PRHTJk0TezAhv7qloK0JJEBh+F8+U/hopIELOWfiZUCDOZD1RADOQKA75oq4cvVkcT+OdHnqqpQCITWAjnWVgGQUWz12lJuGwGoaWgBKzRVBcCypgUkOAoWgBX/L0CmxN40u6xwcIJ1cOzWYDffp3axsQOyvdkXiH9FKRFwPRHYZUaXMgPLeiW7QhbDRciyLXJaKheCuLbiVoqx1DVRyH26yb0hsuoOFEPsoz+BVE0MRlZNjGZcRQyHYkmMp2hBTIzdkzCTc/pLqOnBrk7/yZdAOq/q5NPBH1f7x7fGP4C3AAMAQrhzX9zhcGsAAAAASUVORK5CYII=) center center no-repeat;
-        text-indent: -10000px;
-        border: none;
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 2;
-        cursor: pointer;
-        opacity: 0.4;
-        transition: opacity .4s ease;
-      }
-
-      input[type="submit"]:hover {
-        opacity: 0.8;
-      }
     }
 
     a {
@@ -73,30 +16,30 @@
 
     .tag-parent {
       clear: both;
-      line-height: 28px;
       font-weight: normal;
+      line-height: 28px;
       margin-bottom: 14px;
 
       .tag-parent-icon {
-        width: 28px;
-        height: 28px;
+        color: #888;
         float: left;
-        margin-right: 4px;
         font-size: 1.8rem;
-        color: #888888;
         font-weight: 300;
+        height: 28px;
+        margin-right: 4px;
+        width: 28px;
       }
 
       .tag-parent-name {
+        color: rgba(0, 0, 0, .63);
         cursor: pointer;
-        text-align: left;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        font-size: 1.2rem;
+        font-weight: 700;
         max-width: 180px;
         overflow: hidden;
-        font-size: 1.2rem;
-        color: rgba(0, 0, 0, 0.63);
-        font-weight: 700;
+        text-align: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .tag-parent-children {
@@ -106,21 +49,21 @@
 
     .tag-child {
       clear: both;
-      line-height: 28px;
       font-weight: normal;
+      line-height: 28px;
       margin-bottom: 8px;
 
       .tag-child-name {
+        color: rgba(0, 0, 0, .63);
         cursor: pointer;
-        text-align: left;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        max-width: 180px;
-        overflow: hidden;
         font-size: 1rem;
         font-weight: 500;
         line-height: 28px;
-        color: rgba(0, 0, 0, 0.63)
+        max-width: 180px;
+        overflow: hidden;
+        text-align: left;
+        text-overflow: ellipsis;
+        white-space: nowrap
       }
     }
   }
@@ -129,8 +72,8 @@
     padding: 5px;
 
     .article-tag {
-      color: black;
       background-color: #fafafa;
+      color: #000;
       margin: 5px;
 
       &.tag-active {
@@ -138,7 +81,7 @@
 
       &.tag-inactive {
         background-color: #e0e0e0;
-        color: white;
+        color: #fff;
       }
     }
   }

@@ -70,7 +70,7 @@ class UserProfileSerializer < ActiveModel::Serializer
   end
 
   has_many :tags, each_serializer: TagSerializer do
-    Tag.includes(:parents, :children).for_user_topic(object.id, object.current_topic_id).order('tags.name')
+    Tag.includes(:parents, :children).for_user_topic(object.id, object.current_topic_id).order('tags.priority', 'tags.name')
   end
 
   def articles_count

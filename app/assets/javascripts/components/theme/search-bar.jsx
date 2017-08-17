@@ -2,32 +2,31 @@
 
 import Input from '../materialize/input';
 
-const SearchBar = ({label, children, onUserInput}) => (
+const SearchBar = ({label, children, onSearchInput}) => (
     <form className="tag-search"
-          onSubmit={SearchBar._handleSubmit}>
+          onSubmit={_handleSubmit}>
         <Input id="filter-text-input"
                title={label}
-               onChange={(event) => SearchBar._handleSearchChange(onUserInput, event)}/>
+               onChange={_handleSearchChange.bind(undefined, onSearchInput)}/>
     </form>
 );
 
-SearchBar._handleSearchChange = (onUserInput, event) => {
-    onUserInput(event.target.value);
+const _handleSearchChange = (onSearchInput, value) => {
+    onSearchInput(value);
 };
 
-SearchBar._handleSubmit = () => {
+const _handleSubmit = () => {
     return false;
 };
 
 SearchBar.propTypes = {
     label: PropTypes.string.isRequired,
-    children: PropTypes.string,
-    onUserInput: PropTypes.func
+    onSearchInput: PropTypes.func.isRequired,
+    children: PropTypes.string
 };
 
 SearchBar.defaultProps = {
-    children: null,
-    onUserInput: null
+    children: null
 };
 
 export default SearchBar;
