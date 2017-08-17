@@ -2,10 +2,9 @@
 
 import _ from 'lodash';
 
-import ArticleActions from '../../actions/articleActions';
+import SearchActions from '../../actions/searchActions';
 
-import ArticleStore from '../../stores/articleStore';
-import UserStore from '../../stores/userStore';
+import SearchStore from '../../stores/searchStore';
 
 import Tokenizer from '../../components/autocomplete/tokenizer';
 
@@ -19,8 +18,7 @@ export default class SearchModule extends Reflux.Component {
 
         this._typeahead = null;
 
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
-        this.mapStoreToState(UserStore, this.onSearchChange);
+        this.mapStoreToState(SearchStore, this.onSearchChange);
     }
 
     state = {
@@ -66,24 +64,26 @@ export default class SearchModule extends Reflux.Component {
         });
     };
 
-    onSearchChange(userData) {
-        if (!$.isEmpty(userData.search)) {
-            this._handleSubmit(null, userData.search);
-        }
-    }
+    // TODO: utility ?
+    // this.mapStoreToState(UserStore, this.onSearchChange);
+    // onSearchChange(userData) {
+    //     if (!$.isEmpty(userData.search)) {
+    //         this._handleSubmit(null, userData.search);
+    //     }
+    // }
 
-    onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
+    onSearchChange(searchData) {
+        if ($.isEmpty(searchData)) {
             return;
         }
 
         let newState = {};
 
-        if (!$.isEmpty(articleData.autocompletion)) {
+        if (searchData.type === 'autocomplete') {
             let autocompletionValues = [];
             let tags = [];
 
-            articleData.autocompletion.articles.forEach((autocompleteValue) => {
+            searchData.autocompleteResults.articles.forEach((autocompleteValue) => {
                 autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
                 autocompleteValue.tags.forEach((tag) => {
                     tags.push(tag.name);
@@ -98,15 +98,17 @@ export default class SearchModule extends Reflux.Component {
             newState.autocompleteValues = autocompletionValues;
         }
 
-        if (!$.isEmpty(articleData.suggestions)) {
-            newState.suggestions = articleData.suggestions;
-        } else if (!$.isEmpty(this.state.suggestions)) {
-            newState.suggestions = [];
-        }
+        // TODO
+        // if (!$.isEmpty(searchData.suggestions)) {
+        //     newState.suggestions = searchData.suggestions;
+        // } else if (!$.isEmpty(this.state.suggestions)) {
+        //     newState.suggestions = [];
+        // }
 
-        if (articleData.paramsFromUrl) {
-            this._activateSearch(articleData.paramsFromUrl);
-        }
+        // TODO: get from history
+        // if (searchData.paramsFromUrl) {
+        //     this._activateSearch(searchData.paramsFromUrl);
+        // }
 
         if (!$.isEmpty(newState)) {
             this.setState(newState);
@@ -127,7 +129,7 @@ export default class SearchModule extends Reflux.Component {
         let entryValue = this._typeahead.getEntryText().trim();
 
         if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
-            ArticleActions.autocompleteArticles({autocompleteQuery: entryValue});
+            SearchActions.autocomplete('global', entryValue);
         }
 
         let pressedKey = $.NAVIGATION_KEYMAP[event.which];
@@ -167,7 +169,7 @@ export default class SearchModule extends Reflux.Component {
                 request.searchOptions = searchOptions;
             }
 
-            ArticleActions.searchArticles(request);
+            SearchActions.search(request);
 
             this._toggleSearchNav();
             this.setState({

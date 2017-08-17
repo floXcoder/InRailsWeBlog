@@ -2,8 +2,6 @@
 
 export default Reflux.createActions([
     'loadArticles',
-    'searchArticles',
-    'autocompleteArticles',
     'loadArticle',
     'addArticle',
     'updateArticle',

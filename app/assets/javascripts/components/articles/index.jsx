@@ -4,7 +4,8 @@ import _ from 'lodash';
 
 import Spinner from '../../components/materialize/spinner';
 
-import UserStore from '../../stores/userStore';
+// TODO: utility ?
+// import UserStore from '../../stores/userStore';
 
 import ArticleActions from '../../actions/articleActions';
 import ArticleStore from '../../stores/articleStore';
@@ -21,6 +22,7 @@ export default class ArticleIndex extends Reflux.Component {
     constructor(props) {
         super(props);
 
+        // TODO: add search store to receive results
         this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
 

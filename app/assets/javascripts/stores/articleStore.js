@@ -129,37 +129,6 @@ export default class ArticleStore extends mix(Reflux.Store).with(Errors, Tracker
         });
     }
 
-    onSearchArticles(data) {
-        if ($.isEmpty(data)) {
-            log.error('Tried to search for articles without data');
-            return;
-        }
-
-        this._fetchArticles(data, (dataReceived) => {
-            this.trigger({
-                type: 'searchArticles',
-                articles: dataReceived.articles
-            });
-
-            _paq.push(['trackSiteSearch', data.query, 'Search', this.articleData.length]);
-        });
-    }
-
-    onAutocompleteArticles(data) {
-        if ($.isEmpty(data) || $.isEmpty(data.autocompleteQuery)) {
-            log.error('Tried to autocomplete articles without data');
-            return;
-        }
-
-        this._fetchArticles(data, (dataReceived) => {
-            // this.trigger({autocompletion: this.autocompleteValues});
-            this.trigger({
-                type: 'autocompleteArticles',
-                autocompletion: dataReceived
-            });
-        });
-    }
-
     onLoadArticle(data) {
         if ($.isEmpty(data) && (!data.id || !data.slug)) {
             log.error('Tried to load article without data');
