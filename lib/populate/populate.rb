@@ -46,55 +46,71 @@ class Populate
     return users
   end
 
-  def self.add_profile_picture_to(users, user_number = 1)
+  # def self.add_profile_picture_to(users, user_number = 1)
+  #   users = [users] if users.is_a?(User)
+  #
+  #   User.transaction do
+  #     users.sample(user_number).each do |user|
+  #       user.create_picture(user: user, remote_image_url: Faker::Avatar.image(nil, '50x50'))
+  #     end
+  #   end
+  # end
+
+  def self.create_dummy_topics_for(users, topic_number_per_user)
     users = [users] if users.is_a?(User)
 
-    User.transaction do
-      users.sample(user_number).each do |user|
-        user.create_picture(user: user, remote_image_url: Faker::Avatar.image(nil, '50x50'))
+    topics = []
+    Topic.transaction do
+      users.each do |user|
+        topics_name = []
+        while topics_name.size < topic_number_per_user * users.count
+          topics_name << [Faker::Ancient.god, Faker::App.name, Faker::Book.title, Faker::Cat.name, Faker::Company.name, Faker::Dessert.variety, Faker::Food.dish, Faker::Hipster.word, Faker::Lorem.word, Faker::Team.creature].sample
+          topics_name.uniq!
+        end
+
+        topics << Array.new(topic_number_per_user) do |n|
+          FactoryGirl.create(:topic,
+                             user:       user,
+                             visibility: rand(0..1),
+                             name:       topics_name[n].mb_chars.capitalize.to_s)
+        end
       end
     end
+
+    return topics.flatten
   end
 
-  def self.create_dummy_topics(user, topic_number)
-    topics_name = []
+  def self.create_dummy_tags_for(users, tags_number_per_user, options = {})
+    users = [users] if users.is_a?(User)
 
-    while topics_name.size < topic_number
-      topics_name << Faker::Hacker.noun
-      topics_name.uniq!
-    end
-
-    topics = Array.new(topic_number) do |n|
-      FactoryGirl.create(:topic,
-                         user:       user,
-                         visibility: rand(0..1),
-                         name:       topics_name[n].mb_chars.capitalize.to_s)
-    end
-
-    return topics
-  end
-
-  def self.create_dummy_tags(user, tags_number)
     tags_name = []
-
-    while tags_name.size < tags_number
-      tags_name << [Faker::Hacker.adjective, Faker::Hacker.verb, Faker::Hacker.noun, Faker::Hacker.abbreviation, Faker::Hacker.verb].sample
+    while tags_name.size < tags_number_per_user * users.count + 1
+      tags_name << [Faker::Hacker.adjective, Faker::Hacker.verb, Faker::Hacker.noun, Faker::Hacker.abbreviation, Faker::Hacker.verb, Faker::StarWars.character, Faker::Superhero.name, Faker::Team.name].sample.capitalize
+      tags_name -= options[:exclude_tag_names] if options[:exclude_tag_names]
       tags_name.uniq!
     end
 
-    tags = Array.new(tags_number) do |n|
-      FactoryGirl.create(:tag,
-                         user:       user,
-                         visibility: rand(0..1),
-                         name:       tags_name[n].mb_chars.capitalize.to_s)
+    tags      = []
+    tag_index = 0
+    Tag.transaction do
+      users.each do |user|
+        tags << Array.new(tags_number_per_user) do |_n|
+          tag_index += 1
+          FactoryGirl.create(:tag,
+                             user:       user,
+                             visibility: options[:visibility] || rand(0..1),
+                             name:       tags_name[tag_index].mb_chars.capitalize.to_s)
+        end
+      end
     end
 
-    return tags
+    return tags.flatten
   end
 
   def self.create_dummy_articles_for(users, tags, articles_by_users_and_topics)
+    users = [users] if users.is_a?(User)
+
     articles = []
-    users    = [users] if users.is_a?(User)
 
     users.each do |user|
       articles_number = if articles_by_users_and_topics.is_a?(Range)
@@ -125,6 +141,21 @@ class Populate
     end
 
     return articles.flatten
+  end
+
+  def self.create_article_relationships_for(articles, user, relationship_number)
+    article_relationships = []
+    ArticleRelationship.transaction do
+      articles.sample(relationship_number).each do |article|
+        article_relationships << FactoryGirl.create(:article_relationship,
+                                                    user:   user,
+                                                    parent: article,
+                                                    child:  articles.sample
+        )
+      end
+    end
+
+    return article_relationships
   end
 
   def self.create_comments_for(articles, users, comment_number)

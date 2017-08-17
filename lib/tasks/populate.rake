@@ -26,37 +26,39 @@ namespace :InRailsWeBlog do
         main_user ||= User.first
 
         # Create users
-        users     = Populate::create_dummy_users(10)
+        other_users = Populate::create_dummy_users(10)
         # Populate::add_profile_picture_to(users, 5)
 
         # Create topics
-        topics    = Populate::create_dummy_topics(main_user, 5)
+        topics = Populate::create_dummy_topics_for([main_user, *other_users], 5)
 
-        # Create tags
-        tags      = Populate::create_dummy_tags(main_user, 30)
+        # Create common public tags
+        common_tags = Populate::create_dummy_tags_for([main_user, *other_users], 5, visibility: 'everyone')
+        # Create personal tags for each user
+        personal_tags = Populate::create_dummy_tags_for([main_user, *other_users], 15, visibility: 'only_me', exclude_tag_names: common_tags.map(&:name))
 
         # Create articles with tags
-        articles  = Populate::create_dummy_articles_for(main_user, tags, 15)
-        articles  += Populate::create_dummy_articles_for(users, tags, 5..15)
+        main_articles  = Populate::create_dummy_articles_for(main_user, common_tags + personal_tags, 40)
+        other_articles = Populate::create_dummy_articles_for(other_users, common_tags + personal_tags, 5..15)
 
-        # # Create tag relationships from tagged articles
-        # Populate::create_tag_relationships_for(articles.sample(120))
+        # Creation relationships between articles
+        Populate::create_article_relationships_for(main_articles, main_user, 10)
 
         # Create comments for articles
-        Populate::create_comments_for(articles, main_user, 1..10)
-        Populate::create_comments_for(articles, users, 1..15)
+        Populate::create_comments_for(other_articles, main_user, 1..10)
+        Populate::create_comments_for(main_articles, other_users, 1..15)
 
         # Create bookmarks for articles
-        Populate::create_bookmarks_for(articles, main_user, 1..10)
-        Populate::create_bookmarks_for(articles, users, 1..10)
+        Populate::create_bookmarks_for(other_articles, main_user, 1..10)
+        Populate::create_bookmarks_for(main_articles, other_users, 1..10)
 
         # Add votes for articles
-        Populate::add_votes_for(articles, main_user, 5..15)
-        Populate::add_votes_for(articles, users, 5..15)
+        Populate::add_votes_for(other_articles, main_user, 5..15)
+        Populate::add_votes_for(main_articles, other_users, 5..15)
 
         # Marked as outdated for articles
-        Populate::marked_as_outdated_for(articles, main_user, 1..3)
-        Populate::marked_as_outdated_for(articles, users, 1..3)
+        Populate::marked_as_outdated_for(other_articles, main_user, 1..3)
+        Populate::marked_as_outdated_for(main_articles, other_users, 1..3)
 
         # Create activities for article, users and tags
         Populate::create_activities_for_articles

@@ -33,6 +33,9 @@
     <inspection_tool class="NodeModulesDependencies" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="RailsChecklist01" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="RubocopInspection" enabled="true" level="SERVER PROBLEM" enabled_by_default="true" />
+    <inspection_tool class="RubyParameterNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="m_maxLength" value="30" />
+    </inspection_tool>
     <inspection_tool class="RubyUnnecessaryReturnStatement" enabled="false" level="WARNING" enabled_by_default="false" />
   </profile>
 </component>
