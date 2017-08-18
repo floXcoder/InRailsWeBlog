@@ -500,9 +500,7 @@ html {
   line-height: 14px;
   margin-bottom: 7px;
   margin-top: 7px;
-  padding: 2px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding: 2px 8px;
 }
 
 .sidebar:hover {
@@ -516,10 +514,6 @@ html {
 .sidebar-pin {
   overflow: auto;
   transform: translate(0);
-}
-
-.label-pin {
-  //opacity: 0;
 }
 
 .clicktopin {
@@ -537,6 +531,11 @@ html {
   top: 0;
   transition: opacity .2s linear;
   width: 50px;
+
+  &.label-pin {
+    opacity: 0;
+    display: none;
+  }
 
   .material-icons {
     font-size: 2rem;
