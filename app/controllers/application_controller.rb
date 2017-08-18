@@ -36,14 +36,14 @@ class ApplicationController < ActionController::Base
         session[:locale]
       elsif defined?(current_user) && current_user
         current_user.locale
-      elsif request.location&.present? && !request.location.country_code.empty?
-        if %w(FR BE CH).any? { |country_code| request.location.country_code.casecmp(country_code).zero? }
-          :fr
-        else
-          :en
-        end
-      elsif http_accept_language.compatible_language_from(I18n.available_locales)
-        http_accept_language.compatible_language_from(I18n.available_locales)
+        # elsif request.location&.present? && !request.location.country_code.empty?
+        #   if %w[FR BE CH].any? { |country_code| request.location.country_code.casecmp(country_code).zero? }
+        #     :fr
+        #   else
+        #     :en
+        #   end
+        # elsif http_accept_language.compatible_language_from(I18n.available_locales)
+        #   http_accept_language.compatible_language_from(I18n.available_locales)
       else
         :fr
       end
