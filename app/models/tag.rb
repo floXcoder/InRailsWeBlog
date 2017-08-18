@@ -165,8 +165,8 @@ class Tag < ApplicationRecord
                                   current_user_id: current_user_id)
   }
 
-  scope :for_user_topic, -> (user_id, topic_id) {
-    includes(:tagged_articles).where(user_id: user_id, tagged_articles: { topic_id: topic_id })
+  scope :for_topic, -> (topic_id) {
+    joins(:tagged_articles).merge(TaggedArticle.where(topic_id: topic_id)).distinct
   }
 
   scope :most_used, -> (limit = 20) { order('tagged_articles_count desc').limit(limit) }
@@ -377,7 +377,7 @@ class Tag < ApplicationRecord
   def self.filter_by(records, filter, current_user = nil)
     records = records.where(id: filter[:tag_ids]) if filter[:tag_ids]
 
-    records = records.for_user_topic(filter[:user_id], filter[:topic_id]) if filter[:user_id] && filter[:topic_id]
+    records = records.for_topic(filter[:topic_id]) if filter[:topic_id]
 
     records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
 

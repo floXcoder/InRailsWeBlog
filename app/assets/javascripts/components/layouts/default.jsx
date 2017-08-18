@@ -1,5 +1,7 @@
 'use strict';
 
+import TopicStore from '../../stores/topicStore';
+
 import HeaderLayout from './header';
 import SidebarLayout from './sidebar';
 import FooterLayout from './footer';
@@ -11,7 +13,7 @@ import {
 import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
 
-export default class DefaultLayout extends React.PureComponent {
+export default class DefaultLayout extends Reflux.PureComponent {
     static propTypes = {
         path: PropTypes.string.isRequired,
         component: PropTypes.func.isRequired,
@@ -27,6 +29,8 @@ export default class DefaultLayout extends React.PureComponent {
         super(props);
 
         this._router = null;
+
+        this.mapStoreToState(TopicStore, this.onTopicChange);
     }
 
     state = {
@@ -35,6 +39,22 @@ export default class DefaultLayout extends React.PureComponent {
 
     componentDidMount() {
         this._onInit();
+    }
+
+    onTopicChange(topicData) {
+        if ($.isEmpty(topicData)) {
+            return;
+        }
+
+        // let newState = {};
+
+        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
+            this._router.history.push(`/topic/${topicData.topic.slug}`);
+        }
+
+        // if (!$.isEmpty(newState)) {
+        //     this.setState(newState);
+        // }
     }
 
     _onInit = () => {

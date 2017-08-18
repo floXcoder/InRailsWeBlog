@@ -49,13 +49,21 @@ export default class HeaderLayout extends React.PureComponent {
         });
     };
 
-    _handleTopicClick = () => {
+    _handleTopicClick = (event, isUpdate) => {
+        event.preventDefault();
+
+        // if (isUpdate && this.props.onReloadPage) {
+        //     this.props.onReloadPage();
+        // }
+
         this.setState({
             isTopicOpened: !this.state.isTopicOpened
         });
     };
 
-    _handleSearchClick = () => {
+    _handleSearchClick = (event) => {
+        event.preventDefault();
+
         this.setState({
             isSearchOpened: !this.state.isSearchOpened
         });
@@ -111,7 +119,8 @@ export default class HeaderLayout extends React.PureComponent {
                 </div>
 
                 <ModalHOC isOpened={this.state.isTopicOpened}>
-                    <TopicModule router={this.props.router}/>
+                    <TopicModule router={this.props.router}
+                                 onTopicChange={this._handleTopicClick}/>
                 </ModalHOC>
 
                 <div className="blog-search-nav row">

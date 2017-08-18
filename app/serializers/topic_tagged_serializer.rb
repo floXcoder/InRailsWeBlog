@@ -10,6 +10,6 @@ class TopicTaggedSerializer < ActiveModel::Serializer
              :slug
 
   has_many :tags, each_serializer: TagSerializer do
-    Tag.includes(:parents, :children).for_user_topic(object.user_id, object.id).order('tags.name')
+    Tag.includes(:parents, :children).for_topic(object.id).order('tags.name')
   end
 end

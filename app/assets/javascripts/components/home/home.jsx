@@ -3,7 +3,6 @@
 import routes from '../../routes';
 
 import UserStore from '../../stores/userStore';
-import TopicStore from '../../stores/topicStore';
 
 import DefaultLayout from '../layouts/default';
 import LoadingLayout from '../layouts/loading';
@@ -36,7 +35,6 @@ export default class HomePage extends Reflux.Component {
         super(props);
 
         this.mapStoreToState(UserStore, this.onUserChange);
-        this.mapStoreToState(TopicStore, this.onTopicChange);
     }
 
     state = {
@@ -52,24 +50,8 @@ export default class HomePage extends Reflux.Component {
 
         if (userData.type === 'initUser') {
             newState.isUserLoading = false;
-            browserHistory.replace(`/topic/${$app.getCurrentTopic().slug}`);
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
-    onTopicChange(topicData) {
-        if ($.isEmpty(topicData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
-            newState.isUserLoading = false;
-            browserHistory.push(`/topic/${topicData.topic.slug}`);
+            // TODO: cannot use push with browser history
+            // browserHistory.replace(`/topic/${$app.getCurrentTopic().slug}`);
         }
 
         if (!$.isEmpty(newState)) {

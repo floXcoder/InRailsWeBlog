@@ -45,6 +45,10 @@ export default class ArticleIndex extends Reflux.Component {
     componentWillReceiveProps(nextProps) {
         if (!_.isEqual(this.props.router.match, nextProps.router.match)) {
             ArticleActions.loadArticles(nextProps.router.match.params);
+
+            this.setState({
+                isLoading: true
+            });
         }
     }
 
@@ -106,7 +110,7 @@ export default class ArticleIndex extends Reflux.Component {
                 }
 
                 {
-                    this.state.articles && this.state.articles.length > 0 &&
+                    !this.state.isLoading && this.state.articles && this.state.articles.length > 0 &&
                     <ArticleListDisplay router={this.props.router}
                                         articles={this.state.articles}
                                         hasMore={this.state.hasMore}
@@ -115,7 +119,7 @@ export default class ArticleIndex extends Reflux.Component {
                 }
 
                 {
-                    this.state.articles && this.state.articles.length === 0 &&
+                    !this.state.isLoading && this.state.articles && this.state.articles.length === 0 &&
                     <ArticleNone router={this.props.router}
                                  isTopicPage={!!this.props.router.match.params.topicSlug}/>
                 }

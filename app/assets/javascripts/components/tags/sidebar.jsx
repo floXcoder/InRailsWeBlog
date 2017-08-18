@@ -5,6 +5,8 @@ import _ from 'lodash';
 // TODO: how to use it?
 // import AssociatedTagBox from '../../components/tags/associated/box';
 
+import TopicStore from '../../stores/topicStore';
+
 import TagActions from '../../actions/tagActions';
 import TagStore from '../../stores/tagStore';
 
@@ -24,10 +26,12 @@ export default class TagSidebar extends Reflux.Component {
     constructor(props) {
         super(props);
 
+        this.mapStoreToState(TopicStore, this.onTopicChange);
         this.mapStoreToState(TagStore, this.onTagChange);
     }
 
     state = {
+        isLoading: true,
         userTags: [],
         filterText: null
     };
@@ -35,7 +39,8 @@ export default class TagSidebar extends Reflux.Component {
     componentWillMount() {
         if ($app.isUserConnected()) {
             this.setState({
-                userTags: $app.user.tags || []
+                userTags: $app.user.tags || [],
+                isLoading: false
             });
         } else {
             TagActions.loadTags();
@@ -50,11 +55,36 @@ export default class TagSidebar extends Reflux.Component {
         // }, 'keydown');
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!_.isEqual(this.props.router.match, nextProps.router.match)) {
+            this.setState({
+                isLoading: true
+            });
+        }
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         // TODO
         // return !this.state.userTags.isEqualIds(nextState.userTags) || !this.state.filterText !== nextState.filterText;
 
         return true;
+    }
+
+    onTopicChange(topicData) {
+        if ($.isEmpty(topicData)) {
+            return;
+        }
+
+        let newState = {};
+
+        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
+            newState.userTags = $app.user.tags;
+            newState.isLoading = false;
+        }
+
+        if (!$.isEmpty(newState)) {
+            this.setState(newState);
+        }
     }
 
     onTagChange(tagData) {
@@ -66,10 +96,12 @@ export default class TagSidebar extends Reflux.Component {
 
         if (tagData.type === 'loadTags') {
             newState.userTags = tagData.tags;
+            newState.isLoading = false;
         }
 
         if (tagData.type === 'refreshTags') {
             newState.userTags = tagData.tags;
+            newState.isLoading = false;
         }
 
         if (!$.isEmpty(newState)) {
@@ -84,7 +116,6 @@ export default class TagSidebar extends Reflux.Component {
     };
 
     render() {
-        const isLoading = $.isEmpty(this.state.userTags);
         const isSearching = !$.isEmpty(this.state.filterText);
 
         const tags = _.compact(this.state.userTags.map((tag) => {
@@ -123,31 +154,36 @@ export default class TagSidebar extends Reflux.Component {
 
         return (
             <div className="blog-sidebar-tag">
-                <h3>
-                    {I18n.t('js.tag.common.list')}
-                </h3>
-
-                <SearchBar label={I18n.t('js.tag.common.filter')}
-                           onSearchInput={this._handleSearchInput}>
-                    {this.state.filterText}
-                </SearchBar>
-
                 {
-                    !$.isEmpty(tags)
-                        ?
-                        <TagRelationshipDisplay router={this.props.router}
-                                                tags={tags}
-                                                isSearching={isSearching}/>
-                        :
-                        <div>
-                            {I18n.t('js.tag.common.no_results') + ' ' + this.state.filterText}
-                        </div>
+                    this.state.isLoading &&
+                    <div className="center">
+                        <Spinner/>
+                    </div>
                 }
 
                 {
-                    isLoading &&
-                    <div className="center">
-                        <Spinner />
+                    !this.state.isLoading &&
+                    <div>
+                        <h3>
+                            {I18n.t('js.tag.common.list')}
+                        </h3>
+
+                        <SearchBar label={I18n.t('js.tag.common.filter')}
+                                   onSearchInput={this._handleSearchInput}>
+                            {this.state.filterText}
+                        </SearchBar>
+
+                        {
+                            !$.isEmpty(tags)
+                                ?
+                                <TagRelationshipDisplay router={this.props.router}
+                                                        tags={tags}
+                                                        isSearching={isSearching}/>
+                                :
+                                <div>
+                                    {I18n.t('js.tag.common.no_results') + ' ' + this.state.filterText}
+                                </div>
+                        }
                     </div>
                 }
             </div>

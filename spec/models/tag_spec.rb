@@ -214,13 +214,15 @@ RSpec.describe Tag, type: :model, basic: true do
     let!(:private_tag) { create(:tag, user: @user, visibility: 'only_me', tagged_articles_count: 0) }
 
     let!(:other_user) { create(:user) }
-    let!(:other_tag) { create(:tag, user: other_user, tagged_articles_count: 20) }
+    let!(:other_tag) { create(:tag, user: other_user, visibility: 'everyone', tagged_articles_count: 5) }
+    let!(:other_public_tag) { create(:tag, user: other_user, visibility: 'everyone', tagged_articles_count: 20) }
 
     let!(:topic) { create(:topic, user: @user) }
     let!(:article) { create(:article, user: @user, topic: topic) }
 
     before do
       @tag.tagged_articles.create(user: @user, topic: topic, article: article)
+      other_public_tag.tagged_articles.create(user: @user, topic: topic, article: article)
 
       @tag.bookmarks << create(:bookmark, user: @user, bookmarked: @tag)
     end
@@ -247,15 +249,15 @@ RSpec.describe Tag, type: :model, basic: true do
       it { expect(Tag.from_user(@user.id, @user.id)).not_to include(other_tag) }
     end
 
-    describe '::for_user_topic' do
-      it { is_expected.to respond_to(:for_user_topic) }
-      it { expect(Tag.for_user_topic(@user.id, topic.id)).to include(@tag) }
-      it { expect(Tag.for_user_topic(@user.id, topic.id)).not_to include(private_tag, other_tag) }
+    describe '::for_topic' do
+      it { is_expected.to respond_to(:for_topic) }
+      it { expect(Tag.for_topic(topic.id)).to include(@tag, other_public_tag) }
+      it { expect(Tag.for_topic(topic.id)).not_to include(private_tag, other_tag) }
     end
 
     describe '::most_used' do
       it { is_expected.to respond_to(:most_used) }
-      it { expect(Tag.most_used.first).to eq(other_tag) }
+      it { expect(Tag.most_used.first).to eq(other_public_tag) }
     end
 
     describe '::least_used' do
@@ -291,7 +293,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
         expect(tag_results[:tags]).not_to be_empty
         expect(tag_results[:tags]).to be_a(ActiveRecord::Relation)
-        expect(tag_results[:tags].size).to eq(3)
+        expect(tag_results[:tags].size).to eq(4)
         expect(tag_results[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
       end
     end
@@ -309,7 +311,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
         expect(tag_autocompletes).not_to be_empty
         expect(tag_autocompletes).to be_a(Array)
-        expect(tag_autocompletes.size).to eq(3)
+        expect(tag_autocompletes.size).to eq(4)
         expect(tag_autocompletes.map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
       end
     end

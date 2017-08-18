@@ -14,11 +14,11 @@ import {
 export default class TopicModule extends Reflux.Component {
     static propTypes = {
         router: PropTypes.object.isRequired,
-        onTopicClick: PropTypes.func
+        onTopicChange: PropTypes.func
     };
 
     static defaultProps = {
-        onTopicClick: null
+        onTopicChange: null
     };
 
     constructor(props) {
@@ -79,8 +79,8 @@ export default class TopicModule extends Reflux.Component {
             TopicActions.switchTopic($app.user.currentId, topicId);
         }
 
-        if (this.props.onTopicClick) {
-            this.props.onTopicClick();
+        if (this.props.onTopicChange) {
+            this.props.onTopicChange(event, true);
         }
     };
 
@@ -106,8 +106,8 @@ export default class TopicModule extends Reflux.Component {
                 name: this._topicInput.value()
             });
 
-            if (this.props.onTopicClick) {
-                this.props.onTopicClick();
+            if (this.props.onTopicChange) {
+                this.props.onTopicChange(event, true);
             }
         }
     };
