@@ -5,6 +5,9 @@ namespace :InRailsWeBlog do
 
   desc 'Update Geolite2 City database'
   task :update_geolite do
+    Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
+    Rails.logger.warn("#{Time.now} : Update Geolite task")
+
     geolite_database = Rails.root.join('lib', 'geocoding', 'ip_db', 'GeoLite2-City.mmdb')
 
     url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz'
