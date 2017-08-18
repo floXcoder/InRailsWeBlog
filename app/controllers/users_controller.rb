@@ -51,6 +51,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html do
+        expires_in 3.hours, public: true
         set_meta_tags title:       titleize(I18n.t('views.user.index.title')),
                       description: I18n.t('views.user.index.description')
         render :index, locals: { users: users }
@@ -87,6 +88,7 @@ class UsersController < ApplicationController
       # TODO
       # format.html do
       #   User.track_views(user.id)
+      #   expires_in 3.hours, public: true
       #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
       #                 description: I18n.t('views.user.show.description')
 
