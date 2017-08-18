@@ -159,7 +159,7 @@ export default class ArticleFormDisplay extends Reflux.Component {
                             <div className="col s6 left-align">
                                 <a className="waves-effect waves-teal btn-flat"
                                    onClick={this._handleCancelClick}>
-                                    {I18n.t('js.buttons.cancel')}
+                                    {I18n.t('js.helpers.buttons.cancel')}
                                 </a>
                             </div>
 
