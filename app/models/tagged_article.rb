@@ -33,7 +33,7 @@ class TaggedArticle < ApplicationRecord
   belongs_to :article
 
   belongs_to :tag,
-             autosave: true,
+             autosave:      true,
              counter_cache: true
 
   # == Validations ==========================================================
@@ -43,17 +43,19 @@ class TaggedArticle < ApplicationRecord
             presence: true
 
   validates :article,
-            presence: true,
-            on: :update
+            presence: true
+  # , on:       :update
 
   validates :tag,
-            presence: true,
-            on: :update
+            presence: true
+  # , on:       :update
 
   validates_uniqueness_of :article_id,
-                          scope: :tag_id,
+                          scope:     :tag_id,
                           allow_nil: true,
-                          message: I18n.t('activerecord.errors.models.tagged_article.already_tagged')
+                          message:   I18n.t('activerecord.errors.models.tagged_article.already_tagged')
+
+  validate :tag_authorized
 
   # == Scopes ===============================================================
 
@@ -62,5 +64,15 @@ class TaggedArticle < ApplicationRecord
   # == Class Methods ========================================================
 
   # == Instance Methods =====================================================
+
+  private
+
+  def tag_authorized
+    if self.tag.only_me? && self.tag.user_id != self.user_id
+      # Useful? : tag do not belong to a specific topic
+      # || (self.tag.only_me? && self.article.topic_id != self.topic_id)
+      errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.tag_not_authorized'))
+    end
+  end
 
 end

@@ -58,10 +58,31 @@ RSpec.describe TaggedArticle, type: :model, basic: true do
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to validate_presence_of(:topic) }
 
-    it { is_expected.to validate_presence_of(:article).on(:update) }
-    it { is_expected.to validate_presence_of(:tag).on(:update) }
+    it { is_expected.to validate_presence_of(:article) }
+    it { is_expected.to validate_presence_of(:tag) }
 
     it { is_expected.to validate_uniqueness_of(:article_id).scoped_to(:tag_id).with_message(I18n.t('activerecord.errors.models.tagged_article.already_tagged')) }
+
+    describe 'private tag from another topic' do
+      before do
+        @second_topic = create(:topic, user: @user)
+        @private_tag  = create(:tag, user: @user, visibility: 'only_me')
+
+        other_user   = create(:user)
+        @other_tag   = create(:tag, user: other_user, visibility: 'only_me')
+      end
+
+      it 'returns an error if topic does not own by same user than article' do
+        # Useful?
+        # tagged_article = build(:tagged_article, user: @user, tag: @private_tag, topic: @second_topic, article: @article)
+        # expect(tagged_article.save).to be false
+        # expect(tagged_article.errors[:base].first).to eq(I18n.t('activerecord.errors.models.tagged_article.tag_not_authorized'))
+
+        tagged_article = build(:tagged_article, user: @user, tag: @other_tag, topic: @topic, article: @article)
+        expect(tagged_article.save).to be false
+        expect(tagged_article.errors[:base].first).to eq(I18n.t('activerecord.errors.models.tagged_article.tag_not_authorized'))
+      end
+    end
   end
 
   context 'Properties' do

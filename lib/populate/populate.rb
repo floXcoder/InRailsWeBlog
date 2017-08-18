@@ -120,9 +120,11 @@ class Populate
                         end
       articles        = Array.new(articles_number) do |n|
         Topic.where(user_id: user.id).map do |topic|
+          permitted_tags = tags.select { |tag| tag.everyone? || (tag.only_me? && tag.user_id == user.id) }
+
           if (n % 2).zero?
-            parent_tags = tags.sample(rand(1..2))
-            child_tags  = tags.sample(rand(1..2))
+            parent_tags = permitted_tags.sample(rand(1..2))
+            child_tags  = permitted_tags.sample(rand(1..2))
             FactoryGirl.create(:article_with_relation_tags,
                                user:        user,
                                topic:       topic,
@@ -134,7 +136,7 @@ class Populate
                                user:       user,
                                topic:      topic,
                                visibility: Article.visibilities.keys.sample,
-                               tags:       tags.sample(rand(1..3)))
+                               tags:       permitted_tags.sample(rand(1..3)))
           end
         end
       end
