@@ -126,23 +126,23 @@ export default class CommentForm extends React.PureComponent {
                                    id="comment-title"
                                    title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.title_for_deletion') : I18n.t('js.comment.form.comment.title')}
                                    autoComplete="off"
-                                   maxLength={window.parameters.comment_title_max_length}
-                                   characterCount={window.parameters.comment_title_max_length}
+                                   maxLength={window.settings.comment_title_max_length}
+                                   characterCount={window.settings.comment_title_max_length}
                                    validator={{
                                        'data-parsley-required': true,
-                                       'data-parsley-minlength': window.parameters.comment_title_min_length,
-                                       'data-parsley-maxlength': window.parameters.comment_title_max_length
+                                       'data-parsley-minlength': window.settings.comment_title_min_length,
+                                       'data-parsley-maxlength': window.settings.comment_title_max_length
                                    }}/>
 
                             <Textarea ref={(body) => this._body = body}
                                       id="comment-body"
                                       title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.body_for_deletion') : I18n.t('js.comment.form.comment.body')}
-                                      maxLength={window.parameters.comment_body_max_length}
-                                      characterCount={window.parameters.comment_body_max_length}
+                                      maxLength={window.settings.comment_body_max_length}
+                                      characterCount={window.settings.comment_body_max_length}
                                       validator={{
                                           'data-parsley-required': true,
-                                          'data-parsley-minlength': window.parameters.comment_body_min_length,
-                                          'data-parsley-maxlength': window.parameters.comment_body_max_length
+                                          'data-parsley-minlength': window.settings.comment_body_min_length,
+                                          'data-parsley-maxlength': window.settings.comment_body_max_length
                                       }}/>
 
                             {

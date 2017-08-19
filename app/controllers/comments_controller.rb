@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
 
   def index
     comments = Comment.includes(:commentable, :user).all
-    comments = params[:limit] ? comments.limit(params[:limit]) : comments.paginate(page: params[:page], per_page: CONFIG.per_page)
+    comments = params[:limit] ? comments.limit(params[:limit]) : comments.paginate(page: params[:page], per_page: Setting.per_page)
 
     unless filter_params.empty?
       # comments = comments.where('name ~* ?', filter_params[:name]) if filter_params[:name]

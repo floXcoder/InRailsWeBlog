@@ -35,7 +35,7 @@ class ArticlesController < ApplicationController
 
     articles = Article.filter_by(articles, filter_params, current_user) unless filter_params.empty?
 
-    articles = params[:limit] ? articles.limit(params[:limit]) : articles.paginate(page: params[:page], per_page: CONFIG.per_page)
+    articles = params[:limit] ? articles.limit(params[:limit]) : articles.paginate(page: params[:page], per_page: Setting.per_page)
 
     respond_to do |format|
       format.json do

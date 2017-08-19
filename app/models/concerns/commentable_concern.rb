@@ -46,7 +46,7 @@ module CommentableConcern
 
   def comments_tree(page = nil)
     comments = self.root_comments.includes(user: [:picture]).order('comments.created_at ASC')
-    comments = comments.paginate(page: page, per_page: CONFIG.per_page) if page
+    comments = comments.paginate(page: page, per_page: Setting.per_page) if page
 
     comments_tree = comments.map do |root_comment|
       root_comment.self_and_descendants

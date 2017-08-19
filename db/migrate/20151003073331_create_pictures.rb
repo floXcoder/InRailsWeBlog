@@ -1,4 +1,4 @@
-class CreatePictures < ActiveRecord::Migration[5.0]
+class CreatePictures < ActiveRecord::Migration[5.1]
   def change
     create_table :pictures do |t|
       t.belongs_to  :user,            null: false,  index: false

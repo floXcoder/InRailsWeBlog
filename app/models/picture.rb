@@ -87,7 +87,7 @@ class Picture < ApplicationRecord
   private
 
   def image_size
-    if image.size > CONFIG.image_size
+    if image.size > Setting.image_size
       errors.add(:image, I18n.t('activerecord.errors.models.picture.image_size'))
     end
   end

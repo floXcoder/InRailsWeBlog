@@ -1,4 +1,4 @@
-class ThumbsUpMigration < ActiveRecord::Migration[5.0]
+class ThumbsUpMigration < ActiveRecord::Migration[5.1]
   def change
     create_table :votes, force: true do |t|
       t.references  :voteable,  polymorphic: true,  null: false

@@ -77,13 +77,13 @@ export default class ArticleFormDisplay extends Reflux.Component {
     _handleCommonInputsChange = (attributes) => {
         let isValidArticle = true;
         let submitTooltipMessage = null;
-        if (attributes.titleLength < window.parameters.article_title_min_length) {
+        if (attributes.titleLength < window.settings.article_title_min_length) {
             isValidArticle = false;
             submitTooltipMessage = I18n.t('js.article.common.tooltips.title_too_short');
-        } else if (attributes.summaryLength > 0 && attributes.summaryLength < window.parameters.article_summary_min_length) {
+        } else if (attributes.summaryLength > 0 && attributes.summaryLength < window.settings.article_summary_min_length) {
             isValidArticle = false;
             submitTooltipMessage = I18n.t('js.article.common.tooltips.summary_too_short');
-        } else if (attributes.contentLength < window.parameters.article_content_min_length) {
+        } else if (attributes.contentLength < window.settings.article_content_min_length) {
             isValidArticle = false;
             submitTooltipMessage = I18n.t('js.article.common.tooltips.content_too_short');
         }

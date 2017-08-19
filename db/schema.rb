@@ -10,20 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225200735) do
+ActiveRecord::Schema.define(version: 20170819105714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "activities", id: :serial, force: :cascade do |t|
+  create_table "activities", force: :cascade do |t|
     t.string "trackable_type"
-    t.integer "trackable_id"
+    t.bigint "trackable_id"
     t.string "owner_type"
-    t.integer "owner_id"
+    t.bigint "owner_id"
     t.string "key"
     t.text "parameters"
     t.string "recipient_type"
-    t.integer "recipient_id"
+    t.bigint "recipient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
   end
 
-  create_table "admins", id: :serial, force: :cascade do |t|
+  create_table "admins", force: :cascade do |t|
     t.string "pseudo", default: "", null: false
     t.string "additional_info"
     t.string "locale", default: "fr"
@@ -60,19 +60,19 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["unlock_token"], name: "index_admins_on_unlock_token", unique: true
   end
 
-  create_table "article_relationships", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "parent_id", null: false
-    t.integer "child_id", null: false
+  create_table "article_relationships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "parent_id", null: false
+    t.bigint "child_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "parent_id", "child_id"], name: "index_article_relationship_uniqueness", unique: true
     t.index ["user_id"], name: "index_article_relationships_on_user_id"
   end
 
-  create_table "articles", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "topic_id"
+  create_table "articles", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "topic_id"
     t.string "title"
     t.text "summary"
     t.text "content", null: false
@@ -99,10 +99,10 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id", "visibility"], name: "index_articles_on_user_id_and_visibility", where: "(deleted_at IS NULL)"
   end
 
-  create_table "bookmarks", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
+  create_table "bookmarks", force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.string "bookmarked_type", null: false
-    t.integer "bookmarked_id", null: false
+    t.bigint "bookmarked_id", null: false
     t.boolean "follow", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -111,10 +111,10 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
-  create_table "comments", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.string "commentable_type", null: false
-    t.integer "commentable_id", null: false
+    t.bigint "commentable_id", null: false
     t.string "title"
     t.text "body"
     t.string "subject"
@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id"], name: "index_comments_on_user_id", where: "(deleted_at IS NULL)"
   end
 
-  create_table "error_messages", id: :serial, force: :cascade do |t|
+  create_table "error_messages", force: :cascade do |t|
     t.text "class_name"
     t.text "message"
     t.text "trace"
@@ -153,9 +153,9 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "outdated_articles", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "article_id", null: false
+  create_table "outdated_articles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "article_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id", "user_id"], name: "index_outdated_articles_on_article_id_and_user_id", unique: true
@@ -163,8 +163,8 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id"], name: "index_outdated_articles_on_user_id"
   end
 
-  create_table "pictures", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
+  create_table "pictures", force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.integer "imageable_id"
     t.string "imageable_type", null: false
     t.string "image"
@@ -183,12 +183,22 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id"], name: "index_pictures_on_user_id", where: "(deleted_at IS NULL)"
   end
 
-  create_table "tag_relationships", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "topic_id", null: false
-    t.integer "article_id", null: false
-    t.integer "parent_id", null: false
-    t.integer "child_id", null: false
+  create_table "settings", force: :cascade do |t|
+    t.string "var", null: false
+    t.text "value"
+    t.integer "thing_id"
+    t.string "thing_type", limit: 30
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
+  end
+
+  create_table "tag_relationships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "topic_id", null: false
+    t.bigint "article_id", null: false
+    t.bigint "parent_id", null: false
+    t.bigint "child_id", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -197,11 +207,11 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id", "topic_id"], name: "index_tag_relationships_on_user_id_and_topic_id", where: "(deleted_at IS NULL)"
   end
 
-  create_table "tagged_articles", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "topic_id", null: false
-    t.integer "tag_id", null: false
-    t.integer "article_id", null: false
+  create_table "tagged_articles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "topic_id", null: false
+    t.bigint "tag_id", null: false
+    t.bigint "article_id", null: false
     t.boolean "parent", default: false, null: false
     t.boolean "child", default: false, null: false
     t.datetime "deleted_at"
@@ -215,8 +225,8 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id"], name: "index_tagged_articles_on_user_id", where: "(deleted_at IS NULL)"
   end
 
-  create_table "tags", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
+  create_table "tags", force: :cascade do |t|
+    t.bigint "user_id"
     t.string "name", null: false
     t.text "description"
     t.string "synonyms", default: [], array: true
@@ -240,8 +250,8 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id", "visibility"], name: "index_tags_on_user_id_and_visibility", where: "(deleted_at IS NULL)"
   end
 
-  create_table "topics", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
+  create_table "topics", force: :cascade do |t|
+    t.bigint "user_id"
     t.string "name", null: false
     t.text "description"
     t.string "color"
@@ -262,9 +272,9 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["user_id"], name: "index_topics_on_user_id", where: "(deleted_at IS NULL)"
   end
 
-  create_table "trackers", id: :serial, force: :cascade do |t|
+  create_table "trackers", force: :cascade do |t|
     t.string "tracked_type", null: false
-    t.integer "tracked_id", null: false
+    t.bigint "tracked_id", null: false
     t.integer "views_count", default: 0, null: false
     t.integer "queries_count", default: 0, null: false
     t.integer "searches_count", default: 0, null: false
@@ -277,7 +287,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["tracked_id", "tracked_type"], name: "index_trackers_on_tracked_id_and_tracked_type"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "pseudo", default: "", null: false
     t.string "first_name"
     t.string "last_name"
@@ -330,7 +340,7 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  create_table "versions", id: :serial, force: :cascade do |t|
+  create_table "versions", force: :cascade do |t|
     t.string "item_type", null: false
     t.integer "item_id", null: false
     t.string "event", null: false
@@ -342,11 +352,11 @@ ActiveRecord::Schema.define(version: 20170225200735) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
-  create_table "votes", id: :serial, force: :cascade do |t|
+  create_table "votes", force: :cascade do |t|
     t.string "voteable_type", null: false
-    t.integer "voteable_id", null: false
+    t.bigint "voteable_id", null: false
     t.string "voter_type"
-    t.integer "voter_id"
+    t.bigint "voter_id"
     t.boolean "vote", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

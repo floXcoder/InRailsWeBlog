@@ -23,10 +23,10 @@ export default class UserSettings extends Reflux.PureComponent {
 
     state = {
         activeItem: I18n.t('js.user.settings.article.title'),
-        article_display: window.parameters.article_display,
-        search_highlight: window.parameters.search_highlight,
-        search_operator: window.parameters.search_operator,
-        search_exact: window.parameters.search_exact
+        article_display: window.settings.article_display,
+        search_highlight: window.settings.search_highlight,
+        search_operator: window.settings.search_operator,
+        search_exact: window.settings.search_exact
     };
 
     onSettingsChange(userData) {

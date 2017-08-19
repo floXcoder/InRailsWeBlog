@@ -29,7 +29,7 @@ class SearchController < ApplicationController
       article_results = Article.search_for(
         search_params[:query],
         page:             search_params[:article_page] || search_params[:page],
-        per_page:         search_params[:article_per_page] || search_params[:per_page] || CONFIG.per_page,
+        per_page:         search_params[:article_per_page] || search_params[:per_page] || Setting.search_per_page,
         current_user_id:  current_user&.id,
         current_topic_id: current_user&.current_topic_id,
         where:            {
@@ -59,7 +59,7 @@ class SearchController < ApplicationController
       tag_results = Tag.search_for(
         search_params[:query],
         page:            search_params[:article_page] || search_params[:page],
-        per_page:        search_params[:article_per_page] || search_params[:per_page] || CONFIG.per_page,
+        per_page:        search_params[:article_per_page] || search_params[:per_page] || Setting.search_per_page,
         current_user_id: current_user&.id,
         where:           {
           notation:   search_params[:notation],
@@ -99,7 +99,7 @@ class SearchController < ApplicationController
 
     if search_type('article', search_params[:type])
       autocomplete_articles           = Article.search(search_params[:query],
-                                                       limit: search_params[:limit] || CONFIG.per_page,
+                                                       limit: search_params[:limit] || Setting.search_per_page,
                                                        where: {
                                                          visibility: !current_admin ? 'everyone' : nil
                                                        }
@@ -110,7 +110,7 @@ class SearchController < ApplicationController
 
     if search_type('tag', search_params[:type])
       autocomplete_tags           = Tag.search(search_params[:query],
-                                               limit: search_params[:limit] || CONFIG.per_page,
+                                               limit: search_params[:limit] || Setting.search_per_page,
                                                where: {
                                                  visibility: !current_admin ? 'everyone' : nil
                                                }

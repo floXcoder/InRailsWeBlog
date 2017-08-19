@@ -1,4 +1,4 @@
-class CreateActivities < ActiveRecord::Migration[5.0]
+class CreateActivities < ActiveRecord::Migration[5.1]
   def change
     create_table :activities do |t|
       t.belongs_to  :trackable,    polymorphic: true, index: false

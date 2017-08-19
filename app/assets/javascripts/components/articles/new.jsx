@@ -91,9 +91,9 @@ export default class ArticleNew extends Reflux.Component {
     //     }
     //
     //     if (submitData.content &&
-    //         submitData.title.length > window.parameters.title_min_length &&
-    //         submitData.summary.length > window.parameters.summary_min_length &&
-    //         submitData.content.length > window.parameters.content_min_length) {
+    //         submitData.title.length > window.settings.title_min_length &&
+    //         submitData.summary.length > window.settings.summary_min_length &&
+    //         submitData.content.length > window.settings.content_min_length) {
     //         ArticleStore.onAutosaveArticle(submitData);
     //     }
     // }

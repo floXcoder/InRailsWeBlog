@@ -6,7 +6,7 @@ import '../modules/validation';
 // import '../components/users/account';
 
 // Initialize all SideNav
-if (window.innerWidth > window.parameters.medium_screen_up) {
+if (window.innerWidth > window.settings.medium_screen_up) {
     $('header').find('.button-collapse').sideNav({
             menuWidth: 350,
             edge: 'left'

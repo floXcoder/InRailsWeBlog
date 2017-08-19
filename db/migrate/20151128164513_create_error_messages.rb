@@ -1,4 +1,4 @@
-class CreateErrorMessages < ActiveRecord::Migration[5.0]
+class CreateErrorMessages < ActiveRecord::Migration[5.1]
   def change
     create_table :error_messages do |t|
       t.text    :class_name

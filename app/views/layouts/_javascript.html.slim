@@ -1,6 +1,6 @@
 javascript:
     window.railsEnv = "#{Rails.env}";
-    window.parameters = JSON.parse('#{raw CONFIG.to_json}');
+    window.settings = JSON.parse('#{raw CONFIG.to_hash.merge(Setting.get_all).to_json}');
 
     window.userLatitude = "#{@user_latitude}";
     window.userLongitutde = "#{@user_longitude}";

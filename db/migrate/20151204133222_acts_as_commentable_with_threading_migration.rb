@@ -1,4 +1,4 @@
-class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration[5.0]
+class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration[5.1]
   def change
     create_table :comments, force: true do |t|
       t.belongs_to  :user,                                 null: false, index: false

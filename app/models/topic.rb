@@ -179,7 +179,7 @@ class Topic < ApplicationRecord
 
     # Page parameters
     page     = options[:page] ? options[:page] : 1
-    per_page = options[:per_page] ? options[:per_page] : CONFIG.per_page
+    per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
 
     # Order search
     if options[:order]
@@ -248,7 +248,7 @@ class Topic < ApplicationRecord
     end.to_h if options[:where]
 
     # Set result limit
-    limit = options[:limit] ? options[:limit] : CONFIG.per_page
+    limit = options[:limit] ? options[:limit] : Setting.search_per_page
 
     # Perform search
     results = Topic.search(query_string,
@@ -369,7 +369,7 @@ class Topic < ApplicationRecord
   private
 
   def set_default_color
-    self.color = '#e5e5e5' unless self.color
+    self.color = Setting.topic_color unless self.color
   end
 
 end

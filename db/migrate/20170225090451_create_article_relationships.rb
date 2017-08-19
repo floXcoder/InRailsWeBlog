@@ -1,4 +1,4 @@
-class CreateArticleRelationships < ActiveRecord::Migration[5.0]
+class CreateArticleRelationships < ActiveRecord::Migration[5.1]
   def change
     create_table :article_relationships do |t|
       t.belongs_to  :user,    null: false, index: false

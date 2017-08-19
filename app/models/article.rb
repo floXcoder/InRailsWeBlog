@@ -270,7 +270,7 @@ class Article < ApplicationRecord
 
     # Page parameters
     page     = options[:page] ? options[:page] : 1
-    per_page = options[:per_page] ? options[:per_page] : CONFIG.per_page
+    per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
 
     # Order search
     if options[:order]
@@ -348,7 +348,7 @@ class Article < ApplicationRecord
     where_options ||= {}
 
     # Set result limit
-    limit = options[:limit] ? options[:limit] : CONFIG.per_page
+    limit = options[:limit] ? options[:limit] : Setting.search_per_page
 
     # Perform search
     results = Article.search(query_string,

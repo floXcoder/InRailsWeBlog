@@ -97,11 +97,11 @@ export default class Signup extends React.PureComponent {
                                        'data-parsley-remote': this.props.validationUrl,
                                        'data-parsley-remote-reverse': true,
                                        'data-parsley-remote-message': I18n.t('js.user.errors.pseudo.already_taken'),
-                                       'data-parsley-minlength': window.parameters.user_pseudo_min_length,
-                                       'data-parsley-maxlength': window.parameters.user_pseudo_max_length,
+                                       'data-parsley-minlength': window.settings.user_pseudo_min_length,
+                                       'data-parsley-maxlength': window.settings.user_pseudo_max_length,
                                        'data-parsley-minlength-message': I18n.t('js.user.errors.pseudo.size', {
-                                           min: window.parameters.user_pseudo_min_length,
-                                           max: window.parameters.user_pseudo_max_length
+                                           min: window.settings.user_pseudo_min_length,
+                                           max: window.settings.user_pseudo_max_length
                                        })
                                    }}
                                    icon="account_circle"/>
@@ -127,11 +127,11 @@ export default class Signup extends React.PureComponent {
                                    labelClass="important"
                                    isRequired={true}
                                    validator={{
-                                       'data-parsley-minlength': window.parameters.user_password_min_length,
-                                       'data-parsley-maxlength': window.parameters.user_password_max_length,
+                                       'data-parsley-minlength': window.settings.user_password_min_length,
+                                       'data-parsley-maxlength': window.settings.user_password_max_length,
                                        'data-parsley-minlength-message': I18n.t('js.user.errors.password.size', {
-                                           min: window.parameters.user_pseudo_min_length,
-                                           max: window.parameters.user_pseudo_max_length
+                                           min: window.settings.user_pseudo_min_length,
+                                           max: window.settings.user_pseudo_max_length
                                        })
                                    }}
                                    icon="lock"/>
@@ -157,7 +157,7 @@ export default class Signup extends React.PureComponent {
                                   name="user[terms]"
                                   title={
                                       <span>
-                                      {I18n.t('js.user.signup.terms_of_use', {website: window.parameters.website_name}) + ' '}
+                                      {I18n.t('js.user.signup.terms_of_use', {website: window.settings.website_name}) + ' '}
                                           <a href="/terms">
                                         {I18n.t('js.user.signup.terms_of_use_name')}
                                       </a>

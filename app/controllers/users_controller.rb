@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
   def index
     users = User.includes(:picture).all.order('users.id ASC')
-    users = users.paginate(page: params[:page], per_page: CONFIG.per_page) if params[:page]
+    users = users.paginate(page: params[:page], per_page: Setting.per_page) if params[:page]
 
     respond_to do |format|
       format.html do
@@ -153,7 +153,7 @@ class UsersController < ApplicationController
     authorize user
 
     user_comments = user.comments.order('comments.created_at DESC')
-    user_comments = user_comments.paginate(page: params[:page], per_page: CONFIG.per_page) if params[:page]
+    user_comments = user_comments.paginate(page: params[:page], per_page: Setting.per_page) if params[:page]
 
     respond_to do |format|
       format.json do
@@ -169,7 +169,7 @@ class UsersController < ApplicationController
     authorize user
 
     user_activities = user.activities.order('activities.created_at DESC')
-    user_activities = user_activities.paginate(page: params[:page], per_page: CONFIG.per_page) if params[:page]
+    user_activities = user_activities.paginate(page: params[:page], per_page: Setting.per_page) if params[:page]
 
     respond_to do |format|
       format.json do

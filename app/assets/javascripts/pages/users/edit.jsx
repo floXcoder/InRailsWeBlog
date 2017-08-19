@@ -12,7 +12,7 @@ $('input[id^="user_picture_attributes_image"], input[id^="user_picture_attribute
     }
 
     const size_in_megabytes = event.target.files[0].size / (1024 * 1024);
-    if (size_in_megabytes * 1000000 > window.parameters.image_size) {
+    if (size_in_megabytes * 1000000 > window.settings.image_size) {
         Notification.error(I18n.t('js.picture.model.errors.text'));
         $(event.target).val('');
     }
@@ -53,7 +53,7 @@ $('#user_birth_date').pickadate({
 //     }
 //
 //     const sizeInMegabytes = this.files[0].size / (1024 * 1024);
-//     if (sizeInMegabytes * 1000000 > window.parameters.image_size) {
+//     if (sizeInMegabytes * 1000000 > window.settings.image_size) {
 //         Notification.error(I18n.t('js.picture.model.errors.text'));
 //
 //         $(this).val('');

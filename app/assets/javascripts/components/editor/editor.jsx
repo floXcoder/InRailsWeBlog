@@ -59,7 +59,7 @@ export default class Editor extends React.PureComponent {
                 });
             } else {
                 let toolbar = [];
-                if (window.innerWidth > window.parameters.medium_screen_up) {
+                if (window.innerWidth > window.settings.medium_screen_up) {
                     toolbar = [
                         ['style', ['style', 'bold', 'italic', 'underline']],
                         ['specialStyle', ['specialStyle']],
@@ -191,7 +191,7 @@ export default class Editor extends React.PureComponent {
                           name="article[content]"
                           style={{display: 'none'}}
                           data-parsley-required={true}
-                          data-parsley-strip-html={'[' + window.parameters.article_content_min_length + ',' + window.parameters.article_content_max_length + ']'}/>
+                          data-parsley-strip-html={'[' + window.settings.article_content_min_length + ',' + window.settings.article_content_max_length + ']'}/>
             </div>
         );
     }

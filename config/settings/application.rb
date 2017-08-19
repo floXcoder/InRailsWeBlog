@@ -1,23 +1,12 @@
+# Global static variables
+# Dynamic variables are defined in: config/app.yml
 SimpleConfig.for :application do
+  # Global
   set :website_name, ENV['WEBSITE_NAME']
   set :website_email, ENV['WEBSITE_EMAIL']
 
-  # Screen size
-  set :small_screen_up, 601
-  set :medium_screen_up, 993
-  set :large_screen_up, 1201
-  set :small_screen, 600
-  set :medium_screen, 992
-  set :large_screen, 1200
-
   # Cache time
   set :cache_time, 2.hours
-
-  # Maximum upload image size
-  set :image_size, 8.megabytes
-
-  # Default per page
-  set :per_page, 12
 
   # User validation parameters
   set :user_pseudo_min_length, 3

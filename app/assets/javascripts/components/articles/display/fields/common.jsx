@@ -79,18 +79,18 @@ export default class ArticleCommonField extends React.Component {
                        title={I18n.t('js.article.model.title')}
                        validator={{
                            'data-parsley-required': true,
-                           'data-parsley-minlength': window.parameters.article_title_min_length,
-                           'data-parsley-maxlength': window.parameters.article_title_max_length,
+                           'data-parsley-minlength': window.settings.article_title_min_length,
+                           'data-parsley-maxlength': window.settings.article_title_max_length,
                            'data-parsley-minlength-message': I18n.t('js.article.errors.title.size', {
-                               min: window.parameters.article_title_min_length,
-                               max: window.parameters.article_title_max_length
+                               min: window.settings.article_title_min_length,
+                               max: window.settings.article_title_max_length
                            }),
                            'data-parsley-maxlength-message': I18n.t('js.article.errors.title.size', {
-                               min: window.parameters.article_title_min_length,
-                               max: window.parameters.article_title_max_length
+                               min: window.settings.article_title_min_length,
+                               max: window.settings.article_title_max_length
                            })
                        }}
-                       characterCount={window.parameters.article_title_max_length}
+                       characterCount={window.settings.article_title_max_length}
                        onInput={this._handleInputsChange}>
                     {this.props.article && this.props.article.title}
                 </Input>
@@ -100,18 +100,18 @@ export default class ArticleCommonField extends React.Component {
                        multipleId={this.props.multipleId}
                        title={I18n.t('js.article.model.summary')}
                        validator={{
-                           'data-parsley-minlength': window.parameters.article_summary_min_length,
-                           'data-parsley-maxlength': window.parameters.article_summary_max_length,
+                           'data-parsley-minlength': window.settings.article_summary_min_length,
+                           'data-parsley-maxlength': window.settings.article_summary_max_length,
                            'data-parsley-minlength-message': I18n.t('js.article.errors.summary.size', {
-                               min: window.parameters.article_summary_min_length,
-                               max: window.parameters.article_summary_max_length
+                               min: window.settings.article_summary_min_length,
+                               max: window.settings.article_summary_max_length
                            }),
                            'data-parsley-maxlength-message': I18n.t('js.article.errors.summary.size', {
-                               min: window.parameters.article_summary_min_length,
-                               max: window.parameters.article_summary_max_length
+                               min: window.settings.article_summary_min_length,
+                               max: window.settings.article_summary_max_length
                            })
                        }}
-                       characterCount={window.parameters.article_summary_max_length}
+                       characterCount={window.settings.article_summary_max_length}
                        onBlur={this._onSummaryBlurred}
                        onInput={this._handleInputsChange}>
                     {this.props.article && this.props.article.summary}

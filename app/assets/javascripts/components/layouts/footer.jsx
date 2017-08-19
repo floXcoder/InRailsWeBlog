@@ -35,7 +35,7 @@ const FooterLayout = ({}) => (
                     </p>
                     <p>
                         <a className="grey-text text-lighten-3"
-                           href={"mailto:" + window.parameters.website_email}>
+                           href={"mailto:" + window.settings.website_email}>
                             {I18n.t('js.views.footer.links.contact')}
                         </a>
                     </p>

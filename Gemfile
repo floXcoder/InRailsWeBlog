@@ -21,7 +21,7 @@ gem 'secure_headers',           '3.6.7'
 
 # JSON
 gem 'active_model_serializers', '0.10.6'
-gem 'oj',                       '3.3.4'
+gem 'oj',                       '3.3.5'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
@@ -32,11 +32,8 @@ gem 'i18n-js',                  '3.0.0'
 gem 'geocoder',                 '1.4.4'
 gem 'maxminddb',                '0.1.14'
 
-# Convert JSON values in database (settings, ...)
-gem 'storext',                  '2.2.2'
-
 # Model versioning
-gem 'paper_trail',              '7.1.0'
+gem 'paper_trail',              '7.1.1'
 
 # Marked as deleted
 gem 'paranoia',                 '2.3.1'
@@ -64,8 +61,10 @@ gem 'redis-rack-cache',         '2.0.1'
 # Database fields validator
 gem 'date_validator',           '0.9.0'
 
-# Global variables
+# Global and model settings
 gem 'simpleconfig',             '2.0.1'
+gem 'rails-settings-cached',    '0.6.5'
+gem 'storext',                  '2.2.2'
 
 # Authentification
 gem 'devise',                   '4.3.0'
@@ -104,11 +103,11 @@ gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.2.0',   require: false
 gem 'capistrano-rails-console', '2.2.0',   require: false
 gem 'capistrano-db-tasks',      '0.6',     require: false
-gem 'capistrano-sidekiq',       '0.10.0',  require: false
+gem 'capistrano-sidekiq',       '0.20.0',  require: false
 
 group :development do
   # server
-  gem 'puma',                   '3.9.1'
+  gem 'puma',                   '3.10.0'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.6'
@@ -145,10 +144,10 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',            '3.6.0'
+  gem 'rspec-rails',            '3.6.1'
   gem 'shoulda-matchers',       '3.1.2',    require: false
   gem 'shoulda-callback-matchers', '1.1.4', require: false
-  gem 'simplecov',              '0.14.1',   require: false
+  gem 'simplecov',              '0.15.0',   require: false
   gem 'fuubar',                 '2.2.0'
   gem 'database_cleaner',       '1.6.1'
   gem 'spring-commands-rspec',  '1.0.4'
@@ -157,16 +156,16 @@ group :test do
   gem 'capybara',               '2.15.1'
   gem 'capybara-email',         '2.5.0'
   gem 'capybara-screenshot',    '1.0.17'
-  gem 'selenium-webdriver',     '3.4.4'
+  gem 'selenium-webdriver',     '3.5.1'
   gem 'chromedriver-helper',    '1.1.0'
   gem 'html_validation',        '1.1.3'
   gem 'launchy',                '2.4.3'
 
   # static analyzer
   gem 'rails_best_practices',   '1.19.0',   require: false
-  gem 'brakeman',               '3.7.0',    require: false
+  gem 'brakeman',               '3.7.2',    require: false
   gem 'metric_fu',              '4.12.0',   require: false
-  gem 'i18n-tasks',             '0.9.16',   require: false
+  gem 'i18n-tasks',             '0.9.18',   require: false
 
   # Security
   gem 'dawnscanner',            '1.6.8',    require: false
