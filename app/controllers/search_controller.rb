@@ -26,22 +26,23 @@ class SearchController < ApplicationController
     # end
 
     if search_type('article', search_params[:type])
-      article_results = Article.search_for(search_params[:query],
-                                           page:             search_params[:article_page] || search_params[:page],
-                                           per_page:         search_params[:article_per_page] || search_params[:per_page] || CONFIG.per_page,
-                                           current_user_id:  current_user&.id,
-                                           current_topic_id: current_user&.current_topic_id,
-                                           where:            {
-                                             draft:      search_params[:draft],
-                                             language:   search_params[:language],
-                                             notation:   search_params[:notation],
-                                             accepted:   search_params[:accepted],
-                                             home_page:  search_params[:home_page],
-                                             visibility: !current_admin ? 'everyone' : search_params[:visibility],
-                                             tags:       search_params[:tags] ? search_params[:tags].first.split(',') : nil,
-                                             topics:     search_params[:topics] ? search_params[:topics].first.split(',') : nil
-                                           },
-                                           order:            search_params[:order]
+      article_results = Article.search_for(
+        search_params[:query],
+        page:             search_params[:article_page] || search_params[:page],
+        per_page:         search_params[:article_per_page] || search_params[:per_page] || CONFIG.per_page,
+        current_user_id:  current_user&.id,
+        current_topic_id: current_user&.current_topic_id,
+        where:            {
+          draft:      search_params[:draft],
+          language:   search_params[:language],
+          notation:   search_params[:notation],
+          accepted:   search_params[:accepted],
+          home_page:  search_params[:home_page],
+          visibility: !current_admin ? 'everyone' : search_params[:visibility],
+          tags:       search_params[:tags] ? search_params[:tags].first.split(',') : nil,
+          topics:     search_params[:topics] ? search_params[:topics].first.split(',') : nil
+        },
+        order:            search_params[:order]
       )
 
       unless article_results.empty?
@@ -55,18 +56,19 @@ class SearchController < ApplicationController
     end
 
     if search_type('tag', search_params[:type])
-      tag_results = Tag.search_for(search_params[:query],
-                                   page:             search_params[:article_page] || search_params[:page],
-                                   per_page:         search_params[:article_per_page] || search_params[:per_page] || CONFIG.per_page,
-                                   current_user_id:  current_user&.id,
-                                   where:            {
-                                     notation:   search_params[:notation],
-                                     accepted:   search_params[:accepted],
-                                     home_page:  search_params[:home_page],
-                                     visibility: !current_admin ? 'everyone' : search_params[:visibility],
-                                     topics:     search_params[:topics] ? search_params[:topics].first.split(',') : nil
-                                   },
-                                   order:            search_params[:order]
+      tag_results = Tag.search_for(
+        search_params[:query],
+        page:            search_params[:article_page] || search_params[:page],
+        per_page:        search_params[:article_per_page] || search_params[:per_page] || CONFIG.per_page,
+        current_user_id: current_user&.id,
+        where:           {
+          notation:   search_params[:notation],
+          accepted:   search_params[:accepted],
+          home_page:  search_params[:home_page],
+          visibility: !current_admin ? 'everyone' : search_params[:visibility],
+          topics:     search_params[:topics] ? search_params[:topics].first.split(',') : nil
+        },
+        order:           search_params[:order]
       )
 
       unless tag_results.empty?
@@ -125,7 +127,7 @@ class SearchController < ApplicationController
   private
 
   def search_params
-    if params[:search] && !params[:search].empty?
+    if params[:search].present?
       params.require(:search).permit(:complete,
                                      :type,
                                      :per_page,

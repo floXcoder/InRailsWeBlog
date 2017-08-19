@@ -27,8 +27,7 @@ class ArticlesController < ApplicationController
   respond_to :html, :json
 
   def index
-    articles = Article
-                 .includes(:tags, user: [:picture])
+    articles = Article.includes(:tags, user: [:picture])
                  .order('articles.updated_at DESC')
                  .distinct
 
@@ -167,7 +166,7 @@ class ArticlesController < ApplicationController
     article = Article.with_deleted.find(params[:id])
     admin_or_authorize article
 
-    version = PaperTrail::Version.find_by_id(params[:version_id])
+    version = PaperTrail::Version.find_by(id: params[:version_id])
 
     if version && (restored_version = version.reify)
       params[:article_version_id] ? article.save : restored_version.save

@@ -372,6 +372,7 @@
     <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v1.3.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode_utils (v1.4.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="uniform_notifier (v1.10.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="unique_validation_inspector (v0.1.2, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unparser (v0.2.6, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="useragent (v0.16.8, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="uuidtools (v2.1.5, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />

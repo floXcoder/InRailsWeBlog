@@ -123,7 +123,7 @@ fr:
           default: "Une erreur est arrivée :("
           '404': "Page introuvable"
           '422': "Requêtes non permises !"
-          '500': "Erreur interne du site Locatipic"
+          '500': "Erreur interne du site In Rails We Blog"
         explanation:
           default: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
           '404': "La page n'a pas été trouvée sur le serveur, elle a peut être été supprimée !"

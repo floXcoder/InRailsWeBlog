@@ -19,11 +19,11 @@ RSpec::Matchers.define :take_less_than do |duration|
     "perform under #{duration}"
   end
 
-  failure_message do |block|
+  failure_message do |_block|
     "expected block to #{description}, but performed at #{@time_elapsed}"
   end
 
-  failure_message_when_negated do |block|
+  failure_message_when_negated do |_block|
     "expected block to not #{description}, but performed at #{@time_elapsed}"
   end
 end

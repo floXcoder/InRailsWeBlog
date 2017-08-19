@@ -12,20 +12,20 @@ Devise.setup do |config|
   require 'devise/orm/active_record'
 
   # ==> Configuration for any authentication mechanism
-  config.authentication_keys = [ :login ]
+  config.authentication_keys = [:login]
 
   # Configure which authentication keys should be case-insensitive.
-  config.case_insensitive_keys = [ :email ]
+  config.case_insensitive_keys = [:email]
 
   # Configure which authentication keys should have whitespace stripped.
-  config.strip_whitespace_keys = [ :email ]
+  config.strip_whitespace_keys = [:email]
 
   # If 401 status code should be returned for AJAX requests. True by default.
   config.http_authenticatable_on_xhr = false
 
   # By default Devise will store the user in session. You can skip storage for
   # particular strategies by setting this option.
-  config.skip_session_storage = [ :http_auth ]
+  config.skip_session_storage = [:http_auth]
 
   # ==> Configuration for :database_authenticatable
   config.stretches = Rails.env.test? ? 1 : 10
@@ -79,7 +79,7 @@ Devise.setup do |config|
   config.lock_strategy = :failed_attempts
 
   # Defines which key will be used when locking and unlocking an account
-  config.unlock_keys = [ :email ]
+  config.unlock_keys = [:email]
 
   # Defines which strategy will be used to unlock an account.
   # :time  = Re-enables login after a certain amount of time (see :unlock_in below)

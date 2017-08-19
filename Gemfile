@@ -134,10 +134,10 @@ group :development do
   gem 'guard-rspec',            '4.7.3',  require: false
   gem 'guard-sidekiq',          '0.1.0'
   gem 'guard-process',          '1.2.1'
-  # gem 'libnotify',              '0.9.1'
 
   # Find index to add
   gem 'lol_dba',                '2.1.4'
+  gem 'unique_validation_inspector', '0.1.2'
 
   # Faster ruby code
   gem 'fasterer',               '0.3.2'

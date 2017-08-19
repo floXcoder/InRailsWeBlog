@@ -12,22 +12,22 @@
     .card-content
       h3.adaptative-title.center-align
         = t('devise.unlocks.title')
-      
+    
       p
         = link_to t('views.user.signup.back_home'), root_path
-      
+    
       p
         = user_form.error_notification
         = user_form.full_error :unlock_token
-      
+    
       / Email field
       .row
         .col.l8.offset-l2.s12
           = user_form.input :email, label: t('user.model.email'), icon: 'mail', required: true, autofocus: true
-      
+    
       / Helper links
       p
         = render 'devise/shared/links'
-    
+  
     .card-action.center-align
       = user_form.button :submit, t('devise.unlocks.submit')

@@ -62,10 +62,10 @@ class Picture < ApplicationRecord
 
   def format_attributes(attributes = {})
     # Imageable
-    unless attributes[:model_id].blank?
+    if attributes[:model_id].present?
       self.imageable_id = attributes.delete(:model_id).to_i
     end
-    unless attributes[:model].blank?
+    if attributes[:model].present?
       self.imageable_type = attributes.delete(:model).strip.classify
     end
 
@@ -77,7 +77,7 @@ class Picture < ApplicationRecord
     end
 
     # Pictures
-    unless attributes[:file].blank?
+    if attributes[:file].present?
       self.image = attributes.delete(:file)
     end
 

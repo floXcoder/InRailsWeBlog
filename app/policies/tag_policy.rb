@@ -49,4 +49,3 @@ class TagPolicy
     @current_user && @tag.user?(@current_user)
   end
 end
-

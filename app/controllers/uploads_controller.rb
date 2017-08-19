@@ -11,23 +11,25 @@ class UploadsController < ApplicationController
 
     if upload_params[:model] && upload_params[:model_id]
       class_model = upload_params[:model].classify.constantize
-      model = class_model.find(upload_params[:model_id])
+      model       = class_model.find(upload_params[:model_id])
       admin_or_authorize model
     end
 
     upload.format_attributes(upload_params)
 
     respond_to do |format|
-      if upload.save
-        # flash.now[:success] = t('views.upload.flash.successful_creation')
-        format.json { render json:       upload,
-                             root:       'upload',
-                             serializer: UploadSerializer,
-                             status:     :created }
-      else
-        # flash.now[:error] = t('views.upload.flash.error_creation')
-        format.json { render json:   { error: upload.errors.full_messages.join(',') },
-                             status: :forbidden }
+      format.json do
+        if upload.save
+          # flash.now[:success] = t('views.upload.flash.successful_creation')
+          render json:       upload,
+                 root:       'upload',
+                 serializer: UploadSerializer,
+                 status:     :created
+        else
+          # flash.now[:error] = t('views.upload.flash.error_creation')
+          render json:   { error: upload.errors.full_messages.join(',') },
+                 status: :forbidden
+        end
       end
     end
   end
@@ -38,23 +40,25 @@ class UploadsController < ApplicationController
 
     if upload_params[:model] && upload_params[:model_id]
       class_model = upload_params[:model].classify.constantize
-      model = class_model.find(upload_params[:model_id])
+      model       = class_model.find(upload_params[:model_id])
       admin_or_authorize model
     end
 
     upload.format_attributes(upload_params)
 
     respond_to do |format|
-      if upload.save
-        # flash.now[:success] = t('views.upload.flash.successful_edition')
-        format.json { render json:       upload,
-                             root:       'upload',
-                             serializer: UploadSerializer,
-                             status:     :ok }
-      else
-        # flash.now[:error] = t('views.upload.flash.error_edition')
-        format.json { render json:   { error: upload.errors.full_messages.join(',') },
-                             status: :forbidden }
+      format.json do
+        if upload.save
+          # flash.now[:success] = t('views.upload.flash.successful_edition')
+          render json:       upload,
+                 root:       'upload',
+                 serializer: UploadSerializer,
+                 status:     :ok
+        else
+          # flash.now[:error] = t('views.upload.flash.error_edition')
+          render json:   { error: upload.errors.full_messages.join(',') },
+                 status: :forbidden
+        end
       end
     end
   end
@@ -64,14 +68,16 @@ class UploadsController < ApplicationController
     admin_or_authorize upload
 
     respond_to do |format|
-      if upload.destroy
-        # flash.now[:success] = t('views.upload.flash.successful_deletion')
-        format.json { render json:       { id: upload.id },
-                             status:     :accepted }
-      else
-        # flash.now[:error] = t('views.upload.flash.error_deletion')
-        format.json { render json:   { error: upload.errors.full_messages.join(',') },
-                             status: :forbidden }
+      format.json do
+        if upload.destroy
+          # flash.now[:success] = t('views.upload.flash.successful_deletion')
+          render json:   { id: upload.id },
+                 status: :accepted
+        else
+          # flash.now[:error] = t('views.upload.flash.error_deletion')
+          render json:   { error: upload.errors.full_messages.join(',') },
+                 status: :forbidden
+        end
       end
     end
   end

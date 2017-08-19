@@ -7,11 +7,11 @@
     = login_form.input :login, label: t('user.model.login'), required: true, icon: 'account_circle'
   - else
     = login_form.input :login, label: t('user.model.login'), required: true, icon: 'account_circle', input_html: { data: { :'parsley-remote' => '/users/validation', :'parsley-remote-message' => I18n.t('js.user.errors.login.invalid') } }
-  
+
   / Password
   .col.s12
   = login_form.input :password, label: t('user.model.password'), required: true, icon: 'lock'
-  
+
   / Remember me
   .col.s12
     = login_form.input :remember_me, wrapper: :materialize_checkbox, label: t('views.user.login.remember') if devise_mapping.rememberable?

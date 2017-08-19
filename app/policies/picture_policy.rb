@@ -24,4 +24,3 @@ class PicturePolicy
     @current_user && @picture && @picture.user?(@current_user)
   end
 end
-

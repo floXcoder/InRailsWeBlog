@@ -22,7 +22,7 @@ module InRailsWeBlog
     end
 
     def self.read_latest_for(filename)
-      path = Rails.root.join('log', filename)
+      path           = Rails.root.join('log', filename)
       tail_output, _ = Popen.popen(%W(tail -n 2000 #{path}))
       tail_output.split("\n")
     end
@@ -33,13 +33,13 @@ module InRailsWeBlog
   end
 
   module Popen
-    def self.popen(cmd, path=nil)
+    def self.popen(cmd, path = nil)
       unless cmd.is_a?(Array)
         raise 'System commands must be given as an array of strings'
       end
 
-      path ||= Dir.pwd
-      vars = { 'PWD' => path }
+      path    ||= Dir.pwd
+      vars    = { 'PWD' => path }
       options = { chdir: path }
 
       unless File.directory?(path)

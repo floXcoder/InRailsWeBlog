@@ -118,13 +118,13 @@ class ApplicationController < ActionController::Base
 
   def alternate_urls(route, slug = nil, options = {})
     if options[:parent_main_route] && options[:parent_route] && options[:parent_slug]
-      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + options[:parent_route], locale: local)}/#{options[:parent_slug]}/#{I18n.t('routes.' + options[:parent_main_route], locale: local)}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/].to_s}"] }]
+      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + options[:parent_route], locale: local)}/#{options[:parent_slug]}/#{I18n.t('routes.' + options[:parent_main_route], locale: local)}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/]}"] }]
     elsif options[:parent_route] && options[:parent_slug]
-      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + options[:parent_route], locale: local)}/#{options[:parent_slug]}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/].to_s}"] }]
+      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + options[:parent_route], locale: local)}/#{options[:parent_slug]}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/]}"] }]
     elsif route.empty?
-      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{request.fullpath[/\?.*/].to_s}"] }]
+      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{request.fullpath[/\?.*/]}"] }]
     else
-      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/].to_s}"] }]
+      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/]}"] }]
     end
   end
 
@@ -216,8 +216,8 @@ class ApplicationController < ActionController::Base
     end
 
     respond_to do |format|
-      format.js { js_redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
-      format.html { redirect_to(ERB::Util.html_escape(request.referrer) || root_path) }
+      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
+      format.html { redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
       format.json { render json: { error: I18n.t('pundit.default') }.to_json, status: :forbidden }
     end
   end
@@ -284,10 +284,10 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(_resource)
     session[:user_just_sign] = true
 
-    previous_url = previous_url(request.referrer)
+    previous_url = previous_url(request.referer)
 
-    if !session[:previous_url] && request.referrer && request.referrer.include?(root_url) && previous_url
-      session[:previous_url] = request.referrer
+    if !session[:previous_url] && request.referer && request.referer.include?(root_url) && previous_url
+      session[:previous_url] = request.referer
     end
 
     root_path = resource.is_a?(Admin) ? admin_path : root_path(current_user)

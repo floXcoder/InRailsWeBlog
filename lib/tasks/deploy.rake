@@ -1,11 +1,12 @@
 # encoding: UTF-8
 namespace :InRailsWeBlog do
+
   # Usage :
   ## rails InRailsWeBlog:deploy
   ## rails InRailsWeBlog:deploy COMMENT='Comment...'
   ## rails InRailsWeBlog:deploy NO_TEST=true  # To skip tests
   desc 'Deploy project to server (repo must be on develop branch). Ex: rake InRailsWeBlog:deploy EVOL=#350,#360'
-  task :deploy do |t, args|
+  task :deploy do |_task, _args|
     # Check for uncommitted files
     fail 'Files not committed in repo, run git status' if %x{git diff --exit-code} != ''
 
@@ -17,15 +18,15 @@ namespace :InRailsWeBlog do
       begin
         Rails.env = 'test'
         require 'rspec/core/rake_task'
-        RSpec::Core::RakeTask.new(:spec) do |t|
-          t.pattern    = Dir.glob('spec/**/*_spec.rb')
-          t.rspec_opts = ' --require rails_helper'
-          t.rspec_opts << ' --tag basic'
+        RSpec::Core::RakeTask.new(:spec) do |spec_task|
+          spec_task.pattern    = Dir.glob('spec/**/*_spec.rb')
+          spec_task.rspec_opts = ' --require rails_helper'
+          spec_task.rspec_opts << ' --tag basic'
         end
         Rake.application.invoke_task('spec')
 
         system('./node_modules/karma/bin/karma start ./frontend/test/karma.conf.js --single-run', out: $stdout, err: :out)
-      rescue Exception => error
+      rescue StandardError => error
         if error
           puts 'Error in tests. Do you want to continue ? (y or n)'
           answer = STDIN.gets.chomp
@@ -65,4 +66,5 @@ namespace :InRailsWeBlog do
     # Reindex Elastic Search
     system('cap production deploy:elastic_search', out: $stdout, err: :out)
   end
+
 end

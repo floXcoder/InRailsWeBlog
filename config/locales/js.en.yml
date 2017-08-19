@@ -510,7 +510,7 @@ en:
       abbr_hour: "h"
       abbr_minute: "m"
     cookies:
-      message: "Welcome to Locatipic! This website uses cookies to ensure you get the best experience on our website. "
+      message: "Welcome to In Rails We Blog! This website uses cookies to ensure you get the best experience on our website. "
       link: "More info"
       validation: "Got it!"
     date:

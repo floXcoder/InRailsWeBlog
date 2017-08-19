@@ -90,22 +90,20 @@ RSpec.describe ErrorMessage, type: :model, basic: true do
 
     describe '::new_error' do
       it { is_expected.to respond_to(:new_error) }
-      it {
-        expect(ErrorMessage.new_error(
-          class_name:    'User',
-          message:       'Error User class',
-          trace:         'user.rb: line 20',
-          line_number:   '20',
-          column_number: '5',
-          params:        '{model => "user"}',
-          target_url:    '/users',
-          referer_url:   '/',
-          user_info:     'browser',
-          app_name:      'My App',
-          doc_root:      '/my_app',
-          origin:        'server')
-        ).to be_a(ErrorMessage)
-      }
+      it { expect(ErrorMessage.new_error(
+        class_name:    'User',
+        message:       'Error User class',
+        trace:         'user.rb: line 20',
+        line_number:   '20',
+        column_number: '5',
+        params:        '{model => "user"}',
+        target_url:    '/users',
+        referer_url:   '/',
+        user_info:     'browser',
+        app_name:      'My App',
+        doc_root:      '/my_app',
+        origin:        'server')
+      ).to be_a(ErrorMessage) }
     end
   end
 

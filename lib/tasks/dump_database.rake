@@ -1,5 +1,6 @@
 # encoding: UTF-8
 namespace :InRailsWeBlog do
+
   desc 'Dump database into YAML files'
   task :dump, [:dir_name] => :environment do |_task, args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
@@ -24,7 +25,7 @@ namespace :InRailsWeBlog do
 
     dump_path = Rails.root.join('db', 'dump')
 
-    dumps = Dir.entries(dump_path).select { |entry| File.directory? File.join(dump_path, entry) and !(entry =='.' || entry == '..') }
+    dumps = Dir.entries(dump_path).select { |entry| File.directory? File.join(dump_path, entry) and !(entry == '.' || entry == '..') }
     dump = 'dump/' + (args[:dir_name] || dumps.sort.last)
 
     begin
@@ -33,4 +34,5 @@ namespace :InRailsWeBlog do
       Rake::Task['db:data:load_dir'].invoke
     end
   end
+
 end

@@ -21,7 +21,7 @@ class DataUploader < CarrierWave::Uploader::Base
 
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_whitelist
-    %w(pdf)
+    %w[pdf]
   end
 
   protected
@@ -30,11 +30,11 @@ class DataUploader < CarrierWave::Uploader::Base
     model.original_filename ||= file.original_filename if file.respond_to?(:original_filename)
   end
 
-  def secure_token(length=16)
+  def secure_token(length = 16)
     model.image_secure_token ||= SecureRandom.hex(length / 2)
   end
 
-  def reset_secure_token(file)
+  def reset_secure_token(_file)
     model.image_secure_token = nil
   end
 end

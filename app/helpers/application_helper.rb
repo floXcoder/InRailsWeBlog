@@ -40,31 +40,31 @@ module ApplicationHelper
   end
 
   # Assets with manifest management
-  def javascript_include_tag(url, options={})
+  def javascript_include_tag(url, options = {})
     url = AssetManifest.javascript_path(url)
 
     super(url, options)
   end
 
-  def stylesheet_link_tag(url, options={})
+  def stylesheet_link_tag(url, options = {})
     url = AssetManifest.stylesheet_path(url)
 
     super(url, options)
   end
 
-  def image_tag(url, options={})
+  def image_tag(url, options = {})
     url = AssetManifest.image_path(url)
 
     super(url, options)
   end
 
-  def image_path(url, options={})
+  def image_path(url, options = {})
     url = AssetManifest.asset_path(url)
 
     super(url, options)
   end
 
-  def image_url(url, options={})
+  def image_url(url, options = {})
     url = AssetManifest.asset_path(url)
 
     super((ActionController::Base.asset_host || '') + url, options)

@@ -161,20 +161,20 @@ en:
         subject: "New contact !"
         title: "New message from %{name}"
         content: "Message content:"
-        footer: "Locatipic"
+        footer: "In Rails We Blog"
       answer:
         subject: "Thanks for sharing!"
         message: "Thank you for message. We'll keep you updated."
-        footer: "Locatipic"
+        footer: "In Rails We Blog"
       flash:
         email_sent: "Thanks for sharing, we can improve the website"
         email_not_sent: "Cannot send the message, the fields are correct ?"
     registration:
       welcome:
-        subject: "Welcome on Locatipic"
+        subject: "Welcome on In Rails We Blog"
         hello: "Hello,"
-        thanks: "Thanks for your inscription on Locatipic."
-        bye: "Have a goo trip on Locatipic :)"
+        thanks: "Thanks for your inscription on In Rails We Blog."
+        bye: "Have a goo trip on In Rails We Blog :)"
     confirmation:
       instruction: "You can confirm your account email through the link below"
     reset_password:

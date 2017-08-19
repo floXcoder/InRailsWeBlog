@@ -7,7 +7,7 @@ module CommentConcern
   end
 
   def comments
-    class_model = params[:controller].classify.constantize
+    class_model = controller_path.classify.constantize
     record      = class_model.find(params[:id])
 
     comments, comments_tree = record.comments_tree(params[:page])
@@ -22,7 +22,7 @@ module CommentConcern
   end
 
   def add_comment
-    class_model = params[:controller].classify.constantize
+    class_model = controller_path.classify.constantize
     record      = class_model.find(params[:id])
     authorize record
 
@@ -51,7 +51,7 @@ module CommentConcern
   end
 
   def update_comment
-    class_model = params[:controller].classify.constantize
+    class_model = controller_path.classify.constantize
     record      = class_model.find(params[:id])
     authorize record
 
@@ -78,7 +78,7 @@ module CommentConcern
   end
 
   def remove_comment
-    class_model = params[:controller].classify.constantize
+    class_model = controller_path.classify.constantize
     record      = class_model.find(params[:id])
     authorize record
 

@@ -1,5 +1,6 @@
 # encoding: UTF-8
 namespace :InRailsWeBlog do
+
   desc 'Flush all Redis keys related to the application'
   task flush_redis: :environment do
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
@@ -22,4 +23,5 @@ namespace :InRailsWeBlog do
           end
     app.keys.each { |key| app.del(key) }
   end
+
 end

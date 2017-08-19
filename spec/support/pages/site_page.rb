@@ -49,7 +49,7 @@ class SitePage
     end
   end
 
-  def has_javascript?(script_name=nil)
+  def has_javascript?(script_name = nil)
     has_selector?("script[src*='#{script_name}']", visible: false)
   end
 
@@ -59,7 +59,7 @@ class SitePage
     javascript_logs = javascript_logs.reject { |log| log.message.match?(/Warning:/) }
     javascript_logs = javascript_logs.reject { |log| log.message.match?(/WebSocket/) }
 
-    if javascript_logs.length > 0
+    if !javascript_logs.length.empty?
       ap javascript_logs.map(&:message)
       return true
     else

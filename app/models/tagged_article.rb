@@ -68,7 +68,7 @@ class TaggedArticle < ApplicationRecord
   private
 
   def tag_authorized
-    if self.tag.only_me? && self.tag.user_id != self.user_id
+    if self.tag.present? && self.tag.only_me? && self.tag.user_id != self.user_id
       # Useful? : tag do not belong to a specific topic
       # || (self.tag.only_me? && self.article.topic_id != self.topic_id)
       errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.tag_not_authorized'))

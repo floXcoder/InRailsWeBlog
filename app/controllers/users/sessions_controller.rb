@@ -62,7 +62,7 @@ class Users::SessionsController < Devise::SessionsController
   def check_unconfirmed_user
     return if params[:user].blank?
 
-    unless params[:user][:login].blank?
+    if params[:user][:login].present?
       user = User.where('email = :email OR pseudo = :pseudo', email: params[:user][:login], pseudo: params[:user][:login]).first
       if user && !user.confirmed?
         error_msg = I18n.t('devise.failure.unconfirmed')

@@ -32,7 +32,7 @@ FactoryGirl.define do
     image_secure_token      { SecureRandom.uuid }
     original_filename       { Faker::Lorem.word }
 
-    before(:create) do |picture, evaluator|
+    before(:create) do |picture, _evaluator|
       picture.image_tmp = nil
       picture.image = picture.image
     end

@@ -73,4 +73,3 @@ class ArticlePolicy
     @current_user && @article.user?(@current_user)
   end
 end
-

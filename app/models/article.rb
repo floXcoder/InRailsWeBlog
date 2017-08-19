@@ -200,8 +200,7 @@ class Article < ApplicationRecord
 
   scope :published, -> { where(draft: false) }
 
-  scope :bookmarked_by_user,
-        -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
+  scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
   before_create do |article|

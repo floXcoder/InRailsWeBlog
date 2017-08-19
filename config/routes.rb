@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   # Concerns
   concern :tracker do |options|
-    post    :clicked,   to: "#{options[:module].to_s}#clicked"
-    post    :viewed,    to: "#{options[:module].to_s}#viewed"
+    post    :clicked,   to: "#{options[:module]}#clicked"
+    post    :viewed,    to: "#{options[:module]}#viewed"
   end
 
   concern :outdated do |options|
@@ -20,10 +20,10 @@ Rails.application.routes.draw do
   end
 
   concern :comments do |options|
-    get     :comments,  to: "#{options[:module].to_s}#comments"
-    post    :comments,  to: "#{options[:module].to_s}#add_comment"
-    put     :comments,  to: "#{options[:module].to_s}#update_comment"
-    delete  :comments,  to: "#{options[:module].to_s}#remove_comment"
+    get     :comments,  to: "#{options[:module]}#comments"
+    post    :comments,  to: "#{options[:module]}#add_comment"
+    put     :comments,  to: "#{options[:module]}#update_comment"
+    delete  :comments,  to: "#{options[:module]}#remove_comment"
   end
 
   # Users (devise)

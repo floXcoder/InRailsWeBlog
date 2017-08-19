@@ -32,4 +32,3 @@ class TopicPolicy
     @current_user && @topic.user?(@current_user)
   end
 end
-

@@ -10,11 +10,11 @@ RSpec::Matchers.define :have_paper_trail do |model|
     'model activity'
   end
 
-  failure_message do |model|
+  failure_message do |_model|
     "#{model} expected to have paper trail"
   end
 
-  failure_message_when_negated do |model|
+  failure_message_when_negated do |_model|
     "#{model} expected not to have paper trail"
   end
 end

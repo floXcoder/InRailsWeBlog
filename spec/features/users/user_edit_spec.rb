@@ -5,7 +5,7 @@ feature 'Edit User', advanced: true, js: true do
   end
 
   given(:user_info) { { pseudo:          'Pseudo',
-                        email:           'test@locatipic.fr',
+                        email:           'test@inr.fr',
                         password:        'new_password',
                         first_name:      'First name',
                         last_name:       'Last name',

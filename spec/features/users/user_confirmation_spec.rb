@@ -2,7 +2,7 @@ feature 'User Confirmation', advanced: true, js: true do
 
   background(:all) do
     @user_info = { pseudo:   'Pseudo',
-                   email:    'test@locatipic.fr',
+                   email:    'test@inr.fr',
                    password: 'new_password' }
 
     @user = create(:user, pseudo: @user_info[:email], email: @user_info[:email])

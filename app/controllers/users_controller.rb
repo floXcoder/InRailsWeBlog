@@ -111,7 +111,7 @@ class UsersController < ApplicationController
           User.track_views(user.id)
           render json:       user,
                  serializer: UserCompleteSerializer
-        elsif params[:user_profile] && current_user && current_user.id == user.id
+        elsif params[:user_profile] && current_user&.id == user.id
           render json:       user,
                  serializer: UserProfileSerializer
         else
@@ -204,12 +204,12 @@ class UsersController < ApplicationController
     if params[:picture_attributes] &&
       params[:picture_attributes][:image] &&
       params[:picture_attributes][:remote_image_url] &&
-      !params[:picture_attributes][:remote_image_url].blank?
+      params[:picture_attributes][:remote_image_url].present?
       update_user_params[:picture_attributes].delete(:remote_image_url)
     end
 
     # Current use can not remove his own admin rights
-    update_user_params.delete(:admin) if current_user.try(:admin?) && current_user.id == user.id
+    update_user_params.delete(:admin) if current_user&.admin? && current_user.id == user.id
 
     if user.update_without_password(update_user_params)
       respond_to do |format|

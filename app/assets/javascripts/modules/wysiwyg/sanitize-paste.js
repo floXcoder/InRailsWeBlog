@@ -109,8 +109,9 @@
                                 listsIds.push(currentList);
                             }
                             else {
+                                var $prevList;
                                 if (currentLevel > lastLevel) {
-                                    var $prevList = $div.find('[data-level="' + lastLevel + '"][data-list="' + lastList + '"]');
+                                    $prevList = $div.find('[data-level="' + lastLevel + '"][data-list="' + lastList + '"]');
 
                                     var $lastList = $prevList;
 
@@ -130,7 +131,7 @@
 
                                 }
                                 else {
-                                    var $prevList = $div.find('[data-level="' + currentLevel + '"][data-list="' + currentList + '"]').last();
+                                    $prevList = $div.find('[data-level="' + currentLevel + '"][data-list="' + currentList + '"]').last();
 
                                     $prevList.append($li);
                                 }

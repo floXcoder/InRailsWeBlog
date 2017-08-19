@@ -63,11 +63,11 @@ class ArticleSerializer < ActiveModel::Serializer
   end
 
   def highlight_content
-    if instance_options[:highlight] && !instance_options[:highlight].empty? && instance_options[:highlight][object.id]
+    if instance_options[:highlight].present? && instance_options[:highlight][object.id]
       if defined?(current_user) && current_user && current_user.id == object.id
-        instance_options[:highlight][object.id]["content_#{I18n.locale.to_s}".to_sym]
+        instance_options[:highlight][object.id]["content_#{I18n.locale}".to_sym]
       else
-        instance_options[:highlight][object.id]["public_content_#{I18n.locale.to_s}".to_sym]
+        instance_options[:highlight][object.id]["public_content_#{I18n.locale}".to_sym]
       end
     end
   end
@@ -121,7 +121,7 @@ class ArticleSerializer < ActiveModel::Serializer
   end
 
   def new_tags
-    if instance_options[:new_tags] && !instance_options[:new_tags].empty?
+    if instance_options[:new_tags].present?
       instance_options[:new_tags].map do |tag|
         TagSampleSerializer.new(tag).attributes
       end

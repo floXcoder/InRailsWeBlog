@@ -12,19 +12,19 @@
     .card-content
       h3.adaptative-title.center-align
         = t('devise.passwords.new.title')
-      
+    
       p
         = link_to t('views.user.signup.back_home'), root_path
-      
+    
       = user_form.error_notification
-      
+    
       .row.margin-top-20.margin-bottom-20
         / Email field
         .col.l8.offset-l2.s12
           = user_form.input :email, label: t('user.model.email'), icon: 'mail', required: true, autofocus: true
-      
+    
       p
         = render 'devise/shared/links'
-    
+  
     .card-action.center-align
       = user_form.button :submit, t('devise.passwords.new.submit')

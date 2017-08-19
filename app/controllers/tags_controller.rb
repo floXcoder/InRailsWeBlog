@@ -21,8 +21,7 @@ class TagsController < ApplicationController
   respond_to :html, :json
 
   def index
-    tags = Tag
-             .includes(:user, :parents, :child_relationships, :children, :parent_relationships)
+    tags = Tag.includes(:user, :parents, :child_relationships, :children, :parent_relationships)
              .order('tags.name ASC')
              .distinct
 

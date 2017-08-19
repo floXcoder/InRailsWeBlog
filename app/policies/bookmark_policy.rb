@@ -20,4 +20,3 @@ class BookmarkPolicy
     @current_user && @bookmark.user?(@current_user)
   end
 end
-

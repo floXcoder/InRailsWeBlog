@@ -30,7 +30,7 @@ class PublicActivitiesSerializer < ActiveModel::Serializer
         controller: object.recipient_type.tableize,
         action: 'show',
         id: object.recipient_id,
-        anchor: "comment-#{object.trackable_id.to_s}",
+        anchor: "comment-#{object.trackable_id}",
         only_path: true
       )
     else
