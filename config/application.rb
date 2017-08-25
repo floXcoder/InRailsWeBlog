@@ -62,6 +62,8 @@ module InRailsWeBlog
 
     # Json adapter for serializers
     ActiveModel::Serializer.config.adapter = :json
+    ActiveModel::Serializer.config.key_transform = :camel_lower
+    ActiveModel::Serializer.config.default_includes = '**'
 
     # Cache with Redis
     config.cache_store = :readthis_store, {
