@@ -56,7 +56,7 @@ Rails.application.routes.draw do
       concerns :tracker,       module: :users
     end
 
-    resources :topics, controller: 'users/topics', only: [:index, :create, :update, :destroy] do
+    resources :topics, controller: 'users/topics' do
       collection do
         post :switch,          to: 'users/topics#switch'
       end

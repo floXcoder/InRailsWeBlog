@@ -10,6 +10,10 @@ class TopicPolicy
     owner?
   end
 
+  def show?
+    owner?
+  end
+
   def create?
     @current_user
   end

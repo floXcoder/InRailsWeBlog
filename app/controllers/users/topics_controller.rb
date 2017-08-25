@@ -42,6 +42,18 @@ class Users::TopicsController < ApplicationController
     end
   end
 
+  def show
+    topic = Topic.friendly.find(params[:id])
+    authorize topic
+
+    respond_to do |format|
+      format.json do
+        render json:       topic,
+               serializer: TopicTaggedSerializer
+      end
+    end
+  end
+
   def create
     user  = User.find(params[:user_id])
     topic = user.topics.build

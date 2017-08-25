@@ -125,6 +125,44 @@ describe 'User Topic API', type: :request, basic: true do
     end
   end
 
+  describe '/users/:user_id/topics/:id' do
+    context 'when user is not connected' do
+      it 'returns an error message' do
+        get "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+
+        expect(response).to be_unauthenticated
+      end
+    end
+
+    context 'when another user is connected' do
+      before do
+        login_as(@other_user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns an error message' do
+        get "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+
+        expect(response).to be_unauthorized
+      end
+    end
+
+    context 'when user is connected' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns the new topic' do
+        get "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+
+        expect(response).to be_json_response
+
+        topic = JSON.parse(response.body)
+        expect(topic['topic']).not_to be_empty
+        expect(topic['topic']['name']).to eq(@first_topic.name)
+      end
+    end
+  end
+
   describe '/users/:user_id/topics (POST)' do
     context 'when user is not connected' do
       it 'returns an error message' do
