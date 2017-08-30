@@ -8,7 +8,7 @@ import {
     Popup
 } from 'semantic-ui-react';
 
-const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSignupClick}) => {
+const HomeUserHeader = ({isUserConnected, isAdminConnected, userSlug, onLoginClick, onSignupClick}) => {
     const button = (
         <a className="btn-floating waves-effect waves-light header-button topic-header-button"
            href="#">
@@ -68,7 +68,7 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
             {
                 isUserConnected &&
                 <li className="collection-item">
-                    <a href={`/user/profile/${$app.user.slug}`}>
+                    <a href={`/user/profile/${userSlug}`}>
                         {I18n.t('js.views.header.user.profile')}
                     </a>
                 </li>
@@ -104,7 +104,12 @@ HomeUserHeader.propTypes = {
     isUserConnected: PropTypes.bool.isRequired,
     isAdminConnected: PropTypes.bool.isRequired,
     onLoginClick: PropTypes.func.isRequired,
-    onSignupClick: PropTypes.func.isRequired
+    onSignupClick: PropTypes.func.isRequired,
+    userSlug: PropTypes.string,
+};
+
+HomeUserHeader.defaultProps = {
+    userSlug: null
 };
 
 export default HomeUserHeader;

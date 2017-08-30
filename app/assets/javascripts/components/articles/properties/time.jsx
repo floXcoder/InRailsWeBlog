@@ -1,14 +1,14 @@
 'use strict';
 
-const ArticleTime = ({article}) => (
+const ArticleTime = ({lastUpdate}) => (
     <div className="tooltipped article-time"
          data-tooltip={I18n.t('js.article.tooltip.updated_at')}>
-        {article.updated_at}
+        {lastUpdate}
     </div>
 );
 
 ArticleTime.propTypes = {
-    article: PropTypes.object.isRequired
+    lastUpdate: PropTypes.string.isRequired
 };
 
 export default ArticleTime;

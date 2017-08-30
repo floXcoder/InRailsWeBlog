@@ -1,7 +1,6 @@
+'use strict';
 
-export default Reflux.createActions([
-    'loadErrors',
-    'pushError',
-    'deleteError',
-    'deleteAllErrors'
-]);
+// 'loadErrors',
+// 'pushError',
+// 'deleteError',
+// 'deleteAllErrors'

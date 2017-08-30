@@ -1,9 +1,10 @@
 'use strict';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
+// TODO
+// import UserActions from '../../actions/userActions';
+// import UserStore from '../../stores/userStore';
 
-export default class Bookmark extends Reflux.Component {
+export default class Bookmark extends React.Component {
     static propTypes = {
         modelId: PropTypes.number.isRequired,
         modelName: PropTypes.string.isRequired,
@@ -21,7 +22,8 @@ export default class Bookmark extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onUserChange);
+        // TODO
+        // this.mapStoreToState(UserStore, this.onUserChange);
     }
 
     state = {
@@ -78,7 +80,8 @@ export default class Bookmark extends Reflux.Component {
     _handleBookmarkClick = (event) => {
         event.preventDefault();
 
-        UserActions.bookmark($.currentUserId(), this.props.modelId, this.props.modelName, this.state.isBookmarked);
+        // TODO
+        // UserActions.bookmark($.currentUserId(), this.props.modelId, this.props.modelName, this.state.isBookmarked);
     };
 
     render() {

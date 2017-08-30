@@ -229,24 +229,6 @@ if (!Array.prototype.filter) {
 
 /** NEW FUNCTIONALITIES **/
 $.extend({
-    /** USER **/
-    currentUserId: () => $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10),
-
-    currentAdminId: () => $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10),
-
-    isValidUser: (userId) => {
-        const currentUserId = $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10);
-        const currentAdminId = $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10);
-
-        if (userId) {
-            return (userId === currentUserId || !!currentAdminId);
-        } else {
-            return !!currentUserId;
-        }
-    },
-
-    isAdminConnected: () => !!($.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10)),
-
     uuid: () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
         let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);

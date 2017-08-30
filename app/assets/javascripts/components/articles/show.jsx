@@ -1,13 +1,23 @@
 'use strict';
 
+import {
+    connect
+} from 'react-redux';
+
+import {
+    Link
+} from 'react-router-dom';
+
 import HighlightCode from 'highlight.js';
 
 import AnimatedText from '../theme/animated-text';
 
-import UserStore from '../../stores/userStore';
+// TODO
+// import UserStore from '../../stores/userStore';
 
-import ArticleActions from '../../actions/articleActions';
-import ArticleStore from '../../stores/articleStore';
+// TODO
+// import ArticleActions from '../../actions/articleActions';
+// import ArticleStore from '../../stores/articleStore';
 import ArticleHistory from './history';
 import CountCommentIcon from '../comments/icons/count';
 import ArticleOutdatedIcon from './icons/outdated';
@@ -22,11 +32,11 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import CommentBox from '../comments/box';
 
-import {
-    Link
-} from 'react-router-dom';
-
-export default class ArticleShow extends Reflux.Component {
+@connect((state, props) => ({
+    isUserConnected: state.userState.isUserConnected,
+    userCurrentId: state.userState.userCurrentId
+}))
+export default class ArticleShow extends React.Component {
     static propTypes = {
         article: PropTypes.object,
         params: PropTypes.object,
@@ -42,7 +52,8 @@ export default class ArticleShow extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        // TODO
+        // this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
 
     state = {
@@ -57,7 +68,8 @@ export default class ArticleShow extends Reflux.Component {
                 article: this.props.article
             });
         } else if (this.props.params.articleSlug) {
-            ArticleActions.loadArticle({slug: this.props.params.articleSlug});
+            // TODO
+            // ArticleActions.loadArticle({slug: this.props.params.articleSlug});
         }
     }
 
@@ -125,7 +137,8 @@ export default class ArticleShow extends Reflux.Component {
     };
 
     _handleUserClick = (userId, event) => {
-        UserStore.onTrackClick(userId);
+        // TODO
+        // UserStore.onTrackClick(userId);
         return event;
     };
 
@@ -133,27 +146,32 @@ export default class ArticleShow extends Reflux.Component {
         if (this.state.isHistoryDisplayed) {
             this.setState({isHistoryDisplayed: false});
         } else {
-            ArticleActions.loadArticleHistory({history: this.state.article.id});
+            // TODO
+            // ArticleActions.loadArticleHistory({history: this.state.article.id});
         }
     };
 
     _handleDeleteClick = (event) => {
         event.preventDefault();
         if (this.state.article) {
-            ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
+            // TODO
+            // ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
         }
     };
 
     _handleBookmarkClick = (articleId, isBookmarked) => {
-        ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
+        // TODO
+        // ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
     };
 
     _handleVoteClick = (articleId, isUp) => {
-        ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
+        // TODO
+        // ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
     };
 
     _handleOutdatedClick = (articleId, isOutdated) => {
-        ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
+        // TODO
+        // ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
     };
 
     render() {
@@ -234,12 +252,13 @@ export default class ArticleShow extends Reflux.Component {
                                                         onHistoryClick={this._handleHistoryClick}/>
 
                                     {
-                                        $app.isUserConnected(this.state.article.user.id) &&
-                                        <Link className="article-edit btn-floating tooltipped"
-                                              data-tooltip={I18n.t('js.article.tooltip.edit')}
-                                              to={`/article/${this.state.article.id}/edit`}>
-                                            <i className="material-icons">mode_edit</i>
-                                        </Link>
+                                        // TODO
+                                        // $app.isUserConnected(this.state.article.user.id) &&
+                                        // <Link className="article-edit btn-floating tooltipped"
+                                        //       data-tooltip={I18n.t('js.article.tooltip.edit')}
+                                        //       to={`/article/${this.state.article.id}/edit`}>
+                                        //     <i className="material-icons">mode_edit</i>
+                                        // </Link>
                                     }
                                 </div>
                             </div>
@@ -252,11 +271,12 @@ export default class ArticleShow extends Reflux.Component {
                             <p>
                                 {I18n.t('js.article.show.new_tags')}
                                 {
-                                    this.props.location.state.newTags.map((newTag, i) =>
-                                        <Link key={i}
-                                              to={`/tag/${newTag.slug}`}>
-                                            {newTag.name}
-                                        </Link>
+                                    this.props.location.state.newTags.map((newTag, i) => (
+                                            <Link key={i}
+                                                  to={`/tag/${newTag.slug}`}>
+                                                {newTag.name}
+                                            </Link>
+                                        )
                                     )
                                 }
                             </p>
@@ -274,8 +294,8 @@ export default class ArticleShow extends Reflux.Component {
                             <CommentBox id="comments"
                                         commentableType="articles"
                                         commentableId={this.state.article.id}
-                                        isConnected={$app.isUserConnected()}
-                                        currentUserId={$app.user.currentId}
+                                        isConnected={this.props.isUserConnected}
+                                        currentUserId={this.props.userCurrentId}
                                         isPaginated={true}
                                         isRated={true}/>
                         </div>

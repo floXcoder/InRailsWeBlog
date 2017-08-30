@@ -1,33 +1,35 @@
 'use strict';
 
-import ArticleStore from '../../../stores/articleStore';
+import {
+    Link
+} from 'react-router-dom';
 
-import {Link} from 'react-router-dom';
-
-const ArticleLink = ({article, onArticleClick}) => (
+const ArticleLink = ({articleId, articleSlug, onArticleClick}) => (
     <Link className="article-goto tooltipped btn-floating"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
-          to={'/article/' + article.slug}
-          onClick={ArticleLink._handleArticleClick.bind(article.id, onArticleClick)}>
+          to={`/article/${articleSlug}`}
+          onClick={_handleArticleClick.bind(undefined, articleId, onArticleClick)}>
         <i className="material-icons">home</i>
     </Link>
 );
 
+const _handleArticleClick = (articleId, onArticleClick, event) => {
+    // TODO
+    // ArticleStore.onTrackClick(articleId);
+
+    if (onArticleClick) {
+        onArticleClick(articleId);
+    }
+};
+
 ArticleLink.propTypes = {
-    article: PropTypes.object.isRequired,
+    articleId: PropTypes.number.isRequired,
+    articleSlug: PropTypes.string.isRequired,
     onArticleClick: PropTypes.func
 };
 
 ArticleLink.getDefaultProps = {
     onArticleClick: null
-};
-
-ArticleLink._handleArticleClick = (articleId, onArticleClick) => {
-    ArticleStore.onTrackClick(articleId);
-
-    if (onArticleClick) {
-        onArticleClick(articleId);
-    }
 };
 
 export default ArticleLink;

@@ -3,7 +3,7 @@
 # These variables can be changed in application
 defaults: &defaults
   # Default per page
-  per_page: 12
+  per_page: 20
 
   # Search results per page
   search_per_page: 30

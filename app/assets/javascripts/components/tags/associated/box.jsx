@@ -3,12 +3,14 @@
 import _ from 'lodash';
 
 import AssociatedTagList from './list';
-import ArticleActions from '../../../actions/articleActions';
-import ArticleStore from '../../../stores/articleStore';
+
+// TODO
+// import ArticleActions from '../../../actions/articleActions';
+// import ArticleStore from '../../../stores/articleStore';
 
 import Spinner from '../../../components/materialize/spinner';
 
-export default class AssociatedTagBox extends Reflux.Component {
+export default class AssociatedTagBox extends React.Component {
     static propTypes = {
         hasMore: PropTypes.bool
     };
@@ -54,7 +56,8 @@ export default class AssociatedTagBox extends Reflux.Component {
     }
 
     _handleTagClick = (tagId, activeTag) => {
-        ArticleActions.filterArticlesByTag(tagId, activeTag);
+        // TODO
+        // ArticleActions.filterArticlesByTag(tagId, activeTag);
     };
 
     render() {

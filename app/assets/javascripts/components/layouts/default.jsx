@@ -1,28 +1,50 @@
 'use strict';
 
-import TopicStore from '../../stores/topicStore';
+import {
+    Route
+} from 'react-router-dom';
+
+import {
+    connect
+} from 'react-redux';
+
+import {
+    fetchUsers
+} from '../../actions/index';
+
+import LoadingLayout from './loading';
 
 import HeaderLayout from './header';
 import SidebarLayout from './sidebar';
 import FooterLayout from './footer';
 
-import {
-    Route
-} from 'react-router-dom';
-
 import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
 
-export default class DefaultLayout extends Reflux.PureComponent {
+
+@connect((state, props) => ({
+    isUserConnected: state.userState.isUserConnected,
+    userCurrentId: state.userState.currentId,
+    isLoadingUser: state.userState.isFetching
+}), {
+    fetchUsers
+})
+export default class DefaultLayout extends React.Component {
     static propTypes = {
         path: PropTypes.string.isRequired,
         component: PropTypes.func.isRequired,
-        onReloadPage: PropTypes.func.isRequired,
-        exact: PropTypes.bool
+        fetchUsers: PropTypes.func.isRequired,
+        exact: PropTypes.bool,
+        userCurrentId: PropTypes.number,
+        isUserConnected: PropTypes.bool,
+        isLoadingUser: PropTypes.bool
     };
 
     static defaultProps = {
-        exact: false
+        userCurrentId: null,
+        isUserConnected: false,
+        exact: false,
+        isLoadingUser: false
     };
 
     constructor(props) {
@@ -30,7 +52,9 @@ export default class DefaultLayout extends Reflux.PureComponent {
 
         this._router = null;
 
-        this.mapStoreToState(TopicStore, this.onTopicChange);
+        if (this.props.isUserConnected) {
+            this.props.fetchUsers(this.props.userCurrentId, {userProfile: true});
+        }
     }
 
     state = {
@@ -39,22 +63,6 @@ export default class DefaultLayout extends Reflux.PureComponent {
 
     componentDidMount() {
         this._onInit();
-    }
-
-    onTopicChange(topicData) {
-        if ($.isEmpty(topicData)) {
-            return;
-        }
-
-        // let newState = {};
-
-        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
-            this._router.history.push(`/topic/${topicData.topic.slug}`);
-        }
-
-        // if (!$.isEmpty(newState)) {
-        //     this.setState(newState);
-        // }
     }
 
     _onInit = () => {
@@ -81,36 +89,53 @@ export default class DefaultLayout extends Reflux.PureComponent {
         window.scrollTo(0, 0);
     };
 
+    _handleReloadPage = () => {
+        // TODO
+        // this.setState({
+        //     isLoadingUser: true
+        // });
+    };
+
     render() {
         const {component: Component, ...props} = this.props;
 
         return (
-            <Route {...props}
-                   render={router => {
-                       this._router = router;
+            <div>
+                {
+                    this.props.isLoadingUser
+                        ?
+                        <div>
+                            <LoadingLayout path={this.props.routes.init.path}
+                                           exact={this.props.routes.init.exact}/>
+                        </div>
+                        :
+                        <Route {...props}
+                               render={router => {
+                                   this._router = router;
 
-                       return (
-                           <div className="blog-content">
-                               <HeaderLayout router={router}
-                                             onReloadPage={this.props.onReloadPage}/>
+                                   return (
+                                       <div className="blog-content">
+                                           <HeaderLayout onReloadPage={this._handleReloadPage}/>
 
-                               <SidebarLayout router={router}
-                                              onOpened={this._handleSidebarPinClick}/>
+                                           <SidebarLayout router={router}
+                                                          onOpened={this._handleSidebarPinClick}/>
 
-                               <div
-                                   className={classNames('blog-main-content', {'blog-main-pinned': this.state.isSidebarOpened})}>
-                                   <div className="container blog-main">
-                                       <Component router={router}/>
-                                   </div>
+                                           <div
+                                               className={classNames('blog-main-content', {'blog-main-pinned': this.state.isSidebarOpened})}>
+                                               <div className="container blog-main">
+                                                   <Component/>
+                                               </div>
 
-                                   <a className="goto-top hide-on-small-and-down"
-                                      onClick={this._handleGoToTopClick}/>
-                               </div>
+                                               <a className="goto-top hide-on-small-and-down"
+                                                  onClick={this._handleGoToTopClick}/>
+                                           </div>
 
-                               <FooterLayout/>
-                           </div>
-                       );
-                   }}/>
+                                           <FooterLayout/>
+                                       </div>
+                                   );
+                               }}/>
+                }
+            </div>
         );
     }
-};
+}

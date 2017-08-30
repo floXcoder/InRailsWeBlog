@@ -2,15 +2,15 @@
 
 import ChildTag from './child';
 
-export default class ParentTag extends Reflux.PureComponent {
+export default class ParentTag extends React.PureComponent {
     static propTypes = {
         tag: PropTypes.object.isRequired,
-        onClickTag: PropTypes.func.isRequired,
-        isSearching: PropTypes.bool
+        onTagClick: PropTypes.func.isRequired,
+        isFiltering: PropTypes.bool
     };
 
     static defaultProps = {
-        isSearching: false
+        isFiltering: false
     };
 
     state = {
@@ -19,15 +19,15 @@ export default class ParentTag extends Reflux.PureComponent {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            isExpanded: nextProps.isSearching
+            isExpanded: nextProps.isFiltering
         });
     }
 
     _handleTagClick = (tagId, parentTagSlug, childTagSlug, event) => {
         event.preventDefault();
 
-        if (this.props.onClickTag) {
-            this.props.onClickTag(tagId, tagId, childTagSlug);
+        if (this.props.onTagClick) {
+            this.props.onTagClick(tagId, tagId, childTagSlug);
         }
 
         if (!this.state.isExpanded) {
@@ -55,7 +55,7 @@ export default class ParentTag extends Reflux.PureComponent {
                         ?
                         <i className="material-icons tag-parent-icon"
                            onClick={this._handleTagIconClick}>
-                            {this.state.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }
+                            {this.state.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
                         </i>
                         :
                         <div className="tag-parent-icon">
@@ -70,11 +70,12 @@ export default class ParentTag extends Reflux.PureComponent {
 
                 <div className="tag-parent-children">
                     {
-                        this.state.isExpanded && this.props.tag.children.map((tag, i) =>
-                            <ChildTag key={i}
-                                      tag={tag}
-                                      parentTagSlug={this.props.tag.slug}
-                                      onClickTag={this.props.onClickTag}/>
+                        this.state.isExpanded && this.props.tag.children.map((tag, i) => (
+                                <ChildTag key={i}
+                                          tag={tag}
+                                          parentTagSlug={this.props.tag.slug}
+                                          onTagClick={this.props.onTagClick}/>
+                            )
                         )
                     }
                 </div>

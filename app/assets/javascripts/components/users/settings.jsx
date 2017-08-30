@@ -1,7 +1,8 @@
 'use strict';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
+// TODO
+// import UserActions from '../../actions/userActions';
+// import UserStore from '../../stores/userStore';
 import RadioButtons from '../../components/materialize/radio-buttons';
 import SwitchButton from '../../components/materialize/switch-button';
 
@@ -10,7 +11,7 @@ import {
 } from 'semantic-ui-react';
 
 
-export default class UserSettings extends Reflux.PureComponent {
+export default class UserSettings extends React.Component {
     static propTypes = {};
 
     static defaultProps = {};
@@ -18,7 +19,8 @@ export default class UserSettings extends Reflux.PureComponent {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onSettingsChange);
+        // TODO
+        // this.mapStoreToState(UserStore, this.onSettingsChange);
     }
 
     state = {
@@ -60,25 +62,29 @@ export default class UserSettings extends Reflux.PureComponent {
     _onDisplayChanged = (event) => {
         let article_display = event.target.id;
         this.setState({article_display: event.target.id});
-        UserActions.updateUserPreference({displayType: article_display});
+        // TODO
+        // UserActions.updateUserPreference({displayType: article_display});
     };
 
     _onHighlightChanged = (event) => {
         let search_highlight = this.refs.searchHighlight.value();
         this.setState({search_highlight: search_highlight});
-        UserActions.updateUserPreference({search_highlight: !search_highlight});
+        // TODO
+        // UserActions.updateUserPreference({search_highlight: !search_highlight});
     };
 
     _onOperatorSearchChanged = (event) => {
         let search_operator = event.target.id;
         this.setState({search_operator: search_operator});
-        UserActions.updateUserPreference({search_operator: search_operator});
+        // TODO
+        // UserActions.updateUserPreference({search_operator: search_operator});
     };
 
     _onExactSearchChanged = (event) => {
         let search_exact = this.refs.searchExact.value();
         this.setState({search_exact: search_exact});
-        UserActions.updateUserPreference({search_exact: !search_exact});
+        // TODO
+        // UserActions.updateUserPreference({search_exact: !search_exact});
     };
 
     render() {

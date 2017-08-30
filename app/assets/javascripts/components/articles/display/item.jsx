@@ -1,21 +1,23 @@
 'use strict';
 
-import _ from 'lodash';
+import {
+    withRouter
+} from 'react-router-dom';
 
+// TODO
 // import Tracker from '../../../modules/tracker';
-import UserActions from '../../../actions/userActions';
-import TagActions from '../../../actions/tagActions';
-import ArticleActions from '../../../actions/articleActions';
+// import UserActions from '../../../actions/userActions';
+// import TagActions from '../../../actions/tagActions';
+// import ArticleActions from '../../../actions/articleActions';
 
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
 import ArticleEditionDisplay from './inline-edition';
 
+@withRouter
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired,
-        children: PropTypes.string.isRequired,
-        article: PropTypes.object.isRequired,
+        articleId: PropTypes.number.isRequired,
         initialDisplayMode: PropTypes.string.isRequired
     };
 
@@ -30,9 +32,10 @@ export default class ArticleItemDisplay extends React.Component {
     };
 
     componentDidMount() {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
-            $(this).tooltip();
-        });
+        // TODO
+        // $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
+        //     $(this).tooltip();
+        // });
 
         // TODO : use mixin
         // Tracker.trackViews($(ReactDOM.findDOMNode(this)), () => {
@@ -48,9 +51,10 @@ export default class ArticleItemDisplay extends React.Component {
     }
 
     componentDidUpdate() {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
-            $(this).tooltip();
-        });
+        // TODO
+        // $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
+        //     $(this).tooltip();
+        // });
     }
 
     _setDefaultDisplay = (tagName, event) => {
@@ -59,41 +63,34 @@ export default class ArticleItemDisplay extends React.Component {
     };
 
     _handleTagClick = (tagName) => {
-        this.props.router.history.push(`/article/tags/${tagName}`);
+        // TODO
+        // this.props.history.push(`/article/tags/${tagName}`);
 
-        ArticleActions.loadArticles({tags: [tagName]});
+        // TODO
+        // ArticleActions.loadArticles({tags: [tagName]});
     };
 
     _handleBookmarkClick = (articleId, isBookmarked) => {
-        ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
+        // TODO
+        // ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
     };
 
     render() {
         if (this.state.articleDisplayMode === 'inline') {
             return (
-                <ArticleInlineDisplay article={this.props.article}>
-                    {this.props.children}
-                </ArticleInlineDisplay>
+                <ArticleInlineDisplay articleId={this.props.articleId}/>
             );
         } else if (this.state.articleDisplayMode === 'card') {
             return (
-                <ArticleCardDisplay article={this.props.article}
-                                    onTagClick={this._handleTagClick}
-                                    onBookmarkClick={this._handleBookmarkClick}>
-                    {this.props.children}
-                </ArticleCardDisplay>
+                <ArticleCardDisplay articleId={this.props.articleId}/>
             );
         } else if (this.state.articleDisplayMode === 'edit') {
             return (
-                <ArticleEditionDisplay article={this.props.article}
-                                       onTagClick={this._handleTagClick}
-                                       setDefaultDisplay={this._setDefaultDisplay}>
-                    {this.props.children}
-                </ArticleEditionDisplay>
+                <ArticleEditionDisplay articleId={this.props.articleId}
+                                       setDefaultDisplay={this._setDefaultDisplay}/>
             );
         } else {
-            log.error('Article display mode unknown: ' + this.state.articleDisplayMode);
-            return null;
+            throw new Error('Article display mode unknown: ' + this.state.articleDisplayMode);
         }
     }
 }

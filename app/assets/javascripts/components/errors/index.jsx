@@ -1,9 +1,9 @@
 'use strict';
 
-import ErrorActions from '../../actions/errorActions';
-import ErrorStore from '../../stores/errorStore';
+// import ErrorActions from '../../actions/errorActions';
+// import ErrorStore from '../../stores/errorStore';
 
-export default class ErrorIndex extends Reflux.Component {
+export default class ErrorIndex extends React.Component {
     state = {
         errors: []
     };
@@ -11,11 +11,13 @@ export default class ErrorIndex extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(ErrorStore, this.onErrorChange);
+        // TODO
+        // this.mapStoreToState(ErrorStore, this.onErrorChange);
     }
 
     componentWillMount() {
-        ErrorActions.loadErrors();
+        // TODO
+        // ErrorActions.loadErrors();
     }
 
     componentDidMount() {

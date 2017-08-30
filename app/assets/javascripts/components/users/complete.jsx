@@ -2,11 +2,11 @@
 
 import _ from 'lodash';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
-
-import ArticleActions from '../../actions/articleActions';
-import ArticleStore from '../../stores/articleStore';
+// import UserActions from '../../actions/userActions';
+// import UserStore from '../../stores/userStore';
+// TODO
+// import ArticleActions from '../../actions/articleActions';
+// import ArticleStore from '../../stores/articleStore';
 
 import SwitchButton from '../../components/materialize/switch-button';
 import Spinner from '../../components/materialize/spinner';
@@ -15,7 +15,7 @@ import CommentTimeline from '../../components/comments/display/timeline';
 import UserActivity from '../../components/users/activity';
 import UserTracking from '../../components/users/tracking';
 
-export default class UserComplete extends Reflux.Component {
+export default class UserComplete extends React.Component {
     static propTypes = {
         userId: PropTypes.oneOfType([
             PropTypes.number,
@@ -33,8 +33,9 @@ export default class UserComplete extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onUserChange);
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        // TODO
+        // this.mapStoreToState(UserStore, this.onUserChange);
+        // this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
 
     state = {
@@ -49,10 +50,11 @@ export default class UserComplete extends Reflux.Component {
     };
 
     componentWillMount() {
-        UserActions.loadUser({
-            userId: this.props.userId,
-            completeUser: true
-        });
+        // TODO
+        // UserActions.loadUser({
+        //     userId: this.props.userId,
+        //     completeUser: true
+        // });
 
         this._loadArticles(this.props.userId);
         this._loadComments(this.props.userId);
@@ -65,23 +67,26 @@ export default class UserComplete extends Reflux.Component {
     }
 
     _loadArticles = (userId, data = {}) => {
-        ArticleActions.loadArticles({
-            userId: userId,
-            page: data.page || 1,
-            summary: true
-        });
+        // TODO
+        // ArticleActions.loadArticles({
+        //     userId: userId,
+        //     page: data.page || 1,
+        //     summary: true
+        // });
     };
 
     _loadComments = (userId, data = {}) => {
-        UserActions.loadUserComments(userId, {
-            page: data.page || 1
-        });
+        // TODO
+        // UserActions.loadUserComments(userId, {
+        //     page: data.page || 1
+        // });
     };
 
     _loadActivities = (userId, data = {}) => {
-        UserActions.loadUserActivities(userId, {
-            page: data.page || 1
-        });
+        // TODO
+        // UserActions.loadUserActivities(userId, {
+        //     page: data.page || 1
+        // });
     };
 
     onUserChange(userData) {
@@ -127,11 +132,12 @@ export default class UserComplete extends Reflux.Component {
 
     _onAdminChange = (newAdminState) => {
         if ($app.isAdminConnected()) {
-            UserActions.updateUser({
-                id: this.state.user.id,
-                admin: newAdminState,
-                completeUser: true
-            });
+            // TODO
+            // UserActions.updateUser({
+            //     id: this.state.user.id,
+            //     admin: newAdminState,
+            //     completeUser: true
+            // });
         }
     };
 

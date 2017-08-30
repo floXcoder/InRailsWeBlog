@@ -1,7 +1,5 @@
 'use strict';
 
-export default Reflux.createActions([
-    'addUpload',
-    'updateUpload',
-    'deleteUpload'
-]);
+// 'addUpload',
+// 'updateUpload',
+// 'deleteUpload'

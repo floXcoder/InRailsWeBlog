@@ -1,6 +1,7 @@
 'use strict';
 
-import ErrorStore from '../stores/errorStore';
+// TODO
+// import ErrorStore from '../stores/errorStore';
 
 const ErrorsMixin = (superclass) => class extends superclass {
     handleErrors (url, xhr, status, error) {
@@ -27,12 +28,13 @@ const ErrorsMixin = (superclass) => class extends superclass {
             log.error('Unknown Error in JSON request: ' + error + ', status:' + status);
         }
 
-        ErrorStore.pushError({
-            message: error,
-            url: url,
-            trace: xhr.responseText,
-            origin: 'communication'
-        });
+        // TODO
+        // ErrorStore.pushError({
+        //     message: error,
+        //     url: url,
+        //     trace: xhr.responseText,
+        //     origin: 'communication'
+        // });
     }
 };
 

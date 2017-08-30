@@ -1,7 +1,8 @@
 'use strict';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
+// TODO
+// import UserActions from '../../actions/userActions';
+// import UserStore from '../../stores/userStore';
 
 import UserCardDisplay from './display/card';
 
@@ -13,7 +14,7 @@ import Pagination from '../materialize/pagination';
 
 import {TransitionGroup, CSSTransition} from 'react-transition-group';
 
-export default class UserIndex extends Reflux.Component {
+export default class UserIndex extends React.Component {
     static propTypes = {
         onUserClick: PropTypes.func
     };
@@ -25,7 +26,8 @@ export default class UserIndex extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onUserChange);
+        // TODO
+        // this.mapStoreToState(UserStore, this.onUserChange);
     }
 
     state = {
@@ -35,7 +37,8 @@ export default class UserIndex extends Reflux.Component {
     };
 
     componentWillMount() {
-        UserActions.loadUsers({page: 1});
+        // TODO
+        // UserActions.loadUsers({page: 1});
     }
 
     onUserChange(userData) {
@@ -78,7 +81,8 @@ export default class UserIndex extends Reflux.Component {
     };
 
     _handlePaginationClick = (paginate) => {
-        UserActions.loadUsers({page: paginate.selected + 1});
+        // TODO
+        // UserActions.loadUsers({page: paginate.selected + 1});
         setTimeout(() => {
             $('html, body').animate({scrollTop: $('.blog-user-list').offset().top - 64}, 750);
         }, 300);

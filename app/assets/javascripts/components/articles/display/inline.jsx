@@ -1,11 +1,25 @@
 'use strict';
 
+import {
+    connect
+} from 'react-redux';
+
 import HighlightCode from 'highlight.js';
 
+import {
+    getArticleTitle,
+    getArticleContent
+} from '../../../selectors/articleSelectors';
+
+@connect((state, props) => ({
+    title: getArticleTitle(state.articleState, props.articleId),
+    content: getArticleContent(state.articleState, props.articleId)
+}))
 export default class ArticleInlineDisplay extends React.Component {
     static propTypes = {
-        children: PropTypes.string.isRequired,
-        article: PropTypes.object.isRequired
+        articleId: PropTypes.number.isRequired,
+        title: PropTypes.string,
+        content: PropTypes.string
     };
 
     constructor(props) {
@@ -38,11 +52,11 @@ export default class ArticleInlineDisplay extends React.Component {
         return (
             <div className="blog-article-item">
                 <h4 className="article-title-inline">
-                    {this.props.article.title}
+                    {this.props.title}
                 </h4>
 
                 <span className="blog-article-content"
-                      dangerouslySetInnerHTML={{__html: this.props.children}}/>
+                      dangerouslySetInnerHTML={{__html: this.props.content}}/>
             </div>
         );
     }

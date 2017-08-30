@@ -2,7 +2,8 @@
 
 import _ from 'lodash';
 
-import CommentAction from '../../../actions/commentActions';
+// TODO
+// import CommentAction from '../../../actions/commentActions';
 
 import Select from '../../materialize/select';
 import Checkbox from '../../materialize/checkbox';
@@ -31,7 +32,8 @@ export default class CommentFilterDisplay extends React.Component {
         event.preventDefault();
 
         let filters = $('#filter_comment').serializeJSON();
-        CommentAction.loadComments(_.merge(filters, {complete: true}));
+        // TODO
+        // CommentAction.loadComments(_.merge(filters, {complete: true}));
     };
 
     render() {

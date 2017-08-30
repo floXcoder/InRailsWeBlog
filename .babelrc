@@ -10,7 +10,8 @@
     "react"
   ],
   "plugins": [
-    "lodash"
+    "lodash",
+    "transform-decorators-legacy"
   ],
   "env": {
     "development": {

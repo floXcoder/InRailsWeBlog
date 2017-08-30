@@ -1,16 +1,22 @@
 'use strict';
 
-import ArticleActions from '../../actions/articleActions';
-import ArticleStore from '../../stores/articleStore';
+import {
+    withRouter
+} from 'react-router-dom';
+
+// TODO
+// import ArticleActions from '../../actions/articleActions';
+// import ArticleStore from '../../stores/articleStore';
 
 import ArticleFormDisplay from './display/form';
 
 import '../../modules/validation';
 import 'jquery-serializejson';
 
-export default class ArticleEdit extends Reflux.Component {
+@withRouter
+export default class ArticleEdit extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired,
+        history: PropTypes.func.isRequired,
         article: PropTypes.object,
         multipleId: PropTypes.number,
         params: PropTypes.object
@@ -25,7 +31,8 @@ export default class ArticleEdit extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        // TODO
+        // this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
 
     state = {
@@ -39,7 +46,8 @@ export default class ArticleEdit extends Reflux.Component {
                 article: this.props.article
             })
         } else if (this.props.params.articleSlug) {
-            ArticleActions.loadArticle({slug: this.props.params.articleSlug});
+            // TODO
+            // ArticleActions.loadArticle({slug: this.props.params.articleSlug});
         }
     }
 
@@ -55,7 +63,7 @@ export default class ArticleEdit extends Reflux.Component {
         }
 
         if (articleData.type === 'updateArticle') {
-            this.props.router.history.push(`/article/${articleData.article.slug}`);
+            this.props.history.push(`/article/${articleData.article.slug}`);
         }
 
         if (articleData.type === 'updateArticleError') {
@@ -72,9 +80,9 @@ export default class ArticleEdit extends Reflux.Component {
 
     _onCancel = () => {
         if (this.state.article) {
-            this.props.router.history.push(`/article/${this.state.article.id}`);
+            this.props.history.push(`/article/${this.state.article.id}`);
         } else {
-            this.props.router.history.push('/');
+            this.props.history.push('/');
         }
         return true;
     };
@@ -92,7 +100,8 @@ export default class ArticleEdit extends Reflux.Component {
 
         let currentArticle = $articleForm.serializeJSON().article;
 
-        ArticleActions.updateArticle(currentArticle);
+        // TODO
+        // ArticleActions.updateArticle(currentArticle);
 
         return true;
     };

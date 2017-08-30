@@ -1,7 +1,9 @@
 'use strict';
 
-const ArticleVisibilityIcon = ({article, hasFloatingButton}) => {
-    let isVisible = article.visibility === 'everyone';
+// TODO: use connect for article visibility and user connected
+const ArticleVisibilityIcon = ({hasFloatingButton}) => {
+    // let isVisible = article.visibility === 'everyone';
+    let isVisible = true;
 
     let visibilityClasses = classNames(
         'article-visibility',
@@ -14,23 +16,24 @@ const ArticleVisibilityIcon = ({article, hasFloatingButton}) => {
             'article-private': !isVisible
         });
 
-    let visibilityName = I18n.t('js.article.enums.visibility.' + article.visibility);
-    let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
+    // let visibilityName = I18n.t('js.article.enums.visibility.' + article.visibility);
+    // let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
-    if ($app.isUserConnected(article.user.id)) {
-        return (
-            <a className={visibilityClasses}
-               data-tooltip={visibilityTooltip}>
-                <i className="material-icons">{isVisible ? 'visibility' : 'visibility_off'}</i>
-            </a>
-        );
-    } else {
+    // TODO: use user global state
+    // if ($app.isUserConnected(article.user.id)) {
+    //     return (
+    //         <a className={visibilityClasses}
+    //            data-tooltip={visibilityTooltip}>
+    //             <i className="material-icons">{isVisible ? 'visibility' : 'visibility_off'}</i>
+    //         </a>
+    //     );
+    // } else {
         return null;
-    }
+    // }
 };
 
 ArticleVisibilityIcon.propTypes = {
-    article: PropTypes.object.isRequired,
+    articleId: PropTypes.number.isRequired,
     hasFloatingButton: PropTypes.bool
 };
 

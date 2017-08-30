@@ -3,7 +3,8 @@
 import '../test_helper';
 
 import TagSidebar from '../../../app/assets/javascripts/components/tags/sidebar';
-import TagStore from '../../../app/assets/javascripts/stores/tagStore';
+
+// import TagStore from '../../../app/assets/javascripts/stores/tagStore';
 
 describe('<TagSidebar />', () => {
     let shallowWrapper, mountWrapper, renderWrapper;
@@ -30,7 +31,7 @@ describe('<TagSidebar />', () => {
         // renderWrapper = render(<TagSidebar />);
 
         // spyOn(Reflux, 'mapStoreToState').and.returnValue({tags: []});
-        // spyOn(Reflux.Component, "mapStoreToState").and.callFake(function(store, cb) {
+        // spyOn(React.Component, "mapStoreToState").and.callFake(function(store, cb) {
         //     log.error(store)
         //     log.error(cb)
         //     return 1001;

@@ -2,8 +2,9 @@
 
 import _ from 'lodash';
 
-import CommentActions from '../../actions/commentActions';
-import CommentStore from '../../stores/commentStore';
+// TODO
+// import CommentActions from '../../actions/commentActions';
+// import CommentStore from '../../stores/commentStore';
 
 import Button from '../materialize/button';
 import Pagination from '../materialize/pagination';
@@ -14,7 +15,7 @@ import CommentForm from '../comments/form';
 
 import {CSSTransition} from 'react-transition-group';
 
-export default class CommentBox extends Reflux.Component {
+export default class CommentBox extends React.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,
         isConnected: PropTypes.bool.isRequired,
@@ -132,11 +133,12 @@ export default class CommentBox extends Reflux.Component {
                 return;
             }
 
-            CommentActions.loadComments({
-                commentableType: this.props.commentableType,
-                commentableId: this.props.commentableId,
-                isPaginated: this.props.isPaginated
-            });
+            // TODO
+            // CommentActions.loadComments({
+            //     commentableType: this.props.commentableType,
+            //     commentableId: this.props.commentableId,
+            //     isPaginated: this.props.isPaginated
+            // });
 
             this.setState({isLoadingComments: true});
         }
@@ -147,11 +149,12 @@ export default class CommentBox extends Reflux.Component {
     };
 
     _handlePaginationClick = (paginate) => {
-        CommentActions.loadComments({
-            commentableType: this.props.commentableType,
-            commentableId: this.props.commentableId,
-            page: paginate.selected + 1
-        });
+        // TODO
+        // CommentActions.loadComments({
+        //     commentableType: this.props.commentableType,
+        //     commentableId: this.props.commentableId,
+        //     page: paginate.selected + 1
+        // });
 
         this.setState({isLoadingComments: true});
     };
@@ -173,7 +176,8 @@ export default class CommentBox extends Reflux.Component {
     _handleCommentDelete = (commentId) => {
         if (this.props.isUserConnected || this.props.isAdmin) {
             if (commentId) {
-                CommentActions.deleteComment(commentId, this.props.commentableId, this.props.commentableType);
+                // TODO
+                // CommentActions.deleteComment(commentId, this.props.commentableId, this.props.commentableType);
             }
         } else {
             Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
@@ -185,9 +189,11 @@ export default class CommentBox extends Reflux.Component {
 
         if (this.props.isUserConnected || this.props.isAdmin) {
             if (commentData.id) {
-                CommentActions.updateComment(commentData, this.props.commentableId, this.props.commentableType);
+                // TODO
+                // CommentActions.updateComment(commentData, this.props.commentableId, this.props.commentableType);
             } else {
-                CommentActions.addComment(commentData, this.props.commentableId, this.props.commentableType);
+                // TODO
+                // CommentActions.addComment(commentData, this.props.commentableId, this.props.commentableType);
             }
         } else {
             Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));

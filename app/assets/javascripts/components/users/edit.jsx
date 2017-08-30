@@ -2,8 +2,8 @@
 
 import _ from 'lodash';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
+// import UserActions from '../../actions/userActions';
+// import UserStore from '../../stores/userStore';
 
 import Form from '../materialize/form';
 import Input from '../materialize/input';
@@ -12,7 +12,7 @@ import Checkbox from '../materialize/checkbox';
 import File from '../materialize/file';
 import Submit from '../materialize/submit';
 
-export default class UserEdit extends Reflux.Component {
+export default class UserEdit extends React.Component {
     static propTypes = {
         userId: PropTypes.string,
         params: PropTypes.object
@@ -26,7 +26,8 @@ export default class UserEdit extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onUserChange);
+        // TODO
+        // this.mapStoreToState(UserStore, this.onUserChange);
     }
 
     state = {
@@ -34,10 +35,11 @@ export default class UserEdit extends Reflux.Component {
     };
 
     componentWillMount() {
-        UserActions.loadUser({
-            userId: this.props.userId || this.props.params.userId,
-            completeUser: true
-        });
+        // TODO
+        // UserActions.loadUser({
+        //     userId: this.props.userId || this.props.params.userId,
+        //     completeUser: true
+        // });
     }
 
     onUserChange(userData) {

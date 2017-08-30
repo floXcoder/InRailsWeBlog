@@ -2,13 +2,13 @@
 
 import _ from 'lodash';
 
-import SearchActions from '../../actions/searchActions';
+// TODO
+// import SearchActions from '../../actions/searchActions';
+// import SearchStore from '../../stores/searchStore';
 
-import SearchStore from '../../stores/searchStore';
+// import Tokenizer from '../../components/autocomplete/tokenizer';
 
-import Tokenizer from '../../components/autocomplete/tokenizer';
-
-export default class SearchModule extends Reflux.Component {
+export default class SearchModule extends React.Component {
     static propTypes = {
         isOpened: PropTypes.bool.isRequired
     };
@@ -18,7 +18,8 @@ export default class SearchModule extends Reflux.Component {
 
         this._typeahead = null;
 
-        this.mapStoreToState(SearchStore, this.onSearchChange);
+        // TODO
+        // this.mapStoreToState(SearchStore, this.onSearchChange);
     }
 
     state = {
@@ -129,7 +130,8 @@ export default class SearchModule extends Reflux.Component {
         let entryValue = this._typeahead.getEntryText().trim();
 
         if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
-            SearchActions.autocomplete('global', entryValue);
+            // TODO
+            // SearchActions.autocomplete('global', entryValue);
         }
 
         let pressedKey = $.NAVIGATION_KEYMAP[event.which];
@@ -169,7 +171,8 @@ export default class SearchModule extends Reflux.Component {
                 request.searchOptions = searchOptions;
             }
 
-            SearchActions.search(request);
+            // TODO
+            // SearchActions.search(request);
 
             this._toggleSearchNav();
             this.setState({
@@ -244,17 +247,17 @@ export default class SearchModule extends Reflux.Component {
             <div className="container blog-search">
                 <form className="search-form"
                       onSubmit={this._handleSubmit}>
-                    <Tokenizer ref={(typeahead) => this._typeahead = typeahead}
-                               options={this.state.autocompleteValues}
-                               onKeyUp={this._onKeyUp}
-                               placeholder={I18n.t('js.article.search.placeholder')}
-                               filterOption="entry"
-                               displayOption={this._displayOption}
-                               maxVisible={6}
-                               addTokenCondition="tag"
-                               customClasses={{listItem: 'typeahead-list-item'}}
-                               onTokenAdd={this._onTokenAdd}
-                               onTokenRemove={this._onTokenRemove}/>
+                    {/*<Tokenizer ref={(typeahead) => this._typeahead = typeahead}*/}
+                               {/*options={this.state.autocompleteValues}*/}
+                               {/*onKeyUp={this._onKeyUp}*/}
+                               {/*placeholder={I18n.t('js.article.search.placeholder')}*/}
+                               {/*filterOption="entry"*/}
+                               {/*displayOption={this._displayOption}*/}
+                               {/*maxVisible={6}*/}
+                               {/*addTokenCondition="tag"*/}
+                               {/*customClasses={{listItem: 'typeahead-list-item'}}*/}
+                               {/*onTokenAdd={this._onTokenAdd}*/}
+                               {/*onTokenRemove={this._onTokenRemove}/>*/}
 
                     <a className="material-icons search-form-close"
                        onClick={this._handleCloseClick}

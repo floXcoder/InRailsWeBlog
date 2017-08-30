@@ -2,7 +2,7 @@
 
 import Spinner from './spinner';
 
-export default class InfiniteScroll extends Reflux.Component {
+export default class InfiniteScroll extends React.Component {
     static propTypes = {
         pageStart: PropTypes.number,
         hasMore: PropTypes.bool,

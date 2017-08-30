@@ -390,9 +390,9 @@ class Article < ApplicationRecord
     records = records.from_topic(filter[:topic_slug]) if filter[:topic_slug]
     records = records.from_topic_id(filter[:topic_id]) if filter[:topic_id]
 
-    records = records.with_tags(filter[:tag_slugs]) if filter[:tag_slugs]
-    records = records.with_parent_tags(filter[:parent_tag_slugs]) if filter[:parent_tag_slugs]
-    records = records.with_child_tags(filter[:child_tag_slugs]) if filter[:child_tag_slugs]
+    records = records.includes(:tagged_articles).with_tags(filter[:tag_slugs]) if filter[:tag_slugs]
+    records = records.includes(:tagged_articles).with_parent_tags(filter[:parent_tag_slugs]) if filter[:parent_tag_slugs]
+    records = records.includes(:tagged_articles).with_child_tags(filter[:child_tag_slugs]) if filter[:child_tag_slugs]
 
     records = records.where(draft: true) if filter[:draft]
 

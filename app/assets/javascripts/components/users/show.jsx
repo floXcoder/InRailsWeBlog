@@ -1,10 +1,15 @@
 'use strict';
 
+import {
+    withRouter
+} from 'react-router-dom';
+
 import UserComplete from './complete';
 
+@withRouter
 export default class UserShow extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired,
+        history: PropTypes.func.isRequired,
         userId: PropTypes.number,
         params: PropTypes.object
     };
@@ -19,7 +24,7 @@ export default class UserShow extends React.Component {
     }
 
     _handleEditClick = () => {
-        this.props.router.history.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
+        this.props.history.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
     };
 
     render() {

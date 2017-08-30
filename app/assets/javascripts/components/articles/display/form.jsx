@@ -1,7 +1,8 @@
 'use strict';
 
-import TagActions from '../../../actions/tagActions';
-import TagStore from '../../../stores/tagStore';
+// TODO
+// import TagActions from '../../../actions/tagActions';
+// import TagStore from '../../../stores/tagStore';
 
 import ArticleCommonField from './fields/common';
 import ArticleAdvancedField from './fields/advanced';
@@ -9,7 +10,7 @@ import ArticleErrorField from './fields/error';
 
 import Submit from '../../materialize/submit';
 
-export default class ArticleFormDisplay extends Reflux.Component {
+export default class ArticleFormDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         multipleId: PropTypes.number,
@@ -32,7 +33,8 @@ export default class ArticleFormDisplay extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(TagStore, this.onTagChange);
+        // TODO
+        // this.mapStoreToState(TagStore, this.onTagChange);
 
         this._commonFields = null;
     }
@@ -47,7 +49,8 @@ export default class ArticleFormDisplay extends Reflux.Component {
     };
 
     componentWillMount() {
-        TagActions.loadTags({user_tags: true});
+        // TODO
+        // TagActions.loadTags({user_tags: true});
     }
 
     componentDidUpdate() {

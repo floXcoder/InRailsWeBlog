@@ -1,6 +1,7 @@
 'use strict';
 
-import CommentActions from '../../../actions/commentActions';
+// TODO
+// import CommentActions from '../../../actions/commentActions';
 
 import Input from '../../materialize/input';
 import Textarea from '../../materialize/textarea';
@@ -82,7 +83,8 @@ export default class CommentInlineDisplay extends React.Component {
 
         $('#comment-actions').find('.fixed-action-btn').closeFAB();
 
-        CommentActions.deleteComment(this.props.comment.id, this.props.comment.commentable.id, {isPermanently: isPermanently === true});
+        // TODO
+        // CommentActions.deleteComment(this.props.comment.id, this.props.comment.commentable.id, {isPermanently: isPermanently === true});
     };
 
     _submitComment = (field, newValue, event) => {
@@ -101,7 +103,8 @@ export default class CommentInlineDisplay extends React.Component {
 
         if (!$.isEmpty(commentToUpdate)) {
             commentToUpdate.id = this.props.comment.id;
-            CommentActions.updateComment(commentToUpdate, this.props.comment.commentable.id, {url: this.props.comment.commentable.link});
+            // TODO
+            // CommentActions.updateComment(commentToUpdate, this.props.comment.commentable.id, {url: this.props.comment.commentable.link});
         }
     };
 

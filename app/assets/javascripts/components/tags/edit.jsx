@@ -1,7 +1,8 @@
 'use strict';
 
-import TagActions from '../../actions/tagActions';
-import TagStore from '../../stores/tagStore';
+// TODO
+// import TagActions from '../../actions/tagActions';
+// import TagStore from '../../stores/tagStore';
 
 import Form from '../materialize/form';
 import Input from '../materialize/input';
@@ -12,7 +13,7 @@ import Submit from '../materialize/submit';
 
 import {Link} from 'react-router-dom';
 
-export default class TagEdit extends Reflux.Component {
+export default class TagEdit extends React.Component {
     static propTypes = {
         tagId: PropTypes.object,
         params: PropTypes.object
@@ -26,7 +27,8 @@ export default class TagEdit extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(TagStore, this.onTagChange);
+        // TODO
+        // this.mapStoreToState(TagStore, this.onTagChange);
     }
 
     state = {
@@ -34,9 +36,10 @@ export default class TagEdit extends Reflux.Component {
     };
 
     componentWillMount() {
-        TagActions.loadTag({
-            id: this.props.tagId || this.props.params.tagId
-        });
+        // TODO
+        // TagActions.loadTag({
+        //     id: this.props.tagId || this.props.params.tagId
+        // });
     }
 
     onTagChange(tagData) {

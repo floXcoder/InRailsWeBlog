@@ -27,7 +27,7 @@ class ArticlesController < ApplicationController
   respond_to :html, :json
 
   def index
-    articles = Article.includes(:tags, user: [:picture])
+    articles = Article.includes(:tags, :parent_tags, :child_tags, user: [:picture])
                  .order('articles.updated_at DESC')
                  .distinct
 

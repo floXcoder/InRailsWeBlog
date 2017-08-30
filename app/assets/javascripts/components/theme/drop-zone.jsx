@@ -2,14 +2,15 @@
 
 import _ from 'lodash';
 
-import UploadActions from '../../actions/uploadActions';
-import UploadStore from '../../stores/uploadStore';
+// TODO
+// import UploadActions from '../../actions/uploadActions';
+// import UploadStore from '../../stores/uploadStore';
 
 import DropZoneComponent from 'react-dropzone-component';
 
 import ReactDOMServer from 'react-dom/server';
 
-export default class DropZone extends Reflux.Component {
+export default class DropZone extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         dataModel: PropTypes.string.isRequired,
@@ -66,7 +67,8 @@ export default class DropZone extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UploadStore, this.onUploadChange);
+        // TODO
+        // this.mapStoreToState(UploadStore, this.onUploadChange);
 
         this._dropZone = null;
         this._filesUploaded = [];
@@ -203,7 +205,8 @@ export default class DropZone extends Reflux.Component {
         const uploadId = $(file.previewTemplate).find('.dz-remove').attr('id') || file.id;
 
         if (uploadId) {
-            UploadActions.deleteUpload(uploadId);
+            // TODO
+            // UploadActions.deleteUpload(uploadId);
 
             if (this.props.isAutoUploaded) {
                 this._isUploading = true;
@@ -235,7 +238,8 @@ export default class DropZone extends Reflux.Component {
                 newUpload.model_id = this.props.dataModelId;
             }
 
-            UploadActions.updateUpload(newUpload);
+            // TODO
+            // UploadActions.updateUpload(newUpload);
 
             this._isUploading = true;
         }

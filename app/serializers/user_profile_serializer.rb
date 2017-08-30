@@ -65,13 +65,14 @@ class UserProfileSerializer < ActiveModel::Serializer
              :settings,
              :current_topic
 
-  has_many :topics, each_serializer: TopicSerializer do
-    object.topics.order('name ASC')
-  end
+  # has_many :topics, each_serializer: TopicSerializer do
+  #   object.topics.order('name ASC')
+  # end
 
-  has_many :tags, each_serializer: TagSerializer do
-    Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')
-  end
+  # TODO: loaded after to be more coherent?
+  # has_many :tags, each_serializer: TagSerializer do
+  #   Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')
+  # end
 
   def articles_count
     object.articles.count

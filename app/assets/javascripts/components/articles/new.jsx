@@ -2,17 +2,23 @@
 
 import _ from 'lodash';
 
-import ArticleActions from '../../actions/articleActions';
-import ArticleStore from '../../stores/articleStore';
+import {
+    withRouter
+} from 'react-router-dom';
+
+// TODO
+// import ArticleActions from '../../actions/articleActions';
+// import ArticleStore from '../../stores/articleStore';
 
 import ArticleFormDisplay from './display/form';
 
 import '../../modules/validation';
 import 'jquery-serializejson';
 
-export default class ArticleNew extends Reflux.Component {
+@withRouter
+export default class ArticleNew extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
         location: PropTypes.object,
         multipleId: PropTypes.number
     };
@@ -25,7 +31,8 @@ export default class ArticleNew extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        // TODO
+        // this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
 
     state = {
@@ -59,7 +66,7 @@ export default class ArticleNew extends Reflux.Component {
         let newState = {};
 
         if (articleData.type === 'addArticle') {
-            this.props.router.history.push({
+            this.props.push({
                 pathname: `/article/${articleData.article.slug}`,
                 state: {newTags: articleData.article.new_tags}
             });
@@ -99,7 +106,7 @@ export default class ArticleNew extends Reflux.Component {
     // }
 
     _onCancel = () => {
-        this.props.router.history.push('/');
+        this.props.history.push('/');
         return true;
     };
 
@@ -116,7 +123,8 @@ export default class ArticleNew extends Reflux.Component {
 
         let currentArticle = $articleForm.serializeJSON().article;
 
-        ArticleActions.addArticle(currentArticle);
+        // TODO
+        // ArticleActions.addArticle(currentArticle);
 
         return true;
     };

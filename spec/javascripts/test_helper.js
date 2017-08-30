@@ -101,7 +101,6 @@ global._ = require('lodash');
 global.log = require('loglevel');
 global.React = require('react');
 global.ReactDOM = require('react-dom');
-global.Reflux = require('reflux');
 global.classNames = require('classnames');
 global.Promise = require('promise-polyfill');
 

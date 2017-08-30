@@ -4,10 +4,10 @@
 
 require('materialize-css/js/initial');
 require('materialize-css/js/jquery.easing.1.4');
-require('materialize-css/js/animation');
-require('expose-loader?Vel!materialize-css/js/velocity.min');
+require('materialize-css/js/velocity.min');
 require('materialize-css/js/hammer.min');
 require('materialize-css/js/jquery.hammer');
+require('materialize-css/js/animation');
 require('materialize-css/js/global');
 require('materialize-css/js/collapsible');
 require('materialize-css/js/dropdown');

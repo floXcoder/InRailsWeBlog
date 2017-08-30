@@ -4,9 +4,7 @@ import {
     Popup
 } from 'semantic-ui-react';
 
-// import {Link} from 'react-router-dom';
-
-const HomeArticleHeader = ({router}) => {
+const HomeArticleHeader = () => {
     const button = (
         <a className="btn-floating waves-effect waves-light header-button topic-header-button"
            href="#">
@@ -40,10 +38,6 @@ const HomeArticleHeader = ({router}) => {
                 position='bottom center'/>
         </div>
     );
-};
-
-HomeArticleHeader.propTypes = {
-    router: PropTypes.object.isRequired
 };
 
 export default HomeArticleHeader;

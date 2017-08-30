@@ -1,37 +1,50 @@
 'use strict';
 
-import TopicActions from '../../actions/topicActions';
-import TopicStore from '../../stores/topicStore';
-
-import Input from '../materialize/input';
-import Select from '../materialize/select';
-import Submit from '../materialize/submit';
+import {
+    connect
+} from 'react-redux';
 
 import {
     Link
 } from 'react-router-dom';
 
-export default class TopicModule extends Reflux.Component {
+import {
+    switchTopic
+} from '../../actions/index';
+
+import Input from '../materialize/input';
+import Select from '../materialize/select';
+import Submit from '../materialize/submit';
+
+@connect((state, props) => ({
+    userId: state.userState.user.id,
+    isLoading: false,
+    topics: state.userState.user.topics
+}), {
+    switchTopic
+})
+export default class TopicModule extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired,
-        onTopicChange: PropTypes.func
+        switchTopic: PropTypes.func.isRequired,
+        userId: PropTypes.number,
+        isLoading: PropTypes.bool,
+        topics: PropTypes.array
     };
 
     static defaultProps = {
-        onTopicChange: null
+        userId: null,
+        isLoading: true,
+        topics: []
     };
 
     constructor(props) {
         super(props);
-
-        this.mapStoreToState(TopicStore, this.onTopicChange);
 
         this._topicInput = null;
     }
 
     state = {
         currentTopicId: null,
-        topics: [],
         isAddingTopic: false
 
         // TODO
@@ -40,48 +53,24 @@ export default class TopicModule extends Reflux.Component {
     };
 
     componentWillMount() {
-        if ($app.isUserConnected()) {
-            this.setState({
-                currentTopicId: $app.getCurrentTopic().id,
-                topics: $app.user.topics
-            });
-        }
-    }
-
-    componentDidMount() {
-    }
-
-    onTopicChange(topicData) {
-        if ($.isEmpty(topicData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (topicData.type === 'loadTopics') {
-            newState.topics = topicData.topics;
-        }
-
         // TODO
-        // if (topicData.type === 'addTopic') {
-        //     newState.topics = topicData.topics;
+        // if ($app.isUserConnected()) {
+        //     this.setState({
+        //         currentTopicId: $app.getCurrentTopic().id,
+        //         topics: $app.user.topics
+        //     });
         // }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
     }
 
     _handleSwitchTopicClick = (topicId, topicSlug, event) => {
         event.preventDefault();
 
-        if ($app.getCurrentTopic().id !== topicId) {
-            TopicActions.switchTopic($app.user.currentId, topicId);
-        }
+        this.props.switchTopic(this.props.userId, topicId);
 
-        if (this.props.onTopicChange) {
-            this.props.onTopicChange(event, true);
-        }
+        // TODO
+        // if ($app.getCurrentTopic().id !== topicId) {
+        //     TopicActions.switchTopic($app.user.currentId, topicId);
+        // }
     };
 
     _handleAddTopicClick = (event) => {
@@ -101,15 +90,16 @@ export default class TopicModule extends Reflux.Component {
     _handleTopicSubmit = (event) => {
         event.preventDefault();
 
-        if (this.state.isAddingTopic && this._topicInput) {
-            TopicActions.addTopic($app.user.currentId, {
-                name: this._topicInput.value()
-            });
-
-            if (this.props.onTopicChange) {
-                this.props.onTopicChange(event, true);
-            }
-        }
+        // TODO
+        // if (this.state.isAddingTopic && this._topicInput) {
+        //     // TopicActions.addTopic($app.user.currentId, {
+        //     //     name: this._topicInput.value()
+        //     // });
+        //
+        //     if (this.props.onTopicChange) {
+        //         this.props.onTopicChange(event);
+        //     }
+        // }
     };
 
     render() {
@@ -153,7 +143,7 @@ export default class TopicModule extends Reflux.Component {
 
                 <div className="topics-list">
                     {
-                        this.state.topics.map((topic) => (
+                        this.props.topics.map((topic) => (
                                 <div key={topic.id}
                                      className="topic-item">
                                     <div className="topic-item-details"

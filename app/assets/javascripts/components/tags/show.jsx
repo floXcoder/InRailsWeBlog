@@ -1,15 +1,17 @@
 'use strict';
 
-import UserStore from '../../stores/userStore';
+// TODO
+// import UserStore from '../../stores/userStore';
 
-import TagActions from '../../actions/tagActions';
-import TagStore from '../../stores/tagStore';
+// TODO
+// import TagActions from '../../actions/tagActions';
+// import TagStore from '../../stores/tagStore';
 
 import UserAvatarIcon from '../users/icons/avatar';
 
 import {Link} from 'react-router-dom';
 
-export default class TagShow extends Reflux.Component {
+export default class TagShow extends React.Component {
     static propTypes = {
         tag: PropTypes.object,
         params: PropTypes.object,
@@ -25,7 +27,8 @@ export default class TagShow extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(TagStore, this.onTagChange);
+        // TODO
+        // this.mapStoreToState(TagStore, this.onTagChange);
     }
 
     state = {
@@ -38,7 +41,8 @@ export default class TagShow extends Reflux.Component {
                 tag: this.props.tag
             });
         } else if (this.props.params.tagId) {
-            TagActions.loadTag({id: this.props.params.tagId});
+            // TODO
+            // TagActions.loadTag({id: this.props.params.tagId});
         }
     }
 
@@ -59,7 +63,8 @@ export default class TagShow extends Reflux.Component {
     }
 
     _handleUserClick = (userId, event) => {
-        UserStore.onTrackClick(userId);
+        // TODO
+        // UserStore.onTrackClick(userId);
         return event;
     };
 

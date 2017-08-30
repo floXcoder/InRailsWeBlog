@@ -4,7 +4,6 @@ import TagSidebar from '../tags/sidebar';
 
 export default class SidebarLayout extends React.PureComponent {
     static propTypes = {
-        router: PropTypes.object.isRequired,
         onOpened: PropTypes.func
     };
 
@@ -69,7 +68,7 @@ export default class SidebarLayout extends React.PureComponent {
 
                 <br/>
 
-                <TagSidebar router={this.props.router}/>
+                <TagSidebar />
             </div>
         );
     }

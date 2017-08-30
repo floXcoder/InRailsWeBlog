@@ -1,27 +1,30 @@
 'use strict';
 
-import routes from '../../routes';
-
-import UserStore from '../../stores/userStore';
-
-import DefaultLayout from '../layouts/default';
-import LoadingLayout from '../layouts/loading';
+import {
+    Provider
+} from 'react-redux';
 
 import {
-    BrowserRouter as Router,
     Switch,
-    Route
-} from 'react-router-dom';
-
-import createBrowserHistory from 'history/createBrowserHistory';
-
-import {
+    Route,
     Link
 } from 'react-router-dom';
 
-const browserHistory = createBrowserHistory();
+import {
+    ConnectedRouter
+} from 'react-router-redux';
 
-export default class HomePage extends Reflux.Component {
+import routes from '../../routes';
+
+// import UserStore from '../../stores/userStore';
+
+import {
+    configureStore, browserHistory
+} from '../../stores/index';
+
+import DefaultLayout from '../layouts/default';
+
+export default class HomePage extends React.Component {
     static propTypes = {
         location: PropTypes.object,
         children: PropTypes.object
@@ -34,63 +37,27 @@ export default class HomePage extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onUserChange);
+        // TODO: cannot use push with browser history
+        // browserHistory.replace(`/topic/${$app.getCurrentTopic().slug}`);
     }
-
-    state = {
-        isUserLoading: $app.isUserConnected() && !$app.isUserLoaded()
-    };
-
-    onUserChange(userData) {
-        if ($.isEmpty(userData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (userData.type === 'initUser') {
-            newState.isUserLoading = false;
-            // TODO: cannot use push with browser history
-            // browserHistory.replace(`/topic/${$app.getCurrentTopic().slug}`);
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
-    _handleReloadPage = () => {
-        this.setState({
-            isUserLoading: true
-        });
-    };
 
     render() {
         return (
-            <div>
-                {
-                    this.state.isUserLoading
-                        ?
-                        <div>
-                            <LoadingLayout path={routes.init.path}
-                                           exact={routes.init.exact}/>
-                        </div>
-                        :
-                        <Router history={browserHistory}>
-                            <Switch>
-                                {
-                                    routes.home.views.map((route, index) => (
-                                        <DefaultLayout key={index}
-                                                       path={route.path}
-                                                       exact={route.exact}
-                                                       component={route.component}
-                                                       onReloadPage={this._handleReloadPage}/>
-                                    ))
-                                }
-                            </Switch>
-                        </Router>
-                }
-            </div>
+            <Provider store={configureStore}>
+                <ConnectedRouter history={browserHistory}>
+                    <Switch>
+                        {
+                            routes.home.views.map((route, index) => (
+                                <DefaultLayout key={index}
+                                               routes={routes}
+                                               path={route.path}
+                                               exact={route.exact}
+                                               component={route.component}/>
+                            ))
+                        }
+                    </Switch>
+                </ConnectedRouter>
+            </Provider>
         );
     }
 }

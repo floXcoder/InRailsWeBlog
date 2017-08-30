@@ -86,7 +86,6 @@ module.exports = {
             React: 'react',
             ReactDOM: 'react-dom',
             PropTypes: 'prop-types',
-            Reflux: 'reflux',
             classNames: 'classnames',
             Promise: 'promise-polyfill'
         },

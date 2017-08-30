@@ -19,8 +19,9 @@ _.defer(() => {
     });
 });
 
-// Synchronize local data with user account just after sign in ou up
-import UserActions from '../../actions/userActions';
-if (window.userJustSign) {
-    UserActions.synchronize();
-}
+// TODO
+// // Synchronize local data with user account just after sign in ou up
+// import UserActions from '../../actions/userActions';
+// if (window.userJustSign) {
+//     UserActions.synchronize();
+// }

@@ -2,6 +2,10 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # http://rubocop.readthedocs.io/en/latest
 
+AllCops:
+  Exclude:
+    - 'config/initializers/secure_headers.rb'
+
 Documentation:
   Enabled: false
 

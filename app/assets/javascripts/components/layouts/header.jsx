@@ -1,11 +1,25 @@
 'use strict';
 
+import {
+    connect
+} from 'react-redux';
+
+import {
+    Link,
+    withRouter
+} from 'react-router-dom';
+
+import {
+    switchUiTopicModule,
+    fetchTopic
+} from '../../actions/index';
+
 import ModalHOC from '../../hoc/modal';
 
 import Login from '../users/login';
 import Signup from '../users/signup';
 
-import TopicModule from '../topic/module';
+import SwitchTopicModule from '../topic/module';
 
 import SearchModule from '../search/module';
 
@@ -15,14 +29,38 @@ import HomePreferenceHeader from './header/preference';
 import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
-import {
-    Link
-} from 'react-router-dom';
-
+@withRouter
+@connect((state, props) => ({
+    isAdminConnected: state.userState.isAdminConnected,
+    isUserConnected: state.userState.isUserConnected,
+    userCurrentId: state.userState.userCurrentId,
+    userSlug: state.userState.user.slug,
+    currentTopic: state.topicState.currentTopic,
+    isTopicOpened: state.uiState.isTopicOpened
+}), {
+    switchUiTopicModule,
+    fetchTopic,
+})
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
-        router: PropTypes.object.isRequired,
-        onReloadPage: PropTypes.func.isRequired
+        onReloadPage: PropTypes.func.isRequired,
+        fetchTopic: PropTypes.func.isRequired,
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        isAdminConnected: PropTypes.bool,
+        isUserConnected: PropTypes.bool,
+        userCurrentId: PropTypes.number,
+        userSlug: PropTypes.string,
+        currentTopic: PropTypes.object,
+        switchTopicModule: PropTypes.func,
+        isTopicOpened: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isAdminConnected: false,
+        isUserConnected: false,
+        userCurrentId: null,
+        userSlug: null
     };
 
     constructor(props) {
@@ -30,12 +68,22 @@ export default class HeaderLayout extends React.PureComponent {
     }
 
     state = {
-        isUserConnected: $app.isUserConnected(),
         isShowingSignup: true,
         isShowingLogin: true,
-        isTopicOpened: false,
         isSearchOpened: false
     };
+
+    componentWillMount() {
+        if (this.props.userCurrentId && this.props.currentTopic.id) {
+            this.props.fetchTopic(this.props.userCurrentId, this.props.currentTopic.id);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.location.pathname !== nextProps.location.pathname) {
+            this.props.fetchTopic(this.props.userCurrentId, this.props.currentTopic.id);
+        }
+    }
 
     _handleLoginClick = () => {
         this.setState({
@@ -49,16 +97,10 @@ export default class HeaderLayout extends React.PureComponent {
         });
     };
 
-    _handleTopicClick = (event, isUpdate) => {
+    _handleTopicClick = (event) => {
         event.preventDefault();
 
-        // if (isUpdate && this.props.onReloadPage) {
-        //     this.props.onReloadPage();
-        // }
-
-        this.setState({
-            isTopicOpened: !this.state.isTopicOpened
-        });
+        this.props.switchUiTopicModule(!this.props.isTopicOpened);
     };
 
     _handleSearchClick = (event) => {
@@ -77,9 +119,10 @@ export default class HeaderLayout extends React.PureComponent {
                         <div className="nav-wrapper">
                             <ul className="left hide-on-med-and-down">
                                 {
-                                    this.state.isUserConnected &&
+                                    this.props.isUserConnected &&
                                     <li>
-                                        <HomeTopicHeader onTopicClick={this._handleTopicClick}/>
+                                        <HomeTopicHeader currentTopicName={this.props.currentTopic.name}
+                                                         onTopicClick={this._handleTopicClick}/>
                                     </li>
                                 }
 
@@ -95,21 +138,22 @@ export default class HeaderLayout extends React.PureComponent {
 
                             <ul className="right hide-on-med-and-down">
                                 <li>
-                                    <HomeArticleHeader router={this.props.router}/>
+                                    <HomeArticleHeader/>
                                 </li>
 
 
                                 {
-                                    this.state.isUserConnected &&
+                                    this.props.isUserConnected &&
                                     <li>
-                                        <HomePreferenceHeader />
+                                        <HomePreferenceHeader/>
                                     </li>
                                 }
 
 
                                 <li>
-                                    <HomeUserHeader isUserConnected={$app.isUserConnected()}
-                                                    isAdminConnected={$app.isAdminConnected()}
+                                    <HomeUserHeader isUserConnected={this.props.isUserConnected}
+                                                    isAdminConnected={this.props.isAdminConnected}
+                                                    userSlug={this.props.userSlug}
                                                     onLoginClick={this._handleLoginClick}
                                                     onSignupClick={this._handleSignupClick}/>
                                 </li>
@@ -118,9 +162,8 @@ export default class HeaderLayout extends React.PureComponent {
                     </nav>
                 </div>
 
-                <ModalHOC isOpened={this.state.isTopicOpened}>
-                    <TopicModule router={this.props.router}
-                                 onTopicChange={this._handleTopicClick}/>
+                <ModalHOC isOpened={this.props.isTopicOpened}>
+                    <SwitchTopicModule/>
                 </ModalHOC>
 
                 <div className="blog-search-nav row">

@@ -1,6 +1,7 @@
 'use strict';
 
-import ArticleActions from '../../actions/articleActions';
+// TODO
+// import ArticleActions from '../../actions/articleActions';
 
 export default class ArticleHistory extends React.Component {
     static propTypes = {
@@ -27,7 +28,8 @@ export default class ArticleHistory extends React.Component {
             versionId: versionId
         };
 
-        ArticleActions.restoreArticle({restore: articleToRestore});
+        // TODO
+        // ArticleActions.restoreArticle({restore: articleToRestore});
     };
 
     render() {

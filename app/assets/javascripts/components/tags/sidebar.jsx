@@ -2,13 +2,21 @@
 
 import _ from 'lodash';
 
+import {
+    connect
+} from 'react-redux';
+
+import {
+    loadTagArticles
+} from '../../actions/index';
+
 // TODO: how to use it?
 // import AssociatedTagBox from '../../components/tags/associated/box';
 
-import TopicStore from '../../stores/topicStore';
+// import TopicStore from '../../stores/topicStore';
 
-import TagActions from '../../actions/tagActions';
-import TagStore from '../../stores/tagStore';
+// import TagActions from '../../actions/tagActions';
+// import TagStore from '../../stores/tagStore';
 
 import TagRelationshipDisplay from './display/relationship';
 import SearchBar from '../theme/search-bar';
@@ -16,35 +24,45 @@ import Spinner from '../materialize/spinner';
 
 import Fuzzy from 'fuzzy';
 
-export default class TagSidebar extends Reflux.Component {
+@connect((state, props) => ({
+    isLoading: false,
+    tags: state.tagState.tags
+}), {
+    loadTagArticles
+})
+export default class TagSidebar extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired
+        loadTagArticles: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool,
+        tags: PropTypes.array
     };
 
-    static defaultProps = {};
+    static defaultProps = {
+        isLoading: true,
+        tags: []
+    };
 
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(TopicStore, this.onTopicChange);
-        this.mapStoreToState(TagStore, this.onTagChange);
+        // this.mapStoreToState(TopicStore, this.onTopicChange);
+        // this.mapStoreToState(TagStore, this.onTagChange);
     }
 
     state = {
-        isLoading: true,
-        userTags: [],
         filterText: null
     };
 
     componentWillMount() {
-        if ($app.isUserConnected()) {
-            this.setState({
-                userTags: $app.user.tags || [],
-                isLoading: false
-            });
-        } else {
-            TagActions.loadTags();
-        }
+        // TODO
+        // if ($app.isUserConnected()) {
+        //     this.setState({
+        //         tags: $app.user.tags || [],
+        //         isLoading: false
+        //     });
+        // } else {
+        //     TagActions.loadTags();
+        // }
     }
 
     componentDidMount() {
@@ -55,59 +73,60 @@ export default class TagSidebar extends Reflux.Component {
         // }, 'keydown');
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(this.props.router.match, nextProps.router.match)) {
-            this.setState({
-                isLoading: true
-            });
-        }
-    }
+    // TODO
+    // componentWillReceiveProps(nextProps) {
+    //     if (!_.isEqual(this.props.router.match, nextProps.router.match)) {
+    //         this.setState({
+    //             isLoading: true
+    //         });
+    //     }
+    // }
 
     shouldComponentUpdate(nextProps, nextState) {
         // TODO
-        // return !this.state.userTags.isEqualIds(nextState.userTags) || !this.state.filterText !== nextState.filterText;
+        // return !this.state.tags.isEqualIds(nextState.tags) || !this.state.filterText !== nextState.filterText;
 
         return true;
     }
 
-    onTopicChange(topicData) {
-        if ($.isEmpty(topicData)) {
-            return;
-        }
+    // onTopicChange(topicData) {
+    //     if ($.isEmpty(topicData)) {
+    //         return;
+    //     }
+    //
+    //     let newState = {};
+    //
+    //     if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
+    //         newState.tags = $app.user.tags;
+    //         newprops.isLoading = false;
+    //     }
+    //
+    //     if (!$.isEmpty(newState)) {
+    //         this.setState(newState);
+    //     }
+    // }
 
-        let newState = {};
-
-        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
-            newState.userTags = $app.user.tags;
-            newState.isLoading = false;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
-    onTagChange(tagData) {
-        if ($.isEmpty(tagData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (tagData.type === 'loadTags') {
-            newState.userTags = tagData.tags;
-            newState.isLoading = false;
-        }
-
-        if (tagData.type === 'refreshTags') {
-            newState.userTags = tagData.tags;
-            newState.isLoading = false;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
+    // onTagChange(tagData) {
+    //     if ($.isEmpty(tagData)) {
+    //         return;
+    //     }
+    //
+    //     let newState = {};
+    //
+    //     if (tagData.type === 'loadTags') {
+    //         newState.tags = tagData.tags;
+    //         newprops.isLoading = false;
+    //     }
+    //
+    //     if (tagData.type === 'refreshTags') {
+    //         newState.tags = tagData.tags;
+    //         newprops.isLoading = false;
+    //     }
+    //
+    //     if (!$.isEmpty(newState)) {
+    //         this.setState(newState);
+    //     }
+    // }
 
     _handleSearchInput = (value) => {
         this.setState({
@@ -116,15 +135,15 @@ export default class TagSidebar extends Reflux.Component {
     };
 
     render() {
-        const isSearching = !$.isEmpty(this.state.filterText);
+        const isFiltering = !$.isEmpty(this.state.filterText);
 
-        const tags = _.compact(this.state.userTags.map((tag) => {
+        const tags = _.compact(this.props.tags.map((tag) => {
             let parents = [];
             let children = [];
 
             if (!$.isEmpty(tag.parents)) {
                 parents = _.compact(tag.parents.map((parentId) => {
-                    const parentTag = _.find(this.state.userTags, {'id': parentId});
+                    const parentTag = _.find(this.props.tags, {'id': parentId});
                     if (!!parentTag && !$.isEmpty(this.state.filterText) && !Fuzzy.match(this.state.filterText, parentTag.name)) {
                         return null;
                     } else {
@@ -135,7 +154,7 @@ export default class TagSidebar extends Reflux.Component {
 
             if (!$.isEmpty(tag.children)) {
                 children = _.compact(tag.children.map((childId) => {
-                    const childTag = _.find(this.state.userTags, {'id': childId});
+                    const childTag = _.find(this.props.tags, {'id': childId});
 
                     if (!!childTag && !$.isEmpty(this.state.filterText) && !Fuzzy.match(this.state.filterText, childTag.name)) {
                         return null;
@@ -155,14 +174,14 @@ export default class TagSidebar extends Reflux.Component {
         return (
             <div className="blog-sidebar-tag">
                 {
-                    this.state.isLoading &&
+                    this.props.isLoading &&
                     <div className="center">
                         <Spinner/>
                     </div>
                 }
 
                 {
-                    !this.state.isLoading &&
+                    !this.props.isLoading &&
                     <div>
                         <h3>
                             {I18n.t('js.tag.common.list')}
@@ -176,9 +195,9 @@ export default class TagSidebar extends Reflux.Component {
                         {
                             !$.isEmpty(tags)
                                 ?
-                                <TagRelationshipDisplay router={this.props.router}
-                                                        tags={tags}
-                                                        isSearching={isSearching}/>
+                                <TagRelationshipDisplay tags={tags}
+                                                        isFiltering={isFiltering}
+                                                        onTagClick={this.props.loadTagArticles}/>
                                 :
                                 <div>
                                     {I18n.t('js.tag.common.no_results') + ' ' + this.state.filterText}

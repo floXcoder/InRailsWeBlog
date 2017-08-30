@@ -2,11 +2,11 @@
 
 import _ from 'lodash';
 
-import CommentActions from '../../actions/commentActions';
-import CommentStore from '../../stores/commentStore';
+// import CommentActions from '../../actions/commentActions';
+// import CommentStore from '../../stores/commentStore';
 import CommentTableDisplay from './display/table';
 
-export default class CommentIndex extends Reflux.Component {
+export default class CommentIndex extends React.Component {
     static propTypes = {
         comments: PropTypes.array,
         limit: PropTypes.number,
@@ -34,7 +34,8 @@ export default class CommentIndex extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(CommentStore, this.onCommentChange);
+        // TODO
+        // this.mapStoreToState(CommentStore, this.onCommentChange);
     }
 
     state = {
@@ -61,7 +62,8 @@ export default class CommentIndex extends Reflux.Component {
                 params.filter.order = 'updated_last';
             }
 
-            CommentActions.loadComments(params);
+            // TODO
+            // CommentActions.loadComments(params);
         }
     }
 
@@ -102,7 +104,7 @@ export default class CommentIndex extends Reflux.Component {
 
         if (commentData.type === 'deleteComment') {
             newState.comments = _.remove(this.state.comments, (comment) => {
-                return comment.id != commentData.deletedComment.id
+                return comment.id !== commentData.deletedComment.id
             });
         }
 
@@ -115,7 +117,8 @@ export default class CommentIndex extends Reflux.Component {
         if (this.props.onPaginationClick) {
             this.props.onPaginationClick(paginate);
         } else {
-            CommentActions.loadComments({page: paginate.selected + 1});
+            // TODO
+            // CommentActions.loadComments({page: paginate.selected + 1});
         }
     }
 
