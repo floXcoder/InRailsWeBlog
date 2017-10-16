@@ -166,9 +166,6 @@ group :test do
   gem 'brakeman',               '3.7.2',    require: false
   gem 'metric_fu',              '4.12.0',   require: false
   gem 'i18n-tasks',             '0.9.18',   require: false
-
-  # Security
-  gem 'dawnscanner',            '1.6.8',    require: false
 end
 
 group :development, :test do
