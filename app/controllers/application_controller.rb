@@ -3,16 +3,17 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :reset_session
 
   # Handle exceptions
-  rescue_from StandardError, with: :server_error
   rescue_from ActionController::InvalidAuthenticityToken, with: :server_error
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_error
   rescue_from ActionController::RoutingError, with: :not_found_error
   rescue_from AbstractController::ActionNotFound, with: :not_found_error
   rescue_from ActionController::UnknownController, with: :not_found_error
   rescue_from ActionController::UnknownFormat, with: :not_found_error
+  rescue_from StandardError, with: :server_error
 
   # Pundit
   include Pundit
+  rescue_from Pundit::NotDefinedError, with: :user_not_authorized
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Pundit::AuthorizationNotPerformedError, with: :user_not_authorized
 
@@ -132,53 +133,6 @@ class ApplicationController < ActionController::Base
     root_url + 'assets/' + url
   end
 
-  def handle_error(exception)
-    # Add into database
-    error_params = {
-      class_name:  exception.class.to_s,
-      message:     exception.to_s,
-      trace:       exception.backtrace.join("\n"),
-      target_url:  request.url,
-      referer_url: request.referer,
-      params:      request.params.inspect,
-      user_agent:  request.user_agent,
-      doc_root:    request.env['DOCUMENT_ROOT'],
-      app_name:    Rails.application.class.parent_name,
-      created_at:  Time.zone.now,
-      origin:      ErrorMessage.origins[:server]
-    }
-    error        = ErrorMessage.new_error(error_params, request, current_user)
-    error.save
-
-    # Display in logger
-    Rails.logger.fatal(exception.class.to_s + ' : ' + exception.to_s)
-    Rails.logger.fatal(exception.backtrace.join("\n"))
-  end
-
-  def not_found_error(exception)
-    handle_error(exception)
-
-    raise if Rails.env.development?
-
-    respond_to do |format|
-      format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: 404 }
-      format.json { render json: { error: t('views.error.status.explanation.404'), status: :not_found } }
-      format.all { render body: nil, status: :not_found }
-    end
-  end
-
-  def server_error(exception)
-    handle_error(exception)
-
-    raise if Rails.env.development?
-
-    respond_to do |format|
-      format.html { render 'errors/show', layout: 'full_page', locals: { status: 500 }, status: 500 }
-      format.json { render json: { error: t('views.error.status.explanation.500'), status: :internal_server_error } }
-      format.all { render body: nil, status: :internal_server_error }
-    end
-  end
-
   def json_request?
     request.format.json?
   end
@@ -199,26 +153,6 @@ class ApplicationController < ActionController::Base
     end
     devise_parameter_sanitizer.permit(:account_update) do |user_params|
       user_params.permit(:pseudo, :email, :password, :password_confirmation, :current_password)
-    end
-  end
-
-  def user_not_authorized(exception)
-    # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
-    self.response_body = nil
-
-    if exception.respond_to?(:policy) && exception.respond_to?(:query)
-      policy_name = exception.policy.class.to_s.underscore
-      policy_type = exception.query
-
-      flash[:alert] = t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
-    else
-      flash[:alert] = t('pundit.default')
-    end
-
-    respond_to do |format|
-      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
-      format.html { redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
-      format.json { render json: { error: I18n.t('pundit.default') }.to_json, status: :forbidden }
     end
   end
 
@@ -335,6 +269,76 @@ class ApplicationController < ActionController::Base
     model.public_activity_off
     yield if block_given?
     model.public_activity_on
+  end
+
+  def handle_error(exception)
+    # Add into database
+    error_params = {
+      class_name:  exception.class.to_s,
+      message:     exception.to_s,
+      trace:       exception.backtrace.join("\n"),
+      target_url:  request.url,
+      referer_url: request.referer,
+      params:      request.params.inspect,
+      user_agent:  request.user_agent,
+      doc_root:    request.env['DOCUMENT_ROOT'],
+      app_name:    Rails.application.class.parent_name,
+      created_at:  Time.zone.now,
+      origin:      ErrorMessage.origins[:server]
+    }
+    error        = ErrorMessage.new_error(error_params, request, current_user)
+    error.save
+
+    # Display in logger
+    Rails.logger.fatal(exception.class.to_s + ' : ' + exception.to_s)
+    Rails.logger.fatal(exception.backtrace.join("\n"))
+  end
+
+  def user_not_authorized(exception)
+    handle_error(exception)
+
+    # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
+    self.response_body = nil
+    @_response_body = nil
+
+    if exception.respond_to?(:policy) && exception.respond_to?(:query)
+      policy_name = exception.policy.class.to_s.underscore
+      policy_type = exception.query
+
+      flash[:alert] = t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
+    else
+      flash[:alert] = t('pundit.default')
+    end
+
+    respond_to do |format|
+      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
+      format.html { redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
+      format.json { render json: { errors: I18n.t('pundit.default') }.to_json, status: :forbidden }
+    end
+  end
+
+  def not_found_error(exception)
+    handle_error(exception)
+
+    raise if Rails.env.development?
+
+    respond_to do |format|
+      format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: :not_found }
+      format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
+      format.all { render body: nil, status: :not_found }
+    end
+  end
+
+  def server_error(exception)
+    handle_error(exception)
+
+    raise if Rails.env.development?
+
+    respond_to do |format|
+      format.html { render 'errors/show', layout: 'full_page', locals: { status: 500 }, status: :internal_server_error }
+      format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }
+      format.all { render body: nil, status: :internal_server_error }
+    end
   end
 
   private
