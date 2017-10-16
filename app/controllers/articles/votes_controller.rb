@@ -14,9 +14,9 @@ class Articles::VotesController < ApplicationController
         if current_user.vote_for(article)
           article.create_activity(action: :vote_up, owner: current_user)
 
-          head :ok
+          head :no_content
         else
-          render json:   article.errors,
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end
@@ -32,9 +32,9 @@ class Articles::VotesController < ApplicationController
         if current_user.vote_against(article)
           article.create_activity(action: :vote_down, owner: current_user)
 
-          head :ok
+          head :no_content
         else
-          render json:   article.errors,
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end

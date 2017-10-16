@@ -79,7 +79,7 @@ class TagsController < ApplicationController
           render json:   tag,
                  status: :ok
         else
-          render json:   tag.errors,
+          render json:   { errors: tag.errors },
                  status: :forbidden
         end
       end
@@ -94,11 +94,10 @@ class TagsController < ApplicationController
       format.json do
         if params[:permanently] && current_admin ? tag.really_destroy! : tag.destroy
           flash.now[:success] = I18n.t('views.tag.flash.successful_deletion')
-          render json:   { id: tag.id },
-                 status: :accepted
+          head :no_content
         else
           flash.now[:error] = I18n.t('views.tag.flash.deletion_error', errors: tag.errors.to_s)
-          render json:   tag.errors,
+          render json:   { errors: tag.errors },
                  status: :forbidden
         end
       end

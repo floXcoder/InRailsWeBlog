@@ -13,24 +13,17 @@ module TrackerConcern
     skip_after_action :verify_authorized, only: [:clicked, :viewed]
   end
 
-  # Tracker action method to get clicks from clients
-  def clicked
-    class_model = controller_path.classify.constantize
-    class_model.track_clicks(params[:id])
-    head :ok
-  end
-
   # Tracker action method to get views from clients
   def viewed
     class_model = controller_path.classify.constantize
     class_model.track_views(params[:id].split(','))
-    head :ok
+    head :no_content
   end
 
-  private
-
-  def tracker_params
-    params.require(:tracker).permit(:id,
-                                    :model)
+  # Tracker action method to get clicks from clients
+  def clicked
+    class_model = controller_path.classify.constantize
+    class_model.track_clicks(params[:id])
+    head :no_content
   end
 end

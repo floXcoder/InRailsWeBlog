@@ -17,7 +17,7 @@ class Users::BookmarksController < ApplicationController
                  serializer: BookmarkSerializer,
                  status:     :created
         else
-          render json:   bookmark.errors,
+          render json:   { errors: bookmark.errors },
                  status: :forbidden
         end
       end
@@ -32,10 +32,9 @@ class Users::BookmarksController < ApplicationController
     respond_to do |format|
       format.json do
         if bookmark.remove(user, bookmark_params[:model_type], bookmark_params[:model_id])
-          render json:   bookmark,
-                 status: :accepted
+          head :no_content
         else
-          render json:   bookmark.errors,
+          render json:   { errors: bookmark.errors },
                  status: :forbidden
         end
       end

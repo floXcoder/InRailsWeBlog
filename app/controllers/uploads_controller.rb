@@ -27,7 +27,7 @@ class UploadsController < ApplicationController
                  status:     :created
         else
           # flash.now[:error] = t('views.upload.flash.error_creation')
-          render json:   { error: upload.errors.full_messages.join(',') },
+          render json:   { errors: upload.errors.full_messages },
                  status: :forbidden
         end
       end
@@ -56,7 +56,7 @@ class UploadsController < ApplicationController
                  status:     :ok
         else
           # flash.now[:error] = t('views.upload.flash.error_edition')
-          render json:   { error: upload.errors.full_messages.join(',') },
+          render json:   { errors: upload.errors.full_messages },
                  status: :forbidden
         end
       end
@@ -71,11 +71,10 @@ class UploadsController < ApplicationController
       format.json do
         if upload.destroy
           # flash.now[:success] = t('views.upload.flash.successful_deletion')
-          render json:   { id: upload.id },
-                 status: :accepted
+          head :no_content
         else
           # flash.now[:error] = t('views.upload.flash.error_deletion')
-          render json:   { error: upload.errors.full_messages.join(',') },
+          render json:   { errors: upload.errors.full_messages },
                  status: :forbidden
         end
       end

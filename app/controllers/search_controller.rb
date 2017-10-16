@@ -159,7 +159,7 @@ class SearchController < ApplicationController
   def search_type(type, current_type, options = {})
     (return options[:strict] ? false : true) unless current_type
 
-    if current_type.is_a? Array
+    if current_type.is_a?(Array)
       return current_type.map(&:downcase).include?(type.to_s.downcase)
     else
       if type.to_s.casecmp(current_type).zero?

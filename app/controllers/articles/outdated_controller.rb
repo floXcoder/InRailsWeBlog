@@ -14,9 +14,9 @@ class Articles::OutdatedController < ApplicationController
         if article.mark_as_outdated(current_user)
           article.create_activity(action: :outdated_up, owner: current_user)
 
-          head :ok
+          head :no_content
         else
-          render json:   article.errors,
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end
@@ -32,9 +32,9 @@ class Articles::OutdatedController < ApplicationController
         if article.remove_outdated(current_user)
           article.create_activity(action: :outdated_down, owner: current_user)
 
-          head :ok
+          head :no_content
         else
-          render json:   article.errors,
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end

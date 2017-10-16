@@ -116,7 +116,7 @@ class ArticlesController < ApplicationController
                  status:     :created
         else
           flash.now[:error] = t('views.article.flash.error_creation')
-          render json:   article.errors,
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end
@@ -155,7 +155,7 @@ class ArticlesController < ApplicationController
           render json:   article,
                  status: :ok
         else
-          render json:   article.errors,
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end
@@ -195,7 +195,7 @@ class ArticlesController < ApplicationController
         #          content_type: 'application/json'
         # end
         format.json do
-          render json:   {},
+          render json:   { errors: [] },
                  status: :not_found
         end
       end
@@ -213,11 +213,10 @@ class ArticlesController < ApplicationController
           # Tag.remove_unused_tags(article.tags)
 
           flash.now[:success] = I18n.t('views.article.flash.successful_deletion')
-          render json:   { id: article.id },
-                 status: :accepted
+          head :no_content
         else
           flash.now[:error] = I18n.t('views.article.flash.deletion_error', errors: article.errors.to_s)
-          render json:   article.errors,
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end

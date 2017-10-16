@@ -35,7 +35,7 @@ class Users::TopicsController < ApplicationController
                  serializer: TopicTaggedSerializer,
                  status:     :ok
         else
-          render json:   topic.errors,
+          render json:   { errors: topic.errors },
                  status: :forbidden
         end
       end
@@ -68,7 +68,7 @@ class Users::TopicsController < ApplicationController
                  serializer: TopicSerializer,
                  status:     :created
         else
-          render json:   topic.errors,
+          render json:   { errors: topic.errors },
                  status: :forbidden
         end
       end
@@ -89,7 +89,7 @@ class Users::TopicsController < ApplicationController
                  serializer: TopicSerializer,
                  status:     :ok
         else
-          render json:   topic.errors,
+          render json:   { errors: topic.errors },
                  status: :forbidden
         end
       end
@@ -104,10 +104,9 @@ class Users::TopicsController < ApplicationController
     respond_to do |format|
       format.json do
         if topic.destroy
-          render json:   { id: topic.id },
-                 status: :accepted
+          head :no_content
         else
-          render json:   topic.errors,
+          render json:   { errors: topic.errors },
                  status: :forbidden
         end
       end

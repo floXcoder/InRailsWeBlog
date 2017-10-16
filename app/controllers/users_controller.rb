@@ -72,10 +72,12 @@ class UsersController < ApplicationController
     user_exists = User.login?(user_validation_params[:login]) if user_validation_params[:login]
 
     respond_to do |format|
-      if user_exists
-        format.json { render json: { success: true }, status: :accepted }
-      else
-        format.json { render nothing: true, status: :not_found }
+      format.json do
+        if user_exists
+          render json: { success: true }, status: :accepted
+        else
+          render nothing: true, status: :not_found
+        end
       end
     end
   end
@@ -175,6 +177,7 @@ class UsersController < ApplicationController
       format.json do
         render json:            user_activities,
                each_serializer: PublicActivitiesSerializer,
+               root:            'activities',
                meta:            meta_attributes(user_activities)
       end
     end
@@ -224,7 +227,8 @@ class UsersController < ApplicationController
                    serializer: UserCompleteSerializer,
                    status:     :ok
           else
-            render json: user
+            render json: { errors: user.errors },
+                   status: :forbidden
           end
         end
       end
@@ -241,7 +245,7 @@ class UsersController < ApplicationController
                    serializer: UserCompleteSerializer,
                    status:     :ok
           else
-            render json:   user,
+            render json: { errors: user.errors },
                    status: :forbidden
           end
         end

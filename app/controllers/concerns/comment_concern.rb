@@ -8,9 +8,9 @@ module CommentConcern
 
   def comments
     class_model = controller_path.classify.constantize
-    record      = class_model.find(params[:id])
+    record      = class_model.find(params[:id] || params[:commentableId])
 
-    comments, comments_tree = record.comments_tree(params[:page])
+    comments, comments_tree = record.comments_tree(params[:page], params[:per_page] || Setting.comment_per_page)
 
     respond_to do |format|
       format.json do
@@ -24,26 +24,28 @@ module CommentConcern
   def add_comment
     class_model = controller_path.classify.constantize
     record      = class_model.find(params[:id])
-    authorize record
+    admin_or_authorize record
 
     comment = record.comment_threads.build
+    # authorize comment, :create?
 
-    comment.assign_attributes(comment_params.merge(user_id: current_user.id))
+    comment.assign_attributes(comment_params)
+    comment.assign_attributes(user_id: current_user.id)
 
     respond_to do |format|
       if record.new_comment(comment)
-        record.create_activity(action: :commented_on, owner: current_user) if record.respond_to?(:create_activity)
-
+        record.track_comments(comment)
+        current_user.track_comments(comment)
         flash.now[:success] = t('views.comment.flash.successful_creation')
         format.json do
           render json:       comment,
-                 serializer: CommentSerializer,
+                 serializer: CommentFullSerializer,
                  status:     :accepted
         end
       else
         flash.now[:success] = t('views.comment.flash.error_creation')
         format.json do
-          render json:   comment.errors,
+          render json:   { errors: comment.errors },
                  status: :forbidden
         end
       end
@@ -53,24 +55,22 @@ module CommentConcern
   def update_comment
     class_model = controller_path.classify.constantize
     record      = class_model.find(params[:id])
-    authorize record
+    admin_or_authorize record
 
     comment = record.comments.find(params[:comment][:id])
+    # authorize comment, :update?
 
     respond_to do |format|
       if record.update_comment(comment, comment_update_params)
-        record.create_activity(action: :comment_updated, owner: current_user) if record.respond_to?(:create_activity)
-
-        flash.now[:success] = t('views.comment.flash.successful_update')
+        flash.now[:success] = t('views.comment.flash.successful_edition')
         format.json do
           render json:   comment,
-                 serializer: CommentSerializer,
                  status: :accepted
         end
       else
-        flash.now[:success] = t('views.comment.flash.error_update')
+        flash.now[:success] = t('views.comment.flash.error_edition')
         format.json do
-          render json:   comment.errors,
+          render json:   { errors: comment.errors },
                  status: :forbidden
         end
       end
@@ -80,23 +80,24 @@ module CommentConcern
   def remove_comment
     class_model = controller_path.classify.constantize
     record      = class_model.find(params[:id])
-    authorize record
+    admin_or_authorize record
 
     comment = record.comments.find(params[:comment][:id])
+    # authorize comment, :destroy?
 
     respond_to do |format|
       if (destroyed_comment_ids = record.remove_comment(comment))
-        record.create_activity(action: :comment_removed, owner: current_user) if record.respond_to?(:create_activity)
-
+        record.untrack_comments(comment)
+        current_user.untrack_comments(comment)
         flash.now[:success] = t('views.comment.flash.successful_deletion')
         format.json do
-          render json:   { ids: destroyed_comment_ids },
+          render json:   { deletedCommentIds: destroyed_comment_ids },
                  status: :accepted
         end
       else
         flash.now[:success] = t('views.comment.flash.error_deletion')
         format.json do
-          render json:   comment.errors,
+          render json:   { errors: comment.errors },
                  status: :forbidden
         end
       end
@@ -111,6 +112,7 @@ module CommentConcern
                                     :body,
                                     :rating,
                                     :parent_id,
+                                    :ask_for_deletion,
                                     :accepted)
   end
 
