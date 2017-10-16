@@ -180,16 +180,16 @@ describe 'User Topic API', type: :request, basic: true do
       it 'returns a new topic and switch to this topic' do
         expect {
           post "/users/#{@user.id}/topics", params: topic_attributes, as: :json
+
+          expect(response).to be_json_response(201)
+
+          topic = JSON.parse(response.body)
+          expect(topic['topic']).not_to be_empty
+          expect(topic['topic']['user_id']).to eq(@user.id)
+          expect(topic['topic']['name']).to eq(topic_attributes[:topic][:name])
+
+          expect(@user.reload.current_topic_id).to eq(topic['topic']['id'])
         }.to change(Topic, :count).by(1)
-
-        expect(response).to be_json_response(201)
-
-        topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['user_id']).to eq(@user.id)
-        expect(topic['topic']['name']).to eq(topic_attributes[:topic][:name])
-
-        expect(@user.reload.current_topic_id).to eq(topic['topic']['id'])
       end
     end
 
@@ -203,14 +203,14 @@ describe 'User Topic API', type: :request, basic: true do
 
         expect {
           post "/users/#{@user.id}/topics", params: topic_error_attributes, as: :json
+
+          expect(response).to be_json_response(403)
+
+          article = JSON.parse(response.body)
+          expect(article['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
+
+          expect(@user.reload.current_topic_id).to eq(previous_topic_id)
         }.to_not change(Topic, :count)
-
-        expect(response).to be_json_response(403)
-
-        article = JSON.parse(response.body)
-        expect(article['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
-
-        expect(@user.reload.current_topic_id).to eq(previous_topic_id)
       end
     end
   end
@@ -232,14 +232,14 @@ describe 'User Topic API', type: :request, basic: true do
       it 'returns the updated topic' do
         expect {
           put "/users/#{@user.id}/topics/#{@first_topic.id}", params: updated_topic_attributes, as: :json
+
+          expect(response).to be_json_response
+
+          topic = JSON.parse(response.body)
+          expect(topic['topic']).not_to be_empty
+          expect(topic['topic']['name']).to eq(updated_topic_attributes[:topic][:name])
+          expect(topic['topic']['description']).to eq(updated_topic_attributes[:topic][:description])
         }.to change(Topic, :count).by(0)
-
-        expect(response).to be_json_response
-
-        topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['name']).to eq(updated_topic_attributes[:topic][:name])
-        expect(topic['topic']['description']).to eq(updated_topic_attributes[:topic][:description])
       end
 
       context 'when updating a topic with errors' do
@@ -250,12 +250,12 @@ describe 'User Topic API', type: :request, basic: true do
         it 'returns the errors' do
           expect {
             put "/users/#{@user.id}/topics/#{@first_topic.id}", params: topic_error_attributes, as: :json
+
+            expect(response).to be_json_response(403)
+
+            topic = JSON.parse(response.body)
+            expect(topic['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
           }.to change(Topic, :count).by(0)
-
-          expect(response).to be_json_response(403)
-
-          topic = JSON.parse(response.body)
-          expect(topic['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
         end
       end
     end
@@ -280,12 +280,12 @@ describe 'User Topic API', type: :request, basic: true do
       it 'returns the soft deleted topic id' do
         expect {
           delete "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+
+          expect(response).to be_json_response(202)
+
+          topic = JSON.parse(response.body)
+          expect(topic['id']).to eq(@first_topic.id)
         }.to change(Topic, :count).by(-1).and change(Article, :count).by(-5).and change(TaggedArticle, :count).by(0).and change(TagRelationship, :count).by(0)
-
-        expect(response).to be_json_response(202)
-
-        topic = JSON.parse(response.body)
-        expect(topic['id']).to eq(@first_topic.id)
       end
     end
   end

@@ -40,10 +40,10 @@ describe 'Vote Article API', type: :request, basic: true do
       it 'returns ok' do
         expect {
           post "/articles/#{@article.id}/votes", as: :json
-        }.to change(Vote, :count).by(1)
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+          expect(response).to be_json_response
+          expect(response.body).to be_empty
+        }.to change(Vote, :count).by(1)
       end
     end
 
@@ -56,9 +56,9 @@ describe 'Vote Article API', type: :request, basic: true do
       it 'cannot vote again' do
         expect {
           post "/articles/#{@article.id}/votes", as: :json
-        }.not_to change(Vote, :count)
 
-        expect(response).to be_unauthorized
+          expect(response).to be_unauthorized
+        }.not_to change(Vote, :count)
       end
     end
   end
@@ -92,10 +92,10 @@ describe 'Vote Article API', type: :request, basic: true do
       it 'returns ok' do
         expect {
           delete "/articles/#{@article.id}/votes", as: :json
-        }.to change(Vote, :count).by(1)
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+          expect(response).to be_json_response
+          expect(response.body).to be_empty
+        }.to change(Vote, :count).by(1)
       end
     end
 
@@ -108,9 +108,9 @@ describe 'Vote Article API', type: :request, basic: true do
       it 'cannot vote again' do
         expect {
           post "/articles/#{@article.id}/votes", as: :json
-        }.not_to change(Vote, :count)
 
-        expect(response).to be_unauthorized
+          expect(response).to be_unauthorized
+        }.not_to change(Vote, :count)
       end
     end
   end

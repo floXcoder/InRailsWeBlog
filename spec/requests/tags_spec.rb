@@ -190,14 +190,14 @@ describe 'Tag API', type: :request, basic: true do
       it 'returns the updated tag' do
         expect {
           put "/tags/#{@private_tags[0].id}", params: updated_tag_attributes, as: :json
+
+          expect(response).to be_json_response
+
+          tag = JSON.parse(response.body)
+          expect(tag['tag']).not_to be_empty
+          expect(tag['tag']['name']).to eq(updated_tag_attributes[:tag][:name])
+          expect(tag['tag']['description']).to eq(updated_tag_attributes[:tag][:description])
         }.to change(Tag, :count).by(0)
-
-        expect(response).to be_json_response
-
-        tag = JSON.parse(response.body)
-        expect(tag['tag']).not_to be_empty
-        expect(tag['tag']['name']).to eq(updated_tag_attributes[:tag][:name])
-        expect(tag['tag']['description']).to eq(updated_tag_attributes[:tag][:description])
       end
 
       context 'when updating a tag with errors' do
@@ -208,13 +208,13 @@ describe 'Tag API', type: :request, basic: true do
         it 'returns the errors' do
           expect {
             put "/tags/#{@tags[0].id}", params: tag_error_attributes, as: :json
+
+            expect(response).to be_json_response(403)
+
+            tag = JSON.parse(response.body)
+            expect(tag['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.tag_name_max_length))
+            expect(tag['name'].second).to eq(I18n.t('activerecord.errors.models.tag.public_name_immutable'))
           }.to change(Tag, :count).by(0)
-
-          expect(response).to be_json_response(403)
-
-          tag = JSON.parse(response.body)
-          expect(tag['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.tag_name_max_length))
-          expect(tag['name'].second).to eq(I18n.t('activerecord.errors.models.tag.public_name_immutable'))
         end
       end
     end
@@ -237,23 +237,23 @@ describe 'Tag API', type: :request, basic: true do
       it 'returns the soft deleted tag id' do
         expect {
           delete "/tags/#{@tags[4].id}", as: :json
+
+          expect(response).to be_json_response(202)
+
+          tag = JSON.parse(response.body)
+          expect(tag['id']).to eq(@tags[4].id)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(0).and change(TaggedArticle, :count).by(0).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
-
-        expect(response).to be_json_response(202)
-
-        tag = JSON.parse(response.body)
-        expect(tag['id']).to eq(@tags[4].id)
       end
 
       it 'returns the soft deleted tag id with relationships removed' do
         expect {
           delete "/tags/#{@tags[0].id}", as: :json
+
+          expect(response).to be_json_response(202)
+
+          tag = JSON.parse(response.body)
+          expect(tag['id']).to eq(@tags[0].id)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
-
-        expect(response).to be_json_response(202)
-
-        tag = JSON.parse(response.body)
-        expect(tag['id']).to eq(@tags[0].id)
       end
     end
 
@@ -265,12 +265,12 @@ describe 'Tag API', type: :request, basic: true do
       it 'can remove permanently an tag' do
         expect {
           delete "/tags/#{@tags[2].id}", params: { permanently: true }, as: :json
+
+          expect(response).to be_json_response(202)
+
+          tag = JSON.parse(response.body)
+          expect(tag['id']).to eq(@tags[2].id)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(-1).and change(TaggedArticle, :count).by(-1).and change(TaggedArticle.with_deleted, :count).by(-1).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
-
-        expect(response).to be_json_response(202)
-
-        tag = JSON.parse(response.body)
-        expect(tag['id']).to eq(@tags[2].id)
       end
     end
   end

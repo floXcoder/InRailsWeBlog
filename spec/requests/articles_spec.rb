@@ -261,112 +261,112 @@ describe 'Article API', type: :request, basic: true do
       it 'returns a new article associated to current topic of the user by default' do
         expect {
           post '/articles', params: article_attributes, as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['title']).to eq(article_attributes[:article][:title])
+          expect(article['article']['topic_id']).to eq(@user.current_topic_id)
+          expect(article['article']['tags'].size).to eq(0)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
-
-        expect(response).to be_json_response(201)
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['title']).to eq(article_attributes[:article][:title])
-        expect(article['article']['topic_id']).to eq(@user.current_topic_id)
-        expect(article['article']['tags'].size).to eq(0)
       end
 
       it 'returns a new article associated to a specific topic if user owns the topic' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { topic_id: @second_topic.id }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['topic_id']).to eq(@second_topic.id)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
-
-        expect(response).to be_json_response(201)
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['topic_id']).to eq(@second_topic.id)
       end
 
       it 'returns a new article with new tags associated to the current topic' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { tags: ['new tag 1', 'new tag 2'] }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(2)
+          expect(article['article']['parent_tags']).to be_empty
+          expect(article['article']['child_tags']).to be_empty
+
+          expect(Tag.last(2).first.topics.last).to eq(@user.current_topic)
+          expect(Tag.last(2).second.topics.last).to eq(@user.current_topic)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
-
-        expect(response).to be_json_response(201)
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].size).to eq(2)
-        expect(article['article']['parent_tags']).to be_empty
-        expect(article['article']['child_tags']).to be_empty
-
-        expect(Tag.last(2).first.topics.last).to eq(@user.current_topic)
-        expect(Tag.last(2).second.topics.last).to eq(@user.current_topic)
       end
 
       it 'returns a new article with existing tags associated to current topic' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { tags: [@tags[0].name, @tags[1].name] }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(2)
+          expect(article['article']['parent_tags']).to be_empty
+          expect(article['article']['child_tags']).to be_empty
+
+          expect(@tags[0].topics).to include(@user.current_topic)
+          expect(@tags[1].topics).to include(@user.current_topic)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0)
-
-        expect(response).to be_json_response(201)
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].size).to eq(2)
-        expect(article['article']['parent_tags']).to be_empty
-        expect(article['article']['child_tags']).to be_empty
-
-        expect(@tags[0].topics).to include(@user.current_topic)
-        expect(@tags[1].topics).to include(@user.current_topic)
       end
 
       it 'returns a new article with parent and child tags associated' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { parent_tags: [@tags[2].name], child_tags: [@tags[3].name] }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(2)
+          expect(article['article']['parent_tags'].size).to eq(1)
+          expect(article['article']['child_tags'].size).to eq(1)
+
+          expect(@tags[2].children.last).to eq(@tags[3])
+          expect(@tags[3].parents.last).to eq(@tags[2])
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(1)
-
-        expect(response).to be_json_response(201)
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].size).to eq(2)
-        expect(article['article']['parent_tags'].size).to eq(1)
-        expect(article['article']['child_tags'].size).to eq(1)
-
-        expect(@tags[2].children.last).to eq(@tags[3])
-        expect(@tags[3].parents.last).to eq(@tags[2])
       end
 
       it 'returns a new article with tags having the correct visibility' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { tags: ['tag public,everyone', 'tag private,only_me'] }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(2)
+
+          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('everyone')
+          expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
-
-        expect(response).to be_json_response(201)
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].size).to eq(2)
-
-        expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('everyone')
-        expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('only_me')
       end
 
       it 'returns a new article with tags having the correct association and visibility' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { parent_tags: ['parent tag public,everyone'], child_tags: ['child tag private,only_me'] }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(2)
+
+          public_parent_tag = Tag.find(article['article']['tags'][0]['id'])
+          private_child_tag = Tag.find(article['article']['tags'][1]['id'])
+          expect(public_parent_tag.children.last).to eq(private_child_tag)
+          expect(private_child_tag.parents.last).to eq(public_parent_tag)
+          expect(public_parent_tag.visibility).to eq('everyone')
+          expect(private_child_tag.visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
-
-        expect(response).to be_json_response(201)
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].size).to eq(2)
-
-        public_parent_tag = Tag.find(article['article']['tags'][0]['id'])
-        private_child_tag = Tag.find(article['article']['tags'][1]['id'])
-        expect(public_parent_tag.children.last).to eq(private_child_tag)
-        expect(private_child_tag.parents.last).to eq(public_parent_tag)
-        expect(public_parent_tag.visibility).to eq('everyone')
-        expect(private_child_tag.visibility).to eq('only_me')
       end
     end
 
@@ -378,24 +378,24 @@ describe 'Article API', type: :request, basic: true do
       it 'returns the errors for incorrect attributes' do
         expect {
           post '/articles', params: article_error_attributes, as: :json
+
+          expect(response).to be_json_response(403)
+
+          article = JSON.parse(response.body)
+          expect(article['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
+          expect(article['content'].first).to eq(I18n.t('errors.messages.blank'))
         }.to_not change(Article, :count)
-
-        expect(response).to be_json_response(403)
-
-        article = JSON.parse(response.body)
-        expect(article['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
-        expect(article['content'].first).to eq(I18n.t('errors.messages.blank'))
       end
 
       it 'returns a error if topic do not belong to current user' do
         expect {
           post '/articles', params: article_attributes.deep_merge(article: { topic_id: @other_topic.id }), as: :json
+
+          expect(response).to be_json_response(403)
+
+          article = JSON.parse(response.body)
+          expect(article['topic'].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
         }.to_not change(Article, :count)
-
-        expect(response).to be_json_response(403)
-
-        article = JSON.parse(response.body)
-        expect(article['topic'].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
       end
     end
   end
@@ -440,46 +440,46 @@ describe 'Article API', type: :request, basic: true do
       it 'returns the updated article' do
         expect {
           put "/articles/#{@article.id}", params: updated_article_attributes, as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['title']).to eq(updated_article_attributes[:article][:title])
+          expect(article['article']['tags'].size).to eq(3)
         }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
-
-        expect(response).to be_json_response
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['title']).to eq(updated_article_attributes[:article][:title])
-        expect(article['article']['tags'].size).to eq(3)
       end
 
       it 'returns updated article with new tags' do
         expect {
           put "/articles/#{@article.id}", params: article_attributes.deep_merge(article: { tags: ['new tag 1', 'new tag 2'] }), as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(2)
+          expect(article['article']['tags'].map { |t| t['name'] }).to include('New tag 1', 'New tag 2')
+          expect(article['article']['parent_tags']).to be_empty
+          expect(article['article']['child_tags']).to be_empty
+
+          expect(TaggedArticle.where(article_id: article['article']['id']).first.tag.name).to eq('New tag 1')
+          expect(TaggedArticle.where(article_id: article['article']['id']).second.tag.name).to eq('New tag 2')
         }.to change(Article, :count).by(0).and change(Tag, :count).by(2).and change(TaggedArticle, :count).by(-1)
-
-        expect(response).to be_json_response
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].size).to eq(2)
-        expect(article['article']['tags'].map { |t| t['name'] }).to include('New tag 1', 'New tag 2')
-        expect(article['article']['parent_tags']).to be_empty
-        expect(article['article']['child_tags']).to be_empty
-
-        expect(TaggedArticle.where(article_id: article['article']['id']).first.tag.name).to eq('New tag 1')
-        expect(TaggedArticle.where(article_id: article['article']['id']).second.tag.name).to eq('New tag 2')
       end
 
       it 'returns updated article and tags relationship' do
         expect {
           put "/articles/#{@relation_tags_article.id}", params: article_attributes.deep_merge(article: { parent_tags: [@tags[1].name], child_tags: [@tags[3].name] }), as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(2)
+          expect(article['article']['parent_tags'].size).to eq(1)
+          expect(article['article']['child_tags'].size).to eq(1)
         }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TagRelationship, :count).by(-1)
-
-        expect(response).to be_json_response
-
-        article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].size).to eq(2)
-        expect(article['article']['parent_tags'].size).to eq(1)
-        expect(article['article']['child_tags'].size).to eq(1)
       end
 
       context 'when updating an article with errors' do
@@ -490,13 +490,13 @@ describe 'Article API', type: :request, basic: true do
         it 'returns the errors' do
           expect {
             put "/articles/#{@article.id}", params: article_error_attributes.merge(tags: ['test error' * 30]), as: :json
+
+            expect(response).to be_json_response(403)
+
+            article = JSON.parse(response.body)
+            expect(article['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
+            expect(article['content'].first).to eq(I18n.t('errors.messages.blank'))
           }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
-
-          expect(response).to be_json_response(403)
-
-          article = JSON.parse(response.body)
-          expect(article['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
-          expect(article['content'].first).to eq(I18n.t('errors.messages.blank'))
         end
       end
     end
@@ -556,23 +556,23 @@ describe 'Article API', type: :request, basic: true do
       it 'returns the soft deleted article id' do
         expect {
           delete "/articles/#{@article.id}", as: :json
+
+          expect(response).to be_json_response(202)
+
+          article = JSON.parse(response.body)
+          expect(article['id']).to eq(@article.id)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
-
-        expect(response).to be_json_response(202)
-
-        article = JSON.parse(response.body)
-        expect(article['id']).to eq(@article.id)
       end
 
       it 'returns the soft deleted article id with relationships removed' do
         expect {
           delete "/articles/#{@relation_tags_article.id}", as: :json
+
+          expect(response).to be_json_response(202)
+
+          article = JSON.parse(response.body)
+          expect(article['id']).to eq(@relation_tags_article.id)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(-2).and change(TagRelationship.with_deleted, :count).by(0)
-
-        expect(response).to be_json_response(202)
-
-        article = JSON.parse(response.body)
-        expect(article['id']).to eq(@relation_tags_article.id)
       end
     end
 
@@ -584,12 +584,12 @@ describe 'Article API', type: :request, basic: true do
       it 'can remove permanently an article' do
         expect {
           delete "/articles/#{@article.id}", params: { permanently: true }, as: :json
+
+          expect(response).to be_json_response(202)
+
+          article = JSON.parse(response.body)
+          expect(article['id']).to eq(@article.id)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(-1).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(-3).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
-
-        expect(response).to be_json_response(202)
-
-        article = JSON.parse(response.body)
-        expect(article['id']).to eq(@article.id)
       end
     end
   end
