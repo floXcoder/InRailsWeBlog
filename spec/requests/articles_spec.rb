@@ -542,7 +542,7 @@ describe 'Article API', type: :request, basic: true do
   describe '/articles/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/articles/#{@article.id}", as: :json
+        delete "/articles/#{@article.id}", headers: @json_header
 
         expect(response).to be_unauthenticated
       end
@@ -555,7 +555,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns the soft deleted article id' do
         expect {
-          delete "/articles/#{@article.id}", as: :json
+          delete "/articles/#{@article.id}", headers: @json_header
 
           expect(response).to be_json_response(202)
 
@@ -566,7 +566,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns the soft deleted article id with relationships removed' do
         expect {
-          delete "/articles/#{@relation_tags_article.id}", as: :json
+          delete "/articles/#{@relation_tags_article.id}", headers: @json_header
 
           expect(response).to be_json_response(202)
 
@@ -583,7 +583,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'can remove permanently an article' do
         expect {
-          delete "/articles/#{@article.id}", params: { permanently: true }, as: :json
+          delete "/articles/#{@article.id}", params: { permanently: true }, headers: @json_header
 
           expect(response).to be_json_response(202)
 
@@ -678,7 +678,7 @@ describe 'Article API', type: :request, basic: true do
     describe '/articles/:id/comments (DELETE)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
+          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, headers: @json_header
 
           expect(response).to be_unauthenticated
         end
@@ -690,7 +690,7 @@ describe 'Article API', type: :request, basic: true do
         end
 
         it 'deletes a comment associated to this article' do
-          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
+          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, headers: @json_header
 
           expect(response).to be_json_response(202)
 

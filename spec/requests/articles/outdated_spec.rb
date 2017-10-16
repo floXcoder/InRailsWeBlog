@@ -57,7 +57,7 @@ describe 'Outdated Article API', type: :request, basic: true do
     context 'when user is not connected' do
       it 'returns an error message' do
         expect {
-          delete "/articles/#{@article.id}/outdated", as: :json
+          delete "/articles/#{@article.id}/outdated", headers: @json_header
 
           expect(response).to be_unauthenticated
         }.not_to change(OutdatedArticle, :count)
@@ -87,7 +87,7 @@ describe 'Outdated Article API', type: :request, basic: true do
 
       it 'cannot unmark an article not outdated' do
         expect {
-          delete "/articles/#{@article.id}/outdated", as: :json
+          delete "/articles/#{@article.id}/outdated", headers: @json_header
 
           expect(response).to be_unauthorized
         }.not_to change(OutdatedArticle, :count)
@@ -103,7 +103,7 @@ describe 'Outdated Article API', type: :request, basic: true do
 
       it 'returns ok' do
         expect {
-          delete "/articles/#{@article.id}/outdated", as: :json
+          delete "/articles/#{@article.id}/outdated", headers: @json_header
 
           expect(response).to be_json_response
           expect(response.body).to be_empty

@@ -223,7 +223,7 @@ describe 'Tag API', type: :request, basic: true do
   describe '/tags/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/tags/#{@tags[0].id}", as: :json
+        delete "/tags/#{@tags[0].id}", headers: @json_header
 
         expect(response).to be_unauthenticated
       end
@@ -236,7 +236,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'returns the soft deleted tag id' do
         expect {
-          delete "/tags/#{@tags[4].id}", as: :json
+          delete "/tags/#{@tags[4].id}", headers: @json_header
 
           expect(response).to be_json_response(202)
 
@@ -247,7 +247,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'returns the soft deleted tag id with relationships removed' do
         expect {
-          delete "/tags/#{@tags[0].id}", as: :json
+          delete "/tags/#{@tags[0].id}", headers: @json_header
 
           expect(response).to be_json_response(202)
 
@@ -264,7 +264,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'can remove permanently an tag' do
         expect {
-          delete "/tags/#{@tags[2].id}", params: { permanently: true }, as: :json
+          delete "/tags/#{@tags[2].id}", params: { permanently: true }, headers: @json_header
 
           expect(response).to be_json_response(202)
 
@@ -360,7 +360,7 @@ describe 'Tag API', type: :request, basic: true do
     describe '/tags/:id/comments (DELETE)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
+          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, headers: @json_header
 
           expect(response).to be_unauthenticated
         end
@@ -372,7 +372,7 @@ describe 'Tag API', type: :request, basic: true do
         end
 
         it 'deletes a comment associated to this tag' do
-          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
+          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, headers: @json_header
 
           expect(response).to be_json_response(202)
 
