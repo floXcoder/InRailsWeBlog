@@ -48,7 +48,8 @@ class ErrorsController < ApplicationController
           head :no_content
         else
           flash.now[:error] = I18n.t('views.errors.flash.error_deletion')
-          render json: { errors: error.errors }, status: :forbidden
+          render json: { errors: error.errors },
+                 status: :forbidden
         end
       end
 
