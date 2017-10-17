@@ -16,7 +16,7 @@ module TrackerConcern
   # Tracker action method to get views from clients
   def viewed
     class_model = controller_path.classify.constantize
-    class_model.track_views(params[:id].split(','))
+    class_model.track_views(params[:id])
     head :no_content
   end
 

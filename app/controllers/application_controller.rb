@@ -78,6 +78,8 @@ class ApplicationController < ActionController::Base
   end
 
   def append_info_to_payload(payload)
+    return if request.params['action'] == 'viewed' || request.params['action'] == 'clicked'
+
     super
     payload[:request_id] = request.uuid
     payload[:user_id]    = current_user.id if current_user
