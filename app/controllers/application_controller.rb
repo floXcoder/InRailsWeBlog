@@ -176,7 +176,7 @@ class ApplicationController < ActionController::Base
         end
         format.json do
           flash.now[:alert] = I18n.t('devise.failure.unauthenticated')
-          render json:   { error: I18n.t('devise.failure.unauthenticated') }.to_json,
+          render json:   { errors: I18n.t('devise.failure.unauthenticated') }.to_json,
                  status: :forbidden
         end
       end
@@ -188,8 +188,8 @@ class ApplicationController < ActionController::Base
       super(options)
     else
       respond_to do |format|
-        format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: 404 }
-        format.json { render json: { error: t('views.error.status.explanation.404'), status: 404 } }
+        format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: :not_found }
+        format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
         format.all { render body: nil, status: :not_found }
       end
     end

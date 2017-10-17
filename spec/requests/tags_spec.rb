@@ -52,7 +52,7 @@ describe 'Tag API', type: :request, basic: true do
       end
 
       # TODO: set a tag limit?
-      # it 'limits to 12 tags' do
+      # it 'limits the number of tags' do
       #   create_list(:tag, 10, user: @user)
       #
       #   get '/tags', as: :json
@@ -60,7 +60,7 @@ describe 'Tag API', type: :request, basic: true do
       #   json_tags = JSON.parse(response.body)
       #
       #   expect(json_tags['tags']).not_to be_empty
-      #   expect(json_tags['tags'].size).to eq(12)
+      #   expect(json_tags['tags'].size).to be <= Setting.per_page
       # end
     end
 
@@ -212,8 +212,8 @@ describe 'Tag API', type: :request, basic: true do
             expect(response).to be_json_response(403)
 
             tag = JSON.parse(response.body)
-            expect(tag['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.tag_name_max_length))
-            expect(tag['name'].second).to eq(I18n.t('activerecord.errors.models.tag.public_name_immutable'))
+            expect(tag['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.tag_name_max_length))
+            expect(tag['errors']['name'].second).to eq(I18n.t('activerecord.errors.models.tag.public_name_immutable'))
           }.to change(Tag, :count).by(0)
         end
       end
@@ -223,7 +223,7 @@ describe 'Tag API', type: :request, basic: true do
   describe '/tags/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/tags/#{@tags[0].id}", headers: @json_header
+        delete "/tags/#{@tags[0].id}", as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -236,23 +236,17 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'returns the soft deleted tag id' do
         expect {
-          delete "/tags/#{@tags[4].id}", headers: @json_header
+          delete "/tags/#{@tags[4].id}", as: :json
 
-          expect(response).to be_json_response(202)
-
-          tag = JSON.parse(response.body)
-          expect(tag['id']).to eq(@tags[4].id)
+          expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(0).and change(TaggedArticle, :count).by(0).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
       end
 
       it 'returns the soft deleted tag id with relationships removed' do
         expect {
-          delete "/tags/#{@tags[0].id}", headers: @json_header
+          delete "/tags/#{@tags[0].id}", as: :json
 
-          expect(response).to be_json_response(202)
-
-          tag = JSON.parse(response.body)
-          expect(tag['id']).to eq(@tags[0].id)
+          expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
       end
     end
@@ -264,12 +258,9 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'can remove permanently an tag' do
         expect {
-          delete "/tags/#{@tags[2].id}", params: { permanently: true }, headers: @json_header
+          delete "/tags/#{@tags[2].id}", params: { permanently: true }, as: :json
 
-          expect(response).to be_json_response(202)
-
-          tag = JSON.parse(response.body)
-          expect(tag['id']).to eq(@tags[2].id)
+          expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(-1).and change(TaggedArticle, :count).by(-1).and change(TaggedArticle.with_deleted, :count).by(-1).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
       end
     end
@@ -360,7 +351,7 @@ describe 'Tag API', type: :request, basic: true do
     describe '/tags/:id/comments (DELETE)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, headers: @json_header
+          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
 
           expect(response).to be_unauthenticated
         end
@@ -372,13 +363,13 @@ describe 'Tag API', type: :request, basic: true do
         end
 
         it 'deletes a comment associated to this tag' do
-          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, headers: @json_header
+          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
 
           expect(response).to be_json_response(202)
 
           json_comment = JSON.parse(response.body)
-          expect(json_comment['ids']).not_to be_empty
-          expect(json_comment['ids'].first).to eq(@comments.second.id)
+          expect(json_comment['deletedCommentIds']).not_to be_empty
+          expect(json_comment['deletedCommentIds'].first).to eq(@comments.second.id)
         end
       end
     end
@@ -389,8 +380,7 @@ describe 'Tag API', type: :request, basic: true do
       it 'counts a new click on tags' do
         post "/tags/#{@tags.first.id}/clicked", as: :json
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+        expect(response).to be_json_response(204)
       end
     end
 
@@ -398,8 +388,7 @@ describe 'Tag API', type: :request, basic: true do
       it 'counts a new view on tags' do
         post "/tags/#{@tags.second.id}/viewed", as: :json
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+        expect(response).to be_json_response(204)
       end
     end
   end

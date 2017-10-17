@@ -52,15 +52,14 @@ describe 'Article API', type: :request, basic: true do
         expect(json_articles['articles'].size).to eq(3)
       end
 
-      it 'limits to 12 articles' do
+      it 'limits the number of articles' do
         create_list(:article, 10, user: @user, topic: @topic)
 
         get '/articles', as: :json
 
         json_articles = JSON.parse(response.body)
-
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(12)
+        expect(json_articles['articles'].size).to be <= Setting.per_page
       end
     end
 
@@ -267,7 +266,7 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['title']).to eq(article_attributes[:article][:title])
-          expect(article['article']['topic_id']).to eq(@user.current_topic_id)
+          expect(article['article']['topicId']).to eq(@user.current_topic_id)
           expect(article['article']['tags'].size).to eq(0)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
       end
@@ -280,7 +279,7 @@ describe 'Article API', type: :request, basic: true do
 
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
-          expect(article['article']['topic_id']).to eq(@second_topic.id)
+          expect(article['article']['topicId']).to eq(@second_topic.id)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
       end
 
@@ -293,8 +292,8 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parent_tags']).to be_empty
-          expect(article['article']['child_tags']).to be_empty
+          expect(article['article']['parentTags']).to be_empty
+          expect(article['article']['childTags']).to be_empty
 
           expect(Tag.last(2).first.topics.last).to eq(@user.current_topic)
           expect(Tag.last(2).second.topics.last).to eq(@user.current_topic)
@@ -310,8 +309,8 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parent_tags']).to be_empty
-          expect(article['article']['child_tags']).to be_empty
+          expect(article['article']['parentTags']).to be_empty
+          expect(article['article']['childTags']).to be_empty
 
           expect(@tags[0].topics).to include(@user.current_topic)
           expect(@tags[1].topics).to include(@user.current_topic)
@@ -327,8 +326,8 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parent_tags'].size).to eq(1)
-          expect(article['article']['child_tags'].size).to eq(1)
+          expect(article['article']['parentTags'].size).to eq(1)
+          expect(article['article']['childTags'].size).to eq(1)
 
           expect(@tags[2].children.last).to eq(@tags[3])
           expect(@tags[3].parents.last).to eq(@tags[2])
@@ -382,8 +381,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(403)
 
           article = JSON.parse(response.body)
-          expect(article['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
-          expect(article['content'].first).to eq(I18n.t('errors.messages.blank'))
+          expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
+          expect(article['errors']['content'].first).to eq(I18n.t('errors.messages.blank'))
         }.to_not change(Article, :count)
       end
 
@@ -394,7 +393,7 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(403)
 
           article = JSON.parse(response.body)
-          expect(article['topic'].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
+          expect(article['errors']['topic'].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
         }.to_not change(Article, :count)
       end
     end
@@ -460,8 +459,8 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
           expect(article['article']['tags'].map { |t| t['name'] }).to include('New tag 1', 'New tag 2')
-          expect(article['article']['parent_tags']).to be_empty
-          expect(article['article']['child_tags']).to be_empty
+          expect(article['article']['parentTags']).to be_empty
+          expect(article['article']['childTags']).to be_empty
 
           expect(TaggedArticle.where(article_id: article['article']['id']).first.tag.name).to eq('New tag 1')
           expect(TaggedArticle.where(article_id: article['article']['id']).second.tag.name).to eq('New tag 2')
@@ -477,8 +476,8 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parent_tags'].size).to eq(1)
-          expect(article['article']['child_tags'].size).to eq(1)
+          expect(article['article']['parentTags'].size).to eq(1)
+          expect(article['article']['childTags'].size).to eq(1)
         }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TagRelationship, :count).by(-1)
       end
 
@@ -494,8 +493,8 @@ describe 'Article API', type: :request, basic: true do
             expect(response).to be_json_response(403)
 
             article = JSON.parse(response.body)
-            expect(article['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
-            expect(article['content'].first).to eq(I18n.t('errors.messages.blank'))
+            expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
+            expect(article['errors']['content'].first).to eq(I18n.t('errors.messages.blank'))
           }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
         end
       end
@@ -516,8 +515,8 @@ describe 'Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
 
         @original_title = @article.title
-        @article.update_attributes({ title: 'title 2' })
-        @article.update_attributes({ title: 'title 3' })
+        @article.update_attributes(title: 'title 2')
+        @article.update_attributes(title: 'title 3')
       end
 
       it 'returns not found if no history given' do
@@ -542,7 +541,7 @@ describe 'Article API', type: :request, basic: true do
   describe '/articles/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/articles/#{@article.id}", headers: @json_header
+        delete "/articles/#{@article.id}", as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -555,23 +554,17 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns the soft deleted article id' do
         expect {
-          delete "/articles/#{@article.id}", headers: @json_header
+          delete "/articles/#{@article.id}", as: :json
 
-          expect(response).to be_json_response(202)
-
-          article = JSON.parse(response.body)
-          expect(article['id']).to eq(@article.id)
+          expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
       end
 
       it 'returns the soft deleted article id with relationships removed' do
         expect {
-          delete "/articles/#{@relation_tags_article.id}", headers: @json_header
+          delete "/articles/#{@relation_tags_article.id}", as: :json
 
-          expect(response).to be_json_response(202)
-
-          article = JSON.parse(response.body)
-          expect(article['id']).to eq(@relation_tags_article.id)
+          expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(-2).and change(TagRelationship.with_deleted, :count).by(0)
       end
     end
@@ -583,12 +576,9 @@ describe 'Article API', type: :request, basic: true do
 
       it 'can remove permanently an article' do
         expect {
-          delete "/articles/#{@article.id}", params: { permanently: true }, headers: @json_header
+          delete "/articles/#{@article.id}", params: { permanently: true }, as: :json
 
-          expect(response).to be_json_response(202)
-
-          article = JSON.parse(response.body)
-          expect(article['id']).to eq(@article.id)
+          expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(-1).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(-3).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
       end
     end
@@ -678,7 +668,7 @@ describe 'Article API', type: :request, basic: true do
     describe '/articles/:id/comments (DELETE)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, headers: @json_header
+          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
 
           expect(response).to be_unauthenticated
         end
@@ -690,13 +680,13 @@ describe 'Article API', type: :request, basic: true do
         end
 
         it 'deletes a comment associated to this article' do
-          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, headers: @json_header
+          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
 
           expect(response).to be_json_response(202)
 
           json_comment = JSON.parse(response.body)
-          expect(json_comment['ids']).not_to be_empty
-          expect(json_comment['ids'].first).to eq(@comments.second.id)
+          expect(json_comment['deletedCommentIds']).not_to be_empty
+          expect(json_comment['deletedCommentIds'].first).to eq(@comments.second.id)
         end
       end
     end
@@ -707,8 +697,7 @@ describe 'Article API', type: :request, basic: true do
       it 'counts a new click on article' do
         post "/articles/#{@relation_tags_article_2.id}/clicked", as: :json
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+        expect(response).to be_json_response(204)
       end
     end
 
@@ -716,8 +705,7 @@ describe 'Article API', type: :request, basic: true do
       it 'counts a new view on article' do
         post "/articles/#{@relation_tags_article_2.id}/viewed", as: :json
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+        expect(response).to be_json_response(204)
       end
     end
   end

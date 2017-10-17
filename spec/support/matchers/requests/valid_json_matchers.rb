@@ -1,8 +1,8 @@
 RSpec::Matchers.define :be_json_response do |response_value|
   match do |actual|
     @response = actual.status
+    expect(actual.content_type).to eq('application/json') unless @response == 204
     expect(actual.status).to eq(response_value || 200)
-    expect(actual.content_type).to eq('application/json')
   end
 
   description do

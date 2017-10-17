@@ -24,11 +24,7 @@ describe 'Activities API', type: :request, basic: true do
       it 'returns an error message' do
         get '/activities', as: :json
 
-        expect(response).to be_json_response
-
-        activities = JSON.parse(response.body)
-
-        expect(activities['status']).to eq(404)
+        expect(response).to be_json_response(404)
       end
     end
 

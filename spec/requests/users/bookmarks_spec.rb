@@ -42,7 +42,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
 
           bookmark = JSON.parse(response.body)
           expect(bookmark['bookmark']).not_to be_empty
-          expect(bookmark['bookmark']['bookmarked_type']).to eq('Article')
+          expect(bookmark['bookmark']['bookmarkedType']).to eq('Article')
         }.to change(Bookmark, :count).by(1)
       end
     end
@@ -52,7 +52,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
     context 'when user is not connected' do
       it 'returns an error message' do
         expect {
-          delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", headers: @json_header
+          delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", as: :json
 
           expect(response).to be_unauthenticated
         }.not_to change(Bookmark, :count)
@@ -66,12 +66,9 @@ describe 'User Bookmarks API', type: :request, basic: true do
 
       it 'returns the deleted bookmark id' do
         expect {
-          delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", params: { bookmark: { model_type: 'tag', model_id: @tag.id } }, headers: @json_header
+          delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", params: { bookmark: { model_type: 'tag', model_id: @tag.id } }, as: :json
 
-          expect(response).to be_json_response(202)
-
-          bookmark = JSON.parse(response.body)
-          expect(bookmark['bookmark']['id']).to eq(@tag_bookmark.id)
+          expect(response).to be_json_response(204)
         }.to change(Bookmark, :count).by(-1)
       end
     end

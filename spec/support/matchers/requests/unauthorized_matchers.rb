@@ -5,8 +5,8 @@ RSpec::Matchers.define :be_unauthenticated do |_value|
 
     response_json = JSON.parse(actual.body)
 
-    expect(response_json['error']).not_to be_empty
-    expect(response_json['error']).to eq(I18n.t('devise.failure.unauthenticated'))
+    expect(response_json['errors']).not_to be_empty
+    expect(response_json['errors']).to eq(I18n.t('devise.failure.unauthenticated'))
   end
 
   description do

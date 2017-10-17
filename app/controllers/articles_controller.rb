@@ -195,8 +195,8 @@ class ArticlesController < ApplicationController
         #          content_type: 'application/json'
         # end
         format.json do
-          render json:   { errors: [] },
-                 status: :forbidden
+          render json:   {},
+                 status: :not_found
         end
       end
     end

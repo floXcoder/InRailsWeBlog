@@ -296,7 +296,7 @@ class User < ApplicationRecord
     end.to_h if options[:where]
 
     # Set result limit
-    limit = options[:limit] ? options[:limit] : CONFIG.per_page
+    limit = options[:limit] ? options[:limit] : Setting.per_page
 
     # Perform search
     results = User.search(query_string,

@@ -185,7 +185,7 @@ describe 'User Topic API', type: :request, basic: true do
 
           topic = JSON.parse(response.body)
           expect(topic['topic']).not_to be_empty
-          expect(topic['topic']['user_id']).to eq(@user.id)
+          expect(topic['topic']['userId']).to eq(@user.id)
           expect(topic['topic']['name']).to eq(topic_attributes[:topic][:name])
 
           expect(@user.reload.current_topic_id).to eq(topic['topic']['id'])
@@ -207,7 +207,7 @@ describe 'User Topic API', type: :request, basic: true do
           expect(response).to be_json_response(403)
 
           article = JSON.parse(response.body)
-          expect(article['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
+          expect(article['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
 
           expect(@user.reload.current_topic_id).to eq(previous_topic_id)
         }.to_not change(Topic, :count)
@@ -254,7 +254,7 @@ describe 'User Topic API', type: :request, basic: true do
             expect(response).to be_json_response(403)
 
             topic = JSON.parse(response.body)
-            expect(topic['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
+            expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
           }.to change(Topic, :count).by(0)
         end
       end
@@ -264,7 +264,7 @@ describe 'User Topic API', type: :request, basic: true do
   describe '/topics/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/users/#{@user.id}/topics/#{@first_topic.id}", headers: @json_header
+        delete "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -279,12 +279,9 @@ describe 'User Topic API', type: :request, basic: true do
 
       it 'returns the soft deleted topic id' do
         expect {
-          delete "/users/#{@user.id}/topics/#{@first_topic.id}", headers: @json_header
+          delete "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
 
-          expect(response).to be_json_response(202)
-
-          topic = JSON.parse(response.body)
-          expect(topic['id']).to eq(@first_topic.id)
+          expect(response).to be_json_response(204)
         }.to change(Topic, :count).by(-1).and change(Article, :count).by(-5).and change(TaggedArticle, :count).by(0).and change(TagRelationship, :count).by(0)
       end
     end

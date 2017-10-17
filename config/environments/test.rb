@@ -46,10 +46,10 @@ Rails.application.configure do
   Slim::Engine.set_options pretty: true
 
   # Logs
-  unless ENV['RAILS_ENABLE_TEST_LOG']
-    config.logger = Logger.new(nil)
-    config.log_level = :error
-  end
+  # unless ENV['RAILS_ENABLE_TEST_LOG']
+  #   config.logger = Logger.new(nil)
+  #   config.log_level = :error
+  # end
 
   # Custom configurations
   config.x.cron_jobs_active = false

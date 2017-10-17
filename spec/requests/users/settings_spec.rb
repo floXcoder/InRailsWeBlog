@@ -39,8 +39,8 @@ describe 'User Settings API', type: :request, basic: true do
         expect(response).to be_json_response
 
         settings = JSON.parse(response.body)
-        expect(settings['settings']['article_display']).to eq('card')
-        expect(settings['settings']['search_highlight']).to be true
+        expect(settings['settings']['articleDisplay']).to eq('card')
+        expect(settings['settings']['searchHighlight']).to be true
       end
     end
   end
@@ -65,8 +65,8 @@ describe 'User Settings API', type: :request, basic: true do
         expect(response).to be_json_response
 
         settings = JSON.parse(response.body)
-        expect(settings['settings']['article_display']).to eq('inline')
-        expect(settings['settings']['search_highlight']).to be false
+        expect(settings['settings']['articleDisplay']).to eq('inline')
+        expect(settings['settings']['searchHighlight']).to be false
       end
     end
   end

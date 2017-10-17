@@ -29,13 +29,12 @@ module CommentConcern
     comment = record.comment_threads.build
     # authorize comment, :create?
 
-    comment.assign_attributes(comment_params)
-    comment.assign_attributes(user_id: current_user.id)
+    comment.assign_attributes(comment_params.merge(user_id: current_user.id))
 
     respond_to do |format|
       if record.new_comment(comment)
-        record.track_comments(comment)
-        current_user.track_comments(comment)
+        record.create_activity(action: :commented_on, owner: current_user) if record.respond_to?(:create_activity)
+
         flash.now[:success] = t('views.comment.flash.successful_creation')
         format.json do
           render json:       comment,
@@ -62,6 +61,8 @@ module CommentConcern
 
     respond_to do |format|
       if record.update_comment(comment, comment_update_params)
+        record.create_activity(action: :comment_updated, owner: current_user) if record.respond_to?(:create_activity)
+
         flash.now[:success] = t('views.comment.flash.successful_edition')
         format.json do
           render json:   comment,
@@ -87,8 +88,8 @@ module CommentConcern
 
     respond_to do |format|
       if (destroyed_comment_ids = record.remove_comment(comment))
-        record.untrack_comments(comment)
-        current_user.untrack_comments(comment)
+        record.create_activity(action: :comment_removed, owner: current_user) if record.respond_to?(:create_activity)
+
         flash.now[:success] = t('views.comment.flash.successful_deletion')
         format.json do
           render json:   { deletedCommentIds: destroyed_comment_ids },

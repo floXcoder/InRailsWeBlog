@@ -33,14 +33,14 @@ describe 'Users API', type: :request, basic: true do
         # expect(users['users'].size).to eq(6)
       end
 
-      it 'limits to 12 users' do
+      it 'limits the number of users' do
         create_list(:user, 10)
 
         get '/users', as: :json
 
         users = JSON.parse(response.body)
         expect(users['users']).not_to be_empty
-        expect(users['users'].size).to eq(16)
+        expect(users['users'].size).to be <= Setting.per_page
       end
     end
   end
@@ -144,7 +144,7 @@ describe 'Users API', type: :request, basic: true do
         expect(response).to be_json_response
 
         activities = JSON.parse(response.body)
-        expect(activities['public_activity/activities']).not_to be_empty
+        expect(activities['activities']).not_to be_empty
       end
     end
   end
@@ -167,8 +167,7 @@ describe 'Users API', type: :request, basic: true do
       it 'counts a new click on tags' do
         post "/users/#{@users.first.id}/clicked", as: :json
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+        expect(response).to be_json_response(204)
       end
     end
 
@@ -176,8 +175,7 @@ describe 'Users API', type: :request, basic: true do
       it 'counts a new view on tags' do
         post "/users/#{@users.second.id}/viewed", as: :json
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+        expect(response).to be_json_response(204)
       end
     end
   end

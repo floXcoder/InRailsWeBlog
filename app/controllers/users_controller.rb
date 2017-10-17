@@ -76,7 +76,7 @@ class UsersController < ApplicationController
         if user_exists
           render json: { success: true }, status: :accepted
         else
-          render nothing: true, status: :not_found
+          render json: { success: false }, status: :not_found
         end
       end
     end
@@ -227,8 +227,8 @@ class UsersController < ApplicationController
                    serializer: UserCompleteSerializer,
                    status:     :ok
           else
-            render json: { errors: user.errors },
-                   status: :forbidden
+            render json:       user,
+                   serializer: UserSerializer
           end
         end
       end
@@ -239,15 +239,8 @@ class UsersController < ApplicationController
           render :edit, locals: { user: user }
         end
         format.json do
-          if params[:complete_user] && current_user
-            authorize current_user, :admin?
-            render json:       user,
-                   serializer: UserCompleteSerializer,
-                   status:     :ok
-          else
-            render json: { errors: user.errors },
-                   status: :forbidden
-          end
+          render json:   { errors: user.errors },
+                 status: :forbidden
         end
       end
     end
