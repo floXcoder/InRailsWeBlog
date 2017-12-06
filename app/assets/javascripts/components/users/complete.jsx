@@ -131,6 +131,7 @@ export default class UserComplete extends React.Component {
     }
 
     _onAdminChange = (newAdminState) => {
+        // TODO: use redux global state instead of $app
         if ($app.isAdminConnected()) {
             // TODO
             // UserActions.updateUser({

@@ -2,7 +2,7 @@
 
 import ErrorIndex from '../../../components/errors/index';
 
-// Main
+// TODO: use redux global state instead of $app
 if ($app.isUserConnected()) {
     ReactDOM.render(
         <ErrorIndex />,

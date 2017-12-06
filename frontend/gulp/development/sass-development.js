@@ -3,10 +3,10 @@ const sass = require('gulp-sass');
 const sourceMaps = require('gulp-sourcemaps');
 const browserSync = require('browser-sync');
 
-const handleErrors = require('../lib/handleErrors');
-const config = require('../config').sass;
+const handleErrors = require('../../lib/handleErrors');
+const config = require('../../config').sass;
 
-gulp.task('sass', () =>
+gulp.task('sass:development', () =>
     gulp.src(config.src)
         .pipe(sourceMaps.init())
         .pipe(sass(config.settings))

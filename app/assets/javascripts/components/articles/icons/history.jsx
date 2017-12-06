@@ -25,6 +25,7 @@ export default class ArticleHistoryIcon extends React.Component {
     }
 
     render() {
+        // TODO: use redux global state instead of $app
         if ($app.isUserConnected(this.props.article.user.id)) {
             return (
                 <a className="article-history tooltipped btn-floating"

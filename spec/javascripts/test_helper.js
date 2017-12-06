@@ -139,7 +139,7 @@ I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
 
 // Declare Module Helpers
-global.$app = require('../../app/assets/javascripts/modules/app');
+// global.$app = require('../../app/assets/javascripts/modules/app');
 
 // Configure log level
 log.setLevel('info');

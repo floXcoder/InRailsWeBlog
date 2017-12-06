@@ -16,6 +16,7 @@ export default class UserStore extends mix(Reflux.Store).with(Errors, Tracker, L
         this.listenables = UserActions;
         this.url = '/users';
 
+        // TODO: use redux global state instead of $app
         if ($app.isUserConnected()) {
             this.onLoadUser({userId: $app.user.currentId, userProfile: true});
         }

@@ -1,6 +1,7 @@
 'use strict';
 
 const ArticleDeleteIcon = ({article, onDeleteClick}) => {
+    // TODO: use redux global state instead of $app
     if ($app.isUserConnected(article.user.id)) {
         return (
             <a className="article-delete tooltipped btn-floating"

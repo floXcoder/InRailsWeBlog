@@ -2,7 +2,7 @@
 
 import UserIndex from '../../../components/users/index';
 
-// Main
+// TODO: use redux global state instead of $app
 if ($app.isUserConnected()) {
     ReactDOM.render(
         <UserIndex />,

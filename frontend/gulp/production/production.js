@@ -2,14 +2,14 @@ const gulp = require('gulp');
 const rev = require('gulp-rev');
 const revNapkin = require('gulp-rev-napkin');
 const gulpSequence = require('gulp-sequence');
-const filter = require('gulp-filter');
 const revReplace = require('gulp-rev-replace');
 const cleanCSS = require('gulp-clean-css');
 const autoPrefixer = require('gulp-autoprefixer');
-const sizereport = require('gulp-sizereport');
-const repeatString = require('../lib/repeatString');
+const sizeReport = require('gulp-sizereport');
 
-const config = require('../config').production;
+const repeatString = require('../../lib/repeatString');
+
+const config = require('../../config').production;
 
 // 1) Add md5 hashes to assets referenced by CSS and JS files
 gulp.task('rev-assets', () => {
@@ -70,7 +70,7 @@ gulp.task('size-report', () => {
     const hashedFiles = '/**/*-' + repeatString('[a-z,0-9]', 8) + '*.*';
 
     return gulp.src([config.dest + hashedFiles, '*!rev-manifest.json'])
-        .pipe(sizereport({
+        .pipe(sizeReport({
             gzip: true
         }));
 });
@@ -97,5 +97,5 @@ gulp.task('rev', (callback) => {
 
 gulp.task('production', (callback) => {
     // Do not clean in production to keep previously generated translation files
-    gulpSequence(['fonts', 'images', 'sprites', 'data', 'sass:production', 'webpack:production'], 'rev', callback);
+    gulpSequence(['fonts', 'images', 'data', 'sass:production', 'webpack:production'], 'rev', callback);
 });

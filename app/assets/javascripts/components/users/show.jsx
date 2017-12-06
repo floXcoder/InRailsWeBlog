@@ -28,6 +28,7 @@ export default class UserShow extends React.Component {
     };
 
     render() {
+        // TODO: use redux global state instead of $app
         return (
             <div>
                 {

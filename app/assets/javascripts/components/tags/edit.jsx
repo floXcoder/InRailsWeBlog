@@ -63,6 +63,7 @@ export default class TagEdit extends React.Component {
             return null;
         }
 
+        // TODO: use redux global state instead of $app
         return (
             <div className="card">
                 <Form id={`edit_tag_${this.state.tag.id}`}

@@ -6,9 +6,16 @@
 
  To add a new task, simply add a new task file that directory. gulp/tasks/default.js specifies the default set of tasks to run
  when you run `gulp`.
- */
+*/
 
+const gutil = require('gulp-util');
 const requireDir = require('require-dir');
 
-// Require all tasks in gulp/tasks, including subfolders
-requireDir('./frontend/gulp', { recurse: true });
+// Require all tasks in gulp/tasks, without subfolders
+requireDir('./frontend/gulp', {recurse: false});
+
+if (gutil.env.env === 'production') {
+    requireDir('./frontend/gulp/production', {recurse: true});
+} else {
+    requireDir('./frontend/gulp/development', {recurse: true});
+}

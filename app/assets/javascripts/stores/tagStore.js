@@ -69,6 +69,7 @@ export default class TagStore extends mix(Reflux.Store).with(Errors, Tracker) {
     }
 
     onRefreshTags() {
+        // TODO: use redux global state instead of $app
         if ($app.user.tags) {
             this.trigger({
                 type: 'refreshTags',
