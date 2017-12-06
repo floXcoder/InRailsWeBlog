@@ -4416,7 +4416,7 @@
 
         var $editable = context.layoutInfo.editable;
 
-        var SanitizePaste = require('./sanitize-paste');
+        var SanitizePaste = require('./sanitizePaste');
 
         this.events = {
             'summernote.keydown': function (we, e) {

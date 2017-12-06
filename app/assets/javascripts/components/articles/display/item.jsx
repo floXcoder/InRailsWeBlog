@@ -12,7 +12,7 @@ import {
 
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
-import ArticleEditionDisplay from './inline-edition';
+import ArticleEditionDisplay from './inlineEdition';
 
 @withRouter
 export default class ArticleItemDisplay extends React.Component {

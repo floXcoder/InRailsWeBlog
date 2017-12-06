@@ -19,7 +19,7 @@ import SidebarLayout from './sidebar';
 import FooterLayout from './footer';
 
 import ClipboardManager from '../../modules/clipboard';
-import SanitizePaste from '../../modules/wysiwyg/sanitize-paste';
+import SanitizePaste from '../../modules/wysiwyg/sanitizePaste';
 
 
 @connect((state, props) => ({
