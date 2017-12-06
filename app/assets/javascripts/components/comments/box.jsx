@@ -13,7 +13,9 @@ import CircleSpinner from '../theme/spinner/circle';
 import CommentList from '../comments/list';
 import CommentForm from '../comments/form';
 
-import {CSSTransition} from 'react-transition-group';
+import {
+    CSSTransition
+} from 'react-transition-group';
 
 export default class CommentBox extends React.Component {
     static propTypes = {

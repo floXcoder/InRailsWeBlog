@@ -12,7 +12,10 @@ import SearchBar from '../theme/search-bar';
 
 import Pagination from '../materialize/pagination';
 
-import {TransitionGroup, CSSTransition} from 'react-transition-group';
+import {
+    TransitionGroup,
+    CSSTransition
+} from 'react-transition-group';
 
 export default class UserIndex extends React.Component {
     static propTypes = {

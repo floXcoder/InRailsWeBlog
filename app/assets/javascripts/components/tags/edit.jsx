@@ -11,7 +11,9 @@ import Select from '../materialize/select';
 import Selecter from '../theme/selecter';
 import Submit from '../materialize/submit';
 
-import {Link} from 'react-router-dom';
+import {
+    Link
+} from 'react-router-dom';
 
 export default class TagEdit extends React.Component {
     static propTypes = {

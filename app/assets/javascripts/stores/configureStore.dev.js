@@ -11,7 +11,9 @@ import {
     routerMiddleware
 } from 'react-router-redux';
 
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {
+    composeWithDevTools
+} from 'redux-devtools-extension';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 

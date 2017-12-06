@@ -1,7 +1,11 @@
 'use strict';
 
-import {NotificationStack} from 'react-notification';
-import {OrderedSet} from 'immutable';
+import {
+    NotificationStack
+} from 'react-notification';
+import {
+    OrderedSet
+} from 'immutable';
 
 class Notification extends React.Component {
     constructor(props) {

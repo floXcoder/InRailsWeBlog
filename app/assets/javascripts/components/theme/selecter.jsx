@@ -2,7 +2,9 @@
 
 import _ from 'lodash';
 
-import Select, {Creatable} from 'react-select';
+import Select, {
+    Creatable
+} from 'react-select';
 
 export default class Selecter extends React.Component {
     static propTypes = {

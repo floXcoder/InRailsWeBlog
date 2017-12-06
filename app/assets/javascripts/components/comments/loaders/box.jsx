@@ -1,6 +1,8 @@
 'use strict';
 
-import {LazilyLoadFactory} from '../../../loaders/hoc-loader';
+import {
+    LazilyLoadFactory
+} from '../../../loaders/hoc-loader';
 
 const CommentLoader = ({CommentBox, ...props}) => (
     <CommentBox {...props}/>

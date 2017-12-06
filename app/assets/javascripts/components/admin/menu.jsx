@@ -1,6 +1,8 @@
 'use strict';
 
-import {scaleDown as BurgerMenu} from 'react-burger-menu';
+import {
+    scaleDown as BurgerMenu
+} from 'react-burger-menu';
 
 const AdminMenu = ({}) => (
     <BurgerMenu

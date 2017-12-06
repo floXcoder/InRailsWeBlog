@@ -9,7 +9,9 @@
 
 import UserAvatarIcon from '../users/icons/avatar';
 
-import {Link} from 'react-router-dom';
+import {
+    Link
+} from 'react-router-dom';
 
 export default class TagShow extends React.Component {
     static propTypes = {

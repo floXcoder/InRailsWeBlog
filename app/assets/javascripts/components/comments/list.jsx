@@ -3,7 +3,10 @@
 import CommentItem from './item';
 import CommentForm from './form';
 
-import {TransitionGroup, CSSTransition} from 'react-transition-group';
+import {
+    TransitionGroup,
+    CSSTransition
+} from 'react-transition-group';
 
 export default class CommentList extends React.PureComponent {
     static propTypes = {

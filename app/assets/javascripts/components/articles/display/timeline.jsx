@@ -7,7 +7,9 @@ import SingleTimelineItem from '../../theme/timeline/single-item';
 
 import Pagination from '../../materialize/pagination';
 
-import {Link} from 'react-router-dom';
+import {
+    Link
+} from 'react-router-dom';
 
 const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
     <div className="article-timeline">
