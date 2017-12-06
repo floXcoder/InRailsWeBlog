@@ -24,6 +24,12 @@ String.prototype.capitalize = function () {
 //     });
 //     return string;
 // };
+//
+// String.prototype.toSnakeCase = function () {
+//     return this.replace(/\.?([A-Z])/g, function (x, y) {
+//         return '_' + y.toLowerCase()
+//     }).replace(/^_/, '');
+// };
 
 /** ARRAY **/
 Array.prototype.limit = function (limit) {
@@ -44,13 +50,7 @@ Array.prototype.shuffle = function () {
 
 Array.prototype.remove = function (item) {
     if (this) {
-        const index = this.indexOf(item);
-
-        if (index > -1) {
-            return this.splice(index, 1);
-        } else {
-            return this;
-        }
+        return this.filter(value => value !== item);
     }
 };
 
@@ -189,9 +189,13 @@ if (!Array.prototype.includes) {
     });
 }
 
+Array.prototype.compact = function () {
+    return this.filter((val) => !$.isEmpty(val));
+};
+
 if (!Array.prototype.filter) {
     Array.prototype.filter = function (fun /*, thisArg */) {
-        "use strict";
+        'use strict';
 
         if (this === void 0 || this === null) {
             throw new TypeError();
@@ -229,6 +233,7 @@ if (!Array.prototype.filter) {
 
 /** NEW FUNCTIONALITIES **/
 $.extend({
+    /** UTILS **/
     uuid: () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
         let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
@@ -258,7 +263,7 @@ $.extend({
     getUrlParameters: () => {
         const query = window.location.search.substring(1);
         if (query === '') {
-            return null;
+            return undefined;
         }
 
         let hash = {};
@@ -313,8 +318,171 @@ $.extend({
     // Not used
     // fullDomainName: () => window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : ''),
 
+    /** BROWSER **/
+    // Not used
+    // isSafari: () => navigator.appVersion.search('Safari') !== -1
+    //         && navigator.appVersion.search('Chrome') === -1
+    //         && navigator.appVersion.search('CrMo') === -1
+    //         && navigator.appVersion.search('CriOS') === -1,
+
+    // Not used
+    // isIE: () => navigator.userAgent.toLowerCase().indexOf('msie') !== -1
+    //         || navigator.userAgent.toLowerCase().indexOf('trident') !== -1,
+
+    /** OBJECT **/
+    compact: (object) => {
+        let newObject = {};
+        Object.keys(object).forEach((key) => {
+            const value = object[key];
+            if (!$.isEmpty(key) && !$.isEmpty(value)) {
+                newObject[key] = value;
+            }
+        });
+        return newObject;
+    },
+
+    omit: (obj, props, fn) => {
+        if (typeof obj !== 'object') return {};
+
+        if (typeof props === 'function') {
+            fn = props;
+            props = [];
+        }
+
+        if (typeof props === 'string') {
+            props = [props];
+        }
+
+        var isFunction = typeof fn === 'function';
+        var keys = Object.keys(obj);
+        var res = {};
+
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            var val = obj[key];
+
+            if (!props || (props.indexOf(key) === -1 && (!isFunction || fn(val, key, obj)))) {
+                res[key] = val;
+            }
+        }
+        return res;
+    },
+
     /** ARRAY **/
     toMap: (object, callback) => Object.keys(object).map((key, i) => callback(key, object[key], i)),
+
+    arraySearchForValue: (arr, val, key) => {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i][key] === val) {
+                return arr[i];
+            }
+        }
+        return false;
+    },
+
+    // Array must be sorted
+    getClosestValue: (array, value) => {
+        if ($.isEmpty(array)) return;
+
+        let lo = -1, hi = array.length;
+        while (hi - lo > 1) {
+            const mid = Math.round((lo + hi) / 2);
+            if (array[mid] <= value) {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        if (array[lo] === value) hi = lo;
+
+        const lowDiff = Math.abs(array[lo] - value);
+        const highDiff = Math.abs(array[hi] - value);
+
+        if (lowDiff < highDiff) {
+            return array[lo];
+        }
+        else {
+            return array[hi];
+        }
+    },
+
+    // Not used
+    // valuesInRange: (arr, min, max) => {
+    //     arr = arr.sort((a, b) => a - b);
+    //
+    //     let len = arr.length,
+    //         up = -1,
+    //         down = len,
+    //         rrange = [],
+    //         mid = Math.floor(len / 2);
+    //     while (up++ < mid && down-- > mid) {
+    //         if (arr[up] >= max || arr[down] <= min) {
+    //             break;
+    //         }
+    //         if (arr[up] >= min) {
+    //             rrange.push(arr[up]);
+    //         }
+    //         if (arr[down] <= max) {
+    //             rrange.push(arr[down]);
+    //         }
+    //     }
+    //     return rrange;
+    // },
+
+    // Not used
+    // Array must be sorted
+    // getClosestValues: (array, value) => {
+    //     if ($.isEmpty(array)) return;
+    //
+    //     let lo = -1, hi = array.length;
+    //     while (hi - lo > 1) {
+    //         let mid = Math.round((lo + hi) / 2);
+    //         if (array[mid] <= value) {
+    //             lo = mid;
+    //         } else {
+    //             hi = mid;
+    //         }
+    //     }
+    //     if (array[lo] == value) hi = lo;
+    //     return [array[lo], array[hi]];
+    // },
+
+    /** STRING **/
+    caesarCipher: (string, shift) => {
+        // Wrap the amount
+        if (shift < 0) {
+            return string.caesarCipher(shift + 26);
+        }
+
+        let output = '';
+
+        // Go through each character
+        for (let i = 0; i < string.length; i++) {
+
+            // Get the character we'll be appending
+            let c = string[i];
+
+            // If it's a letter...
+            if (c.match(/[a-z]/i)) {
+
+                // Get its code
+                let code = string.charCodeAt(i);
+
+                // Uppercase letters
+                if ((code >= 65) && (code <= 90))
+                    c = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+
+                // Lowercase letters
+                else if ((code >= 97) && (code <= 122))
+                    c = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+
+            }
+
+            output += c;
+        }
+
+        return output;
+    },
 
     /** UTILITIES **/
     isEmpty: (obj) => {
@@ -330,8 +498,8 @@ $.extend({
 
         // Assume if it has a length property with a non-zero value
         // that that property is correct.
-        if (obj.length > 0)    return false;
-        if (obj.length === 0)  return true;
+        if (obj.length > 0) return false;
+        if (obj.length === 0) return true;
 
         // Otherwise, does it have any properties of its own?
         // Note that this doesn't handle

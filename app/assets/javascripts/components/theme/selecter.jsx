@@ -48,15 +48,15 @@ export default class Selecter extends React.Component {
     }
 
     state = {
-        values: (() => _.compact((this.props.children || []).map((element) => !$.isEmpty(element) ? {
+        values: (() => ((this.props.children || []).map((element) => !$.isEmpty(element) ? {
                 label: element,
                 value: element
             } : null
-        )))(),
+        )).compact())(),
     };
 
     _handleOnValuesChange = (items) => {
-        const newValues = _.filter(items, (item) => item.label.length < this.props.maxLength);
+        const newValues = items.filter((item) => item.label.length < this.props.maxLength);
 
         if (newValues.length > this.props.maxValues) {
             return;
@@ -126,7 +126,7 @@ export default class Selecter extends React.Component {
             throw new Error('Selecter "elements" must be an array.');
         }
 
-        let options = _.compact(this.props.elements).map((element) => {
+        let options = this.props.elements.map((element) => {
             if (Array.isArray(element)) {
                 return {
                     label: element[1],
@@ -138,7 +138,7 @@ export default class Selecter extends React.Component {
                     value: element
                 };
             }
-        });
+        }).compact();
 
         const noResults = (
             <div className="no-results-found">

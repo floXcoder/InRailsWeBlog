@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 export default class PictureSlider extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
@@ -34,12 +32,12 @@ export default class PictureSlider extends React.PureComponent {
                 <div className="slider">
                     <ul className="slides">
                         {
-                            _.map(this.props.children, (picture, i) =>
+                            this.props.children.map((picture, i) => (
                                 <li key={i}>
                                     <img className="img-helper"
                                          src={picture}/>
                                 </li>
-                            )
+                            ))
                         }
                     </ul>
                 </div>

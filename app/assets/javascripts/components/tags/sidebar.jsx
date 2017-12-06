@@ -137,23 +137,23 @@ export default class TagSidebar extends React.Component {
     render() {
         const isFiltering = !$.isEmpty(this.state.filterText);
 
-        const tags = _.compact(this.props.tags.map((tag) => {
+        const tags = (this.props.tags.map((tag) => {
             let parents = [];
             let children = [];
 
             if (!$.isEmpty(tag.parents)) {
-                parents = _.compact(tag.parents.map((parentId) => {
+                parents = tag.parents.map((parentId) => {
                     const parentTag = _.find(this.props.tags, {'id': parentId});
                     if (!!parentTag && !$.isEmpty(this.state.filterText) && !Fuzzy.match(this.state.filterText, parentTag.name)) {
                         return null;
                     } else {
                         return parentTag && _.omit(parentTag, ['parents', 'children']);
                     }
-                }));
+                }).compact();
             }
 
             if (!$.isEmpty(tag.children)) {
-                children = _.compact(tag.children.map((childId) => {
+                children = tag.children.map((childId) => {
                     const childTag = _.find(this.props.tags, {'id': childId});
 
                     if (!!childTag && !$.isEmpty(this.state.filterText) && !Fuzzy.match(this.state.filterText, childTag.name)) {
@@ -161,7 +161,7 @@ export default class TagSidebar extends React.Component {
                     } else {
                         return childTag && _.omit(childTag, ['parents', 'children']);
                     }
-                }));
+                }).compact();
             }
 
             if (!$.isEmpty(this.state.filterText) && $.isEmpty(children) && !Fuzzy.match(this.state.filterText, tag.name)) {

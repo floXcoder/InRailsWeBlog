@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 // TODO
 // import CommentAction from '../../../actions/commentActions';
 
