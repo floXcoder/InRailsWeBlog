@@ -88,7 +88,7 @@ export default class ArticleTags extends React.PureComponent {
                                  className="article-tag">
                                 <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
                                       className={classNames(
-                                          'waves-effect', 'waves-light', 'btn-small', 'tag-default',
+                                          'btn-small waves-effect waves-light tag-default',
                                           {
                                               'tag-parent': this.props.parentTagIds.includes(tag.id),
                                               'tag-child': this.props.childTagIds.includes(tag.id)

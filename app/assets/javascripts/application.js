@@ -36,59 +36,63 @@ import 'expose-loader?Mousetrap!mousetrap';
 // }
 
 // Configure log level
-if (window.railsEnv === 'development') {
-    log.setLevel('info');
-    const screenLog = require('./modules/screenLog').default;
-    screenLog.init({freeConsole: true});
-    log.now = function (data, colorStyle) {
-        screenLog.log(data, colorStyle);
-    };
-} else {
+if (process.env.NODE_ENV === 'production') {
     log.setLevel('warn');
     log.now = function () {
     };
+} else {
+    log.setLevel('info');
+    log.now = function (data, colorStyle) {
+        screenLog.log(data, colorStyle);
+    };
+
+    const screenLog = require('./modules/screenLog').default;
+    screenLog.init({freeConsole: true});
 }
 
+log.trace = function (data) {
+    console.trace(data);
+};
 log.table = function (data) {
     console.table(data);
 };
 
-// TODO
-// // Error management
-// import ErrorStore from './stores/errorStore';
-// window.onerror = function (message, url, lineNumber, columnNumber, trace) {
-//     try {
-//         const reactRootComponent = document.getElementsByClassName('react-root');
-//
-//         if (reactRootComponent[0]) {
-//             // Test if React component
-//             if (!ReactDOM.findDOMNode(reactRootComponent[0]).children[0]) {
-//                 Notification.alert(I18n.t('js.helpers.errors.frontend'), 300, I18n.t('js.helpers.home'), () => window.location = '/');
-//             }
-//         }
-//     }
-//     catch (e) {
-//         // Root node is not a React component so React is not mounted
-//         Notification.alert(I18n.t('js.helpers.errors.frontend'), 300, I18n.t('js.helpers.home'), () => window.location = '/');
-//     }
-//
-//     if (!trace) {
-//         trace = {};
-//     }
-//
-//     ErrorStore.pushError({
-//         message: message,
-//         url: url,
-//         lineNumber: lineNumber,
-//         columnNumber: columnNumber,
-//         trace: trace.stack,
-//         origin: 'client'
-//     });
-//
-//     if (window.railsEnv === 'development') {
-//         log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'text-error');
-//     }
-// };
+// Error management
+import {pushError} from './actions/errorActions';
+
+window.onerror = function (message, url, lineNumber, columnNumber, trace) {
+    try {
+        const reactRootComponent = document.getElementsByClassName('react-root');
+
+        if (reactRootComponent[0]) {
+            // Test if React component
+            if (!ReactDOM.findDOMNode(reactRootComponent[0]).children[0]) {
+                Notification.alert(I18n.t('js.helpers.errors.frontend'), 300, I18n.t('js.helpers.home'), () => window.location = '/');
+            }
+        }
+    }
+    catch (e) {
+        // Root node is not a React component so React is not mounted
+        Notification.alert(I18n.t('js.helpers.errors.frontend'), 300, I18n.t('js.helpers.home'), () => window.location = '/');
+    }
+
+    if (!trace) {
+        trace = {};
+    }
+
+    pushError({
+        message: message,
+        url: url,
+        lineNumber: lineNumber,
+        columnNumber: columnNumber,
+        trace: trace.stack,
+        origin: 'client'
+    });
+
+    if (process.env.NODE_ENV !== 'production') {
+        log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'text-error');
+    }
+};
 
 // IE10 viewport hack for Surface/desktop Windows 8 bug
 if (navigator.userAgent.match(/IEMobile\/10\.0/)) {

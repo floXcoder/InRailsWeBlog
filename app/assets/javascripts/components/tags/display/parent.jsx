@@ -71,12 +71,11 @@ export default class ParentTag extends React.PureComponent {
                 <div className="tag-parent-children">
                     {
                         this.state.isExpanded && this.props.tag.children.map((tag, i) => (
-                                <ChildTag key={i}
-                                          tag={tag}
-                                          parentTagSlug={this.props.tag.slug}
-                                          onTagClick={this.props.onTagClick}/>
-                            )
-                        )
+                            <ChildTag key={i}
+                                      tag={tag}
+                                      parentTagSlug={this.props.tag.slug}
+                                      onTagClick={this.props.onTagClick}/>
+                        ))
                     }
                 </div>
             </div>

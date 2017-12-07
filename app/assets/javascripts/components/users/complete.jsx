@@ -8,12 +8,12 @@ import _ from 'lodash';
 // import ArticleActions from '../../actions/articleActions';
 // import ArticleStore from '../../stores/articleStore';
 
-import SwitchButton from '../../components/materialize/switch-button';
-import Spinner from '../../components/materialize/spinner';
-import ArticleTimelineDisplay from '../../components/articles/display/timeline';
-import CommentTimeline from '../../components/comments/display/timeline';
-import UserActivity from '../../components/users/activity';
-import UserTracking from '../../components/users/tracking';
+import SwitchButton from '../materialize/switchButton';
+import Spinner from '../materialize/spinner';
+import ArticleTimelineDisplay from '../articles/display/timeline';
+import CommentTimeline from '../comments/display/timeline';
+import UserActivity from '../users/activity';
+import UserTracking from '../users/tracking';
 
 export default class UserComplete extends React.Component {
     static propTypes = {
@@ -150,7 +150,7 @@ export default class UserComplete extends React.Component {
                         <div className="card">
                             <div className="user-heading">
                                 <div className="user-heading-menu">
-                                    <a className="dropdown-button tooltipped btn-flat waves-effect waves-teal"
+                                    <a className="btn-flat waves-effect waves-teal tooltipped dropdown-button"
                                        data-tooltip={I18n.t('js.user.show.more_actions')}
                                        data-activates="dropdown-user-menu">
                                         <i className="material-icons">more_vert</i>

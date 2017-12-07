@@ -23,12 +23,11 @@ export default class TagRelationshipDisplay extends React.Component {
             <div>
                 {
                     this.props.tags.map((tag, i) => (
-                            <ParentTag key={i}
-                                       tag={tag}
-                                       isFiltering={this.props.isFiltering}
-                                       onTagClick={this.props.onTagClick}/>
-                        )
-                    )
+                        <ParentTag key={i}
+                                   tag={tag}
+                                   isFiltering={this.props.isFiltering}
+                                   onTagClick={this.props.onTagClick}/>
+                    ))
                 }
             </div>
         );

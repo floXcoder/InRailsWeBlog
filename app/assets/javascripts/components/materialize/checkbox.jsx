@@ -13,6 +13,7 @@ export default class Checkbox extends React.PureComponent {
         ]),
         name: PropTypes.string,
         className: PropTypes.string,
+        hasFillStyle: PropTypes.bool,
         multipleId: PropTypes.number,
         onCheckboxChange: PropTypes.func,
         isDefaultChecked: PropTypes.bool,
@@ -25,18 +26,13 @@ export default class Checkbox extends React.PureComponent {
     };
 
     static defaultProps = {
-        id: null,
-        name: null,
-        className: null,
-        children: null,
-        onCheckboxChanged: null,
+        hasFillStyle: true,
         isDefaultChecked: false,
         isInputField: true,
         isDisabled: false,
         isMultiple: false,
         isRequired: false,
-        isHorizontal: false,
-        validator: null
+        isHorizontal: false
     };
 
     constructor(props) {
@@ -72,7 +68,6 @@ export default class Checkbox extends React.PureComponent {
         const fieldClass = classNames(
             this.props.className,
             {
-                'input-field': !this.props.isHorizontal && this.props.isInputField,
                 'input-horizontal-field': this.props.isHorizontal,
                 'row': this.props.isHorizontal
             });
@@ -83,7 +78,7 @@ export default class Checkbox extends React.PureComponent {
 
         const checkboxClass = classNames({
             'col m8': this.props.isHorizontal,
-            'filled-in': true,
+            'filled-in': this.props.hasFillStyle,
             'invalid': !this.state.isValid
         });
 

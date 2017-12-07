@@ -1,8 +1,8 @@
 'use strict';
 
-import Input from '../../components/materialize/input';
-import Textarea from '../../components/materialize/textarea';
-import Submit from '../../components/materialize/submit';
+import Input from '../materialize/input';
+import Textarea from '../materialize/textarea';
+import Submit from '../materialize/submit';
 import Rating from '../theme/rating';
 
 export default class CommentForm extends React.PureComponent {
@@ -159,7 +159,7 @@ export default class CommentForm extends React.PureComponent {
 
                             <div className="row margin-top-10">
                                 <div className="col s6">
-                                    <a className="waves-effect waves-spectra btn-flat"
+                                    <a className="btn-flat waves-effect waves-spectra"
                                        onClick={this.props.onCancel}>
                                         {I18n.t('js.comment.form.cancel')}
                                     </a>

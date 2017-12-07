@@ -34,7 +34,7 @@ const ArticleNone = ({topicSlug, isTopicPage, isSearchPage}) => (
                         <p>
                             {I18n.t('js.article.common.no_results.topic.content')}
                             <Link to={`/topic/${topicSlug}/article/new`}
-                                  className="waves-effect waves-light btn margin-top-20">
+                                  className="btn waves-effect waves-light margin-top-20">
                                 {I18n.t('js.article.common.no_results.topic.button')}
                             </Link>
                         </p>

@@ -1,7 +1,7 @@
 'use strict';
 
 import Progress from '../materialize/progress';
-import ProcessingButton from '../theme/processing-button';
+import ProcessingButton from '../theme/processingButton';
 
 export default class FormWizard extends React.Component {
     static propTypes = {
@@ -21,14 +21,10 @@ export default class FormWizard extends React.Component {
 
     static defaultProps = {
         id: 'tab',
-        lastButton: null,
         isButtonsDisabled: false,
         isProcessing: false,
-        isProcessingButton: null,
         isPrevValid: true,
-        isNextValid: true,
-        onPrevClick: null,
-        onNextClick: null
+        isNextValid: true
     };
 
     constructor(props) {
@@ -78,7 +74,7 @@ export default class FormWizard extends React.Component {
             });
 
             setTimeout(() => {
-                $('html, body').animate({scrollTop: $(ReactDOM.findDOMNode(this)).first('.tab-content.active').offset().top + 84}, 350);
+                $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top + 84}, 350);
             }, 100);
         }
     };
@@ -113,7 +109,7 @@ export default class FormWizard extends React.Component {
             });
 
             setTimeout(() => {
-                $('html, body').animate({scrollTop: $(ReactDOM.findDOMNode(this)).first('.tab-content.active').offset().top + 84}, 350);
+                $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top + 84}, 350);
             }, 100);
         }
 
@@ -131,14 +127,14 @@ export default class FormWizard extends React.Component {
 
     render() {
         const prevClasses = classNames(
-            'waves-effect waves-light btn',
+            'btn waves-effect waves-light',
             {
                 disabled: !this.props.isPrevValid || this.state.currentStep === 0 || this.props.isButtonsDisabled
             }
         );
 
         const nextClasses = classNames(
-            'waves-effect waves-light btn',
+            'btn waves-effect waves-light',
             {
                 disabled: (!this.props.lastButton && (!this.props.isNextValid || this.state.currentStep === this.state.totalSteps)) || this.props.isProcessing || this.props.isButtonsDisabled
             }
@@ -154,7 +150,7 @@ export default class FormWizard extends React.Component {
 
                     <ul className="nav nav-justified nav-pills">
                         {
-                            this.props.titles.map((title, i) =>
+                            this.props.titles.map((title, i) => (
                                 <li key={i}
                                     className={classNames({
                                         active: this.state.currentStep === i,
@@ -171,14 +167,14 @@ export default class FormWizard extends React.Component {
                                             </span>
                                     </a>
                                 </li>
-                            )
+                            ))
                         }
                     </ul>
                 </div>
 
                 <div className="tab-content clearfix">
                     {
-                        this.props.children.map((content, i) =>
+                        this.props.children.map((content, i) => (
                             <div key={i}
                                  id={`${this.props.id}${i}`}
                                  className={classNames('tab-pane', {
@@ -187,7 +183,7 @@ export default class FormWizard extends React.Component {
                                  })}>
                                 {content}
                             </div>
-                        )
+                        ))
                     }
                 </div>
 
@@ -195,7 +191,9 @@ export default class FormWizard extends React.Component {
                     <li className="previous">
                         <a className={prevClasses}
                            onClick={this._handlePreviousClick.bind(this, 1)}>
-                            <i className="material-icons left">chevron_left</i>
+                            <span className="material-icons left"
+                                  data-icon="chevron_left"
+                                  aria-hidden="true"/>
                             {I18n.t('js.form.wizard.previous')}
                         </a>
                     </li>
@@ -210,7 +208,9 @@ export default class FormWizard extends React.Component {
                                    onClick={this._handleNextClick.bind(this, 1)}>
                                     {
                                         !isLastStep &&
-                                        <i className="material-icons right">chevron_right</i>
+                                        <span className="material-icons right"
+                                              data-icon="chevron_right"
+                                              aria-hidden="true"/>
                                     }
                                     {
                                         (isLastStep && this.props.lastButton)

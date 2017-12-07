@@ -17,10 +17,10 @@ import {
     getArticlesCount
 } from '../../selectors/articleSelectors';
 
-import Spinner from '../../components/materialize/spinner';
+import Spinner from '../materialize/spinner';
 
 import ArticleListDisplay from './display/list';
-import ArticleNone from '../../components/articles/display/none';
+import ArticleNone from '../articles/display/none';
 
 @withRouter
 @connect((state, props) => ({

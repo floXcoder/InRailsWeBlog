@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 const ArticleLink = ({articleId, articleSlug, onArticleClick}) => (
-    <Link className="article-goto tooltipped btn-floating"
+    <Link className="btn-floating tooltipped article-goto"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
           to={`/article/${articleSlug}`}
           onClick={_handleArticleClick.bind(undefined, articleId, onArticleClick)}>

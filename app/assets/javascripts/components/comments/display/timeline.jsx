@@ -1,7 +1,7 @@
 'use strict';
 
 import DoubleTimeline from '../../theme/timeline/double';
-import DoubleTimelineItem from '../../theme/timeline/double-item';
+import DoubleTimelineItem from '../../theme/timeline/doubleItem';
 
 import Pagination from '../../materialize/pagination';
 

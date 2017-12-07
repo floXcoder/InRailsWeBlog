@@ -3,7 +3,9 @@
 const SingleTimelineItem = (props) => (
     <div className="timeline-item">
         <div className="timeline-icon">
-            <i className="material-icons">{props.icon}</i>
+            <span className="material-icons"
+                  data-icon={props.icon}
+                  aria-hidden="true"/>
         </div>
         <div className="timeline-date">
             {props.date}
@@ -22,10 +24,6 @@ SingleTimelineItem.propTypes = {
     title: PropTypes.element.isRequired,
     children: PropTypes.element.isRequired,
     date: PropTypes.string
-};
-
-SingleTimelineItem.defaultProps = {
-    date: null
 };
 
 export default SingleTimelineItem;

@@ -19,17 +19,9 @@ export default class Date extends React.PureComponent {
     };
 
     static defaultProps = {
-        children: null,
         isDisabled: false,
         isRequired: false,
-        name: null,
-        multipleId: null,
-        icon: null,
-        autoComplete: null,
-        onChange: null,
-        onInput: null,
-        isHorizontal: false,
-        validator: null
+        isHorizontal: false
     };
 
     constructor(props) {
@@ -81,11 +73,6 @@ export default class Date extends React.PureComponent {
         });
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        // Ignore if props has changed
-        return !_.isEqual(this.state.dateSelected, nextState.dateSelected);
-    }
-
     _handleFocus = (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -118,7 +105,9 @@ export default class Date extends React.PureComponent {
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
+                    <span className="material-icons prefix"
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
                 <label htmlFor={this.props.id}

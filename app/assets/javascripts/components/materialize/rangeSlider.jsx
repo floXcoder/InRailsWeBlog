@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import noUiSlider from 'materialize-css/extras/noUiSlider/nouislider';
 
-export default class RangeSlider extends React.Component {
+export default class RangeSlider extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
@@ -21,15 +21,9 @@ export default class RangeSlider extends React.Component {
     };
 
     static defaultProps = {
-        name: null,
-        multipleId: null,
-        unit: null,
-        icon: null,
-        children: null,
         isHorizontal: false,
         isDisplayRange: false,
-        hasInputForDefaultValues: true,
-        onSliderChange: null
+        hasInputForDefaultValues: true
     };
 
     constructor(props) {
@@ -37,7 +31,7 @@ export default class RangeSlider extends React.Component {
     }
 
     state = {
-        values: null
+        values: undefined
     };
 
     componentDidMount() {
@@ -84,7 +78,7 @@ export default class RangeSlider extends React.Component {
         });
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(_, nextState) {
         // Ignore if props has changed
         return !_.isEqual(this.state.values, nextState.values);
     }
@@ -136,7 +130,9 @@ export default class RangeSlider extends React.Component {
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
+                    <span className="material-icons prefix"
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
                 <label className={labelClass}>

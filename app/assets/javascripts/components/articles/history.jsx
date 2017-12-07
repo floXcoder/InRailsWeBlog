@@ -39,26 +39,25 @@ export default class ArticleHistory extends React.Component {
                     data-collapsible="accordion">
                     {
                         this.props.articleVersions.map((version) => (
-                                <li key={version.id}>
-                                    <div className="collapsible-header">
-                                        <i className="material-icons">change_history</i>
-                                        {I18n.t('js.article.history.changed_at') + ' ' + version.changed_at}
-                                    </div>
+                            <li key={version.id}>
+                                <div className="collapsible-header">
+                                    <i className="material-icons">change_history</i>
+                                    {I18n.t('js.article.history.changed_at') + ' ' + version.changed_at}
+                                </div>
 
-                                    <div className="collapsible-body article-history-item blog-article-item">
+                                <div className="collapsible-body article-history-item blog-article-item">
                                 <span className="blog-article-content"
                                       dangerouslySetInnerHTML={{__html: version.article.content}}/>
 
-                                        <hr className="article-history-item-divider"/>
+                                    <hr className="article-history-item-divider"/>
 
-                                        <a className="waves-effect waves-light btn-small"
-                                           onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>
-                                            {I18n.t('js.article.history.restore')}
-                                        </a>
-                                    </div>
-                                </li>
-                            )
-                        )
+                                    <a className="btn-small waves-effect waves-light"
+                                       onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>
+                                        {I18n.t('js.article.history.restore')}
+                                    </a>
+                                </div>
+                            </li>
+                        ))
                     }
                 </ul>
             );

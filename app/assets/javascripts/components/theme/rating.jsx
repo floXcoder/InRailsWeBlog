@@ -18,17 +18,12 @@ export default class Rating extends React.PureComponent {
 
     static defaultProps = {
         initialRating: 0,
-        ratingCount: null,
         isReadOnly: true,
         starNumber: 5,
         hasClear: false,
         isCentered: false,
-        onChange: null,
         hasInput: false,
-        inputId: null,
-        inputName: null,
-        size: 'normal',
-        labelName: null
+        size: 'normal'
     };
 
     constructor(props) {
@@ -39,10 +34,6 @@ export default class Rating extends React.PureComponent {
         value: this.props.initialRating,
         prospectiveValue: 0
     };
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.state.value !== nextState.value && this.state.prospectiveValue !== nextState.prospectiveValue;
-    }
 
     anchorMode = (value) => {
         if (this.state.prospectiveValue > 0) {
@@ -127,12 +118,12 @@ export default class Rating extends React.PureComponent {
                     </div>
 
                     {/*<meta itemProp="ratingValue"*/
-                          /*content={this.props.initialRating}/>*/}
+                        /*content={this.props.initialRating}/>*/}
 
                     {
                         /*this.props.ratingCount &&*/
                         /*<meta itemProp="reviewCount"*/
-                              /*content={this.props.ratingCount}/>*/
+                        /*content={this.props.ratingCount}/>*/
                     }
 
                     {
@@ -151,9 +142,15 @@ export default class Rating extends React.PureComponent {
                                        onMouseEnter={!this.props.isReadOnly ? this._handleMouseEnter.bind(this, value) : null}
                                        onMouseLeave={!this.props.isReadOnly ? this._handleMouseLeave : null}
                                        onClick={!this.props.isReadOnly ? this._handleMouseClick.bind(this, value) : null}>
-                                        {(mode === 'on' || mode === 'suggested') ?
-                                            <i className={starClasses}>star</i> :
-                                            <i className={starClasses}>star_border</i>}
+                                        {
+                                            (mode === 'on' || mode === 'suggested')
+                                                ?
+                                                <span className={starClasses}
+                                                      data-icon="star"/>
+                                                :
+                                                <span className={starClasses}
+                                                      data-icon="star_border"/>
+                                        }
                                     </a>
                                 </div>
                             );

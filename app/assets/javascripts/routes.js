@@ -1,3 +1,4 @@
+// TODO
 import {LazilyLoadFactory} from './loaders/hoc-loader';
 
 const ArticleIndexLoader = LazilyLoadFactory(({ArticleIndex, ...props}) => <ArticleIndex {...props}/>, {

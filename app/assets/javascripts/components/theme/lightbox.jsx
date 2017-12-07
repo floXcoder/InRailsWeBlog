@@ -18,7 +18,6 @@ export default class LightBox extends React.Component {
     };
 
     static defaultProps = {
-        id: null,
         isFullFormat: false,
         hasSlider: false,
         isSliderAbove: false
@@ -94,14 +93,14 @@ export default class LightBox extends React.Component {
                 <div className="lightbox-slider-footer">
                     <ul className="lightbox-slider-thumbnails">
                         {
-                            this.props.children.map((picture, i) =>
+                            this.props.children.map((picture, i) => (
                                 <li key={i}
                                     className={classNames('lightbox-slider-thumbnail', {'lightbox-slider-thumbnail-selected': i === this.state.sliderIndex})}
                                     onClick={this._handleSliderClick.bind(this, i)}>
                                     <img src={picture.thumbnail}
                                          alt={picture.title}/>
                                 </li>
-                            )
+                            ))
                         }
                     </ul>
                 </div>
@@ -114,17 +113,16 @@ export default class LightBox extends React.Component {
                 {
                     !this.props.hasSlider &&
                     this.props.children.map((picture, i) => (
-                            <img key={i}
-                                 className={classNames('img-helper', {
-                                     'lightbox-img-full': this.props.isFullFormat,
-                                     'lightbox-img-thumbnail': !this.props.isFullFormat
-                                 })}
-                                 src={!!picture.thumbnail ? picture.thumbnail : picture.src}
-                                 alt={picture.title}
-                                 itemProp="image"
-                                 onClick={this.openLightBox.bind(this, i)}/>
-                        )
-                    )
+                        <img key={i}
+                             className={classNames('img-helper', {
+                                 'lightbox-img-full': this.props.isFullFormat,
+                                 'lightbox-img-thumbnail': !this.props.isFullFormat
+                             })}
+                             src={!!picture.thumbnail ? picture.thumbnail : picture.src}
+                             alt={picture.title}
+                             itemProp="image"
+                             onClick={this.openLightBox.bind(this, i)}/>
+                    ))
                 }
 
                 {
@@ -153,11 +151,11 @@ export default class LightBox extends React.Component {
                     this.state.isOpen &&
                     <ReactImageLightbox
                         mainSrc={currentPicture.src}
-                        nextSrc={this.props.children.length > 1 && this.props.children[(this.state.pictureIndex + 1) % this.props.children.length].src}
-                        prevSrc={this.props.children.length > 1 && this.props.children[(this.state.pictureIndex + this.props.children.length - 1) % this.props.children.length].src}
+                        nextSrc={this.props.children.length > 1 ? this.props.children[(this.state.pictureIndex + 1) % this.props.children.length].src : undefined}
+                        prevSrc={this.props.children.length > 1 ? this.props.children[(this.state.pictureIndex + this.props.children.length - 1) % this.props.children.length].src : undefined}
                         mainSrcThumbnail={currentPicture.thumbnail}
-                        nextSrcThumbnail={this.props.children.length > 1 && this.props.children[(this.state.pictureIndex + 1) % this.props.children.length].thumbnail}
-                        prevSrcThumbnail={this.props.children.length > 1 && this.props.children[(this.state.pictureIndex + this.props.children.length - 1) % this.props.children.length].thumbnail}
+                        nextSrcThumbnail={this.props.children.length > 1 ? this.props.children[(this.state.pictureIndex + 1) % this.props.children.length].thumbnail : undefined}
+                        prevSrcThumbnail={this.props.children.length > 1 ? this.props.children[(this.state.pictureIndex + this.props.children.length - 1) % this.props.children.length].thumbnail : undefined}
                         onCloseRequest={this.closeLightBox}
                         onMovePrevRequest={this.movePrev}
                         onMoveNextRequest={this.moveNext}

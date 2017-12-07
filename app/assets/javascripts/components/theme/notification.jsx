@@ -1,11 +1,12 @@
 'use strict';
 
 import {
-    NotificationStack
-} from 'react-notification';
-import {
     OrderedSet
 } from 'immutable';
+
+import {
+    NotificationStack
+} from 'react-notification';
 
 class Notification extends React.Component {
     constructor(props) {
@@ -17,19 +18,19 @@ class Notification extends React.Component {
     };
 
     // Time in seconds
-    alert = (message, time = 5, actionButton, actionCallback) => {
+    alert = (message, time = 10, actionButton, actionCallback) => {
         this._add('alert', message, time, actionButton, actionCallback);
     };
 
-    success = (message, time = 5, actionButton, actionCallback) => {
+    success = (message, time = 10, actionButton, actionCallback) => {
         this._add('success', message, time, actionButton, actionCallback);
     };
 
-    error = (message, time = 5, actionButton, actionCallback) => {
+    error = (message, time = 15, actionButton, actionCallback) => {
         this._add('error', message, time, actionButton, actionCallback);
     };
 
-    _add = (level, message, time = 5, actionButton, actionCallback) => {
+    _add = (level, message, time = 10, actionButton, actionCallback) => {
         const key = $.uuid();
 
         return this.setState({
@@ -73,6 +74,6 @@ class Notification extends React.Component {
 }
 
 export default ReactDOM.render(
-    <Notification />,
+    <Notification/>,
     document.getElementById('notification-component')
 );

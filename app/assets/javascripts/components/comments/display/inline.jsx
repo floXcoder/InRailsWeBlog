@@ -157,7 +157,7 @@ export default class CommentInlineDisplay extends React.Component {
                     <div id="comment-actions"
                          className="actions">
                         <FixedActionButton>
-                            <div className="comment-link tooltipped btn-floating"
+                            <div className="btn-floating tooltipped comment-link"
                                  data-tooltip={I18n.t('js.comment.table.actions.show')}>
                                 <a href={this.props.comment.link}
                                    target="_blank">
@@ -165,7 +165,7 @@ export default class CommentInlineDisplay extends React.Component {
                                 </a>
                             </div>
 
-                            <div className="comment-link tooltipped btn-floating"
+                            <div className="btn-floating tooltipped comment-link"
                                  data-tooltip={I18n.t('js.comment.table.actions.delete')}>
                                 <a href="#"
                                    onClick={this._deleteComment}
@@ -174,7 +174,7 @@ export default class CommentInlineDisplay extends React.Component {
                                 </a>
                             </div>
 
-                            <div className="comment-link tooltipped btn-floating"
+                            <div className="btn-floating tooltipped comment-link"
                                  data-tooltip={I18n.t('js.comment.table.actions.delete_permanently')}>
                                 <a href="#"
                                    onClick={this._deleteComment.bind(this, true)}

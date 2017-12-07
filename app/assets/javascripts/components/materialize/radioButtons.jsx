@@ -4,7 +4,7 @@ const RadioButtons = (props) => {
     return (
         <div>
             {
-                Object.keys(props.buttons).map((key) =>
+                Object.keys(props.buttons).map((key) => (
                     <div key={key}>
                         <input id={key}
                                type="radio"
@@ -17,7 +17,7 @@ const RadioButtons = (props) => {
                             {props.buttons[key]}
                         </label>
                     </div>
-                )
+                ))
             }
         </div>
     );
@@ -29,12 +29,6 @@ RadioButtons.propTypes = {
     checkedButton: PropTypes.string,
     onRadioChanged: PropTypes.func,
     validator: PropTypes.object
-};
-
-RadioButtons.defaultProps = {
-    checkedButton: null,
-    onRadioChanged: null,
-    validator: null
 };
 
 export default RadioButtons;

@@ -2,10 +2,6 @@
 
 import _ from 'lodash';
 
-// TODO
-// import UploadActions from '../../actions/uploadActions';
-// import UploadStore from '../../stores/uploadStore';
-
 import DropZoneComponent from 'react-dropzone-component';
 
 import ReactDOMServer from 'react-dom/server';
@@ -40,58 +36,27 @@ export default class DropZone extends React.Component {
     };
 
     static defaultProps = {
-        dataModelId: null,
         uploadUrl: '/uploads',
         dataName: 'picture',
         method: 'post',
-        className: null,
         isAutoUploaded: false,
         isMultipleFilesUploaded: false,
         hasRemoveLinks: true,
         hasLegendField: true,
-        hasCopyrightField: false,
-        acceptedFiles: null,
-        maxFiles: null,
-        maxFileSize: null,
-        dropZoneMessage: null,
-        imageInputPlaceholder: null,
-        onFileAdded: null,
-        onUploadError: null,
-        onUploadSuccess: null,
-        onUploadRemove: null,
-        defaultData: null,
-        serverFiles: null,
-        onDeleteFile: null
+        hasCopyrightField: false
     };
 
     constructor(props) {
         super(props);
-
-        // TODO
-        // this.mapStoreToState(UploadStore, this.onUploadChange);
 
         this._dropZone = null;
         this._filesUploaded = [];
         this._isUploading = false;
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate() {
         return false;
     }
-
-    onUploadChange = (uploadData) => {
-        if ($.isEmpty(uploadData)) {
-            return;
-        }
-
-        if (uploadData.type === 'updateUpload') {
-            this._isUploading = false;
-        }
-
-        if (uploadData.type === 'deleteUpload') {
-            this._isUploading = false;
-        }
-    };
 
     _initDropZone = (dropZone) => {
         this._dropZone = dropZone;
@@ -106,7 +71,7 @@ export default class DropZone extends React.Component {
             const mockFile = {id: picture.id, name: picture.filename, size: picture.size};
 
             this._dropZone.options.addedfile.call(this._dropZone, mockFile);
-            this._dropZone.options.thumbnail.call(this._dropZone, mockFile, picture.thumb_url);
+            this._dropZone.options.thumbnail.call(this._dropZone, mockFile, picture.miniUrl);
 
             if (this.props.hasLegendField) {
                 const $fileInput = $(`#${this.props.id}`).find('.dropzone-legend').last();
@@ -143,7 +108,7 @@ export default class DropZone extends React.Component {
         if (this.props.isAutoUploaded) {
             uploadData.model = this.props.dataModel;
             if (this.props.dataModelId) {
-                uploadData.model_id = this.props.dataModelId;
+                uploadData.modelId = this.props.dataModelId;
             }
         }
 
@@ -156,7 +121,7 @@ export default class DropZone extends React.Component {
         formData.append('authenticity_token', $('meta[name="csrf-token"]').attr('content'));
     };
 
-    _error = (file, response, event) => {
+    _error = (file, response) => {
         if (this.props.onUploadError) {
             this.props.onUploadError(response);
         }
@@ -172,7 +137,7 @@ export default class DropZone extends React.Component {
         }
     };
 
-    _success = (file, data, event) => {
+    _success = (file, data) => {
         if (this.props.onUploadSuccess) {
             this.props.onUploadSuccess(data);
         }
@@ -200,13 +165,57 @@ export default class DropZone extends React.Component {
         $(ReactDOM.findDOMNode(this)).find('.dropzone').removeClass('dropzone-no-pictures');
     };
 
-    // Remove from dropzone preview
+    _handleImageInputBlur = (field, uploadId, event) => {
+        const value = event.currentTarget.value;
+
+        if (uploadId) {
+            let newUpload = {
+                id: uploadId
+            };
+
+            newUpload[field] = value;
+
+            if (this.props.dataModelId) {
+                newUpload.modelId = this.props.dataModelId;
+            }
+
+            this._updateUpload(newUpload, (uploadData) => {
+                this._isUploading = false;
+            });
+
+            this._isUploading = true;
+        }
+
+        return event;
+    };
+
+    _updateUpload = (upload, callback) => {
+        const url = `${this.props.uploadUrl}/${upload.id}`;
+
+        const requestParam = {
+            _method: 'put',
+            upload: upload
+        };
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                callback(dataReceived.upload);
+            });
+    };
+
+    // Remove from dropZone preview
     _handleFileRemoved = (file) => {
         const uploadId = $(file.previewTemplate).find('.dz-remove').attr('id') || file.id;
 
         if (uploadId) {
-            // TODO
-            // UploadActions.deleteUpload(uploadId);
+            this._deleteUpload(uploadId, (uploadData) => {
+                this._isUploading = false;
+            });
 
             if (this.props.isAutoUploaded) {
                 this._isUploading = true;
@@ -224,27 +233,22 @@ export default class DropZone extends React.Component {
         }
     };
 
-    _handleImageInputBlur = (field, uploadId, event) => {
-        const value = event.currentTarget.value;
+    _deleteUpload = (uploadId, callback) => {
+        const url = `${this.props.uploadUrl}/${uploadId}`;
 
-        if (uploadId) {
-            let newUpload = {
-                id: uploadId
-            };
+        const requestParam = {
+            _method: 'delete'
+        };
 
-            newUpload[field] = value;
-
-            if (this.props.dataModelId) {
-                newUpload.model_id = this.props.dataModelId;
-            }
-
-            // TODO
-            // UploadActions.updateUpload(newUpload);
-
-            this._isUploading = true;
-        }
-
-        return event;
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: requestParam
+        })
+            .done((dataReceived) => {
+                callback(dataReceived);
+            });
     };
 
     isUploading = () => {
@@ -280,7 +284,7 @@ export default class DropZone extends React.Component {
             acceptedFiles: this.props.acceptedFiles || 'image/*',
             clickable: true,
             uploadMultiple: this.props.isMultipleFilesUploaded,
-            dictDefaultMessage: '<i class="material-icons">cloud_upload</i>' + (this.props.dropZoneMessage || I18n.t('js.drop_zone.default_message')),
+            dictDefaultMessage: '<span class="material-icons" data-icon="cloud_upload"></span>' + (this.props.dropZoneMessage || I18n.t('js.drop_zone.default_message')),
             dictCancelUpload: I18n.t('js.drop_zone.cancel'),
             dictCancelUploadConfirmation: I18n.t('js.drop_zone.confirm_cancel'),
             dictRemoveFile: I18n.t('js.drop_zone.remove'),

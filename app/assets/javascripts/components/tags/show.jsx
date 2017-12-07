@@ -134,7 +134,7 @@ export default class TagShow extends React.Component {
                                     ?
                                     this.state.tag.parents.map((tag, i) =>
                                         <Link key={i}
-                                              className="waves-effect waves-light btn-small tag-parent"
+                                              className="btn-small waves-effect waves-light tag-parent"
                                               to={`/tag/${tag.slug}`}>
                                             {tag.name}
                                         </Link>
@@ -177,7 +177,7 @@ export default class TagShow extends React.Component {
                             </div>
 
                             <div className="col s12 m12 l6 right-align">
-                                <Link className="waves-effect waves-light btn"
+                                <Link className="btn waves-effect waves-light"
                                       to={`/tag/${this.state.tag.slug}/edit`}>
                                     {I18n.t('js.tag.show.edit_link')}
                                 </Link>

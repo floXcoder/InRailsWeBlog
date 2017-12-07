@@ -14,7 +14,8 @@ import {
     fetchTopic
 } from '../../actions/index';
 
-import ModalHOC from '../../hoc/modal';
+// TODO
+// import ModalHOC from '../../hoc/modal';
 
 import Login from '../users/login';
 import Signup from '../users/signup';
@@ -162,9 +163,10 @@ export default class HeaderLayout extends React.PureComponent {
                     </nav>
                 </div>
 
-                <ModalHOC isOpened={this.props.isTopicOpened}>
-                    <SwitchTopicModule/>
-                </ModalHOC>
+                {/*TODO*/}
+                {/*<ModalHOC isOpened={this.props.isTopicOpened}>*/}
+                    {/*<SwitchTopicModule/>*/}
+                {/*</ModalHOC>*/}
 
                 <div className="blog-search-nav row">
                     <SearchModule isOpened={this.state.isSearchOpened}/>

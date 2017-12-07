@@ -19,16 +19,9 @@ export default class Time extends React.PureComponent {
     };
 
     static defaultProps = {
-        children: null,
         isDisabled: false,
-        name: null,
-        multipleId: null,
         isRequired: false,
-        icon: null,
-        onChange: null,
-        onInput: null,
-        isHorizontal: false,
-        validator: null
+        isHorizontal: false
     };
 
     constructor(props) {
@@ -43,11 +36,6 @@ export default class Time extends React.PureComponent {
             darktheme: true,
             twelvehour: false
         });
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // Ignore if props has changed
-        return false;
     }
 
     render() {
@@ -84,7 +72,9 @@ export default class Time extends React.PureComponent {
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
+                    <span className="material-icons prefix"
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
                 <label htmlFor={this.props.id}

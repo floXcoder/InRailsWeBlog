@@ -20,34 +20,28 @@ export default class AutoSuggest extends React.Component {
         suggestionKeyIcon: PropTypes.string,
         isRequired: PropTypes.bool,
         isDisabled: PropTypes.bool,
-        suggestions: PropTypes.array,
         minLength: PropTypes.number,
         limit: PropTypes.number,
         isAsync: PropTypes.bool,
         isHorizontal: PropTypes.bool,
         labelClass: PropTypes.string,
-        children: PropTypes.string,
+        value: PropTypes.string,
+        children: PropTypes.oneOfType([
+            PropTypes.array,
+            PropTypes.object
+        ]),
         onFetchSuggestions: PropTypes.func,
         onBlur: PropTypes.func
     };
 
     static defaultProps = {
-        name: null,
-        placeholder: null,
         isRequired: false,
         isDisabled: false,
-        icon: null,
-        suggestionKeyPicture: null,
-        suggestionKeyIcon: null,
-        suggestions: [],
         minLength: 3,
         limit: 10,
         isAsync: false,
-        children: null,
-        labelClass: null,
         isHorizontal: false,
-        onFetchSuggestions: null,
-        onBlur: null
+        children: {}
     };
 
     constructor(props) {
@@ -55,12 +49,17 @@ export default class AutoSuggest extends React.Component {
     }
 
     state = {
-        value: this.props.children || '',
-        isShowingSuggestions: true,
-        isActiveLabel: false,
-        isLoading: false,
-        suggestions: [],
+        value: this.props.value || '',
+        isActiveLabel: false
     };
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.value !== nextProps.value) {
+            this.setState({
+                value: nextProps.value
+            });
+        }
+    }
 
     // _getSuggestions = (value) => {
     //     const escapedValue = value.trim().escapeRegexCharacters();
@@ -116,6 +115,54 @@ export default class AutoSuggest extends React.Component {
         return suggestion[this.props.suggestionKeyValue];
     };
 
+    _formatResults = (suggestions) => {
+        let results = [];
+
+        if ($.is().isObject(suggestions)) {
+            Object.keys(suggestions).forEach((key) => {
+                const value = suggestions[key];
+                if (Array.isArray(value)) {
+                    results = results.concat(value.map((suggestion) => ({
+                        [this.props.suggestionKeyValue]: suggestion[this.props.suggestionKeyValue],
+                        [this.props.suggestionKeyPicture]: suggestion[this.props.suggestionKeyPicture],
+                        [this.props.suggestionKeyIcon]: suggestion[this.props.suggestionKeyIcon]
+                    })));
+                }
+            });
+        } else if (Array.isArray(suggestions)) {
+            results = suggestions.map((suggestion) => ({
+                [this.props.suggestionKeyValue]: suggestion[this.props.suggestionKeyValue],
+                [this.props.suggestionKeyPicture]: suggestion[this.props.suggestionKeyPicture],
+                [this.props.suggestionKeyIcon]: suggestion[this.props.suggestionKeyIcon]
+            }));
+        }
+
+        return results;
+    };
+
+    loadSuggestions = (value) => {
+        if (value === '' || value.length < this.props.minLength) {
+            return;
+        }
+
+        if (this.props.isAsync) {
+            this.props.onFetchSuggestions(value);
+
+            // this.setState({
+            //     isLoading: true
+            // });
+        } else {
+            // this.setState({
+            //     suggestions: this.props.suggestions,
+            //     isLoading: true
+            // });
+        }
+    };
+
+    value = () => {
+        return this.state.value;
+    };
+
     _renderSuggestion = (suggestion, {query}) => {
         return (
             <span className="suggestion-content">
@@ -139,79 +186,15 @@ export default class AutoSuggest extends React.Component {
         );
     };
 
-    loadSuggestions = (value) => {
-        if (value === '' || value.length < this.props.minLength) {
-            return;
-        }
-
-        if (this.props.isAsync) {
-            this.props.onFetchSuggestions(value, (suggestions) => {
-                if ($.is().isObject(suggestions)) {
-                    let newSuggestions = [];
-                    Object.keys(suggestions).forEach((key) => {
-                        let value = suggestions[key];
-                        if ($.is().isArray(value)) {
-                            newSuggestions = newSuggestions.concat(value.map((suggestion) => {
-                                return {
-                                    [this.props.suggestionKeyValue]: suggestion[this.props.suggestionKeyValue],
-                                    [this.props.suggestionKeyPicture]: suggestion[this.props.suggestionKeyPicture],
-                                    [this.props.suggestionKeyIcon]: suggestion[this.props.suggestionKeyIcon]
-                                };
-                            }));
-                        }
-                    });
-                    suggestions = newSuggestions;
-                } else if (!$.is().isArray(suggestions)) {
-                    suggestions = [];
-                }
-
-                if (value === this.state.value && this.state.isShowingSuggestions) {
-                    this.setState({
-                        isShowingSuggestions: true,
-                        isLoading: false,
-                        suggestions: suggestions.limit(this.props.limit)
-                    });
-                } else {
-                    this.setState({
-                        isShowingSuggestions: true,
-                        isLoading: false
-                    });
-                }
-            });
-
-            this.setState({
-                isLoading: true
-            });
-        } else {
-            this.setState({
-                suggestions: this.props.suggestions,
-                isLoading: true
-            });
-        }
-    };
-
-    value = () => {
-        return this.state.value;
-    };
-
-    collapseSuggestions = () => {
-        this.setState({
-            suggestions: [],
-            isShowingSuggestions: false
-        });
-    };
-
     render() {
         let name = this.props.inputName;
         if (!name && this.props.inputId.indexOf('_') !== -1) {
             name = this.props.inputId.replace('_', '[') + ']';
         }
 
-        const {value, suggestions, isLoading} = this.state;
-
         const inputProps = {
             placeholder: this.props.placeholder,
-            value,
+            value: this.state.value,
             name: name,
             onChange: this._handleInputChange,
             onFocus: this._handleInputFocus,
@@ -249,11 +232,15 @@ export default class AutoSuggest extends React.Component {
             }
         );
 
+        const results = this._formatResults(this.props.children);
+
         return (
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className={iconClass}>{this.props.icon}</i>
+                    <span className={iconClass}
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
                 <label htmlFor={this.props.id}
@@ -263,7 +250,7 @@ export default class AutoSuggest extends React.Component {
 
                 <div className={inputClass}>
                     <ReactAutoSuggest id={this.props.id}
-                                      suggestions={suggestions}
+                                      suggestions={results.limit(this.props.limit)}
                                       onSuggestionsFetchRequested={this._handleSuggestionsFetchRequested}
                                       onSuggestionsClearRequested={this._handleSuggestionsClearRequested}
                                       getSuggestionValue={this._getSuggestionValue}

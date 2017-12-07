@@ -3,7 +3,9 @@
 const DoubleTimelineItem = (props) => (
     <div className="timeline-block">
         <div className="timeline-icon">
-            <i className="material-icons">{props.icon}</i>
+            <span className="material-icons" 
+                  data-icon={props.icon} 
+                  aria-hidden="true"/>
         </div>
 
         <div className="card-panel timeline-content">
@@ -33,10 +35,6 @@ DoubleTimelineItem.propTypes = {
     children: PropTypes.array.isRequired,
     icon: PropTypes.string.isRequired,
     title: PropTypes.string
-};
-
-DoubleTimelineItem.defaultProps = {
-    title: null
 };
 
 export default DoubleTimelineItem;

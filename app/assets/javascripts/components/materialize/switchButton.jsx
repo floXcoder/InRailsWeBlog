@@ -24,19 +24,11 @@ export default class SwitchButton extends React.Component {
     };
 
     static defaultProps = {
-        name: null,
-        multipleId: null,
         values: {},
-        title: null,
         isTitleDown: false,
-        titleClass: null,
-        children: null,
         isDefaultChecked: true,
         isDisabled: false,
-        onCheckboxChanged: null,
-        onSwitchChange: null,
-        isHorizontal: false,
-        validator: null
+        isHorizontal: false
     };
 
     constructor(props) {

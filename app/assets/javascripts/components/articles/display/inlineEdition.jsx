@@ -112,13 +112,12 @@ export default class ArticleEditionDisplay extends React.Component {
                 <div className="card-action clearfix">
                     {
                         this.props.tags.map((tag) => (
-                                <a key={tag.id}
-                                   onClick={this._handleTagClick.bind(this, tag.id)}
-                                   className="waves-effect waves-light btn-small grey lighten-5 black-text">
-                                    {tag.name}
-                                </a>
-                            )
-                        )
+                            <a key={tag.id}
+                               onClick={this._handleTagClick.bind(this, tag.id)}
+                               className="btn-small waves-effect waves-light">
+                                {tag.name}
+                            </a>
+                        ))
                     }
                     <div className="right">
                         <ArticleEditionIcons articleUserId={this.props.articleUserId}

@@ -23,18 +23,11 @@ export default class Form extends React.Component {
     };
 
     static defaultProps = {
-        id: null,
-        modelId: null,
-        action: null,
-        model: null,
         isEdition: false,
         dataType: 'json',
         isValidating: false,
-        validationExcluded: null,
         isMultipart: false,
-        isRemote: false,
-        className: null,
-        onSubmit: null
+        isRemote: false
     };
 
     constructor(props) {

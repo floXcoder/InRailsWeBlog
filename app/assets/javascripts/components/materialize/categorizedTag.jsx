@@ -1,7 +1,5 @@
 'use strict';
 
-const {PropTypes} = React;
-
 class Tag extends React.PureComponent {
     static propTypes = {
         input: PropTypes.string.isRequired,
@@ -394,6 +392,10 @@ class CategorizedTagInput extends React.Component {
 
     constructor(props) {
         super(props);
+
+        if (!this.props.categories.every(isCategoryValid)) {
+            throw new Error('invalid categories source provided for react-categorized-tag-input');
+        }
     }
 
     state = {
@@ -405,15 +407,9 @@ class CategorizedTagInput extends React.Component {
         panelOpened: false,
         selectedTags: this.props.value || [],
         categories: [],
-        animateTagValue: null,
-        addNew: this.props.addNew === undefined ? true : this.props.addNew
+        animateTagValue: undefined,
+        addNew: !!this.props.addNew
     };
-
-    componentWillMount() {
-        if (!this.props.categories.every(isCategoryValid)) {
-            throw new Error('invalid categories source provided for react-categorized-tag-input');
-        }
-    }
 
     componentWillUnmount() {
         if (this.timeout) {
@@ -714,14 +710,8 @@ export default class CategorizedTag extends React.Component {
     };
 
     static defaultProps = {
-        name: null,
-        multipleId: null,
-        icon: null,
-        children: null,
         isSortingCategoriesByAlpha: true,
-        isHorizontal: false,
-        transformInitialTags: null,
-        onTagChange: null
+        isHorizontal: false
     };
 
     state = {
@@ -800,7 +790,9 @@ export default class CategorizedTag extends React.Component {
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
+                    <span className="material-icons prefix"
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
                 <label className={labelClass}>

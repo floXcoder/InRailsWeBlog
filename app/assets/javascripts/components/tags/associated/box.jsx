@@ -8,7 +8,7 @@ import AssociatedTagList from './list';
 // import ArticleActions from '../../../actions/articleActions';
 // import ArticleStore from '../../../stores/articleStore';
 
-import Spinner from '../../../components/materialize/spinner';
+import Spinner from '../../materialize/spinner';
 
 export default class AssociatedTagBox extends React.Component {
     static propTypes = {

@@ -1,9 +1,9 @@
 'use strict';
 
 import Select from '../../../materialize/select';
-import SwitchButton from '../../../materialize/switch-button';
+import SwitchButton from '../../../materialize/switchButton';
 import Checkbox from '../../../materialize/checkbox';
-import CategorizedTag from '../../../materialize/categorized-tag';
+import CategorizedTag from '../../../materialize/categorizedTag';
 
 const ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
     <div className="row margin-top-10">

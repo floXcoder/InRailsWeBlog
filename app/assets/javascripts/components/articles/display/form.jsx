@@ -160,7 +160,7 @@ export default class ArticleFormDisplay extends React.Component {
                     <div className="card-action">
                         <div className="row">
                             <div className="col s6 left-align">
-                                <a className="waves-effect waves-teal btn-flat"
+                                <a className="btn-flat waves-effect waves-teal"
                                    onClick={this._handleCancelClick}>
                                     {I18n.t('js.helpers.buttons.cancel')}
                                 </a>

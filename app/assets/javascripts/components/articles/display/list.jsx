@@ -2,7 +2,7 @@
 
 // import ArticleActions from '../../../actions/articleActions';
 
-// import InfiniteScroll from '../../../components/materialize/infiniteScroll';
+// import InfiniteScroll from '../../materialize/infiniteScroll';
 
 import ArticleItemDisplay from './item';
 

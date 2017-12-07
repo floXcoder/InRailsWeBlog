@@ -18,24 +18,16 @@ export default class File extends React.Component {
     };
 
     static defaultProps = {
-        name: null,
-        multipleId: null,
-        placeholder: null,
-        children: null,
         isDisabled: false,
         isRequired: false,
-        isMultiple: false,
-        icon: null,
-        onChange: null,
-        onInput: null,
-        validator: null
+        isMultiple: false
     };
 
     constructor(props) {
         super(props);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         return this.props.children !== nextProps.children;
     }
 
@@ -55,20 +47,24 @@ export default class File extends React.Component {
             <div className="row file-field input-field">
                 {
                     this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
+                    <span className="material-icons prefix"
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
-                <div className="col s12 m6 btn">
-                    <span>
-                        {this.props.buttonName}
-                    </span>
-                    <input id={id}
-                           type="file"
-                           name={this.props.isMultiple ? `${name}[]` : name}
-                           required={this.props.isRequired}
-                           disabled={this.props.isDisabled}
-                           multiple={this.props.isMultiple}
-                           {...this.props.validator}/>
+                <div className="col s12 m6">
+                    <div className="btn">
+                        <span>
+                            {this.props.buttonName}
+                        </span>
+                        <input id={id}
+                               type="file"
+                               name={this.props.isMultiple ? `${name}[]` : name}
+                               required={this.props.isRequired}
+                               disabled={this.props.isDisabled}
+                               multiple={this.props.isMultiple}
+                               {...this.props.validator}/>
+                    </div>
                 </div>
 
                 <div className="col s12 m6 file-path-wrapper">

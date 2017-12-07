@@ -9,6 +9,7 @@ export default class Submit extends React.Component {
             PropTypes.array,
             PropTypes.string
         ]).isRequired,
+        buttonType: PropTypes.string,
         className: PropTypes.string,
         isDisabled: PropTypes.bool,
         isButton: PropTypes.bool,
@@ -17,11 +18,9 @@ export default class Submit extends React.Component {
     };
 
     static defaultProps = {
-        className: null,
+        buttonType: 'btn',
         isDisabled: false,
-        isButton: false,
-        tooltipMessage: null,
-        onClick: null
+        isButton: false
     };
 
     constructor(props) {
@@ -44,7 +43,7 @@ export default class Submit extends React.Component {
                         id={this.props.id}
                         type="submit"
                         name="commit"
-                        className={classNames('btn-floating waves-effect waves-light', this.props.className, {
+                        className={classNames('waves-effect waves-light', this.props.buttonType, this.props.className, {
                             tooltipped: !$.isEmpty(this.props.tooltipMessage),
                             disabled: this.props.isDisabled
                         })}
@@ -60,7 +59,7 @@ export default class Submit extends React.Component {
                        type="submit"
                        name="commit"
                        disabled={this.props.isDisabled}
-                       className={classNames('btn', this.props.className, {
+                       className={classNames('waves-effect waves-light', this.props.buttonType, this.props.className, {
                            tooltipped: !$.isEmpty(this.props.tooltipMessage),
                            disabled: this.props.isDisabled
                        })}

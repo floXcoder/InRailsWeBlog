@@ -50,35 +50,12 @@ export default class Input extends React.Component {
     };
 
     static defaultProps = {
-        className: null,
         type: 'text',
         children: '',
-        name: null,
-        multipleId: null,
-        title: null,
-        placeholder: null,
-        explanation: null,
         isHorizontal: false,
         isRequired: false,
         isReadOnly: false,
-        isDisabled: false,
-        labelClass: null,
-        icon: null,
-        hasAutoFocus: null,
-        isAutoComplete: null,
-        step: null,
-        minLength: null,
-        maxLength: null,
-        onFocus: null,
-        onChange: null,
-        onInput: null,
-        onKeyDown: null,
-        onKeyPress: null,
-        onKeyUp: null,
-        onBlur: null,
-        characterCount: null,
-        mask: null,
-        validator: null
+        isDisabled: false
     };
 
     constructor(props) {
@@ -89,8 +66,16 @@ export default class Input extends React.Component {
         value: this.props.children || ''
     };
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.children !== nextProps.children) {
+            this.setState({
+                value: nextProps.children
+            });
+        }
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.isRequired, nextProps.isRequired) || !_.isEqual(this.props.validator, nextProps.validator);
+        return !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.props.isRequired, nextProps.isRequired) || !_.isEqual(this.props.validator, nextProps.validator);
     }
 
     _handleChange = (event) => {
@@ -169,7 +154,9 @@ export default class Input extends React.Component {
                 <div className={fieldClass}>
                     {
                         this.props.icon && $.is().isString(this.props.icon) &&
-                        <i className={iconClass}>{this.props.icon}</i>
+                        <span className={iconClass}
+                              data-icon={this.props.icon}
+                              aria-hidden="true"/>
                     }
 
                     {

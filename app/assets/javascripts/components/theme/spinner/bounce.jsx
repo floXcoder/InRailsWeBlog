@@ -12,8 +12,4 @@ BounceSpinner.propTypes = {
     className: PropTypes.string
 };
 
-BounceSpinner.defaultProps = {
-    className: null
-};
-
 export default BounceSpinner;

@@ -13,9 +13,7 @@ class AccordionItem extends React.Component {
     };
 
     static defaultProps = {
-        id: null,
-        isOpen: true,
-        onHeaderClick: null
+        isOpen: true
     };
 
     constructor(props) {
@@ -102,12 +100,6 @@ Accordion.propTypes = {
     ]),
     id: PropTypes.string,
     className: PropTypes.string
-};
-
-Accordion.defaultProps = {
-    title: null,
-    id: null,
-    className: null
 };
 
 export {Accordion, AccordionItem};

@@ -26,7 +26,7 @@ export default class ArticleEditionIcons extends React.Component {
         // if ($app.isUserConnected(this.props.article.user.id)) {
         //     return (
         //         <div className="article-editing">
-        //             <a className="article-delete tooltipped btn-floating"
+        //             <a className="btn-floating article-delete tooltipped"
         //                data-tooltip={I18n.t('js.article.tooltip.delete')}
         //                onClick={this.props.onDeleteClick}>
         //                 <i className="material-icons">delete</i>
@@ -38,7 +38,7 @@ export default class ArticleEditionIcons extends React.Component {
         //                 <i className="material-icons">clear</i>
         //             </a>
         //
-        //             <a className="article-update tooltipped btn-floating"
+        //             <a className="btn-floating article-update tooltipped"
         //                data-tooltip={I18n.t('js.article.tooltip.update')}
         //                onClick={this.props.onSaveClick}>
         //                 <i className="material-icons">check</i>

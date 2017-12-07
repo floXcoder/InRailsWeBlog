@@ -11,7 +11,7 @@ import {
 } from '../../actions/index';
 
 // TODO: how to use it?
-// import AssociatedTagBox from '../../components/tags/associated/box';
+// import AssociatedTagBox from '../tags/associated/box';
 
 // import TopicStore from '../../stores/topicStore';
 
@@ -19,7 +19,7 @@ import {
 // import TagStore from '../../stores/tagStore';
 
 import TagRelationshipDisplay from './display/relationship';
-import SearchBar from '../theme/search-bar';
+import SearchBar from '../theme/searchBar';
 import Spinner from '../materialize/spinner';
 
 import Fuzzy from 'fuzzy';

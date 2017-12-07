@@ -10,7 +10,7 @@ import {
 
 import HighlightCode from 'highlight.js';
 
-import AnimatedText from '../theme/animated-text';
+import AnimatedText from '../theme/animatedText';
 
 // TODO
 // import UserStore from '../../stores/userStore';
@@ -216,12 +216,12 @@ export default class ArticleShow extends React.Component {
                                 <div className="col s12 m12 l6 md-margin-bottom-20">
                                     <ArticleTags article={this.state.article}/>
 
-                                    <a className="btn btn-floating"
+                                    <a className="btn-floating"
                                        onClick={this._handleVoteClick.bind(this, this.state.article.id, true)}>
                                         <i className="material-icons">thumb_up</i>
                                     </a>
 
-                                    <a className="btn btn-floating"
+                                    <a className="btn-floating"
                                        onClick={this._handleVoteClick.bind(this, this.state.article.id, false)}>
                                         <i className="material-icons">thumb_down</i>
                                     </a>
@@ -254,7 +254,7 @@ export default class ArticleShow extends React.Component {
                                     {
                                         // TODO
                                         // $app.isUserConnected(this.state.article.user.id) &&
-                                        // <Link className="article-edit btn-floating tooltipped"
+                                        // <Link className="btn-floating article-edit tooltipped"
                                         //       data-tooltip={I18n.t('js.article.tooltip.edit')}
                                         //       to={`/article/${this.state.article.id}/edit`}>
                                         //     <i className="material-icons">mode_edit</i>
@@ -272,12 +272,11 @@ export default class ArticleShow extends React.Component {
                                 {I18n.t('js.article.show.new_tags')}
                                 {
                                     this.props.location.state.newTags.map((newTag, i) => (
-                                            <Link key={i}
-                                                  to={`/tag/${newTag.slug}`}>
-                                                {newTag.name}
-                                            </Link>
-                                        )
-                                    )
+                                        <Link key={i}
+                                              to={`/tag/${newTag.slug}`}>
+                                            {newTag.name}
+                                        </Link>
+                                    ))
                                 }
                             </p>
                         </div>

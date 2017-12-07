@@ -144,17 +144,16 @@ export default class TopicModule extends React.Component {
                 <div className="topics-list">
                     {
                         this.props.topics.map((topic) => (
-                                <div key={topic.id}
-                                     className="topic-item">
-                                    <div className="topic-item-details"
-                                         onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug)}>
-                                        <a className={classNames({'topic-item-current': topic.id === this.state.currentTopicId})}>
-                                            {topic.name}
-                                        </a>
-                                    </div>
+                            <div key={topic.id}
+                                 className="topic-item">
+                                <div className="topic-item-details"
+                                     onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug)}>
+                                    <a className={classNames({'topic-item-current': topic.id === this.state.currentTopicId})}>
+                                        {topic.name}
+                                    </a>
                                 </div>
-                            )
-                        )
+                            </div>
+                        ))
                     }
                 </div>
 

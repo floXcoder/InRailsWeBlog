@@ -28,7 +28,7 @@ export default class ArticleHistoryIcon extends React.Component {
         // TODO: use redux global state instead of $app
         if ($app.isUserConnected(this.props.article.user.id)) {
             return (
-                <a className="article-history tooltipped btn-floating"
+                <a className="btn-floating tooltipped article-history"
                    data-tooltip={I18n.t('js.article.tooltip.history')}
                    onClick={this.props.onHistoryClick}>
                     <i className="material-icons">history</i>

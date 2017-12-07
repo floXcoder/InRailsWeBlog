@@ -3,7 +3,8 @@
 import '../application';
 import '../modules/validation';
 
-// import '../components/users/account';
+// TODO: utility?
+// import './users/account';
 
 // Initialize all SideNav
 if (window.innerWidth > window.settings.medium_screen_up) {
@@ -20,6 +21,7 @@ if (window.innerWidth > window.settings.medium_screen_up) {
     );
 }
 
+// TODO: utility?
 // Got to top button
 // $('.goto-top').goToTop();
 
@@ -34,24 +36,5 @@ $('.blog-flash').each((index, element) => {
         Notification.error($element.html());
     } else {
         Notification.alert($element.html());
-    }
-});
-
-$(document).ajaxComplete((event, request) => {
-    if (request.getResponseHeader('X-Flash-Messages')) {
-
-        const flashMessage = JSON.parse(decodeURIComponent(escape(request.getResponseHeader('X-Flash-Messages'))));
-
-        if (flashMessage && flashMessage.success) {
-            Notification.success(flashMessage.success.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
-        }
-
-        if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
-            Notification.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
-        }
-
-        if (flashMessage && flashMessage.error) {
-            Notification.error(flashMessage.error.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
-        }
     }
 });

@@ -3,8 +3,8 @@
 // TODO
 // import UserActions from '../../actions/userActions';
 // import UserStore from '../../stores/userStore';
-import RadioButtons from '../../components/materialize/radio-buttons';
-import SwitchButton from '../../components/materialize/switch-button';
+import RadioButtons from '../materialize/radioButtons';
+import SwitchButton from '../materialize/switchButton';
 
 import {
     Menu

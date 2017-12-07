@@ -31,7 +31,7 @@ export default class ArticleOutdatedIcon extends React.PureComponent {
                 I18n.t('js.article.tooltip.add_outdated');
 
             return (
-                <a className="tooltipped btn-floating"
+                <a className="btn-floating tooltipped"
                    data-tooltip={outdatedTooltip}
                    onClick={this._handleOutdatedClick.bind(this, this.props.article.id)}>
                     <i className={outdatedClasses}>highlight_off</i>

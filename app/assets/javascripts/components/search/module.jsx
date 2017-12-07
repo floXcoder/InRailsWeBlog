@@ -6,7 +6,7 @@ import _ from 'lodash';
 // import SearchActions from '../../actions/searchActions';
 // import SearchStore from '../../stores/searchStore';
 
-// import Tokenizer from '../../components/autocomplete/tokenizer';
+// import Tokenizer from '../autocomplete/tokenizer';
 
 export default class SearchModule extends React.Component {
     static propTypes = {
@@ -248,16 +248,16 @@ export default class SearchModule extends React.Component {
                 <form className="search-form"
                       onSubmit={this._handleSubmit}>
                     {/*<Tokenizer ref={(typeahead) => this._typeahead = typeahead}*/}
-                               {/*options={this.state.autocompleteValues}*/}
-                               {/*onKeyUp={this._onKeyUp}*/}
-                               {/*placeholder={I18n.t('js.article.search.placeholder')}*/}
-                               {/*filterOption="entry"*/}
-                               {/*displayOption={this._displayOption}*/}
-                               {/*maxVisible={6}*/}
-                               {/*addTokenCondition="tag"*/}
-                               {/*customClasses={{listItem: 'typeahead-list-item'}}*/}
-                               {/*onTokenAdd={this._onTokenAdd}*/}
-                               {/*onTokenRemove={this._onTokenRemove}/>*/}
+                    {/*options={this.state.autocompleteValues}*/}
+                    {/*onKeyUp={this._onKeyUp}*/}
+                    {/*placeholder={I18n.t('js.article.search.placeholder')}*/}
+                    {/*filterOption="entry"*/}
+                    {/*displayOption={this._displayOption}*/}
+                    {/*maxVisible={6}*/}
+                    {/*addTokenCondition="tag"*/}
+                    {/*customClasses={{listItem: 'typeahead-list-item'}}*/}
+                    {/*onTokenAdd={this._onTokenAdd}*/}
+                    {/*onTokenRemove={this._onTokenRemove}/>*/}
 
                     <a className="material-icons search-form-close"
                        onClick={this._handleCloseClick}
@@ -269,13 +269,12 @@ export default class SearchModule extends React.Component {
                 <div className="blog-search-suggestion">
                     {
                         this.state.suggestions.map((suggestion) => (
-                                <a key={suggestion}
-                                   onClick={this._handleSuggestionClick.bind(this, suggestion)}
-                                   className="waves-effect waves-light btn-small">
-                                    {suggestion}
-                                </a>
-                            )
-                        )
+                            <a key={suggestion}
+                               onClick={this._handleSuggestionClick.bind(this, suggestion)}
+                               className="btn-small waves-effect waves-light">
+                                {suggestion}
+                            </a>
+                        ))
                     }
                 </div>
             </div>

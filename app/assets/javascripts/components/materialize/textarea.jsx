@@ -28,22 +28,9 @@ export default class Textarea extends React.Component {
     };
 
     static defaultProps = {
-        title: null,
-        name: null,
-        multipleId: null,
-        placeholder: null,
-        children: null,
         isHorizontal: false,
         isRequired: false,
-        isDisabled: false,
-        icon: null,
-        minLength: null,
-        maxLength: null,
-        onChange: null,
-        onKeyDown: null,
-        onBlur: null,
-        characterCount: null,
-        validator: null
+        isDisabled: false
     };
 
     constructor(props) {
@@ -54,13 +41,13 @@ export default class Textarea extends React.Component {
         hasValue: false
     };
 
-    componentDidMount() {
-        if (this.props.characterCount) {
-            const $currentElement = $(ReactDOM.findDOMNode(this.refs[this.props.id]));
-            $currentElement.attr('length', this.props.characterCount);
-            // $currentElement.characterCounter();
-        }
-    }
+    // componentDidMount() {
+    //     if (this.props.characterCount) {
+    //         const $currentElement = $(ReactDOM.findDOMNode(this.refs[this.props.id]));
+    //         $currentElement.attr('length', this.props.characterCount);
+    //         // $currentElement.characterCounter();
+    //     }
+    // }
 
     shouldComponentUpdate(nextProps, nextState) {
         // Ignore if props has changed
@@ -136,7 +123,9 @@ export default class Textarea extends React.Component {
                 <div className={fieldClass}>
                     {
                         this.props.icon &&
-                        <i className={iconClass}>{this.props.icon}</i>
+                        <span className={iconClass}
+                              data-icon={this.props.icon}
+                              aria-hidden="true"/>
                     }
 
                     {
@@ -151,6 +140,7 @@ export default class Textarea extends React.Component {
                               id={id}
                               name={name}
                               className={textareaClass}
+                              length={this.props.characterCount}
                               placeholder={this.props.placeholder}
                               required={this.props.isRequired}
                               disabled={this.props.isDisabled}

@@ -3,7 +3,7 @@
 import CountCommentIcon from '../../comments/icons/count';
 import ArticleVisibilityIcon from '../icons/visibility';
 import SingleTimeline from '../../theme/timeline/single';
-import SingleTimelineItem from '../../theme/timeline/single-item';
+import SingleTimelineItem from '../../theme/timeline/singleItem';
 
 import Pagination from '../../materialize/pagination';
 

@@ -6,7 +6,7 @@
 
 import UserCardDisplay from './display/card';
 
-import SearchBar from '../theme/search-bar';
+import SearchBar from '../theme/searchBar';
 
 // import Filtering from '../../modules/filter';
 
@@ -112,17 +112,15 @@ export default class UserIndex extends React.Component {
                                      className="row">
                         {
                             users.map((user) => (
-                                    <CSSTransition key={user.id}
-                                                   timeout={500}
-                                                   classNames="user">
-                                        <div className="col s6 m4 l3 ">
-                                            <UserCardDisplay user={user}
-                                                             onUserClick={this._handleUserClick}/>
-                                        </div>
-                                    </CSSTransition>
-                                )
-                            )
-
+                                <CSSTransition key={user.id}
+                                               timeout={500}
+                                               classNames="user">
+                                    <div className="col s6 m4 l3 ">
+                                        <UserCardDisplay user={user}
+                                                         onUserClick={this._handleUserClick}/>
+                                    </div>
+                                </CSSTransition>
+                            ))
                         }
                     </TransitionGroup>
 

@@ -26,8 +26,4 @@ AnimatedText.propTypes = {
     subtitle: PropTypes.string
 };
 
-AnimatedText.defaultProps = {
-    subtitle: null
-};
-
 export default AnimatedText;
