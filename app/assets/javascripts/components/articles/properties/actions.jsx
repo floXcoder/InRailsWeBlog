@@ -42,10 +42,4 @@ ArticleActions.propTypes = {
     onVisibilityClick: PropTypes.func
 };
 
-ArticleActions.defaultProps = {
-    onEditClick: null,
-    onBookmarkClick: null,
-    onVisibilityClick: null
-};
-
 export default ArticleActions;

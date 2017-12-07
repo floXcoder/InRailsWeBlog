@@ -32,8 +32,4 @@ UserCardDisplay.propTypes = {
     onUserClick: PropTypes.func
 };
 
-UserCardDisplay.defaultProps = {
-    onUserClick: null
-};
-
 export default UserCardDisplay;

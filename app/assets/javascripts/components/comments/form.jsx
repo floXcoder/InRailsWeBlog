@@ -22,10 +22,6 @@ export default class CommentForm extends React.PureComponent {
 
     static defaultProps = {
         formTitle: I18n.t('js.comment.form.title.default'),
-        parentCommentId: null,
-        commentId: null,
-        title: null,
-        body: null,
         rating: 0,
         isAskingForDeletion: false
     };

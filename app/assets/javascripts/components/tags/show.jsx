@@ -21,7 +21,6 @@ export default class TagShow extends React.Component {
     };
 
     static defaultProps = {
-        tag: null,
         params: {},
         location: {}
     };
@@ -34,7 +33,7 @@ export default class TagShow extends React.Component {
     }
 
     state = {
-        tag: null
+        tag: undefined
     };
 
     componentWillMount() {

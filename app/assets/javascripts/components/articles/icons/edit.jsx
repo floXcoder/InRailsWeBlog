@@ -20,8 +20,4 @@ ArticleEditIcon.propTypes = {
     onEditClick: PropTypes.func
 };
 
-ArticleEditIcon.getDefaultProps = {
-    onEditClick: null
-};
-
 export default ArticleEditIcon;

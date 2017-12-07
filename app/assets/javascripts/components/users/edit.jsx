@@ -19,7 +19,6 @@ export default class UserEdit extends React.Component {
     };
 
     static defaultProps = {
-        userId: null,
         params: {}
     };
 

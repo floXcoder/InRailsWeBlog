@@ -22,7 +22,6 @@ export default class TagEdit extends React.Component {
     };
 
     static defaultProps = {
-        tagId: null,
         params: {}
     };
 

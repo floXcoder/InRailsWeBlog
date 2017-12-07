@@ -67,13 +67,6 @@ export default class ArticleCardDisplay extends React.Component {
 
     };
 
-    static defaultProps = {
-        onTagClick: null,
-        onBookmarkClick: null,
-        onClickEdit: null,
-        onClickVisibility: null,
-    };
-
     constructor(props) {
         super(props);
     }

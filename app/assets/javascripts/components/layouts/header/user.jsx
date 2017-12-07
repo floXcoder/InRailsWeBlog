@@ -108,8 +108,4 @@ HomeUserHeader.propTypes = {
     userSlug: PropTypes.string,
 };
 
-HomeUserHeader.defaultProps = {
-    userSlug: null
-};
-
 export default HomeUserHeader;

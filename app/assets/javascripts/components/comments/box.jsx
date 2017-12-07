@@ -34,12 +34,8 @@ export default class CommentBox extends React.Component {
     };
 
     static defaultProps = {
-        currentUserId: null,
         isAdmin: false,
-        commentableType: null,
-        id: null,
         initialComments: [],
-        commentsCount: null,
         isPaginated: false,
         isRated: true
     };
@@ -52,7 +48,7 @@ export default class CommentBox extends React.Component {
 
     state = {
         comments: [],
-        commentsPagination: null,
+        commentsPagination: undefined,
         isLoadingComments: false,
         isCommentsLoaded: false,
         isShowingCommentForm: false

@@ -72,9 +72,8 @@ export default class Typeahead extends React.Component {
         options: [],
         customClasses: {},
         allowCustomValues: 0,
-        defaultValue: "",
-        value: null,
-        placeholder: "",
+        defaultValue: '',
+        placeholder: '',
         isTextarea: false,
         inputProps: {},
         onOptionSelected(option) {
@@ -89,7 +88,6 @@ export default class Typeahead extends React.Component {
         },
         onBlur(event) {
         },
-        filterOption: null,
         hasDefaultClassNames: true,
         customListComponent: TypeaheadSelector
     };

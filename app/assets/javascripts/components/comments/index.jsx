@@ -20,14 +20,9 @@ export default class CommentIndex extends React.Component {
     };
 
     static defaultProps = {
-        comments: null,
         limit: 6,
-        userId: null,
         isShowingLast: false,
-        filters: null,
-        commentTotalPages: null,
         isPaginated: true,
-        onPaginationClick: null,
         isTable: false
     };
 

@@ -26,7 +26,7 @@ export default class SearchModule extends React.Component {
         autocompleteValues: [],
         selectedTags: [],
         previousSelectedTags: [],
-        $searchDiv: null,
+        $searchDiv: undefined,
         suggestions: [],
         query: ''
     };

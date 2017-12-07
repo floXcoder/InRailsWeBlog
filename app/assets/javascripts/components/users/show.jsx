@@ -15,7 +15,6 @@ export default class UserShow extends React.Component {
     };
 
     static defaultProps = {
-        userId: null,
         params: {}
     };
 

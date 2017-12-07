@@ -10,7 +10,6 @@ export default class ShowMore extends React.PureComponent {
 
     static defaultProps = {
         children: '',
-        className: null,
         maxHeight: 220
     };
 

@@ -59,9 +59,7 @@ export default class HeaderLayout extends React.PureComponent {
 
     static defaultProps = {
         isAdminConnected: false,
-        isUserConnected: false,
-        userCurrentId: null,
-        userSlug: null
+        isUserConnected: false
     };
 
     constructor(props) {

@@ -28,8 +28,4 @@ ArticleLink.propTypes = {
     onArticleClick: PropTypes.func
 };
 
-ArticleLink.getDefaultProps = {
-    onArticleClick: null
-};
-
 export default ArticleLink;

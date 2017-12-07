@@ -26,7 +26,6 @@ export default class AssociatedTagBox extends React.Component {
     }
 
     state = {
-        associatedTags: null,
         isLoading: true
     };
 

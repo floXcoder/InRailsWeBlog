@@ -17,17 +17,12 @@ export default class CommentInlineDisplay extends React.Component {
         onClick: PropTypes.func
     };
 
-    static defaultProps = {
-        isInlineEditing: null,
-        onClick: null
-    };
-
     constructor(props) {
         super(props);
     }
 
     state = {
-        editingField: null
+        editingField: undefined
     };
 
     componentDidMount() {

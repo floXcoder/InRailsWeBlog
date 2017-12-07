@@ -7,10 +7,6 @@ export default class SidebarLayout extends React.PureComponent {
         onOpened: PropTypes.func
     };
 
-    static defaultProps = {
-        onOpened: null
-    };
-
     constructor(props) {
         super(props);
     }

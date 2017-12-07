@@ -22,7 +22,6 @@ export default class CommentList extends React.PureComponent {
     };
 
     static defaultProps = {
-        currentUserId: null,
         isAdmin: false
     };
 
@@ -31,8 +30,6 @@ export default class CommentList extends React.PureComponent {
     }
 
     state = {
-        modifyCommentIndex: null,
-        replyCommentIndex: null,
         replyAsOwner: false,
         replyForDeletion: false
     };

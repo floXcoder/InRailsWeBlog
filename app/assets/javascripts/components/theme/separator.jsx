@@ -12,8 +12,4 @@ Separator.propTypes = {
     className: PropTypes.string
 };
 
-Separator.defaultProps = {
-    className: null
-};
-
 export default Separator;

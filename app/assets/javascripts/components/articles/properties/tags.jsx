@@ -33,17 +33,12 @@ export default class ArticleTags extends React.PureComponent {
         linkTag: PropTypes.string
     };
 
-    static defaultProps = {
-        onTagClick: null,
-        linkTag: null
-    };
-
     constructor(props) {
         super(props);
     }
 
     state = {
-        tagTooltipActive: null
+        tagTooltipActive: undefined
     };
 
     _handleTagClick = (tagId, tagName, event) => {

@@ -21,15 +21,6 @@ export default class ArticleFormDisplay extends React.Component {
         onSubmit: PropTypes.func
     };
 
-    static defaultProps = {
-        multipleId: null,
-        children: null,
-        isDraft: null,
-        articleErrors: null,
-        onCancel: null,
-        onSubmit: null
-    };
-
     constructor(props) {
         super(props);
 
@@ -42,7 +33,7 @@ export default class ArticleFormDisplay extends React.Component {
     state = {
         tags: [],
         isValid: false,
-        isLink: null,
+        isLink: undefined,
         submitTooltipMessage: I18n.t('js.article.common.tooltips.title_too_short'),
         isProcessing: false,
         isDraft: this.props.isDraft || false

@@ -25,8 +25,4 @@ SearchBar.propTypes = {
     children: PropTypes.string
 };
 
-SearchBar.defaultProps = {
-    children: null
-};
-
 export default SearchBar;

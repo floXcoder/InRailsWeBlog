@@ -26,8 +26,7 @@ export default class UserComplete extends React.Component {
     };
 
     static defaultProps = {
-        isAdmin: false,
-        onEditClick: null
+        isAdmin: false
     };
 
     constructor(props) {

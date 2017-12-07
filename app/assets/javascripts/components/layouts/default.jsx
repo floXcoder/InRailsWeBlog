@@ -41,7 +41,6 @@ export default class DefaultLayout extends React.Component {
     };
 
     static defaultProps = {
-        userCurrentId: null,
         isUserConnected: false,
         exact: false,
         isLoadingUser: false

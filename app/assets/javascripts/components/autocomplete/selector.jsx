@@ -18,9 +18,7 @@ export default class TypeaheadSelector extends React.Component {
     };
 
     static defaultProps = {
-        selectionIndex: null,
         customClasses: {},
-        customValue: null,
         onOptionSelected (option) {
         },
         hasDefaultClassNames: true

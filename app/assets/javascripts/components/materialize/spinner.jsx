@@ -32,10 +32,5 @@ Spinner.propTypes = {
     className: PropTypes.string
 };
 
-Spinner.defaultProps = {
-    size: null,
-    className: null
-};
-
 export default Spinner;
 

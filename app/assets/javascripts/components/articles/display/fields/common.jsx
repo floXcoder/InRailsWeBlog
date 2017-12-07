@@ -12,10 +12,7 @@ export default class ArticleCommonField extends React.Component {
     };
 
     static defaultProps = {
-        article: null,
-        multipleId: 0,
-        onInputsChange: null,
-        onIsLinkChange: null
+        multipleId: 0
     };
 
     constructor(props) {

@@ -39,8 +39,4 @@ UserAvatarIcon.propTypes = {
     className: PropTypes.string
 };
 
-UserAvatarIcon.getDefaultProps = {
-    className: null
-};
-
 export default UserAvatarIcon;

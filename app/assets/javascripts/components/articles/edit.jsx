@@ -23,8 +23,6 @@ export default class ArticleEdit extends React.Component {
     };
 
     static defaultProps = {
-        article: null,
-        multipleId: null,
         params: {}
     };
 
@@ -36,8 +34,8 @@ export default class ArticleEdit extends React.Component {
     }
 
     state = {
-        article: null,
-        articleErrors: null
+        article: undefined,
+        articleErrors: undefined
     };
 
     componentWillMount() {

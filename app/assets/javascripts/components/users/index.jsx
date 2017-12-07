@@ -22,10 +22,6 @@ export default class UserIndex extends React.Component {
         onUserClick: PropTypes.func
     };
 
-    static defaultProps = {
-        onUserClick: null
-    };
-
     constructor(props) {
         super(props);
 
@@ -35,8 +31,8 @@ export default class UserIndex extends React.Component {
 
     state = {
         users: [],
-        usersPagination: null,
-        filteredUsers: null
+        usersPagination: undefined,
+        filteredUsers: undefined
     };
 
     componentWillMount() {

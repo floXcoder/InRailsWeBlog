@@ -51,8 +51,4 @@ LoadingLayout.propTypes = {
     component: PropTypes.func
 };
 
-LoadingLayout.defaultProps = {
-    component: null
-};
-
 export default LoadingLayout;

@@ -24,8 +24,7 @@ export default class ArticleNew extends React.Component {
     };
 
     static defaultProps = {
-        location: {state: {}},
-        multipleId: null
+        location: {state: {}}
     };
 
     constructor(props) {
@@ -36,8 +35,8 @@ export default class ArticleNew extends React.Component {
     }
 
     state = {
-        draftArticle: null,
-        articleErrors: null
+        draftArticle: undefined,
+        articleErrors: undefined
     };
 
     componentWillMount() {

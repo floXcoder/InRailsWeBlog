@@ -62,11 +62,6 @@ ArticleTimelineDisplay.propTypes = {
     loadArticles: PropTypes.func
 };
 
-ArticleTimelineDisplay.getDefaultProps = {
-    pagination: null,
-    loadArticles: null
-};
-
 ArticleTimelineDisplay._handlePaginationClick = (paginate, loadArticles) => {
     loadArticles({page: paginate.selected + 1});
     $('html, body').animate({scrollTop: $('.article-timeline').offset().top - 64}, 750);

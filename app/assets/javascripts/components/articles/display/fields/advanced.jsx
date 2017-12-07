@@ -106,8 +106,7 @@ ArticleAdvancedField.defaultProps = {
     article: {},
     tags: [],
     isDraft: false,
-    isLink: false,
-    multipleId: null
+    isLink: false
 };
 
 export default ArticleAdvancedField;

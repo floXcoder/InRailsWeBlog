@@ -32,7 +32,6 @@ export default class TopicModule extends React.Component {
     };
 
     static defaultProps = {
-        userId: null,
         isLoading: true,
         topics: []
     };
@@ -44,11 +43,11 @@ export default class TopicModule extends React.Component {
     }
 
     state = {
-        currentTopicId: null,
+        currentTopicId: undefined,
         isAddingTopic: false
 
         // TODO
-        // topicEditingId: null,
+        // topicEditingId: undefined,
         // isCreateTopicOpened: false,
     };
 

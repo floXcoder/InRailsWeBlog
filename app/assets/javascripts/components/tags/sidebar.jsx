@@ -50,7 +50,7 @@ export default class TagSidebar extends React.Component {
     }
 
     state = {
-        filterText: null
+        filterText: undefined
     };
 
     componentWillMount() {

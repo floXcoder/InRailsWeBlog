@@ -29,18 +29,13 @@ export default class Selecter extends React.Component {
     };
 
     static defaultProps = {
-        title: null,
-        name: null,
         children: [],
-        icon: null,
         maxValues: 5,
         maxLength: 30,
-        multipleId: null,
         isMultiple: true,
         isEditing: false,
         isHorizontal: false,
-        isImageValue: false,
-        onValuesChange: null
+        isImageValue: false
     };
 
     constructor(props) {

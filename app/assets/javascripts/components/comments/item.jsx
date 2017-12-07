@@ -89,15 +89,8 @@ CommentItem.propTypes = {
 };
 
 CommentItem.defaultProps = {
-    currentUserId: null,
-    commentId: null,
-    parentCommentId: null,
-    title: null,
-    rating: null,
     isModifying: false,
     isAskedForDeletion: false,
-    onCancel: null,
-    onSubmit: null,
     isAskingForDeletion: false,
     isAdmin: false
 };

@@ -104,8 +104,7 @@ CommentTableDisplay.defaultProps = {
     filters: {},
     isInlineEditing: true,
     isPaginated: true,
-    totalPages: 0,
-    onPaginationClick: null
+    totalPages: 0
 };
 
 export default CommentTableDisplay;

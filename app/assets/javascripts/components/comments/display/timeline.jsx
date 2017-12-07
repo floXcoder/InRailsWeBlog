@@ -47,9 +47,7 @@ CommentTimelineDisplay.propTypes = {
 };
 
 CommentTimelineDisplay.getDefaultProps = {
-    comments: [],
-    pagination: null,
-    loadComments: null
+    comments: []
 };
 
 CommentTimelineDisplay._handlePaginationClick = (paginate, loadComments) => {

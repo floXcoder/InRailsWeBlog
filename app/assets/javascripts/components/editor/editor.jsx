@@ -13,10 +13,7 @@ export default class Editor extends React.PureComponent {
 
     static defaultProps = {
         mode: 1,
-        id: 'editor',
-        children: null,
-        onEditorLoaded: null,
-        onEditorInput: null
+        id: 'editor'
     };
 
     constructor(props) {

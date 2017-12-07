@@ -44,7 +44,6 @@ export default class ArticleShow extends React.Component {
     };
 
     static defaultProps = {
-        article: null,
         params: {},
         location: {}
     };
@@ -57,8 +56,8 @@ export default class ArticleShow extends React.Component {
     }
 
     state = {
-        article: null,
-        articleVersions: null,
+        article: undefined,
+        articleVersions: undefined,
         isHistoryDisplayed: false
     };
 

@@ -74,9 +74,7 @@ UserActivity.propTypes = {
 };
 
 UserActivity.getDefaultProps = {
-    activities: [],
-    pagination: null,
-    loadActivities: null
+    activities: []
 };
 
 UserActivity._handlePaginationClick = (paginate, loadActivities) => {
