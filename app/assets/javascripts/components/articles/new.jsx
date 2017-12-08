@@ -32,19 +32,17 @@ export default class ArticleNew extends React.Component {
 
         // TODO
         // this.mapStoreToState(ArticleStore, this.onArticleChange);
+
+        if (props.location.state && props.location.state.article) {
+            this.state.draftArticle = props.location.state.article;
+            Notification.success(I18n.t('js.article.clipboard.toast.done'));
+        }
     }
 
     state = {
         draftArticle: undefined,
         articleErrors: undefined
     };
-
-    componentWillMount() {
-        if (this.props.location.state && this.props.location.state.article) {
-            this.setState({draftArticle: this.props.location.state.article});
-            Notification.success(I18n.t('js.article.clipboard.toast.done'));
-        }
-    }
 
     componentDidMount() {
         // Mousetrap.bind('alt+s', () => {

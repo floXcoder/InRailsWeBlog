@@ -27,19 +27,17 @@ export default class UserEdit extends React.Component {
 
         // TODO
         // this.mapStoreToState(UserStore, this.onUserChange);
-    }
 
-    state = {
-        user: {}
-    };
-
-    componentWillMount() {
         // TODO
         // UserActions.loadUser({
         //     userId: this.props.userId || this.props.params.userId,
         //     completeUser: true
         // });
     }
+
+    state = {
+        user: {}
+    };
 
     onUserChange(userData) {
         if ($.isEmpty(userData)) {

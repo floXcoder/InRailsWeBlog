@@ -35,6 +35,16 @@ export default class UserComplete extends React.Component {
         // TODO
         // this.mapStoreToState(UserStore, this.onUserChange);
         // this.mapStoreToState(ArticleStore, this.onArticleChange);
+
+        // TODO
+        // UserActions.loadUser({
+        //     userId: props.userId,
+        //     completeUser: true
+        // });
+
+        this._loadArticles(props.userId);
+        this._loadComments(props.userId);
+        this._loadActivities(props.userId);
     }
 
     state = {
@@ -47,18 +57,6 @@ export default class UserComplete extends React.Component {
         userActivities: null,
         activitiesPagination: null
     };
-
-    componentWillMount() {
-        // TODO
-        // UserActions.loadUser({
-        //     userId: this.props.userId,
-        //     completeUser: true
-        // });
-
-        this._loadArticles(this.props.userId);
-        this._loadComments(this.props.userId);
-        this._loadActivities(this.props.userId);
-    }
 
     componentDidUpdate() {
         $('.user-admin ul.tabs').tabs();

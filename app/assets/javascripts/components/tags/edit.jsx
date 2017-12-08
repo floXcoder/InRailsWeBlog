@@ -30,18 +30,16 @@ export default class TagEdit extends React.Component {
 
         // TODO
         // this.mapStoreToState(TagStore, this.onTagChange);
-    }
 
-    state = {
-        tag: {}
-    };
-
-    componentWillMount() {
         // TODO
         // TagActions.loadTag({
         //     id: this.props.tagId || this.props.params.tagId
         // });
     }
+
+    state = {
+        tag: {}
+    };
 
     onTagChange(tagData) {
         if ($.isEmpty(tagData)) {

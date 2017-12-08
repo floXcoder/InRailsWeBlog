@@ -40,6 +40,14 @@ export default class TopicModule extends React.Component {
         super(props);
 
         this._topicInput = null;
+
+        // TODO
+        // if ($app.isUserConnected()) {
+        //     this.setState({
+        //         currentTopicId: $app.getCurrentTopic().id,
+        //         topics: $app.user.topics
+        //     });
+        // }
     }
 
     state = {
@@ -50,16 +58,6 @@ export default class TopicModule extends React.Component {
         // topicEditingId: undefined,
         // isCreateTopicOpened: false,
     };
-
-    componentWillMount() {
-        // TODO
-        // if ($app.isUserConnected()) {
-        //     this.setState({
-        //         currentTopicId: $app.getCurrentTopic().id,
-        //         topics: $app.user.topics
-        //     });
-        // }
-    }
 
     _handleSwitchTopicClick = (topicId, topicSlug, event) => {
         event.preventDefault();

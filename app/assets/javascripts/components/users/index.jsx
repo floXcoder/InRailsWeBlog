@@ -27,6 +27,9 @@ export default class UserIndex extends React.Component {
 
         // TODO
         // this.mapStoreToState(UserStore, this.onUserChange);
+
+        // TODO
+        // UserActions.loadUsers({page: 1});
     }
 
     state = {
@@ -34,11 +37,6 @@ export default class UserIndex extends React.Component {
         usersPagination: undefined,
         filteredUsers: undefined
     };
-
-    componentWillMount() {
-        // TODO
-        // UserActions.loadUsers({page: 1});
-    }
 
     onUserChange(userData) {
         if ($.isEmpty(userData)) {

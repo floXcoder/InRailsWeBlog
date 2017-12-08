@@ -64,6 +64,10 @@ export default class HeaderLayout extends React.PureComponent {
 
     constructor(props) {
         super(props);
+
+        if (props.userCurrentId && props.currentTopic.id) {
+            props.fetchTopic(props.userCurrentId, props.currentTopic.id);
+        }
     }
 
     state = {
@@ -71,12 +75,6 @@ export default class HeaderLayout extends React.PureComponent {
         isShowingLogin: true,
         isSearchOpened: false
     };
-
-    componentWillMount() {
-        if (this.props.userCurrentId && this.props.currentTopic.id) {
-            this.props.fetchTopic(this.props.userCurrentId, this.props.currentTopic.id);
-        }
-    }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.location.pathname !== nextProps.location.pathname) {

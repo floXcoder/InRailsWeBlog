@@ -31,23 +31,19 @@ export default class ArticleEdit extends React.Component {
 
         // TODO
         // this.mapStoreToState(ArticleStore, this.onArticleChange);
+
+        if (this.props.article) {
+            this.state.article = props.article;
+        } else if (props.params.articleSlug) {
+            // TODO
+            // ArticleActions.loadArticle({slug: this.props.params.articleSlug});
+        }
     }
 
     state = {
         article: undefined,
         articleErrors: undefined
     };
-
-    componentWillMount() {
-        if (this.props.article) {
-            this.setState({
-                article: this.props.article
-            })
-        } else if (this.props.params.articleSlug) {
-            // TODO
-            // ArticleActions.loadArticle({slug: this.props.params.articleSlug});
-        }
-    }
 
     onArticleChange(articleData) {
         if ($.isEmpty(articleData)) {

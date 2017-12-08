@@ -13,14 +13,9 @@ export default class ErrorIndex extends React.Component {
 
         // TODO
         // this.mapStoreToState(ErrorStore, this.onErrorChange);
-    }
 
-    componentWillMount() {
         // TODO
         // ErrorActions.loadErrors();
-    }
-
-    componentDidMount() {
     }
 
     onErrorChange = (errors) => {

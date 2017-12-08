@@ -31,27 +31,19 @@ export default class CommentIndex extends React.Component {
 
         // TODO
         // this.mapStoreToState(CommentStore, this.onCommentChange);
-    }
 
-    state = {
-        comments: this.props.comments || [],
-        commentsPagination: this.props.commentTotalPages ? {total_pages: this.props.commentTotalPages} : {},
-        isLoaded: false
-    };
-
-    componentWillMount() {
-        if (!this.props.comments) {
+        if (!props.comments) {
             let params = {page: 1};
             if (this.props.isTable) {
-                params.complete = this.props.isTable;
+                params.complete = props.isTable;
             }
 
             params.filter = {};
             if (this.props.filters) {
-                params.filter = this.props.filters;
+                params.filter = props.filters;
             }
             if (this.props.userId) {
-                params.filter.user_id = this.props.userId;
+                params.filter.user_id = props.userId;
             }
             if (this.props.isShowingLast) {
                 params.filter.order = 'updated_last';
@@ -61,6 +53,12 @@ export default class CommentIndex extends React.Component {
             // CommentActions.loadComments(params);
         }
     }
+
+    state = {
+        comments: this.props.comments || [],
+        commentsPagination: this.props.commentTotalPages ? {total_pages: this.props.commentTotalPages} : {},
+        isLoaded: false
+    };
 
     componentWillReceiveProps(nextProps) {
         if (!!nextProps.comments) {

@@ -44,6 +44,14 @@ export default class CommentBox extends React.Component {
         super(props);
 
         this.mapStoreToState(CommentStore, this.onCommentChange);
+
+        if (!$.isEmpty(props.initialComments)) {
+            this.state.comments = this.props.initialComments;
+            this.state.isLoadingComments = false;
+            this.state.isCommentsLoaded = true;
+        } else {
+            this._loadComments();
+        }
     }
 
     state = {
@@ -53,18 +61,6 @@ export default class CommentBox extends React.Component {
         isCommentsLoaded: false,
         isShowingCommentForm: false
     };
-
-    componentWillMount() {
-        if (!$.isEmpty(this.props.initialComments)) {
-            this.setState({
-                comments: this.props.initialComments,
-                isLoadingComments: false,
-                isCommentsLoaded: true
-            });
-        } else {
-            this._loadComments();
-        }
-    }
 
     shouldComponentUpdate(nextProps, nextState) {
         // Ignore if props has changed

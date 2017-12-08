@@ -46,6 +46,9 @@ export default class ArticleIndex extends React.Component {
 
     constructor(props) {
         super(props);
+
+        // TODO
+        // props.loadArticles({filter: props.match.params});
     }
 
     state = {
@@ -53,10 +56,6 @@ export default class ArticleIndex extends React.Component {
         hasMore: true,
         articleDisplayMode: 'card'
     };
-
-    componentWillMount() {
-        this.props.loadArticles({filter: this.props.match.params});
-    }
 
     // componentDidMount() {
     //     this._activateTooltip();

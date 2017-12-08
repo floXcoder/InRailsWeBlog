@@ -27,6 +27,9 @@ export default class ArticleFormDisplay extends React.Component {
         // TODO
         // this.mapStoreToState(TagStore, this.onTagChange);
 
+        // TODO
+        // TagActions.loadTags({user_tags: true});
+
         this._commonFields = null;
     }
 
@@ -38,11 +41,6 @@ export default class ArticleFormDisplay extends React.Component {
         isProcessing: false,
         isDraft: this.props.isDraft || false
     };
-
-    componentWillMount() {
-        // TODO
-        // TagActions.loadTags({user_tags: true});
-    }
 
     componentDidUpdate() {
         if (this.state.submitTooltipMessage) {

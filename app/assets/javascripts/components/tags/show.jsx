@@ -30,22 +30,18 @@ export default class TagShow extends React.Component {
 
         // TODO
         // this.mapStoreToState(TagStore, this.onTagChange);
+
+        if (props.tag) {
+            this.state.tag = props.tag;
+        } else if (props.params.tagId) {
+            // TODO
+            // TagActions.loadTag({id: this.props.params.tagId});
+        }
     }
 
     state = {
         tag: undefined
     };
-
-    componentWillMount() {
-        if (this.props.tag) {
-            this.setState({
-                tag: this.props.tag
-            });
-        } else if (this.props.params.tagId) {
-            // TODO
-            // TagActions.loadTag({id: this.props.params.tagId});
-        }
-    }
 
     onTagChange(tagData) {
         if ($.isEmpty(tagData)) {

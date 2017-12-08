@@ -47,13 +47,7 @@ export default class TagSidebar extends React.Component {
 
         // this.mapStoreToState(TopicStore, this.onTopicChange);
         // this.mapStoreToState(TagStore, this.onTagChange);
-    }
 
-    state = {
-        filterText: undefined
-    };
-
-    componentWillMount() {
         // TODO
         // if ($app.isUserConnected()) {
         //     this.setState({
@@ -64,6 +58,10 @@ export default class TagSidebar extends React.Component {
         //     TagActions.loadTags();
         // }
     }
+
+    state = {
+        filterText: undefined
+    };
 
     componentDidMount() {
         // TODO

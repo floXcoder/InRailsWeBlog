@@ -51,6 +51,13 @@ export default class ArticleShow extends React.Component {
     constructor(props) {
         super(props);
 
+        if (props.article) {
+            this.article = props.article;
+        } else if (props.params.articleSlug) {
+            // TODO
+            // ArticleActions.loadArticle({slug: this.props.params.articleSlug});
+        }
+
         // TODO
         // this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
@@ -60,17 +67,6 @@ export default class ArticleShow extends React.Component {
         articleVersions: undefined,
         isHistoryDisplayed: false
     };
-
-    componentWillMount() {
-        if (this.props.article) {
-            this.setState({
-                article: this.props.article
-            });
-        } else if (this.props.params.articleSlug) {
-            // TODO
-            // ArticleActions.loadArticle({slug: this.props.params.articleSlug});
-        }
-    }
 
     componentDidMount() {
         // Display tooltips
