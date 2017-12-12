@@ -16,7 +16,8 @@ import 'jquery-serializejson';
 @withRouter
 export default class ArticleEdit extends React.Component {
     static propTypes = {
-        history: PropTypes.func.isRequired,
+        // From router
+        history: PropTypes.func,
         article: PropTypes.object,
         multipleId: PropTypes.number,
         params: PropTypes.object

@@ -1,46 +1,38 @@
 'use strict';
 
+import * as ActionTypes from '../constants/actionTypes';
+
+import api from '../middlewares/api';
+
+// TODO
 // 'loadTopics',
 // 'addTopic',
 // 'switchTopic',
 // 'updateTopic',
 // 'deleteTopic'
 
-import {
-    push
-} from 'react-router-redux';
-
-import api from '../middleware/api';
-
-import * as ActionTypes from '../constants/actionTypes';
-
-const requestTopic = (topicId) => ({
-    type: ActionTypes.FETCH_TOPIC_REQUEST,
-    topicId,
-    isFetching: true
+// Topics
+export const fetchTopics = (filter, options = {}) => ({
+    actionType: ActionTypes.TOPIC,
+    fetchAPI: () => api.get(`/topics`, {
+        filter,
+        ...options
+    })
 });
 
-const receiveTopic = (topicId, json) => {
-    return ({
-        type: ActionTypes.FETCH_TOPIC_SUCCESS,
-        topicId,
-        isFetching: false,
-        topic: json.topic
-    });
-};
+export const fetchTopic = (userId, topicId, options = {}) => ({
+    actionType: ActionTypes.TOPIC,
+    fetchAPI: () => api.get(`/users/${userId}/topics/${topicId}`, {
+        ...options
+    })
+});
 
-export const fetchTopic = (userId, topicId, params) => (dispatch) => {
-    dispatch(requestTopic(topicId));
-
-    return api
-        .get(`/users/${userId}/topics/${topicId}`, params)
-        .then(json => dispatch(receiveTopic(topicId, json)));
-};
-
-export const switchTopic = (userId, newTopicId) => (dispatch) => {
-    return api
-        .post(`/users/${userId}/topics/switch`, {newTopicId})
-        .then(json => dispatch(receiveTopic(newTopicId, json)))
-        .then(action => dispatch(push(`/topic/${action.topic.slug}`)))
-        .then(dispatch(topicModule((false))));
-};
+export const switchTopic = (userId, topicId, options = {}) => ({
+    actionType: ActionTypes.TOPIC,
+    fetchAPI: () => api.get(`/users/${userId}/topics/${topicId}`, {
+        ...options
+    })
+    // TODO
+// .then(action => dispatch(push(`/topic/${action.topic.slug}`)))
+// .then(dispatch(topicModule((false))));
+});

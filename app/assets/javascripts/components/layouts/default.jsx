@@ -5,12 +5,8 @@ import {
 } from 'react-router-dom';
 
 import {
-    connect
-} from 'react-redux';
-
-import {
-    fetchUsers
-} from '../../actions/index';
+    fetchUser
+} from '../../actions';
 
 import LoadingLayout from './loading';
 
@@ -22,22 +18,23 @@ import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/wysiwyg/sanitizePaste';
 
 
-@connect((state, props) => ({
+@connect((state) => ({
     isUserConnected: state.userState.isUserConnected,
     userCurrentId: state.userState.currentId,
     isLoadingUser: state.userState.isFetching
 }), {
-    fetchUsers
+    fetchUser
 })
 export default class DefaultLayout extends React.Component {
     static propTypes = {
         path: PropTypes.string.isRequired,
         component: PropTypes.func.isRequired,
-        fetchUsers: PropTypes.func.isRequired,
         exact: PropTypes.bool,
-        userCurrentId: PropTypes.number,
+        // From connect
         isUserConnected: PropTypes.bool,
-        isLoadingUser: PropTypes.bool
+        userCurrentId: PropTypes.number,
+        isLoadingUser: PropTypes.bool,
+        fetchUser: PropTypes.func
     };
 
     static defaultProps = {
@@ -52,7 +49,7 @@ export default class DefaultLayout extends React.Component {
         this._router = null;
 
         if (this.props.isUserConnected) {
-            this.props.fetchUsers(this.props.userCurrentId, {userProfile: true});
+            this.props.fetchUser(this.props.userCurrentId, {userProfile: true});
         }
     }
 

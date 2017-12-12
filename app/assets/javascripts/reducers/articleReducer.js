@@ -1,36 +1,47 @@
 'use strict';
 
-import {FETCH_ARTICLE_REQUEST, FETCH_ARTICLE_SUCCESS, FETCH_ARTICLE_FAILED} from '../constants/actionTypes';
+import {
+    Record,
+    Map,
+    List
+} from 'immutable';
 
-const initState = {
+import * as ActionTypes from '../constants/actionTypes';
+
+import * as Records from '../constants/records';
+
+import {
+    toList,
+    fetchReducer,
+    mutationReducer,
+    mutateArray
+} from './mutators';
+
+const initState = new Record({
     isFetching: false,
-    result: [],
-    articles: [],
-    tags: [],
-    users: []
-};
+    isProcessing: false,
+    errors: new Map(),
 
-export default function articleReducer(state = initState, action) {
+    articles: new List(),
+    pagination: new Map()
+});
+
+export default function articleReducer(state = new initState(), action) {
     switch (action.type) {
-        case FETCH_ARTICLE_REQUEST:
-            return {
-                ...state,
-                isFetching: action.isFetching
-            };
-        case FETCH_ARTICLE_SUCCESS:
-            return {
-                ...state,
-                isFetching: action.isFetching,
-                result: action.normalizedArticles.result,
-                articles: action.normalizedArticles.entities.articles,
-                tags: action.normalizedArticles.entities.tags,
-                users: action.normalizedArticles.entities.users
-            };
-        case FETCH_ARTICLE_FAILED:
-            return {
-                ...state,
-                isFetching: false
-            };
+        case ActionTypes.ARTICLE_FETCH_INIT:
+        case ActionTypes.ARTICLE_FETCH_SUCCESS:
+        case ActionTypes.ARTICLE_FETCH_ERROR:
+            return fetchReducer(state, action, (payload) => ({
+                articles: toList(payload.articles, Records.ArticleRecord)
+            }));
+
+        case ActionTypes.ARTICLE_CHANGE_INIT:
+        case ActionTypes.ARTICLE_CHANGE_SUCCESS:
+        case ActionTypes.ARTICLE_CHANGE_ERROR:
+            return mutationReducer(state, action, (payload) => ({
+                article: payload.article ? new Records.ArticleRecord(payload.article) : undefined
+            }));
+
         default:
             return state;
     }

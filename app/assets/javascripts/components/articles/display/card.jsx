@@ -1,31 +1,14 @@
 'use strict';
 
 import {
-    connect
-} from 'react-redux';
-
-import {
     Link
 } from 'react-router-dom';
 
 import HighlightCode from 'highlight.js';
 
 import {
-    // onTagClick,
-    // onBookmarkClick,
-    // onEditClick,
-    // onVisibilityClick
-} from '../../../actions/index';
-
-import {
-    getArticleIsOutdated,
-    getArticleSlug,
-    getArticleTitle,
-    getArticleContent,
-    getArticleUpdatedAt,
-    getArticleCommentsNumber,
-    getArticleUser,
-} from '../../../selectors/articleSelectors';
+    getArticleIsOutdated
+} from '../../../selectors';
 
 import CountCommentIcon from '../../comments/icons/count';
 import ArticleActions from '../properties/actions';
@@ -35,36 +18,18 @@ import ArticleTime from '../properties/time';
 import UserAvatarIcon from '../../users/icons/avatar';
 
 @connect((state, props) => ({
-    slug: getArticleSlug(state.articleState, props.articleId),
-    title: getArticleTitle(state.articleState, props.articleId),
-    content: getArticleContent(state.articleState, props.articleId),
-    updatedAt: getArticleUpdatedAt(state.articleState, props.articleId),
-    isOutdated: getArticleIsOutdated(state.articleState, props.articleId),
-    commentsNumber: getArticleCommentsNumber(state.articleState, props.articleId),
-    user: getArticleUser(state.articleState, props.articleId)
+    isOutdated: getArticleIsOutdated(props.article)
 }), {
-    // onTagClick,
-    // onBookmarkClick,
-    // onEditClick,
-    // onVisibilityClick
 })
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
-        articleId: PropTypes.number.isRequired,
-
-        onTagClick: PropTypes.func,
-        onBookmarkClick: PropTypes.func,
-        onEditClick: PropTypes.func,
-        onVisibilityClick: PropTypes.func,
-
-        slug: PropTypes.string,
-        title: PropTypes.string,
-        content: PropTypes.string,
-        updatedAt: PropTypes.string,
-        isOutdated: PropTypes.bool,
-        commentsNumber: PropTypes.number,
-        user: PropTypes.object,
-
+        article: PropTypes.object.isRequired,
+        onTagClick: PropTypes.func.isRequired,
+        onBookmarkClick: PropTypes.func.isRequired,
+        onEditClick: PropTypes.func.isRequired,
+        onVisibilityClick: PropTypes.func.isRequired,
+        // From connect
+        isOutdated: PropTypes.bool
     };
 
     constructor(props) {
@@ -93,6 +58,7 @@ export default class ArticleCardDisplay extends React.Component {
         }
     };
 
+    // TODO: use props directly
     _handleTagClick = (tagId, tagName) => {
         this.props.onTagClick(tagName);
     };
@@ -110,38 +76,41 @@ export default class ArticleCardDisplay extends React.Component {
                 <div className="card-content">
                     <div className="card-title article-title center clearfix">
                         <h1 className="article-title-card">
-                            <Link to={`/article/${this.props.slug}`}
+                            <Link to={`/article/${this.props.article.slug}`}
                                   onClick={this._handleArticleClick}>
-                                {this.props.title}
+                                {this.props.article.title}
                             </Link>
                         </h1>
 
-                        <UserAvatarIcon user={this.props.user}
+                        <UserAvatarIcon user={this.props.article.user}
                                         className="article-user"/>
 
                         <div className="article-info right-align">
-                            <ArticleTime lastUpdate={this.props.updatedAt}/>
+                            <ArticleTime lastUpdate={this.props.article.updatedAt}/>
 
-                            <CountCommentIcon linkToComment={`/articles/${this.props.slug}`}
-                                              commentsNumber={this.props.commentsNumber}/>
+                            <CountCommentIcon linkToComment={`/articles/${this.props.article.slug}`}
+                                              commentsNumber={this.props.article.commentsNumber}/>
                         </div>
                     </div>
 
                     <div className="blog-article-content"
-                         dangerouslySetInnerHTML={{__html: this.props.content}}/>
+                         dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                 </div>
 
                 <div className="card-action article-action clearfix">
                     <div className="row">
 
                         <div className="col s12 m12 l6 md-margin-bottom-20">
-                            <ArticleTags articleId={this.props.articleId}
+                            <ArticleTags articleId={this.props.article.id}
+                                         tags={this.props.article.tags.toJS()}
+                                         parentTags={this.props.article.parentTags.toJS()}
+                                         childTags={this.props.article.childTags.toJS()}
                                          onClickTag={this._handleTagClick}/>
                         </div>
 
                         <div className="col s12 m12 l6 right-align">
-                            <ArticleActions articleId={this.props.articleId}
-                                            articleSlug={this.props.slug}
+                            <ArticleActions articleId={this.props.article.id}
+                                            articleSlug={this.props.article.slug}
                                             onEditClick={this.props.onEditClick}
                                             onBookmarkClick={this.props.onBookmarkClick}
                                             onVisibilityClick={this.props.onVisibilityClick}/>

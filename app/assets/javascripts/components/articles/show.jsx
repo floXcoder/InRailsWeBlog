@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    connect
-} from 'react-redux';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -32,15 +28,20 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import CommentBox from '../comments/box';
 
-@connect((state, props) => ({
+@connect((state) => ({
     isUserConnected: state.userState.isUserConnected,
     userCurrentId: state.userState.userCurrentId
 }))
 export default class ArticleShow extends React.Component {
     static propTypes = {
         article: PropTypes.object,
-        params: PropTypes.object,
-        location: PropTypes.object,
+        // TODO
+        // From router
+        // params: PropTypes.object,
+        // location: PropTypes.object,
+        // From connect
+        isUserConnected: PropTypes.bool,
+        userCurrentId: PropTypes.number
     };
 
     static defaultProps = {

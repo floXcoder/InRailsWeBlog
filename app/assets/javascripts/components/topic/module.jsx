@@ -1,22 +1,18 @@
 'use strict';
 
 import {
-    connect
-} from 'react-redux';
-
-import {
     Link
 } from 'react-router-dom';
 
 import {
     switchTopic
-} from '../../actions/index';
+} from '../../actions';
 
 import Input from '../materialize/input';
 import Select from '../materialize/select';
 import Submit from '../materialize/submit';
 
-@connect((state, props) => ({
+@connect((state) => ({
     userId: state.userState.user.id,
     isLoading: false,
     topics: state.userState.user.topics
@@ -25,10 +21,11 @@ import Submit from '../materialize/submit';
 })
 export default class TopicModule extends React.Component {
     static propTypes = {
-        switchTopic: PropTypes.func.isRequired,
+        // From connect
         userId: PropTypes.number,
         isLoading: PropTypes.bool,
-        topics: PropTypes.array
+        topics: PropTypes.array,
+        switchTopic: PropTypes.func
     };
 
     static defaultProps = {

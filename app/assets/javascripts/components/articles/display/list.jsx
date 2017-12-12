@@ -11,12 +11,12 @@ import {
     CSSTransition
 } from 'react-transition-group';
 
-const ArticleListDisplay = ({articleIds, articleDisplayMode}) => {
-    const ArticleNodes = articleIds.map((articleId) => (
-            <CSSTransition key={articleId}
+const ArticleListDisplay = ({articles, articleDisplayMode}) => {
+    const ArticleNodes = articles.map((article) => (
+            <CSSTransition key={article.id}
                            timeout={500}
                            classNames="article">
-                <ArticleItemDisplay articleId={articleId}
+                <ArticleItemDisplay article={article}
                                     initialDisplayMode={articleDisplayMode}/>
             </CSSTransition>
         )
@@ -67,7 +67,7 @@ const ArticleListDisplay = ({articleIds, articleDisplayMode}) => {
 // };
 
 ArticleListDisplay.propTypes = {
-    articleIds: PropTypes.array.isRequired,
+    articles: PropTypes.array.isRequired,
     articleDisplayMode: PropTypes.string.isRequired
 };
 

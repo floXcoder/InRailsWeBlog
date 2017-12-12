@@ -34,6 +34,7 @@ class TagSerializer < ActiveModel::Serializer
              :priority,
              :visibility,
              :visibility_translated,
+             :tagged_articles_count,
              :parents,
              :children,
              :slug

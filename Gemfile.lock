@@ -89,8 +89,6 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     bcrypt (3.1.11)
-    bcrypt-ruby (3.1.5)
-      bcrypt (>= 3.1.3)
     better_errors (2.3.0)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -180,35 +178,10 @@ GEM
       countries (~> 2.0)
       sort_alphabetical (~> 1.0)
     crass (1.0.2)
-    cvss (0.99.0)
-    data_mapper (1.2.0)
-      dm-aggregates (~> 1.2.0)
-      dm-constraints (~> 1.2.0)
-      dm-core (~> 1.2.0)
-      dm-migrations (~> 1.2.0)
-      dm-serializer (~> 1.2.0)
-      dm-timestamps (~> 1.2.0)
-      dm-transactions (~> 1.2.0)
-      dm-types (~> 1.2.0)
-      dm-validations (~> 1.2.0)
-    data_objects (0.10.17)
-      addressable (~> 2.1)
     database_cleaner (1.6.1)
     date_validator (0.9.0)
       activemodel
       activesupport
-    dawnscanner (1.6.8)
-      cvss
-      data_mapper
-      dm-sqlite-adapter
-      haml
-      justify
-      logger-colors
-      ptools
-      ruby_parser
-      sqlite3
-      sys-uname
-      terminal-table
     debug_inspector (0.0.3)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -219,42 +192,6 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.3)
-    dm-aggregates (1.2.0)
-      dm-core (~> 1.2.0)
-    dm-constraints (1.2.0)
-      dm-core (~> 1.2.0)
-    dm-core (1.2.1)
-      addressable (~> 2.3)
-    dm-do-adapter (1.2.0)
-      data_objects (~> 0.10.6)
-      dm-core (~> 1.2.0)
-    dm-migrations (1.2.0)
-      dm-core (~> 1.2.0)
-    dm-serializer (1.2.2)
-      dm-core (~> 1.2.0)
-      fastercsv (~> 1.5)
-      json (~> 1.6)
-      json_pure (~> 1.6)
-      multi_json (~> 1.0)
-    dm-sqlite-adapter (1.2.0)
-      dm-do-adapter (~> 1.2.0)
-      do_sqlite3 (~> 0.10.6)
-    dm-timestamps (1.2.0)
-      dm-core (~> 1.2.0)
-    dm-transactions (1.2.0)
-      dm-core (~> 1.2.0)
-    dm-types (1.2.2)
-      bcrypt-ruby (~> 3.0)
-      dm-core (~> 1.2.0)
-      fastercsv (~> 1.5)
-      json (~> 1.6)
-      multi_json (~> 1.0)
-      stringex (~> 1.4)
-      uuidtools (~> 2.1)
-    dm-validations (1.2.0)
-      dm-core (~> 1.2.0)
-    do_sqlite3 (0.10.17)
-      data_objects (= 0.10.17)
     docile (1.1.5)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
@@ -284,7 +221,6 @@ GEM
       i18n (~> 0.5)
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
-    fastercsv (1.5.5)
     fasterer (0.3.2)
       colorize (~> 0.7)
       ruby_parser (~> 3.7)
@@ -345,9 +281,6 @@ GEM
     guard-sidekiq (0.1.0)
       guard (>= 2)
       sidekiq
-    haml (5.0.2)
-      temple (>= 0.8.0)
-      tilt
     hashie (3.5.6)
     highline (1.7.8)
     hirb (0.7.3)
@@ -375,14 +308,12 @@ GEM
     json (1.8.6)
     json_pure (1.8.6)
     jsonapi-renderer (0.1.3)
-    justify (1.0.2)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    logger-colors (1.0.0)
     lograge (0.6.0)
       actionpack (>= 4, < 5.2)
       activesupport (>= 4, < 5.2)
@@ -473,7 +404,6 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.6)
       pry (>= 0.10.4)
-    ptools (1.3.4)
     public_activity (1.5.0)
       actionpack (>= 3.0.0)
       activerecord (>= 3.0)
@@ -660,7 +590,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.13)
     sshkit (1.14.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -670,9 +599,6 @@ GEM
     storext (2.2.2)
       rails (>= 4.0, < 6.0)
       virtus
-    stringex (1.5.1)
-    sys-uname (1.0.3)
-      ffi (>= 1.0.0)
     temple (0.8.0)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
@@ -702,7 +628,6 @@ GEM
       parser (>= 2.3.1.2, < 2.5)
       procto (~> 0.0.2)
     useragent (0.16.8)
-    uuidtools (2.1.5)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -745,7 +670,6 @@ DEPENDENCIES
   country_select (= 3.1.0)
   database_cleaner (= 1.6.1)
   date_validator (= 0.9.0)
-  dawnscanner (= 1.6.8)
   devise (= 4.3.0)
   factory_girl_rails (= 4.8.0)
   faker (= 1.8.4)
@@ -822,4 +746,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.3
+   1.16.0

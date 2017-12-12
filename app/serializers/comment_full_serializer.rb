@@ -48,7 +48,7 @@ class CommentFullSerializer < ActiveModel::Serializer
 
   include Rails.application.routes.url_helpers
   def link
-    if object.commentable.is_a? Article
+    if object.commentable.is_a?(Article)
       "#{article_path(object.commentable)}#comment-#{object.id}"
     else
       '#'
@@ -56,7 +56,7 @@ class CommentFullSerializer < ActiveModel::Serializer
   end
 
   def commentable
-    if object.commentable.is_a? Article
+    if object.commentable.is_a?(Article)
       ArticleSampleSerializer.new(object.commentable, base_url: true).attributes
     else
       object.commentable

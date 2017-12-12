@@ -1,36 +1,22 @@
 'use strict';
 
 import {
-    connect
-} from 'react-redux';
-
-import {
     Link
 } from 'react-router-dom';
 
 import ToolTip from 'react-portal-tooltip';
 
-import {
-    getArticleTags,
-    getArticleParentTagIds,
-    getArticleChildTagIds
-} from '../../../selectors/articleSelectors';
-
-@connect((state, props) => ({
-    tags: getArticleTags(state.articleState, props.articleId),
-    parentTagIds: getArticleParentTagIds(state.articleState, props.articleId),
-    childTagIds: getArticleChildTagIds(state.articleState, props.articleId)
-}), {
+@connect(null, {
     // onTagClick
 })
 export default class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
         tags: PropTypes.array,
-        parentTagIds: PropTypes.array,
-        childTagIds: PropTypes.array,
-        onTagClick: PropTypes.func,
-        linkTag: PropTypes.string
+        parentTags: PropTypes.array,
+        childTags: PropTypes.array,
+        // From connect
+        onTagClick: PropTypes.func
     };
 
     constructor(props) {
@@ -60,6 +46,7 @@ export default class ArticleTags extends React.PureComponent {
     };
 
     render() {
+        // TODO: do not use style
         let style = {
             style: {
                 background: '#535a60',
@@ -85,8 +72,8 @@ export default class ArticleTags extends React.PureComponent {
                                       className={classNames(
                                           'btn-small waves-effect waves-light tag-default',
                                           {
-                                              'tag-parent': this.props.parentTagIds.includes(tag.id),
-                                              'tag-child': this.props.childTagIds.includes(tag.id)
+                                              'tag-parent': this.props.parentTags.includes(tag.id),
+                                              'tag-child': this.props.childTags.includes(tag.id)
                                           }
                                       )}
                                       to={`/article/tags/${tag.slug}`}

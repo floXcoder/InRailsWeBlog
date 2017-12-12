@@ -6,7 +6,7 @@
 import FixedActionButton from '../../materialize/fab';
 
 import ArticleEditIcon from '../icons/edit';
-import ArticleLinkIcon from '../icons/link';
+// import ArticleLinkIcon from '../icons/link';
 import ArticleVisibilityIcon from '../icons/visibility';
 import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleLink from '../properties/link';

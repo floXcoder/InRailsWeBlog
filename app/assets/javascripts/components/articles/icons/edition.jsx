@@ -2,7 +2,6 @@
 
 export default class ArticleEditionIcons extends React.Component {
     static propTypes = {
-        articleUserId: PropTypes.object.isRequired,
         onDeleteClick: PropTypes.func.isRequired,
         onCancelClick: PropTypes.func.isRequired,
         onSaveClick: PropTypes.func.isRequired

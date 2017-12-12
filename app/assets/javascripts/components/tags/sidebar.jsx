@@ -3,12 +3,8 @@
 import _ from 'lodash';
 
 import {
-    connect
-} from 'react-redux';
-
-import {
-    loadTagArticles
-} from '../../actions/index';
+    fetchTagArticles
+} from '../../actions';
 
 // TODO: how to use it?
 // import AssociatedTagBox from '../tags/associated/box';
@@ -24,17 +20,19 @@ import Spinner from '../materialize/spinner';
 
 import Fuzzy from 'fuzzy';
 
-@connect((state, props) => ({
+@connect((state) => ({
     isLoading: false,
-    tags: state.tagState.tags
+    // TODO: create selector
+    tags: state.tagState.tags.toJS()
 }), {
-    loadTagArticles
+    fetchTagArticles
 })
 export default class TagSidebar extends React.Component {
     static propTypes = {
-        loadTagArticles: PropTypes.func.isRequired,
+        // From connect
         isLoading: PropTypes.bool,
-        tags: PropTypes.array
+        tags: PropTypes.array,
+        fetchTagArticles: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -195,7 +193,7 @@ export default class TagSidebar extends React.Component {
                                 ?
                                 <TagRelationshipDisplay tags={tags}
                                                         isFiltering={isFiltering}
-                                                        onTagClick={this.props.loadTagArticles}/>
+                                                        onTagClick={this.props.fetchTagArticles}/>
                                 :
                                 <div>
                                     {I18n.t('js.tag.common.no_results') + ' ' + this.state.filterText}

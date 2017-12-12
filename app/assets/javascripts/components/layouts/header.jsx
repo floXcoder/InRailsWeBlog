@@ -1,18 +1,14 @@
 'use strict';
 
 import {
-    connect
-} from 'react-redux';
-
-import {
     Link,
     withRouter
 } from 'react-router-dom';
 
 import {
-    switchUiTopicModule,
+    switchTopicModuleUi,
     fetchTopic
-} from '../../actions/index';
+} from '../../actions';
 
 // TODO
 // import ModalHOC from '../../hoc/modal';
@@ -31,30 +27,32 @@ import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
 @withRouter
-@connect((state, props) => ({
+@connect((state) => ({
     isAdminConnected: state.userState.isAdminConnected,
     isUserConnected: state.userState.isUserConnected,
     userCurrentId: state.userState.userCurrentId,
-    userSlug: state.userState.user.slug,
+    userSlug: state.userState.user && state.userState.user.slug,
     currentTopic: state.topicState.currentTopic,
     isTopicOpened: state.uiState.isTopicOpened
 }), {
-    switchUiTopicModule,
-    fetchTopic,
+    switchTopicModuleUi,
+    fetchTopic
 })
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
         onReloadPage: PropTypes.func.isRequired,
-        fetchTopic: PropTypes.func.isRequired,
-        match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
+        // From router
+        match: PropTypes.object,
+        location: PropTypes.object,
+        // From connect
         isAdminConnected: PropTypes.bool,
         isUserConnected: PropTypes.bool,
         userCurrentId: PropTypes.number,
         userSlug: PropTypes.string,
         currentTopic: PropTypes.object,
+        isTopicOpened: PropTypes.bool,
         switchTopicModule: PropTypes.func,
-        isTopicOpened: PropTypes.bool
+        fetchTopic: PropTypes.func
     };
 
     static defaultProps = {
@@ -77,9 +75,10 @@ export default class HeaderLayout extends React.PureComponent {
     };
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.location.pathname !== nextProps.location.pathname) {
-            this.props.fetchTopic(this.props.userCurrentId, this.props.currentTopic.id);
-        }
+        // TODO: manage user not connected: currentTopic undefined
+        // if (this.props.location.pathname !== nextProps.location.pathname) {
+        //     this.props.fetchTopic(this.props.userCurrentId, this.props.currentTopic.id);
+        // }
     }
 
     _handleLoginClick = () => {
@@ -97,11 +96,12 @@ export default class HeaderLayout extends React.PureComponent {
     _handleTopicClick = (event) => {
         event.preventDefault();
 
-        this.props.switchUiTopicModule(!this.props.isTopicOpened);
+        this.props.switchTopicModuleUi(!this.props.isTopicOpened);
     };
 
     _handleSearchClick = (event) => {
-        event.preventDefault();
+        // TODO: undefined
+        // event.preventDefault();
 
         this.setState({
             isSearchOpened: !this.state.isSearchOpened
@@ -145,7 +145,6 @@ export default class HeaderLayout extends React.PureComponent {
                                         <HomePreferenceHeader/>
                                     </li>
                                 }
-
 
                                 <li>
                                     <HomeUserHeader isUserConnected={this.props.isUserConnected}

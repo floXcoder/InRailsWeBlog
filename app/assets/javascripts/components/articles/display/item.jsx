@@ -17,8 +17,10 @@ import ArticleEditionDisplay from './inlineEdition';
 @withRouter
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
-        articleId: PropTypes.number.isRequired,
-        initialDisplayMode: PropTypes.string.isRequired
+        article: PropTypes.object.isRequired,
+        initialDisplayMode: PropTypes.string.isRequired,
+        // From router
+        history: PropTypes.object
     };
 
     static defaultProps = {};
@@ -57,37 +59,49 @@ export default class ArticleItemDisplay extends React.Component {
         // });
     }
 
-    _setDefaultDisplay = (tagName, event) => {
+    _changeDefaultDisplay = (tagName, event) => {
         event.preventDefault();
         this.setState({articleDisplayMode: this.props.initialDisplayMode});
     };
 
     _handleTagClick = (tagName) => {
-        // TODO
-        // this.props.history.push(`/article/tags/${tagName}`);
+        this.props.history.push(`/article/tags/${tagName}`);
 
-        // TODO
+        // TODO: utility? load articles by pushing or by fetching? see example
         // ArticleActions.loadArticles({tags: [tagName]});
     };
 
-    _handleBookmarkClick = (articleId, isBookmarked) => {
+    _handleBookmarkClick = (article, isBookmarked) => {
         // TODO
-        // ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
+        // ArticleActions.bookmarkArticle({article: article, isBookmarked: isBookmarked});
+    };
+
+    _handleEditClick = (article) => {
+        // TODO
+    };
+
+    _handleVisibilityClick = (article) => {
+        // TODO
     };
 
     render() {
         if (this.state.articleDisplayMode === 'inline') {
             return (
-                <ArticleInlineDisplay articleId={this.props.articleId}/>
+                <ArticleInlineDisplay title={this.props.article.title}
+                                      content={this.props.article.content}/>
             );
         } else if (this.state.articleDisplayMode === 'card') {
             return (
-                <ArticleCardDisplay articleId={this.props.articleId}/>
+                <ArticleCardDisplay article={this.props.article}
+                                    onTagClick={this._handleTagClick}
+                                    onBookmarkClick={this._handleBookmarkClick}
+                                    onEditClick={this._handleEditClick}
+                                    onVisibilityClick={this._handleVisibilityClick}/>
             );
         } else if (this.state.articleDisplayMode === 'edit') {
             return (
-                <ArticleEditionDisplay articleId={this.props.articleId}
-                                       setDefaultDisplay={this._setDefaultDisplay}/>
+                <ArticleEditionDisplay article={this.props.article}
+                                       changeDefaultDisplay={this._changeDefaultDisplay}/>
             );
         } else {
             throw new Error('Article display mode unknown: ' + this.state.articleDisplayMode);

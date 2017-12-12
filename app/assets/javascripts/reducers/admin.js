@@ -34,7 +34,7 @@ const ReducerRecord = Record({
     errorState: undefined,
 });
 
-const rootReducer = combineReducers({
+const rootAdminReducer = combineReducers({
     uiState: uiReducer,
     userState: userReducer,
     adminState: adminReducer,
@@ -47,4 +47,4 @@ const rootReducer = combineReducers({
     errorState: errorReducer,
 }, ReducerRecord);
 
-export default rootReducer;
+export default rootAdminReducer;

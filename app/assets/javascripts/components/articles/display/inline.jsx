@@ -1,25 +1,11 @@
 'use strict';
 
-import {
-    connect
-} from 'react-redux';
-
 import HighlightCode from 'highlight.js';
 
-import {
-    getArticleTitle,
-    getArticleContent
-} from '../../../selectors/articleSelectors';
-
-@connect((state, props) => ({
-    title: getArticleTitle(state.articleState, props.articleId),
-    content: getArticleContent(state.articleState, props.articleId)
-}))
-export default class ArticleInlineDisplay extends React.Component {
+export default class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
-        articleId: PropTypes.number.isRequired,
-        title: PropTypes.string,
-        content: PropTypes.string
+        title: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired
     };
 
     constructor(props) {

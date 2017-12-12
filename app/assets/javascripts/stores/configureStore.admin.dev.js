@@ -14,11 +14,11 @@ import thunk from 'redux-thunk';
 import fetchMiddleware from '../middlewares/fetch';
 import mutationMiddleware from '../middlewares/mutation';
 
-import reducers from '../reducers';
+import adminReducers from '../reducers/admin';
 
 const finalCreateStore = composeWithDevTools(applyMiddleware(fetchMiddleware, mutationMiddleware, thunk))(createStore);
 
-export const configureStore = finalCreateStore(reducers);
+export const configureStore = finalCreateStore(adminReducers);
 
 if (module.hot) {
     // Enable Webpack hot module replacement for reducers

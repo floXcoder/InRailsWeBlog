@@ -18,7 +18,8 @@ import 'jquery-serializejson';
 @withRouter
 export default class ArticleNew extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // From router
+        history: PropTypes.object,
         location: PropTypes.object,
         multipleId: PropTypes.number
     };

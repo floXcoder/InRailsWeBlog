@@ -1,21 +1,16 @@
 'use strict';
 
 import {
-    connect
-} from 'react-redux';
-
-import {
     withRouter
 } from 'react-router-dom';
 
 import {
-    loadArticles
-} from '../../actions/index';
+    fetchArticles
+} from '../../actions';
 
 import {
-    getArticlesIds,
-    getArticlesCount
-} from '../../selectors/articleSelectors';
+    getArticles
+} from '../../selectors';
 
 import Spinner from '../materialize/spinner';
 
@@ -23,32 +18,29 @@ import ArticleListDisplay from './display/list';
 import ArticleNone from '../articles/display/none';
 
 @withRouter
-@connect((state, props) => ({
+@connect((state) => ({
     isFetching: state.articleState.isFetching,
-    articleIds: getArticlesIds(state.articleState),
-    articlesCount: getArticlesCount(state.articleState)
+    articles: getArticles(state)
 }), {
-    loadArticles
+    fetchArticles
 })
 export default class ArticleIndex extends React.Component {
     static propTypes = {
+        // From connect
         isFetching: PropTypes.bool.isRequired,
-        articleIds: PropTypes.array.isRequired,
-        articlesCount: PropTypes.number.isRequired
+        articles: PropTypes.array.isRequired,
+        fetchArticles: PropTypes.func.isRequired,
 
         // TODO
-        // loadArticles: PropTypes.func.isRequired,
-        // match: PropTypes.object.isRequired,
+        // From router
+        match: PropTypes.object,
         // location: PropTypes.object.isRequired,
     };
-
-    static defaultProps = {};
 
     constructor(props) {
         super(props);
 
-        // TODO
-        // props.loadArticles({filter: props.match.params});
+        props.fetchArticles({filter: props.match.params});
     }
 
     state = {
@@ -62,9 +54,10 @@ export default class ArticleIndex extends React.Component {
     // }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.location.pathname !== nextProps.location.pathname) {
-            this.props.loadArticles({filter: this.props.match.params});
-        }
+        // TODO
+        // if (this.props.location.pathname !== nextProps.location.pathname) {
+        //     this.props.loadArticles({filter: this.props.match.params});
+        // }
     }
 
     // componentDidUpdate() {
@@ -127,12 +120,13 @@ export default class ArticleIndex extends React.Component {
                             <Spinner size='big'/>
                         </div>
                         :
-                        this.props.articlesCount === 0
+                        this.props.articles.length > 0
                             ?
-                            <ArticleNone topicSlug={this.props.match.params.topicSlug}/>
-                            :
-                            <ArticleListDisplay articleIds={this.props.articleIds}
+                            <ArticleListDisplay articles={this.props.articles}
                                                 articleDisplayMode={this.state.articleDisplayMode}/>
+                            :
+                            <ArticleNone topicSlug={this.props.match.params.topicSlug}/>
+
                 }
             </div>
         );

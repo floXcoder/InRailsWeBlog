@@ -1,6 +1,6 @@
 'use strict';
 
-// 'loadArticles',
+// TODO
 // 'loadArticle',
 // 'addArticle',
 // 'updateArticle',
@@ -11,49 +11,16 @@
 // 'voteArticle',
 // 'outdateArticle',
 // 'restoreArticle',
-// 'trackClick',
-// 'trackView'
-
-import {
-    normalize
-} from 'normalizr';
-
-import api from '../middleware/api';
 
 import * as ActionTypes from '../constants/actionTypes';
-import {
-    articleSchema
-} from '../constants/schemas';
 
-export const loadTagArticles = (tagId, parentTagSlug, childTagSlug) => (dispatch) => {
-    // TODO
-    // TagStore.onTrackClick(tagId);
+import api from '../middlewares/api';
 
-    if (!$.isEmpty(childTagSlug)) {
-        dispatch(push(`/article/tags/${parentTagSlug}/${childTagSlug}`));
-    } else if (!$.isEmpty(parentTagSlug)) {
-        dispatch(push(`/article/tags/${parentTagSlug}`));
-    }
-};
-
-const fetchingArticles = () => ({
-    type: ActionTypes.FETCH_ARTICLE_REQUEST,
-    isFetching: true
+// Articles
+export const fetchArticles = (filter = {}, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    fetchAPI: () => api.get(`/articles`, {
+        filter,
+        ...options
+    })
 });
-
-const receiveArticles = (data) => ({
-    type: ActionTypes.FETCH_ARTICLE_SUCCESS,
-    isFetching: false,
-    pagination: data.meta,
-    normalizedArticles: normalize(data.articles, [articleSchema]),
-});
-
-export const loadArticles = (params) => (dispatch) => {
-    dispatch(fetchingArticles());
-
-    return api
-        .get(`/articles`, params)
-        .then((dataReceived) => {
-            return dispatch(receiveArticles(dataReceived));
-        });
-};

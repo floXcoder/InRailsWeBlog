@@ -1,29 +1,52 @@
 'use strict';
 
-import {INIT_USER_SUCCESS, OPEN_TOPIC_MODULE, FETCH_TOPIC_SUCCESS} from '../constants/actionTypes';
+'use strict';
 
-const initState = {
+import {
+    Record,
+    Map,
+    List
+} from 'immutable';
+
+import * as ActionTypes from '../constants/actionTypes';
+
+import * as Records from '../constants/records';
+
+import {
+    toList,
+    fetchReducer,
+    mutationReducer,
+    mutateArray
+} from './mutators';
+
+const initState = new Record({
     isFetching: false,
-    currentTopic: {
-        name: ''
-    }
-};
+    isProcessing: false,
+    errors: new Map(),
 
-export default function topicReducer(state = initState, action) {
+    currentTopic: undefined
+});
+
+export default function topicReducer(state = new initState(), action) {
     switch (action.type) {
-        case INIT_USER_SUCCESS:
-            return {
-                ...state,
-                isFetching: action.isFetching,
-                currentTopic: action.user.currentTopic,
-                topics: action.user.topics
-            };
-        case FETCH_TOPIC_SUCCESS:
-            return {
-                ...state,
-                isFetching: action.isFetching,
-                currentTopic: action.topic
-            };
+        case ActionTypes.TOPIC_FETCH_INIT:
+        case ActionTypes.TOPIC_FETCH_SUCCESS:
+        case ActionTypes.TOPIC_FETCH_ERROR:
+            return fetchReducer(state, action, (payload) =>
+                payload.topic ? ({
+                    topic: new Records.TopicRecord(payload.topic)
+                }) : ({
+                    topics: toList(payload.topics, Records.TopicRecord)
+                })
+            );
+
+        case ActionTypes.TOPIC_CHANGE_INIT:
+        case ActionTypes.TOPIC_CHANGE_SUCCESS:
+        case ActionTypes.TOPIC_CHANGE_ERROR:
+            return mutationReducer(state, action, (payload) => ({
+                topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined
+            }));
+
         default:
             return state;
     }

@@ -296,6 +296,15 @@ $.extend({
         return hash;
     },
 
+    decodeObject: (object) => {
+        if (!object) {
+            return object;
+        }
+
+        const data = decodeURIComponent(JSON.stringify(object).replace(/(%2E)/ig, "%20"));
+        return JSON.parse(data);
+    },
+
     // Not used
     // setUrlParameter: (paramName, paramValue) => {
     //     let url = window.location.href;

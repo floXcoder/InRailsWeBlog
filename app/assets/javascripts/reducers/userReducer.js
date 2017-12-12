@@ -1,40 +1,66 @@
 'use strict';
 
-import {INIT_USER_SUCCESS, FETCH_USER_REQUEST, FETCH_USER_SUCCESS, FETCH_USER_FAILED} from '../constants/actionTypes';
+import {
+    Record,
+    Map,
+    List,
+    fromJS
+} from 'immutable';
 
-const initState = {
-    currentId: $.isEmpty(window.currentUserId) ? null : parseInt(window.currentUserId, 10),
-    isUserConnected: !$.isEmpty(window.currentUserId),
+import * as ActionTypes from '../constants/actionTypes';
+
+import * as Records from '../constants/records';
+
+import {
+    toList,
+    fetchReducer,
+    mutationReducer,
+    mutateArray
+} from './mutators';
+
+const initState = new Record({
+    // Required for fetchReducer/mutationReducer
     isFetching: false,
-    user: {}
-};
+    isProcessing: false,
+    errors: new Map(),
 
-export const isOwner = (state) => state.currentId === 1;
+    currentId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
+    isConnected: !!window.currentUserId,
 
-export const isValidUser = (state, userId) => userId ? userId === state.currentId : false;
+    user: undefined,
 
-export default function userReducer(state = initState, action) {
+    users: new List(),
+    pagination: new Map(),
+
+    comments: new List(),
+    commentPagination: new Map(),
+});
+
+// TODO
+// export const isOwner = (state) => state.currentId === 1;
+//
+// export const isValidUser = (state, userId) => userId ? userId === state.currentId : false;
+
+export default function userReducer(state = new initState(), action) {
     switch (action.type) {
-        case FETCH_USER_REQUEST:
-            return {
-                ...state,
-                isFetching: action.isFetching,
-                user: action.user || {}
-            };
-        case INIT_USER_SUCCESS:
-        case FETCH_USER_SUCCESS:
-            return {
-                ...state,
-                isFetching: action.isFetching,
-                isUserConnected: !!state.currentId,
-                user: action.user
-            };
-        case FETCH_USER_FAILED:
-            return {
-                ...state,
-                isFetching: false,
-                user: {}
-            };
+        case ActionTypes.USER_FETCH_INIT:
+        case ActionTypes.USER_FETCH_SUCCESS:
+        case ActionTypes.USER_FETCH_ERROR:
+            return fetchReducer(state, action, (payload) =>
+                payload.user ? ({
+                    user: new Records.UserRecord(payload.user)
+                }) : ({
+                    users: toList(payload.users, Records.UserRecord)
+                })
+            );
+
+        case ActionTypes.USER_CHANGE_INIT:
+        case ActionTypes.USER_CHANGE_SUCCESS:
+        case ActionTypes.USER_CHANGE_ERROR:
+            return mutationReducer(state, action, (payload) => ({
+                user: payload.user ? new Records.UserRecord(payload.user) : undefined
+            }));
+
         default:
             return state;
     }

@@ -1,22 +1,34 @@
 'use strict';
 
-import {INIT_ADMIN_SUCCESS} from '../constants/actionTypes';
+import {
+    Record
+} from 'immutable';
 
-const initState = {
-    currentId: $.isEmpty(window.currentAdminId) ? null : parseInt(window.currentAdminId, 10),
-    isFetching: false,
-    user: {}
-};
+import * as ActionTypes from '../constants/actionTypes';
 
-export default function adminReducer(state = initState, action) {
+import * as Records from '../constants/records';
+
+const initState = new Record({
+    currentId: window.currentAdminId ? parseInt(window.currentAdminId, 10) : undefined,
+    isConnected: !!window.currentAdminId,
+
+    admin: undefined,
+
+    errors: undefined
+});
+
+export default function adminReducer(state = new initState(), action) {
     switch (action.type) {
-        case INIT_ADMIN_SUCCESS:
-            return {
-                ...state,
-                isFetching: action.isFetching,
-                isAdminConnected: !!state.currentId,
-                admin: action.user || {}
-            };
+        case ActionTypes.ADMIN_FETCH_SUCCESS:
+            return state.merge({
+                admin: new Records.UserRecord(action.user)
+            });
+
+        case ActionTypes.ADMIN_SETTINGS_CHANGE_ERROR:
+            return state.merge({
+                errors: action.errors
+            });
+
         default:
             return state;
     }

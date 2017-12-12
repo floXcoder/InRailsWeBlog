@@ -1,18 +1,24 @@
 'use strict';
 
-import { OPEN_UI_TOPIC_MODULE } from '../constants/actionTypes';
+import {
+    Record
+} from 'immutable';
 
-const initState = {
+import * as ActionTypes from '../constants/actionTypes';
+
+import * as Records from '../constants/records';
+
+const initState =  new Record({
     isTopicOpened: false
-};
+});
 
-export default function topicReducer(state = initState, action) {
+export default function topicReducer(state = new initState(), action) {
     switch (action.type) {
-        case OPEN_UI_TOPIC_MODULE:
-            return {
-                ...state,
+        case ActionTypes.UI_OPEN_TOPIC_MODULE:
+            return state.merge({
                 isTopicOpened: action.isTopicOpened
-            };
+            });
+
         default:
             return state;
     }

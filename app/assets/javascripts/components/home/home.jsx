@@ -5,22 +5,17 @@ import {
 } from 'react-redux';
 
 import {
+    BrowserRouter,
     Switch,
     Route,
     Link
 } from 'react-router-dom';
 
 import {
-    ConnectedRouter
-} from 'react-router-redux';
+    configureStore
+} from '../../stores';
 
 import routes from '../../routes';
-
-// import UserStore from '../../stores/userStore';
-
-import {
-    configureStore, browserHistory
-} from '../../stores/index';
 
 import DefaultLayout from '../layouts/default';
 
@@ -44,7 +39,7 @@ export default class HomePage extends React.Component {
     render() {
         return (
             <Provider store={configureStore}>
-                <ConnectedRouter history={browserHistory}>
+                <BrowserRouter>
                     <Switch>
                         {
                             routes.home.views.map((route, index) => (
@@ -56,7 +51,7 @@ export default class HomePage extends React.Component {
                             ))
                         }
                     </Switch>
-                </ConnectedRouter>
+                </BrowserRouter>
             </Provider>
         );
     }

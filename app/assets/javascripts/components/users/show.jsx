@@ -9,7 +9,8 @@ import UserComplete from './complete';
 @withRouter
 export default class UserShow extends React.Component {
     static propTypes = {
-        history: PropTypes.func.isRequired,
+        // From router
+        history: PropTypes.func,
         userId: PropTypes.number,
         params: PropTypes.object
     };
