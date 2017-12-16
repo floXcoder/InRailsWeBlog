@@ -31,7 +31,7 @@ const ReducerRecord = Record({
     tagState: undefined,
     articleState: undefined,
     commentState: undefined,
-    errorState: undefined,
+    errorState: undefined
 });
 
 const rootAdminReducer = combineReducers({
@@ -44,7 +44,7 @@ const rootAdminReducer = combineReducers({
     tagState: tagReducer,
     articleState: articleReducer,
     commentState: commentReducer,
-    errorState: errorReducer,
+    errorState: errorReducer
 }, ReducerRecord);
 
 export default rootAdminReducer;

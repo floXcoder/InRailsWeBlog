@@ -5,6 +5,12 @@ Rails.application.routes.draw do
   # Root path
   root 'static_pages#home'
 
+  # Routes managed by javascript router
+  get '/user/*id',      to: 'static_pages#home'
+  get '/topic/*id',     to: 'static_pages#home'
+  get '/tag/*id',       to: 'static_pages#home'
+  get '/article/*id',   to: 'static_pages#home'
+
   # Concerns
   concern :tracker do |options|
     post    :clicked,   to: "#{options[:module]}#clicked"
@@ -112,12 +118,6 @@ Rails.application.routes.draw do
 
   # Static pages
   get :terms_of_use,  to: 'static_pages#terms_of_use'
-
-  # Routes managed by javascript router
-  get '/user/*id',      to: 'static_pages#home'
-  get '/topic/*id',     to: 'static_pages#home'
-  get '/tag/*id',       to: 'static_pages#home'
-  get '/article/*id',   to: 'static_pages#home'
 
   # Errors
   %w[404 422 500].each do |code|

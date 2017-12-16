@@ -1,8 +1,6 @@
 'use strict';
 
-import {
-    withRouter
-} from 'react-router-dom';
+import _ from 'lodash';
 
 import {
     fetchArticles
@@ -17,98 +15,34 @@ import Spinner from '../materialize/spinner';
 import ArticleListDisplay from './display/list';
 import ArticleNone from '../articles/display/none';
 
-@withRouter
 @connect((state) => ({
     isFetching: state.articleState.isFetching,
-    articles: getArticles(state)
+    articles: getArticles(state),
+    articleDisplayMode: state.uiState.articleDisplayMode,
 }), {
     fetchArticles
 })
 export default class ArticleIndex extends React.Component {
     static propTypes = {
+        params: PropTypes.object.isRequired,
         // From connect
-        isFetching: PropTypes.bool.isRequired,
-        articles: PropTypes.array.isRequired,
-        fetchArticles: PropTypes.func.isRequired,
-
-        // TODO
-        // From router
-        match: PropTypes.object,
-        // location: PropTypes.object.isRequired,
+        isFetching: PropTypes.bool,
+        articles: PropTypes.array,
+        articleDisplayMode: PropTypes.string,
+        fetchArticles: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        props.fetchArticles({filter: props.match.params});
+        props.fetchArticles(props.params);
     }
-
-    state = {
-        // TODO
-        hasMore: true,
-        articleDisplayMode: 'card'
-    };
-
-    // componentDidMount() {
-    //     this._activateTooltip();
-    // }
 
     componentWillReceiveProps(nextProps) {
-        // TODO
-        // if (this.props.location.pathname !== nextProps.location.pathname) {
-        //     this.props.loadArticles({filter: this.props.match.params});
-        // }
+        if (!_.isEqual(this.props.params, nextProps.params)) {
+            this.props.fetchArticles(this.props.params);
+        }
     }
-
-    // componentDidUpdate() {
-    //     this._activateTooltip();
-    // }
-
-    // TODO: replace tooltip by semantic
-    // _activateTooltip = () => {
-    //     let $currentElement = $(ReactDOM.findDOMNode(this).className);
-    //     $currentElement.ready(() => {
-    //         $currentElement.find('.tooltipped').tooltip({
-    //             position: "bottom",
-    //             delay: 50
-    //         });
-    //     });
-    // };
-
-    // TODO
-    // onPreferenceChange(userData) {
-    //     let newState = {};
-    //
-    //     if (!$.isEmpty(userData.settings) && userData.settings.article_display) {
-    //         newState.articleDisplayMode = userData.settings.article_display;
-    //     }
-    //
-    //     if (!$.isEmpty(userData.search) && userData.search.search_highlight) {
-    //         newState.highlightResults = userData.search.search_highlight;
-    //     }
-    //
-    //     if (!$.isEmpty(newState)) {
-    //         this.setState(newState);
-    //     }
-    // };
-
-    // TODO
-    // onArticleChange(articleData) {
-    //     if ($.isEmpty(articleData)) {
-    //         return;
-    //     }
-    //
-    //     let newState = {};
-    //
-    //     if (articleData.type === 'loadArticles') {
-    //         newState.articles = articleData.articles;
-    //         newState.isFetching = false;
-    //     }
-    //
-    //     if (!$.isEmpty(newState)) {
-    //         this.setState(newState);
-    //     }
-    // }
 
     render() {
         return (
@@ -123,9 +57,9 @@ export default class ArticleIndex extends React.Component {
                         this.props.articles.length > 0
                             ?
                             <ArticleListDisplay articles={this.props.articles}
-                                                articleDisplayMode={this.state.articleDisplayMode}/>
+                                                articleDisplayMode={this.props.articleDisplayMode}/>
                             :
-                            <ArticleNone topicSlug={this.props.match.params.topicSlug}/>
+                            <ArticleNone topicSlug={this.props.params.topicSlug}/>
 
                 }
             </div>

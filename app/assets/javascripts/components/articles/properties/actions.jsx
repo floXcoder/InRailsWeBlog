@@ -1,22 +1,21 @@
 'use strict';
 
-// TODO
-// import ArticleStore from '../../../stores/articleStore';
-
 import FixedActionButton from '../../materialize/fab';
 
 import ArticleEditIcon from '../icons/edit';
+// TODO
 // import ArticleLinkIcon from '../icons/link';
 import ArticleVisibilityIcon from '../icons/visibility';
 import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleLink from '../properties/link';
 
-const ArticleActions = ({articleId, articleSlug, onBookmarkClick, onEditClick, onVisibilityClick}) => (
+const ArticleActions = ({articleId, articleSlug, articleVisibility, onBookmarkClick, onEditClick, onVisibilityClick}) => (
     <FixedActionButton>
         <ArticleBookmarkIcon articleId={articleId}
                              onBookmarkClick={onBookmarkClick}/>
 
         <ArticleVisibilityIcon articleId={articleId}
+                               articleVisibility={articleVisibility}
                                hasFloatingButton={true}
                                onVisibilityClick={onVisibilityClick}/>
 
@@ -37,6 +36,7 @@ const _handleArticleClick = (article) => {
 ArticleActions.propTypes = {
     articleId: PropTypes.number.isRequired,
     articleSlug: PropTypes.string.isRequired,
+    articleVisibility: PropTypes.string.isRequired,
     onBookmarkClick: PropTypes.func,
     onEditClick: PropTypes.func,
     onVisibilityClick: PropTypes.func

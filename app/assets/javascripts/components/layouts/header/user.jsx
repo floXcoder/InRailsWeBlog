@@ -10,8 +10,7 @@ import {
 
 const HomeUserHeader = ({isUserConnected, isAdminConnected, userSlug, onLoginClick, onSignupClick}) => {
     const button = (
-        <a className="btn-floating waves-effect waves-light header-button topic-header-button"
-           href="#">
+        <a className="btn-floating waves-effect waves-light header-button topic-header-button">
             <i className="material-icons left">account_circle</i>
         </a>
     );
@@ -89,13 +88,12 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, userSlug, onLoginCli
 
     return (
         <div>
-            <Popup
-                trigger={button}
-                content={popup}
-                on='click'
-                hideOnScroll={true}
-                flowing={true}
-                position='bottom center'/>
+            <Popup trigger={button}
+                   content={popup}
+                   on='click'
+                   hideOnScroll={true}
+                   flowing={true}
+                   position='bottom center'/>
         </div>
     );
 };

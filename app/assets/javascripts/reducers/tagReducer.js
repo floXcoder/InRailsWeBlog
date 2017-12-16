@@ -22,7 +22,10 @@ const initState = new Record({
     isProcessing: false,
     errors: new Map(),
 
-    tags: new List()
+    tags: new List(),
+    pagination: new Map(),
+
+    tag: undefined,
 });
 
 export default function tagReducer(state = new initState(), action) {
@@ -30,9 +33,13 @@ export default function tagReducer(state = new initState(), action) {
         case ActionTypes.TAG_FETCH_INIT:
         case ActionTypes.TAG_FETCH_SUCCESS:
         case ActionTypes.TAG_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) => ({
-                tags: toList(payload.tags, Records.TagRecord)
-            }));
+            return fetchReducer(state, action, (payload) =>
+                payload.tag ? ({
+                    tag: new Records.TagRecord(payload.tag)
+                }) : ({
+                    tags: toList(payload.tags, Records.TagRecord)
+                })
+            );
 
         case ActionTypes.TAG_CHANGE_INIT:
         case ActionTypes.TAG_CHANGE_SUCCESS:

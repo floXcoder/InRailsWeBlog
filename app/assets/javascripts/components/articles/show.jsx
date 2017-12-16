@@ -1,19 +1,25 @@
 'use strict';
 
+import _ from 'lodash';
+
 import {
     Link
 } from 'react-router-dom';
 
 import HighlightCode from 'highlight.js';
 
+import {
+    fetchArticle
+} from '../../actions';
+
+import {
+    getArticleIsOutdated
+} from '../../selectors';
+
+import LoadingLayout from '../layouts/loading';
+
 import AnimatedText from '../theme/animatedText';
 
-// TODO
-// import UserStore from '../../stores/userStore';
-
-// TODO
-// import ArticleActions from '../../actions/articleActions';
-// import ArticleStore from '../../stores/articleStore';
 import ArticleHistory from './history';
 import CountCommentIcon from '../comments/icons/count';
 import ArticleOutdatedIcon from './icons/outdated';
@@ -29,52 +35,38 @@ import UserAvatarIcon from '../users/icons/avatar';
 import CommentBox from '../comments/box';
 
 @connect((state) => ({
+    isFetching: state.articleState.isFetching,
+    article: state.articleState.article,
+    isOutdated: getArticleIsOutdated(state.articleState.article),
     isUserConnected: state.userState.isUserConnected,
     userCurrentId: state.userState.userCurrentId
-}))
+}), {
+    fetchArticle
+})
 export default class ArticleShow extends React.Component {
     static propTypes = {
-        article: PropTypes.object,
-        // TODO
-        // From router
-        // params: PropTypes.object,
-        // location: PropTypes.object,
+        params: PropTypes.object.isRequired,
         // From connect
+        isFetching: PropTypes.bool,
+        article: PropTypes.object,
+        isOutdated: PropTypes.bool,
         isUserConnected: PropTypes.bool,
-        userCurrentId: PropTypes.number
-    };
-
-    static defaultProps = {
-        params: {},
-        location: {}
+        userCurrentId: PropTypes.number,
+        fetchArticle: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        if (props.article) {
-            this.article = props.article;
-        } else if (props.params.articleSlug) {
-            // TODO
-            // ArticleActions.loadArticle({slug: this.props.params.articleSlug});
-        }
-
-        // TODO
-        // this.mapStoreToState(ArticleStore, this.onArticleChange);
+        props.fetchArticle(props.params.articleSlug);
     }
 
     state = {
-        article: undefined,
         articleVersions: undefined,
         isHistoryDisplayed: false
     };
 
     componentDidMount() {
-        // Display tooltips
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(() => {
-            $(this).tooltip();
-        });
-
         // Highlight code in article content
         HighlightCode.configure({
             tabReplace: '  ' // 2 spaces
@@ -83,43 +75,32 @@ export default class ArticleShow extends React.Component {
         this._highlightCode();
     }
 
-    componentDidUpdate() {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(() => {
-            $(this).tooltip();
-        });
+    componentWillReceiveProps(nextProps) {
+        if (!_.isEqual(this.props.params, nextProps.params)) {
+            this.props.fetchArticle(this.props.params.articleSlug);
+        }
+    }
 
+    componentDidUpdate() {
         this._highlightCode();
     }
 
-    onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (articleData.type === 'loadArticle') {
-            newState.article = articleData.article;
-        }
-
-        if (articleData.type === 'loadArticleHistory') {
-            newState.isHistoryDisplayed = true;
-            newState.articleVersions = articleData.articleVersions;
-        }
-
-        if (articleData.type === 'restoreArticle') {
-            newState.isHistoryDisplayed = false;
-            newState.article = articleData.articleRestored;
-            Notification.success(I18n.t('js.article.history.restored'), 10);
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
+    // onArticleChange(articleData) {
+    //     // TODO
+    //     if (articleData.type === 'loadArticleHistory') {
+    //         newState.isHistoryDisplayed = true;
+    //         newState.articleVersions = articleData.articleVersions;
+    //     }
+    //
+    //     if (articleData.type === 'restoreArticle') {
+    //         newState.isHistoryDisplayed = false;
+    //         newState.article = articleData.articleRestored;
+    //         Notification.success(I18n.t('js.article.history.restored'), 10);
+    //     }
+    // }
 
     _highlightCode = () => {
-        if (!this.state.article) {
+        if (!this.props.article) {
             return;
         }
 
@@ -133,26 +114,28 @@ export default class ArticleShow extends React.Component {
     };
 
     _handleUserClick = (userId, event) => {
+        event.preventDefault();
+
         // TODO
         // UserStore.onTrackClick(userId);
-        return event;
     };
 
     _handleHistoryClick = () => {
-        if (this.state.isHistoryDisplayed) {
-            this.setState({isHistoryDisplayed: false});
-        } else {
-            // TODO
-            // ArticleActions.loadArticleHistory({history: this.state.article.id});
-        }
+        // TODO
+        // if (this.state.isHistoryDisplayed) {
+        //     this.setState({isHistoryDisplayed: false});
+        // } else {
+        //     ArticleActions.loadArticleHistory({history: this.props.article.id});
+        // }
     };
 
     _handleDeleteClick = (event) => {
         event.preventDefault();
-        if (this.state.article) {
-            // TODO
-            // ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
-        }
+
+        // TODO
+        // if (this.props.article) {
+        //     ArticleActions.deleteArticle({id: this.props.article.id, showMode: true});
+        // }
     };
 
     _handleBookmarkClick = (articleId, isBookmarked) => {
@@ -171,134 +154,146 @@ export default class ArticleShow extends React.Component {
     };
 
     render() {
-        if (this.state.article) {
-            const isOutdated = this.state.article.outdated_number > 3;
-
+        if (!this.props.article) {
             return (
-                <div>
-                    {
-                        isOutdated &&
-                        <div className="card center-align red-text">
-                            <p>
-                                {I18n.t('js.article.common.outdated')}
-                            </p>
+                <LoadingLayout/>
+            )
+        }
+
+        return (
+            <div>
+                {
+                    this.props.isOutdated &&
+                    <div className="card center-align red-text">
+                        <p>
+                            {I18n.t('js.article.common.outdated')}
+                        </p>
+                    </div>
+                }
+
+                <div className={classNames('card blog-article-item clearfix', {'article-outdated': this.props.isOutdated})}>
+                    <div className="card-content">
+                        <UserAvatarIcon user={this.props.article.user}
+                                        className="article-user"/>
+
+                        <div className="article-info right-align">
+                            <ArticleTime lastUpdate={this.props.article.updatedAt}/>
+
+                            <CountCommentIcon linkToComment={'/articles/' + this.props.article.slug}
+                                              commentsNumber={this.props.article.commentsNumber}/>
                         </div>
-                    }
 
-                    <div className={classNames('card blog-article-item clearfix', {'article-outdated': isOutdated})}>
-                        <div className="card-content">
-                            <UserAvatarIcon user={this.state.article.user}
-                                            className="article-user"/>
+                        {
+                            (!$.isEmpty(this.props.article.title) || !$.isEmpty(this.props.article.summary)) &&
+                            <AnimatedText title={this.props.article.title}
+                                          subtitle={this.props.article.summary}/>
+                        }
 
-                            <div className="article-info right-align">
-                                <ArticleTime article={this.state.article}/>
+                        <span className="blog-article-content"
+                              dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                    </div>
 
-                                <CountCommentIcon linkToComment={'/articles/' + this.state.article.slug}
-                                                  commentsNumber={this.state.article.comments_number}/>
+                    <div className="card-action article-action clearfix">
+                        <div className="row">
+                            <div className="col s12 m12 l6 md-margin-bottom-20">
+                                <ArticleTags articleId={this.props.article.id}
+                                             tags={this.props.article.tags.toArray()}
+                                             parentTags={this.props.article.parentTags.toArray()}
+                                             childTags={this.props.article.childTags.toArray()}/>
+
+                                <a className="btn-floating"
+                                   onClick={this._handleVoteClick.bind(this, this.props.article.id, true)}>
+                                    <i className="material-icons">thumb_up</i>
+                                </a>
+
+                                <a className="btn-floating"
+                                   onClick={this._handleVoteClick.bind(this, this.props.article.id, false)}>
+                                    <i className="material-icons">thumb_down</i>
+                                </a>
+
+                                <span>
+                                    {this.props.article.votes_up}
+                                </span>
+
+                                <span>
+                                    {this.props.article.votes_down}
+                                </span>
                             </div>
 
-                            {
-                                (!$.isEmpty(this.state.article.title) || !$.isEmpty(this.state.article.summary)) &&
-                                <AnimatedText title={this.state.article.title}
-                                              subtitle={this.state.article.summary}/>
-                            }
+                            <div className="col s12 m12 l6 right-align">
+                                <ArticleDeleteIcon article={this.props.article}
+                                                   isUserConnected={this.props.isUserConnected}
+                                                   onDeleteClick={this._handleDeleteClick}/>
 
-                            <span className="blog-article-content"
-                                  dangerouslySetInnerHTML={{__html: this.state.article.content}}/>
-                        </div>
+                                <ArticleBookmarkIcon articleId={this.props.article.id}
+                                                     isUserConnected={this.props.isUserConnected}
+                                                     onBookmarkClick={this._handleBookmarkClick}/>
 
-                        <div className="card-action article-action clearfix">
-                            <div className="row">
-                                <div className="col s12 m12 l6 md-margin-bottom-20">
-                                    <ArticleTags article={this.state.article}/>
+                                <ArticleOutdatedIcon articleId={this.props.article.id}
+                                                     isUserConnected={this.props.isUserConnected}
+                                                     isOutdated={this.props.isOutdated}
+                                                     onOutdatedClick={this._handleOutdatedClick}/>
 
-                                    <a className="btn-floating"
-                                       onClick={this._handleVoteClick.bind(this, this.state.article.id, true)}>
-                                        <i className="material-icons">thumb_up</i>
-                                    </a>
+                                <ArticleVisibilityIcon articleId={this.props.article.id}
+                                                       articleVisibility={this.props.article.visibility}
+                                                       isUserConnected={this.props.isUserConnected}
+                                                       hasFloatingButton={true}/>
 
-                                    <a className="btn-floating"
-                                       onClick={this._handleVoteClick.bind(this, this.state.article.id, false)}>
-                                        <i className="material-icons">thumb_down</i>
-                                    </a>
+                                <ArticleHistoryIcon article={this.props.article}
+                                                    isUserConnected={this.props.isUserConnected}
+                                                    onHistoryClick={this._handleHistoryClick}/>
 
-                                    <span>
-                                        {this.state.article.votes_up}
-                                    </span>
-
-                                    <span>
-                                        {this.state.article.votes_down}
-                                    </span>
-                                </div>
-
-                                <div className="col s12 m12 l6 right-align">
-                                    <ArticleDeleteIcon article={this.state.article}
-                                                       onDeleteClick={this._handleDeleteClick}/>
-
-                                    <ArticleBookmarkIcon article={this.state.article}
-                                                         onBookmarkClick={this._handleBookmarkClick}/>
-
-                                    <ArticleOutdatedIcon article={this.state.article}
-                                                         onOutdatedClick={this._handleOutdatedClick}/>
-
-                                    <ArticleVisibilityIcon article={this.state.article}
-                                                           hasFloatingButton={true}/>
-
-                                    <ArticleHistoryIcon article={this.state.article}
-                                                        onHistoryClick={this._handleHistoryClick}/>
-
-                                    {
-                                        // TODO
-                                        // $app.isUserConnected(this.state.article.user.id) &&
-                                        // <Link className="btn-floating article-edit tooltipped"
-                                        //       data-tooltip={I18n.t('js.article.tooltip.edit')}
-                                        //       to={`/article/${this.state.article.id}/edit`}>
-                                        //     <i className="material-icons">mode_edit</i>
-                                        // </Link>
-                                    }
-                                </div>
+                                {
+                                    this.props.isUserConnected &&
+                                    <Link className="btn-floating article-edit tooltipped"
+                                          data-tooltip={I18n.t('js.article.tooltip.edit')}
+                                          to={`/article/${this.props.article.id}/edit`}>
+                                        <i className="material-icons">mode_edit</i>
+                                    </Link>
+                                }
                             </div>
                         </div>
                     </div>
-
-                    {
-                        this.props.location.state && this.props.location.state.newTags &&
-                        <div className="card-panel">
-                            <p>
-                                {I18n.t('js.article.show.new_tags')}
-                                {
-                                    this.props.location.state.newTags.map((newTag, i) => (
-                                        <Link key={i}
-                                              to={`/tag/${newTag.slug}`}>
-                                            {newTag.name}
-                                        </Link>
-                                    ))
-                                }
-                            </p>
-                        </div>
-                    }
-
-                    {
-                        this.state.isHistoryDisplayed && this.state.articleVersions &&
-                        <ArticleHistory articleVersions={this.state.articleVersions}/>
-                    }
-
-                    {
-                        this.state.article.allow_comment &&
-                        <div className="card-panel">
-                            <CommentBox id="comments"
-                                        commentableType="articles"
-                                        commentableId={this.state.article.id}
-                                        isConnected={this.props.isUserConnected}
-                                        currentUserId={this.props.userCurrentId}
-                                        isPaginated={true}
-                                        isRated={true}/>
-                        </div>
-                    }
                 </div>
-            );
-        } else {
-            return null;
-        }
+
+                {
+                    // TODO
+                    // this.props.location.state && this.props.location.state.newTags &&
+                    // <div className="card-panel">
+                    //     <p>
+                    //         {I18n.t('js.article.show.new_tags')}
+                    //         {
+                    //             this.props.location.state.newTags.map((newTag, i) => (
+                    //                 <Link key={i}
+                    //                       to={`/tag/${newTag.slug}`}>
+                    //                     {newTag.name}
+                    //                 </Link>
+                    //             ))
+                    //         }
+                    //     </p>
+                    // </div>
+                }
+
+                {
+                    // TODO
+                    // this.state.isHistoryDisplayed && this.props.articleVersions &&
+                    // <ArticleHistory articleVersions={this.props.articleVersions}/>
+                }
+
+                {
+                    // TODO
+                    // this.props.article.allow_comment &&
+                    // <div className="card-panel">
+                    //     <CommentBox id="comments"
+                    //                 commentableType="articles"
+                    //                 commentableId={this.props.article.id}
+                    //                 isConnected={this.props.isUserConnected}
+                    //                 currentUserId={this.props.userCurrentId}
+                    //                 isPaginated={true}
+                    //                 isRated={true}/>
+                    // </div>
+                }
+            </div>
+        );
     }
 }

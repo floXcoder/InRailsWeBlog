@@ -4,13 +4,11 @@ import ParentTag from './parent';
 
 export default class TagRelationshipDisplay extends React.Component {
     static propTypes = {
-        onTagClick: PropTypes.func.isRequired,
-        tags: PropTypes.array,
+        tags: PropTypes.array.isRequired,
         isFiltering: PropTypes.bool
     };
 
     static defaultProps = {
-        tags: [],
         isFiltering: false
     };
 
@@ -25,8 +23,7 @@ export default class TagRelationshipDisplay extends React.Component {
                     this.props.tags.map((tag, i) => (
                         <ParentTag key={i}
                                    tag={tag}
-                                   isFiltering={this.props.isFiltering}
-                                   onTagClick={this.props.onTagClick}/>
+                                   isFiltering={this.props.isFiltering}/>
                     ))
                 }
             </div>

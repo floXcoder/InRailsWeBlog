@@ -1,12 +1,7 @@
 'use strict';
 
-import {
-    withRouter
-} from 'react-router-dom';
-
 import UserComplete from './complete';
 
-@withRouter
 export default class UserShow extends React.Component {
     static propTypes = {
         // From router
@@ -23,10 +18,6 @@ export default class UserShow extends React.Component {
         super(props);
     }
 
-    _handleEditClick = () => {
-        this.props.history.push(`/user/profile/${this.props.userId || this.props.params.userPseudo}/edit`);
-    };
-
     render() {
         // TODO: use redux global state instead of $app
         return (
@@ -34,8 +25,7 @@ export default class UserShow extends React.Component {
                 {
                     (this.props.userId || this.props.params.userPseudo) &&
                     <UserComplete userId={this.props.userId || this.props.params.userPseudo}
-                                  isAdmin={$app.isAdminConnected()}
-                                  onEditClick={this._handleEditClick}/>
+                                  isAdmin={$app.isAdminConnected()}/>
                 }
             </div>
         );

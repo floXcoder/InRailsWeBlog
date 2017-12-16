@@ -24,7 +24,6 @@ import UserAvatarIcon from '../../users/icons/avatar';
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        onTagClick: PropTypes.func.isRequired,
         onBookmarkClick: PropTypes.func.isRequired,
         onEditClick: PropTypes.func.isRequired,
         onVisibilityClick: PropTypes.func.isRequired,
@@ -56,11 +55,6 @@ export default class ArticleCardDisplay extends React.Component {
                 HighlightCode.highlightBlock(nodes[i]);
             }
         }
-    };
-
-    // TODO: use props directly
-    _handleTagClick = (tagId, tagName) => {
-        this.props.onTagClick(tagName);
     };
 
     _handleArticleClick = (event) => {
@@ -104,13 +98,13 @@ export default class ArticleCardDisplay extends React.Component {
                             <ArticleTags articleId={this.props.article.id}
                                          tags={this.props.article.tags.toJS()}
                                          parentTags={this.props.article.parentTags.toJS()}
-                                         childTags={this.props.article.childTags.toJS()}
-                                         onClickTag={this._handleTagClick}/>
+                                         childTags={this.props.article.childTags.toJS()}/>
                         </div>
 
                         <div className="col s12 m12 l6 right-align">
                             <ArticleActions articleId={this.props.article.id}
                                             articleSlug={this.props.article.slug}
+                                            articleVisibility={this.props.article.visibility}
                                             onEditClick={this.props.onEditClick}
                                             onBookmarkClick={this.props.onBookmarkClick}
                                             onVisibilityClick={this.props.onVisibilityClick}/>

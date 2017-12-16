@@ -2,10 +2,6 @@
 
 import _ from 'lodash';
 
-import {
-    withRouter
-} from 'react-router-dom';
-
 // TODO
 // import ArticleActions from '../../actions/articleActions';
 // import ArticleStore from '../../stores/articleStore';
@@ -15,29 +11,19 @@ import ArticleFormDisplay from './display/form';
 import '../../modules/validation';
 import 'jquery-serializejson';
 
-@withRouter
 export default class ArticleNew extends React.Component {
     static propTypes = {
-        // From router
-        history: PropTypes.object,
-        location: PropTypes.object,
         multipleId: PropTypes.number
-    };
-
-    static defaultProps = {
-        location: {state: {}}
     };
 
     constructor(props) {
         super(props);
 
         // TODO
-        // this.mapStoreToState(ArticleStore, this.onArticleChange);
-
-        if (props.location.state && props.location.state.article) {
-            this.state.draftArticle = props.location.state.article;
-            Notification.success(I18n.t('js.article.clipboard.toast.done'));
-        }
+        // if (props.location.state && props.location.state.article) {
+        //     this.state.draftArticle = props.location.state.article;
+        //     Notification.success(I18n.t('js.article.clipboard.toast.done'));
+        // }
     }
 
     state = {
@@ -102,11 +88,6 @@ export default class ArticleNew extends React.Component {
     //         ArticleStore.onAutosaveArticle(submitData);
     //     }
     // }
-
-    _onCancel = () => {
-        this.props.history.push('/');
-        return true;
-    };
 
     _handleArticleSubmit = () => {
         const $articleForm = $('#article-new' + (this.props.multipleId ? '-' + this.props.multipleId : '' ));

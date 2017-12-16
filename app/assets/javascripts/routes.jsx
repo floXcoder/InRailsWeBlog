@@ -38,7 +38,25 @@ const UserEditLoader = (props) => (
 );
 
 export default {
-    init: {
+    // Rails routes:
+    // /users/*
+    // /signup
+    // /login
+    // /logout
+    // /activities
+    // /tags/*
+    // /topics/*
+    // /articles/*
+    // /search/*
+    // /comments/*
+    // /admin/*
+    // /terms_of_use
+    // /errors/*
+    // /404
+    // /422
+    // /500
+
+    loading: {
         path: '/',
         exact: true
     },
@@ -79,6 +97,10 @@ export default {
                 component: ArticleIndexLoader
             },
             {
+                path: '/article/:articleSlug',
+                component: ArticleShowLoader
+            },
+            {
                 path: '/topic/:topicSlug/article/:articleSlug',
                 component: ArticleShowLoader
             },
@@ -87,5 +109,15 @@ export default {
                 component: ArticleEditLoader
             }
         ]
-    }
+    },
+
+    permanents: [
+        {
+            path: 'new-article',
+            component: ArticleNewLoader
+        }
+    ]
+
+    // Other routes are resolved by Rails router
+    // Otherwise use Redirect from Router to always return an existing route
 };

@@ -3,16 +3,15 @@
 import _ from 'lodash';
 
 import {
-    fetchTagArticles
+    fetchTags
 } from '../../actions';
 
-// TODO: how to use it?
+import {
+    getTags
+} from '../../selectors';
+
+// TODO: use normalizr to get current tags of fetch articles (write evol)
 // import AssociatedTagBox from '../tags/associated/box';
-
-// import TopicStore from '../../stores/topicStore';
-
-// import TagActions from '../../actions/tagActions';
-// import TagStore from '../../stores/tagStore';
 
 import TagRelationshipDisplay from './display/relationship';
 import SearchBar from '../theme/searchBar';
@@ -21,40 +20,26 @@ import Spinner from '../materialize/spinner';
 import Fuzzy from 'fuzzy';
 
 @connect((state) => ({
-    isLoading: false,
-    // TODO: create selector
+    isLoading: state.tagState.isFetching,
+    // TODO : use selector in render
     tags: state.tagState.tags.toJS()
 }), {
-    fetchTagArticles
+    fetchTags
 })
 export default class TagSidebar extends React.Component {
     static propTypes = {
+        params: PropTypes.object.isRequired,
         // From connect
         isLoading: PropTypes.bool,
         tags: PropTypes.array,
-        fetchTagArticles: PropTypes.func.isRequired,
-    };
-
-    static defaultProps = {
-        isLoading: true,
-        tags: []
+        fetchTags: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        // this.mapStoreToState(TopicStore, this.onTopicChange);
-        // this.mapStoreToState(TagStore, this.onTagChange);
-
-        // TODO
-        // if ($app.isUserConnected()) {
-        //     this.setState({
-        //         tags: $app.user.tags || [],
-        //         isLoading: false
-        //     });
-        // } else {
-        //     TagActions.loadTags();
-        // }
+        // Tags of current user are fetched if connected
+        this.props.fetchTags();
     }
 
     state = {
@@ -69,60 +54,12 @@ export default class TagSidebar extends React.Component {
         // }, 'keydown');
     }
 
-    // TODO
-    // componentWillReceiveProps(nextProps) {
-    //     if (!_.isEqual(this.props.router.match, nextProps.router.match)) {
-    //         this.setState({
-    //             isLoading: true
-    //         });
-    //     }
-    // }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // TODO
-        // return !this.state.tags.isEqualIds(nextState.tags) || !this.state.filterText !== nextState.filterText;
-
-        return true;
+    componentWillReceiveProps(nextProps) {
+        if (!_.isEqual(this.props.params, nextProps.params)) {
+            // TODO: fetch tags by topic too or if topic changed (params changed ?)
+            this.props.fetchTags(this.props.params);
+        }
     }
-
-    // onTopicChange(topicData) {
-    //     if ($.isEmpty(topicData)) {
-    //         return;
-    //     }
-    //
-    //     let newState = {};
-    //
-    //     if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
-    //         newState.tags = $app.user.tags;
-    //         newprops.isLoading = false;
-    //     }
-    //
-    //     if (!$.isEmpty(newState)) {
-    //         this.setState(newState);
-    //     }
-    // }
-
-    // onTagChange(tagData) {
-    //     if ($.isEmpty(tagData)) {
-    //         return;
-    //     }
-    //
-    //     let newState = {};
-    //
-    //     if (tagData.type === 'loadTags') {
-    //         newState.tags = tagData.tags;
-    //         newprops.isLoading = false;
-    //     }
-    //
-    //     if (tagData.type === 'refreshTags') {
-    //         newState.tags = tagData.tags;
-    //         newprops.isLoading = false;
-    //     }
-    //
-    //     if (!$.isEmpty(newState)) {
-    //         this.setState(newState);
-    //     }
-    // }
 
     _handleSearchInput = (value) => {
         this.setState({
@@ -133,31 +70,31 @@ export default class TagSidebar extends React.Component {
     render() {
         const isFiltering = !$.isEmpty(this.state.filterText);
 
-        const tags = (this.props.tags.map((tag) => {
+        // TODO: use selector
+        const tags = this.props.tags.map((tag) => {
             let parents = [];
             let children = [];
 
             if (!$.isEmpty(tag.parents)) {
                 parents = tag.parents.map((parentId) => {
-                    const parentTag = _.find(this.props.tags, {'id': parentId});
+                    const parentTag = this.props.tags.find((tag) => tag.id === parentId);
                     if (!!parentTag && !$.isEmpty(this.state.filterText) && !Fuzzy.match(this.state.filterText, parentTag.name)) {
                         return null;
                     } else {
                         return parentTag && _.omit(parentTag, ['parents', 'children']);
                     }
-                }).compact();
+                });
             }
 
             if (!$.isEmpty(tag.children)) {
                 children = tag.children.map((childId) => {
-                    const childTag = _.find(this.props.tags, {'id': childId});
-
+                    const childTag = this.props.tags.find((tag) => tag.id === childId);
                     if (!!childTag && !$.isEmpty(this.state.filterText) && !Fuzzy.match(this.state.filterText, childTag.name)) {
                         return null;
                     } else {
                         return childTag && _.omit(childTag, ['parents', 'children']);
                     }
-                }).compact();
+                });
             }
 
             if (!$.isEmpty(this.state.filterText) && $.isEmpty(children) && !Fuzzy.match(this.state.filterText, tag.name)) {
@@ -165,7 +102,7 @@ export default class TagSidebar extends React.Component {
             }
 
             return _.merge(_.omit(tag, ['parents', 'children']), {parents: parents, children: children});
-        }));
+        });
 
         return (
             <div className="blog-sidebar-tag">
@@ -192,8 +129,7 @@ export default class TagSidebar extends React.Component {
                             !$.isEmpty(tags)
                                 ?
                                 <TagRelationshipDisplay tags={tags}
-                                                        isFiltering={isFiltering}
-                                                        onTagClick={this.props.fetchTagArticles}/>
+                                                        isFiltering={isFiltering}/>
                                 :
                                 <div>
                                     {I18n.t('js.tag.common.no_results') + ' ' + this.state.filterText}

@@ -17,7 +17,6 @@ import FooterLayout from './footer';
 import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/wysiwyg/sanitizePaste';
 
-
 @connect((state) => ({
     isUserConnected: state.userState.isUserConnected,
     userCurrentId: state.userState.currentId,
@@ -27,6 +26,7 @@ import SanitizePaste from '../../modules/wysiwyg/sanitizePaste';
 })
 export default class DefaultLayout extends React.Component {
     static propTypes = {
+        routes: PropTypes.object.isRequired,
         path: PropTypes.string.isRequired,
         component: PropTypes.func.isRequired,
         exact: PropTypes.bool,
@@ -101,25 +101,32 @@ export default class DefaultLayout extends React.Component {
                     this.props.isLoadingUser
                         ?
                         <div>
-                            <LoadingLayout path={this.props.routes.init.path}
-                                           exact={this.props.routes.init.exact}/>
+                            <LoadingLayout/>
                         </div>
                         :
                         <Route {...props}
-                               render={router => {
+                               render={(router) => {
                                    this._router = router;
 
                                    return (
                                        <div className="blog-content">
                                            <HeaderLayout onReloadPage={this._handleReloadPage}/>
 
-                                           <SidebarLayout router={router}
+                                           <SidebarLayout params={router.match.params}
                                                           onOpened={this._handleSidebarPinClick}/>
 
                                            <div
                                                className={classNames('blog-main-content', {'blog-main-pinned': this.state.isSidebarOpened})}>
                                                <div className="container blog-main">
-                                                   <Component/>
+                                                   {
+                                                       this.props.routes.permanents.map((route, index) => (
+                                                           <Route key={index}
+                                                                  path={`${router.match.path}/${route.path}`}
+                                                                  component={route.component}/>
+                                                       ))
+                                                   }
+
+                                                   <Component params={router.match.params}/>
                                                </div>
 
                                                <a className="goto-top hide-on-small-and-down"

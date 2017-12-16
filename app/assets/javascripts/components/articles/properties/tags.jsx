@@ -6,17 +6,12 @@ import {
 
 import ToolTip from 'react-portal-tooltip';
 
-@connect(null, {
-    // onTagClick
-})
 export default class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
-        tags: PropTypes.array,
+        tags: PropTypes.array.isRequired,
         parentTags: PropTypes.array,
-        childTags: PropTypes.array,
-        // From connect
-        onTagClick: PropTypes.func
+        childTags: PropTypes.array
     };
 
     constructor(props) {
@@ -25,16 +20,6 @@ export default class ArticleTags extends React.PureComponent {
 
     state = {
         tagTooltipActive: undefined
-    };
-
-    _handleTagClick = (tagId, tagName, event) => {
-        // TODO: onTrackClick is not a function
-        // TagStore.onTrackClick(tagId);
-
-        if (this.props.onTagClick) {
-            event.preventDefault();
-            this.props.onTagClick(tagId, tagName);
-        }
     };
 
     _showTagTooltip = (tagId) => {
@@ -77,7 +62,6 @@ export default class ArticleTags extends React.PureComponent {
                                           }
                                       )}
                                       to={`/article/tags/${tag.slug}`}
-                                      onClick={this._handleTagClick.bind(this, tag.id, tag.name)}
                                       onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
                                       onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
                                     {tag.name}

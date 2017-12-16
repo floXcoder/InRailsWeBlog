@@ -1,11 +1,6 @@
 'use strict';
 
 import {
-    Link,
-    withRouter
-} from 'react-router-dom';
-
-import {
     switchTopicModuleUi,
     fetchTopic
 } from '../../actions';
@@ -16,7 +11,8 @@ import {
 import Login from '../users/login';
 import Signup from '../users/signup';
 
-import SwitchTopicModule from '../topic/module';
+// TODO
+// import SwitchTopicModule from '../topic/module';
 
 import SearchModule from '../search/module';
 
@@ -26,7 +22,6 @@ import HomePreferenceHeader from './header/preference';
 import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
-@withRouter
 @connect((state) => ({
     isAdminConnected: state.userState.isAdminConnected,
     isUserConnected: state.userState.isUserConnected,
@@ -41,9 +36,6 @@ import HomeTopicHeader from './header/topic';
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
         onReloadPage: PropTypes.func.isRequired,
-        // From router
-        match: PropTypes.object,
-        location: PropTypes.object,
         // From connect
         isAdminConnected: PropTypes.bool,
         isUserConnected: PropTypes.bool,
@@ -51,8 +43,8 @@ export default class HeaderLayout extends React.PureComponent {
         userSlug: PropTypes.string,
         currentTopic: PropTypes.object,
         isTopicOpened: PropTypes.bool,
-        switchTopicModule: PropTypes.func,
-        fetchTopic: PropTypes.func
+        fetchTopic: PropTypes.func,
+        switchTopicModuleUi: PropTypes.func
     };
 
     static defaultProps = {
@@ -74,13 +66,6 @@ export default class HeaderLayout extends React.PureComponent {
         isSearchOpened: false
     };
 
-    componentWillReceiveProps(nextProps) {
-        // TODO: manage user not connected: currentTopic undefined
-        // if (this.props.location.pathname !== nextProps.location.pathname) {
-        //     this.props.fetchTopic(this.props.userCurrentId, this.props.currentTopic.id);
-        // }
-    }
-
     _handleLoginClick = () => {
         this.setState({
             isShowingLogin: true
@@ -99,10 +84,7 @@ export default class HeaderLayout extends React.PureComponent {
         this.props.switchTopicModuleUi(!this.props.isTopicOpened);
     };
 
-    _handleSearchClick = (event) => {
-        // TODO: undefined
-        // event.preventDefault();
-
+    _handleSearchClick = () => {
         this.setState({
             isSearchOpened: !this.state.isSearchOpened
         });

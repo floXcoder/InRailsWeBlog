@@ -51,7 +51,7 @@ ArticleNone.propTypes = {
     isTopicPage: PropTypes.bool
 };
 
-ArticleNone.getDefaultProps = {
+ArticleNone.defaultProps = {
     isSearchPage: true,
     isTopicPage: false
 };

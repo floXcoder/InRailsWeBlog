@@ -46,7 +46,7 @@ CommentTimelineDisplay.propTypes = {
     loadComments: PropTypes.func
 };
 
-CommentTimelineDisplay.getDefaultProps = {
+CommentTimelineDisplay.defaultProps = {
     comments: []
 };
 

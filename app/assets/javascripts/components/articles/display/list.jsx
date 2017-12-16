@@ -71,7 +71,4 @@ ArticleListDisplay.propTypes = {
     articleDisplayMode: PropTypes.string.isRequired
 };
 
-ArticleListDisplay.getDefaultProps = {
-};
-
 export default ArticleListDisplay;

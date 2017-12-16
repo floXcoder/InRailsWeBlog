@@ -13,8 +13,7 @@ import * as Records from '../constants/records';
 import {
     toList,
     fetchReducer,
-    mutationReducer,
-    mutateArray
+    mutationReducer
 } from './mutators';
 
 const initState = new Record({
@@ -23,7 +22,9 @@ const initState = new Record({
     errors: new Map(),
 
     articles: new List(),
-    pagination: new Map()
+    pagination: new Map(),
+
+    article: undefined,
 });
 
 export default function articleReducer(state = new initState(), action) {
@@ -31,9 +32,13 @@ export default function articleReducer(state = new initState(), action) {
         case ActionTypes.ARTICLE_FETCH_INIT:
         case ActionTypes.ARTICLE_FETCH_SUCCESS:
         case ActionTypes.ARTICLE_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) => ({
-                articles: toList(payload.articles, Records.ArticleRecord)
-            }));
+            return fetchReducer(state, action, (payload) =>
+                payload.article ? ({
+                    article: new Records.ArticleRecord(payload.article)
+                }) : ({
+                    articles: toList(payload.articles, Records.ArticleRecord)
+                })
+            );
 
         case ActionTypes.ARTICLE_CHANGE_INIT:
         case ActionTypes.ARTICLE_CHANGE_SUCCESS:

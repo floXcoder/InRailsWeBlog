@@ -44,10 +44,11 @@ _.forEach(config.alias, (value, key) => {
 webPackConfig.plugins = [
     new webpack.ProvidePlugin(config.plugins),
     new LodashModuleReplacementPlugin({
-        'shorthands': true,
-        'cloning': true,
+        'currying': true,
+        'caching': true,
         'collections': true,
-        'flattening': true
+        'flattening': true,
+        'placeholders': true
     }),
     // new BundleAnalyzerPlugin({
     //     // Can be `server`, `static` or `disabled`.

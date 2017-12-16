@@ -1891,10 +1891,11 @@
     var buttonGroupMaterialize = renderer.create('<div class="note-btn-group btn-group">');
     var buttonMaterialize = renderer.create('<button type="button" class="note-btn waves-effect waves-light btn">', function ($node, options) {
         if (options && options.tooltip) {
-            $node.attr({
-                'data-tooltip': options.tooltip,
-                'data-position': "bottom"
-            }).tooltip();
+            // TODO
+            // $node.attr({
+            //     'data-tooltip': options.tooltip,
+            //     'data-position': "bottom"
+            // }).tooltip();
         }
     });
 

@@ -3,8 +3,7 @@
 import {
     Record,
     Map,
-    List,
-    fromJS
+    List
 } from 'immutable';
 
 import * as ActionTypes from '../constants/actionTypes';
@@ -14,8 +13,7 @@ import * as Records from '../constants/records';
 import {
     toList,
     fetchReducer,
-    mutationReducer,
-    mutateArray
+    mutationReducer
 } from './mutators';
 
 const initState = new Record({
@@ -27,10 +25,10 @@ const initState = new Record({
     currentId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
     isConnected: !!window.currentUserId,
 
-    user: undefined,
-
     users: new List(),
     pagination: new Map(),
+
+    user: undefined,
 
     comments: new List(),
     commentPagination: new Map(),

@@ -1,11 +1,14 @@
 'use strict';
 
+import {
+    NavLink
+} from 'react-router-dom';
+
 import ChildTag from './child';
 
 export default class ParentTag extends React.PureComponent {
     static propTypes = {
         tag: PropTypes.object.isRequired,
-        onTagClick: PropTypes.func.isRequired,
         isFiltering: PropTypes.bool
     };
 
@@ -23,13 +26,7 @@ export default class ParentTag extends React.PureComponent {
         });
     }
 
-    _handleTagClick = (tagId, parentTagSlug, childTagSlug, event) => {
-        event.preventDefault();
-
-        if (this.props.onTagClick) {
-            this.props.onTagClick(tagId, tagId, childTagSlug);
-        }
-
+    _handleTagClick = () => {
         if (!this.state.isExpanded) {
             this.setState({
                 isExpanded: !this.state.isExpanded
@@ -63,18 +60,19 @@ export default class ParentTag extends React.PureComponent {
                         </div>
                 }
 
-                <div className="tag-parent-name"
-                     onClick={this._handleTagClick.bind(this, this.props.tag.slug, this.props.tag.slug, null)}>
+                <NavLink className="tag-parent-name"
+                         to={`/article/tags/${this.props.tag.slug}`}
+                         onClick={this._handleTagClick}>
                     {this.props.tag.name}
-                </div>
+                </NavLink>
 
                 <div className="tag-parent-children">
                     {
-                        this.state.isExpanded && this.props.tag.children.map((tag, i) => (
+                        this.state.isExpanded &&
+                        this.props.tag.children.map((tag, i) => (
                             <ChildTag key={i}
                                       tag={tag}
-                                      parentTagSlug={this.props.tag.slug}
-                                      onTagClick={this.props.onTagClick}/>
+                                      parentTagSlug={this.props.tag.slug}/>
                         ))
                     }
                 </div>

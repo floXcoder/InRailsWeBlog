@@ -8,8 +8,7 @@ import {
 
 const HomePreferenceHeader = ({}) => {
     const button = (
-        <a className="btn-floating waves-effect waves-light header-button topic-header-button"
-           href="#">
+        <a className="btn-floating waves-effect waves-light header-button topic-header-button">
             <i className="material-icons left">settings_applications</i>
         </a>
     );

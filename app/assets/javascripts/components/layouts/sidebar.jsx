@@ -4,7 +4,8 @@ import TagSidebar from '../tags/sidebar';
 
 export default class SidebarLayout extends React.PureComponent {
     static propTypes = {
-        onOpened: PropTypes.func
+        params: PropTypes.object.isRequired,
+        onOpened: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -14,9 +15,6 @@ export default class SidebarLayout extends React.PureComponent {
     state = {
         isPinned: true
     };
-
-    componentDidMount() {
-    }
 
     _toggleSidebar = () => {
         this.setState({
@@ -64,7 +62,7 @@ export default class SidebarLayout extends React.PureComponent {
 
                 <br/>
 
-                <TagSidebar />
+                <TagSidebar params={this.props.params}/>
             </div>
         );
     }

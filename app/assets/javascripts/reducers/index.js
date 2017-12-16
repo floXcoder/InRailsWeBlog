@@ -24,27 +24,27 @@ import errorReducer from './errorReducer';
 const ReducerRecord = Record({
     uiState: undefined,
     userState: undefined,
-    adminState: undefined,
-    autocompleteState: undefined,
-    searchState: undefined,
     topicState: undefined,
     tagState: undefined,
     articleState: undefined,
+    autocompleteState: undefined,
+    searchState: undefined,
     commentState: undefined,
     errorState: undefined,
+    adminState: undefined
 });
 
 const rootReducer = combineReducers({
     uiState: uiReducer,
     userState: userReducer,
-    adminState: adminReducer,
-    autocompleteState: autocompleteReducer,
-    searchState: searchReducer,
     topicState: topicReducer,
     tagState: tagReducer,
     articleState: articleReducer,
+    autocompleteState: autocompleteReducer,
+    searchState: searchReducer,
     commentState: commentReducer,
     errorState: errorReducer,
+    adminState: adminReducer
 }, ReducerRecord);
 
 export default rootReducer;

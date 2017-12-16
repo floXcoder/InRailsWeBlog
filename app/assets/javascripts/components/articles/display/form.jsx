@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    Link
+} from 'react-router-dom';
+
 // TODO
 // import TagActions from '../../../actions/tagActions';
 // import TagStore from '../../../stores/tagStore';
@@ -17,7 +21,6 @@ export default class ArticleFormDisplay extends React.Component {
         children: PropTypes.object,
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
-        onCancel: PropTypes.func,
         onSubmit: PropTypes.func
     };
 
@@ -43,15 +46,16 @@ export default class ArticleFormDisplay extends React.Component {
     };
 
     componentDidUpdate() {
-        if (this.state.submitTooltipMessage) {
-            $(ReactDOM.findDOMNode(this)).find('input[type="submit"]').each(function () {
-                $(this).tooltip();
-            });
-        } else {
-            $(ReactDOM.findDOMNode(this)).find('input[type="submit"]').each(function () {
-                $(this).tooltip('remove');
-            });
-        }
+        // TODO
+        // if (this.state.submitTooltipMessage) {
+        //     $(ReactDOM.findDOMNode(this)).find('input[type="submit"]').each(function () {
+        //         $(this).tooltip();
+        //     });
+        // } else {
+        //     $(ReactDOM.findDOMNode(this)).find('input[type="submit"]').each(function () {
+        //         $(this).tooltip('remove');
+        //     });
+        // }
     }
 
     onTagChange(tagData) {
@@ -86,14 +90,6 @@ export default class ArticleFormDisplay extends React.Component {
         });
     };
 
-    _handleCancelClick = (event) => {
-        event.preventDefault();
-
-        if (this.props.onCancel) {
-            this.props.onCancel();
-        }
-    };
-
     _handleArticleSubmit = (event) => {
         event.preventDefault();
 
@@ -119,10 +115,10 @@ export default class ArticleFormDisplay extends React.Component {
                     <h4 className="blog-form-title">{I18n.t('js.article.new.title')}</h4>
 
                     <div className="form-editor-card"
-                              style={{
-                                  paddingBottom: 0,
-                                  paddingTop: 0
-                              }}>
+                         style={{
+                             paddingBottom: 0,
+                             paddingTop: 0
+                         }}>
                         <div className="row">
                             {
                                 this.props.articleErrors &&
@@ -149,10 +145,10 @@ export default class ArticleFormDisplay extends React.Component {
                     <div className="card-action">
                         <div className="row">
                             <div className="col s6 left-align">
-                                <a className="btn-flat waves-effect waves-teal"
-                                   onClick={this._handleCancelClick}>
+                                <Link className="btn-flat waves-effect waves-teal"
+                                      to="/">
                                     {I18n.t('js.helpers.buttons.cancel')}
-                                </a>
+                                </Link>
                             </div>
 
                             <div className="col s6 right-align">

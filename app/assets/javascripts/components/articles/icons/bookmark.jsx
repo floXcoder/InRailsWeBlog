@@ -4,10 +4,13 @@
 export default class ArticleBookmarkIcon extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
+        isUserConnected: PropTypes.bool,
         onBookmarkClick: PropTypes.func
     };
 
-    static defaultProps = {};
+    static defaultProps = {
+        isUserConnected: false
+    };
 
     constructor(props) {
         super(props);
@@ -27,22 +30,21 @@ export default class ArticleBookmarkIcon extends React.PureComponent {
     };
 
     render() {
-        // TODO: use user global state
-        // if ($app.isUserConnected()) {
-        //     let bookmarkClasses = classNames('material-icons', {'article-bookmarked': this.state.isBookmarked});
-        //     let bookmarkTooltip = this.state.isBookmarked ?
-        //         I18n.t('js.article.tooltip.remove_bookmark') :
-        //         I18n.t('js.article.tooltip.add_bookmark');
-        //
-        //     return (
-        //         <a className="btn-floating tooltipped"
-        //            data-tooltip={bookmarkTooltip}
-        //            onClick={this._handleBookmarkClick.bind(this, this.props.articleId)}>
-        //             <i className={bookmarkClasses}>bookmark</i>
-        //         </a>
-        //     );
-        // } else {
+        if (!this.props.isUserConnected) {
             return null;
-        // }
+        }
+
+        let bookmarkClasses = classNames('material-icons', {'article-bookmarked': this.state.isBookmarked});
+        let bookmarkTooltip = this.state.isBookmarked ?
+            I18n.t('js.article.tooltip.remove_bookmark') :
+            I18n.t('js.article.tooltip.add_bookmark');
+
+        return (
+            <a className="btn-floating tooltipped"
+               data-tooltip={bookmarkTooltip}
+               onClick={this._handleBookmarkClick.bind(this, this.props.articleId)}>
+                <i className={bookmarkClasses}>bookmark</i>
+            </a>
+        );
     }
 }

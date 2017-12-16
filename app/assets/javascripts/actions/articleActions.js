@@ -1,7 +1,6 @@
 'use strict';
 
 // TODO
-// 'loadArticle',
 // 'addArticle',
 // 'updateArticle',
 // 'deleteArticle',
@@ -21,6 +20,13 @@ export const fetchArticles = (filter = {}, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
     fetchAPI: () => api.get(`/articles`, {
         filter,
+        ...options
+    })
+});
+
+export const fetchArticle = (articleId, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    fetchAPI: () => api.get(`/articles/${articleId}`, {
         ...options
     })
 });

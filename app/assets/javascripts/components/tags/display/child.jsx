@@ -1,24 +1,21 @@
 'use strict';
 
-const ChildTag = ({tag, parentTagSlug, onClickTag}) => (
-    <div className="tag-child"
-         onClick={_handleTagClick.bind(null, tag.slug, tag.slug, parentTagSlug, onClickTag)}>
+import {
+    NavLink
+} from 'react-router-dom';
+
+const ChildTag = ({tag, parentTagSlug}) => (
+    <NavLink className="tag-child"
+             to={`/article/tags/${parentTagSlug}/${tag.slug}`}>
         <div className="tag-child-name">
             {tag.name}
         </div>
-    </div>
+    </NavLink>
 );
-
-const _handleTagClick = (tagSlug, parentTagSlug, childTagSlug, onClickTag, event) => {
-    event.preventDefault();
-
-    onClickTag(tagSlug, parentTagSlug, childTagSlug);
-};
 
 ChildTag.propTypes = {
     tag: PropTypes.object.isRequired,
-    parentTagSlug: PropTypes.string.isRequired,
-    onClickTag: PropTypes.func.isRequired
+    parentTagSlug: PropTypes.string.isRequired
 };
 
 export default ChildTag;

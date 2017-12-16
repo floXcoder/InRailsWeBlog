@@ -584,26 +584,3 @@ $.extend({
     //     222: '\''
     // }
 });
-
-/** NEW JQUERY FUNCTIONALITIES **/
-$.fn.extend({
-    // Refresh JQuery selector, but only for non-chained elements !
-    update: function () {
-        const newElements = jQuery(this.selector);
-        for (let i = 0; i < newElements.length; i++) {
-            this[i] = newElements[i];
-        }
-        for (; i < this.length; i++) {
-            this[i] = undefined;
-        }
-        this.length = newElements.length;
-        return this;
-    },
-
-    // Not used
-    // goToTop: function () {
-    //     this.on('click', function () {
-    //         jQuery(document).scrollTop(0);
-    //     });
-    // }
-});

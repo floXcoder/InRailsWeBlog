@@ -9,7 +9,9 @@ import * as ActionTypes from '../constants/actionTypes';
 import * as Records from '../constants/records';
 
 const initState =  new Record({
-    isTopicOpened: false
+    isTopicOpened: false,
+
+    articleDisplayMode: 'card'
 });
 
 export default function topicReducer(state = new initState(), action) {

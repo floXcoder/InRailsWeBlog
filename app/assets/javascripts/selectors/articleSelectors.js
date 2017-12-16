@@ -10,7 +10,7 @@ export const getArticles = createSelector(
 );
 
 export const getArticleIsOutdated = (article) => (
-    article.outdatedNumber > 3
+    article && article.outdatedNumber > 3
 );
 
 // TODO: useful ?

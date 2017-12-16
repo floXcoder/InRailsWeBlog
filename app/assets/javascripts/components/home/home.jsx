@@ -20,20 +20,8 @@ import routes from '../../routes';
 import DefaultLayout from '../layouts/default';
 
 export default class HomePage extends React.Component {
-    static propTypes = {
-        location: PropTypes.object,
-        children: PropTypes.object
-    };
-
-    static defaultProps = {
-        location: {}
-    };
-
     constructor(props) {
         super(props);
-
-        // TODO: cannot use push with browser history
-        // browserHistory.replace(`/topic/${$app.getCurrentTopic().slug}`);
     }
 
     render() {

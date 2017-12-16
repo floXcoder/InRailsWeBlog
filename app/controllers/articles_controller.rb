@@ -90,7 +90,7 @@ class ArticlesController < ApplicationController
     article = Article.friendly.find(params[:id])
     admin_or_authorize article
 
-    article_versions = article.versions.select { |history| !history.reify.content.nil? }
+    article_versions = article.versions.reject { |history| history.reify.content.nil? }
 
     respond_to do |format|
       format.json do
@@ -250,6 +250,8 @@ class ArticlesController < ApplicationController
                                      :user_slug,
                                      :topic_id,
                                      :topic_slug,
+                                     :tag_id,
+                                     :tag_slug,
                                      :bookmarked,
                                      user_ids:         [],
                                      topic_ids:        [],

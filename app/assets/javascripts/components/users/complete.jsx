@@ -2,6 +2,10 @@
 
 import _ from 'lodash';
 
+import {
+    Link
+} from 'react-router-dom';
+
 // import UserActions from '../../actions/userActions';
 // import UserStore from '../../stores/userStore';
 // TODO
@@ -21,8 +25,7 @@ export default class UserComplete extends React.Component {
             PropTypes.number,
             PropTypes.string
         ]).isRequired,
-        isAdmin: PropTypes.bool,
-        onEditClick: PropTypes.func
+        isAdmin: PropTypes.bool
     };
 
     static defaultProps = {
@@ -156,10 +159,9 @@ export default class UserComplete extends React.Component {
                                     <ul id="dropdown-user-menu"
                                         className='dropdown-content'>
                                         <li>
-                                            <a href="#"
-                                               onClick={this.props.onEditClick}>
+                                            <Link to={`/user/profile/${this.props.userId}/edit`}>
                                                 {I18n.t('js.user.show.edit')}
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li className="divider"/>
                                     </ul>
@@ -202,11 +204,10 @@ export default class UserComplete extends React.Component {
                                     </ul>
                                 </div>
 
-                                <a className="user-edit-icon"
-                                   href="#"
-                                   onClick={this.props.onEditClick}>
+                                <Link className="user-edit-icon"
+                                      to={`/user/profile/${this.props.userId}/edit`}>
                                     <i className="material-icons">mode_edit</i>
-                                </a>
+                                </Link>
                             </div>
 
                             <div className="card-content user-content">

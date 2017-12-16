@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    withRouter
-} from 'react-router-dom';
-
 // TODO
 // import Tracker from '../../../modules/tracker';
 // import UserActions from '../../../actions/userActions';
@@ -14,13 +10,10 @@ import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
 import ArticleEditionDisplay from './inlineEdition';
 
-@withRouter
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        initialDisplayMode: PropTypes.string.isRequired,
-        // From router
-        history: PropTypes.object
+        initialDisplayMode: PropTypes.string.isRequired
     };
 
     static defaultProps = {};
@@ -64,13 +57,6 @@ export default class ArticleItemDisplay extends React.Component {
         this.setState({articleDisplayMode: this.props.initialDisplayMode});
     };
 
-    _handleTagClick = (tagName) => {
-        this.props.history.push(`/article/tags/${tagName}`);
-
-        // TODO: utility? load articles by pushing or by fetching? see example
-        // ArticleActions.loadArticles({tags: [tagName]});
-    };
-
     _handleBookmarkClick = (article, isBookmarked) => {
         // TODO
         // ArticleActions.bookmarkArticle({article: article, isBookmarked: isBookmarked});
@@ -93,7 +79,6 @@ export default class ArticleItemDisplay extends React.Component {
         } else if (this.state.articleDisplayMode === 'card') {
             return (
                 <ArticleCardDisplay article={this.props.article}
-                                    onTagClick={this._handleTagClick}
                                     onBookmarkClick={this._handleBookmarkClick}
                                     onEditClick={this._handleEditClick}
                                     onVisibilityClick={this._handleVisibilityClick}/>

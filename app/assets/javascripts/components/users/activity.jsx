@@ -73,7 +73,7 @@ UserActivity.propTypes = {
     loadActivities: PropTypes.func
 };
 
-UserActivity.getDefaultProps = {
+UserActivity.defaultProps = {
     activities: []
 };
 
