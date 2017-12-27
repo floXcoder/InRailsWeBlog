@@ -27,7 +27,6 @@ module ActAsTrackedConcern
     # Helpers scope to get useful information
     scope :most_viewed, -> { joins(:tracker).order('trackers.views_count DESC') }
     scope :most_clicked, -> { joins(:tracker).order('trackers.clicks_count DESC') }
-    # scope :most_commented, -> { joins(:tracker).order('trackers.comments_count DESC') }
     scope :recently_tracked, -> { where(trackers: { updated_at: 15.days.ago..Time.zone.now }) }
 
     # Popularity
@@ -54,10 +53,6 @@ module ActAsTrackedConcern
       popularity    += self.tracker.views_count
       tracker_count += 1
     end
-    if self.tracker_metrics.include? :comments
-      popularity    += self.tracker.comments_count * 10
-      tracker_count += 1
-    end
     if self.tracker_metrics.include? :queries
       popularity    += self.tracker.queries_count
       tracker_count += 1
@@ -75,36 +70,10 @@ module ActAsTrackedConcern
     self.update_attribute(:tracker, Tracker.create(tracked: self))
   end
 
-  # # Tracker model method to increment comment count
-  # def track_comments(comments)
-  #   if self.tracker_metrics.include? :comments
-  #     comments = [comments] unless comments.is_a? Array
-  #     self.transaction do
-  #       comments.each do |_comment|
-  #         self.tracker.increment!('comments_count')
-  #         # $redis.incr(redis_key(self, 'comments'))
-  #       end
-  #     end
-  #   end
-  # end
-  #
-  # # Tracker model method to decrement comment count
-  # def untrack_comments(comments)
-  #   if self.tracker_metrics.include? :comments
-  #     comments = [comments] unless comments.is_a? Array
-  #     self.transaction do
-  #       comments.each do |_comment|
-  #         self.tracker.decrement!('comments_count')
-  #         # $redis.decr(redis_key(self, 'comments'))
-  #       end
-  #     end
-  #   end
-  # end
-
   # Class methods
   class_methods do
     # Base method to include in model:
-    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :comments, :bookmarks, :clicks, :views
+    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :bookmarks, :clicks, :views
     def acts_as_tracked(tracked_name, *trackers)
       self.tracked_name    = tracked_name
       self.tracker_metrics = trackers
@@ -162,13 +131,14 @@ module ActAsTrackedConcern
 
     # Private method to add a cron job to update database each x minutes
     def tracker_cron_job
-      cron_job_name = "#{name}_tracker"
+      formatted_name = self.name.underscore
+      cron_job_name = "#{formatted_name}_tracker"
 
       unless Sidekiq::Cron::Job.find(name: cron_job_name)
         Sidekiq::Cron::Job.create(name:  cron_job_name,
                                   cron:  '*/5 * * * *',
                                   class: 'UpdateTrackerWorker',
-                                  args:  { tracked_class: name.downcase },
+                                  args:  { tracked_class: formatted_name },
                                   queue: 'default')
       end
     end
