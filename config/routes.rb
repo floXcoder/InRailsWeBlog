@@ -40,9 +40,12 @@ Rails.application.routes.draw do
     post    'login',  to: 'users/sessions#create'
     delete  'logout', to: 'users/sessions#destroy',     as: :logout
   end
-  devise_for :users, controllers: { registrations: 'users/registrations',
-                                    sessions:      'users/sessions',
-                                    passwords:     'users/passwords' }
+
+  devise_for :users, controllers: {
+    registrations:      'users/registrations',
+    sessions:           'users/sessions',
+    passwords:          'users/passwords'
+  }
 
   # Users
   resources :users, except: [:new, :create, :destroy] do
