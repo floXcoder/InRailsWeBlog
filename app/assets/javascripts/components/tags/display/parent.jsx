@@ -50,10 +50,10 @@ export default class ParentTag extends React.PureComponent {
                 {
                     hasChild
                         ?
-                        <i className="material-icons tag-parent-icon"
-                           onClick={this._handleTagIconClick}>
-                            {this.state.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
-                        </i>
+                        <span className="material-icons tag-parent-icon"
+                              data-icon={this.state.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
+                              aria-hidden="true"
+                              onClick={this._handleTagIconClick}/>
                         :
                         <div className="tag-parent-icon">
                             &nbsp;

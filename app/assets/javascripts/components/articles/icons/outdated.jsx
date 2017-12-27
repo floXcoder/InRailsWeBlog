@@ -31,16 +31,16 @@ export default class ArticleOutdatedIcon extends React.PureComponent {
             return null;
         }
 
-        let outdatedClasses = classNames('material-icons', {'article-outdated': this.state.isOutdated});
-        let outdatedTooltip = this.state.isOutdated ?
-            I18n.t('js.article.tooltip.remove_outdated') :
-            I18n.t('js.article.tooltip.add_outdated');
+        const outdatedClasses = classNames('material-icons', {'article-outdated': this.state.isOutdated});
+        const outdatedTooltip = this.state.isOutdated ? I18n.t('js.article.tooltip.remove_outdated') : I18n.t('js.article.tooltip.add_outdated');
 
         return (
             <a className="btn-floating tooltipped"
                data-tooltip={outdatedTooltip}
                onClick={this._handleOutdatedClick.bind(this, this.props.articleId)}>
-                <i className={outdatedClasses}>highlight_off</i>
+                <span className={outdatedClasses}
+                      data-icon="highlight_off"
+                      aria-hidden="true"/>
             </a>
         );
     }

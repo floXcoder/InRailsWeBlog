@@ -18,20 +18,20 @@ header.blog-header.admin-header
         ul.right.hide-on-med-and-down
           li
             a href="/admin"
-              i.material-icons dashboard
+              span.material-icons aria-hidden="true" data-icon="dashboard"
 
           li
             a#message-dropdown-link.message-link.dropdown-button data-activates="message-dropdown" data-beloworigin="true" data-constrainwidth="false"
-              i.material-icons add_alert
+              span.material-icons aria-hidden="true" data-icon="add_alert"
               span.message-alert
 
           li
             a#user-dropdown-link.dropdown-button data-activates="user-dropdown" data-beloworigin="true"
               - if admin_signed_in?
                 .header-avatar
-                  i.material-icons.left account_circle
+                  span.material-icons aria-hidden="true" data-icon="account_circle"
                   = t('views.header.profile.title.connected')
-                  i.material-icons.dropdown-icon.right expand_more
+                  span.dropdown-icon.right.material-icons aria-hidden="true" data-icon="expand_more"
               - else
-                i.material-icons.left account_circle
+                span.left.material-icons aria-hidden="true" data-icon="account_circle"
                 = t('views.header.profile.title.not_connected')

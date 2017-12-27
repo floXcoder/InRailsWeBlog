@@ -9,7 +9,9 @@ const ArticleLink = ({articleId, articleSlug, onArticleClick}) => (
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
           to={`/article/${articleSlug}`}
           onClick={_handleArticleClick.bind(undefined, articleId, onArticleClick)}>
-        <i className="material-icons">home</i>
+        <span className="material-icons"
+              data-icon="home"
+              aria-hidden="true"/>
     </Link>
 );
 

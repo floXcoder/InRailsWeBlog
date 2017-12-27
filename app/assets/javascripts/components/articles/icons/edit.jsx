@@ -7,7 +7,9 @@ const ArticleEditIcon = ({article, onEditClick}) => {
     //         <a className="btn-floating article-edit tooltipped"
     //            data-tooltip={I18n.t('js.article.tooltip.edit')}
     //            onClick={onEditClick}>
-    //             <i className="material-icons">mode_edit</i>
+    //<span className="material-icons"
+    //      data-icon="mode_edit"
+    //      aria-hidden="true"/>
     //         </a>
     //     );
     // } else {

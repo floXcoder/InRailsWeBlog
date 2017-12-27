@@ -7,7 +7,9 @@ const ArticleDeleteIcon = ({article, onDeleteClick}) => {
     //         <a className="btn-floating tooltipped article-delete"
     //            data-tooltip={I18n.t('js.article.tooltip.delete')}
     //            onClick={onDeleteClick}>
-    //             <i className="material-icons">delete</i>
+    //            <span className="material-icons"
+    //                      data-icon="delete"
+    //                      aria-hidden="true"/>
     //         </a>
     //     );
     // } else {

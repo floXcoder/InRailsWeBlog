@@ -259,10 +259,12 @@ export default class SearchModule extends React.Component {
                     {/*onTokenAdd={this._onTokenAdd}*/}
                     {/*onTokenRemove={this._onTokenRemove}/>*/}
 
-                    <a className="material-icons search-form-close"
+                    <a className="search-form-close"
                        onClick={this._handleCloseClick}
                        href="#">
-                        <i className="material-icons">close</i>
+                        <span className="material-icons"
+                              data-icon="close"
+                              aria-hidden="true"/>
                     </a>
                 </form>
 

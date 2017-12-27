@@ -203,12 +203,16 @@ export default class ArticleShow extends React.Component {
 
                                 <a className="btn-floating"
                                    onClick={this._handleVoteClick.bind(this, this.props.article.id, true)}>
-                                    <i className="material-icons">thumb_up</i>
+                                    <span className="material-icons"
+                                          data-icon="thumb_up"
+                                          aria-hidden="true"/>
                                 </a>
 
                                 <a className="btn-floating"
                                    onClick={this._handleVoteClick.bind(this, this.props.article.id, false)}>
-                                    <i className="material-icons">thumb_down</i>
+                                    <span className="material-icons"
+                                          data-icon="thumb_down"
+                                          aria-hidden="true"/>
                                 </a>
 
                                 <span>
@@ -248,7 +252,9 @@ export default class ArticleShow extends React.Component {
                                     <Link className="btn-floating article-edit tooltipped"
                                           data-tooltip={I18n.t('js.article.tooltip.edit')}
                                           to={`/article/${this.props.article.id}/edit`}>
-                                        <i className="material-icons">mode_edit</i>
+                                        <span className="material-icons"
+                                              data-icon="mode_edit"
+                                              aria-hidden="true"/>
                                     </Link>
                                 }
                             </div>

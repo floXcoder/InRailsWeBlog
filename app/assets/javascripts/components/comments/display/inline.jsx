@@ -156,7 +156,9 @@ export default class CommentInlineDisplay extends React.Component {
                                  data-tooltip={I18n.t('js.comment.table.actions.show')}>
                                 <a href={this.props.comment.link}
                                    target="_blank">
-                                    <i className="material-icons">comment</i>
+                                    <span className="material-icons"
+                                          data-icon="comment"
+                                          aria-hidden="true"/>
                                 </a>
                             </div>
 
@@ -165,7 +167,9 @@ export default class CommentInlineDisplay extends React.Component {
                                 <a href="#"
                                    onClick={this._deleteComment}
                                    data-confirm={I18n.t('js.comment.table.confirmation.delete', {comment: this.props.comment.name})}>
-                                    <i className="material-icons">delete</i>
+                                    <span className="material-icons"
+                                          data-icon="delete"
+                                          aria-hidden="true"/>
                                 </a>
                             </div>
 
@@ -174,7 +178,9 @@ export default class CommentInlineDisplay extends React.Component {
                                 <a href="#"
                                    onClick={this._deleteComment.bind(this, true)}
                                    data-confirm={I18n.t('js.comment.table.confirmation.delete_permanently', {comment: this.props.comment.name})}>
-                                    <i className="material-icons">delete_forever</i>
+                                    <span className="material-icons"
+                                          data-icon="delete_forever"
+                                          aria-hidden="true"/>
                                 </a>
                             </div>
 
@@ -183,7 +189,9 @@ export default class CommentInlineDisplay extends React.Component {
                                 data-tooltip={I18n.t('js.comment.table.actions.accepted')}>
                                 <a href="#"
                                    onClick={this._submitComment.bind(this, 'accepted', !this.props.comment.accepted)}>
-                                    <i className="material-icons">done</i>
+                                    <span className="material-icons"
+                                          data-icon="done"
+                                          aria-hidden="true"/>
                                 </a>
                             </div>
                         </FixedActionButton>

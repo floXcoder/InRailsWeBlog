@@ -9,7 +9,9 @@ import {
 const HomePreferenceHeader = ({}) => {
     const button = (
         <a className="btn-floating waves-effect waves-light header-button topic-header-button">
-            <i className="material-icons left">settings_applications</i>
+            <span className="material-icons left"
+                  data-icon="settings_applications"
+                  aria-hidden="true"/>
         </a>
     );
 

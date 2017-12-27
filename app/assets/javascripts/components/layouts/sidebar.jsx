@@ -44,7 +44,9 @@ export default class SidebarLayout extends React.PureComponent {
                  onMouseEnter={this._handleMouseEnter}
                  onMouseLeave={this._handleMouseLeave}>
                 <div className={classNames('label', {'label-pin': this.state.isPinned})}>
-                    <i className="material-icons">menu</i>
+                    <span className="material-icons"
+                          data-icon="menu"
+                          aria-hidden="true"/>
                 </div>
 
                 <p className="sidebar-pin-button"

@@ -24,7 +24,9 @@ export default class ArticleHistoryIcon extends React.Component {
             <a className="btn-floating tooltipped article-history"
                data-tooltip={I18n.t('js.article.tooltip.history')}
                onClick={this.props.onHistoryClick}>
-                <i className="material-icons">history</i>
+                <span className="material-icons"
+                      data-icon="history"
+                      aria-hidden="true"/>
             </a>
         );
     }

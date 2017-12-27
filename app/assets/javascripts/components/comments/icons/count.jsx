@@ -6,7 +6,9 @@ const CountCommentIcon = ({linkToComment, commentsNumber}) => (
         <span className="tooltipped"
               data-tooltip={I18n.t('js.comment.tooltip.count', {number: commentsNumber})}>
             {commentsNumber}
-            <i className="material-icons">comment</i>
+            <span className="material-icons"
+                  data-icon="comment"
+                  aria-hidden="true"/>
         </span>
     </a>
 );

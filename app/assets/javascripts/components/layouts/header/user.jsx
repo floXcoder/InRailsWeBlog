@@ -11,7 +11,9 @@ import {
 const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopup, onLoginClick, onSignupClick, userSlug}) => {
     const button = (
         <a className="btn-floating waves-effect waves-light header-button topic-header-button">
-            <i className="material-icons left">account_circle</i>
+            <span className="material-icons left"
+                  data-icon="account_circle"
+                  aria-hidden="true"/>
         </a>
     );
 

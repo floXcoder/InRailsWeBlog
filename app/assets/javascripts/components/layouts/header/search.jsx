@@ -2,9 +2,10 @@
 
 const HomeSearchHeader = ({onSearchClick}) => (
     <div className="btn waves-effect waves-light left header-normal header-button search-header-button"
-         href="#"
          onClick={_handleSearchClick.bind(null, onSearchClick)}>
-        <i className="material-icons left">search</i>
+        <span className="material-icons left"
+              data-icon="search"
+              aria-hidden="true"/>
     </div>
 );
 

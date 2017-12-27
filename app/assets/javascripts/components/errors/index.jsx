@@ -24,11 +24,23 @@ export default class ErrorIndex extends React.Component {
 
     _renderOriginIcon = (error) => {
         if (error.origin === 'communication') {
-            return (<i className="material-icons blue-text text-darken-4">compare_arrows</i>);
+            return (
+                <span className="material-icons text-matisse"
+                      data-icon="compare_arrows"
+                      aria-hidden="true"/>
+            );
         } else if (error.origin === 'client') {
-            return (<i className="material-icons red-text text-darken-4">phone_android</i>);
+            return (
+                <span className="material-icons text-error"
+                      data-icon="phone_android"
+                      aria-hidden="true"/>
+            );
         } else {
-            return (<i className="material-icons blue-text text-darken-4">desktop_windows</i>);
+            return (
+                <span className="material-icons text-matisse"
+                      data-icon="desktop_windows"
+                      aria-hidden="true"/>
+            );
         }
     };
 

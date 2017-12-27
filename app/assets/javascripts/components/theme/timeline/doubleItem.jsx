@@ -3,8 +3,8 @@
 const DoubleTimelineItem = (props) => (
     <div className="timeline-block">
         <div className="timeline-icon">
-            <span className="material-icons" 
-                  data-icon={props.icon} 
+            <span className="material-icons"
+                  data-icon={props.icon}
                   aria-hidden="true"/>
         </div>
 

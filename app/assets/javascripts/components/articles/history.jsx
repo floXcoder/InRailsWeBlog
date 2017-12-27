@@ -41,7 +41,9 @@ export default class ArticleHistory extends React.Component {
                         this.props.articleVersions.map((version) => (
                             <li key={version.id}>
                                 <div className="collapsible-header">
-                                    <i className="material-icons">change_history</i>
+                                    <span className="material-icons"
+                                          data-icon="change_history"
+                                          aria-hidden="true"/>
                                     {I18n.t('js.article.history.changed_at') + ' ' + version.changed_at}
                                 </div>
 

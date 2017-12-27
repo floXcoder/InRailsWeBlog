@@ -11,7 +11,9 @@ import {
 const HomeArticleHeader = () => {
     const button = (
         <a className="btn-floating waves-effect waves-light header-button topic-header-button">
-            <i className="material-icons">add</i>
+            <span className="material-icons"
+                  data-icon="add"
+                  aria-hidden="true"/>
         </a>
     );
 

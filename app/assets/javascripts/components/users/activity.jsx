@@ -28,9 +28,9 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
         return (
             <li key={activity.id}>
                 <div className="activity-list-addon-element">
-                    <i className={'activity-list-addon-icon material-icons ' + colorIcon}>
-                        {icon}
-                    </i>
+                    <span className={`material-icons activity-list-addon-icon ${colorIcon}`}
+                          data-icon={icon}
+                          aria-hidden="true"/>
                 </div>
                 <div className="activity-list-content">
                         <span className="activity-list-heading">

@@ -11,27 +11,37 @@ const AdminMenu = ({}) => (
         <a
             className="menu-item"
             href="/admin">
-            <i className="material-icons">dashboard</i>
+            <span className="material-icons"
+                  data-icon="dashboard"
+                  aria-hidden="true"/>
             {I18n.t('js.admin.menu.dashboard')}
         </a>
         <a className="menu-item"
            href="/admin/users_manager">
-            <i className="material-icons">account_circle</i>
+            <span className="material-icons"
+                  data-icon="account_circle"
+                  aria-hidden="true"/>
             {I18n.t('js.admin.menu.users')}
         </a>
         <a className="menu-item"
            href="/admin/errors">
-            <i className="material-icons">error</i>
+            <span className="material-icons"
+                  data-icon="error"
+                  aria-hidden="true"/>
             {I18n.t('js.admin.menu.errors')}
         </a>
         <a className="menu-item"
            href="/admin/sidekiq">
-            <i className="material-icons">subscriptions</i>
+            <span className="material-icons"
+                  data-icon="subscriptions"
+                  aria-hidden="true"/>
             {I18n.t('js.admin.menu.sidekiq')}
         </a>
         <a className="menu-item"
            href="/">
-            <i className="material-icons">arrow_back</i>
+            <span className="material-icons"
+                  data-icon="arrow_back"
+                  aria-hidden="true"/>
             {I18n.t('js.admin.menu.back_home')}
         </a>
     </BurgerMenu>

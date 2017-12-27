@@ -28,19 +28,25 @@ export default class ArticleEditionIcons extends React.Component {
         //             <a className="btn-floating article-delete tooltipped"
         //                data-tooltip={I18n.t('js.article.tooltip.delete')}
         //                onClick={this.props.onDeleteClick}>
-        //                 <i className="material-icons">delete</i>
+        //<span className="material-icons"
+        //      data-icon="delete"
+//              aria-hidden="true"/>
         //             </a>
         //
         //             <a className="article-cancel tooltipped btn-floating"
         //                data-tooltip={I18n.t('js.article.tooltip.cancel')}
         //                onClick={this.props.onCancelClick}>
-        //                 <i className="material-icons">clear</i>
+        // <span className="material-icons"
+        // data-icon="clear"
+        // aria-hidden="true"/>
         //             </a>
         //
         //             <a className="btn-floating article-update tooltipped"
         //                data-tooltip={I18n.t('js.article.tooltip.update')}
         //                onClick={this.props.onSaveClick}>
-        //                 <i className="material-icons">check</i>
+        //    <span className="material-icons"
+        //data-icon="check"
+        // aria-hidden="true"/>
         //             </a>
         //         </div>
         //     );

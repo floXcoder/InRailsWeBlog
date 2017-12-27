@@ -18,7 +18,9 @@ const UserAvatarIcon = ({user, className}) => (
                     <img src={user.avatar}
                          alt="User avatar"/>
                     :
-                    <i className="material-icons">account_circle</i>
+                    <span className="material-icons"
+                          data-icon="account_circle"
+                          aria-hidden="true"/>
             }
 
             <div className="pseudo">

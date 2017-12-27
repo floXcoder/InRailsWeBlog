@@ -253,7 +253,9 @@ export default class CommentList extends React.PureComponent {
                                             <a className="btn-flat waves-effect waves-spectra secondary-content tooltipped dropdown-button"
                                                data-tooltip={I18n.t('js.comment.common.actions')}
                                                data-activates={`dropdown-comment-${index}`}>
-                                                <i className="material-icons">reply</i>
+                                                <span className="material-icons"
+                                                      data-icon="reply"
+                                                      aria-hidden="true"/>
                                             </a>
                                         }
 

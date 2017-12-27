@@ -34,16 +34,16 @@ export default class ArticleBookmarkIcon extends React.PureComponent {
             return null;
         }
 
-        let bookmarkClasses = classNames('material-icons', {'article-bookmarked': this.state.isBookmarked});
-        let bookmarkTooltip = this.state.isBookmarked ?
-            I18n.t('js.article.tooltip.remove_bookmark') :
-            I18n.t('js.article.tooltip.add_bookmark');
+        const bookmarkClasses = classNames('material-icons', {'article-bookmarked': this.state.isBookmarked});
+        const bookmarkTooltip = this.state.isBookmarked ? I18n.t('js.article.tooltip.remove_bookmark') : I18n.t('js.article.tooltip.add_bookmark');
 
         return (
             <a className="btn-floating tooltipped"
                data-tooltip={bookmarkTooltip}
                onClick={this._handleBookmarkClick.bind(this, this.props.articleId)}>
-                <i className={bookmarkClasses}>bookmark</i>
+                <span className={bookmarkClasses}
+                      data-icon="bookmark"
+                      aria-hidden="true"/>
             </a>
         );
     }

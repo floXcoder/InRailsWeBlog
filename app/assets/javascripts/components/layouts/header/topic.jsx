@@ -5,7 +5,9 @@ const HomeTopicHeader = ({currentTopicName, onTopicClick}) => (
        href="#"
        onClick={onTopicClick}>
         <div className="topic-header-text">
-            <i className="material-icons left">class</i>
+            <span className="material-icons left"
+                  data-icon="class"
+                  aria-hidden="true"/>
             {I18n.t('js.views.header.topic.button', {current: currentTopicName})}
         </div>
     </a>

@@ -6,9 +6,9 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility, isUserConnected, h
         return null;
     }
 
-    let isVisible = articleVisibility === 'everyone';
+    const isVisible = articleVisibility === 'everyone';
 
-    let visibilityClasses = classNames(
+    const visibilityClasses = classNames(
         'article-visibility',
         'tooltipped',
         {
@@ -19,13 +19,15 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility, isUserConnected, h
             'article-private': !isVisible
         });
 
-    let visibilityName = I18n.t('js.article.enums.visibility.' + articleVisibility);
-    let visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
+    const visibilityName = I18n.t('js.article.enums.visibility.' + articleVisibility);
+    const visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
     return (
         <a className={visibilityClasses}
            data-tooltip={visibilityTooltip}>
-            <i className="material-icons">{isVisible ? 'visibility' : 'visibility_off'}</i>
+            <span className="material-icons"
+                  data-icon={isVisible ? 'visibility' : 'visibility_off'}
+                  aria-hidden="true"/>
         </a>
     );
 };

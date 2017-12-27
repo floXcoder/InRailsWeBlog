@@ -113,9 +113,13 @@ export default class Bookmark extends React.Component {
                     {
                         this.state.isBookmarked
                             ?
-                            <i className="material-icons bookmark-icon">favorite</i>
+                            <span className="material-icons bookmark-icon"
+                                  data-icon="favorite"
+                                  aria-hidden="true"/>
                             :
-                            <i className="material-icons bookmark-icon">favorite_border</i>
+                            <span className="material-icons bookmark-icon"
+                                  data-icon="favorite_border"
+                                  aria-hidden="true"/>
                     }
                 </a>
             </div>

@@ -153,7 +153,9 @@ export default class UserComplete extends React.Component {
                                     <a className="btn-flat waves-effect waves-teal tooltipped dropdown-button"
                                        data-tooltip={I18n.t('js.user.show.more_actions')}
                                        data-activates="dropdown-user-menu">
-                                        <i className="material-icons">more_vert</i>
+                                        <span className="material-icons"
+                                              data-icon="more_vert"
+                                              aria-hidden="true"/>
                                     </a>
 
                                     <ul id="dropdown-user-menu"
@@ -206,7 +208,9 @@ export default class UserComplete extends React.Component {
 
                                 <Link className="user-edit-icon"
                                       to={`/user/profile/${this.props.userId}/edit`}>
-                                    <i className="material-icons">mode_edit</i>
+                                    <span className="material-icons"
+                                          data-icon="mode_edit"
+                                          aria-hidden="true"/>
                                 </Link>
                             </div>
 
@@ -274,7 +278,9 @@ export default class UserComplete extends React.Component {
                                                 <ul className="activity-list activity-list-addon">
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">email</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="email"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -287,7 +293,9 @@ export default class UserComplete extends React.Component {
                                                     </li>
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">location_city</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="location_city"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -300,7 +308,9 @@ export default class UserComplete extends React.Component {
                                                     </li>
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">my_location</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="my_location"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -313,7 +323,9 @@ export default class UserComplete extends React.Component {
                                                     </li>
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">language</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="language"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -334,7 +346,9 @@ export default class UserComplete extends React.Component {
                                                 <ul className="activity-list activity-list-addon">
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">create</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="create"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -350,7 +364,9 @@ export default class UserComplete extends React.Component {
                                                     </li>
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">account_box</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="account_box"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -365,7 +381,9 @@ export default class UserComplete extends React.Component {
                                                         $app.isAdminConnected() &&
                                                         <li>
                                                             <div className="activity-list-addon-element">
-                                                                <i className="activity-list-addon-icon material-icons">verified_user</i>
+                                                                <span className="material-icons activity-list-addon-icon"
+                                                                      data-icon="verified_user"
+                                                                      aria-hidden="true"/>
                                                             </div>
                                                             <div className="activity-list-content">
                                                             <span className="activity-list-heading">

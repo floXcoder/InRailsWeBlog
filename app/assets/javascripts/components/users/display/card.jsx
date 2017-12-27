@@ -8,7 +8,9 @@ const UserCardDisplay = ({user, onUserClick}) => (
                      src={user.avatar}
                      alt="User avatar"/> :
                 <div className="user-no-image valign-wrapper center-align">
-                    <i className="material-icons valign">account_circle</i>
+                    <span className="material-icons valign"
+                          data-icon="account_circle"
+                          aria-hidden="true"/>
                 </div>
 
             }

@@ -5,7 +5,9 @@ const ArticleLinkIcon = ({isLink}) => {
         return (
             <div className="btn-floating tooltipped article-link"
                  data-tooltip={I18n.t('js.article.tooltip.link')}>
-                <i className="material-icons">link</i>
+                <span className="material-icons"
+                      data-icon="link"
+                      aria-hidden="true"/>
             </div>
         );
     } else {
