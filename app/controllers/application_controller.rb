@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   # Security
-  protect_from_forgery with: :reset_session
+  protect_from_forgery with: :null_session
 
   # Handle exceptions
   rescue_from ActionController::InvalidAuthenticityToken, with: :server_error
