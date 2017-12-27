@@ -15,14 +15,13 @@ export default class Checkbox extends React.PureComponent {
         className: PropTypes.string,
         hasFillStyle: PropTypes.bool,
         multipleId: PropTypes.number,
-        onCheckboxChange: PropTypes.func,
+        onChange: PropTypes.func,
         isDefaultChecked: PropTypes.bool,
         isInputField: PropTypes.bool,
         isDisabled: PropTypes.bool,
         isMultiple: PropTypes.bool,
         isRequired: PropTypes.bool,
-        isHorizontal: PropTypes.bool,
-        validator: PropTypes.object
+        isHorizontal: PropTypes.bool
     };
 
     static defaultProps = {
@@ -51,8 +50,8 @@ export default class Checkbox extends React.PureComponent {
     }
 
     toggleCheckbox = () => {
-        if (this.props.onCheckboxChange) {
-            this.props.onCheckboxChange(!this.state.isChecked);
+        if (this.props.onChange) {
+            this.props.onChange(!this.state.isChecked);
         }
 
         this.setState({isChecked: !this.state.isChecked});
@@ -114,8 +113,7 @@ export default class Checkbox extends React.PureComponent {
                        data-unchecked-value="0"
                        disabled={this.props.isDisabled}
                        required={this.props.isRequired}
-                       onChange={this.toggleCheckbox}
-                       {...this.props.validator}/>
+                       onChange={this.toggleCheckbox}/>
 
                 <label htmlFor={this.props.id}>
                     {

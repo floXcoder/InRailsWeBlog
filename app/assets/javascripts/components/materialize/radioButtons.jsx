@@ -10,8 +10,7 @@ const RadioButtons = (props) => {
                                type="radio"
                                name={props.group}
                                checked={props.checkedButton === key}
-                               onChange={props.onRadioChanged}
-                               {...props.validator}/>
+                               onChange={props.onRadioChanged}/>
 
                         <label htmlFor={key}>
                             {props.buttons[key]}
@@ -27,8 +26,7 @@ RadioButtons.propTypes = {
     buttons: PropTypes.object.isRequired,
     group: PropTypes.string.isRequired,
     checkedButton: PropTypes.string,
-    onRadioChanged: PropTypes.func,
-    validator: PropTypes.object
+    onRadioChanged: PropTypes.func
 };
 
 export default RadioButtons;

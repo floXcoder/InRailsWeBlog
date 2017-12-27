@@ -1,0 +1,129 @@
+.connection {
+  h1 {
+    margin-bottom: 24px;
+    margin-top: 8px;
+  }
+
+  .card-content > .row,
+  .card-action > .row {
+    margin-bottom: 0;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .connection-externals {
+    text-align: center;
+
+    .connection-google {
+      margin: 10px 0 20px;
+
+      .connection-google-button {
+        background: #4184f3 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAaVJREFUOBG9lM8rRFEUx%2BchkQVp8iv5A7CwtsGCkiQWLJT8ASxkYSGxsrHyY2tHWZCysZYNoVjPRk2omaL8nIVcn%2FOcV3feu%2FPmrZz6OOee8%2F3ed8fMu6nUf4YxxoNp2IUr%2BIBv%2BIFXOIL2RGdCWAfHcANtYiIPg2wkG44m2igQYVgBib6gJ5n1kt815p3cas9ia8QPaqy1hfRq4FlnE%2FZM6opwQ9aIPVKzzuo1%2B8nzvAJFRnsd9kxq54aYDLN7ERAzf6nob1pXl0XduAWnXNWP9UL2vxTRUw9o%2FzDOH5lhqoITNT%2BS12Ad5AGSqyOmJA2MvTAHOyCxl8RXVsNGk%2F52xnyRZ8saSgkwd4O8LfMgb0kQmxSVpXyRPuImOFV3nnwG1%2FCpPUnLEaOrgTANGcjBuK1h3QDbIFGARnvurBFtiZoYdApoMjv3Fcb02xrnDxvBmIoubHGozuo6H%2BpHlzw5q09fjE790%2FUwfwO5ieQ1jQ9ECxDEPsUIdMEQbIDci0%2FQGb%2BTNUU8BXcQDvnpHIDzYi17XIxy58lJWkD%2BX7dcHjmyM34BtJe3X9SmBnsAAAAASUVORK5CYII%3D) no-repeat 10px center;
+        border-color: #3b5998;
+        border-radius: 3px;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1rem;
+        line-height: 1.4em;
+        min-height: 34px;
+        padding: 9px 10px 9px 40px;
+        position: relative;
+        text-decoration: none;
+        text-shadow: none;
+        transition: border-color .1s linear, background .1s linear, color .1s linear;
+        white-space: nowrap;
+        width: 260px;
+
+        &:hover {
+          background-color: #346ac2;
+          border-color: #346ac2;
+          color: #fff;
+          outline: 0;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .connection-facebook {
+      margin: 10px 0 20px;
+
+      .connection-facebook-button {
+        background: #4963a4 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AoBCRMP1h2pagAAAaxJREFUSMftlL9LW1EUxz/33vfyoo2pW6GLSzqIUHdFF4XiULRQCo4OlqqDQwdHBwd3QYu4if+AS5cu0qljddFMQmhqoII/QkyTl/tOh0DMM1HMS9LJAxfePefBh/M933PV6OyXj6A2AYfuhAUWdZchAAbY0l2G1GBtQ/xKgO9bApFaTkRIJjzqUu138/7NEB+mXjPwsj+UH57eoO+Z1z6ox3NZmR9nciTVtK6UCt11FIhSiomR1L2QZhEJ5MUMU+OvHvxH6gcUVTrXMQylXoRyh+kc69sH5M7zAKH5RAZprXDMrRjWBqxufOPsTx7XMZ2TrlEmOP11cS+kpY7KvqX41wcF+o6jBLi4LiIiCNV6pD2ygTA9McjnuTFK5UqDdV1Hc7S/jFJVR+YLJd5+2qW3x221IyHmOsS96mkW/cl47fsonUNr1fkZ3Y2fJ2cYEwUkEHPNg3sSAh1nMVq3bgZjNF+/p/lxmEGkuiM7a+9q9YoNmFnaI9EbQ2tFNnfVIN2jXVe4KVO4KQPwvC/e0HHm9yXJhNfZJyjSkj+BnkD1IPsfOFaDLHUZZoGFfw5we0gQkcycAAAAAElFTkSuQmCC') no-repeat 10px center;
+        border-color: #2843a4;
+        border-radius: 3px;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1rem;
+        line-height: 1.4em;
+        min-height: 34px;
+        padding: 9px 10px 9px 40px;
+        position: relative;
+        text-decoration: none;
+        text-shadow: none;
+        transition: border-color .1s linear, background .1s linear, color .1s linear;
+        white-space: nowrap;
+        width: 260px;
+
+        &:hover {
+          background-color: #3a4f82;
+          border-color: #3a4f82;
+          color: #fff;
+          outline: 0;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .connection-or-separator {
+    color: #767676;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  .connection-pro {
+    margin: 10px 0 20px;
+
+    .connection-pro-button {
+      text-decoration: none;
+
+      .material-icons {
+        font-size: 1.3rem;
+        margin-left: 5px;
+        vertical-align: middle;
+      }
+    }
+
+    .connection-pro-type {
+      display: none;
+      margin-bottom: 20px;
+      margin-top: 10px;
+
+      &.connection-pro-visible {
+        display: block;
+      }
+    }
+  }
+
+  .connection-checkbox {
+    & > .input-field {
+      margin-top: 0;
+    }
+  }
+
+  .btn {
+    background-color: $primary-color;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+  }
+}
+
+.connection-admin {
+  box-shadow: inset 0 0 .5em $error-color;
+}

@@ -18,7 +18,7 @@ import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/wysiwyg/sanitizePaste';
 
 @connect((state) => ({
-    isUserConnected: state.userState.isUserConnected,
+    isUserConnected: state.userState.isConnected,
     userCurrentId: state.userState.currentId,
     isLoadingUser: state.userState.isFetching
 }), {
@@ -62,6 +62,13 @@ export default class DefaultLayout extends React.Component {
     }
 
     _onInit = () => {
+        // TODO
+        // // Synchronize local data with user account just after sign in ou up
+        // import UserActions from '../../actions/userActions';
+        // if (window.userJustSign) {
+        //     UserActions.synchronize();
+        // }
+
         ClipboardManager.initialize(this._onPaste);
     };
 

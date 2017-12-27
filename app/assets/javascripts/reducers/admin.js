@@ -8,6 +8,10 @@ import {
     combineReducers
 } from 'redux-immutable';
 
+import {
+    reducer as formReducer
+} from 'redux-form/immutable';
+
 import uiReducer from './uiReducer';
 import userReducer from './userReducer';
 import adminReducer from './adminReducer';
@@ -23,6 +27,7 @@ import errorReducer from './errorReducer';
 
 const ReducerRecord = Record({
     uiState: undefined,
+    form: undefined,
     userState: undefined,
     adminState: undefined,
     autocompleteState: undefined,
@@ -36,6 +41,7 @@ const ReducerRecord = Record({
 
 const rootAdminReducer = combineReducers({
     uiState: uiReducer,
+    form: formReducer,
     userState: userReducer,
     adminState: adminReducer,
     autocompleteState: autocompleteReducer,

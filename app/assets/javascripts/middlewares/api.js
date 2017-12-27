@@ -102,8 +102,9 @@ const api = {
             ...headers,
             method: 'GET',
         })
-            .then((response) => handleResponseErrors(response, urlParams))
-            .then((response) => handleFlashMessage(response))
+        // TODO : manage 404 response in handleResponseErrors => e.g. user validation : infinite loop if 404 returned
+            // .then((response) => handleResponseErrors(response, urlParams))
+            // .then((response) => handleFlashMessage(response))
             .then((response) => response.json())
             .then(
                 (json) => json,

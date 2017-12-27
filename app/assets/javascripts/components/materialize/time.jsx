@@ -14,8 +14,7 @@ export default class Time extends React.PureComponent {
         icon: PropTypes.string,
         onChange: PropTypes.func,
         onInput: PropTypes.func,
-        isHorizontal: PropTypes.bool,
-        validator: PropTypes.object
+        isHorizontal: PropTypes.bool
     };
 
     static defaultProps = {
@@ -91,8 +90,7 @@ export default class Time extends React.PureComponent {
                        required={this.props.isRequired}
                        onInput={this.props.onInput}
                        onChange={this.props.onChange}
-                       defaultValue={this.props.children}
-                       {...this.props.validator}/>
+                       defaultValue={this.props.children}/>
             </div>
         );
     }

@@ -46,7 +46,8 @@ export default function userReducer(state = new initState(), action) {
         case ActionTypes.USER_FETCH_ERROR:
             return fetchReducer(state, action, (payload) =>
                 payload.user ? ({
-                    user: new Records.UserRecord(payload.user)
+                    user: new Records.UserRecord(payload.user),
+
                 }) : ({
                     users: toList(payload.users, Records.UserRecord)
                 })
@@ -56,8 +57,10 @@ export default function userReducer(state = new initState(), action) {
         case ActionTypes.USER_CHANGE_SUCCESS:
         case ActionTypes.USER_CHANGE_ERROR:
             return mutationReducer(state, action, (payload) => ({
-                user: payload.user ? new Records.UserRecord(payload.user) : undefined
-            }));
+                user: payload.user ? new Records.UserRecord(payload.user) : undefined,
+                currentId: payload.connection ? payload.user.id : state.currentId,
+                isConnected: payload.connection ? true : state.isConnected
+            }), ['connection']);
 
         default:
             return state;

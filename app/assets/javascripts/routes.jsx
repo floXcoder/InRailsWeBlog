@@ -93,6 +93,11 @@ export default {
                 component: ArticleNewLoader
             },
             {
+                path: '/article/new',
+                exact: true,
+                component: ArticleNewLoader
+            },
+            {
                 path: '/article/tags/:tagSlug',
                 component: ArticleIndexLoader
             },

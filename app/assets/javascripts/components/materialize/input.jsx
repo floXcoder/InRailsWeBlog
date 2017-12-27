@@ -23,6 +23,7 @@ export default class Input extends React.Component {
         isReadOnly: PropTypes.bool,
         isDisabled: PropTypes.bool,
         labelClass: PropTypes.string,
+        hasError: PropTypes.bool,
         name: PropTypes.string,
         multipleId: PropTypes.number,
         icon: PropTypes.oneOfType([
@@ -45,8 +46,7 @@ export default class Input extends React.Component {
         onKeyUp: PropTypes.func,
         onBlur: PropTypes.func,
         characterCount: PropTypes.number,
-        mask: PropTypes.object,
-        validator: PropTypes.object
+        mask: PropTypes.object
     };
 
     static defaultProps = {
@@ -55,7 +55,8 @@ export default class Input extends React.Component {
         isHorizontal: false,
         isRequired: false,
         isReadOnly: false,
-        isDisabled: false
+        isDisabled: false,
+        hasError: false
     };
 
     constructor(props) {
@@ -75,7 +76,7 @@ export default class Input extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.props.isRequired, nextProps.isRequired) || !_.isEqual(this.props.validator, nextProps.validator);
+        return !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.props.isRequired, nextProps.isRequired);
     }
 
     _handleChange = (event) => {
@@ -145,7 +146,8 @@ export default class Input extends React.Component {
             this.props.className,
             'validate',
             {
-                'col m8': this.props.isHorizontal
+                'col m8': this.props.isHorizontal,
+                'input-error': this.props.hasError
             }
         );
 
@@ -197,7 +199,6 @@ export default class Input extends React.Component {
                            onBlur={this.props.onBlur}
                            value={this.state.value}
                            data-length={this.props.characterCount}
-                           {...this.props.validator}
                            {...this.props.mask}/>
 
                     {

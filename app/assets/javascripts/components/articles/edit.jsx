@@ -1,138 +1,85 @@
 'use strict';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-// TODO
-// import ArticleActions from '../../actions/articleActions';
-// import ArticleStore from '../../stores/articleStore';
+    updateArticle
+} from '../../actions';
 
 import ArticleFormDisplay from './display/form';
 
-import '../../modules/validation';
-import 'jquery-serializejson';
-
-@withRouter
-export default class ArticleEdit extends React.Component {
+@connect(null, {
+    updateArticle
+})
+export default class ArticleEdit extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object,
         multipleId: PropTypes.number,
-        params: PropTypes.object,
-        // From router
-        history: PropTypes.func
-    };
-
-    static defaultProps = {
-        params: {}
+        // from connect
+        updateArticle: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
         // TODO
-        // this.mapStoreToState(ArticleStore, this.onArticleChange);
-
-        if (this.props.article) {
-            this.state.article = props.article;
-        } else if (props.params.articleSlug) {
-            // TODO
-            // ArticleActions.loadArticle({slug: this.props.params.articleSlug});
-        }
+        // if (props.article) {
+        //     this.state.article = props.article;
+        // } else if (props.params.articleSlug) {
+        //     ArticleActions.loadArticle({slug: this.props.params.articleSlug});
+        // }
     }
 
-    state = {
-        article: undefined,
-        articleErrors: undefined
-    };
-
-    onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (articleData.type === 'loadArticle') {
-            newState.article = articleData.article;
-        }
-
-        if (articleData.type === 'updateArticle') {
-            this.props.history.push(`/article/${articleData.article.slug}`);
-        }
-
-        if (articleData.type === 'updateArticleError') {
-            newState.articleErrors = Object.keys(articleData.articleErrors).map((errorName) => {
-                let errorDescription = articleData.articleErrors[errorName];
-                return I18n.t('js.article.model.' + errorName) + ' ' + errorDescription.join(I18n.t('js.helpers.and'));
-            });
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
+    // TODO: get from redux
+    // state = {
+    //     articleErrors: undefined
+    // };
 
     _onCancel = () => {
-        if (this.state.article) {
-            this.props.history.push(`/article/${this.state.article.id}`);
-        } else {
-            this.props.history.push('/');
-        }
-        return true;
+        // TODO
+        // if (this.state.article) {
+        //     this.props.history.push(`/article/${this.state.article.id}`);
+        // } else {
+        //     this.props.history.push('/');
+        // }
     };
 
-    _handleArticleSubmit = () => {
-        const $articleForm = $('#article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '' ));
-
-        const validator = $articleForm.parsley();
-
-        if (!validator.isValid()) {
-            validator.validate();
-            Notification.error(I18n.t('js.article.common.validation_error.common'));
-            return false;
-        }
-
-        let currentArticle = $articleForm.serializeJSON().article;
-
-        // TODO
-        // ArticleActions.updateArticle(currentArticle);
+    _handleSubmit = () => {
+        this.props.updateArticle(values.toJS());
 
         return true;
     };
 
     render() {
-        const articleFormId = 'article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '' );
+        if (!this.props.article) {
+            return null;
+        }
 
-        if (this.state.article) {
-            return (
-                <div className="blog-form blog-article-edit">
-                    <div className="card">
-                        <div className="card-content blue-grey darken-3 white-text">
+        const articleFormId = 'article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '');
+
+        return (
+            <div className="blog-form blog-article-edit">
+                <div className="card">
+                    <div className="card-content blue-grey darken-3 white-text">
                             <span className="card-title">
                                 {
-                                    this.state.article.title
+                                    this.props.article.title
                                         ?
-                                        I18n.t('js.article.edit.form_title', {title: this.state.article.title})
+                                        I18n.t('js.article.edit.form_title', {title: this.props.article.title})
                                         :
                                         I18n.t('js.article.edit.title')
                                 }
                             </span>
-                        </div>
+                    </div>
 
-                        <div className="card-action">
-                            <ArticleFormDisplay id={articleFormId}
-                                                onSubmit={this._handleArticleSubmit}
-                                                onCancel={this._onCancel}
-                                                articleErrors={this.state.articleErrors}>
-                                {this.state.article}
-                            </ArticleFormDisplay>
-                        </div>
+                    <div className="card-action">
+                        <ArticleFormDisplay id={articleFormId}
+                                            onSubmit={this._handleSubmit}
+                                            onCancel={this._onCancel}
+                                            articleErrors={this.props.articleErrors}>
+                            {this.props.article}
+                        </ArticleFormDisplay>
                     </div>
                 </div>
-            );
-        } else {
-            return null;
-        }
+            </div>
+        );
     }
 }

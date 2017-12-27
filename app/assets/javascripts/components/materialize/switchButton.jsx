@@ -18,9 +18,8 @@ export default class SwitchButton extends React.Component {
         ]),
         isDefaultChecked: PropTypes.bool,
         isDisabled: PropTypes.bool,
-        onSwitchChange: PropTypes.func,
-        isHorizontal: PropTypes.bool,
-        validator: PropTypes.object
+        onChange: PropTypes.func,
+        isHorizontal: PropTypes.bool
     };
 
     static defaultProps = {
@@ -44,8 +43,8 @@ export default class SwitchButton extends React.Component {
     };
 
     _handleSwitchChange = (event) => {
-        if (this.props.onSwitchChange) {
-            this.props.onSwitchChange(!this.state.isChecked);
+        if (this.props.onChange) {
+            this.props.onChange(!this.state.isChecked);
         }
 
         this.setState({isChecked: !this.state.isChecked});
@@ -100,8 +99,7 @@ export default class SwitchButton extends React.Component {
                            checked={this.state.isChecked}
                            value={this.state.isChecked ? '1' : '0'}
                            data-unchecked-value="0"
-                           onChange={this._handleSwitchChange}
-                           {...this.props.validator}/>
+                           onChange={this._handleSwitchChange}/>
 
                     <span className="lever"/>
 

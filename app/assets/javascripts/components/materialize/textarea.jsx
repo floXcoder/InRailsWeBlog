@@ -23,8 +23,7 @@ export default class Textarea extends React.Component {
         onChange: PropTypes.func,
         onKeyDown: PropTypes.func,
         onBlur: PropTypes.func,
-        characterCount: PropTypes.number,
-        validator: PropTypes.object
+        characterCount: PropTypes.number
     };
 
     static defaultProps = {
@@ -149,8 +148,7 @@ export default class Textarea extends React.Component {
                               onChange={this.props.onChange}
                               onKeyDown={this.props.onKeyDown}
                               onBlur={this.props.onBlur}
-                              defaultValue={this.props.children}
-                              {...this.props.validator}/>
+                              defaultValue={this.props.children}/>
 
                     {
                         (this.props.title && !this.props.isHorizontal) &&

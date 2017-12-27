@@ -1,7 +1,26 @@
 'use strict';
 
-import Input from '../../../materialize/input';
-import Editor from '../../../editor/editor';
+import {
+    Field
+} from 'redux-form/immutable';
+
+import TextField from '../../../materialize/form/text';
+import EditorField from '../../../editor/form/editor';
+
+// TODO: create autolink
+// const content = event.currentTarget.textContent;
+// if (!this.state.isLink && $.isURL(content.trim())) {
+//     if (this._editor) {
+//         this._editor.createLink();
+//     }
+//     if (this.props.onIsLinkChange) {
+//         this.props.onIsLinkChange(true);
+//     }
+// } else if (this.state.isLink && !$.isURL(content.trim())) {
+//     if (this.props.onIsLinkChange) {
+//         this.props.onIsLinkChange(false);
+//     }
+// }
 
 export default class ArticleCommonField extends React.Component {
     static propTypes = {
@@ -18,111 +37,47 @@ export default class ArticleCommonField extends React.Component {
     constructor(props) {
         super(props);
 
-        this._title = null;
-        this._summary = null;
         this._editor = null;
     }
 
-    _handleEditorLoaded = () => {
-        if (this._title) {
-            this._title.focus();
-        }
-    };
-
-    _handleInputsChange = (event) => {
-        this.props.onInputsChange({
-            titleLength: this._title.value().length,
-            summaryLength: this._summary.value().length,
-            contentLength: this._editor.contentLength()
-        });
-
-        // const content = event.currentTarget.textContent;
-        // if (!this.state.isLink && $.isURL(content.trim())) {
-        //     if (this._editor) {
-        //         this._editor.createLink();
-        //     }
-        //     if (this.props.onIsLinkChange) {
-        //         this.props.onIsLinkChange(true);
-        //     }
-        // } else if (this.state.isLink && !$.isURL(content.trim())) {
-        //     if (this.props.onIsLinkChange) {
-        //         this.props.onIsLinkChange(false);
-        //     }
-        // }
-
-        return event;
-    };
-
     _onSummaryBlurred = (event) => {
         if (this._editor) {
-            this._editor.focus();
+            // TODO
+            // this._editor.focus();
         }
 
         return event;
-    };
-
-    serialize = () => {
-        if (this._editor) {
-            this._editor.serialize();
-        }
     };
 
     render() {
         return (
             <div>
-                <Input ref={(title) => this._title = title}
-                       id="article_title"
-                       multipleId={this.props.multipleId}
+                <Field id="article_title"
+                       name="title"
                        title={I18n.t('js.article.model.title')}
-                       validator={{
-                           'data-parsley-required': true,
-                           'data-parsley-minlength': window.settings.article_title_min_length,
-                           'data-parsley-maxlength': window.settings.article_title_max_length,
-                           'data-parsley-minlength-message': I18n.t('js.article.errors.title.size', {
-                               min: window.settings.article_title_min_length,
-                               max: window.settings.article_title_max_length
-                           }),
-                           'data-parsley-maxlength-message': I18n.t('js.article.errors.title.size', {
-                               min: window.settings.article_title_min_length,
-                               max: window.settings.article_title_max_length
-                           })
-                       }}
-                       characterCount={window.settings.article_title_max_length}
-                       onInput={this._handleInputsChange}>
-                    {this.props.article && this.props.article.title}
-                </Input>
-
-                <Input ref={(summary) => this._summary = summary}
-                       id="article_summary"
                        multipleId={this.props.multipleId}
+                       characterCount={window.settings.article_title_max_length}
+                       component={TextField}
+                       componentContent={this.props.article && this.props.article.title}/>
+
+                <Field id="article_summary"
+                       name="summary"
                        title={I18n.t('js.article.model.summary')}
-                       validator={{
-                           'data-parsley-minlength': window.settings.article_summary_min_length,
-                           'data-parsley-maxlength': window.settings.article_summary_max_length,
-                           'data-parsley-minlength-message': I18n.t('js.article.errors.summary.size', {
-                               min: window.settings.article_summary_min_length,
-                               max: window.settings.article_summary_max_length
-                           }),
-                           'data-parsley-maxlength-message': I18n.t('js.article.errors.summary.size', {
-                               min: window.settings.article_summary_min_length,
-                               max: window.settings.article_summary_max_length
-                           })
-                       }}
+                       multipleId={this.props.multipleId}
                        characterCount={window.settings.article_summary_max_length}
                        onBlur={this._onSummaryBlurred}
-                       onInput={this._handleInputsChange}>
-                    {this.props.article && this.props.article.summary}
-                </Input>
+                       component={TextField}
+                       componentContent={this.props.article && this.props.article.summary}/>
 
                 <div className="form-editor-title">
                     {I18n.t('js.article.model.content')}
                 </div>
 
-                <Editor ref={(editor) => this._editor = editor}
-                        onEditorLoaded={this._handleEditorLoaded}
-                        onEditorInput={this._handleInputsChange}>
-                    {this.props.article && this.props.article.content}
-                </Editor>
+                <Field id="article_content"
+                       name="content"
+                       multipleId={this.props.multipleId}
+                       component={EditorField}
+                       componentContent={this.props.article && this.props.article.content}/>
             </div>
         );
     }

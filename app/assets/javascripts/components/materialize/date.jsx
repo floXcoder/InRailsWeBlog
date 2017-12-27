@@ -14,8 +14,7 @@ export default class Date extends React.PureComponent {
         icon: PropTypes.string,
         onChange: PropTypes.func,
         onInput: PropTypes.func,
-        isHorizontal: PropTypes.bool,
-        validator: PropTypes.object
+        isHorizontal: PropTypes.bool
     };
 
     static defaultProps = {
@@ -124,8 +123,7 @@ export default class Date extends React.PureComponent {
                        onFocus={this._handleFocus}
                        onInput={this.props.onInput}
                        onChange={this.props.onChange}
-                       data-value={this.props.children}
-                       {...this.props.validator}/>
+                       data-value={this.props.children}/>
             </div>
         );
     }

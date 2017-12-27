@@ -8,7 +8,7 @@ import {
     Popup
 } from 'semantic-ui-react';
 
-const HomeUserHeader = ({isUserConnected, isAdminConnected, userSlug, onLoginClick, onSignupClick}) => {
+const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopup, onLoginClick, onSignupClick, userSlug}) => {
     const button = (
         <a className="btn-floating waves-effect waves-light header-button topic-header-button">
             <i className="material-icons left">account_circle</i>
@@ -45,8 +45,7 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, userSlug, onLoginCli
             {
                 !isUserConnected &&
                 <li className="collection-item">
-                    <a className="signup-link"
-                       href="/signup"
+                    <a href="/signup"
                        onClick={onSignupClick}>
                         {I18n.t('js.views.header.user.sign_up')}
                     </a>
@@ -56,8 +55,7 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, userSlug, onLoginCli
             {
                 !isUserConnected &&
                 <li className="collection-item">
-                    <a className="login-link"
-                       href="/login"
+                    <a href="/login"
                        onClick={onLoginClick}>
                         {I18n.t('js.views.header.user.log_in')}
                     </a>
@@ -87,23 +85,26 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, userSlug, onLoginCli
     );
 
     return (
-        <div>
-            <Popup trigger={button}
-                   content={popup}
-                   on='click'
-                   hideOnScroll={true}
-                   flowing={true}
-                   position='bottom center'/>
-        </div>
+        <Popup trigger={button}
+               content={popup}
+               on='click'
+               open={isOpened}
+               onClose={onUserPopup}
+               onOpen={onUserPopup}
+               hideOnScroll={true}
+               flowing={true}
+               position='bottom center'/>
     );
 };
 
 HomeUserHeader.propTypes = {
     isUserConnected: PropTypes.bool.isRequired,
     isAdminConnected: PropTypes.bool.isRequired,
+    isOpened: PropTypes.bool.isRequired,
+    onUserPopup: PropTypes.func.isRequired,
     onLoginClick: PropTypes.func.isRequired,
     onSignupClick: PropTypes.func.isRequired,
-    userSlug: PropTypes.string,
+    userSlug: PropTypes.string
 };
 
 export default HomeUserHeader;

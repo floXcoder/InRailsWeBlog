@@ -7,7 +7,8 @@ import Select from '../../materialize/select';
 import Checkbox from '../../materialize/checkbox';
 import Submit from '../../materialize/submit';
 
-import 'jquery-serializejson';
+// TODO
+// import 'jquery-serializejson';
 
 export default class CommentFilterDisplay extends React.Component {
     static propTypes = {
@@ -29,7 +30,8 @@ export default class CommentFilterDisplay extends React.Component {
     _handleCommentSubmit = (event) => {
         event.preventDefault();
 
-        let filters = $('#filter_comment').serializeJSON();
+        // TODO
+        // let filters = $('#filter_comment').serializeJSON();
         // TODO
         // CommentAction.loadComments(_.merge(filters, {complete: true}));
     };

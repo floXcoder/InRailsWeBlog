@@ -49,7 +49,8 @@ export default class ArticleEditionDisplay extends React.Component {
     };
 
     _handleDeleteClick = (event) => {
-        this._editor.remove();
+        // TODO: useless
+        // this._editor.remove();
         // TODO
         // ArticleActions.deleteArticle({id: this.props.article.id});
         this.props.changeDefaultDisplay();

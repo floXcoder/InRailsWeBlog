@@ -44,6 +44,7 @@ _.forEach(config.alias, (value, key) => {
 webPackConfig.plugins = [
     new webpack.ProvidePlugin(config.plugins),
     new LodashModuleReplacementPlugin({
+        'shorthands': true, // used by semantic ui for Portal
         'currying': true,
         'caching': true,
         'collections': true,

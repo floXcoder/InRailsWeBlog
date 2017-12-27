@@ -30,3 +30,30 @@ export const fetchArticle = (articleId, options = {}) => ({
         ...options
     })
 });
+
+// Article mutations
+export const addArticle = (article, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.post(`/articles`, {
+        article,
+        ...options
+    })
+});
+
+export const updateArticle = (article, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.update(`/articles/${article.id}`, {
+        article,
+        ...options
+    })
+});
+
+export const deleteArticle = (articleId, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.delete(`/articles/${articleId}`, {
+        ...options
+    }),
+    payload: {
+        removedId: articleId
+    }
+});

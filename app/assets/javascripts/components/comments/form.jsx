@@ -53,11 +53,12 @@ export default class CommentForm extends React.PureComponent {
     _handleSubmit = (event) => {
         event.preventDefault();
 
-        let validator = $('#comment-form').parsley();
-        if (!validator.isValid()) {
-            validator.validate();
-            return;
-        }
+        // TODO
+        // let validator = $('#comment-form').parsley();
+        // if (!validator.isValid()) {
+        //     validator.validate();
+        //     return;
+        // }
 
         let title = this._title.value().trim();
         let body = this._body.value().trim();

@@ -6,14 +6,11 @@ import api from '../middlewares/api';
 
 // TODO
 // 'loadUsers',
-// 'validation',
 // 'loadUserComments',
 // 'loadUserActivities',
 // 'loadUser',
 // 'updateUser',
 // 'updateUserPreference',
-// 'trackClick',
-// 'trackView'
 
 // Users
 export const fetchUsers = (filter, options = {}) => ({
@@ -30,6 +27,38 @@ export const fetchUser = (userId, options = {}) => ({
         ...options
     })
 });
+
+export const validateUser = (pseudo) => (
+    api.get('/users/validation', {
+        user: {
+            pseudo: pseudo
+        }
+    })
+);
+
+// User mutations
+export const signupUser = (user, options = {}) => ({
+    actionType: ActionTypes.USER,
+    mutationAPI: () => api.post(`/users`, {
+        user,
+        ...options
+    }),
+    payload: {
+        connection: true
+    }
+});
+
+export const loginUser = (user, options = {}) => ({
+    actionType: ActionTypes.USER,
+    mutationAPI: () => api.post(`/login`, {
+        user,
+        ...options
+    }),
+    payload: {
+        connection: true
+    }
+});
+
 // TODO
 // if (params && params.userProfile) {
 //     dispatch(initUser(userId, json));

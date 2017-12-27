@@ -38,8 +38,8 @@ import CommentBox from '../comments/box';
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
     isOutdated: getArticleIsOutdated(state.articleState.article),
-    isUserConnected: state.userState.isUserConnected,
-    userCurrentId: state.userState.userCurrentId
+    isUserConnected: state.userState.isConnected,
+    userCurrentId: state.userState.currentId
 }), {
     fetchArticle
 })

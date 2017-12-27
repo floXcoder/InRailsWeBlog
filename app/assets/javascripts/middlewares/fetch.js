@@ -64,7 +64,7 @@ export default function fetchMiddleware({dispatch, getState}) {
         });
 
         return fetchAPI().then(
-            response => {
+            (response) => {
                 if (response && response.errors) {
                     return dispatch({
                         ...payload,

@@ -117,7 +117,7 @@ Rails.application.routes.draw do
   resources :comments, only: [:index]
 
   # Static pages
-  get :terms_of_use,  to: 'static_pages#terms_of_use'
+  get :terms, to: 'static_pages#terms'
 
   # Errors
   %w[404 422 500].each do |code|

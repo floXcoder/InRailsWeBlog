@@ -3,9 +3,6 @@
 import '../application';
 import '../modules/validation';
 
-// TODO: utility?
-// import './users/account';
-
 // Initialize all SideNav
 if (window.innerWidth > window.settings.medium_screen_up) {
     $('header').find('.button-collapse').sideNav({

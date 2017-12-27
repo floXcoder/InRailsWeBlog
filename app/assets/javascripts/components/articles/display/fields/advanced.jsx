@@ -1,98 +1,71 @@
 'use strict';
 
-import Select from '../../../materialize/select';
-import SwitchButton from '../../../materialize/switchButton';
-import Checkbox from '../../../materialize/checkbox';
-import CategorizedTag from '../../../materialize/categorizedTag';
+import {
+    Field
+} from 'redux-form/immutable';
+
+import CategorizedField from '../../../materialize/form/categorized';
+import CheckBoxField from '../../../materialize/form/checkbox';
+import SwitchButtonField from '../../../materialize/form/switchButton';
+import SelectField from '../../../materialize/form/select';
 
 const ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
     <div className="row margin-top-10">
         <div className="col s12 m6 l6">
-            <CategorizedTag id="article_parent_tags"
-                            title={I18n.t('js.article.model.parent_tags')}
-                            placeholder={I18n.t('js.article.common.tags.parent')}
-                            isSortingCategoriesByAlpha={false}
-                            isHorizontal={true}
-                            categorizedTags={ArticleAdvancedField._categorizedTags(tags)}
-                            transformInitialTags={(tag) => {
-                                return {category: tag.visibility, value: tag.name}
-                            }}>
-                {article.parent_tags}
-            </CategorizedTag>
+            <Field id="article_parent_tags"
+                   name="parent_tags"
+                   title={I18n.t('js.article.model.parent_tags')}
+                   placeholder={I18n.t('js.article.common.tags.parent')}
+                   isSortingCategoriesByAlpha={false}
+                   isHorizontal={true}
+                   categorizedTags={tags}
+                   transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
+                   component={CategorizedField}
+                   componentContent={article.parent_tags}/>
 
-            <CategorizedTag id="article_child_tags"
-                            title={I18n.t('js.article.model.child_tags')}
-                            placeholder={I18n.t('js.article.common.tags.child')}
-                            isHorizontal={true}
-                            categorizedTags={ArticleAdvancedField._categorizedTags(tags)}
-                            transformInitialTags={(tag) => {
-                                return {category: tag.visibility, value: tag.name}
-                            }}>
-                {article.child_tags}
-            </CategorizedTag>
+            <Field id="article_child_tags"
+                   name="child_tags"
+                   title={I18n.t('js.article.model.child_tags')}
+                   placeholder={I18n.t('js.article.common.tags.child')}
+                   isSortingCategoriesByAlpha={false}
+                   isHorizontal={true}
+                   categorizedTags={tags}
+                   transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
+                   component={CategorizedField}
+                   componentContent={article.child_tags}/>
         </div>
 
         <div className="col s12 m6 l3">
-            <Checkbox id="article_draft"
-                      multipleId={multipleId}
-                      title={I18n.t('js.article.common.draft')}>
-                {isDraft}
-            </Checkbox>
+            <Field id="article_draft"
+                   name="draft"
+                   title={I18n.t('js.article.common.draft')}
+                   multipleId={multipleId}
+                   component={CheckBoxField}
+                   componentContent={isDraft}/>
         </div>
 
         <div className="col s12 m6 l3">
-            <SwitchButton id="article_allow_comment"
-                    multipleId={multipleId}
-                    title={I18n.t('js.article.common.allow_comment.title')}
-                    values={I18n.t('js.article.common.allow_comment')}>
-                {article.allow_comment}
-            </SwitchButton>
+            <Field id="article_allow_comment"
+                   name="allow_comment"
+                   multipleId={multipleId}
+                   title={I18n.t('js.article.common.allow_comment.title')}
+                   values={I18n.t('js.article.common.allow_comment')}
+                   component={SwitchButtonField}
+                   componentContent={article.allow_comment}/>
 
             <div className="margin-bottom-40"/>
 
-            <Select id="article_visibility"
-                    multipleId={multipleId}
-                    title={I18n.t('js.article.model.visibility')}
-                    default={I18n.t('js.article.common.visibility')}
-                    options={I18n.t('js.article.enums.visibility')}>
-                {article.visibility}
-            </Select>
+            <Field id="article_visibility"
+                   name="visibility"
+                   multipleId={multipleId}
+                   title={I18n.t('js.article.model.visibility')}
+                   default={I18n.t('js.article.common.visibility')}
+                   options={I18n.t('js.article.enums.visibility')}
+                   component={SelectField}
+                   componentContent={article.visibility}/>
         </div>
     </div>
 );
-
-ArticleAdvancedField._categorizedTags = (tags) => {
-    let categorizedTags = [];
-
-    if (tags) {
-        let tagsByVisibility = {};
-        tags.forEach((tag) => {
-            if (!tagsByVisibility[tag.visibility]) {
-                tagsByVisibility[tag.visibility] = [tag.name];
-            } else {
-                tagsByVisibility[tag.visibility].push(tag.name);
-            }
-        });
-
-        if (!tagsByVisibility.everyone) {
-            tagsByVisibility.everyone = [];
-        }
-        if (!tagsByVisibility.only_me) {
-            tagsByVisibility.only_me = [];
-        }
-
-        categorizedTags = Object.keys(tagsByVisibility).map((visibility) => {
-            return {
-                id: visibility,
-                type: ' ',
-                title: I18n.t('js.tag.enums.visibility.' + visibility),
-                items: tagsByVisibility[visibility]
-            }
-        });
-    }
-
-    return categorizedTags;
-};
 
 ArticleAdvancedField.propTypes = {
     article: PropTypes.object,

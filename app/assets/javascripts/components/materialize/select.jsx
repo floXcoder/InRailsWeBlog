@@ -24,8 +24,7 @@ export default class Select extends React.Component {
         categories: PropTypes.object,
         icon: PropTypes.string,
         isHorizontal: PropTypes.bool,
-        validator: PropTypes.object,
-        onSelectChange: PropTypes.func
+        onChange: PropTypes.func
     };
 
     static defaultProps = {
@@ -67,8 +66,8 @@ export default class Select extends React.Component {
             this._value = event.target.value;
         }
 
-        if (this.props.onSelectChange) {
-            this.props.onSelectChange(this._value);
+        if (this.props.onChange) {
+            this.props.onChange(this._value);
         }
 
         return event;
@@ -191,8 +190,7 @@ export default class Select extends React.Component {
                             required={this.props.isRequired}
                             multiple={this.props.isMultiple}
                             value={value}
-                            onChange={this._handleSelectChange}
-                            {...this.props.validator}>
+                            onChange={this._handleSelectChange}>
                         {
                             this.props.default &&
                             <option value="default"

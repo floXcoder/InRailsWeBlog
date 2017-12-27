@@ -64,10 +64,11 @@ class UserSerializer < ActiveModel::Serializer
              :slug,
              :avatar_url
 
-  has_one :tracker
-  has_many :activities, serializer: PublicActivitiesSerializer
+  # TODO: utility for a user (use user profile?)
+  # has_one :tracker
+  # has_many :activities, serializer: PublicActivitiesSerializer
 
-  def activities
-    object.activities.limit(30)
-  end
+  # def activities
+  #   object.activities.limit(30)
+  # end
 end

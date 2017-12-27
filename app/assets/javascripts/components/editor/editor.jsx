@@ -2,13 +2,26 @@
 
 import EditorLoader from '../../loaders/editor';
 
+export const EditorMode = {
+    SHOW: 1,
+    EDIT: 2,
+    INLINE_EDIT: 3
+};
+
 export default class Editor extends React.Component {
+    // TODO: add multiple id
     static propTypes = {
         mode: PropTypes.number,
         id: PropTypes.string,
         children: PropTypes.string,
-        onEditorLoaded: PropTypes.func,
-        onEditorInput: PropTypes.func
+        onLoaded: PropTypes.func,
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
+        onKeyUp: PropTypes.func,
+        onKeyDown: PropTypes.func,
+        onPaste: PropTypes.func,
+        onChange: PropTypes.func,
+        onImageUpload: PropTypes.func
     };
 
     static defaultProps = {
@@ -23,17 +36,11 @@ export default class Editor extends React.Component {
         this._editor = null;
     }
 
-    mode = {
-        SHOW: 1,
-        EDIT: 2,
-        INLINE_EDIT: 3
-    };
-
     componentDidMount() {
         EditorLoader().then(({}) => {
             let $editor = $(ReactDOM.findDOMNode(this._editorRef));
 
-            if (this.props.mode === this.mode.INLINE_EDIT) {
+            if (this.props.mode === EditorMode.INLINE_EDIT) {
                 let airToolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
                     ['undo', ['undo', 'redo']],
@@ -49,9 +56,13 @@ export default class Editor extends React.Component {
                     },
                     lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
                     callbacks: {
-                        onKeyup: (event) => {
-                            this.props.onEditorInput(event);
-                        }
+                        onFocus: this.props.onFocus,
+                        onBlur: this.props.onBlur,
+                        onKeyup: this.props.onKeyUp,
+                        onKeydown: this.props.onKeyDown,
+                        onPaste: this.props.onPaste,
+                        onChange: this.props.onChange,
+                        onImageUpload: this.props.onImageUpload
                     }
                 });
             } else {
@@ -84,40 +95,52 @@ export default class Editor extends React.Component {
                     followingToolbar: true,
                     height: 300,
                     callbacks: {
-                        onKeyup: (event) => {
-                            this.props.onEditorInput(event);
-                            return true;
-                        }
+                        onFocus: this.props.onFocus,
+                        onBlur: this.props.onBlur,
+                        onKeyup: this.props.onKeyUp,
+                        onKeydown: this.props.onKeyDown,
+                        onPaste: this.props.onPaste,
+                        onChange: this.props.onChange,
+                        onImageUpload: this.props.onImageUpload
                     }
                 });
             }
 
-            if (this.props.onEditorLoaded) {
-                this.props.onEditorLoaded();
+            if (this.props.onLoaded) {
+                this.props.onLoaded();
             }
         });
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate() {
         // Do not update
         return false;
     }
 
-    setContent = (content) => {
-        if (this._editor) {
-            this._editor.summernote('code', content);
-        } else {
-            return false;
+    componentWillUnmount() {
+        if (this._editor.summernote) {
+            this._editor.empty();
+            this._editor.summernote('destroy');
         }
-    };
+    }
 
-    contentLength = () => {
-        if (this._editor) {
-            return this._editor.summernote('code').replace(/<(?:.|\n)*?>/gm, '').length;
-        } else {
-            return false;
-        }
-    };
+    // TODO
+    // setContent = (content) => {
+    //     if (this._editor) {
+    //         this._editor.summernote('code', content);
+    //     } else {
+    //         return false;
+    //     }
+    // };
+
+    // TODO
+    // contentLength = () => {
+    //     if (this._editor) {
+    //         return this._editor.summernote('code').replace(/<(?:.|\n)*?>/gm, '').length;
+    //     } else {
+    //         return false;
+    //     }
+    // };
 
     createLink = () => {
         if (this._editor) {
@@ -140,15 +163,6 @@ export default class Editor extends React.Component {
         }
     };
 
-    serialize = () => {
-        if (this._editor) {
-            $('#' + this.props.id + '-serialized').val(this._editor.summernote('code'));
-            return this._editor.summernote('code');
-        } else {
-            return false;
-        }
-    };
-
     reset = () => {
         if (this._editor) {
             this._editor.summernote('code', '');
@@ -157,38 +171,22 @@ export default class Editor extends React.Component {
         }
     };
 
-    remove = () => {
-        if (this._editor) {
-            this._editor.summernote('destroy');
-            this._editor.empty();
-        } else {
-            return false;
-        }
-    };
-
     render() {
         const containerClassName = classNames({
-            'editor-reset': this.props.mode !== this.mode.INLINE_EDIT,
-            'article-editing': this.props.mode === this.mode.INLINE_EDIT
+            'editor-reset': this.props.mode !== EditorMode.INLINE_EDIT,
+            'article-editing': this.props.mode === EditorMode.INLINE_EDIT
         });
 
         const editorClassName = classNames({
-            'blog-article-content': this.props.mode === this.mode.INLINE_EDIT
+            'blog-article-content': this.props.mode === EditorMode.INLINE_EDIT
         });
 
         return (
-            <div>
-                <div className={containerClassName}>
-                    <div ref={(editor) => this._editorRef = editor}
-                         id={this.props.id}
-                         className={editorClassName}
-                         dangerouslySetInnerHTML={{__html: this.props.children}}/>
-                </div>
-                <textarea id={this.props.id + '-serialized'}
-                          name="article[content]"
-                          style={{display: 'none'}}
-                          data-parsley-required={true}
-                          data-parsley-strip-html={'[' + window.settings.article_content_min_length + ',' + window.settings.article_content_max_length + ']'}/>
+            <div className={containerClassName}>
+                <div ref={(editor) => this._editorRef = editor}
+                     id={this.props.id}
+                     className={editorClassName}
+                     dangerouslySetInnerHTML={{__html: this.props.children}}/>
             </div>
         );
     }

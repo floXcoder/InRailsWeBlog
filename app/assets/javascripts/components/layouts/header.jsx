@@ -1,7 +1,10 @@
 'use strict';
 
 import {
-    switchTopicModuleUi,
+    switchTopicPopup,
+    switchUserPopup,
+    switchUserSignup,
+    switchUserLogin,
     fetchTopic
 } from '../../actions';
 
@@ -23,28 +26,40 @@ import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
 @connect((state) => ({
+    isUserPopupOpened: state.uiState.isUserPopupOpened,
+    isUserSignupOpened: state.uiState.isUserSignupOpened,
+    isUserLoginOpened: state.uiState.isUserLoginOpened,
+    isTopicPopupOpened: state.uiState.isTopicPopupOpened,
     isAdminConnected: state.userState.isAdminConnected,
-    isUserConnected: state.userState.isUserConnected,
-    userCurrentId: state.userState.userCurrentId,
+    isUserConnected: state.userState.isConnected,
+    userCurrentId: state.userState.currentId,
     userSlug: state.userState.user && state.userState.user.slug,
-    currentTopic: state.topicState.currentTopic,
-    isTopicOpened: state.uiState.isTopicOpened
+    currentTopic: state.topicState.currentTopic
 }), {
-    switchTopicModuleUi,
+    switchUserPopup,
+    switchUserSignup,
+    switchUserLogin,
+    switchTopicPopup,
     fetchTopic
 })
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
         onReloadPage: PropTypes.func.isRequired,
         // From connect
+        isUserPopupOpened: PropTypes.bool,
+        isUserSignupOpened: PropTypes.bool,
+        isUserLoginOpened: PropTypes.bool,
+        isTopicPopupOpened: PropTypes.bool,
         isAdminConnected: PropTypes.bool,
         isUserConnected: PropTypes.bool,
         userCurrentId: PropTypes.number,
         userSlug: PropTypes.string,
         currentTopic: PropTypes.object,
-        isTopicOpened: PropTypes.bool,
-        fetchTopic: PropTypes.func,
-        switchTopicModuleUi: PropTypes.func
+        switchUserPopup: PropTypes.func,
+        switchUserSignup: PropTypes.func,
+        switchUserLogin: PropTypes.func,
+        switchTopicPopup: PropTypes.func,
+        fetchTopic: PropTypes.func
     };
 
     static defaultProps = {
@@ -61,27 +76,26 @@ export default class HeaderLayout extends React.PureComponent {
     }
 
     state = {
-        isShowingSignup: true,
-        isShowingLogin: true,
         isSearchOpened: false
     };
 
-    _handleLoginClick = () => {
-        this.setState({
-            isShowingLogin: true
-        });
+    _handleSignupClick = (event) => {
+        event.preventDefault();
+
+        this.props.switchUserSignup();
     };
 
-    _handleSignupClick = () => {
-        this.setState({
-            isShowingSignup: true
-        });
+    _handleLoginClick = (event) => {
+        event.preventDefault();
+
+        this.props.switchUserLogin();
     };
 
     _handleTopicClick = (event) => {
         event.preventDefault();
 
-        this.props.switchTopicModuleUi(!this.props.isTopicOpened);
+        // TODO
+        // this.props.switchTopicPopup(!this.props.isTopicOpened);
     };
 
     _handleSearchClick = () => {
@@ -131,9 +145,11 @@ export default class HeaderLayout extends React.PureComponent {
                                 <li>
                                     <HomeUserHeader isUserConnected={this.props.isUserConnected}
                                                     isAdminConnected={this.props.isAdminConnected}
-                                                    userSlug={this.props.userSlug}
+                                                    isOpened={this.props.isUserPopupOpened}
+                                                    onUserPopup={this.props.switchUserPopup}
+                                                    onSignupClick={this._handleSignupClick}
                                                     onLoginClick={this._handleLoginClick}
-                                                    onSignupClick={this._handleSignupClick}/>
+                                                    userSlug={this.props.userSlug}/>
                                 </li>
                             </ul>
                         </div>
@@ -142,7 +158,7 @@ export default class HeaderLayout extends React.PureComponent {
 
                 {/*TODO*/}
                 {/*<ModalHOC isOpened={this.props.isTopicOpened}>*/}
-                    {/*<SwitchTopicModule/>*/}
+                {/*<SwitchTopicModule/>*/}
                 {/*</ModalHOC>*/}
 
                 <div className="blog-search-nav row">
@@ -155,15 +171,11 @@ export default class HeaderLayout extends React.PureComponent {
                               title="clipboard"/>
                 </div>
 
-                {
-                    this.state.isShowingSignup &&
-                    <Signup launcherClass="signup-link"/>
-                }
+                <Signup isOpened={this.props.isUserSignupOpened}
+                        onModalChange={this.props.switchUserSignup}/>
 
-                {
-                    this.state.isShowingLogin &&
-                    <Login launcherClass="login-link"/>
-                }
+                <Login isOpened={this.props.isUserLoginOpened}
+                       onModalChange={this.props.switchUserLogin}/>
             </header>
         );
     }

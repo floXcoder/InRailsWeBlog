@@ -4,12 +4,14 @@
 @import 'base/utilities';
 @import 'base/open-sans';
 @import 'base/typography';
+
 @import 'shared/topic';
 @import 'shared/article';
 @import 'shared/comment';
 @import 'shared/tag';
 @import 'shared/user';
 @import 'shared/search';
+@import 'shared/connection';
 @import 'shared/components/notification';
 @import 'shared/components/rating';
 @import 'shared/components/single-timeline';
@@ -101,12 +103,27 @@ html {
   min-height: 100vh;
   position: relative;
 
-  .material-icons {
-    cursor: pointer;
-  }
-
   .link-active {
     color: #008000;
+  }
+
+  hr {
+    color: rgba(250, 250, 250, .5);
+    margin: 1.6rem 0;
+  }
+
+  .hr-around-text {
+    align-items: center;
+    display: flex;
+    //margin: 1em 0;
+
+    &::before,
+    &::after {
+      border-bottom: 1px solid $border-color;
+      content: '';
+      flex: 1;
+      margin: 0 .8rem;
+    }
   }
 
   .card {
@@ -285,7 +302,7 @@ html {
   }
 
   .blog-form {
-    margin-top: 20px;
+    //margin-top: 20px;
 
     //.blog-form-title {
     //  font-size: 1.4rem;
@@ -310,75 +327,41 @@ html {
     }
 
     .form-error {
-      color: #ef5350;
+      color: $error-color;
     }
 
-    .field-error {
-      color: #ef5350;
-      text-align: left;
-    }
-
-    .parsley-errors-list {
-      color: #ef5350;
+    .field-errors {
+      color: $error-color;
       display: none;
       text-align: left;
+      margin-top: 0;
+      margin-bottom: 15px;
 
       &.filled {
         display: inline;
       }
+
+      &.with-icon {
+        margin-left: 3rem;
+        width: calc(100% - 3rem);
+      }
+
+      .field-error {
+
+      }
     }
 
-    .input-horizontal-field .parsley-errors-list li {
+    .input-horizontal-field .field-errors li {
       margin-left: 25%;
       width: 75%;
     }
 
-    .prefix ~ .parsley-errors-list li {
-      margin-left: 3rem;
-      width: calc(100% - 3rem);
-    }
-
-    .parsley-error {
+    .input-error {
+      border-bottom: 1px solid $error-color;
+      box-shadow: 0 1px 0 0 $error-color;
       margin-bottom: 0;
 
-      + .parsley-errors-list {
-        margin-bottom: 15px;
-        margin-top: 0;
-      }
-    }
-
-    .select-wrapper {
-      .select-dropdown[data-parsley-id] {
-        margin-bottom: 0;
-
-        + .parsley-errors-list {
-          margin: 0;
-        }
-      }
-
-      + .parsley-errors-list {
-        margin-bottom: 15px;
-        margin-top: 0;
-      }
-    }
-
-    input[data-parsley-id].parsley-error {
-      border-bottom: 1px solid #ef5350;
-      box-shadow: 0 1px 0 0 #ef5350;
-      margin-bottom: 0;
-
-      + .parsley-errors-list {
-        margin-bottom: 15px;
-        margin-top: 0;
-      }
-    }
-
-    textarea[data-parsley-id].parsley-error {
-      border-bottom: 1px solid #ef5350;
-      box-shadow: 0 1px 0 0 #ef5350;
-      margin-bottom: 0;
-
-      + .parsley-errors-list {
+      + .field-errors {
         margin-bottom: 15px;
         margin-top: 0;
       }

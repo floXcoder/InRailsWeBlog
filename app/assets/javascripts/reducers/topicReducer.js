@@ -4,8 +4,7 @@
 
 import {
     Record,
-    Map,
-    List
+    Map
 } from 'immutable';
 
 import * as ActionTypes from '../constants/actionTypes';
@@ -15,8 +14,7 @@ import * as Records from '../constants/records';
 import {
     toList,
     fetchReducer,
-    mutationReducer,
-    mutateArray
+    mutationReducer
 } from './mutators';
 
 const initState = new Record({
@@ -46,6 +44,15 @@ export default function topicReducer(state = new initState(), action) {
             return mutationReducer(state, action, (payload) => ({
                 topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined
             }));
+
+        case ActionTypes.USER_CHANGE_SUCCESS:
+            if (action.user && action.connection) {
+                return state.merge({
+                    currentTopic: action.user.currentTopic
+                });
+            } else {
+                return state;
+            }
 
         default:
             return state;

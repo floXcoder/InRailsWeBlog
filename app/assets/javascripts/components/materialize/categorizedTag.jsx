@@ -706,7 +706,7 @@ export default class CategorizedTag extends React.Component {
         isSortingCategoriesByAlpha: PropTypes.bool,
         isHorizontal: PropTypes.bool,
         transformInitialTags: PropTypes.func,
-        onTagChange: PropTypes.func
+        onChange: PropTypes.func
     };
 
     static defaultProps = {
@@ -747,8 +747,8 @@ export default class CategorizedTag extends React.Component {
             selectedTags: tags
         });
 
-        if (this.props.onTagChange) {
-            this.props.onTagChange(tags);
+        if (this.props.onChange) {
+            this.props.onChange(tags);
         }
     };
 
@@ -811,13 +811,13 @@ export default class CategorizedTag extends React.Component {
                                          value={this.state.selectedTags}/>
 
                     {
-                        this.state.selectedTags.map((selectedTag, i) =>
+                        this.state.selectedTags.map((selectedTag, i) => (
                             <input key={i}
                                    id={id + '_' + i}
                                    name={name + '[]'}
                                    value={`${selectedTag.category},${selectedTag.value}`}
                                    type="hidden"/>
-                        )
+                        ))
                     }
                 </div>
             </div>

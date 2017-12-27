@@ -13,8 +13,7 @@ export default class File extends React.Component {
         isMultiple: PropTypes.bool,
         icon: PropTypes.string,
         onChange: PropTypes.func,
-        onInput: PropTypes.func,
-        validator: PropTypes.object
+        onInput: PropTypes.func
     };
 
     static defaultProps = {
@@ -62,8 +61,7 @@ export default class File extends React.Component {
                                name={this.props.isMultiple ? `${name}[]` : name}
                                required={this.props.isRequired}
                                disabled={this.props.isDisabled}
-                               multiple={this.props.isMultiple}
-                               {...this.props.validator}/>
+                               multiple={this.props.isMultiple}/>
                     </div>
                 </div>
 

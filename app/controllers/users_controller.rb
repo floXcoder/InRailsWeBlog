@@ -74,9 +74,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.json do
         if user_exists
-          render json: { success: true }, status: :accepted
+          render json: { success: true }
         else
-          render json: { success: false }, status: :not_found
+          # TODO : do not return 404 error
+          render json: { success: false }
         end
       end
     end
