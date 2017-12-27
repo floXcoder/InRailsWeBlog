@@ -1,18 +1,18 @@
 'use strict';
 
 const ArticleLinkIcon = ({isLink}) => {
-    if (isLink) {
-        return (
-            <div className="btn-floating tooltipped article-link"
-                 data-tooltip={I18n.t('js.article.tooltip.link')}>
+    if (!isLink) {
+        return null;
+    }
+
+    return (
+        <div className="btn-floating tooltipped article-link"
+             data-tooltip={I18n.t('js.article.tooltip.link')}>
                 <span className="material-icons"
                       data-icon="link"
                       aria-hidden="true"/>
-            </div>
-        );
-    } else {
-        return null;
-    }
+        </div>
+    );
 };
 
 ArticleLinkIcon.propTypes = {
