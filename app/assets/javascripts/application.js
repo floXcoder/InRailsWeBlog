@@ -16,6 +16,7 @@ Notification = Notification.default;
 
 // Translation
 import 'expose-loader?I18n!imports-loader?this=>window!./modules/i18n';
+
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
 
