@@ -4,10 +4,6 @@ import _ from 'lodash';
 
 import AssociatedTagList from './list';
 
-// TODO
-// import ArticleActions from '../../../actions/articleActions';
-// import ArticleStore from '../../../stores/articleStore';
-
 import Spinner from '../../materialize/spinner';
 
 export default class AssociatedTagBox extends React.Component {
@@ -21,8 +17,6 @@ export default class AssociatedTagBox extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
 
     state = {
@@ -34,6 +28,7 @@ export default class AssociatedTagBox extends React.Component {
             return;
         }
 
+        // TODO: move to selectors
         if (!$.isEmpty(articleData.articles)) {
             let associatedTags = [];
 
@@ -58,11 +53,6 @@ export default class AssociatedTagBox extends React.Component {
     };
 
     render() {
-        const loaderClass = classNames({
-            'center': this.props.hasMore,
-            'hide': !this.props.hasMore
-        });
-
         return (
             <div className="blog-associated-tag center-align">
                 {
@@ -71,7 +61,10 @@ export default class AssociatedTagBox extends React.Component {
                                        onClickTag={this._handleTagClick}/>
                 }
 
-                <div className={loaderClass}>
+                <div className={classNames({
+                    'center': this.props.hasMore,
+                    'hide': !this.props.hasMore
+                })}>
                     <Spinner />
                 </div>
             </div>

@@ -12,8 +12,6 @@ export default class ArticleHistory extends React.Component {
         super(props);
     }
 
-    state = {};
-
     componentDidMount() {
         $('.blog-article-history.collapsible').collapsible();
     }

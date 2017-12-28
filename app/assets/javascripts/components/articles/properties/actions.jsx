@@ -24,7 +24,7 @@ const ArticleActions = ({articleId, articleSlug, articleVisibility, onBookmarkCl
 
         <ArticleLink articleId={articleId}
                      articleSlug={articleSlug}
-                     onArticleClick={_handleArticleClick.bind(undefined, articleId)}/>
+                     onArticleClick={_handleArticleClick.bind(null, articleId)}/>
     </FixedActionButton>
 );
 

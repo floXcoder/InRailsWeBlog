@@ -10,7 +10,7 @@ import {
 const UserAvatarIcon = ({user, className}) => (
     <Link className={className}
           to={`/user/profile/${user.slug}`}
-          onClick={_handleUserClick.bind(undefined, user.id)}>
+          onClick={_handleUserClick.bind(null, user.id)}>
         <div className="chip user-avatar">
             {
                 user.avatar

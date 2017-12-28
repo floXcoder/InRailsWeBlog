@@ -2,31 +2,25 @@
 
 import ParentTag from './parent';
 
-export default class TagRelationshipDisplay extends React.Component {
-    static propTypes = {
-        tags: PropTypes.array.isRequired,
-        isFiltering: PropTypes.bool
-    };
+const TagRelationshipDisplay = ({tags, isFiltering}) => (
+    <div>
+        {
+            this.props.tags.map((tag, i) => (
+                <ParentTag key={i}
+                           tag={tag}
+                           isFiltering={this.props.isFiltering}/>
+            ))
+        }
+    </div>
+);
 
-    static defaultProps = {
-        isFiltering: false
-    };
+TagRelationshipDisplay.propTypes = {
+    tags: PropTypes.array.isRequired,
+    isFiltering: PropTypes.bool
+};
 
-    constructor(props) {
-        super(props);
-    }
+TagRelationshipDisplay.defaultProps = {
+    isFiltering: false
+};
 
-    render() {
-        return (
-            <div>
-                {
-                    this.props.tags.map((tag, i) => (
-                        <ParentTag key={i}
-                                   tag={tag}
-                                   isFiltering={this.props.isFiltering}/>
-                    ))
-                }
-            </div>
-        );
-    }
-}
+export default TagRelationshipDisplay;

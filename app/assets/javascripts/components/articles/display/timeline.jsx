@@ -15,7 +15,7 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
     <div className="article-timeline">
         <SingleTimeline>
             {
-                articles.map((article) =>
+                articles.map((article) => (
                     <SingleTimelineItem key={article.id}
                                         date={article.updated_at}
                                         icon="message"
@@ -37,7 +37,7 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
                                         }>
                         <div dangerouslySetInnerHTML={{__html: article.content}}/>
                     </SingleTimelineItem>
-                )
+                ))
             }
 
             {
@@ -49,7 +49,7 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
         {
             pagination &&
             <Pagination totalPages={pagination.total_pages}
-                        onPageClick={_handlePaginationClick.bind(undefined, loadArticles)}/>
+                        onPageClick={_handlePaginationClick.bind(null, loadArticles)}/>
         }
     </div>
 );

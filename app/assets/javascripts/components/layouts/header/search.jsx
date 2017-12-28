@@ -9,14 +9,14 @@ const HomeSearchHeader = ({onSearchClick}) => (
     </div>
 );
 
-HomeSearchHeader.propTypes = {
-    onSearchClick: PropTypes.func.isRequired
-};
-
 const _handleSearchClick = (onSearchClick, event) => {
     event.preventDefault();
 
     onSearchClick();
+};
+
+HomeSearchHeader.propTypes = {
+    onSearchClick: PropTypes.func.isRequired
 };
 
 export default HomeSearchHeader;

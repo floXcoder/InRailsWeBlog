@@ -58,7 +58,7 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
             {
                 pagination &&
                 <Pagination totalPages={pagination.total_pages}
-                            onPaginationClick={_handlePaginationClick.bind(undefined, loadActivities)}
+                            onPaginationClick={_handlePaginationClick.bind(null, loadActivities)}
                             numOfPageShow={4}/>
             }
         </div>

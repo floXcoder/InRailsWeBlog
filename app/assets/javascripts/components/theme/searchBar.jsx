@@ -7,7 +7,7 @@ const SearchBar = ({label, children, onSearchInput}) => (
           onSubmit={_handleSubmit}>
         <Input id="filter-text-input"
                title={label}
-               onChange={_handleSearchChange.bind(undefined, onSearchInput)}/>
+               onChange={_handleSearchChange.bind(null, onSearchInput)}/>
     </form>
 );
 

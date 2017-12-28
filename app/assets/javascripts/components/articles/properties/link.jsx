@@ -8,7 +8,7 @@ const ArticleLink = ({articleId, articleSlug, onArticleClick}) => (
     <Link className="btn-floating tooltipped article-goto"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
           to={`/article/${articleSlug}`}
-          onClick={_handleArticleClick.bind(undefined, articleId, onArticleClick)}>
+          onClick={_handleArticleClick.bind(null, articleId, onArticleClick)}>
         <span className="material-icons"
               data-icon="home"
               aria-hidden="true"/>

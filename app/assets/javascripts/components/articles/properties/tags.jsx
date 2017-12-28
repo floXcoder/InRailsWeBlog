@@ -51,55 +51,54 @@ export default class ArticleTags extends React.PureComponent {
             <div className={classNames('article-tags', {'article-tags-empty': this.props.tags.length === 0})}>
                 {
                     this.props.tags.map((tag, i) => (
-                            <div key={i}
-                                 className="article-tag">
-                                <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
-                                      className={classNames(
-                                          'btn-small waves-effect waves-light tag-default',
-                                          {
-                                              'tag-parent': this.props.parentTags.includes(tag.id),
-                                              'tag-child': this.props.childTags.includes(tag.id)
-                                          }
-                                      )}
-                                      to={`/article/tags/${tag.slug}`}
-                                      onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
-                                      onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
-                                    {tag.name}
-                                </Link>
+                        <div key={i}
+                             className="article-tag">
+                            <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
+                                  className={classNames(
+                                      'btn-small waves-effect waves-light tag-default',
+                                      {
+                                          'tag-parent': this.props.parentTags.includes(tag.id),
+                                          'tag-child': this.props.childTags.includes(tag.id)
+                                      }
+                                  )}
+                                  to={`/article/tags/${tag.slug}`}
+                                  onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
+                                  onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
+                                {tag.name}
+                            </Link>
 
-                                <ToolTip active={this.state.tagTooltipActive === tag.id}
-                                         position="bottom"
-                                         arrow="center"
-                                         parent={`#article-${this.props.articleId}-tags-${tag.id}`}
-                                         style={style}>
-                                    <div className="tag-tooltip">
-                                        <div className="tag-tooltip-heading">
-                                            {I18n.t('js.tag.common.usage', {count: tag.taggedArticlesCount})}
-                                        </div>
+                            <ToolTip active={this.state.tagTooltipActive === tag.id}
+                                     position="bottom"
+                                     arrow="center"
+                                     parent={`#article-${this.props.articleId}-tags-${tag.id}`}
+                                     style={style}>
+                                <div className="tag-tooltip">
+                                    <div className="tag-tooltip-heading">
+                                        {I18n.t('js.tag.common.usage', {count: tag.taggedArticlesCount})}
+                                    </div>
 
-                                        <div className="tag-tooltip-description">
-                                            <p>
-                                                {tag.description}
-                                            </p>
+                                    <div className="tag-tooltip-description">
+                                        <p>
+                                            {tag.description}
+                                        </p>
 
-                                            <p>
-                                                {
-                                                    !$.isEmpty(tag.synonyms) &&
-                                                    I18n.t('js.tag.model.synonyms') + ' : ' + tag.synonyms.join(', ')
-                                                }
-                                            </p>
+                                        <p>
+                                            {
+                                                !$.isEmpty(tag.synonyms) &&
+                                                I18n.t('js.tag.model.synonyms') + ' : ' + tag.synonyms.join(', ')
+                                            }
+                                        </p>
 
-                                            <div className="margin-top-10">
-                                                <Link to={`/tag/${tag.slug}`}>
-                                                    {I18n.t('js.tag.common.link')}
-                                                </Link>
-                                            </div>
+                                        <div className="margin-top-10">
+                                            <Link to={`/tag/${tag.slug}`}>
+                                                {I18n.t('js.tag.common.link')}
+                                            </Link>
                                         </div>
                                     </div>
-                                </ToolTip>
-                            </div>
-                        )
-                    )
+                                </div>
+                            </ToolTip>
+                        </div>
+                    ))
                 }
             </div>
         );

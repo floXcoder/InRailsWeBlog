@@ -59,7 +59,7 @@ const ArticleListDisplay = ({articles, articleDisplayMode}) => {
     );
 };
 
-    // TODO: infinite loading
+// TODO: infinite loading
 // ArticleListDisplay._loadNextArticles = (hasMore) => {
 //     if (hasMore) {
 //         ArticleActions.loadNextArticles();

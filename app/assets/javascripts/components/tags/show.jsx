@@ -1,12 +1,5 @@
 'use strict';
 
-// TODO
-// import UserStore from '../../stores/userStore';
-
-// TODO
-// import TagActions from '../../actions/tagActions';
-// import TagStore from '../../stores/tagStore';
-
 import UserAvatarIcon from '../users/icons/avatar';
 
 import {

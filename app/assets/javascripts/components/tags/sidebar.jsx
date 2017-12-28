@@ -10,7 +10,7 @@ import {
     getTags
 } from '../../selectors';
 
-// TODO: use normalizr to get current tags of fetch articles (write evol)
+// TODO: use normalizr to get current tags of fetch articles
 // import AssociatedTagBox from '../tags/associated/box';
 
 import TagRelationshipDisplay from './display/relationship';
