@@ -139,24 +139,19 @@ export default class Select extends React.Component {
             });
         } else {
             if (Array.isArray(this.props.options)) {
-                SelectOptions = this.props.options.map((key, i) => {
-                    return (
-                        <option key={i}
-                                value={key}>
-                            {key}
-                        </option>
-                    );
-                });
+                SelectOptions = this.props.options.map((key, i) => (
+                    <option key={i}
+                            value={key}>
+                        {key}
+                    </option>
+                ));
             } else {
-                SelectOptions = Object.keys(this.props.options).map((key) => {
-                    option = this.props.options[key];
-                    return (
-                        <option key={key}
-                                value={key}>
-                            {option}
-                        </option>
-                    );
-                });
+                SelectOptions = Object.keys(this.props.options).map((key) => (
+                    <option key={key}
+                            value={key}>
+                        {this.props.options[key]}
+                    </option>
+                ));
             }
         }
 

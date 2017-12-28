@@ -4,11 +4,9 @@ import LazyLoaderFactory, {
     importPrefetch
 } from './lazyLoader';
 
-const DropZoneLoader = ({DropZone, ...props}) => {
-    return (
-        <DropZone {...props}/>
-    )
-};
+const DropZoneLoader = ({DropZone, ...props}) => (
+    <DropZone {...props}/>
+);
 
 DropZoneLoader.propTypes = {
     DropZone: PropTypes.func

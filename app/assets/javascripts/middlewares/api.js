@@ -35,9 +35,7 @@ const manageError = (origin, error, url) => {
                 Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
             } else if (error.statusText === 'Internal Server Error') {
                 if (window.railsEnv === 'development') {
-                    error.text().then((text) => {
-                        log.now(text.split("\n").slice(0, 6));
-                    });
+                    error.text().then((text) => log.now(text.split("\n").slice(0, 6)));
                 } else {
                     Notification.error(I18n.t('js.helpers.errors.server'), 10);
                 }

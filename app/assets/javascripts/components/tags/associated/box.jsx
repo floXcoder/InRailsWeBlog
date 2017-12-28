@@ -43,9 +43,7 @@ export default class AssociatedTagBox extends React.Component {
                 }
             });
 
-            associatedTags = _.uniq(associatedTags, (tag) => {
-                return tag.id;
-            });
+            associatedTags = _.uniq(associatedTags, (tag) => tag.id);
 
             this.setState({
                 associatedTags: associatedTags,

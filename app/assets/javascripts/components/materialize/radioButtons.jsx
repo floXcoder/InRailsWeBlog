@@ -1,26 +1,24 @@
 'use strict';
 
-const RadioButtons = (props) => {
-    return (
-        <div>
-            {
-                Object.keys(props.buttons).map((key) => (
-                    <div key={key}>
-                        <input id={key}
-                               type="radio"
-                               name={props.group}
-                               checked={props.checkedButton === key}
-                               onChange={props.onRadioChanged}/>
+const RadioButtons = (props) => (
+    <div>
+        {
+            Object.keys(props.buttons).map((key) => (
+                <div key={key}>
+                    <input id={key}
+                           type="radio"
+                           name={props.group}
+                           checked={props.checkedButton === key}
+                           onChange={props.onRadioChanged}/>
 
-                        <label htmlFor={key}>
-                            {props.buttons[key]}
-                        </label>
-                    </div>
-                ))
-            }
-        </div>
-    );
-};
+                    <label htmlFor={key}>
+                        {props.buttons[key]}
+                    </label>
+                </div>
+            ))
+        }
+    </div>
+);
 
 RadioButtons.propTypes = {
     buttons: PropTypes.object.isRequired,

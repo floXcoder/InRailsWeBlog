@@ -34,6 +34,7 @@ export default class TypeaheadOption extends React.Component {
 
     _handleItemClick = (event) => {
         event.preventDefault();
+
         return this.props.onClick(event);
     };
 

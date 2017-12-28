@@ -38,8 +38,9 @@ export default class Token extends React.Component {
 
     _renderCloseButton = () => {
         if (!this.props.onRemove) {
-            return "";
+            return '';
         }
+
         return (
             <a className="typeahead-token-close" href="#" onClick={(event) => {
                 this.props.onRemove(this.props.object);

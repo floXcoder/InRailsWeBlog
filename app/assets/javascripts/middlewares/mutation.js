@@ -19,7 +19,7 @@ import * as ActionTypes from '../constants/actionTypes';
 export default function mutationMiddleware({dispatch}) {
     // const initialState = getState();
 
-    return next => action => {
+    return (next) => action => {
         const {
             actionType,
             mutationAPI,

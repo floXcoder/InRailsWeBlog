@@ -31,14 +31,14 @@ export const getCategorizedTags = createSelector(
                 tagsByVisibility.only_me = [];
             }
 
-            categorizedTags = Object.keys(tagsByVisibility).map((visibility) => {
-                return {
+            categorizedTags = Object.keys(tagsByVisibility).map((visibility) => (
+                {
                     id: visibility,
                     type: ' ',
                     title: I18n.t('js.tag.enums.visibility.' + visibility),
                     items: tagsByVisibility[visibility]
                 }
-            });
+            );
         }
 
         return categorizedTags;

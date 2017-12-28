@@ -60,9 +60,7 @@ export default class SearchModule extends React.Component {
     _toggleSearchNav = () => {
         let $searchDiv = $('.blog-search-nav');
 
-        $searchDiv.is(":visible") ? $searchDiv.slideUp() : $searchDiv.slideDown(() => {
-            $searchDiv.find('input').focus()
-        });
+        $searchDiv.is(":visible") ? $searchDiv.slideUp() : $searchDiv.slideDown(() => $searchDiv.find('input').focus());
     };
 
     // TODO: utility ?
@@ -90,9 +88,7 @@ export default class SearchModule extends React.Component {
                     tags.push(tag.name);
                 });
             });
-            _.uniq(tags, (tag) => {
-                return tag.id
-            }).forEach((tag) => {
+            _.uniq(tags, (tag) => tag.id).forEach((tag) => {
                 autocompletionValues.push({entry: tag, tag: tag});
             });
 
@@ -224,9 +220,7 @@ export default class SearchModule extends React.Component {
 
     _onTokenRemove = (value) => {
         this.setState({
-            selectedTags: _.remove(this.state.selectedTags, (tag) => {
-                return tag === value;
-            })
+            selectedTags: _.remove(this.state.selectedTags, (tag) => tag === value)
         });
 
         this._handleSubmit(null, {tagSearch: true});

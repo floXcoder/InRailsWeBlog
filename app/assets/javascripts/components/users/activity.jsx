@@ -58,13 +58,16 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
             {
                 pagination &&
                 <Pagination totalPages={pagination.total_pages}
-                            onPaginationClick={(paginate) => {
-                                UserActivity._handlePaginationClick(paginate, loadActivities)
-                            }}
+                            onPaginationClick={_handlePaginationClick.bind(undefined, loadActivities)}
                             numOfPageShow={4}/>
             }
         </div>
     );
+};
+
+const _handlePaginationClick = (paginate, loadActivities) => {
+    loadActivities({page: paginate.selected + 1});
+    $('html, body').animate({scrollTop: $('.user-activity').offset().top - 64}, 750);
 };
 
 UserActivity.propTypes = {
@@ -75,11 +78,6 @@ UserActivity.propTypes = {
 
 UserActivity.defaultProps = {
     activities: []
-};
-
-UserActivity._handlePaginationClick = (paginate, loadActivities) => {
-    loadActivities({page: paginate.selected + 1});
-    $('html, body').animate({scrollTop: $('.user-activity').offset().top - 64}, 750);
 };
 
 export default UserActivity;

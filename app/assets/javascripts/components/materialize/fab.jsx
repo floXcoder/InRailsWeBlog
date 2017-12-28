@@ -13,13 +13,11 @@ const FixedActionButton = ({children}) => (
         </a>
         <ul>
             {
-                Children.map(children, (button) => {
-                    return (
-                        <li>
-                            {button}
-                        </li>
-                    );
-                })
+                Children.map(children, (button) => (
+                    <li>
+                        {button}
+                    </li>
+                ))
             }
         </ul>
     </div>

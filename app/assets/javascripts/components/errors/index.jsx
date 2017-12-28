@@ -48,44 +48,43 @@ export default class ErrorIndex extends React.Component {
         //:params, :user_agent, :user_info, :ip
         //Line number: {error.line_number} ; Column number: {error.column_number}
 
-        let ErrorNodes = this.state.errors.map((error) => {
-            return (
-                <li key={error.id}>
-                    <div className="collapsible-header">
-                        {this._renderOriginIcon(error)}
-                        {error.class_name}
-                        <div className="error-time">
-                            {error.occurred_at}
-                        </div>
-                    </div>
-
-                    <div className="collapsible-body">
-                        <h5>
-                            {I18n.t('js.error_message.url')}
-                        </h5>
-                        <blockquote>
-                            {error.target_url}
-                        </blockquote>
-                        <h5>
-                            {I18n.t('js.error_message.message')}
-                        </h5>
-                        { error.trace ? <blockquote
-                                dangerouslySetInnerHTML={{__html: error.message.replace(/\n/g, "<br />")}}/> : ''}
-                        <h5>
-                            {I18n.t('js.error_message.trace')}
-                        </h5>
-                        { error.trace ?
-                            <blockquote dangerouslySetInnerHTML={{__html: error.trace.replace(/\n/g, "<br />")}}/> : ''}
-                    </div>
-                </li>
-            );
-        });
-
         return (
             <div className="blog-error-box">
                 <ul className="collapsible popout"
                     data-collapsible="accordion">
-                    {ErrorNodes}
+                    {
+                        this.state.errors.map((error) => (
+                            <li key={error.id}>
+                                <div className="collapsible-header">
+                                    {this._renderOriginIcon(error)}
+                                    {error.class_name}
+                                    <div className="error-time">
+                                        {error.occurred_at}
+                                    </div>
+                                </div>
+
+                                <div className="collapsible-body">
+                                    <h5>
+                                        {I18n.t('js.error_message.url')}
+                                    </h5>
+                                    <blockquote>
+                                        {error.target_url}
+                                    </blockquote>
+                                    <h5>
+                                        {I18n.t('js.error_message.message')}
+                                    </h5>
+                                    {error.trace ? <blockquote
+                                        dangerouslySetInnerHTML={{__html: error.message.replace(/\n/g, "<br />")}}/> : ''}
+                                    <h5>
+                                        {I18n.t('js.error_message.trace')}
+                                    </h5>
+                                    {error.trace ?
+                                        <blockquote
+                                            dangerouslySetInnerHTML={{__html: error.trace.replace(/\n/g, "<br />")}}/> : ''}
+                                </div>
+                            </li>
+                        ))
+                    }
                 </ul>
             </div>
         );

@@ -49,23 +49,20 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
         {
             pagination &&
             <Pagination totalPages={pagination.total_pages}
-                        onPageClick={(paginate) => {
-                            ArticleTimelineDisplay._handlePaginationClick(paginate, loadArticles)
-                        }}/>
+                        onPageClick={_handlePaginationClick.bind(undefined, loadArticles)}/>
         }
     </div>
 );
+
+const _handlePaginationClick = (paginate, loadArticles) => {
+    loadArticles({page: paginate.selected + 1});
+    $('html, body').animate({scrollTop: $('.article-timeline').offset().top - 64}, 750);
+};
 
 ArticleTimelineDisplay.propTypes = {
     articles: PropTypes.array.isRequired,
     pagination: PropTypes.object,
     loadArticles: PropTypes.func
 };
-
-ArticleTimelineDisplay._handlePaginationClick = (paginate, loadArticles) => {
-    loadArticles({page: paginate.selected + 1});
-    $('html, body').animate({scrollTop: $('.article-timeline').offset().top - 64}, 750);
-};
-
 
 export default ArticleTimelineDisplay;
