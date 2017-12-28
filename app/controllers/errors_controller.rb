@@ -30,10 +30,18 @@ class ErrorsController < ApplicationController
   end
 
   def create
-    error = ErrorMessage.new_error(error_params, request, current_user)
+    error_parameters = error_params.merge(
+      params:      params.to_unsafe_h,
+      user_locale: params[:locale] || I18n.locale,
+      user_agent:  browser.to_s,
+      bot_agent:   browser.bot.name,
+      os_agent:    browser.platform.to_s
+    )
+    error            = ErrorMessage.new_error(error_parameters, request, current_user)
     error.save
 
     respond_to do |format|
+      format.html { head :ok, content_type: 'text/html' }
       format.json { render json: { success: true } }
     end
   end
@@ -45,11 +53,10 @@ class ErrorsController < ApplicationController
       format.json do
         if error.destroy
           flash.now[:success] = t('views.errors.flash.successful_deletion')
-          head :no_content
+          head :no_content, content_type: 'application/json'
         else
           flash.now[:error] = I18n.t('views.errors.flash.error_deletion')
-          render json: { errors: error.errors },
-                 status: :forbidden
+          render json: { errors: error.errors }, status: :forbidden
         end
       end
 

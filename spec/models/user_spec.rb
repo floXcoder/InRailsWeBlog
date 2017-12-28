@@ -17,12 +17,15 @@
 #  birth_date             :date
 #  locale                 :string           default("fr")
 #  settings               :jsonb            not null
+#  allow_comment          :boolean          default(TRUE), not null
+#  visibility             :integer          default("everyone"), not null
 #  current_topic_id       :integer
 #  pictures_count         :integer          default(0)
 #  topics_count           :integer          default(0)
 #  articles_count         :integer          default(0)
 #  tags_count             :integer          default(0)
 #  bookmarks_count        :integer          default(0)
+#  comments_count         :integer          default(0)
 #  slug                   :string
 #  deleted_at             :datetime
 #  created_at             :datetime         not null
@@ -45,6 +48,7 @@
 #  unlock_token           :string
 #  locked_at              :datetime
 #
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model, basic: true do

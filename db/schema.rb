@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170819105714) do
+ActiveRecord::Schema.define(version: 20171228162930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,13 +144,19 @@ ActiveRecord::Schema.define(version: 20170819105714) do
     t.text "target_url"
     t.text "referer_url"
     t.text "user_agent"
-    t.string "user_info"
     t.string "app_name"
     t.string "doc_root"
-    t.string "ip"
+    t.string "user_ip"
     t.integer "origin", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "request_format"
+    t.string "app_version"
+    t.string "user_id"
+    t.string "user_pseudo"
+    t.string "user_locale"
+    t.string "bot_agent"
+    t.string "os_agent"
   end
 
   create_table "outdated_articles", force: :cascade do |t|

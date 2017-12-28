@@ -75,14 +75,16 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
         trace = {};
     }
 
-    pushError({
-        message: message,
-        url: url,
-        lineNumber: lineNumber,
-        columnNumber: columnNumber,
-        trace: trace.stack,
-        origin: 'client'
-    });
+    if (message && trace.stack) {
+        pushError({
+            message: message,
+            url: url,
+            lineNumber: lineNumber,
+            columnNumber: columnNumber,
+            trace: trace.stack,
+            origin: 'client'
+        });
+    }
 
     if (process.env.NODE_ENV !== 'production') {
         log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'text-error');

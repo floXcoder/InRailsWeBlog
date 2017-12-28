@@ -49,4 +49,3 @@ export const deleteAllErrors = (errorId) => (dispatch) => {
         .delete(`/errors/delete_all`)
         .then(json => dispatch(removeErrors(json)));
 };
-

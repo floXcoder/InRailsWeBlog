@@ -2,14 +2,17 @@
 #
 # Table name: tag_relationships
 #
-#  id          :integer          not null, primary key
-#  user_id     :integer
-#  parent_id   :integer          not null
-#  child_id    :integer          not null
-#  article_ids :string           not null, is an Array
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id         :integer          not null, primary key
+#  user_id    :integer          not null
+#  topic_id   :integer          not null
+#  article_id :integer          not null
+#  parent_id  :integer          not null
+#  child_id   :integer          not null
+#  deleted_at :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
+
 require 'rails_helper'
 
 RSpec.describe TagRelationship, type: :model, basic: true do
