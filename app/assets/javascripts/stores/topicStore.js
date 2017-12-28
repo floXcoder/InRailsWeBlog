@@ -60,7 +60,6 @@
 //             data: requestParam
 //         })
 //             .done((dataReceived) => {
-//                 // TODO: use redux global state instead of $app
 //                 if (!$.isEmpty(dataReceived)) {
 //                     $app.user.currentTopic = _.omit(dataReceived.topic, ['tags']);
 //                     $app.user.tags = dataReceived.topic.tags || [];

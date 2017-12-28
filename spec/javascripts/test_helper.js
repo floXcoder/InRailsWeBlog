@@ -138,9 +138,6 @@ global.I18n = require('../../app/assets/javascripts/modules/i18n');
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
 
-// Declare Module Helpers
-// global.$app = require('../../app/assets/javascripts/modules/app');
-
 // Configure log level
 log.setLevel('info');
 

@@ -1,14 +1,23 @@
 'use strict';
 
+import {
+    getArticleIsOwner
+} from '../../../selectors';
+
 import ArticleEditionIcons from '../icons/edition';
 import ArticleLinkIcon from '../icons/link';
 
 import Editor from '../../editor/editor';
 
+@connect((state, props) => ({
+    isOwner: getArticleIsOwner(state)
+}), {})
 export default class ArticleEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        changeDefaultDisplay: PropTypes.func.isRequired
+        changeDefaultDisplay: PropTypes.func.isRequired,
+        // From connect
+        isOwner: PropTypes.bool,
 
         // TODO
         // onTagClick: PropTypes.func.isRequired,
@@ -100,7 +109,8 @@ export default class ArticleEditionDisplay extends React.Component {
                     <div className="right">
                         <ArticleEditionIcons onDeleteClick={this._handleDeleteClick}
                                              onCancelClick={this._handleCancelClick}
-                                             onSaveClick={this._handleSaveClick}/>
+                                             onSaveClick={this._handleSaveClick}
+                                             isOwner={this.props.isOwner}/>
                         <ArticleLinkIcon isLink={this.state.isLink}/>
                     </div>
                 </div>

@@ -22,12 +22,6 @@ I18n.locale = window.locale;
 // Keyboard inputs
 import 'expose-loader?Mousetrap!mousetrap';
 
-// Declare Module Helpers
-// TODO: use redux global state instead of $app
-// import 'expose-loader?$app!./modules/app';
-// // noinspection JSUnresolvedVariable
-// $app = $app.default;
-
 // TODO
 // if (process.env.NODE_ENV !== 'production') {
 //     const {whyDidYouUpdate} = require('why-did-you-update');

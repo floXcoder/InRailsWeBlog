@@ -6,12 +6,6 @@ import {
     Link
 } from 'react-router-dom';
 
-// import UserActions from '../../actions/userActions';
-// import UserStore from '../../stores/userStore';
-// TODO
-// import ArticleActions from '../../actions/articleActions';
-// import ArticleStore from '../../stores/articleStore';
-
 import SwitchButton from '../materialize/switchButton';
 import Spinner from '../materialize/spinner';
 import ArticleTimelineDisplay from '../articles/display/timeline';
@@ -19,17 +13,21 @@ import CommentTimeline from '../comments/display/timeline';
 import UserActivity from '../users/activity';
 import UserTracking from '../users/tracking';
 
+@connect((state) => ({
+    isAdminConnected: state.adminState.isConnected
+}))
 export default class UserComplete extends React.Component {
     static propTypes = {
         userId: PropTypes.oneOfType([
             PropTypes.number,
             PropTypes.string
         ]).isRequired,
-        isAdmin: PropTypes.bool
+        // From connect
+        isAdminConnected: PropTypes.bool
     };
 
     static defaultProps = {
-        isAdmin: false
+        isAdminConnected: false
     };
 
     constructor(props) {
@@ -131,8 +129,7 @@ export default class UserComplete extends React.Component {
     }
 
     _onAdminChange = (newAdminState) => {
-        // TODO: use redux global state instead of $app
-        if ($app.isAdminConnected()) {
+        if (this.props.isAdminConnected) {
             // TODO
             // UserActions.updateUser({
             //     id: this.state.user.id,
@@ -378,7 +375,7 @@ export default class UserComplete extends React.Component {
                                                         </div>
                                                     </li>
                                                     {
-                                                        $app.isAdminConnected() &&
+                                                        this.props.isAdminConnected &&
                                                         <li>
                                                             <div className="activity-list-addon-element">
                                                                 <span className="material-icons activity-list-addon-icon"
@@ -434,7 +431,7 @@ export default class UserComplete extends React.Component {
                         </div>
 
                         {
-                            $app.isAdminConnected() &&
+                            this.props.isAdminConnected &&
                             <div className="card">
                                 <div className="card-content">
                                     <div>
@@ -451,7 +448,7 @@ export default class UserComplete extends React.Component {
                         }
 
                         {
-                            $app.isAdminConnected() &&
+                            this.props.isAdminConnected &&
                             <div className="card">
                                 <div className="card-content">
                                     <div className="heading-3 margin-top-20 margin-bottom-20">

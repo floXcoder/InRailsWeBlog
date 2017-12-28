@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 
 import {
+    addTopic,
     switchTopic
 } from '../../actions';
 
@@ -14,9 +15,11 @@ import Submit from '../materialize/submit';
 
 @connect((state) => ({
     userId: state.userState.user.id,
-    isLoading: false,
-    topics: state.userState.user.topics
+    isLoading: state.topicState.isFetching,
+    topics: state.userState.user.topics,
+    currentTopic: state.topicState.currentTopic
 }), {
+    addTopic,
     switchTopic
 })
 export default class TopicModule extends React.Component {
@@ -25,6 +28,8 @@ export default class TopicModule extends React.Component {
         userId: PropTypes.number,
         isLoading: PropTypes.bool,
         topics: PropTypes.array,
+        currentTopic: PropTypes.object,
+        addTopic: PropTypes.func,
         switchTopic: PropTypes.func
     };
 
@@ -37,34 +42,18 @@ export default class TopicModule extends React.Component {
         super(props);
 
         this._topicInput = null;
-
-        // TODO
-        // if ($app.isUserConnected()) {
-        //     this.setState({
-        //         currentTopicId: $app.getCurrentTopic().id,
-        //         topics: $app.user.topics
-        //     });
-        // }
     }
 
     state = {
-        currentTopicId: undefined,
         isAddingTopic: false
-
-        // TODO
-        // topicEditingId: undefined,
-        // isCreateTopicOpened: false,
     };
 
     _handleSwitchTopicClick = (topicId, topicSlug, event) => {
         event.preventDefault();
 
-        this.props.switchTopic(this.props.userId, topicId);
-
-        // TODO
-        // if ($app.getCurrentTopic().id !== topicId) {
-        //     TopicActions.switchTopic($app.user.currentId, topicId);
-        // }
+        if (this.props.currentTopic.id !== topicId) {
+            this.props.switchTopic(this.props.userId, topicId);
+        }
     };
 
     _handleAddTopicClick = (event) => {
@@ -84,16 +73,11 @@ export default class TopicModule extends React.Component {
     _handleTopicSubmit = (event) => {
         event.preventDefault();
 
-        // TODO
-        // if (this.state.isAddingTopic && this._topicInput) {
-        //     // TopicActions.addTopic($app.user.currentId, {
-        //     //     name: this._topicInput.value()
-        //     // });
-        //
-        //     if (this.props.onTopicChange) {
-        //         this.props.onTopicChange(event);
-        //     }
-        // }
+        if (this.state.isAddingTopic && this._topicInput) {
+            this.props.addTopic({
+                name: this._topicInput.value()
+            });
+        }
     };
 
     render() {
@@ -142,7 +126,7 @@ export default class TopicModule extends React.Component {
                                  className="topic-item">
                                 <div className="topic-item-details"
                                      onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug)}>
-                                    <a className={classNames({'topic-item-current': topic.id === this.state.currentTopicId})}>
+                                    <a className={classNames({'topic-item-current': topic.id === this.props.currentTopic.id})}>
                                         {topic.name}
                                     </a>
                                 </div>

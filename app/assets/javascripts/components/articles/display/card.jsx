@@ -7,6 +7,7 @@ import {
 import HighlightCode from 'highlight.js';
 
 import {
+    getArticleIsOwner,
     getArticleIsOutdated
 } from '../../../selectors';
 
@@ -18,6 +19,7 @@ import ArticleTime from '../properties/time';
 import UserAvatarIcon from '../../users/icons/avatar';
 
 @connect((state, props) => ({
+    isOwner: getArticleIsOwner(state),
     isOutdated: getArticleIsOutdated(props.article)
 }), {
 })
@@ -28,6 +30,7 @@ export default class ArticleCardDisplay extends React.Component {
         onEditClick: PropTypes.func.isRequired,
         onVisibilityClick: PropTypes.func.isRequired,
         // From connect
+        isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool
     };
 
@@ -107,7 +110,8 @@ export default class ArticleCardDisplay extends React.Component {
                                             articleVisibility={this.props.article.visibility}
                                             onEditClick={this.props.onEditClick}
                                             onBookmarkClick={this.props.onBookmarkClick}
-                                            onVisibilityClick={this.props.onVisibilityClick}/>
+                                            onVisibilityClick={this.props.onVisibilityClick}
+                                            isOwner={this.props.isOwner}/>
                         </div>
                     </div>
                 </div>

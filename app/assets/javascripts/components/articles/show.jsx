@@ -13,6 +13,7 @@ import {
 } from '../../actions';
 
 import {
+    getArticleIsOwner,
     getArticleIsOutdated
 } from '../../selectors';
 
@@ -37,9 +38,9 @@ import CommentBox from '../comments/box';
 @connect((state) => ({
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
+    isOwner: getArticleIsOwner(state),
     isOutdated: getArticleIsOutdated(state.articleState.article),
     isUserConnected: state.userState.isConnected,
-    userCurrentId: state.userState.currentId
 }), {
     fetchArticle
 })
@@ -49,9 +50,9 @@ export default class ArticleShow extends React.Component {
         // From connect
         isFetching: PropTypes.bool,
         article: PropTypes.object,
+        isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool,
         isUserConnected: PropTypes.bool,
-        userCurrentId: PropTypes.number,
         fetchArticle: PropTypes.func
     };
 
@@ -225,8 +226,7 @@ export default class ArticleShow extends React.Component {
                             </div>
 
                             <div className="col s12 m12 l6 right-align">
-                                <ArticleDeleteIcon article={this.props.article}
-                                                   isUserConnected={this.props.isUserConnected}
+                                <ArticleDeleteIcon isOwner={this.props.isOwner}
                                                    onDeleteClick={this._handleDeleteClick}/>
 
                                 <ArticleBookmarkIcon articleId={this.props.article.id}
@@ -240,11 +240,10 @@ export default class ArticleShow extends React.Component {
 
                                 <ArticleVisibilityIcon articleId={this.props.article.id}
                                                        articleVisibility={this.props.article.visibility}
-                                                       isUserConnected={this.props.isUserConnected}
+                                                       isOwner={this.props.isOwner}
                                                        hasFloatingButton={true}/>
 
-                                <ArticleHistoryIcon article={this.props.article}
-                                                    isUserConnected={this.props.isUserConnected}
+                                <ArticleHistoryIcon isUserConnected={this.props.isUserConnected}
                                                     onHistoryClick={this._handleHistoryClick}/>
 
                                 {

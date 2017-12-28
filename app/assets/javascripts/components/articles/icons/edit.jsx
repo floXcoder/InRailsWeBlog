@@ -1,25 +1,28 @@
 'use strict';
 
-const ArticleEditIcon = ({article, onEditClick}) => {
-    // TODO: use user global state
-    // if ($app.isUserConnected(article.user.id)) {
-    //     return (
-    //         <a className="btn-floating article-edit tooltipped"
-    //            data-tooltip={I18n.t('js.article.tooltip.edit')}
-    //            onClick={onEditClick}>
-    //<span className="material-icons"
-    //      data-icon="mode_edit"
-    //      aria-hidden="true"/>
-    //         </a>
-    //     );
-    // } else {
+const ArticleEditIcon = ({onEditClick, isOwner}) => {
+    if (!isOwner) {
         return null;
-    // }
+    }
+
+    return (
+        <a className="btn-floating article-edit tooltipped"
+           data-tooltip={I18n.t('js.article.tooltip.edit')}
+           onClick={onEditClick}>
+                <span className="material-icons"
+                      data-icon="mode_edit"
+                      aria-hidden="true"/>
+        </a>
+    );
 };
 
 ArticleEditIcon.propTypes = {
-    articleId: PropTypes.number.isRequired,
-    onEditClick: PropTypes.func
+    onEditClick: PropTypes.func,
+    isOwner: PropTypes.bool
+};
+
+ArticleEditIcon.defaultProps = {
+    isOwner: false
 };
 
 export default ArticleEditIcon;

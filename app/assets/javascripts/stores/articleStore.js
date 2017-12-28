@@ -9,46 +9,6 @@
 //         this.url = '/articles';
 //     }
 //
-//     // Called by handleErrors function of Errors mixin
-//     displayUnauthorizedMessage() {
-//         Notification.error(I18n.t('js.article.errors.not_authorized'));
-//     }
-//
-//     // Called by handleErrors function of Errors mixin
-//     displayErrorsMessage(url, errorMessage) {
-//         if (url.includes('comments')) {
-//             Object.keys(errorMessage).forEach((errorField) => {
-//                 Notification.error(
-//                     I18n.t('js.comment.model.errors.' + errorField,
-//                         {
-//                             message: errorMessage[errorField],
-//                             defaults: [{scope: 'js.comment.model.errors.default'}]
-//                         })
-//                 );
-//             });
-//         } else if (url.includes('bookmark')) {
-//             Object.keys(errorMessage).forEach((errorField) => {
-//                 Notification.error(
-//                     I18n.t('js.article.model.errors.bookmark.' + errorField,
-//                         {
-//                             message: errorMessage[errorField],
-//                             defaults: [{scope: 'js.article.model.errors.bookmark.default'}]
-//                         })
-//                 );
-//             });
-//         } else {
-//             Object.keys(errorMessage).forEach((errorField) => {
-//                 Notification.error(
-//                     I18n.t('js.article.model.errors.' + errorField,
-//                         {
-//                             message: errorMessage[errorField],
-//                             defaults: [{scope: 'js.article.model.errors.default'}]
-//                         })
-//                 );
-//             });
-//         }
-//     }
-//
 //     _fetchArticles(data, callback) {
 //         let url = this.url;
 //
@@ -58,28 +18,6 @@
 //             requestParam = {
 //                 filter: {}
 //             };
-//
-//             if (data.topicSlug) {
-//                 requestParam.filter.topic_slug = data.topicSlug;
-//             }
-//
-//             if (data.tagSlug) {
-//                 requestParam.filter.tag_slugs = [data.tagSlug];
-//             }
-//
-//             if (data.tagParentSlug) {
-//                 requestParam.filter.parent_tag_slugs = [data.tagParentSlug];
-//             }
-//
-//             if (data.tagChildSlug) {
-//                 requestParam.filter.child_tag_slugs = [data.tagChildSlug];
-//             }
-//
-//             if (data.page) {
-//                 requestParam.page = data.page;
-//             } else {
-//                 requestParam.page = 1;
-//             }
 //
 //             // TODO: move in search action
 //             // if (data.query) {
@@ -148,129 +86,6 @@
 //                     });
 //                 } else {
 //                     log.error('No data received from fetch articles');
-//                 }
-//             })
-//             .fail((xhr, status, error) => {
-//                 this.handleErrors(url, xhr, status, error);
-//             });
-//     }
-//
-//     onAddArticle(article) {
-//         if ($.isEmpty(article)) {
-//             log.error('Tried to push article without article');
-//             return;
-//         }
-//
-//         const url = this.url;
-//
-//         let requestParam = {};
-//
-//         if (article) {
-//             requestParam.articles = article;
-//         } else {
-//             return;
-//         }
-//
-//         $.ajax({
-//             url: this.url,
-//             dataType: 'json',
-//             type: 'POST',
-//             data: requestParam
-//         })
-//             .done((dataReceived) => {
-//                 if (!$.isEmpty(dataReceived)) {
-//                     this.trigger({
-//                         type: 'addArticle',
-//                         article: dataReceived.article
-//                     });
-//                 } else {
-//                     log.error('No data received from add article');
-//                 }
-//             })
-//             .fail((xhr, status, error) => {
-//                 if (xhr && xhr.status === 403) {
-//                     this.trigger({
-//                         type: 'addArticleError',
-//                         articleErrors: xhr.responseJSON
-//                     });
-//                 } else {
-//                     this.handleErrors(url, xhr, status, error);
-//                 }
-//             });
-//     }
-//
-//     onUpdateArticle(article) {
-//         if ($.isEmpty(article) || $.isEmpty(article.id)) {
-//             log.error('Tried to update article without data');
-//             return;
-//         }
-//
-//         const url = this.url + '/' + article.id;
-//         let requestParam = {
-//             _method: 'put',
-//             articles: article
-//         };
-//
-//         $.ajax({
-//             url: url,
-//             dataType: 'json',
-//             type: 'POST',
-//             data: requestParam
-//         })
-//             .done((dataReceived) => {
-//                 if (!$.isEmpty(dataReceived)) {
-//                     this.trigger({
-//                         type: 'updateArticle',
-//                         article: dataReceived.article
-//                     });
-//                 } else {
-//                     log.error('No data received from update article');
-//                 }
-//             })
-//             .fail((xhr, status, error) => {
-//                 if (xhr && xhr.status === 403) {
-//                     this.trigger({
-//                         type: 'updateArticleError',
-//                         articleErrors: xhr.responseJSON
-//                     });
-//                 } else {
-//                     this.handleErrors(url, xhr, status, error);
-//                 }
-//             });
-//     }
-//
-//     onDeleteArticle(article) {
-//         if ($.isEmpty(article)) {
-//             log.error('Tried to delete article without article');
-//             return;
-//         }
-//
-//         let requestParam = {};
-//         let url = this.url;
-//         let showMode = false;
-//
-//         if (article.id) {
-//             url += '/' + article.id;
-//             requestParam._method = 'delete';
-//         }
-//         if (article.showMode) {
-//             showMode = true;
-//         }
-//
-//         $.ajax({
-//             url: url,
-//             dataType: 'json',
-//             type: 'POST',
-//             data: requestParam
-//         })
-//             .done((dataReceived) => {
-//                 if (!$.isEmpty(dataReceived)) {
-//                     this.trigger({
-//                         type: 'deleteArticle',
-//                         deletedArticle: dataReceived
-//                     });
-//                 } else {
-//                     log.error('No data received from delete article');
 //                 }
 //             })
 //             .fail((xhr, status, error) => {

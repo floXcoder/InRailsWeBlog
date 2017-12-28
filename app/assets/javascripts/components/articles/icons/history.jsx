@@ -1,7 +1,7 @@
 'use strict';
 
-const ArticleHistoryIcon = ({article, onHistoryClick, isUserConnected}) => {
-    if (!isUserConnected) {
+const ArticleHistoryIcon = ({onHistoryClick, isOwner}) => {
+    if (!isOwner) {
         return null;
     }
 
@@ -17,13 +17,12 @@ const ArticleHistoryIcon = ({article, onHistoryClick, isUserConnected}) => {
 };
 
 ArticleHistoryIcon.propTypes = {
-    article: PropTypes.object.isRequired,
     onHistoryClick: PropTypes.func.isRequired,
-    isUserConnected: PropTypes.bool
+    isOwner: PropTypes.bool
 };
 
 ArticleHistoryIcon.defaultProps = {
-    isUserConnected: false
+    isOwner: false
 };
 
 export default ArticleHistoryIcon;

@@ -1,8 +1,8 @@
 'use strict';
 
 // TODO: use connect for article visibility and user connected
-const ArticleVisibilityIcon = ({articleId, articleVisibility, isUserConnected, hasFloatingButton}) => {
-    if (!isUserConnected) {
+const ArticleVisibilityIcon = ({articleId, articleVisibility, isOwner, hasFloatingButton}) => {
+    if (!isOwner) {
         return null;
     }
 
@@ -35,12 +35,12 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility, isUserConnected, h
 ArticleVisibilityIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     articleVisibility: PropTypes.string.isRequired,
-    isUserConnected: PropTypes.bool,
+    isOwner: PropTypes.bool,
     hasFloatingButton: PropTypes.bool
 };
 
 ArticleVisibilityIcon.defaultProps = {
-    isUserConnected: false,
+    isOwner: false,
     hasFloatingButton: false
 };
 
