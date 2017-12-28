@@ -70,7 +70,7 @@ const handleParseErrors = (error, url) => {
 };
 
 const handleFlashMessage = (response) => {
-    let flashMessage = response.headers.get("X-Flash-Messages");
+    let flashMessage = response.headers.get('X-Flash-Messages');
 
     if (flashMessage) {
         flashMessage = JSON.parse(decodeURIComponent(escape(flashMessage)));
