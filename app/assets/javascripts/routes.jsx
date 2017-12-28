@@ -1,41 +1,15 @@
 'use strict';
 
-import LazyLoaderFactory from './components/loaders/lazyLoader';
+import ArticleIndex from './components/loaders/articleIndex';
+import ArticleShow from './components/loaders/articleShow';
+import ArticleNew from './components/loaders/articleNew';
+import ArticleEdit from './components/loaders/articleEdit';
 
-const ArticleIndexLoader = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "article-index" */ './components/articles/index')}
-                       props={props}/>
-);
-const ArticleShowLoader = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "article-show" */ './components/articles/show')}
-                       props={props}/>
-);
-const ArticleNewLoader = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "article-new" */ './components/articles/new')}
-                       props={props}/>
-);
-const ArticleEditLoader = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "article-edit" */ './components/articles/edit')}
-                       props={props}/>
-);
+import TagShow from './components/loaders/tagShow';
+import TagEdit from './components/loaders/tagEdit';
 
-const TagShowLoader = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "tag-show" */ './components/tags/show')}
-                       props={props}/>
-);
-const TagEditLoader = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "tag-edit" */ './components/tags/edit')}
-                       props={props}/>
-);
-
-const UserShowLoader = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "user-show" */ './components/users/show')}
-                       props={props}/>
-);
-const UserEditLoader = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "user-edit" */ './components/users/edit')}
-                       props={props}/>
-);
+import UserShow from './components/loaders/userShow';
+import UserEdit from './components/loaders/userEdit';
 
 export default {
     // Rails routes:
@@ -66,52 +40,52 @@ export default {
             {
                 path: '/',
                 exact: true,
-                component: ArticleIndexLoader
+                component: ArticleIndex
             },
             {
                 path: '/topic/:topicSlug',
                 exact: true,
-                component: ArticleIndexLoader
+                component: ArticleIndex
             },
             {
                 path: '/topic/:topicSlug/tags/:tagSlug',
                 exact: true,
-                component: ArticleIndexLoader
+                component: ArticleIndex
             },
             {
                 path: '/topic/:topicSlug/tags/:tagParentSlug/:tagChildSlug',
                 exact: true,
-                component: ArticleIndexLoader
+                component: ArticleIndex
             },
             {
                 path: '/topic/:topicSlug/user/:userSlug',
-                component: ArticleIndexLoader
+                component: ArticleIndex
             },
             {
                 path: '/topic/:topicSlug/article/new',
                 exact: true,
-                component: ArticleNewLoader
+                component: ArticleNew
             },
             {
                 path: '/article/new',
                 exact: true,
-                component: ArticleNewLoader
+                component: ArticleNew
             },
             {
                 path: '/article/tags/:tagSlug',
-                component: ArticleIndexLoader
+                component: ArticleIndex
             },
             {
                 path: '/article/:articleSlug',
-                component: ArticleShowLoader
+                component: ArticleShow
             },
             {
                 path: '/topic/:topicSlug/article/:articleSlug',
-                component: ArticleShowLoader
+                component: ArticleShow
             },
             {
                 path: '/topic/:topicSlug/article/:articleSlug/edit',
-                component: ArticleEditLoader
+                component: ArticleEdit
             }
         ]
     },
@@ -119,7 +93,7 @@ export default {
     permanents: [
         {
             path: 'new-article',
-            component: ArticleNewLoader
+            component: ArticleNew
         }
     ]
 
