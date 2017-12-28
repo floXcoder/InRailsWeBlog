@@ -147,15 +147,15 @@ export default class TagShow extends React.Component {
                             {
                                 this.state.tag.children && this.state.tag.children.length > 0
                                     ?
-                                    this.state.tag.children.map((tag, i) =>
+                                    this.state.tag.children.map((tag, i) => (
                                         <Link key={i}
-                                              className="waves-effect waves-light btn-small tag-child"
+                                              className="btn-small waves-effect waves-light tag-child"
                                               to={`/tag/${tag.slug}`}>
                                             {tag.name}
                                         </Link>
-                                    )
+                                    ))
                                     :
-                                    <span className="tag-item-no-children">
+                                        <span className="tag-item-no-children">
                                             {I18n.t('js.tag.common.no_children')}
                                         </span>
                             }
@@ -166,7 +166,7 @@ export default class TagShow extends React.Component {
                         <div className="row">
                             <div className="col s12 m12 l6 md-margin-bottom-20">
                                 <Link to={`/`}
-                                      className="btn btn-default">
+                                      className="btn btn-default waves-effect waves-light">
                                     {I18n.t('js.tag.show.back_button')}
                                 </Link>
                             </div>

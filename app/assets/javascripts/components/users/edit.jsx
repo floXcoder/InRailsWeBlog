@@ -199,7 +199,7 @@ export default class UserEdit extends React.Component {
                         <div className="row">
                             <div className="col s6 left-align">
                                 <Link to={'/'}
-                                      className="btn btn-default">
+                                      className="btn btn-default waves-effect waves-light">
                                     {I18n.t('js.user.edit.back_button')}
                                 </Link>
                             </div>
