@@ -1,5 +1,8 @@
 'use strict';
 
+// Polyfill promise
+require('es6-promise').polyfill();
+
 // jQuery
 import 'jquery-ujs';
 

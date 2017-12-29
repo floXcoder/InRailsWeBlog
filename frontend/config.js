@@ -87,10 +87,7 @@ module.exports = {
             ReactDOM: 'react-dom',
             PropTypes: 'prop-types',
             connect: ['react-redux', 'connect'],
-            classNames: 'classnames',
-            Promise: 'promise-polyfill',
-            "window.Promise": 'promise-polyfill',
-            "global.Promise": 'promise-polyfill'
+            classNames: 'classnames'
         },
         happyPack: {
             id: 'jsx',

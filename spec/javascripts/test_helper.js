@@ -102,7 +102,6 @@ global.log = require('loglevel');
 global.React = require('react');
 global.ReactDOM = require('react-dom');
 global.classNames = require('classnames');
-global.Promise = require('promise-polyfill');
 
 window.railsEnv = 'test';
 window.parameters = JSON.parse('{"website_name":"InRailsWeBlog","website_email":"blog@inrailsweblog.com","small_screen_up":601,"medium_screen_up":993,"large_screen_up":1201,"small_screen":600,"medium_screen":992,"large_screen":1200,"cache_time":7200,"image_size":8388608,"per_page":12,"user_pseudo_min_length":3,"user_pseudo_max_length":60,"user_email_min_length":5,"user_email_max_length":128,"user_password_min_length":8,"user_password_max_length":128,"topic_name_min_length":1,"topic_name_max_length":128,"topic_description_min_length":3,"topic_description_max_length":3000,"article_title_min_length":3,"article_title_max_length":128,"article_summary_min_length":3,"article_summary_max_length":256,"article_content_min_length":3,"article_content_max_length":8000000,"tag_name_min_length":1,"tag_name_max_length":52,"tag_description_min_length":3,"tag_description_max_length":3000,"comment_title_min_length":1,"comment_title_max_length":256,"comment_body_min_length":1,"comment_body_max_length":1024,"notation_min":0,"notation_max":5}');
