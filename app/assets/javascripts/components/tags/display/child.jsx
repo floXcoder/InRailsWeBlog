@@ -6,7 +6,7 @@ import {
 
 const ChildTag = ({tag, parentTagSlug}) => (
     <NavLink className="tag-child"
-             to={`/article/tags/${parentTagSlug}/${tag.slug}`}>
+             to={`/tagged/${parentTagSlug}/${tag.slug}`}>
         <div className="tag-child-name">
             {tag.name}
         </div>

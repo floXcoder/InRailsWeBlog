@@ -2,28 +2,54 @@
 
 import _ from 'lodash';
 
-// TODO
-// import SearchActions from '../../actions/searchActions';
-// import SearchStore from '../../stores/searchStore';
+import Tokenizer from '../autocomplete/tokenizer';
 
-// import Tokenizer from '../autocomplete/tokenizer';
+import {
+    getSearchHistory,
+    saveSearchHistory,
+    fetchAutocomplete,
+    fetchSearch
+} from '../../actions';
 
+import {
+    getAutocompleteResults
+} from '../../selectors';
+
+@connect((state) => ({
+    isSearching: state.searchState.isSearching,
+    hasSearched: state.searchState.hasSearched,
+    query: state.searchState.query,
+    filters: state.searchState.filters,
+
+    autocompleteValues: getAutocompleteResults(state)
+}), {
+    getSearchHistory,
+    saveSearchHistory,
+    fetchAutocomplete,
+    fetchSearch
+})
 export default class SearchModule extends React.Component {
     static propTypes = {
-        isOpened: PropTypes.bool.isRequired
+        isOpened: PropTypes.bool.isRequired,
+        // From connect
+        isSearching: PropTypes.bool,
+        hasSearched: PropTypes.bool,
+        query: PropTypes.string,
+        saveSearchHistory: PropTypes.func,
+        getSearchHistory: PropTypes.func,
+        fetchAutocomplete: PropTypes.func,
+        fetchSearch: PropTypes.func,
+
+        autocompleteValues: PropTypes.array,
     };
 
     constructor(props) {
         super(props);
 
         this._typeahead = null;
-
-        // TODO
-        // this.mapStoreToState(SearchStore, this.onSearchChange);
     }
 
     state = {
-        autocompleteValues: [],
         selectedTags: [],
         previousSelectedTags: [],
         $searchDiv: undefined,
@@ -32,15 +58,14 @@ export default class SearchModule extends React.Component {
     };
 
     componentDidMount() {
-        Mousetrap.bind('alt+r', () => {
-            this._toggleSearchNav();
-            return false;
-        }, 'keydown');
-
-        // $('#toggle-search').click(() => {
+        // Mousetrap.bind('alt+r', () => {
         //     this._toggleSearchNav();
         //     return false;
-        // });
+        // }, 'keydown');
+
+        $('#toggle-search').click(() => {
+            this._toggleSearchNav();
+        });
 
         // this._toggleSearchNav();
     }
@@ -63,54 +88,29 @@ export default class SearchModule extends React.Component {
         $searchDiv.is(":visible") ? $searchDiv.slideUp() : $searchDiv.slideDown(() => $searchDiv.find('input').focus());
     };
 
-    // TODO: utility ?
-    // this.mapStoreToState(UserStore, this.onSearchChange);
-    // onSearchChange(userData) {
-    //     if (!$.isEmpty(userData.search)) {
-    //         this._handleSubmit(null, userData.search);
+    // TODO
+    // onSearchChange(searchData) {
+    //     if ($.isEmpty(searchData)) {
+    //         return;
+    //     }
+    //
+    //     let newState = {};
+    //
+    //     // if (!$.isEmpty(searchData.suggestions)) {
+    //     //     newState.suggestions = searchData.suggestions;
+    //     // } else if (!$.isEmpty(this.state.suggestions)) {
+    //     //     newState.suggestions = [];
+    //     // }
+    //
+    //     // get from history
+    //     // if (searchData.paramsFromUrl) {
+    //     //     this._activateSearch(searchData.paramsFromUrl);
+    //     // }
+    //
+    //     if (!$.isEmpty(newState)) {
+    //         this.setState(newState);
     //     }
     // }
-
-    onSearchChange(searchData) {
-        if ($.isEmpty(searchData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (searchData.type === 'autocomplete') {
-            let autocompletionValues = [];
-            let tags = [];
-
-            searchData.autocompleteResults.articles.forEach((autocompleteValue) => {
-                autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
-                autocompleteValue.tags.forEach((tag) => {
-                    tags.push(tag.name);
-                });
-            });
-            _.uniq(tags, (tag) => tag.id).forEach((tag) => {
-                autocompletionValues.push({entry: tag, tag: tag});
-            });
-
-            newState.autocompleteValues = autocompletionValues;
-        }
-
-        // TODO
-        // if (!$.isEmpty(searchData.suggestions)) {
-        //     newState.suggestions = searchData.suggestions;
-        // } else if (!$.isEmpty(this.state.suggestions)) {
-        //     newState.suggestions = [];
-        // }
-
-        // TODO: get from history
-        // if (searchData.paramsFromUrl) {
-        //     this._activateSearch(searchData.paramsFromUrl);
-        // }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
 
     _handleSuggestionClick = (suggestion, event) => {
         event.preventDefault();
@@ -126,8 +126,11 @@ export default class SearchModule extends React.Component {
         let entryValue = this._typeahead.getEntryText().trim();
 
         if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
-            // TODO
-            // SearchActions.autocomplete('global', entryValue);
+            this.props.fetchAutocomplete({
+                selectedTypes: 'all',
+                query: entryValue,
+                limit: 6
+            });
         }
 
         let pressedKey = $.NAVIGATION_KEYMAP[event.which];
@@ -167,8 +170,7 @@ export default class SearchModule extends React.Component {
                 request.searchOptions = searchOptions;
             }
 
-            // TODO
-            // SearchActions.search(request);
+            this.props.fetchSearch(request);
 
             this._toggleSearchNav();
             this.setState({
@@ -230,10 +232,9 @@ export default class SearchModule extends React.Component {
         event.preventDefault();
         $('.blog-search-nav').slideUp();
 
-        // TODO
-        // this._typeahead.setEntryText('');
+        this._typeahead.setEntryText('');
         this.setState({selectedTags: []});
-        // this._typeahead.setState({selected: []});
+        this._typeahead.setState({selected: []});
     };
 
     render() {
@@ -241,17 +242,17 @@ export default class SearchModule extends React.Component {
             <div className="container blog-search">
                 <form className="search-form"
                       onSubmit={this._handleSubmit}>
-                    {/*<Tokenizer ref={(typeahead) => this._typeahead = typeahead}*/}
-                    {/*options={this.state.autocompleteValues}*/}
-                    {/*onKeyUp={this._onKeyUp}*/}
-                    {/*placeholder={I18n.t('js.article.search.placeholder')}*/}
-                    {/*filterOption="entry"*/}
-                    {/*displayOption={this._displayOption}*/}
-                    {/*maxVisible={6}*/}
-                    {/*addTokenCondition="tag"*/}
-                    {/*customClasses={{listItem: 'typeahead-list-item'}}*/}
-                    {/*onTokenAdd={this._onTokenAdd}*/}
-                    {/*onTokenRemove={this._onTokenRemove}/>*/}
+                    <Tokenizer ref={(typeahead) => this._typeahead = typeahead}
+                               options={this.props.autocompleteValues}
+                               onKeyUp={this._onKeyUp}
+                               placeholder={I18n.t('js.search.placeholder')}
+                               filterOption="entry"
+                               displayOption={this._displayOption}
+                               maxVisible={6}
+                               addTokenCondition="tag"
+                               customClasses={{listItem: 'typeahead-list-item'}}
+                               onTokenAdd={this._onTokenAdd}
+                               onTokenRemove={this._onTokenRemove}/>
 
                     <a className="search-form-close"
                        onClick={this._handleCloseClick}

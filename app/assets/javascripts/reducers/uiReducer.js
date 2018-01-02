@@ -8,12 +8,14 @@ import * as ActionTypes from '../constants/actionTypes';
 
 // import * as Records from '../constants/records';
 
-const initState =  new Record({
+const initState = new Record({
     isUserPopupOpened: false,
     isUserSignupOpened: false,
     isUserLoginOpened: false,
 
     isTopicPopupOpened: false,
+
+    isSearchPopupOpened: false,
 
     articleDisplayMode: 'card'
 });
@@ -40,11 +42,20 @@ export default function topicReducer(state = new initState(), action) {
                 isTopicPopupOpened: !state.isTopicPopupOpened
             });
 
-        case ActionTypes.USER_CHANGE_SUCCESS:
+        case ActionTypes.UI_SWITCH_SEARCH_POPUP:
             return state.merge({
-                isUserSignupOpened: false,
-                isUserLoginOpened: false
+                isSearchPopupOpened: !state.isSearchPopupOpened
             });
+
+        case ActionTypes.USER_FETCH_SUCCESS:
+        case ActionTypes.USER_CHANGE_SUCCESS:
+            if ((action.user && action.connection) || action.settings) {
+                return state.merge({
+                    articleDisplayMode: action.connection ? action.user.settings.articleDisplay : action.settings.articleDisplay
+                })
+            } else {
+                return state;
+            }
 
         default:
             return state;

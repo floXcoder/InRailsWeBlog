@@ -30,4 +30,8 @@ class TopicSerializer < ActiveModel::Serializer
              :priority,
              :visibility,
              :slug
+
+  has_many :tags, if: -> { instance_options[:with_tags] }, each_serializer: TagSerializer do
+    Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')
+  end
 end

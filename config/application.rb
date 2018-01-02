@@ -44,10 +44,7 @@ module InRailsWeBlog
     config.action_view.embed_authenticity_token_in_remote_forms = true
 
     # Log levels :debug, :info, :warn, :error, :fatal, et :unknown
-    config.log_level = :warn if Rails.env.production?
-
-    # Log file for development
-    config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/development.log')) if Rails.env.development?
+    config.log_level = :info
 
     # I18n configuration
     config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{ rb , yml }').to_s]

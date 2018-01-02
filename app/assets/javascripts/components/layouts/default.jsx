@@ -5,7 +5,9 @@ import {
 } from 'react-router-dom';
 
 import {
-    fetchUser
+    initUser,
+    fetchTopics,
+    fetchTags
 } from '../../actions';
 
 import LoadingLayout from './loading';
@@ -20,9 +22,12 @@ import SanitizePaste from '../../modules/wysiwyg/sanitizePaste';
 @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     userCurrentId: state.userState.currentId,
+    topicCurrentId: state.topicState.currentTopic && state.topicState.currentTopic.id,
     isLoadingUser: state.userState.isFetching
 }), {
-    fetchUser
+    initUser,
+    fetchTopics,
+    fetchTags
 })
 export default class DefaultLayout extends React.Component {
     static propTypes = {
@@ -30,17 +35,20 @@ export default class DefaultLayout extends React.Component {
         path: PropTypes.string.isRequired,
         component: PropTypes.func.isRequired,
         exact: PropTypes.bool,
+        // From switch
+        computedMatch: PropTypes.object,
         // From connect
         isUserConnected: PropTypes.bool,
         userCurrentId: PropTypes.number,
+        topicCurrentId: PropTypes.number,
         isLoadingUser: PropTypes.bool,
-        fetchUser: PropTypes.func
+        initUser: PropTypes.func,
+        fetchTopics: PropTypes.func,
+        fetchTags: PropTypes.func
     };
 
     static defaultProps = {
-        isUserConnected: false,
-        exact: false,
-        isLoadingUser: false
+        exact: false
     };
 
     constructor(props) {
@@ -48,8 +56,22 @@ export default class DefaultLayout extends React.Component {
 
         this._router = null;
 
-        if (this.props.isUserConnected) {
-            this.props.fetchUser(this.props.userCurrentId, {userProfile: true});
+        // Load user environment if connected
+        if (props.isUserConnected) {
+            // Get current user details with current topic
+            props.initUser(props.userCurrentId, {userProfile: true})
+                .then((response) => {
+                    if (response && response.user) {
+                        // Get all user topics
+                        props.fetchTopics(props.userCurrentId);
+
+                        // Get all user tags for current topic (private user tags and common public tags associated to articles)
+                        props.fetchTags({topicId: response.user.currentTopic.id});
+                    }
+                });
+        } else {
+            // Get all public tags (by default)
+            props.fetchTags();
         }
     }
 
@@ -58,19 +80,18 @@ export default class DefaultLayout extends React.Component {
     };
 
     componentDidMount() {
-        this._onInit();
+        ClipboardManager.initialize(this._onPaste);
     }
 
-    _onInit = () => {
-        // TODO
-        // // Synchronize local data with user account just after sign in ou up
-        // import UserActions from '../../actions/userActions';
-        // if (window.userJustSign) {
-        //     UserActions.synchronize();
-        // }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.topicCurrentId !== nextProps.topicCurrentId) {
+            this.props.fetchTags({topicId: nextProps.topicCurrentId});
+        }
 
-        ClipboardManager.initialize(this._onPaste);
-    };
+        // if (!Object.equals(this.props.computedMatch.params, nextProps.computedMatch.params)) {
+        //     log.info(nextProps.computedMatch.params)
+        // }
+    }
 
     _onPaste = (content) => {
         if (this._router && this.props.path !== '/article/new') {
@@ -92,60 +113,53 @@ export default class DefaultLayout extends React.Component {
         window.scrollTo(0, 0);
     };
 
-    _handleReloadPage = () => {
-        // TODO
-        // this.setState({
-        //     isLoadingUser: true
-        // });
-    };
-
     render() {
         const {component: Component, ...props} = this.props;
 
+        if (this.props.isLoadingUser) {
+            return (
+                <div>
+                    <LoadingLayout/>
+                </div>
+            );
+        }
+
         return (
-            <div>
-                {
-                    this.props.isLoadingUser
-                        ?
-                        <div>
-                            <LoadingLayout/>
-                        </div>
-                        :
-                        <Route {...props}
-                               render={(router) => {
-                                   this._router = router;
+            <Route {...props}
+                   render={
+                       (router) => {
+                           this._router = router;
 
-                                   return (
-                                       <div className="blog-content">
-                                           <HeaderLayout onReloadPage={this._handleReloadPage}/>
+                           return (
+                               <div className="blog-content">
+                                   <HeaderLayout/>
 
-                                           <SidebarLayout params={router.match.params}
-                                                          onOpened={this._handleSidebarPinClick}/>
+                                   <SidebarLayout params={router.match.params}
+                                                  onOpened={this._handleSidebarPinClick}/>
 
-                                           <div
-                                               className={classNames('blog-main-content', {'blog-main-pinned': this.state.isSidebarOpened})}>
-                                               <div className="container blog-main">
-                                                   {
-                                                       this.props.routes.permanents.map((route, index) => (
-                                                           <Route key={index}
-                                                                  path={`${router.match.path}/${route.path}`}
-                                                                  component={route.component}/>
-                                                       ))
-                                                   }
+                                   <div
+                                       className={classNames('blog-main-content', {'blog-main-pinned': this.state.isSidebarOpened})}>
+                                       <div className="container blog-main">
+                                           {
+                                               this.props.routes.permanents.map((route, index) => (
+                                                   <Route key={index}
+                                                          path={`${router.match.path}/${route.path}`}
+                                                          component={route.component}/>
+                                               ))
+                                           }
 
-                                                   <Component params={router.match.params}/>
-                                               </div>
-
-                                               <a className="goto-top hide-on-small-and-down"
-                                                  onClick={this._handleGoToTopClick}/>
-                                           </div>
-
-                                           <FooterLayout/>
+                                           <Component params={router.match.params}/>
                                        </div>
-                                   );
-                               }}/>
-                }
-            </div>
+
+                                       <a className="goto-top hide-on-small-and-down"
+                                          onClick={this._handleGoToTopClick}/>
+                                   </div>
+
+                                   <FooterLayout/>
+                               </div>
+                           );
+                       }
+                   }/>
         );
     }
 }

@@ -2,9 +2,6 @@
 
 import _ from 'lodash';
 
-// import UserActions from '../../actions/userActions';
-// import UserStore from '../../stores/userStore';
-
 import Form from '../materialize/form';
 import Input from '../materialize/input';
 import Textarea from '../materialize/textarea';
@@ -24,9 +21,6 @@ export default class UserEdit extends React.Component {
 
     constructor(props) {
         super(props);
-
-        // TODO
-        // this.mapStoreToState(UserStore, this.onUserChange);
 
         // TODO
         // UserActions.loadUser({

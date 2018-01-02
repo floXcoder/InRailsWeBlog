@@ -23,7 +23,10 @@ const initState = new Record({
     errors: new Map(),
 
     currentId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
+    currentSlug: window.currentUserSlug,
     isConnected: !!window.currentUserId,
+    isLoaded: false,
+    isAdminConnected: !!window.currentAdminId,
 
     users: new List(),
     pagination: new Map(),
@@ -34,11 +37,6 @@ const initState = new Record({
     commentPagination: new Map(),
 });
 
-// TODO
-// export const isOwner = (state) => state.currentId === 1;
-//
-// export const isValidUser = (state, userId) => userId ? userId === state.currentId : false;
-
 export default function userReducer(state = new initState(), action) {
     switch (action.type) {
         case ActionTypes.USER_FETCH_INIT:
@@ -47,20 +45,30 @@ export default function userReducer(state = new initState(), action) {
             return fetchReducer(state, action, (payload) =>
                 payload.user ? ({
                     user: new Records.UserRecord(payload.user),
-
+                    isLoaded: payload.connection && !!payload.user
                 }) : ({
                     users: toList(payload.users, Records.UserRecord)
-                })
-            );
+                }), ['connection']);
 
         case ActionTypes.USER_CHANGE_INIT:
         case ActionTypes.USER_CHANGE_SUCCESS:
         case ActionTypes.USER_CHANGE_ERROR:
-            return mutationReducer(state, action, (payload) => ({
-                user: payload.user ? new Records.UserRecord(payload.user) : undefined,
-                currentId: payload.connection ? payload.user.id : state.currentId,
-                isConnected: payload.connection ? true : state.isConnected
-            }), ['connection']);
+            return mutationReducer(state, action, (payload) => {
+                if (payload.connection) {
+                    return {
+                        user: new Records.UserRecord(payload.user),
+                        isConnected: true
+                    };
+                } else if (payload.settings) {
+                    return {
+                        user: state.user.merge({settings: new Records.SettingsRecord(payload.settings)})
+                    };
+                } else {
+                    return {
+                        user: new Records.UserRecord(payload.user)
+                    };
+                }
+            }, ['connection', 'settings']);
 
         default:
             return state;

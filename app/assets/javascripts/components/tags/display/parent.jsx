@@ -61,7 +61,7 @@ export default class ParentTag extends React.PureComponent {
                 }
 
                 <NavLink className="tag-parent-name"
-                         to={`/article/tags/${this.props.tag.slug}`}
+                         to={`/tagged/${this.props.tag.slug}`}
                          onClick={this._handleTagClick}>
                     {this.props.tag.name}
                 </NavLink>

@@ -1,21 +1,20 @@
 'use strict';
 
 import {
-    switchTopicPopup,
     switchUserPopup,
     switchUserSignup,
     switchUserLogin,
+    switchTopicPopup,
+    switchSearchPopup,
     fetchTopic
 } from '../../actions';
 
-// TODO
-// import ModalHOC from '../../hoc/modal';
+import ModalHOC from '../modules/modal';
 
 import Login from '../users/login';
 import Signup from '../users/signup';
 
-// TODO
-// import SwitchTopicModule from '../topic/module';
+import SwitchTopicModule from '../topic/module';
 
 import SearchModule from '../search/module';
 
@@ -30,8 +29,10 @@ import HomeTopicHeader from './header/topic';
     isUserSignupOpened: state.uiState.isUserSignupOpened,
     isUserLoginOpened: state.uiState.isUserLoginOpened,
     isTopicPopupOpened: state.uiState.isTopicPopupOpened,
-    isAdminConnected: state.userState.isAdminConnected,
+    isSearchPopupOpened: state.uiState.isSearchPopupOpened,
     isUserConnected: state.userState.isConnected,
+    isUserLoaded: state.userState.isLoaded,
+    isAdminConnected: state.userState.isAdminConnected,
     userCurrentId: state.userState.currentId,
     userSlug: state.userState.user && state.userState.user.slug,
     currentTopic: state.topicState.currentTopic
@@ -40,18 +41,20 @@ import HomeTopicHeader from './header/topic';
     switchUserSignup,
     switchUserLogin,
     switchTopicPopup,
+    switchSearchPopup,
     fetchTopic
 })
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
-        onReloadPage: PropTypes.func.isRequired,
         // From connect
         isUserPopupOpened: PropTypes.bool,
         isUserSignupOpened: PropTypes.bool,
         isUserLoginOpened: PropTypes.bool,
         isTopicPopupOpened: PropTypes.bool,
-        isAdminConnected: PropTypes.bool,
+        isSearchPopupOpened: PropTypes.bool,
         isUserConnected: PropTypes.bool,
+        isUserLoaded: PropTypes.bool,
+        isAdminConnected: PropTypes.bool,
         userCurrentId: PropTypes.number,
         userSlug: PropTypes.string,
         currentTopic: PropTypes.object,
@@ -59,25 +62,13 @@ export default class HeaderLayout extends React.PureComponent {
         switchUserSignup: PropTypes.func,
         switchUserLogin: PropTypes.func,
         switchTopicPopup: PropTypes.func,
+        switchSearchPopup: PropTypes.func,
         fetchTopic: PropTypes.func
-    };
-
-    static defaultProps = {
-        isAdminConnected: false,
-        isUserConnected: false
     };
 
     constructor(props) {
         super(props);
-
-        if (props.userCurrentId && props.currentTopic.id) {
-            props.fetchTopic(props.userCurrentId, props.currentTopic.id);
-        }
     }
-
-    state = {
-        isSearchOpened: false
-    };
 
     _handleSignupClick = (event) => {
         event.preventDefault();
@@ -94,14 +85,13 @@ export default class HeaderLayout extends React.PureComponent {
     _handleTopicClick = (event) => {
         event.preventDefault();
 
-        // TODO
-        // this.props.switchTopicPopup(!this.props.isTopicOpened);
+        this.props.switchTopicPopup(!this.props.isTopicPopupOpened);
     };
 
-    _handleSearchClick = () => {
-        this.setState({
-            isSearchOpened: !this.state.isSearchOpened
-        });
+    _handleSearchClick = (event) => {
+        event.preventDefault();
+
+        this.props.switchSearchPopup(!this.props.isSearchPopupOpened);
     };
 
     render() {
@@ -112,7 +102,7 @@ export default class HeaderLayout extends React.PureComponent {
                         <div className="nav-wrapper">
                             <ul className="left hide-on-med-and-down">
                                 {
-                                    this.props.isUserConnected &&
+                                    this.props.isUserLoaded &&
                                     <li>
                                         <HomeTopicHeader currentTopicName={this.props.currentTopic.name}
                                                          onTopicClick={this._handleTopicClick}/>
@@ -134,9 +124,8 @@ export default class HeaderLayout extends React.PureComponent {
                                     <HomeArticleHeader/>
                                 </li>
 
-
                                 {
-                                    this.props.isUserConnected &&
+                                    this.props.isUserLoaded &&
                                     <li>
                                         <HomePreferenceHeader/>
                                     </li>
@@ -156,13 +145,12 @@ export default class HeaderLayout extends React.PureComponent {
                     </nav>
                 </div>
 
-                {/*TODO*/}
-                {/*<ModalHOC isOpened={this.props.isTopicOpened}>*/}
-                {/*<SwitchTopicModule/>*/}
-                {/*</ModalHOC>*/}
+                <ModalHOC isOpened={this.props.isTopicPopupOpened}>
+                    <SwitchTopicModule/>
+                </ModalHOC>
 
                 <div className="blog-search-nav row">
-                    <SearchModule isOpened={this.state.isSearchOpened}/>
+                    <SearchModule isOpened={this.props.isSearchPopupOpened}/>
                 </div>
 
                 <div id="clipboard-area"

@@ -1,15 +1,19 @@
 'use strict';
 
+import {
+    Link
+} from 'react-router-dom';
+
+import {
+    spyTrackClick
+} from '../../../actions';
+
 import CountCommentIcon from '../../comments/icons/count';
 import ArticleVisibilityIcon from '../icons/visibility';
 import SingleTimeline from '../../theme/timeline/single';
 import SingleTimelineItem from '../../theme/timeline/singleItem';
 
 import Pagination from '../../materialize/pagination';
-
-import {
-    Link
-} from 'react-router-dom';
 
 const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
     <div className="article-timeline">
@@ -23,7 +27,8 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
                                             <div>
                                                 {I18n.t('js.article.timeline.title') + ' '}
 
-                                                <Link to={`/article/${article.slug}`}>
+                                                <Link to={`/article/${article.slug}`}
+                                                      onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
                                                     {article.title}
                                                 </Link>
 

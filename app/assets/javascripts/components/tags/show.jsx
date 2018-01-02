@@ -1,11 +1,16 @@
 'use strict';
 
-import UserAvatarIcon from '../users/icons/avatar';
-
 import {
     Link
 } from 'react-router-dom';
 
+import {
+    spyTrackClick
+} from '../../actions';
+
+import UserAvatarIcon from '../users/icons/avatar';
+
+// TODO: use redux to get and received tag
 export default class TagShow extends React.Component {
     static propTypes = {
         tag: PropTypes.object,
@@ -21,14 +26,10 @@ export default class TagShow extends React.Component {
     constructor(props) {
         super(props);
 
-        // TODO
-        // this.mapStoreToState(TagStore, this.onTagChange);
-
         if (props.tag) {
             this.state.tag = props.tag;
         } else if (props.params.tagId) {
-            // TODO
-            // TagActions.loadTag({id: this.props.params.tagId});
+            this.props.fetchTag({id: this.props.params.tagId});
         }
     }
 
@@ -36,24 +37,24 @@ export default class TagShow extends React.Component {
         tag: undefined
     };
 
-    onTagChange(tagData) {
-        if ($.isEmpty(tagData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (tagData.type === 'loadTag') {
-            newState.tag = tagData.tag;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
+    // onTagChange(tagData) {
+    //     if ($.isEmpty(tagData)) {
+    //         return;
+    //     }
+    //
+    //     let newState = {};
+    //
+    //     if (tagData.type === 'loadTag') {
+    //         newState.tag = tagData.tag;
+    //     }
+    //
+    //     if (!$.isEmpty(newState)) {
+    //         this.setState(newState);
+    //     }
+    // }
 
     _handleUserClick = (userId, event) => {
-        // TODO
+        // use Link from router
         // UserStore.onTrackClick(userId);
         return event;
     };
@@ -120,17 +121,18 @@ export default class TagShow extends React.Component {
                             {
                                 this.state.tag.parents && this.state.tag.parents.length > 0
                                     ?
-                                    this.state.tag.parents.map((tag, i) =>
+                                    this.state.tag.parents.map((tag, i) => (
                                         <Link key={i}
                                               className="btn-small waves-effect waves-light tag-parent"
-                                              to={`/tag/${tag.slug}`}>
+                                              to={`/tag/${tag.slug}`}
+                                              onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
                                             {tag.name}
                                         </Link>
-                                    )
+                                    ))
                                     :
                                     <span className="tag-item-no-parents">
-                                            {I18n.t('js.tag.common.no_parents')}
-                                        </span>
+                                        {I18n.t('js.tag.common.no_parents')}
+                                    </span>
                             }
                         </p>
 
@@ -143,12 +145,13 @@ export default class TagShow extends React.Component {
                                     this.state.tag.children.map((tag, i) => (
                                         <Link key={i}
                                               className="btn-small waves-effect waves-light tag-child"
-                                              to={`/tag/${tag.slug}`}>
+                                              to={`/tag/${tag.slug}`}
+                                              onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
                                             {tag.name}
                                         </Link>
                                     ))
                                     :
-                                        <span className="tag-item-no-children">
+                                    <span className="tag-item-no-children">
                                             {I18n.t('js.tag.common.no_children')}
                                         </span>
                             }

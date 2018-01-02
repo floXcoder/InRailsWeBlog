@@ -43,28 +43,44 @@ export default {
                 component: ArticleIndex
             },
             {
-                path: '/topic/:topicSlug',
+                path: '/user/:topicSlug',
                 exact: true,
                 component: ArticleIndex
             },
             {
-                path: '/topic/:topicSlug/tags/:tagSlug',
+                path: '/user/:userSlug/:topicSlug/tagged/:tagParentSlug/:tagChildSlug',
                 exact: true,
                 component: ArticleIndex
             },
             {
-                path: '/topic/:topicSlug/tags/:tagParentSlug/:tagChildSlug',
+                path: '/user/:userSlug/:topicSlug/tagged/:tagSlug',
                 exact: true,
                 component: ArticleIndex
             },
             {
-                path: '/topic/:topicSlug/user/:userSlug',
+                path: '/user/:userSlug/:topicSlug',
+                exact: true,
                 component: ArticleIndex
             },
             {
-                path: '/topic/:topicSlug/article/new',
+                path: '/user/:userSlug/:topicSlug/:articleSlug',
                 exact: true,
-                component: ArticleNew
+                component: ArticleShow
+            },
+            {
+                path: '/topic/:userSlug/:topicSlug',
+                exact: true,
+                component: ArticleIndex
+            },
+            {
+                path: '/tagged/:tagParentSlug/:tagChildSlug',
+                exact: true,
+                component: ArticleIndex
+            },
+            {
+                path: '/tagged/:tagSlug',
+                exact: true,
+                component: ArticleIndex
             },
             {
                 path: '/article/new',
@@ -72,21 +88,37 @@ export default {
                 component: ArticleNew
             },
             {
-                path: '/article/tags/:tagSlug',
-                component: ArticleIndex
+                path: '/article/:topicSlug/:articleSlug',
+                exact: true,
+                component: ArticleShow
             },
             {
                 path: '/article/:articleSlug',
+                exact: true,
                 component: ArticleShow
             },
-            {
-                path: '/topic/:topicSlug/article/:articleSlug',
-                component: ArticleShow
-            },
-            {
-                path: '/topic/:topicSlug/article/:articleSlug/edit',
-                component: ArticleEdit
-            }
+            // {
+            //     path: '/topic/:topicSlug/tags/:tagSlug',
+            //     exact: true,
+            //     component: ArticleIndex
+            // },
+            // {
+            //     path: '/topic/:topicSlug/user/:userSlug',
+            //     component: ArticleIndex
+            // },
+            // {
+            //     path: '/topic/:topicSlug/article/new',
+            //     exact: true,
+            //     component: ArticleNew
+            // },
+            // {
+            //     path: '/topic/:topicSlug/article/:articleSlug',
+            //     component: ArticleShow
+            // },
+            // {
+            //     path: '/topic/:topicSlug/article/:articleSlug/edit',
+            //     component: ArticleEdit
+            // }
         ]
     },
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import '../full-page';
+import '../fullPage';
 
 $('#user_professional_type').material_select();
 

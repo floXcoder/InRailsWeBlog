@@ -1,11 +1,5 @@
 'use strict';
 
-// TODO
-// import Tracker from '../../../modules/tracker';
-// import UserActions from '../../../actions/userActions';
-// import TagActions from '../../../actions/tagActions';
-// import ArticleActions from '../../../actions/articleActions';
-
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
 import ArticleEditionDisplay from './inlineEdition';
@@ -13,26 +7,15 @@ import ArticleEditionDisplay from './inlineEdition';
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        initialDisplayMode: PropTypes.string.isRequired
+        articleDisplayMode: PropTypes.string.isRequired
     };
-
-    static defaultProps = {};
 
     constructor(props) {
         super(props);
     }
 
-    state = {
-        articleDisplayMode: this.props.initialDisplayMode
-    };
-
     componentDidMount() {
-        // TODO
-        // $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
-        //     $(this).tooltip();
-        // });
-
-        // TODO : use mixin
+        // TODO : use spy methods
         // Tracker.trackViews($(ReactDOM.findDOMNode(this)), () => {
         //     ArticleActions.trackView(this.props.article.id);
         //     if (this.props.article.user) {
@@ -45,51 +28,35 @@ export default class ArticleItemDisplay extends React.Component {
         // });
     }
 
-    componentDidUpdate() {
-        // TODO
-        // $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
-        //     $(this).tooltip();
-        // });
-    }
-
-    _changeDefaultDisplay = (tagName, event) => {
-        event.preventDefault();
-        this.setState({articleDisplayMode: this.props.initialDisplayMode});
-    };
-
     _handleBookmarkClick = (article, isBookmarked) => {
-        // TODO
         // ArticleActions.bookmarkArticle({article: article, isBookmarked: isBookmarked});
     };
 
     _handleEditClick = (article) => {
-        // TODO
     };
 
     _handleVisibilityClick = (article) => {
-        // TODO
     };
 
     render() {
-        if (this.state.articleDisplayMode === 'inline') {
+        if (this.props.articleDisplayMode === 'inline') {
             return (
                 <ArticleInlineDisplay title={this.props.article.title}
                                       content={this.props.article.content}/>
             );
-        } else if (this.state.articleDisplayMode === 'card') {
+        } else if (this.props.articleDisplayMode === 'card') {
             return (
                 <ArticleCardDisplay article={this.props.article}
                                     onBookmarkClick={this._handleBookmarkClick}
                                     onEditClick={this._handleEditClick}
                                     onVisibilityClick={this._handleVisibilityClick}/>
             );
-        } else if (this.state.articleDisplayMode === 'edit') {
+        } else if (this.props.articleDisplayMode === 'edit') {
             return (
-                <ArticleEditionDisplay article={this.props.article}
-                                       changeDefaultDisplay={this._changeDefaultDisplay}/>
+                <ArticleEditionDisplay article={this.props.article}/>
             );
         } else {
-            throw new Error('Article display mode unknown: ' + this.state.articleDisplayMode);
+            throw new Error('Article display mode unknown: ' + this.props.articleDisplayMode);
         }
     }
 }

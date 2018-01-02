@@ -92,6 +92,9 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 # Prevent DDOS attacks
 gem 'rack-attack',              '5.0.1'
 
+# Manage errors
+gem 'browser',                  '2.5.2'
+
 # SEO
 gem 'friendly_id',              '5.2.1'
 gem 'meta-tags',                '2.4.1'

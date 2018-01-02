@@ -10,7 +10,7 @@ import {
     pushError
 } from '../actions/errorActions';
 
-const token = $('meta[name="csrf-token"]').attr('content');
+const token = document.getElementsByName('csrf-token')[0].getAttribute('content');
 
 const headers = {
     credentials: 'same-origin',
@@ -55,7 +55,7 @@ const manageError = (origin, error, url) => {
 
 const handleResponseErrors = (response, url) => {
     if (!response.ok) {
-        manageError('response', response, url);
+        manageError('client', response, url);
     }
 
     return response;
@@ -100,9 +100,8 @@ const api = {
             ...headers,
             method: 'GET',
         })
-        // TODO : manage 404 response in handleResponseErrors => e.g. user validation : infinite loop if 404 returned
-            // .then((response) => handleResponseErrors(response, urlParams))
-            // .then((response) => handleFlashMessage(response))
+            .then((response) => handleResponseErrors(response, urlParams))
+            .then((response) => handleFlashMessage(response))
             .then((response) => response.json())
             .then(
                 (json) => json,

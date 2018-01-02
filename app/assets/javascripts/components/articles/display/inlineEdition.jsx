@@ -9,13 +9,13 @@ import ArticleLinkIcon from '../icons/link';
 
 import Editor from '../../editor/editor';
 
-@connect((state, props) => ({
+// TODO: use redux to change article display mode but only for current article
+@connect((state) => ({
     isOwner: getArticleIsOwner(state)
 }), {})
 export default class ArticleEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        changeDefaultDisplay: PropTypes.func.isRequired,
         // From connect
         isOwner: PropTypes.bool,
 
@@ -34,7 +34,6 @@ export default class ArticleEditionDisplay extends React.Component {
         isLink: false
     };
 
-    // TODO
     // _handleEditorChange (event) {
     //     let text = event.currentTarget.textContent;
     //
@@ -53,29 +52,27 @@ export default class ArticleEditionDisplay extends React.Component {
     // }
 
     _handleTagClick = (tagName, event) => {
-        // TODO
         // this.props.onTagClick(tagName, event);
     };
 
     _handleDeleteClick = (event) => {
-        // TODO: useless
+        // useless
         // this._editor.remove();
-        // TODO
+
         // ArticleActions.deleteArticle({id: this.props.article.id});
-        this.props.changeDefaultDisplay();
+        // this.props.changeDefaultDisplay();
     };
 
     _handleCancelClick = (event) => {
         this._editor.remove();
-        this.props.changeDefaultDisplay();
+        // this.props.changeDefaultDisplay();
     };
 
     _handleSaveClick = (event) => {
         let content = this._editor.serialize();
-        // TODO
         // ArticleActions.updateArticle({id: this.props.article.id, content: content});
         this._editor.remove();
-        this.props.changeDefaultDisplay();
+        // this.props.changeDefaultDisplay();
     };
 
     render() {

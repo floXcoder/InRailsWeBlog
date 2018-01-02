@@ -2,10 +2,6 @@
 
 import _ from 'lodash';
 
-// TODO
-// import CommentActions from '../../actions/commentActions';
-// import CommentStore from '../../stores/commentStore';
-
 import Button from '../materialize/button';
 import Pagination from '../materialize/pagination';
 import CircleSpinner from '../theme/spinner/circle';
@@ -42,8 +38,6 @@ export default class CommentBox extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.mapStoreToState(CommentStore, this.onCommentChange);
 
         if (!$.isEmpty(props.initialComments)) {
             this.state.comments = this.props.initialComments;

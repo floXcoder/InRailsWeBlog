@@ -4,6 +4,7 @@
 
 import {
     Record,
+    List,
     Map
 } from 'immutable';
 
@@ -22,7 +23,12 @@ const initState = new Record({
     isProcessing: false,
     errors: new Map(),
 
-    currentTopic: undefined
+    topics: new List(),
+    pagination: new Map(),
+
+    currentTopic: undefined,
+
+    topic: undefined
 });
 
 export default function topicReducer(state = new initState(), action) {
@@ -30,13 +36,22 @@ export default function topicReducer(state = new initState(), action) {
         case ActionTypes.TOPIC_FETCH_INIT:
         case ActionTypes.TOPIC_FETCH_SUCCESS:
         case ActionTypes.TOPIC_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) =>
-                payload.topic ? ({
-                    topic: new Records.TopicRecord(payload.topic)
-                }) : ({
-                    topics: toList(payload.topics, Records.TopicRecord)
-                })
-            );
+            return fetchReducer(state, action, (payload) => {
+                    if (payload.isSwitching) {
+                        return {
+                            currentTopic: new Records.TopicRecord(payload.topic)
+                        };
+                    } else if (payload.topic) {
+                        return {
+                            topic: new Records.TopicRecord(payload.topic)
+                        };
+                    } else {
+                        return {
+                            topics: toList(payload.topics, Records.TopicRecord)
+                        };
+                    }
+                }
+            , ['isSwitching']);
 
         case ActionTypes.TOPIC_CHANGE_INIT:
         case ActionTypes.TOPIC_CHANGE_SUCCESS:
@@ -45,10 +60,11 @@ export default function topicReducer(state = new initState(), action) {
                 topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined
             }));
 
+        case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
             if (action.user && action.connection) {
                 return state.merge({
-                    currentTopic: action.user.currentTopic
+                    currentTopic: new Records.TopicRecord(action.user.currentTopic)
                 });
             } else {
                 return state;

@@ -7,9 +7,9 @@ class Users::TopicsController < ApplicationController
 
   def index
     topics = Topic
-             .includes(:user)
-             .order('topics.name ASC')
-             .distinct
+               .includes(:user)
+               .order('topics.name ASC')
+               .distinct
 
     topics = topics.from_user(params[:user_id], current_user&.id)
 
@@ -32,7 +32,7 @@ class Users::TopicsController < ApplicationController
       format.json do
         if user.switch_topic(topic)
           render json:       topic,
-                 serializer: TopicTaggedSerializer,
+                 serializer: TopicSerializer,
                  status:     :ok
         else
           render json:   { errors: topic.errors },
@@ -49,7 +49,8 @@ class Users::TopicsController < ApplicationController
     respond_to do |format|
       format.json do
         render json:       topic,
-               serializer: TopicTaggedSerializer
+               serializer: TopicSerializer,
+               with_tags:  true
       end
     end
   end
@@ -134,7 +135,7 @@ class Users::TopicsController < ApplicationController
                                      :user_id,
                                      :accepted,
                                      :bookmarked,
-                                     user_ids:  []).reject { |_, v| v.blank? }
+                                     user_ids: []).reject { |_, v| v.blank? }
     else
       {}
     end

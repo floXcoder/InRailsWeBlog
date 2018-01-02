@@ -4,14 +4,6 @@ import * as ActionTypes from '../constants/actionTypes';
 
 import api from '../middlewares/api';
 
-// TODO
-// 'loadUsers',
-// 'loadUserComments',
-// 'loadUserActivities',
-// 'loadUser',
-// 'updateUser',
-// 'updateUserPreference',
-
 // Users
 export const fetchUsers = (filter, options = {}) => ({
     actionType: ActionTypes.USER,
@@ -26,6 +18,16 @@ export const fetchUser = (userId, options = {}) => ({
     fetchAPI: () => api.get(`/users/${userId}`, {
         ...options
     })
+});
+
+export const initUser = (userId, options = {}) => ({
+    actionType: ActionTypes.USER,
+    fetchAPI: () => api.get(`/users/${userId}`, {
+        ...options
+    }),
+    payload: {
+        connection: true
+    }
 });
 
 export const validateUser = (pseudo) => (
@@ -59,11 +61,13 @@ export const loginUser = (user, options = {}) => ({
     }
 });
 
-// TODO
-// if (params && params.userProfile) {
-//     dispatch(initUser(userId, json));
-//     // TODO: just replace current url or push but not switch
-//     // dispatch(switchTopic(json.user.currentTopic.slug));
-// } else {
-//     dispatch(receiveUser(userId, json));
-// }
+export const updateUserSettings = (userId, settings, options = {}) => ({
+    actionType: ActionTypes.USER,
+    mutationAPI: () => api.post(`/users/${userId}/settings`, {
+        settings,
+        ...options
+    }),
+    payload: {
+        settings: true
+    }
+});

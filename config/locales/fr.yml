@@ -232,7 +232,8 @@ fr:
           already_linked: "Ces deux labels sont déjà liés entre eux"
         tagged_article:
           already_tagged: "Ce label existe déjà pour cet article"
-          tag_not_authorized: "Ce label ne peut être appliqué pour cet article car n'appartient pas au même thème"
+          incorrect_tag_affiliation: "Ce label ne peut être appliqué à l'article car il n'appartient pas au même thème"
+          incorrect_topic_affiliation: "Ce label ne peut être appliqué à l'article car l'article n'est pas associé au thème courant"
         bookmark:
           already_bookmarked: "Élément déjà ajouté aux favoris !"
           model_unknown: "Impossible d'ajouter ou de supprimer cet élément dans les favoris"

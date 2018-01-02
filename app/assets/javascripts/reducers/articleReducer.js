@@ -47,6 +47,13 @@ export default function articleReducer(state = new initState(), action) {
                 article: payload.article ? new Records.ArticleRecord(payload.article) : undefined
             }));
 
+        // load article history
+        // articleVersions: dataReceived['paper_trail/versions'] || []
+
+        // retrieve history
+        // articleRestored: dataReceived.article
+
+
         default:
             return state;
     }

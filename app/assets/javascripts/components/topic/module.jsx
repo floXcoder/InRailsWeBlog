@@ -6,36 +6,40 @@ import {
 
 import {
     addTopic,
-    switchTopic
+    switchTopic,
+    switchTopicPopup
 } from '../../actions';
+
+import {
+    getTopics
+} from '../../selectors';
 
 import Input from '../materialize/input';
 import Select from '../materialize/select';
 import Submit from '../materialize/submit';
 
 @connect((state) => ({
-    userId: state.userState.user.id,
+    userId: state.userState.currentId,
+    userSlug: state.userState.currentSlug,
     isLoading: state.topicState.isFetching,
-    topics: state.userState.user.topics,
-    currentTopic: state.topicState.currentTopic
+    currentTopic: state.topicState.currentTopic,
+    topics: getTopics(state)
 }), {
     addTopic,
-    switchTopic
+    switchTopic,
+    switchTopicPopup
 })
 export default class TopicModule extends React.Component {
     static propTypes = {
         // From connect
         userId: PropTypes.number,
+        userSlug: PropTypes.string,
         isLoading: PropTypes.bool,
         topics: PropTypes.array,
         currentTopic: PropTypes.object,
         addTopic: PropTypes.func,
-        switchTopic: PropTypes.func
-    };
-
-    static defaultProps = {
-        isLoading: true,
-        topics: []
+        switchTopic: PropTypes.func,
+        switchTopicPopup: PropTypes.func
     };
 
     constructor(props) {
@@ -48,11 +52,10 @@ export default class TopicModule extends React.Component {
         isAddingTopic: false
     };
 
-    _handleSwitchTopicClick = (topicId, topicSlug, event) => {
-        event.preventDefault();
-
-        if (this.props.currentTopic.id !== topicId) {
-            this.props.switchTopic(this.props.userId, topicId);
+    _handleSwitchTopicClick = (newTopicId) => {
+        if (this.props.currentTopic.id !== newTopicId) {
+            this.props.switchTopic(this.props.userId, newTopicId)
+                .then(() => this.props.switchTopicPopup());
         }
     };
 
@@ -122,15 +125,15 @@ export default class TopicModule extends React.Component {
                 <div className="topics-list">
                     {
                         this.props.topics.map((topic) => (
-                            <div key={topic.id}
-                                 className="topic-item">
-                                <div className="topic-item-details"
-                                     onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug)}>
-                                    <a className={classNames({'topic-item-current': topic.id === this.props.currentTopic.id})}>
+                            <Link key={topic.id}
+                                  to={`/user/${this.props.userSlug}/${topic.slug}`}
+                                  onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
+                                <div className="topic-item">
+                                    <div className={classNames('topic-item-details', {'topic-item-current': topic.id === this.props.currentTopic.id})}>
                                         {topic.name}
-                                    </a>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))
                     }
                 </div>

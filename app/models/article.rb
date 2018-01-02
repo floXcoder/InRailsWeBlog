@@ -194,7 +194,7 @@ class Article < ApplicationRecord
     where(topic_id: topic_id)
   }
 
-  scope :with_tags, -> (tag_slugs) { includes(:tags).where(tags: { slug: tag_slugs }) }
+  scope :with_tags, -> (tag_slugs) { joins(:tags).where(tags: { slug: tag_slugs }) } # cannot use includes, it includes only tag requested
   scope :with_parent_tags, -> (parent_tag_slugs) { joins(:tags).where(tagged_articles: { parent: true }, tags: { slug: parent_tag_slugs }) }
   scope :with_child_tags, -> (child_tag_slugs) { joins(:tags).where(tagged_articles: { child: true }, tags: { slug: child_tag_slugs }) }
 

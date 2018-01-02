@@ -16,15 +16,6 @@ export default class ArticleEditionIcons extends React.Component {
         super(props);
     }
 
-    // TODO: use semantic tooltip
-    // componentDidMount() {
-    //     $('.article-edition .tooltipped').tooltip('remove');
-    // }
-    //
-    // componentWillUnmount() {
-    //     $('.article-editing .tooltipped').tooltip('remove');
-    // }
-
     render() {
         if (!this.props.isOwner) {
             return null;

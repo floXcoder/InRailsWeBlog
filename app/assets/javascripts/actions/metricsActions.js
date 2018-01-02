@@ -51,8 +51,8 @@ export const spyTrackView = (elementName, elementId, parentName = null, parentId
 export const spyTrackClick = (elementName, elementId, parentName = null, parentId = null) => {
     return api
         .post((parentName && parentId)
-            ? `/${parentName}s/${parentId}/${elementName}s/${elementId}/viewed`
-            : `/${elementName}s/${elementId}/viewed`,
+            ? `/${parentName}s/${parentId}/${elementName}s/${elementId}/clicked`
+            : `/${elementName}s/${elementId}/clicked`,
             {
                 id: elementId
             });

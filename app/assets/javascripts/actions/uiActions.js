@@ -19,3 +19,8 @@ export const switchUserLogin = () => ({
 export const switchTopicPopup = () => ({
     type: ActionTypes.UI_SWITCH_TOPIC_HEADER
 });
+
+// Search
+export const switchSearchPopup = () => ({
+    type: ActionTypes.UI_SWITCH_SEARCH_POPUP
+});

@@ -26,6 +26,8 @@ const initState = new Record({
     pagination: new Map(),
 
     tag: undefined,
+
+    filterText: undefined
 });
 
 export default function tagReducer(state = new initState(), action) {
@@ -50,6 +52,11 @@ export default function tagReducer(state = new initState(), action) {
                 }) : ({
                     tags: mutateArray(state.tags, payload.tag && new Records.TagRecord(payload.tag), action.removedId)
                 }), ['tag']);
+
+        case ActionTypes.TAG_FILTER_SIDEBAR:
+            return state.merge({
+                filterText: action.filterText
+            });
 
         default:
             return state;

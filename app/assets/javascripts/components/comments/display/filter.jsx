@@ -1,14 +1,8 @@
 'use strict';
 
-// TODO
-// import CommentAction from '../../../actions/commentActions';
-
 import Select from '../../materialize/select';
 import Checkbox from '../../materialize/checkbox';
 import Submit from '../../materialize/submit';
-
-// TODO
-// import 'jquery-serializejson';
 
 export default class CommentFilterDisplay extends React.Component {
     static propTypes = {

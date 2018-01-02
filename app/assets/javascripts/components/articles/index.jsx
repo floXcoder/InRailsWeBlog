@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     fetchArticles
 } from '../../actions';
@@ -16,9 +14,11 @@ import ArticleListDisplay from './display/list';
 import ArticleNone from '../articles/display/none';
 
 @connect((state) => ({
+    userCurrentId: state.userState.currentId,
+    topicCurrentId: state.topicState.currentTopic && state.topicState.currentTopic.id,
     isFetching: state.articleState.isFetching,
     articles: getArticles(state),
-    articleDisplayMode: state.uiState.articleDisplayMode,
+    articleDisplayMode: state.uiState.articleDisplayMode
 }), {
     fetchArticles
 })
@@ -26,6 +26,8 @@ export default class ArticleIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         // From connect
+        userCurrentId: PropTypes.number,
+        topicCurrentId: PropTypes.number,
         isFetching: PropTypes.bool,
         articles: PropTypes.array,
         articleDisplayMode: PropTypes.string,
@@ -35,14 +37,22 @@ export default class ArticleIndex extends React.Component {
     constructor(props) {
         super(props);
 
-        props.fetchArticles(props.params);
+        props.fetchArticles(this._filterParams(props));
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(this.props.params, nextProps.params)) {
-            this.props.fetchArticles(this.props.params);
+        if (!Object.equals(this.props.params, nextProps.params)) {
+            this.props.fetchArticles(this._filterParams(nextProps.params));
         }
     }
+
+    _filterParams = (props) => {
+        return {
+            userId: props.userCurrentId,
+            topicId: props.topicCurrentId,
+            ...props.params
+        };
+    };
 
     render() {
         return (

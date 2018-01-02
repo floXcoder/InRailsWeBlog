@@ -405,7 +405,7 @@
     var isEdge = /Edge\/\d+/.test(userAgent);
 
     var hasCodeMirror = !!window.CodeMirror;
-    // TODO: improve import
+    // improve import
     // if (!hasCodeMirror && isSupportAmd && require) {
     //     if (require.hasOwnProperty('resolve')) {
     //         try {
@@ -1798,7 +1798,7 @@
                 tabContainer.tabs();
             });
 
-            // TODO : only for this
+            // only for this
             // $('.dropdown-button').dropdown();
 
             var $note = this.first();
@@ -1891,7 +1891,7 @@
     var buttonGroupMaterialize = renderer.create('<div class="note-btn-group btn-group">');
     var buttonMaterialize = renderer.create('<button type="button" class="note-btn waves-effect waves-light btn">', function ($node, options) {
         if (options && options.tooltip) {
-            // TODO
+            // not working
             // $node.attr({
             //     'data-tooltip': options.tooltip,
             //     'data-position': "bottom"

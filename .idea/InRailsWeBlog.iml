@@ -126,6 +126,7 @@
     <orderEntry type="library" scope="PROVIDED" name="better_errors (v2.3.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="binding_of_caller (v0.7.2, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="brakeman (v3.7.2, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="browser (v2.5.2, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.3, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bullet (v5.6.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cane (v2.6.2, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />

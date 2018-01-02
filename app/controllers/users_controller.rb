@@ -76,7 +76,6 @@ class UsersController < ApplicationController
         if user_exists
           render json: { success: true }
         else
-          # TODO : do not return 404 error
           render json: { success: false }
         end
       end
@@ -88,28 +87,22 @@ class UsersController < ApplicationController
     authorize user
 
     respond_to do |format|
-      # TODO
-      # format.html do
-      #   User.track_views(user.id)
-      #   expires_in 3.hours, public: true
-      #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
-      #                 description: I18n.t('views.user.show.description')
-
-      # set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
-      #               description: I18n.t('views.user.show.description', pseudo: user.pseudo),
-      #               author:      alternate_urls('users', user.slug)['fr'],
-      #               canonical:   alternate_urls('users', user.slug)['fr'],
-      #               alternate:   alternate_urls('users', user.slug),
-      #               og:          {
-      #                 type:  "#{ENV['WEBSITE_NAME']}:user",
-      #                 url:   user_url(user),
-      #                 image: user.avatar_url
-      #               }
-
-      #   render :show, locals: { user: user, mode: nil }
-      # end
-
       format.json do
+        #  Add meta tags (and expiration ?) to react
+        #   expires_in 3.hours, public: true
+        #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
+        #                 description: I18n.t('views.user.show.description')
+        # set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
+        #               description: I18n.t('views.user.show.description', pseudo: user.pseudo),
+        #               author:      alternate_urls('users', user.slug)['fr'],
+        #               canonical:   alternate_urls('users', user.slug)['fr'],
+        #               alternate:   alternate_urls('users', user.slug),
+        #               og:          {
+        #                 type:  "#{ENV['WEBSITE_NAME']}:user",
+        #                 url:   user_url(user),
+        #                 image: user.avatar_url
+        #               }
+        #
         if params[:complete_user] && current_user && (current_user.id == user.id || current_user.admin?)
           User.track_views(user.id)
           render json:       user,

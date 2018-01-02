@@ -1,8 +1,5 @@
 'use strict';
 
-// TODO
-// import ArticleActions from '../../actions/articleActions';
-
 export default class ArticleHistory extends React.Component {
     static propTypes = {
         articleVersions: PropTypes.array.isRequired

@@ -5,10 +5,10 @@ import ParentTag from './parent';
 const TagRelationshipDisplay = ({tags, isFiltering}) => (
     <div>
         {
-            this.props.tags.map((tag, i) => (
+            tags.map((tag, i) => (
                 <ParentTag key={i}
                            tag={tag}
-                           isFiltering={this.props.isFiltering}/>
+                           isFiltering={isFiltering}/>
             ))
         }
     </div>

@@ -17,7 +17,7 @@
 #
 
 class ArticlesController < ApplicationController
-  # before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :verify_requested_format!
   after_action :verify_authorized, except: [:index]
 
@@ -27,7 +27,7 @@ class ArticlesController < ApplicationController
   respond_to :html, :json
 
   def index
-    articles = Article.includes(:tags, :parent_tags, :child_tags, user: [:picture])
+    articles = Article.includes(user: [:picture])
                  .order('articles.updated_at DESC')
                  .distinct
 
@@ -209,9 +209,6 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       format.json do
         if params[:permanently] && current_admin ? article.really_destroy! : article.destroy
-          # TODO : remove now or later (cron job) ?
-          # Tag.remove_unused_tags(article.tags)
-
           flash.now[:success] = I18n.t('views.article.flash.successful_deletion')
           head :no_content
         else

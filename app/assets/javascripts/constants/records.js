@@ -6,7 +6,14 @@ import {
     List
 } from 'immutable';
 
-export const UserRecord = new Record({
+export const SettingsRecord = new Record({
+    articleDisplay: 'card',
+    searchHighlight: true,
+    searchOperator: 'or',
+    searchExact: false
+});
+
+export class UserRecord extends Record({
     id: undefined,
     pseudo: undefined,
     email: undefined,
@@ -22,15 +29,16 @@ export const UserRecord = new Record({
     signInCount: undefined,
     lastSignInAt: undefined,
     articlesCount: undefined,
-    tracker: undefined
-});
-
-export const SettingRecord = new Record({
-    articleDisplay: undefined,
-    searchHighlight: undefined,
-    searchOperator: undefined,
-    searchExact: undefined
-});
+    tracker: undefined,
+    settings: new SettingsRecord()
+}) {
+    constructor({settings, ...props} = {}) {
+        super({
+            ...props,
+            settings: new SettingsRecord(settings)
+        })
+    }
+}
 
 export const PictureRecord = new Record({
     id: undefined,
@@ -70,17 +78,15 @@ export class TagRecord extends Record({
     visibility: undefined,
     visibilityTranslated: undefined,
     taggedArticlesCount: undefined,
-    parents: undefined,
-    children: undefined,
+    parentIds: undefined,
+    childIds: undefined,
     slug: undefined,
     user: new UserRecord()
 }) {
-    constructor({parents, children, user, ...props} = {}) {
+    constructor({user, ...props} = {}) {
         super({
             ...props,
-            user: new UserRecord(user),
-            parents: List(parents).map(tag => new TagRecord(tag)),
-            children: List(children).map(tag => new TagRecord(tag))
+            user: new UserRecord(user)
         })
     }
 }
@@ -103,18 +109,15 @@ export class ArticleRecord extends Record({
     commentsNumber: undefined,
     user: new UserRecord(),
     tags: List(),
-    parentTags: List(),
-    childTags: List(),
-    newTags: List()
+    parentTagIds: List(),
+    childTagIds: List(),
+    newTagIds: List()
 }) {
-    constructor({user, tags, parentTags, childTags, newTags, ...props} = {}) {
+    constructor({user, tags, ...props} = {}) {
         super({
             ...props,
             user: new UserRecord(user),
-            tags: List(tags).map(tag => new TagRecord(tag)),
-            parentTags: List(parentTags).map(tag => new TagRecord(tag)),
-            childTags: List(childTags).map(tag => new TagRecord(tag)),
-            newTags: List(newTags).map(tag => new TagRecord(tag))
+            tags: List(tags).map(tag => new TagRecord(tag))
         })
     }
 }

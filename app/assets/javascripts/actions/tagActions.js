@@ -19,3 +19,8 @@ export const fetchTag = (tagId, options = {}) => ({
         ...options
     })
 });
+
+export const filterTags = (filterText) => ({
+    type: ActionTypes.TAG_FILTER_SIDEBAR,
+    filterText
+});

@@ -35,21 +35,13 @@ class TagSerializer < ActiveModel::Serializer
              :visibility,
              :visibility_translated,
              :tagged_articles_count,
-             :parents,
-             :children,
-             :slug
+             :slug,
+             :parent_ids,
+             :child_ids
 
   belongs_to :user, serializer: UserSampleSerializer
 
   def visibility_translated
     object.visibility_to_tr
-  end
-
-  def parents
-    object.parent_ids
-  end
-
-  def children
-    object.child_ids
   end
 end

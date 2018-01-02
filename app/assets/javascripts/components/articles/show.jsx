@@ -78,7 +78,7 @@ export default class ArticleShow extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (!_.isEqual(this.props.params, nextProps.params)) {
-            this.props.fetchArticle(this.props.params.articleSlug);
+            this.props.fetchArticle(nextProps.params.articleSlug);
         }
     }
 
@@ -198,9 +198,9 @@ export default class ArticleShow extends React.Component {
                         <div className="row">
                             <div className="col s12 m12 l6 md-margin-bottom-20">
                                 <ArticleTags articleId={this.props.article.id}
-                                             tags={this.props.article.tags.toArray()}
-                                             parentTags={this.props.article.parentTags.toArray()}
-                                             childTags={this.props.article.childTags.toArray()}/>
+                                             tags={this.props.article.tags}
+                                             parentTagIds={this.props.article.parentTagIds}
+                                             childTagIds={this.props.article.childTagIds}/>
 
                                 <a className="btn-floating"
                                    onClick={this._handleVoteClick.bind(this, this.props.article.id, true)}>
@@ -270,7 +270,8 @@ export default class ArticleShow extends React.Component {
                     //         {
                     //             this.props.location.state.newTags.map((newTag, i) => (
                     //                 <Link key={i}
-                    //                       to={`/tag/${newTag.slug}`}>
+                    //                       to={`/tag/${newTag.slug}`}
+                    // onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
                     //                     {newTag.name}
                     //                 </Link>
                     //             ))

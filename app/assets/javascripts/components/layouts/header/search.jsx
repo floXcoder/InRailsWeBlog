@@ -1,19 +1,14 @@
 'use strict';
 
 const HomeSearchHeader = ({onSearchClick}) => (
-    <div className="btn waves-effect waves-light left header-normal header-button search-header-button"
-         onClick={_handleSearchClick.bind(null, onSearchClick)}>
+    <a id="toggle-search"
+       className="btn waves-effect waves-light left header-normal header-button search-header-button"
+       onClick={onSearchClick}>
         <span className="material-icons left"
               data-icon="search"
               aria-hidden="true"/>
-    </div>
+    </a>
 );
-
-const _handleSearchClick = (onSearchClick, event) => {
-    event.preventDefault();
-
-    onSearchClick();
-};
 
 HomeSearchHeader.propTypes = {
     onSearchClick: PropTypes.func.isRequired

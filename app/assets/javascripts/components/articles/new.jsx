@@ -32,7 +32,6 @@ export default class ArticleNew extends React.PureComponent {
         articleErrors: undefined
     };
 
-    // TODO
     // componentDidMount() {
     //     Mousetrap.bind('alt+s', () => {
     //         this._toggleNewForm();
@@ -50,13 +49,12 @@ export default class ArticleNew extends React.PureComponent {
     };
 
     _handleSubmit = (values) => {
-        // TODO
+        this.props.addArticle(values.toJS());
+        // TODO: utility ?
         // this.props.push({
         //     pathname: `/article/${articleData.article.slug}`,
         //     state: {newTags: articleData.article.new_tags}
         // });
-
-        this.props.addArticle(values.toJS());
 
         return true;
     };

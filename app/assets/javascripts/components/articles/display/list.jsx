@@ -1,15 +1,14 @@
 'use strict';
 
-// import ArticleActions from '../../../actions/articleActions';
-
-// import InfiniteScroll from '../../materialize/infiniteScroll';
-
-import ArticleItemDisplay from './item';
-
 import {
     TransitionGroup,
     CSSTransition
 } from 'react-transition-group';
+
+// TODO
+// import InfiniteScroll from '../../materialize/infiniteScroll';
+
+import ArticleItemDisplay from './item';
 
 const ArticleListDisplay = ({articles, articleDisplayMode}) => {
     const ArticleNodes = articles.map((article) => (
@@ -17,7 +16,7 @@ const ArticleListDisplay = ({articles, articleDisplayMode}) => {
                            timeout={500}
                            classNames="article">
                 <ArticleItemDisplay article={article}
-                                    initialDisplayMode={articleDisplayMode}/>
+                                    articleDisplayMode={articleDisplayMode}/>
             </CSSTransition>
         )
     );

@@ -86,6 +86,44 @@ class ApplicationController < ActionController::Base
     payload[:admin_id]   = current_admin.id if current_admin
   end
 
+  def authenticate_user!(options = {})
+    if admin_signed_in? && !user_signed_in?
+      sign_in(:user, User.first)
+      super(options)
+    elsif user_signed_in?
+      super(options)
+    else
+      self.response_body = nil
+      respond_to do |format|
+        format.js do
+          flash[:alert] = I18n.t('devise.failure.unauthenticated')
+          js_redirect_to(login_path)
+        end
+        format.html do
+          save_location
+          redirect_to login_path, notice: I18n.t('devise.failure.unauthenticated')
+        end
+        format.json do
+          flash.now[:alert] = I18n.t('devise.failure.unauthenticated')
+          render json:   { errors: I18n.t('devise.failure.unauthenticated') }.to_json,
+                 status: :forbidden
+        end
+      end
+    end
+  end
+
+  def authenticate_admin!(options = {})
+    if admin_signed_in?
+      super(options)
+    else
+      respond_to do |format|
+        format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: :not_found }
+        format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
+        format.all { render body: nil, status: :not_found }
+      end
+    end
+  end
+
   protected
 
   # SEO
@@ -155,45 +193,6 @@ class ApplicationController < ActionController::Base
     end
     devise_parameter_sanitizer.permit(:account_update) do |user_params|
       user_params.permit(:pseudo, :email, :password, :password_confirmation, :current_password)
-    end
-  end
-
-  def authenticate_user!(options = {})
-    if admin_signed_in? && !user_signed_in?
-      # TODO: create first user by default in seed
-      sign_in(:user, User.first)
-      super(options)
-    elsif user_signed_in?
-      super(options)
-    else
-      self.response_body = nil
-      respond_to do |format|
-        format.js do
-          flash[:alert] = I18n.t('devise.failure.unauthenticated')
-          js_redirect_to(login_path)
-        end
-        format.html do
-          save_location
-          redirect_to login_path, notice: I18n.t('devise.failure.unauthenticated')
-        end
-        format.json do
-          flash.now[:alert] = I18n.t('devise.failure.unauthenticated')
-          render json:   { errors: I18n.t('devise.failure.unauthenticated') }.to_json,
-                 status: :forbidden
-        end
-      end
-    end
-  end
-
-  def authenticate_admin!(options = {})
-    if admin_signed_in?
-      super(options)
-    else
-      respond_to do |format|
-        format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: :not_found }
-        format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
-        format.all { render body: nil, status: :not_found }
-      end
     end
   end
 

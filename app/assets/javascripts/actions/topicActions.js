@@ -5,9 +5,9 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Topics
-export const fetchTopics = (filter, options = {}) => ({
+export const fetchTopics = (userId = null, filter = {}, options = {}) => ({
     actionType: ActionTypes.TOPIC,
-    fetchAPI: () => api.get(`/topics`, {
+    fetchAPI: () => api.get(userId ? `/users/${userId}/topics` : `/topics`, {
         filter,
         ...options
     })
@@ -20,14 +20,15 @@ export const fetchTopic = (userId, topicId, options = {}) => ({
     })
 });
 
-export const switchTopic = (userId, topicId, options = {}) => ({
+export const switchTopic = (userId, newTopicId, options = {}) => ({
     actionType: ActionTypes.TOPIC,
-    fetchAPI: () => api.get(`/users/${userId}/topics/${topicId}`, {
+    fetchAPI: () => api.post(`/users/${userId}/topics/switch`, {
+        newTopicId,
         ...options
-    })
-    // TODO
-// .then(action => dispatch(push(`/topic/${action.topic.slug}`)))
-// .then(dispatch(topicModule((false))));
+    }),
+    payload: {
+        isSwitching: true
+    }
 });
 
 // Topic mutations

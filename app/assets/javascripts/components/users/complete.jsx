@@ -34,10 +34,6 @@ export default class UserComplete extends React.Component {
         super(props);
 
         // TODO
-        // this.mapStoreToState(UserStore, this.onUserChange);
-        // this.mapStoreToState(ArticleStore, this.onArticleChange);
-
-        // TODO
         // UserActions.loadUser({
         //     userId: props.userId,
         //     completeUser: true

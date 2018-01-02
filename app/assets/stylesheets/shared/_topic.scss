@@ -79,6 +79,7 @@
 
       .topic-item-details {
         background: rgba(255, 255, 255, .88);
+        color: $text-color;
         padding: 0 .8rem;
         position: relative;
         transition: .25s color ease .1s, .25s padding-left ease .1s, .25s background-color ease .1s;
@@ -87,12 +88,8 @@
           padding-left: 1.4rem;
         }
 
-        a {
-          color: #000;
-
-          &.topic-item-current {
-            font-weight: 600;
-          }
+        &.topic-item-current {
+          font-weight: 600;
         }
 
         //.topic-item-edit {

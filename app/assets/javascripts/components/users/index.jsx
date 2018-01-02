@@ -1,9 +1,5 @@
 'use strict';
 
-// TODO
-// import UserActions from '../../actions/userActions';
-// import UserStore from '../../stores/userStore';
-
 import UserCardDisplay from './display/card';
 
 import SearchBar from '../theme/searchBar';
@@ -24,9 +20,6 @@ export default class UserIndex extends React.Component {
 
     constructor(props) {
         super(props);
-
-        // TODO
-        // this.mapStoreToState(UserStore, this.onUserChange);
 
         // TODO
         // UserActions.loadUsers({page: 1});
@@ -80,6 +73,7 @@ export default class UserIndex extends React.Component {
     _handlePaginationClick = (paginate) => {
         // TODO
         // UserActions.loadUsers({page: paginate.selected + 1});
+
         setTimeout(() => {
             $('html, body').animate({scrollTop: $('.blog-user-list').offset().top - 64}, 750);
         }, 300);

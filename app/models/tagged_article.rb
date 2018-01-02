@@ -55,7 +55,7 @@ class TaggedArticle < ApplicationRecord
                           allow_nil: true,
                           message:   I18n.t('activerecord.errors.models.tagged_article.already_tagged')
 
-  validate :tag_authorized
+  validate :relationship_authorisation
 
   # == Scopes ===============================================================
 
@@ -67,11 +67,17 @@ class TaggedArticle < ApplicationRecord
 
   private
 
-  def tag_authorized
-    if self.tag.present? && self.tag.only_me? && self.tag.user_id != self.user_id
-      # Useful? : tag do not belong to a specific topic
-      # || (self.tag.only_me? && self.article.topic_id != self.topic_id)
-      errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.tag_not_authorized'))
+  def relationship_authorisation
+    return unless self.tag.present? && self.article.present?
+
+    if self.tag.only_me?
+      if self.tag.user_id != self.user_id
+        errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.incorrect_tag_affiliation'))
+      end
+
+      if self.article.topic_id != self.topic_id
+        errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.incorrect_topic_affiliation'))
+      end
     end
   end
 

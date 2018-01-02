@@ -1,7 +1,6 @@
 'use strict';
 
 import '../application';
-import '../modules/validation';
 
 // Initialize all SideNav
 if (window.innerWidth > window.settings.medium_screen_up) {
@@ -17,10 +16,6 @@ if (window.innerWidth > window.settings.medium_screen_up) {
         }
     );
 }
-
-// TODO: utility?
-// Got to top button
-// $('.goto-top').goToTop();
 
 // Flash messages
 $('.blog-flash').each((index, element) => {

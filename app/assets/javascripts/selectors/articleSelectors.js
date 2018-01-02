@@ -21,30 +21,20 @@ export const getArticleIsOutdated = (article) => (
     article && article.outdatedNumber > 3
 );
 
-// TODO
 export const getArticleErrors = createSelector(
     (state) => state.articleState.errors,
     (errors) => {
-
-        // if (articleData.type === 'addArticleError') {
-        //     newState.articleErrors = Object.keys(articleData.articleErrors).map((errorName) => {
-        //         let errorDescription = articleData.articleErrors[errorName];
-        //         return I18n.t('js.article.model.' + errorName) + ' ' + errorDescription.join(I18n.t('js.helpers.and'));
-        //     });
-        // }
-
         let errorContent = [];
-        errors.mapKeys((errorName, errorDescriptions) => {
+        poiErrors.mapKeys((errorName, errorDescriptions) => {
             errorDescriptions = errorDescriptions.toJS();
             errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
-        });
+        }).toArray();
         return errorContent;
     }
 );
 
 // TODO: useful ?
 // export const getArticleContent = (stateArticles, id) => {
-//     // TODO
 //     // return isHighlightingResults && !$.isEmpty(article.highlight_content) ?
 //     //     article.highlight_content :
 //     //     article.content

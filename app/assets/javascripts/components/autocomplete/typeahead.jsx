@@ -1,5 +1,8 @@
 'use strict';
 
+import {assign} from 'lodash';
+React.__spread = assign;
+
 import TypeaheadSelector from './selector';
 import fuzzy from 'fuzzy';
 
@@ -119,6 +122,7 @@ export default class Typeahead extends React.Component {
             } else {
                 mapper = IDENTITY_FN;
             }
+
             return function (value, options) {
                 return fuzzy
                     .filter(value, options, {extract: mapper})
@@ -145,7 +149,7 @@ export default class Typeahead extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            visible: Typeahead.getOptionsForValue(this.state.entryValue, nextProps.options)
+            visible: Typeahead.getOptionsForValue(this.state.entryValue, nextProps.options, this.props.maxVisible, this.props.filterOption)
         });
     }
 
@@ -242,7 +246,7 @@ export default class Typeahead extends React.Component {
     _onTextEntryUpdated = () => {
         var value = this.refs.entry.value;
         this.setState({
-            visible: Typeahead.getOptionsForValue(value, this.props.options),
+            visible: Typeahead.getOptionsForValue(value, this.props.options, this.props.maxVisible, this.props.filterOption),
             selection: null,
             entryValue: value
         });
@@ -392,8 +396,8 @@ export default class Typeahead extends React.Component {
                     {
                         placeholder: this.props.placeholder,
                         className: inputClassList,
-                        value: this.state.entryValue,
-                        defaultValue: this.props.defaultValue,
+                        value: this.state.entryValue || this.props.defaultValue,
+                        // defaultValue: this.props.defaultValue,
                         onChange: this._onChange,
                         onKeyDown: this._onKeyDown,
                         onKeyUp: this.props.onKeyUp,

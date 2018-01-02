@@ -12,20 +12,19 @@ class SearchController < ApplicationController
 
     search_options = {}
 
-    # TODO
-    # params[:search_options] = {} if !search_params[:search_options] || search_params[:search_options].is_a?(String)
-    # if current_user && (user_settings = User.find(current_user.id))
-    #   search_options[:highlight] = user_settings.settings[:search_highlight]
-    #   search_options[:exact]     = user_settings.settings[:search_exact]
-    #   search_options[:operator]  = user_settings.settings[:search_operator]
-    # end
-    # unless search_params[:search_options].empty?
-    #   search_options[:highlight] = !(search_params[:search_options][:search_highlight] == 'false')
-    #   search_options[:exact]     = !(search_params[:search_options][:search_exact] == 'false')
-    #   search_options[:operator]  = search_params[:search_options][:search_operator]
-    # end
+    params[:search_options] = {} if !search_params[:search_options] || search_params[:search_options].is_a?(String)
+    if current_user
+      search_options[:highlight] = current_user.settings[:search_highlight]
+      search_options[:exact]     = current_user.settings[:search_exact]
+      search_options[:operator]  = current_user.settings[:search_operator]
+    end
+    unless search_params[:search_options].empty?
+      search_options[:highlight] = search_params[:search_options][:search_highlight] != 'false'
+      search_options[:exact]     = search_params[:search_options][:search_exact] != 'false'
+      search_options[:operator]  = search_params[:search_options][:search_operator]
+    end
 
-    if search_type('article', search_params[:type])
+    if search_type('article', search_params[:selected_types])
       article_results = Article.search_for(
         search_params[:query],
         page:             search_params[:article_page] || search_params[:page],
@@ -55,7 +54,7 @@ class SearchController < ApplicationController
       total_pages[:articles]  = article_results[:total_pages]
     end
 
-    if search_type('tag', search_params[:type])
+    if search_type('tag', search_params[:selected_types])
       tag_results = Tag.search_for(
         search_params[:query],
         page:            search_params[:article_page] || search_params[:page],
@@ -97,7 +96,7 @@ class SearchController < ApplicationController
   def autocomplete
     autocomplete_results = {}
 
-    if search_type('article', search_params[:type])
+    if search_type('article', search_params[:selected_types])
       autocomplete_articles           = Article.search(search_params[:query],
                                                        limit: search_params[:limit] || Setting.search_per_page,
                                                        where: {
@@ -108,7 +107,7 @@ class SearchController < ApplicationController
       autocomplete_results[:articles] = autocomplete_articles unless autocomplete_articles.empty?
     end
 
-    if search_type('tag', search_params[:type])
+    if search_type('tag', search_params[:selected_types])
       autocomplete_tags           = Tag.search(search_params[:query],
                                                limit: search_params[:limit] || Setting.search_per_page,
                                                where: {
@@ -129,7 +128,6 @@ class SearchController < ApplicationController
   def search_params
     if params[:search].present?
       params.require(:search).permit(:complete,
-                                     :type,
                                      :per_page,
                                      :article_per_page,
                                      :tag_per_page,
@@ -146,8 +144,8 @@ class SearchController < ApplicationController
                                      :accepted,
                                      :home_page,
                                      :order,
-                                     type:  [],
-                                     types: [],
+                                     :selected_types,
+                                     selected_types: [],
                                      tags:  [],
                                      order: []
       ).reject { |_, v| v.blank? }
@@ -162,10 +160,10 @@ class SearchController < ApplicationController
     if current_type.is_a?(Array)
       return current_type.map(&:downcase).include?(type.to_s.downcase)
     else
-      if type.to_s.casecmp(current_type).zero?
+      if type.to_s.casecmp(current_type.to_s).zero?
         return true
       else
-        return !%w[article tag].include?(current_type.to_s.downcase)
+        return !%w[article tag topic].include?(current_type.to_s.downcase)
       end
     end
   end

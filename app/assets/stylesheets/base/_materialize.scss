@@ -372,6 +372,36 @@ input[type="checkbox"] + label {
   }
 }
 
+.btn,
+.btn-floating,
+.btn-large,
+.btn-flat {
+  font-size: $button-font-size;
+  outline: 0;
+
+  .material-icons {
+    font-size: $button-icon-font-size;
+    line-height: inherit;
+  }
+}
+
+.btn-floating {
+  &.btn-large {
+    .material-icons {
+      line-height: $button-floating-large-size;
+    }
+  }
+
+  .material-icons {
+    color: $button-floating-color;
+    display: inline-block;
+    font-size: $button-large-icon-font-size;
+    line-height: $button-floating-size;
+    text-align: center;
+    width: inherit;
+  }
+}
+
 // Filled in Style
 [type="checkbox"].invalid {
   + label:after {

@@ -53,7 +53,8 @@ export default class TypeaheadTokenizer extends React.Component {
             PropTypes.func
         ]),
         maxVisible: PropTypes.number,
-        hasDefaultClassNames: PropTypes.bool
+        hasDefaultClassNames: PropTypes.bool,
+        addTokenCondition: PropTypes.string,
     };
 
     static defaultProps = {
@@ -75,9 +76,9 @@ export default class TypeaheadTokenizer extends React.Component {
         },
         onBlur: (event) => {
         },
-        onTokenAdd () {
+        onTokenAdd() {
         },
-        onTokenRemove () {
+        onTokenRemove() {
         }
     };
 
@@ -109,11 +110,11 @@ export default class TypeaheadTokenizer extends React.Component {
         var result = this.state.selected.map(function (selected) {
             var displayString = selected;
             return (
-                <Token key={ displayString } className={classList}
-                       onRemove={ this._removeTokenForValue }
+                <Token key={displayString} className={classList}
+                       onRemove={this._removeTokenForValue}
                        object={selected}
-                       name={ this.props.name }>
-                    { displayString }
+                       name={this.props.name}>
+                    {displayString}
                 </Token>
             );
         }, this);
@@ -162,7 +163,7 @@ export default class TypeaheadTokenizer extends React.Component {
     };
 
     _addTokenForValue = (value, noSubmit) => {
-        var full_value = value;
+        const fullValue = value;
         if (this.props.addTokenCondition) {
             if ($.isEmpty(value[this.props.addTokenCondition])) {
                 return;
@@ -171,13 +172,13 @@ export default class TypeaheadTokenizer extends React.Component {
             value = value[this.props.addTokenCondition];
         }
 
-        if (this.state.selected.indexOf(value) != -1) {
+        if (this.state.selected.indexOf(value) !== -1) {
             return;
         }
         this.state.selected.push(value);
         this.setState({selected: this.state.selected});
         this.refs.typeahead.setEntryText("");
-        this.props.onTokenAdd(full_value, noSubmit);
+        this.props.onTokenAdd(fullValue, noSubmit);
     };
 
     setEntryText = (value) => {
@@ -198,7 +199,7 @@ export default class TypeaheadTokenizer extends React.Component {
 
         return (
             <div className={tokenizerClassList}>
-                { this._renderTokens() }
+                {this._renderTokens()}
                 <Typeahead ref="typeahead"
                            className={classList}
                            placeholder={this.props.placeholder}

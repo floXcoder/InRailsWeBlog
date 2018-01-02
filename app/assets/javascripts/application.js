@@ -26,13 +26,6 @@ I18n.locale = window.locale;
 // Keyboard inputs
 import 'expose-loader?Mousetrap!mousetrap';
 
-// TODO
-// if (process.env.NODE_ENV !== 'production') {
-//     const {whyDidYouUpdate} = require('why-did-you-update');
-//     whyDidYouUpdate(React);
-//     // whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton)/ });
-// }
-
 // Configure log level
 if (process.env.NODE_ENV === 'production') {
     log.setLevel('warn');

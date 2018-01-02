@@ -2,8 +2,6 @@
 
 import _ from 'lodash';
 
-// import CommentActions from '../../actions/commentActions';
-// import CommentStore from '../../stores/commentStore';
 import CommentTableDisplay from './display/table';
 
 export default class CommentIndex extends React.Component {
@@ -28,9 +26,6 @@ export default class CommentIndex extends React.Component {
 
     constructor(props) {
         super(props);
-
-        // TODO
-        // this.mapStoreToState(CommentStore, this.onCommentChange);
 
         if (!props.comments) {
             let params = {page: 1};

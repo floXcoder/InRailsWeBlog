@@ -7,6 +7,10 @@ import {
 import HighlightCode from 'highlight.js';
 
 import {
+    spyTrackClick
+} from '../../../actions';
+
+import {
     getArticleIsOwner,
     getArticleIsOutdated
 } from '../../../selectors';
@@ -60,13 +64,6 @@ export default class ArticleCardDisplay extends React.Component {
         }
     };
 
-    _handleArticleClick = (event) => {
-        // TODO
-        // ArticleStore.onTrackClick(this.props.article.id);
-
-        return event;
-    };
-
     render() {
         return (
             <div className={classNames('card blog-article-item clearfix', {'article-outdated': this.props.isOutdated})}>
@@ -74,7 +71,7 @@ export default class ArticleCardDisplay extends React.Component {
                     <div className="card-title article-title center clearfix">
                         <h1 className="article-title-card">
                             <Link to={`/article/${this.props.article.slug}`}
-                                  onClick={this._handleArticleClick}>
+                                  onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
                                 {this.props.article.title}
                             </Link>
                         </h1>
@@ -99,9 +96,9 @@ export default class ArticleCardDisplay extends React.Component {
 
                         <div className="col s12 m12 l6 md-margin-bottom-20">
                             <ArticleTags articleId={this.props.article.id}
-                                         tags={this.props.article.tags.toJS()}
-                                         parentTags={this.props.article.parentTags.toJS()}
-                                         childTags={this.props.article.childTags.toJS()}/>
+                                         tags={this.props.article.tags}
+                                         parentTagIds={this.props.article.parentTagIds}
+                                         childTagIds={this.props.article.childTagIds}/>
                         </div>
 
                         <div className="col s12 m12 l6 right-align">

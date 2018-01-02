@@ -1,90 +1,70 @@
 'use strict';
 
-// TODO
-// import UserActions from '../../actions/userActions';
-// import UserStore from '../../stores/userStore';
-import RadioButtons from '../materialize/radioButtons';
-import SwitchButton from '../materialize/switchButton';
-
 import {
     Menu
 } from 'semantic-ui-react';
 
+import {
+    updateUserSettings
+} from '../../actions';
 
+import RadioButtons from '../materialize/radioButtons';
+import SwitchButton from '../materialize/switchButton';
+
+@connect((state) => ({
+    userCurrentId: state.userState.currentId,
+    user: state.userState.user,
+    settings: state.userState.user.settings,
+    articleDisplay: state.userState.user && state.userState.user.settings.articleDisplay,
+    searchHighlight: state.userState.user && state.userState.user.searchHighlight,
+    searchOperator: state.userState.user && state.userState.user.settings.searchOperator,
+    searchExact: state.userState.user && state.userState.user.settings.searchExact
+}), {
+    updateUserSettings
+})
 export default class UserSettings extends React.Component {
-    static propTypes = {};
-
-    static defaultProps = {};
+    static propTypes = {
+        // From connect
+        userCurrentId: PropTypes.number,
+        articleDisplay: PropTypes.string,
+        searchHighlight: PropTypes.bool,
+        searchOperator: PropTypes.string,
+        searchExact: PropTypes.bool,
+        updateUserSettings: PropTypes.func
+    };
 
     constructor(props) {
         super(props);
-
-        // TODO
-        // this.mapStoreToState(UserStore, this.onSettingsChange);
     }
 
     state = {
-        activeItem: I18n.t('js.user.settings.article.title'),
-        article_display: window.settings.article_display,
-        search_highlight: window.settings.search_highlight,
-        search_operator: window.settings.search_operator,
-        search_exact: window.settings.search_exact
+        activeItem: I18n.t('js.user.settings.article.title')
     };
 
-    onSettingsChange(userData) {
-        let userSettings = userData.settings;
-        if (!$.isEmpty(userSettings)) {
-            let newState = {};
-
-            if (userSettings.article_display) {
-                newState.article_display = userSettings.article_display;
-            }
-            if (userSettings.search_highlight) {
-                newState.search_highlight = userSettings.search_highlight;
-            }
-            if (userSettings.search_operator) {
-                newState.search_operator = userSettings.search_operator;
-            }
-            if (userSettings.search_exact) {
-                newState.search_exact = userSettings.search_exact;
-            }
-
-            this.setState(newState);
-        }
-    }
-
-    handleItemClick = (event, {name}) => {
+    _handleItemClick = (event, {name}) => {
         this.setState({
             activeItem: name
         });
     };
 
     _onDisplayChanged = (event) => {
-        let article_display = event.target.id;
-        this.setState({article_display: event.target.id});
-        // TODO
-        // UserActions.updateUserPreference({displayType: article_display});
+        this._updateSettings({articleDisplay: event.target.id});
     };
 
-    _onHighlightChanged = (event) => {
-        let search_highlight = this.refs.searchHighlight.value();
-        this.setState({search_highlight: search_highlight});
-        // TODO
-        // UserActions.updateUserPreference({search_highlight: !search_highlight});
+    _onHighlightChanged = (value) => {
+        this._updateSettings({searchHighlight: value});
     };
 
     _onOperatorSearchChanged = (event) => {
-        let search_operator = event.target.id;
-        this.setState({search_operator: search_operator});
-        // TODO
-        // UserActions.updateUserPreference({search_operator: search_operator});
+        this._updateSettings({searchOperator: event.target.id});
     };
 
-    _onExactSearchChanged = (event) => {
-        let search_exact = this.refs.searchExact.value();
-        this.setState({search_exact: search_exact});
-        // TODO
-        // UserActions.updateUserPreference({search_exact: !search_exact});
+    _onExactSearchChanged = (value) => {
+        this._updateSettings({searchExact: value});
+    };
+
+    _updateSettings = (setting) => {
+        this.props.updateUserSettings(this.props.userCurrentId, setting);
     };
 
     render() {
@@ -96,21 +76,23 @@ export default class UserSettings extends React.Component {
                       secondary={true}>
                     <Menu.Item name={I18n.t('js.user.settings.article.title')}
                                active={activeItem === I18n.t('js.user.settings.article.title')}
-                               onClick={this.handleItemClick}/>
+                               onClick={this._handleItemClick}/>
                     <Menu.Item name={I18n.t('js.user.settings.search.title')}
                                active={activeItem === I18n.t('js.user.settings.search.title')}
-                               onClick={this.handleItemClick}/>
+                               onClick={this._handleItemClick}/>
                 </Menu>
 
                 {
                     activeItem === I18n.t('js.user.settings.article.title') &&
                     <div className="row">
                         <div className="col s12">
-                            <h6>{I18n.t('js.user.settings.article.display.title')}</h6>
+                            <h6>
+                                {I18n.t('js.user.settings.article.display.title')}
+                            </h6>
                             <RadioButtons group="articleDisplay"
                                           buttons={I18n.t('js.user.settings.article.display.mode')}
-                                          checkedButton={this.state.article_display}
-                                          onRadioChanged={this._onDisplayChanged}/>
+                                          checkedButton={this.props.articleDisplay}
+                                          onChange={this._onDisplayChanged}/>
                         </div>
                     </div>
                 }
@@ -122,23 +104,23 @@ export default class UserSettings extends React.Component {
                             <h6>{I18n.t('js.user.settings.search.operator.title')}</h6>
                             <RadioButtons group="searchOperator"
                                           buttons={I18n.t('js.user.settings.search.operator.mode')}
-                                          checkedButton={this.state.search_operator}
-                                          onRadioChanged={this._onOperatorSearchChanged}/>
+                                          checkedButton={this.props.searchOperator}
+                                          onChange={this._onOperatorSearchChanged}/>
                         </div>
                         <div className="col s12">
                             <SwitchButton id="search-highlight"
                                           title={I18n.t('js.user.settings.search.highlight')}
                                           values={I18n.t('js.checkbox')}
-                                          onSwitchChange={this._onHighlightChanged}>
-                                {this.state.search_highlight}
+                                          onChange={this._onHighlightChanged}>
+                                {this.props.searchHighlight}
                             </SwitchButton>
                         </div>
                         <div className="col s12">
                             <SwitchButton id="search-exact"
                                           title={I18n.t('js.user.settings.search.exact')}
                                           values={I18n.t('js.checkbox')}
-                                          onSwitchChange={this._onExactSearchChanged}>
-                                {this.state.search_exact}
+                                          onChange={this._onExactSearchChanged}>
+                                {this.props.searchExact}
                             </SwitchButton>
                         </div>
                     </div>

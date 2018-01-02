@@ -51,17 +51,16 @@ describe 'Tag API', type: :request, basic: true do
         expect(tags_visibility).to match_array(['everyone'] * 5)
       end
 
-      # TODO: set a tag limit?
-      # it 'limits the number of tags' do
-      #   create_list(:tag, 10, user: @user)
-      #
-      #   get '/tags', as: :json
-      #
-      #   json_tags = JSON.parse(response.body)
-      #
-      #   expect(json_tags['tags']).not_to be_empty
-      #   expect(json_tags['tags'].size).to be <= Setting.per_page
-      # end
+      it 'limits the number of tags' do
+        create_list(:tag, 10, user: @user)
+
+        get '/tags', params: { limit: 5 }, as: :json
+
+        json_tags = JSON.parse(response.body)
+
+        expect(json_tags['tags']).not_to be_empty
+        expect(json_tags['tags'].size).to equal(5)
+      end
     end
 
     context 'when no parameters and owner is connected' do

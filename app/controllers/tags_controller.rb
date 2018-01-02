@@ -3,7 +3,7 @@
 # Table name: tags
 #
 #  id         :integer          not null, primary key
-#  user_id  :integer          not null
+#  user_id    :integer          not null
 #  name       :string           not null
 #  slug       :string
 #  created_at :datetime         not null
@@ -29,8 +29,7 @@ class TagsController < ApplicationController
 
     tags = Tag.filter_by(tags, filter_params, current_user) unless filter_params.empty?
 
-    # TODO: set a tag limit?
-    # tags = params[:limit] ? tags.limit(params[:limit]) : tags.paginate(page: params[:page], per_page: CONFIG.per_page)
+    tags = tags.limit(params[:limit]) if params[:limit]
 
     respond_to do |format|
       format.json do

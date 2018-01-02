@@ -31,6 +31,9 @@ Rails.application.configure do
   #     'http://localhost:8080'
   #   end
   # }
+  #
+  # # Log file for development
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/development.log'))
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation          = :log
@@ -63,13 +66,13 @@ Rails.application.configure do
 
   # N 1 Queries
   config.after_initialize do
-    Bullet.enable               = true
+    Bullet.enable               = false
     Bullet.alert                = false
     Bullet.bullet_logger        = false
     Bullet.console              = false
-    Bullet.rails_logger         = true
+    Bullet.rails_logger         = false
     Bullet.add_footer           = false
-    Bullet.counter_cache_enable = true
+    Bullet.counter_cache_enable = false
   end
 
   # Custom configurations

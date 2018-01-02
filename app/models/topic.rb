@@ -75,9 +75,8 @@ class Topic < ApplicationRecord
   has_many :tag_relationships,
            dependent: :destroy
 
-  # TODO
-  # has_many :tags,
-  #          through:   :tagged_articles
+  has_many :tags,
+           through:   :tagged_articles
 
   has_many :bookmarks,
            as:          :bookmarked,

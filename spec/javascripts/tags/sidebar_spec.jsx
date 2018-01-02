@@ -4,8 +4,6 @@ import '../test_helper';
 
 import TagSidebar from '../../../app/assets/javascripts/components/tags/sidebar';
 
-// import TagStore from '../../../app/assets/javascripts/stores/tagStore';
-
 describe('<TagSidebar />', () => {
     let shallowWrapper, mountWrapper, renderWrapper;
 

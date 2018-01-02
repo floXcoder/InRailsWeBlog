@@ -4,6 +4,10 @@ import {
     Link
 } from 'react-router-dom';
 
+import {
+    spyTrackClick
+} from '../../../actions';
+
 const ArticleLink = ({articleId, articleSlug, onArticleClick}) => (
     <Link className="btn-floating tooltipped article-goto"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
@@ -15,9 +19,8 @@ const ArticleLink = ({articleId, articleSlug, onArticleClick}) => (
     </Link>
 );
 
-const _handleArticleClick = (articleId, onArticleClick, event) => {
-    // TODO
-    // ArticleStore.onTrackClick(articleId);
+const _handleArticleClick = (articleId, onArticleClick) => {
+    spyTrackClick('article', this.props.article.id);
 
     if (onArticleClick) {
         onArticleClick(articleId);

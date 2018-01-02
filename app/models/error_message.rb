@@ -39,6 +39,7 @@ class ErrorMessage < ApplicationRecord
   # == Relationships ========================================================
 
   # == Validations ==========================================================
+  validates :origin, inclusion: { in: ERROR_ORIGIN }
 
   # == Scopes ===============================================================
 
@@ -67,6 +68,8 @@ class ErrorMessage < ApplicationRecord
     error.created_at  = Time.zone.now
 
     return error
+  rescue StandardError => e
+    self.new(message: "Cannot save error: #{e.message}")
   end
 
   # == Instance Methods =====================================================

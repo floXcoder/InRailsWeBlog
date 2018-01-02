@@ -1,7 +1,6 @@
 'use strict';
 
 import '../../application';
-import '../../modules/validation';
 
 import AdminMenu from '../../components/admin/menu';
 import AdminMessage from '../../components/admin/message';

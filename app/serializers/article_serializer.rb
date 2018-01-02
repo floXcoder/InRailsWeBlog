@@ -49,12 +49,14 @@ class ArticleSerializer < ActiveModel::Serializer
              # :votes_down,
              :outdated_number,
              :comments_number,
-             :new_tags
+             :parent_tag_ids,
+             :child_tag_ids,
+             :new_tag_ids
 
   belongs_to :user, serializer: UserSampleSerializer
   has_many :tags, serializer: TagSampleSerializer
-  has_many :parent_tags, serializer: TagSampleSerializer
-  has_many :child_tags, serializer: TagSampleSerializer
+  # has_many :parent_tags, serializer: TagSampleSerializer
+  # has_many :child_tags, serializer: TagSampleSerializer
 
   def content
     current_user_id = defined?(current_user) && current_user ? current_user.id : nil
@@ -119,10 +121,19 @@ class ArticleSerializer < ActiveModel::Serializer
     object.comments_tree.flatten if instance_options[:comments]
   end
 
-  def new_tags
+  def parent_tag_ids
+    object.parent_tags.ids
+  end
+
+  def child_tag_ids
+    object.child_tags.ids
+  end
+
+  def new_tag_ids
     if instance_options[:new_tags].present?
       instance_options[:new_tags].map do |tag|
-        TagSampleSerializer.new(tag).attributes
+        tag.id
+        # TagSampleSerializer.new(tag).attributes
       end
     end
   end

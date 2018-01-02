@@ -25,7 +25,7 @@ const HomePreferenceHeader = ({}) => {
 
             <li className="collection-item">
                 <div className="blog-user-pref">
-                    <UserSettings />
+                    <UserSettings/>
                 </div>
             </li>
         </ul>
@@ -33,13 +33,12 @@ const HomePreferenceHeader = ({}) => {
 
     return (
         <div>
-            <Popup
-                trigger={button}
-                content={popup}
-                on='click'
-                hideOnScroll={true}
-                flowing={true}
-                position='bottom center'/>
+            <Popup trigger={button}
+                   content={popup}
+                   on='click'
+                   hideOnScroll={true}
+                   flowing={true}
+                   position='bottom center'/>
         </div>
     );
 };

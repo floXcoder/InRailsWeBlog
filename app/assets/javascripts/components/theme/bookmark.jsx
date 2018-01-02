@@ -1,9 +1,5 @@
 'use strict';
 
-// TODO
-// import UserActions from '../../actions/userActions';
-// import UserStore from '../../stores/userStore';
-
 export default class Bookmark extends React.Component {
     static propTypes = {
         modelId: PropTypes.number.isRequired,
@@ -21,9 +17,6 @@ export default class Bookmark extends React.Component {
 
     constructor(props) {
         super(props);
-
-        // TODO
-        // this.mapStoreToState(UserStore, this.onUserChange);
     }
 
     state = {

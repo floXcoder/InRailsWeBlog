@@ -4,7 +4,6 @@ import UserComplete from './complete';
 
 export default class UserShow extends React.Component {
     static propTypes = {
-        // TODO
         // From router
         history: PropTypes.func,
         userId: PropTypes.number,

@@ -82,7 +82,6 @@ html {
 //}
 
 // Header
-// TODO : create common class for all elements in header
 .ui.bottom.popup {
   padding: 0;
 
@@ -193,8 +192,8 @@ html {
       .nav-wrapper .material-icons,
       nav a.button-collapse,
       nav a.button-collapse .material-icons {
-        height: 48px;
-        line-height: 48px;
+        height: 40px;
+        line-height: 40px;
       }
 
       .nav-wrapper {

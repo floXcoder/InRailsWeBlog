@@ -1,8 +1,5 @@
 'use strict';
 
-// TODO
-// import CommentActions from '../../../actions/commentActions';
-
 import Input from '../../materialize/input';
 import Textarea from '../../materialize/textarea';
 import ShowMore from '../../theme/show-more';
