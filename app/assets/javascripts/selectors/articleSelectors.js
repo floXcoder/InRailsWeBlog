@@ -23,9 +23,9 @@ export const getArticleIsOutdated = (article) => (
 
 export const getArticleErrors = createSelector(
     (state) => state.articleState.errors,
-    (errors) => {
+    (articleErrors) => {
         let errorContent = [];
-        poiErrors.mapKeys((errorName, errorDescriptions) => {
+        articleErrors.mapKeys((errorName, errorDescriptions) => {
             errorDescriptions = errorDescriptions.toJS();
             errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
         }).toArray();

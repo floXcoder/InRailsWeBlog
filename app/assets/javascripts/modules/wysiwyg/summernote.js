@@ -1966,7 +1966,7 @@
     ].join(''));
 
     var iconMaterialize = function (iconClassName) {
-        return '<span className="material-icons" data-icon="account_circle" aria-hidden="true"/>';
+        return `<span class="material-icons" data-icon="${iconClassName}" aria-hidden="true"/>`;
     };
 
     var MaterializeUI = {

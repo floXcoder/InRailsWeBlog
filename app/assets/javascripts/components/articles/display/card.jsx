@@ -4,8 +4,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import HighlightCode from 'highlight.js';
-
 import {
     spyTrackClick
 } from '../../../actions';
@@ -14,6 +12,8 @@ import {
     getArticleIsOwner,
     getArticleIsOutdated
 } from '../../../selectors';
+
+import highlight from '../../modules/highlight';
 
 import CountCommentIcon from '../../comments/icons/count';
 import ArticleActions from '../properties/actions';
@@ -27,6 +27,7 @@ import UserAvatarIcon from '../../users/icons/avatar';
     isOutdated: getArticleIsOutdated(props.article)
 }), {
 })
+@highlight
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -41,28 +42,6 @@ export default class ArticleCardDisplay extends React.Component {
     constructor(props) {
         super(props);
     }
-
-    componentDidMount() {
-        HighlightCode.configure({
-            tabReplace: '  ' // 4 spaces
-        });
-
-        this._highlightCode();
-    }
-
-    componentDidUpdate() {
-        this._highlightCode();
-    }
-
-    _highlightCode = () => {
-        let domNode = ReactDOM.findDOMNode(this);
-        let nodes = domNode.querySelectorAll('pre code');
-        if (nodes.length > 0) {
-            for (let i = 0; i < nodes.length; i = i + 1) {
-                HighlightCode.highlightBlock(nodes[i]);
-            }
-        }
-    };
 
     render() {
         return (

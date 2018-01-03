@@ -4,7 +4,7 @@ import {
     CSSTransition
 } from 'react-transition-group';
 
-export default class ModalHOC extends React.Component {
+export default class Dialog extends React.Component {
     static propTypes = {
         isOpened: PropTypes.bool.isRequired,
         children: PropTypes.object.isRequired

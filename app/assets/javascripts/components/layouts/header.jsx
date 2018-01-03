@@ -9,12 +9,12 @@ import {
     fetchTopic
 } from '../../actions';
 
-import ModalHOC from '../modules/modal';
+import Dialog from '../theme/dialog';
 
 import Login from '../users/login';
 import Signup from '../users/signup';
 
-import SwitchTopicModule from '../topic/module';
+import TopicModule from '../topic/module';
 
 import SearchModule from '../search/module';
 
@@ -145,9 +145,9 @@ export default class HeaderLayout extends React.PureComponent {
                     </nav>
                 </div>
 
-                <ModalHOC isOpened={this.props.isTopicPopupOpened}>
-                    <SwitchTopicModule/>
-                </ModalHOC>
+                <Dialog isOpened={this.props.isTopicPopupOpened}>
+                    <TopicModule/>
+                </Dialog>
 
                 <div className="blog-search-nav row">
                     <SearchModule isOpened={this.props.isSearchPopupOpened}/>

@@ -29,7 +29,7 @@ const HomeArticleHeader = () => {
                 </Link>
             </li>
             <li className="collection-item">
-                <Link to={'newArticle'}>
+                <Link to="/article/new">
                     <span className="title">
                         {I18n.t('js.views.header.article.menu.add_article')}
                     </span>

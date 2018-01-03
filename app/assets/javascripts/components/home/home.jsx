@@ -17,7 +17,7 @@ import {
 
 import routes from '../../routes';
 
-import DefaultLayout from '../layouts/default';
+import MainLayout from '../layouts/main';
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -31,11 +31,11 @@ export default class HomePage extends React.Component {
                     <Switch>
                         {
                             routes.home.views.map((route, index) => (
-                                <DefaultLayout key={index}
-                                               routes={routes}
-                                               path={route.path}
-                                               exact={route.exact}
-                                               component={route.component}/>
+                                <MainLayout key={index}
+                                            routes={routes}
+                                            path={route.path}
+                                            exact={route.exact}
+                                            component={route.component}/>
                             ))
                         }
                     </Switch>

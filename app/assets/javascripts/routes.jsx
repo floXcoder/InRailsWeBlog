@@ -122,6 +122,7 @@ export default {
         ]
     },
 
+    // Permanents is based on hash value in URL
     permanents: [
         {
             path: 'new-article',

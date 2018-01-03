@@ -32,7 +32,7 @@ export default class Pagination extends React.PureComponent {
         this._pagination = null;
 
         if (props.hasHistory) {
-            this.props.onHistoryChanged('pagination', this._handleHistory);
+            props.onHistoryChanged('pagination', this._handleHistory);
         }
 
         if (!props.hasHistory && $.isEmpty(props.currentPage)) {

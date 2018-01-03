@@ -1,7 +1,8 @@
 'use strict';
 
-import HighlightCode from 'highlight.js';
+import highlight from '../../modules/highlight';
 
+@highlight
 export default class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
@@ -11,28 +12,6 @@ export default class ArticleInlineDisplay extends React.PureComponent {
     constructor(props) {
         super(props);
     }
-
-    componentDidMount() {
-        HighlightCode.configure({
-            tabReplace: '  ' // 4 spaces
-        });
-
-        this._highlightCode();
-    }
-
-    componentDidUpdate() {
-        this._highlightCode();
-    }
-
-    _highlightCode = () => {
-        let domNode = ReactDOM.findDOMNode(this);
-        let nodes = domNode.querySelectorAll('pre code');
-        if (nodes.length > 0) {
-            for (let i = 0; i < nodes.length; i = i + 1) {
-                HighlightCode.highlightBlock(nodes[i]);
-            }
-        }
-    };
 
     render() {
         return (

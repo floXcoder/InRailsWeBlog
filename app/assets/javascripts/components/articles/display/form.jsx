@@ -91,7 +91,9 @@ export default class ArticleFormDisplay extends React.Component {
     constructor(props) {
         super(props);
 
-        this.props.fetchTags({userTags: true});
+        if (props.tags.length === 0) {
+            props.fetchTags({userTags: true});
+        }
     }
 
     state = {
@@ -100,6 +102,9 @@ export default class ArticleFormDisplay extends React.Component {
     };
 
     render() {
+        // TODO: change cancel link if article is present
+        // this.props.history.push(`/article/${this.state.article.id}`) or this.props.history.push('/')
+
         return (
             <form id={this.props.id}
                   className="article-form"

@@ -4,32 +4,38 @@ import {
     addArticle
 } from '../../actions';
 
+import {
+    getArticleErrors
+} from '../../selectors';
+
 import ArticleFormDisplay from './display/form';
 
-@connect(null, {
+@connect((state) => ({
+    articleErrors: getArticleErrors(state)
+}), {
     addArticle
 })
 export default class ArticleNew extends React.PureComponent {
     static propTypes = {
+        params: PropTypes.object.isRequired,
+        initialData: PropTypes.object,
         multipleId: PropTypes.number,
         // from connect
+        articleErrors: PropTypes.array,
         addArticle: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        // TODO
-        // if (props.location.state && props.location.state.article) {
-        //     this.state.draftArticle = props.location.state.article;
-        //     Notification.success(I18n.t('js.article.clipboard.toast.done'));
-        // }
+        if (props.initialData && props.initialData.article) {
+            this.state.article = props.initialData.article;
+            Notification.success(I18n.t('js.article.clipboard.toast.done'));
+        }
     }
 
     state = {
-        draftArticle: undefined,
-        // TODO: get from redux
-        articleErrors: undefined
+        article: false
     };
 
     // componentDidMount() {
@@ -38,15 +44,6 @@ export default class ArticleNew extends React.PureComponent {
     //         return false;
     //     }, 'keydown');
     // }
-
-    _onCancel = () => {
-        // TODO
-        // if (this.state.article) {
-        //     this.props.history.push(`/article/${this.state.article.id}`);
-        // } else {
-        //     this.props.history.push('/');
-        // }
-    };
 
     _handleSubmit = (values) => {
         this.props.addArticle(values.toJS());
@@ -66,9 +63,8 @@ export default class ArticleNew extends React.PureComponent {
             <div className="blog-form">
                 <ArticleFormDisplay id={articleFormId}
                                     onSubmit={this._handleSubmit}
-                                    onCancel={this._onCancel}
                                     articleErrors={this.props.articleErrors}>
-                    {this.state.draftArticle}
+                    {this.state.article}
                 </ArticleFormDisplay>
             </div>
         );
