@@ -36,7 +36,7 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
 
                                                 <div className="inline right">
                                                     <CountCommentIcon linkToComment={`/articles/${article.slug}`}
-                                                                      commentsNumber={article.comments_number}/>
+                                                                      commentsCount={article.comments_number}/>
                                                 </div>
                                             </div>
                                         }>

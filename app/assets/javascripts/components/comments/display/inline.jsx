@@ -1,17 +1,29 @@
 'use strict';
 
+import {
+    updateComment,
+    deleteComment
+} from '../../../actions';
+
 import Input from '../../materialize/input';
 import Textarea from '../../materialize/textarea';
-import ShowMore from '../../theme/show-more';
+import ShowMore from '../../theme/showMore';
 import FixedActionButton from '../../materialize/fab';
 
 import UserAvatarIcon from '../../users/icons/avatar';
 
+@connect(null, {
+    updateComment,
+    deleteComment
+})
 export default class CommentInlineDisplay extends React.Component {
     static propTypes = {
         comment: PropTypes.object.isRequired,
         isInlineEditing: PropTypes.bool,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        // From connect
+        updateComment: PropTypes.func,
+        deleteComment: PropTypes.func
     };
 
     constructor(props) {
@@ -21,14 +33,6 @@ export default class CommentInlineDisplay extends React.Component {
     state = {
         editingField: undefined
     };
-
-    componentDidMount() {
-        $('#comment-actions').find('.tooltipped').tooltip();
-    }
-
-    componentDidUpdate() {
-        $('#comment-actions').find('.tooltipped').tooltip();
-    }
 
     _handleFieldEdit = (fieldType, editingField, event) => {
         event.preventDefault();
@@ -75,8 +79,7 @@ export default class CommentInlineDisplay extends React.Component {
 
         $('#comment-actions').find('.fixed-action-btn').closeFAB();
 
-        // TODO
-        // CommentActions.deleteComment(this.props.comment.id, this.props.comment.commentable.id, {isPermanently: isPermanently === true});
+        this.props.deleteComment(this.props.comment.id, this.props.comment.commentable.id, {permanently: isPermanently === true});
     };
 
     _submitComment = (field, newValue, event) => {
@@ -88,15 +91,13 @@ export default class CommentInlineDisplay extends React.Component {
 
         if (field) {
             commentToUpdate[field] = newValue;
-            $('#comment-actions').find('.tooltipped').tooltip('remove');
         } else if (this.refs[this.state.editingField]) {
             commentToUpdate[this.state.editingField] = this.refs[this.state.editingField].value();
         }
 
         if (!$.isEmpty(commentToUpdate)) {
             commentToUpdate.id = this.props.comment.id;
-            // TODO
-            // CommentActions.updateComment(commentToUpdate, this.props.comment.commentable.id, {url: this.props.comment.commentable.link});
+            this.props.updateComment(commentToUpdate, this.props.comment.commentable.id, {url: this.props.comment.commentable.link});
         }
     };
 
@@ -104,7 +105,7 @@ export default class CommentInlineDisplay extends React.Component {
         return (
             <tr className="comment-inline">
                 <td>
-                    {this.props.comment.commentable_type}
+                    {this.props.comment.commentableType}
                 </td>
                 <td>
                     <UserAvatarIcon user={this.props.comment.user}/>
@@ -142,16 +143,18 @@ export default class CommentInlineDisplay extends React.Component {
                     }
                 </td>
                 <td>
-                    {this.props.comment.posted_at}
+                    {this.props.comment.postedAt}
                 </td>
 
                 <td>
                     <div id="comment-actions"
                          className="actions">
                         <FixedActionButton>
-                            <div className="btn-floating tooltipped comment-link"
+                            <div className="comment-link tooltip-bottom"
                                  data-tooltip={I18n.t('js.comment.table.actions.show')}>
-                                <a href={this.props.comment.link}
+                                <a className="btn-floating"
+                                   href={this.props.comment.link}
+                                   rel="noopener noreferrer"
                                    target="_blank">
                                     <span className="material-icons"
                                           data-icon="comment"
@@ -159,9 +162,10 @@ export default class CommentInlineDisplay extends React.Component {
                                 </a>
                             </div>
 
-                            <div className="btn-floating tooltipped comment-link"
+                            <div className="comment-link tooltip-bottom"
                                  data-tooltip={I18n.t('js.comment.table.actions.delete')}>
-                                <a href="#"
+                                <a className="btn-floating"
+                                   href="#"
                                    onClick={this._deleteComment}
                                    data-confirm={I18n.t('js.comment.table.confirmation.delete', {comment: this.props.comment.name})}>
                                     <span className="material-icons"
@@ -170,9 +174,10 @@ export default class CommentInlineDisplay extends React.Component {
                                 </a>
                             </div>
 
-                            <div className="btn-floating tooltipped comment-link"
+                            <div className="comment-link tooltip-bottom"
                                  data-tooltip={I18n.t('js.comment.table.actions.delete_permanently')}>
-                                <a href="#"
+                                <a className="btn-floating"
+                                   href="#"
                                    onClick={this._deleteComment.bind(this, true)}
                                    data-confirm={I18n.t('js.comment.table.confirmation.delete_permanently', {comment: this.props.comment.name})}>
                                     <span className="material-icons"
@@ -181,10 +186,10 @@ export default class CommentInlineDisplay extends React.Component {
                                 </a>
                             </div>
 
-                            <div
-                                className={'comment-link tooltipped btn-floating ' + (this.props.comment.accepted ? 'on' : 'off')}
-                                data-tooltip={I18n.t('js.comment.table.actions.accepted')}>
-                                <a href="#"
+                            <div className="comment-link tooltip-bottom"
+                                 data-tooltip={I18n.t('js.comment.table.actions.accepted')}>
+                                <a className={classNames('btn-floating', this.props.comment.accepted ? 'on' : 'off')}
+                                   href="#"
                                    onClick={this._submitComment.bind(this, 'accepted', !this.props.comment.accepted)}>
                                     <span className="material-icons"
                                           data-icon="done"

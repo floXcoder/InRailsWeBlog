@@ -333,8 +333,10 @@ fr:
       url: "Recherche :"
     comment:
       common:
+        route: "commentaires"
         title: "Commentaires"
         empty: "Soyez le premier à mettre votre commentaire !"
+        no_opinion: "Aucun utilisateur n'a encore commenté"
         actions: "Actions"
         loading: "Chargement des commentaires ..."
         no_data: "Pas de commentaires à afficher pour cette sélection"
@@ -366,7 +368,7 @@ fr:
                 - id_last
                 - updated_first
                 - updated_last
-          accepted: "Validé"
+          not_accepted: "Non validé seulement"
           ask_for_deletion: "Demande de suppression"
           button: "Filter"
         actions:
@@ -396,6 +398,11 @@ fr:
           notation: "Note :"
         cancel: "Annuler"
         submit: "Poster"
+      errors:
+        title:
+          size: "Le titre du commentaire doit être compris entre %{min} et %{max} caractères"
+        body:
+          size: "Le contenu du commentaire doit être compris entre %{min} et %{max} caractères"
       new:
         button: "Ajouter un commentaire"
       reply:

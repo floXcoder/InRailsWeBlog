@@ -10,6 +10,7 @@ export default class Textarea extends React.Component {
             PropTypes.object,
             PropTypes.string
         ]),
+        className: PropTypes.string,
         placeholder: PropTypes.string,
         children: PropTypes.string,
         name: PropTypes.string,
@@ -53,6 +54,14 @@ export default class Textarea extends React.Component {
         return !_.isEqual(this.state.hasValue, nextState.hasValue) || this.props.children !== nextProps.children;
     }
 
+    _handleChange = (event) => {
+        const value = event.target.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(value);
+        }
+    };
+
     value = () => {
         return this.refs[this.props.id].value;
     };
@@ -87,12 +96,14 @@ export default class Textarea extends React.Component {
             }
         }
 
-        const fieldClass = classNames({
-            'input-field': !this.props.isHorizontal,
-            'input-horizontal-field': this.props.isHorizontal,
-            'required-field': this.props.isRequired,
-            'col s12': !this.props.isHorizontal
-        });
+        const fieldClass = classNames(
+            this.props.className,
+            {
+                'input-field': !this.props.isHorizontal,
+                'input-horizontal-field': this.props.isHorizontal,
+                'required-field': this.props.isRequired,
+                'col s12': !this.props.isHorizontal
+            });
 
         const iconClass = classNames(
             'material-icons',
@@ -145,7 +156,7 @@ export default class Textarea extends React.Component {
                               disabled={this.props.isDisabled}
                               minLength={this.props.minLength}
                               maxLength={this.props.maxLength}
-                              onChange={this.props.onChange}
+                              onChange={this._handleChange}
                               onKeyDown={this.props.onKeyDown}
                               onBlur={this.props.onBlur}
                               defaultValue={this.props.children}/>

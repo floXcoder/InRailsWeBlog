@@ -62,7 +62,7 @@ export default class ArticleCardDisplay extends React.Component {
                             <ArticleTime lastUpdate={this.props.article.updatedAt}/>
 
                             <CountCommentIcon linkToComment={`/articles/${this.props.article.slug}`}
-                                              commentsNumber={this.props.article.commentsNumber}/>
+                                              commentsCount={this.props.article.commentsCount}/>
                         </div>
                     </div>
 

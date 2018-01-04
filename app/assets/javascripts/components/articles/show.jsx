@@ -2,11 +2,11 @@
 
 import _ from 'lodash';
 
+import LazyLoad from 'react-lazyload';
+
 import {
     Link
 } from 'react-router-dom';
-
-import HighlightCode from 'highlight.js';
 
 import {
     fetchArticle
@@ -17,7 +17,7 @@ import {
     getArticleIsOutdated
 } from '../../selectors';
 
-import LoadingLayout from '../layouts/loading';
+import highlight from '../modules/highlight';
 
 import AnimatedText from '../theme/animatedText';
 
@@ -33,6 +33,8 @@ import ArticleTime from './properties/time';
 
 import UserAvatarIcon from '../users/icons/avatar';
 
+import Spinner from '../materialize/spinner';
+
 import CommentBox from '../comments/box';
 
 @connect((state) => ({
@@ -44,6 +46,7 @@ import CommentBox from '../comments/box';
 }), {
     fetchArticle
 })
+@highlight
 export default class ArticleShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
@@ -67,23 +70,10 @@ export default class ArticleShow extends React.Component {
         isHistoryDisplayed: false
     };
 
-    componentDidMount() {
-        // Highlight code in article content
-        HighlightCode.configure({
-            tabReplace: '  ' // 2 spaces
-        });
-
-        this._highlightCode();
-    }
-
     componentWillReceiveProps(nextProps) {
         if (!_.isEqual(this.props.params, nextProps.params)) {
             this.props.fetchArticle(nextProps.params.articleSlug);
         }
-    }
-
-    componentDidUpdate() {
-        this._highlightCode();
     }
 
     // onArticleChange(articleData) {
@@ -99,20 +89,6 @@ export default class ArticleShow extends React.Component {
     //         Notification.success(I18n.t('js.article.history.restored'), 10);
     //     }
     // }
-
-    _highlightCode = () => {
-        if (!this.props.article) {
-            return;
-        }
-
-        let domNode = ReactDOM.findDOMNode(this);
-        let nodes = domNode.querySelectorAll('pre code');
-        if (nodes.length > 0) {
-            for (let i = 0; i < nodes.length; i = i + 1) {
-                HighlightCode.highlightBlock(nodes[i]);
-            }
-        }
-    };
 
     _handleUserClick = (userId, event) => {
         event.preventDefault();
@@ -157,7 +133,9 @@ export default class ArticleShow extends React.Component {
     render() {
         if (!this.props.article) {
             return (
-                <LoadingLayout/>
+                <div className="center margin-top-20">
+                    <Spinner size='big'/>
+                </div>
             )
         }
 
@@ -181,7 +159,7 @@ export default class ArticleShow extends React.Component {
                             <ArticleTime lastUpdate={this.props.article.updatedAt}/>
 
                             <CountCommentIcon linkToComment={'/articles/' + this.props.article.slug}
-                                              commentsNumber={this.props.article.commentsNumber}/>
+                                              commentsCount={this.props.article.commentsCount}/>
                         </div>
 
                         {
@@ -217,11 +195,11 @@ export default class ArticleShow extends React.Component {
                                 </a>
 
                                 <span>
-                                    {this.props.article.votes_up}
+                                    {this.props.article.votesUp}
                                 </span>
 
                                 <span>
-                                    {this.props.article.votes_down}
+                                    {this.props.article.votesDown}
                                 </span>
                             </div>
 
@@ -287,17 +265,21 @@ export default class ArticleShow extends React.Component {
                 }
 
                 {
-                    // TODO
-                    // this.props.article.allow_comment &&
-                    // <div className="card-panel">
-                    //     <CommentBox id="comments"
-                    //                 commentableType="articles"
-                    //                 commentableId={this.props.article.id}
-                    //                 isConnected={this.props.isUserConnected}
-                    //                 currentUserId={this.props.userCurrentId}
-                    //                 isPaginated={true}
-                    //                 isRated={true}/>
-                    // </div>
+                    this.props.article.allowComment &&
+                    <div className="card-panel">
+                        <LazyLoad height={0}
+                                  once={true}
+                                  offset={50}>
+                            <CommentBox id={`article-comments-${this.props.article.id}`}
+                                        commentableType="articles"
+                                        commentableId={this.props.article.id}
+                                        ownerId={this.props.article.user.id}
+                                        commentsCount={this.props.article.commentsCount}
+                                        isUserOwner={this.props.isOwner}
+                                        isPaginated={false}
+                                        isRated={true}/>
+                        </LazyLoad>
+                    </div>
                 }
             </div>
         );

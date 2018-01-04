@@ -303,8 +303,10 @@ en:
       url: "Recherche :"
     comment:
       common:
+        route: "comments"
         title: "Comments"
         empty: "Be the first to post your comment!"
+        no_opinion: "No users posted a comment yet"
         actions: "Actions"
         loading: "Loading comments..."
         no_data: "No comments to display"
@@ -336,7 +338,7 @@ en:
                 - id_last
                 - updated_first
                 - updated_last
-          accepted: "Accepted"
+          not_accepted: "Not accepted only"
           ask_for_deletion: "Ask for deletion"
           button: "Filter"
         actions:
@@ -366,6 +368,11 @@ en:
           notation: "Note:"
         cancel: "Cancel"
         submit: "Post"
+      errors:
+        title:
+          size: "Comment tile must be %{min} and %{max} characters"
+        body:
+          size: "Comment content must be %{min} and %{max} characters"
       new:
         button: "Add a comment"
       reply:

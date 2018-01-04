@@ -9,6 +9,10 @@ export const getIsOwner = (state, userId) => (
     state.userState.isConnected && state.userState.currentId === userId
 );
 
+export const getIsPrimaryUser = () => (
+    window.currentUserId === '1'
+);
+
 // Users
 export const getUsers = createSelector(
     (state) => state.userState.users,

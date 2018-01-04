@@ -13,7 +13,7 @@ export const fetchComments = (commentParams) => {
         requestParam = commentParams;
 
         if (commentParams.commentableType && commentParams.commentableId) {
-            url = `/${commentParams.commentableType}/${commentParams.commentableId}/${I18n.t('js.comment.common.route')}`;
+            url = `/${commentParams.commentableType}/${commentParams.commentableId}/comments`;
         } else if (commentParams.commentableId) {
             url = commentParams.commentableId + url;
         } else {

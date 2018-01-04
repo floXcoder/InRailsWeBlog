@@ -24,26 +24,25 @@ const CommentItem = (props) => {
             </div>
         );
     } else {
+        const isOwnerComment = (props.ownerId === props.user.id);
+
         return (
             <div id={`comment-${props.id}`}
                  className="comment-item">
                 {
-                    (props.ownerId === props.user.id && !props.isAskedForDeletion) &&
-                    <span className="comment-reply-owner">
-                        {I18n.t('js.comment.reply.owner')}
-                    </span>
-                }
-
-                {
-                    props.isAskedForDeletion &&
-                    <span className="comment-ask-for-deletion">
-                        {I18n.t('js.comment.reply.ask_for_deletion')}
-                    </span>
-                }
-
-                {
-                    (props.ownerId !== props.user.id && !props.isAskedForDeletion) &&
-                    <UserAvatarIcon user={props.user}/>
+                    props.isAskedForDeletion
+                        ?
+                        <span className="comment-ask-for-deletion">
+                            {I18n.t('js.comment.reply.ask_for_deletion')}
+                        </span>
+                        :
+                        isOwnerComment
+                            ?
+                            <span className="comment-reply-owner">
+                                {I18n.t('js.comment.reply.owner')}
+                            </span>
+                            :
+                            <UserAvatarIcon user={props.user}/>
                 }
 
                 <span className="comment-date">
@@ -63,6 +62,18 @@ const CommentItem = (props) => {
 
                 <div className="comment-body"
                      dangerouslySetInnerHTML={{__html: marked(props.children.toString(), {sanitize: true})}}/>
+
+                <div className="secondary-content">
+                    <div className="tooltip-top"
+                         data-tooltip={I18n.t('js.comment.common.actions')}>
+                        <a className="btn-flat waves-effect waves-matisse dropdown-button"
+                           data-activates={`dropdown-comment-${props.id}`}>
+                            <span className="material-icons"
+                                  data-icon="reply"
+                                  aria-hidden="true"/>
+                        </a>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -73,8 +84,8 @@ CommentItem.propTypes = {
     user: PropTypes.object.isRequired,
     date: PropTypes.string.isRequired,
     children: PropTypes.string.isRequired,
-    ownerId: PropTypes.number.isRequired,
     isOwner: PropTypes.bool.isRequired,
+    ownerId: PropTypes.number.isRequired,
     currentUserId: PropTypes.number,
     commentId: PropTypes.number,
     parentCommentId: PropTypes.number,
@@ -82,10 +93,10 @@ CommentItem.propTypes = {
     rating: PropTypes.number,
     isModifying: PropTypes.bool,
     isAskedForDeletion: PropTypes.bool,
-    onCancel: PropTypes.func,
-    onSubmit: PropTypes.func,
     isAskingForDeletion: PropTypes.bool,
-    isAdmin: PropTypes.bool
+    isAdmin: PropTypes.bool,
+    onCancel: PropTypes.func,
+    onSubmit: PropTypes.func
 };
 
 CommentItem.defaultProps = {

@@ -1,11 +1,11 @@
 'use strict';
 
-const CountCommentIcon = ({linkToComment, commentsNumber}) => (
+const CountCommentIcon = ({linkToComment, commentsCount}) => (
     <a href={linkToComment + '#comments'}
        className="comment-count">
-        <span className="tooltipped"
-              data-tooltip={I18n.t('js.comment.tooltip.count', {number: commentsNumber})}>
-            {commentsNumber}
+        <span className="tooltip-bottom"
+              data-tooltip={I18n.t('js.comment.tooltip.count', {number: commentsCount})}>
+            {commentsCount}
             <span className="material-icons"
                   data-icon="comment"
                   aria-hidden="true"/>
@@ -15,7 +15,7 @@ const CountCommentIcon = ({linkToComment, commentsNumber}) => (
 
 CountCommentIcon.propTypes = {
     linkToComment: PropTypes.string.isRequired,
-    commentsNumber: PropTypes.number.isRequired
+    commentsCount: PropTypes.number.isRequired
 };
 
 export default CountCommentIcon;

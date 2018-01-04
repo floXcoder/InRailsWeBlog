@@ -47,8 +47,8 @@ class ArticleSerializer < ActiveModel::Serializer
              :slug,
              # :votes_up,
              # :votes_down,
-             :outdated_number,
-             :comments_number,
+             :outdated_count,
+             :comments_count,
              :parent_tag_ids,
              :child_tag_ids,
              :new_tag_ids
@@ -109,11 +109,11 @@ class ArticleSerializer < ActiveModel::Serializer
   #   object.votes_against
   # end
 
-  def outdated_number
+  def outdated_count
     object.outdated_articles_count
   end
 
-  def comments_number
+  def comments_count
     object.comments_count
   end
 

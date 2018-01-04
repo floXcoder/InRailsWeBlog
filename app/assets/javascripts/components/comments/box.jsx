@@ -1,6 +1,21 @@
 'use strict';
 
-import _ from 'lodash';
+import {
+    CSSTransition
+} from 'react-transition-group';
+
+import {
+    fetchComments,
+    addComment,
+    updateComment,
+    deleteComment
+} from '../../actions';
+
+import {
+    getIsPrimaryUser,
+    getComments,
+    getCommentPagination
+} from '../../selectors';
 
 import Button from '../materialize/button';
 import Pagination from '../materialize/pagination';
@@ -9,28 +24,47 @@ import CircleSpinner from '../theme/spinner/circle';
 import CommentList from '../comments/list';
 import CommentForm from '../comments/form';
 
-import {
-    CSSTransition
-} from 'react-transition-group';
+@connect((state, props) => ({
+    isUserConnected: state.userState.isConnected,
+    currentUserId: state.userState.currentId,
+    isSuperUserConnected: getIsPrimaryUser(state),
+    comments: props.initialComments || getComments(state),
+    commentsPagination: getCommentPagination(state),
+    isLoadingComments: !!props.initialComments || state.commentState.isFetching
+}), {
+    fetchComments,
+    addComment,
+    updateComment,
+    deleteComment
+})
 
 export default class CommentBox extends React.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,
-        isConnected: PropTypes.bool.isRequired,
-        isOwner: PropTypes.bool.isRequired,
         ownerId: PropTypes.number.isRequired,
-        currentUserId: PropTypes.number,
-        isAdmin: PropTypes.bool,
+        isUserOwner: PropTypes.bool.isRequired,
         commentableType: PropTypes.string,
         id: PropTypes.string,
         initialComments: PropTypes.array,
         commentsCount: PropTypes.number,
         isPaginated: PropTypes.bool,
-        isRated: PropTypes.bool
+        isRated: PropTypes.bool,
+        // From connect
+        isUserConnected: PropTypes.bool,
+        currentUserId: PropTypes.number,
+        isSuperUserConnected: PropTypes.bool,
+        comments: PropTypes.array,
+        commentsPagination: PropTypes.object,
+        isLoadingComments: PropTypes.bool,
+        fetchComments: PropTypes.func,
+        addComment: PropTypes.func,
+        updateComment: PropTypes.func,
+        deleteComment: PropTypes.func
     };
 
     static defaultProps = {
-        isAdmin: false,
+        isUserConnected: false,
+        isSuperUserConnected: false,
         initialComments: [],
         isPaginated: false,
         isRated: true
@@ -38,81 +72,33 @@ export default class CommentBox extends React.Component {
 
     constructor(props) {
         super(props);
-
-        if (!$.isEmpty(props.initialComments)) {
-            this.state.comments = this.props.initialComments;
-            this.state.isLoadingComments = false;
-            this.state.isCommentsLoaded = true;
-        } else {
-            this._loadComments();
-        }
     }
 
     state = {
-        comments: [],
-        commentsPagination: undefined,
-        isLoadingComments: false,
         isCommentsLoaded: false,
         isShowingCommentForm: false
     };
 
-    shouldComponentUpdate(nextProps, nextState) {
-        // Ignore if props has changed
-        return !_.isEqual(this.state, nextState);
+    componentWillMount() {
+        if ($.isEmpty(this.props.initialComments)) {
+            this._loadComments();
+        } else {
+            this.setState({
+                isCommentsLoaded: true
+            });
+        }
     }
 
-    onCommentChange(commentData) {
-        if ($.isEmpty(commentData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (commentData.type === 'loadComments') {
-            newState.comments = commentData.comments || [];
-            newState.commentsPagination = commentData.pagination;
-            newState.isLoadingComments = false;
-            newState.isCommentsLoaded = true;
-        }
-
-        if (commentData.type === 'addComment') {
-            if (commentData.comment.parent_id) {
-                let comments = [];
-                this.state.comments.forEach((comment) => {
-                    if (comment.id === commentData.comment.parent_id) {
-                        comments.push(comment);
-                        comments.push(commentData.comment);
-                    } else {
-                        comments.push(comment);
-                    }
-                });
-                newState.comments = comments;
-            } else {
-                newState.comments = this.state.comments.concat([commentData.comment]);
-            }
-        }
-
-        if (commentData.type === 'updateComment') {
-            newState.comments = this.state.comments.replace('id', commentData.comment);
-        }
-
-        if (commentData.type === 'deleteComment') {
-            let comments = [];
-            this.state.comments.forEach((comment) => {
-                if (commentData.deletedCommentIds.indexOf(comment.id) === -1) {
-                    comments.push(comment);
-                }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.comments !== nextProps.comments) {
+            this.setState({
+                isCommentsLoaded: true
             });
-            newState.comments = comments;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
         }
     }
 
     _loadComments = () => {
-        if (!this.state.isCommentsLoaded && !this.state.isLoadingComments) {
+        if (!this.state.isCommentsLoaded && !this.props.isLoadingComments) {
             // Check if comment count is not null to avoid useless fetching
             if (!$.isEmpty(this.props.commentsCount) && this.props.commentsCount === 0) {
                 this.setState({
@@ -121,35 +107,25 @@ export default class CommentBox extends React.Component {
                 return;
             }
 
-            // TODO
-            // CommentActions.loadComments({
-            //     commentableType: this.props.commentableType,
-            //     commentableId: this.props.commentableId,
-            //     isPaginated: this.props.isPaginated
-            // });
-
-            this.setState({isLoadingComments: true});
+            this.props.fetchComments({
+                commentableType: this.props.commentableType,
+                commentableId: this.props.commentableId,
+                isPaginated: this.props.isPaginated
+            });
         }
     };
 
-    _handleWaypointEnter = () => {
-        this._loadComments();
-    };
-
     _handlePaginationClick = (paginate) => {
-        // TODO
-        // CommentActions.loadComments({
-        //     commentableType: this.props.commentableType,
-        //     commentableId: this.props.commentableId,
-        //     page: paginate.selected + 1
-        // });
-
-        this.setState({isLoadingComments: true});
+        this.props.fetchComments({
+            commentableType: this.props.commentableType,
+            commentableId: this.props.commentableId,
+            page: paginate.selected + 1
+        });
     };
 
     _handleShowFormComment = (event) => {
         event.preventDefault();
-        if (this.props.isUserConnected || this.props.isAdmin) {
+        if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             this.setState({isShowingCommentForm: true});
         } else {
             Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
@@ -162,10 +138,9 @@ export default class CommentBox extends React.Component {
     };
 
     _handleCommentDelete = (commentId) => {
-        if (this.props.isUserConnected || this.props.isAdmin) {
+        if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             if (commentId) {
-                // TODO
-                // CommentActions.deleteComment(commentId, this.props.commentableId, this.props.commentableType);
+                this.props.deleteComment(commentId, this.props.commentableId, this.props.commentableType);
             }
         } else {
             Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
@@ -175,13 +150,11 @@ export default class CommentBox extends React.Component {
     _handleCommentSubmit = (commentData) => {
         this.setState({isShowingCommentForm: false});
 
-        if (this.props.isUserConnected || this.props.isAdmin) {
+        if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             if (commentData.id) {
-                // TODO
-                // CommentActions.updateComment(commentData, this.props.commentableId, this.props.commentableType);
+                this.props.updateComment(commentData, this.props.commentableId, this.props.commentableType);
             } else {
-                // TODO
-                // CommentActions.addComment(commentData, this.props.commentableId, this.props.commentableType);
+                this.props.addComment(commentData, this.props.commentableId, this.props.commentableType);
             }
         } else {
             Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
@@ -198,12 +171,12 @@ export default class CommentBox extends React.Component {
 
                 <div className="comments-box">
                     {
-                        this.state.isLoadingComments &&
+                        this.props.isLoadingComments &&
                         <CircleSpinner className="center-align"/>
                     }
 
                     {
-                        (this.state.comments && this.state.comments.length === 0) &&
+                        (this.props.comments && this.props.comments.length === 0) &&
                         (
                             !this.props.isUserOwner
                                 ?
@@ -217,13 +190,13 @@ export default class CommentBox extends React.Component {
                         )
                     }
 
-                    <CommentList comments={this.state.comments}
+                    <CommentList comments={this.props.comments}
                                  isConnected={this.props.isUserConnected}
                                  isOwner={this.props.isUserOwner}
-                                 currentUserId={this.props.currentUserId}
-                                 ownerId={this.props.ownerId}
-                                 isAdmin={this.props.isAdmin}
                                  isRated={this.props.isRated}
+                                 ownerId={this.props.ownerId}
+                                 currentUserId={this.props.currentUserId}
+                                 isSuperUser={this.props.isSuperUserConnected}
                                  onDelete={this._handleCommentDelete}
                                  onSubmit={this._handleCommentSubmit}/>
 
@@ -251,9 +224,9 @@ export default class CommentBox extends React.Component {
                     </CSSTransition>
 
                     {
-                        this.props.isPaginated && this.state.commentsPagination &&
+                        this.props.isPaginated && this.props.commentsPagination &&
                         <Pagination className="margin-top-30"
-                                    totalPages={this.state.commentsPagination.total_pages}
+                                    totalPages={this.props.commentsPagination.totalPages}
                                     onPaginationClick={this._handlePaginationClick}/>
                     }
                 </div>

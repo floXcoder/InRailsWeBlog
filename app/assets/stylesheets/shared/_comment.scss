@@ -92,6 +92,18 @@
       font-weight: 300;
       line-height: 48px;
     }
+
+    .comment-form-error {
+      color: $error-color;
+    }
+
+    #comment-title {
+      margin-bottom: 5px;
+    }
+
+    #comment-body {
+      margin-bottom: 5px;
+    }
   }
 
   .comment-form-explanation {

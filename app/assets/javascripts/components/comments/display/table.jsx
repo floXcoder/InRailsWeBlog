@@ -5,7 +5,7 @@ import CommentFilterDisplay from './filter';
 
 import Pagination from '../../materialize/pagination';
 
-const CommentTableDisplay = ({comments, isLoaded, hasFilter, filters, isInlineEditing, isPaginated, totalPages, onPaginationClick}) => (
+const CommentTableDisplay = ({comments, isLoading, hasFilter, filters, isInlineEditing, isPaginated, totalPages, onPaginationClick}) => (
     <div className="row comment-table">
         {
             hasFilter &&
@@ -16,7 +16,7 @@ const CommentTableDisplay = ({comments, isLoaded, hasFilter, filters, isInlineEd
 
         {
             isInlineEditing &&
-            <div className="col s12 center-align">
+            <div className="col s12 center-align text-note">
                 {I18n.t('js.comment.table.helper')}
             </div>
         }
@@ -49,10 +49,11 @@ const CommentTableDisplay = ({comments, isLoaded, hasFilter, filters, isInlineEd
 
                     <tbody>
                     {
-                        comments.map((comment, i) =>
-                            <CommentInlineDisplay key={i}
-                                                  comment={comment}
-                                                  isInlineEditing={isInlineEditing}/>
+                        !isLoading && comments.map((comment, i) => (
+                                <CommentInlineDisplay key={`${comment.id}-${i}`}
+                                                      comment={comment}
+                                                      isInlineEditing={isInlineEditing}/>
+                            )
                         )
                     }
                     </tbody>
@@ -61,18 +62,18 @@ const CommentTableDisplay = ({comments, isLoaded, hasFilter, filters, isInlineEd
         </div>
 
         {
-            isLoaded && comments.length === 0 &&
+            !isLoading && comments.length === 0 &&
             <div className="col s12">
-                <div className="card-panel center-align purple-text">
+                <div className="card-panel center-align text-matisse">
                     {I18n.t('js.comment.common.no_data')}
                 </div>
             </div>
         }
 
         {
-            !isLoaded &&
+            isLoading &&
             <div className="col s12">
-                <div className="card-panel center-align purple-text">
+                <div className="card-panel center-align text-matisse">
                     {I18n.t('js.comment.common.loading')}
                 </div>
             </div>
@@ -90,7 +91,7 @@ const CommentTableDisplay = ({comments, isLoaded, hasFilter, filters, isInlineEd
 
 CommentTableDisplay.propTypes = {
     comments: PropTypes.array.isRequired,
-    isLoaded: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     hasFilter: PropTypes.bool,
     filters: PropTypes.object,
     isInlineEditing: PropTypes.bool,

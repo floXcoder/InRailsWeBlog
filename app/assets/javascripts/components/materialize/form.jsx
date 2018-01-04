@@ -61,7 +61,7 @@ export default class Form extends React.Component {
                   action={action}
                   method="post"
                   className={classNames('blog-form', this.props.className)}
-                  encType={this.props.isMultipart ? 'multipart/form-data' : null}
+                  encType={this.props.isMultipart ? 'multipart/form-data' : undefined}
                   data-remote={this.props.isRemote}
                   data-type={this.props.dataType}
                   acceptCharset="UTF-8"
