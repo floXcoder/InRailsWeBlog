@@ -1,3 +1,14 @@
+@import 'summernote/dist/summernote-lite';
+
+@font-face {
+  font-family: 'summernote';
+  font-style: normal;
+  font-weight: normal;
+  src: url("#{$icons-font-path}summernote.eot?e557617934c52ea068954af79ed7c221");
+  src: url("#{$icons-font-path}summernote.eot?#iefix") format('embedded-opentype'),
+  url("#{$icons-font-path}summernote.woff?e557617934c52ea068954af79ed7c221") format('woff'), url("#{$icons-font-path}summernote.ttf?e557617934c52ea068954af79ed7c221") format('truetype');
+}
+
 .editor-reset {
   p {
     margin: 0;
@@ -5,14 +16,13 @@
   }
 
   ul {
-    padding: 0;
-    padding-left: 20px;
     list-style-type: none;
+    padding: 0 0 0 20px;
 
     li {
-      list-style-type: disc !important;
       display: list-item;
       list-style-position: inside;
+      list-style-type: disc !important;
     }
   }
 
@@ -23,7 +33,7 @@
   }
 
   pre {
-    background-color: #FDFDFF;
+    background-color: #fdfdff;
     border: 1px solid #4db6ac;
     border-radius: 4px;
     padding: 5px 10px;
@@ -42,875 +52,886 @@
   }
 }
 
-.note-editor {
-  position: relative;
-  border: {
-    left: 2px solid $toolbar-color;
-    bottom: 2px solid $toolbar-color;
-    right: 2px solid $toolbar-color;
-  }
+.note-toolbar,
+.note-air-popover {
+  z-index: 1000;
 
-  /* dropzone */
-  .note-dropzone {
-    position: absolute;
-    display: none;
-    z-index: 100;
-    color: $dropzone-color;
-    background-color: white;
-    opacity: 0.95;
-    pointer-event: none;
-
-    .note-dropzone-message {
-      display: table-cell;
-      vertical-align: middle;
-      text-align: center;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    &.hover {
-      color: $dropzone-active-color;
-    }
-  }
-
-  &.dragover .note-dropzone {
-    display: table;
-  }
-
-  .btn:hover {
-    background-color: lighten($first-button-color, 10%) !important;
-  }
-
-  .btn.active {
-    background-color: $first-focus-color;
-  }
-
-
-
-
-
-  &.note-air-editor {
-    outline: 0;
-    border: 0;
-  }
-
-  .note-editable[contenteditable=true]:empty:not(:focus):before {
-    color: #a9a9a9;
-    content: attr(data-placeholder);
-  }
-
-  .note-toolbar {
-    position: relative;
-    color: $toolbar-text-color;
-    background-color: $toolbar-color;
-    margin: 0;
-    z-index: 20;
-
-    ul {
-      padding: 0;
-    }
-
-    .btn.disabled, button.disabled {
-      //display: none;
-      cursor: not-allowed;
-      box-shadow: none;
-      opacity: 0.35;
-    }
-
-    .dropdown-button {
-      cursor: pointer;
-    }
-
-    .note-current-fontname {
-      min-width: 134px;
-      display: inline-block;
-      text-align: left;
+  .note-btn {
+    .material-icons {
+      font-size: 20px;
     }
   }
 }
 
-/* Frame mode layout
-------------------------------------------*/
-.note-editor.note-frame {
-  border: 1px solid $border-color;
-
-  /* codeview mode */
-  &.codeview {
-    .note-editing-area {
-      .note-editable {
-        display: none;
-      }
-      .note-codable {
-        display: block;
-      }
-    }
-  }
-
-  .note-editing-area {
-    overflow: hidden;
-
-    /* editable */
-    .note-editable {
-      background-color: #fff;
-      color: #000;
-      padding: 10px;
-      overflow: auto;
-
-      &[contenteditable="false"] {
-        background-color: #e5e5e5;
-      }
-
-      sup {
-        vertical-align: super;
-      }
-
-      sub {
-        vertical-align: sub;
-      }
-    }
-
-    /* codeable */
-    .note-codable {
-      display: none;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      box-shadow: none;
-      font-family: Menlo, Monaco, monospace, sans-serif;
-      font-size: 14px;
-      color: #ccc;
-      background-color: #222;
-      resize: none;
-
-      /* override Materialize default style */
-      margin-bottom: 0;
-      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-      border-radius: 0;
-      //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-      box-shadow: none;
-      //Instead of the line below you could use @include box-sizing($bs)
-      box-sizing: border-box;
-    }
-  }
-
-  /* fullscreen mode */
-  &.fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 15;
-
-    .note-editable {
-      background-color: white;
-    }
-
-    .note-resizebar {
-      display: none;
-    }
-  }
-
-  /* statusbar */
-  .note-statusbar {
-    background-color: $toolbar-color;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-
-    .note-resizebar {
-      padding-top: 1px;
-      height: 8px;
-      width: 100%;
-      cursor: ns-resize;
-
-      .note-icon-bar {
-        width: 20px;
-        margin: 1px auto;
-        border-top: 1px solid $toolbar-color;
-      }
-    }
-  }
-
-  .note-placeholder {
-    padding: 10px;
-  }
-}
-
-/* Popover
-------------------------------------------*/
-.note-popover.popover {
-  max-width: none;
-  position: absolute;
-  color: $toolbar-text-color;
-  display: none;
-  z-index: 26;
-
-  .popover-content {
-    background-color: $first-button-color;
-
-    a {
-      display: inline-block;
-      max-width: 200px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      vertical-align: middle
-    }
-
-    & > a {
-      margin-left: 12px;
-    }
-
-    .arrow {
-      left: 20px
-    }
-
-    .btn-group {
-      display: inline-block;
-
-      .btn {
-        border-radius: 0 !important;
-        box-shadow: none !important;
-        padding: 0 9px !important;
-        background-color: $first-button-color;
-      }
-    }
-  }
-
-  .arrow {
-    position: relative;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 10px 10px 10px;
-    border-color: transparent transparent $first-button-color transparent;
-  }
-}
-
-/* Popover and Toolbar (Button container)
-------------------------------------------*/
-.note-popover .popover-content,
-.note-toolbar {
-  margin: 0;
-  padding: 0 0 5px 5px;
-
-  &>.btn-group {
-    margin-top: 5px;
-    margin-left: 0;
-    margin-right: 5px;
-  }
-
-  .btn-group {
-    .note-table {
-      min-width: 0;
-      padding: 5px;
-
-      .note-dimension-picker {
-        font-size: 18px;
-
-        .note-dimension-picker-mousecatcher {
-          position: absolute !important;
-          z-index: 3;
-          width: 10em;
-          height: 10em;
-          cursor: pointer;
-        }
-
-        .note-dimension-picker-unhighlighted {
-          position: relative !important;
-          z-index: 1;
-          width: 5em;
-          height: 5em;
-          background-size: 1em 1em;
-          background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, #fff 4px, #fff 26px);
-        }
-
-        .note-dimension-picker-highlighted {
-          position: absolute !important;
-          z-index: 2;
-          width: 1em;
-          height: 1em;
-          background-size: 1em 1em;
-          background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, $first-focus-color 4px, $first-focus-color 26px);
-        }
-      }
-    }
-  }
-
-  .note-style {
-    h1, h2, h3, h4, h5, h6, blockquote {
-      margin: 0;
-    }
-  }
-
-  .note-color {
-    .dropdown-toggle {
-      width: 20px;
-      padding-left: 5px;
-    }
-
-    .dropdown-content {
-      min-width: 340px;
-
-      .btn-group {
-        margin: 0;
-
-        &:first-child {
-          margin: 0 5px;
-        }
-
-        .note-palette-title {
-          font-size: 12px;
-          margin: 2px 7px;
-          text-align: center;
-          border-bottom: 1px solid #eee;
-        }
-
-        .note-color-reset {
-          font-size: 11px;
-          margin: 3px;
-          padding: 0 3px;
-          cursor: pointer;
-          //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-          border-radius: 5px;
-
-          &:hover {
-            background: #eee;
-          }
-        }
-
-        .note-color-row {
-          height: 20px;
-        }
-
-        .note-color-reset:hover {
-          background: #eee;
-        }
-      }
-    }
-  }
-
-  .note-para {
-    .dropdown-content {
-      min-width: 216px;
-      padding: 5px;
-
-      &>div:first-child {
-        margin-right: 5px;
-      }
-    }
-  }
-
-  /* dropdown-menu for toolbar and popover */
-  .dropdown-content {
-    min-width: 90px;
-
-    /* dropdown-menu right position */
-    &.right {
-      right: 0;
-      left: auto;
-      &::before { right: 9px; left: auto !important;  }
-      &::after { right: 10px; left: auto !important;  }
-    }
-
-    /* dropdown-menu for selectbox */
-    &.note-check {
-      li a i {
-        color: deepskyblue;
-        visibility: hidden;
-      }
-
-      li a.checked i {
-        visibility: visible;
-      }
-    }
-  }
-
-  .note-fontsize-10 {
-    font-size: 10px;
-  }
-
-  /* color palette for toolbar and popover */
-  .note-color-palette {
-    line-height: 1;
-    div {
-      .note-color-btn {
-        width: 20px;
-        height: 20px;
-        padding: 0;
-        margin: 0;
-        border: 1px solid #fff;
-      }
-      .note-color-btn:hover {
-        border: 1px solid #000;
-      }
-    }
-  }
-}
-
-/* Dialog
-------------------------------------------*/
-.note-dialog {
-  &>div {
-    display: none;
-  }
-
-  .form-group {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .note-modal-form {
-    margin: 0;
-  }
-
-  .note-image-dialog {
-    .note-dropzone {
-      min-height: 100px;
-      font-size: 30px;
-      line-height: 4; /* vertical-align */
-      color: lightgray;
-      text-align: center;
-      border: 4px dashed lightgray;
-      margin-bottom: 10px;
-    }
-  }
-}
-
-/* Placeholder
-------------------------------------------*/
-.note-placeholder {
-  position: absolute;
-  display: none;
-  color: gray;
-}
-
-/* Handle
-------------------------------------------*/
-.note-handle {
-  /* control selection */
-  .note-control-selection {
-    position: absolute;
-    display: none;
-    border: 1px solid black;
-    &>div { position: absolute; }
-
-    .note-control-selection-bg {
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      //@include opacity(0.3);
-    }
-
-    .note-control-handle {
-      width: 7px;
-      height: 7px;
-      border: 1px solid black;
-    }
-
-    .note-control-holder {
-      @extend .note-control-handle;
-    }
-
-    .note-control-sizing {
-      @extend .note-control-handle;
-      background-color: white;
-    }
-
-    .note-control-nw {
-      top: -5px;
-      left: -5px;
-      border-right: none;
-      border-bottom: none;
-    }
-
-    .note-control-ne {
-      top: -5px;
-      right: -5px;
-      border-bottom: none;
-      border-left: none;
-    }
-
-    .note-control-sw {
-      bottom: -5px;
-      left: -5px;
-      border-top: none;
-      border-right: none;
-    }
-
-    .note-control-se {
-      right: -5px;
-      bottom: -5px;
-      cursor: se-resize;
-    }
-
-    .note-control-se.note-control-holder {
-      cursor: default;
-      border-top: none;
-      border-left: none;
-    }
-
-    .note-control-selection-info {
-      right: 0;
-      bottom: 0;
-      padding: 5px;
-      margin: 5px;
-      color: white;
-      background-color: black;
-      font-size: 12px;
-      //@include rounded(5px);
-      //@include opacity(0.7);
-    }
-  }
-}
-
-/* Hint popover
-------------------------------------------*/
-.note-hint-popover {
-  min-width: 100px;
-  padding: 2px;
-
-  .popover-content {
-    padding: 3px;
-    max-height: 150px;
-    overflow: auto;
-
-    .note-hint-group {
-      .note-hint-item {
-        display: block !important;
-        padding: 3px;
-
-        &.active, &:hover {
-          display: block;
-          clear: both;
-          font-weight: 400;
-          line-height: 1.4;
-          color: white;
-          white-space: nowrap;
-          text-decoration: none;
-          background-color: #428bca;
-          outline: 0;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-}
-
-/* Help dialog
-------------------------------------------*/
-.note-help-dialog {
-  //color: $toolbarColor;
-  //font-size: 12px;
-  color: #ccc;
-  background-color: #222 !important;
-
-  .modal-content {
-    background: transparent;
-    border: 1px solid white;
-    border-radius: 5px;
-  }
-
-  .note-shortcut {
-    margin-bottom: 0px;
-
-    &-row {
-      margin-right: -5px;
-      margin-left: -5px;
-    }
-
-    &-col {
-      padding-right: 5px;
-      padding-left: 5px;
-    }
-
-    &-title {
-      font-size: 13px;
-      font-weight: bold;
-      color: $note-shortcut-hl;
-    }
-
-    &-key {
-      font-family: "Courier New";
-      color: $note-shortcut-hl;
-    }
-  }
-}
-
-.note-editor .modal {
-  background-color: $toolbar-color;
-  color: $toolbar-text-color;
-  //z-index: 30 !important;
-  backface-visibility: hidden;
-  margin: auto;
-
-  // Inherit from bootstrap
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1050;
-  display: none;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  outline: 0;
-
-  .input-field input:not([readonly]),
-  .input-field input.datepicker {
-    border-color: $toolbar-text-color !important;
-  }
-  .input-field input:focus:not([readonly]),
-  .input-field input.datepicker:focus,
-  textarea.materialize-textarea:focus:not([readonly]) {
-    box-shadow: 0 1px 0 0 $first-focus-color !important;
-    border-color: $first-focus-color !important;
-  }
-  label, .input-field input:not([readonly]) + label,
-  .input-field input.datepicker + label,
-  .input-field .prefix,
-  .note-editor + label {
-    color: $toolbar-text-color !important;
-  }
-  .input-field input:focus:not([readonly]) + label,
-  .input-field input.datepicker:focus + label,
-  .input-field .prefix.active,
-  textarea.materialize-textarea:focus:not([readonly]) + label {
-    color: $first-focus-color !important;
-  }
-
-  .btn {
-    background-color: $second-button-color;
-  }
-  .btn:hover {
-    background-color: lighten($second-button-color, 10%) !important;
-  }
-
-  .btn.disabled {
-    background-color: darken($second-button-color, 15%) !important;
-  }
-
-  .modal-footer {
-    background-color: darken($toolbar-color, 10%);
-
-    .btn-close {
-      margin-right: 15px;
-      background-color: $third-button-color;
-    }
-
-    .btn-close:hover {
-      background-color: lighten($third-button-color, 10%) !important;
-    }
-  }
-
-  .canvasContainerEmpty {
-    border: solid 5px $first-focus-color;
-  }
-}
-
-//scrollbars
-.note-editor .note-editable,
-.note-editor .note-color-palette,
-.note-editor .note-codable,
-.modal.modal-fixed-footer .modal-content {
-  &::-webkit-scrollbar {
-    width: 17px !important;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: $toolbar-color !important;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: lighten($toolbar-color, 20%) !important;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: lighten($toolbar-color, 30%) !important;
-  }
-}
-
-.note-editor,
-.popover {
-  .btn-group {
-    display: inline-block;
-    margin-right: 10px;
-    position: relative;
-
-    ul {
-      padding: 0;
-      margin-top: 15px;
-    }
-
-    i.left {
-      margin-right: 5px;
-    }
-  }
-
-  .btn {
-    border-radius: 5px !important;
-    box-shadow: none !important;
-    padding: 0 9px !important;
-    background-color: $first-button-color;
-  }
-
-  .note-toolbar button, button {
-    background-color: $first-button-color;
-    border: none;
-    text-transform: none;
-  }
-
-  [type='checkbox']:checked + label:before,
-  [type='checkbox']:checked + label:before {
-    border-right-color: $second-button-color !important;
-    border-bottom-color: $second-button-color !important;
-  }
-
-  .note-palette-title {
-    padding: 0 !important;
-  }
-
-  .colorName {
-    display: inline-block;
-    color: $toolbar-text-color;
-
-    @media #{$small-and-down} {
-      display: none;
-    }
-  }
-
-  .note-color-palette {
-    line-height: 10px;
-    border: solid 3px $toolbar-color;
-    padding: 0 !important;
-    overflow-x: hidden;
-    overflow-y: hidden;
-
-    .note-color-row {
-      padding: 0 !important;
-      min-width: 300px;
-    }
-
-    button.note-color-btn {
-      width: 20px;
-      height: 20px;
-      padding: 0;
-      margin: 0;
-    }
-
-    .note-color-btn:hover {
-      &:after {
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        content: '';
-        background-color: inherit;
-        margin-top: -15px;
-        margin-left: -15px;
-      }
-    }
-  }
-
-  .note-dimension-picker {
-    overflow: hidden;
-  }
-
-  .dropdown-content {
-    z-index: 25;
-    overflow: hidden;
-
-    &.note-check {
-      min-width: 80px;
-    }
-
-    label {
-      color: $toolbar-text-color !important;
-    }
-  }
-
-  ul.dropdown-content {
-    //position: absolute !important;
-    top: 20px !important;
-    background-color: lighten($first-button-color, 10%) !important;
-    margin-top: 15px !important;
-    border: {
-      left: 3px solid $first-button-color !important;
-      bottom: 3px solid $first-button-color !important;
-      right: 3px solid $first-button-color !important;
-    }
-
-    &#colors {
-      width: 342px;
-
-      .indicator {
-        width: 50%;
-        left: 0;
-      }
-    }
-
-    .colorTable {
-      padding: 3px 0;
-    }
-
-    .tabs {
-      background-color: $toolbar-color;
-
-      &:hover {
-        background-color: $toolbar-color;
-      }
-
-      .tab a, .tab a:hover {
-        color: $second-focus-color;
-      }
-
-      .indicator {
-        background-color: $second-focus-color;
-      }
-    }
-
-    li {
-      list-style-type: none !important;
-      padding: 3px 10px !important;
-      margin: 5px 0 !important;
-
-      button {
-        background-color: inherit;
-        color: white;
-        cursor: pointer;
-        min-width: 100%;
-        text-align: left;
-
-        &.normal {
-          margin: 5px 0 !important;
-          background-color: inherit;
-        }
-
-        &.secret {
-          margin: 5px 0 !important;
-          font-size: 18px;
-          @include special-style($secret-color);
-        }
-
-        &.advice {
-          margin: 5px 0 !important;
-          font-size: 18px;
-          @include special-style($advice-color);
-        }
-
-        &.deadend {
-          margin: 5px 0 !important;
-          font-size: 18px;
-          @include special-style($deadend-color);
-        }
-
-        &.p, &.blockquote, &.pre, &.h1, &.h2, &.h3, &.h4 {
-          margin: 1px 0 !important;
-
-          &:hover, &.active {
-            color: black;
-          }
-        }
-
-        h1, h2, h3, h4 {
-          margin: 0 1px !important;
-        }
-      }
-    }
-  }
-}
+//.note-editor {
+//  position: relative;
+//  border: {
+//    left: 2px solid $toolbar-color;
+//    bottom: 2px solid $toolbar-color;
+//    right: 2px solid $toolbar-color;
+//  }
+//
+//  /* dropzone */
+//  .note-dropzone {
+//    position: absolute;
+//    display: none;
+//    z-index: 100;
+//    color: $dropzone-color;
+//    background-color: white;
+//    opacity: 0.95;
+//    pointer-event: none;
+//
+//    .note-dropzone-message {
+//      display: table-cell;
+//      vertical-align: middle;
+//      text-align: center;
+//      font-size: 28px;
+//      font-weight: bold;
+//    }
+//
+//    &.hover {
+//      color: $dropzone-active-color;
+//    }
+//  }
+//
+//  &.dragover .note-dropzone {
+//    display: table;
+//  }
+//
+//  .btn:hover {
+//    background-color: lighten($first-button-color, 10%) !important;
+//  }
+//
+//  .btn.active {
+//    background-color: $first-focus-color;
+//  }
+//
+//
+//
+//
+//
+//  &.note-air-editor {
+//    outline: 0;
+//    border: 0;
+//  }
+//
+//  .note-editable[contenteditable=true]:empty:not(:focus):before {
+//    color: #a9a9a9;
+//    content: attr(data-placeholder);
+//  }
+//
+//  .note-toolbar {
+//    position: relative;
+//    color: $toolbar-text-color;
+//    background-color: $toolbar-color;
+//    margin: 0;
+//    z-index: 20;
+//
+//    ul {
+//      padding: 0;
+//    }
+//
+//    .btn.disabled, button.disabled {
+//      //display: none;
+//      cursor: not-allowed;
+//      box-shadow: none;
+//      opacity: 0.35;
+//    }
+//
+//    .dropdown-button {
+//      cursor: pointer;
+//    }
+//
+//    .note-current-fontname {
+//      min-width: 134px;
+//      display: inline-block;
+//      text-align: left;
+//    }
+//  }
+//}
+//
+///* Frame mode layout
+//------------------------------------------*/
+//.note-editor.note-frame {
+//  border: 1px solid $border-color;
+//
+//  /* codeview mode */
+//  &.codeview {
+//    .note-editing-area {
+//      .note-editable {
+//        display: none;
+//      }
+//      .note-codable {
+//        display: block;
+//      }
+//    }
+//  }
+//
+//  .note-editing-area {
+//    overflow: hidden;
+//
+//    /* editable */
+//    .note-editable {
+//      background-color: #fff;
+//      color: #000;
+//      padding: 10px;
+//      overflow: auto;
+//
+//      &[contenteditable="false"] {
+//        background-color: #e5e5e5;
+//      }
+//
+//      sup {
+//        vertical-align: super;
+//      }
+//
+//      sub {
+//        vertical-align: sub;
+//      }
+//    }
+//
+//    /* codeable */
+//    .note-codable {
+//      display: none;
+//      width: 100%;
+//      padding: 10px;
+//      border: none;
+//      box-shadow: none;
+//      font-family: Menlo, Monaco, monospace, sans-serif;
+//      font-size: 14px;
+//      color: #ccc;
+//      background-color: #222;
+//      resize: none;
+//
+//      /* override Materialize default style */
+//      margin-bottom: 0;
+//      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+//      border-radius: 0;
+//      //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+//      box-shadow: none;
+//      //Instead of the line below you could use @include box-sizing($bs)
+//      box-sizing: border-box;
+//    }
+//  }
+//
+//  /* fullscreen mode */
+//  &.fullscreen {
+//    position: fixed;
+//    top: 0;
+//    left: 0;
+//    width: 100%;
+//    z-index: 15;
+//
+//    .note-editable {
+//      background-color: white;
+//    }
+//
+//    .note-resizebar {
+//      display: none;
+//    }
+//  }
+//
+//  /* statusbar */
+//  .note-statusbar {
+//    background-color: $toolbar-color;
+//    border-bottom-left-radius: 4px;
+//    border-bottom-right-radius: 4px;
+//
+//    .note-resizebar {
+//      padding-top: 1px;
+//      height: 8px;
+//      width: 100%;
+//      cursor: ns-resize;
+//
+//      .note-icon-bar {
+//        width: 20px;
+//        margin: 1px auto;
+//        border-top: 1px solid $toolbar-color;
+//      }
+//    }
+//  }
+//
+//  .note-placeholder {
+//    padding: 10px;
+//  }
+//}
+//
+///* Popover
+//------------------------------------------*/
+//.note-popover.popover {
+//  max-width: none;
+//  position: absolute;
+//  color: $toolbar-text-color;
+//  display: none;
+//  z-index: 26;
+//
+//  .popover-content {
+//    background-color: $first-button-color;
+//
+//    a {
+//      display: inline-block;
+//      max-width: 200px;
+//      overflow: hidden;
+//      text-overflow: ellipsis;
+//      white-space: nowrap;
+//      vertical-align: middle
+//    }
+//
+//    & > a {
+//      margin-left: 12px;
+//    }
+//
+//    .arrow {
+//      left: 20px
+//    }
+//
+//    .btn-group {
+//      display: inline-block;
+//
+//      .btn {
+//        border-radius: 0 !important;
+//        box-shadow: none !important;
+//        padding: 0 9px !important;
+//        background-color: $first-button-color;
+//      }
+//    }
+//  }
+//
+//  .arrow {
+//    position: relative;
+//    width: 0;
+//    height: 0;
+//    border-style: solid;
+//    border-width: 0 10px 10px 10px;
+//    border-color: transparent transparent $first-button-color transparent;
+//  }
+//}
+//
+///* Popover and Toolbar (Button container)
+//------------------------------------------*/
+//.note-popover .popover-content,
+//.note-toolbar {
+//  margin: 0;
+//  padding: 0 0 5px 5px;
+//
+//  &>.btn-group {
+//    margin-top: 5px;
+//    margin-left: 0;
+//    margin-right: 5px;
+//  }
+//
+//  .btn-group {
+//    .note-table {
+//      min-width: 0;
+//      padding: 5px;
+//
+//      .note-dimension-picker {
+//        font-size: 18px;
+//
+//        .note-dimension-picker-mousecatcher {
+//          position: absolute !important;
+//          z-index: 3;
+//          width: 10em;
+//          height: 10em;
+//          cursor: pointer;
+//        }
+//
+//        .note-dimension-picker-unhighlighted {
+//          position: relative !important;
+//          z-index: 1;
+//          width: 5em;
+//          height: 5em;
+//          background-size: 1em 1em;
+//          background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, #fff 4px, #fff 26px);
+//        }
+//
+//        .note-dimension-picker-highlighted {
+//          position: absolute !important;
+//          z-index: 2;
+//          width: 1em;
+//          height: 1em;
+//          background-size: 1em 1em;
+//          background-image: repeating-linear-gradient(0deg, #3b3b3b, #3b3b3b 4px, transparent 4px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 4px, $first-focus-color 4px, $first-focus-color 26px);
+//        }
+//      }
+//    }
+//  }
+//
+//  .note-style {
+//    h1, h2, h3, h4, h5, h6, blockquote {
+//      margin: 0;
+//    }
+//  }
+//
+//  .note-color {
+//    .dropdown-toggle {
+//      width: 20px;
+//      padding-left: 5px;
+//    }
+//
+//    .dropdown-content {
+//      min-width: 340px;
+//
+//      .btn-group {
+//        margin: 0;
+//
+//        &:first-child {
+//          margin: 0 5px;
+//        }
+//
+//        .note-palette-title {
+//          font-size: 12px;
+//          margin: 2px 7px;
+//          text-align: center;
+//          border-bottom: 1px solid #eee;
+//        }
+//
+//        .note-color-reset {
+//          font-size: 11px;
+//          margin: 3px;
+//          padding: 0 3px;
+//          cursor: pointer;
+//          //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+//          border-radius: 5px;
+//
+//          &:hover {
+//            background: #eee;
+//          }
+//        }
+//
+//        .note-color-row {
+//          height: 20px;
+//        }
+//
+//        .note-color-reset:hover {
+//          background: #eee;
+//        }
+//      }
+//    }
+//  }
+//
+//  .note-para {
+//    .dropdown-content {
+//      min-width: 216px;
+//      padding: 5px;
+//
+//      &>div:first-child {
+//        margin-right: 5px;
+//      }
+//    }
+//  }
+//
+//  /* dropdown-menu for toolbar and popover */
+//  .dropdown-content {
+//    min-width: 90px;
+//
+//    /* dropdown-menu right position */
+//    &.right {
+//      right: 0;
+//      left: auto;
+//      &::before { right: 9px; left: auto !important;  }
+//      &::after { right: 10px; left: auto !important;  }
+//    }
+//
+//    /* dropdown-menu for selectbox */
+//    &.note-check {
+//      li a i {
+//        color: deepskyblue;
+//        visibility: hidden;
+//      }
+//
+//      li a.checked i {
+//        visibility: visible;
+//      }
+//    }
+//  }
+//
+//  .note-fontsize-10 {
+//    font-size: 10px;
+//  }
+//
+//  /* color palette for toolbar and popover */
+//  .note-color-palette {
+//    line-height: 1;
+//    div {
+//      .note-color-btn {
+//        width: 20px;
+//        height: 20px;
+//        padding: 0;
+//        margin: 0;
+//        border: 1px solid #fff;
+//      }
+//      .note-color-btn:hover {
+//        border: 1px solid #000;
+//      }
+//    }
+//  }
+//}
+//
+///* Dialog
+//------------------------------------------*/
+//.note-dialog {
+//  &>div {
+//    display: none;
+//  }
+//
+//  .form-group {
+//    margin-left: 0;
+//    margin-right: 0;
+//  }
+//
+//  .note-modal-form {
+//    margin: 0;
+//  }
+//
+//  .note-image-dialog {
+//    .note-dropzone {
+//      min-height: 100px;
+//      font-size: 30px;
+//      line-height: 4; /* vertical-align */
+//      color: lightgray;
+//      text-align: center;
+//      border: 4px dashed lightgray;
+//      margin-bottom: 10px;
+//    }
+//  }
+//}
+//
+///* Placeholder
+//------------------------------------------*/
+//.note-placeholder {
+//  position: absolute;
+//  display: none;
+//  color: gray;
+//}
+//
+///* Handle
+//------------------------------------------*/
+//.note-handle {
+//  /* control selection */
+//  .note-control-selection {
+//    position: absolute;
+//    display: none;
+//    border: 1px solid black;
+//    &>div { position: absolute; }
+//
+//    .note-control-selection-bg {
+//      width: 100%;
+//      height: 100%;
+//      background-color: black;
+//      //@include opacity(0.3);
+//    }
+//
+//    .note-control-handle {
+//      width: 7px;
+//      height: 7px;
+//      border: 1px solid black;
+//    }
+//
+//    .note-control-holder {
+//      @extend .note-control-handle;
+//    }
+//
+//    .note-control-sizing {
+//      @extend .note-control-handle;
+//      background-color: white;
+//    }
+//
+//    .note-control-nw {
+//      top: -5px;
+//      left: -5px;
+//      border-right: none;
+//      border-bottom: none;
+//    }
+//
+//    .note-control-ne {
+//      top: -5px;
+//      right: -5px;
+//      border-bottom: none;
+//      border-left: none;
+//    }
+//
+//    .note-control-sw {
+//      bottom: -5px;
+//      left: -5px;
+//      border-top: none;
+//      border-right: none;
+//    }
+//
+//    .note-control-se {
+//      right: -5px;
+//      bottom: -5px;
+//      cursor: se-resize;
+//    }
+//
+//    .note-control-se.note-control-holder {
+//      cursor: default;
+//      border-top: none;
+//      border-left: none;
+//    }
+//
+//    .note-control-selection-info {
+//      right: 0;
+//      bottom: 0;
+//      padding: 5px;
+//      margin: 5px;
+//      color: white;
+//      background-color: black;
+//      font-size: 12px;
+//      //@include rounded(5px);
+//      //@include opacity(0.7);
+//    }
+//  }
+//}
+//
+///* Hint popover
+//------------------------------------------*/
+//.note-hint-popover {
+//  min-width: 100px;
+//  padding: 2px;
+//
+//  .popover-content {
+//    padding: 3px;
+//    max-height: 150px;
+//    overflow: auto;
+//
+//    .note-hint-group {
+//      .note-hint-item {
+//        display: block !important;
+//        padding: 3px;
+//
+//        &.active, &:hover {
+//          display: block;
+//          clear: both;
+//          font-weight: 400;
+//          line-height: 1.4;
+//          color: white;
+//          white-space: nowrap;
+//          text-decoration: none;
+//          background-color: #428bca;
+//          outline: 0;
+//          cursor: pointer;
+//        }
+//      }
+//    }
+//  }
+//}
+//
+///* Help dialog
+//------------------------------------------*/
+//.note-help-dialog {
+//  //color: $toolbarColor;
+//  //font-size: 12px;
+//  color: #ccc;
+//  background-color: #222 !important;
+//
+//  .modal-content {
+//    background: transparent;
+//    border: 1px solid white;
+//    border-radius: 5px;
+//  }
+//
+//  .note-shortcut {
+//    margin-bottom: 0px;
+//
+//    &-row {
+//      margin-right: -5px;
+//      margin-left: -5px;
+//    }
+//
+//    &-col {
+//      padding-right: 5px;
+//      padding-left: 5px;
+//    }
+//
+//    &-title {
+//      font-size: 13px;
+//      font-weight: bold;
+//      color: $note-shortcut-hl;
+//    }
+//
+//    &-key {
+//      font-family: "Courier New";
+//      color: $note-shortcut-hl;
+//    }
+//  }
+//}
+//
+//.note-editor .modal {
+//  background-color: $toolbar-color;
+//  color: $toolbar-text-color;
+//  //z-index: 30 !important;
+//  backface-visibility: hidden;
+//  margin: auto;
+//
+//  // Inherit from bootstrap
+//  position: fixed;
+//  top: 0;
+//  right: 0;
+//  bottom: 0;
+//  left: 0;
+//  z-index: 1050;
+//  display: none;
+//  overflow: hidden;
+//  -webkit-overflow-scrolling: touch;
+//  outline: 0;
+//
+//  .input-field input:not([readonly]),
+//  .input-field input.datepicker {
+//    border-color: $toolbar-text-color !important;
+//  }
+//  .input-field input:focus:not([readonly]),
+//  .input-field input.datepicker:focus,
+//  textarea.materialize-textarea:focus:not([readonly]) {
+//    box-shadow: 0 1px 0 0 $first-focus-color !important;
+//    border-color: $first-focus-color !important;
+//  }
+//  label, .input-field input:not([readonly]) + label,
+//  .input-field input.datepicker + label,
+//  .input-field .prefix,
+//  .note-editor + label {
+//    color: $toolbar-text-color !important;
+//  }
+//  .input-field input:focus:not([readonly]) + label,
+//  .input-field input.datepicker:focus + label,
+//  .input-field .prefix.active,
+//  textarea.materialize-textarea:focus:not([readonly]) + label {
+//    color: $first-focus-color !important;
+//  }
+//
+//  .btn {
+//    background-color: $second-button-color;
+//  }
+//  .btn:hover {
+//    background-color: lighten($second-button-color, 10%) !important;
+//  }
+//
+//  .btn.disabled {
+//    background-color: darken($second-button-color, 15%) !important;
+//  }
+//
+//  .modal-footer {
+//    background-color: darken($toolbar-color, 10%);
+//
+//    .btn-close {
+//      margin-right: 15px;
+//      background-color: $third-button-color;
+//    }
+//
+//    .btn-close:hover {
+//      background-color: lighten($third-button-color, 10%) !important;
+//    }
+//  }
+//
+//  .canvasContainerEmpty {
+//    border: solid 5px $first-focus-color;
+//  }
+//}
+//
+////scrollbars
+//.note-editor .note-editable,
+//.note-editor .note-color-palette,
+//.note-editor .note-codable,
+//.modal.modal-fixed-footer .modal-content {
+//  &::-webkit-scrollbar {
+//    width: 17px !important;
+//  }
+//  &::-webkit-scrollbar-track {
+//    background-color: $toolbar-color !important;
+//  }
+//  &::-webkit-scrollbar-thumb {
+//    background-color: lighten($toolbar-color, 20%) !important;
+//  }
+//  &::-webkit-scrollbar-thumb:hover {
+//    background-color: lighten($toolbar-color, 30%) !important;
+//  }
+//}
+//
+//.note-editor,
+//.popover {
+//  .btn-group {
+//    display: inline-block;
+//    margin-right: 10px;
+//    position: relative;
+//
+//    ul {
+//      padding: 0;
+//      margin-top: 15px;
+//    }
+//
+//    i.left {
+//      margin-right: 5px;
+//    }
+//  }
+//
+//  .btn {
+//    border-radius: 5px !important;
+//    box-shadow: none !important;
+//    padding: 0 9px !important;
+//    background-color: $first-button-color;
+//  }
+//
+//  .note-toolbar button, button {
+//    background-color: $first-button-color;
+//    border: none;
+//    text-transform: none;
+//  }
+//
+//  [type='checkbox']:checked + label:before,
+//  [type='checkbox']:checked + label:before {
+//    border-right-color: $second-button-color !important;
+//    border-bottom-color: $second-button-color !important;
+//  }
+//
+//  .note-palette-title {
+//    padding: 0 !important;
+//  }
+//
+//  .colorName {
+//    display: inline-block;
+//    color: $toolbar-text-color;
+//
+//    @media #{$small-and-down} {
+//      display: none;
+//    }
+//  }
+//
+//  .note-color-palette {
+//    line-height: 10px;
+//    border: solid 3px $toolbar-color;
+//    padding: 0 !important;
+//    overflow-x: hidden;
+//    overflow-y: hidden;
+//
+//    .note-color-row {
+//      padding: 0 !important;
+//      min-width: 300px;
+//    }
+//
+//    button.note-color-btn {
+//      width: 20px;
+//      height: 20px;
+//      padding: 0;
+//      margin: 0;
+//    }
+//
+//    .note-color-btn:hover {
+//      &:after {
+//        position: absolute;
+//        width: 30px;
+//        height: 30px;
+//        content: '';
+//        background-color: inherit;
+//        margin-top: -15px;
+//        margin-left: -15px;
+//      }
+//    }
+//  }
+//
+//  .note-dimension-picker {
+//    overflow: hidden;
+//  }
+//
+//  .dropdown-content {
+//    z-index: 25;
+//    overflow: hidden;
+//
+//    &.note-check {
+//      min-width: 80px;
+//    }
+//
+//    label {
+//      color: $toolbar-text-color !important;
+//    }
+//  }
+//
+//  ul.dropdown-content {
+//    //position: absolute !important;
+//    top: 20px !important;
+//    background-color: lighten($first-button-color, 10%) !important;
+//    margin-top: 15px !important;
+//    border: {
+//      left: 3px solid $first-button-color !important;
+//      bottom: 3px solid $first-button-color !important;
+//      right: 3px solid $first-button-color !important;
+//    }
+//
+//    &#colors {
+//      width: 342px;
+//
+//      .indicator {
+//        width: 50%;
+//        left: 0;
+//      }
+//    }
+//
+//    .colorTable {
+//      padding: 3px 0;
+//    }
+//
+//    .tabs {
+//      background-color: $toolbar-color;
+//
+//      &:hover {
+//        background-color: $toolbar-color;
+//      }
+//
+//      .tab a, .tab a:hover {
+//        color: $second-focus-color;
+//      }
+//
+//      .indicator {
+//        background-color: $second-focus-color;
+//      }
+//    }
+//
+//    li {
+//      list-style-type: none !important;
+//      padding: 3px 10px !important;
+//      margin: 5px 0 !important;
+//
+//      button {
+//        background-color: inherit;
+//        color: white;
+//        cursor: pointer;
+//        min-width: 100%;
+//        text-align: left;
+//
+//        &.normal {
+//          margin: 5px 0 !important;
+//          background-color: inherit;
+//        }
+//
+//        &.secret {
+//          margin: 5px 0 !important;
+//          font-size: 18px;
+//          @include special-style($secret-color);
+//        }
+//
+//        &.advice {
+//          margin: 5px 0 !important;
+//          font-size: 18px;
+//          @include special-style($advice-color);
+//        }
+//
+//        &.deadend {
+//          margin: 5px 0 !important;
+//          font-size: 18px;
+//          @include special-style($deadend-color);
+//        }
+//
+//        &.p, &.blockquote, &.pre, &.h1, &.h2, &.h3, &.h4 {
+//          margin: 1px 0 !important;
+//
+//          &:hover, &.active {
+//            color: black;
+//          }
+//        }
+//
+//        h1, h2, h3, h4 {
+//          margin: 0 1px !important;
+//        }
+//      }
+//    }
+//  }
+//}

@@ -345,7 +345,7 @@ class ApplicationController < ActionController::Base
   private
 
   def flash_to_headers
-    return if !json_request? || !flash.empty? || response.status == 302
+    return if !json_request? || flash.empty? || response.status == 302
 
     # avoiding XSS injections via flash
     flash_json                           = Hash[flash.map { |k, v| [k, ERB::Util.h(v)] }].to_json

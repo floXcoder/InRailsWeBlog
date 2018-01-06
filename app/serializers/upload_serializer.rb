@@ -3,7 +3,9 @@ class UploadSerializer < ActiveModel::Serializer
 
   attributes :id,
              :url,
-             :thumb_url,
+             :medium_url,
+             :mini_url,
+             :filename,
              :description,
              :copyright
 
@@ -11,7 +13,15 @@ class UploadSerializer < ActiveModel::Serializer
     object.image.url
   end
 
-  def thumb_url
-    object.image.thumb.url
+  def medium_url
+    object.image&.medium&.url
+  end
+
+  def mini_url
+    object.image&.mini&.url
+  end
+
+  def filename
+    object.original_filename
   end
 end

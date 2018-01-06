@@ -13,7 +13,7 @@ import * as Records from '../constants/records';
 import {
     toList,
     fetchReducer,
-    mutationReducer
+    mutationReducer, mutateArray
 } from './mutators';
 
 const initState = new Record({
@@ -25,6 +25,7 @@ const initState = new Record({
     pagination: new Map(),
 
     article: undefined,
+    articleEditionId: undefined,
 });
 
 export default function articleReducer(state = new initState(), action) {
@@ -40,12 +41,20 @@ export default function articleReducer(state = new initState(), action) {
                 })
             );
 
+        case ActionTypes.ARTICLE_EDITION:
+            return state.merge({
+                articleEditionId: action.articleId
+            });
+
         case ActionTypes.ARTICLE_CHANGE_INIT:
         case ActionTypes.ARTICLE_CHANGE_SUCCESS:
         case ActionTypes.ARTICLE_CHANGE_ERROR:
-            return mutationReducer(state, action, (payload) => ({
-                article: payload.article ? new Records.ArticleRecord(payload.article) : undefined
-            }));
+            return mutationReducer(state, action, (payload) =>
+                payload.articles ? ({
+                    articles: toList(payload.articles, Records.ArticleRecord)
+                }) : ({
+                    articles: mutateArray(state.articles, payload.article && new Records.ArticleRecord(payload.article), action.removedId)
+                }), ['article']);
 
         // load article history
         // articleVersions: dataReceived['paper_trail/versions'] || []

@@ -103,7 +103,7 @@ $deadend-color: #bcaaa4;
 @mixin special-style($color) {
   background-color: $color;
   box-shadow: 0 0 4px $color;
-  padding-left: 10px;
+  //padding-left: 10px;
 }
 
 // Editor

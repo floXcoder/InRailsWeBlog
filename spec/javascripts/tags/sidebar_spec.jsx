@@ -42,10 +42,6 @@ describe('<TagSidebar />', () => {
     });
 
     it('renders a list of tags by default', () => {
-        // log.info(shallowWrapper)
-        // log.info(mountWrapper)
-        // log.info(renderWrapper)
-
         // expect(checkbox.text()).toEqual('Off');
         // checkbox.find('input').simulate('change');
         // expect(checkbox.text()).toEqual('On');

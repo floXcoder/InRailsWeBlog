@@ -16,6 +16,12 @@ import {
 } from './metricsActions';
 
 // Autocomplete
+export const loadAutocomplete = (autocompleteParams) => (
+    api.get(`/search/autocomplete`, {
+        search: autocompleteParams
+    })
+);
+
 export const fetchAutocomplete = (autocompleteParams) => ({
     actionType: ActionTypes.SEARCH_AUTOCOMPLETE,
     fetchAPI: () => api.get(`/search/autocomplete`, {

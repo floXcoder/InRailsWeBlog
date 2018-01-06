@@ -171,6 +171,10 @@ class User < ApplicationRecord
                                     picture['remote_image_url'].blank?
                                 }
 
+  has_many :uploads,
+           class_name: 'Picture',
+           dependent:  :destroy
+
   has_many :activities,
            as:         :owner,
            class_name: 'PublicActivity::Activity'

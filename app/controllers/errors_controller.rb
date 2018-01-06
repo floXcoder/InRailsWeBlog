@@ -30,15 +30,17 @@ class ErrorsController < ApplicationController
   end
 
   def create
-    error_parameters = error_params.merge(
-      params:      params.to_unsafe_h,
-      user_locale: params[:locale] || I18n.locale,
-      user_agent:  browser.to_s,
-      bot_agent:   browser.bot.name,
-      os_agent:    browser.platform.to_s
-    )
-    error            = ErrorMessage.new_error(error_parameters, request, current_user)
-    error.save
+    if params[:error].present?
+      error_parameters = error_params.merge(
+        params:      params.to_unsafe_h,
+        user_locale: params[:locale] || I18n.locale,
+        user_agent:  browser.to_s,
+        bot_agent:   browser.bot.name,
+        os_agent:    browser.platform.to_s
+      )
+      error            = ErrorMessage.new_error(error_parameters, request, current_user)
+      error.save
+    end
 
     respond_to do |format|
       format.html { head :ok, content_type: 'text/html' }

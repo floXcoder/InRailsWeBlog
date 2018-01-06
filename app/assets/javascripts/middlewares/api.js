@@ -21,6 +21,14 @@ const headers = {
     }
 };
 
+const dataHeaders = {
+    credentials: 'same-origin',
+    headers: {
+        Accept: 'application/json',
+        'X-CSRF-Token': token
+    }
+};
+
 const manageError = (origin, error, url) => {
     let errorContent = {
         url,
@@ -98,7 +106,7 @@ const api = {
 
         return fetch(urlParams, {
             ...headers,
-            method: 'GET',
+            method: 'GET'
         })
             .then((response) => handleResponseErrors(response, urlParams))
             .then((response) => handleFlashMessage(response))
@@ -109,13 +117,14 @@ const api = {
             )
     },
 
-    post: (url, params) => {
-        const parameters = JSON.stringify(params);
+    post: (url, params, isData = false) => {
+        const parameters = isData ? params : JSON.stringify(params);
+        const postHeaders = isData ? dataHeaders : headers;
 
         return fetch(url, {
-            ...headers,
+            ...postHeaders,
             method: 'POST',
-            body: parameters,
+            body: parameters
         })
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))

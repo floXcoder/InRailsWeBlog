@@ -1,26 +1,35 @@
 'use strict';
 
 import {
+    editArticle,
+    updateArticle,
+    deleteArticle
+} from '../../../actions';
+
+import {
     getArticleIsOwner
 } from '../../../selectors';
 
 import ArticleEditionIcons from '../icons/edition';
 import ArticleLinkIcon from '../icons/link';
 
-import Editor from '../../editor/editor';
+import Editor, {EditorMode} from '../../editor/editor';
 
-// TODO: use redux to change article display mode but only for current article
-@connect((state) => ({
-    isOwner: getArticleIsOwner(state)
-}), {})
+@connect((state, props) => ({
+    isOwner: getArticleIsOwner(state, props.article)
+}), {
+    editArticle,
+    updateArticle,
+    deleteArticle
+})
 export default class ArticleEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         // From connect
         isOwner: PropTypes.bool,
-
-        // TODO
-        // onTagClick: PropTypes.func.isRequired,
+        editArticle: PropTypes.func,
+        updateArticle: PropTypes.func,
+        deleteArticle: PropTypes.func
     };
 
     constructor(props) {
@@ -30,10 +39,10 @@ export default class ArticleEditionDisplay extends React.Component {
     }
 
     // TODO: user article global state to store this state
-    state = {
-        isLink: false
-    };
-
+    // state = {
+    //     isLink: false
+    // };
+    //
     // _handleEditorChange (event) {
     //     let text = event.currentTarget.textContent;
     //
@@ -51,28 +60,20 @@ export default class ArticleEditionDisplay extends React.Component {
     //     }
     // }
 
-    _handleTagClick = (tagName, event) => {
-        // this.props.onTagClick(tagName, event);
+    _handleDeleteClick = () => {
+        this.props.deleteArticle(this.props.article.id);
     };
 
-    _handleDeleteClick = (event) => {
-        // useless
-        // this._editor.remove();
-
-        // ArticleActions.deleteArticle({id: this.props.article.id});
-        // this.props.changeDefaultDisplay();
+    _handleCancelClick = () => {
+        this.props.editArticle(null);
     };
 
-    _handleCancelClick = (event) => {
-        this._editor.remove();
-        // this.props.changeDefaultDisplay();
-    };
-
-    _handleSaveClick = (event) => {
-        let content = this._editor.serialize();
-        // ArticleActions.updateArticle({id: this.props.article.id, content: content});
-        this._editor.remove();
-        // this.props.changeDefaultDisplay();
+    _handleSaveClick = () => {
+        const content = this._editor.getContent();
+        this.props.updateArticle({
+            id: this.props.article.id,
+            content: content
+        }).then(() => this.props.editArticle(null));
     };
 
     render() {
@@ -86,8 +87,8 @@ export default class ArticleEditionDisplay extends React.Component {
                     </div>
 
                     <Editor ref={(editor) => this._editor = editor}
-                            mode={Editor.mode.INLINE_EDIT}
-                            id={'editor-summernote-' + this.props.article.id}
+                            mode={EditorMode.INLINE_EDIT}
+                            onSubmit={this._handleSaveClick}
                             onEditorLoaded={this._handleEditorLoaded}>
                         {this.props.article.content}
                     </Editor>
@@ -97,7 +98,6 @@ export default class ArticleEditionDisplay extends React.Component {
                     {
                         this.props.article.tags.map((tag) => (
                             <a key={tag.id}
-                               onClick={this._handleTagClick.bind(this, tag.id)}
                                className="btn-small waves-effect waves-light">
                                 {tag.name}
                             </a>
@@ -108,7 +108,8 @@ export default class ArticleEditionDisplay extends React.Component {
                                              onCancelClick={this._handleCancelClick}
                                              onSaveClick={this._handleSaveClick}
                                              isOwner={this.props.isOwner}/>
-                        <ArticleLinkIcon isLink={this.state.isLink}/>
+
+                        <ArticleLinkIcon isLink={this.props.article.isLink}/>
                     </div>
                 </div>
             </div>

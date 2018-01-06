@@ -16,7 +16,11 @@ const ArticleLinkIcon = ({isLink}) => {
 };
 
 ArticleLinkIcon.propTypes = {
-    isLink: PropTypes.bool.isRequired
+    isLink: PropTypes.bool
+};
+
+ArticleLinkIcon.defaultProps = {
+    isLink: false
 };
 
 export default ArticleLinkIcon;

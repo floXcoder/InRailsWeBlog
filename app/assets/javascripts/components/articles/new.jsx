@@ -35,7 +35,7 @@ export default class ArticleNew extends React.PureComponent {
     }
 
     state = {
-        article: false
+        article: undefined
     };
 
     // componentDidMount() {

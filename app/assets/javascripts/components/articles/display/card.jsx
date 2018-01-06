@@ -23,7 +23,7 @@ import ArticleTime from '../properties/time';
 import UserAvatarIcon from '../../users/icons/avatar';
 
 @connect((state, props) => ({
-    isOwner: getArticleIsOwner(state),
+    isOwner: getArticleIsOwner(state, props.article),
     isOutdated: getArticleIsOutdated(props.article)
 }), {
 })

@@ -120,6 +120,9 @@ Rails.application.routes.draw do
 
   resources :comments, only: [:index]
 
+  # Uploads data
+  resources :uploads,  only: [:create, :update, :destroy]
+
   # Static pages
   get :terms, to: 'static_pages#terms'
 

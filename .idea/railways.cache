@@ -95,6 +95,10 @@
 autocomplete_search_index GET    /search/autocomplete(.:format)            search#autocomplete
              search_index GET    /search(.:format)                         search#index
                  comments GET    /comments(.:format)                       comments#index
+                  uploads POST   /uploads(.:format)                        uploads#create
+                   upload PATCH  /uploads/:id(.:format)                    uploads#update
+                          PUT    /uploads/:id(.:format)                    uploads#update
+                          DELETE /uploads/:id(.:format)                    uploads#destroy
                     terms GET    /terms(.:format)                          static_pages#terms
                           GET    /404(.:format)                            errors#show {:code=>"404"}
                           GET    /422(.:format)                            errors#show {:code=>"422"}

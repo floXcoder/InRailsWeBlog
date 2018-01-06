@@ -71,6 +71,8 @@ fr:
         successful_undeletion: "Article restauré"
         successful_creation: "Article ajouté !"
         error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Article mis à jour !"
+        error_edition: "Problème lors de la mise à jour de l'article !"
         successful_deletion: "L'article a été supprimé."
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
       show:

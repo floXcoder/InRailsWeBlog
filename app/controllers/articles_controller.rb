@@ -152,9 +152,11 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       format.json do
         if article.save
+          flash.now[:success] = t('views.article.flash.successful_edition')
           render json:   article,
                  status: :ok
         else
+          flash.now[:error] = t('views.article.flash.error_edition')
           render json:   { errors: article.errors },
                  status: :forbidden
         end

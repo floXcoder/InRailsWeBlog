@@ -5,7 +5,7 @@ import {
 } from './common';
 
 import ClipboardManager from '../../modules/clipboard';
-import SanitizePaste from '../../modules/wysiwyg/sanitizePaste';
+import SanitizePaste from '../../modules/sanitizePaste';
 
 export default function pasteManager(WrappedComponent) {
     return class PasteManagerComponent extends React.Component {

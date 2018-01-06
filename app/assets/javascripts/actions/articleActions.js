@@ -29,6 +29,11 @@ export const addArticle = (article, options = {}) => ({
     })
 });
 
+export const editArticle = (articleId) => ({
+    type: ActionTypes.ARTICLE_EDITION,
+    articleId
+});
+
 export const updateArticle = (article, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
     mutationAPI: () => api.update(`/articles/${article.id}`, {

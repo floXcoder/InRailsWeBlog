@@ -1,13 +1,23 @@
 'use strict';
 
+import {
+    editArticle
+} from '../../../actions';
+
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
 import ArticleEditionDisplay from './inlineEdition';
 
+@connect(null, {
+    editArticle: editArticle
+})
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        articleDisplayMode: PropTypes.string.isRequired
+        articleDisplayMode: PropTypes.string.isRequired,
+        articleEditionId: PropTypes.number,
+        // From connect
+        editArticle: PropTypes.func
     };
 
     constructor(props) {
@@ -29,17 +39,24 @@ export default class ArticleItemDisplay extends React.Component {
     }
 
     _handleBookmarkClick = (article, isBookmarked) => {
+        // TODO
         // ArticleActions.bookmarkArticle({article: article, isBookmarked: isBookmarked});
     };
 
-    _handleEditClick = (article) => {
+    _handleEditClick = () => {
+        this.props.editArticle(this.props.article.id);
     };
 
     _handleVisibilityClick = (article) => {
+        // TODO
     };
 
     render() {
-        if (this.props.articleDisplayMode === 'inline') {
+        if (this.props.articleDisplayMode === 'edit' || this.props.articleEditionId === this.props.article.id) {
+            return (
+                <ArticleEditionDisplay article={this.props.article}/>
+            );
+        } else if (this.props.articleDisplayMode === 'inline') {
             return (
                 <ArticleInlineDisplay title={this.props.article.title}
                                       content={this.props.article.content}/>
@@ -50,10 +67,6 @@ export default class ArticleItemDisplay extends React.Component {
                                     onBookmarkClick={this._handleBookmarkClick}
                                     onEditClick={this._handleEditClick}
                                     onVisibilityClick={this._handleVisibilityClick}/>
-            );
-        } else if (this.props.articleDisplayMode === 'edit') {
-            return (
-                <ArticleEditionDisplay article={this.props.article}/>
             );
         } else {
             throw new Error('Article display mode unknown: ' + this.props.articleDisplayMode);

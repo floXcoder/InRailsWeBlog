@@ -71,7 +71,7 @@ class UploadsController < ApplicationController
       format.json do
         if upload.destroy
           # flash.now[:success] = t('views.upload.flash.successful_deletion')
-          head :no_content
+          head :no_content, content_type: 'application/json'
         else
           # flash.now[:error] = t('views.upload.flash.error_deletion')
           render json:   { errors: upload.errors.full_messages },
@@ -84,13 +84,11 @@ class UploadsController < ApplicationController
   private
 
   def upload_params
-    params.require(:upload).permit(:user_id,
-                                   :model,
+    params.require(:upload).permit(:model,
                                    :model_id,
                                    :description,
                                    :copyright,
-                                   :file,
-                                   :process_now).tap do |whitelisted|
+                                   :file).tap do |whitelisted|
       whitelisted[:files] = params[:upload][:files] if params[:upload][:files]
     end
   end

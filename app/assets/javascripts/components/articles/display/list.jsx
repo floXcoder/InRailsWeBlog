@@ -10,13 +10,14 @@ import {
 
 import ArticleItemDisplay from './item';
 
-const ArticleListDisplay = ({articles, articleDisplayMode}) => {
+const ArticleListDisplay = ({articles, articleDisplayMode, articleEditionId}) => {
     const ArticleNodes = articles.map((article) => (
             <CSSTransition key={article.id}
                            timeout={500}
                            classNames="article">
                 <ArticleItemDisplay article={article}
-                                    articleDisplayMode={articleDisplayMode}/>
+                                    articleDisplayMode={articleDisplayMode}
+                                    articleEditionId={articleEditionId}/>
             </CSSTransition>
         )
     );
@@ -67,7 +68,8 @@ const ArticleListDisplay = ({articles, articleDisplayMode}) => {
 
 ArticleListDisplay.propTypes = {
     articles: PropTypes.array.isRequired,
-    articleDisplayMode: PropTypes.string.isRequired
+    articleDisplayMode: PropTypes.string.isRequired,
+    articleEditionId: PropTypes.number
 };
 
 export default ArticleListDisplay;

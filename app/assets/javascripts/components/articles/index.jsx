@@ -18,7 +18,8 @@ import ArticleNone from '../articles/display/none';
     topicCurrentId: state.topicState.currentTopic && state.topicState.currentTopic.id,
     isFetching: state.articleState.isFetching,
     articles: getArticles(state),
-    articleDisplayMode: state.uiState.articleDisplayMode
+    articleDisplayMode: state.uiState.articleDisplayMode,
+    articleEditionId: state.articleState.articleEditionId
 }), {
     fetchArticles
 })
@@ -30,6 +31,7 @@ export default class ArticleIndex extends React.Component {
         topicCurrentId: PropTypes.number,
         isFetching: PropTypes.bool,
         articles: PropTypes.array,
+        articleEditionId: PropTypes.number,
         articleDisplayMode: PropTypes.string,
         fetchArticles: PropTypes.func
     };
@@ -67,7 +69,8 @@ export default class ArticleIndex extends React.Component {
                         this.props.articles.length > 0
                             ?
                             <ArticleListDisplay articles={this.props.articles}
-                                                articleDisplayMode={this.props.articleDisplayMode}/>
+                                                articleDisplayMode={this.props.articleDisplayMode}
+                                                articleEditionId={this.props.articleEditionId}/>
                             :
                             <ArticleNone topicSlug={this.props.params.topicSlug}/>
 

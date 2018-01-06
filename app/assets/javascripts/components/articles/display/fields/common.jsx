@@ -5,6 +5,8 @@ import {
 } from 'redux-form/immutable';
 
 import TextField from '../../../materialize/form/text';
+
+// TODO : dynamic import
 import EditorField from '../../../editor/form/editor';
 
 // TODO: create autolink
@@ -40,10 +42,13 @@ export default class ArticleCommonField extends React.Component {
         this._editor = null;
     }
 
+    _handleEditorLoaded = (editor) => {
+        this._editor = editor;
+    };
+
     _onSummaryBlurred = (event) => {
         if (this._editor) {
-            // TODO
-            // this._editor.focus();
+            this._editor.focus();
         }
 
         return event;
@@ -58,7 +63,7 @@ export default class ArticleCommonField extends React.Component {
                        multipleId={this.props.multipleId}
                        characterCount={window.settings.article_title_max_length}
                        component={TextField}
-                       componentContent={this.props.article && this.props.article.title}/>
+                       componentContent={this.props.article ? this.props.article.title : undefined}/>
 
                 <Field id="article_summary"
                        name="summary"
@@ -67,7 +72,7 @@ export default class ArticleCommonField extends React.Component {
                        characterCount={window.settings.article_summary_max_length}
                        onBlur={this._onSummaryBlurred}
                        component={TextField}
-                       componentContent={this.props.article && this.props.article.summary}/>
+                       componentContent={this.props.article ? this.props.article.summary : undefined}/>
 
                 <div className="form-editor-title">
                     {I18n.t('js.article.model.content')}
@@ -76,8 +81,9 @@ export default class ArticleCommonField extends React.Component {
                 <Field id="article_content"
                        name="content"
                        multipleId={this.props.multipleId}
+                       onLoaded={this._handleEditorLoaded}
                        component={EditorField}
-                       componentContent={this.props.article && this.props.article.content}/>
+                       componentContent={this.props.article ? this.props.article.content : undefined}/>
             </div>
         );
     }

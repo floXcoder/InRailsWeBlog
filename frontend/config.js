@@ -165,7 +165,8 @@ module.exports = {
     fonts: {
         src: [
             vendorDir + '/fonts/**/*',
-            assetDir + '/fonts/**/*'
+            assetDir + '/fonts/**/*',
+            frontendDir + '/summernote/dist/font/**/*'
         ],
         dest: publicDir + '/assets/fonts'
     },
