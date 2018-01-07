@@ -2,22 +2,23 @@
 #
 # Table name: topics
 #
-#  id              :integer          not null, primary key
-#  user_id         :integer
-#  name            :string           not null
-#  description     :text
-#  color           :string
-#  priority        :integer          default(0), not null
-#  visibility      :integer          default("everyone"), not null
-#  accepted        :boolean          default(TRUE), not null
-#  archived        :boolean          default(FALSE), not null
-#  pictures_count  :integer          default(0)
-#  articles_count  :integer          default(0)
-#  bookmarks_count :integer          default(0)
-#  slug            :string
-#  deleted_at      :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                       :integer          not null, primary key
+#  user_id                  :integer
+#  name                     :string           not null
+#  description_translations :jsonb
+#  languages                :string           default([]), not null, is an Array
+#  color                    :string
+#  priority                 :integer          default(0), not null
+#  visibility               :integer          default("everyone"), not null
+#  accepted                 :boolean          default(TRUE), not null
+#  archived                 :boolean          default(FALSE), not null
+#  pictures_count           :integer          default(0)
+#  articles_count           :integer          default(0)
+#  bookmarks_count          :integer          default(0)
+#  slug                     :string
+#  deleted_at               :datetime
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
 #
 
 class Topic < ApplicationRecord
@@ -27,12 +28,17 @@ class Topic < ApplicationRecord
   enum visibility: VISIBILITY
   enums_to_tr('topic', [:visibility])
 
+  include TranslationConcern
+  translates :description,
+             auto_strip_translation_fields:    [:description],
+             fallbacks_for_empty_translations: true
+
   # Strip whitespaces
   auto_strip_attributes :name, :color
 
   # == Extensions ===========================================================
   # Versioning
-  has_paper_trail on: [:update], only: [:name, :description]
+  has_paper_trail on: [:update], only: [:name, :description_translations]
 
   # Follow public activities
   include PublicActivity::Model
@@ -46,7 +52,8 @@ class Topic < ApplicationRecord
              word_middle: [:name, :description],
              suggest:     [:name],
              highlight:   [:name, :description],
-             language:    I18n.locale == :fr ? 'French' : 'English'
+             language:    I18n.locale == :fr ? 'French' : 'English',
+             index_name:  -> { "#{name.tableize}-#{I18n.locale}" }
 
   # Marked as deleted
   acts_as_paranoid
@@ -76,7 +83,7 @@ class Topic < ApplicationRecord
            dependent: :destroy
 
   has_many :tags,
-           through:   :tagged_articles
+           through: :tagged_articles
 
   has_many :bookmarks,
            as:          :bookmarked,
@@ -105,6 +112,9 @@ class Topic < ApplicationRecord
   validates :description,
             length:    { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length },
             allow_nil: true
+
+  validates :languages,
+            presence: true
 
   validates :visibility,
             presence: true
@@ -312,6 +322,9 @@ class Topic < ApplicationRecord
     # Clean attributes
     attributes = attributes.reject { |_, v| v.blank? }
 
+    #  Language
+    self.languages |= attributes[:language] || current_user&.locale || I18n.locale
+
     # Sanitization
     unless attributes[:name].nil?
       sanitized_name = Sanitize.fragment(attributes.delete(:name))
@@ -350,6 +363,7 @@ class Topic < ApplicationRecord
       user_id:     user_id,
       name:        name,
       description: description,
+      languages:   languages,
       priority:    priority,
       visibility:  visibility,
       archived:    archived,

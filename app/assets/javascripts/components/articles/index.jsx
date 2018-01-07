@@ -39,7 +39,7 @@ export default class ArticleIndex extends React.Component {
     constructor(props) {
         super(props);
 
-        props.fetchArticles(this._filterParams(props));
+        props.fetchArticles(this._filterParams(props.params));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -48,11 +48,11 @@ export default class ArticleIndex extends React.Component {
         }
     }
 
-    _filterParams = (props) => {
+    _filterParams = (params) => {
         return {
-            userId: props.userCurrentId,
-            topicId: props.topicCurrentId,
-            ...props.params
+            userId: params.userCurrentId,
+            topicId: params.topicCurrentId,
+            ...params
         };
     };
 

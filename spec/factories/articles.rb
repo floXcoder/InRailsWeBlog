@@ -5,18 +5,18 @@
 #  id                      :integer          not null, primary key
 #  user_id                 :integer
 #  topic_id                :integer
-#  title                   :string
-#  summary                 :text
-#  content                 :text             not null
+#  title_translations      :jsonb
+#  summary_translations    :jsonb
+#  content_translations    :jsonb            not null
+#  languages               :string           default([]), not null, is an Array
 #  reference               :text
 #  draft                   :boolean          default(FALSE), not null
-#  language                :string
-#  allow_comment           :boolean          default(TRUE), not null
 #  notation                :integer          default(0)
 #  priority                :integer          default(0)
 #  visibility              :integer          default("everyone"), not null
 #  accepted                :boolean          default(TRUE), not null
 #  archived                :boolean          default(FALSE), not null
+#  allow_comment           :boolean          default(TRUE), not null
 #  pictures_count          :integer          default(0)
 #  outdated_articles_count :integer          default(0)
 #  bookmarks_count         :integer          default(0)
@@ -37,7 +37,7 @@ FactoryGirl.define do
     summary         { Faker::Lorem.paragraph(1, false) }
     content         { Faker::Lorem.paragraph(1..20) }
     reference       ''
-    language        'fr'
+    languages       ['fr']
     allow_comment   true
     notation        0
     priority        0

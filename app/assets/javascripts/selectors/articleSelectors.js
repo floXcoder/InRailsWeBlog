@@ -14,7 +14,7 @@ export const getArticlePagination = createSelector(
 );
 
 export const getArticleIsOwner = (state, article) => (
-    state.userState.currentId === article.user.id
+    article && state.userState.currentId === article.user.id
 );
 
 export const getArticleIsOutdated = (article) => (

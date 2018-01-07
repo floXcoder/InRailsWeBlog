@@ -5,18 +5,18 @@
 #  id                      :integer          not null, primary key
 #  user_id                 :integer
 #  topic_id                :integer
-#  title                   :string
-#  summary                 :text
-#  content                 :text             not null
+#  title_translations      :jsonb
+#  summary_translations    :jsonb
+#  content_translations    :jsonb            not null
+#  languages               :string           default([]), not null, is an Array
 #  reference               :text
 #  draft                   :boolean          default(FALSE), not null
-#  language                :string
-#  allow_comment           :boolean          default(TRUE), not null
 #  notation                :integer          default(0)
 #  priority                :integer          default(0)
 #  visibility              :integer          default("everyone"), not null
 #  accepted                :boolean          default(TRUE), not null
 #  archived                :boolean          default(FALSE), not null
+#  allow_comment           :boolean          default(TRUE), not null
 #  pictures_count          :integer          default(0)
 #  outdated_articles_count :integer          default(0)
 #  bookmarks_count         :integer          default(0)
@@ -34,8 +34,13 @@ class Article < ApplicationRecord
   enum visibility: VISIBILITY
   enums_to_tr('article', [:visibility])
 
+  include TranslationConcern
+  translates :title, :summary, :content,
+             auto_strip_translation_fields:    [:title, :summary],
+             fallbacks_for_empty_translations: true
+
   # Strip whitespaces
-  auto_strip_attributes :title, :summary, :language
+  auto_strip_attributes :reference
 
   delegate :popularity,
            :rank, :rank=,
@@ -47,7 +52,7 @@ class Article < ApplicationRecord
   acts_as_voteable
 
   # Versioning
-  has_paper_trail on: [:update], only: [:title, :summary, :content, :topic, :language]
+  has_paper_trail on: [:update], only: [:title_translations, :summary_translations, :content_translations]
 
   # Track activities
   include ActAsTrackedConcern
@@ -66,7 +71,8 @@ class Article < ApplicationRecord
              word_middle: [:title, :summary, :content],
              suggest:     [:title, :summary],
              highlight:   [:content],
-             language:    I18n.locale == :fr ? 'French' : 'English'
+             language:    I18n.locale == :fr ? 'French' : 'English',
+             index_name:  -> { "#{name.tableize}-#{I18n.locale}" }
 
   # Comments
   include CommentableConcern
@@ -160,6 +166,10 @@ class Article < ApplicationRecord
   validates :content,
             presence: true,
             length:   { minimum: CONFIG.article_content_min_length, maximum: CONFIG.article_content_max_length }
+
+  validates :languages,
+            presence: true
+
   validates :notation,
             inclusion: CONFIG.notation_min..CONFIG.notation_max
 
@@ -252,9 +262,9 @@ class Article < ApplicationRecord
       end
     end.to_h if options[:where]
 
-    where_options        ||= {}
+    where_options          ||= {}
 
-    where_options[:tags] = { all: options[:tags] } if options[:tags]
+    where_options[:tags]   = { all: options[:tags] } if options[:tags]
     where_options[:topics] = { all: options[:topics] } if options[:topics]
 
     # Aggregations
@@ -461,8 +471,8 @@ class Article < ApplicationRecord
     # Topic: Add current topic to article
     self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
 
-    # Language: set current locale for now
-    self.language   = current_user&.locale || I18n.locale
+    # Language
+    self.languages  |= attributes[:language] || current_user&.locale || I18n.locale
 
     # Visibility private mandatory for draft articles
     self.visibility = 'only_me' if attributes[:draft]
@@ -667,9 +677,9 @@ class Article < ApplicationRecord
       summary:        summary,
       content:        strip_content,
       public_content: public_content,
+      languages:      languages,
       reference:      reference,
       draft:          draft,
-      language:       language,
       notation:       notation,
       priority:       priority,
       visibility:     visibility,

@@ -2,26 +2,27 @@
 #
 # Table name: tags
 #
-#  id                    :integer          not null, primary key
-#  user_id               :integer
-#  name                  :string           not null
-#  description           :text
-#  synonyms              :string           default([]), is an Array
-#  color                 :string
-#  notation              :integer          default(0)
-#  priority              :integer          default(0)
-#  visibility            :integer          default("everyone"), not null
-#  accepted              :boolean          default(TRUE), not null
-#  archived              :boolean          default(FALSE), not null
-#  allow_comment         :boolean          default(TRUE), not null
-#  pictures_count        :integer          default(0)
-#  tagged_articles_count :integer          default(0)
-#  bookmarks_count       :integer          default(0)
-#  comments_count        :integer          default(0)
-#  slug                  :string
-#  deleted_at            :datetime
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                       :integer          not null, primary key
+#  user_id                  :integer
+#  name                     :string           not null
+#  description_translations :jsonb
+#  languages                :string           default([]), not null, is an Array
+#  synonyms                 :string           default([]), is an Array
+#  color                    :string
+#  notation                 :integer          default(0)
+#  priority                 :integer          default(0)
+#  visibility               :integer          default("everyone"), not null
+#  accepted                 :boolean          default(TRUE), not null
+#  archived                 :boolean          default(FALSE), not null
+#  allow_comment            :boolean          default(TRUE), not null
+#  pictures_count           :integer          default(0)
+#  tagged_articles_count    :integer          default(0)
+#  bookmarks_count          :integer          default(0)
+#  comments_count           :integer          default(0)
+#  slug                     :string
+#  deleted_at               :datetime
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
 #
 
 class Tag < ApplicationRecord
@@ -30,6 +31,11 @@ class Tag < ApplicationRecord
   include EnumsConcern
   enum visibility: VISIBILITY
   enums_to_tr('tag', [:visibility])
+
+  include TranslationConcern
+  translates :description,
+             auto_strip_translation_fields:    [:description],
+             fallbacks_for_empty_translations: true
 
   # Strip whitespaces
   auto_strip_attributes :name, :color
@@ -41,7 +47,7 @@ class Tag < ApplicationRecord
 
   # == Extensions ===========================================================
   # Versioning
-  has_paper_trail on: [:update], only: [:name, :description, :synonyms]
+  has_paper_trail on: [:update], only: [:name, :description_translations, :synonyms]
 
   # Track activities
   include ActAsTrackedConcern
@@ -60,7 +66,8 @@ class Tag < ApplicationRecord
              word_middle: [:name, :description],
              suggest:     [:name],
              highlight:   [:name, :description],
-             language:    I18n.locale == :fr ? 'French' : 'English'
+             language:    I18n.locale == :fr ? 'French' : 'English',
+             index_name:  -> { "#{name.tableize}-#{I18n.locale}" }
 
   # Comments
   include CommentableConcern
@@ -141,6 +148,9 @@ class Tag < ApplicationRecord
   validates :description,
             allow_nil: true,
             length:    { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
+
+  validates :languages,
+            presence: true
 
   validates :visibility,
             presence: true
@@ -441,6 +451,9 @@ class Tag < ApplicationRecord
     # Clean attributes
     attributes = attributes.reject { |_, v| v.blank? }
 
+    #  Language
+    self.languages |= attributes[:language] || current_user&.locale || I18n.locale
+
     # Sanitization
     unless attributes[:name].nil?
       sanitized_name = Sanitize.fragment(attributes.delete(:name))
@@ -497,6 +510,7 @@ class Tag < ApplicationRecord
       user_id:     user_id,
       name:        name,
       description: description,
+      languages:   languages,
       synonyms:    synonyms,
       notation:    notation,
       priority:    priority,

@@ -235,6 +235,7 @@ class ArticlesController < ApplicationController
                                     :allow_comment,
                                     :draft,
                                     :topic_id,
+                                    :language,
                                     tags:        [],
                                     parent_tags: [],
                                     child_tags:  [])

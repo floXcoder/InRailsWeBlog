@@ -73,12 +73,12 @@ ActiveRecord::Schema.define(version: 20171228162930) do
   create_table "articles", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "topic_id"
-    t.string "title"
-    t.text "summary"
-    t.text "content", null: false
+    t.jsonb "title_translations", default: {}
+    t.jsonb "summary_translations", default: {}
+    t.jsonb "content_translations", default: {}, null: false
+    t.string "languages", default: [], null: false, array: true
     t.text "reference"
     t.boolean "draft", default: false, null: false
-    t.string "language"
     t.integer "notation", default: 0
     t.integer "priority", default: 0
     t.integer "visibility", default: 0, null: false
@@ -234,7 +234,8 @@ ActiveRecord::Schema.define(version: 20171228162930) do
   create_table "tags", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name", null: false
-    t.text "description"
+    t.jsonb "description_translations", default: {}
+    t.string "languages", default: [], null: false, array: true
     t.string "synonyms", default: [], array: true
     t.string "color"
     t.integer "notation", default: 0
@@ -259,7 +260,8 @@ ActiveRecord::Schema.define(version: 20171228162930) do
   create_table "topics", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name", null: false
-    t.text "description"
+    t.jsonb "description_translations", default: {}
+    t.string "languages", default: [], null: false, array: true
     t.string "color"
     t.integer "priority", default: 0, null: false
     t.integer "visibility", default: 0, null: false

@@ -4,8 +4,12 @@ class CreateTags < ActiveRecord::Migration[5.1]
       t.belongs_to  :user,            null: true,   index: false
 
       t.string      :name,            null: false
-      t.text        :description
-      t.string      :synonyms,                      default: [],   array: true
+
+      # Translations
+      t.jsonb       :description_translations,      default: {}
+      t.string      :languages,       null: false,  default: [], array: true
+
+      t.string      :synonyms,                      default: [], array: true
       t.string      :color
 
       t.integer     :notation,                      default: 0

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'populate/populate'
 
 namespace :InRailsWeBlog do
