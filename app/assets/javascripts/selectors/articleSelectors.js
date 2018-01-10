@@ -14,21 +14,39 @@ export const getArticlePagination = createSelector(
 );
 
 export const getArticleIsOwner = (state, article) => (
-    article && state.userState.currentId === article.user.id
+    article ? state.userState.currentId === article.user.id : false
 );
 
 export const getArticleIsOutdated = (article) => (
-    article && article.outdatedNumber > 3
+    article ? article.outdatedNumber > 3 : false
+);
+
+export const getArticleParentTags = createSelector(
+    (article) => article,
+    (article) => article && article.tags.map((tag) => (
+        article.parentTagIds.includes(tag.id)
+    ))
+);
+
+export const getArticleChildTags = createSelector(
+    (article) => article,
+    (article) => article && article.tags.map((tag) => (
+        article.childTagIds.includes(tag.id)
+    ))
 );
 
 export const getArticleErrors = createSelector(
     (state) => state.articleState.errors,
     (articleErrors) => {
         let errorContent = [];
-        articleErrors.mapKeys((errorName, errorDescriptions) => {
-            errorDescriptions = errorDescriptions.toJS();
-            errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
-        }).toArray();
+        if (typeof articleErrors === 'string') {
+            errorContent = [articleErrors];
+        } else {
+            articleErrors.mapKeys((errorName, errorDescriptions) => {
+                errorDescriptions = errorDescriptions.toJS();
+                errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+            }).toArray();
+        }
         return errorContent;
     }
 );

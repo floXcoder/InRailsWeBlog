@@ -34,7 +34,7 @@ $tag-color-background: $astral-color-transparent;
 
 // Colors
 $text-color: #5f5f5f;
-$background-color: #fffffa;
+$background-color: #f9f9f9;
 
 $off-black: $text-color;
 
@@ -114,7 +114,7 @@ $deadend-color: #bcaaa4;
 
 $toolbar-color: #37474f !default;
 $toolbar-text-color: #fafafa !default;
-$border-color: #37474f !default;
+//$border-color: #37474f !default;
 
 $first-button-color: #263238 !default;
 $first-button-hover-color: #3f51b5 !default;
@@ -131,7 +131,7 @@ $selection-color: #757575 !default;
 $help-background-color: #e0e0e0 !default;
 
 $border-color: #a9a9a9;
-$background-color: #f5f5f5;
+//$background-color: #f5f5f5;
 
 $dropzone-color: #87cefa;
 $dropzone-active-color: darken($dropzone-color, 30);

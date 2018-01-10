@@ -6,7 +6,7 @@
 #  user_id                  :integer
 #  name                     :string           not null
 #  description_translations :jsonb
-#  languages                :string           default([]), not null, is an Array
+#  languages                :string           default([]), is an Array
 #  synonyms                 :string           default([]), is an Array
 #  color                    :string
 #  notation                 :integer          default(0)
@@ -33,6 +33,7 @@ class Tag < ApplicationRecord
   enums_to_tr('tag', [:visibility])
 
   include TranslationConcern
+  # Add current_language to model
   translates :description,
              auto_strip_translation_fields:    [:description],
              fallbacks_for_empty_translations: true
@@ -149,8 +150,8 @@ class Tag < ApplicationRecord
             allow_nil: true,
             length:    { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
 
-  validates :languages,
-            presence: true
+  # validates :languages,
+  #           presence: true
 
   validates :visibility,
             presence: true
@@ -399,9 +400,14 @@ class Tag < ApplicationRecord
     return [] unless tags.is_a?(Array) || !tags.empty?
 
     tags.map do |tag_properties|
-      name, visibility = tag_properties.split(',')
-      visibility       ||= 'everyone'
-      attributes       = {
+      name, visibility = if tag_properties.is_a?(String)
+                           tag_properties.split(',')
+                         else
+                           [tag_properties[:name], tag_properties[:visibility]]
+                         end
+
+      visibility ||= 'everyone'
+      attributes = {
         user_id:    current_user_id,
         name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
         visibility: Tag.visibilities[visibility]

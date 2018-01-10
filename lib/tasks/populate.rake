@@ -42,6 +42,7 @@ namespace :InRailsWeBlog do
         # Create articles with tags
         main_articles  = Populate::create_dummy_articles_for(main_user, common_tags + personal_tags, 40)
         other_articles = Populate::create_dummy_articles_for(other_users, common_tags + personal_tags, 5..15)
+        other_articles = Populate::create_dummy_links_for(main_user, common_tags + personal_tags, 5..15)
 
         # Creation relationships between articles
         Populate::create_article_relationships_for(main_articles, main_user, 10)

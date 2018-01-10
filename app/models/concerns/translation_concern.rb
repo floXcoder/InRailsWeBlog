@@ -5,6 +5,7 @@ module TranslationConcern
   end
 
   included do
+    attribute :current_language
   end
 
   def translated?(field)
@@ -92,16 +93,16 @@ module TranslationConcern
     end
 
     def define_translated_field_reader(field)
-      locale = I18n.locale.to_s
-
       define_method(field) do
+        self.current_language = I18n.locale.to_s
+
         if self.fallbacks_for_empty_translations
           translation_keys = send("#{field}_translations").keys
           available_languages = send(:languages)
-          locale = available_languages.first if !available_languages.empty? && !translation_keys.include?(locale)
+          self.current_language = available_languages.first if !available_languages.empty? && !translation_keys.include?(self.current_language)
         end
 
-        send("#{field}_translations")[locale]
+        send("#{field}_translations")[self.current_language]
       end
     end
 

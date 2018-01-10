@@ -20,11 +20,14 @@ class ArticleSampleSerializer < ActiveModel::Serializer
   cache key: 'article_sample', expires_in: 12.hours
 
   attributes :id,
+             :mode,
+             :mode_translated,
              :title,
              :summary,
              :content,
              :draft,
              :visibility,
+             :current_language,
              :updated_at,
              :link,
              :slug,
@@ -33,6 +36,10 @@ class ArticleSampleSerializer < ActiveModel::Serializer
 
   belongs_to :user, serializer: UserSampleSerializer
   has_many :tags, serializer: TagSampleSerializer
+
+  def mode_translated
+    object.mode_to_tr
+  end
 
   def content
     object.summary_content unless instance_options[:strict]

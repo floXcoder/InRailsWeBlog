@@ -18,6 +18,7 @@ import {
 export default class UserManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
+        routerState: PropTypes.object,
         // From connect
         isUserConnected: PropTypes.bool,
         userCurrentId: PropTypes.number,
@@ -52,7 +53,7 @@ export default class UserManager extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.topicCurrentId !== nextProps.topicCurrentId) {
+        if (this.props.topicCurrentId !== nextProps.topicCurrentId || (nextProps.routerState && nextProps.routerState.reloadTags)) {
             this.props.fetchTags({topicId: nextProps.topicCurrentId});
         }
     }

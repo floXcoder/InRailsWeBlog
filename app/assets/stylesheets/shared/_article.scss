@@ -14,6 +14,46 @@
     .card {
       padding: 0 20px;
     }
+
+    .accordion {
+      box-shadow: none;
+      overflow: inherit;
+
+      .accordion-item {
+        border: 0;
+        border-bottom: 2px solid #ddd;
+      }
+
+      .accordion-item-wrap {
+        overflow: auto;
+      }
+    }
+  }
+
+  .article-breadcrumb {
+    color: $text-color;
+    list-style-type: none;
+    margin: 0;
+
+    .article-breadcrumb-item {
+      display: inline-block;
+      list-style: none;
+      margin: 0 .3rem;
+    }
+
+    a {
+      color: lighten($text-color, 20%);
+      text-decoration: underline;
+    }
+  }
+
+  .article-mode-btn {
+    border: 1px solid $secondary-color;
+
+    &.article-mode-selected {
+      color: $background-color;
+      background-color: lighten($spectra-color, 20%);
+    }
   }
 
   .blog-article-box {

@@ -5,6 +5,7 @@
 #  id                      :integer          not null, primary key
 #  user_id                 :integer
 #  topic_id                :integer
+#  mode                    :integer          default("story"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
 #  content_translations    :jsonb            not null
@@ -33,6 +34,7 @@ FactoryGirl.define do
     # user
     # topic
 
+    mode            'story'
     title           { Faker::Lorem.sentence }
     summary         { Faker::Lorem.paragraph(1, false) }
     content         { Faker::Lorem.paragraph(1..20) }

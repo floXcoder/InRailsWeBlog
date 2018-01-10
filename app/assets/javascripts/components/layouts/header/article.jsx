@@ -21,7 +21,10 @@ const HomeArticleHeader = () => {
         <ul className="collection">
             <li className="collection-item">
                 <Link to={{
-                    hash: '#new-article'
+                    hash: '#new-article',
+                    state: {
+                        mode: 'note'
+                    }
                 }}>
                     <span className="title">
                         {I18n.t('js.views.header.article.menu.add_note')}
@@ -29,9 +32,26 @@ const HomeArticleHeader = () => {
                 </Link>
             </li>
             <li className="collection-item">
-                <Link to="/article/new">
+                <Link to={{
+                    pathname: '/article/new',
+                    state: {
+                        mode: 'story'
+                    }
+                }}>
                     <span className="title">
                         {I18n.t('js.views.header.article.menu.add_article')}
+                    </span>
+                </Link>
+            </li>
+            <li className="collection-item">
+                <Link to={{
+                    pathname: '/article/new',
+                    state: {
+                        mode: 'link'
+                    }
+                }}>
+                    <span className="title">
+                        {I18n.t('js.views.header.article.menu.add_link')}
                     </span>
                 </Link>
             </li>

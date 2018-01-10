@@ -14,9 +14,11 @@ const ClipboardManager = (function ($) {
 
     const _pasteByEvent = function (event) {
         event.preventDefault();
+
         const clipboardData = event.originalEvent.clipboardData;
+
         if (_model.callback) {
-            _model.callback(clipboardData.getData('text/html'));
+            _model.callback(clipboardData.getData('text/html') || clipboardData.getData('text/plain'));
         }
     };
 

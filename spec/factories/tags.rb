@@ -6,7 +6,7 @@
 #  user_id                  :integer
 #  name                     :string           not null
 #  description_translations :jsonb
-#  languages                :string           default([]), not null, is an Array
+#  languages                :string           default([]), is an Array
 #  synonyms                 :string           default([]), is an Array
 #  color                    :string
 #  notation                 :integer          default(0)

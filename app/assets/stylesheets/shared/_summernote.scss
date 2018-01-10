@@ -52,15 +52,32 @@
   }
 }
 
+.note-editor.note-frame {
+  border: 0;
+}
+
 .note-toolbar,
 .note-air-popover {
   z-index: 1000;
 
   .note-btn {
+    background-color: $background-color;
+    border: 0;
+
     .material-icons {
       font-size: 20px;
     }
   }
+}
+
+.note-editable {
+  min-height: 250px;
+}
+
+.note-popover .note-popover-content,
+.note-toolbar {
+  background-color: $background-color;
+  text-align: center;
 }
 
 //.note-editor {

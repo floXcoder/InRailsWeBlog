@@ -4,6 +4,8 @@ class CreateArticles < ActiveRecord::Migration[5.1]
       t.belongs_to  :user,            null: true,     index: false
       t.belongs_to  :topic,           null: true,     index: false
 
+      t.integer     :mode,            null: false,    default: 0
+
       # Translations
       t.jsonb       :title_translations,                     default: {}
       t.jsonb       :summary_translations,                   default: {}

@@ -5,12 +5,17 @@ import {
 } from '../../actions';
 
 import {
-    getArticleErrors
+    getArticleErrors,
+    getCurrentUser,
+    getCurrentTopic
 } from '../../selectors';
 
+import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
 @connect((state) => ({
+    currentUser: getCurrentUser(state),
+    currentTopic: getCurrentTopic(state),
     articleErrors: getArticleErrors(state)
 }), {
     addArticle
@@ -18,9 +23,12 @@ import ArticleFormDisplay from './display/form';
 export default class ArticleNew extends React.PureComponent {
     static propTypes = {
         params: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
         initialData: PropTypes.object,
         multipleId: PropTypes.number,
         // from connect
+        currentUser: PropTypes.object,
+        currentTopic: PropTypes.object,
         articleErrors: PropTypes.array,
         addArticle: PropTypes.func
     };
@@ -28,14 +36,24 @@ export default class ArticleNew extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        if (props.initialData && props.initialData.article) {
-            this.state.article = props.initialData.article;
-            Notification.success(I18n.t('js.article.clipboard.toast.done'));
+        if (props.initialData) {
+            this.state.isInline = props.initialData.mode === 'note';
+            this.state.currentMode = props.initialData.mode;
+
+            if (this.state.article) {
+                this.state.article = props.initialData.article;
+                this.state.isDraft = props.initialData.isDraft;
+
+                Notification.success(I18n.t('js.article.clipboard.toast.done'));
+            }
         }
     }
 
     state = {
-        article: undefined
+        isInline: false,
+        article: undefined,
+        currentMode: undefined,
+        isDraft: undefined
     };
 
     // componentDidMount() {
@@ -46,24 +64,54 @@ export default class ArticleNew extends React.PureComponent {
     // }
 
     _handleSubmit = (values) => {
-        this.props.addArticle(values.toJS());
-        // TODO: utility ?
-        // this.props.push({
-        //     pathname: `/article/${articleData.article.slug}`,
-        //     state: {newTags: articleData.article.new_tags}
-        // });
+        let formData = values.toJS();
+
+        if (formData.parent_tags) {
+            formData.parent_tags = formData.parent_tags.map((parentTag) => ({
+                name: parentTag.value,
+                visibility: parentTag.category,
+                new: parentTag.isNew
+            }));
+        }
+
+        if (formData.child_tags) {
+            formData.child_tags = formData.child_tags.map((childTag) => ({
+                name: childTag.value,
+                visibility: childTag.category,
+                new: childTag.isNew
+            }));
+        }
+
+        this.props.addArticle(formData)
+            .then((response) => {
+                if (response.article) {
+                    this.props.history.push({
+                        pathname: `/article/${response.article.slug}`,
+                        state: {reloadTags: true}
+                    });
+                }
+            });
 
         return true;
     };
 
     render() {
-        const articleFormId = 'article-new' + (this.props.multipleId ? '-' + this.props.multipleId : '');
-
         return (
             <div className="blog-form">
-                <ArticleFormDisplay id={articleFormId}
-                                    onSubmit={this._handleSubmit}
-                                    articleErrors={this.props.articleErrors}>
+                <div className="blog-breadcrumb">
+                    {
+                        (this.props.currentUser && this.props.currentTopic) &&
+                        <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                                                  topic={this.props.currentTopic}/>
+                    }
+                </div>
+
+                <ArticleFormDisplay id={'article-new' + (this.props.multipleId ? '-' + this.props.multipleId : '')}
+                                    isInline={this.state.isInline}
+                                    currentMode={this.state.currentMode}
+                                    isDraft={this.state.isDraft}
+                                    articleErrors={this.props.articleErrors}
+                                    onSubmit={this._handleSubmit}>
                     {this.state.article}
                 </ArticleFormDisplay>
             </div>

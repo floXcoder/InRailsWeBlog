@@ -74,6 +74,6 @@ class UserProfileSerializer < ActiveModel::Serializer
   end
 
   def current_topic
-    TopicSerializer.new(object.current_topic).attributes
+    TopicSerializer.new(object.current_topic).attributes if object.current_topic
   end
 end

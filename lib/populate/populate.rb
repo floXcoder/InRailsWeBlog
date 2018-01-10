@@ -128,6 +128,7 @@ class Populate
             FactoryGirl.create(:article_with_relation_tags,
                                user:        user,
                                topic:       topic,
+                               mode:        'note',
                                visibility:  Article.visibilities.keys.sample,
                                parent_tags: parent_tags,
                                child_tags:  child_tags - parent_tags)
@@ -135,6 +136,7 @@ class Populate
             FactoryGirl.create(:article_with_tags,
                                user:       user,
                                topic:      topic,
+                               mode:       'story',
                                visibility: Article.visibilities.keys.sample,
                                tags:       permitted_tags.sample(rand(1..3)))
           end
@@ -143,6 +145,35 @@ class Populate
     end
 
     return articles.flatten
+  end
+
+  def self.create_dummy_links_for(users, tags, articles_by_users_and_topics)
+    users = [users] if users.is_a?(User)
+
+    links = []
+
+    users.each do |user|
+      links_number = if articles_by_users_and_topics.is_a?(Range)
+                       rand(articles_by_users_and_topics)
+                     else
+                       articles_by_users_and_topics
+                     end
+      links        = Array.new(links_number) do
+        Topic.where(user_id: user.id).map do |topic|
+          permitted_tags = tags.select { |tag| tag.everyone? || (tag.only_me? && tag.user_id == user.id) }
+
+          FactoryGirl.create(:article_with_tags,
+                             user:       user,
+                             topic:      topic,
+                             mode:       'link',
+                             reference:  Faker::Internet.url,
+                             visibility: Article.visibilities.keys.sample,
+                             tags:       permitted_tags.sample(rand(1..3)))
+        end
+      end
+    end
+
+    return links.flatten
   end
 
   def self.create_article_relationships_for(articles, user, relationship_number)

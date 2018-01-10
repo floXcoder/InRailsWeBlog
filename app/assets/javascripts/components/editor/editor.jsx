@@ -16,6 +16,7 @@ export default class Editor extends React.Component {
     static propTypes = {
         mode: PropTypes.number,
         id: PropTypes.string,
+        placeholder: PropTypes.string,
         children: PropTypes.string,
         isDisabled: PropTypes.bool,
         isCodeView: PropTypes.bool,
@@ -52,6 +53,7 @@ export default class Editor extends React.Component {
 
             const defaultOptions = {
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
+                placeholder: this.props.placeholder,
                 callbacks: {
                     onChange: this.props.onChange,
                     onFocus: this.props.onFocus,
@@ -144,7 +146,7 @@ export default class Editor extends React.Component {
             }
 
             if (this.props.onLoaded) {
-                this.props.onLoaded(this.getWrappedInstance());
+                this.props.onLoaded(this);
             }
         });
     }
@@ -155,15 +157,20 @@ export default class Editor extends React.Component {
             const codeViewCommand = isCodeView ? 'codeview.activate' : 'codeview.deactivate';
 
 
-            if (typeof nextProps.children === 'string' && this.props.children !== nextProps.children) {
+            if (this.props.children !== nextProps.children) {
                 this.replace(nextProps.children);
             }
 
-            if (typeof nextProps.isDisabled === 'boolean' && this.props.isDisabled !== nextProps.isDisabled) {
+            if (this.props.isDisabled !== nextProps.isDisabled) {
                 this.toggleState(nextProps.isDisabled);
             }
+
             if (isCodeView !== this.props.isCodeView) {
                 this._editor.summernote(codeViewCommand);
+            }
+
+            if (this.props.placeholder !== nextProps.placeholder) {
+                this._notePlaceholder.html(nextProps.placeholder);
             }
         }
     }

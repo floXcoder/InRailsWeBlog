@@ -14,6 +14,7 @@ fr:
           menu:
             add_note: "Prendre une note"
             add_article: "Écrire un article"
+            add_link: "Ajouter un lien"
             user: "Mes articles"
             new: "Nouvel article"
             bookmark: "Articles favoris"
@@ -177,6 +178,41 @@ fr:
         title: "Ajouter un thème"
         input: "Nom du thème"
         submit: "Ajouter"
+    tag:
+      common:
+        list: "Tous les labels"
+        associated: "Labels associés"
+        filter: "Filtrer par labels ..."
+        no_results: "Aucun label trouvé pour :"
+        usage: "%{count} utilisations"
+        link: "Voir le détail du label"
+        visibility: "Choisissez la visibilité"
+        synonyms: "Synonymes du label ..."
+        no_description: "Pas de description associée au label"
+        no_synonyms: "Pas de synonymes associés au label"
+        no_parents: "Pas de labels parents associés"
+        no_children: "Pas de labels fils associés"
+      model:
+        name: "Nom du label"
+        description: "Description"
+        synonyms: "Synonymes"
+        visibility: "Visibilité"
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Privé"
+        visibility_order:
+          - everyone
+          - only_me
+      show:
+        parents: "Labels parents :"
+        children: "Labels fils :"
+        back_button: "Annuler"
+        edit_link: "Modifier ce label"
+      edit:
+        title: "Modification du label : %{name}"
+        back_button: "Annuler"
+        update_label: "Mettre à jour le label"
     article:
       common:
         draft: "Note temporaire ?"
@@ -188,10 +224,21 @@ fr:
         visibility: "Choisissez la visibilité"
         url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
+        advanced: "Options avancées"
+        placeholders:
+          title:
+            story: "Titre de votre article"
+          reference:
+            link: "Lien à référencer"
+          content:
+            story: "Contenu de votre article"
+            note: "Contenu à ajouter"
+            link: "Description du lien"
         tags:
           default: "Ajouter des labels à l'article"
           parent: "Ajouter des labels principaux"
           child: "Ajouter des labels secondaires"
+          add: "Ajouter le label :"
         tooltips:
           title_too_short: "Le titre est trop court"
           summary_too_short: "Le résumé est trop court"
@@ -210,6 +257,8 @@ fr:
         title: "Titre"
         summary: "Résumé"
         content: "Contenu"
+        reference: "Lien"
+        language: "Langue"
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
         draft: "Note temporaire"
@@ -227,6 +276,10 @@ fr:
         visibility_order:
           - everyone
           - only_me
+        mode:
+          story: "Article"
+          note: "Note"
+          link: "Lien"
       flash:
         creation_unpermitted: "Connectez-vous pour écrire un article"
         deletion_successful: "L'article a été supprimé."
@@ -293,41 +346,6 @@ fr:
           not_authorized: "Vous n'avez pas la permission d'ajouter aux favoris cet article !"
           default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
           bookmark: "%{message}"
-    tag:
-      common:
-        list: "Tous les labels"
-        associated: "Labels associés"
-        filter: "Filtrer par labels ..."
-        no_results: "Aucun label trouvé pour :"
-        usage: "%{count} utilisations"
-        link: "Voir le détail du label"
-        visibility: "Choisissez la visibilité"
-        synonyms: "Synonymes du label ..."
-        no_description: "Pas de description associée au label"
-        no_synonyms: "Pas de synonymes associés au label"
-        no_parents: "Pas de labels parents associés"
-        no_children: "Pas de labels fils associés"
-      model:
-        name: "Nom du label"
-        description: "Description"
-        synonyms: "Synonymes"
-        visibility: "Visibilité"
-      enums:
-        visibility:
-          everyone: "Public"
-          only_me: "Privé"
-        visibility_order:
-          - everyone
-          - only_me
-      show:
-        parents: "Labels parents :"
-        children: "Labels fils :"
-        back_button: "Annuler"
-        edit_link: "Modifier ce label"
-      edit:
-        title: "Modification du label : %{name}"
-        back_button: "Annuler"
-        update_label: "Mettre à jour le label"
     search:
       placeholder: "Rechercher ..."
       url: "Recherche :"
@@ -512,8 +530,6 @@ fr:
         add: "Ajouter"
         already_exists: "Le label existe déjà"
         too_long: "Le nom de l'élément est trop long"
-    categorized_tag:
-      add_new: "Ajouter nouveau"
     drop_zone:
       default_message: "Cliquer ou faites glisser les fichiers à ajouter ici"
       copyright_message: "Ajouter un copyright"
@@ -537,6 +553,9 @@ fr:
     checkbox:
       truthy: "Oui"
       falsy: "Non"
+    languages:
+      fr: "Français"
+      en: "Anglais"
     metrics:
       distance_unit: "m"
       distance_unit_k: "km"

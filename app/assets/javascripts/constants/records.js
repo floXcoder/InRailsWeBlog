@@ -93,6 +93,8 @@ export class TagRecord extends Record({
 
 export class ArticleRecord extends Record({
     id: undefined,
+    mode: undefined,
+    modeTranslated: undefined,
     topicId: undefined,
     title: undefined,
     summary: undefined,
@@ -105,6 +107,8 @@ export class ArticleRecord extends Record({
     visibilityTranslated: undefined,
     draft: undefined,
     slug: undefined,
+    currentLanguage: undefined,
+    languages: undefined,
     bookmarked: false,
     outdated: false,
     votesUp: undefined,

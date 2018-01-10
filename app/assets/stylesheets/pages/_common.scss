@@ -4,7 +4,6 @@
 @import 'base/utilities';
 @import 'base/open-sans';
 @import 'base/typography';
-
 @import 'shared/topic';
 @import 'shared/article';
 @import 'shared/comment';
@@ -12,6 +11,7 @@
 @import 'shared/user';
 @import 'shared/search';
 @import 'shared/connection';
+@import 'shared/components/accordion';
 @import 'shared/components/notification';
 @import 'shared/components/rating';
 @import 'shared/components/single-timeline';
@@ -96,7 +96,7 @@ html {
 }
 
 .blog {
-  background-color: #cfd8dc;
+  background-color: $background-color;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -310,13 +310,14 @@ html {
   .blog-form {
     //margin-top: 20px;
 
-    //.blog-form-title {
-    //  font-size: 1.4rem;
-    //  font-weight: 400;
-    //  //margin-bottom: 0;
-    //  //margin-top: 0;
-    //  //padding: 6px 10px 0;
-    //}
+    .blog-form-title {
+      text-align: center;
+      // font-size: 1.4rem;
+      // font-weight: 400;
+      // margin-bottom: 0;
+      // margin-top: 0;
+      // padding: 6px 10px 0;
+    }
 
     .form-editor-title {
       color: #757575;

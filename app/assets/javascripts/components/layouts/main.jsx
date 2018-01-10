@@ -33,10 +33,23 @@ export default class MainLayout extends React.Component {
         this._router = null;
 
         props.onPaste((content) => {
-            if (this._router && this.props.path !== '/article/new' && this._router.location.hash !== '#new-article') {
+            if (content && this._router && this.props.path !== '/article/new' && this._router.location.hash !== '#new-article') {
+                const isURL = $.isURL(content.trim());
+
+                let articleData = {};
+                if (isURL) {
+                    articleData.reference = content.trim();
+                } else {
+                    articleData.content = content
+                }
+
                 this._router.history.replace({
                     hash: '#new-article',
-                    state: {article: {content: content, draft: true}}
+                    state: {
+                        article: articleData,
+                        mode: isURL ? 'link' : 'story',
+                        isDraft: true
+                    }
                 });
             }
         });
@@ -66,7 +79,7 @@ export default class MainLayout extends React.Component {
                        this._router = router;
 
                        return (
-                           <UserManager>
+                           <UserManager routerState={router.location.state}>
                                <div className="blog-content">
                                    <HeaderLayout/>
 
@@ -79,11 +92,12 @@ export default class MainLayout extends React.Component {
                                            {
                                                this.props.routes.permanents.map((route, index) => (
                                                    <Route key={index}
-                                                          children={({match, location}) => (
+                                                          children={({match, location, history}) => (
                                                               <div>
                                                                   {
                                                                       location.hash === `#${route.path}` &&
                                                                       <route.component params={match.params}
+                                                                                       history={history}
                                                                                        initialData={location.state}/>
                                                                   }
                                                               </div>
@@ -91,7 +105,9 @@ export default class MainLayout extends React.Component {
                                                ))
                                            }
 
-                                           <Component params={router.match.params}/>
+                                           <Component params={router.match.params}
+                                                      history={router.history}
+                                                      initialData={router.location.state}/>
                                        </div>
 
                                        <a className="goto-top hide-on-small-and-down"

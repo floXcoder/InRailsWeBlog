@@ -5,6 +5,7 @@
 #  id                      :integer          not null, primary key
 #  user_id                 :integer
 #  topic_id                :integer
+#  mode                    :integer          default("story"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
 #  content_translations    :jsonb            not null
@@ -31,6 +32,8 @@ class ArticleSerializer < ActiveModel::Serializer
   cache key: 'article', expires_in: 12.hours
 
   attributes :id,
+             :mode,
+             :mode_translated,
              :topic_id,
              :title,
              :summary,
@@ -42,6 +45,7 @@ class ArticleSerializer < ActiveModel::Serializer
              :visibility,
              :visibility_translated,
              :draft,
+             :current_language,
              # :bookmarked,
              # :outdated,
              :slug,
@@ -57,6 +61,10 @@ class ArticleSerializer < ActiveModel::Serializer
   has_many :tags, serializer: TagSampleSerializer
   # has_many :parent_tags, serializer: TagSampleSerializer
   # has_many :child_tags, serializer: TagSampleSerializer
+
+  def mode_translated
+    object.mode_to_tr
+  end
 
   def content
     current_user_id = defined?(current_user) && current_user ? current_user.id : nil

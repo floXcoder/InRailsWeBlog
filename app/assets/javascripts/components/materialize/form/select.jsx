@@ -23,7 +23,7 @@ SelectField.propTypes = {
     input: PropTypes.object.isRequired,
     meta: PropTypes.object.isRequired,
     custom: PropTypes.object,
-    componentContent: PropTypes.bool
+    componentContent: PropTypes.string
 };
 
 export default SelectField;

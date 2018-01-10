@@ -28,3 +28,9 @@ export const getUser = createSelector(
     (state) => state.userState.user,
     (user) => user ? user.toJS() : {}
 );
+
+// Current user
+export const getCurrentUser = createSelector(
+    (state) => state.userState.user,
+    (user) => user
+);

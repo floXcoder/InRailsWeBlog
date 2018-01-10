@@ -1,5 +1,6 @@
 'use strict';
 
+export * from './uiSelectors';
 export * from './userSelectors';
 export * from './topicSelectors';
 export * from './tagSelectors';

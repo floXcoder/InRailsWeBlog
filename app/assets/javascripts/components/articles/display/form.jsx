@@ -13,9 +13,18 @@ import {
 } from '../../../actions';
 
 import {
-    getCategorizedTags
+    getCategorizedTags,
+    getArticleParentTags,
+    getArticleChildTags,
+    getCurrentTopicVisibility
 } from '../../../selectors';
 
+import {
+    Accordion,
+    AccordionItem
+} from '../../theme/accordion';
+
+import ArticleModeField from './fields/mode';
 import ArticleCommonField from './fields/common';
 import ArticleAdvancedField from './fields/advanced';
 import ArticleErrorField from './fields/error';
@@ -67,8 +76,11 @@ const validate = (values) => {
     form: 'article',
     validate
 })
-@connect((state) => ({
-    tags: getCategorizedTags(state)
+@connect((state, props) => ({
+    userTags: getCategorizedTags(state),
+    parentTags: getArticleParentTags(props.article),
+    childTags: getArticleChildTags(props.article),
+    defaultVisibility: getCurrentTopicVisibility(state)
 }), {
     fetchTags
 })
@@ -76,41 +88,71 @@ export default class ArticleFormDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         multipleId: PropTypes.number,
+        isInline: PropTypes.bool,
         children: PropTypes.object,
+        hasModeSelection: PropTypes.bool,
+        currentMode: PropTypes.string,
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
-        // from reduxForm
+        // From reduxForm
         handleSubmit: PropTypes.func,
         submitting: PropTypes.bool,
         invalid: PropTypes.bool,
-        // from connect
-        tags: PropTypes.array,
+        // From connect
+        userTags: PropTypes.array,
+        parentTags: PropTypes.array,
+        childTags: PropTypes.array,
+        defaultVisibility: PropTypes.string,
         fetchTags: PropTypes.func
+    };
+
+    static defaultProps = {
+        isInline: false,
+        children: {},
+        hasModeSelection: true,
+        currentMode: 'story',
+        isDraft: false
     };
 
     constructor(props) {
         super(props);
 
-        if (props.tags.length === 0) {
+        if (props.userTags.length === 0) {
             props.fetchTags({userTags: true});
         }
     }
 
     state = {
         isLink: false,
-        isDraft: this.props.isDraft || false
+        isDraft: this.props.isDraft || false,
+        currentMode: this.props.children.mode || this.props.currentMode
+    };
+
+    _handleModeClick = (mode, event) => {
+        event.preventDefault();
+
+        this.setState({
+            currentMode: mode
+        })
     };
 
     render() {
-        // TODO: change cancel link if article is present
-        // this.props.history.push(`/article/${this.state.article.id}`) or this.props.history.push('/')
-
         return (
             <form id={this.props.id}
-                  className="article-form"
+                  className={classNames('article-form', {
+                      'card': this.props.isInline
+                  })}
                   onSubmit={this.props.handleSubmit}>
-                <div className="card">
-                    <h4 className="blog-form-title">{I18n.t('js.article.new.title')}</h4>
+                <div className="">
+                    <h4 className="blog-form-title">
+                        {I18n.t('js.article.new.title')}
+                    </h4>
+
+                    {
+                        this.props.hasModeSelection &&
+                        <ArticleModeField currentMode={this.state.currentMode}
+                                          onModeClick={this._handleModeClick}/>
+                    }
 
                     <div className="form-editor-card">
                         <div className="row">
@@ -122,14 +164,27 @@ export default class ArticleFormDisplay extends React.Component {
                             }
 
                             <div className="col s12">
-                                <ArticleCommonField article={this.props.children}/>
+                                <ArticleCommonField currentMode={this.state.currentMode}
+                                                    onSubmit={this.props.handleSubmit}
+                                                    article={this.props.children}
+                                                    isDraft={this.props.isDraft}
+                                                    userTags={this.props.userTags}
+                                                    parentTags={this.props.parentTags}
+                                                    childTags={this.props.childTags}/>
                             </div>
 
                             <div className="col s12 margin-top-10">
-                                <ArticleAdvancedField article={this.props.children}
-                                                      isDraft={this.props.children ? this.props.children.draft : this.state.isDraft}
-                                                      tags={this.props.tags}
-                                                      multipleId={this.props.multipleId}/>
+                                <Accordion>
+                                    <AccordionItem title={I18n.t('js.article.common.advanced')}
+                                                   isOpen={false}>
+                                        <ArticleAdvancedField currentMode={this.state.currentMode}
+                                                              articleVisibility={this.props.children.visibility}
+                                                              articleAllowComment={this.props.children.allowComment}
+                                                              articleLanguage={this.props.children.currentLanguage}
+                                                              defaultVisibility={this.props.defaultVisibility}
+                                                              multipleId={this.props.multipleId}/>
+                                    </AccordionItem>
+                                </Accordion>
                             </div>
                         </div>
                     </div>
@@ -138,7 +193,7 @@ export default class ArticleFormDisplay extends React.Component {
                         <div className="row">
                             <div className="col s6 left-align">
                                 <Link className="btn-flat waves-effect waves-teal"
-                                      to="/">
+                                      to={this.props.children ? `/article/${this.props.children.slug}` : '/'}>
                                     {I18n.t('js.helpers.buttons.cancel')}
                                 </Link>
                             </div>

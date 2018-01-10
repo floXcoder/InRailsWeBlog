@@ -1,159 +1,184 @@
-.cti__root {
-  font-family: sans-serif;
-  font-weight: normal;
-  font-size: 14px;
-  position: relative;
-  width: 330px;
-}
-
-.cti__root * {
-  box-sizing: border-box;
-  outline: none;
-}
-
-.cti__input {
-  border: 1px solid rgb(220, 220, 220);
-  padding: .1em 24px .1em .1em;
-  min-height: 38px;
-  position: relative;
-  background: white;
-}
-
-.cti__input__arrow {
-  position: absolute;
-  display: block;
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 4px solid rgb(140, 140, 140);
-  right: 10px;
-  top: 50%;
-  margin-top: -2px;
-}
-
-.cti__input__tags, .cti__input__input {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.cti__input__input {
-  border: none;
-  font-size: 1em !important;
-  margin: .1em 0 .1em .4em !important;
-  max-width: 100%;
-  padding: .4em 0 !important;
-}
-
-.cti__tag {
-  background-color: white;
-  border: 1px solid rgb(220, 220, 220);
-  border-radius: 3px;
-  color: rgb(146, 146, 146);
-  cursor: pointer;
-  display: inline-block;
-  margin: .1em 0 .1em .4em;
-  max-width: 100%;
-  padding: .3em .7em;
-  word-break: break-all;
-}
-
-.cti__tag__overhead {
-  background-color: white;
-  color: rgb(146, 146, 146);
-  display: inline-block;
-  margin: .1em 0 .1em .4em;
-  max-width: 100%;
-  padding: .3em .7em;
-}
-
-.cti__tag__content--match {
-  color: black;
-  font-weight: bold;
-}
-
-.cti__tag__delete, .cti__tag__content, .cti__tag__content > span {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.cti__tag__delete {
-  background-color: transparent;
-  padding: 0 0 0 .3em;
-  margin: -4px 0 0 0;
-  color: rgb(146, 146, 146);
-  font-size: 1.5em;
-  border: none;
-}
-
-.cti__tag__content > span {
-  margin-top: -3px;
-}
-
-.cti__panel {
-  position: absolute;
-  background: white;
-  border: 1px solid rgb(220, 220, 220);
-  border-top: none;
-  width: 100%;
-  z-index: 9997;
-}
-
-.cti__category__add-item {
-  background: transparent;
-  border: none;
-  color: rgb(28, 99, 166);
-  font-size: 1em;
-}
-
-.cti__category__add-item.cti-selected {
-  margin-left: .4em;
-}
-
-.cti__category__or {
-  margin-left: .4em;
-}
-
-.cti-selected {
-  background-color: rgb(229, 241, 255);
-  border: 1px solid rgb(207, 219, 234);
-  border-radius: 3px;
-}
-
-.cti__category {
-  padding: .4em;
-}
-
-.cti__category__title {
-  padding: .3em 0;
-  margin: 0;
-  color: rgb(200, 200, 200);
-  font-weight: normal;
-}
+$light-gray: #dadada;
+$white: #fff;
+$dark-gray: #333;
+$shadow: rgba(0, 0, 0, .2);
+$primary: #4c66be;
 
 .categorized-tag {
   .cti__root {
-    width: 100%;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    position: relative;
+    width: 330px;
+    //width: 100%;
   }
 
   .cti__input {
-    border: 0;
+    background-color: inherit;
+    border: 1px solid $secondary-color;
+    min-height: 38px;
+    padding: .1em 24px .1em .1em;
+    //background: white;
+    position: relative;
+  }
 
-    .cti__input__input {
-      //width: auto;
-      height: auto;
+  .cti__input__input {
+    //width: auto;
+    border: 0 !important;
+    font-size: 1em !important;
+    height: auto;
+    margin: .1em 0 .1em .4em !important;
+    max-width: 100%;
+    padding: .4em 0 !important;
+  }
+
+  .cti__input__arrow {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid $secondary-color;
+    display: block;
+    height: 0;
+    margin-top: -2px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 0;
+  }
+
+  .cti__input__tags,
+  .cti__input__input {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .cti__tag {
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-radius: 3px;
+    color: rgb(146, 146, 146);
+    cursor: pointer;
+    display: inline-block;
+    margin: .1em 0 .1em .4em;
+    max-width: 100%;
+    padding: .3em .7em;
+    word-break: break-all;
+
+    &:hover {
+      background-color: $light-gray;
     }
   }
 
-  .cti__panel {
-    font-size: 1rem;
-    line-height: 1.2rem;
+  .cti__tag__overhead {
+    background-color: #fff;
+    color: $light-gray;
+    display: inline-block;
+    margin: .1em 0 .1em .4em;
+    max-width: 100%;
+    padding: .3em .7em;
+  }
 
-    .cti__category__title {
-      font-size: .9rem;
-      line-height: 1rem;
-      color: #000;
+  .cti__tag__content--match {
+    color: $selection-color;
+    font-weight: bold;
+  }
+
+  .cti__tag__delete,
+  .cti__tag__content,
+  .cti__tag__content > span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .cti__tag__delete {
+    background-color: transparent;
+    border: 0;
+    color: $text-color;
+    font-size: 1.5em;
+    margin: -4px 0;
+    padding: 0 0 0 .3em;
+  }
+
+  .cti__tag__content > span {
+    margin-top: -3px;
+  }
+
+  .cti__panel {
+    background: #fff;
+    border: 1px solid $light-gray;
+    box-shadow: 0 0 2px $shadow;
+    box-sizing: border-box;
+    left: 0;
+    margin-top: 16px;
+    max-width: 28em;
+    padding: .6rem;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    //position: absolute;
+    //background: white;
+    //border: 1px solid rgb(220, 220, 220);
+    //border-top: none;
+    //width: 100%;
+    //z-index: 9997;
+    //font-size: 1rem;
+    //line-height: 1.2rem;
+
+    &:before,
+    &:after {
+      background: $white;
+      border: 1px solid $light-gray;
+      content: '';
+      display: block;
+      height: 15px;
+      position: absolute;
+      transform: rotate(45deg);
+      width: 15px;
     }
+
+    &.cti__panel_arrow_top:before,
+    &.cti__panel_arrow_top:after {
+      border-bottom: 0;
+      border-right: 0;
+      bottom: 100%;
+      left: 20px;
+      margin-bottom: -7px;
+    }
+  }
+
+  .cti__category__add-item {
+    background: transparent;
+    border: 0;
+    color: $text-color;
+    font-size: 1em;
+  }
+
+  .cti__category__add-item.cti-selected {
+    margin-left: .4em;
+  }
+
+  .cti__category__or {
+    margin-left: .4em;
+  }
+
+  .cti-selected {
+    background-color: rgb(229, 241, 255);
+    border: 1px solid rgb(207, 219, 234);
+    border-radius: 3px;
+  }
+
+  .cti__category {
+    padding: .4em;
+  }
+
+  .cti__category__title {
+    color: $secondary-color;
+    font-size: 1rem;
+    //color: #000;
+    font-weight: normal;
+    line-height: 1rem;
+    margin: .2rem 0 .4rem;
+    padding: .3em 0;
   }
 
   .cti__tag__animation {
@@ -166,6 +191,7 @@
       //text-shadow: 3px 3px 5px #ba8b00;
       opacity: .3;
     }
+
     to {
       box-shadow: none;
       opacity: 1;

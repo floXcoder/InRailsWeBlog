@@ -4,57 +4,36 @@ import {
     Field
 } from 'redux-form/immutable';
 
-import CategorizedField from '../../../materialize/form/categorized';
-import CheckBoxField from '../../../materialize/form/checkbox';
+import {
+    getCurrentLocale
+} from '../../../../selectors';
+
 import SwitchButtonField from '../../../materialize/form/switchButton';
 import SelectField from '../../../materialize/form/select';
 
-const ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
+const ArticleAdvancedField = ({currentMode, articleVisibility, articleLanguage, articleAllowComment, defaultVisibility, multipleId}) => (
     <div className="row margin-top-10">
-        <div className="col s12 m6 l6">
-            <Field id="article_parent_tags"
-                   name="parent_tags"
-                   title={I18n.t('js.article.model.parent_tags')}
-                   placeholder={I18n.t('js.article.common.tags.parent')}
-                   isSortingCategoriesByAlpha={false}
-                   isHorizontal={true}
-                   categorizedTags={tags}
-                   transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
-                   component={CategorizedField}
-                   componentContent={article.parent_tags}/>
-
-            <Field id="article_child_tags"
-                   name="child_tags"
-                   title={I18n.t('js.article.model.child_tags')}
-                   placeholder={I18n.t('js.article.common.tags.child')}
-                   isSortingCategoriesByAlpha={false}
-                   isHorizontal={true}
-                   categorizedTags={tags}
-                   transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
-                   component={CategorizedField}
-                   componentContent={article.child_tags}/>
-        </div>
-
-        <div className="col s12 m6 l3">
-            <Field id="article_draft"
-                   name="draft"
-                   title={I18n.t('js.article.common.draft')}
+        <div className="col s12 m6 l4">
+            <Field id="article_language"
+                   name="language"
                    multipleId={multipleId}
-                   component={CheckBoxField}
-                   componentContent={isDraft}/>
+                   title={I18n.t('js.article.model.language')}
+                   options={I18n.t('js.languages')}
+                   component={SelectField}
+                   componentContent={articleLanguage || getCurrentLocale()}/>
         </div>
 
-        <div className="col s12 m6 l3">
+        <div className="col s12 m6 l4 center-align">
             <Field id="article_allow_comment"
                    name="allow_comment"
                    multipleId={multipleId}
                    title={I18n.t('js.article.common.allow_comment.title')}
                    values={I18n.t('js.article.common.allow_comment')}
                    component={SwitchButtonField}
-                   componentContent={article.allow_comment}/>
+                   componentContent={articleAllowComment}/>
+        </div>
 
-            <div className="margin-bottom-40"/>
-
+        <div className="col s12 m6 l4">
             <Field id="article_visibility"
                    name="visibility"
                    multipleId={multipleId}
@@ -62,24 +41,22 @@ const ArticleAdvancedField = ({article, tags, isDraft, isLink, multipleId}) => (
                    default={I18n.t('js.article.common.visibility')}
                    options={I18n.t('js.article.enums.visibility')}
                    component={SelectField}
-                   componentContent={article.visibility}/>
+                   componentContent={articleVisibility || defaultVisibility}/>
         </div>
     </div>
 );
 
 ArticleAdvancedField.propTypes = {
-    article: PropTypes.object,
-    tags: PropTypes.array,
-    isDraft: PropTypes.bool,
-    isLink: PropTypes.bool,
+    currentMode: PropTypes.string.isRequired,
+    articleAllowComment: PropTypes.bool,
+    articleLanguage: PropTypes.bool,
+    articleVisibility: PropTypes.string,
+    defaultVisibility: PropTypes.string,
     multipleId: PropTypes.number
 };
 
 ArticleAdvancedField.defaultProps = {
-    article: {},
-    tags: [],
-    isDraft: false,
-    isLink: false
+    articleAllowComment: true
 };
 
 export default ArticleAdvancedField;

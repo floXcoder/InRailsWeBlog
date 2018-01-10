@@ -6,7 +6,7 @@
 #  user_id                  :integer
 #  name                     :string           not null
 #  description_translations :jsonb
-#  languages                :string           default([]), not null, is an Array
+#  languages                :string           default([]), is an Array
 #  color                    :string
 #  priority                 :integer          default(0), not null
 #  visibility               :integer          default("everyone"), not null
@@ -29,6 +29,7 @@ class Topic < ApplicationRecord
   enums_to_tr('topic', [:visibility])
 
   include TranslationConcern
+  # Add current_language to model
   translates :description,
              auto_strip_translation_fields:    [:description],
              fallbacks_for_empty_translations: true
@@ -113,8 +114,8 @@ class Topic < ApplicationRecord
             length:    { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length },
             allow_nil: true
 
-  validates :languages,
-            presence: true
+  # validates :languages,
+  #           presence: true
 
   validates :visibility,
             presence: true

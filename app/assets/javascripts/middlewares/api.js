@@ -99,6 +99,17 @@ const handleFlashMessage = (response) => {
     return response;
 };
 
+const handleResponse = (response) => {
+    if (response.bodyUsed || !response.ok) {
+        return {
+            errors: response.statusText
+        };
+    } else if (response.status !== 204) { // No content response
+        return response.json();
+    }
+};
+
+
 const api = {
     get: (url, params) => {
         const parameters = stringify(params, {arrayFormat: 'brackets'});
@@ -110,7 +121,7 @@ const api = {
         })
             .then((response) => handleResponseErrors(response, urlParams))
             .then((response) => handleFlashMessage(response))
-            .then((response) => response.json())
+            .then((response) => handleResponse(response))
             .then(
                 (json) => json,
                 (error) => handleParseErrors(error, urlParams)
@@ -128,11 +139,7 @@ const api = {
         })
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
-            .then((response) => {
-                if (response.status !== 204) { // No content response
-                    return response.json();
-                }
-            })
+            .then((response) => handleResponse(response))
             .then(
                 (json) => json,
                 (error) => handleParseErrors(error, url)
@@ -149,11 +156,7 @@ const api = {
         })
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
-            .then((response) => {
-                if (response.status !== 204) { // No content response
-                    return response.json();
-                }
-            })
+            .then((response) => handleResponse(response))
             .then(
                 (json) => json,
                 (error) => handleParseErrors(error, url)
@@ -170,11 +173,7 @@ const api = {
         })
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
-            .then((response) => {
-                if (response.status !== 204) { // No content response
-                    return response.json();
-                }
-            })
+            .then((response) => handleResponse(response))
             .then(
                 (json) => json,
                 (error) => handleParseErrors(error, url)

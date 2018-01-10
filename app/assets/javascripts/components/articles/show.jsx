@@ -241,25 +241,6 @@ export default class ArticleShow extends React.Component {
 
                 {
                     // TODO
-                    // this.props.location.state && this.props.location.state.newTags &&
-                    // <div className="card-panel">
-                    //     <p>
-                    //         {I18n.t('js.article.show.new_tags')}
-                    //         {
-                    //             this.props.location.state.newTags.map((newTag, i) => (
-                    //                 <Link key={i}
-                    //                       to={`/tag/${newTag.slug}`}
-                    // onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
-                    //                     {newTag.name}
-                    //                 </Link>
-                    //             ))
-                    //         }
-                    //     </p>
-                    // </div>
-                }
-
-                {
-                    // TODO
                     // this.state.isHistoryDisplayed && this.props.articleVersions &&
                     // <ArticleHistory articleVersions={this.props.articleVersions}/>
                 }

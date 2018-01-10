@@ -160,6 +160,10 @@ fr:
       visibility:
         everyone: "Public"
         only_me: "Privé"
+      mode:
+        story: "Article"
+        note: "Note"
+        link: "Lien"
   tag:
     enums:
       visibility:

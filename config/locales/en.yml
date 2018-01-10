@@ -143,6 +143,10 @@ en:
       visibility:
         everyone: "Public"
         only_me: "Private"
+      mode:
+        story: "Story"
+        note: "Note"
+        link: "Link"
   tag:
     enums:
       visibility:

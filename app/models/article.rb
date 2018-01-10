@@ -5,6 +5,7 @@
 #  id                      :integer          not null, primary key
 #  user_id                 :integer
 #  topic_id                :integer
+#  mode                    :integer          default("story"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
 #  content_translations    :jsonb            not null
@@ -28,13 +29,20 @@
 #
 
 class Article < ApplicationRecord
+  # Article type:
+  #   story => to write a full article with all fields available in a dedicated page
+  #   note => to complete a current section in current page
+  #   link => to save links as RSS (only title and content) in current page
+  # All types can be private or a draft version
 
   # == Attributes ===========================================================
   include EnumsConcern
+  enum mode: ARTICLE_MODE
   enum visibility: VISIBILITY
-  enums_to_tr('article', [:visibility])
+  enums_to_tr('article', [:mode, :visibility])
 
   include TranslationConcern
+  # Add current_language to model
   translates :title, :summary, :content,
              auto_strip_translation_fields:    [:title, :summary],
              fallbacks_for_empty_translations: true
@@ -472,7 +480,7 @@ class Article < ApplicationRecord
     self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
 
     # Language
-    self.languages  |= attributes[:language] || current_user&.locale || I18n.locale
+    self.languages  |= [attributes[:language]] || current_user&.locale || I18n.locale
 
     # Visibility private mandatory for draft articles
     self.visibility = 'only_me' if attributes[:draft]

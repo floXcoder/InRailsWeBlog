@@ -237,8 +237,16 @@ class ArticlesController < ApplicationController
                                     :topic_id,
                                     :language,
                                     tags:        [],
-                                    parent_tags: [],
-                                    child_tags:  [])
+                                    parent_tags: [
+                                                   :name,
+                                                   :visibility,
+                                                   :new
+                                                 ],
+                                    child_tags:  [
+                                                   :name,
+                                                   :visibility,
+                                                   :new
+                                                 ])
   end
 
   def filter_params
