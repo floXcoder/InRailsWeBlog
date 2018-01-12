@@ -32,7 +32,7 @@ export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         onBookmarkClick: PropTypes.func.isRequired,
-        onEditClick: PropTypes.func.isRequired,
+        onEdit: PropTypes.func.isRequired,
         onVisibilityClick: PropTypes.func.isRequired,
         // From connect
         isOwner: PropTypes.bool,
@@ -84,7 +84,7 @@ export default class ArticleCardDisplay extends React.Component {
                             <ArticleActions articleId={this.props.article.id}
                                             articleSlug={this.props.article.slug}
                                             articleVisibility={this.props.article.visibility}
-                                            onEditClick={this.props.onEditClick}
+                                            onEdit={this.props.onEdit}
                                             onBookmarkClick={this.props.onBookmarkClick}
                                             onVisibilityClick={this.props.onVisibilityClick}
                                             isOwner={this.props.isOwner}/>

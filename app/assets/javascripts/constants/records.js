@@ -7,6 +7,7 @@ import {
 } from 'immutable';
 
 export const SettingsRecord = new Record({
+    articlesLoader: 'infinite',
     articleDisplay: 'card',
     searchHighlight: true,
     searchOperator: 'or',

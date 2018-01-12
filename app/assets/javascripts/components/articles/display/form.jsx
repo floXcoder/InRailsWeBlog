@@ -78,8 +78,8 @@ const validate = (values) => {
 })
 @connect((state, props) => ({
     userTags: getCategorizedTags(state),
-    parentTags: getArticleParentTags(props.article),
-    childTags: getArticleChildTags(props.article),
+    parentTags: getArticleParentTags(props.children),
+    childTags: getArticleChildTags(props.children),
     defaultVisibility: getCurrentTopicVisibility(state)
 }), {
     fetchTags

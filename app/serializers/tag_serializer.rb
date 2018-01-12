@@ -45,4 +45,12 @@ class TagSerializer < ActiveModel::Serializer
   def visibility_translated
     object.visibility_to_tr
   end
+
+  def parent_ids
+    instance_options[:current_topic_id] ? object.child_relationships.where(topic_id: instance_options[:current_topic_id]).distinct.pluck(:parent_id) : object.parent_ids
+  end
+
+  def child_ids
+    instance_options[:current_topic_id] ? object.parent_relationships.where(topic_id: instance_options[:current_topic_id]).distinct.pluck(:child_id) : object.child_ids
+  end
 end

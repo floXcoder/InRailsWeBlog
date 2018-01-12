@@ -92,17 +92,18 @@ export default class ArticleEditionDisplay extends React.Component {
                             onEditorLoaded={this._handleEditorLoaded}>
                         {this.props.article.content}
                     </Editor>
-
                 </div>
-                <div className="card-action clearfix">
+
+                <div className="clearfix">
                     {
-                        this.props.article.tags.map((tag) => (
-                            <a key={tag.id}
-                               className="btn-small waves-effect waves-light">
-                                {tag.name}
-                            </a>
-                        ))
+                        // this.props.article.tags.map((tag) => (
+                        //     <a key={tag.id}
+                        //        className="btn-small waves-effect waves-light">
+                        //         {tag.name}
+                        //     </a>
+                        // ))
                     }
+
                     <div className="right">
                         <ArticleEditionIcons onDeleteClick={this._handleDeleteClick}
                                              onCancelClick={this._handleCancelClick}

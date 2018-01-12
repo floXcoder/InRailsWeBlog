@@ -1,6 +1,6 @@
 'use strict';
 
-const ArticleEditIcon = ({onEditClick, isOwner}) => {
+const ArticleEditIcon = ({onEdit, isOwner}) => {
     if (!isOwner) {
         return null;
     }
@@ -8,7 +8,7 @@ const ArticleEditIcon = ({onEditClick, isOwner}) => {
     return (
         <a className="btn-floating article-edit tooltipped"
            data-tooltip={I18n.t('js.article.tooltip.edit')}
-           onClick={onEditClick}>
+           onClick={onEdit}>
                 <span className="material-icons"
                       data-icon="mode_edit"
                       aria-hidden="true"/>
@@ -17,7 +17,7 @@ const ArticleEditIcon = ({onEditClick, isOwner}) => {
 };
 
 ArticleEditIcon.propTypes = {
-    onEditClick: PropTypes.func,
+    onEdit: PropTypes.func,
     isOwner: PropTypes.bool
 };
 

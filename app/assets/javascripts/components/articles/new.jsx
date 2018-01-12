@@ -5,28 +5,31 @@ import {
 } from '../../actions';
 
 import {
-    getArticleErrors,
+    getTags,
     getCurrentUser,
-    getCurrentTopic
+    getCurrentTopic,
+    getArticleErrors
 } from '../../selectors';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
 @connect((state) => ({
+    tags: getTags(state),
     currentUser: getCurrentUser(state),
     currentTopic: getCurrentTopic(state),
     articleErrors: getArticleErrors(state)
 }), {
     addArticle
 })
-export default class ArticleNew extends React.PureComponent {
+export default class ArticleNew extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
         initialData: PropTypes.object,
         multipleId: PropTypes.number,
         // from connect
+        tags: PropTypes.array,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         articleErrors: PropTypes.array,
@@ -45,6 +48,16 @@ export default class ArticleNew extends React.PureComponent {
                 this.state.isDraft = props.initialData.isDraft;
 
                 Notification.success(I18n.t('js.article.clipboard.toast.done'));
+            }
+
+            if (props.initialData.parentTagSlug) {
+                this.state.article = this.state.article || {};
+
+                this.state.article.tags = props.tags.filter((tag) => tag.slug === props.initialData.parentTagSlug || tag.slug === props.initialData.childTagSlug);
+                this.state.article.parentTagSlugs = [props.initialData.parentTagSlug];
+                if (props.initialData.childTagSlug) {
+                    this.state.article.childTagSlugs = [props.initialData.childTagSlug];
+                }
             }
         }
     }

@@ -340,9 +340,9 @@ html {
     .field-errors {
       color: $error-color;
       display: none;
-      text-align: left;
-      margin-top: 0;
       margin-bottom: 15px;
+      margin-top: 0;
+      text-align: left;
 
       &.filled {
         display: inline;
@@ -372,6 +372,17 @@ html {
         margin-bottom: 15px;
         margin-top: 0;
       }
+    }
+  }
+
+  .article-quick-add {
+    bottom: 2rem;
+    position: fixed;
+    right: 2rem;
+
+    .material-icons {
+      color: $text-color;
+      font-size: 32px;
     }
   }
 

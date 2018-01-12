@@ -5,12 +5,13 @@ import {
     CSSTransition
 } from 'react-transition-group';
 
-// TODO
-// import InfiniteScroll from '../../materialize/infiniteScroll';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import ArticleItemDisplay from './item';
 
-const ArticleListDisplay = ({articles, articleDisplayMode, articleEditionId}) => {
+import Pagination from '../../materialize/pagination';
+
+const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, articleEditionId, hasMoreArticles, articleTotalPages, fetchArticles}) => {
     const ArticleNodes = articles.map((article) => (
             <CSSTransition key={article.id}
                            timeout={500}
@@ -22,6 +23,12 @@ const ArticleListDisplay = ({articles, articleDisplayMode, articleEditionId}) =>
         )
     );
 
+    const LoadingArticles = (
+        <div className="article-infinite-loading">
+            {I18n.t('js.article.common.infinite.loading')}
+        </div>
+    );
+
     return (
         <div className="row">
             <div className="col s12">
@@ -29,14 +36,21 @@ const ArticleListDisplay = ({articles, articleDisplayMode, articleEditionId}) =>
                     articleDisplayMode === 'inline' &&
                     <div className="card-panel">
                         <div className="blog-article-list">
-                            {/*<InfiniteScroll loadMore={ArticleListDisplay._loadNextArticles.bind(hasMore)}*/}
-                            {/*hasMore={hasMore}>*/}
-                            {/**/}
-                            {/*</InfiniteScroll>*/}
-
-                            <TransitionGroup component="div">
-                                {ArticleNodes}
-                            </TransitionGroup>
+                            {
+                                articlesLoaderMode === 'infinite'
+                                    ?
+                                    <InfiniteScroll next={fetchArticles}
+                                                    hasMore={hasMoreArticles}
+                                                    loader={LoadingArticles}>
+                                        <TransitionGroup component="div">
+                                            {ArticleNodes}
+                                        </TransitionGroup>
+                                    </InfiniteScroll>
+                                    :
+                                    <TransitionGroup component="div">
+                                        {ArticleNodes}
+                                    </TransitionGroup>
+                            }
                         </div>
                     </div>
                 }
@@ -44,31 +58,41 @@ const ArticleListDisplay = ({articles, articleDisplayMode, articleEditionId}) =>
                 {
                     articleDisplayMode === 'card' &&
                     <div className="blog-article-list">
-                        {/*<InfiniteScroll loadMore={ArticleListDisplay._loadNextArticles.bind(hasMore)}*/}
-                        {/*hasMore={hasMore}>*/}
-                        {/**/}
-                        {/*</InfiniteScroll>*/}
-
-                        <TransitionGroup component="div">
-                            {ArticleNodes}
-                        </TransitionGroup>
+                        {
+                            articlesLoaderMode === 'infinite'
+                                ?
+                                <InfiniteScroll next={fetchArticles}
+                                                hasMore={hasMoreArticles}
+                                                loader={LoadingArticles}>
+                                    <TransitionGroup component="div">
+                                        {ArticleNodes}
+                                    </TransitionGroup>
+                                </InfiniteScroll>
+                                :
+                                <TransitionGroup component="div">
+                                    {ArticleNodes}
+                                </TransitionGroup>
+                        }
                     </div>
+                }
+
+                {
+                    articlesLoaderMode === 'pagination' &&
+                    <Pagination totalPages={articleTotalPages}
+                                onPaginationClick={fetchArticles}/>
                 }
             </div>
         </div>
     );
 };
 
-// TODO: infinite loading
-// ArticleListDisplay._loadNextArticles = (hasMore) => {
-//     if (hasMore) {
-//         ArticleActions.loadNextArticles();
-//     }
-// };
-
 ArticleListDisplay.propTypes = {
     articles: PropTypes.array.isRequired,
+    articlesLoaderMode: PropTypes.string.isRequired,
     articleDisplayMode: PropTypes.string.isRequired,
+    fetchArticles: PropTypes.func,
+    articleTotalPages: PropTypes.number,
+    hasMoreArticles: PropTypes.bool,
     articleEditionId: PropTypes.number
 };
 

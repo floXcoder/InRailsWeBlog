@@ -45,6 +45,10 @@ export default class ArticleItemDisplay extends React.Component {
 
     _handleEditClick = () => {
         this.props.editArticle(this.props.article.id);
+
+        setTimeout(() => {
+            $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
+        }, 300);
     };
 
     _handleVisibilityClick = (article) => {
@@ -52,20 +56,21 @@ export default class ArticleItemDisplay extends React.Component {
     };
 
     render() {
-        if (this.props.articleDisplayMode === 'edit' || this.props.articleEditionId === this.props.article.id) {
+        if (this.props.articleDisplayMode === 'edit' || this.props.articleEditionId === this.props.article.id) {
             return (
                 <ArticleEditionDisplay article={this.props.article}/>
             );
         } else if (this.props.articleDisplayMode === 'inline') {
             return (
                 <ArticleInlineDisplay title={this.props.article.title}
-                                      content={this.props.article.content}/>
+                                      content={this.props.article.content}
+                                      onEdit={this._handleEditClick}/>
             );
         } else if (this.props.articleDisplayMode === 'card') {
             return (
                 <ArticleCardDisplay article={this.props.article}
                                     onBookmarkClick={this._handleBookmarkClick}
-                                    onEditClick={this._handleEditClick}
+                                    onEdit={this._handleEditClick}
                                     onVisibilityClick={this._handleVisibilityClick}/>
             );
         } else {

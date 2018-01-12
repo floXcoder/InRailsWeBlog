@@ -56,6 +56,13 @@
     }
   }
 
+  .article-infinite-loading {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+
   .blog-article-box {
   }
 
@@ -87,9 +94,36 @@
   }
 
   .blog-article-item {
+    position: relative;
     word-wrap: break-word;
 
+    &.blog-article-item-hover {
+      border-left: 5px solid #eee;
+      border-right: 5px solid #eee;
+    }
+
     .article-title-inline {
+    }
+
+    .article-inline-edit {
+      cursor: pointer;
+      display: inline-block;
+      position: absolute;
+      right: .5rem;
+      top: 3rem;
+
+      a {
+        background-color: rgba(25, 110, 135, .5);
+        border-radius: 50%;
+        height: 32px;
+        line-height: 32px;
+        padding: 0;
+        width: 32px;
+
+        .material-icons {
+          font-size: 1rem;
+        }
+      }
     }
 
     .article-title {

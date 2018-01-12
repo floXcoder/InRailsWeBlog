@@ -145,8 +145,14 @@ fr:
       settings:
         article:
           title: "Articles"
+          loader:
+            title: "Chargement des articles"
+            mode:
+              infinite: "Afficher les articles au défilement"
+              pagination: "Utiliser une pagination"
+              all: "Tous charger"
           display:
-            title: "Articles"
+            title: "Affichage d'un article"
             mode:
               inline: "Afficher dans un seul article"
               card: "Afficher les articles indépendamment"
@@ -225,6 +231,8 @@ fr:
         url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
         advanced: "Options avancées"
+        infinite:
+          loading: "Chargement des articles ..."
         placeholders:
           title:
             story: "Titre de votre article"
@@ -519,10 +527,6 @@ fr:
         picture:
           title: "Image trop grande"
           text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
-    infinite_scroll:
-      loading:
-        message: "Chargement des éléments suivants ..."
-        finish: "Tous les éléments ont été chargés."
     selecter:
       no_results: "Pas de résultats trouvés"
       tags:

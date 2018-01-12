@@ -7412,6 +7412,10 @@ react-image-lightbox@4.4.0:
     prop-types "^15.5.8"
     react-modal "^3.1.8"
 
+react-infinite-scroll-component@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-3.0.1.tgz#66a893a5e703974543f7aee7a2d7326c70b748ce"
+
 react-input-autosize@^2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.1.2.tgz#a3dc11a5517c434db25229925541309de3f7a8f5"

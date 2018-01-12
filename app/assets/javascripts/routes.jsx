@@ -48,7 +48,7 @@ export default {
                 component: ArticleIndex
             },
             {
-                path: '/user/:userSlug/:topicSlug/tagged/:tagParentSlug/:tagChildSlug',
+                path: '/user/:userSlug/:topicSlug/tagged/:parentTagSlug/:childTagSlug',
                 exact: true,
                 component: ArticleIndex
             },
@@ -73,7 +73,7 @@ export default {
                 component: ArticleIndex
             },
             {
-                path: '/tagged/:tagParentSlug/:tagChildSlug',
+                path: '/tagged/:parentTagSlug/:childTagSlug',
                 exact: true,
                 component: ArticleIndex
             },

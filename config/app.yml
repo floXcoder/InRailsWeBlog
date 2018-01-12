@@ -11,12 +11,6 @@ defaults: &defaults
   # Maximum upload image size
   image_size: <%= 8.megabytes %>
 
-  #  # Default for Users
-  #  user_article_display: "card" # inline/card/edit
-  #  user_search_highlight: true
-  #  user_search_operator: "and" # and/or
-  #  user_search_exact: true
-
   # Default for Topics
   topic_color: "#e5e5e5"
 

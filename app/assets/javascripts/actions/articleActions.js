@@ -5,12 +5,13 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Articles
-export const fetchArticles = (filter = {}, options = {}) => ({
+export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
     actionType: ActionTypes.ARTICLE,
     fetchAPI: () => api.get(`/articles`, {
         filter,
         ...options
-    })
+    }),
+    payload
 });
 
 export const fetchArticle = (articleId, options = {}) => ({

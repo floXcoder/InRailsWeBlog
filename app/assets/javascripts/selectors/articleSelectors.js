@@ -23,15 +23,15 @@ export const getArticleIsOutdated = (article) => (
 
 export const getArticleParentTags = createSelector(
     (article) => article,
-    (article) => article && article.tags.map((tag) => (
-        article.parentTagIds.includes(tag.id)
+    (article) => article && article.tags.filter((tag) => (
+        article.parentTagSlugs ? article.parentTagSlugs.includes(tag.slug) : article.parentTagIds && article.parentTagIds.includes(tag.id)
     ))
 );
 
 export const getArticleChildTags = createSelector(
     (article) => article,
-    (article) => article && article.tags.map((tag) => (
-        article.childTagIds.includes(tag.id)
+    (article) => article && article.tags.filter((tag) => (
+        article.childTagSlugs ? article.childTagSlugs.includes(tag.slug) : article.childTagIds && article.childTagIds.includes(tag.id)
     ))
 );
 

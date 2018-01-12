@@ -25,23 +25,23 @@ export default class CategorizedTag extends React.Component {
         isHorizontal: false
     };
 
+    constructor(props) {
+        super(props);
+
+        if (props.children) {
+            let initialTags = props.children;
+
+            if (props.transformInitialTags) {
+                initialTags = initialTags.map((tag) => props.transformInitialTags(tag));
+            }
+
+            this.state.selectedTags = initialTags;
+        }
+    }
+
     state = {
         selectedTags: []
     };
-
-    componentWillMount() {
-        if (this.props.children) {
-            let initialTags = this.props.children;
-
-            if (this.props.transformInitialTags) {
-                initialTags = initialTags.map((tag) => this.props.transformInitialTags(tag));
-            }
-
-            this.setState({
-                selectedTags: initialTags
-            });
-        }
-    }
 
     _handleTagAdded = (categoryId, tagName) => {
         this.setState({

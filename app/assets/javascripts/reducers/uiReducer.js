@@ -17,6 +17,7 @@ const initState = new Record({
 
     isSearchPopupOpened: false,
 
+    articlesLoaderMode: 'infinite',
     articleDisplayMode: 'card'
 });
 
@@ -51,6 +52,7 @@ export default function topicReducer(state = new initState(), action) {
         case ActionTypes.USER_CHANGE_SUCCESS:
             if ((action.user && action.connection) || action.settings) {
                 return state.merge({
+                    articlesLoaderMode: action.connection ? action.user.settings.articlesLoader : action.settings.articlesLoader,
                     articleDisplayMode: action.connection ? action.user.settings.articleDisplay : action.settings.articleDisplay
                 })
             } else {

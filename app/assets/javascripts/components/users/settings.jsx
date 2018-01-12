@@ -15,6 +15,7 @@ import SwitchButton from '../materialize/switchButton';
     userCurrentId: state.userState.currentId,
     user: state.userState.user,
     settings: state.userState.user.settings,
+    articlesLoader: state.userState.user && state.userState.user.settings.articlesLoader,
     articleDisplay: state.userState.user && state.userState.user.settings.articleDisplay,
     searchHighlight: state.userState.user && state.userState.user.searchHighlight,
     searchOperator: state.userState.user && state.userState.user.settings.searchOperator,
@@ -26,6 +27,7 @@ export default class UserSettings extends React.Component {
     static propTypes = {
         // From connect
         userCurrentId: PropTypes.number,
+        articlesLoader: PropTypes.string,
         articleDisplay: PropTypes.string,
         searchHighlight: PropTypes.bool,
         searchOperator: PropTypes.string,
@@ -45,6 +47,10 @@ export default class UserSettings extends React.Component {
         this.setState({
             activeItem: name
         });
+    };
+
+    _onLoaderChanged = (event) => {
+        this._updateSettings({articlesLoader: event.target.id});
     };
 
     _onDisplayChanged = (event) => {
@@ -85,6 +91,15 @@ export default class UserSettings extends React.Component {
                 {
                     activeItem === I18n.t('js.user.settings.article.title') &&
                     <div className="row">
+                        <div className="col s12">
+                            <h6>
+                                {I18n.t('js.user.settings.article.loader.title')}
+                            </h6>
+                            <RadioButtons group="articlesLoader"
+                                          buttons={I18n.t('js.user.settings.article.loader.mode')}
+                                          checkedButton={this.props.articlesLoader}
+                                          onChange={this._onLoaderChanged}/>
+                        </div>
                         <div className="col s12">
                             <h6>
                                 {I18n.t('js.user.settings.article.display.title')}

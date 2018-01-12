@@ -9,7 +9,7 @@ import ArticleVisibilityIcon from '../icons/visibility';
 import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleLink from '../properties/link';
 
-const ArticleActions = ({articleId, articleSlug, articleVisibility, onBookmarkClick, onEditClick, onVisibilityClick, isOwner}) => (
+const ArticleActions = ({articleId, articleSlug, articleVisibility, onBookmarkClick, onEdit, onVisibilityClick, isOwner}) => (
     <FixedActionButton>
         <ArticleBookmarkIcon articleId={articleId}
                              onBookmarkClick={onBookmarkClick}/>
@@ -19,7 +19,7 @@ const ArticleActions = ({articleId, articleSlug, articleVisibility, onBookmarkCl
                                hasFloatingButton={true}
                                onVisibilityClick={onVisibilityClick}/>
 
-        <ArticleEditIcon onEditClick={onEditClick}
+        <ArticleEditIcon onEdit={onEdit}
                          isOwner={isOwner}/>
 
         <ArticleLink articleId={articleId}
@@ -38,7 +38,7 @@ ArticleActions.propTypes = {
     articleSlug: PropTypes.string.isRequired,
     articleVisibility: PropTypes.string.isRequired,
     onBookmarkClick: PropTypes.func,
-    onEditClick: PropTypes.func,
+    onEdit: PropTypes.func,
     onVisibilityClick: PropTypes.func,
     isOwner: PropTypes.bool
 };

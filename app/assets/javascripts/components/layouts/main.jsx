@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    Route
+    Route,
+    Link
 } from 'react-router-dom';
 
 import pasteManager from '../modules/pasteManager';
@@ -87,7 +88,9 @@ export default class MainLayout extends React.Component {
                                                   onOpened={this._handleSidebarPinClick}/>
 
                                    <div
-                                       className={classNames('blog-main-content', {'blog-main-pinned': this.state.isSidebarOpened})}>
+                                       className={classNames('blog-main-content', {
+                                           'blog-main-pinned': this.state.isSidebarOpened
+                                       })}>
                                        <div className="container blog-main">
                                            {
                                                this.props.routes.permanents.map((route, index) => (
@@ -109,6 +112,23 @@ export default class MainLayout extends React.Component {
                                                       history={router.history}
                                                       initialData={router.location.state}/>
                                        </div>
+
+                                       {
+                                           (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
+                                           <Link className="article-quick-add"
+                                                 to={{
+                                                     hash: '#new-article',
+                                                     state: {
+                                                         mode: 'note',
+                                                         parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
+                                                         childTagSlug: router.match.params.childTagSlug
+                                                     }
+                                                 }}>
+                                               <span className="material-icons"
+                                                     data-icon="add_circle_outline"
+                                                     aria-hidden="true"/>
+                                           </Link>
+                                       }
 
                                        <a className="goto-top hide-on-small-and-down"
                                           onClick={this._handleGoToTopClick}/>

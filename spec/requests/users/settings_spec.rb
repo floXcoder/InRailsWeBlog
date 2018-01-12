@@ -39,6 +39,7 @@ describe 'User Settings API', type: :request, basic: true do
         expect(response).to be_json_response
 
         settings = JSON.parse(response.body)
+        expect(settings['settings']['articlesLoader']).to eq('infinite')
         expect(settings['settings']['articleDisplay']).to eq('card')
         expect(settings['settings']['searchHighlight']).to be true
       end

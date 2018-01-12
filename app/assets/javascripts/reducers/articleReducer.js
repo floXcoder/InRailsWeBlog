@@ -33,13 +33,23 @@ export default function articleReducer(state = new initState(), action) {
         case ActionTypes.ARTICLE_FETCH_INIT:
         case ActionTypes.ARTICLE_FETCH_SUCCESS:
         case ActionTypes.ARTICLE_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) =>
-                payload.article ? ({
-                    article: new Records.ArticleRecord(payload.article)
-                }) : ({
-                    articles: toList(payload.articles, Records.ArticleRecord)
-                })
-            );
+            return fetchReducer(state, action, (payload) => {
+                if (payload.article) {
+                    return {
+                        article: new Records.ArticleRecord(payload.article)
+                    };
+                } else {
+                    if (payload.infinite) {
+                        return {
+                            articles: state.articles.concat(toList(payload.articles, Records.ArticleRecord))
+                        };
+                    } else {
+                        return {
+                            articles: toList(payload.articles, Records.ArticleRecord)
+                        };
+                    }
+                }
+            }, ['infinite']);
 
         case ActionTypes.ARTICLE_EDITION:
             return state.merge({

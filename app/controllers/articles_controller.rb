@@ -45,7 +45,8 @@ class ArticlesController < ApplicationController
                  meta:            meta_attributes(articles)
         else
           render json:            articles,
-                 each_serializer: ArticleSerializer
+                 each_serializer: ArticleSerializer,
+                 meta:            meta_attributes(articles)
         end
       end
     end
@@ -260,6 +261,8 @@ class ArticlesController < ApplicationController
                                      :topic_slug,
                                      :tag_id,
                                      :tag_slug,
+                                     :parent_tag_slug,
+                                     :child_tag_slug,
                                      :bookmarked,
                                      user_ids:         [],
                                      topic_ids:        [],

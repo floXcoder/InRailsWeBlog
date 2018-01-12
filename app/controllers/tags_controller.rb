@@ -34,7 +34,8 @@ class TagsController < ApplicationController
     respond_to do |format|
       format.json do
         render json:            tags,
-               each_serializer: TagSerializer
+               each_serializer: TagSerializer,
+               current_topic_id: filter_params[:topic_id]
       end
     end
   end
