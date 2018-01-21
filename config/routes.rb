@@ -128,6 +128,9 @@ Rails.application.routes.draw do
   # Static pages
   get :terms, to: 'static_pages#terms'
 
+  # SEO
+  get '/robots.:format' => 'static_pages#robots'
+
   # Errors
   %w[404 422 500].each do |code|
     get code, to: 'errors#show', code: code
@@ -138,7 +141,6 @@ Rails.application.routes.draw do
       post 'delete_all',     to: 'errors#destroy_all'
     end
   end
-
   # Admins
   devise_scope :admin do
     get     '/admin/login',  to: 'users/sessions#new',      as: :login_admin
