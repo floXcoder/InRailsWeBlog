@@ -149,8 +149,9 @@ class Tag < ApplicationRecord
             allow_nil: true,
             length:    { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
 
-  # validates :languages,
-  #           presence: true
+  validates :languages,
+            presence: true,
+            if:     -> { description.present? }
 
   validates :visibility,
             presence: true

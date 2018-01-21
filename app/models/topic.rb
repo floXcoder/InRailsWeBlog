@@ -117,8 +117,9 @@ class Topic < ApplicationRecord
             length:    { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length },
             allow_nil: true
 
-  # validates :languages,
-  #           presence: true
+  validates :languages,
+            presence: true,
+            if:     -> { description.present? }
 
   validates :visibility,
             presence: true
