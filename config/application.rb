@@ -28,7 +28,7 @@ module InRailsWeBlog
                                routing_specs: false,
                                controller_specs: true,
                                request_specs: true
-      generator.fixture_replacement :factory_girl, dir: 'spec/factories'
+      generator.fixture_replacement :factory_bot, dir: 'spec/factories'
       generator.assets false
     end
 

@@ -27,7 +27,7 @@
 #  os_agent       :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :error_message do
   end

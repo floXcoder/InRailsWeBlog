@@ -1,4 +1,4 @@
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'faker'
 
 Faker::Config.locale = 'fr'
@@ -6,7 +6,7 @@ Faker::Config.locale = 'fr'
 class Populate
 
   def self.create_admin
-    FactoryGirl.create(:admin,
+    FactoryBot.create(:admin,
                        # :with_blog,
                        pseudo:                ENV['WEBSITE_ADMIN_NAME'],
                        email:                 ENV['WEBSITE_ADMIN_EMAIL'],
@@ -17,7 +17,7 @@ class Populate
   end
 
   def self.create_main_user
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        pseudo:                ENV['WEBSITE_NAME'],
                        email:                 ENV['WEBSITE_EMAIL'],
                        locale:                'fr',
@@ -33,7 +33,7 @@ class Populate
 
     User.transaction do
       user_number.times do
-        users << FactoryGirl.create(:user,
+        users << FactoryBot.create(:user,
                                     locale:          'fr',
                                     first_name:      Faker::Name.first_name,
                                     last_name:       Faker::Name.last_name,
@@ -69,7 +69,7 @@ class Populate
         end
 
         topics << Array.new(topic_number_per_user) do |n|
-          FactoryGirl.create(:topic,
+          FactoryBot.create(:topic,
                              user:       user,
                              visibility: rand(0..1),
                              name:       topics_name[n].mb_chars.capitalize.to_s)
@@ -96,7 +96,7 @@ class Populate
       users.each do |user|
         tags << Array.new(tags_number_per_user) do |_n|
           tag_index += 1
-          FactoryGirl.create(:tag,
+          FactoryBot.create(:tag,
                              user:       user,
                              visibility: options[:visibility] || rand(0..1),
                              name:       tags_name[tag_index].mb_chars.capitalize.to_s)
@@ -125,7 +125,7 @@ class Populate
           if (n % 2).zero?
             parent_tags = permitted_tags.sample(rand(1..2))
             child_tags  = permitted_tags.sample(rand(1..2))
-            FactoryGirl.create(:article_with_relation_tags,
+            FactoryBot.create(:article_with_relation_tags,
                                user:        user,
                                topic:       topic,
                                mode:        'note',
@@ -133,7 +133,7 @@ class Populate
                                parent_tags: parent_tags,
                                child_tags:  child_tags - parent_tags)
           else
-            FactoryGirl.create(:article_with_tags,
+            FactoryBot.create(:article_with_tags,
                                user:       user,
                                topic:      topic,
                                mode:       'story',
@@ -162,7 +162,7 @@ class Populate
         Topic.where(user_id: user.id).map do |topic|
           permitted_tags = tags.select { |tag| tag.everyone? || (tag.only_me? && tag.user_id == user.id) }
 
-          FactoryGirl.create(:article_with_tags,
+          FactoryBot.create(:article_with_tags,
                              user:       user,
                              topic:      topic,
                              mode:       'link',
@@ -180,7 +180,7 @@ class Populate
     article_relationships = []
     ArticleRelationship.transaction do
       articles.sample(relationship_number).each do |article|
-        article_relationships << FactoryGirl.create(:article_relationship,
+        article_relationships << FactoryBot.create(:article_relationship,
                                                     user:   user,
                                                     parent: article,
                                                     child:  articles.sample

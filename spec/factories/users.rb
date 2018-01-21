@@ -49,7 +49,7 @@
 #  locked_at              :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :user do
     sequence(:pseudo)     { |n| "Person #{n + 1}" }

@@ -54,7 +54,7 @@ gem 'whenever',                 '0.10.0', require: false
 # Redis session store and cache
 gem 'redis-namespace',          '1.6.0'
 gem 'redis-session-store',      '0.9.2'
-gem 'readthis',                 '2.1.0'
+gem 'readthis',                 '2.2.0'
 gem 'hiredis',                  '0.6.1'
 gem 'redis-rack-cache',         '2.0.2'
 
@@ -107,7 +107,7 @@ gem 'capistrano-sidekiq',       '0.20.0',  require: false
 
 group :development do
   # server
-  gem 'puma',                   '3.11.0'
+  gem 'puma',                   '3.11.2'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.6'
@@ -118,7 +118,7 @@ group :development do
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
-  gem 'bullet',                 '5.7.1'
+  gem 'bullet',                 '5.7.2'
 
   # Scss lint
   gem 'scss-lint',              '0.38.0', require: false
@@ -165,7 +165,7 @@ group :test do
   gem 'rails_best_practices',   '1.19.0',   require: false
   gem 'brakeman',               '4.1.1',    require: false
   gem 'metric_fu',              '4.12.0',   require: false
-  gem 'i18n-tasks',             '0.9.19',   require: false
+  gem 'i18n-tasks',             '0.9.20',   require: false
 end
 
 group :development, :test do
@@ -177,7 +177,7 @@ group :development, :test do
   gem 'rubocop',                '0.52.1',  require: false
 
   # Dummy data
-  gem 'factory_girl_rails',     '4.9.0'
+  gem 'factory_bot_rails',      '4.8.2'
   gem 'faker',                  '1.8.7'
 end
 
