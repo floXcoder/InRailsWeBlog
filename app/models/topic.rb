@@ -41,6 +41,10 @@ class Topic < ApplicationRecord
   # Versioning
   has_paper_trail on: [:update], only: [:name, :description_translations]
 
+  # Track activities
+  include ActAsTrackedConcern
+  acts_as_tracked :queries, :searches, :clicks, :views
+
   # Follow public activities
   include PublicActivity::Model
   tracked owner: :user
@@ -53,8 +57,7 @@ class Topic < ApplicationRecord
              word_middle: [:name, :description],
              suggest:     [:name],
              highlight:   [:name, :description],
-             language:    I18n.locale == :fr ? 'French' : 'English',
-             index_name:  -> { "#{name.tableize}-#{I18n.locale}" }
+             language:    -> { I18n.locale == :fr ? 'french' : 'english' }
 
   # Marked as deleted
   acts_as_paranoid
@@ -148,14 +151,15 @@ class Topic < ApplicationRecord
   #  current_user_id (current user id)
   #  current_topic_id (current topic id for current user)
   #  page (page number for pagination)
-  #  per_page (number of articles per page for pagination)
+  #  per_page (number of topics per page for pagination)
   #  exact (exact search or include misspellings, default: 2)
-  #  tags (array of tags associated with articles)
-  #  operator (array of tags associated with articles, default: AND)
+  #  tags (array of tags associated with topics)
+  #  operator (array of tags associated with topics, default: AND)
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
-    return { topics: [] } if Topic.count.zero?
+    # Format use
+    format = options[:format] || 'sample'
 
     # If query not defined or blank, search for everything
     query_string = !query || query.blank? ? '*' : query
@@ -171,20 +175,15 @@ class Topic < ApplicationRecord
     operator = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
-    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight     = false
+    highlight = false
 
-    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
-      [key, value]
-    end.to_h if options[:where]
-
-    where_options ||= {}
+    # Where options only for ElasticSearch
+    where_options = nil
 
     # # Aggregations
-    # aggregations  = {}
+    aggregations = nil
 
-    # Boost user articles first
+    # Boost user topics first
     boost_where = nil
 
     # Page parameters
@@ -192,27 +191,22 @@ class Topic < ApplicationRecord
     per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
 
     # Order search
-    if options[:order]
-      order = if options[:order] == 'id_first'
-                { id: :asc }
-              elsif options[:order] == 'id_last'
-                { id: :desc }
-              elsif options[:order] == 'created_first'
-                { created_at: :asc }
-              elsif options[:order] == 'created_last'
-                { created_at: :desc }
-              elsif options[:order] == 'updated_first'
-                { updated_at: :asc }
-              elsif options[:order] == 'updated_last'
-                { updated_at: :desc }
-              end
-    end
+    order = order_search(options[:order])
+
+    # Includes to add when retrieving data from DB
+    includes = if format == 'strict'
+                 [:user]
+               elsif format == 'complete'
+                 [:user]
+               else
+                 [:user]
+               end
 
     # Perform search
     results = Topic.search(query_string,
                            fields:       fields,
-                           boost_where:  boost_where,
                            highlight:    highlight,
+                           boost_where:  boost_where,
                            match:        :word_middle,
                            misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
                            suggest:      true,
@@ -221,62 +215,121 @@ class Topic < ApplicationRecord
                            operator:     operator,
                            where:        where_options,
                            order:        order,
-                           # aggs:         aggregations,
-                           includes: [:user])
+                           aggs:         aggregations,
+                           includes:     includes,
+                           execute:      !options[:defer])
 
-    # formatted_aggregations = {}
-    # results.aggs.each do |key, value|
-    #   formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
-    # end
-
-    # Track search results
-    # Topic.track_searches(results.records.ids)
-
-    topics = results.records
-    topics = topics.includes(:user)
-    topics = topics.order_by(options[:order]) if order
-
-    {
-      topics:      topics,
-      highlight:   highlight ? Hash[results.with_details.map { |topic, details| [topic.id, details[:highlight]] }] : [],
-      suggestions: results.suggestions,
-      # aggregations: formatted_aggregations,
-      total_count: results.total_count,
-      total_pages: results.total_pages
-    }
+    if options[:defer]
+      results
+    else
+      parsed_search(results, format, options[:current_user])
+    end
   end
 
   def self.autocomplete_for(query, options = {})
-    return Topic.none if Topic.count.zero?
+    # If query not defined or blank, do not search
+    query_string = !query || query.blank? ? '' : query
 
-    # If query not defined or blank, search for everything
-    query_string  = !query || query.blank? ? '*' : query
+    # Fields with boost
+    fields = %w[name^3 description]
 
     # Where options only for ElasticSearch
-    where_options = options[:where].compact.map do |key, value|
-      [key, value]
-    end.to_h if options[:where]
+    where_options ||= {}
+
+    # Order search
+    order = order_search(options[:order])
 
     # Set result limit
-    limit = options[:limit] ? options[:limit] : Setting.search_per_page
+    limit = options[:limit] ? options[:limit] : Setting.per_page
 
     # Perform search
     results = Topic.search(query_string,
-                           fields:       %w[name^3 description],
+                           fields:       fields,
                            match:        :word_middle,
                            misspellings: false,
                            load:         false,
                            where:        where_options,
-                           limit:        limit)
+                           order:        order,
+                           limit:        limit,
+                           execute:      !options[:defer])
 
-    return results.map do |topic|
-      {
-        name:    topic.name,
-        summary: topic.summary,
-        icon:    'topic',
-        link:    Rails.application.routes.url_helpers.user_topic_path(topic.user_id, topic.slug)
-      }
+    if options[:defer]
+      results
+    else
+      format_search(results, 'strict')
     end
+  end
+
+  def self.order_search(order)
+    return nil unless order
+
+    case order
+      when 'id_first'
+        { id: :asc }
+      when 'id_last'
+        { id: :desc }
+      when 'created_first'
+        { created_at: :asc }
+      when 'created_last'
+        { created_at: :desc }
+      when 'updated_first'
+        { updated_at: :asc }
+      when 'updated_last'
+        { updated_at: :desc }
+      when 'rank_first'
+        { rank: :asc }
+      when 'rank_last'
+        { rank: :desc }
+      when 'popularity_first'
+        { popularity: :asc }
+      when 'popularity_last'
+        { popularity: :desc }
+      else
+        nil
+    end
+  end
+
+  def self.format_search(topic_results, format, current_user = nil)
+    serializer_options                = case format
+                                          when 'strict'
+                                            {
+                                              root:   'topics',
+                                              strict: true
+                                            }
+                                          when 'complete'
+                                            {
+                                              complete: true
+                                            }
+                                          else
+                                            {
+                                              sample: true
+                                            }
+                                        end
+
+    serializer_options[:current_user] = current_user if current_user
+
+    Topic.as_json(topic_results, serializer_options)
+  end
+
+  def self.parsed_search(results, format, current_user = nil)
+    formatted_aggregations = {}
+    results.aggs&.each do |key, value|
+      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h if value['buckets'].any?
+    end
+
+    # Track search results
+    Topic.track_searches(results.map(&:id))
+
+    # Format results into JSON
+    topics = format_search(results, format, current_user)
+
+    {
+      topics:       topics,
+      suggestions:  results.suggestions,
+      aggregations: formatted_aggregations,
+      total_count:  results.total_count,
+      total_pages:  results.total_pages
+    }
   end
 
   def self.default_visibility(current_user = nil, current_admin = nil)
@@ -299,19 +352,49 @@ class Topic < ApplicationRecord
   end
 
   def self.order_by(order)
-    if order == 'id_first'
-      order('id ASC')
-    elsif order == 'id_last'
-      order('id DESC')
-    elsif order == 'created_first'
-      order('created_at ASC')
-    elsif order == 'created_last'
-      order('created_at DESC')
-    elsif order == 'updated_first'
-      order('updated_at ASC')
-    else
-      all
+    case order
+      when 'id_first'
+        order('id ASC')
+      when 'id_last'
+        order('id DESC')
+      when 'created_first'
+        order('created_at ASC')
+      when 'created_last'
+        order('created_at DESC')
+      when 'updated_first'
+        order('updated_at ASC')
+      when 'updated_last'
+        order('updated_at DESC')
+      else
+        all
     end
+  end
+
+  def self.as_json(topics, options = {})
+    return nil unless topics
+
+    serializer_options = {
+      root: topics.is_a?(Topic) ? 'topic' : 'topics'
+    }
+
+    serializer_options.merge(scope:      options.delete(:current_user),
+                             scope_name: :current_user) if options.has_key?(:current_user)
+
+    serializer_options[topics.is_a?(Topic) ? :serializer : :each_serializer] = if options[:strict]
+                                                                                 TopicStrictSerializer
+                                                                               elsif options[:sample]
+                                                                                 TopicSampleSerializer
+                                                                               else
+                                                                                 TopicSerializer
+                                                                               end
+
+    ActiveModelSerializers::SerializableResource.new(topics, serializer_options.merge(options)).as_json
+  end
+
+  def self.as_flat_json(topics, options = {})
+    return nil unless topics
+
+    as_json(topics, options)[topics.is_a?(Topic) ? :topic : :topics]
   end
 
   # == Instance Methods =====================================================

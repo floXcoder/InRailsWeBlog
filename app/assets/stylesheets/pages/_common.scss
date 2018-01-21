@@ -157,6 +157,10 @@ html {
 
   .blog-header {
     position: relative;
+    z-index: 4;
+    //height: 50px;
+    //background-color: #333545;
+    transition: transform 0.3s;
 
     *:focus {
       outline: none;
@@ -175,7 +179,7 @@ html {
     }
 
     nav {
-      background-color: #375962;
+      background-color: $primary-color;
       box-shadow: 0 0 3px #b5b5b5;
       height: 54px;
       line-height: 54px;

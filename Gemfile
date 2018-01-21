@@ -78,6 +78,7 @@ gem 'mini_magick',              '4.8.0'
 
 # Search in database
 gem 'searchkick',               '2.4.0'
+gem 'typhoeus',                 '1.3.0'
 
 # Votable models
 gem 'thumbs_up',                '0.6.9'
@@ -114,10 +115,10 @@ group :development do
 
   # Improve errors
   gem 'better_errors',          '2.4.0'
-  gem 'binding_of_caller',      '0.7.3'
+  gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
-  gem 'bullet',                 '5.7.0'
+  gem 'bullet',                 '5.7.1'
 
   # Scss lint
   gem 'scss-lint',              '0.38.0', require: false
@@ -185,7 +186,7 @@ group :production do
   gem 'passenger',      '~> 5'
 
   # Improve log outputs
-  gem 'lograge',        '0.7.1'
+  gem 'lograge',        '0.9.0'
 
   # Website analysis
   gem 'newrelic_rpm',   '4.7.1.340'

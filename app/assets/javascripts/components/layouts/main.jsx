@@ -66,9 +66,48 @@ export default class MainLayout extends React.Component {
         });
     };
 
+    _handleSearchOpen = () => {
+        if (this._router && this._router.location.hash !== '#search') {
+            this._router.history.push({
+                hash: 'search'
+            });
+        }
+    };
+
+    _handleSearchClose = () => {
+        if (this._router && this._router.location.hash === '#search') {
+            this._router.history.push({
+                hash: undefined
+            });
+        }
+    };
+
+    _handleCoverClick = (event) => {
+        event.preventDefault();
+
+        this._handleSearchClose();
+    };
+
     _handleGoToTopClick = (event) => {
         event.preventDefault();
+
         window.scrollTo(0, 0);
+    };
+
+    _renderPermanentRoutes = (routes) => {
+        return routes.map((route, index) => (
+            <Route key={index}
+                   children={({match, location, history}) => (
+                       <div>
+                           {
+                               location.hash === `#${route.path}` &&
+                               <route.component params={match.params}
+                                                history={history}
+                                                initialData={location.state}/>
+                           }
+                       </div>
+                   )}/>
+        ));
     };
 
     render() {
@@ -79,33 +118,28 @@ export default class MainLayout extends React.Component {
                    render={(router) => {
                        this._router = router;
 
+                       const hasSearch = router.location.hash === '#search';
+
                        return (
                            <UserManager routerState={router.location.state}>
                                <div className="blog-content">
-                                   <HeaderLayout/>
+                                   <HeaderLayout hasSearch={hasSearch}
+                                                 onSearchOpen={this._handleSearchOpen}
+                                                 onSearchClose={this._handleSearchClose}>
+                                       {
+                                           this._renderPermanentRoutes(this.props.routes.permanents.header)
+                                       }
+                                   </HeaderLayout>
 
                                    <SidebarLayout params={router.match.params}
                                                   onOpened={this._handleSidebarPinClick}/>
 
-                                   <div
-                                       className={classNames('blog-main-content', {
-                                           'blog-main-pinned': this.state.isSidebarOpened
-                                       })}>
+                                   <div className={classNames('blog-main-content', {
+                                       'blog-main-pinned': this.state.isSidebarOpened
+                                   })}>
                                        <div className="container blog-main">
                                            {
-                                               this.props.routes.permanents.map((route, index) => (
-                                                   <Route key={index}
-                                                          children={({match, location, history}) => (
-                                                              <div>
-                                                                  {
-                                                                      location.hash === `#${route.path}` &&
-                                                                      <route.component params={match.params}
-                                                                                       history={history}
-                                                                                       initialData={location.state}/>
-                                                                  }
-                                                              </div>
-                                                          )}/>
-                                               ))
+                                               this._renderPermanentRoutes(this.props.routes.permanents.main)
                                            }
 
                                            <Component params={router.match.params}
@@ -135,11 +169,15 @@ export default class MainLayout extends React.Component {
                                    </div>
 
                                    <FooterLayout/>
+
+                                   <div className={classNames('blog-cover-layer', {
+                                       'search-form-visible': hasSearch
+                                   })}
+                                   onClick={this._handleCoverClick}/>
                                </div>
                            </UserManager>
                        );
-                   }
-                   }/>
+                   }}/>
         );
     }
 }

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   # Routes managed by javascript router
   get '/user/*id',      to: 'static_pages#home'
+  get '/research',      to: 'static_pages#home'
+  get '/research/*id',  to: 'static_pages#home'
   get '/topic/*id',     to: 'static_pages#home'
   get '/tagged/*id',    to: 'static_pages#home'
   get '/tag/*id',       to: 'static_pages#home'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -75,12 +77,13 @@ class Article < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
 
   # Search
-  searchkick searchable:  [:title, :summary, :content, :reference, :tags],
-             word_middle: [:title, :summary, :content],
-             suggest:     [:title, :summary],
-             highlight:   [:content],
-             language:    I18n.locale == :fr ? 'French' : 'English',
-             index_name:  -> { "#{name.tableize}-#{I18n.locale}" }
+  searchkick searchable:  [:title, :content, :reference, :tags],
+             filterable:  [:mode, :visibility],
+             word_middle: [:title, :content],
+             suggest:     [:title],
+             highlight:   [:title, :content, :reference],
+             language:    -> { I18n.locale == :fr ? 'french' : 'english' },
+             index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
 
   # Comments
   include CommentableConcern
@@ -225,6 +228,10 @@ class Article < ApplicationRecord
     article.visibility = 'only_me' if article.draft?
   end
 
+  after_commit do
+    Article.search_index.promote("#{self.class.name.tableize}-#{self.class.current_language || I18n.locale}")
+  end
+
   # == Class Methods ========================================================
   # Article Search
   # +query+ parameter: string to query
@@ -239,7 +246,8 @@ class Article < ApplicationRecord
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
-    return { articles: [] } if Article.count.zero?
+    # Format use
+    format = options[:format] || 'sample'
 
     # If query not defined or blank, search for everything
     query_string = !query || query.blank? ? '*' : query
@@ -255,29 +263,16 @@ class Article < ApplicationRecord
     operator = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
-    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight     = { tag: '<span class="blog-highlight">' }
+    # highlight = options[:highlight] ? { fields: { content: { fragment_size: 10 } }, tag: '<span class="search-highlight">' } : false
+    highlight = options[:highlight] ? { tag: '<span class="search-highlight">' } : false
 
-    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
-      if key == :notation
-        [
-          key,
-          value.to_i
-        ]
-      else
-        [key, value]
-      end
-    end.to_h if options[:where]
-
-    where_options          ||= {}
-
-    where_options[:tags]   = { all: options[:tags] } if options[:tags]
-    where_options[:topics] = { all: options[:topics] } if options[:topics]
+    # Where options only for ElasticSearch
+    where_options = where_search(options[:where])
 
     # Aggregations
     aggregations = {
       notation: { where: { notation: { not: 0 } } },
+      mode:     {},
       tags:     {}
     }
 
@@ -291,100 +286,166 @@ class Article < ApplicationRecord
     per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
 
     # Order search
-    if options[:order]
-      order = if options[:order] == 'id_first'
-                { id: :asc }
-              elsif options[:order] == 'id_last'
-                { id: :desc }
-              elsif options[:order] == 'created_first'
-                { created_at: :asc }
-              elsif options[:order] == 'created_last'
-                { created_at: :desc }
-              elsif options[:order] == 'updated_first'
-                { updated_at: :asc }
-              elsif options[:order] == 'updated_last'
-                { updated_at: :desc }
-              elsif options[:order] == 'rank_first'
-                { rank: :asc }
-              elsif options[:order] == 'rank_last'
-                { rank: :desc }
-              elsif options[:order] == 'popularity_first'
-                { popularity: :asc }
-              elsif options[:order] == 'popularity_last'
-                { popularity: :desc }
-              end
+    order = order_search(options[:order])
+
+    # Includes to add when retrieving data from DB
+    includes = if format == 'strict'
+                 [:tags, user: [:picture]]
+               elsif format == 'complete'
+                 [:tags, user: [:picture]]
+               else
+                 [:tags, user: [:picture]]
+               end
+
+    # Perform search
+    results = Article.search(query_string,
+                             fields:        fields,
+                             highlight:     highlight,
+                             boost_where:   boost_where,
+                             match:         :word_middle,
+                             misspellings:  { below: misspellings_retry, edit_distance: misspellings_distance },
+                             suggest:       true,
+                             page:          page,
+                             per_page:      per_page,
+                             operator:      operator,
+                             where:         where_options,
+                             order:         order,
+                             aggs:          aggregations,
+                             includes:      includes,
+                             index_name:    %w[articles-fr articles-en],
+                             indices_boost: { "articles-#{I18n.locale}" => 5 },
+                             execute:       !options[:defer])
+
+    if options[:defer]
+      results
+    else
+      parsed_search(results, format, options[:current_user])
     end
+  end
+
+  def self.autocomplete_for(query, options = {})
+    # If query not defined or blank, search for everything
+    query_string = !query || query.blank? ? '*' : query
+
+    # Fields with boost
+    fields = %w[title^3 summary]
+
+    # Where options only for ElasticSearch
+    where_options = where_search(options[:where])
+
+    # Order search
+    order = order_search(options[:order])
+
+    # Set result limit
+    limit = options[:limit] ? options[:limit] : Setting.per_page
 
     # Perform search
     results = Article.search(query_string,
                              fields:       fields,
-                             boost_where:  boost_where,
-                             highlight:    highlight,
                              match:        :word_middle,
-                             misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
-                             suggest:      true,
-                             page:         page,
-                             per_page:     per_page,
-                             operator:     operator,
+                             misspellings: false,
+                             load:         false,
                              where:        where_options,
                              order:        order,
-                             aggs:         aggregations,
-                             includes:     [:user, :tags])
+                             limit:        limit,
+                             execute:      !options[:defer])
 
+    if options[:defer]
+      results
+    else
+      format_search(results, 'strict')
+    end
+  end
+
+  def self.where_search(options)
+    options ||= {}
+
+    where_options          = options.compact.reject { |_k, v| v.empty? }.map do |key, value|
+      case key
+        when :notation
+          [
+            key,
+            value.to_i
+          ]
+        else
+          [key, value]
+      end
+    end.to_h
+
+    where_options[:tags]   = { all: options[:tags] } if options[:tags]
+    where_options[:topics] = { all: options[:topics] } if options[:topics]
+
+    return where_options
+  end
+
+  def self.order_search(order)
+    return nil unless order
+
+    case order
+      when 'id_first'
+        { id: :asc }
+      when 'id_last'
+        { id: :desc }
+      when 'created_first'
+        { created_at: :asc }
+      when 'created_last'
+        { created_at: :desc }
+      when 'updated_first'
+        { updated_at: :asc }
+      when 'updated_last'
+        { updated_at: :desc }
+      when 'rank_first'
+        { rank: :asc }
+      when 'rank_last'
+        { rank: :desc }
+      when 'popularity_first'
+        { popularity: :asc }
+      when 'popularity_last'
+        { popularity: :desc }
+    end
+  end
+
+  def self.format_search(article_results, format, current_user = nil)
+    serializer_options                = case format
+                                          when 'strict'
+                                            {
+                                              root:   'articles',
+                                              strict: true
+                                            }
+                                          when 'complete'
+                                            {
+                                              complete: true
+                                            }
+                                          else
+                                            {
+                                              sample: true
+                                            }
+                                        end
+
+    serializer_options[:current_user] = current_user if current_user
+
+    Article.as_json(article_results, serializer_options)
+  end
+
+  def self.parsed_search(results, format, current_user = nil)
     formatted_aggregations = {}
-    results.aggs.each do |key, value|
-      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
+    results.aggs&.each do |key, value|
+      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h if value['buckets'].any?
     end
 
     # Track search results
-    Article.track_searches(results.records.ids)
+    Article.track_searches(results.map(&:id))
 
-    articles = results.records
-    articles = articles.includes(:user, :tags)
-    articles = articles.order_by(options[:order]) if order
+    # Format results into JSON
+    articles = format_search(results, format, current_user)
 
     {
       articles:     articles,
-      highlight:    highlight ? Hash[results.with_details.map { |article, details| [article.id, details[:highlight]] }] : [],
       suggestions:  results.suggestions,
       aggregations: formatted_aggregations,
       total_count:  results.total_count,
       total_pages:  results.total_pages
     }
-  end
-
-  def self.autocomplete_for(query, options = {})
-    return Article.none if Article.count.zero?
-
-    # If query not defined or blank, search for everything
-    query_string  = !query || query.blank? ? '*' : query
-
-    # Where options only for ElasticSearch
-    where_options = options[:where].compact.map do |key, value|
-      [key, value]
-    end.to_h if options[:where]
-    where_options ||= {}
-
-    # Set result limit
-    limit = options[:limit] ? options[:limit] : Setting.search_per_page
-
-    # Perform search
-    results = Article.search(query_string,
-                             fields:       %w[title^3 summary],
-                             match:        :word_middle,
-                             misspellings: false,
-                             load:         false,
-                             where:        where_options,
-                             limit:        limit)
-
-    return results.map do |article|
-      {
-        title:   article.title,
-        summary: article.summary,
-        icon:    'article',
-        link:    Rails.application.routes.url_helpers.article_path(article.slug)
-      }
-    end
   end
 
   def self.default_visibility(current_user = nil, current_admin = nil)
@@ -410,7 +471,7 @@ class Article < ApplicationRecord
 
     records = if filter[:parent_tag_slug] && filter[:child_tag_slug]
                 parent_article_ids = Article.all.includes(:tagged_articles).with_parent_tags(filter[:parent_tag_slug]).ids
-                child_article_ids = Article.all.includes(:tagged_articles).with_child_tags(filter[:child_tag_slug]).ids
+                child_article_ids  = Article.all.includes(:tagged_articles).with_child_tags(filter[:child_tag_slug]).ids
                 records.where(id: parent_article_ids & child_article_ids)
               elsif filter[:parent_tag_slug]
                 records.includes(:tagged_articles).with_parent_tags(filter[:parent_tag_slug])
@@ -430,42 +491,47 @@ class Article < ApplicationRecord
   end
 
   def self.order_by(order)
-    if order == 'id_first'
-      order('id ASC')
-    elsif order == 'id_last'
-      order('id DESC')
-    elsif order == 'created_first'
-      order('created_at ASC')
-    elsif order == 'created_last'
-      order('created_at DESC')
-    elsif order == 'updated_first'
-      order('updated_at ASC')
-    elsif order == 'updated_last'
-      order('updated_at DESC')
-    elsif order == 'rank_first'
-      joins(:tracker).order('rank ASC')
-    elsif order == 'rank_last'
-      joins(:tracker).order('rank DESC')
-    elsif order == 'popularity_first'
-      joins(:tracker).order('popularity ASC')
-    elsif order == 'popularity_last'
-      joins(:tracker).order('popularity DESC')
-    else
-      all
+    case order
+      when 'id_first'
+        order('id ASC')
+      when 'id_last'
+        order('id DESC')
+      when 'created_first'
+        order('created_at ASC')
+      when 'created_last'
+        order('created_at DESC')
+      when 'updated_first'
+        order('updated_at ASC')
+      when 'updated_last'
+        order('updated_at DESC')
+      when 'rank_first'
+        joins(:tracker).order('rank ASC')
+      when 'rank_last'
+        joins(:tracker).order('rank DESC')
+      when 'popularity_first'
+        joins(:tracker).order('popularity ASC')
+      when 'popularity_last'
+        joins(:tracker).order('popularity DESC')
+      else
+        all
     end
   end
 
   def self.as_json(articles, options = {})
     return nil unless articles
 
-    serializer_options = {}
+    serializer_options = {
+      root: articles.is_a?(Article) ? 'article' : 'articles'
+    }
 
     serializer_options.merge(
       scope:      options.delete(:current_user),
       scope_name: :current_user
-    ) if options.has_key?(:current_user)
+    ) if options.key?(:current_user)
 
-    serializer_options[articles.is_a?(Article) ? :serializer : :each_serializer] = if options[:sample]
+    serializer_options[articles.is_a?(Article) ? :serializer : :each_serializer] = if options[:strict]
+                                                                                     ArticleStrictSerializer
+                                                                                   elsif options[:sample]
                                                                                      ArticleSampleSerializer
                                                                                    else
                                                                                      ArticleSerializer
@@ -641,16 +707,20 @@ class Article < ApplicationRecord
     super.tr('-', '_').gsub('_at_', '@')
   end
 
+  def mode_translated
+    mode_to_tr
+  end
+
   def strip_content
-    sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish
+    sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish if self.content
   end
 
   def public_content
-    self.content.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
+    self.content&.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
   end
 
   def private_content?
-    self.content.match?(/<(\w+) class="secret">.*?<\/\1>/im)
+    self.content&.match?(/<(\w+) class="secret">.*?<\/\1>/im)
   end
 
   def adapted_content(current_user_id)
@@ -686,29 +756,32 @@ class Article < ApplicationRecord
 
   def search_data
     {
-      id:             id,
-      user_id:        user_id,
-      topic_id:       topic_id,
-      topic_name:     topic&.name,
-      topic_slug:     topic&.slug,
-      title:          title,
-      summary:        summary,
-      content:        strip_content,
-      public_content: public_content,
-      languages:      languages,
-      reference:      reference,
-      draft:          draft,
-      notation:       notation,
-      priority:       priority,
-      visibility:     visibility,
-      archived:       archived,
-      accepted:       accepted,
-      tags:           tags.pluck(:name),
-      created_at:     created_at,
-      updated_at:     updated_at,
-      rank:           rank,
-      popularity:     popularity,
-      slug:           slug
+      id:               id,
+      user_id:          user_id,
+      topic_id:         topic_id,
+      topic_name:       topic&.name,
+      topic_slug:       topic&.slug,
+      mode:             mode,
+      mode_translated:  mode_translated,
+      current_language: current_language,
+      title:            title,
+      # summary:          summary,
+      content:          public_content,
+      reference:        reference,
+      languages:        languages,
+      draft:            draft,
+      notation:         notation,
+      priority:         priority,
+      visibility:       visibility,
+      archived:         archived,
+      accepted:         accepted,
+      tags:             tags.ids,
+      created_at:       created_at,
+      updated_at:       updated_at,
+      rank:             rank,
+      popularity:       popularity,
+      slug:             slug
+      # private_content:   strip_content, # Do not expose secret content
     }
   end
 

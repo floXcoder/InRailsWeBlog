@@ -97,6 +97,9 @@ class User < ApplicationRecord
   include ActAsTrackedConcern
   acts_as_tracked :queries, :clicks, :views
 
+  # Follow public activities
+  include PublicActivity::Model
+
   # Nice url format
   include NiceUrlConcern
   friendly_id :pseudo, use: :slugged
@@ -182,6 +185,11 @@ class User < ApplicationRecord
            as:         :owner,
            class_name: 'PublicActivity::Activity'
 
+  has_many :recent_activities,
+           -> { distinct },
+           as:         :owner,
+           class_name: 'PublicActivity::Activity'
+
   # == Validations ==========================================================
   validates :pseudo,
             presence:   true,
@@ -228,7 +236,7 @@ class User < ApplicationRecord
     operator = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
-    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
+    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="search-highlight">'} : false
     highlight     = false
 
     # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
@@ -284,7 +292,6 @@ class User < ApplicationRecord
 
     {
       users:       users,
-      highlight:   highlight ? Hash[results.with_details.map { |user, details| [user.id, details[:highlight]] }] : [],
       suggestions: results.suggestions,
       total_count: results.total_count,
       total_pages: results.total_pages

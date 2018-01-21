@@ -11,6 +11,9 @@ import TagEdit from './components/loaders/tagEdit';
 import UserShow from './components/loaders/userShow';
 import UserEdit from './components/loaders/userEdit';
 
+import SearchModule from './components/loaders/searchModule';
+import SearchIndex from './components/loaders/searchIndex';
+
 export default {
     // Rails routes:
     // /users/*
@@ -41,6 +44,10 @@ export default {
                 path: '/',
                 exact: true,
                 component: ArticleIndex
+            },
+            {
+                path: '/research',
+                component: SearchIndex
             },
             {
                 path: '/user/:topicSlug',
@@ -123,12 +130,20 @@ export default {
     },
 
     // Permanents is based on hash value in URL
-    permanents: [
-        {
-            path: 'new-article',
-            component: ArticleNew
-        }
-    ]
+    permanents: {
+        header: [
+            {
+                path: 'search',
+                component: SearchModule
+            }
+        ],
+        main: [
+            {
+                path: 'new-article',
+                component: ArticleNew
+            }
+        ]
+    }
 
     // Other routes are resolved by Rails router
     // Otherwise use Redirect from Router to always return an existing route

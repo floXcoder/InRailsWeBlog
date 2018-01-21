@@ -85,8 +85,14 @@ Array.prototype.shuffle = function () {
 };
 
 Array.prototype.remove = function (item) {
-    if (this) {
+    if (this && item) {
         return this.filter(value => value !== item);
+    }
+};
+
+Array.prototype.addOrRemove = function (item) {
+    if (this && item) {
+        return this.includes(item) ? this.remove(item) : this.concat(item);
     }
 };
 

@@ -53,8 +53,8 @@ export default class ArticleTags extends React.PureComponent {
         return (
             <div className={classNames('article-tags', {'article-tags-empty': this.props.tags.length === 0})}>
                 {
-                    this.props.tags.map((tag, i) => (
-                        <div key={i}
+                    this.props.tags.map((tag) => (
+                        <div key={tag.id}
                              className="article-tag">
                             <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
                                   className={classNames(
@@ -94,7 +94,7 @@ export default class ArticleTags extends React.PureComponent {
                                         </p>
 
                                         <div className="margin-top-10">
-                                            <Link to={`/tag/${tag.slug}`}
+                                            <Link to={`/tagged/${tag.slug}`}
                                                   onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
                                                 {I18n.t('js.tag.common.link')}
                                             </Link>

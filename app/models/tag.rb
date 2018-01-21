@@ -52,7 +52,7 @@ class Tag < ApplicationRecord
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :clicks, :views
+  acts_as_tracked :queries, :searches, :clicks, :views
 
   # Follow public activities
   include PublicActivity::Model
@@ -67,8 +67,7 @@ class Tag < ApplicationRecord
              word_middle: [:name, :description],
              suggest:     [:name],
              highlight:   [:name, :description],
-             language:    I18n.locale == :fr ? 'French' : 'English',
-             index_name:  -> { "#{name.tableize}-#{I18n.locale}" }
+             language:    -> { I18n.locale == :fr ? 'french' : 'english' }
 
   # Comments
   include CommentableConcern
@@ -196,13 +195,14 @@ class Tag < ApplicationRecord
   # +options+ parameter:
   #  current_user_id (current user id)
   #  page (page number for pagination)
-  #  per_page (number of articles per page for pagination)
+  #  per_page (number of tags per page for pagination)
   #  exact (exact search or include misspellings, default: 2)
-  #  operator (array of tags associated with articles, default: AND)
+  #  operator (array of tags associated with tags, default: AND)
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
-    return { tags: [] } if Tag.count.zero?
+    # Format use
+    format = options[:format] || 'sample'
 
     # If query not defined or blank, search for everything
     query_string = !query || query.blank? ? '*' : query
@@ -218,29 +218,15 @@ class Tag < ApplicationRecord
     operator = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
-    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight     = false
+    highlight = false
 
-    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
-      if key == :notation
-        [
-          key,
-          value.to_i
-        ]
-      else
-        [key, value]
-      end
-    end.to_h if options[:where]
-
-    where_options ||= {}
+    # Where options only for ElasticSearch
+    where_options = nil
 
     # Aggregations
-    aggregations = {
-      notation: { where: { notation: { not: 0 } } }
-    }
+    aggregations = nil
 
-    # Boost user articles first
+    # Boost user tags first
     boost_where = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
 
     # Page parameters
@@ -248,36 +234,22 @@ class Tag < ApplicationRecord
     per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
 
     # Order search
-    order = nil
-    if options[:order]
-      order = if options[:order] == 'id_first'
-                { id: :asc }
-              elsif options[:order] == 'id_last'
-                { id: :desc }
-              elsif options[:order] == 'created_first'
-                { created_at: :asc }
-              elsif options[:order] == 'created_last'
-                { created_at: :desc }
-              elsif options[:order] == 'updated_first'
-                { updated_at: :asc }
-              elsif options[:order] == 'updated_last'
-                { updated_at: :desc }
-              elsif options[:order] == 'rank_first'
-                { rank: :asc }
-              elsif options[:order] == 'rank_last'
-                { rank: :desc }
-              elsif options[:order] == 'popularity_first'
-                { popularity: :asc }
-              elsif options[:order] == 'popularity_last'
-                { popularity: :desc }
-              end
-    end
+    order = order_search(options[:order])
+
+    # Includes to add when retrieving data from DB
+    includes = if format == 'strict'
+                 [:user]
+               elsif format == 'complete'
+                 [:user]
+               else
+                 [:user]
+               end
 
     # Perform search
     results = Tag.search(query_string,
                          fields:       fields,
-                         boost_where:  boost_where,
                          highlight:    highlight,
+                         boost_where:  boost_where,
                          match:        :word_middle,
                          misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
                          suggest:      true,
@@ -287,23 +259,115 @@ class Tag < ApplicationRecord
                          where:        where_options,
                          order:        order,
                          aggs:         aggregations,
-                         includes:     [:user])
+                         includes:     includes,
+                         execute:      !options[:defer])
 
+    if options[:defer]
+      results
+    else
+      parsed_search(results, format, options[:current_user])
+    end
+  end
+
+  def self.autocomplete_for(query, options = {})
+    # If query not defined or blank, search for everything
+    query_string = !query || query.blank? ? '*' : query
+
+    # Fields with boost
+    fields = %w[name^3 description]
+
+    # Where options only for ElasticSearch
+    where_options ||= {}
+
+    # Order search
+    order = order_search(options[:order])
+
+    # Set result limit
+    limit = options[:limit] ? options[:limit] : Setting.per_page
+
+    # Perform search
+    results = Tag.search(query_string,
+                         fields:       fields,
+                         match:        :word_middle,
+                         misspellings: false,
+                         load:         false,
+                         where:        where_options,
+                         order:        order,
+                         limit:        limit,
+                         execute:      !options[:defer])
+
+    if options[:defer]
+      results
+    else
+      format_search(results, 'strict')
+    end
+  end
+
+  def self.order_search(order)
+    return nil unless order
+
+    case order
+      when 'id_first'
+        { id: :asc }
+      when 'id_last'
+        { id: :desc }
+      when 'created_first'
+        { created_at: :asc }
+      when 'created_last'
+        { created_at: :desc }
+      when 'updated_first'
+        { updated_at: :asc }
+      when 'updated_last'
+        { updated_at: :desc }
+      when 'rank_first'
+        { rank: :asc }
+      when 'rank_last'
+        { rank: :desc }
+      when 'popularity_first'
+        { popularity: :asc }
+      when 'popularity_last'
+        { popularity: :desc }
+      else
+        nil
+    end
+  end
+
+  def self.format_search(tag_results, format, current_user = nil)
+    serializer_options                = case format
+                                          when 'strict'
+                                            {
+                                              root:   'tags',
+                                              strict: true
+                                            }
+                                          when 'complete'
+                                            {
+                                              complete: true
+                                            }
+                                          else
+                                            {
+                                              sample: true
+                                            }
+                                        end
+
+    serializer_options[:current_user] = current_user if current_user
+
+    Tag.as_json(tag_results, serializer_options)
+  end
+
+  def self.parsed_search(results, format, current_user = nil)
     formatted_aggregations = {}
-    results.aggs.each do |key, value|
-      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h unless value['buckets'].empty?
+    results.aggs&.each do |key, value|
+      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h if value['buckets'].any?
     end
 
     # Track search results
-    Tag.track_searches(results.records.ids)
+    Tag.track_searches(results.map(&:id))
 
-    tags = results.records
-    tags = tags.includes(:user)
-    tags = tags.order_by(options[:order]) if order
+    # Format results into JSON
+    tags = format_search(results, format, current_user)
 
     {
-      tags:         tags,
-      highlight:    highlight ? Hash[results.with_details.map { |tag, details| [tag.id, details[:highlight]] }] : [],
+      tags:     tags,
       suggestions:  results.suggestions,
       aggregations: formatted_aggregations,
       total_count:  results.total_count,
@@ -311,63 +375,30 @@ class Tag < ApplicationRecord
     }
   end
 
-  def self.autocomplete_for(query, options = {})
-    return Tag.none if Tag.count.zero?
-
-    # If query not defined or blank, search for everything
-    query_string  = !query || query.blank? ? '*' : query
-
-    # Where options only for ElasticSearch
-    where_options = options[:where].compact.map do |key, value|
-      [key, value]
-    end.to_h if options[:where]
-    where_options ||= {}
-
-    # Set result limit
-    limit = options[:limit] ? options[:limit] : Setting.search_per_page
-
-    # Perform search
-    results = Tag.search(query_string,
-                         fields:       %w[name^3],
-                         match:        :word_middle,
-                         misspellings: false,
-                         load:         false,
-                         where:        where_options,
-                         limit:        limit)
-
-    return results.map do |tag|
-      {
-        name:    tag.name,
-        summary: tag.summary,
-        icon:    'tag',
-        link:    Rails.application.routes.url_helpers.tag_path(tag.slug)
-      }
-    end
-  end
-
   def self.order_by(order)
-    if order == 'id_first'
-      order('id ASC')
-    elsif order == 'id_last'
-      order('id DESC')
-    elsif order == 'created_first'
-      order('created_at ASC')
-    elsif order == 'created_last'
-      order('created_at DESC')
-    elsif order == 'updated_first'
-      order('updated_at ASC')
-    elsif order == 'updated_last'
-      order('updated_at DESC')
-    elsif order == 'rank_first'
-      joins(:tracker).order('rank ASC')
-    elsif order == 'rank_last'
-      joins(:tracker).order('rank DESC')
-    elsif order == 'popularity_first'
-      joins(:tracker).order('popularity ASC')
-    elsif order == 'popularity_last'
-      joins(:tracker).order('popularity DESC')
-    else
-      all
+    case order
+      when 'id_first'
+        order('id ASC')
+      when 'id_last'
+        order('id DESC')
+      when 'created_first'
+        order('created_at ASC')
+      when 'created_last'
+        order('created_at DESC')
+      when 'updated_first'
+        order('updated_at ASC')
+      when 'updated_last'
+        order('updated_at DESC')
+      when 'rank_first'
+        joins(:tracker).order('rank ASC')
+      when 'rank_last'
+        joins(:tracker).order('rank DESC')
+      when 'popularity_first'
+        joins(:tracker).order('popularity ASC')
+      when 'popularity_last'
+        joins(:tracker).order('popularity DESC')
+      else
+        all
     end
   end
 
@@ -428,12 +459,16 @@ class Tag < ApplicationRecord
   def self.as_json(tags, options = {})
     return nil unless tags
 
-    serializer_options = {}
+    serializer_options = {
+      root: tags.is_a?(Tag) ? 'tag' : 'tags'
+    }
 
     serializer_options.merge(scope:      options.delete(:current_user),
                              scope_name: :current_user) if options.has_key?(:current_user)
 
-    serializer_options[tags.is_a?(Tag) ? :serializer : :each_serializer] = if options[:sample]
+    serializer_options[tags.is_a?(Tag) ? :serializer : :each_serializer] = if options[:strict]
+                                                                             TagStrictSerializer
+                                                                           elsif options[:sample]
                                                                              TagSampleSerializer
                                                                            else
                                                                              TagSerializer
@@ -512,22 +547,23 @@ class Tag < ApplicationRecord
 
   def search_data
     {
-      id:          id,
-      user_id:     user_id,
-      name:        name,
-      description: description,
-      languages:   languages,
-      synonyms:    synonyms,
-      notation:    notation,
-      priority:    priority,
-      visibility:  visibility,
-      archived:    archived,
-      accepted:    accepted,
-      created_at:  created_at,
-      updated_at:  updated_at,
-      rank:        rank,
-      popularity:  popularity,
-      slug:        slug
+      id:                    id,
+      user_id:               user_id,
+      name:                  name,
+      description:           description,
+      languages:             languages,
+      synonyms:              synonyms,
+      notation:              notation,
+      priority:              priority,
+      visibility:            visibility,
+      archived:              archived,
+      accepted:              accepted,
+      created_at:            created_at,
+      updated_at:            updated_at,
+      rank:                  rank,
+      popularity:            popularity,
+      tagged_articles_count: tagged_articles_count,
+      slug:                  slug
     }
   end
 

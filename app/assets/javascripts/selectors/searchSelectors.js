@@ -40,3 +40,35 @@ export const getAutocompleteResults = createSelector(
         return autocompletionValues;
     }
 );
+
+export const getSelectedTags = createSelector(
+    (state) => state.searchState.selectedTags,
+    (tags) => tags.toArray()
+);
+
+// Results
+export const getSearchArticles = createSelector(
+    (state) => state.searchState.articles,
+    (articles) => articles.toArray()
+);
+
+export const getSearchTags = createSelector(
+    (state) => state.searchState.tags,
+    (tags) => tags.toArray()
+);
+
+export const getSearchTopics = createSelector(
+    (state) => state.searchState.topics,
+    (topics) => topics.toArray()
+);
+
+// Suggestions
+export const getArticleSuggestions = createSelector(
+    (state) => state.searchState.articleSuggestions,
+    (articleSuggestions) => articleSuggestions && articleSuggestions.toJS()
+);
+
+export const getTagSuggestions = createSelector(
+    (state) => state.searchState.tagSuggestions,
+    (tagSuggestions) => tagSuggestions && tagSuggestions.toJS()
+);

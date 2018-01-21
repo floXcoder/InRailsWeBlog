@@ -88,11 +88,16 @@ export const pipe = (fns, state) => state.withMutations(s => fns.reduce(applyFn,
 
 export const findItemIndex = (list, itemId, id = 'id') => list.findIndex((item) => item.get(id) === itemId);
 
+export const addOrRemoveArray = (itemArray, item, id = 'id') => {
+    const itemIndex = findItemIndex(itemArray, item[id], id);
+    return mutateArray(itemArray, item, itemIndex > -1 ? item[id] : null);
+};
+
 export const mutateArray = (itemArray, newItem, removedId = null, id = 'id') => {
     if (removedId) {
         return itemArray.update(items => items.filter((item) => item[id] !== removedId));
     } else if (newItem) {
-        const index = newItem[id] && findItemIndex(itemArray, newItem[id]);
+        const index = newItem[id] && findItemIndex(itemArray, newItem[id], id);
         if (typeof index === 'undefined' || index === -1) {
             // Not found => add item to array
             return itemArray.update(items => items.concat([newItem]));

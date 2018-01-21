@@ -14,6 +14,7 @@ import * as Records from '../constants/records';
 import {
     toList,
     fetchReducer,
+    addOrRemoveArray,
     mutateArray
 } from './mutators';
 
@@ -26,6 +27,9 @@ const AutocompleteRecord = new Record({
 
     query: undefined,
 
+    actionKey: undefined,
+    highlightedTagIndex: undefined,
+
     topics: new List(),
     tags: new List(),
     articles: new List()
@@ -37,10 +41,22 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_SUCCESS:
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_ERROR:
             return fetchReducer(state, action, (payload) => ({
+                query: payload.query,
                 topics: toList(payload.topics, Records.TopicRecord),
                 tags: toList(payload.tags, Records.TagRecord),
                 articles: toList(payload.articles, Records.ArticleRecord)
             }));
+
+        case ActionTypes.SEARCH_AUTOCOMPLETE_ACTION:
+            return state.merge({
+                actionKey: action.keyCode
+            });
+
+        case ActionTypes.SEARCH_TAG_SELECTED:
+            return state.merge({
+                query: '',
+                actionKey: undefined
+            });
 
         default:
             return state;
@@ -54,6 +70,7 @@ const SearchRecord = new Record({
     hasSearched: false,
 
     searchParams: new Map(),
+    selectedTypes: new List(['article']), // initial query
     isShowingFilters: false,
     topicFilters: new Map(),
     topicActiveFilters: new Map(),
@@ -63,6 +80,8 @@ const SearchRecord = new Record({
     articleActiveFilters: new Map(),
 
     query: undefined,
+
+    selectedTags: new List(),
 
     topics: new List(),
     tags: new List(),
@@ -78,9 +97,11 @@ const SearchRecord = new Record({
     selectedFromMap: false,
 
     totalArticlePages: undefined,
-    totalTopics: undefined,
-    totalTags: undefined,
     totalArticles: undefined,
+    totalTagPages: undefined,
+    totalTags: undefined,
+    totalTopicPages: undefined,
+    totalTopics: undefined,
     currentPage: 1,
 
     relatedTopics: new List(),
@@ -94,11 +115,11 @@ const _parseSearchResults = (searchState, action) => {
     let newState = {};
 
     newState.isSearching = action.isSearching;
-    newState.isOverview = !!action.isOverview;
     newState.hasSearched = true;
 
     newState.query = action.query;
 
+    newState.selectedTypes = new List(action.selectedTypes);
     newState.searchParams = fromJS(action.searchParams);
 
     newState.topics = toList(action.topics, Records.TopicRecord);
@@ -107,10 +128,12 @@ const _parseSearchResults = (searchState, action) => {
 
     newState.hasResults = !(newState.topics.isEmpty() && newState.tags.isEmpty() && newState.articles.isEmpty());
 
-    newState.totalTopics = action.totalCount.topics;
-    newState.totalTags = action.totalCount.tags;
-    newState.totalArticles = action.totalCount.articles;
     newState.totalArticlePages = action.totalPages.articles;
+    newState.totalArticles = action.totalCount.articles;
+    newState.totalTagPages = action.totalPages.tags;
+    newState.totalTags = action.totalCount.tags;
+    newState.totalTopicPages = action.totalPages.topics;
+    newState.totalTopics = action.totalCount.topics;
 
     newState.currentPage = parseInt(action.page || action.searchParams.page || 1, 10);
 
@@ -126,9 +149,15 @@ const _parseSearchResults = (searchState, action) => {
         newState.articleFilters = new Map(action.aggregations.articles);
     }
 
-    newState.topicActiveFilters = searchState.topicActiveFilters.concat(action.topicFilters);
-    newState.tagActiveFilters = searchState.tagActiveFilters.concat(action.tagFilters);
-    newState.articleActiveFilters = searchState.articleActiveFilters.concat(action.articleFilters);
+    if (action.topicFilters) {
+        newState.topicActiveFilters = searchState.topicActiveFilters.concat(action.topicFilters);
+    }
+    if (action.tagFilters) {
+        newState.tagActiveFilters = searchState.tagActiveFilters.concat(action.tagFilters);
+    }
+    if (action.articleFilters) {
+        newState.articleActiveFilters = searchState.articleActiveFilters.concat(action.articleFilters);
+    }
 
     return searchState.merge(newState);
 };
@@ -144,6 +173,11 @@ export function searchReducer(state = new SearchRecord(), action) {
             });
         case ActionTypes.SEARCH_FETCH_SUCCESS:
             return _parseSearchResults(state, action);
+
+        case ActionTypes.SEARCH_TAG_SELECTED:
+            return state.merge({
+                selectedTags: addOrRemoveArray(state.selectedTags, action.tag)
+            });
 
         case ActionTypes.SEARCH_META_SUCCESS:
             return state.merge({

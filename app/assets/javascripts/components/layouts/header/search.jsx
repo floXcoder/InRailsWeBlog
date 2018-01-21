@@ -1,17 +1,105 @@
 'use strict';
 
-const HomeSearchHeader = ({onSearchClick}) => (
-    <a id="toggle-search"
-       className="btn waves-effect waves-light left header-normal header-button search-header-button"
-       onClick={onSearchClick}>
-        <span className="material-icons left"
-              data-icon="search"
-              aria-hidden="true"/>
-    </a>
-);
+import {
+    fetchAutocomplete,
+    setAutocompleteAction
+} from '../../../actions';
 
-HomeSearchHeader.propTypes = {
-    onSearchClick: PropTypes.func.isRequired
-};
+@connect((state) => ({
+  query: state.autocompleteState.query
+}), {
+    fetchAutocomplete,
+    setAutocompleteAction
+})
+export default class HomeSearchHeader extends React.Component {
+    static propTypes = {
+        hasSearch: PropTypes.bool.isRequired,
+        onFocus: PropTypes.func.isRequired,
+        onClose: PropTypes.func.isRequired,
+        // Fom connect
+        query: PropTypes.string,
+        fetchAutocomplete: PropTypes.func,
+        setAutocompleteAction: PropTypes.func
+    };
 
-export default HomeSearchHeader;
+    constructor(props) {
+        super(props);
+
+        this._searchInput = null;
+    }
+
+    state = {
+        value: ''
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.query === '') {
+            // On clear input (tag click, ...), set focus to continue searching
+            this.setState({
+                value: ''
+            }, () => this._searchInput.focus());
+        }
+    }
+
+    _handleChange = (event) => {
+        const value = event.target.value;
+
+        this.setState({
+            value
+        });
+
+        this.props.fetchAutocomplete({
+            selectedTypes: ['article', 'tag', 'topic'],
+            query: value,
+            limit: 6
+        });
+    };
+
+    _handleKeyDown = (event) => {
+        if (event.key && $.NAVIGATION_KEYMAP[event.which]) {
+            event.preventDefault();
+
+            // // Key code 229 is used for selecting items from character selectors (Pinyin, Kana, etc)
+            // if (event.keyCode !== 13) {
+            //     return;
+            // }
+
+            this.props.setAutocompleteAction(event.key);
+        }
+    };
+
+    render() {
+        return (
+            <form className="blog-search-header">
+                <div className={classNames(
+                    'search-header',
+                    {
+                        'has-focus': this.props.hasSearch
+                    })}>
+                    <input ref={(input) => this._searchInput = input}
+                           type="search"
+                           placeholder={I18n.t('js.search.module.placeholder')}
+                           onFocus={this.props.onFocus}
+                           onKeyDown={this._handleKeyDown}
+                           onChange={this._handleChange}
+                           value={this.state.value}/>
+
+                    <a className="search-header-button"
+                       href="/">
+                        <span className="material-icons"
+                              data-icon="search"
+                              aria-hidden="true"/>
+                    </a>
+
+                    <a className="search-header-close"
+                       href="#"
+                       onClick={this.props.onClose}>
+                        <span className="material-icons"
+                              data-icon="close"
+                              aria-hidden="true"/>
+                    </a>
+                </div>
+            </form>
+        );
+    }
+}

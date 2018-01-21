@@ -62,10 +62,6 @@ class ArticleSerializer < ActiveModel::Serializer
   # has_many :parent_tags, serializer: TagSampleSerializer
   # has_many :child_tags, serializer: TagSampleSerializer
 
-  def mode_translated
-    object.mode_to_tr
-  end
-
   def content
     current_user_id = defined?(current_user) && current_user ? current_user.id : nil
     object.adapted_content(current_user_id)

@@ -1,15 +1,12 @@
 'use strict';
 
-// 'search',
-// 'autocomplete'
-
 import _ from 'lodash';
-
-import * as ActionTypes from '../constants/actionTypes';
 
 import api from '../middlewares/api';
 
 import History from '../modules/history';
+
+import * as ActionTypes from '../constants/actionTypes';
 
 import {
     spySearchResults
@@ -32,6 +29,27 @@ export const fetchAutocomplete = (autocompleteParams) => ({
     }
 });
 
+const actionAutocomplete = (keyCode) => ({
+    type: ActionTypes.SEARCH_AUTOCOMPLETE_ACTION,
+    keyCode
+});
+
+export const setAutocompleteAction = (keyCode) => (dispatch) => {
+    // To ensure, action change before each key press
+    dispatch(actionAutocomplete());
+
+    return dispatch(actionAutocomplete(keyCode));
+};
+
+const tagSelection = (tag) => ({
+    type: ActionTypes.SEARCH_TAG_SELECTED,
+    tag
+});
+
+export const setSelectedTag = (tag) => (dispatch) => {
+    return dispatch(tagSelection(tag));
+};
+
 // Search history
 export const getSearchHistory = (params = {}) => (dispatch) => {
     const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
@@ -42,7 +60,7 @@ export const getSearchHistory = (params = {}) => (dispatch) => {
     }
 };
 
-export const saveSearchHistory = () => (dispatch) => {
+export const searchOnHistoryChange = () => (dispatch) => {
     History.onStateChange((newState) => {
         if (newState.globalSearchData) {
             dispatch(fetchSearch(newState.globalSearchData, false));
@@ -65,7 +83,7 @@ const _saveHistory = (searchState, searchData) => {
             query: searchData.query
         },
         _.omit(_.merge({
-            // price: null
+            // test: null
         }, searchData), ['query'])
     );
 
@@ -98,8 +116,8 @@ const receiveSearch = (searchParams, json, options = {}) => ({
     topics: json.topics || [],
     tags: json.tags || [],
     articles: json.articles || [],
-    topicFilters: options.filterType === 'product' && options.filters,
-    tagFilters: options.filterType === 'shop' && options.filters,
+    topicFilters: options.filterType === 'topic' && options.filters,
+    tagFilters: options.filterType === 'tag' && options.filters,
     articleFilters: options.filterType === 'article' && options.filters
 });
 
@@ -124,12 +142,17 @@ export const fetchSearch = (searchData, saveHistory = true) => (dispatch, getSta
         return;
     }
 
-    let searchParams = {
+    const searchParams = {
         ...$.decodeObject(searchData)
     };
 
     if (saveHistory) {
         _saveHistory(getState().searchState, searchParams);
+    }
+
+    // Set default search parameters
+    if (!searchParams.selectedTypes) {
+        searchParams.selectedTypes = ['article', 'tag'];
     }
 
     return dispatch(performSearch(searchParams));

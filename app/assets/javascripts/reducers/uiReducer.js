@@ -15,7 +15,7 @@ const initState = new Record({
 
     isTopicPopupOpened: false,
 
-    isSearchPopupOpened: false,
+    // isSearchPopupOpened: false,
 
     articlesLoaderMode: 'infinite',
     articleDisplayMode: 'card'
@@ -43,10 +43,10 @@ export default function topicReducer(state = new initState(), action) {
                 isTopicPopupOpened: !state.isTopicPopupOpened
             });
 
-        case ActionTypes.UI_SWITCH_SEARCH_POPUP:
-            return state.merge({
-                isSearchPopupOpened: !state.isSearchPopupOpened
-            });
+        // case ActionTypes.UI_SWITCH_SEARCH_POPUP:
+        //     return state.merge({
+        //         isSearchPopupOpened: !state.isSearchPopupOpened
+        //     });
 
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:

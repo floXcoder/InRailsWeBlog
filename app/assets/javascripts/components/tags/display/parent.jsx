@@ -4,6 +4,10 @@ import {
     NavLink
 } from 'react-router-dom';
 
+import {
+    spyTrackClick
+} from '../../../actions';
+
 import ChildTag from './child';
 
 export default class ParentTag extends React.PureComponent {
@@ -27,6 +31,8 @@ export default class ParentTag extends React.PureComponent {
     }
 
     _handleTagClick = () => {
+        spyTrackClick('tag', this.props.tag.id);
+
         if (!this.state.isExpanded) {
             this.setState({
                 isExpanded: !this.state.isExpanded

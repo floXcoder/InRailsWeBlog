@@ -178,6 +178,7 @@ export default class ArticleFormDisplay extends React.Component {
                                     <AccordionItem title={I18n.t('js.article.common.advanced')}
                                                    isOpen={false}>
                                         <ArticleAdvancedField currentMode={this.state.currentMode}
+                                                              articleReference={this.props.children.reference}
                                                               articleVisibility={this.props.children.visibility}
                                                               articleAllowComment={this.props.children.allowComment}
                                                               articleLanguage={this.props.children.currentLanguage}

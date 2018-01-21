@@ -9,7 +9,8 @@ $icons-font-path: '/assets/fonts/';
 // Base colors
 $transparency-color: .5;
 
-$spectra-color: #375962;
+//$spectra-color: #375962;
+$spectra-color: rgba(39, 58, 75, .97);
 $spectra-color-transparent: rgba(55, 89, 98, $transparency-color);
 $astral-color: #3c8ca1;
 $astral-color-transparent: rgba(60, 140, 161, $transparency-color);

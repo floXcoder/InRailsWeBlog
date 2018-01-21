@@ -77,7 +77,7 @@ module TranslationConcern
     end
 
     def apply_translations_options(options)
-      class_attribute :translated_attribute_fields, :translation_languages_field, :fallbacks_for_empty_translations, :auto_strip_translation_fields
+      class_attribute :translated_attribute_fields, :translation_languages_field, :fallbacks_for_empty_translations, :auto_strip_translation_fields, :current_language
       self.translated_attribute_fields      = []
       self.translation_languages_field      = :languages
       self.fallbacks_for_empty_translations = options[:fallbacks_for_empty_translations]
@@ -101,6 +101,9 @@ module TranslationConcern
           available_languages = send(:languages)
           self.current_language = available_languages.first if !available_languages.empty? && !translation_keys.include?(self.current_language)
         end
+
+        # For search indexing
+        self.class.current_language = self.current_language
 
         send("#{field}_translations")[self.current_language]
       end

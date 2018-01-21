@@ -5,7 +5,6 @@ import {
     switchUserSignup,
     switchUserLogin,
     switchTopicPopup,
-    switchSearchPopup,
     fetchTopic
 } from '../../actions';
 
@@ -15,8 +14,6 @@ import Login from '../users/login';
 import Signup from '../users/signup';
 
 import TopicModule from '../topic/module';
-
-import SearchModule from '../search/module';
 
 import HomeSearchHeader from './header/search';
 import HomeArticleHeader from './header/article';
@@ -41,11 +38,14 @@ import HomeTopicHeader from './header/topic';
     switchUserSignup,
     switchUserLogin,
     switchTopicPopup,
-    switchSearchPopup,
     fetchTopic
 })
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
+        hasSearch: PropTypes.bool.isRequired,
+        onSearchOpen: PropTypes.func.isRequired,
+        onSearchClose: PropTypes.func.isRequired,
+        children: PropTypes.array.isRequired,
         // From connect
         isUserPopupOpened: PropTypes.bool,
         isUserSignupOpened: PropTypes.bool,
@@ -62,12 +62,19 @@ export default class HeaderLayout extends React.PureComponent {
         switchUserSignup: PropTypes.func,
         switchUserLogin: PropTypes.func,
         switchTopicPopup: PropTypes.func,
-        switchSearchPopup: PropTypes.func,
         fetchTopic: PropTypes.func
     };
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        $(document).keyup(function (event) {
+            if (event.which === '27') {
+                this.props.onSearchClose();
+            }
+        }.bind(this));
     }
 
     _handleSignupClick = (event) => {
@@ -88,15 +95,9 @@ export default class HeaderLayout extends React.PureComponent {
         this.props.switchTopicPopup(!this.props.isTopicPopupOpened);
     };
 
-    _handleSearchClick = (event) => {
-        event.preventDefault();
-
-        this.props.switchSearchPopup(!this.props.isSearchPopupOpened);
-    };
-
     render() {
         return (
-            <header className="blog-header">
+            <header className="blog-header animate-search">
                 <div className="navbar-fixed">
                     <nav>
                         <div className="nav-wrapper">
@@ -108,16 +109,17 @@ export default class HeaderLayout extends React.PureComponent {
                                                          onTopicClick={this._handleTopicClick}/>
                                     </li>
                                 }
-
-                                <li>
-                                    <HomeSearchHeader onSearchClick={this._handleSearchClick}/>
-                                </li>
                             </ul>
+
+                            <HomeSearchHeader hasSearch={this.props.hasSearch}
+                                              onFocus={this.props.onSearchOpen}
+                                              onClose={this.props.onSearchClose}/>
 
                             <a className="brand-logo center"
                                href="/">
                                 {I18n.t('js.views.header.title')}
                             </a>
+
 
                             <ul className="right hide-on-med-and-down">
                                 <li>
@@ -145,13 +147,18 @@ export default class HeaderLayout extends React.PureComponent {
                     </nav>
                 </div>
 
+                <div className={classNames('search-module', {
+                    'is-visible': this.props.hasSearch
+                })}>
+                    {
+                        this.props.hasSearch &&
+                        this.props.children
+                    }
+                </div>
+
                 <Dialog isOpened={this.props.isTopicPopupOpened}>
                     <TopicModule/>
                 </Dialog>
-
-                <div className="blog-search-nav row">
-                    <SearchModule isOpened={this.props.isSearchPopupOpened}/>
-                </div>
 
                 <div id="clipboard-area"
                      className="hidden">

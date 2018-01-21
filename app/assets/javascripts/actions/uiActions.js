@@ -21,6 +21,6 @@ export const switchTopicPopup = () => ({
 });
 
 // Search
-export const switchSearchPopup = () => ({
-    type: ActionTypes.UI_SWITCH_SEARCH_POPUP
-});
+// export const switchSearchPopup = () => ({
+//     type: ActionTypes.UI_SWITCH_SEARCH_POPUP
+// });

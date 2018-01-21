@@ -237,6 +237,8 @@ fr:
           title:
             story: "Titre de votre article"
           reference:
+            note: "Lien vers la source d'origine"
+            story: "Lien vers la source d'origine"
             link: "Lien à référencer"
           content:
             story: "Contenu de votre article"
@@ -355,8 +357,15 @@ fr:
           default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
           bookmark: "%{message}"
     search:
-      placeholder: "Rechercher ..."
-      url: "Recherche :"
+      module:
+        placeholder: "Recherche"
+        button: "Rechercher"
+        tags:
+          title: "Labels"
+        articles:
+          title: "Articles"
+      index:
+        placeholder: "Recherche"
     comment:
       common:
         route: "commentaires"
