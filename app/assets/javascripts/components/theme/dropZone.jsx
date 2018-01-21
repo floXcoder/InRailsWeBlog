@@ -197,7 +197,7 @@ export default class DropZone extends React.Component {
             upload: upload
         };
 
-        $.ajax({
+        Utils.ajax({
             url: url,
             dataType: 'json',
             type: 'POST',
@@ -240,7 +240,7 @@ export default class DropZone extends React.Component {
             _method: 'delete'
         };
 
-        $.ajax({
+        Utils.ajax({
             url: url,
             dataType: 'json',
             type: 'POST',

@@ -155,14 +155,14 @@ export default class Input extends React.Component {
             <div className={wrapperClass}>
                 <div className={fieldClass}>
                     {
-                        this.props.icon && $.is().isString(this.props.icon) &&
+                        this.props.icon && Utils.is().isString(this.props.icon) &&
                         <span className={iconClass}
                               data-icon={this.props.icon}
                               aria-hidden="true"/>
                     }
 
                     {
-                        this.props.icon && $.is().isObject(this.props.icon) &&
+                        this.props.icon && Utils.is().isObject(this.props.icon) &&
                         this.props.icon
                     }
 

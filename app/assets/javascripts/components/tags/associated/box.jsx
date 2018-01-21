@@ -24,16 +24,16 @@ export default class AssociatedTagBox extends React.Component {
     };
 
     onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
+        if (Utils.isEmpty(articleData)) {
             return;
         }
 
         // TODO: move to selectors
-        if (!$.isEmpty(articleData.articles)) {
+        if (!Utils.isEmpty(articleData.articles)) {
             let associatedTags = [];
 
             articleData.articles.forEach((article) => {
-                if (!$.isEmpty(article.tags)) {
+                if (!Utils.isEmpty(article.tags)) {
                     associatedTags = associatedTags.concat(article.tags);
                 }
             });

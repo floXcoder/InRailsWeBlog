@@ -84,7 +84,7 @@ export default class UserComplete extends React.Component {
     };
 
     onUserChange(userData) {
-        if ($.isEmpty(userData)) {
+        if (Utils.isEmpty(userData)) {
             return;
         }
 
@@ -106,13 +106,13 @@ export default class UserComplete extends React.Component {
             newState.activitiesPagination = userData.pagination;
         }
 
-        if (!$.isEmpty(newState)) {
+        if (!Utils.isEmpty(newState)) {
             this.setState(newState);
         }
     }
 
     onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
+        if (Utils.isEmpty(articleData)) {
             return;
         }
 

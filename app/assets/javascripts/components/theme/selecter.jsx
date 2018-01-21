@@ -43,7 +43,7 @@ export default class Selecter extends React.Component {
     }
 
     state = {
-        values: (() => ((this.props.children || []).map((element) => !$.isEmpty(element) ? {
+        values: (() => ((this.props.children || []).map((element) => !Utils.isEmpty(element) ? {
                 label: element,
                 value: element
             } : null

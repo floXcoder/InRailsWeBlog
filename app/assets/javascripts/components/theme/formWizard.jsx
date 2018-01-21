@@ -33,7 +33,7 @@ export default class FormWizard extends React.Component {
 
     state = {
         totalSteps: this.props.children.length - 1,
-        currentStep: (() => ($.getUrlAnchor() && $.getUrlAnchor().includes(this.props.id)) ? parseInt($.getUrlAnchor().replace(this.props.id, ''), 10) : 0)(),
+        currentStep: (() => (Utils.getUrlAnchor() && Utils.getUrlAnchor().includes(this.props.id)) ? parseInt(Utils.getUrlAnchor().replace(this.props.id, ''), 10) : 0)(),
     };
 
     _handleStepClick = (i) => {
@@ -60,7 +60,7 @@ export default class FormWizard extends React.Component {
                         }
                     } else if (prevStepValidation === true) {
                     } else {
-                        if ($.isEmpty(prevStepValidation)) {
+                        if (Utils.isEmpty(prevStepValidation)) {
                             return;
                         } else {
                             newStep = prevStepValidation;
@@ -95,7 +95,7 @@ export default class FormWizard extends React.Component {
                         }
                     } else if (nextStepValidation === true) {
                     } else {
-                        if ($.isEmpty(nextStepValidation)) {
+                        if (Utils.isEmpty(nextStepValidation)) {
                             return;
                         } else {
                             newStep = nextStepValidation;

@@ -46,7 +46,7 @@ describe('<TagSidebar />', () => {
         // checkbox.find('input').simulate('change');
         // expect(checkbox.text()).toEqual('On');
 
-        expect($.getJSON.mock.calls.length).toEqual(2);
+        expect(Utils.getJSON.mock.calls.length).toEqual(2);
 
     });
 

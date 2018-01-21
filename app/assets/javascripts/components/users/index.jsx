@@ -32,7 +32,7 @@ export default class UserIndex extends React.Component {
     };
 
     onUserChange(userData) {
-        if ($.isEmpty(userData)) {
+        if (Utils.isEmpty(userData)) {
             return;
         }
 
@@ -43,7 +43,7 @@ export default class UserIndex extends React.Component {
             newState.usersPagination = userData.meta;
         }
 
-        if (!$.isEmpty(newState)) {
+        if (!Utils.isEmpty(newState)) {
             this.setState(newState);
         }
     }

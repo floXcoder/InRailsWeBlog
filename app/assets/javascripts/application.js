@@ -10,7 +10,8 @@ import 'jquery-ujs';
 import './common/materialize';
 
 // Expose global variables
-import './modules/utils';
+import * as utils from './modules/utils';
+window.Utils = utils;
 
 // Notifications
 import 'expose-loader?Notification!./components/theme/notification';

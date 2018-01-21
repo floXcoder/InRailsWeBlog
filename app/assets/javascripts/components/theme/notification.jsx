@@ -31,7 +31,7 @@ class Notification extends React.Component {
     };
 
     _add = (level, message, time = 10, actionButton, actionCallback) => {
-        const key = $.uuid();
+        const key = Utils.uuid();
 
         return this.setState({
             notifications: this.state.notifications.add({

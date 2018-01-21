@@ -160,7 +160,7 @@ global.renderer = renderer;
 
 // Fake server
 global.initSession = (data) => {
-    $.getJSON = jest.genMockFunction().mockReturnValue({
+    Utils.getJSON = jest.genMockFunction().mockReturnValue({
         done: (callback) => {
             callback(data);
 
@@ -173,7 +173,7 @@ global.initSession = (data) => {
 };
 
 global.resetSession = () => {
-    $.getJSON.mockReset();
+    Utils.getJSON.mockReset();
 };
 
 

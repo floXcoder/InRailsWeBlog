@@ -7,7 +7,7 @@ $('#user_country').material_select();
 
 // Check user image size
 $('input[id^="user_picture_attributes_image"], input[id^="user_picture_attributes_remote_image_url"]').bind('change', (event) => {
-    if ($.isEmpty(event.target.files)) {
+    if (Utils.isEmpty(event.target.files)) {
         return;
     }
 
@@ -48,7 +48,7 @@ $('#user_birth_date').pickadate({
 //
 // // Check user image size
 // $('input[id^="user_picture_attributes_image"], input[id^="user_picture_attributes_remote_image_url"]').bind('change', function () {
-//     if($.isEmpty(this.files)) {
+//     if(Utils.isEmpty(this.files)) {
 //         return;
 //     }
 //

@@ -49,7 +49,7 @@ export default class TagSidebar extends React.Component {
     };
 
     render() {
-        const isFiltering = !$.isEmpty(this.props.filterText);
+        const isFiltering = !Utils.isEmpty(this.props.filterText);
 
         return (
             <div className="blog-sidebar-tag">

@@ -46,7 +46,7 @@ export default class ArticleEditionDisplay extends React.Component {
     // _handleEditorChange (event) {
     //     let text = event.currentTarget.textContent;
     //
-    //     if ($.isURL(text.trim()) && !this.state.isLink) {
+    //     if (Utils.isURL(text.trim()) && !this.state.isLink) {
     //         this.setState({isLink: true});
     //         this._editor.reset();
     //         this.state.editor.summernote("createLink", {
@@ -54,7 +54,7 @@ export default class ArticleEditionDisplay extends React.Component {
     //             url: text.trim(),
     //             isNewWindow: true
     //         });
-    //     } else if (this.state.isLink && !$.isURL(text.trim())) {
+    //     } else if (this.state.isLink && !Utils.isURL(text.trim())) {
     //         this.state.isLink = false;
     //         this.setState({isLink: false});
     //     }

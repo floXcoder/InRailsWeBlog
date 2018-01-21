@@ -34,7 +34,7 @@ export default class UserEdit extends React.Component {
     };
 
     onUserChange(userData) {
-        if ($.isEmpty(userData)) {
+        if (Utils.isEmpty(userData)) {
             return;
         }
 
@@ -46,13 +46,13 @@ export default class UserEdit extends React.Component {
             newState.userTracker.sign_in_count = userData.user.sign_in_count;
         }
 
-        if (!$.isEmpty(newState)) {
+        if (!Utils.isEmpty(newState)) {
             this.setState(newState);
         }
     }
 
     render() {
-        if ($.isEmpty(this.state.user)) {
+        if (Utils.isEmpty(this.state.user)) {
             return null;
         }
 

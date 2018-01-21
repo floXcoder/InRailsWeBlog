@@ -44,7 +44,7 @@ export default class Submit extends React.Component {
                         type="submit"
                         name="commit"
                         className={classNames(this.props.buttonType, 'waves-effect waves-light', this.props.className, {
-                            tooltipped: !$.isEmpty(this.props.tooltipMessage),
+                            tooltipped: !Utils.isEmpty(this.props.tooltipMessage),
                             disabled: this.props.isDisabled
                         })}
                         data-position="top"
@@ -60,7 +60,7 @@ export default class Submit extends React.Component {
                        name="commit"
                        disabled={this.props.isDisabled}
                        className={classNames(this.props.buttonType, 'waves-effect waves-light', this.props.className, {
-                           tooltipped: !$.isEmpty(this.props.tooltipMessage),
+                           tooltipped: !Utils.isEmpty(this.props.tooltipMessage),
                            disabled: this.props.isDisabled
                        })}
                        data-position="top"

@@ -118,7 +118,7 @@ export default class AutoSuggest extends React.Component {
     _formatResults = (suggestions) => {
         let results = [];
 
-        if ($.is().isObject(suggestions)) {
+        if (Utils.is().isObject(suggestions)) {
             Object.keys(suggestions).forEach((key) => {
                 const value = suggestions[key];
                 if (Array.isArray(value)) {
@@ -167,7 +167,7 @@ export default class AutoSuggest extends React.Component {
         return (
             <span className="suggestion-content">
                 {
-                    !$.isEmpty(suggestion[this.props.suggestionKeyPicture]) &&
+                    !Utils.isEmpty(suggestion[this.props.suggestionKeyPicture]) &&
                     <span className="picture">
                         <img src={suggestion[this.props.suggestionKeyPicture]}
                              className="img-helper activator"/>
@@ -175,7 +175,7 @@ export default class AutoSuggest extends React.Component {
                 }
 
                 {
-                    !$.isEmpty(suggestion[this.props.suggestionKeyIcon]) &&
+                    !Utils.isEmpty(suggestion[this.props.suggestionKeyIcon]) &&
                     <span className={classNames('suggest-icon', suggestion[this.props.suggestionKeyIcon])}/>
                 }
 

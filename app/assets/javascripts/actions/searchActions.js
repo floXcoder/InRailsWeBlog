@@ -55,7 +55,7 @@ export const getSearchHistory = (params = {}) => (dispatch) => {
     const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
     const searchData = {...previousSearchData, ...params};
 
-    if (!$.isEmpty($.omit(searchData, ['locale', 'new_lang']))) {
+    if (!Utils.isEmpty(Utils.omit(searchData, ['locale', 'new_lang']))) {
         dispatch(fetchSearch(searchData, false));
     }
 };
@@ -138,12 +138,12 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
 };
 
 export const fetchSearch = (searchData, saveHistory = true) => (dispatch, getState) => {
-    if ($.isEmpty(searchData)) {
+    if (Utils.isEmpty(searchData)) {
         return;
     }
 
     const searchParams = {
-        ...$.decodeObject(searchData)
+        ...Utils.decodeObject(searchData)
     };
 
     if (saveHistory) {

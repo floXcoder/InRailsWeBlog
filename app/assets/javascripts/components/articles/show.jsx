@@ -163,7 +163,7 @@ export default class ArticleShow extends React.Component {
                         </div>
 
                         {
-                            (!$.isEmpty(this.props.article.title) || !$.isEmpty(this.props.article.summary)) &&
+                            (!Utils.isEmpty(this.props.article.title) || !Utils.isEmpty(this.props.article.summary)) &&
                             <AnimatedText title={this.props.article.title}
                                           subtitle={this.props.article.summary}/>
                         }

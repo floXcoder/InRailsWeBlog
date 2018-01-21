@@ -38,7 +38,7 @@ export default class Button extends React.PureComponent {
         const buttonClass = classNames(
             'btn waves-effect waves-light',
             this.props.className,
-            {'tooltip-bottom': !$.isEmpty(this.props.tooltip)}
+            {'tooltip-bottom': !Utils.isEmpty(this.props.tooltip)}
         );
 
         return (

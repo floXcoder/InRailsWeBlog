@@ -18,12 +18,12 @@ export const fetchReducer = (state, action, payloadReducer, omitItems = []) => {
         case 'FETCH_INIT':
             return state.merge({
                 isFetching,
-                ...$.omit(actionContent, omitItems)
+                ...Utils.omit(actionContent, omitItems)
             });
         case 'FETCH_SUCCESS':
             return state.merge({
                 isFetching,
-                ...$.omit(actionContent, omitItems),
+                ...Utils.omit(actionContent, omitItems),
                 ...payloadReducer({...actionContent, meta}),
                 pagination: meta || {},
                 errors: new Map()
@@ -31,7 +31,7 @@ export const fetchReducer = (state, action, payloadReducer, omitItems = []) => {
         case 'FETCH_ERROR':
             return state.merge({
                 isFetching,
-                ...$.omit(actionContent, omitItems)
+                ...Utils.omit(actionContent, omitItems)
             });
         default:
             return state;
@@ -51,19 +51,19 @@ export const mutationReducer = (state, action, payloadReducer, omitItems = []) =
         case 'CHANGE_INIT':
             return state.merge({
                 isProcessing,
-                ...$.omit(actionContent, omitItems)
+                ...Utils.omit(actionContent, omitItems)
             });
         case 'CHANGE_SUCCESS':
             return state.merge({
                 isProcessing,
-                ...$.omit(actionContent, omitItems),
+                ...Utils.omit(actionContent, omitItems),
                 ...payloadReducer(actionContent),
                 errors: new Map()
             });
         case 'CHANGE_ERROR':
             return state.merge({
                 isProcessing,
-                ...$.omit(actionContent, omitItems)
+                ...Utils.omit(actionContent, omitItems)
             });
         default:
             return state;

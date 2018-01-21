@@ -88,7 +88,7 @@ export default class ArticleTags extends React.PureComponent {
 
                                         <p>
                                             {
-                                                !$.isEmpty(tag.synonyms) &&
+                                                !Utils.isEmpty(tag.synonyms) &&
                                                 I18n.t('js.tag.model.synonyms') + ' : ' + tag.synonyms.join(', ')
                                             }
                                         </p>

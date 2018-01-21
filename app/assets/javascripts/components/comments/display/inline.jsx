@@ -95,7 +95,7 @@ export default class CommentInlineDisplay extends React.Component {
             commentToUpdate[this.state.editingField] = this.refs[this.state.editingField].value();
         }
 
-        if (!$.isEmpty(commentToUpdate)) {
+        if (!Utils.isEmpty(commentToUpdate)) {
             commentToUpdate.id = this.props.comment.id;
             this.props.updateComment(commentToUpdate, this.props.comment.commentable.id, {url: this.props.comment.commentable.link});
         }

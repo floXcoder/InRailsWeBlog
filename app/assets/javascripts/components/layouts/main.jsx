@@ -35,7 +35,7 @@ export default class MainLayout extends React.Component {
 
         props.onPaste((content) => {
             if (content && this._router && this.props.path !== '/article/new' && this._router.location.hash !== '#new-article') {
-                const isURL = $.isURL(content.trim());
+                const isURL = Utils.isURL(content.trim());
 
                 let articleData = {};
                 if (isURL) {

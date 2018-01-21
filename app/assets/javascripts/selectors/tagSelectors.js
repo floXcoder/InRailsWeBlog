@@ -21,10 +21,10 @@ export const getClassifiedTags = createSelector(
             let parents = [];
             let children = [];
 
-            if (!$.isEmpty(tag.parentIds)) {
+            if (!Utils.isEmpty(tag.parentIds)) {
                 parents = tag.parentIds.map((parentId) => {
                     const parentTag = tags.find((tag) => tag.id === parentId);
-                    if (!!parentTag && !$.isEmpty(filterText) && !Fuzzy.match(filterText, parentTag.name)) {
+                    if (!!parentTag && !Utils.isEmpty(filterText) && !Fuzzy.match(filterText, parentTag.name)) {
                         return null;
                     } else {
                         return parentTag && _.omit(parentTag.toJS(), ['parentIds', 'childIds']);
@@ -32,10 +32,10 @@ export const getClassifiedTags = createSelector(
                 }).compact();
             }
 
-            if (!$.isEmpty(tag.childIds)) {
+            if (!Utils.isEmpty(tag.childIds)) {
                 children = tag.childIds.map((childId) => {
                     const childTag = tags.find((tag) => tag.id === childId);
-                    if (!!childTag && !$.isEmpty(filterText) && !Fuzzy.match(filterText, childTag.name)) {
+                    if (!!childTag && !Utils.isEmpty(filterText) && !Fuzzy.match(filterText, childTag.name)) {
                         return null;
                     } else {
                         return childTag && _.omit(childTag.toJS(), ['parentIds', 'childIds']);
@@ -43,7 +43,7 @@ export const getClassifiedTags = createSelector(
                 }).compact();
             }
 
-            if (!$.isEmpty(filterText) && $.isEmpty(children) && !Fuzzy.match(filterText, tag.name)) {
+            if (!Utils.isEmpty(filterText) && Utils.isEmpty(children) && !Fuzzy.match(filterText, tag.name)) {
                 return null;
             }
 

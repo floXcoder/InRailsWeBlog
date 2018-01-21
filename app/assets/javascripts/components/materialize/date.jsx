@@ -63,7 +63,7 @@ export default class Date extends React.PureComponent {
             clear: I18n.t('js.date.buttons.clear'),
             close: I18n.t('js.date.buttons.close'),
             onSet: (context) => {
-                if (!$.isEmpty(context)) {
+                if (!Utils.isEmpty(context)) {
                     this.setState({
                         dateSelected: true
                     })

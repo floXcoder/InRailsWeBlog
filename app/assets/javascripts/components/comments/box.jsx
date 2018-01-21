@@ -80,7 +80,7 @@ export default class CommentBox extends React.Component {
     };
 
     componentWillMount() {
-        if ($.isEmpty(this.props.initialComments)) {
+        if (Utils.isEmpty(this.props.initialComments)) {
             this._loadComments();
         } else {
             this.setState({
@@ -100,7 +100,7 @@ export default class CommentBox extends React.Component {
     _loadComments = () => {
         if (!this.state.isCommentsLoaded && !this.props.isLoadingComments) {
             // Check if comment count is not null to avoid useless fetching
-            if (!$.isEmpty(this.props.commentsCount) && this.props.commentsCount === 0) {
+            if (!Utils.isEmpty(this.props.commentsCount) && this.props.commentsCount === 0) {
                 this.setState({
                     isCommentsLoaded: true
                 });

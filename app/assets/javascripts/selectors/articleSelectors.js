@@ -53,7 +53,7 @@ export const getArticleErrors = createSelector(
 
 // TODO: useful ?
 // export const getArticleContent = (stateArticles, id) => {
-//     // return isHighlightingResults && !$.isEmpty(article.highlight_content) ?
+//     // return isHighlightingResults && !Utils.isEmpty(article.highlight_content) ?
 //     //     article.highlight_content :
 //     //     article.content
 //

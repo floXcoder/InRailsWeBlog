@@ -38,7 +38,7 @@ export default class TagShow extends React.Component {
     };
 
     // onTagChange(tagData) {
-    //     if ($.isEmpty(tagData)) {
+    //     if (Utils.isEmpty(tagData)) {
     //         return;
     //     }
     //
@@ -48,7 +48,7 @@ export default class TagShow extends React.Component {
     //         newState.tag = tagData.tag;
     //     }
     //
-    //     if (!$.isEmpty(newState)) {
+    //     if (!Utils.isEmpty(newState)) {
     //         this.setState(newState);
     //     }
     // }
@@ -67,7 +67,7 @@ export default class TagShow extends React.Component {
     // }
 
     render() {
-        if ($.isEmpty(this.state.tag)) {
+        if (Utils.isEmpty(this.state.tag)) {
             return null;
         }
 

@@ -3,7 +3,7 @@
 const UserTracking = ({tracking}) => (
     <div className="user-tracking row center-align">
         {
-            $.toMap(tracking, (index, value) => (
+            Utils.toMap(tracking, (index, value) => (
                 <div key={index}
                      className="col s12 m6">
                     <strong className="tracking-number">

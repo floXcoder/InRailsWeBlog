@@ -56,7 +56,7 @@ export default class HomeSearchHeader extends React.Component {
     };
 
     _handleKeyDown = (event) => {
-        if (event.key && $.NAVIGATION_KEYMAP[event.which]) {
+        if (event.key && Utils.NAVIGATION_KEYMAP[event.which]) {
             event.preventDefault();
 
             // // Key code 229 is used for selecting items from character selectors (Pinyin, Kana, etc)

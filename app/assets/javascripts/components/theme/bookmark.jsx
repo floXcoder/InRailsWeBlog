@@ -53,7 +53,7 @@ export default class Bookmark extends React.Component {
     }
 
     onUserChange = (bookmarkData) => {
-        if ($.isEmpty(bookmarkData)) {
+        if (Utils.isEmpty(bookmarkData)) {
             return;
         }
 
@@ -65,7 +65,7 @@ export default class Bookmark extends React.Component {
             }
         }
 
-        if (!$.isEmpty(newState)) {
+        if (!Utils.isEmpty(newState)) {
             this.setState(newState);
         }
     };
@@ -74,7 +74,7 @@ export default class Bookmark extends React.Component {
         event.preventDefault();
 
         // TODO
-        // UserActions.bookmark($.currentUserId(), this.props.modelId, this.props.modelName, this.state.isBookmarked);
+        // UserActions.bookmark(Utils.currentUserId(), this.props.modelId, this.props.modelName, this.state.isBookmarked);
     };
 
     render() {

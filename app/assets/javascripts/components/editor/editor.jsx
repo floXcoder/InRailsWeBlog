@@ -33,7 +33,7 @@ export default class Editor extends React.Component {
 
     static defaultProps = {
         mode: EditorMode.EDIT,
-        id: `summernote-${$.uuid()}`,
+        id: `summernote-${Utils.uuid()}`,
         isDisabled: false,
         isCodeView: false
     };
