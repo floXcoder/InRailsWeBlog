@@ -26,7 +26,8 @@ export default class ArticleInlineDisplay extends React.PureComponent {
 
     render() {
         return (
-            <div className={classNames('blog-article-item', {
+            <div className={classNames(
+                'blog-article-item', {
                 'blog-article-item-hover': this.state.isHover
             })}>
                 <h4 className="article-title-inline">
@@ -43,9 +44,9 @@ export default class ArticleInlineDisplay extends React.PureComponent {
                     <a className="btn waves-effect waves-light"
                        href="#"
                        onClick={this.props.onEdit}>
-                    <span className="material-icons"
-                          data-icon="edit"
-                          aria-hidden="true"/>
+                        <span className="material-icons"
+                              data-icon="edit"
+                              aria-hidden="true"/>
                     </a>
                 </div>
             </div>

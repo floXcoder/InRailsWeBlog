@@ -33,7 +33,6 @@ const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
         {
             article &&
                 <li>
-
                 </li>
         }
     </ul>

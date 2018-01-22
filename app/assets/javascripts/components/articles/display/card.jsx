@@ -25,8 +25,7 @@ import UserAvatarIcon from '../../users/icons/avatar';
 @connect((state, props) => ({
     isOwner: getArticleIsOwner(state, props.article),
     isOutdated: getArticleIsOutdated(props.article)
-}), {
-})
+}), {})
 @highlight
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
@@ -45,7 +44,10 @@ export default class ArticleCardDisplay extends React.Component {
 
     render() {
         return (
-            <div className={classNames('card blog-article-item clearfix', {'article-outdated': this.props.isOutdated})}>
+            <div className={classNames(
+                'card', 'blog-article-item', 'clearfix', {
+                    'article-outdated': this.props.isOutdated
+                })}>
                 <div className="card-content">
                     <div className="card-title article-title center clearfix">
                         <h1 className="article-title-card">
@@ -72,7 +74,6 @@ export default class ArticleCardDisplay extends React.Component {
 
                 <div className="card-action article-action clearfix">
                     <div className="row">
-
                         <div className="col s12 m12 l6 md-margin-bottom-20">
                             <ArticleTags articleId={this.props.article.id}
                                          tags={this.props.article.tags}
