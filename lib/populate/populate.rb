@@ -196,6 +196,8 @@ class Populate
 
     Comment.transaction do
       articles.each do |article|
+        next if article.only_me?
+
         previous_comment = nil
         comments_number  = comment_number
         comments_number  = rand(comment_number) if comment_number.is_a?(Range)

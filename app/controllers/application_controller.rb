@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
     begin
       @user_latitude  = request.location.latitude
       @user_longitude = request.location.longitude
-    rescue
+    rescue NoMethodError
       @user_latitude  = 0
       @user_longitude = 0
     end
@@ -70,11 +70,9 @@ class ApplicationController < ActionController::Base
   #  alert
   #  notice
   def js_redirect_to(path, flash_type = nil, flash_message = nil)
-    if flash_type
-      flash[flash_type] = flash_message
-    end
+    flash[flash_type] = flash_message if flash_type
 
-    render js: %(window.location.href='#{path}') and return
+    render js: %(window.location.href='#{path}') && return
   end
 
   def append_info_to_payload(payload)

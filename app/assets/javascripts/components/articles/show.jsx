@@ -246,7 +246,7 @@ export default class ArticleShow extends React.Component {
                 }
 
                 {
-                    this.props.article.allowComment &&
+                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                     <div className="card-panel">
                         <LazyLoad height={0}
                                   once={true}
