@@ -128,12 +128,18 @@ class Article < ApplicationRecord
            class_name:  'ArticleRelationship',
            foreign_key: 'parent_id',
            dependent:   :destroy
+  has_many :children,
+           through: :parent_relationships,
+           source:  :child
 
   has_many :child_relationships,
            autosave:    true,
            class_name:  'ArticleRelationship',
            foreign_key: 'child_id',
            dependent:   :destroy
+  has_many :parents,
+           through: :child_relationships,
+           source:  :parent
 
   has_many :bookmarks,
            as:          :bookmarked,
@@ -574,6 +580,14 @@ class Article < ApplicationRecord
 
     unless attributes[:content].nil?
       self.content = sanitize_html(attributes.delete(:content))
+
+      # Extract all relationship ids
+      other_ids = []
+      self.content.scan(/data-article-relation-id="(\d+)"/) { |other_id| other_ids << other_id }
+
+      other_ids.flatten.map do |other_id|
+        self.child_relationships.build(user: self.user, child: self, parent_id: other_id)
+      end
     end
 
     unless attributes[:reference].nil?
@@ -745,7 +759,7 @@ class Article < ApplicationRecord
     # Remove empty beginning block
     html = html.sub(/^<p><br><\/p>/, '')
 
-    html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[class href name target src alt center align])
+    html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[class href name target src alt center align data-article-relation-id])
 
     # Remplace pre by pre > code
     html = html.gsub(/<pre>/i, '<pre><code>')
@@ -765,7 +779,6 @@ class Article < ApplicationRecord
       mode_translated:  mode_translated,
       current_language: current_language,
       title:            title,
-      # summary:          summary,
       content:          public_content,
       reference:        reference,
       languages:        languages,
@@ -781,6 +794,7 @@ class Article < ApplicationRecord
       rank:             rank,
       popularity:       popularity,
       slug:             slug
+      # summary:          summary,
       # private_content:   strip_content, # Do not expose secret content
     }
   end

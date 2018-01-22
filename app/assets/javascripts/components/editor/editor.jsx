@@ -71,15 +71,16 @@ export default class Editor extends React.Component {
                             selectedTypes: 'article',
                             query: keyword,
                             limit: 5
-                        }).then((results) => results.articles ? callback(results.articles.map((article) => [article.slug, article.title]).compact()) : [])
+                        }).then((results) => results.articles ? callback(results.articles.map((article) => [article.id, article.slug, article.title]).compact()) : [])
                     },
-                    template: ([slug, title]) => {
+                    template: ([id, slug, title]) => {
                         return title;
                     },
-                    content: ([slug, title]) => {
+                    content: ([id, slug, title]) => {
                         let nodeItem = document.createElement('a');
                         nodeItem.href = slug;
-                        nodeItem.tagret = '_blank';
+                        nodeItem.target = '_blank';
+                        nodeItem.setAttribute('data-article-relation-id', id);
                         nodeItem.innerHTML = `@${title}`;
                         return nodeItem;
                     }
