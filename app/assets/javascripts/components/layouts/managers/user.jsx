@@ -31,8 +31,6 @@ export default class UserManager extends React.Component {
     constructor(props) {
         super(props);
 
-        this._router = null;
-
         // Load user environment if connected
         if (props.isUserConnected) {
             // Get current user details with current topic
@@ -42,12 +40,12 @@ export default class UserManager extends React.Component {
                         // Get all user topics
                         props.fetchTopics(props.userCurrentId);
 
-                        // Get all user tags for current topic (private user tags and common public tags associated to articles)
+                        // Get all user tags for current topic (user private and common public tags associated to his articles)
                         props.fetchTags({topicId: response.user.currentTopic.id});
                     }
                 });
         } else {
-            // Get all public tags (by default)
+            // Get only all public tags (by default)
             props.fetchTags();
         }
     }

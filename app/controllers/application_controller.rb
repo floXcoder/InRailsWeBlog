@@ -79,6 +79,7 @@ class ApplicationController < ActionController::Base
     return if request.params['action'] == 'viewed' || request.params['action'] == 'clicked'
 
     super
+
     payload[:request_id] = request.uuid
     payload[:user_id]    = current_user.id if current_user
     payload[:admin_id]   = current_admin.id if current_admin
@@ -248,11 +249,7 @@ class ApplicationController < ActionController::Base
     distance       = 100
     ip_coordinates = result.coordinates
 
-    if ip_coordinates != [0, 0]
-      Geocoder::Calculations.bounding_box(ip_coordinates, distance)
-    else
-      nil
-    end
+    Geocoder::Calculations.bounding_box(ip_coordinates, distance) if ip_coordinates != [0, 0]
   end
 
   # Add pagination for active model serializer
