@@ -19,7 +19,7 @@ const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
             itemType="http://schema.org/ListItem"
             itemProp="itemListElement"
             itemScope={true}>
-            <a href={`/topics/${topic.name}`}
+            <a href={`/topics/${topic.slug}`}
                itemType="http://schema.org/Thing"
                itemProp="item"
                itemScope={true}>
@@ -32,8 +32,21 @@ const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
         </li>
         {
             article &&
-                <li>
-                </li>
+            <li className="article-breadcrumb-item"
+                itemType="http://schema.org/ListItem"
+                itemProp="itemListElement"
+                itemScope={true}>
+                <a href={`/article/${article.slug}`}
+                   itemType="http://schema.org/Thing"
+                   itemProp="item"
+                   itemScope={true}>
+                    <span itemProp="name">
+                        {article.title}
+                    </span>
+                </a>
+                <meta itemProp="position"
+                      content="3"/>
+            </li>
         }
     </ul>
 );

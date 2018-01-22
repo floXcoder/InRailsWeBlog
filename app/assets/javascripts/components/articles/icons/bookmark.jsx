@@ -4,12 +4,12 @@
 export default class ArticleBookmarkIcon extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
-        isUserConnected: PropTypes.bool,
+        isOwner: PropTypes.bool,
         onBookmarkClick: PropTypes.func
     };
 
     static defaultProps = {
-        isUserConnected: false
+        isOwner: false
     };
 
     constructor(props) {
@@ -29,7 +29,7 @@ export default class ArticleBookmarkIcon extends React.PureComponent {
     };
 
     render() {
-        if (!this.props.isUserConnected) {
+        if (!this.props.isOwner) {
             return null;
         }
 

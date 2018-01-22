@@ -119,7 +119,7 @@ export default class ArticleNew extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay id={'article-new' + (this.props.multipleId ? '-' + this.props.multipleId : '')}
+                <ArticleFormDisplay id={`article-new-${this.props.multipleId || 0}`}
                                     isInline={this.state.isInline}
                                     currentMode={this.state.currentMode}
                                     isDraft={this.state.isDraft}

@@ -62,7 +62,7 @@ class Article < ApplicationRecord
   acts_as_voteable
 
   # Versioning
-  has_paper_trail on: [:update], only: [:title_translations, :summary_translations, :content_translations]
+  has_paper_trail on: [:update], only: [:title_translations, :summary_translations, :content_translations, :reference]
 
   # Track activities
   include ActAsTrackedConcern

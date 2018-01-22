@@ -1,84 +1,120 @@
 'use strict';
 
 import {
+    Link
+} from 'react-router-dom';
+
+import {
+    fetchArticle,
     updateArticle
 } from '../../actions';
 
+import {
+    getTags,
+    getCurrentUser,
+    getCurrentTopic,
+    getArticleErrors
+} from '../../selectors';
+
+import Spinner from '../materialize/spinner';
+
+import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
-@connect(null, {
+@connect((state) => ({
+    isFetching: state.articleState.isFetching,
+    article: state.articleState.article,
+    tags: getTags(state),
+    currentUser: getCurrentUser(state),
+    currentTopic: getCurrentTopic(state),
+    articleErrors: getArticleErrors(state)
+}), {
+    fetchArticle,
     updateArticle
 })
 export default class ArticleEdit extends React.PureComponent {
     static propTypes = {
-        article: PropTypes.object,
+        params: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
         multipleId: PropTypes.number,
         // from connect
+        isFetching: PropTypes.bool,
+        article: PropTypes.object,
+        tags: PropTypes.array,
+        currentUser: PropTypes.object,
+        currentTopic: PropTypes.object,
+        articleErrors: PropTypes.array,
+        fetchArticle: PropTypes.func,
         updateArticle: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        // TODO
-        // if (props.article) {
-        //     this.state.article = props.article;
-        // } else if (props.params.articleSlug) {
-        //     ArticleActions.loadArticle({slug: this.props.params.articleSlug});
-        // }
+        props.fetchArticle(props.params.articleSlug);
     }
 
-    // TODO: get from redux
-    // state = {
-    //     articleErrors: undefined
-    // };
+    _handleSubmit = (values) => {
+        let formData = values.toJS();
 
-    _onCancel = () => {
-        // TODO
-        // if (this.state.article) {
-        //     this.props.history.push(`/article/${this.state.article.id}`);
-        // } else {
-        //     this.props.history.push('/');
-        // }
-    };
+        formData.id = this.props.article.id;
 
-    _handleSubmit = () => {
-        this.props.updateArticle(values.toJS());
+        if (formData.parent_tags) {
+            formData.parent_tags = formData.parent_tags.map((parentTag) => ({
+                name: parentTag.value,
+                visibility: parentTag.category,
+                new: parentTag.isNew
+            }));
+        }
+
+        if (formData.child_tags) {
+            formData.child_tags = formData.child_tags.map((childTag) => ({
+                name: childTag.value,
+                visibility: childTag.category,
+                new: childTag.isNew
+            }));
+        }
+
+        this.props.updateArticle(formData)
+            .then((response) => {
+                if (response.article) {
+                    this.props.history.push({
+                        pathname: `/article/${response.article.slug}`,
+                        state: {reloadTags: true}
+                    });
+                }
+            });
 
         return true;
     };
 
     render() {
         if (!this.props.article) {
-            return null;
+            return (
+                <div className="center margin-top-20">
+                    <Spinner size="big"/>
+                </div>
+            );
         }
-
-        const articleFormId = 'article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '');
 
         return (
             <div className="blog-form blog-article-edit">
-                <div className="card">
-                    <div className="card-content blue-grey darken-3 white-text">
-                            <span className="card-title">
-                                {
-                                    this.props.article.title
-                                        ?
-                                        I18n.t('js.article.edit.form_title', {title: this.props.article.title})
-                                        :
-                                        I18n.t('js.article.edit.title')
-                                }
-                            </span>
-                    </div>
-
-                    <div className="card-action">
-                        <ArticleFormDisplay id={articleFormId}
-                                            onSubmit={this._handleSubmit}
-                                            onCancel={this._onCancel}
-                                            articleErrors={this.props.articleErrors}>
-                            {this.props.article}
-                        </ArticleFormDisplay>
-                    </div>
+                <div className="blog-breadcrumb">
+                    {
+                        (this.props.currentUser && this.props.currentTopic) &&
+                        <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                                                  topic={this.props.currentTopic}
+                                                  article={this.props.article}/>
+                    }
                 </div>
+
+                <ArticleFormDisplay id={`article-edit-${this.props.article.id}`}
+                                    currentMode={this.props.article.mode}
+                                    isDraft={this.props.article.isDraft}
+                                    articleErrors={this.props.articleErrors}
+                                    onSubmit={this._handleSubmit}>
+                    {this.props.article}
+                </ArticleFormDisplay>
             </div>
         );
     }

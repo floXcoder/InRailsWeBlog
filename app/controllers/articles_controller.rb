@@ -91,7 +91,7 @@ class ArticlesController < ApplicationController
     article = Article.friendly.find(params[:id])
     admin_or_authorize article
 
-    article_versions = article.versions.reject { |history| history.reify.content.nil? }
+    article_versions = article.versions.reverse.reject { |history| history.reify.content.nil? }
 
     respond_to do |format|
       format.json do

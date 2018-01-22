@@ -4,11 +4,11 @@ export default class ArticleOutdatedIcon extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
         onOutdatedClick: PropTypes.func.isRequired,
-        isUserConnected: PropTypes.bool
+        isOwner: PropTypes.bool
     };
 
     static defaultProps = {
-        isUserConnected: false
+        isOwner: false
     };
 
     constructor(props) {
@@ -27,7 +27,7 @@ export default class ArticleOutdatedIcon extends React.PureComponent {
     };
 
     render() {
-        if (!this.props.isUserConnected) {
+        if (!this.props.isOwner) {
             return null;
         }
 

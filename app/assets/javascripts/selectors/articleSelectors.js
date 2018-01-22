@@ -14,7 +14,7 @@ export const getArticlePagination = createSelector(
 );
 
 export const getArticleIsOwner = (state, article) => (
-    article ? state.userState.currentId === article.user.id : false
+    article && article.user ? state.userState.currentId === article.user.id : false
 );
 
 export const getArticleIsOutdated = (article) => (
@@ -49,6 +49,11 @@ export const getArticleErrors = createSelector(
         }
         return errorContent;
     }
+);
+
+export const getArticleVersions = createSelector(
+    (state) => state.articleState.articleVersions,
+    (articleVersions) => articleVersions && articleVersions.toJS()
 );
 
 // TODO: useful ?

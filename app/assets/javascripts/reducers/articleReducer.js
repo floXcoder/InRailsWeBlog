@@ -26,6 +26,7 @@ const initState = new Record({
 
     article: undefined,
     articleEditionId: undefined,
+    articleVersions: undefined
 });
 
 export default function articleReducer(state = new initState(), action) {
@@ -66,12 +67,18 @@ export default function articleReducer(state = new initState(), action) {
                     articles: mutateArray(state.articles, payload.article && new Records.ArticleRecord(payload.article), action.removedId)
                 }), ['article']);
 
-        // load article history
-        // articleVersions: dataReceived['paper_trail/versions'] || []
 
-        // retrieve history
-        // articleRestored: dataReceived.article
+        // History and restoration
+        case ActionTypes.ARTICLE_HISTORY:
+            return state.merge({
+                articleVersions: action.versions
+            });
 
+        case ActionTypes.ARTICLE_RESTORE:
+            return state.merge({
+                article: action.article,
+                articleVersions: undefined
+            });
 
         default:
             return state;

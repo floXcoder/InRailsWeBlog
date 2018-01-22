@@ -4,6 +4,7 @@ import ArticleIndex from './components/loaders/articleIndex';
 import ArticleShow from './components/loaders/articleShow';
 import ArticleNew from './components/loaders/articleNew';
 import ArticleEdit from './components/loaders/articleEdit';
+import ArticleHistory from './components/loaders/articleHistory';
 
 import TagShow from './components/loaders/tagShow';
 import TagEdit from './components/loaders/tagEdit';
@@ -93,6 +94,16 @@ export default {
                 path: '/article/new',
                 exact: true,
                 component: ArticleNew
+            },
+            {
+                path: '/article/:articleSlug/edit',
+                exact: true,
+                component: ArticleEdit
+            },
+            {
+                path: '/article/:articleSlug/history',
+                exact: true,
+                component: ArticleHistory
             },
             {
                 path: '/article/:topicSlug/:articleSlug',

@@ -54,12 +54,25 @@ export const deleteArticle = (articleId, options = {}) => ({
 });
 
 // Article history
-// fetchArticleHistory
-// const url = this.url + '/' + data.history + '/history';
+const receiveArticleVersions = (versions) => ({
+    type: ActionTypes.ARTICLE_HISTORY,
+    versions
+});
+export const fetchArticleHistory = (articleId) => (dispatch) => (
+    api.get(`/articles/${articleId}/history`)
+        .then((response) => dispatch(receiveArticleVersions(response.history)))
+);
 
-// restoreArticle
-// const url = this.url + '/' + data.restore.articleId + '/restore';
-// version_id: data.restore.versionId
+const receiveArticleRestored = (article) => ({
+    type: ActionTypes.ARTICLE_RESTORE,
+    article
+});
+export const restoreArticle = (articleId, versionId) => (dispatch) => (
+    api.get(`/articles/${articleId}/restore`, {
+        versionId
+    })
+        .then((response) => dispatch(receiveArticleRestored(response.article)))
+);
 
 // Bookmarks
 // const url = this.url + '/' + data.articleId + '/bookmark';

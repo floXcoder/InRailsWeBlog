@@ -1,66 +1,86 @@
 'use strict';
 
+import {
+    Link
+} from 'react-router-dom';
+
+import {
+    fetchArticle,
+    fetchArticleHistory,
+    restoreArticle
+} from '../../actions';
+
+import {
+    getArticleVersions
+} from '../../selectors';
+
+import highlight from '../modules/highlight';
+
+import Spinner from '../materialize/spinner';
+
+import ArticleCardDisplay from './display/card';
+import ArticleVersionsDisplay from './display/versions';
+
+@connect((state) => ({
+    isUserConnected: state.userState.isConnected,
+    isFetching: state.articleState.isFetching,
+    article: state.articleState.article,
+    articleVersions: getArticleVersions(state)
+}), {
+    fetchArticle,
+    fetchArticleHistory,
+    restoreArticle
+})
+@highlight
 export default class ArticleHistory extends React.Component {
     static propTypes = {
-        articleVersions: PropTypes.array.isRequired
+        params: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
+        // From connect
+        isFetching: PropTypes.bool,
+        article: PropTypes.object,
+        articleVersions: PropTypes.array,
+        isUserConnected: PropTypes.bool,
+        fetchArticle: PropTypes.func,
+        fetchArticleHistory: PropTypes.func,
+        restoreArticle: PropTypes.func
     };
 
     constructor(props) {
         super(props);
+
+        props.fetchArticle(props.params.articleSlug);
+        props.fetchArticleHistory(props.params.articleSlug);
     }
 
-    componentDidMount() {
-        $('.blog-article-history.collapsible').collapsible();
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.articleVersions && nextProps.articleVersions && nextProps.articleVersions.length === 0) {
+            Notification.alert(I18n.t('js.article.history.none'));
+        }
     }
 
-    componentDidUpdate() {
-        $('.blog-article-history.collapsible').collapsible();
-    }
-
-    _handleRestoreClick = (articleId, versionId) => {
-        let articleToRestore = {
-            articleId: articleId,
-            versionId: versionId
-        };
-
-        // TODO
-        // ArticleActions.restoreArticle({restore: articleToRestore});
+    _handleRestore = (articleId, versionId) => {
+        this.props.restoreArticle(articleId, versionId)
+            .then((response) => this.props.history.push(`/article/${response.article.slug}`));
     };
 
     render() {
-        if (this.props.articleVersions.length === 0) {
-            Notification.alert(I18n.t('js.article.history.none'));
-            return null;
+        if (!this.props.article || !this.props.articleVersions) {
+            return (
+                <div className="center margin-top-20">
+                    <Spinner size="big"/>
+                </div>
+            );
         }
 
         return (
-            <ul className="blog-article-history collapsible popout"
-                data-collapsible="accordion">
-                {
-                    this.props.articleVersions.map((version) => (
-                        <li key={version.id}>
-                            <div className="collapsible-header">
-                                    <span className="material-icons"
-                                          data-icon="change_history"
-                                          aria-hidden="true"/>
-                                {I18n.t('js.article.history.changed_at') + ' ' + version.changed_at}
-                            </div>
+            <div className="articles-history">
+                <ArticleCardDisplay article={this.props.article}
+                                    hasActions={false}/>
 
-                            <div className="collapsible-body article-history-item blog-article-item">
-                                <span className="blog-article-content"
-                                      dangerouslySetInnerHTML={{__html: version.article.content}}/>
-
-                                <hr className="article-history-item-divider"/>
-
-                                <a className="btn-small waves-effect waves-light"
-                                   onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>
-                                    {I18n.t('js.article.history.restore')}
-                                </a>
-                            </div>
-                        </li>
-                    ))
-                }
-            </ul>
+                <ArticleVersionsDisplay articleVersions={this.props.articleVersions}
+                                        onRestore={this._handleRestore}/>
+            </div>
         );
     }
 }

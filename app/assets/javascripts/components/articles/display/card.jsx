@@ -30,12 +30,17 @@ import UserAvatarIcon from '../../users/icons/avatar';
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        onBookmarkClick: PropTypes.func.isRequired,
-        onEdit: PropTypes.func.isRequired,
-        onVisibilityClick: PropTypes.func.isRequired,
+        hasActions: PropTypes.bool,
+        onBookmarkClick: PropTypes.func,
+        onEdit: PropTypes.func,
+        onVisibilityClick: PropTypes.func,
         // From connect
         isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool
+    };
+
+    static defaultProps = {
+        hasActions: true
     };
 
     constructor(props) {
@@ -74,22 +79,28 @@ export default class ArticleCardDisplay extends React.Component {
 
                 <div className="card-action article-action clearfix">
                     <div className="row">
-                        <div className="col s12 m12 l6 md-margin-bottom-20">
-                            <ArticleTags articleId={this.props.article.id}
-                                         tags={this.props.article.tags}
-                                         parentTagIds={this.props.article.parentTagIds}
-                                         childTagIds={this.props.article.childTagIds}/>
-                        </div>
+                        {
+                            !!this.props.article.tags &&
+                            <div className="col s12 m12 l6 md-margin-bottom-20">
+                                <ArticleTags articleId={this.props.article.id}
+                                             tags={this.props.article.tags}
+                                             parentTagIds={this.props.article.parentTagIds}
+                                             childTagIds={this.props.article.childTagIds}/>
+                            </div>
+                        }
 
-                        <div className="col s12 m12 l6 right-align">
-                            <ArticleActions articleId={this.props.article.id}
-                                            articleSlug={this.props.article.slug}
-                                            articleVisibility={this.props.article.visibility}
-                                            onEdit={this.props.onEdit}
-                                            onBookmarkClick={this.props.onBookmarkClick}
-                                            onVisibilityClick={this.props.onVisibilityClick}
-                                            isOwner={this.props.isOwner}/>
-                        </div>
+                        {
+                            this.props.hasActions &&
+                            <div className="col s12 m12 l6 right-align">
+                                <ArticleActions articleId={this.props.article.id}
+                                                articleSlug={this.props.article.slug}
+                                                articleVisibility={this.props.article.visibility}
+                                                onEdit={this.props.onEdit}
+                                                onBookmarkClick={this.props.onBookmarkClick}
+                                                onVisibilityClick={this.props.onVisibilityClick}
+                                                isOwner={this.props.isOwner}/>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

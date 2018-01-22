@@ -21,7 +21,6 @@ import highlight from '../modules/highlight';
 
 import AnimatedText from '../theme/animatedText';
 
-import ArticleHistory from './history';
 import CountCommentIcon from '../comments/icons/count';
 import ArticleOutdatedIcon from './icons/outdated';
 import ArticleVisibilityIcon from './icons/visibility';
@@ -40,7 +39,7 @@ import CommentBox from '../comments/box';
 @connect((state) => ({
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
-    isOwner: getArticleIsOwner(state),
+    isOwner: getArticleIsOwner(state, state.articleState.article),
     isOutdated: getArticleIsOutdated(state.articleState.article),
     isUserConnected: state.userState.isConnected,
 }), {
@@ -65,45 +64,17 @@ export default class ArticleShow extends React.Component {
         props.fetchArticle(props.params.articleSlug);
     }
 
-    state = {
-        articleVersions: undefined,
-        isHistoryDisplayed: false
-    };
-
     componentWillReceiveProps(nextProps) {
         if (!_.isEqual(this.props.params, nextProps.params)) {
             this.props.fetchArticle(nextProps.params.articleSlug);
         }
     }
 
-    // onArticleChange(articleData) {
-    //     // TODO
-    //     if (articleData.type === 'loadArticleHistory') {
-    //         newState.isHistoryDisplayed = true;
-    //         newState.articleVersions = articleData.articleVersions;
-    //     }
-    //
-    //     if (articleData.type === 'restoreArticle') {
-    //         newState.isHistoryDisplayed = false;
-    //         newState.article = articleData.articleRestored;
-    //         Notification.success(I18n.t('js.article.history.restored'), 10);
-    //     }
-    // }
-
     _handleUserClick = (userId, event) => {
         event.preventDefault();
 
         // TODO
         // UserStore.onTrackClick(userId);
-    };
-
-    _handleHistoryClick = () => {
-        // TODO
-        // if (this.state.isHistoryDisplayed) {
-        //     this.setState({isHistoryDisplayed: false});
-        // } else {
-        //     ArticleActions.loadArticleHistory({history: this.props.article.id});
-        // }
     };
 
     _handleDeleteClick = (event) => {
@@ -150,7 +121,8 @@ export default class ArticleShow extends React.Component {
                     </div>
                 }
 
-                <div className={classNames('card blog-article-item clearfix', {'article-outdated': this.props.isOutdated})}>
+                <div
+                    className={classNames('card blog-article-item clearfix', {'article-outdated': this.props.isOutdated})}>
                     <div className="card-content">
                         <UserAvatarIcon user={this.props.article.user}
                                         className="article-user"/>
@@ -208,11 +180,11 @@ export default class ArticleShow extends React.Component {
                                                    onDeleteClick={this._handleDeleteClick}/>
 
                                 <ArticleBookmarkIcon articleId={this.props.article.id}
-                                                     isUserConnected={this.props.isUserConnected}
+                                                     isOwner={this.props.isUserConnected}
                                                      onBookmarkClick={this._handleBookmarkClick}/>
 
                                 <ArticleOutdatedIcon articleId={this.props.article.id}
-                                                     isUserConnected={this.props.isUserConnected}
+                                                     isOwner={this.props.isUserConnected}
                                                      isOutdated={this.props.isOutdated}
                                                      onOutdatedClick={this._handleOutdatedClick}/>
 
@@ -221,14 +193,14 @@ export default class ArticleShow extends React.Component {
                                                        isOwner={this.props.isOwner}
                                                        hasFloatingButton={true}/>
 
-                                <ArticleHistoryIcon isUserConnected={this.props.isUserConnected}
-                                                    onHistoryClick={this._handleHistoryClick}/>
+                                <ArticleHistoryIcon articleSlug={this.props.article.slug}
+                                                    isOwner={this.props.isUserConnected}/>
 
                                 {
-                                    this.props.isUserConnected &&
+                                    this.props.isOwner &&
                                     <Link className="btn-floating article-edit tooltipped"
                                           data-tooltip={I18n.t('js.article.tooltip.edit')}
-                                          to={`/article/${this.props.article.id}/edit`}>
+                                          to={`/article/${this.props.article.slug}/edit`}>
                                         <span className="material-icons"
                                               data-icon="mode_edit"
                                               aria-hidden="true"/>
@@ -238,12 +210,6 @@ export default class ArticleShow extends React.Component {
                         </div>
                     </div>
                 </div>
-
-                {
-                    // TODO
-                    // this.state.isHistoryDisplayed && this.props.articleVersions &&
-                    // <ArticleHistory articleVersions={this.props.articleVersions}/>
-                }
 
                 {
                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
