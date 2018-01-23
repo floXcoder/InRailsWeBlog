@@ -134,12 +134,8 @@ class ArticleSerializer < ActiveModel::Serializer
   end
 
   def new_tag_ids
-    if instance_options[:new_tags].present?
-      instance_options[:new_tags].map do |tag|
-        tag.id
-        # TagSampleSerializer.new(tag).attributes
-      end
-    end
+    instance_options[:new_tags].map(&:id) if instance_options[:new_tags].present?
+    # TagSampleSerializer.new(tag).attributes
   end
 end
 

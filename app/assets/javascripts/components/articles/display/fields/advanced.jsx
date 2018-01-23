@@ -37,6 +37,17 @@ const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility,
                    componentContent={articleLanguage || getCurrentLocale()}/>
         </div>
 
+        <div className="col s12 m6 l4">
+            <Field id="article_visibility"
+                   multipleId={multipleId}
+                   name="visibility"
+                   title={I18n.t('js.article.model.visibility')}
+                   default={I18n.t('js.article.common.visibility')}
+                   options={I18n.t('js.article.enums.visibility')}
+                   component={SelectField}
+                   componentContent={articleVisibility || defaultVisibility}/>
+        </div>
+
         {
             currentMode === 'story' &&
             <div className="col s12 m6 l4 center-align">
@@ -49,17 +60,6 @@ const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility,
                        componentContent={articleAllowComment}/>
             </div>
         }
-
-        <div className="col s12 m6 l4">
-            <Field id="article_visibility"
-                   multipleId={multipleId}
-                   name="visibility"
-                   title={I18n.t('js.article.model.visibility')}
-                   default={I18n.t('js.article.common.visibility')}
-                   options={I18n.t('js.article.enums.visibility')}
-                   component={SelectField}
-                   componentContent={articleVisibility || defaultVisibility}/>
-        </div>
     </div>
 );
 
@@ -67,7 +67,7 @@ ArticleAdvancedField.propTypes = {
     currentMode: PropTypes.string.isRequired,
     articleReference: PropTypes.bool,
     articleAllowComment: PropTypes.bool,
-    articleLanguage: PropTypes.bool,
+    articleLanguage: PropTypes.string,
     articleVisibility: PropTypes.string,
     defaultVisibility: PropTypes.string,
     multipleId: PropTypes.number

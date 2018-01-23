@@ -27,6 +27,7 @@ class TagsController < ApplicationController
 
     tags = tags.default_visibility(current_user, current_admin)
 
+    # When filtering by topic, private tags not assigned to an article are not returned
     tags = Tag.filter_by(tags, filter_params, current_user) unless filter_params.empty?
 
     tags = tags.limit(params[:limit]) if params[:limit]

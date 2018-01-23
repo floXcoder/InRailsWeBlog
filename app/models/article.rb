@@ -230,8 +230,14 @@ class Article < ApplicationRecord
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
-  before_create do |article|
+  # Visibility: private for draft articles
+  before_save do |article|
     article.visibility = 'only_me' if article.draft?
+  end
+
+  # Comments: doesn't allow for private or article other than story
+  before_save do |article|
+    article.allow_comment = false if article.visibility == 'only_me' || article.mode != 'story'
   end
 
   after_commit do
@@ -564,9 +570,6 @@ class Article < ApplicationRecord
     # Language
     self.languages  |= [attributes[:language]] || current_user&.locale || I18n.locale
 
-    # Visibility private mandatory for draft articles
-    self.visibility = 'only_me' if attributes[:draft]
-
     # Sanitization
     unless attributes[:title].nil?
       sanitized_title = Sanitize.fragment(attributes.delete(:title))
@@ -606,7 +609,7 @@ class Article < ApplicationRecord
     end
 
     # Tags
-    if !attributes[:parent_tags].nil? || !attributes[:child_tags].nil? || !attributes[:tags].nil?
+    if !attributes[:tags].nil? || !attributes[:parent_tags].nil? || !attributes[:child_tags].nil?
       tagged_article_attributes    = []
       tag_relationships_attributes = []
 
@@ -632,8 +635,8 @@ class Article < ApplicationRecord
             }
           end
         end.flatten
-      elsif !attributes[:tags].nil? || !attributes[:parent_tags].nil?
-        tags = attributes.delete(:tags) || attributes.delete(:parent_tags)
+      elsif !attributes[:tags].nil?
+        tags = attributes.delete(:tags)
         Tag.parse_tags(tags, current_user&.id).map do |tag|
           tagged_article_attributes << {
             tag: tag, user_id: self.user_id, topic_id: self.topic_id
@@ -662,6 +665,10 @@ class Article < ApplicationRecord
           self.tag_relationships.build(tag_relationships_attribute)
         end
       end
+
+      attributes.delete(:parent_tags)
+      attributes.delete(:child_tags)
+      attributes.delete(:tags)
 
       self.tagged_articles   = new_tagged_articles
       self.tag_relationships = new_tag_relationships

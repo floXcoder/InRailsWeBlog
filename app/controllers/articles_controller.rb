@@ -237,7 +237,11 @@ class ArticlesController < ApplicationController
                                     :draft,
                                     :topic_id,
                                     :language,
-                                    tags:        [],
+                                    tags:        [
+                                                   :name,
+                                                   :visibility,
+                                                   :new
+                                                 ],
                                     parent_tags: [
                                                    :name,
                                                    :visibility,

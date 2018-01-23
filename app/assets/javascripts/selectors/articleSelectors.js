@@ -23,16 +23,43 @@ export const getArticleIsOutdated = (article) => (
 
 export const getArticleParentTags = createSelector(
     (article) => article,
-    (article) => article && article.tags.filter((tag) => (
-        article.parentTagSlugs ? article.parentTagSlugs.includes(tag.slug) : article.parentTagIds && article.parentTagIds.includes(tag.id)
-    ))
+    (article) => {
+        // If tags and no parents, set as parent tags for display
+        const hasParentSlugs = article && article.parentTagSlugs && article.parentTagSlugs.length > 0;
+        const hasParentIds = article && article.parentTagIds && article.parentTagIds.length > 0;
+        const tags = article && article.tags.filter((tag) => {
+            if (hasParentSlugs) {
+                return article.parentTagSlugs.includes(tag.slug);
+            } else if (hasParentIds) {
+                return article.parentTagIds.includes(tag.id);
+            } else {
+                return true;
+            }
+        });
+
+        // Use isImmutable in new version
+        if (tags && tags.size !== undefined) {
+            return tags.toArray();
+        } else {
+            return tags;
+        }
+    }
 );
 
 export const getArticleChildTags = createSelector(
     (article) => article,
-    (article) => article && article.tags.filter((tag) => (
-        article.childTagSlugs ? article.childTagSlugs.includes(tag.slug) : article.childTagIds && article.childTagIds.includes(tag.id)
-    ))
+    (article) => {
+        const tags = article && article.tags.filter((tag) => (
+            article.childTagSlugs ? article.childTagSlugs.includes(tag.slug) : article.childTagIds && article.childTagIds.includes(tag.id)
+        ));
+
+        // Use isImmutable in new version
+        if (tags && tags.size !== undefined) {
+            return tags.toArray();
+        } else {
+            return tags;
+        }
+    }
 );
 
 export const getArticleErrors = createSelector(

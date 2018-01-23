@@ -16,6 +16,10 @@ import {
     getArticleErrors
 } from '../../selectors';
 
+import {
+    formatTagArticles
+} from '../../forms/article';
+
 import Spinner from '../materialize/spinner';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
@@ -59,21 +63,7 @@ export default class ArticleEdit extends React.PureComponent {
 
         formData.id = this.props.article.id;
 
-        if (formData.parent_tags) {
-            formData.parent_tags = formData.parent_tags.map((parentTag) => ({
-                name: parentTag.value,
-                visibility: parentTag.category,
-                new: parentTag.isNew
-            }));
-        }
-
-        if (formData.child_tags) {
-            formData.child_tags = formData.child_tags.map((childTag) => ({
-                name: childTag.value,
-                visibility: childTag.category,
-                new: childTag.isNew
-            }));
-        }
+        formatTagArticles(formData, this.props.article.tags.toArray(), this.props.article.parentTagIds, this.props.article.childTagIds);
 
         this.props.updateArticle(formData)
             .then((response) => {

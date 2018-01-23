@@ -11,6 +11,10 @@ import {
     getArticleErrors
 } from '../../selectors';
 
+import {
+    formatTagArticles
+} from '../../forms/article';
+
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
@@ -79,21 +83,7 @@ export default class ArticleNew extends React.Component {
     _handleSubmit = (values) => {
         let formData = values.toJS();
 
-        if (formData.parent_tags) {
-            formData.parent_tags = formData.parent_tags.map((parentTag) => ({
-                name: parentTag.value,
-                visibility: parentTag.category,
-                new: parentTag.isNew
-            }));
-        }
-
-        if (formData.child_tags) {
-            formData.child_tags = formData.child_tags.map((childTag) => ({
-                name: childTag.value,
-                visibility: childTag.category,
-                new: childTag.isNew
-            }));
-        }
+        formatTagArticles(formData);
 
         this.props.addArticle(formData)
             .then((response) => {

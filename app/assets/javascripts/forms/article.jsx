@@ -40,3 +40,47 @@ export const validateArticle = (values) => {
 
     return errors;
 };
+
+
+export const formatTagArticles = (formData, articleTags = [], parentTagIds = [], childTagIds = []) => {
+    if (formData.parent_tags) {
+        formData.parent_tags = formData.parent_tags.map((parentTag) => ({
+            name: parentTag.value,
+            visibility: parentTag.category,
+            new: parentTag.isNew
+        }));
+    } else if (articleTags.length > 0) {
+        if (parentTagIds.length > 0) {
+            articleTags = articleTags.filter((tag) => parentTagIds.includes(tag.id));
+        }
+        formData.parent_tags = articleTags.map((tag) => ({
+            name: tag.name,
+            visibility: tag.visibility,
+            new: false
+        }));
+    }
+
+    if (formData.child_tags) {
+        formData.child_tags = formData.child_tags.map((childTag) => ({
+            name: childTag.value,
+            visibility: childTag.category,
+            new: childTag.isNew
+        }));
+    } else if (articleTags.length > 0 && childTagIds.length > 0) {
+        formData.child_tags = articleTags
+            .filter((tag) => childTagIds.includes(tag.id))
+            .map((tag) => ({
+                name: tag.name,
+                visibility: tag.visibility,
+                new: false
+            }));
+    }
+
+    if (formData.parent_tags && (!formData.child_tags || formData.child_tags.length === 0)) {
+        formData.tags = formData.parent_tags;
+        delete formData.parent_tags;
+    } else if ((!formData.parent_tags || formData.parent_tags.length === 0) && formData.child_tags) {
+        formData.tags = formData.child_tags;
+        delete formData.child_tags;
+    }
+};
