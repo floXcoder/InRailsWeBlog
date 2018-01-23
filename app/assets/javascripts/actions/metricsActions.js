@@ -54,6 +54,7 @@ export const spyTrackClick = (elementName, elementId, parentName = null, parentI
             ? `/${parentName}s/${parentId}/${elementName}s/${elementId}/clicked`
             : `/${elementName}s/${elementId}/clicked`,
             {
-                id: elementId
+                id: elementId,
+                userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined
             });
 };

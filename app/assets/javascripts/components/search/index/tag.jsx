@@ -4,6 +4,10 @@ import {
     Link
 } from 'react-router-dom';
 
+import {
+    spyTrackClick
+} from '../../../actions';
+
 export default class SearchTagIndex extends React.Component {
     static propTypes = {
         tags: PropTypes.array.isRequired,
@@ -25,7 +29,7 @@ export default class SearchTagIndex extends React.Component {
 
                 <div className="tag-list">
                     {
-                        this.props.tags.limit(12).map((tag, i) => (
+                        this.props.tags.limit(12).map((tag) => (
                             <span key={tag.id}
                                   className="tag"
                                   onClick={this.props.onTagClick.bind(null, tag)}>
@@ -35,7 +39,8 @@ export default class SearchTagIndex extends React.Component {
                                 {tag.name}
 
                                 <Link className="tag-link"
-                                      to={`/tagged/${tag.slug}`}>
+                                      to={`/tagged/${tag.slug}`}
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
                                     <span className="material-icons"
                                           data-icon="open_in_new"
                                           aria-hidden="true"/>

@@ -34,3 +34,17 @@ export const getCurrentUser = createSelector(
     (state) => state.userState.user,
     (user) => user
 );
+
+// User recents
+export const getUserRecentTopics = createSelector(
+    (state) => state.userState.recentTopics,
+    (recentTopics) => recentTopics.toArray()
+);
+export const getUserRecentTags = createSelector(
+    (state) => state.userState.recentTags,
+    (recentTags) => recentTags.toArray()
+);
+export const getUserRecentArticles = createSelector(
+    (state) => state.userState.recentArticles,
+    (recentArticles) => recentArticles.toArray()
+);

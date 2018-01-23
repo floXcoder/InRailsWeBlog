@@ -5,7 +5,8 @@ import {
 } from 'react-router-dom';
 
 import {
-    fetchTag
+    fetchTag,
+    spyTrackClick
 } from '../../actions';
 
 import {
@@ -103,8 +104,9 @@ export default class TagEdit extends React.Component {
                     <div className="card-action">
                         <div className="row">
                             <div className="col s6 left-align">
-                                <Link to={`/tag/${this.props.tag.slug}`}
-                                      className="btn btn-default waves-effect waves-light">
+                                <Link className="btn btn-default waves-effect waves-light"
+                                      to={`/tag/${this.props.tag.slug}`}
+                                      onClick={spyTrackClick.bind(null, 'tag', this.props.tag.id)}>
                                     {I18n.t('js.tag.edit.back_button')}
                                 </Link>
                             </div>

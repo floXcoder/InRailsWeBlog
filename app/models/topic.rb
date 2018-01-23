@@ -43,7 +43,7 @@ class Topic < ApplicationRecord
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :searches, :clicks, :views
+  acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { click: :add_visit_activity }
 
   # Follow public activities
   include PublicActivity::Model
@@ -97,6 +97,13 @@ class Topic < ApplicationRecord
   has_many :user_bookmarks,
            through: :bookmarks,
            source:  :user
+
+  has_many :activities,
+           as:         :trackable,
+           class_name: 'PublicActivity::Activity'
+  has_many :user_activities,
+           as:         :recipient,
+           class_name: 'PublicActivity::Activity'
 
   has_many :follower,
            -> { where(bookmarks: { follow: true }) },
@@ -465,6 +472,15 @@ class Topic < ApplicationRecord
   end
 
   private
+
+  def add_visit_activity(user_id = nil)
+    return unless user_id
+
+    user = User.find_by(id: user_id)
+    return unless user
+
+    user.create_activity(:visit, recipient: self)
+  end
 
   def set_default_color
     self.color = Setting.topic_color unless self.color

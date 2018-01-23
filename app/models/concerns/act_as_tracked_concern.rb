@@ -22,7 +22,7 @@ module ActAsTrackedConcern
     after_create :create_tracker
 
     # Class methods required for tracker: project name tracked and actions to track
-    class_attribute :tracked_name, :tracker_metrics
+    class_attribute :tracked_name, :tracker_metrics, :tracker_callbacks
 
     # Helpers scope to get useful information
     scope :most_viewed, -> { joins(:tracker).order('trackers.views_count DESC') }
@@ -75,8 +75,10 @@ module ActAsTrackedConcern
     # Base method to include in model:
     # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :bookmarks, :clicks, :views
     def acts_as_tracked(tracked_name, *trackers)
-      self.tracked_name    = tracked_name
-      self.tracker_metrics = trackers
+      options                = trackers.extract_options!
+      self.tracked_name      = tracked_name
+      self.tracker_metrics   = trackers
+      self.tracker_callbacks = options[:callbacks]
 
       tracker_cron_job if Rails.configuration.x.cron_jobs_active
 
@@ -85,36 +87,38 @@ module ActAsTrackedConcern
 
     # Tracker model method to increment search count
     def track_searches(record_ids)
-      if self.tracker_metrics.include? :searches
-        record_ids.each do |record_id|
-          $redis.incr(redis_key(record_id, 'searches'))
-        end
+      return unless self.tracker_metrics.include? :searches
+
+      record_ids.each do |record_id|
+        $redis.incr(redis_key(record_id, 'searches'))
       end
     end
 
     # Tracker model method to increment click count
-    def track_clicks(record_id)
-      if self.tracker_metrics.include? :clicks
-        if record_id.is_a? Array
-          record_id.each do |id|
-            $redis.incr(redis_key(id, 'clicks'))
-          end
-        else
-          $redis.incr(redis_key(record_id, 'clicks'))
+    def track_clicks(record_id, user_id = nil)
+      return unless self.tracker_metrics.include? :clicks
+
+      if record_id.is_a? Array
+        record_id.each do |id|
+          $redis.incr(redis_key(id, 'clicks'))
         end
+      else
+        $redis.incr(redis_key(record_id, 'clicks'))
       end
+
+      try_callback(:click, record_id, user_id)
     end
 
     # Tracker model method to increment view count
     def track_views(record_id)
-      if self.tracker_metrics.include? :views
-        if record_id.is_a? Array
-          record_id.each do |id|
-            $redis.incr(redis_key(id, 'views'))
-          end
-        else
-          $redis.incr(redis_key(record_id, 'views'))
+      return unless self.tracker_metrics.include? :views
+
+      if record_id.is_a? Array
+        record_id.each do |id|
+          $redis.incr(redis_key(id, 'views'))
         end
+      else
+        $redis.incr(redis_key(record_id, 'views'))
       end
     end
 
@@ -122,17 +126,17 @@ module ActAsTrackedConcern
 
     # Private model method to increment find count
     def track_queries
-      if self.tracker_metrics.include? :queries
-        after_find do |record|
-          $redis.incr(redis_key(record, 'queries'))
-        end
+      return unless self.tracker_metrics.include? :queries
+
+      after_find do |record|
+        $redis.incr(redis_key(record, 'queries'))
       end
     end
 
     # Private method to add a cron job to update database each x minutes
     def tracker_cron_job
       formatted_name = self.name.underscore
-      cron_job_name = "#{formatted_name}_tracker"
+      cron_job_name  = "#{formatted_name}_tracker"
 
       unless Sidekiq::Cron::Job.find(name: cron_job_name)
         Sidekiq::Cron::Job.create(name:  cron_job_name,
@@ -146,6 +150,13 @@ module ActAsTrackedConcern
     # Private method to get formatted redis key (for object model)
     def redis_key(record_id, metric)
       "#{self.name.downcase}:#{metric}:#{record_id}"
+    end
+
+    def try_callback(action, record_id, user_id = nil)
+      return unless self.tracker_callbacks && self.tracker_callbacks[action]
+
+      record = self.find_by(id: record_id)
+      record.send(self.tracker_callbacks[action], user_id) if record && record.respond_to?(self.tracker_callbacks[action], true)
     end
   end
 

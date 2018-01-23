@@ -3,7 +3,8 @@
 import {
     getSearchHistory,
     searchOnHistoryChange,
-    fetchSearch
+    fetchSearch,
+    spyTrackClick
 } from '../../actions';
 
 import {
@@ -92,6 +93,8 @@ export default class SearchIndex extends React.Component {
     };
 
     _handleArticleClick = (article) => {
+        spyTrackClick('article', article.id);
+
         this.props.history.push(`/article/${article.slug}`)
     };
 

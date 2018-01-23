@@ -52,7 +52,7 @@ class Tag < ApplicationRecord
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :searches, :clicks, :views
+  acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { click: :add_visit_activity }
 
   # Follow public activities
   include PublicActivity::Model
@@ -133,6 +133,9 @@ class Tag < ApplicationRecord
   has_many :activities,
            as:         :trackable,
            class_name: 'PublicActivity::Activity'
+  has_many :user_activities,
+           as:         :recipient,
+           class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
   validates :user,
@@ -151,7 +154,7 @@ class Tag < ApplicationRecord
 
   validates :languages,
             presence: true,
-            if:     -> { description.present? }
+            if:       -> { description.present? }
 
   validates :visibility,
             presence: true
@@ -368,7 +371,7 @@ class Tag < ApplicationRecord
     tags = format_search(results, format, current_user)
 
     {
-      tags:     tags,
+      tags:         tags,
       suggestions:  results.suggestions,
       aggregations: formatted_aggregations,
       total_count:  results.total_count,
@@ -575,13 +578,25 @@ class Tag < ApplicationRecord
 
   private
 
+  def add_visit_activity(user_id = nil)
+
+    w user_id
+
+    return unless user_id
+
+    user = User.find_by(id: user_id)
+    return unless user
+
+    user.create_activity(:visit, recipient: self)
+  end
+
   def name_visibility
-    if self.name.present? && name_changed?
-      if Tag.where('visibility = 1 AND user_id = :user_id AND lower(name) = :name', user_id: self.user_id, name: self.name.mb_chars.downcase.to_s).any?
-        errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist'))
-      elsif Tag.where('visibility = 0 AND lower(name) = :name', name: self.name.mb_chars.downcase.to_s).any?
-        errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist_in_public'))
-      end
+    return unless self.name.present? && name_changed?
+
+    if Tag.where('visibility = 1 AND user_id = :user_id AND lower(name) = :name', user_id: self.user_id, name: self.name.mb_chars.downcase.to_s).any?
+      errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist'))
+    elsif Tag.where('visibility = 0 AND lower(name) = :name', name: self.name.mb_chars.downcase.to_s).any?
+      errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist_in_public'))
     end
   end
 

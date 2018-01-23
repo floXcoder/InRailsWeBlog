@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       get      :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
       get      :draft,         to: 'users#draft',              as: :draft
       get      :comments,      to: 'users#comments',           as: :comments
+      get      :recents,       to: 'users#recents',            as: :recents
       get      :activities,    to: 'users#activities',         as: :activities
 
       concerns :tracker,       module: :users

@@ -33,8 +33,9 @@ const initState = new Record({
 
     user: undefined,
 
-    comments: new List(),
-    commentPagination: new Map(),
+    recentTopics: new List(),
+    recentTags: new List(),
+    recentArticles: new List()
 });
 
 export default function userReducer(state = new initState(), action) {
@@ -69,6 +70,13 @@ export default function userReducer(state = new initState(), action) {
                     };
                 }
             }, ['connection', 'settings']);
+
+        case ActionTypes.USER_RECENTS:
+            return state.merge({
+                recentTopics: toList(action.recentTopics, Records.TopicRecord),
+                recentTags: toList(action.recentTags, Records.TagRecord),
+                recentArticles: toList(action.recentArticles, Records.ArticleRecord)
+            });
 
         default:
             return state;

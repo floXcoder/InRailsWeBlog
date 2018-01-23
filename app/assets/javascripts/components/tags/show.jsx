@@ -121,8 +121,8 @@ export default class TagShow extends React.Component {
                             {
                                 this.state.tag.parents && this.state.tag.parents.length > 0
                                     ?
-                                    this.state.tag.parents.map((tag, i) => (
-                                        <Link key={i}
+                                    this.state.tag.parents.map((tag) => (
+                                        <Link key={tag.id}
                                               className="btn-small waves-effect waves-light tag-parent"
                                               to={`/tag/${tag.slug}`}
                                               onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
@@ -142,8 +142,8 @@ export default class TagShow extends React.Component {
                             {
                                 this.state.tag.children && this.state.tag.children.length > 0
                                     ?
-                                    this.state.tag.children.map((tag, i) => (
-                                        <Link key={i}
+                                    this.state.tag.children.map((tag) => (
+                                        <Link key={tag.id}
                                               className="btn-small waves-effect waves-light tag-child"
                                               to={`/tag/${tag.slug}`}
                                               onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
@@ -161,8 +161,8 @@ export default class TagShow extends React.Component {
                     <div className="card-action article-action clearfix">
                         <div className="row">
                             <div className="col s12 m12 l6 md-margin-bottom-20">
-                                <Link to={`/`}
-                                      className="btn btn-default waves-effect waves-light">
+                                <Link className="btn btn-default waves-effect waves-light"
+                                      to={`/`}>
                                     {I18n.t('js.tag.show.back_button')}
                                 </Link>
                             </div>

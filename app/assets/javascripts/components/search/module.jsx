@@ -2,11 +2,14 @@
 
 import {
     setSelectedTag,
+    fetchUserRecents,
     fetchSearch
 } from '../../actions';
 
 import {
-    getTags,
+    getUserRecentTopics,
+    getUserRecentTags,
+    getUserRecentArticles,
     getSelectedTags,
     getAutocompleteTags,
     getAutocompleteArticles
@@ -16,26 +19,30 @@ import SearchSelectedModule from './module/selected';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
-@connect((state) => {
-    const query = state.autocompleteState.query;
-    const tags = query && query.length > 0 ? getAutocompleteTags(state) : getTags(state);
-
-    return ({
-        isSearching: state.autocompleteState.isFetching,
-        query: query,
-        actionKey: state.autocompleteState.actionKey,
-        tags: tags,
-        selectedTags: getSelectedTags(state),
-        articles: getAutocompleteArticles(state)
-    });
-}, {
+@connect((state) => ({
+    currentUserId: state.userState.currentId,
+    recentTopics: getUserRecentTopics(state),
+    recentTags: getUserRecentTags(state),
+    recentArticles: getUserRecentArticles(state),
+    isSearching: state.autocompleteState.isFetching,
+    query: state.autocompleteState.query,
+    actionKey: state.autocompleteState.actionKey,
+    tags: getAutocompleteTags(state),
+    selectedTags: getSelectedTags(state),
+    articles: getAutocompleteArticles(state)
+}), {
     setSelectedTag,
+    fetchUserRecents,
     fetchSearch
 })
 export default class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // From connect
+        currentUserId: PropTypes.number,
+        recentTopics: PropTypes.array,
+        recentTags: PropTypes.array,
+        recentArticles: PropTypes.array,
         tags: PropTypes.array,
         selectedTags: PropTypes.array,
         articles: PropTypes.array,
@@ -43,11 +50,14 @@ export default class SearchModule extends React.Component {
         query: PropTypes.string,
         actionKey: PropTypes.string,
         setSelectedTag: PropTypes.func,
+        fetchUserRecents: PropTypes.func,
         fetchSearch: PropTypes.func
     };
 
     constructor(props) {
         super(props);
+
+        props.fetchUserRecents(this.props.currentUserId);
     }
 
     state = {
@@ -137,6 +147,9 @@ export default class SearchModule extends React.Component {
     };
 
     render() {
+        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : this.props.recentTags;
+        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : this.props.recentArticles;
+
         return (
             <div className="search-module-results">
                 <div className="search-module-container">
@@ -146,13 +159,13 @@ export default class SearchModule extends React.Component {
                                               onTagClick={this._handleTagSelection}/>
                     }
 
-                    <SearchTagModule tags={this.props.tags}
+                    <SearchTagModule tags={tags}
                                      isSearching={this.props.isSearching}
                                      selectedTags={this.props.selectedTags}
                                      highlightedTagIndex={this.state.highlightedTagIndex}
                                      onTagClick={this._handleTagSelection}/>
 
-                    <SearchArticleModule articles={this.props.articles}
+                    <SearchArticleModule articles={articles}
                                          isSearching={this.props.isSearching}/>
 
                     <button className="search-module-btn"

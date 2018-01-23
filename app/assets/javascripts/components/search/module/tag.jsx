@@ -4,6 +4,10 @@ import {
     Link
 } from 'react-router-dom';
 
+import {
+    spyTrackClick
+} from '../../../actions';
+
 export default class SearchTagModule extends React.Component {
     static propTypes = {
         tags: PropTypes.array.isRequired,
@@ -43,6 +47,7 @@ export default class SearchTagModule extends React.Component {
                                 {tag.name}
 
                                 <Link className="tag-link"
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id)}
                                       to={`/tagged/${tag.slug}`}>
                                     <span className="material-icons"
                                           data-icon="open_in_new"

@@ -7,7 +7,8 @@ import {
 import {
     addTopic,
     switchTopic,
-    switchTopicPopup
+    switchTopicPopup,
+    spyTrackClick
 } from '../../actions';
 
 import {
@@ -53,6 +54,8 @@ export default class TopicModule extends React.Component {
     };
 
     _handleSwitchTopicClick = (newTopicId) => {
+        spyTrackClick('topic', newTopicId);
+
         if (this.props.currentTopic.id !== newTopicId) {
             this.props.switchTopic(this.props.userId, newTopicId)
                 .then(() => this.props.switchTopicPopup());

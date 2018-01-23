@@ -401,7 +401,7 @@ class User < ApplicationRecord
   end
 
   def avatar_url
-    self.picture.image.url(:thumb) if self.picture
+    self.picture&.image&.url(:thumb)
   end
 
   def format_attributes(attributes = {})
@@ -452,6 +452,19 @@ class User < ApplicationRecord
     end
   end
 
+  # Activities
+  def recent_visits(limit = 12)
+    last_visits = self.recent_activities.where(key: 'user.visit').limit(limit)
+
+    return {} if last_visits.empty?
+
+    {
+      # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
+      tags:     Tag.joins(:user_activities).merge(last_visits).distinct,
+      articles: Article.joins(:user_activities).merge(last_visits).distinct
+    }
+  end
+
   ## Bookmarking
   def bookmarkers_count
     user_bookmarked    = User.bookmarked_by_user(self.id).count
@@ -462,21 +475,19 @@ class User < ApplicationRecord
   end
 
   def following?(model_name, model_id)
-    if model_name && model_id
-      model_class = model_name.classify.constantize rescue nil
-      related_object = model_class.find(model_id)
+    return false unless model_name && model_id
 
-      return false unless model_class && related_object
+    model_class = model_name.classify.constantize rescue nil
+    related_object = model_class.find(model_id)
 
-      if model_name.classify == 'User'
-        return following_users.include?(related_object)
-      elsif model_name.classify == 'Article'
-        return following_articles.include?(related_object)
-      elsif model_name.classify == 'Tag'
-        return following_tags.include?(related_object)
-      else
-        return false
-      end
+    return false unless model_class && related_object
+
+    if model_name.classify == 'User'
+      return following_users.include?(related_object)
+    elsif model_name.classify == 'Article'
+      return following_articles.include?(related_object)
+    elsif model_name.classify == 'Tag'
+      return following_tags.include?(related_object)
     else
       return false
     end

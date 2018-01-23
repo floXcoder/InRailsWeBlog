@@ -61,10 +61,6 @@ class ArticlesController < ApplicationController
                 .friendly.find(params[:id])
     admin_or_authorize article
 
-    Article.track_views(article.id)
-    User.track_views(article.user.id)
-    Tag.track_views(article.tags.ids)
-
     respond_to do |format|
       format.html do
         expires_in 3.hours, public: true

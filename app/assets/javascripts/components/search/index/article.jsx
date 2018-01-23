@@ -4,6 +4,10 @@ import {
     Link
 } from 'react-router-dom';
 
+import {
+    spyTrackClick
+} from '../../../actions';
+
 import UserAvatarIcon from '../../users/icons/avatar';
 
 export default class SearchArticleIndex extends React.Component {
@@ -41,7 +45,7 @@ export default class SearchArticleIndex extends React.Component {
                                                     className="article-user"/>
 
                                     <Link className="card-title"
-                                          to={`/article/${article.slug}`}
+                                          to={this._handleArticleClick.bind(this, article)}
                                           dangerouslySetInnerHTML={{__html: article.title}}/>
 
                                     <div className="article-content"
@@ -52,6 +56,7 @@ export default class SearchArticleIndex extends React.Component {
                                             <div key={tag.id}
                                                  className="article-tag">
                                                 <Link className="btn-small waves-effect waves-light tag-default"
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id)}
                                                       to={`/article/tags/${tag.slug}`}>
                                                     {tag.name}
                                                 </Link>

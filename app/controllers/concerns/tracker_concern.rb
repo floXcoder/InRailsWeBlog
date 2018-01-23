@@ -23,7 +23,7 @@ module TrackerConcern
   # Tracker action method to get clicks from clients
   def clicked
     class_model = controller_path.classify.constantize
-    class_model.track_clicks(params[:id])
+    class_model.track_clicks(params[:id], params[:user_id])
     head :no_content
   end
 end

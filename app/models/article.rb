@@ -66,7 +66,7 @@ class Article < ApplicationRecord
 
   # Track activities
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :searches, :clicks, :views
+  acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { click: :add_visit_activity }
 
   # Follow public activities
   include PublicActivity::Model
@@ -157,6 +157,9 @@ class Article < ApplicationRecord
 
   has_many :activities,
            as:         :trackable,
+           class_name: 'PublicActivity::Activity'
+  has_many :user_activities,
+           as:         :recipient,
            class_name: 'PublicActivity::Activity'
 
   has_many :pictures,
@@ -568,7 +571,7 @@ class Article < ApplicationRecord
     self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
 
     # Language
-    self.languages  |= [attributes[:language]] || current_user&.locale || I18n.locale
+    self.languages |= [attributes[:language]] || current_user&.locale || I18n.locale
 
     # Sanitization
     unless attributes[:title].nil?
@@ -813,6 +816,15 @@ class Article < ApplicationRecord
 
   private
 
+  def add_visit_activity(user_id = nil)
+    return unless user_id
+
+    user = User.find_by(id: user_id)
+    return unless user
+
+    user.create_activity(:visit, recipient: self)
+  end
+
   def prevent_revert_to_draft
     if self.everyone? && draft_changed? && !draft_was
       errors.add(:base, I18n.t('activerecord.errors.models.article.prevent_revert_to_draft'))
@@ -820,10 +832,10 @@ class Article < ApplicationRecord
   end
 
   def current_topic_belongs_to_user
-    if self.topic_id.present? && self.topic_id_changed?
-      unless self.user.topics.exists?(self.topic_id)
-        errors.add(:topic, I18n.t('activerecord.errors.models.article.bad_topic_owner'))
-      end
+    return unless self.topic_id.present? && self.topic_id_changed?
+
+    unless self.user.topics.exists?(self.topic_id)
+      errors.add(:topic, I18n.t('activerecord.errors.models.article.bad_topic_owner'))
     end
   end
 
