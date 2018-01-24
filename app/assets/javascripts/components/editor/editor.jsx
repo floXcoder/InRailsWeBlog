@@ -65,7 +65,7 @@ export default class Editor extends React.Component {
                 },
                 hint: {
                     mentions: ['Type article name'],
-                    match: /\B@(\w*)$/,
+                    match: /\B#(\w*)$/,
                     search: (keyword, callback) => {
                         loadAutocomplete({
                             selectedTypes: 'article',
@@ -81,7 +81,7 @@ export default class Editor extends React.Component {
                         nodeItem.href = slug;
                         nodeItem.target = '_blank';
                         nodeItem.setAttribute('data-article-relation-id', id);
-                        nodeItem.innerHTML = `@${title}`;
+                        nodeItem.innerHTML = `#${title}`;
                         return nodeItem;
                     }
                 },
