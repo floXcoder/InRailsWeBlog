@@ -23,7 +23,7 @@ import 'materialize-css/js/sideNav';
 import 'materialize-css/js/forms';
 // import 'materialize-css/js/slider';
 import 'materialize-css/js/cards';
-import 'materialize-css/js/chips';
+// import 'materialize-css/js/chips';
 // import 'materialize-css/js/pushpin';
 import 'materialize-css/js/buttons';
 import 'materialize-css/js/transitions';

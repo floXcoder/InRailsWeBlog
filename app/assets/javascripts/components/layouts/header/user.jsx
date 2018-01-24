@@ -35,16 +35,6 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopu
             }
 
             {
-                isAdminConnected &&
-                <hr/>
-            }
-
-            {
-                isUserConnected &&
-                <hr/>
-            }
-
-            {
                 !isUserConnected &&
                 <li className="collection-item">
                     <a href="/signup"
