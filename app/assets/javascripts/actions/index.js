@@ -3,6 +3,7 @@
 export * from './uiActions';
 export * from './metricsActions';
 export * from './userActions';
+export * from './bookmarkActions';
 export * from './topicActions';
 export * from './tagActions';
 export * from './articleActions';

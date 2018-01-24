@@ -8,7 +8,7 @@ module CommentConcern
 
   def comments
     class_model = controller_path.classify.constantize
-    record      = class_model.find(params[:id] || params[:commentableId])
+    record      = class_model.find(params[:id] || params[:commentable_id])
 
     comments, comments_tree = record.comments_tree(params[:page], params[:per_page] || Setting.comment_per_page)
 

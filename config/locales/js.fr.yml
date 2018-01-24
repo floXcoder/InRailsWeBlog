@@ -165,6 +165,24 @@ fr:
               or: "Au moins un mot"
           highlight: "Sur-brillance"
           exact: "Le(s) mot(s) précis"
+    bookmark:
+      common:
+        add: "Ajouter aux favoris"
+        remove: "Enlever des favoris"
+        added:
+          ride: "Le parcours a été ajouté aux favoris"
+          shop: "La boutique a été ajoutée aux favoris"
+          product: "Le produit a été ajouté aux favoris"
+        removed:
+          ride: "Le parcours a été enlevé des favoris"
+          shop: "La boutique a été enlevée des favoris"
+          product: "Le produit a été enlevé des favoris"
+      notification:
+        text: "Favoris ajouté"
+        link: "Mes favoris"
+        saved_later: "Vous n'êtes pas connecté. Le favoris sera associé à votre compte une fois connecté."
+        connection: "Se connecter"
+        not_connected: "Vous devez vous connecté pour ajouter ou supprimer des favoris"
     topic:
       common:
         visibility: "Choisissez la visibilité"

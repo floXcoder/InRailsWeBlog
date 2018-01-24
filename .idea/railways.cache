@@ -1,6 +1,8 @@
                    Prefix Verb   URI Pattern                               Controller#Action
                      root GET    /                                         static_pages#home
                           GET    /user/*id(.:format)                       static_pages#home
+                 research GET    /research(.:format)                       static_pages#home
+                          GET    /research/*id(.:format)                   static_pages#home
                           GET    /topic/*id(.:format)                      static_pages#home
                           GET    /tagged/*id(.:format)                     static_pages#home
                           GET    /tag/*id(.:format)                        static_pages#home
@@ -37,6 +39,7 @@
            bookmarks_user GET    /users/:id/bookmarks(.:format)            users#bookmarks
                draft_user GET    /users/:id/draft(.:format)                users#draft
             comments_user GET    /users/:id/comments(.:format)             users#comments
+             recents_user GET    /users/:id/recents(.:format)              users#recents
           activities_user GET    /users/:id/activities(.:format)           users#activities
              clicked_user POST   /users/:id/clicked(.:format)              users#clicked
               viewed_user POST   /users/:id/viewed(.:format)               users#viewed
@@ -100,6 +103,7 @@ autocomplete_search_index GET    /search/autocomplete(.:format)            searc
                           PUT    /uploads/:id(.:format)                    uploads#update
                           DELETE /uploads/:id(.:format)                    uploads#destroy
                     terms GET    /terms(.:format)                          static_pages#terms
+                          GET    /robots.:format                           static_pages#robots
                           GET    /404(.:format)                            errors#show {:code=>"404"}
                           GET    /422(.:format)                            errors#show {:code=>"422"}
                           GET    /500(.:format)                            errors#show {:code=>"500"}

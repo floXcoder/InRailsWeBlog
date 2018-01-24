@@ -46,7 +46,7 @@ class ArticleSerializer < ActiveModel::Serializer
              :visibility_translated,
              :draft,
              :current_language,
-             # :bookmarked,
+             :bookmarked,
              # :outdated,
              :slug,
              # :votes_up,
@@ -86,13 +86,15 @@ class ArticleSerializer < ActiveModel::Serializer
   end
 
   # TODO: N+1 query problem
-  # def bookmarked
-  #   if defined?(current_user) && current_user
-  #     object.user_bookmarks.exists?(current_user.id)
-  #   else
-  #     false
-  #   end
-  # end
+  # TODO: directly us current_user_id ?
+  def bookmarked
+    if defined?(current_user) && current_user
+      # object.user_bookmarks.exists?(current_user.id)
+      object.bookmarks.find_by(user_id: current_user.id)&.id
+    else
+      false
+    end
+  end
 
   # TODO: N+1 query problem
   # def outdated

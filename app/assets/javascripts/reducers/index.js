@@ -15,13 +15,14 @@ import {
 import uiReducer from './uiReducer';
 import userReducer from './userReducer';
 import adminReducer from './adminReducer';
+import bookmarkReducer from './bookmarkReducer';
+import topicReducer from './topicReducer';
+import tagReducer from './tagReducer';
+import articleReducer from './articleReducer';
 import {
     autocompleteReducer,
     searchReducer
 } from './searchReducer';
-import topicReducer from './topicReducer';
-import tagReducer from './tagReducer';
-import articleReducer from './articleReducer';
 import commentReducer from './commentReducer';
 import errorReducer from './errorReducer';
 
@@ -29,6 +30,7 @@ const ReducerRecord = Record({
     uiState: undefined,
     form: undefined,
     userState: undefined,
+    bookmarkState: undefined,
     topicState: undefined,
     tagState: undefined,
     articleState: undefined,
@@ -43,6 +45,7 @@ const rootReducer = combineReducers({
     uiState: uiReducer,
     form: formReducer,
     userState: userReducer,
+    bookmarkState: bookmarkReducer,
     topicState: topicReducer,
     tagState: tagReducer,
     articleState: articleReducer,

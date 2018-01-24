@@ -22,6 +22,8 @@ import ArticleTime from '../properties/time';
 
 import UserAvatarIcon from '../../users/icons/avatar';
 
+import BookmarkIcon from '../../bookmark/icon';
+
 @connect((state, props) => ({
     isOwner: getArticleIsOwner(state, props.article),
     isOutdated: getArticleIsOutdated(props.article)
@@ -64,6 +66,11 @@ export default class ArticleCardDisplay extends React.Component {
 
                         <UserAvatarIcon user={this.props.article.user}
                                         className="article-user"/>
+
+                        <BookmarkIcon bookmarkType="article"
+                                      bookmarkId={this.props.article.id}
+                                      bookmarkedId={this.props.article.bookmarked}
+                                      isIcon={true}/>
 
                         <div className="article-info right-align">
                             <ArticleTime lastUpdate={this.props.article.updatedAt}/>
