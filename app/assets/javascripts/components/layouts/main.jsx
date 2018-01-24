@@ -9,6 +9,8 @@ import pasteManager from '../modules/pasteManager';
 
 import UserManager from './managers/user';
 
+import ErrorBoundary from '../errors/boundary';
+
 import HeaderLayout from './header';
 import SidebarLayout from './sidebar';
 import FooterLayout from './footer';
@@ -123,57 +125,68 @@ export default class MainLayout extends React.Component {
                        return (
                            <UserManager routerState={router.location.state}>
                                <div className="blog-content">
-                                   <HeaderLayout hasSearch={hasSearch}
-                                                 onSearchOpen={this._handleSearchOpen}
-                                                 onSearchClose={this._handleSearchClose}>
-                                       {
-                                           this._renderPermanentRoutes(this.props.routes.permanents.header)
-                                       }
-                                   </HeaderLayout>
-
-                                   <SidebarLayout params={router.match.params}
-                                                  onOpened={this._handleSidebarPinClick}/>
-
-                                   <div className={classNames('blog-main-content', {
-                                       'blog-main-pinned': this.state.isSidebarOpened
-                                   })}>
-                                       <div className="container blog-main">
+                                   <ErrorBoundary errorType="text"
+                                                  errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                       <HeaderLayout hasSearch={hasSearch}
+                                                     onSearchOpen={this._handleSearchOpen}
+                                                     onSearchClose={this._handleSearchClose}>
                                            {
-                                               this._renderPermanentRoutes(this.props.routes.permanents.main)
+                                               this._renderPermanentRoutes(this.props.routes.permanents.header)
                                            }
+                                       </HeaderLayout>
+                                   </ErrorBoundary>
 
-                                           <Component params={router.match.params}
-                                                      history={router.history}
-                                                      initialData={router.location.state}/>
-                                       </div>
+                                   <ErrorBoundary errorType="text"
+                                                  className="sidebar sidebar-pin">
+                                       <SidebarLayout params={router.match.params}
+                                                      onOpened={this._handleSidebarPinClick}/>
+                                   </ErrorBoundary>
 
-                                       {
-                                           (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
-                                           <Link className="article-quick-add"
-                                                 to={{
-                                                     hash: '#new-article',
-                                                     state: {
-                                                         mode: 'note',
-                                                         parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
-                                                         childTagSlug: router.match.params.childTagSlug
-                                                     }
-                                                 }}>
+                                   <ErrorBoundary errorType="card">
+                                       <div className={classNames('blog-main-content', {
+                                           'blog-main-pinned': this.state.isSidebarOpened
+                                       })}>
+                                           <div className="container blog-main">
+                                               {
+                                                   this._renderPermanentRoutes(this.props.routes.permanents.main)
+                                               }
+
+                                               <Component params={router.match.params}
+                                                          history={router.history}
+                                                          initialData={router.location.state}/>
+                                           </div>
+
+                                           {
+                                               (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
+                                               <Link className="article-quick-add"
+                                                     to={{
+                                                         hash: '#new-article',
+                                                         state: {
+                                                             mode: 'note',
+                                                             parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
+                                                             childTagSlug: router.match.params.childTagSlug
+                                                         }
+                                                     }}>
                                                <span className="material-icons"
                                                      data-icon="add_circle_outline"
                                                      aria-hidden="true"/>
-                                           </Link>
-                                       }
+                                               </Link>
+                                           }
 
-                                       <a className="goto-top hide-on-small-and-down"
-                                          onClick={this._handleGoToTopClick}/>
-                                   </div>
+                                           <a className="goto-top hide-on-small-and-down"
+                                              onClick={this._handleGoToTopClick}/>
+                                       </div>
+                                   </ErrorBoundary>
 
-                                   <FooterLayout/>
+                                   <ErrorBoundary errorType="text"
+                                                  errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                       <FooterLayout/>
+                                   </ErrorBoundary>
 
                                    <div className={classNames('blog-cover-layer', {
                                        'search-form-visible': hasSearch
                                    })}
-                                   onClick={this._handleCoverClick}/>
+                                        onClick={this._handleCoverClick}/>
                                </div>
                            </UserManager>
                        );

@@ -694,4 +694,9 @@ fr:
       errors:
         not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
         frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'acceuil"
+        boundary:
+          title: "Impossible d'afficher le composant"
+          message: "Une erreur est survenue lors de l'affichage du composant. Merci de recharger la page."
+          header: "Impossible d'afficher le menu"
+          footer: "Impossible d'afficher le bas de page"
         server: "Une erreur serveur s'est produite, merci de réessayer plus tard"

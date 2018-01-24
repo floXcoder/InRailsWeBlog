@@ -74,10 +74,10 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
 
     if (message && trace.stack) {
         pushError({
-            message: message,
-            url: url,
-            lineNumber: lineNumber,
-            columnNumber: columnNumber,
+            message,
+            url,
+            lineNumber,
+            columnNumber,
             trace: trace.stack,
             origin: 'client'
         });
