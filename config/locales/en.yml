@@ -44,22 +44,15 @@ en:
           webmail: "You can connect to %{webmail} to confirm your email."
       index:
         title: "All users"
+        description: "Users list"
       show:
         title: "%{pseudo}: My activities"
-        title: "My activities"
+        description: "My activities"
       edit:
         title: "Edit my profil"
-        connection_parameters: "Change your connection parameters"
-        login_header: "Connection information"
-        personal_information_header: "Personal information"
-        status: "Account status"
-        profile_picture: "Profile picture"
-        current_picture: "Your current picture:"
-        replace_picture: "You can replacer your picture with a local one or using an url"
-        no_picture: "You have no picture for your profile"
-        placeholder_picture: "Use a local picture or a remote url"
-        remove_picture: "Remove this picture"
-        update_profile: "Update my profil"
+      bookmarks:
+        title: "%{pseudo}: My bookmarks"
+        description: "%{pseudo}: My bookmarks"
     article:
       flash:
         not_found: "Article not found"
@@ -67,10 +60,21 @@ en:
         successful_undeletion: "Article restored"
         successful_creation: "Article added!"
         error_creation: "Cannot create the article, please correct the errors"
+        successful_edition: "Article updated!"
+        error_edition: "Cannot update the article!"
         successful_deletion: "Article deleted."
         error_deletion: "Problem during article deletion: %{errors}"
       show:
         title: "Article: %{title}"
+      edit:
+        title: "Article edition: %{title}"
+        description: "Article edition: %{title}"
+    tag:
+      flash:
+        successful_deletion: "Article has been removed."
+        error_deletion: "Cannot delete article: %{errors}"
+      show:
+        title: "Label : %{name}"
     picture:
       flash:
         successful_deletion: "Picture removed"
@@ -85,26 +89,17 @@ en:
         error_edition: "Cannot update the comment"
         successful_deletion: "Comment removed"
         error_deletion: "Cannot remove the comment"
-    errors:
-      flash:
-        successful_deletion: "Error removed"
-        error_deletion: "Cannot removed error"
-        successful_all_deletion: "All errors removed"
-        error_all_deletion: "Cannot removed errors (or no errors to remove)"
     admin:
       login:
         title: "Log in (Admin)"
       dashboard:
-        page_title: "Dashboard"
-      managers:
-        articles:
-          title: "Articles list"
-        tags:
-          title: "Tags list"
-        users:
-          title: "Users management"
-        user:
-          title: "User: %{user}"
+        title: "Admin"
+    errors:
+      flash:
+        successful_deletion: "Error removed"
+        error_deletion: "Cannot removed the error"
+        successful_all_deletion: "All errors removed"
+        error_all_deletion: "Cannot removed the errors (or no errors to remove)"
     error:
       title: "An error occurred"
       description: "Error page"
@@ -129,6 +124,7 @@ en:
       password: "Password"
       first_name: "First name"
       last_name: "Last name"
+      street: "Street"
       city: "City"
       postcode: "Postcode"
       birth_date: "Birth date"
@@ -138,6 +134,10 @@ en:
       country: "Country"
       local_picture: "Local picture"
       remote_picture: "Link to an url"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Private"
   article:
     enums:
       visibility:
@@ -153,11 +153,14 @@ en:
         everyone: "Public"
         only_me: "Private"
   topic:
-    default_name: "Defaut"
+    default_name: "Default"
     enums:
       visibility:
         everyone: "Public"
         only_me: "Private"
+  admin:
+    dashboard:
+      title: "Admin"
   email:
     hello: "Hello"
     contact:
@@ -205,25 +208,36 @@ en:
           has_many: "Cannot delete record because dependent %{record} exist"
       models:
         article:
+          bad_topic_owner: "The topic is not the same than the user"
           prevent_revert_to_draft: "A public article cannot be a draft"
+        article_relationship:
+          already_linked: "Both articles are already linked"
+        outdated_article:
+          already_outdated: "Article already outdated"
+          not_outdated: "Article not outdated"
         tag:
-          already_exist: "Un label avec le même nom existe déjà"
-          already_exist_in_public: "Un label public avec le même nom existe déjà"
-          public_name_immutable: "Un label public ne peut changer de nom"
+          already_exist: "A tag with same name already exist"
+          already_exist_in_public: "A public tag with same name already exist"
+          public_name_immutable: "A tag with cannot change name"
           public_visibility_immutable: "Visibility of a public label cannot be changed (used by other users)"
+        tag_relationship:
+          already_linked: "Both tags are already linked"
+        tagged_article:
+          already_tagged: "This tag already exists for the article"
+          incorrect_tag_affiliation: "Cannot used a tag from another topic"
+          incorrect_topic_affiliation: "Cannot used a tag from another topic"
         bookmark:
-          already_bookmarked: "Élément déjà ajouté aux favoris !"
-          model_unknown: "Impossible d'ajouter cet élément dans les favoris"
-          not_bookmarked: "Élément non existant dans les favoris !"
-        outdated:
-          already_outdated: "Article déjà marqué comme périmé !"
-          not_outdated: "Article non présent dans les périmés !"
+          already_bookmarked: "Already added in bookmarks"
+          model_unknown: "Cannot add to bookmark"
+          not_bookmarked: "Not in your bookmarks!"
         topic:
-          already_selected: "Le nouveau thème est déjà celui utilisé"
-          already_exist: "Un thème avec le même nom existe déjà"
-          not_owner: "Vous devez être le propriétaire du thème pour l'utiliser"
+          already_selected: "Topic already selected"
+          already_exist: "Cannot have two topics with the same name"
+          not_owner: "You don't own this topic"
+        vote:
+          already_voted: "Already voted"
         picture:
-          image_size: "doit être inférieur à 5Mo"
+          image_size: "must be less than 5MB"
   errors:
     format: "%{attribute} %{message}"
     messages:

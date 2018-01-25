@@ -84,7 +84,7 @@ RSpec.describe TaggedArticle, type: :model, basic: true do
 
         tagged_article = build(:tagged_article, user: @user, tag: @other_tag, topic: @topic, article: @article)
         expect(tagged_article.save).to be false
-        expect(tagged_article.errors[:base].first).to eq(I18n.t('activerecord.errors.models.tagged_article.tag_not_authorized'))
+        expect(tagged_article.errors[:base].first).to eq(I18n.t('activerecord.errors.models.tagged_article.incorrect_tag_affiliation'))
       end
     end
   end

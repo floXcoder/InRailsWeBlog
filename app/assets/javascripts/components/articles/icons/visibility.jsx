@@ -19,7 +19,7 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility, isOwner, hasFloati
             'article-private': !isVisible
         });
 
-    const visibilityName = I18n.t('js.article.enums.visibility.' + articleVisibility);
+    const visibilityName = I18n.t(`js.article.enums.visibility.${articleVisibility}`);
     const visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
     return (

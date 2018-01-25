@@ -48,22 +48,11 @@ fr:
       show:
         title: "%{pseudo} sur InRailsWeBlog"
         description: "Détails de l'utilisateur : %{pseudo}"
+      edit:
+        title: "Mise à jour de mes informations personnelles"
       bookmarks:
         title: "%{pseudo} : Mes favoris"
         description: "%{pseudo} : Mes favoris"
-      edit:
-        title: "Mise à jour de mes informations personnelles"
-        connection_parameters: "Modifier vos paramètres de connexion"
-        login_header: "Informations de connexion"
-        personal_information_header: "Informations personnelles"
-        status: "Statut de votre compte"
-        profile_picture: "Image pour votre profile"
-        current_picture: "Votre image actuelle :"
-        replace_picture: "Vous pouvez remplacer votre image en indiquant une autre soit locale soit depuis une url"
-        no_picture: "Vous n'avez pas d'image associée à votre compte"
-        placeholder_picture: "Utiliser une image locale ou une url"
-        remove_picture: "Supprimer cette image"
-        update_profile: "Mettre à jour mon profil"
     article:
       flash:
         not_found: "L'article n'a pas été trouvé"
@@ -81,6 +70,9 @@ fr:
         title: "Modification de l'article : %{title}"
         description: "Modification de l'article : %{title}"
     tag:
+      flash:
+        successful_deletion: "L'article a été supprimé."
+        error_deletion: "Problème lors de la suppression de l'article : %{errors}"
       show:
         title: "Label : %{name}"
     picture:
@@ -97,26 +89,17 @@ fr:
         error_edition: "Problème lors de la mise à jour du commentaire"
         successful_deletion: "Commentaire supprimé"
         error_deletion: "Problème lors de la suppression du commentaire"
+    admin:
+      login:
+        title: "Se connecter (Admin)"
+      dashboard:
+        title: "Admin"
     errors:
       flash:
         successful_deletion: "L'erreur a bien été supprimée"
         error_deletion: "Problème lors de la suppression de l'erreur"
         successful_all_deletion: "Toutes les erreurs ont été supprimées"
         error_all_deletion: "Problème lors de la suppression des erreurs (ou pas d'erreurs à supprimer)"
-    admin:
-      login:
-        title: "Se connecter (Admin)"
-      dashboard:
-        title: "Dashboard"
-      managers:
-        articles:
-          title: "Liste des articles"
-        tags:
-          title: "Liste des tags"
-        users:
-          title: "Gestion des utilisateurs"
-        user:
-          title: "Utilisateur : %{user}"
     error:
       title: "Vous venez de rencontrer une erreur"
       description: "Une erreur est survenue"
@@ -175,6 +158,9 @@ fr:
       visibility:
         everyone: "Public"
         only_me: "Privé"
+  admin:
+    dashboard:
+      title: "Admin"
   email:
     hello: "Bonjour"
     contact:

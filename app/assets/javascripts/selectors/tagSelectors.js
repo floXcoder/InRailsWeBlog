@@ -78,7 +78,7 @@ export const getCategorizedTags = createSelector(
                 {
                     id: visibility,
                     type: ' ',
-                    title: I18n.t('js.tag.enums.visibility.' + visibility),
+                    title: I18n.t(`js.tag.enums.visibility.${visibility}`),
                     items: tagsByVisibility[visibility]
                 }
             ))

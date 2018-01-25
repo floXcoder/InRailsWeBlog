@@ -1,44 +1,55 @@
 en:
   js:
     views:
+      header:
+        title: "InRailsWeBlog"
+        topic:
+          button: "Topics (%{current})"
+          title: "Your topics"
+          add: "Add a new topic"
+        search:
+          button: "Search"
+        article:
+          button: "Articles"
+          menu:
+            add_note: "Take a note"
+            add_article: "Write a story"
+            add_link: "Add a link"
+            user: "My articles"
+            new: "New article"
+            bookmark: "Bookmarked articles"
+            draft: "Drafts"
+        tags:
+          button: "Tags"
+        settings:
+          button: "Settings"
+        user:
+          settings:
+            title: "My parameters"
+          sign_up: "Sign up"
+          log_in: "Log in"
+          log_out: "Log out"
+          languages:
+            french: "French"
+            english: "English"
+          profile: "My account"
+          administration: "Administration"
+      sidebar:
+        pin: "Pin"
+        unpin: "Unpin"
+      footer:
+        title: "In Rails We Blog"
+        description: "A blog for developer"
+        copyright: "Copyright 2017 - InRailsWeBlog. All rights reserved."
+        links:
+          title: "Links"
+          contact: "Contact us by email"
+          support: "Help"
+          about: "About us"
+          github: "Github"
+          github_src: "https://github.com/floXcoder/InRailsWeBlog"
       home:
-        title: ""
-    header:
-      topic:
-        button: "Thèmes"
-      search:
-        button: "Rechercher"
-      articles:
-        button: "Articles"
-        menu:
-          user: "Mes articles"
-          new: "Nouvel article"
-          bookmark: "Articles favoris"
-          draft: "Temporaires"
-      tags:
-        button: "Labels"
-      settings:
-        button: "Préférences"
-      user:
-        sign_up: "S'inscrire"
-        log_in: "Se connecter"
-        log_out: "Déconnexion"
-        languages:
-          french: "Français"
-          english: "English"
-        profile: "Mon compte"
-        administration: "Administration"
-    footer:
-      title: "In Rails We Blog"
-      description: "Un blog pensé pour les développeurs"
-      copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
-      links:
-        title: "Liens utiles"
-        contact: "Me contacter par email"
-        support: "Aide"
-        about: "A propos de moi"
-        github: "Source sous Github"
-        github_src: "https://github.com/floXcoder/InRailsWeBlog"
+        loader: "Loading"
     user:
       model:
         pseudo: "Pseudo"
@@ -68,20 +79,20 @@ en:
         terms_of_use: "By subscribing on InRailsWeBlog, you accept our"
         terms_of_use_name: "terms of use."
         cancel: "Cancel"
-        submit: "Créer mon compte"
+        submit: "Create my account"
         externals:
-          google: "S'inscrire avec Google"
-          facebook: "S'inscrire avec Facebook"
+          google: "Signup with Google"
+          facebook: "Signup with Facebook"
       login:
         title: "Connection"
-        login: "Pseudo ou Email"
-        password: "Mot de passe"
-        remember_me: "Se souvenir de moi"
-        cancel: "Annuler"
-        submit: "Connexion"
+        login: "Pseudo or Email"
+        password: "Password"
+        remember_me: "Remember me"
+        cancel: "Cancel"
+        submit: "Connection"
         externals:
-          google: "Se connecter avec Google"
-          facebook: "Se connecter avec Facebook"
+          google: "Login with Google"
+          facebook: "Login with Facebook"
       index:
         link_to_user: "User details"
         search: "Find user"
@@ -94,25 +105,29 @@ en:
         activities: "Activities"
         tracking: "Tracking"
         contact: "Contact Info"
-        properties: "Propriétés"
-        edit: "Modifier"
+        properties: "Properties"
+        edit: "Edit"
+        admin: "Administrator"
+        administrator: "Administrator"
+        is_admin: "Is admin"
+        not_admin: "Not admin"
       edit:
-        page_title: "Éditer mon profil"
-        title: "Éditer mon profil"
-        login_header: "Informations de connexion"
+        page_title: "Edit my profile"
+        title: "Edit my profile"
+        login_header: "Connection information"
         connection_parameters: "Modifier vos paramètres de connexion"
-        profile_picture: "Image pour votre profile"
-        current_picture: "Votre image actuelle :"
-        replace_picture: "Vous pouvez remplacer votre image en indiquant une autre soit locale soit depuis une url"
-        no_picture: "Vous n'avez pas d'image associée à votre compte."
-        local_picture: "Image locale"
-        remote_picture: "URL d'une image"
-        or: "ou"
-        placeholder_picture: "Utiliser une image locale ou une url"
-        remove_picture: "Supprimer cette image"
-        personal_information_header: "Informations personnelles"
-        update_profile: "Mettre à jour mon profil"
-        back_button: "Retour"
+        profile_picture: "Profile picture"
+        current_picture: "Your current picture:"
+        replace_picture: "You can replacer your picture with a local one or using an url"
+        no_picture: "You have no picture for your profile"
+        local_picture: "Local image"
+        remote_picture: "Picture URL"
+        or: "or"
+        placeholder_picture: "Use a local picture or a remote url"
+        remove_picture: "Remove this picture"
+        personal_information_header: "Personal information"
+        update_profile: "Update my profile"
+        back_button: "Back"
       errors:
         login:
           required: "Please enter your email or pseudo"
@@ -123,7 +138,7 @@ en:
           already_taken: "is already taken, please choose another"
         email:
           required: "Please enter an email address"
-          format: "Your email address is invalid"
+          invalid: "Your email address is invalid"
           already_taken: "is already taken, please choose another"
         password:
           required: "Please enter a password"
@@ -133,6 +148,12 @@ en:
       settings:
         article:
           title: "Articles"
+          loader:
+            title: "Articles loading"
+            mode:
+              infinite: "Display articles on scroll"
+              pagination: "Use pagination"
+              all: "Display all"
           display:
             title: "Articles"
             mode:
@@ -147,49 +168,32 @@ en:
               or: "At least one word"
           highlight: "Highlight"
           exact: "Exact word(s)"
-    article:
+    bookmark:
       common:
-        draft: "Note temporaire ?"
-        link: "Est un lien ?"
-        allow_comment:
-         title: "Autoriser les commentaires ?"
-         truthy: "Oui"
-         falsy: "Non"
-        visibility: "Choisissez la visibilité"
-        url: "Liste des articles"
-        outdated: "Article marqué comme périmé !"
-        tags:
-          default: "Ajouter des labels à l'article"
-          parent: "Ajouter des labels principaux"
-          child: "Ajouter des labels secondaires"
-        tooltips:
-          title_too_short: "Le titre est trop court"
-          summary_too_short: "Le résumé est trop court"
-          content_too_short: "Le contenu est trop court"
-        no_results:
-          topic:
-            title: "Pas d'articles associés à ce thème"
-            content: "Ajouter de nouveau article en cliquant que le bouton ci-dessous"
-            button: "Ajouter nouvel article"
-          search:
-            title: "Pas d'articles trouvés"
-            content: "Essayer autre chose :)"
-        validation_error:
-          common: "Merci de remplir l'article comme indiqué avant de continuer"
+        add: "Add to bookmarks"
+        remove: "Remove from bookmarks"
+        added:
+          ride: "Ride added to bookmarks"
+          shop: "Shop added to bookmarks"
+          product: "Product added to bookmarks"
+        removed:
+          ride: "Ride removed from bookmarks"
+          shop: "Shop removed from bookmarks"
+          product: "Product removed from bookmarks"
+      notification:
+        text: "Bookmark added ajouté"
+        link: "My bookmarks"
+        saved_later: "You are not connected. Bookmarks will be added after connection."
+        connection: "Log in"
+        not_connected: "You must be connected to add or remove bookmarks"
+    topic:
+      common:
+        visibility: "Choose visibility"
+        user_topics: "My topic"
+        user_current_topic: "Current topic"
       model:
-        title: "Titre"
-        summary: "Résumé"
-        content: "Contenu"
-        visibility: "Visibilité"
-        allow_comment: "Autoriser commentaires"
-        draft: "Note temporaire"
-        tags: "Labels associés"
-        parent_tags: "Labels principaux"
-        child_tags: "Labels fils"
-        comment:
-          true: "Activé"
-          false: "Désactivé"
-        topic: "Thème"
+        name: "Name"
+        visibility: "Visibility"
       enums:
         visibility:
           everyone: "Public"
@@ -197,6 +201,116 @@ en:
         visibility_order:
           - everyone
           - only_me
+      new:
+        title: "Add a topic"
+        input: "Topic name"
+        submit: "Add topic"
+    tag:
+      common:
+        list: "All tags"
+        associated: "Associated tags"
+        filter: "Filter by tags..."
+        no_results: "No tags for:"
+        usage: "%{count} use"
+        link: "See tag details"
+        visibility: "Choose visibility"
+        synonyms: "Tag synonyms..."
+        no_description: "No tag description"
+        no_synonyms: "No tag synonyms"
+        no_parents: "No parents tag"
+        no_children: "No children tag"
+      model:
+        name: "Tag name"
+        description: "Description"
+        synonyms: "Synonyms"
+        visibility: "Visibility"
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Private"
+        visibility_order:
+          - everyone
+          - only_me
+      show:
+        parents: "Parents tag:"
+        children: "Children tag:"
+        back_button: "Cancel"
+        edit_link: "Edit"
+      edit:
+        title: "Tag edition: %{name}"
+        back_button: "Cancel"
+        update_label: "Update"
+    article:
+      common:
+        draft: "Draft?"
+        link: "Link?"
+        allow_comment:
+         title: "Allow comments?"
+         truthy: "Yes"
+         falsy: "No"
+        visibility: "Choose visibility"
+        url: "Articles list"
+        outdated: "Article marked as outdated"
+        advanced: "Advanced options"
+        infinite:
+          loading: "Loading articles"
+        placeholders:
+          title:
+            story: "Article title"
+          reference:
+            note: "URL reference"
+            story: "URL reference"
+            link: "URL to reference"
+          content:
+            story: "Article content"
+            note: "New content"
+            link: "Link description"
+        tags:
+          default: "Add labels to article"
+          parent: "Main labels"
+          child: "Secondary labels"
+          add: "Add the label:"
+        tooltips:
+          title_too_short: "Title too short"
+          summary_too_short: "Summary too short"
+          content_too_short: "Content too short"
+        no_results:
+          topic:
+            title: "No articles for this topic"
+            content: "You can add a new article in this topic"
+            button: "Add an article"
+          search:
+            title: "No articles found"
+            content: "Try something else :)"
+        validation_error:
+          common: "Please correct errors before submitting"
+      model:
+        title: "Title"
+        summary: "Summary"
+        content: "Content"
+        reference: "Link"
+        language: "Language"
+        visibility: "Visibility"
+        allow_comment: "Allow comments"
+        draft: "Draft"
+        tags: "Associated tags"
+        parent_tags: "Main tags"
+        child_tags: "Secondary tags"
+        comment:
+          true: "Enabled"
+          false: "Disabled"
+        topic: "Topic"
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Private"
+        visibility_order:
+          - everyone
+          - only_me
+        mode:
+          story: "Story"
+          note: "Note"
+          link: "Link"
       flash:
         creation_unpermitted: "Please connect before writing an article"
         deletion_successful: "Article deleted."
@@ -206,8 +320,8 @@ en:
         visibility: "Visibility: %{visibility}"
         add_bookmark: "Add to bookmarks"
         remove_bookmark: "Remove from bookmarks"
-        add_outdated: "Marqué comme périmé"
-        remove_outdated: "Enlever des périmés"
+        add_outdated: "Mark as outdated"
+        remove_outdated: "Remove from outdated"
         history: "See article history"
         link: "This is a link"
         link_to: "Go to article"
@@ -221,15 +335,15 @@ en:
         none: "No history for this article!"
         restored: "Version restored"
       bookmark:
-        added: "Article ajouté aux favoris"
-        removed: "Article supprimé des favoris"
+        added: "Article added to bookmarks"
+        removed: "Article removed to bookmarks"
       outdated:
-        added: "Article marqué comme périmé"
+        added: "Article marked as outdated"
         removed: "Article removed from bookmarks"
       vote:
-        added: "Votre vote a été pris en compte"
+        added: "Vote added"
       show:
-        new_tags: "Ajouter des synonymes ou description aux nouveaux labels ajoutés :"
+        new_tags: "Add synonyms or description to new tags:"
       new:
         title: "Create a new article"
         tags:
@@ -245,62 +359,31 @@ en:
       timeline:
         title: "New article:"
         no_articles: "No articles to display"
-      clipboard:
-        toast:
-          init: "Paste on website detected, new draft article creation in progress..."
-          done: "A new draft article has been created!"
+      clipboard: "A draft article has been created with the data"
       errors:
-        default: "Impossible de créer l'article ! Merci de réessayer."
-        not_authorized: "Vous n'avez pas la permission d'accéder à cette article !"
+        default: "Cannot create article! Please try again."
+        not_authorized: "Cannot access to this article!"
         title:
-          size: "Le titre de l'article doit être compris entre %{min} et %{max} caractères"
+          size: "Article title must be between %{min} and %{max} characters"
         summary:
-          size: "Le résumé de l'article doit être compris entre %{min} et %{max} caractères"
+          size: "Article summary must be between %{min} and %{max} characters"
         content:
-          size: "Le contenu de l'article doit être compris entre %{min} et %{max} caractères"
-        topic: "Pas de thème associé à l'article"
+          size: "Article content must be between %{min} and %{max} characters"
+        topic: "No topics for this article"
         bookmark:
-          not_authorized: "Vous n'avez pas la permission d'ajouter aux favoris cet article !"
-          default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
+          not_authorized: "Cannot add to bookmarks"
+          default: "Cannot add to bookmarks! Try to reload the page."
           bookmark: "%{message}"
-    tag:
-      common:
-        list: "Tous les labels"
-        associated: "Labels associés"
-        filter: "Filtrer par labels ..."
-        no_results: "Aucun label trouvé pour :"
-        usage: "%{count} utilisations"
-        link: "Voir le détail du label"
-        visibility: "Choisissez la visibilité"
-        synonyms: "Synonymes du label ..."
-        no_description: "Pas de description associée au label"
-        no_synonyms: "Pas de synonymes associés au label"
-        no_parents: "Pas de labels parents associés"
-        no_children: "Pas de labels fils associés"
-      model:
-        name: "Nom du label"
-        description: "Description"
-        synonyms: "Synonymes"
-        visibility: "Visibilité"
-      enums:
-        visibility:
-          everyone: "Public"
-          only_me: "Private"
-        visibility_order:
-          - everyone
-          - only_me
-      show:
-        parents: "Labels parents :"
-        children: "Labels fils :"
-        back_button: "Annuler"
-        edit_link: "Modifier ce label"
-      edit:
-        title: "Modification du label : %{name}"
-        back_button: "Annuler"
-        update_label: "Mettre à jour le label"
     search:
-      placeholder: "Rechercher ..."
-      url: "Recherche :"
+      module:
+        placeholder: "Search"
+        button: "Search"
+        tags:
+          title: "Tags"
+        articles:
+          title: "Articles"
+      index:
+        placeholder: "Search"
     comment:
       common:
         route: "comments"
@@ -368,11 +451,6 @@ en:
           notation: "Note:"
         cancel: "Cancel"
         submit: "Post"
-      errors:
-        title:
-          size: "Comment tile must be %{min} and %{max} characters"
-        body:
-          size: "Comment content must be %{min} and %{max} characters"
       new:
         button: "Add a comment"
       reply:
@@ -393,23 +471,17 @@ en:
       errors:
         default: "Can not create comment! Please retry."
         not_authorized: "You are not authorized to access to this comment"
-        title: "Comment title is %{message}"
-        body: "Comment message is %{message}"
-    topic:
-      common:
-        user_topics: "Mes thèmes"
-        user_current_topic: "Thème en cours"
-      new:
-        title: "Créer un nouveau thème"
-        input: "Nom du thème"
-        button: "Créer"
+        title:
+          size: "Comment title must be between %{min} and %{max} characters"
+        body:
+          size: "Comment body must be between %{min} and %{max} characters"
     picture:
       copyright:
         default: "From "
       model:
         errors:
           title: "Picture too large"
-          text: "File size is over 5Mo, please use a smaller picture"
+          text: "File size is over 5MB, please use a smaller picture"
           type:
             image: "File is not a picture, try a file of type jpg, jpeg, png or bmp"
     activities:
@@ -455,7 +527,14 @@ en:
         errors: "Errors"
         server: "Server"
         sidekiq: "Sidekiq"
-        back_home: "Back to homepage"
+        back_home: "Back to home page"
+      managers:
+        errors:
+          title: "Errors management"
+          delete:
+            button: "Remove this error"
+          clear:
+            button: "Remove all errors"
       users:
         index:
           title: "Users list"
@@ -478,11 +557,7 @@ en:
         stripped_text_size: "Length field must be between %{minCount} and %{maxCount}"
         picture:
           title: "File too large"
-          text: "File size is over 5Mo, please use a smaller picture"
-    infinite_scroll:
-      loading:
-        message: "Chargement des éléments suivants ..."
-        finish: "Tous les éléments ont été chargés."
+          text: "File size is over 5MB, please use a smaller picture"
     selecter:
       no_results: "No results found"
       tags:
@@ -490,8 +565,6 @@ en:
         add: "Add"
         already_exists: "Tag already exist"
         too_long: "Name too long"
-    categorized_tag:
-      add_new: "Add new"
     drop_zone:
       default_message: "click or drag&drop to add pictures"
       copyright_message: "Add a copyright"
@@ -502,24 +575,26 @@ en:
         previous_files: "Imported files"
         remove: "Remove"
       error:
+        special_characters: "The file (%{name}) has special characters. Please remove these characters and add it again."
         unsupported_browser: "Your browser doesn't support picture upload"
         extension: "Extension not authorized"
-        size: "File size (%{filesize}Mo) exceed the limit %{maxFileSize}Mo"
+        size: "File size (%{filesize}MB) exceed the limit %{maxFileSize}MB"
         server: "Server error when importing"
+    cookies:
+      message: "Welcome to InRailsWeBlog! This website uses cookies to ensure you get the best experience on our website. "
+      link: "More info"
+      validation: "Got it!"
     rating:
       clear: "Clear"
-    metrics:
-      distance_unit: "m"
-      distance_unit_k: "km"
-      duration_unit: "h"
-      speed_unit: "km/h"
+    checkbox:
+      truthy: "Yes"
+      falsy: "No"
+    languages:
+      fr: "Français"
+      en: "English"
     time:
       abbr_hour: "h"
       abbr_minute: "m"
-    cookies:
-      message: "Welcome to In Rails We Blog! This website uses cookies to ensure you get the best experience on our website. "
-      link: "More info"
-      validation: "Got it!"
     date:
       formats:
         default: "MM/DD/YYYY"
@@ -598,9 +673,17 @@ en:
         - "Nov"
         - "Dec"
     error_message:
-      url: "URL:"
-      message: "Message:"
-      trace: "Trace:"
+      url: "URL"
+      message: "Message"
+      trace: "Trace"
+      parameters: "Parameters"
+      details:
+        user_id: "User id"
+        user_name: "User"
+        user_locale: "Language"
+        user_ip: "IP"
+        browser: "Browser"
+        system: "System"
     helpers:
       home: "Home"
       colon: ": "
@@ -619,4 +702,10 @@ en:
       errors:
         not_authorized: "You cannot access to this resource!"
         frontend: "An error occurred in the page, please refresh the page or go back"
+        unprocessable: "Cannot process this element, incorrect data"
+        boundary:
+          title: "Cannot display the component"
+          message: "Please reload the page."
+          header: "Cannot display the header"
+          footer: "Cannot display the footer"
         server: "A server error occurred, please retry later"

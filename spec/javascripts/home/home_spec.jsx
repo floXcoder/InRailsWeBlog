@@ -25,10 +25,10 @@ describe('<HomePage />', () => {
     //
     // it('renders affiliation and popular results by default', () => {
     //     expect(shallowWrapper.find(AffiliationResult)).to.be.present();
-    //     expect(shallowWrapper.find(AffiliationResult)).to.have.prop('title').equal(I18n.t('js.views.home.affiliations.title'));
+    //     expect(shallowWrapper.find(AffiliationResult)).to.have.prop('title').equal(I18n.t(''));
     //
     //     expect(shallowWrapper.find(PopularResult)).to.be.present();
-    //     expect(shallowWrapper.find(PopularResult)).to.have.prop('title').equal(I18n.t('js.views.home.populars.title'));
+    //     expect(shallowWrapper.find(PopularResult)).to.have.prop('title').equal(I18n.t(''));
     // });
     //
     // it('renders results if any', () => {

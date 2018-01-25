@@ -51,7 +51,7 @@ export default class ArticleNew extends React.Component {
                 this.state.article = props.initialData.article;
                 this.state.isDraft = props.initialData.isDraft;
 
-                Notification.success(I18n.t('js.article.clipboard.toast.done'));
+                Notification.success(I18n.t('js.article.clipboard'));
             }
 
             if (props.initialData.parentTagSlug) {

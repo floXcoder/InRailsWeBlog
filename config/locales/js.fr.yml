@@ -40,7 +40,7 @@ fr:
       footer:
         title: "In Rails We Blog"
         description: "Un blog pensé pour les développeurs"
-        copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
+        copyright: "Copyright 2017 - InRailsWeBlog. tous droits réservés."
         links:
           title: "Liens utiles"
           contact: "Me contacter par email"
@@ -49,7 +49,6 @@ fr:
           github: "Source sous Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
       home:
-        title: ""
         loader: "Chargement"
     user:
       model:
@@ -108,6 +107,10 @@ fr:
         contact: "Informations de contact"
         properties: "Propriétés"
         edit: "Modifier"
+        admin: "Administrateur"
+        administrator: "Administrateur"
+        is_admin: "Est admin"
+        not_admin: "Non admin"
       edit:
         page_title: "Éditer mon profil"
         title: "Éditer mon profil"
@@ -356,10 +359,7 @@ fr:
       timeline:
         title: "Nouvel article :"
         no_articles: "Pas d'articles à afficher"
-      clipboard:
-        toast:
-          init: "Copie sur le site détectée, création d'un article temporaire en cours ..."
-          done: "Un nouvel article temporaire a été créé !"
+      clipboard: "Article temporaire créé avec les données copiées"
       errors:
         default: "Impossible de créer l'article ! Merci de réessayer."
         not_authorized: "Vous n'avez pas la permission d'accéder à cette article !"
@@ -451,11 +451,6 @@ fr:
           notation: "Note :"
         cancel: "Annuler"
         submit: "Poster"
-      errors:
-        title:
-          size: "Le titre du commentaire doit être compris entre %{min} et %{max} caractères"
-        body:
-          size: "Le contenu du commentaire doit être compris entre %{min} et %{max} caractères"
       new:
         button: "Ajouter un commentaire"
       reply:
@@ -476,8 +471,10 @@ fr:
       errors:
         default: "Impossible de créer le commentaire ! Merci de réessayer."
         not_authorized: "Vous n'avez pas la permission d'accéder à ce commentaire !"
-        title: "Le titre du commentaire est %{message}"
-        body: "Le message du commentaire est %{message}"
+        title:
+          size: "Le titre du commentaire doit être compris entre %{min} et %{max} caractères"
+        body:
+          size: "Le contenu du commentaire doit être compris entre %{min} et %{max} caractères"
     picture:
       copyright:
         default: "De "
@@ -508,7 +505,7 @@ fr:
         create: "Commentaire ajouté"
         update: "Commentaire mis à jour"
         destroy: "Commentaire supprimé"
-    tracking:
+    tracker:
       sign_in_count: "Connexions"
       views_count: "Vues"
       queries_count: "Requêtes"
@@ -531,6 +528,13 @@ fr:
         server: "Serveur"
         sidekiq: "Sidekiq"
         back_home: "Retour au site"
+      managers:
+        errors:
+          title: "Gestion des erreurs"
+          delete:
+            button: "Supprimer cette erreur"
+          clear:
+            button: "Supprimer toutes les erreurs"
       users:
         index:
           title: "Liste des utilisateurs"
@@ -571,6 +575,7 @@ fr:
         previous_files: "Fichiers importés"
         remove: "Supprimer"
       error:
+        special_characters: "Le fichier (%{name}) contient des caractères spéciaux. Merci de les enlever et réajouter le fichier."
         unsupported_browser: "Votre navigateur n'a pas supporté pour uploader des photos"
         extension: "L'extension n'est pas autorisée"
         size: "La taille du fichier (%{filesize}Mo) dépasse la limite autorisée %{maxFileSize}Mo"
@@ -586,12 +591,7 @@ fr:
       falsy: "Non"
     languages:
       fr: "Français"
-      en: "Anglais"
-    metrics:
-      distance_unit: "m"
-      distance_unit_k: "km"
-      duration_unit: "h"
-      speed_unit: "km/h"
+      en: "English"
     time:
       abbr_hour: "h"
       abbr_minute: "m"
@@ -673,9 +673,17 @@ fr:
         - "Nov"
         - "Dec"
     error_message:
-      url: "URL :"
-      message: "Message :"
-      trace: "Trace :"
+      url: "URL"
+      message: "Message"
+      trace: "Trace"
+      parameters: "Paramètres"
+      details:
+        user_id: "Id utilisateur"
+        user_name: "Utilisateur"
+        user_locale: "Langue"
+        user_ip: "IP"
+        browser: "Navigateur"
+        system: "OS"
     helpers:
       home: "Accueil"
       colon: " : "
@@ -693,7 +701,8 @@ fr:
         words_connector: ", "
       errors:
         not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
-        frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'acceuil"
+        frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'accueil"
+        unprocessable: "Impossible de prendre en compte cet élément, données incorrectes"
         boundary:
           title: "Impossible d'afficher le composant"
           message: "Une erreur est survenue lors de l'affichage du composant. Merci de recharger la page."

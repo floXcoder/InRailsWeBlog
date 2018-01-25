@@ -97,7 +97,7 @@ class TagsController < ApplicationController
           flash.now[:success] = I18n.t('views.tag.flash.successful_deletion')
           head :no_content
         else
-          flash.now[:error] = I18n.t('views.tag.flash.deletion_error', errors: tag.errors.to_s)
+          flash.now[:error] = I18n.t('views.tag.flash.error_deletion', errors: tag.errors.to_s)
           render json:   { errors: tag.errors },
                  status: :forbidden
         end

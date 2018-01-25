@@ -10,7 +10,7 @@ const UserTracking = ({tracking}) => (
                         {value}
                     </strong>
                     <h5 className="tracking-name">
-                        {I18n.t('js.tracking.' + index)}
+                        {I18n.t(`js.tracker.${index}`)}
                     </h5>
                 </div>
             ))

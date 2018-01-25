@@ -34,7 +34,7 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
                 </div>
                 <div className="activity-list-content">
                         <span className="activity-list-heading">
-                            {I18n.t('js.activities.' + model + '.' + action)}
+                            {I18n.t(`js.activities.${model}.${action}`)}
                         </span>
                     <span className="activity-list-date">
                             <a href={activity.link}>

@@ -370,23 +370,27 @@ export default class UserComplete extends React.Component {
                                                             </span>
                                                         </div>
                                                     </li>
+
                                                     {
                                                         this.props.isAdminConnected &&
                                                         <li>
                                                             <div className="activity-list-addon-element">
-                                                                <span className="material-icons activity-list-addon-icon"
-                                                                      data-icon="verified_user"
-                                                                      aria-hidden="true"/>
+                                                                <span
+                                                                    className="material-icons activity-list-addon-icon"
+                                                                    data-icon="verified_user"
+                                                                    aria-hidden="true"/>
                                                             </div>
                                                             <div className="activity-list-content">
                                                             <span className="activity-list-heading">
-                                                                {this.state.user.admin ?
-                                                                    <span className="red-text">
-                                                                        {I18n.t('js.user.show.is_admin')}
-                                                                    </span> :
-                                                                    <span>
-                                                                        {I18n.t('js.user.show.not_admin')}
-                                                                    </span>
+                                                                {
+                                                                    this.state.user.admin ?
+                                                                        <span className="red-text">
+                                                                            {I18n.t('js.user.show.is_admin')}
+                                                                        </span>
+                                                                        :
+                                                                        <span>
+                                                                            {I18n.t('js.user.show.not_admin')}
+                                                                        </span>
                                                                 }
                                                             </span>
                                                                 <span className="activity-list-body">
@@ -449,9 +453,9 @@ export default class UserComplete extends React.Component {
                                 <div className="card-content">
                                     <div className="heading-3 margin-top-20 margin-bottom-20">
                                         <SwitchButton id="administrator"
-                                                values={I18n.t('js.user.show.administrator')}
-                                                title={I18n.t('js.user.show.admin')}
-                                                onSwitchChange={this._onAdminChange}>
+                                                      values={I18n.t('js.user.show.administrator')}
+                                                      title={I18n.t('js.user.show.admin')}
+                                                      onSwitchChange={this._onAdminChange}>
                                             {this.state.user.admin}
                                         </SwitchButton>
                                     </div>

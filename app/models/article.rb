@@ -185,7 +185,8 @@ class Article < ApplicationRecord
             if:     -> { summary.present? }
   validates :content,
             presence: true,
-            length:   { minimum: CONFIG.article_content_min_length, maximum: CONFIG.article_content_max_length }
+            length:   { minimum: CONFIG.article_content_min_length, maximum: CONFIG.article_content_max_length },
+            unless:   -> { reference.present? }
 
   validates :languages,
             presence: true

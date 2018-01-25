@@ -68,16 +68,14 @@ class TaggedArticle < ApplicationRecord
   private
 
   def relationship_authorisation
-    return unless self.tag.present? && self.article.present?
+    return unless (self.tag.present? && self.article.present?) || !self.tag.only_me?
 
-    if self.tag.only_me?
-      if self.tag.user_id != self.user_id
-        errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.incorrect_tag_affiliation'))
-      end
+    if self.tag.user_id != self.user_id
+      errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.incorrect_tag_affiliation'))
+    end
 
-      if self.article.topic_id != self.topic_id
-        errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.incorrect_topic_affiliation'))
-      end
+    if self.article.topic_id != self.topic_id
+      errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.incorrect_topic_affiliation'))
     end
   end
 

@@ -173,7 +173,7 @@ class ArticlesController < ApplicationController
       article.reload
 
       respond_to do |format|
-        flash.now[:success] = t('views.article.flash.undeletion_successful') if params[:from_deletion]
+        flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
         # format.html do
         #   redirect_to article_path(article)
         # end
@@ -211,7 +211,7 @@ class ArticlesController < ApplicationController
           flash.now[:success] = I18n.t('views.article.flash.successful_deletion')
           head :no_content
         else
-          flash.now[:error] = I18n.t('views.article.flash.deletion_error', errors: article.errors.to_s)
+          flash.now[:error] = I18n.t('views.article.flash.error_deletion', errors: article.errors.to_s)
           render json:   { errors: article.errors },
                  status: :forbidden
         end
