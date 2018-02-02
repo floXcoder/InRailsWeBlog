@@ -59,9 +59,9 @@ FactoryBot.define do
     first_name            'First name'
     last_name             'Last name'
     street                'Street'
+    city                  'City'
     postcode              '33000'
     state                 'Gironde'
-    city                  'City'
     country               'France'
     additional_info       'Personal information'
     birth_date            { Faker::Date.backward(365) }
@@ -71,6 +71,7 @@ FactoryBot.define do
     pictures_count        0
     settings              { {} }
     # external              false
+    visibility            'everyone'
 
     trait :fake do
       first_name      { Faker::Name.first_name }

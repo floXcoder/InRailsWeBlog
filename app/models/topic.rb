@@ -236,7 +236,7 @@ class Topic < ApplicationRecord
 
   def self.autocomplete_for(query, options = {})
     # If query not defined or blank, do not search
-    query_string = !query || query.blank? ? '' : query
+    query_string = !query || query.blank? ? nil : query
 
     # Fields with boost
     fields = %w[name^3 description]
@@ -410,12 +410,12 @@ class Topic < ApplicationRecord
     self.user_id == user.id if user
   end
 
-  def format_attributes(attributes = {})
+  def format_attributes(attributes = {}, current_user = nil)
     # Clean attributes
     attributes = attributes.reject { |_, v| v.blank? }
 
-    #  Language
-    self.languages |= attributes[:language] || current_user&.locale || I18n.locale
+    # Language
+    self.languages |= [(attributes[:language] || current_user&.locale || I18n.locale).to_s]
 
     # Sanitization
     unless attributes[:name].nil?

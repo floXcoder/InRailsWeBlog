@@ -11,6 +11,7 @@ feature 'User Unlock', advanced: true, js: true do
   given(:new_unlock_page) { UserPage.new(new_user_unlock_path) }
 
   background do
+    logout
     new_unlock_page.visit
   end
 

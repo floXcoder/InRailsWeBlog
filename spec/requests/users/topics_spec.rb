@@ -264,7 +264,7 @@ describe 'User Topic API', type: :request, basic: true do
   describe '/topics/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+        delete "/users/#{@user.id}/topics/#{@first_topic.id}", headers: @json_header
 
         expect(response).to be_unauthenticated
       end
@@ -279,12 +279,32 @@ describe 'User Topic API', type: :request, basic: true do
 
       it 'returns the soft deleted topic id' do
         expect {
-          delete "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+          delete "/users/#{@user.id}/topics/#{@first_topic.id}", headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Topic, :count).by(-1).and change(Article, :count).by(-5).and change(TaggedArticle, :count).by(0).and change(TagRelationship, :count).by(0)
       end
     end
   end
+
+  # TODO
+  # context 'tracker' do
+  #   # TODO: add click with user_id to call add_visit_activity
+  #   describe '/tags/:id/clicked' do
+  #     it 'counts a new click on tags' do
+  #       post "/tags/#{@tags.first.id}/clicked", as: :json
+  #
+  #       expect(response).to be_json_response(204)
+  #     end
+  #   end
+  #
+  #   describe '/tags/:id/viewed' do
+  #     it 'counts a new view on tags' do
+  #       post "/tags/#{@tags.second.id}/viewed", as: :json
+  #
+  #       expect(response).to be_json_response(204)
+  #     end
+  #   end
+  # end
 
 end

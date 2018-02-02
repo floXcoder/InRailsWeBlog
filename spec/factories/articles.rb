@@ -35,15 +35,15 @@ FactoryBot.define do
     # topic
 
     mode            'story'
-    title           { Faker::Lorem.sentence }
-    summary         { Faker::Lorem.paragraph(1, false) }
-    content         { Faker::Lorem.paragraph(1..20) }
-    reference       ''
+    title           { Faker::Lorem.sentence } # title_translations
+    summary         { Faker::Lorem.paragraph(1, false) } # summary_translations
+    content         { Faker::Lorem.paragraph(1..20) } # content_translations
     languages       ['fr']
-    allow_comment   true
+    reference       { Faker::Internet.url }
     notation        0
     priority        0
     visibility      'everyone'
+    allow_comment   true
 
     factory :article_with_tags do
       transient do

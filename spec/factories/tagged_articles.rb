@@ -17,6 +17,9 @@
 FactoryBot.define do
 
   factory :tagged_article do
+    # user
+    # topic
+
     # tag
     # article
   end

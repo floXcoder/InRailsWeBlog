@@ -43,12 +43,10 @@ export default class Submit extends React.Component {
                         id={this.props.id}
                         type="submit"
                         name="commit"
-                        className={classNames(this.props.buttonType, 'waves-effect waves-light', this.props.className, {
-                            tooltipped: !Utils.isEmpty(this.props.tooltipMessage),
-                            disabled: this.props.isDisabled
+                        className={classNames(this.props.buttonType, this.props.className, {
+                            disabled: this.props.isDisabled,
+                            'tooltip-top': !!this.props.tooltipMessage
                         })}
-                        data-position="top"
-                        data-delay="50"
                         data-tooltip={this.props.tooltipMessage}
                         onClick={this.props.onClick}>
                     {this.props.children}
@@ -59,16 +57,13 @@ export default class Submit extends React.Component {
                        type="submit"
                        name="commit"
                        disabled={this.props.isDisabled}
-                       className={classNames(this.props.buttonType, 'waves-effect waves-light', this.props.className, {
-                           tooltipped: !Utils.isEmpty(this.props.tooltipMessage),
-                           disabled: this.props.isDisabled
+                       className={classNames(this.props.buttonType, this.props.className, {
+                           disabled: this.props.isDisabled,
+                           'tooltip-top': !!this.props.tooltipMessage
                        })}
-                       data-position="top"
-                       data-delay="50"
                        data-tooltip={this.props.tooltipMessage}
                        value={this.props.children}
                        onClick={this.props.onClick}/>
         );
     }
 }
-

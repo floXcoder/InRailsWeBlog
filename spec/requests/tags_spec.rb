@@ -219,10 +219,11 @@ describe 'Tag API', type: :request, basic: true do
     end
   end
 
+  # TODO: test tag delete with error
   describe '/tags/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/tags/#{@tags[0].id}", as: :json
+        delete "/tags/#{@tags[0].id}", headers: @json_header
 
         expect(response).to be_unauthenticated
       end
@@ -235,7 +236,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'returns the soft deleted tag id' do
         expect {
-          delete "/tags/#{@tags[4].id}", as: :json
+          delete "/tags/#{@tags[4].id}", headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(0).and change(TaggedArticle, :count).by(0).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -243,7 +244,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'returns the soft deleted tag id with relationships removed' do
         expect {
-          delete "/tags/#{@tags[0].id}", as: :json
+          delete "/tags/#{@tags[0].id}", headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -257,7 +258,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'can remove permanently an tag' do
         expect {
-          delete "/tags/#{@tags[2].id}", params: { permanently: true }, as: :json
+          delete "/tags/#{@tags[2].id}", headers: @json_header, params: { permanently: true }
 
           expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(-1).and change(TaggedArticle, :count).by(-1).and change(TaggedArticle.with_deleted, :count).by(-1).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -350,7 +351,7 @@ describe 'Tag API', type: :request, basic: true do
     describe '/tags/:id/comments (DELETE)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
+          delete "/tags/#{@tags.first.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
 
           expect(response).to be_unauthenticated
         end
@@ -362,7 +363,7 @@ describe 'Tag API', type: :request, basic: true do
         end
 
         it 'deletes a comment associated to this tag' do
-          delete "/tags/#{@tags.first.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
+          delete "/tags/#{@tags.first.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
 
           expect(response).to be_json_response(202)
 
@@ -375,6 +376,7 @@ describe 'Tag API', type: :request, basic: true do
   end
 
   context 'tracker' do
+    # TODO: add click with user_id to call add_visit_activity
     describe '/tags/:id/clicked' do
       it 'counts a new click on tags' do
         post "/tags/#{@tags.first.id}/clicked", as: :json

@@ -6,8 +6,8 @@ class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration[5.1]
       t.references  :commentable,    polymorphic: true,    null: false, index: false
 
       t.string      :title
-      t.text        :body
       t.string      :subject
+      t.text        :body
       t.integer     :rating,            default: 0
       t.integer     :positive_reviews,  default: 0
       t.integer     :negative_reviews,  default: 0

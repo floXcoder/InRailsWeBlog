@@ -82,8 +82,8 @@ class Article < ApplicationRecord
              word_middle: [:title, :content],
              suggest:     [:title],
              highlight:   [:title, :content, :reference],
-             language:    -> { I18n.locale == :fr ? 'french' : 'english' },
-             index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
+             language:    -> { I18n.locale == :fr ? 'french' : 'english' }
+             # index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
 
   # Comments
   include CommentableConcern
@@ -244,9 +244,7 @@ class Article < ApplicationRecord
     article.allow_comment = false if article.visibility == 'only_me' || article.mode != 'story'
   end
 
-  after_commit do
-    Article.search_index.promote("#{self.class.name.tableize}-#{self.class.current_language || I18n.locale}")
-  end
+  # after_commit :update_search_index
 
   # == Class Methods ========================================================
   # Article Search
@@ -290,7 +288,7 @@ class Article < ApplicationRecord
       notation: { where: { notation: { not: 0 } } },
       mode:     {},
       tags:     {}
-    }
+    } if format != 'strict'
 
     # Boost user articles first
     boost_where            = {}
@@ -328,8 +326,8 @@ class Article < ApplicationRecord
                              order:         order,
                              aggs:          aggregations,
                              includes:      includes,
-                             index_name:    %w[articles-fr articles-en],
-                             indices_boost: { "articles-#{I18n.locale}" => 5 },
+                             # index_name:    %w[articles-fr articles-en],
+                             # indices_boost: { "articles-#{I18n.locale}" => 5 },
                              execute:       !options[:defer])
 
     if options[:defer]
@@ -341,7 +339,7 @@ class Article < ApplicationRecord
 
   def self.autocomplete_for(query, options = {})
     # If query not defined or blank, search for everything
-    query_string = !query || query.blank? ? '*' : query
+    query_string = !query || query.blank? ? nil : query
 
     # Fields with boost
     fields = %w[title^3 summary]
@@ -572,7 +570,7 @@ class Article < ApplicationRecord
     self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
 
     # Language
-    self.languages |= [attributes[:language]] || current_user&.locale || I18n.locale
+    self.languages |= [(attributes[:language] || current_user&.locale || I18n.locale).to_s]
 
     # Sanitization
     unless attributes[:title].nil?
@@ -685,7 +683,8 @@ class Article < ApplicationRecord
     default_picture = ''
 
     picture = if self.pictures_count > 0
-                self.pictures.order('priority DESC').first.image.thumb.url
+                # Use sort_by to avoid N+1 queries and new graph model
+                self.pictures.sort_by(&:priority).reverse.first.image.mini.url
               else
                 default_picture
               end
@@ -809,6 +808,14 @@ class Article < ApplicationRecord
       # private_content:   strip_content, # Do not expose secret content
     }
   end
+
+  # def update_search_index
+  #   # Update index to handle multi-languages
+  #   self.reindex
+  #
+  #   # Needed?
+  #   # Article.search_index.promote("#{self.class.name.tableize}-#{self.class.current_language || I18n.locale}")
+  # end
 
   # SEO
   def meta_description

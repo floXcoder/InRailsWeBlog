@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
           js_redirect_to(login_path)
         end
         format.html do
-          save_location
+          store_current_location
           redirect_to login_path, notice: I18n.t('devise.failure.unauthenticated')
         end
         format.json do
@@ -214,25 +214,31 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Called after sign in and sign up
-  def after_sign_in_path_for(_resource)
-    session[:user_just_sign] = true
-
-    previous_url = previous_url(request.referer)
-
-    if !session[:previous_url] && request.referer && request.referer.include?(root_url) && previous_url
-      session[:previous_url] = request.referer
-    end
-
-    root_path = resource.is_a?(Admin) ? admin_path : root_path(current_user)
-
-    session[:previous_url] || root_path
+  def store_current_location
+    store_location_for(:user, request.url) if request.get?
   end
 
-  def save_location
-    return unless request.get?
+  # Called after sign in and sign up
+  def after_sign_in_path_for(resource_or_scope)
+    session[:first_connection] = true
 
-    session[:previous_url] = previous_url(request.path) unless request.xhr? # don't store ajax calls
+    if resource.is_a?(Admin)
+      admin_path
+    else
+      root_path     = signed_in_root_path(resource_or_scope)
+      previous_path = request.referer && URI.parse(request.referer).path
+
+      if previous_path =~ /\/login/ || previous_path =~ /\/signup/
+        root_path
+      else
+        request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || previous_path || root_path
+      end
+    end
+  end
+
+  def after_sign_out_path_for(_resource)
+    previous_path = request.referer && URI.parse(request.referer).path
+    previous_path || root_path
   end
 
   def admin_or_authorize(model = nil, method = nil)

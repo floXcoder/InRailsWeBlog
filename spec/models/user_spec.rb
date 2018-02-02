@@ -328,6 +328,15 @@ RSpec.describe User, type: :model, basic: true do
         expect(user_results[:users].size).to eq(1)
         expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
       end
+
+      it 'search for users with ordering' do
+        user_results = User.search_for('user', order: 'created_last')
+
+        expect(user_results[:users]).not_to be_empty
+        expect(user_results[:users]).to be_a(ActiveRecord::Relation)
+        expect(user_results[:users].size).to eq(1)
+        expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
+      end
     end
 
     describe '::autocomplete_for' do

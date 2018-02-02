@@ -172,7 +172,7 @@ class Tag < ApplicationRecord
 
   scope :from_user, -> (user_id = nil, current_user_id = nil) {
     where(user_id: user_id).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :current_user_id)',
-                                  current_user_id: current_user_id)
+                                  current_user_id: current_user_id || user_id)
   }
 
   scope :for_topic, -> (topic_id) {
@@ -275,7 +275,7 @@ class Tag < ApplicationRecord
 
   def self.autocomplete_for(query, options = {})
     # If query not defined or blank, search for everything
-    query_string = !query || query.blank? ? '*' : query
+    query_string = !query || query.blank? ? nil : query
 
     # Fields with boost
     fields = %w[name^3 description]
@@ -419,7 +419,7 @@ class Tag < ApplicationRecord
   def self.filter_by(records, filter, current_user = nil)
     records = records.where(id: filter[:tag_ids]) if filter[:tag_ids]
 
-    records = records.from_user(filter[:user_id]) if filter[:user_id]
+    records = records.from_user(filter[:user_id], current_user&.id) if filter[:user_id]
 
     records = records.for_topic(filter[:topic_id]) if filter[:topic_id]
 
@@ -492,12 +492,12 @@ class Tag < ApplicationRecord
     self.user_id == user.id if user
   end
 
-  def format_attributes(attributes = {})
+  def format_attributes(attributes = {}, current_user = nil)
     # Clean attributes
     attributes = attributes.reject { |_, v| v.blank? }
 
     #  Language
-    self.languages |= attributes[:language] || current_user&.locale || I18n.locale
+    self.languages |= [(attributes[:language] || current_user&.locale || I18n.locale).to_s]
 
     # Sanitization
     unless attributes[:name].nil?
@@ -521,7 +521,7 @@ class Tag < ApplicationRecord
     default_picture = ''
 
     picture = if self.icon
-                self.icon.image.thumb.url
+                self.icon.image.mini.url
               else
                 default_picture
               end
@@ -579,9 +579,6 @@ class Tag < ApplicationRecord
   private
 
   def add_visit_activity(user_id = nil)
-
-    w user_id
-
     return unless user_id
 
     user = User.find_by(id: user_id)

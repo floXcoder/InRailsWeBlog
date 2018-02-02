@@ -27,11 +27,10 @@ FactoryBot.define do
     # user
 
     sequence(:name)         { |n| "Topic #{n}" }
-    sequence(:description)  { |n| "Topic description #{n}" }
+    sequence(:description)  { |n| "Topic description #{n}" } # description_translations
     languages               ['fr']
     priority                0
     visibility              'everyone'
-    accepted                true
   end
 
 end

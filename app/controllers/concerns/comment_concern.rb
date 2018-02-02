@@ -42,7 +42,7 @@ module CommentConcern
                  status:     :accepted
         end
       else
-        flash.now[:success] = t('views.comment.flash.error_creation')
+        flash.now[:error] = t('views.comment.flash.error_creation')
         format.json do
           render json:   { errors: comment.errors },
                  status: :forbidden
@@ -69,7 +69,7 @@ module CommentConcern
                  status: :accepted
         end
       else
-        flash.now[:success] = t('views.comment.flash.error_edition')
+        flash.now[:error] = t('views.comment.flash.error_edition')
         format.json do
           render json:   { errors: comment.errors },
                  status: :forbidden
@@ -96,7 +96,7 @@ module CommentConcern
                  status: :accepted
         end
       else
-        flash.now[:success] = t('views.comment.flash.error_deletion')
+        flash.now[:error] = t('views.comment.flash.error_deletion')
         format.json do
           render json:   { errors: comment.errors },
                  status: :forbidden

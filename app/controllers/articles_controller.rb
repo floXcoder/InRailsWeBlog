@@ -222,10 +222,11 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title,
+    params.require(:article).permit(:mode,
+                                    :title,
                                     :summary,
-                                    :description,
                                     :content,
+                                    :reference,
                                     :visibility,
                                     :notation,
                                     :priority,
@@ -265,10 +266,7 @@ class ArticlesController < ApplicationController
                                      :child_tag_slug,
                                      :bookmarked,
                                      user_ids:         [],
-                                     topic_ids:        [],
-                                     parent_tag_slugs: [],
-                                     child_tag_slugs:  [],
-                                     tag_slugs:        []).reject { |_, v| v.blank? }
+                                     topic_ids:        []).reject { |_, v| v.blank? }
     else
       {}
     end

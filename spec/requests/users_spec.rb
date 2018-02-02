@@ -49,7 +49,7 @@ describe 'Users API', type: :request, basic: true do
     it 'returns true if user exists' do
       get '/users/validation', params: { user: { pseudo: 'Main User' } }, as: :json
 
-      expect(response).to be_json_response(202)
+      expect(response).to be_json_response(200)
 
       user = JSON.parse(response.body)
       expect(user['success']).to be true
@@ -58,7 +58,10 @@ describe 'Users API', type: :request, basic: true do
     it 'returns not found if user does not exist' do
       get '/users/validation', params: { user: { email: 'not.found@user.com' } }, as: :json
 
-      expect(response).to be_json_response(404)
+      expect(response).to be_json_response(200)
+
+      user = JSON.parse(response.body)
+      expect(user['success']).to be false
     end
   end
 
@@ -81,8 +84,12 @@ describe 'Users API', type: :request, basic: true do
       expect(user['user']).not_to be_empty
       expect(user['user']['pseudo']).to eq('Main User')
     end
+
+  # TODO: test user complete
+  # TODO: test user profile
   end
 
+  # TODO: test user bookmarks show
   # describe '/users/:id/bookmarks (HTML)' do
   #   before do
   #     login_as(@user, scope: :admin, run_callbacks: false)
@@ -123,6 +130,8 @@ describe 'Users API', type: :request, basic: true do
       end
     end
   end
+
+  # TODO: test user recents
 
   describe '/users/:id/activities' do
     context 'when user is not connected' do

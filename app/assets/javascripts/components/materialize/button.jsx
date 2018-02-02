@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 export default class Button extends React.PureComponent {
     static propTypes = {
         children: PropTypes.string.isRequired,
@@ -38,7 +36,9 @@ export default class Button extends React.PureComponent {
         const buttonClass = classNames(
             'btn waves-effect waves-light',
             this.props.className,
-            {'tooltip-bottom': !Utils.isEmpty(this.props.tooltip)}
+            {
+                'tooltip-top': !!this.props.tooltip
+            }
         );
 
         return (
@@ -60,4 +60,3 @@ export default class Button extends React.PureComponent {
         );
     }
 }
-

@@ -11,6 +11,7 @@ feature 'User Confirmation', advanced: true, js: true do
   given(:new_confirmation_page) { UserPage.new(new_user_confirmation_path) }
 
   background do
+    logout
     new_confirmation_page.visit
   end
 

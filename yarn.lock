@@ -8392,7 +8392,7 @@ seek-bzip@^1.0.3:
   dependencies:
     commander "~2.8.1"
 
-semantic-ui-css@^2.2.12:
+semantic-ui-css@2.2.12:
   version "2.2.12"
   resolved "https://registry.yarnpkg.com/semantic-ui-css/-/semantic-ui-css-2.2.12.tgz#afc462e5bb4f8a0dcfe3dca11274499a997490dd"
   dependencies:
@@ -8407,10 +8407,6 @@ semantic-ui-react@0.77.2:
     fbjs "^0.8.16"
     lodash "^4.17.4"
     prop-types "^15.5.10"
-
-semantic-ui-sass@2.2.11:
-  version "2.2.11"
-  resolved "https://registry.yarnpkg.com/semantic-ui-sass/-/semantic-ui-sass-2.2.11.tgz#f77677cfc6ebe874f0da29e2787b64facccd1f4b"
 
 semver-regex@^1.0.0:
   version "1.0.0"
@@ -9081,7 +9077,7 @@ sum-up@^1.0.1:
   dependencies:
     chalk "^1.0.0"
 
-summernote@^0.8.9:
+summernote@0.8.9:
   version "0.8.9"
   resolved "https://registry.yarnpkg.com/summernote/-/summernote-0.8.9.tgz#366d08385e62044088579bbccfb87c2e597be81a"
 

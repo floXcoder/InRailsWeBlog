@@ -2,5 +2,5 @@
 
 - flash.each do |message_type, message|
   - if message
-    .blog-flash.hide data-level="#{message_type}"
+    .blog-flash.hide data-level="#{message_type}" data-flash-token="#{Time.current.to_s(:number)}"
       = message.html_safe

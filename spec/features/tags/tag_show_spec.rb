@@ -10,6 +10,7 @@ feature 'Tag Show page', advanced: true, js: true do
   given(:tag_page) { TagPage.new(tag_path(@tag)) }
 
   background do
+    logout
     tag_page.visit
   end
 

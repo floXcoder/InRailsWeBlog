@@ -16,8 +16,13 @@
 FactoryBot.define do
 
   factory :tag_relationship do
-    # tag
-    # tag
+    # user
+    # topic
+
+    # article
+
+    # parent (tag)
+    # child (tag)
   end
 
 end

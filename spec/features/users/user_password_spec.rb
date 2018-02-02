@@ -15,6 +15,7 @@ feature 'User Password', advanced: true, js: true do
 
   feature 'New Password page' do
     background do
+      logout
       new_password_page.visit
     end
 
@@ -40,6 +41,7 @@ feature 'User Password', advanced: true, js: true do
 
   feature 'Edit Password content' do
     background do
+      logout
       edit_password_page.visit
     end
 

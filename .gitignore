@@ -35,6 +35,8 @@
 # Ignore static analysis files
 /static_analysis/*
 /.validation/*
+/spec/.validation/*
+/coverage
 
 # Ignore user specific Rubymine files
 /.idea/workspace.xml

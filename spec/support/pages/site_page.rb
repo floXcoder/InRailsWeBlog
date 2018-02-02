@@ -55,11 +55,12 @@ class SitePage
 
   def has_javascript_errors?
     javascript_logs = page.driver.browser.manage.logs.get(:browser)
-    # Ignore warnings and mapbox errors
-    javascript_logs = javascript_logs.reject { |log| log.message.match?(/Warning:/) }
-    javascript_logs = javascript_logs.reject { |log| log.message.match?(/WebSocket/) }
 
-    if !javascript_logs.length.empty?
+    # Ignore warnings and mapbox errors
+    javascript_logs = javascript_logs.reject { |log| log.message =~ /Warning:/ }
+    javascript_logs = javascript_logs.reject { |log| log.message =~ /WebSocket/ }
+
+    if !javascript_logs.empty?
       ap javascript_logs.map(&:message)
       return true
     else

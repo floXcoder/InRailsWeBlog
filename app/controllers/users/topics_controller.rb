@@ -60,7 +60,7 @@ class Users::TopicsController < ApplicationController
     topic = user.topics.build
     authorize topic
 
-    topic.format_attributes(topic_params)
+    topic.format_attributes(topic_params, current_user)
 
     respond_to do |format|
       format.json do

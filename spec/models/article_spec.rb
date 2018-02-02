@@ -39,11 +39,11 @@ RSpec.describe Article, type: :model, basic: true do
     @article = Article.create(
       user:          @user,
       topic:         @topic,
+      mode:          :story,
       title:         'My title',
       summary:       'Summary of my article',
       content:       'Content of my article',
-      reference:     'Reference link',
-      language:      'fr',
+      languages:     ['fr'],
       visibility:    'everyone',
       notation:      1,
       priority:      1,
@@ -66,7 +66,7 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to respond_to(:content) }
     it { is_expected.to respond_to(:reference) }
     it { is_expected.to respond_to(:draft) }
-    it { is_expected.to respond_to(:language) }
+    it { is_expected.to respond_to(:languages) }
     it { is_expected.to respond_to(:allow_comment) }
     it { is_expected.to respond_to(:notation) }
     it { is_expected.to respond_to(:priority) }
@@ -81,8 +81,8 @@ RSpec.describe Article, type: :model, basic: true do
     it { expect(@article.title).to eq('My title') }
     it { expect(@article.summary).to eq('Summary of my article') }
     it { expect(@article.content).to eq('Content of my article') }
-    it { expect(@article.reference).to eq('Reference link') }
-    it { expect(@article.language).to eq('fr') }
+    it { expect(@article.languages).to eq(['fr']) }
+    it { expect(@article.reference).to be_nil }
     it { expect(@article.notation).to eq(1) }
     it { expect(@article.priority).to eq(1) }
     it { expect(@article.visibility).to eq('everyone') }
@@ -128,7 +128,16 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '#content' do
       it { is_expected.to validate_length_of(:content).is_at_least(CONFIG.article_content_min_length) }
-      it { is_expected.to validate_length_of(:content).is_at_most(CONFIG.article_content_max_length) }
+      # Endless test
+      # it { is_expected.to validate_length_of(:content).is_at_most(CONFIG.article_content_max_length) }
+
+      it 'validates presence of content if no reference' do
+        @article.update!(reference: nil)
+        expect(@article).to validate_presence_of(:content)
+
+        @article.update!(reference: 'htt://link.com')
+        expect(@article).not_to validate_presence_of(:content)
+      end
     end
 
     describe '#notation' do
@@ -178,6 +187,18 @@ RSpec.describe Article, type: :model, basic: true do
         expect(updated_article.errors[:topic].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
       end
     end
+
+    describe '#allow_comment' do
+      it 'set comment to false for private article or story mode' do
+        new_article = build(:article, topic: @topic, user: @user, visibility: 'only_me')
+        expect(new_article.save).to be true
+        expect(new_article.allow_comment).to be false
+
+        new_article = build(:article, topic: @topic, user: @user, draft: true, mode: :note)
+        expect(new_article.save).to be true
+        expect(new_article.allow_comment).to be false
+      end
+    end
   end
 
   context 'Associations' do
@@ -209,7 +230,7 @@ RSpec.describe Article, type: :model, basic: true do
   end
 
   context 'Properties' do
-    it { is_expected.to have_strip_attributes([:title, :summary, :language]) }
+    it { is_expected.to have_strip_attributes([:reference]) }
 
     it { is_expected.to have_friendly_id(:slug) }
 
@@ -355,13 +376,56 @@ RSpec.describe Article, type: :model, basic: true do
       it { is_expected.to respond_to(:search_for) }
 
       it 'search for articles' do
-        article_results = Article.search_for('title')
+        article_results = Article.search_for('title')[:articles]
 
         expect(article_results[:articles]).not_to be_empty
-        expect(article_results[:articles]).to be_kind_of(ActiveRecord::Relation)
+        expect(article_results[:articles]).to be_kind_of(Array)
         expect(article_results[:articles].size).to eq(2)
         expect(article_results[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
       end
+
+      it 'search for articles in strict mode' do
+        article_results = Article.search_for('title', format: :strict)[:articles]
+
+        expect(article_results[:articles]).not_to be_empty
+        expect(article_results[:articles]).to be_kind_of(Array)
+        expect(article_results[:articles].size).to eq(2)
+        expect(article_results[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
+      end
+
+      it 'search for articles with ordering' do
+        article_results = Article.search_for('title', order: 'created_last')[:articles]
+
+        expect(article_results[:articles]).not_to be_empty
+        expect(article_results[:articles]).to be_kind_of(Array)
+        expect(article_results[:articles].size).to eq(2)
+        expect(article_results[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
+      end
+
+      # Take into account:
+      # Language when creating
+      # Language when updating
+      # Highlight option
+      # Current language when getting data with translation helper
+      # it 'search for articles in multi-languages' do
+      #   begin
+      #     I18n.locale = :fr
+      #     article_fr = create(:article, user: @user, topic: @topic, content: 'language in french', languages: ['fr'])
+      #     multi_lg_article = create(:article, user: @user, topic: @topic, content: 'language in french', languages: ['fr'])
+      #     I18n.locale = :en
+      #     article_en = create(:article, user: @user, topic: @topic, content: 'language in english', languages: ['en'])
+      #     multi_lg_article.update(content: 'language in english', languages: ['en', 'fr'])
+      #
+      #     I18n.locale = :fr
+      #     article_results = Article.search_for('language', highlight: true)[:articles]
+      #
+      #     I18n.locale = :en
+      #     article_results = Article.search_for('language', highlight: true)[:articles]
+      #
+      #   ensure
+      #     I18n.locale = :fr
+      #   end
+      # end
     end
 
     describe '::autocomplete_for' do
@@ -376,9 +440,9 @@ RSpec.describe Article, type: :model, basic: true do
         article_autocompletes = Article.autocomplete_for('tit')
 
         expect(article_autocompletes).not_to be_empty
-        expect(article_autocompletes).to be_a(Array)
-        expect(article_autocompletes.size).to eq(2)
-        expect(article_autocompletes.map { |article| article[:title] }).to include(@article.title, other_article.title)
+        expect(article_autocompletes[:articles]).not_to be_empty
+        expect(article_autocompletes[:articles].size).to eq(2)
+        expect(article_autocompletes[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
       end
     end
 
@@ -388,8 +452,18 @@ RSpec.describe Article, type: :model, basic: true do
     end
 
     describe '::filter_by' do
+      before do
+        @tags                  = create_list(:tag, 3, user: @user)
+        @article_with_tags     = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0]])
+        @article_with_relation_tags = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[0], @tags[1]], child_tags: [@tags[2]])
+      end
+
       it { is_expected.to respond_to(:filter_by) }
       it { expect(Article.filter_by(Article.all, topic_id: @topic.id)).to include(@article) }
+      it { expect(Article.filter_by(Article.all, parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[2].slug)).to contain_exactly(@article_with_relation_tags) }
+      it { expect(Article.filter_by(Article.all, parent_tag_slug: @tags[1].slug)).to contain_exactly(@article_with_relation_tags) }
+      it { expect(Article.filter_by(Article.all, child_tag_slug: @tags[2].slug)).to contain_exactly(@article_with_relation_tags) }
+      it { expect(Article.filter_by(Article.all, tag_slug: @tags[0].slug)).to contain_exactly(@article_with_tags, @article_with_relation_tags) }
     end
 
     describe '::order_by' do

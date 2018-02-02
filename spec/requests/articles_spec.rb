@@ -27,10 +27,11 @@ describe 'Article API', type: :request, basic: true do
   }
   let(:article_error_attributes) {
     {
-      article: article_attributes.merge(
-        title:   'title' * 30,
-        content: nil
-      )
+      article: {
+        title:     'title' * 30,
+        content:   nil,
+        reference: nil
+      }
     }
   }
   let(:updated_article_attributes) {
@@ -96,31 +97,31 @@ describe 'Article API', type: :request, basic: true do
       end
 
       it 'returns articles for tags' do
-        get '/articles', params: { filter: { tag_slugs: [@tags[0].slug] } }, as: :json
+        get '/articles', params: { filter: { tag_slug: @tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(1)
 
-        get '/articles', params: { filter: { tag_slugs: [@tags[0].slug, @tags[1].slug] } }, as: :json
-        json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(3)
+        # get '/articles', params: { filter: { tag_slugs: [@tags[0].slug, @tags[1].slug] } }, as: :json
+        # json_articles = JSON.parse(response.body)
+        # expect(json_articles['articles'].size).to eq(3)
       end
 
       it 'returns articles for parent tags' do
-        get '/articles', params: { filter: { parent_tag_slugs: [@tags[0].slug] } }, as: :json
+        get '/articles', params: { filter: { parent_tag_slug: @tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).to be_empty
 
-        get '/articles', params: { filter: { parent_tag_slugs: [@tags[1].slug] } }, as: :json
+        get '/articles', params: { filter: { parent_tag_slug: @tags[1].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(2)
       end
 
       it 'returns articles for child tags' do
-        get '/articles', params: { filter: { child_tag_slugs: [@tags[0].slug] } }, as: :json
+        get '/articles', params: { filter: { child_tag_slug: @tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).to be_empty
 
-        get '/articles', params: { filter: { child_tag_slugs: [@tags[2].slug] } }, as: :json
+        get '/articles', params: { filter: { child_tag_slug: @tags[2].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(1)
       end
@@ -238,7 +239,7 @@ describe 'Article API', type: :request, basic: true do
         expect(json_history['history']).not_to be_empty
         expect(json_history['history'].size).to eq(2)
         articles_history = json_history['history'].map { |m| m['article']['title'] }
-        expect(articles_history).to eq([@original_title, 'title 2'])
+        expect(articles_history).to eq(['title 3', 'title 2'])
       end
     end
   end
@@ -285,15 +286,15 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with new tags associated to the current topic' do
         expect {
-          post '/articles', params: article_attributes.deep_merge(article: { tags: ['new tag 1', 'new tag 2'] }), as: :json
+          post '/articles', params: article_attributes.deep_merge(article: { tags: [{ name: 'new tag 1', visibility: 'everyone' }, { name: 'new tag 2', visibility: 'everyone' }] }), as: :json
 
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parentTags']).to be_empty
-          expect(article['article']['childTags']).to be_empty
+          expect(article['article']['parentTagIds']).to be_empty
+          expect(article['article']['childTagIds']).to be_empty
 
           expect(Tag.last(2).first.topics.last).to eq(@user.current_topic)
           expect(Tag.last(2).second.topics.last).to eq(@user.current_topic)
@@ -302,15 +303,15 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with existing tags associated to current topic' do
         expect {
-          post '/articles', params: article_attributes.deep_merge(article: { tags: [@tags[0].name, @tags[1].name] }), as: :json
+          post '/articles', params: article_attributes.deep_merge(article: { tags: [{ name: @tags[0].name, visibility: @tags[0].visibility }, { name: @tags[1].name, visibility: @tags[1].visibility }] }), as: :json
 
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parentTags']).to be_empty
-          expect(article['article']['childTags']).to be_empty
+          expect(article['article']['parentTagIds']).to be_empty
+          expect(article['article']['childTagIds']).to be_empty
 
           expect(@tags[0].topics).to include(@user.current_topic)
           expect(@tags[1].topics).to include(@user.current_topic)
@@ -319,15 +320,15 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with parent and child tags associated' do
         expect {
-          post '/articles', params: article_attributes.deep_merge(article: { parent_tags: [@tags[2].name], child_tags: [@tags[3].name] }), as: :json
+          post '/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: @tags[2].name, visibility: @tags[2].visibility }], child_tags: [{ name: @tags[3].name, visibility: @tags[3].visibility }] }), as: :json
 
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parentTags'].size).to eq(1)
-          expect(article['article']['childTags'].size).to eq(1)
+          expect(article['article']['parentTagIds'].size).to eq(1)
+          expect(article['article']['childTagIds'].size).to eq(1)
 
           expect(@tags[2].children.last).to eq(@tags[3])
           expect(@tags[3].parents.last).to eq(@tags[2])
@@ -336,7 +337,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with tags having the correct visibility' do
         expect {
-          post '/articles', params: article_attributes.deep_merge(article: { tags: ['tag public,everyone', 'tag private,only_me'] }), as: :json
+          post '/articles', params: article_attributes.deep_merge(article: { tags: [{ name: 'tag public', visibility: 'everyone' }, { name: 'tag private', visibility: 'only_me' }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -351,7 +352,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with tags having the correct association and visibility' do
         expect {
-          post '/articles', params: article_attributes.deep_merge(article: { parent_tags: ['parent tag public,everyone'], child_tags: ['child tag private,only_me'] }), as: :json
+          post '/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: 'parent tag public', visibility: 'everyone' }], child_tags: [{ name: 'child tag private', visibility: 'only_me' }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -451,7 +452,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns updated article with new tags' do
         expect {
-          put "/articles/#{@article.id}", params: article_attributes.deep_merge(article: { tags: ['new tag 1', 'new tag 2'] }), as: :json
+          put "/articles/#{@article.id}", params: article_attributes.deep_merge(article: { tags: [{ name: 'new tag 1', visibility: 'everyone' }, { name: 'new tag 2', visibility: 'everyone' }] }), as: :json
 
           expect(response).to be_json_response
 
@@ -459,8 +460,8 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
           expect(article['article']['tags'].map { |t| t['name'] }).to include('New tag 1', 'New tag 2')
-          expect(article['article']['parentTags']).to be_empty
-          expect(article['article']['childTags']).to be_empty
+          expect(article['article']['parentTagIds']).to be_empty
+          expect(article['article']['childTagIds']).to be_empty
 
           expect(TaggedArticle.where(article_id: article['article']['id']).first.tag.name).to eq('New tag 1')
           expect(TaggedArticle.where(article_id: article['article']['id']).second.tag.name).to eq('New tag 2')
@@ -469,15 +470,15 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns updated article and tags relationship' do
         expect {
-          put "/articles/#{@relation_tags_article.id}", params: article_attributes.deep_merge(article: { parent_tags: [@tags[1].name], child_tags: [@tags[3].name] }), as: :json
+          put "/articles/#{@relation_tags_article.id}", params: article_attributes.deep_merge(article: { parent_tags: [{ name: @tags[1].name, visibility: @tags[1].visibility }], child_tags: [{ name: @tags[3].name, visibility: @tags[3].visibility }] }), as: :json
 
           expect(response).to be_json_response
 
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parentTags'].size).to eq(1)
-          expect(article['article']['childTags'].size).to eq(1)
+          expect(article['article']['parentTagIds'].size).to eq(1)
+          expect(article['article']['childTagIds'].size).to eq(1)
         }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TagRelationship, :count).by(-1)
       end
 
@@ -533,7 +534,7 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response(202)
         json_history = JSON.parse(response.body)
         expect(json_history['article']).not_to be_empty
-        expect(json_history['article']['title']).to eq('title 2')
+        expect(json_history['article']['title']).to eq('title 3')
       end
     end
   end
@@ -541,7 +542,7 @@ describe 'Article API', type: :request, basic: true do
   describe '/articles/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/articles/#{@article.id}", as: :json
+        delete "/articles/#{@article.id}", headers: @json_header
 
         expect(response).to be_unauthenticated
       end
@@ -554,7 +555,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns the soft deleted article id' do
         expect {
-          delete "/articles/#{@article.id}", as: :json
+          delete "/articles/#{@article.id}", headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -562,7 +563,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns the soft deleted article id with relationships removed' do
         expect {
-          delete "/articles/#{@relation_tags_article.id}", as: :json
+          delete "/articles/#{@relation_tags_article.id}", headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(-2).and change(TagRelationship.with_deleted, :count).by(0)
@@ -576,7 +577,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'can remove permanently an article' do
         expect {
-          delete "/articles/#{@article.id}", params: { permanently: true }, as: :json
+          delete "/articles/#{@article.id}", params: { permanently: true }, headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(-1).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(-3).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -600,6 +601,8 @@ describe 'Article API', type: :request, basic: true do
         comment: { id: @comments.first.id, title: 'title updated', body: 'The comment updated' }
       }
     }
+
+    # TODO: test comments with error
 
     describe '/articles/:id/comments' do
       it 'returns all comments for this article' do
@@ -668,7 +671,7 @@ describe 'Article API', type: :request, basic: true do
     describe '/articles/:id/comments (DELETE)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
+          delete "/articles/#{@relation_tags_article_2.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
 
           expect(response).to be_unauthenticated
         end
@@ -680,7 +683,7 @@ describe 'Article API', type: :request, basic: true do
         end
 
         it 'deletes a comment associated to this article' do
-          delete "/articles/#{@relation_tags_article_2.id}/comments", params: { comment: { id: @comments.second.id } }, as: :json
+          delete "/articles/#{@relation_tags_article_2.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
 
           expect(response).to be_json_response(202)
 
@@ -693,6 +696,7 @@ describe 'Article API', type: :request, basic: true do
   end
 
   context 'tracker' do
+    # TODO: add click with user_id to call add_visit_activity
     describe '/articles/:id/clicked' do
       it 'counts a new click on article' do
         post "/articles/#{@relation_tags_article_2.id}/clicked", as: :json

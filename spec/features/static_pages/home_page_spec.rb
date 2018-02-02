@@ -2,7 +2,10 @@ feature 'Home page', advanced: true, js: true do
 
   given(:homepage) { HomePage.new }
 
-  background { visit root_path }
+  background do
+    logout
+    visit root_path
+  end
 
   subject { homepage }
 

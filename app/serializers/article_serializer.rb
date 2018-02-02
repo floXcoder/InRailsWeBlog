@@ -38,12 +38,11 @@ class ArticleSerializer < ActiveModel::Serializer
              :title,
              :summary,
              :content,
-             :highlight_content,
              :reference,
              :updated_at,
-             :allow_comment,
              :visibility,
              :visibility_translated,
+             :allow_comment,
              :draft,
              :current_language,
              :bookmarked,
@@ -63,18 +62,8 @@ class ArticleSerializer < ActiveModel::Serializer
   # has_many :child_tags, serializer: TagSampleSerializer
 
   def content
-    current_user_id = defined?(current_user) && current_user ? current_user.id : nil
+    current_user_id = defined?(current_user) && current_user&.id
     object.adapted_content(current_user_id)
-  end
-
-  def highlight_content
-    if instance_options[:highlight].present? && instance_options[:highlight][object.id]
-      if defined?(current_user) && current_user && current_user.id == object.id
-        instance_options[:highlight][object.id]["content_#{I18n.locale}".to_sym]
-      else
-        instance_options[:highlight][object.id]["public_content_#{I18n.locale}".to_sym]
-      end
-    end
   end
 
   def updated_at
@@ -86,15 +75,15 @@ class ArticleSerializer < ActiveModel::Serializer
   end
 
   # TODO: N+1 query problem
-  # TODO: directly us current_user_id ?
-  def bookmarked
-    if defined?(current_user) && current_user
-      # object.user_bookmarks.exists?(current_user.id)
-      object.bookmarks.find_by(user_id: current_user.id)&.id
-    else
-      false
-    end
-  end
+  # TODO: directly use current_user_id ?
+  # def bookmarked
+  #   if defined?(current_user) && current_user
+  #     # object.user_bookmarks.exists?(current_user.id)
+  #     object.bookmarks.find_by(user_id: current_user.id)&.id
+  #   else
+  #     false
+  #   end
+  # end
 
   # TODO: N+1 query problem
   # def outdated

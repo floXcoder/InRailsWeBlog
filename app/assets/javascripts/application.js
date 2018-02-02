@@ -14,15 +14,14 @@ import * as utils from './modules/utils';
 window.Utils = utils;
 
 // Notifications
-import 'expose-loader?Notification!./components/theme/notification';
-// noinspection JSUnresolvedVariable
-Notification = Notification.default;
+import Notification from './components/theme/notification';
+window.Notification = Notification;
 
 // Translation
-import 'expose-loader?I18n!imports-loader?this=>window!./modules/i18n';
-
-I18n.defaultLocale = window.defaultLocale;
-I18n.locale = window.locale;
+import I18n from 'imports-loader?this=>window!./modules/i18n';
+window.I18n = I18n;
+window.I18n.defaultLocale = window.defaultLocale;
+window.I18n.locale = window.locale;
 
 // Keyboard inputs
 import 'expose-loader?Mousetrap!mousetrap';

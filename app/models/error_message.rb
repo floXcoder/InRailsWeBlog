@@ -39,7 +39,7 @@ class ErrorMessage < ApplicationRecord
   # == Relationships ========================================================
 
   # == Validations ==========================================================
-  validates :origin, inclusion: { in: ERROR_ORIGIN }
+  validate :origin_type
 
   # == Scopes ===============================================================
 
@@ -73,5 +73,11 @@ class ErrorMessage < ApplicationRecord
   end
 
   # == Instance Methods =====================================================
+
+  private
+
+  def origin_type
+    errors.add(:origin, I18n.t('errors.messages.inclusion')) if !self.origin || !ERROR_ORIGIN.include?(self.origin.to_sym)
+  end
 
 end
