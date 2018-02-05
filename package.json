@@ -11,7 +11,7 @@
   "scripts": {
     "start": "bundle exec guard",
     "development": "node --max_old_space_size=4096 ./node_modules/gulp/bin/gulp",
-    "production": "NODE_ENV=production node ./node_modules/gulp/bin/gulp production",
+    "production": "NODE_ENV=production node ./node_modules/gulp/bin/gulp production --env=production production",
     "test": "jest --config ./frontend/test/jest.conf.json",
     "test:watch": "jest --watch --config ./frontend/test/jest.conf.json",
     "test:coverage": "jest --coverage --config ./frontend/test/jest.conf.json"
