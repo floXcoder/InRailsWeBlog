@@ -1,289 +1,231 @@
 'use strict';
 
-import HighlightCode from 'highlight.js';
+import _ from 'lodash';
 
-import AnimatedText from '../theme/animated-text';
-
-import UserStore from '../../stores/userStore';
-
-import ArticleActions from '../../actions/articleActions';
-import ArticleStore from '../../stores/articleStore';
-import ArticleHistory from './history';
-import CountCommentIcon from '../comments/icons/count';
-import ArticleOutdatedIcon from './icons/outdated';
-import ArticleVisibilityIcon from './icons/visibility';
-import ArticleBookmarkIcon from './icons/bookmark';
-import ArticleHistoryIcon from './icons/history';
-import ArticleDeleteIcon from './icons/delete';
-import ArticleTags from './properties/tags';
-import ArticleTime from './properties/time';
-
-import UserAvatarIcon from '../users/icons/avatar';
-
-import CommentBox from '../comments/box';
+import LazyLoad from 'react-lazyload';
 
 import {
-    Link
-} from 'react-router-dom';
+    fetchArticle,
+    deleteArticle
+} from '../../actions';
 
-export default class ArticleShow extends Reflux.Component {
+import {
+    getArticleIsOwner,
+    getArticleIsOutdated
+} from '../../selectors';
+
+import highlight from '../modules/highlight';
+
+import ArticleUserIcon from './icons/user';
+import ArticleTime from './properties/time';
+import ArticleTags from './properties/tags';
+import ArticleActions from './properties/actions';
+// TODO
+// import ArticleTime from './properties/time';
+// TODO
+// import ArticleOutdatedIcon from './icons/outdated';
+// TODO
+// import ArticleBookmarkIcon from './icons/bookmark';
+// TODO
+// import ArticleVotes from './properties/vote';
+
+import Spinner from '../materialize/spinner';
+
+import CommentCountIcon from '../comments/icons/count';
+import CommentBox from '../comments/box';
+
+@connect((state) => ({
+    isFetching: state.articleState.isFetching,
+    article: state.articleState.article,
+    isOwner: getArticleIsOwner(state, state.articleState.article),
+    isOutdated: getArticleIsOutdated(state.articleState.article),
+    isUserConnected: state.userState.isConnected,
+}), {
+    fetchArticle,
+    deleteArticle
+})
+@highlight
+export default class ArticleShow extends React.Component {
     static propTypes = {
+        params: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
+        // From connect
+        isFetching: PropTypes.bool,
         article: PropTypes.object,
-        params: PropTypes.object,
-        location: PropTypes.object,
-    };
-
-    static defaultProps = {
-        article: null,
-        params: {},
-        location: {}
+        isOwner: PropTypes.bool,
+        isOutdated: PropTypes.bool,
+        isUserConnected: PropTypes.bool,
+        fetchArticle: PropTypes.func,
+        deleteArticle: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        props.fetchArticle(props.params.articleSlug);
     }
 
-    state = {
-        article: null,
-        articleVersions: null,
-        isHistoryDisplayed: false
-    };
-
-    componentWillMount() {
-        if (this.props.article) {
-            this.setState({
-                article: this.props.article
-            });
-        } else if (this.props.params.articleSlug) {
-            ArticleActions.loadArticle({slug: this.props.params.articleSlug});
+    componentWillReceiveProps(nextProps) {
+        if (!_.isEqual(this.props.params, nextProps.params)) {
+            this.props.fetchArticle(nextProps.params.articleSlug);
         }
     }
-
-    componentDidMount() {
-        // Display tooltips
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(() => {
-            $(this).tooltip();
-        });
-
-        // Highlight code in article content
-        HighlightCode.configure({
-            tabReplace: '  ' // 2 spaces
-        });
-
-        this._highlightCode();
-    }
-
-    componentDidUpdate() {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(() => {
-            $(this).tooltip();
-        });
-
-        this._highlightCode();
-    }
-
-    onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (articleData.type === 'loadArticle') {
-            newState.article = articleData.article;
-        }
-
-        if (articleData.type === 'loadArticleHistory') {
-            newState.isHistoryDisplayed = true;
-            newState.articleVersions = articleData.articleVersions;
-        }
-
-        if (articleData.type === 'restoreArticle') {
-            newState.isHistoryDisplayed = false;
-            newState.article = articleData.articleRestored;
-            Notification.success(I18n.t('js.article.history.restored'), 10);
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
-    _highlightCode = () => {
-        if (!this.state.article) {
-            return;
-        }
-
-        let domNode = ReactDOM.findDOMNode(this);
-        let nodes = domNode.querySelectorAll('pre code');
-        if (nodes.length > 0) {
-            for (let i = 0; i < nodes.length; i = i + 1) {
-                HighlightCode.highlightBlock(nodes[i]);
-            }
-        }
-    };
-
-    _handleUserClick = (userId, event) => {
-        UserStore.onTrackClick(userId);
-        return event;
-    };
-
-    _handleHistoryClick = () => {
-        if (this.state.isHistoryDisplayed) {
-            this.setState({isHistoryDisplayed: false});
-        } else {
-            ArticleActions.loadArticleHistory({history: this.state.article.id});
-        }
-    };
 
     _handleDeleteClick = (event) => {
         event.preventDefault();
-        if (this.state.article) {
-            ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
-        }
+
+        this.props.deleteArticle(this.props.article.id)
+            .then(() => this.props.history.push({
+                    pathname: `/`,
+                    state: {reloadTags: true}
+                })
+            );
+
     };
 
-    _handleBookmarkClick = (articleId, isBookmarked) => {
-        ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
+    // TODO
+    _handleVisibilityClick = (articleId) => {
     };
 
-    _handleVoteClick = (articleId, isUp) => {
-        ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
-    };
+    // TODO
+    // _handleBookmarkClick = (articleId, isBookmarked) => {
+    //     // ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
+    // };
 
-    _handleOutdatedClick = (articleId, isOutdated) => {
-        ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
-    };
+    // TODO
+    // _handleVoteClick = (articleId, isUp) => {
+    //     // ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
+    // };
+
+    // TODO
+    // _handleOutdatedClick = (articleId, isOutdated) => {
+    //     // ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
+    // };
 
     render() {
-        if (this.state.article) {
-            const isOutdated = this.state.article.outdated_number > 3;
-
+        if (!this.props.article) {
             return (
-                <div>
+                <div className="center margin-top-20">
+                    <Spinner size='big'/>
+                </div>
+            )
+        }
+
+        return (
+            <div>
+                {
+                    this.props.isOutdated &&
+                    <div className="card center-align red-text">
+                        <p>
+                            {I18n.t('js.article.common.outdated')}
+                        </p>
+                    </div>
+                }
+
+                <article className={classNames('card-panel', 'blog-article', {
+                    'article-outdated': this.props.isOutdated
+                })}>
+                    <h1 className="blog-article-title"
+                        itemProp="headline">
+                        {this.props.article.title}
+                    </h1>
+
                     {
-                        isOutdated &&
-                        <div className="card center-align red-text">
-                            <p>
-                                {I18n.t('js.article.common.outdated')}
-                            </p>
-                        </div>
+                        this.props.article.summary &&
+                        <h2 className="blog-article-summary">
+                            {this.props.article.summary}
+                        </h2>
                     }
 
-                    <div className={classNames('card blog-article-item clearfix', {'article-outdated': isOutdated})}>
-                        <div className="card-content">
-                            <UserAvatarIcon user={this.state.article.user}
-                                            className="article-user"/>
+                    <div className="blog-article-info">
+                        <ArticleUserIcon user={this.props.article.user}/>
 
-                            <div className="article-info right-align">
-                                <ArticleTime article={this.state.article}/>
+                        <span className="blog-article-info-sep">-</span>
 
-                                <CountCommentIcon linkToComment={'/articles/' + this.state.article.slug}
-                                                  commentsNumber={this.state.article.comments_number}/>
-                            </div>
+                        <ArticleTime articleDate={this.props.article.date}/>
 
-                            {
-                                (!$.isEmpty(this.state.article.title) || !$.isEmpty(this.state.article.summary)) &&
-                                <AnimatedText title={this.state.article.title}
-                                              subtitle={this.state.article.summary}/>
-                            }
-
-                            <span className="blog-article-content"
-                                  dangerouslySetInnerHTML={{__html: this.state.article.content}}/>
-                        </div>
-
-                        <div className="card-action article-action clearfix">
-                            <div className="row">
-                                <div className="col s12 m12 l6 md-margin-bottom-20">
-                                    <ArticleTags article={this.state.article}/>
-
-                                    <a className="btn btn-floating"
-                                       onClick={this._handleVoteClick.bind(this, this.state.article.id, true)}>
-                                        <i className="material-icons">thumb_up</i>
-                                    </a>
-
-                                    <a className="btn btn-floating"
-                                       onClick={this._handleVoteClick.bind(this, this.state.article.id, false)}>
-                                        <i className="material-icons">thumb_down</i>
-                                    </a>
-
-                                    <span>
-                                        {this.state.article.votes_up}
-                                    </span>
-
-                                    <span>
-                                        {this.state.article.votes_down}
-                                    </span>
-                                </div>
-
-                                <div className="col s12 m12 l6 right-align">
-                                    <ArticleDeleteIcon article={this.state.article}
-                                                       onDeleteClick={this._handleDeleteClick}/>
-
-                                    <ArticleBookmarkIcon article={this.state.article}
-                                                         onBookmarkClick={this._handleBookmarkClick}/>
-
-                                    <ArticleOutdatedIcon article={this.state.article}
-                                                         onOutdatedClick={this._handleOutdatedClick}/>
-
-                                    <ArticleVisibilityIcon article={this.state.article}
-                                                           hasFloatingButton={true}/>
-
-                                    <ArticleHistoryIcon article={this.state.article}
-                                                        onHistoryClick={this._handleHistoryClick}/>
-
-                                    {
-                                        $app.isUserConnected(this.state.article.user.id) &&
-                                        <Link className="article-edit btn-floating tooltipped"
-                                              data-tooltip={I18n.t('js.article.tooltip.edit')}
-                                              to={`/article/${this.state.article.id}/edit`}>
-                                            <i className="material-icons">mode_edit</i>
-                                        </Link>
-                                    }
-                                </div>
-                            </div>
-                        </div>
+                        <CommentCountIcon commentLink={`#article-comments-${this.props.article.id}`}
+                                          commentsCount={this.props.article.commentsCount}/>
                     </div>
 
+                    <div className="blog-article-content"
+                         dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+
                     {
-                        this.props.location.state && this.props.location.state.newTags &&
-                        <div className="card-panel">
-                            <p>
-                                {I18n.t('js.article.show.new_tags')}
-                                {
-                                    this.props.location.state.newTags.map((newTag, i) =>
-                                        <Link key={i}
-                                              to={`/tag/${newTag.slug}`}>
-                                            {newTag.name}
-                                        </Link>
-                                    )
-                                }
-                            </p>
+                        this.props.article.reference &&
+                        <div className="blog-article-info">
+                            <a href={this.props.article.reference}
+                               rel="noopener noreferrer"
+                               target="_blank">
+                                {this.props.article.reference.replace(/^(https?):\/\//, '').replace(/\/$/, '')}
+                            </a>
                         </div>
                     }
 
                     {
-                        this.state.isHistoryDisplayed && this.state.articleVersions &&
-                        <ArticleHistory articleVersions={this.state.articleVersions}/>
+                        this.props.article.tags.size > 0 &&
+                        <div className="blog-article-info">
+                            <ArticleTags articleId={this.props.article.id}
+                                         tags={this.props.article.tags}
+                                         parentTagIds={this.props.article.parentTagIds}
+                                         childTagIds={this.props.article.childTagIds}/>
+                        </div>
                     }
 
                     {
-                        this.state.article.allow_comment &&
-                        <div className="card-panel">
-                            <CommentBox id="comments"
+                        this.props.isOwner &&
+                        <div className="article-actions">
+                            <div className="article-actions-text">
+                                {I18n.t('js.article.common.actions')}
+                            </div>
+
+                            <ArticleActions articleId={this.props.article.id}
+                                            articleSlug={this.props.article.slug}
+                                            articleVisibility={this.props.article.visibility}
+                                            onDeleteClick={this._handleDeleteClick}/>
+                        </div>
+                    }
+                </article>
+
+                {
+                    // TODO
+                    // <ArticleVotes articleId={this.props.article.id}
+                    //               onVoteClick={this._handleVoteClick}
+                    //               articleVotesUp={this.props.article.votesUp}
+                    //               articleVotesDown={this.props.article.votesDown}/>
+                }
+                {
+                    // TODO
+                    // <ArticleBookmarkIcon articleId={this.props.article.id}
+                    //                      isOwner={this.props.isUserConnected}
+                    //                      onBookmarkClick={this._handleBookmarkClick}/>
+                }
+                {
+                    // TODO
+                    // <ArticleOutdatedIcon articleId={this.props.article.id}
+                    //                      isOwner={this.props.isUserConnected}
+                    //                      isOutdated={this.props.isOutdated}
+                    //                      onOutdatedClick={this._handleOutdatedClick}/>
+                }
+
+                {
+                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
+                    <div className="card-panel">
+                        <LazyLoad height={0}
+                                  once={true}
+                                  offset={50}>
+                            <CommentBox id={`article-comments-${this.props.article.id}`}
                                         commentableType="articles"
-                                        commentableId={this.state.article.id}
-                                        isConnected={$app.isUserConnected()}
-                                        currentUserId={$app.user.currentId}
-                                        isPaginated={true}
+                                        commentableId={this.props.article.id}
+                                        ownerId={this.props.article.user.id}
+                                        commentsCount={this.props.article.commentsCount}
+                                        isUserOwner={this.props.isOwner}
+                                        isPaginated={false}
                                         isRated={true}/>
-                        </div>
-                    }
-                </div>
-            );
-        } else {
-            return null;
-        }
+                        </LazyLoad>
+                    </div>
+                }
+            </div>
+        );
     }
 }

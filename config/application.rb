@@ -28,7 +28,7 @@ module InRailsWeBlog
                                routing_specs: false,
                                controller_specs: true,
                                request_specs: true
-      generator.fixture_replacement :factory_girl, dir: 'spec/factories'
+      generator.fixture_replacement :factory_bot, dir: 'spec/factories'
       generator.assets false
     end
 
@@ -44,10 +44,7 @@ module InRailsWeBlog
     config.action_view.embed_authenticity_token_in_remote_forms = true
 
     # Log levels :debug, :info, :warn, :error, :fatal, et :unknown
-    config.log_level = :warn if Rails.env.production?
-
-    # Log file for development
-    config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/development.log')) if Rails.env.development?
+    config.log_level = :info
 
     # I18n configuration
     config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{ rb , yml }').to_s]
@@ -62,6 +59,8 @@ module InRailsWeBlog
 
     # Json adapter for serializers
     ActiveModel::Serializer.config.adapter = :json
+    ActiveModel::Serializer.config.key_transform = :camel_lower
+    ActiveModel::Serializer.config.default_includes = '**'
 
     # Cache with Redis
     config.cache_store = :readthis_store, {

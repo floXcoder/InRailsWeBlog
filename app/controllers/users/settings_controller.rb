@@ -29,7 +29,7 @@ class Users::SettingsController < ApplicationController
         elsif pref_value == 'false'
           pref_value = false
         end
-        user.settings[pref_type.downcase.to_sym] = pref_value
+        user.settings[pref_type.downcase.to_s] = pref_value
       end
       user.save
     end

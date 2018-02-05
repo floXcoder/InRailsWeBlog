@@ -31,7 +31,8 @@ webPackConfig = _.merge(webPackConfig, {
 
     // displayErrorDetails: true,
     output: {
-        pathinfo: true
+        pathinfo: true,
+        chunkFilename: config.development.chunkFilename
     },
 
     // devtool: 'source-map'

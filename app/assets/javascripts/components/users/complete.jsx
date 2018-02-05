@@ -2,39 +2,46 @@
 
 import _ from 'lodash';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
+import {
+    Link
+} from 'react-router-dom';
 
-import ArticleActions from '../../actions/articleActions';
-import ArticleStore from '../../stores/articleStore';
+import SwitchButton from '../materialize/switchButton';
+import Spinner from '../materialize/spinner';
+import ArticleTimelineDisplay from '../articles/display/timeline';
+import CommentTimeline from '../comments/display/timeline';
+import UserActivity from '../users/activity';
+import UserTracking from '../users/tracking';
 
-import SwitchButton from '../../components/materialize/switch-button';
-import Spinner from '../../components/materialize/spinner';
-import ArticleTimelineDisplay from '../../components/articles/display/timeline';
-import CommentTimeline from '../../components/comments/display/timeline';
-import UserActivity from '../../components/users/activity';
-import UserTracking from '../../components/users/tracking';
-
-export default class UserComplete extends Reflux.Component {
+@connect((state) => ({
+    isAdminConnected: state.adminState.isConnected
+}))
+export default class UserComplete extends React.Component {
     static propTypes = {
         userId: PropTypes.oneOfType([
             PropTypes.number,
             PropTypes.string
         ]).isRequired,
-        isAdmin: PropTypes.bool,
-        onEditClick: PropTypes.func
+        // From connect
+        isAdminConnected: PropTypes.bool
     };
 
     static defaultProps = {
-        isAdmin: false,
-        onEditClick: null
+        isAdminConnected: false
     };
 
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onUserChange);
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        // TODO
+        // UserActions.loadUser({
+        //     userId: props.userId,
+        //     completeUser: true
+        // });
+
+        this._loadArticles(props.userId);
+        this._loadComments(props.userId);
+        this._loadActivities(props.userId);
     }
 
     state = {
@@ -48,44 +55,36 @@ export default class UserComplete extends Reflux.Component {
         activitiesPagination: null
     };
 
-    componentWillMount() {
-        UserActions.loadUser({
-            userId: this.props.userId,
-            completeUser: true
-        });
-
-        this._loadArticles(this.props.userId);
-        this._loadComments(this.props.userId);
-        this._loadActivities(this.props.userId);
-    }
-
     componentDidUpdate() {
         $('.user-admin ul.tabs').tabs();
         $('.tooltipped').tooltip({delay: 50});
     }
 
     _loadArticles = (userId, data = {}) => {
-        ArticleActions.loadArticles({
-            userId: userId,
-            page: data.page || 1,
-            summary: true
-        });
+        // TODO
+        // ArticleActions.loadArticles({
+        //     userId: userId,
+        //     page: data.page || 1,
+        //     summary: true
+        // });
     };
 
     _loadComments = (userId, data = {}) => {
-        UserActions.loadUserComments(userId, {
-            page: data.page || 1
-        });
+        // TODO
+        // UserActions.loadUserComments(userId, {
+        //     page: data.page || 1
+        // });
     };
 
     _loadActivities = (userId, data = {}) => {
-        UserActions.loadUserActivities(userId, {
-            page: data.page || 1
-        });
+        // TODO
+        // UserActions.loadUserActivities(userId, {
+        //     page: data.page || 1
+        // });
     };
 
     onUserChange(userData) {
-        if ($.isEmpty(userData)) {
+        if (Utils.isEmpty(userData)) {
             return;
         }
 
@@ -107,13 +106,13 @@ export default class UserComplete extends Reflux.Component {
             newState.activitiesPagination = userData.pagination;
         }
 
-        if (!$.isEmpty(newState)) {
+        if (!Utils.isEmpty(newState)) {
             this.setState(newState);
         }
     }
 
     onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
+        if (Utils.isEmpty(articleData)) {
             return;
         }
 
@@ -126,12 +125,13 @@ export default class UserComplete extends Reflux.Component {
     }
 
     _onAdminChange = (newAdminState) => {
-        if ($app.isAdminConnected()) {
-            UserActions.updateUser({
-                id: this.state.user.id,
-                admin: newAdminState,
-                completeUser: true
-            });
+        if (this.props.isAdminConnected) {
+            // TODO
+            // UserActions.updateUser({
+            //     id: this.state.user.id,
+            //     admin: newAdminState,
+            //     completeUser: true
+            // });
         }
     };
 
@@ -143,19 +143,20 @@ export default class UserComplete extends Reflux.Component {
                         <div className="card">
                             <div className="user-heading">
                                 <div className="user-heading-menu">
-                                    <a className="dropdown-button tooltipped btn-flat waves-effect waves-teal"
+                                    <a className="btn-flat waves-effect waves-teal tooltipped dropdown-button"
                                        data-tooltip={I18n.t('js.user.show.more_actions')}
                                        data-activates="dropdown-user-menu">
-                                        <i className="material-icons">more_vert</i>
+                                        <span className="material-icons"
+                                              data-icon="more_vert"
+                                              aria-hidden="true"/>
                                     </a>
 
                                     <ul id="dropdown-user-menu"
                                         className='dropdown-content'>
                                         <li>
-                                            <a href="#"
-                                               onClick={this.props.onEditClick}>
+                                            <Link to={`/user/profile/${this.props.userId}/edit`}>
                                                 {I18n.t('js.user.show.edit')}
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li className="divider"/>
                                     </ul>
@@ -198,11 +199,12 @@ export default class UserComplete extends Reflux.Component {
                                     </ul>
                                 </div>
 
-                                <a className="user-edit-icon"
-                                   href="#"
-                                   onClick={this.props.onEditClick}>
-                                    <i className="material-icons">mode_edit</i>
-                                </a>
+                                <Link className="user-edit-icon"
+                                      to={`/user/profile/${this.props.userId}/edit`}>
+                                    <span className="material-icons"
+                                          data-icon="mode_edit"
+                                          aria-hidden="true"/>
+                                </Link>
                             </div>
 
                             <div className="card-content user-content">
@@ -269,7 +271,9 @@ export default class UserComplete extends Reflux.Component {
                                                 <ul className="activity-list activity-list-addon">
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">email</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="email"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -282,7 +286,9 @@ export default class UserComplete extends Reflux.Component {
                                                     </li>
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">location_city</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="location_city"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -295,7 +301,9 @@ export default class UserComplete extends Reflux.Component {
                                                     </li>
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">my_location</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="my_location"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -308,7 +316,9 @@ export default class UserComplete extends Reflux.Component {
                                                     </li>
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">language</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="language"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -329,7 +339,9 @@ export default class UserComplete extends Reflux.Component {
                                                 <ul className="activity-list activity-list-addon">
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">create</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="create"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -345,7 +357,9 @@ export default class UserComplete extends Reflux.Component {
                                                     </li>
                                                     <li>
                                                         <div className="activity-list-addon-element">
-                                                            <i className="activity-list-addon-icon material-icons">account_box</i>
+                                                            <span className="material-icons activity-list-addon-icon"
+                                                                  data-icon="account_box"
+                                                                  aria-hidden="true"/>
                                                         </div>
                                                         <div className="activity-list-content">
                                                             <span className="activity-list-heading">
@@ -356,21 +370,27 @@ export default class UserComplete extends Reflux.Component {
                                                             </span>
                                                         </div>
                                                     </li>
+
                                                     {
-                                                        $app.isAdminConnected() &&
+                                                        this.props.isAdminConnected &&
                                                         <li>
                                                             <div className="activity-list-addon-element">
-                                                                <i className="activity-list-addon-icon material-icons">verified_user</i>
+                                                                <span
+                                                                    className="material-icons activity-list-addon-icon"
+                                                                    data-icon="verified_user"
+                                                                    aria-hidden="true"/>
                                                             </div>
                                                             <div className="activity-list-content">
                                                             <span className="activity-list-heading">
-                                                                {this.state.user.admin ?
-                                                                    <span className="red-text">
-                                                                        {I18n.t('js.user.show.is_admin')}
-                                                                    </span> :
-                                                                    <span>
-                                                                        {I18n.t('js.user.show.not_admin')}
-                                                                    </span>
+                                                                {
+                                                                    this.state.user.admin ?
+                                                                        <span className="red-text">
+                                                                            {I18n.t('js.user.show.is_admin')}
+                                                                        </span>
+                                                                        :
+                                                                        <span>
+                                                                            {I18n.t('js.user.show.not_admin')}
+                                                                        </span>
                                                                 }
                                                             </span>
                                                                 <span className="activity-list-body">
@@ -411,7 +431,7 @@ export default class UserComplete extends Reflux.Component {
                         </div>
 
                         {
-                            $app.isAdminConnected() &&
+                            this.props.isAdminConnected &&
                             <div className="card">
                                 <div className="card-content">
                                     <div>
@@ -428,14 +448,14 @@ export default class UserComplete extends Reflux.Component {
                         }
 
                         {
-                            $app.isAdminConnected() &&
+                            this.props.isAdminConnected &&
                             <div className="card">
                                 <div className="card-content">
                                     <div className="heading-3 margin-top-20 margin-bottom-20">
                                         <SwitchButton id="administrator"
-                                                values={I18n.t('js.user.show.administrator')}
-                                                title={I18n.t('js.user.show.admin')}
-                                                onSwitchChange={this._onAdminChange}>
+                                                      values={I18n.t('js.user.show.administrator')}
+                                                      title={I18n.t('js.user.show.admin')}
+                                                      onSwitchChange={this._onAdminChange}>
                                             {this.state.user.admin}
                                         </SwitchButton>
                                     </div>

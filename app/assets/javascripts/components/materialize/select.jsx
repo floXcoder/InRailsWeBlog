@@ -3,11 +3,11 @@
 export default class Select extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
         options: PropTypes.oneOfType([
             PropTypes.object,
             PropTypes.array
-        ]).isRequired,
-        title: PropTypes.string.isRequired,
+        ]),
         default: PropTypes.string,
         className: PropTypes.string,
         children: PropTypes.oneOfType([
@@ -24,26 +24,15 @@ export default class Select extends React.Component {
         categories: PropTypes.object,
         icon: PropTypes.string,
         isHorizontal: PropTypes.bool,
-        validator: PropTypes.object,
-        onSelectChange: PropTypes.func
+        onChange: PropTypes.func
     };
 
     static defaultProps = {
-        default: null,
-        children: null,
-        name: null,
-        className: null,
-        multipleId: null,
-        optionsOrder: null,
         isDisabled: false,
         isMultiple: false,
         isRequired: false,
         isCategorized: false,
-        categories: null,
-        icon: null,
-        isHorizontal: false,
-        validator: null,
-        onSelectChange: null
+        isHorizontal: false
     };
 
     constructor(props) {
@@ -63,7 +52,7 @@ export default class Select extends React.Component {
     _initSelect = (init = false) => {
         const id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
-        const selector = `select#${id}`;
+        const selector = `#${id}`;
         $(selector).material_select();
         if (init) {
             $(selector).on('change', this._handleSelectChange);
@@ -77,8 +66,8 @@ export default class Select extends React.Component {
             this._value = event.target.value;
         }
 
-        if (this.props.onSelectChange) {
-            this.props.onSelectChange(this._value);
+        if (this.props.onChange) {
+            this.props.onChange(this._value);
         }
 
         return event;
@@ -128,12 +117,12 @@ export default class Select extends React.Component {
                     <optgroup key={categoryName}
                               label={categoryName}>
                         {
-                            option.map((key) =>
+                            option.map((key) => (
                                 <option key={key}
                                         value={key}>
                                     {key}
                                 </option>
-                            )
+                            ))
                         }
                     </optgroup>
                 );
@@ -150,24 +139,19 @@ export default class Select extends React.Component {
             });
         } else {
             if (Array.isArray(this.props.options)) {
-                SelectOptions = this.props.options.map((key, i) => {
-                    return (
-                        <option key={i}
-                                value={key}>
-                            {key}
-                        </option>
-                    );
-                });
+                SelectOptions = this.props.options.map((key, i) => (
+                    <option key={i}
+                            value={key}>
+                        {key}
+                    </option>
+                ));
             } else {
-                SelectOptions = Object.keys(this.props.options).map((key) => {
-                    option = this.props.options[key];
-                    return (
-                        <option key={key}
-                                value={key}>
-                            {option}
-                        </option>
-                    );
-                });
+                SelectOptions = Object.keys(this.props.options).map((key) => (
+                    <option key={key}
+                            value={key}>
+                        {this.props.options[key]}
+                    </option>
+                ));
             }
         }
 
@@ -181,7 +165,9 @@ export default class Select extends React.Component {
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className="material-icons left prefix">{this.props.icon}</i>
+                    <span className="material-icons left prefix"
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
                 {
@@ -199,8 +185,7 @@ export default class Select extends React.Component {
                             required={this.props.isRequired}
                             multiple={this.props.isMultiple}
                             value={value}
-                            onChange={this._handleSelectChange}
-                            {...this.props.validator}>
+                            onChange={this._handleSelectChange}>
                         {
                             this.props.default &&
                             <option value="default"

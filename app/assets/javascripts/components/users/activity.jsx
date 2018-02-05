@@ -28,13 +28,13 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
         return (
             <li key={activity.id}>
                 <div className="activity-list-addon-element">
-                    <i className={'activity-list-addon-icon material-icons ' + colorIcon}>
-                        {icon}
-                    </i>
+                    <span className={`material-icons activity-list-addon-icon ${colorIcon}`}
+                          data-icon={icon}
+                          aria-hidden="true"/>
                 </div>
                 <div className="activity-list-content">
                         <span className="activity-list-heading">
-                            {I18n.t('js.activities.' + model + '.' + action)}
+                            {I18n.t(`js.activities.${model}.${action}`)}
                         </span>
                     <span className="activity-list-date">
                             <a href={activity.link}>
@@ -58,13 +58,16 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
             {
                 pagination &&
                 <Pagination totalPages={pagination.total_pages}
-                            onPaginationClick={(paginate) => {
-                                UserActivity._handlePaginationClick(paginate, loadActivities)
-                            }}
+                            onPaginationClick={_handlePaginationClick.bind(null, loadActivities)}
                             numOfPageShow={4}/>
             }
         </div>
     );
+};
+
+const _handlePaginationClick = (paginate, loadActivities) => {
+    loadActivities({page: paginate.selected + 1});
+    $('html, body').animate({scrollTop: $('.user-activity').offset().top - 64}, 750);
 };
 
 UserActivity.propTypes = {
@@ -73,15 +76,8 @@ UserActivity.propTypes = {
     loadActivities: PropTypes.func
 };
 
-UserActivity.getDefaultProps = {
-    activities: [],
-    pagination: null,
-    loadActivities: null
-};
-
-UserActivity._handlePaginationClick = (paginate, loadActivities) => {
-    loadActivities({page: paginate.selected + 1});
-    $('html, body').animate({scrollTop: $('.user-activity').offset().top - 64}, 750);
+UserActivity.defaultProps = {
+    activities: []
 };
 
 export default UserActivity;

@@ -1,279 +1,177 @@
 'use strict';
 
-import _ from 'lodash';
+import {
+    setSelectedTag,
+    fetchUserRecents,
+    fetchSearch
+} from '../../actions';
 
-import SearchActions from '../../actions/searchActions';
+import {
+    getUserRecentTopics,
+    getUserRecentTags,
+    getUserRecentArticles,
+    getSelectedTags,
+    getAutocompleteTags,
+    getAutocompleteArticles
+} from '../../selectors';
 
-import SearchStore from '../../stores/searchStore';
+import SearchSelectedModule from './module/selected';
+import SearchTagModule from './module/tag';
+import SearchArticleModule from './module/article';
 
-import Tokenizer from '../../components/autocomplete/tokenizer';
-
-export default class SearchModule extends Reflux.Component {
+@connect((state) => ({
+    currentUserId: state.userState.currentId,
+    recentTopics: getUserRecentTopics(state),
+    recentTags: getUserRecentTags(state),
+    recentArticles: getUserRecentArticles(state),
+    isSearching: state.autocompleteState.isFetching,
+    query: state.autocompleteState.query,
+    actionKey: state.autocompleteState.actionKey,
+    tags: getAutocompleteTags(state),
+    selectedTags: getSelectedTags(state),
+    articles: getAutocompleteArticles(state)
+}), {
+    setSelectedTag,
+    fetchUserRecents,
+    fetchSearch
+})
+export default class SearchModule extends React.Component {
     static propTypes = {
-        isOpened: PropTypes.bool.isRequired
+        history: PropTypes.object.isRequired,
+        // From connect
+        currentUserId: PropTypes.number,
+        recentTopics: PropTypes.array,
+        recentTags: PropTypes.array,
+        recentArticles: PropTypes.array,
+        tags: PropTypes.array,
+        selectedTags: PropTypes.array,
+        articles: PropTypes.array,
+        isSearching: PropTypes.bool,
+        query: PropTypes.string,
+        actionKey: PropTypes.string,
+        setSelectedTag: PropTypes.func,
+        fetchUserRecents: PropTypes.func,
+        fetchSearch: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        this._typeahead = null;
-
-        this.mapStoreToState(SearchStore, this.onSearchChange);
+        props.fetchUserRecents(this.props.currentUserId);
     }
 
     state = {
-        autocompleteValues: [],
-        selectedTags: [],
-        previousSelectedTags: [],
-        $searchDiv: null,
-        suggestions: [],
-        query: ''
+        highlightedTagIndex: undefined
     };
 
     componentDidMount() {
-        Mousetrap.bind('alt+r', () => {
-            this._toggleSearchNav();
-            return false;
-        }, 'keydown');
-
-        // $('#toggle-search').click(() => {
+        // Mousetrap.bind('alt+r', () => {
         //     this._toggleSearchNav();
         //     return false;
-        // });
-
-        // this._toggleSearchNav();
+        // }, 'keydown');
     }
 
-    _activateSearch = (state) => {
-        this._toggleSearchNav();
-
-        if (!$.isEmpty(state.tags)) {
-            state.tags.forEach((tag) => {
-                this._typeahead._addTokenForValue({tag: tag}, true);
-            });
+    componentWillReceiveProps(nextProps) {
+        if (this.props.query !== nextProps.query) {
+            this._resetTagSelection();
         }
 
-        this._typeahead.setEntryText(state.query);
-    };
-
-    _toggleSearchNav = () => {
-        let $searchDiv = $('.blog-search-nav');
-
-        $searchDiv.is(":visible") ? $searchDiv.slideUp() : $searchDiv.slideDown(() => {
-            $searchDiv.find('input').focus()
-        });
-    };
-
-    // TODO: utility ?
-    // this.mapStoreToState(UserStore, this.onSearchChange);
-    // onSearchChange(userData) {
-    //     if (!$.isEmpty(userData.search)) {
-    //         this._handleSubmit(null, userData.search);
-    //     }
-    // }
-
-    onSearchChange(searchData) {
-        if ($.isEmpty(searchData)) {
-            return;
+        if (nextProps.actionKey) {
+            if (this._handleKeyAction()[nextProps.actionKey]) {
+                this._handleKeyAction()[nextProps.actionKey].call(this, nextProps.actionKey);
+            }
         }
+    }
 
-        let newState = {};
+    _handleKeyAction = () => {
+        return {
+            ArrowDown() {
+                const {highlightedTagIndex} = this.state;
+                const index =
+                    (highlightedTagIndex === undefined || highlightedTagIndex === this.props.tags.length - 1)
+                        ? 0
+                        : highlightedTagIndex + 1;
 
-        if (searchData.type === 'autocomplete') {
-            let autocompletionValues = [];
-            let tags = [];
-
-            searchData.autocompleteResults.articles.forEach((autocompleteValue) => {
-                autocompletionValues.push({entry: autocompleteValue.title, title: autocompleteValue.title});
-                autocompleteValue.tags.forEach((tag) => {
-                    tags.push(tag.name);
+                this.setState({
+                    highlightedTagIndex: index
                 });
-            });
-            _.uniq(tags, (tag) => {
-                return tag.id
-            }).forEach((tag) => {
-                autocompletionValues.push({entry: tag, tag: tag});
-            });
+            },
 
-            newState.autocompleteValues = autocompletionValues;
-        }
+            ArrowUp() {
+                const {highlightedTagIndex} = this.state;
+                const index =
+                    (highlightedTagIndex === undefined || highlightedTagIndex === 0)
+                        ? this.props.tags.length - 1
+                        : highlightedTagIndex - 1;
 
-        // TODO
-        // if (!$.isEmpty(searchData.suggestions)) {
-        //     newState.suggestions = searchData.suggestions;
-        // } else if (!$.isEmpty(this.state.suggestions)) {
-        //     newState.suggestions = [];
-        // }
+                this.setState({
+                    highlightedTagIndex: index
+                });
+            },
 
-        // TODO: get from history
-        // if (searchData.paramsFromUrl) {
-        //     this._activateSearch(searchData.paramsFromUrl);
-        // }
+            Enter() {
+                if (this.state.highlightedTagIndex !== undefined) {
+                    this._handleTagSelection(this.props.tags[this.state.highlightedTagIndex]);
+                } else {
+                    this._performSearch();
+                }
+            },
 
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
+            Tab() {
+                this._handleTagSelection(this.props.tags[0]);
+            },
 
-    _handleSuggestionClick = (suggestion, event) => {
-        event.preventDefault();
-
-        this._typeahead.setEntryText(suggestion);
-        this._typeahead._typeahead.setState({entryValue: suggestion, selection: suggestion});
-
-        this.setState({suggestions: []});
-        this._handleSubmit(event, {});
-    };
-
-    _onKeyUp = (event) => {
-        let entryValue = this._typeahead.getEntryText().trim();
-
-        if (!$.NAVIGATION_KEYMAP.hasOwnProperty(event.which)) {
-            SearchActions.autocomplete('global', entryValue);
-        }
-
-        let pressedKey = $.NAVIGATION_KEYMAP[event.which];
-        if (pressedKey === 'tab' || pressedKey === 'enter') {
-            this._typeahead._typeahead.setState({entryValue: entryValue, selection: entryValue});
-            this._handleSubmit(event, {});
-        }
-    };
-
-    _handleSubmit = (event, searchOptions) => {
-        if (event) {
-            event.preventDefault();
-        }
-
-        if (typeof searchOptions !== 'object') {
-            searchOptions = {};
-        }
-
-        let query = this._typeahead.getEntryText().trim();
-
-        if ($.isEmpty(query) && !$.isEmpty(this.state.selectedTags)) {
-            query = '*';
-        }
-
-        if (query === this.state.query && this.state.previousSelectedTags === this.state.selectedTags) {
-            return;
-        }
-
-        if (!$.isEmpty(query)) {
-            let request = {};
-            request.query = query;
-
-            if (!$.isEmpty(this.state.selectedTags)) {
-                request.tags = this.state.selectedTags;
+            Escape() {
+                // TODO: close search
+                this._resetTagSelection();
             }
-            if (searchOptions) {
-                request.searchOptions = searchOptions;
-            }
-
-            SearchActions.search(request);
-
-            this._toggleSearchNav();
-            this.setState({
-                query: query,
-                previousSelectedTags: this.state.selectedTags
-            });
         }
     };
 
-    _filterOption = (inputValue, option) => {
-        if (!$.isEmpty(option.entry)) {
-            let regOption = new RegExp(inputValue, 'gi');
-            return option.entry.match(regOption);
-        } else {
-            return false;
-        }
+    _handleTagSelection = (tag) => {
+        this.props.setSelectedTag(tag);
     };
 
-    _displayOption = (option) => {
-        if (!$.isEmpty(option.title)) {
-            return (
-                <div>
-                    {option.title}
-                </div>
-            );
-        } else if (!$.isEmpty(option.tag)) {
-            return (
-                <div>
-                    {option.tag}
-                    <span className="badge">Tag</span>
-                </div>
-            );
-        } else {
-            return null;
-        }
-    };
-
-    _onTokenAdd = (value, noSubmit) => {
-        if (value.tag) {
-            this.setState({
-                selectedTags: this.state.selectedTags.concat(value.tag)
-            });
-        }
-
-        if (!noSubmit) {
-            this._handleSubmit(null, {tagSearch: true});
-        }
-    };
-
-    _onTokenRemove = (value) => {
+    _resetTagSelection = () => {
         this.setState({
-            selectedTags: _.remove(this.state.selectedTags, (tag) => {
-                return tag === value;
-            })
+            highlightedTagIndex: undefined
         });
-
-        this._handleSubmit(null, {tagSearch: true});
     };
 
-    _handleCloseClick = (event) => {
-        event.preventDefault();
-        $('.blog-search-nav').slideUp();
-
-        // TODO
-        // this._typeahead.setEntryText('');
-        this.setState({selectedTags: []});
-        // this._typeahead.setState({selected: []});
+    _performSearch = () => {
+        this.props.fetchSearch({
+            query: this.props.query,
+            tags: this.props.selectedTags.map((tag) => tag.id)
+        })
+            .then(() => this.props.history.push('/research'));
     };
 
     render() {
+        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : this.props.recentTags;
+        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : this.props.recentArticles;
+
         return (
-            <div className="container blog-search">
-                <form className="search-form"
-                      onSubmit={this._handleSubmit}>
-                    <Tokenizer ref={(typeahead) => this._typeahead = typeahead}
-                               options={this.state.autocompleteValues}
-                               onKeyUp={this._onKeyUp}
-                               placeholder={I18n.t('js.article.search.placeholder')}
-                               filterOption="entry"
-                               displayOption={this._displayOption}
-                               maxVisible={6}
-                               addTokenCondition="tag"
-                               customClasses={{listItem: 'typeahead-list-item'}}
-                               onTokenAdd={this._onTokenAdd}
-                               onTokenRemove={this._onTokenRemove}/>
-
-                    <a className="material-icons search-form-close"
-                       onClick={this._handleCloseClick}
-                       href="#">
-                        <i className="material-icons">close</i>
-                    </a>
-                </form>
-
-                <div className="blog-search-suggestion">
+            <div className="search-module-results">
+                <div className="search-module-container">
                     {
-                        this.state.suggestions.map((suggestion) => (
-                                <a key={suggestion}
-                                   onClick={this._handleSuggestionClick.bind(this, suggestion)}
-                                   className="waves-effect waves-light btn-small">
-                                    {suggestion}
-                                </a>
-                            )
-                        )
+                        this.props.selectedTags.length > 0 &&
+                        <SearchSelectedModule selectedTags={this.props.selectedTags}
+                                              onTagClick={this._handleTagSelection}/>
                     }
+
+                    <SearchTagModule tags={tags}
+                                     isSearching={this.props.isSearching}
+                                     selectedTags={this.props.selectedTags}
+                                     highlightedTagIndex={this.state.highlightedTagIndex}
+                                     onTagClick={this._handleTagSelection}/>
+
+                    <SearchArticleModule articles={articles}
+                                         isSearching={this.props.isSearching}/>
+
+                    <button className="search-module-btn"
+                            onClick={this._performSearch}>
+                        {I18n.t('js.search.module.button')}
+                    </button>
                 </div>
             </div>
         );

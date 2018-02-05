@@ -18,20 +18,24 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
 
     static defaultProps = {
         hasExposed: false,
-        componentsToExposed: null,
         isPaginated: true,
-        totalPages: 0,
-        onPaginationClick: null
+        totalPages: 0
     };
 
     constructor(props) {
         super(props);
 
         this.masonry = null;
+
+        if (props.isActive) {
+            MasonryLoader(({Masonry}) => {
+                this.setState({Masonry: Masonry});
+            });
+        }
     }
 
     state = {
-        Masonry: null,
+        Masonry: undefined,
         masonryOptions: {
             transitionDuration: '0.6s',
             itemSelector: '.grid-item',
@@ -39,14 +43,6 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         },
         exposedComponents: {}
     };
-
-    componentWillMount() {
-        if (this.props.isActive) {
-            MasonryLoader(({Masonry}) => {
-                this.setState({Masonry: Masonry});
-            });
-        }
-    }
 
     componentDidMount() {
         if (this.props.isActive && this.masonry) {
@@ -67,7 +63,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         } else {
             exposedComponents[elementId] = true;
             setTimeout(() => {
-                $('html, body').animate({scrollTop: $(ReactDOM.findDOMNode(this.refs[elementId])).offset().top}, 750);
+                $('html, body').animate({scrollTop: ReactDOM.findDOMNode(thisrefs[elementId]).getBoundingClientRect().top}, 750);
             }, 600);
         }
         this.setState({
@@ -82,7 +78,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             this.props.componentsToExposed.forEach((componentId) => {
                 exposedComponents[componentId] = true;
                 setTimeout(() => {
-                    $('html, body').animate({scrollTop: $(ReactDOM.findDOMNode(this.refs[componentId])).offset().top}, 750);
+                    $('html, body').animate({scrollTop: ReactDOM.findDOMNode(thisrefs[elementId]).getBoundingClientRect().top}, 750);
                 }, 600);
             });
         }

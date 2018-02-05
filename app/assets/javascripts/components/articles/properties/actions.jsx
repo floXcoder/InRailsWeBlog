@@ -1,49 +1,57 @@
 'use strict';
 
-import ArticleStore from '../../../stores/articleStore';
-
-import FixedActionButton from '../../materialize/fab';
-
+import ArticleVisibilityIcon from '../icons/visibility';
+import ArticleHistoryIcon from '../icons/history';
+import ArticleDeleteIcon from '../icons/delete';
 import ArticleEditIcon from '../icons/edit';
 import ArticleLinkIcon from '../icons/link';
-import ArticleVisibilityIcon from '../icons/visibility';
-import ArticleBookmarkIcon from '../icons/bookmark';
-import ArticleLink from '../properties/link';
 
-const ArticleActions = ({article, onBookmarkClick, onEditClick, onVisibilityClick}) => (
-    <FixedActionButton>
-        <ArticleBookmarkIcon article={article}
-                             onBookmarkClick={onBookmarkClick}/>
+const ArticleActions = ({isInline, articleId, articleSlug, articleVisibility, onVisibilityClick, onDeleteClick}) => (
+    <ul className="action-icons">
+        {
+            !isInline &&
+            <li className="action-item">
+                <ArticleDeleteIcon onDeleteClick={onDeleteClick}/>
+            </li>
+        }
 
-        <ArticleVisibilityIcon article={article}
-                               hasFloatingButton={true}
-                               onVisibilityClick={onVisibilityClick}/>
+        {
+            !isInline &&
+            <li className="action-item">
+                <ArticleHistoryIcon articleSlug={articleSlug}/>
+            </li>
+        }
 
-        <ArticleEditIcon article={article}
-                         onEditClick={onEditClick}/>
+        <li className="action-item">
+            <ArticleVisibilityIcon articleId={articleId}
+                                   articleVisibility={articleVisibility}/>
+        </li>
 
-        <ArticleLink article={article}
-                     onArticleClick={(article, event) => {
-                         this._handleArticleClick.bind(article, event)
-                     }}/>
-    </FixedActionButton>
+        <li className="action-item">
+            <ArticleEditIcon articleSlug={articleSlug}/>
+        </li>
+
+        {
+            isInline &&
+            <li className="action-item">
+                <ArticleLinkIcon articleSlug={articleSlug}
+                                 articleId={articleId}/>
+            </li>
+        }
+    </ul>
 );
 
 ArticleActions.propTypes = {
-    article: PropTypes.object.isRequired,
-    onBookmarkClick: PropTypes.func.isRequired,
-    onEditClick: PropTypes.func,
-    onVisibilityClick: PropTypes.func
+    articleId: PropTypes.number.isRequired,
+    articleSlug: PropTypes.string.isRequired,
+    articleVisibility: PropTypes.string.isRequired,
+    onVisibilityClick: PropTypes.func,
+    onDeleteClick: PropTypes.func,
+    isInline: PropTypes.bool
 };
 
 ArticleActions.defaultProps = {
-    onEditClick: null,
-    onVisibilityClick: null
-};
-
-ArticleActions._handleArticleClick = (article, event) => {
-    ArticleStore.onTrackClick(article.id);
-    return event;
+    isInline: false
 };
 
 export default ArticleActions;

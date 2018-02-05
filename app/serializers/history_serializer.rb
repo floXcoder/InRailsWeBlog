@@ -1,4 +1,6 @@
 class HistorySerializer < ActiveModel::Serializer
+  # No cache for history
+
   attributes :id,
              :changed_at,
              :article,

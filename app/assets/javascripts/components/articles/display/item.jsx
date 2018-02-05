@@ -1,99 +1,78 @@
 'use strict';
 
-import _ from 'lodash';
+import {
+    inlineEditArticle
+} from '../../../actions';
 
-// import Tracker from '../../../modules/tracker';
-import UserActions from '../../../actions/userActions';
-import TagActions from '../../../actions/tagActions';
-import ArticleActions from '../../../actions/articleActions';
+import {
+    getArticleIsOwner,
+    getArticleIsOutdated
+} from '../../../selectors';
 
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
-import ArticleEditionDisplay from './inline-edition';
+import ArticleInlineEditionDisplay from './inlineEdition';
 
+@connect((state, props) => ({
+    isOwner: getArticleIsOwner(state, props.article),
+    isOutdated: getArticleIsOutdated(props.article)
+}), {
+    inlineEditArticle
+})
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired,
-        children: PropTypes.string.isRequired,
         article: PropTypes.object.isRequired,
-        initialDisplayMode: PropTypes.string.isRequired
+        articleDisplayMode: PropTypes.string.isRequired,
+        articleEditionId: PropTypes.number,
+        // From connect
+        isOwner: PropTypes.bool,
+        isOutdated: PropTypes.bool,
+        inlineEditArticle: PropTypes.func
     };
-
-    static defaultProps = {};
 
     constructor(props) {
         super(props);
     }
 
-    state = {
-        articleDisplayMode: this.props.initialDisplayMode
+    _handleInlineEditClick = () => {
+        this.props.inlineEditArticle(this.props.article.id);
     };
 
-    componentDidMount() {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
-            $(this).tooltip();
-        });
-
-        // TODO : use mixin
-        // Tracker.trackViews($(ReactDOM.findDOMNode(this)), () => {
-        //     ArticleActions.trackView(this.props.article.id);
-        //     if (this.props.article.user) {
-        //         UserActions.trackView(this.props.article.user.id);
-        //     }
-        //
-        //     if (this.props.article.tags.length > 0) {
-        //         TagActions.trackView(_.map(this.props.article.tags, 'id'));
-        //     }
-        // });
-    }
-
-    componentDidUpdate() {
-        $(ReactDOM.findDOMNode(this)).find('.tooltipped').each(function () {
-            $(this).tooltip();
-        });
-    }
-
-    _setDefaultDisplay = (tagName, event) => {
-        event.preventDefault();
-        this.setState({articleDisplayMode: this.props.initialDisplayMode});
+    _handleBookmarkClick = (article, isBookmarked) => {
+        // TODO
+        // ArticleActions.bookmarkArticle({article: article, isBookmarked: isBookmarked});
     };
 
-    _handleTagClick = (tagName) => {
-        this.props.router.history.push(`/article/tags/${tagName}`);
-
-        ArticleActions.loadArticles({tags: [tagName]});
-    };
-
-    _handleBookmarkClick = (articleId, isBookmarked) => {
-        ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
+    _handleVisibilityClick = (article) => {
+        // TODO
     };
 
     render() {
-        if (this.state.articleDisplayMode === 'inline') {
+        if (this.props.articleDisplayMode === 'edit' || this.props.articleEditionId === this.props.article.id) {
             return (
-                <ArticleInlineDisplay article={this.props.article}>
-                    {this.props.children}
-                </ArticleInlineDisplay>
+                <ArticleInlineEditionDisplay article={this.props.article}
+                                             isOwner={this.props.isOwner}/>
             );
-        } else if (this.state.articleDisplayMode === 'card') {
+        } else if (this.props.articleDisplayMode === 'inline') {
+            return (
+                <ArticleInlineDisplay id={this.props.article.id}
+                                      title={this.props.article.title}
+                                      content={this.props.article.content}
+                                      slug={this.props.article.slug}
+                                      isOwner={this.props.isOwner}
+                                      onInlineEdit={this._handleInlineEditClick}/>
+            );
+        } else if (this.props.articleDisplayMode === 'card') {
             return (
                 <ArticleCardDisplay article={this.props.article}
-                                    onTagClick={this._handleTagClick}
-                                    onBookmarkClick={this._handleBookmarkClick}>
-                    {this.props.children}
-                </ArticleCardDisplay>
-            );
-        } else if (this.state.articleDisplayMode === 'edit') {
-            return (
-                <ArticleEditionDisplay article={this.props.article}
-                                       onTagClick={this._handleTagClick}
-                                       setDefaultDisplay={this._setDefaultDisplay}>
-                    {this.props.children}
-                </ArticleEditionDisplay>
+                                    isOwner={this.props.isOwner}
+                                    isOutdated={this.props.isOutdated}
+                                    onBookmarkClick={this._handleBookmarkClick}
+                                    onInlineEdit={this._handleInlineEditClick}
+                                    onVisibilityClick={this._handleVisibilityClick}/>
             );
         } else {
-            log.error('Article display mode unknown: ' + this.state.articleDisplayMode);
-            return null;
+            throw new Error('Article display mode unknown: ' + this.props.articleDisplayMode);
         }
     }
 }

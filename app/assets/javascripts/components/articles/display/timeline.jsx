@@ -1,19 +1,25 @@
 'use strict';
 
+import {
+    Link
+} from 'react-router-dom';
+
+import {
+    spyTrackClick
+} from '../../../actions';
+
 import CountCommentIcon from '../../comments/icons/count';
 import ArticleVisibilityIcon from '../icons/visibility';
 import SingleTimeline from '../../theme/timeline/single';
-import SingleTimelineItem from '../../theme/timeline/single-item';
+import SingleTimelineItem from '../../theme/timeline/singleItem';
 
 import Pagination from '../../materialize/pagination';
-
-import {Link} from 'react-router-dom';
 
 const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
     <div className="article-timeline">
         <SingleTimeline>
             {
-                articles.map((article) =>
+                articles.map((article) => (
                     <SingleTimelineItem key={article.id}
                                         date={article.updated_at}
                                         icon="message"
@@ -21,7 +27,8 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
                                             <div>
                                                 {I18n.t('js.article.timeline.title') + ' '}
 
-                                                <Link to={`/article/${article.slug}`}>
+                                                <Link to={`/article/${article.slug}`}
+                                                      onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
                                                     {article.title}
                                                 </Link>
 
@@ -29,13 +36,13 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
 
                                                 <div className="inline right">
                                                     <CountCommentIcon linkToComment={`/articles/${article.slug}`}
-                                                                      commentsNumber={article.comments_number}/>
+                                                                      commentsCount={article.comments_number}/>
                                                 </div>
                                             </div>
                                         }>
                         <div dangerouslySetInnerHTML={{__html: article.content}}/>
                     </SingleTimelineItem>
-                )
+                ))
             }
 
             {
@@ -47,28 +54,20 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
         {
             pagination &&
             <Pagination totalPages={pagination.total_pages}
-                        onPageClick={(paginate) => {
-                            ArticleTimelineDisplay._handlePaginationClick(paginate, loadArticles)
-                        }}/>
+                        onPageClick={_handlePaginationClick.bind(null, loadArticles)}/>
         }
     </div>
 );
+
+const _handlePaginationClick = (paginate, loadArticles) => {
+    loadArticles({page: paginate.selected + 1});
+    $('html, body').animate({scrollTop: $('.article-timeline').offset().top - 64}, 750);
+};
 
 ArticleTimelineDisplay.propTypes = {
     articles: PropTypes.array.isRequired,
     pagination: PropTypes.object,
     loadArticles: PropTypes.func
 };
-
-ArticleTimelineDisplay.getDefaultProps = {
-    pagination: null,
-    loadArticles: null
-};
-
-ArticleTimelineDisplay._handlePaginationClick = (paginate, loadArticles) => {
-    loadArticles({page: paginate.selected + 1});
-    $('html, body').animate({scrollTop: $('.article-timeline').offset().top - 64}, 750);
-};
-
 
 export default ArticleTimelineDisplay;

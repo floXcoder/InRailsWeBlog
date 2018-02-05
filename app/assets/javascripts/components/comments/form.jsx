@@ -1,8 +1,9 @@
 'use strict';
 
-import Input from '../../components/materialize/input';
-import Textarea from '../../components/materialize/textarea';
-import Submit from '../../components/materialize/submit';
+import Input from '../materialize/input';
+import Textarea from '../materialize/textarea';
+import Submit from '../materialize/submit';
+
 import Rating from '../theme/rating';
 
 export default class CommentForm extends React.PureComponent {
@@ -22,84 +23,61 @@ export default class CommentForm extends React.PureComponent {
 
     static defaultProps = {
         formTitle: I18n.t('js.comment.form.title.default'),
-        parentCommentId: null,
-        commentId: null,
-        title: null,
-        body: null,
         rating: 0,
         isAskingForDeletion: false
     };
 
     constructor(props) {
         super(props);
-
-        this._title = null;
-        this._body = null;
-        this._commentRating = null;
     }
 
-    componentDidMount() {
-        if (this.props.title) {
-            this._title.setValue(this.props.title);
-        }
-        if (this.props.body) {
-            this._body.setValue(this.props.body);
-        }
+    state = {
+        title: this.props.isAskingForDeletion ? I18n.t('js.comment.form.title.deletion_reply') : this.props.title,
+        body: this.props.body,
+        rating: this.props.rating
+    };
 
+    componentDidMount() {
         if (this.props.isAskingForDeletion) {
-            this._title.setValue(I18n.t('js.comment.form.title.deletion_reply'));
             this._body.focus();
         } else {
             this._title.focus();
         }
     }
 
+    _handleFormChange = (name, value) => {
+        this.setState({
+            [name]: typeof value === 'string' ? value.trim() : value
+        });
+    };
+
     _handleSubmit = (event) => {
         event.preventDefault();
 
-        let validator = $('#comment-form').parsley();
-        if (!validator.isValid()) {
-            validator.validate();
+        if (!this.state.title || this.state.title.length < window.settings.comment_body_min_length || this.state.title.length > window.settings.comment_title_max_length) {
             return;
         }
 
-        let title = this._title.value().trim();
-        let body = this._body.value().trim();
-
-        if (!title || !body) {
+        if (!this.state.body || this.state.body.length < window.settings.comment_comments_min_length || this.state.body.length > window.settings.comment_body_max_length) {
             return;
         }
 
-        let submitData = {};
+        let submitData = {
+            title: this.state.title,
+            body: this.state.body,
+            parent_id: this.props.parentCommentId,
+            id: this.props.commentId
+        };
 
         if (this.props.isRated && !this.props.isAskingForDeletion) {
-            let rating = this._commentRating.value();
-            submitData = {
-                title: title,
-                body: body,
-                rating: rating,
-                parent_id: this.props.parentCommentId,
-                id: this.props.commentId
-            };
-
-            this._commentRating.setValue(0);
-        } else {
-            submitData = {
-                title: title,
-                body: body,
-                parent_id: this.props.parentCommentId,
-                id: this.props.commentId
-            };
+            submitData.rating = this.state.rating;
         }
 
         if (this.props.isAskingForDeletion) {
-            submitData.ask_for_deletion = true;
+            submitData.askForDeletion = true;
         }
 
         this.props.onSubmit(submitData);
-
-        this._title.setValue('');
-        this._body.setValue('');
     };
 
     render() {
@@ -120,46 +98,69 @@ export default class CommentForm extends React.PureComponent {
 
                         <form id="comment-form"
                               className="comment-form"
-                              data-parsley-validate={true}
+                              acceptCharset="UTF-8"
+                              noValidate="novalidate"
                               onSubmit={this._handleSubmit}>
                             <Input ref={(title) => this._title = title}
                                    id="comment-title"
                                    title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.title_for_deletion') : I18n.t('js.comment.form.comment.title')}
                                    autoComplete="off"
+                                   minLength={window.settings.comment_title_min_length}
                                    maxLength={window.settings.comment_title_max_length}
                                    characterCount={window.settings.comment_title_max_length}
-                                   validator={{
-                                       'data-parsley-required': true,
-                                       'data-parsley-minlength': window.settings.comment_title_min_length,
-                                       'data-parsley-maxlength': window.settings.comment_title_max_length
-                                   }}/>
+                                   onChange={this._handleFormChange.bind(this, 'title')}>
+                                {this.props.title}
+                            </Input>
+                            {
+                                this.state.title && (this.state.title.length < window.settings.comment_body_min_length || this.state.title.length > window.settings.comment_title_max_length) &&
+                                <span className="comment-form-error">
+                                    {
+                                        I18n.t('js.comment.errors.title.size', {
+                                            min: window.settings.comment_title_min_length,
+                                            max: window.settings.comment_title_max_length
+                                        })
+                                    }
+                                </span>
+                            }
 
                             <Textarea ref={(body) => this._body = body}
                                       id="comment-body"
+                                      className="margin-top-30"
                                       title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.body_for_deletion') : I18n.t('js.comment.form.comment.body')}
+                                      isRequired={true}
+                                      minLength={window.settings.comment_body_min_length}
                                       maxLength={window.settings.comment_body_max_length}
                                       characterCount={window.settings.comment_body_max_length}
-                                      validator={{
-                                          'data-parsley-required': true,
-                                          'data-parsley-minlength': window.settings.comment_body_min_length,
-                                          'data-parsley-maxlength': window.settings.comment_body_max_length
-                                      }}/>
+                                      onChange={this._handleFormChange.bind(this, 'body')}>
+                                {this.props.body}
+                            </Textarea>
+                            {
+                                this.state.body && (this.state.body.length < window.settings.comment_body_min_length || this.state.body.length > window.settings.comment_body_max_length) &&
+                                <span className="comment-form-error">
+                                    {
+                                        I18n.t('js.comment.errors.body.size', {
+                                            min: window.settings.comment_body_min_length,
+                                            max: window.settings.comment_body_max_length
+                                        })
+                                    }
+                                </span>
+                            }
 
                             {
                                 this.props.isRated && !this.props.isAskingForDeletion &&
                                 <div className="margin-top-20 margin-bottom-30">
-                                    <Rating ref={(commentRating) => this._commentRating = commentRating}
-                                            initialRating={this.props.rating}
+                                    <Rating initialRating={this.props.rating}
                                             isReadOnly={false}
                                             hasInput={true}
                                             inputId="comment_rating"
-                                            labelName={I18n.t('js.comment.form.comment.notation')}/>
+                                            labelName={I18n.t('js.comment.form.comment.notation')}
+                                            onChange={this._handleFormChange.bind(this, 'rating')}/>
                                 </div>
                             }
 
                             <div className="row margin-top-10">
                                 <div className="col s6">
-                                    <a className="waves-effect waves-spectra btn-flat"
+                                    <a className="btn-flat waves-effect waves-light"
                                        onClick={this.props.onCancel}>
                                         {I18n.t('js.comment.form.cancel')}
                                     </a>

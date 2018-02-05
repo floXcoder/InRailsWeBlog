@@ -24,7 +24,6 @@ describe 'Search API', type: :request, basic: true do
 
         results = JSON.parse(response.body)
         expect(results).not_to be_empty
-        expect(results['query']).to be_nil
         expect(results['articles'].size).to be >= 5
         expect(results['tags'].size).to be >= 5
       end
@@ -37,10 +36,9 @@ describe 'Search API', type: :request, basic: true do
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
-        expect(results['query']).to eq('article')
         expect(results['articles'].size).to eq(5)
-        expect(results['total_count']['articles']).to eq(5)
-        expect(results['total_pages']['articles']).to eq(1)
+        expect(results['totalCount']['articles']).to eq(5)
+        expect(results['totalPages']['articles']).to eq(1)
       end
     end
   end

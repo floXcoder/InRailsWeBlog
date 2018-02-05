@@ -1,13 +1,19 @@
 'use strict';
 
-import ModalHOC from '../../hoc/modal';
+import {
+    switchUserPopup,
+    switchUserSignup,
+    switchUserLogin,
+    switchTopicPopup,
+    fetchTopic
+} from '../../actions';
+
+import Dialog from '../theme/dialog';
 
 import Login from '../users/login';
 import Signup from '../users/signup';
 
 import TopicModule from '../topic/module';
-
-import SearchModule from '../search/module';
 
 import HomeSearchHeader from './header/search';
 import HomeArticleHeader from './header/article';
@@ -15,77 +21,95 @@ import HomePreferenceHeader from './header/preference';
 import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
-import {
-    Link
-} from 'react-router-dom';
-
+@connect((state) => ({
+    isUserPopupOpened: state.uiState.isUserPopupOpened,
+    isUserSignupOpened: state.uiState.isUserSignupOpened,
+    isUserLoginOpened: state.uiState.isUserLoginOpened,
+    isTopicPopupOpened: state.uiState.isTopicPopupOpened,
+    isSearchPopupOpened: state.uiState.isSearchPopupOpened,
+    isUserConnected: state.userState.isConnected,
+    isUserLoaded: state.userState.isLoaded,
+    isAdminConnected: state.userState.isAdminConnected,
+    userCurrentId: state.userState.currentId,
+    userSlug: state.userState.user && state.userState.user.slug,
+    currentTopic: state.topicState.currentTopic
+}), {
+    switchUserPopup,
+    switchUserSignup,
+    switchUserLogin,
+    switchTopicPopup,
+    fetchTopic
+})
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
-        router: PropTypes.object.isRequired,
-        onReloadPage: PropTypes.func.isRequired
+        history: PropTypes.object.isRequired,
+        hasSearch: PropTypes.bool.isRequired,
+        onSearchOpen: PropTypes.func.isRequired,
+        onSearchClose: PropTypes.func.isRequired,
+        children: PropTypes.array.isRequired,
+        // From connect
+        isUserPopupOpened: PropTypes.bool,
+        isUserSignupOpened: PropTypes.bool,
+        isUserLoginOpened: PropTypes.bool,
+        isTopicPopupOpened: PropTypes.bool,
+        isSearchPopupOpened: PropTypes.bool,
+        isUserConnected: PropTypes.bool,
+        isUserLoaded: PropTypes.bool,
+        isAdminConnected: PropTypes.bool,
+        userCurrentId: PropTypes.number,
+        userSlug: PropTypes.string,
+        currentTopic: PropTypes.object,
+        switchUserPopup: PropTypes.func,
+        switchUserSignup: PropTypes.func,
+        switchUserLogin: PropTypes.func,
+        switchTopicPopup: PropTypes.func,
+        fetchTopic: PropTypes.func
     };
 
     constructor(props) {
         super(props);
     }
 
-    state = {
-        isUserConnected: $app.isUserConnected(),
-        isShowingSignup: true,
-        isShowingLogin: true,
-        isTopicOpened: false,
-        isSearchOpened: false
-    };
+    componentDidMount() {
+        $(document).keyup(function (event) {
+            if (event.which === '27') {
+                this.props.onSearchClose();
+            }
+        }.bind(this));
+    }
 
-    _handleLoginClick = () => {
-        this.setState({
-            isShowingLogin: true
-        });
-    };
-
-    _handleSignupClick = () => {
-        this.setState({
-            isShowingSignup: true
-        });
-    };
-
-    _handleTopicClick = (event, isUpdate) => {
+    _handleSignupClick = (event) => {
         event.preventDefault();
 
-        // if (isUpdate && this.props.onReloadPage) {
-        //     this.props.onReloadPage();
-        // }
-
-        this.setState({
-            isTopicOpened: !this.state.isTopicOpened
-        });
+        this.props.switchUserSignup();
     };
 
-    _handleSearchClick = (event) => {
+    _handleLoginClick = (event) => {
         event.preventDefault();
 
-        this.setState({
-            isSearchOpened: !this.state.isSearchOpened
-        });
+        this.props.switchUserLogin();
+    };
+
+    _handleTopicClick = (event) => {
+        event.preventDefault();
+
+        this.props.switchTopicPopup(!this.props.isTopicPopupOpened);
     };
 
     render() {
         return (
-            <header className="blog-header">
+            <header className="blog-header animate-search">
                 <div className="navbar-fixed">
-                    <nav>
+                    <nav className="header-nav">
                         <div className="nav-wrapper">
-                            <ul className="left hide-on-med-and-down">
+                            <ul className="left">
                                 {
-                                    this.state.isUserConnected &&
+                                    this.props.isUserLoaded &&
                                     <li>
-                                        <HomeTopicHeader onTopicClick={this._handleTopicClick}/>
+                                        <HomeTopicHeader currentTopicName={this.props.currentTopic.name}
+                                                         onTopicClick={this._handleTopicClick}/>
                                     </li>
                                 }
-
-                                <li>
-                                    <HomeSearchHeader onSearchClick={this._handleSearchClick}/>
-                                </li>
                             </ul>
 
                             <a className="brand-logo center"
@@ -93,39 +117,48 @@ export default class HeaderLayout extends React.PureComponent {
                                 {I18n.t('js.views.header.title')}
                             </a>
 
-                            <ul className="right hide-on-med-and-down">
+                            <HomeSearchHeader hasSearch={this.props.hasSearch}
+                                              onFocus={this.props.onSearchOpen}
+                                              onClose={this.props.onSearchClose}/>
+
+                            <ul className="right">
                                 <li>
-                                    <HomeArticleHeader router={this.props.router}/>
+                                    <HomeArticleHeader/>
                                 </li>
 
-
                                 {
-                                    this.state.isUserConnected &&
+                                    this.props.isUserLoaded &&
                                     <li>
-                                        <HomePreferenceHeader />
+                                        <HomePreferenceHeader/>
                                     </li>
                                 }
 
-
                                 <li>
-                                    <HomeUserHeader isUserConnected={$app.isUserConnected()}
-                                                    isAdminConnected={$app.isAdminConnected()}
+                                    <HomeUserHeader isUserConnected={this.props.isUserConnected}
+                                                    isAdminConnected={this.props.isAdminConnected}
+                                                    isOpened={this.props.isUserPopupOpened}
+                                                    onUserPopup={this.props.switchUserPopup}
+                                                    onSignupClick={this._handleSignupClick}
                                                     onLoginClick={this._handleLoginClick}
-                                                    onSignupClick={this._handleSignupClick}/>
+                                                    userSlug={this.props.userSlug}/>
                                 </li>
                             </ul>
                         </div>
                     </nav>
                 </div>
 
-                <ModalHOC isOpened={this.state.isTopicOpened}>
-                    <TopicModule router={this.props.router}
-                                 onTopicChange={this._handleTopicClick}/>
-                </ModalHOC>
-
-                <div className="blog-search-nav row">
-                    <SearchModule isOpened={this.state.isSearchOpened}/>
+                <div className={classNames('search-module', {
+                    'is-visible': this.props.hasSearch
+                })}>
+                    {
+                        this.props.hasSearch &&
+                        this.props.children
+                    }
                 </div>
+
+                <Dialog isOpened={this.props.isTopicPopupOpened}>
+                    <TopicModule history={this.props.history}/>
+                </Dialog>
 
                 <div id="clipboard-area"
                      className="hidden">
@@ -133,15 +166,11 @@ export default class HeaderLayout extends React.PureComponent {
                               title="clipboard"/>
                 </div>
 
-                {
-                    this.state.isShowingSignup &&
-                    <Signup launcherClass="signup-link"/>
-                }
+                <Signup isOpened={this.props.isUserSignupOpened}
+                        onModalChange={this.props.switchUserSignup}/>
 
-                {
-                    this.state.isShowingLogin &&
-                    <Login launcherClass="login-link"/>
-                }
+                <Login isOpened={this.props.isUserLoginOpened}
+                       onModalChange={this.props.switchUserLogin}/>
             </header>
         );
     }

@@ -13,7 +13,8 @@ webPackConfig = _.merge(webPackConfig, {
     // debug: false,
     // displayErrorDetails: false,
     output: {
-        pathinfo: false
+        pathinfo: false,
+        chunkFilename: config.production.chunkFilename
     },
     devtool: false
 });
@@ -46,7 +47,6 @@ webPackConfig.plugins.push(
         'NODE_ENV': JSON.stringify('production')
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
         beautify: false,
         sourceMap: false,

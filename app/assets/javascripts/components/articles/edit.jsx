@@ -1,134 +1,112 @@
 'use strict';
 
-import ArticleActions from '../../actions/articleActions';
-import ArticleStore from '../../stores/articleStore';
+import {
+    Link
+} from 'react-router-dom';
 
+import {
+    fetchArticle,
+    updateArticle
+} from '../../actions';
+
+import {
+    getTags,
+    getCurrentUser,
+    getCurrentTopic,
+    getArticleErrors
+} from '../../selectors';
+
+import {
+    formatTagArticles
+} from '../../forms/article';
+
+import Spinner from '../materialize/spinner';
+
+import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
-import '../../modules/validation';
-import 'jquery-serializejson';
-
-export default class ArticleEdit extends Reflux.Component {
+@connect((state) => ({
+    isFetching: state.articleState.isFetching,
+    article: state.articleState.article,
+    tags: getTags(state),
+    currentUser: getCurrentUser(state),
+    currentTopic: getCurrentTopic(state),
+    articleErrors: getArticleErrors(state)
+}), {
+    fetchArticle,
+    updateArticle
+})
+export default class ArticleEdit extends React.PureComponent {
     static propTypes = {
-        router: PropTypes.object.isRequired,
-        article: PropTypes.object,
+        params: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
         multipleId: PropTypes.number,
-        params: PropTypes.object
-    };
-
-    static defaultProps = {
-        article: null,
-        multipleId: null,
-        params: {}
+        // from connect
+        isFetching: PropTypes.bool,
+        article: PropTypes.object,
+        tags: PropTypes.array,
+        currentUser: PropTypes.object,
+        currentTopic: PropTypes.object,
+        articleErrors: PropTypes.array,
+        fetchArticle: PropTypes.func,
+        updateArticle: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
+        props.fetchArticle(props.params.articleSlug);
     }
 
-    state = {
-        article: null,
-        articleErrors: null
-    };
+    _handleSubmit = (values) => {
+        let formData = values.toJS();
 
-    componentWillMount() {
-        if (this.props.article) {
-            this.setState({
-                article: this.props.article
-            })
-        } else if (this.props.params.articleSlug) {
-            ArticleActions.loadArticle({slug: this.props.params.articleSlug});
-        }
-    }
+        formData.id = this.props.article.id;
 
-    onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
-            return;
-        }
+        formatTagArticles(formData, this.props.article.tags.toArray(), this.props.article.parentTagIds, this.props.article.childTagIds);
 
-        let newState = {};
-
-        if (articleData.type === 'loadArticle') {
-            newState.article = articleData.article;
-        }
-
-        if (articleData.type === 'updateArticle') {
-            this.props.router.history.push(`/article/${articleData.article.slug}`);
-        }
-
-        if (articleData.type === 'updateArticleError') {
-            newState.articleErrors = Object.keys(articleData.articleErrors).map((errorName) => {
-                let errorDescription = articleData.articleErrors[errorName];
-                return I18n.t('js.article.model.' + errorName) + ' ' + errorDescription.join(I18n.t('js.helpers.and'));
+        this.props.updateArticle(formData)
+            .then((response) => {
+                if (response.article) {
+                    this.props.history.push({
+                        pathname: `/article/${response.article.slug}`,
+                        state: {reloadTags: true}
+                    });
+                }
             });
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
-    _onCancel = () => {
-        if (this.state.article) {
-            this.props.router.history.push(`/article/${this.state.article.id}`);
-        } else {
-            this.props.router.history.push('/');
-        }
-        return true;
-    };
-
-    _handleArticleSubmit = () => {
-        const $articleForm = $('#article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '' ));
-
-        const validator = $articleForm.parsley();
-
-        if (!validator.isValid()) {
-            validator.validate();
-            Notification.error(I18n.t('js.article.common.validation_error.common'));
-            return false;
-        }
-
-        let currentArticle = $articleForm.serializeJSON().article;
-
-        ArticleActions.updateArticle(currentArticle);
 
         return true;
     };
 
     render() {
-        const articleFormId = 'article-edit' + (this.props.multipleId ? '-' + this.props.multipleId : '' );
-
-        if (this.state.article) {
+        if (!this.props.article) {
             return (
-                <div className="blog-form blog-article-edit">
-                    <div className="card">
-                        <div className="card-content blue-grey darken-3 white-text">
-                            <span className="card-title">
-                                {
-                                    this.state.article.title
-                                        ?
-                                        I18n.t('js.article.edit.form_title', {title: this.state.article.title})
-                                        :
-                                        I18n.t('js.article.edit.title')
-                                }
-                            </span>
-                        </div>
-
-                        <div className="card-action">
-                            <ArticleFormDisplay id={articleFormId}
-                                                onSubmit={this._handleArticleSubmit}
-                                                onCancel={this._onCancel}
-                                                articleErrors={this.state.articleErrors}>
-                                {this.state.article}
-                            </ArticleFormDisplay>
-                        </div>
-                    </div>
+                <div className="center margin-top-20">
+                    <Spinner size="big"/>
                 </div>
             );
-        } else {
-            return null;
         }
+
+        return (
+            <div className="blog-form blog-article-edit">
+                <div className="blog-breadcrumb">
+                    {
+                        (this.props.currentUser && this.props.currentTopic) &&
+                        <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                                                  topic={this.props.currentTopic}
+                                                  article={this.props.article}/>
+                    }
+                </div>
+
+                <ArticleFormDisplay id={`article-edit-${this.props.article.id}`}
+                                    currentMode={this.props.article.mode}
+                                    isEditing={true}
+                                    isDraft={this.props.article.isDraft}
+                                    articleErrors={this.props.articleErrors}
+                                    onSubmit={this._handleSubmit}>
+                    {this.props.article}
+                </ArticleFormDisplay>
+            </div>
+        );
     }
 }

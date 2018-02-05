@@ -22,9 +22,7 @@ module CommentableConcern
   end
 
   def update_comment(comment, new_comment_attributes)
-    if new_comment_attributes[:rating] && new_comment_attributes[:rating].blank?
-      new_comment_attributes.delete(:rating)
-    end
+    new_comment_attributes.delete(:rating) if new_comment_attributes[:rating].blank?
 
     comment_updated = comment.update_attributes(new_comment_attributes)
 
@@ -44,33 +42,31 @@ module CommentableConcern
     end
   end
 
-  def comments_tree(page = nil)
+  def comments_tree(page = nil, per_page = nil)
     comments = self.root_comments.includes(user: [:picture]).order('comments.created_at ASC')
-    comments = comments.paginate(page: page, per_page: Setting.per_page) if page
+    comments = comments.paginate(page: page, per_page: per_page || Setting.per_page) if page
 
-    comments_tree = comments.map do |root_comment|
-      root_comment.self_and_descendants
-    end
+    comments_tree = comments.map(&:self_and_descendants)
 
     return comments, comments_tree.flatten
   end
 
   def update_notation
-    if self.has_attribute?(:notation)
-      notation_sum   = 0
-      notation_count = 0
-      self.comment_threads.each do |comment|
-        next if !comment.rating || comment.rating == 0
-        notation_sum   += comment.rating
-        notation_count += 1
-      end
+    return unless self.has_attribute?(:notation)
 
-      if notation_sum == 0
-        self.update_attribute('notation', 0)
-      elsif notation_count > 0
-        new_notation = notation_sum / notation_count
-        self.update_attribute('notation', new_notation)
-      end
+    notation_sum   = 0
+    notation_count = 0
+    self.comment_threads.each do |comment|
+      next if !comment.rating || comment.rating.zero?
+      notation_sum   += comment.rating
+      notation_count += 1
+    end
+
+    if notation_sum.zero?
+      self.update_attribute('notation', 0)
+    elsif notation_count.positive?
+      new_notation = notation_sum / notation_count
+      self.update_attribute('notation', new_notation)
     end
   end
 end

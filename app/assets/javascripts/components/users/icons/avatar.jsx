@@ -1,15 +1,17 @@
 'use strict';
 
-import UserStore from '../../../stores/userStore';
+import {
+    Link
+} from 'react-router-dom';
 
-import {Link} from 'react-router-dom';
+import {
+    spyTrackClick
+} from '../../../actions';
 
 const UserAvatarIcon = ({user, className}) => (
     <Link className={className}
           to={`/user/profile/${user.slug}`}
-          onClick={(event) => {
-              UserAvatarIcon._handleUserClick(user.id, event)
-          }}>
+          onClick={spyTrackClick.bind(null, 'user', user.id)}>
         <div className="chip user-avatar">
             {
                 user.avatar
@@ -17,7 +19,9 @@ const UserAvatarIcon = ({user, className}) => (
                     <img src={user.avatar}
                          alt="User avatar"/>
                     :
-                    <i className="material-icons">account_circle</i>
+                    <span className="material-icons"
+                          data-icon="account_circle"
+                          aria-hidden="true"/>
             }
 
             <div className="pseudo">
@@ -30,15 +34,6 @@ const UserAvatarIcon = ({user, className}) => (
 UserAvatarIcon.propTypes = {
     user: PropTypes.object.isRequired,
     className: PropTypes.string
-};
-
-UserAvatarIcon.getDefaultProps = {
-    className: null
-};
-
-UserAvatarIcon._handleUserClick = (userId, event) => {
-    UserStore.onTrackClick(userId);
-    return event;
 };
 
 export default UserAvatarIcon;

@@ -1,7 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   layout 'full_page', except: [:edit, :update]
 
-  respond_to :html, :js
+  respond_to :html, :js, :json
 
   include ActionView::Helpers::TagHelper
   include ApplicationHelper
@@ -23,7 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         @location = after_inactive_sign_up_path_for(resource)
       end
 
-      respond_with resource, location: @location
+      respond_with resource, location: @location, serializer: UserProfileSerializer
     else
       respond_to do |format|
         format.html do
@@ -35,6 +35,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
           clean_up_passwords resource
           flash.now[:alert] = resource.errors.full_messages.to_sentence
           render template: 'devise/registrations/failure'
+        end
+
+        format.json do
+          clean_up_passwords resource
+          flash.now[:alert] = resource.errors.full_messages.to_sentence
+          respond_with resource
         end
       end
     end

@@ -1,16 +1,23 @@
 'use strict';
 
+import {
+    NavLink
+} from 'react-router-dom';
+
+import {
+    spyTrackClick
+} from '../../../actions';
+
 import ChildTag from './child';
 
-export default class ParentTag extends Reflux.PureComponent {
+export default class ParentTag extends React.PureComponent {
     static propTypes = {
         tag: PropTypes.object.isRequired,
-        onClickTag: PropTypes.func.isRequired,
-        isSearching: PropTypes.bool
+        isFiltering: PropTypes.bool
     };
 
     static defaultProps = {
-        isSearching: false
+        isFiltering: false
     };
 
     state = {
@@ -19,16 +26,12 @@ export default class ParentTag extends Reflux.PureComponent {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            isExpanded: nextProps.isSearching
+            isExpanded: nextProps.isFiltering
         });
     }
 
-    _handleTagClick = (tagId, parentTagSlug, childTagSlug, event) => {
-        event.preventDefault();
-
-        if (this.props.onClickTag) {
-            this.props.onClickTag(tagId, tagId, childTagSlug);
-        }
+    _handleTagClick = () => {
+        spyTrackClick('tag', this.props.tag.id);
 
         if (!this.state.isExpanded) {
             this.setState({
@@ -46,36 +49,39 @@ export default class ParentTag extends Reflux.PureComponent {
     };
 
     render() {
-        const hasChild = !$.isEmpty(this.props.tag.children);
+        const hasChild = !Utils.isEmpty(this.props.tag.children);
 
         return (
             <div className="tag-parent">
                 {
                     hasChild
                         ?
-                        <i className="material-icons tag-parent-icon"
-                           onClick={this._handleTagIconClick}>
-                            {this.state.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }
-                        </i>
+                        <span className="material-icons tag-parent-icon"
+                              data-icon={this.state.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
+                              aria-hidden="true"
+                              onClick={this._handleTagIconClick}/>
                         :
                         <div className="tag-parent-icon">
                             &nbsp;
                         </div>
                 }
 
-                <div className="tag-parent-name"
-                     onClick={this._handleTagClick.bind(this, this.props.tag.slug, this.props.tag.slug, null)}>
+                <NavLink className="tag-parent-name"
+                         to={`/tagged/${this.props.tag.slug}`}
+                         onClick={this._handleTagClick}>
                     {this.props.tag.name}
-                </div>
+                </NavLink>
 
-                <div className="tag-parent-children">
+                <div className={classNames('tag-parent-children', {
+                    'tag-parent-children-display': this.state.isExpanded
+                })}>
                     {
-                        this.state.isExpanded && this.props.tag.children.map((tag, i) =>
+                        this.props.tag.children.map((tag, i) => (
                             <ChildTag key={i}
                                       tag={tag}
                                       parentTagSlug={this.props.tag.slug}
-                                      onClickTag={this.props.onClickTag}/>
-                        )
+                                      isExpanded={this.state.isExpanded}/>
+                        ))
                     }
                 </div>
             </div>

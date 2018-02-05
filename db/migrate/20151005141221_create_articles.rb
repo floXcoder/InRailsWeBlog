@@ -4,12 +4,17 @@ class CreateArticles < ActiveRecord::Migration[5.1]
       t.belongs_to  :user,            null: true,     index: false
       t.belongs_to  :topic,           null: true,     index: false
 
-      t.string      :title
-      t.text        :summary
-      t.text        :content,         null: false
+      t.integer     :mode,            null: false,    default: 0
+
+      # Translations
+      t.jsonb       :title_translations,                     default: {}
+      t.jsonb       :summary_translations,                   default: {}
+      t.jsonb       :content_translations,   null: false,    default: {}
+      t.string      :languages,              null: false,    default: [], array: true
+
       t.text        :reference
+
       t.boolean     :draft,           null: false,    default: false
-      t.string      :language
       t.integer     :notation,                        default: 0
       t.integer     :priority,                        default: 0
 

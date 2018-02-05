@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 export default class Button extends React.PureComponent {
     static propTypes = {
         children: PropTypes.string.isRequired,
@@ -15,13 +13,8 @@ export default class Button extends React.PureComponent {
     };
 
     static defaultProps = {
-        id: null,
         type: 'submit',
-        className: null,
-        icon: null,
-        iconPosition: 'right',
-        tooltip: null,
-        onButtonClick: null
+        iconPosition: 'right'
     };
 
     constructor(props) {
@@ -32,30 +25,10 @@ export default class Button extends React.PureComponent {
         isDisabled: false
     };
 
-    componentDidMount() {
-        if (this.props.tooltip) {
-            let selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
-            $(selector).tooltip();
-        }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(this.state.isDisabled, nextState.isDisabled) || this.props.children !== nextProps.children;
-    }
-
-    componentDidUpdate() {
-        if (this.props.tooltip) {
-            const selector = '.tooltipped' + (this.props.id ? '#' + this.props.id : '');
-            $(selector).tooltip();
-        }
-    }
-
     render() {
         let tooltipData = {};
         if (this.props.tooltip) {
             tooltipData = {
-                'data-position': 'bottom',
-                'data-delay': '50',
                 'data-tooltip': this.props.tooltip
             };
         }
@@ -63,7 +36,9 @@ export default class Button extends React.PureComponent {
         const buttonClass = classNames(
             'btn waves-effect waves-light',
             this.props.className,
-            {'tooltipped': !$.isEmpty(this.props.tooltip)}
+            {
+                'tooltip-top': !!this.props.tooltip
+            }
         );
 
         return (
@@ -76,11 +51,12 @@ export default class Button extends React.PureComponent {
                     {...tooltipData}>
                 {
                     this.props.icon &&
-                    <i className={`material-icons ${this.props.iconPosition}`}>{this.props.icon}</i>
+                    <span className={classNames('material-icons', this.props.iconPosition)}
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
                 {this.props.children}
             </button>
         );
     }
 }
-

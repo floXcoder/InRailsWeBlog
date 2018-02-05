@@ -13,7 +13,6 @@
     "PropTypes": true,
     "React": true,
     "ReactDOM": true,
-    "Reflux": true,
     "Mousetrap": true,
     "Materialize": true,
     "I18n": true,

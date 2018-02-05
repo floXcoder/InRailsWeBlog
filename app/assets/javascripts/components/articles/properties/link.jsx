@@ -1,33 +1,36 @@
 'use strict';
 
-import ArticleStore from '../../../stores/articleStore';
+import {
+    Link
+} from 'react-router-dom';
 
-import {Link} from 'react-router-dom';
+import {
+    spyTrackClick
+} from '../../../actions';
 
-const ArticleLink = ({article, onArticleClick}) => (
-    <Link className="article-goto tooltipped btn-floating"
+const ArticleLink = ({articleId, articleSlug, onArticleClick}) => (
+    <Link className="btn-floating tooltipped article-goto"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
-          to={'/article/' + article.slug}
-          onClick={ArticleLink._handleArticleClick.bind(article.id, onArticleClick)}>
-        <i className="material-icons">home</i>
+          to={`/article/${articleSlug}`}
+          onClick={_handleArticleClick.bind(null, articleId, onArticleClick)}>
+        <span className="material-icons"
+              data-icon="home"
+              aria-hidden="true"/>
     </Link>
 );
 
-ArticleLink.propTypes = {
-    article: PropTypes.object.isRequired,
-    onArticleClick: PropTypes.func
-};
-
-ArticleLink.getDefaultProps = {
-    onArticleClick: null
-};
-
-ArticleLink._handleArticleClick = (articleId, onArticleClick) => {
-    ArticleStore.onTrackClick(articleId);
+const _handleArticleClick = (articleId, onArticleClick) => {
+    spyTrackClick('article', this.props.article.id);
 
     if (onArticleClick) {
         onArticleClick(articleId);
     }
+};
+
+ArticleLink.propTypes = {
+    articleId: PropTypes.number.isRequired,
+    articleSlug: PropTypes.string.isRequired,
+    onArticleClick: PropTypes.func
 };
 
 export default ArticleLink;

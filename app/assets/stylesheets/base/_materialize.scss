@@ -6,11 +6,11 @@
 @import 'materialize-css/sass/components/typography';
 @import 'materialize-css/sass/components/cards';
 @import 'materialize-css/sass/components/tabs';
-@import 'materialize-css/sass/components/tooltip';
+//@import 'materialize-css/sass/components/tooltip';
 @import 'materialize-css/sass/components/buttons';
 @import 'materialize-css/sass/components/dropdown';
 @import 'materialize-css/sass/components/waves';
-@import 'materialize-css/sass/components/modal';
+//@import 'materialize-css/sass/components/modal';
 @import 'materialize-css/sass/components/collapsible';
 @import 'materialize-css/sass/components/chips';
 @import 'materialize-css/sass/components/forms/forms';
@@ -371,6 +371,62 @@ input[type="checkbox"] + label {
   }
 }
 
+.btn,
+.btn-floating,
+.btn-large,
+.btn-flat {
+  font-size: $button-font-size;
+  outline: 0;
+
+  .material-icons {
+    font-size: $button-icon-font-size;
+    line-height: inherit;
+  }
+}
+
+.btn-floating {
+  &.btn-large {
+    .material-icons {
+      line-height: $button-floating-large-size;
+    }
+  }
+
+  .material-icons {
+    color: $button-floating-color;
+    display: inline-block;
+    font-size: $button-large-icon-font-size;
+    line-height: $button-floating-size;
+    text-align: center;
+    width: inherit;
+  }
+}
+
+// Icon Styles
+.material-icons {
+  line-height: inherit;
+
+  &.left {
+    float: left;
+    margin-right: 15px;
+  }
+  &.right {
+    float: right;
+    margin-left: 15px;
+  }
+  &.tiny {
+    font-size: 1rem;
+  }
+  &.small {
+    font-size: 2rem;
+  }
+  &.medium {
+    font-size: 4rem;
+  }
+  &.large {
+    font-size: 6rem;
+  }
+}
+
 // Filled in Style
 [type="checkbox"].invalid {
   + label:after {
@@ -400,11 +456,11 @@ input[type="checkbox"] + label {
 // Button waves color
 .waves-effect {
   &.waves-spectra .waves-ripple {
-    background-color: $spectra-color-transparent;
+    background-color: $primary-color-transparent;
   }
 
   &.waves-astral .waves-ripple {
-    background-color: $astral-color-transparent;
+    background-color: $primary-color-transparent;
   }
 }
 

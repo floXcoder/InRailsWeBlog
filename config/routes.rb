@@ -5,6 +5,15 @@ Rails.application.routes.draw do
   # Root path
   root 'static_pages#home'
 
+  # Routes managed by javascript router
+  get '/user/*id',      to: 'static_pages#home'
+  get '/research',      to: 'static_pages#home'
+  get '/research/*id',  to: 'static_pages#home'
+  get '/topic/*id',     to: 'static_pages#home'
+  get '/tagged/*id',    to: 'static_pages#home'
+  get '/tag/*id',       to: 'static_pages#home'
+  get '/article/*id',   to: 'static_pages#home'
+
   # Concerns
   concern :tracker do |options|
     post    :clicked,   to: "#{options[:module]}#clicked"
@@ -34,14 +43,17 @@ Rails.application.routes.draw do
     post    'login',  to: 'users/sessions#create'
     delete  'logout', to: 'users/sessions#destroy',     as: :logout
   end
-  devise_for :users, controllers: { registrations: 'users/registrations',
-                                    sessions:      'users/sessions',
-                                    passwords:     'users/passwords' }
+
+  devise_for :users, controllers: {
+    registrations:      'users/registrations',
+    sessions:           'users/sessions',
+    passwords:          'users/passwords'
+  }
 
   # Users
   resources :users, except: [:new, :create, :destroy] do
     collection do
-      get :validation,        to: 'users#validation'
+      get :validation,         to: 'users#validation'
     end
 
     member do
@@ -51,15 +63,10 @@ Rails.application.routes.draw do
       get      :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
       get      :draft,         to: 'users#draft',              as: :draft
       get      :comments,      to: 'users#comments',           as: :comments
+      get      :recents,       to: 'users#recents',            as: :recents
       get      :activities,    to: 'users#activities',         as: :activities
 
       concerns :tracker,       module: :users
-    end
-
-    resources :topics, controller: 'users/topics', only: [:index, :create, :update, :destroy] do
-      collection do
-        post :switch,          to: 'users/topics#switch'
-      end
     end
 
     resources :bookmarks, controller: 'users/bookmarks', only: [:create, :destroy]
@@ -73,6 +80,17 @@ Rails.application.routes.draw do
 
   # Users (activities)
   resources :activities, only: [:index]
+
+  # Topics
+  resources :topics do
+    collection do
+      post :switch,        to: 'topics#switch'
+    end
+
+    member do
+      concerns :tracker,   module: :tags
+    end
+  end
 
   # Articles
   resources :articles do
@@ -110,14 +128,14 @@ Rails.application.routes.draw do
 
   resources :comments, only: [:index]
 
-  # Static pages
-  get :terms_of_use,  to: 'static_pages#terms_of_use'
+  # Uploads data
+  resources :uploads,  only: [:create, :update, :destroy]
 
-  # Routes managed by javascript router
-  get '/user/*id',      to: 'static_pages#home'
-  get '/topic/*id',     to: 'static_pages#home'
-  get '/tag/*id',       to: 'static_pages#home'
-  get '/article/*id',   to: 'static_pages#home'
+  # Static pages
+  get :terms, to: 'static_pages#terms'
+
+  # SEO
+  get '/robots.:format' => 'static_pages#robots'
 
   # Errors
   %w[404 422 500].each do |code|
@@ -129,7 +147,6 @@ Rails.application.routes.draw do
       post 'delete_all',     to: 'errors#destroy_all'
     end
   end
-
   # Admins
   devise_scope :admin do
     get     '/admin/login',  to: 'users/sessions#new',      as: :login_admin

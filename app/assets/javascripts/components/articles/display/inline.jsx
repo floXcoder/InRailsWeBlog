@@ -1,48 +1,95 @@
 'use strict';
 
-import HighlightCode from 'highlight.js';
+import {
+    Link
+} from 'react-router-dom';
 
-export default class ArticleInlineDisplay extends React.Component {
+import highlight from '../../modules/highlight';
+
+import {
+    spyTrackClick
+} from '../../../actions';
+
+@highlight
+export default class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
-        children: PropTypes.string.isRequired,
-        article: PropTypes.object.isRequired
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired,
+        isOwner: PropTypes.bool,
+        onInlineEdit: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isOwner: false,
+        isOutdated: false
     };
 
     constructor(props) {
         super(props);
     }
 
-    componentDidMount() {
-        HighlightCode.configure({
-            tabReplace: '  ' // 4 spaces
-        });
+    state = {
+        isOver: false
+    };
 
-        this._highlightCode();
-    }
-
-    componentDidUpdate() {
-        this._highlightCode();
-    }
-
-    _highlightCode = () => {
-        let domNode = ReactDOM.findDOMNode(this);
-        let nodes = domNode.querySelectorAll('pre code');
-        if (nodes.length > 0) {
-            for (let i = 0; i < nodes.length; i = i + 1) {
-                HighlightCode.highlightBlock(nodes[i]);
-            }
-        }
+    _handleHoverEdit = () => {
+        this.setState({
+            isOver: !this.state.isOver
+        })
     };
 
     render() {
         return (
-            <div className="blog-article-item">
-                <h4 className="article-title-inline">
-                    {this.props.article.title}
-                </h4>
+            <div className={classNames(
+                'article-inline-item', {
+                    'article-inline-item-over': this.state.isOver
+                })}>
+                <div className="article-inline-content">
+                    {
+                        this.props.title &&
+                        <div className="article-inline-title">
+                            <Link to={`/article/${this.props.slug}`}
+                                  onClick={spyTrackClick.bind(null, 'article', this.props.id)}>
+                                <h2 className="title">
+                                    {this.props.title}
+                                </h2>
+                            </Link>
+                        </div>
+                    }
 
-                <span className="blog-article-content"
-                      dangerouslySetInnerHTML={{__html: this.props.children}}/>
+                    <div className="blog-article-content"
+                         dangerouslySetInnerHTML={{__html: this.props.content}}/>
+                </div>
+
+                <ul className="article-inline-actions">
+                    <li className="action-inline-item">
+                        <Link className="article-link tooltipped"
+                              to={`/article/${this.props.slug}`}
+                              data-tooltip={I18n.t('js.article.tooltip.link_to')}
+                              onClick={spyTrackClick.bind(null, 'article', this.props.id)}>
+                                <span className="material-icons"
+                                      data-icon="open_in_new"
+                                      aria-hidden="true"/>
+                        </Link>
+                    </li>
+
+                    {
+                        this.props.isOwner &&
+                        <li className="action-inline-item">
+                            <a className="article-edit tooltipped"
+                               data-tooltip={I18n.t('js.article.tooltip.edit')}
+                               onMouseEnter={this._handleHoverEdit}
+                               onMouseLeave={this._handleHoverEdit}
+                               onClick={this.props.onInlineEdit}>
+                                    <span className="material-icons"
+                                          data-icon="edit"
+                                          aria-hidden="true"/>
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         );
     }

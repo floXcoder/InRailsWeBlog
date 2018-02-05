@@ -1,8 +1,10 @@
 'use strict';
 
-import {Link} from 'react-router-dom';
+import {
+    Link
+} from 'react-router-dom';
 
-const ArticleNone = ({router, isTopicPage, isSearchPage}) => (
+const ArticleNone = ({topicSlug, isTopicPage, isSearchPage}) => (
     <div className="row">
         <div className="col s6 offset-s3">
             <div className="card center-align blue-grey darken-1">
@@ -28,11 +30,11 @@ const ArticleNone = ({router, isTopicPage, isSearchPage}) => (
                     }
 
                     {
-                        isTopicPage &&
+                        isTopicPage && topicSlug &&
                         <p>
                             {I18n.t('js.article.common.no_results.topic.content')}
-                            <Link to={`/topic/${router.match.params.topicSlug}/article/new`}
-                                  className="waves-effect waves-light btn margin-top-20">
+                            <Link to={`/topic/${topicSlug}/article/new`}
+                                  className="btn waves-effect waves-light margin-top-20">
                                 {I18n.t('js.article.common.no_results.topic.button')}
                             </Link>
                         </p>
@@ -44,12 +46,12 @@ const ArticleNone = ({router, isTopicPage, isSearchPage}) => (
 );
 
 ArticleNone.propTypes = {
-    router: PropTypes.object.isRequired,
+    topicSlug: PropTypes.string,
     isSearchPage: PropTypes.bool,
     isTopicPage: PropTypes.bool
 };
 
-ArticleNone.getDefaultProps = {
+ArticleNone.defaultProps = {
     isSearchPage: true,
     isTopicPage: false
 };

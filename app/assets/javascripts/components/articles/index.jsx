@@ -1,127 +1,117 @@
 'use strict';
 
-import _ from 'lodash';
+import {
+    fetchArticles
+} from '../../actions';
 
-import Spinner from '../../components/materialize/spinner';
+import {
+    getArticlePagination,
+    getArticles
+} from '../../selectors';
 
-// TODO: utility ?
-// import UserStore from '../../stores/userStore';
+import Spinner from '../materialize/spinner';
 
-import ArticleActions from '../../actions/articleActions';
-import ArticleStore from '../../stores/articleStore';
 import ArticleListDisplay from './display/list';
-import ArticleNone from '../../components/articles/display/none';
+import ArticleNone from '../articles/display/none';
 
-export default class ArticleIndex extends Reflux.Component {
+@connect((state) => ({
+    userCurrentId: state.userState.currentId,
+    topicCurrentId: state.topicState.currentTopic && state.topicState.currentTopic.id,
+    isFetching: state.articleState.isFetching,
+    articles: getArticles(state),
+    articlePagination: getArticlePagination(state),
+    articlesLoaderMode: state.uiState.articlesLoaderMode,
+    articleDisplayMode: state.uiState.articleDisplayMode,
+    articleEditionId: state.articleState.articleEditionId
+}), {
+    fetchArticles
+})
+export default class ArticleIndex extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired
+        params: PropTypes.object.isRequired,
+        // From connect
+        userCurrentId: PropTypes.number,
+        topicCurrentId: PropTypes.number,
+        isFetching: PropTypes.bool,
+        articles: PropTypes.array,
+        articlePagination: PropTypes.object,
+        articleEditionId: PropTypes.number,
+        articlesLoaderMode: PropTypes.string,
+        articleDisplayMode: PropTypes.string,
+        fetchArticles: PropTypes.func
     };
-
-    static defaultProps = {};
 
     constructor(props) {
         super(props);
 
-        // TODO: add search store to receive results
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
-    }
-
-    state = {
-        articles: null,
-        isLoading: true,
-        hasMore: true,
-        articleDisplayMode: 'card',
-        highlightResults: true
-    };
-
-    componentWillMount() {
-        ArticleActions.loadArticles(this.props.router.match.params);
-    }
-
-    componentDidMount() {
-        this._activateTooltip();
+        this._fetchInitArticles(props.params);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(this.props.router.match, nextProps.router.match)) {
-            ArticleActions.loadArticles(nextProps.router.match.params);
-
-            this.setState({
-                isLoading: true
-            });
+        if (!Object.equals(this.props.params, nextProps.params)) {
+            this._fetchInitArticles(nextProps.params);
         }
     }
 
-    componentDidUpdate() {
-        this._activateTooltip();
-    }
-
-    _activateTooltip = () => {
-        let $currentElement = $(ReactDOM.findDOMNode(this).className);
-        $currentElement.ready(() => {
-            $currentElement.find('.tooltipped').tooltip({
-                position: "bottom",
-                delay: 50
-            });
-        });
+    _filterParams = (params = {}) => {
+        return {
+            userId: params.userCurrentId || this.props.userCurrentId,
+            topicId: params.topicCurrentId || this.props.topicCurrentId,
+            ...params
+        };
     };
 
-    onPreferenceChange(userData) {
-        let newState = {};
-
-        if (!$.isEmpty(userData.settings) && userData.settings.article_display) {
-            newState.articleDisplayMode = userData.settings.article_display;
+    _fetchInitArticles = (params) => {
+        let options = {};
+        if (this.props.articlesLoaderMode === 'all') {
+            options.limit = 1000;
         }
-
-        if (!$.isEmpty(userData.search) && userData.search.search_highlight) {
-            newState.highlightResults = userData.search.search_highlight;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
+        this.props.fetchArticles(this._filterParams(params), options);
     };
 
-    onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
-            return;
-        }
+    _fetchNextArticles = (params = {}) => {
+        if (this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages) {
+            const options = {
+                page: (params.selected || this.props.articlePagination.currentPage) + 1
+            };
 
-        let newState = {};
-
-        if (articleData.type === 'loadArticles') {
-            newState.articles = articleData.articles;
-            newState.isLoading = false;
+            this.props.fetchArticles(this._filterParams(), options, {infinite: !params.selected})
+                .then(() => {
+                    if (params.selected) {
+                        setTimeout(() => {
+                            $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
+                        }, 300);
+                    }
+                });
         }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
+    };
 
     render() {
+        const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
+
         return (
             <div className="blog-article-box">
                 {
-                    this.state.isLoading &&
+                    this.props.isFetching &&
                     <div className="center margin-top-20">
-                        <Spinner size='big'/>
+                        <Spinner size="big"/>
                     </div>
                 }
 
                 {
-                    !this.state.isLoading && this.state.articles && this.state.articles.length > 0 &&
-                    <ArticleListDisplay router={this.props.router}
-                                        articles={this.state.articles}
-                                        hasMore={this.state.hasMore}
-                                        highlightResults={this.state.highlightResults}
-                                        articleDisplayMode={this.state.articleDisplayMode}/>
+                    this.props.articles.length > 0 &&
+                    <ArticleListDisplay articles={this.props.articles}
+                                        articlesLoaderMode={this.props.articlesLoaderMode}
+                                        articleDisplayMode={this.props.articleDisplayMode}
+                                        articleEditionId={this.props.articleEditionId}
+                                        hasMoreArticles={hasMoreArticles}
+                                        articleTotalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
+                                        fetchArticles={this._fetchNextArticles}/>
                 }
 
                 {
-                    !this.state.isLoading && this.state.articles && this.state.articles.length === 0 &&
-                    <ArticleNone router={this.props.router}
-                                 isTopicPage={!!this.props.router.match.params.topicSlug}/>
+                    (this.props.articles.length === 0 && !this.props.isFetching) &&
+                    <ArticleNone topicSlug={this.props.params.topicSlug}/>
                 }
             </div>
         );

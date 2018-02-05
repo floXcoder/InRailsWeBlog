@@ -1,7 +1,17 @@
 'use strict';
 
-import TagActions from '../../actions/tagActions';
-import TagStore from '../../stores/tagStore';
+import {
+    Link
+} from 'react-router-dom';
+
+import {
+    fetchTag,
+    spyTrackClick
+} from '../../actions';
+
+import {
+    getIsOwner
+} from '../../selectors';
 
 import Form from '../materialize/form';
 import Input from '../materialize/input';
@@ -10,65 +20,43 @@ import Select from '../materialize/select';
 import Selecter from '../theme/selecter';
 import Submit from '../materialize/submit';
 
-import {Link} from 'react-router-dom';
-
-export default class TagEdit extends Reflux.Component {
+@connect((state, props) => ({
+    tag: props.tagProps.tag,
+    isOwner: getIsOwner(state, props.tagProps.tag && props.tagProps.tag.user.id),
+    isConnected: state.userState.isConnected
+}), {
+    fetchTag
+})
+export default class TagEdit extends React.Component {
     static propTypes = {
-        tagId: PropTypes.object,
-        params: PropTypes.object
-    };
-
-    static defaultProps = {
-        tagId: null,
-        params: {}
+        params: PropTypes.object.isRequired,
+        // From connect
+        tag: PropTypes.object,
+        isOwner: PropTypes.bool,
+        isConnected: PropTypes.bool,
+        fetchTag: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(TagStore, this.onTagChange);
-    }
-
-    state = {
-        tag: {}
-    };
-
-    componentWillMount() {
-        TagActions.loadTag({
-            id: this.props.tagId || this.props.params.tagId
-        });
-    }
-
-    onTagChange(tagData) {
-        if ($.isEmpty(tagData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (tagData.type === 'loadTag') {
-            newState.tag = tagData.tag;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
+        props.fetchTag(props.params.tagSlug || props.params.tagId);
     }
 
     render() {
-        if ($.isEmpty(this.state.tag)) {
+        if (!this.props.tag) {
             return null;
         }
 
         return (
             <div className="card">
-                <Form id={`edit_tag_${this.state.tag.id}`}
+                <Form id={`edit_tag_${this.props.tag.id}`}
                       className="blog-form"
-                      action={`/tags/${this.state.tag.slug}`}>
+                      action={`/tags/${this.props.tag.slug}`}>
 
                     <div className="card-content">
                         <h3 className="adaptative-title center-align">
-                            {I18n.t('js.tag.edit.title', {name: this.state.tag.name})}
+                            {I18n.t('js.tag.edit.title', {name: this.props.tag.name})}
                         </h3>
 
                         <div className="row">
@@ -76,17 +64,17 @@ export default class TagEdit extends Reflux.Component {
                                 <Input id="tag_name"
                                        title={I18n.t('js.tag.model.name')}
                                        labelClass="important">
-                                    {this.state.tag.name}
+                                    {this.props.tag.name}
                                 </Input>
                             </div>
 
                             {
-                                (this.state.tag.visibility === 'everyone' || this.state.tag.id === $app.user.currentId) &&
+                                (this.props.tag.visibility === 'everyone' || this.props.isOwner) &&
                                 <div className="col s12 m6">
                                     <Textarea id="tag_description"
                                               title={I18n.t('js.tag.model.description')}
                                               labelClass="important">
-                                        {this.state.tag.description}
+                                        {this.props.tag.description}
                                     </Textarea>
                                 </div>
                             }
@@ -96,7 +84,7 @@ export default class TagEdit extends Reflux.Component {
                                         title={I18n.t('js.tag.model.visibility')}
                                         default={I18n.t('js.tag.common.visibility')}
                                         options={I18n.t('js.tag.enums.visibility')}>
-                                    {this.state.tag.visibility}
+                                    {this.props.tag.visibility}
                                 </Select>
                             </div>
 
@@ -107,7 +95,7 @@ export default class TagEdit extends Reflux.Component {
                                            placeholder={I18n.t('js.tag.common.synonyms')}
                                            isEditing={true}
                                            isHorizontal={true}>
-                                    {this.state.tag.synonyms}
+                                    {this.props.tag.synonyms}
                                 </Selecter>
                             </div>
                         </div>
@@ -116,8 +104,9 @@ export default class TagEdit extends Reflux.Component {
                     <div className="card-action">
                         <div className="row">
                             <div className="col s6 left-align">
-                                <Link to={`/tag/${this.state.tag.slug}`}
-                                      className="btn btn-default">
+                                <Link className="btn btn-default waves-effect waves-light"
+                                      to={`/tag/${this.props.tag.slug}`}
+                                      onClick={spyTrackClick.bind(null, 'tag', this.props.tag.id)}>
                                     {I18n.t('js.tag.edit.back_button')}
                                 </Link>
                             </div>

@@ -4,90 +4,116 @@ class SearchController < ApplicationController
   respond_to :json
 
   def index
-    search_results = {}
-    suggestions    = {}
-    aggregations   = {}
-    total_count    = {}
-    total_pages    = {}
+    article_search = tag_search = topic_search = nil
+    search_results = {
+      suggestions:  {},
+      aggregations: {},
+      totalCount:   {},
+      totalPages:   {}
+    }
 
-    search_options = {}
+    results_format = search_params[:complete] ? 'complete' : 'sample'
+    visibility     = if current_user
+                       { _or: [{ visibility: 'only_me', user_id: current_user.id }, { visibility: 'everyone' }] }
+                     elsif !current_admin
+                       { visibility: 'everyone' }
+                     else
+                       { visibility: search_params[:visibility] }
+                     end
 
-    # TODO
-    # params[:search_options] = {} if !search_params[:search_options] || search_params[:search_options].is_a?(String)
-    # if current_user && (user_settings = User.find(current_user.id))
-    #   search_options[:highlight] = user_settings.settings[:search_highlight]
-    #   search_options[:exact]     = user_settings.settings[:search_exact]
-    #   search_options[:operator]  = user_settings.settings[:search_operator]
-    # end
-    # unless search_params[:search_options].empty?
-    #   search_options[:highlight] = !(search_params[:search_options][:search_highlight] == 'false')
-    #   search_options[:exact]     = !(search_params[:search_options][:search_exact] == 'false')
-    #   search_options[:operator]  = search_params[:search_options][:search_operator]
-    # end
-
-    if search_type('article', search_params[:type])
-      article_results = Article.search_for(
+    if search_type('article', search_params[:selected_types])
+      article_search = Article.search_for(
         search_params[:query],
+        defer:            true,
+        format:           results_format,
         page:             search_params[:article_page] || search_params[:page],
         per_page:         search_params[:article_per_page] || search_params[:per_page] || Setting.search_per_page,
         current_user_id:  current_user&.id,
         current_topic_id: current_user&.current_topic_id,
+        highlight:        current_user ? current_user.search_highlight : true,
+        exact:            current_user ? current_user.search_exact : nil,
+        operator:         current_user ? current_user.search_operator : nil,
+        order:            search_params[:order],
         where:            {
-          draft:      search_params[:draft],
-          language:   search_params[:language],
-          notation:   search_params[:notation],
-          accepted:   search_params[:accepted],
-          home_page:  search_params[:home_page],
-          visibility: !current_admin ? 'everyone' : search_params[:visibility],
-          tags:       search_params[:tags] ? search_params[:tags].first.split(',') : nil,
-          topics:     search_params[:topics] ? search_params[:topics].first.split(',') : nil
-        },
-        order:            search_params[:order]
+                            mode:      search_params[:mode],
+                            draft:     search_params[:draft],
+                            languages: search_params[:language],
+                            notation:  search_params[:notation],
+                            accepted:  search_params[:accepted],
+                            home_page: search_params[:home_page],
+                            tags:      search_params[:tags] ? search_params[:tags].first.split(',') : nil,
+                            topics:    search_params[:topics] ? search_params[:topics].first.split(',') : nil
+                          }.merge(visibility).compact
       )
-
-      unless article_results.empty?
-        search_results.merge!(Article.as_json(article_results[:articles], sample: !search_params[:complete], current_user: current_user))
-      end
-
-      suggestions[:articles]  = article_results[:suggestions]
-      aggregations[:articles] = article_results[:aggregations]
-      total_count[:articles]  = article_results[:total_count]
-      total_pages[:articles]  = article_results[:total_pages]
     end
 
-    if search_type('tag', search_params[:type])
-      tag_results = Tag.search_for(
+    if search_type('tag', search_params[:selected_types])
+      tag_search = Tag.search_for(
         search_params[:query],
-        page:            search_params[:article_page] || search_params[:page],
-        per_page:        search_params[:article_per_page] || search_params[:per_page] || Setting.search_per_page,
-        current_user_id: current_user&.id,
-        where:           {
-          notation:   search_params[:notation],
-          accepted:   search_params[:accepted],
-          home_page:  search_params[:home_page],
-          visibility: !current_admin ? 'everyone' : search_params[:visibility],
-          topics:     search_params[:topics] ? search_params[:topics].first.split(',') : nil
-        },
-        order:           search_params[:order]
+        defer:    true,
+        format:   results_format,
+        page:     search_params[:tag_page] || search_params[:page],
+        per_page: search_params[:tag_per_page] || search_params[:per_page] || Setting.search_per_page,
+        exact:    current_user ? current_user.search_exact : nil,
+        operator: current_user ? current_user.search_operator : nil,
+        order:    search_params[:order],
+        where:    {
+                    accepted:  search_params[:accepted],
+                    home_page: search_params[:home_page]
+                  }.merge(visibility).compact
       )
-
-      unless tag_results.empty?
-        search_results.merge!(Tag.as_json(tag_results[:tags], sample: !search_params[:complete], current_user: current_user))
-      end
-
-      suggestions[:tags]  = tag_results[:suggestions]
-      aggregations[:tags] = tag_results[:aggregations]
-      total_count[:tags]  = tag_results[:total_count]
-      total_pages[:tags]  = tag_results[:total_pages]
     end
 
-    search_results[:query]        = search_params[:query]
-    search_results[:suggestions]  = suggestions
-    search_results[:aggregations] = aggregations
-    search_results[:total_count]  = total_count
-    search_results[:total_pages]  = total_pages
+    if search_type('topic', search_params[:selected_types])
+      topic_search = Topic.search_for(
+        search_params[:query],
+        defer:    true,
+        format:   results_format,
+        page:     search_params[:topic_page] || search_params[:page],
+        per_page: search_params[:topic_per_page] || search_params[:per_page] || Setting.search_per_page,
+        exact:    current_user ? current_user.search_exact : nil,
+        operator: current_user ? current_user.search_operator : nil,
+        order:    search_params[:order],
+        where:    {
+                    accepted:  search_params[:accepted],
+                    home_page: search_params[:home_page]
+                  }.merge(visibility).compact
+      )
+    end
 
-    current_user&.create_activity(:search, params: { query: search_params[:query], count: total_count })
+    searches = Searchkick.multi_search([article_search, tag_search, topic_search].compact)
+
+    searches.map do |search|
+      case search.model_name.human
+        when 'Article'
+          article_results = Article.parsed_search(search, results_format, current_user)
+
+          next if article_results[:articles].empty?
+          search_results.merge!(article_results[:articles])
+          search_results[:suggestions][:articles]  = article_results[:suggestions]
+          search_results[:aggregations][:articles] = article_results[:aggregations]
+          search_results[:totalCount][:articles]   = article_results[:total_count]
+          search_results[:totalPages][:articles]   = article_results[:total_pages]
+        when 'Tag'
+          tag_results = Tag.parsed_search(search, results_format, current_user)
+
+          next if tag_results[:tags].empty?
+          search_results.merge!(tag_results[:tags])
+          search_results[:suggestions][:tags] = tag_results[:suggestions]
+          search_results[:totalCount][:tags]  = tag_results[:total_count]
+          search_results[:totalPages][:tags]  = tag_results[:total_pages]
+        when 'Topic'
+          topic_results = Topic.parsed_search(search, results_format, current_user)
+
+          next if topic_results[:topics].empty?
+          search_results.merge!(topic_results[:topics])
+          search_results[:suggestions][:topics] = topic_results[:suggestions]
+          search_results[:totalCount][:topics]  = topic_results[:total_count]
+          search_results[:totalPages][:topics]  = topic_results[:total_pages]
+      end
+    end
+
+    current_user&.create_activity(:search, params: { query: search_params[:query], count: search_results[:totalCount].values.reduce(:+) })
 
     respond_to do |format|
       format.json { render json: search_results }
@@ -95,28 +121,74 @@ class SearchController < ApplicationController
   end
 
   def autocomplete
-    autocomplete_results = {}
+    articles_autocomplete = tags_autocomplete = topics_autocomplete = nil
+    autocomplete_results  = {}
 
-    if search_type('article', search_params[:type])
-      autocomplete_articles           = Article.search(search_params[:query],
-                                                       limit: search_params[:limit] || Setting.search_per_page,
-                                                       where: {
-                                                         visibility: !current_admin ? 'everyone' : nil
-                                                       }
+    where_options = {
+      languages: search_params[:language]
+    }
+    visibility    = if current_user
+                      { _or: [{ visibility: 'only_me', user_id: current_user.id }, { visibility: 'everyone' }] }
+                    elsif !current_admin
+                      { visibility: 'everyone' }
+                    end
+    where_options.merge(visibility)
+
+    if search_type('article', search_params[:selected_types])
+      where_options.merge(
+        mode:   search_params[:mode],
+        draft:  search_params[:draft],
+        tags:   search_params[:tags] ? search_params[:tags].first.split(',') : nil,
+        topics: search_params[:topics] ? search_params[:topics].first.split(',') : nil
       )
-
-      autocomplete_results[:articles] = autocomplete_articles unless autocomplete_articles.empty?
+      articles_autocomplete = Article.autocomplete_for(
+        search_params[:query],
+        defer:  true,
+        format: 'strict',
+        limit:  search_params[:limit] || Setting.per_page,
+        where:  where_options
+      )
     end
 
-    if search_type('tag', search_params[:type])
-      autocomplete_tags           = Tag.search(search_params[:query],
-                                               limit: search_params[:limit] || Setting.search_per_page,
-                                               where: {
-                                                 visibility: !current_admin ? 'everyone' : nil
-                                               }
+    if search_type('tag', search_params[:selected_types])
+      tags_autocomplete = Tag.autocomplete_for(
+        search_params[:query],
+        defer:  true,
+        format: 'strict',
+        limit:  search_params[:limit] || Setting.per_page,
+        where:  where_options
       )
+    end
 
-      autocomplete_results[:tags] = autocomplete_tags unless autocomplete_tags.empty?
+    if search_type('topic', search_params[:selected_types])
+      topics_autocomplete = Topic.autocomplete_for(
+        search_params[:query],
+        defer:  true,
+        format: 'strict',
+        limit:  search_params[:limit] || Setting.per_page,
+        where:  where_options
+      )
+    end
+
+    searches = Searchkick.multi_search([articles_autocomplete, tags_autocomplete, topics_autocomplete].compact)
+
+    searches.map do |search|
+      case search.model_name.human
+        when 'Article'
+          article_results = Article.format_search(search.results, 'strict', current_user)
+          next if article_results[:articles].empty?
+          autocomplete_results[:articles] = article_results[:articles]
+        when 'Tag'
+          tag_results = Tag.format_search(search, 'strict', current_user)
+
+          next if tag_results[:tags].empty?
+          autocomplete_results[:tags] = tag_results[:tags]
+        when 'Topic'
+          topic_results = Topic.format_search(search, 'strict', current_user)
+
+          next if topic_results[:topics].empty?
+          autocomplete_results[:topics] = topic_results[:topics]
+      end
     end
 
     respond_to do |format|
@@ -129,7 +201,6 @@ class SearchController < ApplicationController
   def search_params
     if params[:search].present?
       params.require(:search).permit(:complete,
-                                     :type,
                                      :per_page,
                                      :article_per_page,
                                      :tag_per_page,
@@ -139,6 +210,7 @@ class SearchController < ApplicationController
                                      :limit,
                                      :query,
                                      :rating,
+                                     :mode,
                                      :draft,
                                      :language,
                                      :notation,
@@ -146,10 +218,10 @@ class SearchController < ApplicationController
                                      :accepted,
                                      :home_page,
                                      :order,
-                                     type:  [],
-                                     types: [],
-                                     tags:  [],
-                                     order: []
+                                     :selected_types,
+                                     selected_types: [],
+                                     tags:           [],
+                                     order:          []
       ).reject { |_, v| v.blank? }
     else
       {}
@@ -159,13 +231,13 @@ class SearchController < ApplicationController
   def search_type(type, current_type, options = {})
     (return options[:strict] ? false : true) unless current_type
 
-    if current_type.is_a? Array
+    if current_type.is_a?(Array)
       return current_type.map(&:downcase).include?(type.to_s.downcase)
     else
-      if type.to_s.casecmp(current_type).zero?
+      if type.to_s.casecmp(current_type.to_s).zero?
         return true
       else
-        return !%w[article tag].include?(current_type.to_s.downcase)
+        return !%w[article tag topic].include?(current_type.to_s.downcase)
       end
     end
   end

@@ -26,28 +26,32 @@ class PictureSerializer < ActiveModel::Serializer
              :description,
              :copyright,
              :url,
-             :thumb_url,
+             :medium_url,
+             :mini_url,
              :filename,
-             :size,
-             :user
+             :dimension
 
   def url
     object.image.url
   end
 
-  def thumb_url
-    object.image.thumb.url if object.image&.thumb
+  def medium_url
+    object.image&.medium&.url
+  end
+
+  def mini_url
+    object.image&.mini&.url
   end
 
   def filename
-    object.image.file.filename if object.image&.file
+    object.image&.file&.filename
   end
 
-  def size
-    object.image.file.size if object.image&.file
+  def dimension
+    object.image&.file&.size
   end
 
-  def user
-    UserSampleSerializer.new(object.user).attributes
-  end
+  # def user
+  #   UserSampleSerializer.new(object.user).attributes
+  # end
 end

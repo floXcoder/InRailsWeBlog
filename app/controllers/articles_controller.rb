@@ -27,7 +27,7 @@ class ArticlesController < ApplicationController
   respond_to :html, :json
 
   def index
-    articles = Article.includes(:tags, user: [:picture])
+    articles = Article.includes(user: [:picture])
                  .order('articles.updated_at DESC')
                  .distinct
 
@@ -45,7 +45,8 @@ class ArticlesController < ApplicationController
                  meta:            meta_attributes(articles)
         else
           render json:            articles,
-                 each_serializer: ArticleSerializer
+                 each_serializer: ArticleSerializer,
+                 meta:            meta_attributes(articles)
         end
       end
     end
@@ -59,10 +60,6 @@ class ArticlesController < ApplicationController
                                :tracker)
                 .friendly.find(params[:id])
     admin_or_authorize article
-
-    Article.track_views(article.id)
-    User.track_views(article.user.id)
-    Tag.track_views(article.tags.ids)
 
     respond_to do |format|
       format.html do
@@ -90,7 +87,7 @@ class ArticlesController < ApplicationController
     article = Article.friendly.find(params[:id])
     admin_or_authorize article
 
-    article_versions = article.versions.select { |history| !history.reify.content.nil? }
+    article_versions = article.versions.reverse.reject { |history| history.reify.content.nil? }
 
     respond_to do |format|
       format.json do
@@ -116,7 +113,7 @@ class ArticlesController < ApplicationController
                  status:     :created
         else
           flash.now[:error] = t('views.article.flash.error_creation')
-          render json:   article.errors,
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end
@@ -152,10 +149,12 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       format.json do
         if article.save
+          flash.now[:success] = t('views.article.flash.successful_edition')
           render json:   article,
                  status: :ok
         else
-          render json:   article.errors,
+          flash.now[:error] = t('views.article.flash.error_edition')
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end
@@ -174,7 +173,7 @@ class ArticlesController < ApplicationController
       article.reload
 
       respond_to do |format|
-        flash.now[:success] = t('views.article.flash.undeletion_successful') if params[:from_deletion]
+        flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
         # format.html do
         #   redirect_to article_path(article)
         # end
@@ -209,15 +208,11 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       format.json do
         if params[:permanently] && current_admin ? article.really_destroy! : article.destroy
-          # TODO : remove now or later (cron job) ?
-          # Tag.remove_unused_tags(article.tags)
-
           flash.now[:success] = I18n.t('views.article.flash.successful_deletion')
-          render json:   { id: article.id },
-                 status: :accepted
+          head :no_content
         else
-          flash.now[:error] = I18n.t('views.article.flash.deletion_error', errors: article.errors.to_s)
-          render json:   article.errors,
+          flash.now[:error] = I18n.t('views.article.flash.error_deletion', errors: article.errors.to_s)
+          render json:   { errors: article.errors },
                  status: :forbidden
         end
       end
@@ -227,19 +222,33 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title,
+    params.require(:article).permit(:mode,
+                                    :title,
                                     :summary,
-                                    :description,
                                     :content,
+                                    :reference,
                                     :visibility,
                                     :notation,
                                     :priority,
                                     :allow_comment,
                                     :draft,
                                     :topic_id,
-                                    tags:        [],
-                                    parent_tags: [],
-                                    child_tags:  [])
+                                    :language,
+                                    tags:        [
+                                                   :name,
+                                                   :visibility,
+                                                   :new
+                                                 ],
+                                    parent_tags: [
+                                                   :name,
+                                                   :visibility,
+                                                   :new
+                                                 ],
+                                    child_tags:  [
+                                                   :name,
+                                                   :visibility,
+                                                   :new
+                                                 ])
   end
 
   def filter_params
@@ -251,12 +260,13 @@ class ArticlesController < ApplicationController
                                      :user_slug,
                                      :topic_id,
                                      :topic_slug,
+                                     :tag_id,
+                                     :tag_slug,
+                                     :parent_tag_slug,
+                                     :child_tag_slug,
                                      :bookmarked,
                                      user_ids:         [],
-                                     topic_ids:        [],
-                                     parent_tag_slugs: [],
-                                     child_tag_slugs:  [],
-                                     tag_slugs:        []).reject { |_, v| v.blank? }
+                                     topic_ids:        []).reject { |_, v| v.blank? }
     else
       {}
     end

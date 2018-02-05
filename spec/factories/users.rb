@@ -49,7 +49,7 @@
 #  locked_at              :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :user do
     sequence(:pseudo)     { |n| "Person #{n + 1}" }
@@ -59,9 +59,9 @@ FactoryGirl.define do
     first_name            'First name'
     last_name             'Last name'
     street                'Street'
+    city                  'City'
     postcode              '33000'
     state                 'Gironde'
-    city                  'City'
     country               'France'
     additional_info       'Personal information'
     birth_date            { Faker::Date.backward(365) }
@@ -71,6 +71,7 @@ FactoryGirl.define do
     pictures_count        0
     settings              { {} }
     # external              false
+    visibility            'everyone'
 
     trait :fake do
       first_name      { Faker::Name.first_name }

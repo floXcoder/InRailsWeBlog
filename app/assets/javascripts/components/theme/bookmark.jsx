@@ -1,9 +1,6 @@
 'use strict';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
-
-export default class Bookmark extends Reflux.Component {
+export default class Bookmark extends React.Component {
     static propTypes = {
         modelId: PropTypes.number.isRequired,
         modelName: PropTypes.string.isRequired,
@@ -20,8 +17,6 @@ export default class Bookmark extends Reflux.Component {
 
     constructor(props) {
         super(props);
-
-        this.mapStoreToState(UserStore, this.onUserChange);
     }
 
     state = {
@@ -58,7 +53,7 @@ export default class Bookmark extends Reflux.Component {
     }
 
     onUserChange = (bookmarkData) => {
-        if ($.isEmpty(bookmarkData)) {
+        if (Utils.isEmpty(bookmarkData)) {
             return;
         }
 
@@ -70,7 +65,7 @@ export default class Bookmark extends Reflux.Component {
             }
         }
 
-        if (!$.isEmpty(newState)) {
+        if (!Utils.isEmpty(newState)) {
             this.setState(newState);
         }
     };
@@ -78,7 +73,8 @@ export default class Bookmark extends Reflux.Component {
     _handleBookmarkClick = (event) => {
         event.preventDefault();
 
-        UserActions.bookmark($.currentUserId(), this.props.modelId, this.props.modelName, this.state.isBookmarked);
+        // TODO
+        // UserActions.bookmark(Utils.currentUserId(), this.props.modelId, this.props.modelName, this.state.isBookmarked);
     };
 
     render() {
@@ -110,9 +106,13 @@ export default class Bookmark extends Reflux.Component {
                     {
                         this.state.isBookmarked
                             ?
-                            <i className="material-icons bookmark-icon">favorite</i>
+                            <span className="material-icons bookmark-icon"
+                                  data-icon="favorite"
+                                  aria-hidden="true"/>
                             :
-                            <i className="material-icons bookmark-icon">favorite_border</i>
+                            <span className="material-icons bookmark-icon"
+                                  data-icon="favorite_border"
+                                  aria-hidden="true"/>
                     }
                 </a>
             </div>

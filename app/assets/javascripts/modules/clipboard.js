@@ -14,9 +14,11 @@ const ClipboardManager = (function ($) {
 
     const _pasteByEvent = function (event) {
         event.preventDefault();
+
         const clipboardData = event.originalEvent.clipboardData;
+
         if (_model.callback) {
-            _model.callback(clipboardData.getData('text/html'));
+            _model.callback(clipboardData.getData('text/html') || clipboardData.getData('text/plain'));
         }
     };
 
@@ -34,10 +36,10 @@ const ClipboardManager = (function ($) {
             }
 
             // Abort if it looks like they've selected some text
-            if (window.getSelection && !$.isEmpty(window.getSelection().toString())) {
+            if (window.getSelection && !Utils.isEmpty(window.getSelection().toString())) {
                 return;
             }
-            if (document.selection && !$.isEmpty(document.selection.createRange().text)) {
+            if (document.selection && !Utils.isEmpty(document.selection.createRange().text)) {
                 return;
             }
 

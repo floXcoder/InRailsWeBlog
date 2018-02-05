@@ -3,12 +3,12 @@
 const ArticleErrorField = ({errors}) => (
     <div className="article-errors red-text">
         {
-            errors.map((error, i) =>
+            errors.map((error, i) => (
                 <p key={i}
                    className="center-align">
                     {error}
                 </p>
-            )
+            ))
         }
     </div>
 );

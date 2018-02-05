@@ -24,11 +24,7 @@ describe 'Activities API', type: :request, basic: true do
       it 'returns an error message' do
         get '/activities', as: :json
 
-        expect(response).to be_json_response
-
-        activities = JSON.parse(response.body)
-
-        expect(activities['status']).to eq(404)
+        expect(response).to be_json_response(404)
       end
     end
 
@@ -58,8 +54,8 @@ describe 'Activities API', type: :request, basic: true do
         post "/articles/#{@article.id}/outdated", as: :json
         post "/articles/#{@article.id}/comments", params: { comment: { title: 'title', body: 'The comment' } }, as: :json
         put "/tags/#{@other_tag.id}", params: { tag: { name: 'second title' } }, as: :json
-        post "/users/#{@other_user.id}/topics", params: { topic: { name: 'name', description: 'description' } }, as: :json
-        put "/users/#{@other_user.id}/topics/#{@other_topic.id}", params: { topic: { name: 'second name' } }, as: :json
+        post '/topics', params: { user_id: @other_user.id, topic: { name: 'name', description: 'description' } }, as: :json
+        put "/topics/#{@other_topic.id}", params: { user_id: @other_user.id, topic: { name: 'second name' } }, as: :json
 
         login_as(@admin, scope: :admin, run_callbacks: false)
       end

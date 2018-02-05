@@ -2,18 +2,22 @@
 
 export default class ArticleOutdatedIcon extends React.PureComponent {
     static propTypes = {
-        article: PropTypes.object.isRequired,
-        onOutdatedClick: PropTypes.func.isRequired
+        articleId: PropTypes.number.isRequired,
+        onOutdatedClick: PropTypes.func.isRequired,
+        isOwner: PropTypes.bool
     };
 
-    static defaultProps = {};
+    static defaultProps = {
+        isOwner: false
+    };
 
     constructor(props) {
         super(props);
     }
 
+    // TODO: use redux to mark as outdated then received new data (as bookmark)
     state = {
-        isOutdated: this.props.article.outdated
+        // isOutdated: this.props.article.outdated
     };
 
     _handleOutdatedClick = (articleId, event) => {
@@ -23,21 +27,21 @@ export default class ArticleOutdatedIcon extends React.PureComponent {
     };
 
     render() {
-        if ($app.isUserConnected()) {
-            let outdatedClasses = classNames('material-icons', {'article-outdated': this.state.isOutdated});
-            let outdatedTooltip = this.state.isOutdated ?
-                I18n.t('js.article.tooltip.remove_outdated') :
-                I18n.t('js.article.tooltip.add_outdated');
-
-            return (
-                <a className="tooltipped btn-floating"
-                   data-tooltip={outdatedTooltip}
-                   onClick={this._handleOutdatedClick.bind(this, this.props.article.id)}>
-                    <i className={outdatedClasses}>highlight_off</i>
-                </a>
-            );
-        } else {
+        if (!this.props.isOwner) {
             return null;
         }
+
+        const outdatedClasses = classNames('material-icons', {'article-outdated': this.state.isOutdated});
+        const outdatedTooltip = this.state.isOutdated ? I18n.t('js.article.tooltip.remove_outdated') : I18n.t('js.article.tooltip.add_outdated');
+
+        return (
+            <a className="btn-floating tooltipped"
+               data-tooltip={outdatedTooltip}
+               onClick={this._handleOutdatedClick.bind(this, this.props.articleId)}>
+                <span className={outdatedClasses}
+                      data-icon="highlight_off"
+                      aria-hidden="true"/>
+            </a>
+        );
     }
 }

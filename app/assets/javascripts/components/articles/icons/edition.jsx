@@ -1,48 +1,48 @@
 'use strict';
 
-export default class ArticleEditionIcons extends React.Component {
-    static propTypes = {
-        article: PropTypes.object.isRequired,
-        onDeleteClick: PropTypes.func.isRequired,
-        onCancelClick: PropTypes.func.isRequired,
-        onSaveClick: PropTypes.func.isRequired
-    };
-
-    constructor(props) {
-        super(props);
+const ArticleEditionIcons = ({onSaveClick, onCancelClick, onDeleteClick, isOwner}) => {
+    if (!isOwner) {
+        return null;
     }
 
-    componentDidMount() {
-        $('.article-edition .tooltipped').tooltip('remove');
-    }
+    return (
+        <div className="article-editing">
+            <a className="btn-floating article-delete tooltipped"
+               data-tooltip={I18n.t('js.article.tooltip.delete')}
+               onClick={onDeleteClick}>
+                    <span className="material-icons"
+                          data-icon="delete"
+                          aria-hidden="true"/>
+            </a>
 
-    componentWillUnmount() {
-        $('.article-editing .tooltipped').tooltip('remove');
-    }
+            <a className="article-cancel tooltipped btn-floating"
+               data-tooltip={I18n.t('js.article.tooltip.cancel')}
+               onClick={onCancelClick}>
+                    <span className="material-icons"
+                          data-icon="clear"
+                          aria-hidden="true"/>
+            </a>
 
-    render() {
-        if ($app.isUserConnected(this.props.article.user.id)) {
-            return (
-                <div className="article-editing">
-                    <a className="article-delete tooltipped btn-floating"
-                       data-tooltip={I18n.t('js.article.tooltip.delete')}
-                       onClick={this.props.onDeleteClick}>
-                        <i className="material-icons">delete</i>
-                    </a>
+            <a className="btn-floating article-update tooltipped"
+               data-tooltip={I18n.t('js.article.tooltip.update')}
+               onClick={onSaveClick}>
+                   <span className="material-icons"
+                         data-icon="check"
+                         aria-hidden="true"/>
+            </a>
+        </div>
+    );
+};
 
-                    <a className="article-cancel tooltipped btn-floating"
-                       data-tooltip={I18n.t('js.article.tooltip.cancel')}
-                       onClick={this.props.onCancelClick}>
-                        <i className="material-icons">clear</i>
-                    </a>
+ArticleEditionIcons.propTypes = {
+    onDeleteClick: PropTypes.func.isRequired,
+    onCancelClick: PropTypes.func.isRequired,
+    onSaveClick: PropTypes.func.isRequired,
+    isOwner: PropTypes.bool
+};
 
-                    <a className="article-update tooltipped btn-floating"
-                       data-tooltip={I18n.t('js.article.tooltip.update')}
-                       onClick={this.props.onSaveClick}>
-                        <i className="material-icons">check</i>
-                    </a>
-                </div>
-            );
-        }
-    }
-}
+ArticleEditionIcons.defaultProps = {
+    isOwner: false
+};
+
+export default ArticleEditionIcons;

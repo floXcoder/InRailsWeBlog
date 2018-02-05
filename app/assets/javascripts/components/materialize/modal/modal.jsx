@@ -18,11 +18,7 @@ export default class Modal extends React.Component {
     };
 
     static defaultProps = {
-        launcherId: null,
-        launcherClass: null,
-        isBottom: false,
-        onOpen: null,
-        onClose: null
+        isBottom: false
     };
 
     constructor(props) {

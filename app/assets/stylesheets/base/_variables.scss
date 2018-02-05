@@ -7,47 +7,69 @@ $icons-font-path: '/assets/fonts/';
 // Colors
 // ------------------------------------
 // Base colors
-$transparency-color: .5;
+$text-color: #333;
+$light-text-color: #999;
+$background-color: #f9f9f9;
 
-$spectra-color: #375962;
+$transparency-color: .5;
+$spectra-color: rgba(39, 58, 75, .97);
 $spectra-color-transparent: rgba(55, 89, 98, $transparency-color);
-$astral-color: #3c8ca1;
+$astral-color: hsl(208, 85%, 34%);
 $astral-color-transparent: rgba(60, 140, 161, $transparency-color);
 
-//$text-color-base: rgba(0, 0, 0, .87);
-//$color-base: #37474f;
-//$color-hover: #2980b9;
-//$color-additional: #455a64;
-//$color-transparent: rgba(52, 152, 219, .3);
-//$color-bg: #fff;
+$secret-color: #ffab91;
+$advice-color: #81d4fa;
+$deadend-color: #bcaaa4;
 
-// Article and tag properties
-// ------------------------------------
+$border-color: #e4e4e4;
+$border-dark-color: rgba(0, 0, 0, .15);
+
+$active-color: #ffd8a6;
+
+$parent-color: #8b5953;
+$child-color: #72c02c;
+
+// Article
 $article-color: $spectra-color;
 $article-color-background: $spectra-color-transparent;
 
+// Tag
 $tag-color: $astral-color;
 $tag-color-background: $astral-color-transparent;
 
+// Search
+$search-border-color: rgba(105, 127, 149, .3);
+$search-active-border-color: #66cc75;
+$search-title-color: #9bb2c8;
+$search-tag-border-color: hsla(0, 0%, 100%, .1);
+$search-tag-background-color: hsla(0, 0%, 100%, .2);
+$search-highlight-color: #9bb2c8;
+
 // Materialize theme
 // ------------------------------------
-
-// Colors
-$text-color: #5f5f5f;
-$background-color: #fffffa;
-
-$off-black: $text-color;
+$off-black: rgba(0, 0, 0, .63);
 
 $primary-color: $spectra-color !default;
-$primary-color-light: lighten($primary-color, 15%) !default;
-$primary-color-dark: darken($primary-color, 15%) !default;
+$primary-color-transparent: $astral-color-transparent !default;
+$primary-color-light: lighten($spectra-color, 15%) !default;
+$primary-color-dark: darken($spectra-color, 15%) !default;
 
 $secondary-color: #5f5f5f !default;
-$success-color: #4caf50 !default;
-$error-color: #ef5350 !default;
-$link-color: #03a9f4 !default;
+$link-color: #5b96ec !default;
 
+$success-color: #4caf50 !default;
+$warning-color: #ffab40 !default;
+$error-color: #ef5350 !default;
+
+// Cards
 $card-link-color: $text-color;
+
+// Buttons
+$button-raised-background-hover: $primary-color;
+
+// Form
+$input-disabled-color: rgba(0, 0, 0, .46);
+$input-border-color: $secondary-color;
 
 // Media Query Ranges
 $small-screen-up: 601px;
@@ -67,9 +89,6 @@ $large-and-down: "only screen and (max-width: #{$large-screen})";
 $extra-large-and-up: "only screen and (min-width: #{$large-screen})";
 $large-only: "only screen and (min-width: #{$medium-screen}) and (max-width: #{$large-screen})";
 
-$input-disabled-color: rgba(0, 0, 0, .46);
-$input-border-color: $secondary-color;
-
 // Flow title
 $range: $large-screen - $small-screen;
 $intervals: 20;
@@ -77,13 +96,6 @@ $interval-size: $range / $intervals;
 
 // Grid
 $num-cols: 12;
-
-// Buttons
-$button-raised-background-hover: $primary-color;
-
-// Semantic
-// ------------------------------------
-$import-google-fonts: false;
 
 // Mixins
 // ------------------------------------
@@ -95,45 +107,13 @@ $import-google-fonts: false;
   padding: 2px 11px 4px;
 }
 
-// Special style colors
+// Special style
 // ------------------------------------
-$secret-color: #ffab91;
-$advice-color: #81d4fa;
-$deadend-color: #bcaaa4;
 @mixin special-style($color) {
   background-color: $color;
   box-shadow: 0 0 4px $color;
-  padding-left: 10px;
+  //padding-left: 10px;
 }
 
 // Editor
 // ------------------------------------
-//$toolbarColor: color('grey', 'darken-4') !default;
-//$toolbarTextColor: color('grey', 'lighten-5') !default;
-//$borderColor: color('grey', 'base') !default;
-
-$toolbar-color: #37474f !default;
-$toolbar-text-color: #fafafa !default;
-$border-color: #37474f !default;
-
-$first-button-color: #263238 !default;
-$first-button-hover-color: #3f51b5 !default;
-$second-button-color: #b71c1c !default;
-$second-button-hover-color: #3f51b5 !default;
-$third-button-color: #4a148c !default;
-$third-button-hover-color: #3f51b5 !default;
-
-$first-focus-color: #9c27b0 !default;
-$second-focus-color: #ff1744 !default;
-
-$selection-color: #757575 !default;
-
-$help-background-color: #e0e0e0 !default;
-
-$border-color: #a9a9a9;
-$background-color: #f5f5f5;
-
-$dropzone-color: #87cefa;
-$dropzone-active-color: darken($dropzone-color, 30);
-
-$note-shortcut-hl: #dd0;

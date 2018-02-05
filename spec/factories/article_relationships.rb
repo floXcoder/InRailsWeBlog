@@ -10,11 +10,13 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :article_relationship do
-    # article
-    # article
+    # user
+
+    # parent (article)
+    # child (article)
   end
 
 end

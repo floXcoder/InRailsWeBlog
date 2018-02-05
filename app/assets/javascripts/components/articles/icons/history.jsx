@@ -1,40 +1,21 @@
 'use strict';
 
-export default class ArticleHistoryIcon extends React.Component {
-    static propTypes = {
-        article: PropTypes.object.isRequired,
-        onHistoryClick: PropTypes.func.isRequired
-    };
+import {
+    Link
+} from 'react-router-dom';
 
-    static defaultProps = {};
+const ArticleHistoryIcon = ({articleSlug}) => (
+    <Link className="article-history tooltipped"
+          to={`/article/${articleSlug}/history`}
+          data-tooltip={I18n.t('js.article.tooltip.history')}>
+        <span className="material-icons"
+              data-icon="history"
+              aria-hidden="true"/>
+    </Link>
+);
 
-    constructor(props) {
-        super(props);
-    }
+ArticleHistoryIcon.propTypes = {
+    articleSlug: PropTypes.string.isRequired
+};
 
-    componentDidMount() {
-        $('.article-history.tooltipped').tooltip();
-    }
-
-    componentWillUpdate() {
-        $('.article-history.tooltipped').tooltip('remove');
-    }
-
-    componentDidUpdate() {
-        $('.article-history.tooltipped').tooltip();
-    }
-
-    render() {
-        if ($app.isUserConnected(this.props.article.user.id)) {
-            return (
-                <a className="article-history tooltipped btn-floating"
-                   data-tooltip={I18n.t('js.article.tooltip.history')}
-                   onClick={this.props.onHistoryClick}>
-                    <i className="material-icons">history</i>
-                </a>
-            );
-        } else {
-            return null;
-        }
-    }
-}
+export default ArticleHistoryIcon;

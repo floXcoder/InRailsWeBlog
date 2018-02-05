@@ -1,49 +1,73 @@
 'use strict';
 
 import {
+    Link
+} from 'react-router-dom';
+
+import {
     Popup
 } from 'semantic-ui-react';
 
-// import {Link} from 'react-router-dom';
-
-const HomeArticleHeader = ({router}) => {
+const HomeArticleHeader = () => {
     const button = (
-        <a className="btn-floating waves-effect waves-light header-button topic-header-button"
-           href="#">
-            <i className="material-icons">add</i>
+        <a className="btn-floating waves-effect waves-light header-button">
+            <span className="material-icons"
+                  data-icon="add"
+                  aria-hidden="true"/>
         </a>
     );
 
     const popup = (
         <ul className="collection">
             <li className="collection-item">
-                <span className="title">
-                    {I18n.t('js.views.header.article.menu.add_note')}
-                </span>
+                <Link to={{
+                    hash: '#new-article',
+                    state: {
+                        mode: 'note'
+                    }
+                }}>
+                    <span className="title">
+                        {I18n.t('js.views.header.article.menu.add_note')}
+                    </span>
+                </Link>
             </li>
             <li className="collection-item">
-                <span className="title">
-                    {I18n.t('js.views.header.article.menu.add_article')}
-                </span>
+                <Link to={{
+                    pathname: '/article/new',
+                    state: {
+                        mode: 'story'
+                    }
+                }}>
+                    <span className="title">
+                        {I18n.t('js.views.header.article.menu.add_article')}
+                    </span>
+                </Link>
+            </li>
+            <li className="collection-item">
+                <Link to={{
+                    pathname: '/article/new',
+                    state: {
+                        mode: 'link'
+                    }
+                }}>
+                    <span className="title">
+                        {I18n.t('js.views.header.article.menu.add_link')}
+                    </span>
+                </Link>
             </li>
         </ul>
     );
 
     return (
         <div>
-            <Popup
-                trigger={button}
-                content={popup}
-                on='click'
-                hideOnScroll={true}
-                flowing={true}
-                position='bottom center'/>
+            <Popup trigger={button}
+                   content={popup}
+                   on="click"
+                   hideOnScroll={true}
+                   flowing={true}
+                   position="bottom center"/>
         </div>
     );
-};
-
-HomeArticleHeader.propTypes = {
-    router: PropTypes.object.isRequired
 };
 
 export default HomeArticleHeader;

@@ -21,7 +21,7 @@ describe 'Comments API', type: :request, basic: true do
 
       expect(comments).not_to be_empty
       expect(comments['comments'].size).to eq(5)
-      expect(comments['meta']['total_count']).to eq(5)
+      expect(comments['meta']['totalCount']).to eq(5)
     end
   end
 

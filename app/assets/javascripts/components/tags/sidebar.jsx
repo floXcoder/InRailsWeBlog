@@ -1,187 +1,85 @@
 'use strict';
 
-import _ from 'lodash';
+import {
+    filterTags
+} from '../../actions';
 
-// TODO: how to use it?
-// import AssociatedTagBox from '../../components/tags/associated/box';
+import {
+    getClassifiedTags
+} from '../../selectors';
 
-import TopicStore from '../../stores/topicStore';
-
-import TagActions from '../../actions/tagActions';
-import TagStore from '../../stores/tagStore';
+// TODO: use selector to get current tags of fetch articles: load on click only
+// import AssociatedTagBox from '../tags/associated/box';
 
 import TagRelationshipDisplay from './display/relationship';
-import SearchBar from '../theme/search-bar';
+import SearchBar from '../theme/searchBar';
 import Spinner from '../materialize/spinner';
 
-import Fuzzy from 'fuzzy';
-
-export default class TagSidebar extends Reflux.Component {
+@connect((state) => ({
+    isLoading: state.tagState.isFetching,
+    filterText: state.tagState.filterText,
+    tags: getClassifiedTags(state)
+}), {
+    filterTags
+})
+export default class TagSidebar extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired
+        params: PropTypes.object.isRequired,
+        // From connect
+        isLoading: PropTypes.bool,
+        filterText: PropTypes.string,
+        tags: PropTypes.array,
+        fetchTags: PropTypes.func,
+        filterTags: PropTypes.func
     };
-
-    static defaultProps = {};
 
     constructor(props) {
         super(props);
-
-        this.mapStoreToState(TopicStore, this.onTopicChange);
-        this.mapStoreToState(TagStore, this.onTagChange);
-    }
-
-    state = {
-        isLoading: true,
-        userTags: [],
-        filterText: null
-    };
-
-    componentWillMount() {
-        if ($app.isUserConnected()) {
-            this.setState({
-                userTags: $app.user.tags || [],
-                isLoading: false
-            });
-        } else {
-            TagActions.loadTags();
-        }
     }
 
     componentDidMount() {
-        // TODO
         // Mousetrap.bind('alt+t', () => {
         //     $('#toggle-tags').sideNav('show');
         //     return false;
         // }, 'keydown');
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(this.props.router.match, nextProps.router.match)) {
-            this.setState({
-                isLoading: true
-            });
-        }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // TODO
-        // return !this.state.userTags.isEqualIds(nextState.userTags) || !this.state.filterText !== nextState.filterText;
-
-        return true;
-    }
-
-    onTopicChange(topicData) {
-        if ($.isEmpty(topicData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (topicData.type === 'switchTopic' || topicData.type === 'addTopic') {
-            newState.userTags = $app.user.tags;
-            newState.isLoading = false;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
-    onTagChange(tagData) {
-        if ($.isEmpty(tagData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (tagData.type === 'loadTags') {
-            newState.userTags = tagData.tags;
-            newState.isLoading = false;
-        }
-
-        if (tagData.type === 'refreshTags') {
-            newState.userTags = tagData.tags;
-            newState.isLoading = false;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
     _handleSearchInput = (value) => {
-        this.setState({
-            filterText: value
-        });
+        this.props.filterTags(value);
     };
 
     render() {
-        const isSearching = !$.isEmpty(this.state.filterText);
-
-        const tags = _.compact(this.state.userTags.map((tag) => {
-            let parents = [];
-            let children = [];
-
-            if (!$.isEmpty(tag.parents)) {
-                parents = _.compact(tag.parents.map((parentId) => {
-                    const parentTag = _.find(this.state.userTags, {'id': parentId});
-                    if (!!parentTag && !$.isEmpty(this.state.filterText) && !Fuzzy.match(this.state.filterText, parentTag.name)) {
-                        return null;
-                    } else {
-                        return parentTag && _.omit(parentTag, ['parents', 'children']);
-                    }
-                }));
-            }
-
-            if (!$.isEmpty(tag.children)) {
-                children = _.compact(tag.children.map((childId) => {
-                    const childTag = _.find(this.state.userTags, {'id': childId});
-
-                    if (!!childTag && !$.isEmpty(this.state.filterText) && !Fuzzy.match(this.state.filterText, childTag.name)) {
-                        return null;
-                    } else {
-                        return childTag && _.omit(childTag, ['parents', 'children']);
-                    }
-                }));
-            }
-
-            if (!$.isEmpty(this.state.filterText) && $.isEmpty(children) && !Fuzzy.match(this.state.filterText, tag.name)) {
-                return null;
-            }
-
-            return _.merge(_.omit(tag, ['parents', 'children']), {parents: parents, children: children});
-        }));
+        const isFiltering = !Utils.isEmpty(this.props.filterText);
 
         return (
             <div className="blog-sidebar-tag">
                 {
-                    this.state.isLoading &&
+                    this.props.isLoading &&
                     <div className="center">
                         <Spinner/>
                     </div>
                 }
 
                 {
-                    !this.state.isLoading &&
+                    !this.props.isLoading &&
                     <div>
-                        <h3>
+                        <h3 className="sidebar-title">
                             {I18n.t('js.tag.common.list')}
                         </h3>
 
                         <SearchBar label={I18n.t('js.tag.common.filter')}
                                    onSearchInput={this._handleSearchInput}>
-                            {this.state.filterText}
+                            {this.props.filterText}
                         </SearchBar>
 
                         {
-                            !$.isEmpty(tags)
+                            this.props.tags.length > 0
                                 ?
-                                <TagRelationshipDisplay router={this.props.router}
-                                                        tags={tags}
-                                                        isSearching={isSearching}/>
+                                <TagRelationshipDisplay tags={this.props.tags}
+                                                        isFiltering={isFiltering}/>
                                 :
                                 <div>
-                                    {I18n.t('js.tag.common.no_results') + ' ' + this.state.filterText}
+                                    {I18n.t('js.tag.common.no_results') + ' ' + this.props.filterText}
                                 </div>
                         }
                     </div>

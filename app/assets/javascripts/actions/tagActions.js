@@ -1,11 +1,26 @@
 'use strict';
 
-export default Reflux.createActions([
-    'loadTags',
-    'refreshTags',
-    'loadTag',
-    'updateTag',
-    'deleteTag',
-    'trackClick',
-    'trackView'
-]);
+import * as ActionTypes from '../constants/actionTypes';
+
+import api from '../middlewares/api';
+
+// Tags
+export const fetchTags = (filter, options = {}) => ({
+    actionType: ActionTypes.TAG,
+    fetchAPI: () => api.get(`/tags`, {
+        filter,
+        ...options
+    })
+});
+
+export const fetchTag = (tagId, options = {}) => ({
+    actionType: ActionTypes.TAG,
+    fetchAPI: () => api.get(`/tags/${tagId}`, {
+        ...options
+    })
+});
+
+export const filterTags = (filterText) => ({
+    type: ActionTypes.TAG_FILTER_SIDEBAR,
+    filterText
+});

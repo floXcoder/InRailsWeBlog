@@ -1,15 +1,17 @@
 'use strict';
 
-import UserStore from '../../stores/userStore';
+import {
+    Link
+} from 'react-router-dom';
 
-import TagActions from '../../actions/tagActions';
-import TagStore from '../../stores/tagStore';
+import {
+    spyTrackClick
+} from '../../actions';
 
 import UserAvatarIcon from '../users/icons/avatar';
 
-import {Link} from 'react-router-dom';
-
-export default class TagShow extends Reflux.Component {
+// TODO: use redux to get and received tag
+export default class TagShow extends React.Component {
     static propTypes = {
         tag: PropTypes.object,
         params: PropTypes.object,
@@ -17,7 +19,6 @@ export default class TagShow extends Reflux.Component {
     };
 
     static defaultProps = {
-        tag: null,
         params: {},
         location: {}
     };
@@ -25,41 +26,36 @@ export default class TagShow extends Reflux.Component {
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(TagStore, this.onTagChange);
+        if (props.tag) {
+            this.state.tag = props.tag;
+        } else if (props.params.tagId) {
+            this.props.fetchTag({id: this.props.params.tagId});
+        }
     }
 
     state = {
-        tag: null
+        tag: undefined
     };
 
-    componentWillMount() {
-        if (this.props.tag) {
-            this.setState({
-                tag: this.props.tag
-            });
-        } else if (this.props.params.tagId) {
-            TagActions.loadTag({id: this.props.params.tagId});
-        }
-    }
-
-    onTagChange(tagData) {
-        if ($.isEmpty(tagData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (tagData.type === 'loadTag') {
-            newState.tag = tagData.tag;
-        }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
+    // onTagChange(tagData) {
+    //     if (Utils.isEmpty(tagData)) {
+    //         return;
+    //     }
+    //
+    //     let newState = {};
+    //
+    //     if (tagData.type === 'loadTag') {
+    //         newState.tag = tagData.tag;
+    //     }
+    //
+    //     if (!Utils.isEmpty(newState)) {
+    //         this.setState(newState);
+    //     }
+    // }
 
     _handleUserClick = (userId, event) => {
-        UserStore.onTrackClick(userId);
+        // use Link from router
+        // UserStore.onTrackClick(userId);
         return event;
     };
 
@@ -71,7 +67,7 @@ export default class TagShow extends Reflux.Component {
     // }
 
     render() {
-        if ($.isEmpty(this.state.tag)) {
+        if (Utils.isEmpty(this.state.tag)) {
             return null;
         }
 
@@ -125,17 +121,18 @@ export default class TagShow extends Reflux.Component {
                             {
                                 this.state.tag.parents && this.state.tag.parents.length > 0
                                     ?
-                                    this.state.tag.parents.map((tag, i) =>
-                                        <Link key={i}
-                                              className="waves-effect waves-light btn-small tag-parent"
-                                              to={`/tag/${tag.slug}`}>
+                                    this.state.tag.parents.map((tag) => (
+                                        <Link key={tag.id}
+                                              className="btn-small waves-effect waves-light tag-parent"
+                                              to={`/tag/${tag.slug}`}
+                                              onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
                                             {tag.name}
                                         </Link>
-                                    )
+                                    ))
                                     :
                                     <span className="tag-item-no-parents">
-                                            {I18n.t('js.tag.common.no_parents')}
-                                        </span>
+                                        {I18n.t('js.tag.common.no_parents')}
+                                    </span>
                             }
                         </p>
 
@@ -145,13 +142,14 @@ export default class TagShow extends Reflux.Component {
                             {
                                 this.state.tag.children && this.state.tag.children.length > 0
                                     ?
-                                    this.state.tag.children.map((tag, i) =>
-                                        <Link key={i}
-                                              className="waves-effect waves-light btn-small tag-child"
-                                              to={`/tag/${tag.slug}`}>
+                                    this.state.tag.children.map((tag) => (
+                                        <Link key={tag.id}
+                                              className="btn-small waves-effect waves-light tag-child"
+                                              to={`/tag/${tag.slug}`}
+                                              onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
                                             {tag.name}
                                         </Link>
-                                    )
+                                    ))
                                     :
                                     <span className="tag-item-no-children">
                                             {I18n.t('js.tag.common.no_children')}
@@ -163,14 +161,14 @@ export default class TagShow extends Reflux.Component {
                     <div className="card-action article-action clearfix">
                         <div className="row">
                             <div className="col s12 m12 l6 md-margin-bottom-20">
-                                <Link to={`/`}
-                                      className="btn btn-default">
+                                <Link className="btn btn-default waves-effect waves-light"
+                                      to={`/`}>
                                     {I18n.t('js.tag.show.back_button')}
                                 </Link>
                             </div>
 
                             <div className="col s12 m12 l6 right-align">
-                                <Link className="waves-effect waves-light btn"
+                                <Link className="btn waves-effect waves-light"
                                       to={`/tag/${this.state.tag.slug}/edit`}>
                                     {I18n.t('js.tag.show.edit_link')}
                                 </Link>

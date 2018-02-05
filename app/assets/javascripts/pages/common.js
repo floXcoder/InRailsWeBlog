@@ -1,9 +1,6 @@
 'use strict';
 
 import '../application';
-import '../modules/validation';
-
-// import '../components/users/account';
 
 // Initialize all SideNav
 if (window.innerWidth > window.settings.medium_screen_up) {
@@ -20,13 +17,18 @@ if (window.innerWidth > window.settings.medium_screen_up) {
     );
 }
 
-// Got to top button
-// $('.goto-top').goToTop();
-
 // Flash messages
 $('.blog-flash').each((index, element) => {
     const $element = $(element);
     const level = $element.data('level');
+    const token = $element.data('flash-token');
+
+    if (sessionStorage) {
+        // Do not display same flash message twice
+        if(sessionStorage.getItem(`flash-message-${token}`)) {
+            return;
+        }
+    }
 
     if (level === 'success') {
         Notification.success($element.html());
@@ -35,23 +37,8 @@ $('.blog-flash').each((index, element) => {
     } else {
         Notification.alert($element.html());
     }
-});
 
-$(document).ajaxComplete((event, request) => {
-    if (request.getResponseHeader('X-Flash-Messages')) {
-
-        const flashMessage = JSON.parse(decodeURIComponent(escape(request.getResponseHeader('X-Flash-Messages'))));
-
-        if (flashMessage && flashMessage.success) {
-            Notification.success(flashMessage.success.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
-        }
-
-        if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
-            Notification.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
-        }
-
-        if (flashMessage && flashMessage.error) {
-            Notification.error(flashMessage.error.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
-        }
+    if (sessionStorage) {
+        sessionStorage.setItem(`flash-message-${token}`, 'true');
     }
 });

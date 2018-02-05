@@ -1,17 +1,22 @@
-# encoding: utf-8
-
 class PictureUploader < CarrierWave::Uploader::Base
+  # include ::CarrierWave::Backgrounder::Delay
+
   include CarrierWave::MiniMagick
   storage :file
 
   before :cache, :reset_secure_token
   before :cache, :save_original_filename
 
-  process resize_to_fit: [1200, 800]
+  process resize_to_limit: [1600, 1200]
   process :optimize
 
-  version :thumb do
-    process resize_to_fit: [300, 300]
+  version :medium do
+    process resize_to_limit: [460, 460]
+    process :optimize
+  end
+
+  version :mini, from_version: :medium do
+    process resize_to_limit: [260, 260]
     process :optimize
   end
 
@@ -36,7 +41,7 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_whitelist
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 
   # Progressive JPEG
@@ -62,7 +67,7 @@ class PictureUploader < CarrierWave::Uploader::Base
     model.image_secure_token ||= SecureRandom.hex(length / 2)
   end
 
-  def reset_secure_token(file)
+  def reset_secure_token(_file)
     model.image_secure_token = nil
   end
 end

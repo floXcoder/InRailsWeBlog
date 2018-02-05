@@ -3,17 +3,15 @@
 const Separator = ({className}) => (
     <div className={classNames('separator', className)}>
         <span className="separator-h">
-            <i className="material-icons">star</i>
+            <span className="material-icons"
+                  data-icon="star"
+                  aria-hidden="true"/>
         </span>
     </div>
 );
 
 Separator.propTypes = {
     className: PropTypes.string
-};
-
-Separator.defaultProps = {
-    className: null
 };
 
 export default Separator;

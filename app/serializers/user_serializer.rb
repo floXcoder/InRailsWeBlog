@@ -63,11 +63,4 @@ class UserSerializer < ActiveModel::Serializer
              :locale,
              :slug,
              :avatar_url
-
-  has_one :tracker
-  has_many :activities, serializer: PublicActivitiesSerializer
-
-  def activities
-    object.activities.limit(30)
-  end
 end

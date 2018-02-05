@@ -10,6 +10,7 @@ export default class Textarea extends React.Component {
             PropTypes.object,
             PropTypes.string
         ]),
+        className: PropTypes.string,
         placeholder: PropTypes.string,
         children: PropTypes.string,
         name: PropTypes.string,
@@ -23,27 +24,13 @@ export default class Textarea extends React.Component {
         onChange: PropTypes.func,
         onKeyDown: PropTypes.func,
         onBlur: PropTypes.func,
-        characterCount: PropTypes.number,
-        validator: PropTypes.object
+        characterCount: PropTypes.number
     };
 
     static defaultProps = {
-        title: null,
-        name: null,
-        multipleId: null,
-        placeholder: null,
-        children: null,
         isHorizontal: false,
         isRequired: false,
-        isDisabled: false,
-        icon: null,
-        minLength: null,
-        maxLength: null,
-        onChange: null,
-        onKeyDown: null,
-        onBlur: null,
-        characterCount: null,
-        validator: null
+        isDisabled: false
     };
 
     constructor(props) {
@@ -54,18 +41,26 @@ export default class Textarea extends React.Component {
         hasValue: false
     };
 
-    componentDidMount() {
-        if (this.props.characterCount) {
-            const $currentElement = $(ReactDOM.findDOMNode(this.refs[this.props.id]));
-            $currentElement.attr('length', this.props.characterCount);
-            // $currentElement.characterCounter();
-        }
-    }
+    // componentDidMount() {
+    //     if (this.props.characterCount) {
+    //         const $currentElement = $(ReactDOM.findDOMNode(this.refs[this.props.id]));
+    //         $currentElement.attr('length', this.props.characterCount);
+    //         // $currentElement.characterCounter();
+    //     }
+    // }
 
     shouldComponentUpdate(nextProps, nextState) {
         // Ignore if props has changed
         return !_.isEqual(this.state.hasValue, nextState.hasValue) || this.props.children !== nextProps.children;
     }
+
+    _handleChange = (event) => {
+        const value = event.target.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(value);
+        }
+    };
 
     value = () => {
         return this.refs[this.props.id].value;
@@ -101,12 +96,14 @@ export default class Textarea extends React.Component {
             }
         }
 
-        const fieldClass = classNames({
-            'input-field': !this.props.isHorizontal,
-            'input-horizontal-field': this.props.isHorizontal,
-            'required-field': this.props.isRequired,
-            'col s12': !this.props.isHorizontal
-        });
+        const fieldClass = classNames(
+            this.props.className,
+            {
+                'input-field': !this.props.isHorizontal,
+                'input-horizontal-field': this.props.isHorizontal,
+                'required-field': this.props.isRequired,
+                'col s12': !this.props.isHorizontal
+            });
 
         const iconClass = classNames(
             'material-icons',
@@ -136,7 +133,9 @@ export default class Textarea extends React.Component {
                 <div className={fieldClass}>
                     {
                         this.props.icon &&
-                        <i className={iconClass}>{this.props.icon}</i>
+                        <span className={iconClass}
+                              data-icon={this.props.icon}
+                              aria-hidden="true"/>
                     }
 
                     {
@@ -151,16 +150,16 @@ export default class Textarea extends React.Component {
                               id={id}
                               name={name}
                               className={textareaClass}
+                              length={this.props.characterCount}
                               placeholder={this.props.placeholder}
                               required={this.props.isRequired}
                               disabled={this.props.isDisabled}
                               minLength={this.props.minLength}
                               maxLength={this.props.maxLength}
-                              onChange={this.props.onChange}
+                              onChange={this._handleChange}
                               onKeyDown={this.props.onKeyDown}
                               onBlur={this.props.onBlur}
-                              defaultValue={this.props.children}
-                              {...this.props.validator}/>
+                              defaultValue={this.props.children}/>
 
                     {
                         (this.props.title && !this.props.isHorizontal) &&

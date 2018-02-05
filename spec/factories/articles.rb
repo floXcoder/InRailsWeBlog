@@ -5,18 +5,19 @@
 #  id                      :integer          not null, primary key
 #  user_id                 :integer
 #  topic_id                :integer
-#  title                   :string
-#  summary                 :text
-#  content                 :text             not null
+#  mode                    :integer          default("story"), not null
+#  title_translations      :jsonb
+#  summary_translations    :jsonb
+#  content_translations    :jsonb            not null
+#  languages               :string           default([]), not null, is an Array
 #  reference               :text
 #  draft                   :boolean          default(FALSE), not null
-#  language                :string
-#  allow_comment           :boolean          default(TRUE), not null
 #  notation                :integer          default(0)
 #  priority                :integer          default(0)
 #  visibility              :integer          default("everyone"), not null
 #  accepted                :boolean          default(TRUE), not null
 #  archived                :boolean          default(FALSE), not null
+#  allow_comment           :boolean          default(TRUE), not null
 #  pictures_count          :integer          default(0)
 #  outdated_articles_count :integer          default(0)
 #  bookmarks_count         :integer          default(0)
@@ -27,21 +28,22 @@
 #  updated_at              :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :article do
     # user
     # topic
 
-    title           { Faker::Lorem.sentence }
-    summary         { Faker::Lorem.paragraph(1, false) }
-    content         { Faker::Lorem.paragraph(1..20) }
-    reference       ''
-    language        'fr'
-    allow_comment   true
+    mode            'story'
+    title           { Faker::Lorem.sentence } # title_translations
+    summary         { Faker::Lorem.paragraph(1, false) } # summary_translations
+    content         { Faker::Lorem.paragraph(1..20) } # content_translations
+    languages       ['fr']
+    reference       { Faker::Internet.url }
     notation        0
     priority        0
     visibility      'everyone'
+    allow_comment   true
 
     factory :article_with_tags do
       transient do

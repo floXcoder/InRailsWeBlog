@@ -1,7 +1,5 @@
 'use strict';
 
-import '../../modules/validation';
-
 export default class Form extends React.Component {
     static propTypes = {
         children: PropTypes.oneOfType([
@@ -14,7 +12,6 @@ export default class Form extends React.Component {
         action: PropTypes.string,
         isEdition: PropTypes.bool,
         dataType: PropTypes.oneOf(['json', 'js']),
-        isValidating: PropTypes.bool,
         validationExcluded: PropTypes.string,
         isMultipart: PropTypes.bool,
         isRemote: PropTypes.bool,
@@ -23,18 +20,10 @@ export default class Form extends React.Component {
     };
 
     static defaultProps = {
-        id: null,
-        modelId: null,
-        action: null,
-        model: null,
         isEdition: false,
         dataType: 'json',
-        isValidating: false,
-        validationExcluded: null,
         isMultipart: false,
-        isRemote: false,
-        className: null,
-        onSubmit: null
+        isRemote: false
     };
 
     constructor(props) {
@@ -42,29 +31,6 @@ export default class Form extends React.Component {
 
         this.id = null;
     }
-
-    componentDidMount() {
-        if (this.props.isValidating && this.id) {
-            $(`#${this.id}`).parsley({
-                excluded: this.props.validationExcluded
-            });
-        }
-    }
-
-    getId = () => {
-        return this.id;
-    };
-
-    _handleSubmit = (event) => {
-        if (this.props.onSubmit) {
-            let isFormValid = true;
-            if (this.props.isValidating) {
-                isFormValid = $(`#${this.id}`).parsley({excluded: this.props.validationExcluded}).isValid()
-            }
-
-            return this.props.onSubmit(event, isFormValid);
-        }
-    };
 
     render() {
         if (this.props.id) {
@@ -94,14 +60,13 @@ export default class Form extends React.Component {
             <form id={this.id}
                   action={action}
                   method="post"
-                  className={classNames('loca-form', this.props.className)}
-                  data-parsley-validate={this.props.isValidating}
-                  encType={this.props.isMultipart ? 'multipart/form-data' : null}
+                  className={classNames('blog-form', this.props.className)}
+                  encType={this.props.isMultipart ? 'multipart/form-data' : undefined}
                   data-remote={this.props.isRemote}
                   data-type={this.props.dataType}
                   acceptCharset="UTF-8"
                   noValidate="novalidate"
-                  onSubmit={this._handleSubmit}>
+                  onSubmit={this.props.onSubmit}>
 
                 {
                     this.props.isEdition &&

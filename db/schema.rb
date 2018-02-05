@@ -73,12 +73,13 @@ ActiveRecord::Schema.define(version: 20170819105714) do
   create_table "articles", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "topic_id"
-    t.string "title"
-    t.text "summary"
-    t.text "content", null: false
+    t.integer "mode", default: 0, null: false
+    t.jsonb "title_translations", default: {}
+    t.jsonb "summary_translations", default: {}
+    t.jsonb "content_translations", default: {}, null: false
+    t.string "languages", default: [], null: false, array: true
     t.text "reference"
     t.boolean "draft", default: false, null: false
-    t.string "language"
     t.integer "notation", default: 0
     t.integer "priority", default: 0
     t.integer "visibility", default: 0, null: false
@@ -116,8 +117,8 @@ ActiveRecord::Schema.define(version: 20170819105714) do
     t.string "commentable_type", null: false
     t.bigint "commentable_id", null: false
     t.string "title"
-    t.text "body"
     t.string "subject"
+    t.text "body"
     t.integer "rating", default: 0
     t.integer "positive_reviews", default: 0
     t.integer "negative_reviews", default: 0
@@ -135,6 +136,7 @@ ActiveRecord::Schema.define(version: 20170819105714) do
   end
 
   create_table "error_messages", force: :cascade do |t|
+    t.integer "origin", default: 0, null: false
     t.text "class_name"
     t.text "message"
     t.text "trace"
@@ -144,11 +146,16 @@ ActiveRecord::Schema.define(version: 20170819105714) do
     t.text "target_url"
     t.text "referer_url"
     t.text "user_agent"
-    t.string "user_info"
+    t.string "request_format"
     t.string "app_name"
+    t.string "app_version"
     t.string "doc_root"
-    t.string "ip"
-    t.integer "origin", default: 0, null: false
+    t.string "user_id"
+    t.string "user_pseudo"
+    t.string "user_locale"
+    t.string "user_ip"
+    t.string "bot_agent"
+    t.string "os_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -228,7 +235,8 @@ ActiveRecord::Schema.define(version: 20170819105714) do
   create_table "tags", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name", null: false
-    t.text "description"
+    t.jsonb "description_translations", default: {}
+    t.string "languages", default: [], array: true
     t.string "synonyms", default: [], array: true
     t.string "color"
     t.integer "notation", default: 0
@@ -253,7 +261,8 @@ ActiveRecord::Schema.define(version: 20170819105714) do
   create_table "topics", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name", null: false
-    t.text "description"
+    t.jsonb "description_translations", default: {}
+    t.string "languages", default: [], array: true
     t.string "color"
     t.integer "priority", default: 0, null: false
     t.integer "visibility", default: 0, null: false

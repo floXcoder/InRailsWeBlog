@@ -2,7 +2,6 @@ class ErrorsController < ApplicationController
   layout 'full_page'
 
   before_action :authenticate_admin!, except: [:show, :create]
-  before_action :verify_requested_format!
 
   skip_before_action :set_locale, only: [:show, :create]
 
@@ -12,7 +11,10 @@ class ErrorsController < ApplicationController
     errors = ErrorMessage.all.order('id DESC')
 
     respond_to do |format|
-      format.json { render json: errors }
+      format.json do
+        render json: errors,
+               root: 'failures'
+      end
     end
   end
 
@@ -28,10 +30,20 @@ class ErrorsController < ApplicationController
   end
 
   def create
-    error = ErrorMessage.new_error(error_params, request, current_user)
-    error.save
+    if params[:error].present?
+      error_parameters = error_params.merge(
+        params:      params.to_unsafe_h,
+        user_locale: params[:locale] || I18n.locale,
+        user_agent:  browser.to_s,
+        bot_agent:   browser.bot.name,
+        os_agent:    browser.platform.to_s
+      )
+      error            = ErrorMessage.new_error(error_parameters, request, current_user)
+      error.save
+    end
 
     respond_to do |format|
+      format.html { head :ok, content_type: 'text/html' }
       format.json { render json: { success: true } }
     end
   end
@@ -40,13 +52,16 @@ class ErrorsController < ApplicationController
     error = ErrorMessage.find(params[:id])
 
     respond_to do |format|
-      if error.destroy
-        flash.now[:success] = t('views.errors.flash.successful_deletion')
-        format.json { render json: error.id }
-      else
-        flash.now[:error] = I18n.t('views.errors.flash.error_deletion')
-        format.json { render json: error.errors, status: :forbidden }
+      format.json do
+        if error.destroy
+          flash.now[:success] = t('views.errors.flash.successful_deletion')
+          head :no_content, content_type: 'application/json'
+        else
+          flash.now[:error] = I18n.t('views.errors.flash.error_deletion')
+          render json: { errors: error.errors }, status: :forbidden
+        end
       end
+
     end
   end
 
@@ -54,12 +69,14 @@ class ErrorsController < ApplicationController
     destroyed_errors = ErrorMessage.destroy_all
 
     respond_to do |format|
-      if !destroyed_errors.empty?
-        flash.now[:success] = t('views.errors.flash.successful_all_deletion')
-        format.json { render json: destroyed_errors.map(&:id) }
-      else
-        flash.now[:error] = t('views.errors.flash.error_all_deletion')
-        format.json { render json: { deleted_errors: false } }
+      format.json do
+        if !destroyed_errors.empty?
+          flash.now[:success] = t('views.errors.flash.successful_all_deletion')
+          render json: { ids: destroyed_errors.map(&:id) }
+        else
+          flash.now[:error] = t('views.errors.flash.error_all_deletion')
+          render json: { deletedErrors: false }
+        end
       end
     end
   end

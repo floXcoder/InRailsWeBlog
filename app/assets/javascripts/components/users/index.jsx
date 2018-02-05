@@ -1,45 +1,38 @@
 'use strict';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
-
 import UserCardDisplay from './display/card';
 
-import SearchBar from '../theme/search-bar';
+import SearchBar from '../theme/searchBar';
 
 // import Filtering from '../../modules/filter';
 
 import Pagination from '../materialize/pagination';
 
-import {TransitionGroup, CSSTransition} from 'react-transition-group';
+import {
+    TransitionGroup,
+    CSSTransition
+} from 'react-transition-group';
 
-export default class UserIndex extends Reflux.Component {
+export default class UserIndex extends React.Component {
     static propTypes = {
         onUserClick: PropTypes.func
-    };
-
-    static defaultProps = {
-        onUserClick: null
     };
 
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onUserChange);
+        // TODO
+        // UserActions.loadUsers({page: 1});
     }
 
     state = {
         users: [],
-        usersPagination: null,
-        filteredUsers: null
+        usersPagination: undefined,
+        filteredUsers: undefined
     };
 
-    componentWillMount() {
-        UserActions.loadUsers({page: 1});
-    }
-
     onUserChange(userData) {
-        if ($.isEmpty(userData)) {
+        if (Utils.isEmpty(userData)) {
             return;
         }
 
@@ -50,7 +43,7 @@ export default class UserIndex extends Reflux.Component {
             newState.usersPagination = userData.meta;
         }
 
-        if (!$.isEmpty(newState)) {
+        if (!Utils.isEmpty(newState)) {
             this.setState(newState);
         }
     }
@@ -78,7 +71,9 @@ export default class UserIndex extends Reflux.Component {
     };
 
     _handlePaginationClick = (paginate) => {
-        UserActions.loadUsers({page: paginate.selected + 1});
+        // TODO
+        // UserActions.loadUsers({page: paginate.selected + 1});
+
         setTimeout(() => {
             $('html, body').animate({scrollTop: $('.blog-user-list').offset().top - 64}, 750);
         }, 300);
@@ -105,17 +100,15 @@ export default class UserIndex extends Reflux.Component {
                                      className="row">
                         {
                             users.map((user) => (
-                                    <CSSTransition key={user.id}
-                                                   timeout={500}
-                                                   classNames="user">
-                                        <div className="col s6 m4 l3 ">
-                                            <UserCardDisplay user={user}
-                                                             onUserClick={this._handleUserClick}/>
-                                        </div>
-                                    </CSSTransition>
-                                )
-                            )
-
+                                <CSSTransition key={user.id}
+                                               timeout={500}
+                                               classNames="user">
+                                    <div className="col s6 m4 l3 ">
+                                        <UserCardDisplay user={user}
+                                                         onUserClick={this._handleUserClick}/>
+                                    </div>
+                                </CSSTransition>
+                            ))
                         }
                     </TransitionGroup>
 

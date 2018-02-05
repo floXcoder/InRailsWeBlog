@@ -1,5 +1,8 @@
 'use strict';
 
+// Polyfill promise
+require('es6-promise').polyfill();
+
 // jQuery
 import 'jquery-ujs';
 
@@ -7,53 +10,47 @@ import 'jquery-ujs';
 import './common/materialize';
 
 // Expose global variables
-import './modules/utils';
+import * as utils from './modules/utils';
+window.Utils = utils;
 
 // Notifications
-import 'expose-loader?Notification!./components/theme/notification';
-// noinspection JSUnresolvedVariable
-Notification = Notification.default;
+import Notification from './components/theme/notification';
+window.Notification = Notification;
 
 // Translation
-import 'expose-loader?I18n!imports-loader?this=>window!./modules/i18n';
-I18n.defaultLocale = window.defaultLocale;
-I18n.locale = window.locale;
+import I18n from 'imports-loader?this=>window!./modules/i18n';
+window.I18n = I18n;
+window.I18n.defaultLocale = window.defaultLocale;
+window.I18n.locale = window.locale;
 
 // Keyboard inputs
 import 'expose-loader?Mousetrap!mousetrap';
 
-// Declare Module Helpers
-import 'expose-loader?$app!./modules/app';
-// noinspection JSUnresolvedVariable
-$app = $app.default;
-
-// TODO
-// if (process.env.NODE_ENV !== 'production') {
-//     const {whyDidYouUpdate} = require('why-did-you-update');
-//     whyDidYouUpdate(React);
-//     // whyDidYouUpdate(React, { exclude: /^(?=EnhancedButton|FlatButton)/ });
-// }
-
 // Configure log level
-if (window.railsEnv === 'development') {
-    log.setLevel('info');
-    const screenLog = require('./modules/screenLog').default;
-    screenLog.init({freeConsole: true});
-    log.now = function (data, colorStyle) {
-        screenLog.log(data, colorStyle);
-    };
-} else {
+if (process.env.NODE_ENV === 'production') {
     log.setLevel('warn');
     log.now = function () {
     };
+} else {
+    log.setLevel('info');
+    log.now = function (data, colorStyle) {
+        screenLog.log(data, colorStyle);
+    };
+
+    const screenLog = require('./modules/screenLog').default;
+    screenLog.init({freeConsole: true});
 }
 
+log.trace = function (data) {
+    console.trace(data);
+};
 log.table = function (data) {
     console.table(data);
 };
 
 // Error management
-import ErrorStore from './stores/errorStore';
+import {pushError} from './actions/errorActions';
+
 window.onerror = function (message, url, lineNumber, columnNumber, trace) {
     try {
         const reactRootComponent = document.getElementsByClassName('react-root');
@@ -74,16 +71,18 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
         trace = {};
     }
 
-    ErrorStore.pushError({
-        message: message,
-        url: url,
-        lineNumber: lineNumber,
-        columnNumber: columnNumber,
-        trace: trace.stack,
-        origin: 'client'
-    });
+    if (message && trace.stack) {
+        pushError({
+            message,
+            url,
+            lineNumber,
+            columnNumber,
+            trace: trace.stack,
+            origin: 'client'
+        });
+    }
 
-    if (window.railsEnv === 'development') {
+    if (process.env.NODE_ENV !== 'production') {
         log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'text-error');
     }
 };

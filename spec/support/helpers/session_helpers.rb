@@ -20,7 +20,7 @@ module Features
 
     def log_out
       visit root_path
-      click_link t('views.header.log_out')
+      click_link t('js.views.header.user.log_out')
     end
 
   end

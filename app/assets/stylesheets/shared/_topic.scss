@@ -1,23 +1,33 @@
 .topic-header-button {
-  color: #f3f3f3;
+  color: $background-color;
   font-weight: 700;
 
+  @media #{$small-and-down} {
+    padding: 0 1rem;
+  }
+
   .topic-header-text {
-    color: #f3f3f3;
+    color: $background-color;
     font-weight: 700;
     line-height: 36px;
 
-    .material-icons {
-      line-height: 36px;
+    @media #{$small-and-down} {
+      display: none;
     }
+  }
+
+  .material-icons {
+    color: $background-color;
+    font-weight: 700;
+    line-height: 36px;
   }
 }
 
 .topics-sidebar {
-  background-color: #fff;
-  border: 1px solid rgba(34, 36, 38, .15);
+  background-color: $background-color;
+  border: 1px solid $border-dark-color;
   border-radius: 0 3px 3px 0;
-  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
+  box-shadow: 0 1px 2px 0 $border-dark-color;
   line-height: 2rem;
   margin: 0;
   max-height: 600px;
@@ -32,7 +42,7 @@
   }
 
   .topic-overhead {
-    background-color: rgba(0, 0, 0, .8);
+    background-color: $off-black;
     height: 100%;
     left: 0 !important;
     opacity: 0;
@@ -56,7 +66,7 @@
   }
 
   .topics-list-name {
-    color: #8c8c8c;
+    color: $text-color;
     font-size: 1rem;
     margin: 1pc 30px 10px 8px;
     position: relative;
@@ -66,7 +76,7 @@
     position: relative;
 
     .topic-item {
-      background-color: #00afbf;
+      background-color: $astral-color;
       border-radius: 3px;
       box-sizing: border-box;
       cursor: pointer;
@@ -78,21 +88,18 @@
       width: 100%;
 
       .topic-item-details {
-        background: rgba(255, 255, 255, .88);
+        background: lighten($astral-color, 45%);
+        color: $text-color;
         padding: 0 .8rem;
         position: relative;
-        transition: .25s color ease .1s, .25s padding-left ease .1s, .25s background-color ease .1s;
+        transition: .25s all ease .1s;
 
         &:hover {
           padding-left: 1.4rem;
         }
 
-        a {
-          color: #000;
-
-          &.topic-item-current {
-            font-weight: 600;
-          }
+        &.topic-item-current {
+          font-weight: 600;
         }
 
         //.topic-item-edit {
@@ -120,14 +127,14 @@
   }
 
   .topics-add {
-    color: #8c8c8c;
+    color: $text-color;
     cursor: pointer;
     margin: 6px 4px 0 0;
     padding: 8px;
     position: relative;
 
     &:hover {
-      color: #4d4d4d;
+      color: darken($text-color, 20%);
       text-decoration: underline;
     }
   }
@@ -139,18 +146,18 @@
     width: 100%;
 
     .topic-edit-center {
-      color: #fff;
+      color: $background-color;
       display: table-cell;
       vertical-align: middle;
     }
 
     .topic-edit-title {
-      color: #fff;
+      color: $background-color;
       margin-bottom: 20px;
     }
 
     input {
-      border-bottom: 1px solid #f6f6f6 !important;
+      border-bottom: 1px solid $background-color !important;
       font-size: 1.2rem;
       height: 100%;
       margin: .2rem .4rem;
@@ -171,18 +178,18 @@
     }
 
     label {
-      color: #fff;
+      color: $background-color;
       top: -14px;
     }
   }
 
   input.topic-button {
-    background-color: #3f6f21;
+    background-color: $success-color;
     border-bottom: none !important;
     border-radius: 3px;
-    box-shadow: 0 1px 0 #3f6f21;
+    box-shadow: 0 1px 0 $success-color;
     box-sizing: border-box;
-    color: #fff;
+    color: $background-color;
     cursor: pointer;
     display: inline-block;
     font-size: 1rem;

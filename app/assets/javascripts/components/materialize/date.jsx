@@ -14,22 +14,13 @@ export default class Date extends React.PureComponent {
         icon: PropTypes.string,
         onChange: PropTypes.func,
         onInput: PropTypes.func,
-        isHorizontal: PropTypes.bool,
-        validator: PropTypes.object
+        isHorizontal: PropTypes.bool
     };
 
     static defaultProps = {
-        children: null,
         isDisabled: false,
         isRequired: false,
-        name: null,
-        multipleId: null,
-        icon: null,
-        autoComplete: null,
-        onChange: null,
-        onInput: null,
-        isHorizontal: false,
-        validator: null
+        isHorizontal: false
     };
 
     constructor(props) {
@@ -72,18 +63,13 @@ export default class Date extends React.PureComponent {
             clear: I18n.t('js.date.buttons.clear'),
             close: I18n.t('js.date.buttons.close'),
             onSet: (context) => {
-                if (!$.isEmpty(context)) {
+                if (!Utils.isEmpty(context)) {
                     this.setState({
                         dateSelected: true
                     })
                 }
             }
         });
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // Ignore if props has changed
-        return !_.isEqual(this.state.dateSelected, nextState.dateSelected);
     }
 
     _handleFocus = (event) => {
@@ -118,7 +104,9 @@ export default class Date extends React.PureComponent {
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
+                    <span className="material-icons prefix"
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
                 <label htmlFor={this.props.id}
@@ -135,8 +123,7 @@ export default class Date extends React.PureComponent {
                        onFocus={this._handleFocus}
                        onInput={this.props.onInput}
                        onChange={this.props.onChange}
-                       data-value={this.props.children}
-                       {...this.props.validator}/>
+                       data-value={this.props.children}/>
             </div>
         );
     }

@@ -25,10 +25,12 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
+    Warden.test_reset!
     DatabaseCleaner.clean
   end
 
   config.after(:all, js: true) do
+    Warden.test_reset!
     Capybara.reset_sessions!
   end
 

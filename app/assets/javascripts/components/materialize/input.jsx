@@ -23,6 +23,7 @@ export default class Input extends React.Component {
         isReadOnly: PropTypes.bool,
         isDisabled: PropTypes.bool,
         labelClass: PropTypes.string,
+        hasError: PropTypes.bool,
         name: PropTypes.string,
         multipleId: PropTypes.number,
         icon: PropTypes.oneOfType([
@@ -45,40 +46,17 @@ export default class Input extends React.Component {
         onKeyUp: PropTypes.func,
         onBlur: PropTypes.func,
         characterCount: PropTypes.number,
-        mask: PropTypes.object,
-        validator: PropTypes.object
+        mask: PropTypes.object
     };
 
     static defaultProps = {
-        className: null,
         type: 'text',
         children: '',
-        name: null,
-        multipleId: null,
-        title: null,
-        placeholder: null,
-        explanation: null,
         isHorizontal: false,
         isRequired: false,
         isReadOnly: false,
         isDisabled: false,
-        labelClass: null,
-        icon: null,
-        hasAutoFocus: null,
-        isAutoComplete: null,
-        step: null,
-        minLength: null,
-        maxLength: null,
-        onFocus: null,
-        onChange: null,
-        onInput: null,
-        onKeyDown: null,
-        onKeyPress: null,
-        onKeyUp: null,
-        onBlur: null,
-        characterCount: null,
-        mask: null,
-        validator: null
+        hasError: false
     };
 
     constructor(props) {
@@ -89,8 +67,16 @@ export default class Input extends React.Component {
         value: this.props.children || ''
     };
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.children !== nextProps.children) {
+            this.setState({
+                value: nextProps.children
+            });
+        }
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.isRequired, nextProps.isRequired) || !_.isEqual(this.props.validator, nextProps.validator);
+        return !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.props.isRequired, nextProps.isRequired);
     }
 
     _handleChange = (event) => {
@@ -160,7 +146,8 @@ export default class Input extends React.Component {
             this.props.className,
             'validate',
             {
-                'col m8': this.props.isHorizontal
+                'col m8': this.props.isHorizontal,
+                'input-error': this.props.hasError
             }
         );
 
@@ -168,12 +155,14 @@ export default class Input extends React.Component {
             <div className={wrapperClass}>
                 <div className={fieldClass}>
                     {
-                        this.props.icon && $.is().isString(this.props.icon) &&
-                        <i className={iconClass}>{this.props.icon}</i>
+                        this.props.icon && Utils.is().isString(this.props.icon) &&
+                        <span className={iconClass}
+                              data-icon={this.props.icon}
+                              aria-hidden="true"/>
                     }
 
                     {
-                        this.props.icon && $.is().isObject(this.props.icon) &&
+                        this.props.icon && Utils.is().isObject(this.props.icon) &&
                         this.props.icon
                     }
 
@@ -210,7 +199,6 @@ export default class Input extends React.Component {
                            onBlur={this.props.onBlur}
                            value={this.state.value}
                            data-length={this.props.characterCount}
-                           {...this.props.validator}
                            {...this.props.mask}/>
 
                     {

@@ -5,16 +5,16 @@ import _ from 'lodash';
 const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly) => {
     if (window.history && window.history.pushState) {
         let urlParams = $(window.location).attr('pathname');
-        const previousParams = $.param(_.omit($.getUrlParameters(), Object.keys(paramsToUrl)));
+        const previousParams = $.param(_.omit(Utils.getUrlParameters(), Object.keys(paramsToUrl)));
 
         paramsToSerialize = _.omitBy(paramsToSerialize, function (value, key) {
-            return ($.isEmpty(value) || value === '') || ($.isEmpty(key) || key === '');
+            return (Utils.isEmpty(value) || value === '') || (Utils.isEmpty(key) || key === '');
         });
         paramsToUrl = _.omitBy(paramsToUrl, function (value, key) {
-            return ($.isEmpty(value) || value === '') || ($.isEmpty(key) || key === '');
+            return (Utils.isEmpty(value) || value === '') || (Utils.isEmpty(key) || key === '');
         });
 
-        if (!$.isEmpty($.param(paramsToUrl))) {
+        if (!Utils.isEmpty($.param(paramsToUrl))) {
             urlParams += '?' + ((previousParams && previousParams !== '' && previousParams !== '=') ? previousParams + '&' : '') + $.param(paramsToUrl);
         }
 
@@ -40,13 +40,13 @@ const getPreviousState = (dataName, options) => {
         let dataParams = params[dataName];
 
         if (options && options.useUrlParams) {
-            let urlParams = $.getUrlParameters();
+            let urlParams = Utils.getUrlParameters();
             dataParams = _.merge(urlParams, dataParams);
         }
 
         return dataParams;
     } else if (options && options.useUrlParams) {
-        return $.getUrlParameters();
+        return Utils.getUrlParameters();
     } else {
         return false;
     }

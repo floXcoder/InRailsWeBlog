@@ -3,7 +3,7 @@
 # Table name: tags
 #
 #  id         :integer          not null, primary key
-#  user_id  :integer          not null
+#  user_id    :integer          not null
 #  name       :string           not null
 #  slug       :string
 #  created_at :datetime         not null
@@ -27,15 +27,16 @@ class TagsController < ApplicationController
 
     tags = tags.default_visibility(current_user, current_admin)
 
+    # When filtering by topic, private tags not assigned to an article are not returned
     tags = Tag.filter_by(tags, filter_params, current_user) unless filter_params.empty?
 
-    # TODO: set a tag limit?
-    # tags = params[:limit] ? tags.limit(params[:limit]) : tags.paginate(page: params[:page], per_page: CONFIG.per_page)
+    tags = tags.limit(params[:limit]) if params[:limit]
 
     respond_to do |format|
       format.json do
         render json:            tags,
-               each_serializer: TagSerializer
+               each_serializer: TagSerializer,
+               current_topic_id: filter_params[:topic_id]
       end
     end
   end
@@ -71,7 +72,7 @@ class TagsController < ApplicationController
     tag = Tag.find(params[:id])
     admin_or_authorize tag
 
-    tag.format_attributes(tag_params)
+    tag.format_attributes(tag_params, current_user)
 
     respond_to do |format|
       format.json do
@@ -79,7 +80,7 @@ class TagsController < ApplicationController
           render json:   tag,
                  status: :ok
         else
-          render json:   tag.errors,
+          render json:   { errors: tag.errors },
                  status: :forbidden
         end
       end
@@ -94,11 +95,10 @@ class TagsController < ApplicationController
       format.json do
         if params[:permanently] && current_admin ? tag.really_destroy! : tag.destroy
           flash.now[:success] = I18n.t('views.tag.flash.successful_deletion')
-          render json:   { id: tag.id },
-                 status: :accepted
+          head :no_content
         else
-          flash.now[:error] = I18n.t('views.tag.flash.deletion_error', errors: tag.errors.to_s)
-          render json:   tag.errors,
+          flash.now[:error] = I18n.t('views.tag.flash.error_deletion', errors: tag.errors.to_s)
+          render json:   { errors: tag.errors },
                  status: :forbidden
         end
       end

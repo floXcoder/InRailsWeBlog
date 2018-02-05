@@ -2,30 +2,38 @@
 #
 # Table name: error_messages
 #
-#  id            :integer          not null, primary key
-#  class_name    :text
-#  message       :text
-#  trace         :text
-#  line_number   :text
-#  column_number :text
-#  params        :text
-#  target_url    :text
-#  referer_url   :text
-#  user_agent    :text
-#  user_info     :string
-#  app_name      :string
-#  doc_root      :string
-#  ip            :string
-#  origin        :integer          default("server"), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id             :integer          not null, primary key
+#  class_name     :text
+#  message        :text
+#  trace          :text
+#  line_number    :text
+#  column_number  :text
+#  params         :text
+#  target_url     :text
+#  referer_url    :text
+#  user_agent     :text
+#  app_name       :string
+#  doc_root       :string
+#  user_ip        :string
+#  origin         :integer          default("server"), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  request_format :string
+#  app_version    :string
+#  user_id        :string
+#  user_pseudo    :string
+#  user_locale    :string
+#  bot_agent      :string
+#  os_agent       :string
 #
+
 require 'rails_helper'
 
 RSpec.describe ErrorMessage, type: :model, basic: true do
 
   before do
     @error_message = ErrorMessage.create(
+      origin:        :server,
       class_name:    'User',
       message:       'Error User class',
       trace:         'user.rb: line 20',
@@ -35,11 +43,9 @@ RSpec.describe ErrorMessage, type: :model, basic: true do
       target_url:    '/users',
       referer_url:   '/',
       user_agent:    'firefox',
-      user_info:     'browser',
       app_name:      'My App',
       doc_root:      '/my_app',
-      ip:            '127.0.0.1',
-      origin:        'server'
+      user_ip:       '127.0.0.1'
     )
   end
 
@@ -59,10 +65,9 @@ RSpec.describe ErrorMessage, type: :model, basic: true do
     it { is_expected.to respond_to(:target_url) }
     it { is_expected.to respond_to(:referer_url) }
     it { is_expected.to respond_to(:user_agent) }
-    it { is_expected.to respond_to(:user_info) }
     it { is_expected.to respond_to(:app_name) }
     it { is_expected.to respond_to(:doc_root) }
-    it { is_expected.to respond_to(:ip) }
+    it { is_expected.to respond_to(:user_ip) }
     it { is_expected.to respond_to(:origin) }
 
     it { expect(@error_message.class_name).to match 'User' }
@@ -74,10 +79,9 @@ RSpec.describe ErrorMessage, type: :model, basic: true do
     it { expect(@error_message.target_url).to match '/users' }
     it { expect(@error_message.referer_url).to match '/' }
     it { expect(@error_message.user_agent).to match 'firefox' }
-    it { expect(@error_message.user_info).to match 'browser' }
     it { expect(@error_message.app_name).to match 'My App' }
     it { expect(@error_message.doc_root).to match '/my_app' }
-    it { expect(@error_message.ip).to match '127.0.0.1' }
+    it { expect(@error_message.user_ip).to match '127.0.0.1' }
     it { expect(@error_message.origin).to match 'server' }
 
     describe 'enums' do
@@ -99,7 +103,6 @@ RSpec.describe ErrorMessage, type: :model, basic: true do
         params:        '{model => "user"}',
         target_url:    '/users',
         referer_url:   '/',
-        user_info:     'browser',
         app_name:      'My App',
         doc_root:      '/my_app',
         origin:        'server')

@@ -2,7 +2,7 @@ feature 'Log out', :devise do
 
   # Not working, incorrect user !
   # scenario 'user logs out successfully', advanced: true, js: true do
-  #   user = FactoryGirl.create(:user)
+  #   user = FactoryBot.create(:user)
   #   login_with(user.email, user.password)
   #
   #   expect(page).to have_content t('devise.sessions.signed_in')

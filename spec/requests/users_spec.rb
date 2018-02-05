@@ -33,14 +33,14 @@ describe 'Users API', type: :request, basic: true do
         # expect(users['users'].size).to eq(6)
       end
 
-      it 'limits to 12 users' do
+      it 'limits the number of users' do
         create_list(:user, 10)
 
         get '/users', as: :json
 
         users = JSON.parse(response.body)
         expect(users['users']).not_to be_empty
-        expect(users['users'].size).to eq(16)
+        expect(users['users'].size).to be <= Setting.per_page
       end
     end
   end
@@ -49,7 +49,7 @@ describe 'Users API', type: :request, basic: true do
     it 'returns true if user exists' do
       get '/users/validation', params: { user: { pseudo: 'Main User' } }, as: :json
 
-      expect(response).to be_json_response(202)
+      expect(response).to be_json_response(200)
 
       user = JSON.parse(response.body)
       expect(user['success']).to be true
@@ -58,7 +58,10 @@ describe 'Users API', type: :request, basic: true do
     it 'returns not found if user does not exist' do
       get '/users/validation', params: { user: { email: 'not.found@user.com' } }, as: :json
 
-      expect(response).to be_json_response(404)
+      expect(response).to be_json_response(200)
+
+      user = JSON.parse(response.body)
+      expect(user['success']).to be false
     end
   end
 
@@ -81,8 +84,12 @@ describe 'Users API', type: :request, basic: true do
       expect(user['user']).not_to be_empty
       expect(user['user']['pseudo']).to eq('Main User')
     end
+
+  # TODO: test user complete
+  # TODO: test user profile
   end
 
+  # TODO: test user bookmarks show
   # describe '/users/:id/bookmarks (HTML)' do
   #   before do
   #     login_as(@user, scope: :admin, run_callbacks: false)
@@ -124,6 +131,8 @@ describe 'Users API', type: :request, basic: true do
     end
   end
 
+  # TODO: test user recents
+
   describe '/users/:id/activities' do
     context 'when user is not connected' do
       it 'returns an error message' do
@@ -144,7 +153,7 @@ describe 'Users API', type: :request, basic: true do
         expect(response).to be_json_response
 
         activities = JSON.parse(response.body)
-        expect(activities['public_activity/activities']).not_to be_empty
+        expect(activities['activities']).not_to be_empty
       end
     end
   end
@@ -167,8 +176,7 @@ describe 'Users API', type: :request, basic: true do
       it 'counts a new click on tags' do
         post "/users/#{@users.first.id}/clicked", as: :json
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+        expect(response).to be_json_response(204)
       end
     end
 
@@ -176,8 +184,7 @@ describe 'Users API', type: :request, basic: true do
       it 'counts a new view on tags' do
         post "/users/#{@users.second.id}/viewed", as: :json
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+        expect(response).to be_json_response(204)
       end
     end
   end

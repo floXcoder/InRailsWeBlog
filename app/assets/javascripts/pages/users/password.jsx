@@ -1,6 +1,6 @@
 'use strict';
 
-import '../full-page';
+import '../fullPage';
 
 const $emailInput = $('#user_email');
 

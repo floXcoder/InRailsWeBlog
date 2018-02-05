@@ -17,12 +17,15 @@
 #  birth_date             :date
 #  locale                 :string           default("fr")
 #  settings               :jsonb            not null
+#  allow_comment          :boolean          default(TRUE), not null
+#  visibility             :integer          default("everyone"), not null
 #  current_topic_id       :integer
 #  pictures_count         :integer          default(0)
 #  topics_count           :integer          default(0)
 #  articles_count         :integer          default(0)
 #  tags_count             :integer          default(0)
 #  bookmarks_count        :integer          default(0)
+#  comments_count         :integer          default(0)
 #  slug                   :string
 #  deleted_at             :datetime
 #  created_at             :datetime         not null
@@ -45,6 +48,7 @@
 #  unlock_token           :string
 #  locked_at              :datetime
 #
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model, basic: true do
@@ -121,7 +125,7 @@ RSpec.describe User, type: :model, basic: true do
     it { expect(@user.state).to eq('state') }
     it { expect(@user.allow_comment).to be true }
     it { expect(@user.visibility).to eq('everyone') }
-    it { expect(@user.settings).to eq({ 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
+    it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
     it { expect(@user.pictures_count).to eq(0) }
     it { expect(@user.topics_count).to eq(1) }
     it { expect(@user.articles_count).to eq(0) }
@@ -144,7 +148,7 @@ RSpec.describe User, type: :model, basic: true do
       it { expect(@user.locale).to eq('fr') }
       it { expect(@user.allow_comment).to be true }
       it { expect(@user.visibility).to eq('everyone') }
-      it { expect(@user.settings).to eq({ 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
+      it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
       it { expect(@user.pictures_count).to eq(0) }
       it { expect(@user.topics_count).to eq(0) }
       it { expect(@user.articles_count).to eq(0) }
@@ -324,6 +328,15 @@ RSpec.describe User, type: :model, basic: true do
         expect(user_results[:users].size).to eq(1)
         expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
       end
+
+      it 'search for users with ordering' do
+        user_results = User.search_for('user', order: 'created_last')
+
+        expect(user_results[:users]).not_to be_empty
+        expect(user_results[:users]).to be_a(ActiveRecord::Relation)
+        expect(user_results[:users].size).to eq(1)
+        expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
+      end
     end
 
     describe '::autocomplete_for' do
@@ -376,6 +389,7 @@ RSpec.describe User, type: :model, basic: true do
       it { expect(User.as_json(@user)[:user]).to be_a(Hash) }
       it { expect(User.as_json([@user])).to be_a(Hash) }
       it { expect(User.as_json([@user])[:users]).to be_a(Array) }
+      it { expect(User.as_json([@user], sample: true)[:users]).to be_a(Array) }
     end
 
     describe '::as_flat_json' do

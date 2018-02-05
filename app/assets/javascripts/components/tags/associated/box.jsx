@@ -3,12 +3,10 @@
 import _ from 'lodash';
 
 import AssociatedTagList from './list';
-import ArticleActions from '../../../actions/articleActions';
-import ArticleStore from '../../../stores/articleStore';
 
-import Spinner from '../../../components/materialize/spinner';
+import Spinner from '../../materialize/spinner';
 
-export default class AssociatedTagBox extends Reflux.Component {
+export default class AssociatedTagBox extends React.Component {
     static propTypes = {
         hasMore: PropTypes.bool
     };
@@ -19,32 +17,28 @@ export default class AssociatedTagBox extends Reflux.Component {
 
     constructor(props) {
         super(props);
-
-        this.mapStoreToState(ArticleStore, this.onArticleChange);
     }
 
     state = {
-        associatedTags: null,
         isLoading: true
     };
 
     onArticleChange(articleData) {
-        if ($.isEmpty(articleData)) {
+        if (Utils.isEmpty(articleData)) {
             return;
         }
 
-        if (!$.isEmpty(articleData.articles)) {
+        // TODO: move to selectors
+        if (!Utils.isEmpty(articleData.articles)) {
             let associatedTags = [];
 
             articleData.articles.forEach((article) => {
-                if (!$.isEmpty(article.tags)) {
+                if (!Utils.isEmpty(article.tags)) {
                     associatedTags = associatedTags.concat(article.tags);
                 }
             });
 
-            associatedTags = _.uniq(associatedTags, (tag) => {
-                return tag.id;
-            });
+            associatedTags = _.uniq(associatedTags, (tag) => tag.id);
 
             this.setState({
                 associatedTags: associatedTags,
@@ -54,15 +48,11 @@ export default class AssociatedTagBox extends Reflux.Component {
     }
 
     _handleTagClick = (tagId, activeTag) => {
-        ArticleActions.filterArticlesByTag(tagId, activeTag);
+        // TODO
+        // ArticleActions.filterArticlesByTag(tagId, activeTag);
     };
 
     render() {
-        const loaderClass = classNames({
-            'center': this.props.hasMore,
-            'hide': !this.props.hasMore
-        });
-
         return (
             <div className="blog-associated-tag center-align">
                 {
@@ -71,7 +61,10 @@ export default class AssociatedTagBox extends Reflux.Component {
                                        onClickTag={this._handleTagClick}/>
                 }
 
-                <div className={loaderClass}>
+                <div className={classNames({
+                    'center': this.props.hasMore,
+                    'hide': !this.props.hasMore
+                })}>
                     <Spinner />
                 </div>
             </div>

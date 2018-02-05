@@ -1,86 +1,65 @@
 'use strict';
 
-import TopicActions from '../../actions/topicActions';
-import TopicStore from '../../stores/topicStore';
+import {
+    addTopic,
+    switchTopic,
+    switchTopicPopup,
+    spyTrackClick
+} from '../../actions';
+
+import {
+    getTopics
+} from '../../selectors';
 
 import Input from '../materialize/input';
 import Select from '../materialize/select';
 import Submit from '../materialize/submit';
 
-import {
-    Link
-} from 'react-router-dom';
-
-export default class TopicModule extends Reflux.Component {
+@connect((state) => ({
+    userId: state.userState.currentId,
+    userSlug: state.userState.currentSlug,
+    isLoading: state.topicState.isFetching,
+    currentTopic: state.topicState.currentTopic,
+    topics: getTopics(state)
+}), {
+    addTopic,
+    switchTopic,
+    switchTopicPopup
+})
+export default class TopicModule extends React.Component {
     static propTypes = {
-        router: PropTypes.object.isRequired,
-        onTopicChange: PropTypes.func
-    };
-
-    static defaultProps = {
-        onTopicChange: null
+        history: PropTypes.object.isRequired,
+        // From connect
+        userId: PropTypes.number,
+        userSlug: PropTypes.string,
+        isLoading: PropTypes.bool,
+        topics: PropTypes.array,
+        currentTopic: PropTypes.object,
+        addTopic: PropTypes.func,
+        switchTopic: PropTypes.func,
+        switchTopicPopup: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(TopicStore, this.onTopicChange);
-
-        this._topicInput = null;
+        this._topicName = null;
+        this._topicVisibility = null;
     }
 
     state = {
-        currentTopicId: null,
-        topics: [],
         isAddingTopic: false
-
-        // TODO
-        // topicEditingId: null,
-        // isCreateTopicOpened: false,
     };
 
-    componentWillMount() {
-        if ($app.isUserConnected()) {
-            this.setState({
-                currentTopicId: $app.getCurrentTopic().id,
-                topics: $app.user.topics
-            });
-        }
-    }
-
-    componentDidMount() {
-    }
-
-    onTopicChange(topicData) {
-        if ($.isEmpty(topicData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (topicData.type === 'loadTopics') {
-            newState.topics = topicData.topics;
-        }
-
-        // TODO
-        // if (topicData.type === 'addTopic') {
-        //     newState.topics = topicData.topics;
-        // }
-
-        if (!$.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
-    _handleSwitchTopicClick = (topicId, topicSlug, event) => {
+    _handleSwitchTopicClick = (newTopicId, event) => {
         event.preventDefault();
 
-        if ($app.getCurrentTopic().id !== topicId) {
-            TopicActions.switchTopic($app.user.currentId, topicId);
-        }
+        spyTrackClick('topic', newTopicId);
 
-        if (this.props.onTopicChange) {
-            this.props.onTopicChange(event, true);
+        if (this.props.currentTopic.id !== newTopicId) {
+            this.props.switchTopic(this.props.userId, newTopicId)
+                .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
+                .then(() => this.props.switchTopicPopup());
         }
     };
 
@@ -89,8 +68,8 @@ export default class TopicModule extends Reflux.Component {
 
         ReactDOM.findDOMNode(this).scrollTo(0, 0);
 
-        if (this._topicInput) {
-            this._topicInput.focus();
+        if (this._topicName) {
+            this._topicName.focus();
         }
 
         this.setState({
@@ -101,14 +80,13 @@ export default class TopicModule extends Reflux.Component {
     _handleTopicSubmit = (event) => {
         event.preventDefault();
 
-        if (this.state.isAddingTopic && this._topicInput) {
-            TopicActions.addTopic($app.user.currentId, {
-                name: this._topicInput.value()
-            });
-
-            if (this.props.onTopicChange) {
-                this.props.onTopicChange(event, true);
-            }
+        if (this.state.isAddingTopic && this._topicName) {
+            this.props.addTopic(this.props.userId, {
+                name: this._topicName.value(),
+                visibility: this._topicVisibility.value()
+            })
+                .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
+                .then(() => this.props.switchTopicPopup());
         }
     };
 
@@ -125,11 +103,12 @@ export default class TopicModule extends Reflux.Component {
                             <form id="topic_edit"
                                   className="topic-form"
                                   onSubmit={this._handleTopicSubmit}>
-                                <Input ref={(topicInput) => this._topicInput = topicInput}
+                                <Input ref={(topicInput) => this._topicName = topicInput}
                                        id="topic_name"
                                        placeholder={I18n.t('js.topic.new.input')}/>
 
-                                <Select id="topic_visibility"
+                                <Select ref={(topicVisibility) => this._topicVisibility = topicVisibility}
+                                        id="topic_visibility"
                                         className="margin-top-15"
                                         title={I18n.t('js.topic.model.visibility')}
                                         default={I18n.t('js.topic.common.visibility')}
@@ -153,18 +132,18 @@ export default class TopicModule extends Reflux.Component {
 
                 <div className="topics-list">
                     {
-                        this.state.topics.map((topic) => (
-                                <div key={topic.id}
-                                     className="topic-item">
-                                    <div className="topic-item-details"
-                                         onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug)}>
-                                        <a className={classNames({'topic-item-current': topic.id === this.state.currentTopicId})}>
-                                            {topic.name}
-                                        </a>
+                        this.props.topics.map((topic) => (
+                            <a key={topic.id}
+                               href={`/user/${this.props.userSlug}/${topic.slug}`}
+                               onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
+                                <div className="topic-item">
+                                    <div
+                                        className={classNames('topic-item-details', {'topic-item-current': topic.id === this.props.currentTopic.id})}>
+                                        {topic.name}
                                     </div>
                                 </div>
-                            )
-                        )
+                            </a>
+                        ))
                     }
                 </div>
 

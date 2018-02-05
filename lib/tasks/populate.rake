@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'populate/populate'
 
 namespace :InRailsWeBlog do
@@ -40,25 +42,26 @@ namespace :InRailsWeBlog do
         # Create articles with tags
         main_articles  = Populate::create_dummy_articles_for(main_user, common_tags + personal_tags, 40)
         other_articles = Populate::create_dummy_articles_for(other_users, common_tags + personal_tags, 5..15)
+        main_links     = Populate::create_dummy_links_for(main_user, common_tags + personal_tags, 5..15)
 
         # Creation relationships between articles
         Populate::create_article_relationships_for(main_articles, main_user, 10)
 
         # Create comments for articles
-        Populate::create_comments_for(other_articles, main_user, 1..10)
         Populate::create_comments_for(main_articles, other_users, 1..15)
+        Populate::create_comments_for(other_articles, main_user, 1..10)
 
         # Create bookmarks for articles
-        Populate::create_bookmarks_for(other_articles, main_user, 1..10)
         Populate::create_bookmarks_for(main_articles, other_users, 1..10)
+        Populate::create_bookmarks_for(other_articles, main_user, 1..10)
 
         # Add votes for articles
-        Populate::add_votes_for(other_articles, main_user, 5..15)
         Populate::add_votes_for(main_articles, other_users, 5..15)
+        Populate::add_votes_for(other_articles, main_user, 5..15)
 
         # Marked as outdated for articles
-        Populate::marked_as_outdated_for(other_articles, main_user, 1..3)
         Populate::marked_as_outdated_for(main_articles, other_users, 1..3)
+        Populate::marked_as_outdated_for(other_articles, main_user, 1..3)
 
         # Create activities for article, users and tags
         Populate::create_activities_for_articles

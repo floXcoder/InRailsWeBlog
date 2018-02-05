@@ -1,62 +1,46 @@
 'use strict';
 
-import Input from '../../../materialize/input';
-import Editor from '../../../editor/editor';
+import {
+    Field
+} from 'redux-form/immutable';
+
+import TextField from '../../../materialize/form/text';
+
+import EditorField from '../../../editor/form/editor';
+import CategorizedField from '../../../materialize/form/categorized';
+import CheckBoxField from '../../../materialize/form/checkbox';
 
 export default class ArticleCommonField extends React.Component {
     static propTypes = {
-        article: PropTypes.object,
+        currentMode: PropTypes.string.isRequired,
+        onSubmit: PropTypes.func.isRequired,
         multipleId: PropTypes.number,
+        article: PropTypes.object,
+        userTags: PropTypes.array,
+        parentTags: PropTypes.array,
+        childTags: PropTypes.array,
+        isDraft: PropTypes.bool,
         onInputsChange: PropTypes.func,
         onIsLinkChange: PropTypes.func
     };
 
     static defaultProps = {
-        article: null,
-        multipleId: 0,
-        onInputsChange: null,
-        onIsLinkChange: null
+        article: {},
+        userTags: [],
+        multipleId: 0
     };
 
     constructor(props) {
         super(props);
 
-        this._title = null;
-        this._summary = null;
         this._editor = null;
     }
 
-    _handleEditorLoaded = () => {
-        if (this._title) {
-            this._title.focus();
-        }
+    _handleEditorLoaded = (editor) => {
+        this._editor = editor;
     };
 
-    _handleInputsChange = (event) => {
-        this.props.onInputsChange({
-            titleLength: this._title.value().length,
-            summaryLength: this._summary.value().length,
-            contentLength: this._editor.contentLength()
-        });
-
-        // const content = event.currentTarget.textContent;
-        // if (!this.state.isLink && $.isURL(content.trim())) {
-        //     if (this._editor) {
-        //         this._editor.createLink();
-        //     }
-        //     if (this.props.onIsLinkChange) {
-        //         this.props.onIsLinkChange(true);
-        //     }
-        // } else if (this.state.isLink && !$.isURL(content.trim())) {
-        //     if (this.props.onIsLinkChange) {
-        //         this.props.onIsLinkChange(false);
-        //     }
-        // }
-
-        return event;
-    };
-
-    _onSummaryBlurred = (event) => {
+    _onFieldBlur = (event) => {
         if (this._editor) {
             this._editor.focus();
         }
@@ -64,68 +48,95 @@ export default class ArticleCommonField extends React.Component {
         return event;
     };
 
-    serialize = () => {
-        if (this._editor) {
-            this._editor.serialize();
-        }
-    };
-
     render() {
         return (
-            <div>
-                <Input ref={(title) => this._title = title}
-                       id="article_title"
-                       multipleId={this.props.multipleId}
-                       title={I18n.t('js.article.model.title')}
-                       validator={{
-                           'data-parsley-required': true,
-                           'data-parsley-minlength': window.settings.article_title_min_length,
-                           'data-parsley-maxlength': window.settings.article_title_max_length,
-                           'data-parsley-minlength-message': I18n.t('js.article.errors.title.size', {
-                               min: window.settings.article_title_min_length,
-                               max: window.settings.article_title_max_length
-                           }),
-                           'data-parsley-maxlength-message': I18n.t('js.article.errors.title.size', {
-                               min: window.settings.article_title_min_length,
-                               max: window.settings.article_title_max_length
-                           })
-                       }}
-                       characterCount={window.settings.article_title_max_length}
-                       onInput={this._handleInputsChange}>
-                    {this.props.article && this.props.article.title}
-                </Input>
+            <div className="row">
+                {
+                    this.props.currentMode === 'story' &&
+                    <div className="col s12">
+                        <div className="form-editor-title">
+                            {I18n.t('js.article.model.title')}
+                        </div>
+                        <Field id="article_title"
+                               multipleId={this.props.multipleId}
+                               name="title"
+                               icon="create"
+                               placeholder={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
+                               characterCount={window.settings.article_title_max_length}
+                               onBlur={this._onFieldBlur}
+                               component={TextField}
+                               componentContent={this.props.article.title}/>
+                    </div>
+                }
 
-                <Input ref={(summary) => this._summary = summary}
-                       id="article_summary"
-                       multipleId={this.props.multipleId}
-                       title={I18n.t('js.article.model.summary')}
-                       validator={{
-                           'data-parsley-minlength': window.settings.article_summary_min_length,
-                           'data-parsley-maxlength': window.settings.article_summary_max_length,
-                           'data-parsley-minlength-message': I18n.t('js.article.errors.summary.size', {
-                               min: window.settings.article_summary_min_length,
-                               max: window.settings.article_summary_max_length
-                           }),
-                           'data-parsley-maxlength-message': I18n.t('js.article.errors.summary.size', {
-                               min: window.settings.article_summary_min_length,
-                               max: window.settings.article_summary_max_length
-                           })
-                       }}
-                       characterCount={window.settings.article_summary_max_length}
-                       onBlur={this._onSummaryBlurred}
-                       onInput={this._handleInputsChange}>
-                    {this.props.article && this.props.article.summary}
-                </Input>
+                {
+                    this.props.currentMode === 'link' &&
+                    <div className="col s12">
+                        <div className="form-editor-title">
+                            {I18n.t('js.article.model.reference')}
+                        </div>
+                        <Field id="article_reference"
+                               multipleId={this.props.multipleId}
+                               name="reference"
+                               icon="link"
+                               placeholder={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
+                               characterCount={window.settings.article_title_max_length}
+                               onBlur={this._onFieldBlur}
+                               component={TextField}
+                               componentContent={this.props.article.reference}/>
+                    </div>
+                }
 
-                <div className="form-editor-title">
-                    {I18n.t('js.article.model.content')}
+                <div className="col s12">
+                    <div className="form-editor-title">
+                        {I18n.t('js.article.model.content')}
+                    </div>
+                    <Field id="article_content"
+                           multipleId={this.props.multipleId}
+                           name="content"
+                           placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
+                           onLoaded={this._handleEditorLoaded}
+                           onSubmit={this.props.onSubmit}
+                           component={EditorField}
+                           componentContent={this.props.article.content}/>
                 </div>
 
-                <Editor ref={(editor) => this._editor = editor}
-                        onEditorLoaded={this._handleEditorLoaded}
-                        onEditorInput={this._handleInputsChange}>
-                    {this.props.article && this.props.article.content}
-                </Editor>
+                <div className="col s12 xl6">
+                    <Field id="article_parent_tags"
+                           name="parent_tags"
+                           title={I18n.t('js.article.model.parent_tags')}
+                           placeholder={I18n.t('js.article.common.tags.parent')}
+                           addNewText={I18n.t('js.article.common.tags.add')}
+                           isSortingCategoriesByAlpha={false}
+                           isHorizontal={true}
+                           categorizedTags={this.props.userTags}
+                           transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
+                           component={CategorizedField}
+                           componentContent={this.props.parentTags}/>
+                </div>
+
+                <div className="col s12 xl6">
+                    <Field id="article_child_tags"
+                           name="child_tags"
+                           title={I18n.t('js.article.model.child_tags')}
+                           placeholder={I18n.t('js.article.common.tags.child')}
+                           addNewText={I18n.t('js.article.common.tags.add')}
+                           isSortingCategoriesByAlpha={false}
+                           isHorizontal={true}
+                           categorizedTags={this.props.userTags}
+                           transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
+                           component={CategorizedField}
+                           componentContent={this.props.childTags}/>
+                </div>
+
+                <div className="col s12 center-align">
+                    <Field id="article_draft"
+                           name="draft"
+                           title={I18n.t('js.article.common.draft')}
+                           multipleId={this.props.multipleId}
+                           component={CheckBoxField}
+                           componentContent={this.props.isDraft || this.props.article.draft}/>
+                </div>
             </div>
         );
     }

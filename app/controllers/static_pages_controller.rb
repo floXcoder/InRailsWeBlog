@@ -21,4 +21,9 @@ class StaticPagesController < ApplicationController
     end
   end
 
+  # SEO
+  def robots
+    respond_to :text
+  end
+
 end

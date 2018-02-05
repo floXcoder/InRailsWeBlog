@@ -13,30 +13,25 @@ export default class Checkbox extends React.PureComponent {
         ]),
         name: PropTypes.string,
         className: PropTypes.string,
+        hasFillStyle: PropTypes.bool,
         multipleId: PropTypes.number,
-        onCheckboxChange: PropTypes.func,
+        onChange: PropTypes.func,
         isDefaultChecked: PropTypes.bool,
         isInputField: PropTypes.bool,
         isDisabled: PropTypes.bool,
         isMultiple: PropTypes.bool,
         isRequired: PropTypes.bool,
-        isHorizontal: PropTypes.bool,
-        validator: PropTypes.object
+        isHorizontal: PropTypes.bool
     };
 
     static defaultProps = {
-        id: null,
-        name: null,
-        className: null,
-        children: null,
-        onCheckboxChanged: null,
+        hasFillStyle: true,
         isDefaultChecked: false,
         isInputField: true,
         isDisabled: false,
         isMultiple: false,
         isRequired: false,
-        isHorizontal: false,
-        validator: null
+        isHorizontal: false
     };
 
     constructor(props) {
@@ -55,8 +50,8 @@ export default class Checkbox extends React.PureComponent {
     }
 
     toggleCheckbox = () => {
-        if (this.props.onCheckboxChange) {
-            this.props.onCheckboxChange(!this.state.isChecked);
+        if (this.props.onChange) {
+            this.props.onChange(!this.state.isChecked);
         }
 
         this.setState({isChecked: !this.state.isChecked});
@@ -72,7 +67,6 @@ export default class Checkbox extends React.PureComponent {
         const fieldClass = classNames(
             this.props.className,
             {
-                'input-field': !this.props.isHorizontal && this.props.isInputField,
                 'input-horizontal-field': this.props.isHorizontal,
                 'row': this.props.isHorizontal
             });
@@ -83,7 +77,7 @@ export default class Checkbox extends React.PureComponent {
 
         const checkboxClass = classNames({
             'col m8': this.props.isHorizontal,
-            'filled-in': true,
+            'filled-in': this.props.hasFillStyle,
             'invalid': !this.state.isValid
         });
 
@@ -119,8 +113,7 @@ export default class Checkbox extends React.PureComponent {
                        data-unchecked-value="0"
                        disabled={this.props.isDisabled}
                        required={this.props.isRequired}
-                       onChange={this.toggleCheckbox}
-                       {...this.props.validator}/>
+                       onChange={this.toggleCheckbox}/>
 
                 <label htmlFor={this.props.id}>
                     {

@@ -3,13 +3,17 @@
 # Table name: tagged_articles
 #
 #  id         :integer          not null, primary key
-#  article_id :integer          not null
+#  user_id    :integer          not null
+#  topic_id   :integer          not null
 #  tag_id     :integer          not null
+#  article_id :integer          not null
 #  parent     :boolean          default(FALSE), not null
 #  child      :boolean          default(FALSE), not null
+#  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+
 require 'rails_helper'
 
 RSpec.describe TaggedArticle, type: :model, basic: true do
@@ -80,7 +84,7 @@ RSpec.describe TaggedArticle, type: :model, basic: true do
 
         tagged_article = build(:tagged_article, user: @user, tag: @other_tag, topic: @topic, article: @article)
         expect(tagged_article.save).to be false
-        expect(tagged_article.errors[:base].first).to eq(I18n.t('activerecord.errors.models.tagged_article.tag_not_authorized'))
+        expect(tagged_article.errors[:base].first).to eq(I18n.t('activerecord.errors.models.tagged_article.incorrect_tag_affiliation'))
       end
     end
   end

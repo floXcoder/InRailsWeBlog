@@ -2,6 +2,10 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # http://rubocop.readthedocs.io/en/latest
 
+AllCops:
+  Exclude:
+    - 'config/initializers/secure_headers.rb'
+
 Documentation:
   Enabled: false
 
@@ -16,7 +20,29 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Layout/AlignParameters:
+  Enabled: false
+
+Layout/CaseIndentation:
+  Enabled: false
+
 Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Layout/ExtraSpacing:
+  Enabled: false
+  AllowForAlignment: true
+
+Layout/FirstParameterIndentation:
+  Enabled: false
+
+Layout/IndentHash:
+  Enabled: false
+
+Layout/LeadingCommentSpace:
+  Enabled: false
+
+Layout/MultilineBlockLayout:
   Enabled: false
 
 Layout/MultilineMethodCallBraceLayout:
@@ -25,7 +51,16 @@ Layout/MultilineMethodCallBraceLayout:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
 Layout/SpaceAroundOperators:
+  Enabled: false
+
+Layout/SpaceInLambdaLiteral:
+  Enabled: false
+
+Layout/TrailingWhitespace:
   Enabled: false
 
 Lint/AmbiguousBlockAssociation:
@@ -33,7 +68,7 @@ Lint/AmbiguousBlockAssociation:
 
 Metrics/AbcSize:
   # The ABC size is a calculated magnitude, so this number can be a Fixnum or a Float.
-  Max: 60
+  Max: 240
 
 Metrics/BlockLength:
   Max: 90

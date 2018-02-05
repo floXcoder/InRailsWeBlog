@@ -1,0 +1,70 @@
+.bookmark {
+  clear: both;
+  font-size: 1rem;
+  z-index: 10;
+
+  &:not(.bookmark-icon-only) {
+    margin: 1rem 0 1.2rem;
+    text-align: center;
+  }
+
+  &.bookmark-icon-only {
+    margin: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    a {
+      border: 0;
+    }
+  }
+
+  &.bookmark-article {
+    .material-icons:hover {
+      color: $article-color;
+    }
+  }
+
+  &.bookmarked {
+    &.bookmark-article {
+      .material-icons {
+        color: $article-color;
+      }
+    }
+  }
+
+  a {
+    border: 1px solid $border-dark-color;
+    border-radius: 3px;
+    color: $text-color;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    height: inherit;
+    line-height: 2.4rem;
+    margin-right: 6px;
+    padding: 0 .6rem;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:focus,
+    &:hover {
+      outline: none;
+    }
+  }
+
+  .bookmark-icon {
+    background-color: $background-color;
+    border: 1px solid $border-color;
+    border-radius: 50%;
+    color: $secondary-color;
+    font-size: 1.3rem;
+    height: 2rem;
+    line-height: 2rem;
+    margin-left: 12px;
+    vertical-align: middle;
+    width: 2rem;
+  }
+}

@@ -6,7 +6,7 @@ describe PicturePolicy, basic: true do
     @owner_user = create(:user)
     @other_user = create(:user)
 
-    @picture = FactoryGirl.create(:picture, user: @owner_user, imageable_type: 'Article')
+    @picture = FactoryBot.create(:picture, user: @owner_user, imageable_type: 'Article')
   end
 
   subject { PicturePolicy.new(user, @picture) }

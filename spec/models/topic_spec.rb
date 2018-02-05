@@ -32,6 +32,7 @@ RSpec.describe Topic, type: :model, basic: true do
       user:        @user,
       name:        'Topic',
       description: 'Topic description',
+      languages:   ['fr'],
       color:       '#000000',
       priority:    1,
       visibility:  'everyone',
@@ -49,6 +50,7 @@ RSpec.describe Topic, type: :model, basic: true do
   context 'Attributes' do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:description) }
+    it { is_expected.to respond_to(:languages) }
     it { is_expected.to respond_to(:color) }
     it { is_expected.to respond_to(:priority) }
     it { is_expected.to respond_to(:visibility) }
@@ -59,6 +61,7 @@ RSpec.describe Topic, type: :model, basic: true do
 
     it { expect(@topic.name).to eq('Topic') }
     it { expect(@topic.description).to eq('Topic description') }
+    it { expect(@topic.languages).to eq(['fr']) }
     it { expect(@topic.color).to eq('#000000') }
     it { expect(@topic.priority).to eq(1) }
     it { expect(@topic.visibility).to eq('everyone') }
@@ -209,10 +212,28 @@ RSpec.describe Topic, type: :model, basic: true do
       it { is_expected.to respond_to(:search_for) }
 
       it 'search for topics' do
-        topic_results = Topic.search_for('topic')
+        topic_results = Topic.search_for('topic')[:topics]
 
         expect(topic_results[:topics]).not_to be_empty
-        expect(topic_results[:topics]).to be_a(ActiveRecord::Relation)
+        expect(topic_results[:topics]).to be_a(Array)
+        expect(topic_results[:topics].size).to eq(3)
+        expect(topic_results[:topics].map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
+      end
+
+      it 'search for topics in strict mode' do
+        topic_results = Topic.search_for('topic', format: :strict)[:topics]
+
+        expect(topic_results[:topics]).not_to be_empty
+        expect(topic_results[:topics]).to be_a(Array)
+        expect(topic_results[:topics].size).to eq(3)
+        expect(topic_results[:topics].map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
+      end
+
+      it 'search for topics with ordering' do
+        topic_results = Topic.search_for('topic', order: 'created_last')[:topics]
+
+        expect(topic_results[:topics]).not_to be_empty
+        expect(topic_results[:topics]).to be_a(Array)
         expect(topic_results[:topics].size).to eq(3)
         expect(topic_results[:topics].map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
       end
@@ -230,9 +251,9 @@ RSpec.describe Topic, type: :model, basic: true do
         topic_autocompletes = Topic.autocomplete_for('top')
 
         expect(topic_autocompletes).not_to be_empty
-        expect(topic_autocompletes).to be_a(Array)
-        expect(topic_autocompletes.size).to eq(3)
-        expect(topic_autocompletes.map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
+        expect(topic_autocompletes[:topics]).not_to be_empty
+        expect(topic_autocompletes[:topics].size).to eq(3)
+        expect(topic_autocompletes[:topics].map { |topic| topic[:name] }).to include(@topic.name, other_topic.name)
       end
     end
 
@@ -249,6 +270,22 @@ RSpec.describe Topic, type: :model, basic: true do
     describe '::order_by' do
       it { is_expected.to respond_to(:order_by) }
       it { expect(Topic.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
+    end
+
+    describe '::as_json' do
+      it { is_expected.to respond_to(:as_json) }
+      it { expect(Topic.as_json(@topic)).to be_a(Hash) }
+      it { expect(Topic.as_json(@topic)[:topic]).to be_a(Hash) }
+      it { expect(Topic.as_json([@topic])).to be_a(Hash) }
+      it { expect(Topic.as_json([@topic])[:topics]).to be_a(Array) }
+      it { expect(Topic.as_json([@topic], strict: true)[:topics]).to be_a(Array) }
+      it { expect(Topic.as_json([@topic], sample: true)[:topics]).to be_a(Array) }
+    end
+
+    describe '::as_flat_json' do
+      it { is_expected.to respond_to(:as_flat_json) }
+      it { expect(Topic.as_flat_json(@topic)).to be_a(Hash) }
+      it { expect(Topic.as_flat_json([@topic])).to be_a(Array) }
     end
   end
 

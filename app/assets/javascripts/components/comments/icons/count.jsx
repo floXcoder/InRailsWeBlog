@@ -1,19 +1,30 @@
 'use strict';
 
-const CountCommentIcon = ({linkToComment, commentsNumber}) => (
-    <a href={linkToComment + '#comments'}
-       className="comment-count">
-        <span className="tooltipped"
-              data-tooltip={I18n.t('js.comment.tooltip.count', {number: commentsNumber})}>
-            {commentsNumber}
-            <i className="material-icons">comment</i>
-        </span>
-    </a>
+const CommentCountIcon = ({commentsCount, commentLink, hasIcon}) => (
+    <div className="blog-article-info-comment">
+        <a href={commentLink}>
+            {
+                hasIcon &&
+                <span className="material-icons"
+                      data-icon="comment"
+                      aria-hidden="true"/>
+            }
+
+            <span>
+                {I18n.t('js.comment.tooltip.count', {count: commentsCount})}
+            </span>
+        </a>
+    </div>
 );
 
-CountCommentIcon.propTypes = {
-    linkToComment: PropTypes.string.isRequired,
-    commentsNumber: PropTypes.number.isRequired
+CommentCountIcon.propTypes = {
+    commentsCount: PropTypes.number.isRequired,
+    commentLink: PropTypes.string.isRequired,
+    hasIcon: PropTypes.bool
 };
 
-export default CountCommentIcon;
+CommentCountIcon.defaultProps = {
+    hasIcon: true
+};
+
+export default CommentCountIcon;

@@ -2,9 +2,6 @@
 
 import _ from 'lodash';
 
-import UserActions from '../../actions/userActions';
-import UserStore from '../../stores/userStore';
-
 import Form from '../materialize/form';
 import Input from '../materialize/input';
 import Textarea from '../materialize/textarea';
@@ -12,36 +9,32 @@ import Checkbox from '../materialize/checkbox';
 import File from '../materialize/file';
 import Submit from '../materialize/submit';
 
-export default class UserEdit extends Reflux.Component {
+export default class UserEdit extends React.Component {
     static propTypes = {
         userId: PropTypes.string,
         params: PropTypes.object
     };
 
     static defaultProps = {
-        userId: null,
         params: {}
     };
 
     constructor(props) {
         super(props);
 
-        this.mapStoreToState(UserStore, this.onUserChange);
+        // TODO
+        // UserActions.loadUser({
+        //     userId: this.props.userId || this.props.params.userId,
+        //     completeUser: true
+        // });
     }
 
     state = {
         user: {}
     };
 
-    componentWillMount() {
-        UserActions.loadUser({
-            userId: this.props.userId || this.props.params.userId,
-            completeUser: true
-        });
-    }
-
     onUserChange(userData) {
-        if ($.isEmpty(userData)) {
+        if (Utils.isEmpty(userData)) {
             return;
         }
 
@@ -53,13 +46,13 @@ export default class UserEdit extends Reflux.Component {
             newState.userTracker.sign_in_count = userData.user.sign_in_count;
         }
 
-        if (!$.isEmpty(newState)) {
+        if (!Utils.isEmpty(newState)) {
             this.setState(newState);
         }
     }
 
     render() {
-        if ($.isEmpty(this.state.user)) {
+        if (Utils.isEmpty(this.state.user)) {
             return null;
         }
 
@@ -200,7 +193,7 @@ export default class UserEdit extends Reflux.Component {
                         <div className="row">
                             <div className="col s6 left-align">
                                 <Link to={'/'}
-                                      className="btn btn-default">
+                                      className="btn btn-default waves-effect waves-light">
                                     {I18n.t('js.user.edit.back_button')}
                                 </Link>
                             </div>

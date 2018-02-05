@@ -1,13 +1,11 @@
 'use strict';
 
-module.exports = () => {
-    return new Promise(resolve => {
-        require.ensure([], () => {
-            require('../modules/wysiwyg/summernote');
-            require('../modules/wysiwyg/lang/summernote-en-US');
-            require('../modules/wysiwyg/lang/summernote-fr-FR');
-
-            resolve({});
-        }, 'editor');
-    });
-};
+export default function Editor(callback) {
+    import(/* webpackChunkName: "editor" */ '../modules/summernote')
+        .then((editor) => {
+            if (typeof callback === 'function') {
+                callback({Editor: editor.default})
+            }
+        })
+        .catch(error => log.error('Failed to load editor', error));
+}

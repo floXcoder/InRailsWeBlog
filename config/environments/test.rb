@@ -31,9 +31,6 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  # Print deprecation notices to the stderr.
-  config.active_support.deprecation = :stderr
-
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
@@ -43,16 +40,16 @@ Rails.application.configure do
   config.action_mailer.default_url_options   = { host: host }
 
   # Print deprecation notices to the stderr.
-  config.active_support.deprecation = :stderr
+  config.active_support.deprecation = :silence
 
   # "Pretty" HTML format output
   Slim::Engine.set_options pretty: true
 
   # Logs
-  unless ENV['RAILS_ENABLE_TEST_LOG']
-    config.logger = Logger.new(nil)
-    config.log_level = :error
-  end
+  # unless ENV['RAILS_ENABLE_TEST_LOG']
+  #   config.logger = Logger.new(nil)
+  #   config.log_level = :error
+  # end
 
   # Custom configurations
   config.x.cron_jobs_active = false

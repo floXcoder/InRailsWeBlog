@@ -76,11 +76,7 @@ namespace :InRailsWeBlog do
 
       RSpec::Core::RakeTask.new(:spec) do |t|
         t.pattern = Dir.glob('spec/**/*_spec.rb')
-        t.rspec_opts = ' --require rails_helper'
-        t.rspec_opts << ' --format h'
-        t.rspec_opts << ' --tag basic'
-        t.rspec_opts << ' --options .rspec_coverage'
-        t.rspec_opts << ' --out static_analysis/rspec.html'
+        t.rspec_opts = '--options .rspec_coverage'
       end
 
       begin
@@ -105,7 +101,6 @@ namespace :InRailsWeBlog do
         t.rspec_opts = ' --require rails_helper'
         t.rspec_opts << ' --format h'
         t.rspec_opts << ' --tag advanced'
-        t.rspec_opts << ' --options .rspec_coverage'
         t.rspec_opts << ' --out static_analysis/advanced_rspec.html'
       end
 

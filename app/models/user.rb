@@ -70,9 +70,12 @@ class User < ApplicationRecord
   # Store settings
   include Storext.model
   store_attributes :settings do
-    article_display String, default: 'card' # inline/card/edit
+    articles_loader String, default: 'infinite' # all / paginate / infinite
+
+    article_display String, default: 'card' # inline / card (edit)
+
     search_highlight Boolean, default: true
-    search_operator String, default: 'and' # and/or
+    search_operator String, default: 'and' # and / or
     search_exact Boolean, default: true
   end
 
@@ -93,6 +96,9 @@ class User < ApplicationRecord
   # Track activities
   include ActAsTrackedConcern
   acts_as_tracked :queries, :clicks, :views
+
+  # Follow public activities
+  include PublicActivity::Model
 
   # Nice url format
   include NiceUrlConcern
@@ -171,7 +177,16 @@ class User < ApplicationRecord
                                     picture['remote_image_url'].blank?
                                 }
 
+  has_many :uploads,
+           class_name: 'Picture',
+           dependent:  :destroy
+
   has_many :activities,
+           as:         :owner,
+           class_name: 'PublicActivity::Activity'
+
+  has_many :recent_activities,
+           -> { distinct },
            as:         :owner,
            class_name: 'PublicActivity::Activity'
 
@@ -205,7 +220,8 @@ class User < ApplicationRecord
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
-    return { users: [] } if User.count.zero?
+    # # Format use
+    # format = options[:format] || 'sample'
 
     # If query not defined or blank, search for everything
     query_string = !query || query.blank? ? '*' : query
@@ -221,15 +237,11 @@ class User < ApplicationRecord
     operator = options[:operator] ? options[:operator] : 'and'
 
     # Highlight results and select a fragment
-    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="blog-highlight">'} : false
-    highlight     = false
+    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="search-highlight">'} : false
+    highlight = false
 
     # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options = options[:where].compact.reject { |_k, v| v.empty? }.map do |key, value|
-      [key, value]
-    end.to_h if options[:where]
-
-    where_options ||= {}
+    where_options = where_search(options[:where])
 
     # Boost user users first
     boost_where = nil
@@ -239,21 +251,7 @@ class User < ApplicationRecord
     per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
 
     # Order search
-    if options[:order]
-      order = if options[:order] == 'id_first'
-                { id: :asc }
-              elsif options[:order] == 'id_last'
-                { id: :desc }
-              elsif options[:order] == 'created_first'
-                { created_at: :asc }
-              elsif options[:order] == 'created_last'
-                { created_at: :desc }
-              elsif options[:order] == 'updated_first'
-                { updated_at: :asc }
-              elsif options[:order] == 'updated_last'
-                { updated_at: :desc }
-              end
-    end
+    order = order_search(options[:order])
 
     # Perform search
     results = User.search(query_string,
@@ -277,7 +275,6 @@ class User < ApplicationRecord
 
     {
       users:       users,
-      highlight:   highlight ? Hash[results.with_details.map { |user, details| [user.id, details[:highlight]] }] : [],
       suggestions: results.suggestions,
       total_count: results.total_count,
       total_pages: results.total_pages
@@ -285,27 +282,31 @@ class User < ApplicationRecord
   end
 
   def self.autocomplete_for(query, options = {})
-    return User.none if User.count.zero?
-
     # If query not defined or blank, search for everything
-    query_string  = !query || query.blank? ? '*' : query
+    query_string = !query || query.blank? ? '*' : query
+
+    # Fields with boost
+    fields = %w[pseudo]
 
     # Where options only for ElasticSearch
-    where_options = options[:where].compact.map do |key, value|
-      [key, value]
-    end.to_h if options[:where]
+    where_options = where_search(options[:where])
+
+    # Order search
+    order = order_search(options[:order])
 
     # Set result limit
-    limit = options[:limit] ? options[:limit] : CONFIG.per_page
+    limit = options[:limit] ? options[:limit] : Setting.per_page
 
     # Perform search
     results = User.search(query_string,
-                          fields:       %w[pseudo],
+                          fields:       fields,
                           match:        :word_middle,
                           misspellings: false,
                           load:         false,
                           where:        where_options,
-                          limit:        limit)
+                          order:        order,
+                          limit:        limit,
+                          execute:      !options[:defer])
 
     return results.map do |user|
       {
@@ -316,21 +317,75 @@ class User < ApplicationRecord
     end
   end
 
+  def self.where_search(options)
+    options ||= {}
+
+    where_options = options.compact.reject { |_k, v| v.empty? }.map do |key, value|
+      case key
+        when :notation
+          [
+            key,
+            value.to_i
+          ]
+        else
+          [key, value]
+      end
+    end.to_h
+
+    return where_options
+  end
+
+  def self.order_search(order)
+    return nil unless order
+
+    case order
+      when 'id_first'
+        { id: :asc }
+      when 'id_last'
+        { id: :desc }
+      when 'created_first'
+        { created_at: :asc }
+      when 'created_last'
+        { created_at: :desc }
+      when 'updated_first'
+        { updated_at: :asc }
+      when 'updated_last'
+        { updated_at: :desc }
+      when 'rank_first'
+        { rank: :asc }
+      when 'rank_last'
+        { rank: :desc }
+      when 'popularity_first'
+        { popularity: :asc }
+      when 'popularity_last'
+        { popularity: :desc }
+    end
+  end
+
   def self.order_by(order)
-    if order == 'id_first'
-      order('id ASC')
-    elsif order == 'id_last'
-      order('id DESC')
-    elsif order == 'created_first'
-      order('created_at ASC')
-    elsif order == 'created_last'
-      order('created_at DESC')
-    elsif order == 'updated_first'
-      order('updated_at ASC')
-    elsif order == 'updated_last'
-      order('updated_at DESC')
-    else
-      all
+    case order
+      when 'id_first'
+        order('id ASC')
+      when 'id_last'
+        order('id DESC')
+      when 'created_first'
+        order('created_at ASC')
+      when 'created_last'
+        order('created_at DESC')
+      when 'updated_first'
+        order('updated_at ASC')
+      when 'updated_last'
+        order('updated_at DESC')
+      when 'rank_first'
+        joins(:tracker).order('rank ASC')
+      when 'rank_last'
+        joins(:tracker).order('rank DESC')
+      when 'popularity_first'
+        joins(:tracker).order('popularity ASC')
+      when 'popularity_last'
+        joins(:tracker).order('popularity DESC')
+      else
+        all
     end
   end
 
@@ -387,7 +442,7 @@ class User < ApplicationRecord
   end
 
   def avatar_url
-    self.picture.image.url(:thumb) if self.picture
+    self.picture&.image&.url(:mini)
   end
 
   def format_attributes(attributes = {})
@@ -438,6 +493,19 @@ class User < ApplicationRecord
     end
   end
 
+  # Activities
+  def recent_visits(limit = 12)
+    last_visits = self.recent_activities.where(key: 'user.visit').limit(limit)
+
+    return {} if last_visits.empty?
+
+    {
+      # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
+      tags:     Tag.joins(:user_activities).merge(last_visits).distinct,
+      articles: Article.joins(:user_activities).merge(last_visits).distinct
+    }
+  end
+
   ## Bookmarking
   def bookmarkers_count
     user_bookmarked    = User.bookmarked_by_user(self.id).count
@@ -448,21 +516,19 @@ class User < ApplicationRecord
   end
 
   def following?(model_name, model_id)
-    if model_name && model_id
-      model_class = model_name.classify.constantize rescue nil
-      related_object = model_class.find(model_id)
+    return false unless model_name && model_id
 
-      return false unless model_class && related_object
+    model_class = model_name.classify.constantize rescue nil
+    related_object = model_class.find(model_id)
 
-      if model_name.classify == 'User'
-        return following_users.include?(related_object)
-      elsif model_name.classify == 'Article'
-        return following_articles.include?(related_object)
-      elsif model_name.classify == 'Tag'
-        return following_tags.include?(related_object)
-      else
-        return false
-      end
+    return false unless model_class && related_object
+
+    if model_name.classify == 'User'
+      return following_users.include?(related_object)
+    elsif model_name.classify == 'Article'
+      return following_articles.include?(related_object)
+    elsif model_name.classify == 'Tag'
+      return following_tags.include?(related_object)
     else
       return false
     end
@@ -487,6 +553,8 @@ class User < ApplicationRecord
       country:         country,
       phone_number:    phone_number,
       mobile_number:   mobile_number,
+      created_at:      created_at,
+      updated_at:      updated_at,
       slug:            slug
     }
   end
@@ -499,7 +567,7 @@ class User < ApplicationRecord
   private
 
   def create_default_topic
-    default_topic = self.topics.create(name: I18n.t('topic.default_name'))
+    default_topic = self.topics.create(name: I18n.t('topic.default_name'), languages: [self.locale])
     update_column(:current_topic_id, default_topic.id)
   end
 

@@ -4,7 +4,11 @@ class CreateTopics < ActiveRecord::Migration[5.1]
       t.belongs_to  :user,          null: true,     index: false
 
       t.string      :name,          null: false
-      t.text        :description
+
+      # Translations
+      t.jsonb       :description_translations,      default: {}
+      t.string      :languages,                     default: [], array: true
+
       t.string      :color
 
       t.integer     :priority,      null: false,    default: 0

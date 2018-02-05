@@ -31,9 +31,4 @@ CircleSpinner.propTypes = {
     className: PropTypes.string
 };
 
-CircleSpinner.defaultProps = {
-    size: null,
-    className: null
-};
-
 export default CircleSpinner;

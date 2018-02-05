@@ -14,21 +14,13 @@ export default class Time extends React.PureComponent {
         icon: PropTypes.string,
         onChange: PropTypes.func,
         onInput: PropTypes.func,
-        isHorizontal: PropTypes.bool,
-        validator: PropTypes.object
+        isHorizontal: PropTypes.bool
     };
 
     static defaultProps = {
-        children: null,
         isDisabled: false,
-        name: null,
-        multipleId: null,
         isRequired: false,
-        icon: null,
-        onChange: null,
-        onInput: null,
-        isHorizontal: false,
-        validator: null
+        isHorizontal: false
     };
 
     constructor(props) {
@@ -43,11 +35,6 @@ export default class Time extends React.PureComponent {
             darktheme: true,
             twelvehour: false
         });
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // Ignore if props has changed
-        return false;
     }
 
     render() {
@@ -84,7 +71,9 @@ export default class Time extends React.PureComponent {
             <div className={fieldClass}>
                 {
                     this.props.icon &&
-                    <i className="material-icons prefix">{this.props.icon}</i>
+                    <span className="material-icons prefix"
+                          data-icon={this.props.icon}
+                          aria-hidden="true"/>
                 }
 
                 <label htmlFor={this.props.id}
@@ -101,8 +90,7 @@ export default class Time extends React.PureComponent {
                        required={this.props.isRequired}
                        onInput={this.props.onInput}
                        onChange={this.props.onChange}
-                       defaultValue={this.props.children}
-                       {...this.props.validator}/>
+                       defaultValue={this.props.children}/>
             </div>
         );
     }

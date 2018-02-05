@@ -8,9 +8,10 @@ import {
 
 const HomePreferenceHeader = ({}) => {
     const button = (
-        <a className="btn-floating waves-effect waves-light header-button topic-header-button"
-           href="#">
-            <i className="material-icons left">settings_applications</i>
+        <a className="btn-floating waves-effect waves-light header-button">
+            <span className="material-icons left"
+                  data-icon="settings_applications"
+                  aria-hidden="true"/>
         </a>
     );
 
@@ -24,7 +25,7 @@ const HomePreferenceHeader = ({}) => {
 
             <li className="collection-item">
                 <div className="blog-user-pref">
-                    <UserSettings />
+                    <UserSettings/>
                 </div>
             </li>
         </ul>
@@ -32,13 +33,12 @@ const HomePreferenceHeader = ({}) => {
 
     return (
         <div>
-            <Popup
-                trigger={button}
-                content={popup}
-                on='click'
-                hideOnScroll={true}
-                flowing={true}
-                position='bottom center'/>
+            <Popup trigger={button}
+                   content={popup}
+                   on="click"
+                   hideOnScroll={true}
+                   flowing={true}
+                   position="bottom center"/>
         </div>
     );
 };

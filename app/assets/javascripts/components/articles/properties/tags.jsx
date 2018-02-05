@@ -1,23 +1,26 @@
 'use strict';
 
-import _ from 'lodash';
+import {
+    Link
+} from 'react-router-dom';
 
-import TagStore from '../../../stores/tagStore';
+import {
+    spyTrackClick
+} from '../../../actions';
 
-import ToolTip from 'react-portal-tooltip';
-
-import {Link} from 'react-router-dom';
+import TooltipTag from '../../tags/display/tooltip';
 
 export default class ArticleTags extends React.PureComponent {
     static propTypes = {
-        article: PropTypes.object.isRequired,
-        onTagClick: PropTypes.func,
-        linkTag: PropTypes.string
+        articleId: PropTypes.number.isRequired,
+        tags: PropTypes.object.isRequired,
+        parentTagIds: PropTypes.array,
+        childTagIds: PropTypes.array
     };
 
     static defaultProps = {
-        onTagClick: null,
-        linkTag: null
+        parentTagIds: [],
+        childTagIds: []
     };
 
     constructor(props) {
@@ -25,100 +28,94 @@ export default class ArticleTags extends React.PureComponent {
     }
 
     state = {
-        tagTooltipActive: null
-    };
-
-    _handleTagClick = (tagId, tagName, event) => {
-        // TODO: onTrackClick is not a function
-        // TagStore.onTrackClick(tagId);
-
-        if (this.props.onTagClick) {
-            event.preventDefault();
-            this.props.onTagClick(tagId, tagName);
-        }
+        tagTooltipActive: undefined
     };
 
     _showTagTooltip = (tagId) => {
-        this.setState({tagTooltipActive: tagId});
+        this.setState({
+            tagTooltipActive: tagId
+        });
     };
 
-    _hideTagTooltip = (tagId) => {
-        this.setState({tagTooltipActive: null});
+    _hideTagTooltip = () => {
+        this.setState({
+            tagTooltipActive: null
+        });
     };
 
     render() {
-        const parentTags = _.keyBy(this.props.article.parent_tags, 'id');
-        const childTags = _.keyBy(this.props.article.child_tags, 'id');
-        const tags = this.props.article.tags;
+        if (this.props.tags.length === 0) {
+            return null;
+        }
 
-        let style = {
-            style: {
-                background: '#535a60',
-                color: '#e4e6e8',
-                padding: 10,
-                boxShadow: '0 1px 3px rgba(12,13,14,0.3)',
-                borderRadius: '2px',
-                border: '1px solid #242729'
-            },
-            arrowStyle: {
-                color: 'rgba(0,0,0,.8)',
-                borderColor: false
-            }
-        };
+        let parentTags = this.props.tags.filter((tag) => this.props.parentTagIds.includes(tag.id));
+        const childTags = this.props.tags.filter((tag) => this.props.childTagIds.includes(tag.id));
+
+        if (childTags.size === 0) {
+            parentTags = this.props.tags;
+        }
 
         return (
-            <div className={classNames('article-tags', {'article-tags-empty': tags.length === 0})}>
+            <div className="article-tags">
+                <div className="article-parent-tags">
+                    <span className="article-tag-title">
+                        {
+                            childTags.size > 0
+                                ?
+                                I18n.t('js.article.model.parent_tags')
+                                :
+                                I18n.t('js.article.model.tags')
+                        }
+                    </span>
+
+                    {
+                        parentTags.map((tag) => (
+                            <span key={tag.id}
+                                  className="article-tag">
+                                <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
+                                      className="tag-default tag-parent"
+                                      to={`/article/tags/${tag.slug}`}
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id)}
+                                      onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
+                                      onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
+                                    {tag.name}
+                                </Link>
+
+                                <TooltipTag tag={tag}
+                                            articleId={this.props.articleId}
+                                            tagTooltipActive={this.state.tagTooltipActive}/>
+                            </span>
+                        ))
+                    }
+                </div>
+
                 {
-                    tags.map((tag, i) =>
-                        <div key={i}
-                             className="article-tag">
-                            <Link id={`article-${this.props.article.id}-tags-${tag.id}`}
-                                  className={classNames(
-                                      'waves-effect', 'waves-light', 'btn-small', 'tag-default',
-                                      {
-                                          'tag-parent': parentTags[tag.id],
-                                          'tag-child': childTags[tag.id]
-                                      }
-                                  )}
-                                  to={`/article/tags/${tag.slug}`}
-                                  onClick={this._handleTagClick.bind(this, tag.id, tag.name)}
-                                  onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
-                                  onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
-                                {tag.name}
-                            </Link>
+                    childTags.size > 0 &&
+                    <div className="article-child-tags">
+                        <span className="article-tag-title">
+                            {I18n.t('js.article.model.child_tags')}
+                        </span>
 
-                            <ToolTip active={this.state.tagTooltipActive === tag.id}
-                                     position="bottom"
-                                     arrow="center"
-                                     parent={`#article-${this.props.article.id}-tags-${tag.id}`}
-                                     style={style}>
-                                <div className="tag-tooltip">
-                                    <div className="tag-tooltip-heading">
-                                        {I18n.t('js.tag.common.usage', {count: tag.tagged_articles_count})}
-                                    </div>
+                        {
+                            childTags.map((tag) => (
+                                <span key={tag.id}
+                                      className="article-tag">
+                                    <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
+                                          className="tag-default tag-child"
+                                          to={`/article/tags/${tag.slug}`}
+                                          onClick={spyTrackClick.bind(null, 'tag', tag.id)}
+                                          onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
+                                          onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
+                                        {tag.name}
+                                    </Link>
 
-                                    <div className="tag-tooltip-description">
-                                        <p>
-                                            {tag.description}
-                                        </p>
-
-                                        <p>
-                                            {
-                                                !$.isEmpty(tag.synonyms) &&
-                                                I18n.t('js.tag.model.synonyms') + ' : ' + tag.synonyms.join(', ')
-                                            }
-                                        </p>
-
-                                        <div className="margin-top-10">
-                                            <Link to={`/tag/${tag.slug}`}>
-                                                {I18n.t('js.tag.common.link')}
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ToolTip>
-                        </div>
-                    )
+                                    <TooltipTag tag={tag}
+                                                articleId={this.props.articleId}
+                                                tagTooltipActive={this.state.tagTooltipActive}/>
+                                </span>
+                            ))
+                        }
+                    </div>
                 }
             </div>
         );

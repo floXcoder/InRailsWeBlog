@@ -7,15 +7,11 @@ html lang="#{I18n.locale}"
 
   = render 'layouts/head'
 
-  body.blog.blog-admin#outer-container class="lang-#{I18n.locale}"
-    = render 'layouts/admin/header'
-
+  body.blog.blog-admin class="lang-#{I18n.locale}"
     = render 'layouts/flash_messages', flash: flash
 
     #page-wrap.container
       = yield
-
-    = render 'layouts/admin/footer'
 
     = render 'layouts/javascript'
 

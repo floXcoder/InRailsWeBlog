@@ -3,7 +3,7 @@ class Users::SessionsController < Devise::SessionsController
 
   prepend_before_action :check_unconfirmed_user, if: -> { request.xhr? }
 
-  respond_to :html, :js
+  respond_to :html, :js, :json
 
   include ActionView::Helpers::TagHelper
   include ApplicationHelper
@@ -18,6 +18,7 @@ class Users::SessionsController < Devise::SessionsController
     respond_to do |format|
       format.html { redirect_to(@location) }
       format.js
+      format.json { respond_with resource, serializer: UserProfileSerializer }
     end
   end
 
@@ -40,6 +41,11 @@ class Users::SessionsController < Devise::SessionsController
 
       format.js do
         js_redirect_to(login_path, :error, error_msg)
+      end
+
+      format.json do
+        flash.now[:error] = error_msg
+        render json: { error: error_msg }
       end
     end
   end

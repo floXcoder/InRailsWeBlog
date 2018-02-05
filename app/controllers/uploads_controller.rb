@@ -27,7 +27,7 @@ class UploadsController < ApplicationController
                  status:     :created
         else
           # flash.now[:error] = t('views.upload.flash.error_creation')
-          render json:   { error: upload.errors.full_messages.join(',') },
+          render json:   { errors: upload.errors.full_messages },
                  status: :forbidden
         end
       end
@@ -56,7 +56,7 @@ class UploadsController < ApplicationController
                  status:     :ok
         else
           # flash.now[:error] = t('views.upload.flash.error_edition')
-          render json:   { error: upload.errors.full_messages.join(',') },
+          render json:   { errors: upload.errors.full_messages },
                  status: :forbidden
         end
       end
@@ -71,11 +71,10 @@ class UploadsController < ApplicationController
       format.json do
         if upload.destroy
           # flash.now[:success] = t('views.upload.flash.successful_deletion')
-          render json:   { id: upload.id },
-                 status: :accepted
+          head :no_content, content_type: 'application/json'
         else
           # flash.now[:error] = t('views.upload.flash.error_deletion')
-          render json:   { error: upload.errors.full_messages.join(',') },
+          render json:   { errors: upload.errors.full_messages },
                  status: :forbidden
         end
       end
@@ -85,13 +84,11 @@ class UploadsController < ApplicationController
   private
 
   def upload_params
-    params.require(:upload).permit(:user_id,
-                                   :model,
+    params.require(:upload).permit(:model,
                                    :model_id,
                                    :description,
                                    :copyright,
-                                   :file,
-                                   :process_now).tap do |whitelisted|
+                                   :file).tap do |whitelisted|
       whitelisted[:files] = params[:upload][:files] if params[:upload][:files]
     end
   end

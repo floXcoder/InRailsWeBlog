@@ -14,6 +14,7 @@ fr:
           menu:
             add_note: "Prendre une note"
             add_article: "Écrire un article"
+            add_link: "Ajouter un lien"
             user: "Mes articles"
             new: "Nouvel article"
             bookmark: "Articles favoris"
@@ -39,7 +40,7 @@ fr:
       footer:
         title: "In Rails We Blog"
         description: "Un blog pensé pour les développeurs"
-        copyright: "Copyright 2015 - InRailsWeBlog. tous droits réservés."
+        copyright: "Copyright 2018 - InRailsWeBlog. tous droits réservés."
         links:
           title: "Liens utiles"
           contact: "Me contacter par email"
@@ -48,7 +49,6 @@ fr:
           github: "Source sous Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
       home:
-        title: ""
         loader: "Chargement"
     user:
       model:
@@ -107,6 +107,10 @@ fr:
         contact: "Informations de contact"
         properties: "Propriétés"
         edit: "Modifier"
+        admin: "Administrateur"
+        administrator: "Administrateur"
+        is_admin: "Est admin"
+        not_admin: "Non admin"
       edit:
         page_title: "Éditer mon profil"
         title: "Éditer mon profil"
@@ -144,8 +148,14 @@ fr:
       settings:
         article:
           title: "Articles"
+          loader:
+            title: "Chargement des articles"
+            mode:
+              infinite: "Afficher les articles au défilement"
+              pagination: "Utiliser une pagination"
+              all: "Tous charger"
           display:
-            title: "Articles"
+            title: "Affichage d'un article"
             mode:
               inline: "Afficher dans un seul article"
               card: "Afficher les articles indépendamment"
@@ -158,6 +168,24 @@ fr:
               or: "Au moins un mot"
           highlight: "Sur-brillance"
           exact: "Le(s) mot(s) précis"
+    bookmark:
+      common:
+        add: "Ajouter aux favoris"
+        remove: "Enlever des favoris"
+        added:
+          ride: "Le parcours a été ajouté aux favoris"
+          shop: "La boutique a été ajoutée aux favoris"
+          product: "Le produit a été ajouté aux favoris"
+        removed:
+          ride: "Le parcours a été enlevé des favoris"
+          shop: "La boutique a été enlevée des favoris"
+          product: "Le produit a été enlevé des favoris"
+      notification:
+        text: "Favoris ajouté"
+        link: "Mes favoris"
+        saved_later: "Vous n'êtes pas connecté. Le favoris sera associé à votre compte une fois connecté."
+        connection: "Se connecter"
+        not_connected: "Vous devez vous connecté pour ajouter ou supprimer des favoris"
     topic:
       common:
         visibility: "Choisissez la visibilité"
@@ -177,122 +205,6 @@ fr:
         title: "Ajouter un thème"
         input: "Nom du thème"
         submit: "Ajouter"
-    article:
-      common:
-        draft: "Note temporaire ?"
-        link: "Est un lien ?"
-        allow_comment:
-         title: "Autoriser les commentaires ?"
-         truthy: "Oui"
-         falsy: "Non"
-        visibility: "Choisissez la visibilité"
-        url: "Liste des articles"
-        outdated: "Article marqué comme périmé !"
-        tags:
-          default: "Ajouter des labels à l'article"
-          parent: "Ajouter des labels principaux"
-          child: "Ajouter des labels secondaires"
-        tooltips:
-          title_too_short: "Le titre est trop court"
-          summary_too_short: "Le résumé est trop court"
-          content_too_short: "Le contenu est trop court"
-        no_results:
-          topic:
-            title: "Pas d'articles associés à ce thème"
-            content: "Ajouter de nouveau article en cliquant que le bouton ci-dessous"
-            button: "Ajouter nouvel article"
-          search:
-            title: "Pas d'articles trouvés"
-            content: "Essayer autre chose :)"
-        validation_error:
-          common: "Merci de remplir l'article comme indiqué avant de continuer"
-      model:
-        title: "Titre"
-        summary: "Résumé"
-        content: "Contenu"
-        visibility: "Visibilité"
-        allow_comment: "Autoriser commentaires"
-        draft: "Note temporaire"
-        tags: "Labels associés"
-        parent_tags: "Labels principaux"
-        child_tags: "Labels fils"
-        comment:
-          true: "Activé"
-          false: "Désactivé"
-        topic: "Thème"
-      enums:
-        visibility:
-          everyone: "Public"
-          only_me: "Privé"
-        visibility_order:
-          - everyone
-          - only_me
-      flash:
-        creation_unpermitted: "Connectez-vous pour écrire un article"
-        deletion_successful: "L'article a été supprimé."
-        undelete_link: "Annuler la suppression."
-      tooltip:
-        edit: "Modifier l'article"
-        visibility: "Visibilité : %{visibility}"
-        add_bookmark: "Ajouter aux favoris"
-        remove_bookmark: "Enlever des favoris"
-        add_outdated: "Marqué comme périmé"
-        remove_outdated: "Enlever des périmés"
-        history: "Voir les anciennes révisions de l'article"
-        link: "C'est un lien"
-        link_to: "Aller vers l'article"
-        cancel: "Annuler"
-        update: "Mettre à jour l'article"
-        delete: "Supprimer cet article"
-        updated_at: "Dernière modification"
-      history:
-        changed_at: "Version modifiée"
-        restore: "Restaurer cette version"
-        none: "Aucun historique pour cet article !"
-        restored: "Version restaurée"
-      bookmark:
-        added: "Article ajouté aux favoris"
-        removed: "Article supprimé des favoris"
-      outdated:
-        added: "Article marqué comme périmé"
-        removed: "Article enlevé des périmés"
-      vote:
-        added: "Votre vote a été pris en compte"
-      show:
-        new_tags: "Ajouter des synonymes ou description aux nouveaux labels ajoutés :"
-      new:
-        title: "Créer un nouvel article"
-        tags:
-          title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
-          placeholder: "Associer des labels"
-        submit: "Créer l'article"
-        exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
-      edit:
-        title: "Modification d'un article"
-        form_title: "Modification de : %{title}"
-        submit: "Mettre à jour l'article"
-        exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
-      timeline:
-        title: "Nouvel article :"
-        no_articles: "Pas d'articles à afficher"
-      clipboard:
-        toast:
-          init: "Copie sur le site détectée, création d'un article temporaire en cours ..."
-          done: "Un nouvel article temporaire a été créé !"
-      errors:
-        default: "Impossible de créer l'article ! Merci de réessayer."
-        not_authorized: "Vous n'avez pas la permission d'accéder à cette article !"
-        title:
-          size: "Le titre de l'article doit être compris entre %{min} et %{max} caractères"
-        summary:
-          size: "Le résumé de l'article doit être compris entre %{min} et %{max} caractères"
-        content:
-          size: "Le contenu de l'article doit être compris entre %{min} et %{max} caractères"
-        topic: "Pas de thème associé à l'article"
-        bookmark:
-          not_authorized: "Vous n'avez pas la permission d'ajouter aux favoris cet article !"
-          default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
-          bookmark: "%{message}"
     tag:
       common:
         list: "Tous les labels"
@@ -328,13 +240,158 @@ fr:
         title: "Modification du label : %{name}"
         back_button: "Annuler"
         update_label: "Mettre à jour le label"
+    article:
+      common:
+        draft: "Note temporaire ?"
+        link: "Est un lien ?"
+        allow_comment:
+         title: "Autoriser les commentaires ?"
+         truthy: "Oui"
+         falsy: "Non"
+        visibility: "Choisissez la visibilité"
+        url: "Liste des articles"
+        outdated: "Article marqué comme périmé !"
+        advanced: "Options avancées"
+        user: "Posté par"
+        actions: "Actions :"
+        infinite:
+          loading: "Chargement des articles ..."
+        placeholders:
+          title:
+            story: "Titre de votre article"
+          reference:
+            note: "Lien vers la source d'origine"
+            story: "Lien vers la source d'origine"
+            link: "Lien à référencer"
+          content:
+            story: "Contenu de votre article"
+            note: "Contenu à ajouter"
+            link: "Description du lien"
+        tags:
+          default: "Ajouter des labels à l'article"
+          parent: "Ajouter des labels principaux"
+          child: "Ajouter des labels secondaires"
+          add: "Ajouter le label :"
+        tooltips:
+          title_too_short: "Le titre est trop court"
+          summary_too_short: "Le résumé est trop court"
+          content_too_short: "Le contenu est trop court"
+        no_results:
+          topic:
+            title: "Pas d'articles associés à ce thème"
+            content: "Ajouter de nouveau article en cliquant que le bouton ci-dessous"
+            button: "Ajouter nouvel article"
+          search:
+            title: "Pas d'articles trouvés"
+            content: "Essayer autre chose :)"
+        validation_error:
+          common: "Merci de remplir l'article comme indiqué avant de continuer"
+      model:
+        title: "Titre"
+        summary: "Résumé"
+        content: "Contenu"
+        reference: "Lien"
+        language: "Langue"
+        visibility: "Visibilité"
+        allow_comment: "Autoriser commentaires"
+        draft: "Note temporaire"
+        tags: "Labels"
+        parent_tags: "Labels principaux"
+        child_tags: "Labels secondaires"
+        comment:
+          true: "Activé"
+          false: "Désactivé"
+        topic: "Thème"
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Privé"
+        visibility_order:
+          - everyone
+          - only_me
+        mode:
+          story: "Article"
+          note: "Note"
+          link: "Lien"
+      flash:
+        creation_unpermitted: "Connectez-vous pour écrire un article"
+        deletion_successful: "L'article a été supprimé."
+        undelete_link: "Annuler la suppression."
+      tooltip:
+        edit: "Modifier l'article"
+        visibility: "Visibilité : %{visibility}"
+        add_bookmark: "Ajouter aux favoris"
+        remove_bookmark: "Enlever des favoris"
+        add_outdated: "Marqué comme périmé"
+        remove_outdated: "Enlever des périmés"
+        history: "Voir les anciennes révisions de l'article"
+        link: "C'est un lien"
+        link_to: "Aller vers l'article"
+        cancel: "Annuler"
+        update: "Mettre à jour"
+        delete: "Supprimer cet article"
+        updated_at: "Dernière modification"
+      history:
+        changed_at: "Version modifiée"
+        restore: "Restaurer cette version"
+        none: "Aucun historique pour cet article !"
+        restored: "Version restaurée"
+      bookmark:
+        added: "Article ajouté aux favoris"
+        removed: "Article supprimé des favoris"
+      outdated:
+        added: "Article marqué comme périmé"
+        removed: "Article enlevé des périmés"
+      vote:
+        added: "Votre vote a été pris en compte"
+      show:
+        new_tags: "Ajouter des synonymes ou description aux nouveaux labels ajoutés :"
+      new:
+        title: "Créer un nouvel article"
+        tags:
+          title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
+          placeholder: "Associer des labels"
+        submit: "Créer l'article"
+        exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
+      edit:
+        title: "Modification d'un article"
+        form_title: "Modification de : %{title}"
+        submit: "Mettre à jour"
+        exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
+      timeline:
+        title: "Nouvel article :"
+        no_articles: "Pas d'articles à afficher"
+      clipboard: "Article temporaire créé avec les données copiées"
+      errors:
+        default: "Impossible de créer l'article ! Merci de réessayer."
+        not_authorized: "Vous n'avez pas la permission d'accéder à cette article !"
+        title:
+          size: "Le titre de l'article doit être compris entre %{min} et %{max} caractères"
+        summary:
+          size: "Le résumé de l'article doit être compris entre %{min} et %{max} caractères"
+        content:
+          size: "Le contenu de l'article doit être compris entre %{min} et %{max} caractères"
+        topic: "Pas de thème associé à l'article"
+        bookmark:
+          not_authorized: "Vous n'avez pas la permission d'ajouter aux favoris cet article !"
+          default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
+          bookmark: "%{message}"
     search:
-      placeholder: "Rechercher ..."
-      url: "Recherche :"
+      module:
+        placeholder: "Recherche"
+        button: "Rechercher"
+        tags:
+          title: "Labels"
+        articles:
+          title: "Articles"
+      index:
+        placeholder: "Recherche"
     comment:
       common:
+        route: "commentaires"
         title: "Commentaires"
         empty: "Soyez le premier à mettre votre commentaire !"
+        no_opinion: "Aucun utilisateur n'a encore commenté"
         actions: "Actions"
         loading: "Chargement des commentaires ..."
         no_data: "Pas de commentaires à afficher pour cette sélection"
@@ -345,7 +402,7 @@ fr:
         commentable_type: "Model commenté"
         posted_at: "Posté le"
       tooltip:
-        count: "%{number} commentaires"
+        count: "%{count} commentaires"
       timeline:
         link: "Commentaire associée à :"
         no_comments: "Pas de commentaires à afficher"
@@ -366,7 +423,7 @@ fr:
                 - id_last
                 - updated_first
                 - updated_last
-          accepted: "Validé"
+          not_accepted: "Non validé seulement"
           ask_for_deletion: "Demande de suppression"
           button: "Filter"
         actions:
@@ -416,8 +473,10 @@ fr:
       errors:
         default: "Impossible de créer le commentaire ! Merci de réessayer."
         not_authorized: "Vous n'avez pas la permission d'accéder à ce commentaire !"
-        title: "Le titre du commentaire est %{message}"
-        body: "Le message du commentaire est %{message}"
+        title:
+          size: "Le titre du commentaire doit être compris entre %{min} et %{max} caractères"
+        body:
+          size: "Le contenu du commentaire doit être compris entre %{min} et %{max} caractères"
     picture:
       copyright:
         default: "De "
@@ -448,7 +507,7 @@ fr:
         create: "Commentaire ajouté"
         update: "Commentaire mis à jour"
         destroy: "Commentaire supprimé"
-    tracking:
+    tracker:
       sign_in_count: "Connexions"
       views_count: "Vues"
       queries_count: "Requêtes"
@@ -471,6 +530,13 @@ fr:
         server: "Serveur"
         sidekiq: "Sidekiq"
         back_home: "Retour au site"
+      managers:
+        errors:
+          title: "Gestion des erreurs"
+          delete:
+            button: "Supprimer cette erreur"
+          clear:
+            button: "Supprimer toutes les erreurs"
       users:
         index:
           title: "Liste des utilisateurs"
@@ -494,10 +560,6 @@ fr:
         picture:
           title: "Image trop grande"
           text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
-    infinite_scroll:
-      loading:
-        message: "Chargement des éléments suivants ..."
-        finish: "Tous les éléments ont été chargés."
     selecter:
       no_results: "Pas de résultats trouvés"
       tags:
@@ -505,8 +567,6 @@ fr:
         add: "Ajouter"
         already_exists: "Le label existe déjà"
         too_long: "Le nom de l'élément est trop long"
-    categorized_tag:
-      add_new: "Ajouter nouveau"
     drop_zone:
       default_message: "Cliquer ou faites glisser les fichiers à ajouter ici"
       copyright_message: "Ajouter un copyright"
@@ -517,6 +577,7 @@ fr:
         previous_files: "Fichiers importés"
         remove: "Supprimer"
       error:
+        special_characters: "Le fichier (%{name}) contient des caractères spéciaux. Merci de les enlever et réajouter le fichier."
         unsupported_browser: "Votre navigateur n'a pas supporté pour uploader des photos"
         extension: "L'extension n'est pas autorisée"
         size: "La taille du fichier (%{filesize}Mo) dépasse la limite autorisée %{maxFileSize}Mo"
@@ -530,11 +591,9 @@ fr:
     checkbox:
       truthy: "Oui"
       falsy: "Non"
-    metrics:
-      distance_unit: "m"
-      distance_unit_k: "km"
-      duration_unit: "h"
-      speed_unit: "km/h"
+    languages:
+      fr: "Français"
+      en: "English"
     time:
       abbr_hour: "h"
       abbr_minute: "m"
@@ -616,9 +675,17 @@ fr:
         - "Nov"
         - "Dec"
     error_message:
-      url: "URL :"
-      message: "Message :"
-      trace: "Trace :"
+      url: "URL"
+      message: "Message"
+      trace: "Trace"
+      parameters: "Paramètres"
+      details:
+        user_id: "Id utilisateur"
+        user_name: "Utilisateur"
+        user_locale: "Langue"
+        user_ip: "IP"
+        browser: "Navigateur"
+        system: "OS"
     helpers:
       home: "Accueil"
       colon: " : "
@@ -636,5 +703,11 @@ fr:
         words_connector: ", "
       errors:
         not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
-        frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'acceuil"
+        frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'accueil"
+        unprocessable: "Impossible de prendre en compte cet élément, données incorrectes"
+        boundary:
+          title: "Impossible d'afficher le composant"
+          message: "Une erreur est survenue lors de l'affichage du composant. Merci de recharger la page."
+          header: "Impossible d'afficher le menu"
+          footer: "Impossible d'afficher le bas de page"
         server: "Une erreur serveur s'est produite, merci de réessayer plus tard"

@@ -40,10 +40,9 @@ describe 'Vote Article API', type: :request, basic: true do
       it 'returns ok' do
         expect {
           post "/articles/#{@article.id}/votes", as: :json
-        }.to change(Vote, :count).by(1)
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+          expect(response).to be_json_response(204)
+        }.to change(Vote, :count).by(1)
       end
     end
 
@@ -56,9 +55,9 @@ describe 'Vote Article API', type: :request, basic: true do
       it 'cannot vote again' do
         expect {
           post "/articles/#{@article.id}/votes", as: :json
-        }.not_to change(Vote, :count)
 
-        expect(response).to be_unauthorized
+          expect(response).to be_unauthorized
+        }.not_to change(Vote, :count)
       end
     end
   end
@@ -66,7 +65,7 @@ describe 'Vote Article API', type: :request, basic: true do
   describe '/articles/:article_id/votes (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/articles/#{@article.id}/votes", as: :json
+        delete "/articles/#{@article.id}/votes", headers: @json_header
 
         expect(response).to be_unauthenticated
       end
@@ -91,11 +90,10 @@ describe 'Vote Article API', type: :request, basic: true do
 
       it 'returns ok' do
         expect {
-          delete "/articles/#{@article.id}/votes", as: :json
-        }.to change(Vote, :count).by(1)
+          delete "/articles/#{@article.id}/votes", headers: @json_header
 
-        expect(response).to be_json_response
-        expect(response.body).to be_empty
+          expect(response).to be_json_response(204)
+        }.to change(Vote, :count).by(1)
       end
     end
 
@@ -108,9 +106,9 @@ describe 'Vote Article API', type: :request, basic: true do
       it 'cannot vote again' do
         expect {
           post "/articles/#{@article.id}/votes", as: :json
-        }.not_to change(Vote, :count)
 
-        expect(response).to be_unauthorized
+          expect(response).to be_unauthorized
+        }.not_to change(Vote, :count)
       end
     end
   end

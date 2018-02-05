@@ -1,11 +1,11 @@
 'use strict';
 
-import mix from '../../mixins/mixin';
-import HistoryMixin from '../../mixins/history';
-
 import ReactPaginate from 'react-paginate';
 
-export default class Pagination extends mix(React.Component).with(HistoryMixin) {
+import history from '../modules/history';
+
+@history
+export default class Pagination extends React.PureComponent {
     static propTypes = {
         totalPages: PropTypes.number,
         initialPage: PropTypes.number,
@@ -13,39 +13,45 @@ export default class Pagination extends mix(React.Component).with(HistoryMixin) 
         numOfPageShow: PropTypes.number,
         className: PropTypes.string,
         hasHistory: PropTypes.bool,
-        onPaginationClick: PropTypes.func
+        onPaginationClick: PropTypes.func,
+        // From history
+        addToHistory: PropTypes.func,
+        onHistoryChanged: PropTypes.func
     };
 
     static defaultProps = {
         totalPages: 0,
         initialPage: 1,
-        currentPage: null,
         numOfPageShow: 10,
-        className: null,
-        hasHistory: true,
-        onPaginationClick: null
+        hasHistory: true
     };
 
     constructor(props) {
         super(props);
 
         this._pagination = null;
-    }
 
-    componentWillMount() {
-        if (this.props.hasHistory) {
-            this.watchHistory('pagination');
+        if (props.hasHistory) {
+            props.onHistoryChanged('pagination', this._handleHistory);
+        }
+
+        if (!props.hasHistory && Utils.isEmpty(props.currentPage)) {
+            log.error('Pagination: current page must be provided if no history');
         }
     }
 
-    onHistoryChanged = (pagination) => {
+    state = {
+        selected: 0
+    };
+
+    _handleHistory = (pagination) => {
         pagination = pagination || {selected: 0};
 
         this._handlePaginationClick(pagination, false);
 
         if (this._pagination) {
             this._pagination.setState({
-                selected: pagination.page
+                selected: pagination.selected
             });
         }
     };
@@ -55,7 +61,7 @@ export default class Pagination extends mix(React.Component).with(HistoryMixin) 
             this.props.onPaginationClick(pagination);
 
             if (this.props.hasHistory && addToHistory) {
-                this.addToHistory({pagination: {page: pagination.selected}});
+                this.props.addToHistory({pagination: {page: pagination.selected}});
             }
         }
     };
@@ -75,12 +81,16 @@ export default class Pagination extends mix(React.Component).with(HistoryMixin) 
                 <ReactPaginate ref={(pagination) => this._pagination = pagination}
                                pageCount={totalPages}
                                initialPage={initialPage - 1}
-                               forcePage={currentPage ? currentPage - 1 : currentPage}
+                               forcePage={currentPage ? (currentPage - 1) : this.state.selected}
                                disableInitialCallback={true}
                                pageRangeDisplayed={pageRangeDisplayed}
                                marginPagesDisplayed={marginPagesDisplayed}
-                               previousLabel={<i className="material-icons">chevron_left</i>}
-                               nextLabel={<i className="material-icons">chevron_right</i>}
+                               previousLabel={<span className="material-icons"
+                                                    data-icon="chevron_left"
+                                                    aria-hidden="true"/>}
+                               nextLabel={<span className="material-icons"
+                                                data-icon="chevron_right"
+                                                aria-hidden="true"/>}
                                breakLabel={<span className="break">...</span>}
                                onPageChange={this._handlePaginationClick}
                                containerClassName="pagination center-align"

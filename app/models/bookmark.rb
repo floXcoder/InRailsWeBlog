@@ -56,7 +56,6 @@ class Bookmark < ApplicationRecord
     if user && model_name && model_id
       model_class = model_name.classify.constantize rescue nil
       related_object = model_class&.find_by(id: model_id)
-
       if !related_object
         errors.add(:base, I18n.t('activerecord.errors.models.bookmark.model_unknown'))
         return false

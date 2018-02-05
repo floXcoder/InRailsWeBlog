@@ -16,7 +16,7 @@
 #  updated_at     :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :tracker do
     views_count     { Random.rand(20..500) }

@@ -72,10 +72,12 @@ class UsersController < ApplicationController
     user_exists = User.login?(user_validation_params[:login]) if user_validation_params[:login]
 
     respond_to do |format|
-      if user_exists
-        format.json { render json: { success: true }, status: :accepted }
-      else
-        format.json { render nothing: true, status: :not_found }
+      format.json do
+        if user_exists
+          render json: { success: true }
+        else
+          render json: { success: false }
+        end
       end
     end
   end
@@ -85,28 +87,22 @@ class UsersController < ApplicationController
     authorize user
 
     respond_to do |format|
-      # TODO
-      # format.html do
-      #   User.track_views(user.id)
-      #   expires_in 3.hours, public: true
-      #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
-      #                 description: I18n.t('views.user.show.description')
-
-      # set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
-      #               description: I18n.t('views.user.show.description', pseudo: user.pseudo),
-      #               author:      alternate_urls('users', user.slug)['fr'],
-      #               canonical:   alternate_urls('users', user.slug)['fr'],
-      #               alternate:   alternate_urls('users', user.slug),
-      #               og:          {
-      #                 type:  "#{ENV['WEBSITE_NAME']}:user",
-      #                 url:   user_url(user),
-      #                 image: user.avatar_url
-      #               }
-
-      #   render :show, locals: { user: user, mode: nil }
-      # end
-
       format.json do
+        #  Add meta tags (and expiration ?) to react
+        #   expires_in 3.hours, public: true
+        #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
+        #                 description: I18n.t('views.user.show.description')
+        # set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
+        #               description: I18n.t('views.user.show.description', pseudo: user.pseudo),
+        #               author:      alternate_urls('users', user.slug)['fr'],
+        #               canonical:   alternate_urls('users', user.slug)['fr'],
+        #               alternate:   alternate_urls('users', user.slug),
+        #               og:          {
+        #                 type:  "#{ENV['WEBSITE_NAME']}:user",
+        #                 url:   user_url(user),
+        #                 image: user.avatar_url
+        #               }
+        #
         if params[:complete_user] && current_user && (current_user.id == user.id || current_user.admin?)
           User.track_views(user.id)
           render json:       user,
@@ -164,6 +160,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def recents
+    user = User.friendly.find(params[:id])
+    admin_or_authorize user
+
+    user_recents = user.recent_visits(params[:limit])
+
+    respond_to do |format|
+      format.json do
+        render json: {
+          tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
+          articles: Article.as_flat_json(user_recents[:articles], strict: true),
+          # topics: Topic.as_flat_json(user_recents[:topics], strict: true)
+        },
+               root: 'recents'
+      end
+    end
+  end
+
   def activities
     user = User.includes(:activities).friendly.find(params[:id])
     authorize user
@@ -175,6 +189,7 @@ class UsersController < ApplicationController
       format.json do
         render json:            user_activities,
                each_serializer: PublicActivitiesSerializer,
+               root:            'activities',
                meta:            meta_attributes(user_activities)
       end
     end
@@ -224,7 +239,8 @@ class UsersController < ApplicationController
                    serializer: UserCompleteSerializer,
                    status:     :ok
           else
-            render json: user
+            render json:       user,
+                   serializer: UserSerializer
           end
         end
       end
@@ -235,15 +251,8 @@ class UsersController < ApplicationController
           render :edit, locals: { user: user }
         end
         format.json do
-          if params[:complete_user] && current_user
-            authorize current_user, :admin?
-            render json:       user,
-                   serializer: UserCompleteSerializer,
-                   status:     :ok
-          else
-            render json:   user,
-                   status: :forbidden
-          end
+          render json:   { errors: user.errors },
+                 status: :forbidden
         end
       end
     end

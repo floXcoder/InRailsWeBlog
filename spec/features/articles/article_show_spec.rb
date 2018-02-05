@@ -14,6 +14,7 @@ feature 'Article Show page', advanced: true, js: true do
   given(:article_page) { ArticlePage.new(article_path(@article)) }
 
   background do
+    logout
     article_page.visit
   end
 

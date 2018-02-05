@@ -14,11 +14,15 @@ class UserPolicy
     owner?
   end
 
-  def comments?
+  def recents?
     owner?
   end
 
   def activities?
+    owner?
+  end
+
+  def comments?
     owner?
   end
 

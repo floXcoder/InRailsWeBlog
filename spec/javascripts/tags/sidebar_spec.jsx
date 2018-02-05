@@ -3,7 +3,6 @@
 import '../test_helper';
 
 import TagSidebar from '../../../app/assets/javascripts/components/tags/sidebar';
-import TagStore from '../../../app/assets/javascripts/stores/tagStore';
 
 describe('<TagSidebar />', () => {
     let shallowWrapper, mountWrapper, renderWrapper;
@@ -30,7 +29,7 @@ describe('<TagSidebar />', () => {
         // renderWrapper = render(<TagSidebar />);
 
         // spyOn(Reflux, 'mapStoreToState').and.returnValue({tags: []});
-        // spyOn(Reflux.Component, "mapStoreToState").and.callFake(function(store, cb) {
+        // spyOn(React.Component, "mapStoreToState").and.callFake(function(store, cb) {
         //     log.error(store)
         //     log.error(cb)
         //     return 1001;
@@ -43,15 +42,11 @@ describe('<TagSidebar />', () => {
     });
 
     it('renders a list of tags by default', () => {
-        // log.info(shallowWrapper)
-        // log.info(mountWrapper)
-        // log.info(renderWrapper)
-
         // expect(checkbox.text()).toEqual('Off');
         // checkbox.find('input').simulate('change');
         // expect(checkbox.text()).toEqual('On');
 
-        expect($.getJSON.mock.calls.length).toEqual(2);
+        expect(Utils.getJSON.mock.calls.length).toEqual(2);
 
     });
 

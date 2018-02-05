@@ -2,29 +2,36 @@
 #
 # Table name: error_messages
 #
-#  id            :integer          not null, primary key
-#  class_name    :text
-#  message       :text
-#  trace         :text
-#  line_number   :text
-#  column_number :text
-#  params        :text
-#  target_url    :text
-#  referer_url   :text
-#  user_agent    :text
-#  user_info     :string
-#  app_name      :string
-#  doc_root      :string
-#  ip            :string
-#  origin        :integer          default("server"), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id             :integer          not null, primary key
+#  class_name     :text
+#  message        :text
+#  trace          :text
+#  line_number    :text
+#  column_number  :text
+#  params         :text
+#  target_url     :text
+#  referer_url    :text
+#  user_agent     :text
+#  app_name       :string
+#  doc_root       :string
+#  user_ip        :string
+#  origin         :integer          default("server"), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  request_format :string
+#  app_version    :string
+#  user_id        :string
+#  user_pseudo    :string
+#  user_locale    :string
+#  bot_agent      :string
+#  os_agent       :string
 #
 
 class ErrorMessageSerializer < ActiveModel::Serializer
-  cache key: 'error', expires_in: 12.hours
+  cache key: 'failure', expires_in: 12.hours
 
   attributes :id,
+             :origin,
              :class_name,
              :message,
              :trace,
@@ -32,10 +39,16 @@ class ErrorMessageSerializer < ActiveModel::Serializer
              :column_number,
              :params,
              :target_url,
+             :referer_url,
+             :request_format,
+             :user_id,
+             :user_pseudo,
+             :user_locale,
+             :user_ip,
              :user_agent,
-             :user_info,
-             :ip,
-             :origin,
+             :bot_agent,
+             :os_agent,
+             :app_version,
              :occurred_at
 
   def occurred_at

@@ -6,7 +6,7 @@ const frontendDir = './node_modules';
 module.exports = {
     webpack: {
         context: './app/assets/javascripts',
-        entry: {
+        entries: {
             ie8: ['./modules/ie8.js'],
             ie9: ['./modules/ie9.js'],
             home: ['./pages/home/home.jsx'],
@@ -64,7 +64,7 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /node_modules\/(?!(materialize-css)\/).*/,
                 loader: 'babel-loader',
                 options: {
                     babelrc: true,
@@ -80,33 +80,40 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery',
             jquery: 'jquery',
-            'window.$': 'jquery',
-            'window.jQuery': 'jquery',
+            "window.$": 'jquery',
+            "window.jQuery": 'jquery',
             log: 'loglevel',
             React: 'react',
             ReactDOM: 'react-dom',
             PropTypes: 'prop-types',
-            Reflux: 'reflux',
-            classNames: 'classnames',
-            Promise: 'promise-polyfill'
+            connect: ['react-redux', 'connect'],
+            classNames: 'classnames'
         },
         happyPack: {
-            id: 'happyCache',
+            id: 'jsx',
             loaders: [
-                'babel-loader?presets[]=es2015', 'babel-loader?presets[]=react', 'babel-loader?presets[]=stage-2'
+                {
+                    loader: 'babel-loader',
+                    query: {
+                        presets: [
+                            'es2015',
+                            'stage-2',
+                            'react'
+                        ]
+                    }
+                }
             ],
-            tempDir: 'tmp/happypack',
-            cache: true,
-            cachePath: 'tmp/happypack/cache--[id].json',
-            threads: 4,
+            threads: 4
         },
         development: {
             filename: '[name].js',
+            chunkFilename: '[name].chunk.js',
             commonFilename: '.js'
         },
         production: {
             filename: '[name]-[chunkhash].js',
             commonFilename: '-[chunkhash].js',
+            chunkFilename: '[name]-[chunkhash].chunk.js',
             manifestFilename: 'rev-manifest.json'
         }
     },
@@ -158,7 +165,8 @@ module.exports = {
     fonts: {
         src: [
             vendorDir + '/fonts/**/*',
-            assetDir + '/fonts/**/*'
+            assetDir + '/fonts/**/*',
+            frontendDir + '/summernote/dist/font/**/*'
         ],
         dest: publicDir + '/assets/fonts'
     },

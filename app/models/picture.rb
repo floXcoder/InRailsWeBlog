@@ -77,9 +77,7 @@ class Picture < ApplicationRecord
     end
 
     # Pictures
-    if attributes[:file].present?
-      self.image = attributes.delete(:file)
-    end
+    self.image = attributes.delete(:file) if attributes[:file].present?
 
     self.assign_attributes(attributes)
   end

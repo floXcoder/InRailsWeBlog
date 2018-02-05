@@ -1,24 +1,29 @@
 'use strict';
 
-const ChildTag = ({tag, parentTagSlug, onClickTag}) => (
-    <div className="tag-child"
-         onClick={_handleTagClick.bind(null, tag.slug, tag.slug, parentTagSlug, onClickTag)}>
-        <div className="tag-child-name">
+import {
+    NavLink
+} from 'react-router-dom';
+
+import {
+    spyTrackClick
+} from '../../../actions';
+
+const ChildTag = ({tag, parentTagSlug, isExpanded}) => (
+    <NavLink className={classNames('tag-child', {
+        'tag-child-display': isExpanded
+    })}
+             to={`/tagged/${parentTagSlug}/${tag.slug}`}
+             onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
+        <span className="tag-child-name">
             {tag.name}
-        </div>
-    </div>
+        </span>
+    </NavLink>
 );
-
-const _handleTagClick = (tagSlug, parentTagSlug, childTagSlug, onClickTag, event) => {
-    event.preventDefault();
-
-    onClickTag(tagSlug, parentTagSlug, childTagSlug);
-};
 
 ChildTag.propTypes = {
     tag: PropTypes.object.isRequired,
     parentTagSlug: PropTypes.string.isRequired,
-    onClickTag: PropTypes.func.isRequired
+    isExpanded: PropTypes.bool.isRequired
 };
 
 export default ChildTag;

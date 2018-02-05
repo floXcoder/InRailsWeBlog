@@ -13,14 +13,17 @@
 #  visibility            :integer          default("everyone"), not null
 #  accepted              :boolean          default(TRUE), not null
 #  archived              :boolean          default(FALSE), not null
+#  allow_comment         :boolean          default(TRUE), not null
 #  pictures_count        :integer          default(0)
 #  tagged_articles_count :integer          default(0)
 #  bookmarks_count       :integer          default(0)
+#  comments_count        :integer          default(0)
 #  slug                  :string
 #  deleted_at            :datetime
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
+
 require 'rails_helper'
 
 RSpec.describe Tag, type: :model, basic: true do
@@ -34,6 +37,7 @@ RSpec.describe Tag, type: :model, basic: true do
       user:        @user,
       name:        'Tag',
       description: 'Tag description',
+      languages:   ['fr'],
       synonyms:    ['tagged'],
       color:       '#000000',
       priority:    1,
@@ -52,6 +56,7 @@ RSpec.describe Tag, type: :model, basic: true do
   context 'Attributes' do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:description) }
+    it { is_expected.to respond_to(:languages) }
     it { is_expected.to respond_to(:synonyms) }
     it { is_expected.to respond_to(:color) }
     it { is_expected.to respond_to(:priority) }
@@ -65,6 +70,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     it { expect(@tag.name).to eq('Tag') }
     it { expect(@tag.description).to eq('Tag description') }
+    it { expect(@tag.languages).to eq(['fr']) }
     it { expect(@tag.synonyms).to eq(['tagged']) }
     it { expect(@tag.color).to eq('#000000') }
     it { expect(@tag.priority).to eq(1) }
@@ -244,7 +250,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     describe '::from_user' do
       it { is_expected.to respond_to(:from_user) }
-      it { expect(Tag.from_user(@user.id)).to be_empty }
+      it { expect(Tag.from_user(@user.id)).to include(@tag, private_tag) }
       it { expect(Tag.from_user(@user.id, @user.id)).to include(@tag, private_tag) }
       it { expect(Tag.from_user(@user.id, @user.id)).not_to include(other_tag) }
     end
@@ -289,10 +295,28 @@ RSpec.describe Tag, type: :model, basic: true do
       it { is_expected.to respond_to(:search_for) }
 
       it 'search for tags' do
-        tag_results = Tag.search_for('tag')
+        tag_results = Tag.search_for('tag')[:tags]
 
         expect(tag_results[:tags]).not_to be_empty
-        expect(tag_results[:tags]).to be_a(ActiveRecord::Relation)
+        expect(tag_results[:tags]).to be_a(Array)
+        expect(tag_results[:tags].size).to eq(4)
+        expect(tag_results[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
+      end
+
+      it 'search for tags in strict mode' do
+        tag_results = Tag.search_for('tag', format: :strict)[:tags]
+
+        expect(tag_results[:tags]).not_to be_empty
+        expect(tag_results[:tags]).to be_a(Array)
+        expect(tag_results[:tags].size).to eq(4)
+        expect(tag_results[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
+      end
+
+      it 'search for tags with ordering' do
+        tag_results = Tag.search_for('tag', order: 'created_last')[:tags]
+
+        expect(tag_results[:tags]).not_to be_empty
+        expect(tag_results[:tags]).to be_a(Array)
         expect(tag_results[:tags].size).to eq(4)
         expect(tag_results[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
       end
@@ -310,9 +334,9 @@ RSpec.describe Tag, type: :model, basic: true do
         tag_autocompletes = Tag.autocomplete_for('ta')
 
         expect(tag_autocompletes).not_to be_empty
-        expect(tag_autocompletes).to be_a(Array)
-        expect(tag_autocompletes.size).to eq(4)
-        expect(tag_autocompletes.map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
+        expect(tag_autocompletes[:tags]).not_to be_empty
+        expect(tag_autocompletes[:tags].size).to eq(4)
+        expect(tag_autocompletes[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
       end
     end
 
@@ -328,7 +352,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     describe '::filter_by' do
       it { is_expected.to respond_to(:filter_by) }
-      it { expect(Tag.filter_by(Tag.all, { user_id: @user.id, topic_id: topic.id })).to include(@tag) }
+      it { expect(Tag.filter_by(Tag.all, user_id: @user.id, topic_id: topic.id)).to include(@tag) }
     end
 
     describe '::parse_tags' do
@@ -348,6 +372,8 @@ RSpec.describe Tag, type: :model, basic: true do
       it { expect(Tag.as_json(@tag)[:tag]).to be_a(Hash) }
       it { expect(Tag.as_json([@tag])).to be_a(Hash) }
       it { expect(Tag.as_json([@tag])[:tags]).to be_a(Array) }
+      it { expect(Tag.as_json([@tag], strict: true)[:tags]).to be_a(Array) }
+      it { expect(Tag.as_json([@tag], sample: true)[:tags]).to be_a(Array) }
     end
 
     describe '::as_flat_json' do
