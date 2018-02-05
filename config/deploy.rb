@@ -1,16 +1,14 @@
-lock '3.5.0'
+lock '3.10.1'
 
 set :application, 'InRailsWeBlog'
 set :repo_url, ENV['GIT_REPO_ADDRESS']
 
 # rvm properties
 set :rvm_type, :user
+set :rvm_map_bins, fetch(:rvm_map_bins, []).push('rvmsudo')
 
 # Set the user (the server is setup with a RSA key to access without password)
 set :user, ENV['GIT_REPO_USER']
-
-# Default value for :scm is :git
-set :scm, :git
 
 # Don't need it
 set :use_sudo, false
@@ -23,10 +21,7 @@ set :format, :pretty
 set :deploy_via, :remote_cache
 
 # SSH options : use an "agent forwarding" to connect to the remote repository
-set :ssh_options, {
-  forward_agent: true,
-  port: ENV['GIT_REPO_PORT']
-}
+set :ssh_options, forward_agent: true, port: ENV['GIT_REPO_PORT']
 
 # Specify how many releases Capistrano should store on your server
 set :keep_releases, 5
@@ -39,10 +34,10 @@ set :pty, false
 set :log_level, :debug
 
 # files we want symlinking to specific entries in shared.
-set :linked_files, %w{config/application.yml config/sidekiq.yml}
+set :linked_files, %w[config/application.yml config/sidekiq.yml]
 
 # dirs we want symlinking to shared
-set :linked_dirs, %w{db/dump log public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle}
+set :linked_dirs, %w[db/dump log public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle]
 
 # what specs should be run before deployment is allowed to
 # continue, see lib/capistrano/tasks/run_tests.cap
@@ -56,6 +51,9 @@ set :bundle_jobs, 4
 
 # Sidekiq configuration from file
 set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
+
+# Cron tasks
+set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 
 ## Synchronize local database with server database ##
 
@@ -72,8 +70,8 @@ set :locals_rails_env, 'production'
 set :disallow_pushing, false
 
 namespace :assets do
-  desc 'Publish assets'
-  task :publish do
+  desc 'Install NPM packages'
+  task :install do
     on roles(:web), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
@@ -83,25 +81,47 @@ namespace :assets do
     end
   end
 
-  after 'deploy:updated', 'assets:publish'
-end
-
-namespace :deploy do
-  desc 'Dump database before deploying'
-  task :dump_database do
+  desc 'Generate translation files'
+  task :translation_files do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, 'InRailsWeBlog:dump'
+          execute :rake, 'i18n:js:export'
         end
       end
     end
   end
 
-  desc 'Restart application'
-  task :restart do
+  desc 'Publish assets'
+  task :production do
     on roles(:web), in: :sequence, wait: 5 do
-      execute :sudo, '/etc/init.d/apache2 restart'
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :npm, :run, 'production'
+        end
+      end
+    end
+  end
+
+  after 'deploy:updated', 'assets:install'
+  after 'deploy:updated', 'assets:translation_files'
+  after 'deploy:updated', 'assets:production'
+end
+
+namespace :deploy do
+  desc 'Initialize and seed the database'
+  task :populate_database do
+    on roles(:app) do
+      on primary :db do
+        within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute :sudo, '/etc/init.d/apache2 stop'
+            execute :sudo, '/etc/init.d/postgresql restart'
+            execute :rake, 'locatipic:populate[server,reset]'
+            execute :sudo, '/etc/init.d/apache2 start'
+          end
+        end
+      end
     end
   end
 
@@ -119,6 +139,13 @@ namespace :deploy do
           end
         end
       end
+    end
+  end
+
+  desc 'Restart application'
+  task :restart do
+    on roles(:web), in: :sequence, wait: 5 do
+      execute :sudo, '/etc/init.d/apache2 restart'
     end
   end
 
@@ -144,12 +171,37 @@ namespace :deploy do
     end
   end
 
+  desc 'Regenerate sitemap'
+  task :generate_sitemap do
+    on roles(:production), in: :sequence, wait: 5 do
+      within release_path do
+        with rails_env: 'production' do
+          execute :rake, 'InRailsWeBlog:seo[sitemap]'
+        end
+      end
+    end
+  end
+
+  desc 'Add version application file'
+  task :update_revision_file do
+    on roles(:production), in: :sequence, wait: 5 do
+      within release_path do
+        git_revision = `git describe --abbrev=0 --tags`.chomp
+        execute :echo, "REVISION='\"#{git_revision}\"' > config/initializers/revision.rb"
+      end
+    end
+  end
+
+  # after :publishing, :populate_database
   # after :publishing, :reset_database
   # after :publishing, :elastic_search
   # after :publishing, :flush_redis
-  before :updated, :dump_database
-  after :publishing, :restart
 
+  after :publishing, :flush_redis
+  # after :publishing, :generate_sitemap
+  after :publishing, :update_revision_file
+
+  after :publishing, :restart
   after :finishing, :cleanup
 end
 
