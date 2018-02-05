@@ -109,39 +109,6 @@ namespace :assets do
 end
 
 namespace :deploy do
-  desc 'Initialize and seed the database'
-  task :populate_database do
-    on roles(:app) do
-      on primary :db do
-        within release_path do
-          with rails_env: fetch(:rails_env) do
-            execute :sudo, '/etc/init.d/apache2 stop'
-            execute :sudo, '/etc/init.d/postgresql restart'
-            execute :rake, 'locatipic:populate[server,reset]'
-            execute :sudo, '/etc/init.d/apache2 start'
-          end
-        end
-      end
-    end
-  end
-
-  # Configure server to run these commands without password
-  desc 'Reset database'
-  task :reset_database do
-    on roles(:app) do
-      on primary :db do
-        within release_path do
-          with rails_env: fetch(:rails_env) do
-            execute :sudo, '/etc/init.d/apache2 stop'
-            execute :sudo, '/etc/init.d/postgresql restart'
-            execute :rake, 'InRailsWeBlog:populate[server,reset]'
-            execute :sudo, '/etc/init.d/apache2 start'
-          end
-        end
-      end
-    end
-  end
-
   desc 'Restart application'
   task :restart do
     on roles(:web), in: :sequence, wait: 5 do
@@ -192,8 +159,6 @@ namespace :deploy do
     end
   end
 
-  # after :publishing, :populate_database
-  # after :publishing, :reset_database
   # after :publishing, :elastic_search
   # after :publishing, :flush_redis
 
@@ -208,5 +173,3 @@ end
 # Commands:
 # cap production deploy
 # cap production deploy:flush_redis
-# cap production deploy:populate_database
-# cap production deploy:reset_database
