@@ -104,6 +104,7 @@ gem 'capistrano-bundler',       '1.3.0',   require: false
 gem 'capistrano-rails-console', '2.2.1',   require: false
 gem 'capistrano-db-tasks',      '0.6',     require: false
 gem 'capistrano-sidekiq',       '1.0.0',   require: false
+gem 'capistrano-passenger',     '0.2.0',   require: false
 
 group :development do
   # server
