@@ -96,6 +96,9 @@ gem 'browser',                  '2.5.2'
 gem 'friendly_id',              '5.2.3'
 gem 'meta-tags',                '2.7.1'
 
+# Data
+gem 'factory_bot_rails',        '4.8.2',   require: false
+
 # Deployment
 gem 'capistrano',               '3.10.1'
 gem 'capistrano-rails',         '1.3.1'
@@ -178,7 +181,6 @@ group :development, :test do
   gem 'rubocop',                '0.52.1',  require: false
 
   # Dummy data
-  gem 'factory_bot_rails',      '4.8.2'
   gem 'faker',                  '1.8.7'
 end
 
