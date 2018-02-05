@@ -100,6 +100,7 @@ export default class ArticleEdit extends React.PureComponent {
 
                 <ArticleFormDisplay id={`article-edit-${this.props.article.id}`}
                                     currentMode={this.props.article.mode}
+                                    isEditing={true}
                                     isDraft={this.props.article.isDraft}
                                     articleErrors={this.props.articleErrors}
                                     onSubmit={this._handleSubmit}>

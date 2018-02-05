@@ -72,13 +72,15 @@ export default class ParentTag extends React.PureComponent {
                     {this.props.tag.name}
                 </NavLink>
 
-                <div className="tag-parent-children">
+                <div className={classNames('tag-parent-children', {
+                    'tag-parent-children-display': this.state.isExpanded
+                })}>
                     {
-                        this.state.isExpanded &&
                         this.props.tag.children.map((tag, i) => (
                             <ChildTag key={i}
                                       tag={tag}
-                                      parentTagSlug={this.props.tag.slug}/>
+                                      parentTagSlug={this.props.tag.slug}
+                                      isExpanded={this.state.isExpanded}/>
                         ))
                     }
                 </div>

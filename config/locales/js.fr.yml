@@ -40,7 +40,7 @@ fr:
       footer:
         title: "In Rails We Blog"
         description: "Un blog pensé pour les développeurs"
-        copyright: "Copyright 2017 - InRailsWeBlog. tous droits réservés."
+        copyright: "Copyright 2018 - InRailsWeBlog. tous droits réservés."
         links:
           title: "Liens utiles"
           contact: "Me contacter par email"
@@ -252,6 +252,8 @@ fr:
         url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
         advanced: "Options avancées"
+        user: "Posté par"
+        actions: "Actions :"
         infinite:
           loading: "Chargement des articles ..."
         placeholders:
@@ -293,9 +295,9 @@ fr:
         visibility: "Visibilité"
         allow_comment: "Autoriser commentaires"
         draft: "Note temporaire"
-        tags: "Labels associés"
+        tags: "Labels"
         parent_tags: "Labels principaux"
-        child_tags: "Labels fils"
+        child_tags: "Labels secondaires"
         comment:
           true: "Activé"
           false: "Désactivé"
@@ -326,7 +328,7 @@ fr:
         link: "C'est un lien"
         link_to: "Aller vers l'article"
         cancel: "Annuler"
-        update: "Mettre à jour l'article"
+        update: "Mettre à jour"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
       history:
@@ -354,7 +356,7 @@ fr:
       edit:
         title: "Modification d'un article"
         form_title: "Modification de : %{title}"
-        submit: "Mettre à jour l'article"
+        submit: "Mettre à jour"
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       timeline:
         title: "Nouvel article :"
@@ -400,7 +402,7 @@ fr:
         commentable_type: "Model commenté"
         posted_at: "Posté le"
       tooltip:
-        count: "%{number} commentaires"
+        count: "%{count} commentaires"
       timeline:
         link: "Commentaire associée à :"
         no_comments: "Pas de commentaires à afficher"

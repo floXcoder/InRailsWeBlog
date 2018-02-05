@@ -48,7 +48,7 @@ export const getClassifiedTags = createSelector(
             }
 
             return _.merge(_.omit(tag, ['parentIds', 'childIds']), {parents: parents, children: children});
-        })
+        }).compact()
     )
 );
 
@@ -58,7 +58,12 @@ export const getCategorizedTags = createSelector(
         let categorizedTags = [];
 
         if (tags) {
-            let tagsByVisibility = {};
+            // Define order in categorized box
+            let tagsByVisibility = {
+                only_me: [],
+                everyone: [],
+            };
+
             tags.forEach((tag) => {
                 if (!tagsByVisibility[tag.visibility]) {
                     tagsByVisibility[tag.visibility] = [tag.name];
@@ -66,13 +71,6 @@ export const getCategorizedTags = createSelector(
                     tagsByVisibility[tag.visibility].push(tag.name);
                 }
             });
-
-            if (!tagsByVisibility.everyone) {
-                tagsByVisibility.everyone = [];
-            }
-            if (!tagsByVisibility.only_me) {
-                tagsByVisibility.only_me = [];
-            }
 
             categorizedTags = Object.keys(tagsByVisibility).map((visibility) => (
                 {

@@ -1,7 +1,9 @@
-class Users::TopicsController < ApplicationController
+class TopicsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :verify_requested_format!
   after_action :verify_authorized, except: [:index]
+
+  include TrackerConcern
 
   respond_to :json
 

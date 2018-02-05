@@ -83,7 +83,7 @@ class Article < ApplicationRecord
              suggest:     [:title],
              highlight:   [:title, :content, :reference],
              language:    -> { I18n.locale == :fr ? 'french' : 'english' }
-             # index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
+  # index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
 
   # Comments
   include CommentableConcern
@@ -212,13 +212,16 @@ class Article < ApplicationRecord
     where(visibility: (visibility.is_a?(String) ? Article.visibilities[visibility] : visibility))
   }
 
-  scope :from_user, -> (user_id = nil, current_user_id = nil) {
+  scope :from_user, -> (user_slug, current_user_id = nil) {
+    from_user_id(User.find_by(slug: user_slug)&.id, current_user_id)
+  }
+  scope :from_user_id, -> (user_id = nil, current_user_id = nil) {
     where(user_id: user_id).where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :current_user_id)',
                                   current_user_id: current_user_id)
   }
 
   scope :from_topic, -> (topic_slug) {
-    where(topic_id: Topic.find_by(slug: topic_slug))
+    where(topic: Topic.find_by(slug: topic_slug))
     # includes(:topic).where(topics: { slug: topic_slug }) # Slower ??
   }
   scope :from_topic_id, -> (topic_id = nil) {
@@ -284,7 +287,7 @@ class Article < ApplicationRecord
     where_options = where_search(options[:where])
 
     # Aggregations
-    aggregations = {
+    aggregations  = {
       notation: { where: { notation: { not: 0 } } },
       mode:     {},
       tags:     {}
@@ -313,22 +316,22 @@ class Article < ApplicationRecord
 
     # Perform search
     results = Article.search(query_string,
-                             fields:        fields,
-                             highlight:     highlight,
-                             boost_where:   boost_where,
-                             match:         :word_middle,
-                             misspellings:  { below: misspellings_retry, edit_distance: misspellings_distance },
-                             suggest:       true,
-                             page:          page,
-                             per_page:      per_page,
-                             operator:      operator,
-                             where:         where_options,
-                             order:         order,
-                             aggs:          aggregations,
-                             includes:      includes,
+                             fields:       fields,
+                             highlight:    highlight,
+                             boost_where:  boost_where,
+                             match:        :word_middle,
+                             misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
+                             suggest:      true,
+                             page:         page,
+                             per_page:     per_page,
+                             operator:     operator,
+                             where:        where_options,
+                             order:        order,
+                             aggs:         aggregations,
+                             includes:     includes,
                              # index_name:    %w[articles-fr articles-en],
                              # indices_boost: { "articles-#{I18n.locale}" => 5 },
-                             execute:       !options[:defer])
+                             execute: !options[:defer])
 
     if options[:defer]
       results
@@ -478,10 +481,17 @@ class Article < ApplicationRecord
     records = records.where(accepted: filter[:accepted]) if filter[:accepted]
     records = records.with_visibility(filter[:visibility]) if filter[:visibility]
 
-    records = records.from_user(filter[:user_slug], current_user&.id) if filter[:user_slug]
+    if filter[:user_id]
+      records = records.from_user_id(filter[:user_id], current_user&.id)
+    elsif filter[:user_slug]
+      records = records.from_user(filter[:user_slug], current_user&.id)
+    end
 
-    records = records.from_topic(filter[:topic_slug]) if filter[:topic_slug]
-    records = records.from_topic_id(filter[:topic_id]) if filter[:topic_id]
+    if filter[:topic_id]
+      records = records.from_topic_id(filter[:topic_id]) if filter[:topic_id]
+    elsif filter[:topic_slug]
+      records = records.from_topic(filter[:topic_slug])
+    end
 
     records = if filter[:parent_tag_slug] && filter[:child_tag_slug]
                 parent_article_ids = Article.all.includes(:tagged_articles).with_parent_tags(filter[:parent_tag_slug]).ids
@@ -567,10 +577,14 @@ class Article < ApplicationRecord
 
   def format_attributes(attributes = {}, current_user = nil)
     # Topic: Add current topic to article
-    self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
+    if !self.topic_id || attributes[:topic_id].present?
+      self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
+    end
 
     # Language
-    self.languages |= [(attributes[:language] || current_user&.locale || I18n.locale).to_s]
+    if self.languages.empty? || attributes[:language].present?
+      self.languages |= [(attributes[:language] || current_user&.locale || I18n.locale).to_s]
+    end
 
     # Sanitization
     unless attributes[:title].nil?
@@ -587,12 +601,15 @@ class Article < ApplicationRecord
       self.content = sanitize_html(attributes.delete(:content))
 
       # Extract all relationship ids
-      other_ids = []
+      other_ids             = []
+      article_relationships = []
       self.content.scan(/data-article-relation-id="(\d+)"/) { |other_id| other_ids << other_id }
 
       other_ids.flatten.map do |other_id|
-        self.child_relationships.build(user: self.user, child: self, parent_id: other_id)
+        article_relationships << self.child_relationships.find_or_initialize_by(user: self.user, child: self, parent_id: other_id)
       end
+
+      self.child_relationships = article_relationships
     end
 
     unless attributes[:reference].nil?

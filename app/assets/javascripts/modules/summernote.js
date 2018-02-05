@@ -1,6 +1,10 @@
 'use strict';
 
-import 'summernote/dist/summernote-lite';
+// import 'summernote/dist/summernote-lite';
+// For now, use local summernote to correct errors:
+// - Air popover not display
+import './summernote/summernote-lite';
+
 import 'summernote/dist/lang/summernote-fr-FR';
 
 import SanitizePaste from './sanitizePaste';

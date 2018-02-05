@@ -21,14 +21,14 @@ gem 'secure_headers',           '5.0.4'
 
 # JSON
 gem 'active_model_serializers', '0.10.7'
-gem 'oj',                       '3.3.10'
+gem 'oj',                       '3.4.0'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.1.3'
 
 # Internationalization
-gem 'i18n-js',                  '3.0.0'
+gem 'i18n-js',                  '3.0.4'
 gem 'geocoder',                 '1.4.5'
 gem 'maxminddb',                '0.1.15'
 
@@ -43,7 +43,7 @@ gem 'public_activity',          '1.5.0'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.2.0'
-gem 'sanitize',                 '4.5.0'
+gem 'sanitize',                 '4.6.0'
 
 # Run asynschronous process
 gem 'sidekiq',                  '5.0.5'
@@ -67,7 +67,7 @@ gem 'rails-settings-cached',    '0.6.6'
 gem 'storext',                  '2.2.2'
 
 # Authentification
-gem 'devise',                   '4.4.0'
+gem 'devise',                   '4.4.1'
 
 # Authorization mechanism
 gem 'pundit',                   '1.1.0'
@@ -94,7 +94,7 @@ gem 'browser',                  '2.5.2'
 
 # SEO
 gem 'friendly_id',              '5.2.3'
-gem 'meta-tags',                '2.7.0'
+gem 'meta-tags',                '2.7.1'
 
 # Deployment
 gem 'capistrano',               '3.10.1'
@@ -103,7 +103,7 @@ gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.3.0',   require: false
 gem 'capistrano-rails-console', '2.2.1',   require: false
 gem 'capistrano-db-tasks',      '0.6',     require: false
-gem 'capistrano-sidekiq',       '0.20.0',  require: false
+gem 'capistrano-sidekiq',       '1.0.0',   require: false
 
 group :development do
   # server
@@ -139,7 +139,7 @@ group :development do
   gem 'unique_validation_inspector', '0.2.0'
 
   # Faster ruby code
-  gem 'fasterer',               '0.3.2'
+  gem 'fasterer',               '0.4.0'
 end
 
 group :test do
@@ -189,5 +189,5 @@ group :production do
   gem 'lograge',        '0.9.0'
 
   # Website analysis
-  gem 'newrelic_rpm',   '4.7.1.340'
+  gem 'newrelic_rpm',   '4.8.0.341'
 end

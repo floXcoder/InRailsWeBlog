@@ -42,6 +42,7 @@ import HomeTopicHeader from './header/topic';
 })
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
+        history: PropTypes.object.isRequired,
         hasSearch: PropTypes.bool.isRequired,
         onSearchOpen: PropTypes.func.isRequired,
         onSearchClose: PropTypes.func.isRequired,
@@ -99,9 +100,9 @@ export default class HeaderLayout extends React.PureComponent {
         return (
             <header className="blog-header animate-search">
                 <div className="navbar-fixed">
-                    <nav>
+                    <nav className="header-nav">
                         <div className="nav-wrapper">
-                            <ul className="left hide-on-med-and-down">
+                            <ul className="left">
                                 {
                                     this.props.isUserLoaded &&
                                     <li>
@@ -111,17 +112,16 @@ export default class HeaderLayout extends React.PureComponent {
                                 }
                             </ul>
 
-                            <HomeSearchHeader hasSearch={this.props.hasSearch}
-                                              onFocus={this.props.onSearchOpen}
-                                              onClose={this.props.onSearchClose}/>
-
                             <a className="brand-logo center"
                                href="/">
                                 {I18n.t('js.views.header.title')}
                             </a>
 
+                            <HomeSearchHeader hasSearch={this.props.hasSearch}
+                                              onFocus={this.props.onSearchOpen}
+                                              onClose={this.props.onSearchClose}/>
 
-                            <ul className="right hide-on-med-and-down">
+                            <ul className="right">
                                 <li>
                                     <HomeArticleHeader/>
                                 </li>
@@ -157,7 +157,7 @@ export default class HeaderLayout extends React.PureComponent {
                 </div>
 
                 <Dialog isOpened={this.props.isTopicPopupOpened}>
-                    <TopicModule/>
+                    <TopicModule history={this.props.history}/>
                 </Dialog>
 
                 <div id="clipboard-area"

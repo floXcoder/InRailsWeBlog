@@ -14,29 +14,6 @@ import TextField from "../../../materialize/form/text";
 
 const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility, articleLanguage, articleAllowComment, defaultVisibility, multipleId}) => (
     <div className="row margin-top-10">
-        {
-            currentMode !== 'link' &&
-            <div className="col s12 margin-bottom-30">
-                <Field id="article_reference"
-                       multipleId={multipleId}
-                       name="reference"
-                       icon="open_in_new"
-                       placeholder={I18n.t(`js.article.common.placeholders.reference.${currentMode}`)}
-                       component={TextField}
-                       componentContent={articleReference}/>
-            </div>
-        }
-
-        <div className="col s12 m6 l4">
-            <Field id="article_language"
-                   multipleId={multipleId}
-                   name="language"
-                   title={I18n.t('js.article.model.language')}
-                   options={I18n.t('js.languages')}
-                   component={SelectField}
-                   componentContent={articleLanguage || getCurrentLocale()}/>
-        </div>
-
         <div className="col s12 m6 l4">
             <Field id="article_visibility"
                    multipleId={multipleId}
@@ -46,6 +23,16 @@ const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility,
                    options={I18n.t('js.article.enums.visibility')}
                    component={SelectField}
                    componentContent={articleVisibility || defaultVisibility}/>
+        </div>
+
+        <div className="col s12 m6 l4">
+            <Field id="article_language"
+                   multipleId={multipleId}
+                   name="language"
+                   title={I18n.t('js.article.model.language')}
+                   options={I18n.t('js.languages')}
+                   component={SelectField}
+                   componentContent={articleLanguage || getCurrentLocale()}/>
         </div>
 
         {
@@ -60,12 +47,25 @@ const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility,
                        componentContent={articleAllowComment}/>
             </div>
         }
+
+        {
+            currentMode !== 'link' &&
+            <div className="col s12  margin-top-20 margin-bottom-10">
+                <Field id="article_reference"
+                       multipleId={multipleId}
+                       name="reference"
+                       icon="open_in_new"
+                       placeholder={I18n.t(`js.article.common.placeholders.reference.${currentMode}`)}
+                       component={TextField}
+                       componentContent={articleReference}/>
+            </div>
+        }
     </div>
 );
 
 ArticleAdvancedField.propTypes = {
     currentMode: PropTypes.string.isRequired,
-    articleReference: PropTypes.bool,
+    articleReference: PropTypes.string,
     articleAllowComment: PropTypes.bool,
     articleLanguage: PropTypes.string,
     articleVisibility: PropTypes.string,

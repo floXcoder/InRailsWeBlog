@@ -1,19 +1,12 @@
 'use strict';
 
 // TODO: use connect for article visibility and user connected
-const ArticleVisibilityIcon = ({articleId, articleVisibility, isOwner, hasFloatingButton}) => {
-    if (!isOwner) {
-        return null;
-    }
-
+const ArticleVisibilityIcon = ({articleId, articleVisibility}) => {
     const isVisible = articleVisibility === 'everyone';
 
     const visibilityClasses = classNames(
         'article-visibility',
         'tooltipped',
-        {
-            'btn-floating': hasFloatingButton
-        },
         {
             'article-public': isVisible,
             'article-private': !isVisible
@@ -34,14 +27,7 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility, isOwner, hasFloati
 
 ArticleVisibilityIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
-    articleVisibility: PropTypes.string.isRequired,
-    isOwner: PropTypes.bool,
-    hasFloatingButton: PropTypes.bool
-};
-
-ArticleVisibilityIcon.defaultProps = {
-    isOwner: false,
-    hasFloatingButton: false
+    articleVisibility: PropTypes.string.isRequired
 };
 
 export default ArticleVisibilityIcon;

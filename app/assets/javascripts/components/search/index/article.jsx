@@ -38,31 +38,36 @@ export default class SearchArticleIndex extends React.Component {
                     {
                         this.props.articles.map((article) => (
                             <div key={article.id}
-                                 className="card card-small search-card-article"
+                                 className="article-item search-card-article"
                                  onClick={this._handleArticleClick.bind(this, article)}>
-                                <div className="card-content">
-                                    <UserAvatarIcon user={article.user}
-                                                    className="article-user"/>
+                                <div className="article-content">
+                                    <div className="article-title">
+                                        <Link to={`/article/${article.slug}`}
+                                              onClick={spyTrackClick.bind(null, 'article', article.id)}>
+                                            <div className="title"
+                                                 dangerouslySetInnerHTML={{__html: article.title}}/>
+                                        </Link>
+                                    </div>
 
-                                    <Link className="card-title"
-                                          to={this._handleArticleClick.bind(this, article)}
-                                          dangerouslySetInnerHTML={{__html: article.title}}/>
-
-                                    <div className="article-content"
+                                    <div className="blog-article-content"
                                          dangerouslySetInnerHTML={{__html: article.content}}/>
 
-                                    {
-                                        article.tags.map((tag) => (
-                                            <div key={tag.id}
-                                                 className="article-tag">
-                                                <Link className="btn-small waves-effect waves-light tag-default"
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id)}
-                                                      to={`/article/tags/${tag.slug}`}>
-                                                    {tag.name}
-                                                </Link>
-                                            </div>
-                                        ))
-                                    }
+                                    <div className="blog-article-info article-tags">
+                                        {
+                                            article.tags.map((tag) => (
+                                                <div key={tag.id}
+                                                     className="article-tag">
+                                                    <Link className="tag-default"
+                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id)}
+                                                          to={`/article/tags/${tag.slug}`}>
+                                                        {tag.name}
+                                                    </Link>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+
+
                                 </div>
                             </div>
                         ))

@@ -1,33 +1,30 @@
 'use strict';
 
 import {
-    editArticle,
-    updateArticle,
-    deleteArticle
-} from '../../../actions';
+    Link
+} from 'react-router-dom';
 
 import {
-    getArticleIsOwner
-} from '../../../selectors';
+    inlineEditArticle,
+    updateArticle,
+    deleteArticle, spyTrackClick
+} from '../../../actions';
 
-import ArticleEditionIcons from '../icons/edition';
-import ArticleLinkIcon from '../icons/link';
+import ArticleInlineActions from '../properties/inlineActions';
 
 import Editor, {EditorMode} from '../../editor/editor';
 
-@connect((state, props) => ({
-    isOwner: getArticleIsOwner(state, props.article)
-}), {
-    editArticle,
+@connect(null, {
+    inlineEditArticle,
     updateArticle,
     deleteArticle
 })
-export default class ArticleEditionDisplay extends React.Component {
+export default class ArticleInlineEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        // From connect
         isOwner: PropTypes.bool,
-        editArticle: PropTypes.func,
+        // From connect
+        inlineEditArticle: PropTypes.func,
         updateArticle: PropTypes.func,
         deleteArticle: PropTypes.func
     };
@@ -38,54 +35,40 @@ export default class ArticleEditionDisplay extends React.Component {
         this._editor = null;
     }
 
-    // TODO: user article global state to store this state
-    // state = {
-    //     isLink: false
-    // };
-    //
-    // _handleEditorChange (event) {
-    //     let text = event.currentTarget.textContent;
-    //
-    //     if (Utils.isURL(text.trim()) && !this.state.isLink) {
-    //         this.setState({isLink: true});
-    //         this._editor.reset();
-    //         this.state.editor.summernote("createLink", {
-    //             text: text.trim(),
-    //             url: text.trim(),
-    //             isNewWindow: true
-    //         });
-    //     } else if (this.state.isLink && !Utils.isURL(text.trim())) {
-    //         this.state.isLink = false;
-    //         this.setState({isLink: false});
-    //     }
-    // }
-
     _handleDeleteClick = () => {
         this.props.deleteArticle(this.props.article.id);
     };
 
     _handleCancelClick = () => {
-        this.props.editArticle(null);
+        this.props.inlineEditArticle(null);
     };
 
     _handleSaveClick = () => {
         const content = this._editor.getContent();
+
         this.props.updateArticle({
             id: this.props.article.id,
             content: content
-        }).then(() => this.props.editArticle(null));
+        })
+            .then(() => this.props.inlineEditArticle(null));
     };
 
     render() {
         return (
-            <div className="card blog-article-item article-edition clearfix">
-                <div className="card-content">
-                    <div className="card-title article-title center clearfix">
-                        <h1 className="article-title-card">
-                            {this.props.article.title}
-                        </h1>
+            <div className="article-inline-edition">
+                {
+                    this.props.article.title &&
+                    <div className="article-inline-title">
+                        <Link to={`/article/${this.props.article.slug}`}
+                              onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
+                            <h2 className="title">
+                                {this.props.article.title}
+                            </h2>
+                        </Link>
                     </div>
+                }
 
+                <div className="article-inline-edition-content">
                     <Editor ref={(editor) => this._editor = editor}
                             mode={EditorMode.INLINE_EDIT}
                             onSubmit={this._handleSaveClick}
@@ -94,25 +77,25 @@ export default class ArticleEditionDisplay extends React.Component {
                     </Editor>
                 </div>
 
-                <div className="clearfix">
-                    {
-                        // this.props.article.tags.map((tag) => (
-                        //     <a key={tag.id}
-                        //        className="btn-small waves-effect waves-light">
-                        //         {tag.name}
-                        //     </a>
-                        // ))
-                    }
-
-                    <div className="right">
-                        <ArticleEditionIcons onDeleteClick={this._handleDeleteClick}
-                                             onCancelClick={this._handleCancelClick}
-                                             onSaveClick={this._handleSaveClick}
-                                             isOwner={this.props.isOwner}/>
-
-                        <ArticleLinkIcon isLink={this.props.article.isLink}/>
+                <div className="article-actions">
+                    <div className="article-actions-text">
+                        {I18n.t('js.article.common.actions')}
                     </div>
+
+                    <ArticleInlineActions onDeleteClick={this._handleDeleteClick}
+                                          onCancelClick={this._handleCancelClick}
+                                          onSaveClick={this._handleSaveClick}/>
                 </div>
+
+                {
+                    // TODO: display tags?
+                    // this.props.article.tags.map((tag) => (
+                    //     <a key={tag.id}
+                    //        className="btn-small waves-effect waves-light">
+                    //         {tag.name}
+                    //     </a>
+                    // ))
+                }
             </div>
         );
     }

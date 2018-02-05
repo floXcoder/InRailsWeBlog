@@ -5,11 +5,8 @@ import _ from 'lodash';
 import LazyLoad from 'react-lazyload';
 
 import {
-    Link
-} from 'react-router-dom';
-
-import {
-    fetchArticle
+    fetchArticle,
+    deleteArticle
 } from '../../actions';
 
 import {
@@ -19,21 +16,22 @@ import {
 
 import highlight from '../modules/highlight';
 
-import AnimatedText from '../theme/animatedText';
-
-import CountCommentIcon from '../comments/icons/count';
-import ArticleOutdatedIcon from './icons/outdated';
-import ArticleVisibilityIcon from './icons/visibility';
-import ArticleBookmarkIcon from './icons/bookmark';
-import ArticleHistoryIcon from './icons/history';
-import ArticleDeleteIcon from './icons/delete';
-import ArticleTags from './properties/tags';
+import ArticleUserIcon from './icons/user';
 import ArticleTime from './properties/time';
-
-import UserAvatarIcon from '../users/icons/avatar';
+import ArticleTags from './properties/tags';
+import ArticleActions from './properties/actions';
+// TODO
+// import ArticleTime from './properties/time';
+// TODO
+// import ArticleOutdatedIcon from './icons/outdated';
+// TODO
+// import ArticleBookmarkIcon from './icons/bookmark';
+// TODO
+// import ArticleVotes from './properties/vote';
 
 import Spinner from '../materialize/spinner';
 
+import CommentCountIcon from '../comments/icons/count';
 import CommentBox from '../comments/box';
 
 @connect((state) => ({
@@ -43,19 +41,22 @@ import CommentBox from '../comments/box';
     isOutdated: getArticleIsOutdated(state.articleState.article),
     isUserConnected: state.userState.isConnected,
 }), {
-    fetchArticle
+    fetchArticle,
+    deleteArticle
 })
 @highlight
 export default class ArticleShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
         // From connect
         isFetching: PropTypes.bool,
         article: PropTypes.object,
         isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool,
         isUserConnected: PropTypes.bool,
-        fetchArticle: PropTypes.func
+        fetchArticle: PropTypes.func,
+        deleteArticle: PropTypes.func
     };
 
     constructor(props) {
@@ -70,36 +71,36 @@ export default class ArticleShow extends React.Component {
         }
     }
 
-    _handleUserClick = (userId, event) => {
-        event.preventDefault();
-
-        // TODO
-        // UserStore.onTrackClick(userId);
-    };
-
     _handleDeleteClick = (event) => {
         event.preventDefault();
 
-        // TODO
-        // if (this.props.article) {
-        //     ArticleActions.deleteArticle({id: this.props.article.id, showMode: true});
-        // }
+        this.props.deleteArticle(this.props.article.id)
+            .then(() => this.props.history.push({
+                    pathname: `/`,
+                    state: {reloadTags: true}
+                })
+            );
+
     };
 
-    _handleBookmarkClick = (articleId, isBookmarked) => {
-        // TODO
-        // ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
+    // TODO
+    _handleVisibilityClick = (articleId) => {
     };
 
-    _handleVoteClick = (articleId, isUp) => {
-        // TODO
-        // ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
-    };
+    // TODO
+    // _handleBookmarkClick = (articleId, isBookmarked) => {
+    //     // ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
+    // };
 
-    _handleOutdatedClick = (articleId, isOutdated) => {
-        // TODO
-        // ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
-    };
+    // TODO
+    // _handleVoteClick = (articleId, isUp) => {
+    //     // ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
+    // };
+
+    // TODO
+    // _handleOutdatedClick = (articleId, isOutdated) => {
+    //     // ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
+    // };
 
     render() {
         if (!this.props.article) {
@@ -121,95 +122,91 @@ export default class ArticleShow extends React.Component {
                     </div>
                 }
 
-                <div
-                    className={classNames('card blog-article-item clearfix', {'article-outdated': this.props.isOutdated})}>
-                    <div className="card-content">
-                        <UserAvatarIcon user={this.props.article.user}
-                                        className="article-user"/>
+                <article className={classNames('card-panel', 'blog-article', {
+                    'article-outdated': this.props.isOutdated
+                })}>
+                    <h1 className="blog-article-title"
+                        itemProp="headline">
+                        {this.props.article.title}
+                    </h1>
 
-                        <div className="article-info right-align">
-                            <ArticleTime lastUpdate={this.props.article.updatedAt}/>
+                    {
+                        this.props.article.summary &&
+                        <h2 className="blog-article-summary">
+                            {this.props.article.summary}
+                        </h2>
+                    }
 
-                            <CountCommentIcon linkToComment={'/articles/' + this.props.article.slug}
-                                              commentsCount={this.props.article.commentsCount}/>
-                        </div>
+                    <div className="blog-article-info">
+                        <ArticleUserIcon user={this.props.article.user}/>
 
-                        {
-                            (!Utils.isEmpty(this.props.article.title) || !Utils.isEmpty(this.props.article.summary)) &&
-                            <AnimatedText title={this.props.article.title}
-                                          subtitle={this.props.article.summary}/>
-                        }
+                        <span className="blog-article-info-sep">-</span>
 
-                        <span className="blog-article-content"
-                              dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                        <ArticleTime articleDate={this.props.article.date}/>
+
+                        <CommentCountIcon commentLink={`#article-comments-${this.props.article.id}`}
+                                          commentsCount={this.props.article.commentsCount}/>
                     </div>
 
-                    <div className="card-action article-action clearfix">
-                        <div className="row">
-                            <div className="col s12 m12 l6 md-margin-bottom-20">
-                                <ArticleTags articleId={this.props.article.id}
-                                             tags={this.props.article.tags}
-                                             parentTagIds={this.props.article.parentTagIds}
-                                             childTagIds={this.props.article.childTagIds}/>
+                    <div className="blog-article-content"
+                         dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
 
-                                <a className="btn-floating"
-                                   onClick={this._handleVoteClick.bind(this, this.props.article.id, true)}>
-                                    <span className="material-icons"
-                                          data-icon="thumb_up"
-                                          aria-hidden="true"/>
-                                </a>
-
-                                <a className="btn-floating"
-                                   onClick={this._handleVoteClick.bind(this, this.props.article.id, false)}>
-                                    <span className="material-icons"
-                                          data-icon="thumb_down"
-                                          aria-hidden="true"/>
-                                </a>
-
-                                <span>
-                                    {this.props.article.votesUp}
-                                </span>
-
-                                <span>
-                                    {this.props.article.votesDown}
-                                </span>
-                            </div>
-
-                            <div className="col s12 m12 l6 right-align">
-                                <ArticleDeleteIcon isOwner={this.props.isOwner}
-                                                   onDeleteClick={this._handleDeleteClick}/>
-
-                                <ArticleBookmarkIcon articleId={this.props.article.id}
-                                                     isOwner={this.props.isUserConnected}
-                                                     onBookmarkClick={this._handleBookmarkClick}/>
-
-                                <ArticleOutdatedIcon articleId={this.props.article.id}
-                                                     isOwner={this.props.isUserConnected}
-                                                     isOutdated={this.props.isOutdated}
-                                                     onOutdatedClick={this._handleOutdatedClick}/>
-
-                                <ArticleVisibilityIcon articleId={this.props.article.id}
-                                                       articleVisibility={this.props.article.visibility}
-                                                       isOwner={this.props.isOwner}
-                                                       hasFloatingButton={true}/>
-
-                                <ArticleHistoryIcon articleSlug={this.props.article.slug}
-                                                    isOwner={this.props.isUserConnected}/>
-
-                                {
-                                    this.props.isOwner &&
-                                    <Link className="btn-floating article-edit tooltipped"
-                                          data-tooltip={I18n.t('js.article.tooltip.edit')}
-                                          to={`/article/${this.props.article.slug}/edit`}>
-                                        <span className="material-icons"
-                                              data-icon="mode_edit"
-                                              aria-hidden="true"/>
-                                    </Link>
-                                }
-                            </div>
+                    {
+                        this.props.article.reference &&
+                        <div className="blog-article-info">
+                            <a href={this.props.article.reference}
+                               rel="noopener noreferrer"
+                               target="_blank">
+                                {this.props.article.reference.replace(/^(https?):\/\//, '').replace(/\/$/, '')}
+                            </a>
                         </div>
-                    </div>
-                </div>
+                    }
+
+                    {
+                        this.props.article.tags.size > 0 &&
+                        <div className="blog-article-info">
+                            <ArticleTags articleId={this.props.article.id}
+                                         tags={this.props.article.tags}
+                                         parentTagIds={this.props.article.parentTagIds}
+                                         childTagIds={this.props.article.childTagIds}/>
+                        </div>
+                    }
+
+                    {
+                        this.props.isOwner &&
+                        <div className="article-actions">
+                            <div className="article-actions-text">
+                                {I18n.t('js.article.common.actions')}
+                            </div>
+
+                            <ArticleActions articleId={this.props.article.id}
+                                            articleSlug={this.props.article.slug}
+                                            articleVisibility={this.props.article.visibility}
+                                            onDeleteClick={this._handleDeleteClick}/>
+                        </div>
+                    }
+                </article>
+
+                {
+                    // TODO
+                    // <ArticleVotes articleId={this.props.article.id}
+                    //               onVoteClick={this._handleVoteClick}
+                    //               articleVotesUp={this.props.article.votesUp}
+                    //               articleVotesDown={this.props.article.votesDown}/>
+                }
+                {
+                    // TODO
+                    // <ArticleBookmarkIcon articleId={this.props.article.id}
+                    //                      isOwner={this.props.isUserConnected}
+                    //                      onBookmarkClick={this._handleBookmarkClick}/>
+                }
+                {
+                    // TODO
+                    // <ArticleOutdatedIcon articleId={this.props.article.id}
+                    //                      isOwner={this.props.isUserConnected}
+                    //                      isOutdated={this.props.isOutdated}
+                    //                      onOutdatedClick={this._handleOutdatedClick}/>
+                }
 
                 {
                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&

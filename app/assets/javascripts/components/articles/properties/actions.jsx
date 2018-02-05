@@ -1,50 +1,57 @@
 'use strict';
 
-import FixedActionButton from '../../materialize/fab';
-
-import ArticleEditIcon from '../icons/edit';
-// TODO
-// import ArticleLinkIcon from '../icons/link';
 import ArticleVisibilityIcon from '../icons/visibility';
-import ArticleBookmarkIcon from '../icons/bookmark';
-import ArticleLink from '../properties/link';
+import ArticleHistoryIcon from '../icons/history';
+import ArticleDeleteIcon from '../icons/delete';
+import ArticleEditIcon from '../icons/edit';
+import ArticleLinkIcon from '../icons/link';
 
-const ArticleActions = ({articleId, articleSlug, articleVisibility, onBookmarkClick, onEdit, onVisibilityClick, isOwner}) => (
-    <FixedActionButton>
-        <ArticleBookmarkIcon articleId={articleId}
-                             onBookmarkClick={onBookmarkClick}/>
+const ArticleActions = ({isInline, articleId, articleSlug, articleVisibility, onVisibilityClick, onDeleteClick}) => (
+    <ul className="action-icons">
+        {
+            !isInline &&
+            <li className="action-item">
+                <ArticleDeleteIcon onDeleteClick={onDeleteClick}/>
+            </li>
+        }
 
-        <ArticleVisibilityIcon articleId={articleId}
-                               articleVisibility={articleVisibility}
-                               hasFloatingButton={true}
-                               onVisibilityClick={onVisibilityClick}/>
+        {
+            !isInline &&
+            <li className="action-item">
+                <ArticleHistoryIcon articleSlug={articleSlug}/>
+            </li>
+        }
 
-        <ArticleEditIcon onEdit={onEdit}
-                         isOwner={isOwner}/>
+        <li className="action-item">
+            <ArticleVisibilityIcon articleId={articleId}
+                                   articleVisibility={articleVisibility}/>
+        </li>
 
-        <ArticleLink articleId={articleId}
-                     articleSlug={articleSlug}
-                     onArticleClick={_handleArticleClick.bind(null, articleId)}/>
-    </FixedActionButton>
+        <li className="action-item">
+            <ArticleEditIcon articleSlug={articleSlug}/>
+        </li>
+
+        {
+            isInline &&
+            <li className="action-item">
+                <ArticleLinkIcon articleSlug={articleSlug}
+                                 articleId={articleId}/>
+            </li>
+        }
+    </ul>
 );
-
-const _handleArticleClick = (article) => {
-    // TODO
-    // ArticleStore.onTrackClick(article.id);
-};
 
 ArticleActions.propTypes = {
     articleId: PropTypes.number.isRequired,
     articleSlug: PropTypes.string.isRequired,
     articleVisibility: PropTypes.string.isRequired,
-    onBookmarkClick: PropTypes.func,
-    onEdit: PropTypes.func,
     onVisibilityClick: PropTypes.func,
-    isOwner: PropTypes.bool
+    onDeleteClick: PropTypes.func,
+    isInline: PropTypes.bool
 };
 
-ArticleEditIcon.defaultProps = {
-    isOwner: false
+ArticleActions.defaultProps = {
+    isInline: false
 };
 
 export default ArticleActions;

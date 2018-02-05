@@ -101,7 +101,7 @@ export default class ArticleCommonField extends React.Component {
                            componentContent={this.props.article.content}/>
                 </div>
 
-                <div className="col s12 m6">
+                <div className="col s12 xl6">
                     <Field id="article_parent_tags"
                            name="parent_tags"
                            title={I18n.t('js.article.model.parent_tags')}
@@ -115,7 +115,7 @@ export default class ArticleCommonField extends React.Component {
                            componentContent={this.props.parentTags}/>
                 </div>
 
-                <div className="col s12 m6">
+                <div className="col s12 xl6">
                     <Field id="article_child_tags"
                            name="child_tags"
                            title={I18n.t('js.article.model.child_tags')}
@@ -129,7 +129,7 @@ export default class ArticleCommonField extends React.Component {
                            componentContent={this.props.childTags}/>
                 </div>
 
-                <div className="col s12 m6 l3 push-l5">
+                <div className="col s12 center-align">
                     <Field id="article_draft"
                            name="draft"
                            title={I18n.t('js.article.common.draft')}

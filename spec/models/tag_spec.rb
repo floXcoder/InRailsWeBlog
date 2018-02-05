@@ -372,6 +372,8 @@ RSpec.describe Tag, type: :model, basic: true do
       it { expect(Tag.as_json(@tag)[:tag]).to be_a(Hash) }
       it { expect(Tag.as_json([@tag])).to be_a(Hash) }
       it { expect(Tag.as_json([@tag])[:tags]).to be_a(Array) }
+      it { expect(Tag.as_json([@tag], strict: true)[:tags]).to be_a(Array) }
+      it { expect(Tag.as_json([@tag], sample: true)[:tags]).to be_a(Array) }
     end
 
     describe '::as_flat_json' do

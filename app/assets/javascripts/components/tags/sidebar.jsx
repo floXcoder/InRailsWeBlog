@@ -63,7 +63,7 @@ export default class TagSidebar extends React.Component {
                 {
                     !this.props.isLoading &&
                     <div>
-                        <h3>
+                        <h3 className="sidebar-title">
                             {I18n.t('js.tag.common.list')}
                         </h3>
 

@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import pasteManager from '../modules/pasteManager';
+import matchMedia from '../modules/matchMedia';
 
 import UserManager from './managers/user';
 
@@ -16,6 +17,7 @@ import SidebarLayout from './sidebar';
 import FooterLayout from './footer';
 
 @pasteManager
+@matchMedia
 export default class MainLayout extends React.Component {
     static propTypes = {
         routes: PropTypes.object.isRequired,
@@ -23,7 +25,9 @@ export default class MainLayout extends React.Component {
         component: PropTypes.func.isRequired,
         exact: PropTypes.bool,
         // From pasteManager
-        onPaste: PropTypes.func
+        onPaste: PropTypes.func,
+        // From matchMedia
+        isMediumScreen: PropTypes.bool
     };
 
     static defaultProps = {
@@ -59,7 +63,7 @@ export default class MainLayout extends React.Component {
     }
 
     state = {
-        isSidebarOpened: true
+        isSidebarOpened: !this.props.isMediumScreen
     };
 
     _handleSidebarPinClick = (isPinned) => {
@@ -127,7 +131,8 @@ export default class MainLayout extends React.Component {
                                <div className="blog-content">
                                    <ErrorBoundary errorType="text"
                                                   errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                       <HeaderLayout hasSearch={hasSearch}
+                                       <HeaderLayout history={router.history}
+                                                     hasSearch={hasSearch}
                                                      onSearchOpen={this._handleSearchOpen}
                                                      onSearchClose={this._handleSearchClose}>
                                            {
@@ -139,6 +144,7 @@ export default class MainLayout extends React.Component {
                                    <ErrorBoundary errorType="text"
                                                   className="sidebar sidebar-pin">
                                        <SidebarLayout params={router.match.params}
+                                                      isDefaultOpened={!this.props.isMediumScreen}
                                                       onOpened={this._handleSidebarPinClick}/>
                                    </ErrorBoundary>
 

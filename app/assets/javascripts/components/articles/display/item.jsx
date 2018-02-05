@@ -1,15 +1,23 @@
 'use strict';
 
 import {
-    editArticle
+    inlineEditArticle
 } from '../../../actions';
+
+import {
+    getArticleIsOwner,
+    getArticleIsOutdated
+} from '../../../selectors';
 
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
-import ArticleEditionDisplay from './inlineEdition';
+import ArticleInlineEditionDisplay from './inlineEdition';
 
-@connect(null, {
-    editArticle: editArticle
+@connect((state, props) => ({
+    isOwner: getArticleIsOwner(state, props.article),
+    isOutdated: getArticleIsOutdated(props.article)
+}), {
+    inlineEditArticle
 })
 export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
@@ -17,38 +25,22 @@ export default class ArticleItemDisplay extends React.Component {
         articleDisplayMode: PropTypes.string.isRequired,
         articleEditionId: PropTypes.number,
         // From connect
-        editArticle: PropTypes.func
+        isOwner: PropTypes.bool,
+        isOutdated: PropTypes.bool,
+        inlineEditArticle: PropTypes.func
     };
 
     constructor(props) {
         super(props);
     }
 
-    componentDidMount() {
-        // TODO : use spy methods
-        // Tracker.trackViews($(ReactDOM.findDOMNode(this)), () => {
-        //     ArticleActions.trackView(this.props.article.id);
-        //     if (this.props.article.user) {
-        //         UserActions.trackView(this.props.article.user.id);
-        //     }
-        //
-        //     if (this.props.article.tags.length > 0) {
-        //         TagActions.trackView(_.map(this.props.article.tags, 'id'));
-        //     }
-        // });
-    }
+    _handleInlineEditClick = () => {
+        this.props.inlineEditArticle(this.props.article.id);
+    };
 
     _handleBookmarkClick = (article, isBookmarked) => {
         // TODO
         // ArticleActions.bookmarkArticle({article: article, isBookmarked: isBookmarked});
-    };
-
-    _handleEditClick = () => {
-        this.props.editArticle(this.props.article.id);
-
-        setTimeout(() => {
-            $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
-        }, 300);
     };
 
     _handleVisibilityClick = (article) => {
@@ -58,19 +50,25 @@ export default class ArticleItemDisplay extends React.Component {
     render() {
         if (this.props.articleDisplayMode === 'edit' || this.props.articleEditionId === this.props.article.id) {
             return (
-                <ArticleEditionDisplay article={this.props.article}/>
+                <ArticleInlineEditionDisplay article={this.props.article}
+                                             isOwner={this.props.isOwner}/>
             );
         } else if (this.props.articleDisplayMode === 'inline') {
             return (
-                <ArticleInlineDisplay title={this.props.article.title}
+                <ArticleInlineDisplay id={this.props.article.id}
+                                      title={this.props.article.title}
                                       content={this.props.article.content}
-                                      onEdit={this._handleEditClick}/>
+                                      slug={this.props.article.slug}
+                                      isOwner={this.props.isOwner}
+                                      onInlineEdit={this._handleInlineEditClick}/>
             );
         } else if (this.props.articleDisplayMode === 'card') {
             return (
                 <ArticleCardDisplay article={this.props.article}
+                                    isOwner={this.props.isOwner}
+                                    isOutdated={this.props.isOutdated}
                                     onBookmarkClick={this._handleBookmarkClick}
-                                    onEdit={this._handleEditClick}
+                                    onInlineEdit={this._handleInlineEditClick}
                                     onVisibilityClick={this._handleVisibilityClick}/>
             );
         } else {

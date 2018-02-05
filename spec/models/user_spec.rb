@@ -389,6 +389,7 @@ RSpec.describe User, type: :model, basic: true do
       it { expect(User.as_json(@user)[:user]).to be_a(Hash) }
       it { expect(User.as_json([@user])).to be_a(Hash) }
       it { expect(User.as_json([@user])[:users]).to be_a(Array) }
+      it { expect(User.as_json([@user], sample: true)[:users]).to be_a(Array) }
     end
 
     describe '::as_flat_json' do

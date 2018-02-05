@@ -34,9 +34,9 @@
   }
 
   a {
-    border: 1px solid rgba(0, 0, 0, .15);
+    border: 1px solid $border-dark-color;
     border-radius: 3px;
-    color: #444;
+    color: $text-color;
     display: inline-block;
     font-family: inherit;
     font-size: 14px;
@@ -56,8 +56,8 @@
   }
 
   .bookmark-icon {
-    background-color: #fffffa;
-    border: 1px solid #edeaea;
+    background-color: $background-color;
+    border: 1px solid $border-color;
     border-radius: 50%;
     color: $secondary-color;
     font-size: 1.3rem;

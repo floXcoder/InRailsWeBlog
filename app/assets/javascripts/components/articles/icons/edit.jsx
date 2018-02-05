@@ -1,28 +1,22 @@
 'use strict';
 
-const ArticleEditIcon = ({onEdit, isOwner}) => {
-    if (!isOwner) {
-        return null;
-    }
+import {
+    Link
+} from 'react-router-dom';
 
-    return (
-        <a className="btn-floating article-edit tooltipped"
-           data-tooltip={I18n.t('js.article.tooltip.edit')}
-           onClick={onEdit}>
-                <span className="material-icons"
-                      data-icon="mode_edit"
-                      aria-hidden="true"/>
-        </a>
-    );
-};
+const ArticleEditIcon = ({articleSlug, onEdit}) => (
+    <Link className="article-edit tooltipped"
+          data-tooltip={I18n.t('js.article.tooltip.edit')}
+          to={`/article/${articleSlug}/edit`}>
+            <span className="material-icons"
+                  data-icon="mode_edit"
+                  aria-hidden="true"/>
+    </Link>
+);
 
 ArticleEditIcon.propTypes = {
-    onEdit: PropTypes.func,
-    isOwner: PropTypes.bool
-};
-
-ArticleEditIcon.defaultProps = {
-    isOwner: false
+    articleSlug: PropTypes.string.isRequired,
+    onEdit: PropTypes.func
 };
 
 export default ArticleEditIcon;

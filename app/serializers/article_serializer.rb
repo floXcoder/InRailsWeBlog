@@ -39,13 +39,14 @@ class ArticleSerializer < ActiveModel::Serializer
              :summary,
              :content,
              :reference,
-             :updated_at,
+             :date,
+             :date_short,
              :visibility,
              :visibility_translated,
              :allow_comment,
              :draft,
              :current_language,
-             :bookmarked,
+             # :bookmarked,
              # :outdated,
              :slug,
              # :votes_up,
@@ -66,8 +67,12 @@ class ArticleSerializer < ActiveModel::Serializer
     object.adapted_content(current_user_id)
   end
 
-  def updated_at
-    I18n.l(object.updated_at, format: :custom).mb_chars.downcase.to_s
+  def date
+    I18n.l(object.updated_at, format: :custom_full_date).sub(/^[0]+/, '')
+  end
+
+  def date_short
+    I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
   end
 
   def visibility_translated
@@ -126,7 +131,6 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def new_tag_ids
     instance_options[:new_tags].map(&:id) if instance_options[:new_tags].present?
-    # TagSampleSerializer.new(tag).attributes
   end
 end
 

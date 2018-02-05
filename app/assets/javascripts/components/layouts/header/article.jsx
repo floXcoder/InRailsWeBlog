@@ -10,7 +10,7 @@ import {
 
 const HomeArticleHeader = () => {
     const button = (
-        <a className="btn-floating waves-effect waves-light header-button topic-header-button">
+        <a className="btn-floating waves-effect waves-light header-button">
             <span className="material-icons"
                   data-icon="add"
                   aria-hidden="true"/>
@@ -62,10 +62,10 @@ const HomeArticleHeader = () => {
         <div>
             <Popup trigger={button}
                    content={popup}
-                   on='click'
+                   on="click"
                    hideOnScroll={true}
                    flowing={true}
-                   position='bottom center'/>
+                   position="bottom center"/>
         </div>
     );
 };

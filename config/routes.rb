@@ -53,7 +53,7 @@ Rails.application.routes.draw do
   # Users
   resources :users, except: [:new, :create, :destroy] do
     collection do
-      get :validation,        to: 'users#validation'
+      get :validation,         to: 'users#validation'
     end
 
     member do
@@ -69,12 +69,6 @@ Rails.application.routes.draw do
       concerns :tracker,       module: :users
     end
 
-    resources :topics, controller: 'users/topics' do
-      collection do
-        post :switch,          to: 'users/topics#switch'
-      end
-    end
-
     resources :bookmarks, controller: 'users/bookmarks', only: [:create, :destroy]
 
     resources :settings, controller: 'users/settings', only: [:index] do
@@ -86,6 +80,17 @@ Rails.application.routes.draw do
 
   # Users (activities)
   resources :activities, only: [:index]
+
+  # Topics
+  resources :topics do
+    collection do
+      post :switch,        to: 'topics#switch'
+    end
+
+    member do
+      concerns :tracker,   module: :tags
+    end
+  end
 
   # Articles
   resources :articles do

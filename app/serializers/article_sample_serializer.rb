@@ -12,7 +12,7 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :draft,
              :visibility,
              :current_language,
-             :updated_at,
+             :date_short,
              :link,
              :slug,
              :outdated_articles_count,
@@ -37,8 +37,8 @@ class ArticleSampleSerializer < ActiveModel::Serializer
     object.try(:search_highlights) && object.try(:search_highlights)[:content] ? object.search_highlights[:content] : object.summary_content
   end
 
-  def updated_at
-    I18n.l(object.updated_at, format: :custom).mb_chars.downcase.to_s
+  def date_short
+    I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
   end
 
   def outdated_articles_count

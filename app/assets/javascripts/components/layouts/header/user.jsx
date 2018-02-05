@@ -10,7 +10,7 @@ import {
 
 const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopup, onLoginClick, onSignupClick, userSlug}) => {
     const button = (
-        <a className="btn-floating waves-effect waves-light header-button topic-header-button">
+        <a className="btn-floating waves-effect waves-light header-button">
             <span className="material-icons left"
                   data-icon="account_circle"
                   aria-hidden="true"/>
@@ -19,12 +19,6 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopu
 
     const popup = (
         <ul className="collection">
-            <li className="collection-item">
-                <span className="title">
-                    {I18n.t('js.views.header.user.profile')}
-                </span>
-            </li>
-
             {
                 isAdminConnected &&
                 <li className="collection-item">
@@ -79,13 +73,13 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopu
     return (
         <Popup trigger={button}
                content={popup}
-               on='click'
+               on="click"
                open={isOpened}
                onClose={onUserPopup}
                onOpen={onUserPopup}
                hideOnScroll={true}
                flowing={true}
-               position='bottom center'/>
+               position="bottom center"/>
     );
 };
 

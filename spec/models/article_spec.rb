@@ -318,11 +318,20 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '::from_user' do
       it { is_expected.to respond_to(:from_user) }
-      it { expect(Article.from_user(@user.id)).to include(@article) }
-      it { expect(Article.from_user(@user.id)).not_to include(other_article) }
-      it { expect(Article.from_user(@user.id)).not_to include(private_article) }
-      it { expect(Article.from_user(@user.id, @user.id)).to include(@article, private_article) }
-      it { expect(Article.from_user(@user.id, @user.id)).not_to include(other_article) }
+      it { expect(Article.from_user(@user.slug)).to include(@article) }
+      it { expect(Article.from_user(@user.slug)).not_to include(other_article) }
+      it { expect(Article.from_user(@user.slug)).not_to include(private_article) }
+      it { expect(Article.from_user(@user.slug, @user.id)).to include(@article, private_article) }
+      it { expect(Article.from_user(@user.slug, @user.id)).not_to include(other_article) }
+    end
+
+    describe '::from_user_id' do
+      it { is_expected.to respond_to(:from_user_id) }
+      it { expect(Article.from_user_id(@user.id)).to include(@article) }
+      it { expect(Article.from_user_id(@user.id)).not_to include(other_article) }
+      it { expect(Article.from_user_id(@user.id)).not_to include(private_article) }
+      it { expect(Article.from_user_id(@user.id, @user.id)).to include(@article, private_article) }
+      it { expect(Article.from_user_id(@user.id, @user.id)).not_to include(other_article) }
     end
 
     describe '::from_topic' do
@@ -477,6 +486,8 @@ RSpec.describe Article, type: :model, basic: true do
       it { expect(Article.as_json(@article)[:article]).to be_a(Hash) }
       it { expect(Article.as_json([@article])).to be_a(Hash) }
       it { expect(Article.as_json([@article])[:articles]).to be_a(Array) }
+      it { expect(Article.as_json([@article], strict: true)[:articles]).to be_a(Array) }
+      it { expect(Article.as_json([@article], sample: true)[:articles]).to be_a(Array) }
     end
 
     describe '::as_flat_json' do

@@ -8,7 +8,7 @@ import {
 
 const HomePreferenceHeader = ({}) => {
     const button = (
-        <a className="btn-floating waves-effect waves-light header-button topic-header-button">
+        <a className="btn-floating waves-effect waves-light header-button">
             <span className="material-icons left"
                   data-icon="settings_applications"
                   aria-hidden="true"/>
@@ -35,10 +35,10 @@ const HomePreferenceHeader = ({}) => {
         <div>
             <Popup trigger={button}
                    content={popup}
-                   on='click'
+                   on="click"
                    hideOnScroll={true}
                    flowing={true}
-                   position='bottom center'/>
+                   position="bottom center"/>
         </div>
     );
 };

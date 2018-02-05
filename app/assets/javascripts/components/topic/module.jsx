@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    Link
-} from 'react-router-dom';
-
-import {
     addTopic,
     switchTopic,
     switchTopicPopup,
@@ -32,6 +28,7 @@ import Submit from '../materialize/submit';
 })
 export default class TopicModule extends React.Component {
     static propTypes = {
+        history: PropTypes.object.isRequired,
         // From connect
         userId: PropTypes.number,
         userSlug: PropTypes.string,
@@ -46,18 +43,22 @@ export default class TopicModule extends React.Component {
     constructor(props) {
         super(props);
 
-        this._topicInput = null;
+        this._topicName = null;
+        this._topicVisibility = null;
     }
 
     state = {
         isAddingTopic: false
     };
 
-    _handleSwitchTopicClick = (newTopicId) => {
+    _handleSwitchTopicClick = (newTopicId, event) => {
+        event.preventDefault();
+
         spyTrackClick('topic', newTopicId);
 
         if (this.props.currentTopic.id !== newTopicId) {
             this.props.switchTopic(this.props.userId, newTopicId)
+                .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
                 .then(() => this.props.switchTopicPopup());
         }
     };
@@ -67,8 +68,8 @@ export default class TopicModule extends React.Component {
 
         ReactDOM.findDOMNode(this).scrollTo(0, 0);
 
-        if (this._topicInput) {
-            this._topicInput.focus();
+        if (this._topicName) {
+            this._topicName.focus();
         }
 
         this.setState({
@@ -79,10 +80,13 @@ export default class TopicModule extends React.Component {
     _handleTopicSubmit = (event) => {
         event.preventDefault();
 
-        if (this.state.isAddingTopic && this._topicInput) {
-            this.props.addTopic({
-                name: this._topicInput.value()
-            });
+        if (this.state.isAddingTopic && this._topicName) {
+            this.props.addTopic(this.props.userId, {
+                name: this._topicName.value(),
+                visibility: this._topicVisibility.value()
+            })
+                .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
+                .then(() => this.props.switchTopicPopup());
         }
     };
 
@@ -99,11 +103,12 @@ export default class TopicModule extends React.Component {
                             <form id="topic_edit"
                                   className="topic-form"
                                   onSubmit={this._handleTopicSubmit}>
-                                <Input ref={(topicInput) => this._topicInput = topicInput}
+                                <Input ref={(topicInput) => this._topicName = topicInput}
                                        id="topic_name"
                                        placeholder={I18n.t('js.topic.new.input')}/>
 
-                                <Select id="topic_visibility"
+                                <Select ref={(topicVisibility) => this._topicVisibility = topicVisibility}
+                                        id="topic_visibility"
                                         className="margin-top-15"
                                         title={I18n.t('js.topic.model.visibility')}
                                         default={I18n.t('js.topic.common.visibility')}
@@ -128,15 +133,16 @@ export default class TopicModule extends React.Component {
                 <div className="topics-list">
                     {
                         this.props.topics.map((topic) => (
-                            <Link key={topic.id}
-                                  to={`/user/${this.props.userSlug}/${topic.slug}`}
-                                  onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
+                            <a key={topic.id}
+                               href={`/user/${this.props.userSlug}/${topic.slug}`}
+                               onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
                                 <div className="topic-item">
-                                    <div className={classNames('topic-item-details', {'topic-item-current': topic.id === this.props.currentTopic.id})}>
+                                    <div
+                                        className={classNames('topic-item-details', {'topic-item-current': topic.id === this.props.currentTopic.id})}>
                                         {topic.name}
                                     </div>
                                 </div>
-                            </Link>
+                            </a>
                         ))
                     }
                 </div>

@@ -14,6 +14,8 @@ describe 'Article API', type: :request, basic: true do
     @relation_tags_article   = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[1], @tags[2]], child_tags: [@tags[3]])
     @relation_tags_article_2 = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[1], @tags[3]], child_tags: [@tags[2], @tags[4]])
 
+    @second_article = create(:article, user: @user, topic: @topic)
+
     @second_topic    = create(:topic, user: @user)
     @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me')
 
@@ -50,7 +52,18 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(3)
+        expect(json_articles['articles'].size).to eq(4)
+      end
+
+      it 'returns articles in summary format' do
+        get '/articles', params: { summary: true }, as: :json
+
+        expect(response).to be_json_response
+
+        json_articles = JSON.parse(response.body)
+
+        expect(json_articles['articles']).not_to be_empty
+        expect(json_articles['articles'].size).to eq(4)
       end
 
       it 'limits the number of articles' do
@@ -77,7 +90,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(4)
+        expect(json_articles['articles'].size).to eq(5)
       end
     end
 
@@ -89,7 +102,7 @@ describe 'Article API', type: :request, basic: true do
       it 'returns articles for topic' do
         get '/articles', params: { filter: { topic_id: @topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(3)
+        expect(json_articles['articles'].size).to eq(4)
 
         get '/articles', params: { filter: { topic_id: @second_topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
@@ -104,6 +117,16 @@ describe 'Article API', type: :request, basic: true do
         # get '/articles', params: { filter: { tag_slugs: [@tags[0].slug, @tags[1].slug] } }, as: :json
         # json_articles = JSON.parse(response.body)
         # expect(json_articles['articles'].size).to eq(3)
+      end
+
+      it 'returns articles for parent and child tags' do
+        get '/articles', params: { filter: { parent_tag_slug: @tags[0].slug, child_tag_slug: @tags[1].slug } }, as: :json
+        json_articles = JSON.parse(response.body)
+        expect(json_articles['articles']).to be_empty
+
+        get '/articles', params: { filter: { parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[3].slug } }, as: :json
+        json_articles = JSON.parse(response.body)
+        expect(json_articles['articles'].size).to eq(1)
       end
 
       it 'returns articles for parent tags' do
@@ -149,7 +172,7 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(4)
+        expect(json_articles['articles'].size).to eq(5)
       end
     end
   end
@@ -282,6 +305,35 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['topicId']).to eq(@second_topic.id)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
+      end
+
+      it 'returns a new article with reference url formatted' do
+        expect {
+          post '/articles', params: article_attributes.deep_merge(article: { reference: 'test.com' }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['reference']).to eq('http://test.com')
+        }.to change(Article, :count).by(1)
+      end
+
+      it 'returns a new article with relationships to other articles' do
+        expect {
+          post '/articles', params: article_attributes.deep_merge(article: { content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>." }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['content']).to match('data-article-relation-id')
+
+          relationships = Article.last.child_relationships.last
+          expect(relationships).not_to be nil
+          expect(relationships.parent_id).to eq(@private_article.id)
+          expect(relationships.child_id).to eq(article['article']['id'])
+        }.to change(Article, :count).by(1)
       end
 
       it 'returns a new article with new tags associated to the current topic' do
@@ -437,7 +489,7 @@ describe 'Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns the updated article' do
+      it 'returns updated article' do
         expect {
           put "/articles/#{@article.id}", params: updated_article_attributes, as: :json
 
@@ -448,6 +500,31 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']['title']).to eq(updated_article_attributes[:article][:title])
           expect(article['article']['tags'].size).to eq(3)
         }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
+      end
+
+      it 'returns updated article with new relationships' do
+        expect {
+          @article.format_attributes(content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.")
+          @article.save!
+          relationships = @article.child_relationships
+          expect(relationships.count).to eq(1)
+          expect(relationships.first.parent_id).to eq(@private_article.id)
+          expect(relationships.first.child_id).to eq(@article.id)
+
+          put "/articles/#{@article.id}", params: updated_article_attributes.deep_merge(article: { content: "link to another <a data-article-relation-id=#{@second_article.id}>article</a>." }), as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['content']).to match('data-article-relation-id')
+
+          @article.reload
+          relationships = @article.child_relationships
+          expect(relationships.count).to eq(1)
+          expect(relationships.first.parent_id).to eq(@second_article.id)
+          expect(relationships.first.child_id).to eq(article['article']['id'])
+        }.not_to change(Article, :count)
       end
 
       it 'returns updated article with new tags' do

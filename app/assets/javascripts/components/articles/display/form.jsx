@@ -52,6 +52,7 @@ export default class ArticleFormDisplay extends React.Component {
         id: PropTypes.string.isRequired,
         multipleId: PropTypes.number,
         isInline: PropTypes.bool,
+        isEditing: PropTypes.bool,
         children: PropTypes.object,
         hasModeSelection: PropTypes.bool,
         currentMode: PropTypes.string,
@@ -71,6 +72,7 @@ export default class ArticleFormDisplay extends React.Component {
 
     static defaultProps = {
         isInline: false,
+        isEditing: false,
         children: {},
         hasModeSelection: true,
         currentMode: 'story',
@@ -102,12 +104,9 @@ export default class ArticleFormDisplay extends React.Component {
     render() {
         return (
             <form id={this.props.id}
-                  className={classNames(
-                      'article-form', {
-                          'card': this.props.isInline
-                      })}
+                  className="article-form"
                   onSubmit={this.props.handleSubmit}>
-                <div className="">
+                <div className="card">
                     <h4 className="blog-form-title">
                         {I18n.t('js.article.new.title')}
                     </h4>
@@ -158,7 +157,7 @@ export default class ArticleFormDisplay extends React.Component {
                         <div className="row">
                             <div className="col s6 left-align">
                                 <Link className="btn-flat waves-effect waves-teal"
-                                      to={this.props.children ? `/article/${this.props.children.slug}` : '/'}>
+                                      to={this.props.isEditing ? `/article/${this.props.children.slug}` : '/'}>
                                     {I18n.t('js.helpers.buttons.cancel')}
                                 </Link>
                             </div>
@@ -168,7 +167,13 @@ export default class ArticleFormDisplay extends React.Component {
                                         icon="send"
                                         disabled={this.props.submitting}
                                         onSubmit={this.props.handleSubmit}>
-                                    {I18n.t('js.article.new.submit')}
+                                    {
+                                        this.props.isEditing
+                                            ?
+                                            I18n.t('js.article.edit.submit')
+                                            :
+                                            I18n.t('js.article.new.submit')
+                                    }
                                 </Submit>
                             </div>
                         </div>

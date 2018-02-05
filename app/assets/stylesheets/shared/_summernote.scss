@@ -52,8 +52,10 @@
   }
 }
 
-.note-editor.note-frame {
-  border: 0;
+.note-editor {
+  &.note-frame {
+    border: 0;
+  }
 }
 
 .note-toolbar,
@@ -78,6 +80,15 @@
 .note-toolbar {
   background-color: $background-color;
   text-align: center;
+}
+
+.note-popover {
+  .note-popover-content {
+    a {
+      display: block;
+      padding: 2px 0;
+    }
+  }
 }
 
 //.note-editor {

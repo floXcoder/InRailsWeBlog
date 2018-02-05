@@ -8,40 +8,33 @@ import {
     spyTrackClick
 } from '../../../actions';
 
-import {
-    getArticleIsOwner,
-    getArticleIsOutdated
-} from '../../../selectors';
-
 import highlight from '../../modules/highlight';
 
-import CountCommentIcon from '../../comments/icons/count';
 import ArticleActions from '../properties/actions';
 import ArticleTags from '../properties/tags';
 import ArticleTime from '../properties/time';
+import ArticleUserIcon from '../icons/user';
 
-import UserAvatarIcon from '../../users/icons/avatar';
+import CommentCountIcon from '../../comments/icons/count';
 
-import BookmarkIcon from '../../bookmark/icon';
+// TODO
+// import BookmarkIcon from '../../bookmark/icon';
 
-@connect((state, props) => ({
-    isOwner: getArticleIsOwner(state, props.article),
-    isOutdated: getArticleIsOutdated(props.article)
-}), {})
 @highlight
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        hasActions: PropTypes.bool,
-        onBookmarkClick: PropTypes.func,
-        onEdit: PropTypes.func,
-        onVisibilityClick: PropTypes.func,
-        // From connect
         isOwner: PropTypes.bool,
-        isOutdated: PropTypes.bool
+        isOutdated: PropTypes.bool,
+        hasActions: PropTypes.bool,
+        onInlineEdit: PropTypes.func,
+        onBookmarkClick: PropTypes.func,
+        onVisibilityClick: PropTypes.func
     };
 
     static defaultProps = {
+        isOwner: false,
+        isOutdated: false,
         hasActions: true
     };
 
@@ -50,66 +43,69 @@ export default class ArticleCardDisplay extends React.Component {
     }
 
     render() {
+        // TODO
+        // 'article-outdated': this.props.isOutdated
+
         return (
-            <div className={classNames(
-                'card', 'blog-article-item', 'clearfix', {
-                    'article-outdated': this.props.isOutdated
-                })}>
-                <div className="card-content">
-                    <div className="card-title article-title center clearfix">
-                        <h1 className="article-title-card">
-                            <Link to={`/article/${this.props.article.slug}`}
-                                  onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
+            <div className="article-item">
+                <div className="article-content">
+                    <div className="article-title">
+                        <Link to={`/article/${this.props.article.slug}`}
+                              onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
+                            <h2 className="title">
                                 {this.props.article.title}
-                            </Link>
-                        </h1>
+                            </h2>
+                        </Link>
 
-                        <UserAvatarIcon user={this.props.article.user}
-                                        className="article-user"/>
+                        <div className="blog-article-info">
+                            <ArticleUserIcon user={this.props.article.user}/>
 
-                        <BookmarkIcon bookmarkType="article"
-                                      bookmarkId={this.props.article.id}
-                                      bookmarkedId={this.props.article.bookmarked}
-                                      isIcon={true}/>
+                            <span className="blog-article-info-sep">|</span>
 
-                        <div className="article-info right-align">
-                            <ArticleTime lastUpdate={this.props.article.updatedAt}/>
+                            <ArticleTime articleDate={this.props.article.date}/>
 
-                            <CountCommentIcon linkToComment={`/articles/${this.props.article.slug}`}
-                                              commentsCount={this.props.article.commentsCount}/>
+                            <CommentCountIcon
+                                commentLink={`/article/${this.props.article.slug}#article-comments-${this.props.article.id}`}
+                                commentsCount={this.props.article.commentsCount}
+                                hasIcon={false}/>
                         </div>
                     </div>
 
                     <div className="blog-article-content"
                          dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+
+                    {
+                        this.props.article.tags.size > 0 &&
+                        <div className="blog-article-info">
+                            <ArticleTags articleId={this.props.article.id}
+                                         tags={this.props.article.tags}
+                                         parentTagIds={this.props.article.parentTagIds}
+                                         childTagIds={this.props.article.childTagIds}/>
+                        </div>
+                    }
+
+                    {
+                        this.props.isOwner &&
+                        <div className="article-actions">
+                            <div className="article-actions-text">
+                                {I18n.t('js.article.common.actions')}
+                            </div>
+
+                            <ArticleActions isInline={true}
+                                            articleId={this.props.article.id}
+                                            articleSlug={this.props.article.slug}
+                                            articleVisibility={this.props.article.visibility}/>
+                        </div>
+                    }
                 </div>
 
-                <div className="card-action article-action clearfix">
-                    <div className="row">
-                        {
-                            !!this.props.article.tags &&
-                            <div className="col s12 m12 l6 md-margin-bottom-20">
-                                <ArticleTags articleId={this.props.article.id}
-                                             tags={this.props.article.tags}
-                                             parentTagIds={this.props.article.parentTagIds}
-                                             childTagIds={this.props.article.childTagIds}/>
-                            </div>
-                        }
-
-                        {
-                            this.props.hasActions &&
-                            <div className="col s12 m12 l6 right-align">
-                                <ArticleActions articleId={this.props.article.id}
-                                                articleSlug={this.props.article.slug}
-                                                articleVisibility={this.props.article.visibility}
-                                                onEdit={this.props.onEdit}
-                                                onBookmarkClick={this.props.onBookmarkClick}
-                                                onVisibilityClick={this.props.onVisibilityClick}
-                                                isOwner={this.props.isOwner}/>
-                            </div>
-                        }
-                    </div>
-                </div>
+                {
+                    // TODO
+                    // <BookmarkIcon bookmarkType="article"
+                    //               bookmarkId={this.props.article.id}
+                    //               bookmarkedId={this.props.article.bookmarked}
+                    //               isIcon={true}/>
+                }
             </div>
         );
     }

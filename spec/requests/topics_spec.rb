@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'User Topic API', type: :request, basic: true do
+describe 'Topic API', type: :request, basic: true do
 
   before(:all) do
     @user       = create(:user)
@@ -31,10 +31,10 @@ describe 'User Topic API', type: :request, basic: true do
     }
   }
 
-  describe '/users/:user_id/topics' do
+  describe '/topics' do
     context 'when not connected with no parameters' do
       it 'returns all public topics for current user' do
-        get "/users/#{@user.id}/topics", as: :json
+        get '/topics', params: { user_id: @user.id }, as: :json
 
         expect(response).to be_json_response
 
@@ -50,7 +50,7 @@ describe 'User Topic API', type: :request, basic: true do
       end
 
       it 'returns all public and private topics for current user' do
-        get "/users/#{@user.id}/topics", as: :json
+        get '/topics', params: { user_id: @user.id }, as: :json
 
         expect(response).to be_json_response
 
@@ -66,7 +66,7 @@ describe 'User Topic API', type: :request, basic: true do
       end
 
       it 'returns bookmarked topics for current user' do
-        get "/users/#{@user.id}/topics", params: { filter: { bookmarked: true } }, as: :json
+        get '/topics', params: { user_id: @user.id, filter: { bookmarked: true } }, as: :json
         json_topics = JSON.parse(response.body)
         expect(json_topics['topics']).to be_empty
       end
@@ -78,7 +78,7 @@ describe 'User Topic API', type: :request, basic: true do
       end
 
       it 'returns all topics for current user' do
-        get "/users/#{@user.id}/topics", as: :json
+        get '/topics', params: { user_id: @user.id }, as: :json
 
         json_topics = JSON.parse(response.body)
         expect(json_topics['topics']).not_to be_empty
@@ -87,10 +87,10 @@ describe 'User Topic API', type: :request, basic: true do
     end
   end
 
-  describe '/users/:user_id/topics/switch' do
+  describe '/topics/switch' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/users/#{@user.id}/topics/switch", as: :json
+        post '/topics/switch', params: { user_id: @user.id }, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -102,7 +102,7 @@ describe 'User Topic API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        post "/users/#{@user.id}/topics/switch", params: { new_topic_id: @first_topic.id }, as: :json
+        post '/topics/switch', params: { user_id: @user.id, new_topic_id: @first_topic.id }, as: :json
 
         expect(response).to be_unauthorized
       end
@@ -114,7 +114,7 @@ describe 'User Topic API', type: :request, basic: true do
       end
 
       it 'returns the new topic' do
-        post "/users/#{@user.id}/topics/switch", params: { new_topic_id: @first_topic.id }, as: :json
+        post '/topics/switch', params: { user_id: @user.id, new_topic_id: @first_topic.id }, as: :json
 
         expect(response).to be_json_response
 
@@ -125,10 +125,10 @@ describe 'User Topic API', type: :request, basic: true do
     end
   end
 
-  describe '/users/:user_id/topics/:id' do
+  describe '/topics/:id' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        get "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+        get "/topics/#{@first_topic.id}", params: { user_id: @user.id }, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -140,7 +140,7 @@ describe 'User Topic API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        get "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+        get "/topics/#{@first_topic.id}", params: { user_id: @user.id }, as: :json
 
         expect(response).to be_unauthorized
       end
@@ -152,7 +152,7 @@ describe 'User Topic API', type: :request, basic: true do
       end
 
       it 'returns the new topic' do
-        get "/users/#{@user.id}/topics/#{@first_topic.id}", as: :json
+        get "/topics/#{@first_topic.id}", params: { user_id: @user.id }, as: :json
 
         expect(response).to be_json_response
 
@@ -163,10 +163,10 @@ describe 'User Topic API', type: :request, basic: true do
     end
   end
 
-  describe '/users/:user_id/topics (POST)' do
+  describe '/topics (POST)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/users/#{@user.id}/topics", params: topic_attributes, as: :json
+        post '/topics', params: topic_attributes, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -179,7 +179,7 @@ describe 'User Topic API', type: :request, basic: true do
 
       it 'returns a new topic and switch to this topic' do
         expect {
-          post "/users/#{@user.id}/topics", params: topic_attributes, as: :json
+          post '/topics', params: topic_attributes.merge(user_id: @user.id), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -202,7 +202,7 @@ describe 'User Topic API', type: :request, basic: true do
         previous_topic_id = @user.reload.current_topic_id
 
         expect {
-          post "/users/#{@user.id}/topics", params: topic_error_attributes, as: :json
+          post '/topics', params: topic_error_attributes.merge(user_id: @user.id), as: :json
 
           expect(response).to be_json_response(403)
 
@@ -215,10 +215,10 @@ describe 'User Topic API', type: :request, basic: true do
     end
   end
 
-  describe '/users/:user_id/topics (PUT)' do
+  describe '/topics (PUT)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        put "/users/#{@user.id}/topics/#{@first_topic.id}", params: updated_topic_attributes, as: :json
+        put "/topics/#{@first_topic.id}", params: updated_topic_attributes.merge(user_id: @user.id), as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -231,7 +231,7 @@ describe 'User Topic API', type: :request, basic: true do
 
       it 'returns the updated topic' do
         expect {
-          put "/users/#{@user.id}/topics/#{@first_topic.id}", params: updated_topic_attributes, as: :json
+          put "/topics/#{@first_topic.id}", params: updated_topic_attributes.merge(user_id: @user.id), as: :json
 
           expect(response).to be_json_response
 
@@ -249,7 +249,7 @@ describe 'User Topic API', type: :request, basic: true do
 
         it 'returns the errors' do
           expect {
-            put "/users/#{@user.id}/topics/#{@first_topic.id}", params: topic_error_attributes, as: :json
+            put "/topics/#{@first_topic.id}", params: topic_error_attributes.merge(user_id: @user.id), as: :json
 
             expect(response).to be_json_response(403)
 
@@ -264,7 +264,7 @@ describe 'User Topic API', type: :request, basic: true do
   describe '/topics/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/users/#{@user.id}/topics/#{@first_topic.id}", headers: @json_header
+        delete "/topics/#{@first_topic.id}", headers: @json_header, params: { user_id: @user.id }
 
         expect(response).to be_unauthenticated
       end
@@ -279,7 +279,7 @@ describe 'User Topic API', type: :request, basic: true do
 
       it 'returns the soft deleted topic id' do
         expect {
-          delete "/users/#{@user.id}/topics/#{@first_topic.id}", headers: @json_header
+          delete "/topics/#{@first_topic.id}", headers: @json_header, params: { user_id: @user.id }
 
           expect(response).to be_json_response(204)
         }.to change(Topic, :count).by(-1).and change(Article, :count).by(-5).and change(TaggedArticle, :count).by(0).and change(TagRelationship, :count).by(0)

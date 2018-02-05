@@ -1,13 +1,29 @@
 'use strict';
 
+import {
+    Link
+} from 'react-router-dom';
+
 import highlight from '../../modules/highlight';
+
+import {
+    spyTrackClick
+} from '../../../actions';
 
 @highlight
 export default class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
+        id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired,
-        onEdit: PropTypes.func.isRequired
+        slug: PropTypes.string.isRequired,
+        isOwner: PropTypes.bool,
+        onInlineEdit: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isOwner: false,
+        isOutdated: false
     };
 
     constructor(props) {
@@ -15,40 +31,65 @@ export default class ArticleInlineDisplay extends React.PureComponent {
     }
 
     state = {
-        isHover: false
+        isOver: false
     };
 
     _handleHoverEdit = () => {
         this.setState({
-            isHover: !this.state.isHover
+            isOver: !this.state.isOver
         })
     };
 
     render() {
         return (
             <div className={classNames(
-                'blog-article-item', {
-                'blog-article-item-hover': this.state.isHover
-            })}>
-                <h4 className="article-title-inline">
-                    {this.props.title}
-                </h4>
+                'article-inline-item', {
+                    'article-inline-item-over': this.state.isOver
+                })}>
+                <div className="article-inline-content">
+                    {
+                        this.props.title &&
+                        <div className="article-inline-title">
+                            <Link to={`/article/${this.props.slug}`}
+                                  onClick={spyTrackClick.bind(null, 'article', this.props.id)}>
+                                <h2 className="title">
+                                    {this.props.title}
+                                </h2>
+                            </Link>
+                        </div>
+                    }
 
-                <span className="blog-article-content"
-                      dangerouslySetInnerHTML={{__html: this.props.content}}/>
-
-                <div className="article-inline-edit tooltip-bottom"
-                     data-tooltip="Modifier l'article"
-                     onMouseEnter={this._handleHoverEdit}
-                     onMouseLeave={this._handleHoverEdit}>
-                    <a className="btn waves-effect waves-light"
-                       href="#"
-                       onClick={this.props.onEdit}>
-                        <span className="material-icons"
-                              data-icon="edit"
-                              aria-hidden="true"/>
-                    </a>
+                    <div className="blog-article-content"
+                         dangerouslySetInnerHTML={{__html: this.props.content}}/>
                 </div>
+
+                <ul className="article-inline-actions">
+                    <li className="action-inline-item">
+                        <Link className="article-link tooltipped"
+                              to={`/article/${this.props.slug}`}
+                              data-tooltip={I18n.t('js.article.tooltip.link_to')}
+                              onClick={spyTrackClick.bind(null, 'article', this.props.id)}>
+                                <span className="material-icons"
+                                      data-icon="open_in_new"
+                                      aria-hidden="true"/>
+                        </Link>
+                    </li>
+
+                    {
+                        this.props.isOwner &&
+                        <li className="action-inline-item">
+                            <a className="article-edit tooltipped"
+                               data-tooltip={I18n.t('js.article.tooltip.edit')}
+                               onMouseEnter={this._handleHoverEdit}
+                               onMouseLeave={this._handleHoverEdit}
+                               onClick={this.props.onInlineEdit}>
+                                    <span className="material-icons"
+                                          data-icon="edit"
+                                          aria-hidden="true"/>
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         );
     }

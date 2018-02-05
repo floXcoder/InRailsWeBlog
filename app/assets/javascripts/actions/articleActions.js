@@ -30,7 +30,7 @@ export const addArticle = (article, options = {}) => ({
     })
 });
 
-export const editArticle = (articleId) => ({
+export const inlineEditArticle = (articleId) => ({
     type: ActionTypes.ARTICLE_EDITION,
     articleId
 });

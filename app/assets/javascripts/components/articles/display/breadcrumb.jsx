@@ -31,6 +31,10 @@ const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
                   content="2"/>
         </li>
         {
+            article && article.title &&
+            '>'
+        }
+        {
             article &&
             <li className="article-breadcrumb-item"
                 itemType="http://schema.org/ListItem"

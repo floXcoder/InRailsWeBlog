@@ -56,7 +56,7 @@ export default class ArticleIndex extends React.Component {
     _filterParams = (params = {}) => {
         return {
             userId: params.userCurrentId || this.props.userCurrentId,
-            topicId: params.topicCurrentId || this.props.userCurrentId,
+            topicId: params.topicCurrentId || this.props.topicCurrentId,
             ...params
         };
     };

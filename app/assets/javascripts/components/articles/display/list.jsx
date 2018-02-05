@@ -30,58 +30,34 @@ const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, a
     );
 
     return (
-        <div className="row">
-            <div className="col s12">
-                {
-                    articleDisplayMode === 'inline' &&
-                    <div className="card-panel">
-                        <div className="blog-article-list">
-                            {
-                                articlesLoaderMode === 'infinite'
-                                    ?
-                                    <InfiniteScroll next={fetchArticles}
-                                                    hasMore={hasMoreArticles}
-                                                    loader={LoadingArticles}>
-                                        <TransitionGroup component="div">
-                                            {ArticleNodes}
-                                        </TransitionGroup>
-                                    </InfiniteScroll>
-                                    :
-                                    <TransitionGroup component="div">
-                                        {ArticleNodes}
-                                    </TransitionGroup>
-                            }
-                        </div>
-                    </div>
-                }
-
-                {
-                    articleDisplayMode === 'card' &&
-                    <div className="blog-article-list">
-                        {
-                            articlesLoaderMode === 'infinite'
-                                ?
-                                <InfiniteScroll next={fetchArticles}
-                                                hasMore={hasMoreArticles}
-                                                loader={LoadingArticles}>
-                                    <TransitionGroup component="div">
-                                        {ArticleNodes}
-                                    </TransitionGroup>
-                                </InfiniteScroll>
-                                :
+        <div>
+            <div className={classNames({
+                'card-panel': articleDisplayMode === 'inline'
+            })}>
+                <div className="blog-article-list">
+                    {
+                        articlesLoaderMode === 'infinite'
+                            ?
+                            <InfiniteScroll next={fetchArticles}
+                                            hasMore={hasMoreArticles}
+                                            loader={LoadingArticles}>
                                 <TransitionGroup component="div">
                                     {ArticleNodes}
                                 </TransitionGroup>
-                        }
-                    </div>
-                }
-
-                {
-                    articlesLoaderMode === 'pagination' &&
-                    <Pagination totalPages={articleTotalPages}
-                                onPaginationClick={fetchArticles}/>
-                }
+                            </InfiniteScroll>
+                            :
+                            <TransitionGroup component="div">
+                                {ArticleNodes}
+                            </TransitionGroup>
+                    }
+                </div>
             </div>
+
+            {
+                articlesLoaderMode === 'pagination' &&
+                <Pagination totalPages={articleTotalPages}
+                            onPaginationClick={fetchArticles}/>
+            }
         </div>
     );
 };

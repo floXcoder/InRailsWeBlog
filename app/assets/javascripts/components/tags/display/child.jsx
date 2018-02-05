@@ -8,19 +8,22 @@ import {
     spyTrackClick
 } from '../../../actions';
 
-const ChildTag = ({tag, parentTagSlug}) => (
-    <NavLink className="tag-child"
+const ChildTag = ({tag, parentTagSlug, isExpanded}) => (
+    <NavLink className={classNames('tag-child', {
+        'tag-child-display': isExpanded
+    })}
              to={`/tagged/${parentTagSlug}/${tag.slug}`}
              onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
-        <div className="tag-child-name">
+        <span className="tag-child-name">
             {tag.name}
-        </div>
+        </span>
     </NavLink>
 );
 
 ChildTag.propTypes = {
     tag: PropTypes.object.isRequired,
-    parentTagSlug: PropTypes.string.isRequired
+    parentTagSlug: PropTypes.string.isRequired,
+    isExpanded: PropTypes.bool.isRequired
 };
 
 export default ChildTag;

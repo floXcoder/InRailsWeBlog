@@ -271,6 +271,22 @@ RSpec.describe Topic, type: :model, basic: true do
       it { is_expected.to respond_to(:order_by) }
       it { expect(Topic.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
     end
+
+    describe '::as_json' do
+      it { is_expected.to respond_to(:as_json) }
+      it { expect(Topic.as_json(@topic)).to be_a(Hash) }
+      it { expect(Topic.as_json(@topic)[:topic]).to be_a(Hash) }
+      it { expect(Topic.as_json([@topic])).to be_a(Hash) }
+      it { expect(Topic.as_json([@topic])[:topics]).to be_a(Array) }
+      it { expect(Topic.as_json([@topic], strict: true)[:topics]).to be_a(Array) }
+      it { expect(Topic.as_json([@topic], sample: true)[:topics]).to be_a(Array) }
+    end
+
+    describe '::as_flat_json' do
+      it { is_expected.to respond_to(:as_flat_json) }
+      it { expect(Topic.as_flat_json(@topic)).to be_a(Hash) }
+      it { expect(Topic.as_flat_json([@topic])).to be_a(Array) }
+    end
   end
 
   context 'Instance Methods' do

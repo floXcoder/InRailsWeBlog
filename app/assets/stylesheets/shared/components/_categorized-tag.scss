@@ -10,7 +10,7 @@ $primary: #4c66be;
     font-size: 14px;
     font-weight: normal;
     position: relative;
-    width: 330px;
+    //width: 330px;
     //width: 100%;
   }
 
@@ -79,7 +79,7 @@ $primary: #4c66be;
   }
 
   .cti__tag__content--match {
-    color: $selection-color;
+    color: $text-color;
     font-weight: bold;
   }
 

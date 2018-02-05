@@ -3,7 +3,12 @@
 export default class Sidebar extends React.PureComponent {
     static propTypes = {
         onOpened: PropTypes.func.isRequired,
-        children: PropTypes.object.isRequired
+        children: PropTypes.object.isRequired,
+        isDefaultOpened: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isDefaultOpened: true
     };
 
     constructor(props) {
@@ -11,7 +16,7 @@ export default class Sidebar extends React.PureComponent {
     }
 
     state = {
-        isPinned: true
+        isPinned: this.props.isDefaultOpened
     };
 
     _toggleSidebar = () => {
@@ -41,28 +46,28 @@ export default class Sidebar extends React.PureComponent {
             <div className={classNames('sidebar', {'sidebar-pin': this.state.isPinned})}
                  onMouseEnter={this._handleMouseEnter}
                  onMouseLeave={this._handleMouseLeave}>
-                <div className={classNames('label', {'label-pin': this.state.isPinned})}>
+                <div className="sidebar-content">
+                    <div className={classNames('label', {'label-pin': this.state.isPinned})}>
                     <span className="material-icons"
                           data-icon="menu"
                           aria-hidden="true"/>
+                    </div>
+
+                    <p className="sidebar-pin-button"
+                       onClick={this._toggleSidebar}>
+                        <strong>
+                            {
+                                this.state.isPinned
+                                    ?
+                                    I18n.t('js.views.sidebar.pin')
+                                    :
+                                    I18n.t('js.views.sidebar.unpin')
+                            }
+                        </strong>
+                    </p>
+
+                    {React.Children.only(this.props.children)}
                 </div>
-
-                <p className="sidebar-pin-button"
-                   onClick={this._toggleSidebar}>
-                    <strong>
-                        {
-                            this.state.isPinned
-                            ?
-                                I18n.t('js.views.sidebar.pin')
-                            :
-                                I18n.t('js.views.sidebar.unpin')
-                        }
-                    </strong>
-                </p>
-
-                <br/>
-
-                {React.Children.only(this.props.children)}
             </div>
         );
     }
