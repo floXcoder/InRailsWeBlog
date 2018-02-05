@@ -1,7 +1,8 @@
 const gulp = require('gulp');
 const changed = require('gulp-changed');
 const gm = require('gulp-gm');
-const browserSync = require('browser-sync');
+// const browserSync = require('browser-sync');
+
 const config = require('../config').images;
 
 // Move pictures to public directory
@@ -14,5 +15,5 @@ gulp.task('images', () =>
             imageMagick: true
         }))
         .pipe(gulp.dest(config.dest))
-        .pipe(browserSync.reload({stream: true}))
+        // .pipe(browserSync.reload({stream: true}))
 );
