@@ -210,6 +210,7 @@ fr:
         list: "Tous les labels"
         associated: "Labels associés"
         filter: "Filtrer par labels ..."
+        no_tags: "Pas encore de tags pour ce topic"
         no_results: "Aucun label trouvé pour :"
         usage: "%{count} utilisations"
         link: "Voir le détail du label"

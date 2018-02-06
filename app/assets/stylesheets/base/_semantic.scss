@@ -52,3 +52,11 @@
 @import 'semantic-ui-css/components/tab';
 //@import 'semantic-ui-css/components/transition';
 //@import 'semantic-ui-css/components/video';
+
+
+// Override
+.ui.flowing.popup {
+  @media #{$small-and-down} {
+    text-align: left;
+  }
+}

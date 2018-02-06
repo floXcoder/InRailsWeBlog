@@ -2111,12 +2111,17 @@ function makeOffsetPath(ancestor, node) {
  */
 function fromOffsetPath(ancestor, offsets) {
     var current = ancestor;
+
     for (var i = 0, len = offsets.length; i < len; i++) {
         if (current.childNodes.length <= offsets[i]) {
-            current = current.childNodes[current.childNodes.length - 1];
+            if (current.childNodes[current.childNodes.length - 1]) {
+                current = current.childNodes[current.childNodes.length - 1];
+            }
         }
         else {
-            current = current.childNodes[offsets[i]];
+            if (current.childNodes[offsets[i]]) {
+                current = current.childNodes[offsets[i]];
+            }
         }
     }
     return current;

@@ -20,7 +20,7 @@ const asyncValidate = (values /*, dispatch */) => {
             validateUser(values.get('login')).then((response) => {
                 if (!response.success) {
                     throw {
-                        pseudo: I18n.t('js.user.errors.login.invalid')
+                        login: I18n.t('js.user.errors.login.invalid')
                     };
                 }
             })
@@ -33,7 +33,7 @@ const asyncValidate = (values /*, dispatch */) => {
 @reduxForm({
     form: 'login',
     asyncValidate,
-    asyncBlurFields: ['pseudo']
+    asyncBlurFields: ['login']
 })
 export default class LoginForm extends React.Component {
     static propTypes = {
@@ -109,7 +109,7 @@ export default class LoginForm extends React.Component {
                            component={CheckBoxField}/>
                 </div>
 
-                <div className="left">
+                <div className="left margin-bottom-20">
                     <a className="btn-flat waves-effect waves-spectra"
                        href="#"
                        onClick={this.props.onCancel}>

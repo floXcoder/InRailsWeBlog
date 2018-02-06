@@ -184,7 +184,7 @@ export default class SignupForm extends React.Component {
                            component={CheckBoxField}/>
                 </div>
 
-                <div className="left">
+                <div className="left margin-bottom-20">
                     <a className="btn-flat waves-effect waves-spectra"
                        href="#"
                        onClick={this.props.onCancel}>

@@ -15,6 +15,8 @@ import {
     getAutocompleteArticles
 } from '../../selectors';
 
+import Spinner from '../materialize/spinner';
+
 import SearchSelectedModule from './module/selected';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
@@ -57,7 +59,9 @@ export default class SearchModule extends React.Component {
     constructor(props) {
         super(props);
 
-        props.fetchUserRecents(this.props.currentUserId);
+        if (this.props.currentUserId) {
+            props.fetchUserRecents(this.props.currentUserId);
+        }
     }
 
     state = {
@@ -143,7 +147,10 @@ export default class SearchModule extends React.Component {
             query: this.props.query,
             tags: this.props.selectedTags.map((tag) => tag.id)
         })
-            .then(() => this.props.history.push('/research'));
+            .then(() => this.props.history.push({
+                pathname: '/research',
+                search: `?query=${this.props.query}`
+            }));
     };
 
     render() {
@@ -152,6 +159,13 @@ export default class SearchModule extends React.Component {
 
         return (
             <div className="search-module-results">
+                {
+                    this.props.isSearching &&
+                    <div className="search-module-searching">
+                        <Spinner size="big"/>
+                    </div>
+                }
+
                 <div className="search-module-container">
                     {
                         this.props.selectedTags.length > 0 &&

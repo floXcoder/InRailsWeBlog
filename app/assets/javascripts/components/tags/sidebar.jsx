@@ -73,14 +73,24 @@ export default class TagSidebar extends React.Component {
                         </SearchBar>
 
                         {
-                            this.props.tags.length > 0
-                                ?
-                                <TagRelationshipDisplay tags={this.props.tags}
-                                                        isFiltering={isFiltering}/>
-                                :
-                                <div>
-                                    {I18n.t('js.tag.common.no_results') + ' ' + this.props.filterText}
-                                </div>
+                            this.props.tags.length > 0 &&
+                            <TagRelationshipDisplay tags={this.props.tags}
+                                                    isFiltering={isFiltering}/>
+                        }
+
+                        {
+                            this.props.tags.length === 0 &&
+                            (
+                                this.props.filterText
+                                    ?
+                                    <div className="sidebar-empty">
+                                        {I18n.t('js.tag.common.no_results') + ' ' + this.props.filterText}
+                                    </div>
+                                    :
+                                    <div className="sidebar-empty">
+                                        {I18n.t('js.tag.common.no_tags')}
+                                    </div>
+                            )
                         }
                     </div>
                 }

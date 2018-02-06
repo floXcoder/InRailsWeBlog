@@ -210,6 +210,7 @@ en:
         list: "All tags"
         associated: "Associated tags"
         filter: "Filter by tags..."
+        no_tags: "Not tag yet for this topic"
         no_results: "No tags for:"
         usage: "%{count} use"
         link: "See tag details"

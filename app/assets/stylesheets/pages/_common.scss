@@ -306,7 +306,7 @@ html {
       text-align: left;
 
       &.filled {
-        display: inline;
+        display: inline-block;
       }
 
       &.with-icon {
@@ -314,9 +314,8 @@ html {
         width: calc(100% - 3rem);
       }
 
-      .field-error {
-
-      }
+      //.field-error {
+      //}
     }
 
     .input-horizontal-field .field-errors li {

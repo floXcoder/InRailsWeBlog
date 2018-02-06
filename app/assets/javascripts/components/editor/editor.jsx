@@ -84,14 +84,6 @@ export default class Editor extends React.Component {
                         nodeItem.innerHTML = `#${title}`;
                         return nodeItem;
                     }
-                },
-                keyMap: {
-                    pc: {
-                        'CTRL+ENTER': 'save',
-                    },
-                    mac: {
-                        'CMD+ENTER': 'undo',
-                    }
                 }
             };
 

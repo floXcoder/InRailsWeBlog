@@ -35,7 +35,7 @@ export default class SwitchButton extends React.Component {
     }
 
     state = {
-        isChecked: this.props.children === true || this.props.children === '1' || this.props.children === 'on' || this.props.isDefaultChecked
+        isChecked: this.props.children === true || this.props.children === '1' || this.props.children === 'on' || (this.props.children !== false && this.props.isDefaultChecked)
     };
 
     value = () => {

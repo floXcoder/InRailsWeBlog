@@ -30,10 +30,10 @@ const ArticleNone = ({topicSlug, isTopicPage, isSearchPage}) => (
                     }
 
                     {
-                        isTopicPage && topicSlug &&
+                        isTopicPage &&
                         <p>
                             {I18n.t('js.article.common.no_results.topic.content')}
-                            <Link to={`/topic/${topicSlug}/article/new`}
+                            <Link to={`/article/new`}
                                   className="btn waves-effect waves-light margin-top-20">
                                 {I18n.t('js.article.common.no_results.topic.button')}
                             </Link>

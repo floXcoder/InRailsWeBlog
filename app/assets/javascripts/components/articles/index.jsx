@@ -111,7 +111,9 @@ export default class ArticleIndex extends React.Component {
 
                 {
                     (this.props.articles.length === 0 && !this.props.isFetching) &&
-                    <ArticleNone topicSlug={this.props.params.topicSlug}/>
+                    <ArticleNone topicSlug={this.props.params.topicSlug}
+                                 isTopicPage={true}
+                                 isSearchPage={false}/>
                 }
             </div>
         );

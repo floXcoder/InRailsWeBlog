@@ -144,8 +144,11 @@ export default class ArticleShow extends React.Component {
 
                         <ArticleTime articleDate={this.props.article.date}/>
 
-                        <CommentCountIcon commentLink={`#article-comments-${this.props.article.id}`}
-                                          commentsCount={this.props.article.commentsCount}/>
+                        {
+                            this.props.article.visibility === 'everyone' &&
+                            <CommentCountIcon commentLink={`#article-comments-${this.props.article.id}`}
+                                              commentsCount={this.props.article.commentsCount}/>
+                        }
                     </div>
 
                     <div className="blog-article-content"

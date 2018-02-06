@@ -64,10 +64,13 @@ export default class ArticleCardDisplay extends React.Component {
 
                             <ArticleTime articleDate={this.props.article.date}/>
 
-                            <CommentCountIcon
-                                commentLink={`/article/${this.props.article.slug}#article-comments-${this.props.article.id}`}
-                                commentsCount={this.props.article.commentsCount}
-                                hasIcon={false}/>
+                            {
+                                this.props.article.visibility === 'everyone' &&
+                                <CommentCountIcon
+                                    commentLink={`/article/${this.props.article.slug}#article-comments-${this.props.article.id}`}
+                                    commentsCount={this.props.article.commentsCount}
+                                    hasIcon={false}/>
+                            }
                         </div>
                     </div>
 

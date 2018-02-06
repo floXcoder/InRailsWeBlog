@@ -44,7 +44,7 @@ const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility,
                        title={I18n.t('js.article.common.allow_comment.title')}
                        values={I18n.t('js.article.common.allow_comment')}
                        component={SwitchButtonField}
-                       componentContent={articleAllowComment}/>
+                       componentContent={typeof articleAllowComment === 'undefined' && defaultVisibility === 'only_me' ? false : articleAllowComment}/>
             </div>
         }
 
@@ -71,10 +71,6 @@ ArticleAdvancedField.propTypes = {
     articleVisibility: PropTypes.string,
     defaultVisibility: PropTypes.string,
     multipleId: PropTypes.number
-};
-
-ArticleAdvancedField.defaultProps = {
-    articleAllowComment: true
 };
 
 export default ArticleAdvancedField;

@@ -85,6 +85,14 @@ export default class ArticleNew extends React.Component {
 
         formatTagArticles(formData);
 
+        if (!formData.visibility && this.props.currentTopic.visibility === 'only_me') {
+            formData.visibility = 'only_me';
+        }
+
+        if (formData.visibility === 'only_me' && typeof formData.allow_comment === 'undefined') {
+            formData.allow_comment = false;
+        }
+
         this.props.addArticle(formData)
             .then((response) => {
                 if (response.article) {
