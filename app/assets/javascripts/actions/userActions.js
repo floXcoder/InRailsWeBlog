@@ -30,10 +30,10 @@ export const initUser = (userId, options = {}) => ({
     }
 });
 
-export const validateUser = (pseudo) => (
+export const validateUser = (login) => (
     api.get('/users/validation', {
         user: {
-            pseudo: pseudo
+            login
         }
     })
 );

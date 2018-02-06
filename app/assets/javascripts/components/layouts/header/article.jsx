@@ -61,11 +61,11 @@ const HomeArticleHeader = () => {
     return (
         <div>
             <Popup trigger={button}
-                   content={popup}
                    on="click"
                    hideOnScroll={true}
-                   flowing={true}
-                   position="bottom center"/>
+                   position="bottom center">
+                {popup}
+            </Popup>
         </div>
     );
 };

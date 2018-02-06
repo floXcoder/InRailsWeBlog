@@ -76,7 +76,7 @@ export default function articleReducer(state = new initState(), action) {
 
         case ActionTypes.ARTICLE_RESTORE:
             return state.merge({
-                article: action.article,
+                article: new Records.ArticleRecord(action.article),
                 articleVersions: undefined
             });
 

@@ -54,7 +54,7 @@ export default class SearchIndex extends React.Component {
     }
 
     state = {
-        value: ''
+        value: this.props.query
     };
 
     componentDidMount() {

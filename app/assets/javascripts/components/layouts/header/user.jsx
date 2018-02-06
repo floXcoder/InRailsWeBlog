@@ -72,14 +72,14 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopu
 
     return (
         <Popup trigger={button}
-               content={popup}
                on="click"
                open={isOpened}
                onClose={onUserPopup}
                onOpen={onUserPopup}
                hideOnScroll={true}
-               flowing={true}
-               position="bottom center"/>
+               position="bottom center">
+            {popup}
+        </Popup>
     );
 };
 

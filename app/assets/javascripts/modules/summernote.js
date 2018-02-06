@@ -3,6 +3,7 @@
 // import 'summernote/dist/summernote-lite';
 // For now, use local summernote to correct errors:
 // - Air popover not display
+// - fromOffsetPath: current not defined for the last undo
 import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';
@@ -13,9 +14,18 @@ $.extend($.summernote.options, {
     cleanParseContent: true,
     advice: true,
     secret: true,
+    // TODO: override icons
     // icons: {
     //     'bold': 'format_bold'
     // }
+});
+
+$.extend($.summernote.options.keyMap.pc, {
+    'CTRL+ENTER': 'save'
+});
+
+$.extend($.summernote.options.keyMap.mac, {
+    'CMD+ENTER': 'save'
 });
 
 // const ui = $.summernote.ui;
