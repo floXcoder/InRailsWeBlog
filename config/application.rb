@@ -57,6 +57,9 @@ module InRailsWeBlog
     # Enable origin-checking CSRF mitigation. Previous versions had false.
     config.action_controller.forgery_protection_origin_check = true
 
+    # Use sidekiq for ActiveJob (not working with letter_opener)
+    config.active_job.queue_adapter = :sidekiq
+
     # Json adapter for serializers
     ActiveModel::Serializer.config.adapter = :json
     ActiveModel::Serializer.config.key_transform = :camel_lower

@@ -11,4 +11,4 @@ production:
 :queues:
   - [high, 2]
   - default
-  - carrierwave
+  - mailers
