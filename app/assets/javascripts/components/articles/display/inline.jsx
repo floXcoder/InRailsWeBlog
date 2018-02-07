@@ -14,11 +14,11 @@ import {
 export default class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
         id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired,
-        isOwner: PropTypes.bool,
-        onInlineEdit: PropTypes.func.isRequired
+        onInlineEdit: PropTypes.func.isRequired,
+        title: PropTypes.string,
+        isOwner: PropTypes.bool
     };
 
     static defaultProps = {
@@ -34,7 +34,7 @@ export default class ArticleInlineDisplay extends React.PureComponent {
         isOver: false
     };
 
-    _handleHoverEdit = () => {
+    _handleOverEdit = () => {
         this.setState({
             isOver: !this.state.isOver
         })
@@ -80,8 +80,8 @@ export default class ArticleInlineDisplay extends React.PureComponent {
                         <li className="action-inline-item">
                             <a className="article-edit tooltipped"
                                data-tooltip={I18n.t('js.article.tooltip.edit')}
-                               onMouseEnter={this._handleHoverEdit}
-                               onMouseLeave={this._handleHoverEdit}
+                               onMouseEnter={this._handleOverEdit}
+                               onMouseLeave={this._handleOverEdit}
                                onClick={this.props.onInlineEdit}>
                                     <span className="material-icons"
                                           data-icon="edit"

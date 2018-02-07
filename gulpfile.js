@@ -14,8 +14,6 @@ const requireDir = require('require-dir');
 // Require all tasks in gulp/tasks, without subfolders
 requireDir('./frontend/gulp', {recurse: false});
 
-console.log(gutil.env.env)
-
 if (gutil.env.env === 'production') {
     requireDir('./frontend/gulp/production', {recurse: true});
 } else {

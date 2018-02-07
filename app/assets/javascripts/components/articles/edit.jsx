@@ -63,7 +63,10 @@ export default class ArticleEdit extends React.PureComponent {
 
         formData.id = this.props.article.id;
 
-        formatTagArticles(formData, this.props.article.tags.toArray(), this.props.article.parentTagIds, this.props.article.childTagIds);
+        formatTagArticles(formData, this.props.article.tags.toArray(), {
+            parentTagIds: this.props.article.parentTagIds,
+            childTagIds: this.props.article.childTagIds
+        });
 
         this.props.updateArticle(formData)
             .then((response) => {

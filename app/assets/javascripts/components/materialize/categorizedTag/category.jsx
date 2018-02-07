@@ -15,6 +15,7 @@ export default class Category extends React.Component {
         value: PropTypes.string.isRequired,
         overhead: PropTypes.number,
         hasAddNew: PropTypes.bool,
+        addNewPlaceholder: PropTypes.string,
         addNewValue: PropTypes.string,
         type: PropTypes.string,
         onAdd: PropTypes.func.isRequired,
@@ -92,13 +93,17 @@ export default class Category extends React.Component {
                     </span>
                     :
                     null,
-                <button key="add_btn"
-                        className={classNames("cti__category__add-item", {
-                            'cti-selected': selected
-                        })}
-                        onClick={this._onCreateNew}>
-                    {`${this.props.addNewValue} ${this.props.type || this.props.title} "${this.props.value}"`}
-                </button>
+                this.props.value.length > 0
+                    ?
+                    <button key="add_btn"
+                            className={classNames('cti__category__add-item', {
+                                'cti-selected': selected
+                            })}
+                            onClick={this._onCreateNew}>
+                        {`${this.props.addNewValue} ${this.props.type || this.props.title} "${this.props.value}"`}
+                    </button>
+                    :
+                    this.props.addNewPlaceholder
             ];
         }
 

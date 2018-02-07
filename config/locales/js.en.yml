@@ -205,6 +205,10 @@ en:
         title: "Add a topic"
         input: "Topic name"
         submit: "Add topic"
+      edit:
+        title: "Update topic"
+        input: "Theme name"
+        submit: "Update"
     tag:
       common:
         list: "All tags"
@@ -272,6 +276,7 @@ en:
           default: "Add labels to article"
           parent: "Main labels"
           child: "Secondary labels"
+          placeholder: "Add label name"
           add: "Add the label:"
         tooltips:
           title_too_short: "Title too short"

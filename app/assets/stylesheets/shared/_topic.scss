@@ -81,6 +81,7 @@
       border-radius: 3px;
       box-sizing: border-box;
       cursor: pointer;
+      display: block;
       height: 3rem;
       line-height: 3rem;
       margin: .6rem 0;
@@ -91,6 +92,7 @@
       .topic-item-details {
         background: lighten($astral-color, 45%);
         color: $text-color;
+        display: block;
         padding: 0 .8rem;
         position: relative;
         transition: .25s all ease .1s;
@@ -123,6 +125,18 @@
         //    line-height: 3rem;
         //  }
         //}
+      }
+
+      .topic-item-edit {
+        color: $secondary-color;
+        display: inline-block;
+        position: absolute;
+        right: 8px;
+        top: 0;
+
+        &:hover {
+          color: $off-black;
+        }
       }
     }
   }

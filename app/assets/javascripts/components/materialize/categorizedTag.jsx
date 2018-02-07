@@ -8,6 +8,7 @@ export default class CategorizedTag extends React.Component {
         title: PropTypes.string.isRequired,
         categorizedTags: PropTypes.array.isRequired,
         placeholder: PropTypes.string.isRequired,
+        addNewPlaceholder: PropTypes.string.isRequired,
         addNewText: PropTypes.string.isRequired,
         placeholderWithTags: PropTypes.string,
         name: PropTypes.string,
@@ -116,6 +117,7 @@ export default class CategorizedTag extends React.Component {
                                          isSortingCategoriesByAlpha={this.props.isSortingCategoriesByAlpha}
                                          placeholder={this.props.placeholder}
                                          placeholderWithTags={this.props.placeholderWithTags}
+                                         addNewPlaceholder={this.props.addNewPlaceholder}
                                          addNewValue={this.props.addNewText}
                                          transformTag={this._handleTagAdded}
                                          onChange={this._handleTagChanged}

@@ -83,7 +83,15 @@ export default class ArticleNew extends React.Component {
     _handleSubmit = (values) => {
         let formData = values.toJS();
 
-        formatTagArticles(formData);
+        let tagParams = {};
+        if (this.state.article) {
+            tagParams = {
+                parentTagSlugs: this.state.article.parentTagSlugs,
+                childTagSlugs: this.state.article.childTagSlugs
+            };
+        }
+
+        formatTagArticles(formData, this.state.article && this.state.article.tags, tagParams);
 
         if (!formData.visibility && this.props.currentTopic.visibility === 'only_me') {
             formData.visibility = 'only_me';

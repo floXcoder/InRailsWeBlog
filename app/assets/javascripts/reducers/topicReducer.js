@@ -57,7 +57,8 @@ export default function topicReducer(state = new initState(), action) {
         case ActionTypes.TOPIC_CHANGE_SUCCESS:
         case ActionTypes.TOPIC_CHANGE_ERROR:
             return mutationReducer(state, action, (payload) => ({
-                topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined
+                topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined,
+                currentTopic: payload.topic.id === state.currentTopic.id ? new Records.TopicRecord(payload.topic) : state.currentTopic
             }));
 
         case ActionTypes.USER_FETCH_SUCCESS:

@@ -36,6 +36,7 @@ const HomePreferenceHeader = ({}) => {
             <Popup trigger={button}
                    on="click"
                    hideOnScroll={true}
+                   flowing={true}
                    position="bottom center">
                 {popup}
             </Popup>

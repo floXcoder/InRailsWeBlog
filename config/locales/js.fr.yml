@@ -205,6 +205,10 @@ fr:
         title: "Ajouter un thème"
         input: "Nom du thème"
         submit: "Ajouter"
+      edit:
+        title: "Modifier le thème"
+        input: "Nom du thème"
+        submit: "Mettre à jour"
     tag:
       common:
         list: "Tous les labels"
@@ -272,6 +276,7 @@ fr:
           default: "Ajouter des labels à l'article"
           parent: "Ajouter des labels principaux"
           child: "Ajouter des labels secondaires"
+          placeholder: "Entrer le nom du label"
           add: "Ajouter le label :"
         tooltips:
           title_too_short: "Le titre est trop court"
