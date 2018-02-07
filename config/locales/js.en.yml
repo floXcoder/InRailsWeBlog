@@ -205,6 +205,10 @@ en:
         title: "Add a topic"
         input: "Topic name"
         submit: "Add topic"
+      edit:
+        title: "Update topic"
+        input: "Theme name"
+        submit: "Update"
     tag:
       common:
         list: "All tags"

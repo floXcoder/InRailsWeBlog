@@ -205,6 +205,10 @@ fr:
         title: "Ajouter un thème"
         input: "Nom du thème"
         submit: "Ajouter"
+      edit:
+        title: "Modifier le thème"
+        input: "Nom du thème"
+        submit: "Mettre à jour"
     tag:
       common:
         list: "Tous les labels"

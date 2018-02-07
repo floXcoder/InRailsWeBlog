@@ -2,6 +2,7 @@
 
 import {
     addTopic,
+    updateTopic,
     switchTopic,
     switchTopicPopup,
     spyTrackClick
@@ -23,6 +24,7 @@ import Submit from '../materialize/submit';
     topics: getTopics(state)
 }), {
     addTopic,
+    updateTopic,
     switchTopic,
     switchTopicPopup
 })
@@ -36,6 +38,7 @@ export default class TopicModule extends React.Component {
         topics: PropTypes.array,
         currentTopic: PropTypes.object,
         addTopic: PropTypes.func,
+        updateTopic: PropTypes.func,
         switchTopic: PropTypes.func,
         switchTopicPopup: PropTypes.func
     };
@@ -48,11 +51,18 @@ export default class TopicModule extends React.Component {
     }
 
     state = {
-        isAddingTopic: false
+        isMutatingTopic: false,
+        overTopicId: undefined,
+        topicEditing: undefined
     };
 
     _handleSwitchTopicClick = (newTopicId, event) => {
         event.preventDefault();
+
+        // Return if click on edit icon
+        if (event.target.className === 'material-icons') {
+            return;
+        }
 
         spyTrackClick('topic', newTopicId);
 
@@ -73,31 +83,68 @@ export default class TopicModule extends React.Component {
         }
 
         this.setState({
-            isAddingTopic: true
+            isMutatingTopic: true
+        });
+    };
+
+    _handleOverEdit = (topicId) => {
+        this.setState({
+            overTopicId: topicId
+        })
+    };
+
+    _handleTopicEdit = (topic, event) => {
+        event.preventDefault();
+
+        ReactDOM.findDOMNode(this).scrollTo(0, 0);
+
+        this.setState({
+            isMutatingTopic: true,
+            topicEditing: topic
         });
     };
 
     _handleTopicSubmit = (event) => {
         event.preventDefault();
 
-        if (this.state.isAddingTopic && this._topicName) {
-            this.props.addTopic(this.props.userId, {
-                name: this._topicName.value(),
-                visibility: this._topicVisibility.value()
-            })
-                .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
-                .then(() => this.props.switchTopicPopup());
+        if (this.state.isMutatingTopic && this._topicName) {
+            if (this.state.topicEditing) {
+                this.props.updateTopic(this.props.userId, {
+                    id: this.state.topicEditing.id,
+                    name: this._topicName.value(),
+                    visibility: this._topicVisibility.value()
+                })
+                    .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
+                    .then(() => this.props.switchTopicPopup());
+            } else {
+                this.props.addTopic(this.props.userId, {
+                    name: this._topicName.value(),
+                    visibility: this._topicVisibility.value()
+                })
+                    .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
+                    .then(() => this.props.switchTopicPopup());
+            }
         }
     };
 
     render() {
         return (
-            <div className={classNames('topics-sidebar', {'topic-sidebar-overhead': this.state.isAddingTopic})}>
-                <div className={classNames('topic-overhead', {'topic-overhead-active': this.state.isAddingTopic})}>
+            <div className={classNames('topics-sidebar', {
+                'topic-sidebar-overhead': this.state.isMutatingTopic
+            })}>
+                <div className={classNames('topic-overhead', {
+                    'topic-overhead-active': this.state.isMutatingTopic
+                })}>
                     <div className="topic-edit-content">
                         <div className="topic-edit-center">
                             <h3 className="topic-edit-title">
-                                {I18n.t('js.topic.new.title')}
+                                {
+                                    this.state.topicEditing
+                                        ?
+                                        I18n.t('js.topic.edit.title')
+                                        :
+                                        I18n.t('js.topic.new.title')
+                                }
                             </h3>
 
                             <form id="topic_edit"
@@ -105,7 +152,15 @@ export default class TopicModule extends React.Component {
                                   onSubmit={this._handleTopicSubmit}>
                                 <Input ref={(topicInput) => this._topicName = topicInput}
                                        id="topic_name"
-                                       placeholder={I18n.t('js.topic.new.input')}/>
+                                       placeholder={
+                                           this.state.topicEditing
+                                               ?
+                                               I18n.t('js.topic.edit.input')
+                                               :
+                                               I18n.t('js.topic.new.input')
+                                       }>
+                                    {this.state.topicEditing && this.state.topicEditing.name}
+                                </Input>
 
                                 <Select ref={(topicVisibility) => this._topicVisibility = topicVisibility}
                                         id="topic_visibility"
@@ -113,13 +168,19 @@ export default class TopicModule extends React.Component {
                                         title={I18n.t('js.topic.model.visibility')}
                                         default={I18n.t('js.topic.common.visibility')}
                                         options={I18n.t('js.topic.enums.visibility')}>
-                                    {'everyone'}
+                                    {this.state.topicEditing ? this.state.topicEditing.visibility : 'everyone'}
                                 </Select>
 
                                 <Submit id="topic-submit"
                                         className="topic-button"
                                         onClick={this._handleTopicSubmit}>
-                                    {I18n.t('js.topic.new.submit')}
+                                    {
+                                        this.state.topicEditing
+                                            ?
+                                            I18n.t('js.topic.edit.submit')
+                                            :
+                                            I18n.t('js.topic.new.submit')
+                                    }
                                 </Submit>
                             </form>
                         </div>
@@ -135,13 +196,25 @@ export default class TopicModule extends React.Component {
                         this.props.topics.map((topic) => (
                             <a key={topic.id}
                                href={`/user/${this.props.userSlug}/${topic.slug}`}
+                               onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
+                               onMouseLeave={this._handleOverEdit.bind(this, null)}
                                onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
-                                <div className="topic-item">
-                                    <div
+                                <span className="topic-item">
+                                    <span
                                         className={classNames('topic-item-details', {'topic-item-current': topic.id === this.props.currentTopic.id})}>
                                         {topic.name}
-                                    </div>
-                                </div>
+                                    </span>
+
+                                    {
+                                        this.state.overTopicId === topic.id &&
+                                        <span className="topic-item-edit"
+                                              onClick={this._handleTopicEdit.bind(this, topic)}>
+                                            <span className="material-icons"
+                                                  data-icon="edit"
+                                                  aria-hidden="true"/>
+                                        </span>
+                                    }
+                                </span>
                             </a>
                         ))
                     }
