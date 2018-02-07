@@ -272,6 +272,7 @@ fr:
           default: "Ajouter des labels à l'article"
           parent: "Ajouter des labels principaux"
           child: "Ajouter des labels secondaires"
+          placeholder: "Entrer le nom du label"
           add: "Ajouter le label :"
         tooltips:
           title_too_short: "Le titre est trop court"

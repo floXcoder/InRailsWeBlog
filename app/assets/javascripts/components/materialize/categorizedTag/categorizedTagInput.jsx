@@ -40,6 +40,7 @@ export default class CategorizedTagInput extends React.Component {
         onChange: PropTypes.func,
         placeholder: PropTypes.string,
         placeholderWithTags: PropTypes.string,
+        addNewPlaceholder: PropTypes.string,
         addNewValue: PropTypes.string,
         isSortingCategoriesByAlpha: PropTypes.bool,
         minAutocompleteLength: PropTypes.number,
@@ -50,6 +51,7 @@ export default class CategorizedTagInput extends React.Component {
     static defaultProps = {
         hasAddNew: true,
         isSortingCategoriesByAlpha: true,
+        addNewPlaceholder: 'Enter label name',
         addNewValue: 'Add new ',
         minAutocompleteLength: 1,
         maxAutocompleteTags: 4,
@@ -356,12 +358,13 @@ export default class CategorizedTagInput extends React.Component {
                                   onBlur={this.props.onBlur}/>
 
                 {
-                    (this.state.isPanelOpened && this.state.value.length > 0) &&
+                    this.state.isPanelOpened &&
                     <Panel categories={this.state.categories}
                            selection={this.state.selection}
                            onAdd={this.onAdd}
                            value={this.state.value}
                            hasAddNew={this.props.hasAddNew}
+                           addNewPlaceholder={this.props.addNewPlaceholder}
                            addNewValue={this.props.addNewValue}/>
                 }
             </div>

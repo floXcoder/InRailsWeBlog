@@ -14,7 +14,7 @@ import Pagination from '../../materialize/pagination';
 const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, articleEditionId, hasMoreArticles, articleTotalPages, fetchArticles}) => {
     const ArticleNodes = articles.map((article) => (
             <CSSTransition key={article.id}
-                           timeout={500}
+                           timeout={150}
                            classNames="article">
                 <ArticleItemDisplay article={article}
                                     articleDisplayMode={articleDisplayMode}

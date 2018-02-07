@@ -9,6 +9,7 @@ export default class Panel extends React.Component {
         onAdd: PropTypes.func.isRequired,
         value: PropTypes.string.isRequired,
         hasAddNew: PropTypes.bool,
+        addNewPlaceholder: PropTypes.string,
         addNewValue: PropTypes.string
     };
 
@@ -37,6 +38,7 @@ export default class Panel extends React.Component {
                                   type={category.type}
                                   onAdd={this.props.onAdd}
                                   isSingle={category.isSingle}
+                                  addNewPlaceholder={this.props.addNewPlaceholder}
                                   addNewValue={this.props.addNewValue}/>
                     ))
                 }

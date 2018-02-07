@@ -321,7 +321,7 @@
 
 .article-inline-item {
   height: auto;
-  margin: 1rem 2px;
+  margin: 0 2px;
   position: relative;
   word-wrap: break-word;
 
@@ -331,30 +331,32 @@
   }
 }
 
-.article-inline-content {
-  background: #fff;
-  background-clip: padding-box;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  margin-right: 8px;
-  padding: 1rem 2rem;
-  position: relative;
-}
-
 .article-inline-title {
   display: inline-block;
   width: 100%;
 
   .title {
+    border-bottom: 1px solid $border-dark-color;
     color: #333;
     font-size: 18px;
     line-height: 30px;
     margin: .4rem 0 1.1rem;
+    padding-bottom: .3rem;
 
     a {
       color: #333;
     }
   }
+}
+
+.article-inline-content {
+  background: #fff;
+  background-clip: padding-box;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-right: 16px;
+  padding: 1rem 2rem;
+  position: relative;
 }
 
 .article-inline-actions {
@@ -398,9 +400,10 @@
 
 .article-inline-edition-content {
   border-width: 0;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+  box-shadow: 0 0 5px $astral-color;
   height: auto;
   margin: 1rem 2px;
+  padding: .3rem;
   position: relative;
 }
 
@@ -535,34 +538,13 @@
 .blog-article-content {
   margin: .5rem 0 2rem;
 
-  .blog-article-body {
-    &::first-letter {
-      font-size: 150%;
-      margin-right: 3px;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-    }
-
-    h2 {
-      font-size: 1.8rem;
-    }
-
-    strong {
-      font-weight: 600;
-    }
-  }
-
-  img {
-    width: 100%;
-  }
-
-  a {
-    color: $astral-color;
+  &::first-letter {
+    font-size: 150%;
+    margin-right: 3px;
   }
 
   h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
+    color: $off-black;
     margin: 0;
     padding: 0;
   }
@@ -580,27 +562,66 @@
   }
 
   h1 {
-    font-size: 3rem;
+    clear: left;
+    font-size: 2.4rem;
     font-style: normal;
     font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 .444rem;
+    text-align: left;
   }
 
   h2 {
-    font-size: 2.5rem;
+    clear: left;
+    font-size: 2.1rem;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 .444rem;
+    text-align: left;
   }
 
   h3 {
-    font-size: 2rem;
+    clear: left;
+    font-size: 1.8rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 .444rem;
+    text-align: left;
   }
 
   h4 {
-    font-size: 1.5rem;
+    clear: left;
+    font-size: 1.6rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 .444rem;
+    text-align: left;
+  }
+
+  h5,
+  h6 {
+    clear: left;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.1;
+    margin: 0 0 .444rem;
+    text-align: left;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  a {
+    color: $astral-color;
   }
 
   ul {
@@ -627,8 +648,8 @@
     background-color: $background-color;
     border: 1px solid $border-color;
     border-radius: .25rem;
-    margin-bottom: 1.5rem;
-    padding: .5rem .75rem;
+    margin: .8rem .4rem;
+    padding: .25rem;
   }
 
   .secret {

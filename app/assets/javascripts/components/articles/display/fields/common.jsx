@@ -106,6 +106,7 @@ export default class ArticleCommonField extends React.Component {
                            name="parent_tags"
                            title={I18n.t('js.article.model.parent_tags')}
                            placeholder={I18n.t('js.article.common.tags.parent')}
+                           addNewPlaceholder={I18n.t('js.article.common.tags.placeholder')}
                            addNewText={I18n.t('js.article.common.tags.add')}
                            isSortingCategoriesByAlpha={false}
                            isHorizontal={true}
@@ -120,6 +121,7 @@ export default class ArticleCommonField extends React.Component {
                            name="child_tags"
                            title={I18n.t('js.article.model.child_tags')}
                            placeholder={I18n.t('js.article.common.tags.child')}
+                           addNewPlaceholder={I18n.t('js.article.common.tags.placeholder')}
                            addNewText={I18n.t('js.article.common.tags.add')}
                            isSortingCategoriesByAlpha={false}
                            isHorizontal={true}
