@@ -27,6 +27,8 @@ const ArticleActions = ({isInline, articleId, articleSlug, articleVisibility, on
                                    articleVisibility={articleVisibility}/>
         </li>
 
+        <li className="action-item-divider"/>
+
         <li className="action-item">
             <ArticleEditIcon articleSlug={articleSlug}/>
         </li>

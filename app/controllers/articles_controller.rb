@@ -28,10 +28,11 @@ class ArticlesController < ApplicationController
 
   def index
     articles = Article.includes(user: [:picture])
-                 .order('articles.updated_at DESC')
                  .distinct
 
     articles = articles.default_visibility(current_user, current_admin)
+
+    articles = articles.order_by(filter_params[:order] || 'priority_desc')
 
     articles = Article.filter_by(articles, filter_params, current_user) unless filter_params.empty?
 
@@ -161,6 +162,30 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def update_priority
+    articles        = []
+    priority_params[:article_ids].reverse.each_with_index do |id, i|
+      article = Article.find(id)
+      admin_or_authorize article, :update?
+      articles << article if article.update_columns(priority: i + 1)
+    end
+
+    respond_to do |format|
+      format.json do
+        if articles.present?
+          flash.now[:success] = t('views.article.flash.successful_priority_update')
+          render json:            articles.reverse,
+                 each_serializer: ArticleSerializer,
+                 status:          :ok
+        else
+          flash.now[:error] = t('views.article.flash.error_priority_update')
+          render json:   { errors: t('views.article.flash.error_priority_update') },
+                 status: :forbidden
+        end
+      end
+    end
+  end
+
   def restore
     article = Article.with_deleted.find(params[:id])
     admin_or_authorize article
@@ -265,8 +290,17 @@ class ArticlesController < ApplicationController
                                      :parent_tag_slug,
                                      :child_tag_slug,
                                      :bookmarked,
+                                     :order,
                                      user_ids:         [],
                                      topic_ids:        []).reject { |_, v| v.blank? }
+    else
+      {}
+    end
+  end
+
+  def priority_params
+    if params[:article_ids]
+      params.permit(article_ids: [])
     else
       {}
     end

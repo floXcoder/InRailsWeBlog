@@ -15,12 +15,14 @@ export default class ArticleTags extends React.PureComponent {
         articleId: PropTypes.number.isRequired,
         tags: PropTypes.object.isRequired,
         parentTagIds: PropTypes.array,
-        childTagIds: PropTypes.array
+        childTagIds: PropTypes.array,
+        hasTooltip: PropTypes.bool
     };
 
     static defaultProps = {
         parentTagIds: [],
-        childTagIds: []
+        childTagIds: [],
+        hasTooltip: true
     };
 
     constructor(props) {
@@ -74,16 +76,19 @@ export default class ArticleTags extends React.PureComponent {
                                   className="article-tag">
                                 <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
                                       className="tag-default tag-parent"
-                                      to={`/article/tags/${tag.slug}`}
+                                      to={`/tagged/${tag.slug}`}
                                       onClick={spyTrackClick.bind(null, 'tag', tag.id)}
                                       onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
                                       onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
                                     {tag.name}
                                 </Link>
 
-                                <TooltipTag tag={tag}
-                                            articleId={this.props.articleId}
-                                            tagTooltipActive={this.state.tagTooltipActive}/>
+                                {
+                                    this.props.hasTooltip &&
+                                    <TooltipTag tag={tag}
+                                                articleId={this.props.articleId}
+                                                tagTooltipActive={this.state.tagTooltipActive}/>
+                                }
                             </span>
                         ))
                     }
@@ -102,16 +107,19 @@ export default class ArticleTags extends React.PureComponent {
                                       className="article-tag">
                                     <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
                                           className="tag-default tag-child"
-                                          to={`/article/tags/${tag.slug}`}
+                                          to={`/tagged/${tag.slug}`}
                                           onClick={spyTrackClick.bind(null, 'tag', tag.id)}
                                           onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
                                           onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
                                         {tag.name}
                                     </Link>
 
-                                    <TooltipTag tag={tag}
-                                                articleId={this.props.articleId}
-                                                tagTooltipActive={this.state.tagTooltipActive}/>
+                                    {
+                                        this.props.hasTooltip &&
+                                        <TooltipTag tag={tag}
+                                                    articleId={this.props.articleId}
+                                                    tagTooltipActive={this.state.tagTooltipActive}/>
+                                    }
                                 </span>
                             ))
                         }

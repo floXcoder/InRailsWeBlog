@@ -158,6 +158,7 @@ export default class MainLayout extends React.Component {
                                                }
 
                                                <Component params={router.match.params}
+                                                          queryString={router.location.search}
                                                           history={router.history}
                                                           initialData={router.location.state}/>
                                            </div>

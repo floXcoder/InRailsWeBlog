@@ -54,7 +54,7 @@ export default class CommentIndex extends React.Component {
                 filters: {
                     ...this.props.filters,
                     userId: this.props.userId,
-                    order: this.props.isShowingLast ? 'updated_last' : null
+                    order: this.props.isShowingLast ? 'updated_desc' : null
                 },
                 page: 1
             });
@@ -78,7 +78,7 @@ export default class CommentIndex extends React.Component {
                 filters: {
                     ...filters,
                     userId: this.props.userId,
-                    order: this.props.isShowingLast ? 'updated_last' : null
+                    order: this.props.isShowingLast ? 'updated_desc' : null
                 },
                 page: paginate.selected + 1
             });

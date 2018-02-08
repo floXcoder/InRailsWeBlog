@@ -8,8 +8,8 @@ import {
 
 @connect((state) => ({
     isUserConnected: state.userState.isConnected,
-    userCurrentId: state.userState.currentId,
-    topicCurrentId: state.topicState.currentTopic && state.topicState.currentTopic.id
+    currentUserId: state.userState.currentId,
+    currentTopicId: state.topicState.currentTopic && state.topicState.currentTopic.id
 }), {
     initUser,
     fetchTopics,
@@ -21,8 +21,8 @@ export default class UserManager extends React.Component {
         routerState: PropTypes.object,
         // From connect
         isUserConnected: PropTypes.bool,
-        userCurrentId: PropTypes.number,
-        topicCurrentId: PropTypes.number,
+        currentUserId: PropTypes.number,
+        currentTopicId: PropTypes.number,
         initUser: PropTypes.func,
         fetchTopics: PropTypes.func,
         fetchTags: PropTypes.func
@@ -34,11 +34,11 @@ export default class UserManager extends React.Component {
         // Load user environment if connected
         if (props.isUserConnected) {
             // Get current user details with current topic
-            props.initUser(props.userCurrentId, {userProfile: true})
+            props.initUser(props.currentUserId, {userProfile: true})
                 .then((response) => {
                     if (response && response.user) {
                         // Get all user topics
-                        props.fetchTopics(props.userCurrentId);
+                        props.fetchTopics(props.currentUserId);
 
                         // Get all user tags for current topic (user private and common public tags associated to his articles)
                         props.fetchTags({topicId: response.user.currentTopic.id});
@@ -51,8 +51,8 @@ export default class UserManager extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.topicCurrentId !== nextProps.topicCurrentId || (nextProps.routerState && nextProps.routerState.reloadTags)) {
-            this.props.fetchTags({topicId: nextProps.topicCurrentId});
+        if (this.props.currentTopicId !== nextProps.currentTopicId || (nextProps.routerState && nextProps.routerState.reloadTags)) {
+            this.props.fetchTags({topicId: nextProps.currentTopicId});
         }
     }
 

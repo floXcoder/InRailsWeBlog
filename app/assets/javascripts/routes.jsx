@@ -5,6 +5,7 @@ import ArticleShow from './components/loaders/articleShow';
 import ArticleNew from './components/loaders/articleNew';
 import ArticleEdit from './components/loaders/articleEdit';
 import ArticleHistory from './components/loaders/articleHistory';
+import ArticleSort from './components/loaders/articleSort';
 
 import TagShow from './components/loaders/tagShow';
 import TagEdit from './components/loaders/tagEdit';
@@ -54,6 +55,11 @@ export default {
                 path: '/user/:topicSlug',
                 exact: true,
                 component: ArticleIndex
+            },
+            {
+                path: '/user/:topicSlug/sort',
+                exact: true,
+                component: ArticleSort
             },
             {
                 path: '/user/:userSlug/:topicSlug/tagged/:parentTagSlug/:childTagSlug',

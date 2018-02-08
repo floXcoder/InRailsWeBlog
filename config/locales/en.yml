@@ -62,6 +62,8 @@ en:
         error_creation: "Cannot create the article, please correct the errors"
         successful_edition: "Article updated"
         error_edition: "Cannot update the article!"
+        successful_priority_update: "Articles order changed"
+        error_priority_update: "Cannot change articles order"
         successful_deletion: "Article deleted."
         error_deletion: "Problem during article deletion: %{errors}"
       show:

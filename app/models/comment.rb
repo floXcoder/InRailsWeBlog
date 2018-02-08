@@ -100,13 +100,13 @@ class Comment < ApplicationRecord
   end
 
   def self.order_by(order)
-    if order == 'id_first'
+    if order == 'id_asc'
       order('id ASC')
-    elsif order == 'id_last'
+    elsif order == 'id_desc'
       order('id DESC')
-    elsif order == 'updated_first'
+    elsif order == 'updated_asc'
       order('updated_at ASC')
-    elsif order == 'updated_last'
+    elsif order == 'updated_desc'
       order('updated_at DESC')
     else
       all

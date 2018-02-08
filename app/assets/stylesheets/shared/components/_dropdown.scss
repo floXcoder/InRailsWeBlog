@@ -1,9 +1,8 @@
 .dropdown-container {
   position: relative;
 
-  .dropdown-button {
-
-  }
+  //.dropdown-button {
+  //}
 
   .dropdown-slider {
     background-color: #fff;
@@ -18,6 +17,10 @@
     transition: max-height 600ms ease-in;
     will-change: width, height;
     z-index: 999;
+
+    &.dropdown-slider-right {
+      right: 0;
+    }
 
     &.dropdown-slider-open {
       max-height: 650px;
@@ -39,8 +42,26 @@
         background-color: #eee;
       }
 
-      &.divider {
-        background-color: #e0e0e0;
+      &.dropdown-header {
+        border-bottom: 1px solid $off-black;
+        color: $off-black;
+        cursor: auto;
+        font-size: 15px;
+        font-style: italic;
+        font-weight: 600;
+        height: 40px;
+        line-height: 19px;
+        min-height: 40px;
+        padding: 9px 16px;
+        text-align: center;
+
+        &:hover {
+          background-color: #fff;
+        }
+      }
+
+      &.dropdown-divider {
+        background-color: $border-dark-color;
         height: 1px;
         min-height: 0;
         overflow: hidden;

@@ -94,6 +94,10 @@ Rails.application.routes.draw do
 
   # Articles
   resources :articles do
+    collection do
+      put      :priority,  to: 'articles#update_priority'
+    end
+
     member do
       get      :history,   to: 'articles#history'
       get      :restore,   to: 'articles#restore'

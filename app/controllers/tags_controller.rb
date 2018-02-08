@@ -22,8 +22,9 @@ class TagsController < ApplicationController
 
   def index
     tags = Tag.includes(:user, :parents, :child_relationships, :children, :parent_relationships)
-             .order('tags.name ASC')
              .distinct
+
+    tags = tags.order_by(filter_params[:order] || 'name')
 
     tags = tags.default_visibility(current_user, current_admin)
 

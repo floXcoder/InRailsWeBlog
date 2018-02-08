@@ -330,7 +330,7 @@ RSpec.describe User, type: :model, basic: true do
       end
 
       it 'search for users with ordering' do
-        user_results = User.search_for('user', order: 'created_last')
+        user_results = User.search_for('user', order: 'created_desc')
 
         expect(user_results[:users]).not_to be_empty
         expect(user_results[:users]).to be_a(ActiveRecord::Relation)
@@ -359,7 +359,7 @@ RSpec.describe User, type: :model, basic: true do
 
     describe '::order_by' do
       it { is_expected.to respond_to(:order_by) }
-      it { expect(User.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
+      it { expect(User.order_by('id_asc')).to be_kind_of(ActiveRecord::Relation) }
     end
 
     describe '::pseudo?' do
