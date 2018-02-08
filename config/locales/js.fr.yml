@@ -364,6 +364,14 @@ fr:
         form_title: "Modification de : %{title}"
         submit: "Mettre à jour"
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
+      sort:
+        title: "Tirer par"
+        order:
+          priority: "Priorité"
+          date_desc: "Plus récent"
+          date_asc: "Plus ancien"
+        link_title: "Changer ordre"
+        link: "Changer la priorité"
       timeline:
         title: "Nouvel article :"
         no_articles: "Pas d'articles à afficher"
@@ -420,15 +428,15 @@ fr:
             select:
               default: "Sélectionner la colonne"
               values:
-                id_first: "Id (premier)"
-                id_last: "Id (dernier)"
-                updated_first: "Mise à jour (premier)"
-                updated_last: "Mise à jour (dernier)"
+                id_asc: "Id (premier)"
+                id_desc: "Id (dernier)"
+                updated_asc: "Mise à jour (premier)"
+                updated_desc: "Mise à jour (dernier)"
               order:
-                - id_first
-                - id_last
-                - updated_first
-                - updated_last
+                - id_asc
+                - id_desc
+                - updated_asc
+                - updated_desc
           not_accepted: "Non validé seulement"
           ask_for_deletion: "Demande de suppression"
           button: "Filter"

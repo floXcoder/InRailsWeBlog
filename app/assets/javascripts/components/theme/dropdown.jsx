@@ -7,10 +7,13 @@ export default class Dropdown extends React.Component {
         className: PropTypes.string,
         tooltip: PropTypes.string,
         isDefaultOpen: PropTypes.bool,
+        isOpened: PropTypes.bool,
+        isRightSide: PropTypes.bool
     };
 
     static defaultProps = {
-        isDefaultOpen: false
+        isDefaultOpen: false,
+        isRightSide: false
     };
 
     constructor(props) {
@@ -28,6 +31,12 @@ export default class Dropdown extends React.Component {
         document.addEventListener('touchend', this._handleDocumentClick, false);
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            isOpened: nextProps.isOpened
+        });
+    }
+
     componentWillUnmount() {
         this._isMounted = false;
 
@@ -37,7 +46,7 @@ export default class Dropdown extends React.Component {
 
     _handleDocumentClick = (event) => {
         if (this._isMounted) {
-            if (!ReactDOM.findDOMNode(this).contains(event.target)) {
+            if (!this.refs.button.contains(event.target)) {
                 if (this.state.isOpen) {
                     this.setState({
                         isOpen: false
@@ -67,7 +76,8 @@ export default class Dropdown extends React.Component {
                         'tooltip-top': hasTooltip
                     })}
                      data-tooltip={hasTooltip ? this.props.tooltip : undefined}>
-                    <a className="btn-flat waves-effect waves-matisse dropdown-button"
+                    <a ref="button"
+                       className="btn-flat waves-effect waves-matisse dropdown-button"
                        href="#"
                        onClick={this._handleDropdownClick}>
                         {this.props.button}
@@ -75,6 +85,7 @@ export default class Dropdown extends React.Component {
                 </div>
 
                 <div className={classNames('dropdown-slider', {
+                    'dropdown-slider-right': this.props.isRightSide,
                     'dropdown-slider-open': this.state.isOpen
                 })}>
                     {this.props.children}

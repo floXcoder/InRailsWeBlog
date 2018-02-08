@@ -364,6 +364,14 @@ en:
         form_title: "Update of: %{title}"
         submit: "Update"
         exit: "Are you sure to exit without saving?"
+      sort:
+        title: "Sort by"
+        order:
+          priority: "Priority"
+          date_desc: "Most recent"
+          date_asc: "Oldest"
+        link_title: "Change order"
+        link: "Change priority"
       timeline:
         title: "New article:"
         no_articles: "No articles to display"
@@ -420,15 +428,15 @@ en:
             select:
               default: "Select column"
               values:
-                id_first: "Id (first)"
-                id_last: "Id (last)"
-                updated_first: "Updated (first)"
-                updated_last: "Updated (last)"
+                id_asc: "Id (first)"
+                id_desc: "Id (last)"
+                updated_asc: "Updated (first)"
+                updated_desc: "Updated (last)"
               order:
-                - id_first
-                - id_last
-                - updated_first
-                - updated_last
+                - id_asc
+                - id_desc
+                - updated_asc
+                - updated_desc
           not_accepted: "Not accepted only"
           ask_for_deletion: "Ask for deletion"
           button: "Filter"

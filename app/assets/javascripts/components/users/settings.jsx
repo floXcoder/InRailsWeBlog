@@ -12,7 +12,7 @@ import RadioButtons from '../materialize/radioButtons';
 import SwitchButton from '../materialize/switchButton';
 
 @connect((state) => ({
-    userCurrentId: state.userState.currentId,
+    currentUserId: state.userState.currentId,
     user: state.userState.user,
     settings: state.userState.user.settings,
     articlesLoader: state.userState.user && state.userState.user.settings.articlesLoader,
@@ -26,7 +26,7 @@ import SwitchButton from '../materialize/switchButton';
 export default class UserSettings extends React.Component {
     static propTypes = {
         // From connect
-        userCurrentId: PropTypes.number,
+        currentUserId: PropTypes.number,
         articlesLoader: PropTypes.string,
         articleDisplay: PropTypes.string,
         searchHighlight: PropTypes.bool,
@@ -70,7 +70,7 @@ export default class UserSettings extends React.Component {
     };
 
     _updateSettings = (setting) => {
-        this.props.updateUserSettings(this.props.userCurrentId, setting);
+        this.props.updateUserSettings(this.props.currentUserId, setting);
     };
 
     render() {

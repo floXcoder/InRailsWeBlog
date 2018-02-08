@@ -311,25 +311,25 @@ class Tag < ApplicationRecord
     return nil unless order
 
     case order
-      when 'id_first'
+      when 'id_asc'
         { id: :asc }
-      when 'id_last'
+      when 'id_desc'
         { id: :desc }
-      when 'created_first'
+      when 'created_asc'
         { created_at: :asc }
-      when 'created_last'
+      when 'created_desc'
         { created_at: :desc }
-      when 'updated_first'
+      when 'updated_asc'
         { updated_at: :asc }
-      when 'updated_last'
+      when 'updated_desc'
         { updated_at: :desc }
-      when 'rank_first'
+      when 'rank_asc'
         { rank: :asc }
-      when 'rank_last'
+      when 'rank_desc'
         { rank: :desc }
-      when 'popularity_first'
+      when 'popularity_asc'
         { popularity: :asc }
-      when 'popularity_last'
+      when 'popularity_desc'
         { popularity: :desc }
       else
         nil
@@ -381,26 +381,32 @@ class Tag < ApplicationRecord
 
   def self.order_by(order)
     case order
-      when 'id_first'
-        order('id ASC')
-      when 'id_last'
-        order('id DESC')
-      when 'created_first'
-        order('created_at ASC')
-      when 'created_last'
-        order('created_at DESC')
-      when 'updated_first'
-        order('updated_at ASC')
-      when 'updated_last'
-        order('updated_at DESC')
-      when 'rank_first'
-        joins(:tracker).order('rank ASC')
-      when 'rank_last'
-        joins(:tracker).order('rank DESC')
-      when 'popularity_first'
-        joins(:tracker).order('popularity ASC')
-      when 'popularity_last'
-        joins(:tracker).order('popularity DESC')
+      when 'name'
+        order('tags.name ASC')
+      when 'priority_first'
+        order('tags.priority ASC')
+      when 'priority_last'
+        order('tags.priority DESC')
+      when 'id_asc'
+        order('tags.id ASC')
+      when 'id_desc'
+        order('tags.id DESC')
+      when 'created_asc'
+        order('tags.created_at ASC')
+      when 'created_desc'
+        order('tags.created_at DESC')
+      when 'updated_asc'
+        order('tags.updated_at ASC')
+      when 'updated_desc'
+        order('tags.updated_at DESC')
+      when 'rank_asc'
+        joins(:tracker).order('trackers.rank ASC')
+      when 'rank_desc'
+        joins(:tracker).order('trackers.rank DESC')
+      when 'popularity_asc'
+        joins(:tracker).order('trackers.popularity ASC')
+      when 'popularity_desc'
+        joins(:tracker).order('trackers.popularity DESC')
       else
         all
     end

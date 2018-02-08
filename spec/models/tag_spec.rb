@@ -313,7 +313,7 @@ RSpec.describe Tag, type: :model, basic: true do
       end
 
       it 'search for tags with ordering' do
-        tag_results = Tag.search_for('tag', order: 'created_last')[:tags]
+        tag_results = Tag.search_for('tag', order: 'created_desc')[:tags]
 
         expect(tag_results[:tags]).not_to be_empty
         expect(tag_results[:tags]).to be_a(Array)
@@ -342,7 +342,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     describe '::order_by' do
       it { is_expected.to respond_to(:order_by) }
-      it { expect(Tag.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
+      it { expect(Tag.order_by('id_asc')).to be_kind_of(ActiveRecord::Relation) }
     end
 
     describe '::default_visibility' do

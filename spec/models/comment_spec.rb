@@ -163,7 +163,7 @@ RSpec.describe Comment, type: :model, basic: true do
 
     describe '::order_by' do
       it { is_expected.to respond_to(:order_by) }
-      it { expect(Comment.order_by('id_last').size).to eq(4) }
+      it { expect(Comment.order_by('id_desc').size).to eq(4) }
     end
   end
 

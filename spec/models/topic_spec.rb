@@ -230,7 +230,7 @@ RSpec.describe Topic, type: :model, basic: true do
       end
 
       it 'search for topics with ordering' do
-        topic_results = Topic.search_for('topic', order: 'created_last')[:topics]
+        topic_results = Topic.search_for('topic', order: 'created_desc')[:topics]
 
         expect(topic_results[:topics]).not_to be_empty
         expect(topic_results[:topics]).to be_a(Array)
@@ -269,7 +269,7 @@ RSpec.describe Topic, type: :model, basic: true do
 
     describe '::order_by' do
       it { is_expected.to respond_to(:order_by) }
-      it { expect(Topic.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
+      it { expect(Topic.order_by('id_asc')).to be_kind_of(ActiveRecord::Relation) }
     end
 
     describe '::as_json' do

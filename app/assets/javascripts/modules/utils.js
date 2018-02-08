@@ -302,10 +302,13 @@ export const getUrlAnchor = () => (document.URL.split('#').length > 1) ? documen
 //     }
 // };
 
-export const getUrlParameters = () => {
-    const query = window.location.search.substring(1);
-    if (query === '') {
-        return undefined;
+export const parseUrlParameters = (query) => {
+    if (!query) {
+        return;
+    }
+
+    if (query.startsWith('?')) {
+        query = query.substr(1);
     }
 
     let hash = {};
@@ -336,6 +339,15 @@ export const getUrlParameters = () => {
     }
 
     return hash;
+};
+
+export const getUrlParameters = () => {
+    const query = window.location.search.substring(1);
+    if (query === '') {
+        return undefined;
+    }
+
+    parseUrlParameters(query);
 };
 
 export const decodeObject = (object) => {

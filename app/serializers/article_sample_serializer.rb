@@ -12,11 +12,14 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :draft,
              :visibility,
              :current_language,
+             :date,
              :date_short,
              :link,
              :slug,
              :outdated_articles_count,
-             :comments_count
+             :comments_count,
+             :parent_tag_ids,
+             :child_tag_ids
 
   belongs_to :user, serializer: UserSampleSerializer
   has_many :tags, serializer: TagSampleSerializer
@@ -37,6 +40,10 @@ class ArticleSampleSerializer < ActiveModel::Serializer
     object.try(:search_highlights) && object.try(:search_highlights)[:content] ? object.search_highlights[:content] : object.summary_content
   end
 
+  def date
+    I18n.l(object.updated_at, format: :custom_full_date).sub(/^[0]+/, '')
+  end
+
   def date_short
     I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
   end
@@ -47,6 +54,14 @@ class ArticleSampleSerializer < ActiveModel::Serializer
 
   def comments_count
     object.comments_count
+  end
+
+  def parent_tag_ids
+    object.parent_tags.ids
+  end
+
+  def child_tag_ids
+    object.child_tags.ids
   end
 
   include Rails.application.routes.url_helpers

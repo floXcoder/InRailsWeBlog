@@ -403,7 +403,7 @@ RSpec.describe Article, type: :model, basic: true do
       end
 
       it 'search for articles with ordering' do
-        article_results = Article.search_for('title', order: 'created_last')[:articles]
+        article_results = Article.search_for('title', order: 'created_desc')[:articles]
 
         expect(article_results[:articles]).not_to be_empty
         expect(article_results[:articles]).to be_kind_of(Array)
@@ -477,7 +477,7 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '::order_by' do
       it { is_expected.to respond_to(:order_by) }
-      it { expect(Article.order_by('id_first')).to be_kind_of(ActiveRecord::Relation) }
+      it { expect(Article.order_by('id_asc')).to be_kind_of(ActiveRecord::Relation) }
     end
 
     describe '::as_json' do

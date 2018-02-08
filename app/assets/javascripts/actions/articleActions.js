@@ -43,6 +43,13 @@ export const updateArticle = (article, options = {}) => ({
     })
 });
 
+export const updateArticlePriority = (articleIdsByPriority) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.update(`/articles/priority`, {
+        articleIds: articleIdsByPriority
+    })
+});
+
 export const deleteArticle = (articleId, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
     mutationAPI: () => api.delete(`/articles/${articleId}`, {

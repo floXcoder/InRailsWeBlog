@@ -236,6 +236,15 @@
         }
       }
     }
+
+    .action-item-divider {
+      background-color: $border-color;
+      display: inline-block;
+      float: left;
+      height: 36px;
+      margin-left: 8px;
+      width: 1px;
+    }
   }
 }
 
@@ -662,5 +671,68 @@
 
   .deadend {
     @include special-style($deadend-color);
+  }
+}
+
+.blog-article-sort {
+  position: relative;
+}
+
+.article-sorting {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
+  .article-sorting {
+    text-align: center;
+  }
+
+  .article-sorting-items {
+    height: 85vh;
+    outline: none;
+    overflow: auto;
+    position: relative;
+  }
+
+  .article-sort-item {
+    align-items: center;
+    cursor: pointer;
+
+    .article-tags {
+      display: inline-block;
+    }
+
+    .article-parent-tags {
+      display: inline-block;
+    }
+
+    .article-child-tags {
+      display: inline-block;
+      margin-left: 2rem;
+    }
+
+    .blog-article-info {
+      margin-bottom: .5rem;
+    }
+
+    .blog-article-content {
+      margin-bottom: .5rem;
+    }
+  }
+}
+
+.blog-article-filter {
+  position: absolute;
+  right: -80px;
+  top: 30px;
+
+  ul {
+    margin: 0;
+    width: 140px;
+
+    a {
+      color: $off-black !important;
+    }
   }
 }

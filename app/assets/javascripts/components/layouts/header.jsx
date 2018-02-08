@@ -30,7 +30,7 @@ import HomeTopicHeader from './header/topic';
     isUserConnected: state.userState.isConnected,
     isUserLoaded: state.userState.isLoaded,
     isAdminConnected: state.userState.isAdminConnected,
-    userCurrentId: state.userState.currentId,
+    currentUserId: state.userState.currentId,
     userSlug: state.userState.user && state.userState.user.slug,
     currentTopic: state.topicState.currentTopic
 }), {
@@ -56,7 +56,7 @@ export default class HeaderLayout extends React.PureComponent {
         isUserConnected: PropTypes.bool,
         isUserLoaded: PropTypes.bool,
         isAdminConnected: PropTypes.bool,
-        userCurrentId: PropTypes.number,
+        currentUserId: PropTypes.number,
         userSlug: PropTypes.string,
         currentTopic: PropTypes.object,
         switchUserPopup: PropTypes.func,
