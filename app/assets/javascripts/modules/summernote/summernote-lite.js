@@ -2905,8 +2905,14 @@ var WrappedRange = /** @class */ (function () {
         var childNodes = lists.from(contentsContainer.childNodes);
         var rng = this.wrapBodyInlineWithPara().deleteContents();
         return childNodes.reverse().map(function (childNode) {
-            return rng.insertNode(childNode);
-        }).reverse();
+            // Do not copy empty content
+            // if (childNode.innerHTML) {
+                return rng.insertNode(childNode);
+            // }
+        }).reverse()
+        //     .filter(function (node) {
+        //     return !!node;
+        // });
     };
     /**
      * returns text in range
@@ -4323,7 +4329,9 @@ var Editor = /** @class */ (function () {
                 return;
             }
             var contents = _this.createRange().pasteHTML(markup);
-            range.createFromNodeAfter(lists.last(contents)).select();
+            if (contents && contents.length > 0) {
+                range.createFromNodeAfter(lists.last(contents)).select();
+            }
         });
         /**
          * formatBlock

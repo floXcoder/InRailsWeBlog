@@ -384,7 +384,7 @@ export default class UserComplete extends React.Component {
                                                             <span className="activity-list-heading">
                                                                 {
                                                                     this.state.user.admin ?
-                                                                        <span className="red-text">
+                                                                        <span className="">
                                                                             {I18n.t('js.user.show.is_admin')}
                                                                         </span>
                                                                         :

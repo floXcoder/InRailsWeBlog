@@ -1,7 +1,7 @@
 'use strict';
 
 const ArticleErrorField = ({errors}) => (
-    <div className="article-errors red-text">
+    <div className="article-errors">
         {
             errors.map((error, i) => (
                 <p key={i}

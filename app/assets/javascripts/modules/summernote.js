@@ -4,6 +4,7 @@
 // For now, use local summernote to correct errors:
 // - Air popover not display
 // - fromOffsetPath: current not defined for the last undo
+// - Improve pasteHTML
 import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';

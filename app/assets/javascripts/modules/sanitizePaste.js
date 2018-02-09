@@ -218,6 +218,10 @@ const SanitizePaste = (function () {
             html = html.replace(/‘/g, '\'');
             html = html.replace(/’/g, '\'');
 
+            // Replace line-break by para
+            // html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '<p>$1</p>');
+            html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '$1<br/>');
+
             // Sanitize
             html = this._replaceParagraphsToBr(html);
             html = this._replaceDivs(html);
@@ -226,6 +230,15 @@ const SanitizePaste = (function () {
             html = this._onPasteExtra(html);
 
             html = this._onPasteRemoveEmpty(html);
+
+            // Remove multi-br
+            html = html.replace(/(<br\s?\/?>){1,}/g, '<br/>');
+
+            // Do not include other tag directly inside para to avoid creation of empty line
+            // html = html.replace(/<p>(<\w.*?>)<\/p>/g, '$1');
+
+            // Remove br after tags
+            html = html.replace(/(<\/(?:h1|h2|h3|h4|h5|p)>)<br\s?\/?>/g, '$1');
 
             return html;
         }

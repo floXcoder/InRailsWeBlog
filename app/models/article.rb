@@ -796,6 +796,9 @@ class Article < ApplicationRecord
     html = html.gsub(/<pre>/i, '<pre><code>')
     html = html.gsub(/<\/pre>/i, '</code></pre>')
 
+    # Improve link security
+    html = html.gsub(/<a /i, '<a rel="noopener noreferrer" ')
+
     return html
   end
 

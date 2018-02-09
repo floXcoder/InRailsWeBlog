@@ -8,7 +8,7 @@ const ArticleNone = ({topicSlug, isTopicPage, isSearchPage}) => (
     <div className="row">
         <div className="col s6 offset-s3">
             <div className="card center-align blue-grey darken-1">
-                <div className="card-content white-text">
+                <div className="card-content">
                     <span className="card-title">
                         {
                             isSearchPage &&
