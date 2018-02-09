@@ -1,6 +1,6 @@
 Geocoder.configure(
   # geocoding options
-  timeout:      4, # geocoding service timeout (secs)
+  timeout:      5, # geocoding service timeout (secs)
   language:     :fr, # ISO-639 language code
   use_https:    true, # use HTTPS for lookup requests? (if supported)
 
