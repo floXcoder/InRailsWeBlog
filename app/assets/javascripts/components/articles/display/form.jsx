@@ -5,7 +5,8 @@ import {
 } from 'redux-form/immutable';
 
 import {
-    Link
+    Link,
+    Prompt
 } from 'react-router-dom';
 
 import {
@@ -61,7 +62,9 @@ export default class ArticleFormDisplay extends React.Component {
         // From reduxForm
         handleSubmit: PropTypes.func,
         submitting: PropTypes.bool,
+        submitSucceeded: PropTypes.bool,
         invalid: PropTypes.bool,
+        dirty: PropTypes.bool,
         // From connect
         userTags: PropTypes.array,
         parentTags: PropTypes.array,
@@ -106,6 +109,10 @@ export default class ArticleFormDisplay extends React.Component {
             <form id={this.props.id}
                   className="article-form"
                   onSubmit={this.props.handleSubmit}>
+                <Prompt
+                    when={this.props.dirty && !this.props.submitSucceeded}
+                    message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
+
                 <div className="card">
                     <h4 className="blog-form-title">
                         {I18n.t('js.article.new.title')}

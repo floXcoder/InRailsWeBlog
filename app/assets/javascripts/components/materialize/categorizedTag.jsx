@@ -13,6 +13,7 @@ export default class CategorizedTag extends React.Component {
         placeholderWithTags: PropTypes.string,
         name: PropTypes.string,
         multipleId: PropTypes.number,
+        titleClass: PropTypes.string,
         icon: PropTypes.string,
         children: PropTypes.array,
         isSortingCategoriesByAlpha: PropTypes.bool,
@@ -109,7 +110,9 @@ export default class CategorizedTag extends React.Component {
                 }
 
                 <label className={labelClass}>
-                    {this.props.title}
+                    <span className={this.props.titleClass}>
+                        {this.props.title}
+                    </span>
                 </label>
 
                 <div className={sliderClass}>

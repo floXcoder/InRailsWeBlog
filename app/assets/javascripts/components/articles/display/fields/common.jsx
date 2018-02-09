@@ -110,6 +110,7 @@ export default class ArticleCommonField extends React.Component {
                            addNewText={I18n.t('js.article.common.tags.add')}
                            isSortingCategoriesByAlpha={false}
                            isHorizontal={true}
+                           titleClass="form-editor-title"
                            categorizedTags={this.props.userTags}
                            transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
                            component={CategorizedField}
@@ -125,6 +126,7 @@ export default class ArticleCommonField extends React.Component {
                            addNewText={I18n.t('js.article.common.tags.add')}
                            isSortingCategoriesByAlpha={false}
                            isHorizontal={true}
+                           titleClass="form-editor-title"
                            categorizedTags={this.props.userTags}
                            transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
                            component={CategorizedField}

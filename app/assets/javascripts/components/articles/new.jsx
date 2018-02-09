@@ -93,7 +93,7 @@ export default class ArticleNew extends React.Component {
 
         formatTagArticles(formData, this.state.article && this.state.article.tags, tagParams);
 
-        if (!formData.visibility && this.props.currentTopic.visibility === 'only_me') {
+        if (!formData.visibility && this.props.currentTopic && this.props.currentTopic.visibility === 'only_me') {
             formData.visibility = 'only_me';
         }
 

@@ -62,7 +62,11 @@ $.extend($.summernote.plugins, {
                         if ($note.summernote('createRange').toString()) {
                             $note.summernote('pasteHTML', $note.summernote('createRange').toString());
                         } else {
-                            $note.summernote('code', SanitizePaste.parse($note.summernote('code')));
+                            let formattedCode = SanitizePaste.parse($note.summernote('code'));
+                            formattedCode = formattedCode.replace(/<\/li><br\s?\/?><li/g, '</li><li');
+                            formattedCode = formattedCode.replace(/<ul><br\s?\/?><li/g, '<ul><li');
+                            formattedCode = formattedCode.replace(/<\/li><br\s?\/?><\/ul>/g, '</li></ul>');
+                            $note.summernote('code', formattedCode);
                         }
                     }
                 });

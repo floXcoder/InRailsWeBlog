@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    Link
+    Link,
+    Prompt
 } from 'react-router-dom';
 
 import {
@@ -35,12 +36,24 @@ export default class ArticleInlineEditionDisplay extends React.Component {
         this._editor = null;
     }
 
+    state = {
+      isModified: false
+    };
+
     _handleDeleteClick = () => {
         this.props.deleteArticle(this.props.article.id);
     };
 
     _handleCancelClick = () => {
         this.props.inlineEditArticle(null);
+    };
+
+    _handleEditorChange = () => {
+        if (!this.state.isModified) {
+            this.setState({
+                isModified: true
+            });
+        }
     };
 
     _handleSaveClick = () => {
@@ -56,6 +69,10 @@ export default class ArticleInlineEditionDisplay extends React.Component {
     render() {
         return (
             <div className="article-inline-edition">
+                <Prompt
+                    when={this.state.isModified}
+                    message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
+
                 {
                     this.props.article.title &&
                     <div className="article-inline-title">
@@ -71,6 +88,7 @@ export default class ArticleInlineEditionDisplay extends React.Component {
                 <div className="article-inline-edition-content">
                     <Editor ref={(editor) => this._editor = editor}
                             mode={EditorMode.INLINE_EDIT}
+                            onChange={this._handleEditorChange}
                             onSubmit={this._handleSaveClick}
                             onEditorLoaded={this._handleEditorLoaded}>
                         {this.props.article.content}
