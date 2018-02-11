@@ -35,8 +35,7 @@ export default class Signup extends React.Component {
 
     render() {
         return (
-            <Modal open={this.props.isOpened}
-                   onClose={this.props.onModalChange}>
+            <Modal open={this.props.isOpened}>
                 <Modal.Header>
                     {I18n.t('js.user.signup.title')}
                 </Modal.Header>

@@ -292,6 +292,8 @@ fr:
             content: "Essayer autre chose :)"
         validation_error:
           common: "Merci de remplir l'article comme indiqué avant de continuer"
+      form:
+        unsaved: "Quitter sans sauvegarder l'article ?"
       model:
         title: "Titre"
         summary: "Résumé"

@@ -4,15 +4,14 @@ import Sidebar from '../theme/sidebar';
 
 import TagSidebar from '../tags/sidebar';
 
-const SidebarLayout = ({params, isDefaultOpened, onOpened}) => (
+const SidebarLayout = ({isDefaultOpened, onOpened}) => (
     <Sidebar isDefaultOpened={isDefaultOpened}
              onOpened={onOpened}>
-        <TagSidebar params={params}/>
+        <TagSidebar />
     </Sidebar>
 );
 
 SidebarLayout.propTypes = {
-    params: PropTypes.object.isRequired,
     onOpened: PropTypes.func.isRequired,
     isDefaultOpened: PropTypes.bool
 };

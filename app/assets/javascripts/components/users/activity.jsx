@@ -10,7 +10,7 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
         let colorIcon = '';
         if (model === 'article') {
             icon = 'message';
-            colorIcon = 'blue-text text-lighten-2';
+            colorIcon = '';
         } else if (model === 'tag') {
             icon = 'local_offer';
             colorIcon = '';
@@ -19,10 +19,10 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
             colorIcon = '';
         } else if (model === 'bookmarked_article') {
             icon = 'bookmark';
-            colorIcon = 'amber-text text-darken-1';
+            colorIcon = '';
         } else if (model === 'comment') {
             icon = 'comment';
-            colorIcon = 'red-text text-lighten-2';
+            colorIcon = '';
         }
 
         return (

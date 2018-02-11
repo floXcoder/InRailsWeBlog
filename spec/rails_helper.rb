@@ -7,12 +7,12 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
-require 'spec_helper'
 require 'rspec/rails'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'shoulda/matchers'
 require 'shoulda-callback-matchers'
+require 'faker'
 require 'factory_bot_rails'
 require 'database_cleaner'
 require 'fuubar'
@@ -24,6 +24,8 @@ require 'capybara-screenshot/rspec'
 require 'capybara/email/rspec'
 include PageValidations
 include Warden::Test::Helpers
+
+require 'spec_helper'
 
 # Setup warden in test mode
 Warden.test_mode!

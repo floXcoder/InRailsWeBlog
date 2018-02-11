@@ -115,7 +115,7 @@ export default class ArticleShow extends React.Component {
             <div>
                 {
                     this.props.isOutdated &&
-                    <div className="card center-align red-text">
+                    <div className="card center-align">
                         <p>
                             {I18n.t('js.article.common.outdated')}
                         </p>

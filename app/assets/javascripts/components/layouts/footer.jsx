@@ -7,34 +7,34 @@ const FooterLayout = ({}) => (
         <div className="container">
             <div className="row">
                 <div className="col l6 s12">
-                    <h5 className="white-text">
+                    <h5 className="">
                         {I18n.t('js.views.footer.title')}
                     </h5>
 
-                    <p className="grey-text text-lighten-4">
+                    <p className="">
                         {I18n.t('js.views.footer.description')}
                     </p>
                 </div>
 
                 <div className="col l4 offset-l2 s12">
-                    <h5 className="white-text">
+                    <h5 className="">
                         {I18n.t('js.views.footer.links.title')}
                     </h5>
 
                     <p>
-                        <a className="grey-text text-lighten-3"
+                        <a className=""
                            href="#">
                             {I18n.t('js.views.footer.links.about')}
                         </a>
                     </p>
                     <p>
-                        <a className="grey-text text-lighten-3"
+                        <a className=""
                            href="#">
                             {I18n.t('js.views.footer.links.support')}
                         </a>
                     </p>
                     <p>
-                        <a className="grey-text text-lighten-3"
+                        <a className=""
                            href={"mailto:" + window.settings.website_email}>
                             {I18n.t('js.views.footer.links.contact')}
                         </a>
@@ -45,7 +45,7 @@ const FooterLayout = ({}) => (
                     <div className="footer-copyright">
                         <div className="container">
                             &copy; {I18n.t('js.views.footer.copyright')}
-                            <a className="grey-text text-lighten-4 right"
+                            <a className="right"
                                href={I18n.t('js.views.footer.links.github_src')}>
                                 {I18n.t('js.views.footer.links.github')}
                             </a>

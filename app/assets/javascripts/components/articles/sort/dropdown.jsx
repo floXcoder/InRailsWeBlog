@@ -37,24 +37,33 @@ const ArticleSortDisplay = ({currentTopicSlug}) => (
                     </Link>
                 </li>
 
-                <li className="dropdown-divider"/>
+                {
+                    currentTopicSlug &&
+                    <li className="dropdown-divider"/>
+                }
 
-                <li className="dropdown-header">
-                    {I18n.t('js.article.sort.link_title')}
-                </li>
+                {
+                    currentTopicSlug &&
+                    <li className="dropdown-header">
+                        {I18n.t('js.article.sort.link_title')}
+                    </li>
+                }
 
-                <li>
-                    <Link to={`/user/${currentTopicSlug}/sort`}>
-                        {I18n.t('js.article.sort.link')}
-                    </Link>
-                </li>
+                {
+                    currentTopicSlug &&
+                    <li>
+                        <Link to={`/user/${currentTopicSlug}/sort`}>
+                            {I18n.t('js.article.sort.link')}
+                        </Link>
+                    </li>
+                }
             </ul>
         </Dropdown>
     </div>
 );
 
 ArticleSortDisplay.propTypes = {
-    currentTopicSlug: PropTypes.string.isRequired
+    currentTopicSlug: PropTypes.string
 };
 
 export default ArticleSortDisplay;

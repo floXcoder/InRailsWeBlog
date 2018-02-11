@@ -43,7 +43,7 @@ module InRailsWeBlog
     # Include the authenticity token in remote forms.
     config.action_view.embed_authenticity_token_in_remote_forms = true
 
-    # Log levels :debug, :info, :warn, :error, :fatal, et :unknown
+    # Log levels :debug, :info, :warn, :error, :fatal and :unknown
     config.log_level = :info
 
     # I18n configuration
@@ -74,6 +74,9 @@ module InRailsWeBlog
 
     # Errors handling
     config.exceptions_app = self.routes
+
+    # Prevent attacks
+    config.middleware.use Rack::Attack
 
     # Custom configuration
     config.x.cron_jobs_active = true

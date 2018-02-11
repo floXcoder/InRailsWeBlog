@@ -27,8 +27,7 @@ class ArticlesController < ApplicationController
   respond_to :html, :json
 
   def index
-    articles = Article.includes(user: [:picture])
-                 .distinct
+    articles = Article.include_collection.distinct
 
     articles = articles.default_visibility(current_user, current_admin)
 
@@ -54,32 +53,25 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article = Article.includes(:user,
-                               :parent_tags,
-                               :child_tags,
-                               :tagged_articles,
-                               :tracker)
-                .friendly.find(params[:id])
+    article = Article.include_element.friendly.find(params[:id])
     admin_or_authorize article
 
     respond_to do |format|
-      format.html do
-        expires_in 3.hours, public: true
-        set_meta_tags title:       titleize(I18n.t('views.article.show.title')),
-                      description: article.meta_description,
-                      author:      alternate_urls(article.user.slug)['fr'],
-                      canonical:   alternate_urls(article.slug)['fr'],
-                      alternate:   alternate_urls('articles', article.slug),
-                      og:          {
-                        type:  "#{ENV['WEBSITE_NAME']}:article",
-                        url:   article_url(article),
-                        image: root_url + article.default_picture
-                      }
-        render :show, locals: { article: article }
-      end
       format.json do
+        # set_meta_tags title:       titleize(I18n.t('views.article.show.title')),
+        #               description: article.meta_description,
+        #               author:      alternate_urls(article.user.slug)['fr'],
+        #               canonical:   alternate_urls(article.slug)['fr'],
+        #               alternate:   alternate_urls('articles', article.slug),
+        #               og:          {
+        #                 type:  "#{ENV['WEBSITE_NAME']}:article",
+        #                 url:   article_url(article),
+        #                 image: root_url + article.default_picture
+        #               }
         render json:       article,
-               serializer: ArticleSerializer
+               serializer: ArticleSerializer,
+               with_vote: true,
+               with_outdated: true
       end
     end
   end
@@ -122,10 +114,7 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    article = Article.includes(:user,
-                               :parent_tags,
-                               :child_tags)
-                .friendly.find(params[:id])
+    article = Article.include_element.friendly.find(params[:id])
     admin_or_authorize article
 
     respond_to do |format|
@@ -163,7 +152,7 @@ class ArticlesController < ApplicationController
   end
 
   def update_priority
-    articles        = []
+    articles = []
     priority_params[:article_ids].reverse.each_with_index do |id, i|
       article = Article.find(id)
       admin_or_authorize article, :update?
@@ -291,8 +280,8 @@ class ArticlesController < ApplicationController
                                      :child_tag_slug,
                                      :bookmarked,
                                      :order,
-                                     user_ids:         [],
-                                     topic_ids:        []).reject { |_, v| v.blank? }
+                                     user_ids:  [],
+                                     topic_ids: []).reject { |_, v| v.blank? }
     else
       {}
     end

@@ -31,6 +31,6 @@ class UserCompleteSerializer < ActiveModel::Serializer
   end
 
   def articles_count
-    object.articles.count
+    object.articles.size
   end
 end

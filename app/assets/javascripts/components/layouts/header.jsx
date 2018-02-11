@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    switchUserPopup,
     switchUserSignup,
     switchUserLogin,
     switchTopicPopup,
@@ -22,7 +21,6 @@ import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
 @connect((state) => ({
-    isUserPopupOpened: state.uiState.isUserPopupOpened,
     isUserSignupOpened: state.uiState.isUserSignupOpened,
     isUserLoginOpened: state.uiState.isUserLoginOpened,
     isTopicPopupOpened: state.uiState.isTopicPopupOpened,
@@ -34,7 +32,6 @@ import HomeTopicHeader from './header/topic';
     userSlug: state.userState.user && state.userState.user.slug,
     currentTopic: state.topicState.currentTopic
 }), {
-    switchUserPopup,
     switchUserSignup,
     switchUserLogin,
     switchTopicPopup,
@@ -48,7 +45,6 @@ export default class HeaderLayout extends React.PureComponent {
         onSearchClose: PropTypes.func.isRequired,
         children: PropTypes.array.isRequired,
         // From connect
-        isUserPopupOpened: PropTypes.bool,
         isUserSignupOpened: PropTypes.bool,
         isUserLoginOpened: PropTypes.bool,
         isTopicPopupOpened: PropTypes.bool,
@@ -59,7 +55,6 @@ export default class HeaderLayout extends React.PureComponent {
         currentUserId: PropTypes.number,
         userSlug: PropTypes.string,
         currentTopic: PropTypes.object,
-        switchUserPopup: PropTypes.func,
         switchUserSignup: PropTypes.func,
         switchUserLogin: PropTypes.func,
         switchTopicPopup: PropTypes.func,
@@ -71,11 +66,11 @@ export default class HeaderLayout extends React.PureComponent {
     }
 
     componentDidMount() {
-        $(document).keyup(function (event) {
+        $(document).keyup((event) => {
             if (event.which === '27') {
                 this.props.onSearchClose();
             }
-        }.bind(this));
+        });
     }
 
     _handleSignupClick = (event) => {
@@ -136,8 +131,6 @@ export default class HeaderLayout extends React.PureComponent {
                                 <li>
                                     <HomeUserHeader isUserConnected={this.props.isUserConnected}
                                                     isAdminConnected={this.props.isAdminConnected}
-                                                    isOpened={this.props.isUserPopupOpened}
-                                                    onUserPopup={this.props.switchUserPopup}
                                                     onSignupClick={this._handleSignupClick}
                                                     onLoginClick={this._handleLoginClick}
                                                     userSlug={this.props.userSlug}/>

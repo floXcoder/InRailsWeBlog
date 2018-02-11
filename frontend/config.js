@@ -7,18 +7,16 @@ module.exports = {
     webpack: {
         context: './app/assets/javascripts',
         entries: {
-            ie8: ['./modules/ie8.js'],
-            ie9: ['./modules/ie9.js'],
             home: ['./pages/home/home.jsx'],
-            'users/show': ['./pages/users/show.jsx'],
-            'users/edit': ['./pages/users/edit.jsx'],
-            'users/login': ['./pages/users/login.jsx'],
-            'users/signup': ['./pages/users/signup.jsx'],
-            'users/password': ['./pages/users/password.jsx'],
-            'articles/show': ['./pages/articles/show.jsx'],
-            'articles/edit': ['./pages/articles/edit.jsx'],
-            'tags/show': ['./pages/tags/show.jsx'],
             'errors/error': ['./pages/errors/error.jsx'],
+            // 'users/show': ['./pages/users/show.jsx'],
+            // 'users/edit': ['./pages/users/edit.jsx'],
+            // 'users/login': ['./pages/users/login.jsx'],
+            // 'users/signup': ['./pages/users/signup.jsx'],
+            // 'users/password': ['./pages/users/password.jsx'],
+            // 'articles/show': ['./pages/articles/show.jsx'],
+            // 'articles/edit': ['./pages/articles/edit.jsx'],
+            // 'tags/show': ['./pages/tags/show.jsx'],
             // 'admin/dashboard': ['./pages/admin/dashboard.jsx'],
             // 'admin/users/index': ['./pages/admin/managers/index.jsx'],
             // 'admin/users/show': ['./pages/admin/managers/show.jsx'],
@@ -30,26 +28,35 @@ module.exports = {
                 name: 'commons',
                 files: [
                     'home',
-                    'users/show', 'users/edit',
-                    'articles/show', 'articles/edit',
-                    'tags/show'
+                    'errors/error'
+                    // 'users/show', 'users/edit',
+                    // 'articles/show', 'articles/edit',
+                    // 'tags/show'
                 ]
             },
             {
-                name: 'commons-full-page',
+                asyncName: 'commons-article',
                 files: [
-                    'users/login', 'users/signup', 'users/password', 'errors/error'
+                    'article-index',
+                    'article-show',
+                    'article-history'
                 ]
             },
-            {
-                name: 'commons-admin',
-                files: [
-                    'admin/dashboard',
-                    'admin/users/index',
-                    'admin/users/show',
-                    'admin/errors'
-                ]
-            }
+            // {
+            //     name: 'commons-full-page',
+            //     files: [
+            //         'users/login', 'users/signup', 'users/password', 'errors/error'
+            //     ]
+            // },
+            // {
+            //     name: 'commons-admin',
+            //     files: [
+            //         'admin/dashboard',
+            //         'admin/users/index',
+            //         'admin/users/show',
+            //         'admin/errors'
+            //     ]
+            // }
         ],
         output: {
             path: './public/assets',
@@ -107,13 +114,13 @@ module.exports = {
         },
         development: {
             filename: '[name].js',
-            chunkFilename: '[name].chunk.js',
+            chunkFilename: '[name].async.js',
             commonFilename: '.js'
         },
         production: {
             filename: '[name]-[chunkhash].js',
             commonFilename: '-[chunkhash].js',
-            chunkFilename: '[name]-[chunkhash].chunk.js',
+            chunkFilename: '[name]-[chunkhash].async.js',
             manifestFilename: 'rev-manifest.json'
         }
     },

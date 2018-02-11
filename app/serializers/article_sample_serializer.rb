@@ -14,7 +14,6 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :current_language,
              :date,
              :date_short,
-             :link,
              :slug,
              :outdated_articles_count,
              :comments_count,
@@ -57,16 +56,10 @@ class ArticleSampleSerializer < ActiveModel::Serializer
   end
 
   def parent_tag_ids
-    object.parent_tags.ids
+    object.tagged_articles.select(&:parent?).map(&:tag_id)
   end
 
   def child_tag_ids
-    object.child_tags.ids
-  end
-
-  include Rails.application.routes.url_helpers
-
-  def link
-    article_path(object)
+    object.tagged_articles.select(&:child?).map(&:tag_id)
   end
 end

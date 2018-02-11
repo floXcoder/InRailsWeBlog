@@ -547,11 +547,6 @@
 .blog-article-content {
   margin: .5rem 0 2rem;
 
-  &::first-letter {
-    font-size: 150%;
-    margin-right: 3px;
-  }
-
   h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
     color: $off-black;
     margin: 0;
@@ -621,6 +616,10 @@
     text-align: left;
   }
 
+  p {
+    white-space: pre-wrap;
+  }
+
   strong {
     font-weight: 600;
   }
@@ -634,12 +633,12 @@
   }
 
   ul {
-    margin-top: 2rem;
+    margin-top: .8rem;
     padding: 0;
 
     li {
       list-style-type: disc;
-      margin-bottom: 1rem;
+      margin-bottom: .4rem;
       margin-left: 2rem;
     }
   }
@@ -735,4 +734,8 @@
       color: $off-black !important;
     }
   }
+}
+
+.article-errors {
+  color: $error-color;
 }

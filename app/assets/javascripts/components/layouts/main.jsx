@@ -143,8 +143,7 @@ export default class MainLayout extends React.Component {
 
                                    <ErrorBoundary errorType="text"
                                                   className="sidebar sidebar-pin">
-                                       <SidebarLayout params={router.match.params}
-                                                      isDefaultOpened={!this.props.isMediumScreen}
+                                       <SidebarLayout isDefaultOpened={!this.props.isMediumScreen}
                                                       onOpened={this._handleSidebarPinClick}/>
                                    </ErrorBoundary>
 

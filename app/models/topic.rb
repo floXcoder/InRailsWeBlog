@@ -152,6 +152,8 @@ class Topic < ApplicationRecord
   # == Callbacks ============================================================
   before_create :set_default_color
 
+  after_commit :invalidate_topic_cache
+
   # == Class Methods ========================================================
   # Article Search
   # +query+ parameter: string to query
@@ -484,6 +486,10 @@ class Topic < ApplicationRecord
 
   def set_default_color
     self.color = Setting.topic_color unless self.color
+  end
+
+  def invalidate_topic_cache
+    Rails.cache.delete("user_topics:#{self.user_id}")
   end
 
 end

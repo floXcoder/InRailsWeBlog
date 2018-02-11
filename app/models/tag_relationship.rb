@@ -50,8 +50,8 @@ class TagRelationship < ApplicationRecord
             presence: true,
             on: :update
 
-  validates_uniqueness_of :parent_id,
-                          scope: [:article_id, :child_id],
+  validates_uniqueness_of :topic_id,
+                          scope: [:parent_id, :child_id],
                           allow_nil: true,
                           message: I18n.t('activerecord.errors.models.tag_relationship.already_linked')
 

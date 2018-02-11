@@ -292,6 +292,8 @@ en:
             content: "Try something else :)"
         validation_error:
           common: "Please correct errors before submitting"
+      form:
+        unsaved: "Leave without saving article?"
       model:
         title: "Title"
         summary: "Summary"

@@ -24,7 +24,6 @@ import Spinner from '../materialize/spinner';
 })
 export default class TagSidebar extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
         // From connect
         isLoading: PropTypes.bool,
         filterText: PropTypes.string,

@@ -136,6 +136,7 @@ export default class UserComplete extends React.Component {
     };
 
     render() {
+        // TODO: replace dropdown
         return (
             <div className="user-admin">
                 <div className="row">
@@ -384,7 +385,7 @@ export default class UserComplete extends React.Component {
                                                             <span className="activity-list-heading">
                                                                 {
                                                                     this.state.user.admin ?
-                                                                        <span className="red-text">
+                                                                        <span className="">
                                                                             {I18n.t('js.user.show.is_admin')}
                                                                         </span>
                                                                         :

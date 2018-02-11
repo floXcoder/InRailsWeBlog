@@ -190,8 +190,13 @@ class Tag < ApplicationRecord
     joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id })
   }
 
+  scope :include_collection, -> { includes(:parent_relationships, :child_relationships) }
+  scope :include_element, -> { includes(:user) }
+
   # == Callbacks ============================================================
   before_create :set_default_color
+
+  after_commit :invalidate_tag_cache
 
   # == Class Methods ========================================================
   # Tag Search
@@ -449,10 +454,10 @@ class Tag < ApplicationRecord
 
       visibility ||= 'everyone'
       attributes = {
-        user_id:    current_user_id,
+        user_id:    Tag.visibilities[visibility] == 1 ? current_user_id : nil,
         name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
         visibility: Tag.visibilities[visibility]
-      }
+      }.compact
 
       Tag.find_by(attributes) || Tag.new(attributes)
     end
@@ -596,9 +601,9 @@ class Tag < ApplicationRecord
   def name_visibility
     return unless self.name.present? && name_changed?
 
-    if Tag.where('visibility = 1 AND user_id = :user_id AND lower(name) = :name', user_id: self.user_id, name: self.name.mb_chars.downcase.to_s).any?
+    if Tag.where('visibility = 1 AND user_id = :user_id AND lower(name) = :name', user_id: self.user_id, name: self.name.mb_chars.downcase.to_s).exists?
       errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist'))
-    elsif Tag.where('visibility = 0 AND lower(name) = :name', name: self.name.mb_chars.downcase.to_s).any?
+    elsif Tag.where('visibility = 0 AND lower(name) = :name', name: self.name.mb_chars.downcase.to_s).exists?
       errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist_in_public'))
     end
   end
@@ -617,6 +622,10 @@ class Tag < ApplicationRecord
 
   def set_default_color
     self.color = Setting.tag_color unless self.color
+  end
+
+  def invalidate_tag_cache
+    Rails.cache.delete_matched('user_tags:*')
   end
 
 end

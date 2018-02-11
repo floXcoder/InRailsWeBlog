@@ -228,13 +228,16 @@ class Article < ApplicationRecord
     where(topic_id: topic_id)
   }
 
-  scope :with_tags, -> (tag_slugs) { joins(:tags).where(tags: { slug: tag_slugs }) } # cannot use includes, it includes only tag requested
+  scope :with_tags, -> (tag_slugs) { left_outer_joins(:tags).where(tags: { slug: tag_slugs }) }
   scope :with_parent_tags, -> (parent_tag_slugs) { joins(:tags).where(tagged_articles: { parent: true }, tags: { slug: parent_tag_slugs }) }
   scope :with_child_tags, -> (child_tag_slugs) { joins(:tags).where(tagged_articles: { child: true }, tags: { slug: child_tag_slugs }) }
 
   scope :published, -> { where(draft: false) }
 
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
+
+  scope :include_collection, -> { includes(:tags, :tagged_articles, :user_bookmarks, user: [:picture]) }
+  scope :include_element, -> { includes(:user, :parent_tags, :child_tags, :tagged_articles, :tracker) }
 
   # == Callbacks ============================================================
   # Visibility: private for draft articles
@@ -498,11 +501,11 @@ class Article < ApplicationRecord
                 child_article_ids  = Article.all.includes(:tagged_articles).with_child_tags(filter[:child_tag_slug]).ids
                 records.where(id: parent_article_ids & child_article_ids)
               elsif filter[:parent_tag_slug]
-                records.includes(:tagged_articles).with_parent_tags(filter[:parent_tag_slug])
+                records.with_parent_tags(filter[:parent_tag_slug])
               elsif filter[:child_tag_slug]
-                records.includes(:tagged_articles).with_child_tags(filter[:child_tag_slug])
+                records.with_child_tags(filter[:child_tag_slug])
               elsif filter[:tag_slug]
-                records.includes(:tagged_articles).with_tags(filter[:tag_slug])
+                records.with_tags(filter[:tag_slug])
               else
                 records
               end
@@ -637,6 +640,11 @@ class Article < ApplicationRecord
       tag_relationships_attributes = []
 
       if !attributes[:parent_tags].nil? && !attributes[:child_tags].nil?
+        # Remove duplicated tags in children if any
+        attributes[:child_tags] = attributes[:child_tags].reject do |child|
+          attributes[:parent_tags].include?(child)
+        end
+
         parent_tags = Tag.parse_tags(attributes.delete(:parent_tags), current_user&.id)
         parent_tags.map do |tag|
           tagged_article_attributes << {
@@ -653,7 +661,7 @@ class Article < ApplicationRecord
 
         tag_relationships_attributes = parent_tags.map do |parent_tag|
           child_tags.map do |child_tag|
-            tag_relationships_attributes << {
+            {
               parent: parent_tag, child: child_tag, user_id: self.user_id, topic_id: self.topic_id
             }
           end
@@ -681,7 +689,7 @@ class Article < ApplicationRecord
       end
 
       new_tag_relationships = tag_relationships_attributes.map do |tag_relationships_attribute|
-        if (tag_relationship = self.tag_relationships.where(tag_relationships_attribute).first)
+        if (tag_relationship = TagRelationship.where(tag_relationships_attribute).first)
           tag_relationship.assign_attributes(tag_relationships_attribute)
           tag_relationship
         else
@@ -795,6 +803,9 @@ class Article < ApplicationRecord
     # Remplace pre by pre > code
     html = html.gsub(/<pre>/i, '<pre><code>')
     html = html.gsub(/<\/pre>/i, '</code></pre>')
+
+    # Improve link security
+    html = html.gsub(/<a /i, '<a rel="noopener noreferrer" ')
 
     return html
   end

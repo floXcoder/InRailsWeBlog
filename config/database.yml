@@ -22,5 +22,8 @@ production:
   database: inrailsweblog
   host: localhost
   pool: 15
+  connect_timeout: 15
+  variables:
+    statement_timeout: 250
   username: <%= ENV['DATABASE_PROD_USERNAME'] %>
   password: <%= ENV['DATABASE_PROD_PASSWORD'] %>
