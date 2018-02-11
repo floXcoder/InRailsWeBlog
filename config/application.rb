@@ -43,7 +43,7 @@ module InRailsWeBlog
     # Include the authenticity token in remote forms.
     config.action_view.embed_authenticity_token_in_remote_forms = true
 
-    # Log levels :debug, :info, :warn, :error, :fatal, et :unknown
+    # Log levels :debug, :info, :warn, :error, :fatal and :unknown
     config.log_level = :info
 
     # I18n configuration

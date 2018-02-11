@@ -9,9 +9,9 @@
   }
 
   .sidebar-empty {
+    font-style: italic;
     margin-bottom: .6rem;
     margin-top: .8rem;
-    font-style: italic;
   }
 
   .tag-search {
@@ -54,6 +54,11 @@
       text-align: left;
       text-overflow: ellipsis;
       white-space: nowrap;
+
+      &.tag-selected {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
     }
 
     .tag-parent-children {
@@ -77,7 +82,7 @@
   }
 
   .tag-child {
-    display: inline-block;
+    display: block;
     font-weight: normal;
     line-height: 28px;
     margin-bottom: 8px;
@@ -101,6 +106,11 @@
       text-align: left;
       text-overflow: ellipsis;
       white-space: nowrap;
+
+      &.tag-selected {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
     }
   }
 }

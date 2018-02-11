@@ -13,6 +13,8 @@ const ChildTag = ({tag, parentTagSlug, isExpanded}) => (
         'tag-child-display': isExpanded
     })}
              to={`/tagged/${parentTagSlug}/${tag.slug}`}
+             activeClassName="tag-selected"
+             exact={true}
              onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
         <span className="tag-child-name">
             {tag.name}

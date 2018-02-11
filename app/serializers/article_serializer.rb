@@ -46,11 +46,11 @@ class ArticleSerializer < ActiveModel::Serializer
              :allow_comment,
              :draft,
              :current_language,
-             # :bookmarked,
-             # :outdated,
+             :bookmarked,
+             :outdated,
              :slug,
-             # :votes_up,
-             # :votes_down,
+             :votes_up,
+             :votes_down,
              :outdated_count,
              :comments_count,
              :parent_tag_ids,
@@ -81,33 +81,32 @@ class ArticleSerializer < ActiveModel::Serializer
 
   # TODO: N+1 query problem
   # TODO: directly use current_user_id ?
-  # def bookmarked
-  #   if defined?(current_user) && current_user
-  #     # object.user_bookmarks.exists?(current_user.id)
-  #     object.bookmarks.find_by(user_id: current_user.id)&.id
-  #   else
-  #     false
-  #   end
-  # end
+  def bookmarked
+    if defined?(current_user) && current_user
+      object.bookmarked?(current_user)
 
-  # TODO: N+1 query problem
-  # def outdated
-  #   if defined?(current_user) && current_user
-  #     object.marked_as_outdated.exists?(current_user.id)
-  #   else
-  #     false
-  #   end
-  # end
+      # object.user_bookmarks.exists?(current_user.id)
+      # object.bookmarks.find_by(user_id: current_user.id)&.id
+    else
+      false
+    end
+  end
 
-  # TODO: N+1 query problem
-  # def votes_up
-  #   object.votes_for
-  # end
+  def outdated
+    if instance_options[:with_outdated] && defined?(current_user) && current_user
+      object.marked_as_outdated.exists?(current_user.id)
+    else
+      false
+    end
+  end
 
-  # TODO: N+1 query problem
-  # def votes_down
-  #   object.votes_against
-  # end
+  def votes_up
+    object.votes_for if instance_options[:with_vote]
+  end
+
+  def votes_down
+    object.votes_against if instance_options[:with_vote]
+  end
 
   def outdated_count
     object.outdated_articles_count
@@ -122,11 +121,11 @@ class ArticleSerializer < ActiveModel::Serializer
   end
 
   def parent_tag_ids
-    object.parent_tags.ids
+    object.tagged_articles.select(&:parent?).map(&:tag_id)
   end
 
   def child_tag_ids
-    object.child_tags.ids
+    object.tagged_articles.select(&:child?).map(&:tag_id)
   end
 
   def new_tag_ids

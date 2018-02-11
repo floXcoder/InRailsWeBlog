@@ -54,13 +54,8 @@ class ApplicationController < ActionController::Base
     end
 
     # Set user location
-    begin
-      @user_latitude  = request.location.latitude
-      @user_longitude = request.location.longitude
-    rescue NoMethodError
-      @user_latitude  = 0
-      @user_longitude = 0
-    end
+    @user_latitude  = request.respond_to?(:location) ? request.location.latitude : 0
+    @user_longitude  = request.respond_to?(:location) ? request.location.longitude : 0
   end
 
   # Redirection when Javascript is used.

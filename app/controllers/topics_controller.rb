@@ -8,14 +8,17 @@ class TopicsController < ApplicationController
   respond_to :json
 
   def index
-    topics = Topic
-               .includes(:user)
-               .order('topics.name ASC')
-               .distinct
+    topics = Rails.cache.fetch("user_topics:#{params[:user_id] || current_user&.id}", expires_in: CONFIG.cache_time) do
+      topics = Topic
+                 .order('topics.name ASC')
+                 .distinct
 
-    topics = topics.from_user(params[:user_id], current_user&.id)
+      topics = topics.from_user(params[:user_id], current_user&.id)
 
-    topics = Topic.filter_by(topics, filter_params, current_user) unless filter_params.empty?
+      topics = Topic.filter_by(topics, filter_params, current_user) unless filter_params.empty?
+
+      topics
+    end
 
     respond_to do |format|
       format.json do

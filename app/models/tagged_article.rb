@@ -60,6 +60,7 @@ class TaggedArticle < ApplicationRecord
   # == Scopes ===============================================================
 
   # == Callbacks ============================================================
+  after_commit :invalidate_tag_cache
 
   # == Class Methods ========================================================
 
@@ -79,6 +80,10 @@ class TaggedArticle < ApplicationRecord
         errors.add(:base, I18n.t('activerecord.errors.models.tagged_article.incorrect_topic_affiliation'))
       end
     end
+  end
+
+  def invalidate_tag_cache
+    Rails.cache.delete("user_tags:#{self.user_id}_and_#{self.topic_id}")
   end
 
 end

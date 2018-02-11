@@ -42,11 +42,11 @@ gem 'paranoia',                 '2.4.0'
 gem 'public_activity',          '1.5.0'
 
 # Format user input
-gem 'auto_strip_attributes',    '2.2.0'
+gem 'auto_strip_attributes',    '2.3.0'
 gem 'sanitize',                 '4.6.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '5.0.5'
+gem 'sidekiq',                  '5.1.1'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '0.6.3'
 gem 'whenever',                 '0.10.0', require: false
@@ -156,13 +156,14 @@ group :test do
   gem 'fuubar',                 '2.3.1'
   gem 'database_cleaner',       '1.6.2'
   gem 'spring-commands-rspec',  '1.0.4'
+  gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
   gem 'capybara',               '2.17.0'
   gem 'capybara-email',         '2.5.0'
   gem 'capybara-screenshot',    '1.0.18'
-  gem 'selenium-webdriver',     '3.8.0'
-  gem 'chromedriver-helper',    '1.1.0'
+  gem 'selenium-webdriver',     '3.9.0'
+  gem 'chromedriver-helper',    '1.2.0'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'
 

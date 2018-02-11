@@ -72,6 +72,14 @@ describe 'Topic API', type: :request, basic: true do
       end
     end
 
+    context 'when fetching topics in database' do
+      it 'limits the number of database queries' do
+        expect {
+          get '/topics', params: { user_id: @user.id }, as: :json
+        }.to make_database_queries(count: 1..3)
+      end
+    end
+
     context 'when admin is connected' do
       before do
         login_as(@admin, scope: :admin, run_callbacks: false)

@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   respond_to :html, :json
 
   def index
-    users = User.includes(:picture).all.order('users.id ASC')
+    users = User.include_collection.all.order('users.id ASC')
     users = users.paginate(page: params[:page], per_page: Setting.per_page) if params[:page]
 
     respond_to do |format|

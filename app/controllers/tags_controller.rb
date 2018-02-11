@@ -21,48 +21,46 @@ class TagsController < ApplicationController
   respond_to :html, :json
 
   def index
-    tags = Tag.includes(:user, :parents, :child_relationships, :children, :parent_relationships)
-             .distinct
+    tags = Rails.cache.fetch("user_tags:#{current_user&.id}_and_#{filter_params[:topic_id]}", expires_in: CONFIG.cache_time) do
+      tags = Tag.include_collection.distinct
 
-    tags = tags.order_by(filter_params[:order] || 'name')
+      tags = tags.order_by(filter_params[:order] || 'name')
 
-    tags = tags.default_visibility(current_user, current_admin)
+      tags = tags.default_visibility(current_user, current_admin)
 
-    # When filtering by topic, private tags not assigned to an article are not returned
-    tags = Tag.filter_by(tags, filter_params, current_user) unless filter_params.empty?
+      # When filtering by topic, private tags not assigned to an article are not returned
+      tags = Tag.filter_by(tags, filter_params, current_user) unless filter_params.empty?
 
-    tags = tags.limit(params[:limit]) if params[:limit]
+      tags = tags.limit(params[:limit]) if params[:limit]
+
+      tags
+    end
 
     respond_to do |format|
       format.json do
         render json:            tags,
                each_serializer: TagSerializer,
-               current_topic_id: filter_params[:topic_id]
+               current_topic_id: filter_params[:topic_id].to_i
       end
     end
   end
 
   def show
-    tag = Tag.includes(:user).friendly.find(params[:id])
+    tag = Tag.include_element.friendly.find(params[:id])
     authorize tag
 
     respond_to do |format|
-      format.html do
-        expires_in 3.hours, public: true
-        set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
-                      description: tag.meta_description,
-                      author:      alternate_urls(tag.user.slug)['fr'],
-                      canonical:   alternate_urls(tag.slug)['fr'],
-                      alternate:   alternate_urls('tags', tag.slug),
-                      og:          {
-                        type:  "#{ENV['WEBSITE_NAME']}:tag",
-                        url:   tag_url(tag),
-                        image: root_url + tag.default_picture
-                      }
-        render :show, locals: { tag: tag }
-      end
-
       format.json do
+        # set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
+        #               description: tag.meta_description,
+        #               author:      alternate_urls(tag.user.slug)['fr'],
+        #               canonical:   alternate_urls(tag.slug)['fr'],
+        #               alternate:   alternate_urls('tags', tag.slug),
+        #               og:          {
+        #                 type:  "#{ENV['WEBSITE_NAME']}:tag",
+        #                 url:   tag_url(tag),
+        #                 image: root_url + tag.default_picture
+        #               }
         render json:       tag,
                serializer: TagSerializer
       end

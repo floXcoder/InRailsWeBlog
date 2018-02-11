@@ -107,6 +107,24 @@ describe 'Tag API', type: :request, basic: true do
       end
     end
 
+    context 'when fetching tags in database' do
+      it 'limits the number of database queries' do
+        expect {
+          get '/tags', params: { filter: { user_id: @user.id }, limit: 20 }, as: :json
+        }.to make_database_queries(count: 3..6)
+      end
+    end
+
+    context 'when lot of tag' do
+      let!(:articles) { create_list(:tag, 200, user: @user) }
+
+      it 'returns all tags in less than 0.2 seconds' do
+        expect {
+          get '/tags', params: { filter: { user_id: @user.id }, limit: 1_000 }, as: :json
+        }.to take_less_than(0.2).seconds
+      end
+    end
+
     context 'when admin is connected' do
       before do
         login_as(@admin, scope: :admin, run_callbacks: false)

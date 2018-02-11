@@ -15,11 +15,11 @@ class UserProfileSerializer < ActiveModel::Serializer
              :current_topic
 
   def articles_count
-    object.articles.count
+    object.articles.size
   end
 
   def draft_count
-    object.draft_articles.count
+    object.draft_articles.size
   end
 
   def current_topic

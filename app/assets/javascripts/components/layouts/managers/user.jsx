@@ -40,8 +40,9 @@ export default class UserManager extends React.Component {
                         // Get all user topics
                         props.fetchTopics(props.currentUserId);
 
+                        // Loaded when current topic is updated
                         // Get all user tags for current topic (user private and common public tags associated to his articles)
-                        props.fetchTags({topicId: response.user.currentTopic.id});
+                        // props.fetchTags({topicId: response.user.currentTopic.id});
                     }
                 });
         } else {

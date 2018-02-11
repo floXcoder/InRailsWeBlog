@@ -162,6 +162,24 @@ describe 'Article API', type: :request, basic: true do
       end
     end
 
+    context 'when fetching articles in database' do
+      it 'limits the number of database queries' do
+        expect {
+          get '/articles', params: { filter: { topic_id: @topic.id }, limit: 20 }, as: :json
+        }.to make_database_queries(count: 8..12)
+      end
+    end
+
+    context 'when lot of articles' do
+      let!(:articles) { create_list(:article, 100, user: @user, topic: @topic) }
+
+      it 'returns all articles in less than 0.5 seconds' do
+        expect {
+          get '/articles', params: { filter: { topic_id: @topic.id }, limit: 1_000 }, as: :json
+        }.to take_less_than(0.5).seconds
+      end
+    end
+
     context 'when admin is connected' do
       before do
         login_as(@admin, scope: :admin, run_callbacks: false)

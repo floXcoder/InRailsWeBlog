@@ -115,7 +115,13 @@ export default class ArticleFormDisplay extends React.Component {
 
                 <div className="card">
                     <h4 className="blog-form-title">
-                        {I18n.t('js.article.new.title')}
+                        {
+                            this.props.isEditing
+                                ?
+                                I18n.t('js.article.edit.title')
+                                :
+                                I18n.t('js.article.new.title')
+                        }
                     </h4>
 
                     {

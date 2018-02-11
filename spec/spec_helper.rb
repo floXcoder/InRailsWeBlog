@@ -43,6 +43,6 @@ RSpec.configure do |config|
   #     --seed 1234
   # config.order = :random
 
-  # Factory Girls
+  # Factory Bot
   config.include FactoryBot::Syntax::Methods
 end

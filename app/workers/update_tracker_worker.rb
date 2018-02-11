@@ -15,7 +15,7 @@ class UpdateTrackerWorker
 
     class_model.transaction do
       metrics_used.each do |metric|
-        $redis.keys("#{tracked_class}:#{metric}:*").each do |tracked_element|
+        $redis.keys("#{tracked_class}:#{metric}:*").map do |tracked_element|
           _element_type, _element_metric, element_id = tracked_element.split(':')
           element_value = $redis.get(tracked_element)
 

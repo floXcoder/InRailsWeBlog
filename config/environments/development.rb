@@ -45,7 +45,7 @@ Rails.application.configure do
   config.action_view.raise_on_missing_translations = true
 
   # Raise warning when loading large data set
-  config.active_record.warn_on_records_fetched_greater_than = 500
+  config.active_record.warn_on_records_fetched_greater_than = 1500
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
@@ -64,17 +64,21 @@ Rails.application.configure do
   # "pretty" HTML format output
   Slim::Engine.set_options pretty: true
 
+  # Log levels :debug, :info, :warn, :error, :fatal and :unknown
+  config.log_level = :info
+
   # N 1 Queries
   config.after_initialize do
     Bullet.enable               = false
     Bullet.alert                = false
     Bullet.bullet_logger        = false
-    Bullet.console              = false
-    Bullet.rails_logger         = false
+    Bullet.console              = true
+    Bullet.rails_logger         = true
     Bullet.add_footer           = false
-    Bullet.counter_cache_enable = false
+    Bullet.counter_cache_enable = true
   end
 
   # Custom configurations
   config.x.cron_jobs_active = false
+  config.x.log_sql_source = false
 end

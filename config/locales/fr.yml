@@ -223,7 +223,7 @@ fr:
           public_name_immutable: "Un label public ne peut changer de nom"
           public_visibility_immutable: "La visibilité d'un label public ne peut plus être changé (utilisé par d'autres utilisateurs)"
         tag_relationship:
-          already_linked: "Ces deux labels sont déjà liés entre eux"
+          already_linked: "Ces deux labels sont déjà liés entre eux dans ce topic"
         tagged_article:
           already_tagged: "Ce label existe déjà pour cet article"
           incorrect_tag_affiliation: "Ce label ne peut être appliqué à l'article car il n'appartient pas au même thème"

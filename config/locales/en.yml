@@ -223,7 +223,7 @@ en:
           public_name_immutable: "A tag with cannot change name"
           public_visibility_immutable: "Visibility of a public label cannot be changed (used by other users)"
         tag_relationship:
-          already_linked: "Both tags are already linked"
+          already_linked: "Both tags are already linked in this topic"
         tagged_article:
           already_tagged: "This tag already exists for the article"
           incorrect_tag_affiliation: "Cannot used a tag from another topic"
