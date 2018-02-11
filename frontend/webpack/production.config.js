@@ -20,12 +20,13 @@ webPackConfig = _.merge(webPackConfig, {
 });
 
 // Common chunks
-_.each(config.commons, function (common) {
+_.forEach(config.commons, (common) => {
     webPackConfig.plugins.push(
         new webpack.optimize.CommonsChunkPlugin({
             name: common.name,
-            filename: common.name + config.production.commonFilename,
-            chunks: common.files
+            filename: common.asyncName ? undefined : common.name + config.development.commonFilename,
+            chunks: common.files,
+            async: common.asyncName
         })
     );
 });
