@@ -8,7 +8,7 @@ import {
     Popup
 } from 'semantic-ui-react';
 
-const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopup, onLoginClick, onSignupClick, userSlug}) => {
+const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSignupClick, userSlug}) => {
     const button = (
         <a className="btn-floating waves-effect waves-light header-button">
             <span className="material-icons left"
@@ -73,9 +73,6 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopu
     return (
         <Popup trigger={button}
                on="click"
-               open={isOpened}
-               onClose={onUserPopup}
-               onOpen={onUserPopup}
                hideOnScroll={true}
                position="bottom center">
             {popup}
@@ -86,8 +83,6 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, isOpened, onUserPopu
 HomeUserHeader.propTypes = {
     isUserConnected: PropTypes.bool.isRequired,
     isAdminConnected: PropTypes.bool.isRequired,
-    isOpened: PropTypes.bool.isRequired,
-    onUserPopup: PropTypes.func.isRequired,
     onLoginClick: PropTypes.func.isRequired,
     onSignupClick: PropTypes.func.isRequired,
     userSlug: PropTypes.string

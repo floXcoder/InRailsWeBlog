@@ -9,6 +9,7 @@ class Rack::Attack
   # ActiveSupport::Cache::Store
 
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+  # Redis must declared before rack attack
   Rack::Attack.cache.store = Rack::Attack::StoreProxy::RedisStoreProxy.new($redis)
 
   ### Throttle Spammy Clients ###

@@ -34,8 +34,7 @@ export default class Login extends React.PureComponent {
 
     render() {
         return (
-            <Modal open={this.props.isOpened}
-                   onClose={this.props.onModalChange}>
+            <Modal open={this.props.isOpened}>
                 <Modal.Header>
                     {I18n.t('js.user.login.title')}
                 </Modal.Header>

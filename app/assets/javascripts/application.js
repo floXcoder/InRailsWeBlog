@@ -11,14 +11,17 @@ import './common/materialize';
 
 // Expose global variables
 import * as utils from './modules/utils';
+
 window.Utils = utils;
 
 // Notifications
 import Notification from './components/theme/notification';
+
 window.Notification = Notification;
 
 // Translation
 import I18n from 'imports-loader?this=>window!./modules/i18n';
+
 window.I18n = I18n;
 window.I18n.defaultLocale = window.defaultLocale;
 window.I18n.locale = window.locale;

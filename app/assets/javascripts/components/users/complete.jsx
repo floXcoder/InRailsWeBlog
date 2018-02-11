@@ -136,6 +136,7 @@ export default class UserComplete extends React.Component {
     };
 
     render() {
+        // TODO: replace dropdown
         return (
             <div className="user-admin">
                 <div className="row">

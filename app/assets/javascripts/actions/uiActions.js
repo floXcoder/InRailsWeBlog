@@ -3,10 +3,6 @@
 import * as ActionTypes from '../constants/actionTypes';
 
 // Users
-export const switchUserPopup = () => ({
-    type: ActionTypes.UI_SWITCH_USER_HEADER
-});
-
 export const switchUserSignup = () => ({
     type: ActionTypes.UI_SWITCH_USER_SIGNUP
 });
