@@ -10,7 +10,7 @@ import 'materialize-css/js/hammer.min';
 import 'materialize-css/js/jquery.hammer';
 import 'materialize-css/js/global';
 import 'materialize-css/js/collapsible';
-// import 'materialize-css/js/dropdown';
+import 'materialize-css/js/dropdown'; // Select depends on dropdown
 // import 'materialize-css/js/modal';
 // import 'materialize-css/js/materialbox';
 // import 'materialize-css/js/parallax';
