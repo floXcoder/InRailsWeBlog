@@ -10,7 +10,7 @@ import {
 
 import SwitchButtonField from '../../../materialize/form/switchButton';
 import SelectField from '../../../materialize/form/select';
-import TextField from "../../../materialize/form/text";
+import TextField from '../../../materialize/form/text';
 
 const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility, articleLanguage, articleAllowComment, defaultVisibility, multipleId}) => (
     <div className="row margin-top-10">

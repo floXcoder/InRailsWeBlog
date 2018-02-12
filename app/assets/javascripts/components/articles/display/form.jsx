@@ -1,13 +1,13 @@
 'use strict';
 
 import {
-    reduxForm
-} from 'redux-form/immutable';
-
-import {
     Link,
     Prompt
 } from 'react-router-dom';
+
+import {
+    reduxForm
+} from 'redux-form/immutable';
 
 import {
     fetchTags
@@ -24,17 +24,13 @@ import {
     validateArticle
 } from '../../../forms/article';
 
-import {
-    Accordion,
-    AccordionItem
-} from '../../theme/accordion';
-
 import ArticleModeField from './fields/mode';
 import ArticleCommonField from './fields/common';
 import ArticleAdvancedField from './fields/advanced';
 import ArticleErrorField from './fields/error';
 
 import Submit from '../../materialize/submit';
+import Collapsible from '../../theme/collapsible';
 
 @reduxForm({
     form: 'article',
@@ -150,18 +146,16 @@ export default class ArticleFormDisplay extends React.Component {
                             </div>
 
                             <div className="col s12 margin-top-10">
-                                <Accordion>
-                                    <AccordionItem title={I18n.t('js.article.common.advanced')}
-                                                   isOpen={false}>
-                                        <ArticleAdvancedField currentMode={this.state.currentMode}
-                                                              articleReference={this.props.children.reference}
-                                                              articleVisibility={this.props.children.visibility}
-                                                              articleAllowComment={this.props.children.allowComment}
-                                                              articleLanguage={this.props.children.currentLanguage}
-                                                              defaultVisibility={this.props.defaultVisibility}
-                                                              multipleId={this.props.multipleId}/>
-                                    </AccordionItem>
-                                </Accordion>
+                                <Collapsible title={I18n.t('js.article.common.advanced')}
+                                             isDefaultOpen={false}>
+                                    <ArticleAdvancedField currentMode={this.state.currentMode}
+                                                          articleReference={this.props.children.reference}
+                                                          articleVisibility={this.props.children.visibility}
+                                                          articleAllowComment={this.props.children.allowComment}
+                                                          articleLanguage={this.props.children.currentLanguage}
+                                                          defaultVisibility={this.props.defaultVisibility}
+                                                          multipleId={this.props.multipleId}/>
+                                </Collapsible>
                             </div>
                         </div>
                     </div>

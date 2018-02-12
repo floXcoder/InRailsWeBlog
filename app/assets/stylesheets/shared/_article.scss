@@ -266,6 +266,7 @@
 
   .article-title {
     display: inline-block;
+    position: relative;
     width: 100%;
 
     .title {
@@ -277,6 +278,30 @@
       a {
         color: #333;
       }
+    }
+  }
+
+  .article-collapsible-button {
+    position: absolute;
+    right: 0;
+    top: .4rem;
+
+    a {
+      outline: none;
+    }
+
+    .material-icons {
+      color: $off-black;
+      font-size: 1.4rem;
+    }
+  }
+
+  .article-collapsible {
+    border: 0;
+    margin: 0;
+
+    .collapsible-content {
+      padding: 0;
     }
   }
 }
