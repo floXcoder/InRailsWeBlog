@@ -19,10 +19,10 @@ describe 'Activities API', type: :request, basic: true do
     @other_topic = create(:topic, user: @other_user)
   end
 
-  describe '/activities' do
+  describe '/api/v1/activities' do
     context 'when admin is not connected' do
       it 'returns an error message' do
-        get '/activities', as: :json
+        get '/api/v1/activities', as: :json
 
         expect(response).to be_json_response(404)
       end
@@ -34,7 +34,7 @@ describe 'Activities API', type: :request, basic: true do
       end
 
       it 'returns last activities' do
-        get '/activities', as: :json
+        get '/api/v1/activities', as: :json
 
         expect(response).to be_json_response
 
@@ -49,19 +49,19 @@ describe 'Activities API', type: :request, basic: true do
       before do
         login_as(@other_user, scope: :user, run_callbacks: false)
 
-        post "/users/#{@other_user.id}/bookmarks", params: { bookmark: { model_type: 'article', model_id: @article.id } }, as: :json
-        post "/articles/#{@article.id}/votes", as: :json
-        post "/articles/#{@article.id}/outdated", as: :json
-        post "/articles/#{@article.id}/comments", params: { comment: { title: 'title', body: 'The comment' } }, as: :json
-        put "/tags/#{@other_tag.id}", params: { tag: { name: 'second title' } }, as: :json
-        post '/topics', params: { user_id: @other_user.id, topic: { name: 'name', description: 'description' } }, as: :json
-        put "/topics/#{@other_topic.id}", params: { user_id: @other_user.id, topic: { name: 'second name' } }, as: :json
+        post "/api/v1/users/#{@other_user.id}/bookmarks", params: { bookmark: { model_type: 'article', model_id: @article.id } }, as: :json
+        post "/api/v1/articles/#{@article.id}/votes", as: :json
+        post "/api/v1/articles/#{@article.id}/outdated", as: :json
+        post "/api/v1/articles/#{@article.id}/comments", params: { comment: { title: 'title', body: 'The comment' } }, as: :json
+        put "/api/v1/tags/#{@other_tag.id}", params: { tag: { name: 'second title' } }, as: :json
+        post '/api/v1/topics', params: { user_id: @other_user.id, topic: { name: 'name', description: 'description' } }, as: :json
+        put "/api/v1/topics/#{@other_topic.id}", params: { user_id: @other_user.id, topic: { name: 'second name' } }, as: :json
 
         login_as(@admin, scope: :admin, run_callbacks: false)
       end
 
       it 'returns all user activities' do
-        get '/activities', params: { user_id: @other_user.id }, as: :json
+        get '/api/v1/activities', params: { user_id: @other_user.id }, as: :json
 
         expect(response).to be_json_response
 

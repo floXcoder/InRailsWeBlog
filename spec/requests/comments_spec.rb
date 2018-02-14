@@ -11,9 +11,9 @@ describe 'Comments API', type: :request, basic: true do
     @comments = create_list(:comment, 5, user: @user, commentable: @article)
   end
 
-  describe '/comments' do
+  describe '/api/v1/comments' do
     it 'returns all comments' do
-      get '/comments', as: :json
+      get '/api/v1/comments', as: :json
 
       expect(response).to be_json_response
 

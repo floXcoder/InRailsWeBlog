@@ -7,7 +7,7 @@ import api from '../middlewares/api';
 // Articles
 export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
     actionType: ActionTypes.ARTICLE,
-    fetchAPI: () => api.get(`/articles`, {
+    fetchAPI: () => api.get(`/api/v1/articles`, {
         filter,
         ...options
     }),
@@ -16,7 +16,7 @@ export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
 
 export const fetchArticle = (articleId, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
-    fetchAPI: () => api.get(`/articles/${articleId}`, {
+    fetchAPI: () => api.get(`/api/v1/articles/${articleId}`, {
         ...options
     })
 });
@@ -24,7 +24,7 @@ export const fetchArticle = (articleId, options = {}) => ({
 // Article mutations
 export const addArticle = (article, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
-    mutationAPI: () => api.post(`/articles`, {
+    mutationAPI: () => api.post(`/api/v1/articles`, {
         article,
         ...options
     })
@@ -37,7 +37,7 @@ export const inlineEditArticle = (articleId) => ({
 
 export const updateArticle = (article, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
-    mutationAPI: () => api.update(`/articles/${article.id}`, {
+    mutationAPI: () => api.update(`/api/v1/articles/${article.id}`, {
         article,
         ...options
     })
@@ -45,14 +45,14 @@ export const updateArticle = (article, options = {}) => ({
 
 export const updateArticlePriority = (articleIdsByPriority) => ({
     actionType: ActionTypes.ARTICLE,
-    mutationAPI: () => api.update(`/articles/priority`, {
+    mutationAPI: () => api.update(`/api/v1/articles/priority`, {
         articleIds: articleIdsByPriority
     })
 });
 
 export const deleteArticle = (articleId, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
-    mutationAPI: () => api.delete(`/articles/${articleId}`, {
+    mutationAPI: () => api.delete(`/api/v1/articles/${articleId}`, {
         ...options
     }),
     payload: {
@@ -66,7 +66,7 @@ const receiveArticleVersions = (versions) => ({
     versions
 });
 export const fetchArticleHistory = (articleId) => (dispatch) => (
-    api.get(`/articles/${articleId}/history`)
+    api.get(`/api/v1/articles/${articleId}/history`)
         .then((response) => dispatch(receiveArticleVersions(response.history)))
 );
 
@@ -75,7 +75,7 @@ const receiveArticleRestored = (article) => ({
     article
 });
 export const restoreArticle = (articleId, versionId) => (dispatch) => (
-    api.get(`/articles/${articleId}/restore`, {
+    api.get(`/api/v1/articles/${articleId}/restore`, {
         versionId
     })
         .then((response) => dispatch(receiveArticleRestored(response.article)))

@@ -7,10 +7,10 @@ describe 'User Settings API', type: :request, basic: true do
     @other_user = create(:user)
   end
 
-  describe '/users/:user_id/settings' do
+  describe '/api/v1/users/:user_id/settings' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        get "/users/#{@user.id}/settings", as: :json
+        get "/api/v1/users/#{@user.id}/settings", as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -22,7 +22,7 @@ describe 'User Settings API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        get "/users/#{@user.id}/settings", as: :json
+        get "/api/v1/users/#{@user.id}/settings", as: :json
 
         expect(response).to be_unauthorized
       end
@@ -34,7 +34,7 @@ describe 'User Settings API', type: :request, basic: true do
       end
 
       it 'returns the default user settings' do
-        get "/users/#{@user.id}/settings", as: :json
+        get "/api/v1/users/#{@user.id}/settings", as: :json
 
         expect(response).to be_json_response
 
@@ -46,10 +46,10 @@ describe 'User Settings API', type: :request, basic: true do
     end
   end
 
-  describe '/users/:user_id/settings (POST)' do
+  describe '/api/v1/users/:user_id/settings (POST)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/users/#{@user.id}/settings", params: { settings: { article_display: 'inline', search_highlight: false } }, as: :json
+        post "/api/v1/users/#{@user.id}/settings", params: { settings: { article_display: 'inline', search_highlight: false } }, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -61,7 +61,7 @@ describe 'User Settings API', type: :request, basic: true do
       end
 
       it 'returns the updated topic' do
-        post "/users/#{@user.id}/settings", params: { settings: { article_display: 'inline', search_highlight: false } }, as: :json
+        post "/api/v1/users/#{@user.id}/settings", params: { settings: { article_display: 'inline', search_highlight: false } }, as: :json
 
         expect(response).to be_json_response
 

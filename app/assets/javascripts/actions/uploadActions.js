@@ -14,7 +14,7 @@ export const uploadImages = (images, params) => {
             formData.append(`upload[${key}]`, value);
         });
 
-        uploads.push(api.post('/uploads', formData, true));
+        uploads.push(api.post('/api/v1/uploads', formData, true));
     });
 
     return uploads;

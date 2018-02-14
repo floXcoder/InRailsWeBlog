@@ -15,10 +15,10 @@ describe 'Search API', type: :request, basic: true do
     Tag.search_index.refresh
   end
 
-  describe '/search' do
+  describe '/api/v1/search' do
     context 'when no parameters' do
       it 'returns all results' do
-        get '/search', as: :json
+        get '/api/v1/search', as: :json
 
         expect(response).to be_json_response
 
@@ -31,7 +31,7 @@ describe 'Search API', type: :request, basic: true do
 
     context 'when query is set' do
       it 'returns results containing the query for articles' do
-        get '/search', params: { search: { query: 'article' } }, as: :json
+        get '/api/v1/search', params: { search: { query: 'article' } }, as: :json
 
         expect(response).to be_json_response
 
@@ -43,10 +43,10 @@ describe 'Search API', type: :request, basic: true do
     end
   end
 
-  describe '/search/autocomplete' do
+  describe '/api/v1/search/autocomplete' do
     context 'when no parameters' do
       it 'returns an empty set of autocompletion' do
-        get '/search/autocomplete', as: :json
+        get '/api/v1/search/autocomplete', as: :json
 
         expect(response).to be_json_response
 
@@ -57,7 +57,7 @@ describe 'Search API', type: :request, basic: true do
 
     context 'when query is set' do
       it 'returns the autocompletion result for articles' do
-        get '/search/autocomplete', params: { search: { query: 'art' } }, as: :json
+        get '/api/v1/search/autocomplete', params: { search: { query: 'art' } }, as: :json
 
         expect(response).to be_json_response
 
@@ -67,7 +67,7 @@ describe 'Search API', type: :request, basic: true do
       end
 
       it 'returns the autocompletion result for tags' do
-        get '/search/autocomplete', params: { search: { query: 'ta' } }, as: :json
+        get '/api/v1/search/autocomplete', params: { search: { query: 'ta' } }, as: :json
 
         expect(response).to be_json_response
 

@@ -40,8 +40,8 @@ export const spyTrackView = (elementName, elementId, parentName = null, parentId
     if (process.env.NODE_ENV === 'production') {
         return api
             .post((parentName && parentId)
-                ? `/${parentName}s/${parentId}/${elementName}s/${elementId}/viewed`
-                : `/${elementName}s/${elementId}/viewed`,
+                ? `/api/v1/${parentName}s/${parentId}/${elementName}s/${elementId}/viewed`
+                : `/api/v1/${elementName}s/${elementId}/viewed`,
                 {
                     id: elementId
                 });
@@ -51,8 +51,8 @@ export const spyTrackView = (elementName, elementId, parentName = null, parentId
 export const spyTrackClick = (elementName, elementId, parentName = null, parentId = null) => {
     return api
         .post((parentName && parentId)
-            ? `/${parentName}s/${parentId}/${elementName}s/${elementId}/clicked`
-            : `/${elementName}s/${elementId}/clicked`,
+            ? `/api/v1/${parentName}s/${parentId}/${elementName}s/${elementId}/clicked`
+            : `/api/v1/${elementName}s/${elementId}/clicked`,
             {
                 id: elementId,
                 userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined

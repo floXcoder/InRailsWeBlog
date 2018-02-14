@@ -7,7 +7,7 @@ import api from '../middlewares/api';
 // Users
 export const fetchUsers = (filter, options = {}) => ({
     actionType: ActionTypes.USER,
-    fetchAPI: () => api.get(`/users`, {
+    fetchAPI: () => api.get(`/api/v1/users`, {
         filter,
         ...options
     })
@@ -15,14 +15,14 @@ export const fetchUsers = (filter, options = {}) => ({
 
 export const fetchUser = (userId, options = {}) => ({
     actionType: ActionTypes.USER,
-    fetchAPI: () => api.get(`/users/${userId}`, {
+    fetchAPI: () => api.get(`/api/v1/users/${userId}`, {
         ...options
     })
 });
 
 export const initUser = (userId, options = {}) => ({
     actionType: ActionTypes.USER,
-    fetchAPI: () => api.get(`/users/${userId}`, {
+    fetchAPI: () => api.get(`/api/v1/users/${userId}`, {
         ...options
     }),
     payload: {
@@ -31,7 +31,7 @@ export const initUser = (userId, options = {}) => ({
 });
 
 export const validateUser = (login) => (
-    api.get('/users/validation', {
+    api.get('/api/v1/users/validation', {
         user: {
             login
         }
@@ -41,7 +41,7 @@ export const validateUser = (login) => (
 // User mutations
 export const signupUser = (user, options = {}) => ({
     actionType: ActionTypes.USER,
-    mutationAPI: () => api.post(`/users`, {
+    mutationAPI: () => api.post(`/api/v1/users`, {
         user,
         ...options
     }),
@@ -52,7 +52,7 @@ export const signupUser = (user, options = {}) => ({
 
 export const loginUser = (user, options = {}) => ({
     actionType: ActionTypes.USER,
-    mutationAPI: () => api.post(`/login`, {
+    mutationAPI: () => api.post(`/api/v1/login`, {
         user,
         ...options
     }),
@@ -63,7 +63,7 @@ export const loginUser = (user, options = {}) => ({
 
 export const updateUserSettings = (userId, settings, options = {}) => ({
     actionType: ActionTypes.USER,
-    mutationAPI: () => api.post(`/users/${userId}/settings`, {
+    mutationAPI: () => api.post(`/api/v1/users/${userId}/settings`, {
         settings,
         ...options
     }),
@@ -81,6 +81,6 @@ const receiveUserRecents = (json) => ({
 });
 export const fetchUserRecents = (userId, options = {}) => (dispatch) => {
     return api
-        .get(`/users/${userId}/recents`, options)
+        .get(`/api/v1/users/${userId}/recents`, options)
         .then(json => dispatch(receiveUserRecents(json)));
 };

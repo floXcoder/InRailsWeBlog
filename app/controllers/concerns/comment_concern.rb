@@ -7,7 +7,7 @@ module CommentConcern
   end
 
   def comments
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id] || params[:commentable_id])
 
     comments, comments_tree = record.comments_tree(params[:page], params[:per_page] || Setting.comment_per_page)
@@ -22,7 +22,7 @@ module CommentConcern
   end
 
   def add_comment
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id])
     admin_or_authorize record
 
@@ -52,7 +52,7 @@ module CommentConcern
   end
 
   def update_comment
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id])
     admin_or_authorize record
 
@@ -79,7 +79,7 @@ module CommentConcern
   end
 
   def remove_comment
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id])
     admin_or_authorize record
 

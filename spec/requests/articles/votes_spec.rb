@@ -11,10 +11,10 @@ describe 'Vote Article API', type: :request, basic: true do
     @article = create(:article, user: @user, topic: @topic)
   end
 
-  describe '/articles/:article_id/votes (POST)' do
+  describe '/api/v1/articles/:article_id/votes (POST)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/articles/#{@article.id}/votes", as: :json
+        post "/api/v1/articles/#{@article.id}/votes", as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -26,7 +26,7 @@ describe 'Vote Article API', type: :request, basic: true do
       end
 
       it 'cannot vote for his own article' do
-        post "/articles/#{@article.id}/votes", as: :json
+        post "/api/v1/articles/#{@article.id}/votes", as: :json
 
         expect(response).to be_unauthorized
       end
@@ -39,7 +39,7 @@ describe 'Vote Article API', type: :request, basic: true do
 
       it 'returns ok' do
         expect {
-          post "/articles/#{@article.id}/votes", as: :json
+          post "/api/v1/articles/#{@article.id}/votes", as: :json
 
           expect(response).to be_json_response(204)
         }.to change(Vote, :count).by(1)
@@ -54,7 +54,7 @@ describe 'Vote Article API', type: :request, basic: true do
 
       it 'cannot vote again' do
         expect {
-          post "/articles/#{@article.id}/votes", as: :json
+          post "/api/v1/articles/#{@article.id}/votes", as: :json
 
           expect(response).to be_unauthorized
         }.not_to change(Vote, :count)
@@ -62,10 +62,10 @@ describe 'Vote Article API', type: :request, basic: true do
     end
   end
 
-  describe '/articles/:article_id/votes (DELETE)' do
+  describe '/api/v1/articles/:article_id/votes (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/articles/#{@article.id}/votes", headers: @json_header
+        delete "/api/v1/articles/#{@article.id}/votes", headers: @json_header
 
         expect(response).to be_unauthenticated
       end
@@ -77,7 +77,7 @@ describe 'Vote Article API', type: :request, basic: true do
       end
 
       it 'cannot vote against for his own article' do
-        post "/articles/#{@article.id}/votes", as: :json
+        post "/api/v1/articles/#{@article.id}/votes", as: :json
 
         expect(response).to be_unauthorized
       end
@@ -90,7 +90,7 @@ describe 'Vote Article API', type: :request, basic: true do
 
       it 'returns ok' do
         expect {
-          delete "/articles/#{@article.id}/votes", headers: @json_header
+          delete "/api/v1/articles/#{@article.id}/votes", headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Vote, :count).by(1)
@@ -105,7 +105,7 @@ describe 'Vote Article API', type: :request, basic: true do
 
       it 'cannot vote again' do
         expect {
-          post "/articles/#{@article.id}/votes", as: :json
+          post "/api/v1/articles/#{@article.id}/votes", as: :json
 
           expect(response).to be_unauthorized
         }.not_to change(Vote, :count)

@@ -35,10 +35,10 @@ describe 'Tag API', type: :request, basic: true do
     }
   }
 
-  describe '/tags' do
+  describe '/api/v1/tags' do
     context 'when no parameters and not connected' do
       it 'returns all public tags' do
-        get '/tags', as: :json
+        get '/api/v1/tags', as: :json
 
         expect(response).to be_json_response
 
@@ -54,7 +54,7 @@ describe 'Tag API', type: :request, basic: true do
       it 'limits the number of tags' do
         create_list(:tag, 10, user: @user)
 
-        get '/tags', params: { limit: 5 }, as: :json
+        get '/api/v1/tags', params: { limit: 5 }, as: :json
 
         json_tags = JSON.parse(response.body)
 
@@ -69,7 +69,7 @@ describe 'Tag API', type: :request, basic: true do
       end
 
       it 'returns all public and private tags for current user' do
-        get '/tags', as: :json
+        get '/api/v1/tags', as: :json
 
         expect(response).to be_json_response
 
@@ -89,19 +89,19 @@ describe 'Tag API', type: :request, basic: true do
       end
 
       it 'returns tags for ids' do
-        get '/tags', params: { filter: { tag_ids: [@tags[0].id, @tags[1].id] } }, as: :json
+        get '/api/v1/tags', params: { filter: { tag_ids: [@tags[0].id, @tags[1].id] } }, as: :json
         json_tags = JSON.parse(response.body)
         expect(json_tags['tags'].size).to eq(2)
       end
 
       it 'returns tags for topic of user' do
-        get '/tags', params: { filter: { user_id: @user.id, topic_id: @topic.id } }, as: :json
+        get '/api/v1/tags', params: { filter: { user_id: @user.id, topic_id: @topic.id } }, as: :json
         json_tags = JSON.parse(response.body)
         expect(json_tags['tags'].size).to eq(3)
       end
 
       it 'returns bookmarked tags for current user' do
-        get '/tags', params: { filter: { bookmarked: true } }, as: :json
+        get '/api/v1/tags', params: { filter: { bookmarked: true } }, as: :json
         json_tags = JSON.parse(response.body)
         expect(json_tags['tags']).to be_empty
       end
@@ -110,7 +110,7 @@ describe 'Tag API', type: :request, basic: true do
     context 'when fetching tags in database' do
       it 'limits the number of database queries' do
         expect {
-          get '/tags', params: { filter: { user_id: @user.id }, limit: 20 }, as: :json
+          get '/api/v1/tags', params: { filter: { user_id: @user.id }, limit: 20 }, as: :json
         }.to make_database_queries(count: 3..6)
       end
     end
@@ -118,10 +118,10 @@ describe 'Tag API', type: :request, basic: true do
     context 'when lot of tag' do
       let!(:articles) { create_list(:tag, 200, user: @user) }
 
-      it 'returns all tags in less than 0.2 seconds' do
+      it 'returns all tags in less than 0.4 seconds' do
         expect {
-          get '/tags', params: { filter: { user_id: @user.id }, limit: 1_000 }, as: :json
-        }.to take_less_than(0.2).seconds
+          get '/api/v1/tags', params: { filter: { user_id: @user.id }, limit: 1_000 }, as: :json
+        }.to take_less_than(0.4).seconds
       end
     end
 
@@ -131,7 +131,7 @@ describe 'Tag API', type: :request, basic: true do
       end
 
       it 'returns all tags' do
-        get '/tags', as: :json
+        get '/api/v1/tags', as: :json
 
         json_tags = JSON.parse(response.body)
         expect(json_tags['tags']).not_to be_empty
@@ -140,10 +140,10 @@ describe 'Tag API', type: :request, basic: true do
     end
   end
 
-  describe '/tags/:id' do
+  describe '/api/v1/tags/:id' do
     context 'when user is not connected but tag is private' do
       it 'returns an error message' do
-        get "/tags/#{@private_tags[0].id}", as: :json
+        get "/api/v1/tags/#{@private_tags[0].id}", as: :json
 
         expect(response).to be_unauthorized
       end
@@ -155,7 +155,7 @@ describe 'Tag API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        get "/tags/#{@private_tags[0].id}", as: :json
+        get "/api/v1/tags/#{@private_tags[0].id}", as: :json
 
         expect(response).to be_unauthorized
       end
@@ -167,7 +167,7 @@ describe 'Tag API', type: :request, basic: true do
       end
 
       it 'returns the associated tag' do
-        get "/tags/#{@private_tags[0].id}", as: :json
+        get "/api/v1/tags/#{@private_tags[0].id}", as: :json
 
         expect(response).to be_json_response
 
@@ -179,7 +179,7 @@ describe 'Tag API', type: :request, basic: true do
 
     context 'when tag is public' do
       it 'returns the associated tag' do
-        get "/tags/#{@tags[0].id}", as: :json
+        get "/api/v1/tags/#{@tags[0].id}", as: :json
 
         expect(response).to be_json_response
 
@@ -190,10 +190,10 @@ describe 'Tag API', type: :request, basic: true do
     end
   end
 
-  describe '/tags (PUT)' do
+  describe '/api/v1/tags (PUT)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        put "/tags/#{@tags[0].id}", params: tag_attributes, as: :json
+        put "/api/v1/tags/#{@tags[0].id}", params: tag_attributes, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -206,7 +206,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'returns the updated tag' do
         expect {
-          put "/tags/#{@private_tags[0].id}", params: updated_tag_attributes, as: :json
+          put "/api/v1/tags/#{@private_tags[0].id}", params: updated_tag_attributes, as: :json
 
           expect(response).to be_json_response
 
@@ -224,7 +224,7 @@ describe 'Tag API', type: :request, basic: true do
 
         it 'returns the errors' do
           expect {
-            put "/tags/#{@tags[0].id}", params: tag_error_attributes, as: :json
+            put "/api/v1/tags/#{@tags[0].id}", params: tag_error_attributes, as: :json
 
             expect(response).to be_json_response(403)
 
@@ -238,10 +238,10 @@ describe 'Tag API', type: :request, basic: true do
   end
 
   # TODO: test tag delete with error
-  describe '/tags/:id (DELETE)' do
+  describe '/api/v1/tags/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/tags/#{@tags[0].id}", headers: @json_header
+        delete "/api/v1/tags/#{@tags[0].id}", headers: @json_header
 
         expect(response).to be_unauthenticated
       end
@@ -254,7 +254,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'returns the soft deleted tag id' do
         expect {
-          delete "/tags/#{@tags[4].id}", headers: @json_header
+          delete "/api/v1/tags/#{@tags[4].id}", headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(0).and change(TaggedArticle, :count).by(0).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -262,7 +262,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'returns the soft deleted tag id with relationships removed' do
         expect {
-          delete "/tags/#{@tags[0].id}", headers: @json_header
+          delete "/api/v1/tags/#{@tags[0].id}", headers: @json_header
 
           expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -276,7 +276,7 @@ describe 'Tag API', type: :request, basic: true do
 
       it 'can remove permanently an tag' do
         expect {
-          delete "/tags/#{@tags[2].id}", headers: @json_header, params: { permanently: true }
+          delete "/api/v1/tags/#{@tags[2].id}", headers: @json_header, params: { permanently: true }
 
           expect(response).to be_json_response(204)
         }.to change(Tag, :count).by(-1).and change(Tag.with_deleted, :count).by(-1).and change(TaggedArticle, :count).by(-1).and change(TaggedArticle.with_deleted, :count).by(-1).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -302,9 +302,9 @@ describe 'Tag API', type: :request, basic: true do
       }
     }
 
-    describe '/tags/:id/comments' do
+    describe '/api/v1/tags/:id/comments' do
       it 'returns all comments for this tag' do
-        get "/tags/#{@tags.first.id}/comments", as: :json
+        get "/api/v1/tags/#{@tags.first.id}/comments", as: :json
 
         expect(response).to be_json_response
 
@@ -314,10 +314,10 @@ describe 'Tag API', type: :request, basic: true do
       end
     end
 
-    describe '/tags/:id/comments (POST)' do
+    describe '/api/v1/tags/:id/comments (POST)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          post "/tags/#{@tags.first.id}/comments", params: comment_attributes, as: :json
+          post "/api/v1/tags/#{@tags.first.id}/comments", params: comment_attributes, as: :json
 
           expect(response).to be_unauthenticated
         end
@@ -329,7 +329,7 @@ describe 'Tag API', type: :request, basic: true do
         end
 
         it 'creates a new comment associated to this tag' do
-          post "/tags/#{@tags.first.id}/comments", params: comment_attributes, as: :json
+          post "/api/v1/tags/#{@tags.first.id}/comments", params: comment_attributes, as: :json
 
           expect(response).to be_json_response(202)
 
@@ -340,10 +340,10 @@ describe 'Tag API', type: :request, basic: true do
       end
     end
 
-    describe '/tags/:id/comments (PUT)' do
+    describe '/api/v1/tags/:id/comments (PUT)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          put "/tags/#{@tags.first.id}/comments", params: comment_updated_attributes, as: :json
+          put "/api/v1/tags/#{@tags.first.id}/comments", params: comment_updated_attributes, as: :json
 
           expect(response).to be_unauthenticated
         end
@@ -355,7 +355,7 @@ describe 'Tag API', type: :request, basic: true do
         end
 
         it 'updates a comment associated to this tag' do
-          put "/tags/#{@tags.first.id}/comments", params: comment_updated_attributes, as: :json
+          put "/api/v1/tags/#{@tags.first.id}/comments", params: comment_updated_attributes, as: :json
 
           expect(response).to be_json_response(202)
 
@@ -366,10 +366,10 @@ describe 'Tag API', type: :request, basic: true do
       end
     end
 
-    describe '/tags/:id/comments (DELETE)' do
+    describe '/api/v1/tags/:id/comments (DELETE)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          delete "/tags/#{@tags.first.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
+          delete "/api/v1/tags/#{@tags.first.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
 
           expect(response).to be_unauthenticated
         end
@@ -381,7 +381,7 @@ describe 'Tag API', type: :request, basic: true do
         end
 
         it 'deletes a comment associated to this tag' do
-          delete "/tags/#{@tags.first.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
+          delete "/api/v1/tags/#{@tags.first.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
 
           expect(response).to be_json_response(202)
 
@@ -395,17 +395,17 @@ describe 'Tag API', type: :request, basic: true do
 
   context 'tracker' do
     # TODO: add click with user_id to call add_visit_activity
-    describe '/tags/:id/clicked' do
+    describe '/api/v1/tags/:id/clicked' do
       it 'counts a new click on tags' do
-        post "/tags/#{@tags.first.id}/clicked", as: :json
+        post "/api/v1/tags/#{@tags.first.id}/clicked", as: :json
 
         expect(response).to be_json_response(204)
       end
     end
 
-    describe '/tags/:id/viewed' do
+    describe '/api/v1/tags/:id/viewed' do
       it 'counts a new view on tags' do
-        post "/tags/#{@tags.second.id}/viewed", as: :json
+        post "/api/v1/tags/#{@tags.second.id}/viewed", as: :json
 
         expect(response).to be_json_response(204)
       end

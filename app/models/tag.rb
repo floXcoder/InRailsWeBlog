@@ -454,12 +454,11 @@ class Tag < ApplicationRecord
 
       visibility ||= 'everyone'
       attributes = {
-        user_id:    Tag.visibilities[visibility] == 1 ? current_user_id : nil,
         name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
         visibility: Tag.visibilities[visibility]
       }.compact
 
-      Tag.find_by(attributes) || Tag.new(attributes)
+      Tag.find_by(attributes) || Tag.new(attributes.merge(user_id: current_user_id))
     end
   end
 

@@ -18,11 +18,11 @@ describe 'User Bookmarks API', type: :request, basic: true do
     }
   }
 
-  describe '/users/:user_id/bookmarks (POST)' do
+  describe '/api/v1/users/:user_id/bookmarks (POST)' do
     context 'when user is not connected' do
       it 'returns an error message' do
         expect {
-          post "/users/#{@user.id}/bookmarks", params: bookmark_attributes, as: :json
+          post "/api/v1/users/#{@user.id}/bookmarks", params: bookmark_attributes, as: :json
 
           expect(response).to be_unauthenticated
         }.not_to change(Bookmark, :count)
@@ -36,7 +36,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
 
       it 'returns the new bookmark' do
         expect {
-          post "/users/#{@user.id}/bookmarks", params: bookmark_attributes, as: :json
+          post "/api/v1/users/#{@user.id}/bookmarks", params: bookmark_attributes, as: :json
 
           expect(response).to be_json_response(201)
 
@@ -48,11 +48,11 @@ describe 'User Bookmarks API', type: :request, basic: true do
     end
   end
 
-  describe '/users/:user_id/bookmarks (DELETE)' do
+  describe '/api/v1/users/:user_id/bookmarks (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
         expect {
-          delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", headers: @json_header
+          delete "/api/v1/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", headers: @json_header
 
           expect(response).to be_unauthenticated
         }.not_to change(Bookmark, :count)
@@ -66,7 +66,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
 
       it 'returns the deleted bookmark id' do
         expect {
-          delete "/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", headers: @json_header, params: { bookmark: { model_type: 'tag', model_id: @tag.id } }
+          delete "/api/v1/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", headers: @json_header, params: { bookmark: { model_type: 'tag', model_id: @tag.id } }
 
           expect(response).to be_json_response(204)
         }.to change(Bookmark, :count).by(-1)
