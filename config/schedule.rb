@@ -2,7 +2,7 @@
 set :output, Whenever.path + '/log/cron.log'
 
 # noinspection RubyArgCount
-every 3.days, at: '8pm', roles: [:dev] do
+every 3.days, at: '8pm', roles: [:test] do
   rake 'InRailsWeBlog:static_analysis:all'
 end
 
