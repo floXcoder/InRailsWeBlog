@@ -302,9 +302,9 @@ class ApplicationController < ActionController::Base
       policy_name = exception.policy.class.to_s.underscore
       policy_type = exception.query
 
-      flash[:alert] = t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
+      flash[:error] = t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
     else
-      flash[:alert] = t('pundit.default')
+      flash[:error] = t('pundit.default')
     end
 
     respond_to do |format|

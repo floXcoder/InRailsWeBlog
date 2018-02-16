@@ -83,7 +83,7 @@ module Api::V1
                    current_topic_id: current_user&.current_topic_id
           else
             render json:   { errors: tag.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
@@ -101,7 +101,7 @@ module Api::V1
           else
             flash.now[:error] = I18n.t('views.tag.flash.error_deletion', errors: tag.errors.to_s)
             render json:   { errors: tag.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end

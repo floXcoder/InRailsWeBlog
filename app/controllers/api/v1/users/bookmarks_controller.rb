@@ -19,7 +19,7 @@ module Api::V1
                    status:     :created
           else
             render json:   { errors: bookmark.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
@@ -36,7 +36,7 @@ module Api::V1
             head :no_content
           else
             render json:   { errors: bookmark.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end

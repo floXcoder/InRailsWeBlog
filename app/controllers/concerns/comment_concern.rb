@@ -45,7 +45,7 @@ module CommentConcern
         flash.now[:error] = t('views.comment.flash.error_creation')
         format.json do
           render json:   { errors: comment.errors },
-                 status: :forbidden
+                 status: :unprocessable_entity
         end
       end
     end
@@ -72,7 +72,7 @@ module CommentConcern
         flash.now[:error] = t('views.comment.flash.error_edition')
         format.json do
           render json:   { errors: comment.errors },
-                 status: :forbidden
+                 status: :unprocessable_entity
         end
       end
     end
@@ -99,7 +99,7 @@ module CommentConcern
         flash.now[:error] = t('views.comment.flash.error_deletion')
         format.json do
           render json:   { errors: comment.errors },
-                 status: :forbidden
+                 status: :unprocessable_entity
         end
       end
     end

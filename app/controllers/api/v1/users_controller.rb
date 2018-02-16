@@ -253,7 +253,7 @@ module Api::V1
           end
           format.json do
             render json:   { errors: user.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end

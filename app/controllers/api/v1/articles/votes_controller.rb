@@ -18,7 +18,7 @@ module Api::V1
             head :no_content
           else
             render json:   { errors: article.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
@@ -36,7 +36,7 @@ module Api::V1
             head :no_content
           else
             render json:   { errors: article.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end

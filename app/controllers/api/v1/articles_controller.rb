@@ -108,7 +108,7 @@ module Api::V1
           else
             flash.now[:error] = t('views.article.flash.error_creation')
             render json:   { errors: article.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
@@ -146,7 +146,7 @@ module Api::V1
           else
             flash.now[:error] = t('views.article.flash.error_edition')
             render json:   { errors: article.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
@@ -170,7 +170,7 @@ module Api::V1
           else
             flash.now[:error] = t('views.article.flash.error_priority_update')
             render json:   { errors: t('views.article.flash.error_priority_update') },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
@@ -228,7 +228,7 @@ module Api::V1
           else
             flash.now[:error] = I18n.t('views.article.flash.error_deletion', errors: article.errors.to_s)
             render json:   { errors: article.errors },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end

@@ -29,7 +29,7 @@ module Api::V1
           else
             # flash.now[:error] = t('views.upload.flash.error_creation')
             render json:   { errors: upload.errors.full_messages },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
@@ -58,7 +58,7 @@ module Api::V1
           else
             # flash.now[:error] = t('views.upload.flash.error_edition')
             render json:   { errors: upload.errors.full_messages },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
@@ -76,7 +76,7 @@ module Api::V1
           else
             # flash.now[:error] = t('views.upload.flash.error_deletion')
             render json:   { errors: upload.errors.full_messages },
-                   status: :forbidden
+                   status: :unprocessable_entity
           end
         end
       end
