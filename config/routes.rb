@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/research',      to: 'static_pages#home'
   get '/research/*id',  to: 'static_pages#home'
   get '/topic/*id',     to: 'static_pages#home'
+  get '/tags',          to: 'static_pages#home'
   get '/tagged/*id',    to: 'static_pages#home'
   get '/tag/*id',       to: 'static_pages#home'
   get '/article/*id',   to: 'static_pages#home'

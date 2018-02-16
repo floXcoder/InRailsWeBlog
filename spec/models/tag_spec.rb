@@ -403,6 +403,16 @@ RSpec.describe Tag, type: :model, basic: true do
       it { expect(@tag.default_picture).to eq('/assets/') }
     end
 
+    describe '.parents_for_user' do
+      it { is_expected.to respond_to(:parents_for_user) }
+      it { expect(@tag.parents_for_user(@user)).to eq([]) }
+    end
+
+    describe '.children_for_user' do
+      it { is_expected.to respond_to(:children_for_user) }
+      it { expect(@tag.children_for_user(@user)).to eq([]) }
+    end
+
     describe '.bookmarked?' do
       before do
         create(:bookmark, user: other_user, bookmarked: @tag, follow: true)

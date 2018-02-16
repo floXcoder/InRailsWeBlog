@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Link
+} from 'react-router-dom';
+
+import {
     filterTags
 } from '../../actions';
 
@@ -64,6 +68,13 @@ export default class TagSidebar extends React.Component {
                     <div>
                         <h3 className="sidebar-title">
                             {I18n.t('js.tag.common.list')}
+
+                            <Link className="tags-link"
+                                  to={`/tags`}>
+                                <span className="material-icons"
+                                      data-icon="open_in_new"
+                                      aria-hidden="true"/>
+                            </Link>
                         </h3>
 
                         <SearchBar label={I18n.t('js.tag.common.filter')}

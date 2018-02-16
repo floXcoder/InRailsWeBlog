@@ -49,7 +49,7 @@ const TooltipTag = ({articleId, tag, tagTooltipActive}) => (
                 </p>
 
                 <div className="margin-top-10">
-                    <Link to={`/tagged/${tag.slug}`}
+                    <Link to={`/tag/${tag.slug}`}
                           onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
                         {I18n.t('js.tag.common.link')}
                     </Link>

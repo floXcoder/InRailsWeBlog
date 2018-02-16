@@ -106,9 +106,6 @@ module Api::V1
                    serializer: ArticleSerializer,
                    status:     :created
           else
-
-            w article.errors
-
             flash.now[:error] = t('views.article.flash.error_creation')
             render json:   { errors: article.errors },
                    status: :forbidden

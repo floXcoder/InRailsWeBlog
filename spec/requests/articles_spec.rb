@@ -20,6 +20,7 @@ describe 'Article API', type: :request, basic: true do
     @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me')
 
     @other_topic = create(:topic, user: @other_user)
+    @other_public_tag = create(:tag, user: @other_user, visibility: 'everyone')
   end
 
   let(:article_attributes) {
@@ -428,6 +429,35 @@ describe 'Article API', type: :request, basic: true do
           expect(public_parent_tag.visibility).to eq('everyone')
           expect(private_child_tag.visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
+      end
+
+      it 'returns a new article with a public tag from another user' do
+        expect {
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { tags: [{ name: @other_public_tag.name, visibility: 'everyone' }, { name: 'private tag', visibility: 'only_me' }] }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(2)
+
+          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('everyone')
+          expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('only_me')
+        }.to change(Article, :count).by(1).and change(Tag, :count).by(1)
+      end
+
+      it 'returns a new article even if same tag for parent and child' do
+        expect {
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: 'same tag', visibility: 'only_me' }], child_tags: [{ name: 'same tag', visibility: 'only_me' }] }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['tags'].size).to eq(1)
+
+          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('only_me')
+        }.to change(Article, :count).by(1).and change(Tag, :count).by(1)
       end
     end
 

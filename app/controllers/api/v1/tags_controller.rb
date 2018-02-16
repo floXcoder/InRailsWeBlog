@@ -22,7 +22,7 @@ module Api::V1
     respond_to :html, :json
 
     def index
-      tags = Rails.cache.fetch("user_tags:#{current_user&.id}_and_#{filter_params[:topic_id]}", expires_in: CONFIG.cache_time) do
+      tags = Rails.cache.fetch("user_tags:#{current_user&.id}_and_#{filter_params[:topic_id] || current_user&.current_topic_id}", expires_in: CONFIG.cache_time) do
         tags = Tag.include_collection.distinct
 
         tags = tags.order_by(filter_params[:order] || 'name')
@@ -63,7 +63,8 @@ module Api::V1
           #                 image: root_url + tag.default_picture
           #               }
           render json:       tag,
-                 serializer: TagSerializer
+                 serializer: TagCompleteSerializer,
+                 current_user_id: current_user&.id
         end
       end
     end
@@ -78,7 +79,8 @@ module Api::V1
         format.json do
           if tag.save
             render json:   tag,
-                   status: :ok
+                   serializer:  TagSerializer,
+                   current_topic_id: current_user&.current_topic_id
           else
             render json:   { errors: tag.errors },
                    status: :forbidden

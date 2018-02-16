@@ -211,7 +211,7 @@ fr:
         submit: "Mettre à jour"
     tag:
       common:
-        list: "Tous les labels"
+        list: "Labels"
         associated: "Labels associés"
         filter: "Filtrer par labels ..."
         no_tags: "Pas encore de tags pour ce topic"
@@ -219,16 +219,36 @@ fr:
         usage: "%{count} utilisations"
         link: "Voir le détail du label"
         visibility: "Choisissez la visibilité"
+        visibility_immutable: "Le nom d'un label public ne peut être modifié"
         synonyms: "Synonymes du label ..."
         no_description: "Pas de description associée au label"
         no_synonyms: "Pas de synonymes associés au label"
         no_parents: "Pas de labels parents associés"
         no_children: "Pas de labels fils associés"
+        publics: "Labels public"
+        privates: "Labels privé"
+        no_publics: "Pas de labels privés"
+        no_privates: "Pas de labels privés"
+        placeholders:
+          name: "Nom du label"
+          description: "Description du label"
+        stats:
+          title: "Statistiques"
+          views: "Vues : "
+          clicks: "clic : "
+          searches: "Recherches : "
+      form:
+        unsaved: "Quitter sans sauvegarder le tag ?"
       model:
         name: "Nom du label"
         description: "Description"
         synonyms: "Synonymes"
         visibility: "Visibilité"
+        synonyms: "Synonymes"
+        owner: "Créateur"
+        articles_count: "Nombre d'articles"
+        parents: "Labels parents"
+        children: "Labels fils"
       enums:
         visibility:
           everyone: "Public"
@@ -237,14 +257,22 @@ fr:
           - everyone
           - only_me
       show:
-        parents: "Labels parents :"
-        children: "Labels fils :"
         back_button: "Annuler"
         edit_link: "Modifier ce label"
+      new:
+        title: "Ajout d'un label"
+        submit: "Créer le label"
       edit:
         title: "Modification du label : %{name}"
         back_button: "Annuler"
-        update_label: "Mettre à jour le label"
+        submit: "Mettre à jour le label"
+      errors:
+        default: "Impossible de créer le label ! Merci de réessayer."
+        not_authorized: "Vous n'avez pas la permission d'accéder à ce label !"
+        name:
+          size: "Le nom du label doit être compris entre %{min} et %{max} caractères"
+        description:
+          size: "La description du label doit être compris entre %{min} et %{max} caractères"
     article:
       common:
         draft: "Note temporaire ?"

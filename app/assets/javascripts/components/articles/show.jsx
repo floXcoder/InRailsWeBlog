@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import LazyLoad from 'react-lazyload';
 
 import {
@@ -39,7 +37,7 @@ import CommentBox from '../comments/box';
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
     isOutdated: getArticleIsOutdated(state.articleState.article),
-    isUserConnected: state.userState.isConnected,
+    isUserConnected: state.userState.isConnected
 }), {
     fetchArticle,
     deleteArticle
@@ -66,7 +64,7 @@ export default class ArticleShow extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(this.props.params, nextProps.params)) {
+        if (!Object.equals(this.props.params, nextProps.params)) {
             this.props.fetchArticle(nextProps.params.articleSlug);
         }
     }

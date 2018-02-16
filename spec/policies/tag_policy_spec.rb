@@ -32,12 +32,12 @@ describe TagPolicy, basic: true do
 
       it { should grant(:show) }
       it { should grant(:create) }
+      it { should grant(:update) }
       it { should grant(:add_comment) }
       it { should grant(:update_comment) }
       it { should grant(:remove_comment) }
 
       it { should_not grant(:edit) }
-      it { should_not grant(:update) }
       it { should_not grant(:destroy) }
     end
 

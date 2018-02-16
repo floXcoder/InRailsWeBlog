@@ -14,6 +14,21 @@
     margin-top: .8rem;
   }
 
+  .tags-link {
+    color: $border-color;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    margin-left: 10px;
+
+    .material-icons {
+      font-size: 1.2rem;
+
+      &:hover {
+        color: $off-black;
+      }
+    }
+  }
+
   .tag-search {
     display: block;
     position: relative;
@@ -133,24 +148,6 @@
   }
 }
 
-.blog-tag-item {
-  .tag-item-description {
-    margin: 1rem 0;
-
-    .tag-item-no-description {
-      font-style: italic;
-    }
-  }
-
-  .tag-item-synonyms {
-    margin: 1rem 0;
-
-    .tag-item-no-synonyms {
-      font-style: italic;
-    }
-  }
-}
-
 .tag-tooltip {
   .tag-tooltip-heading {
     border-bottom: 1px solid $border-color;
@@ -170,8 +167,114 @@
       margin-bottom: 8px;
     }
 
-    a, a:visited {
+    a,
+    a:visited {
       color: $link-color;
     }
   }
+}
+
+.blog-tags {
+  padding: 20px;
+
+  .tag-subtitle {
+    border-bottom: 1px solid $border-color;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-top: 3rem;
+  }
+
+  .tag-item {
+    padding: 0 0;
+  }
+
+  .tag-default {
+    color: $text-color;
+    display: inline-block;
+    font-weight: 600;
+    line-height: 26px;
+    margin: 5px;
+    padding: .2rem .6rem;
+  }
+}
+
+.blog-tag {
+  .tag-title {
+    color: $text-color;
+    font-size: 2.1rem;
+    font-weight: 600;
+    line-height: 1.8rem;
+    margin: 1rem 0 1.4rem;
+    text-align: center;
+  }
+
+  .tag-subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: .5rem;
+    margin-top: 2rem;
+  }
+
+  .tag-description {
+    margin: 1rem 0;
+
+    .tag-no-description {
+      font-style: italic;
+    }
+  }
+
+  .tag-default {
+    border: 1px solid $text-color;
+    border-radius: 50px;
+    color: $text-color;
+    display: inline-block;
+    font-weight: 600;
+    line-height: 26px;
+    margin: 5px;
+    padding: .2rem .6rem;
+    transition: background-color .3s ease;
+  }
+
+  .tag-parent {
+    &:hover {
+      background-color: $parent-color;
+      border-color: $parent-color;
+      color: #fff;
+    }
+  }
+
+  .tag-child {
+    &:hover {
+      background-color: $child-color;
+      border-color: $child-color;
+      color: #fff;
+    }
+  }
+
+  .tag-category {
+    margin-bottom: 2rem;
+  }
+
+  .tag-category-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: .5rem;
+    margin-top: 1.5rem;
+  }
+}
+
+.tag-form {
+  .card {
+    padding: 0 20px;
+  }
+
+  .tag-advice {
+    font-style: italic;
+    margin-bottom: 1rem;
+    margin-left: 3rem;
+  }
+}
+
+.tag-errors {
+  color: $error-color;
 }

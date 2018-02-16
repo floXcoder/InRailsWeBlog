@@ -7,6 +7,7 @@ import ArticleEdit from './components/loaders/articleEdit';
 import ArticleHistory from './components/loaders/articleHistory';
 import ArticleSort from './components/loaders/articleSort';
 
+import TagIndex from './components/loaders/tagIndex';
 import TagShow from './components/loaders/tagShow';
 import TagEdit from './components/loaders/tagEdit';
 
@@ -18,16 +19,10 @@ import SearchIndex from './components/loaders/searchIndex';
 
 export default {
     // Rails routes:
-    // /users/*
+    // /api/v1/*
     // /signup
     // /login
     // /logout
-    // /activities
-    // /tags/*
-    // /topics/*
-    // /articles/*
-    // /search/*
-    // /comments/*
     // /admin/*
     // /terms_of_use
     // /errors/*
@@ -85,6 +80,21 @@ export default {
                 path: '/topic/:userSlug/:topicSlug',
                 exact: true,
                 component: ArticleIndex
+            },
+            {
+                path: '/tags',
+                exact: true,
+                component: TagIndex
+            },
+            {
+                path: '/tag/:tagSlug',
+                exact: true,
+                component: TagShow
+            },
+            {
+                path: '/tag/:tagSlug/edit',
+                exact: true,
+                component: TagEdit
             },
             {
                 path: '/tagged/:parentTagSlug/:childTagSlug',
