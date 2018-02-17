@@ -269,6 +269,7 @@ module Api::V1
     def filter_params
       if params[:filter]
         params.require(:filter).permit(:visibility,
+                                       :mode,
                                        :draft,
                                        :accepted,
                                        :user_id,

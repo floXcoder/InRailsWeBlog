@@ -13,6 +13,7 @@ import Spinner from '../materialize/spinner';
 
 import ArticleListDisplay from './display/list';
 import ArticleSortDisplay from './sort/dropdown';
+import ArticleFilterDisplay from './filter/dropdown';
 import ArticleNone from '../articles/display/none';
 
 @connect((state) => ({
@@ -77,11 +78,12 @@ export default class ArticleIndex extends React.Component {
 
     _fetchNextArticles = (params = {}) => {
         if (this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages) {
+            const queryParams = Utils.parseUrlParameters(this.props.queryString);
             const options = {
                 page: (params.selected || this.props.articlePagination.currentPage) + 1
             };
 
-            this.props.fetchArticles(this._filterParams(), options, {infinite: !params.selected})
+            this.props.fetchArticles(this._filterParams(queryParams), options, {infinite: !params.selected})
                 .then(() => {
                     if (params.selected) {
                         setTimeout(() => {
@@ -107,6 +109,11 @@ export default class ArticleIndex extends React.Component {
                 {
                     this.props.articles.length > 0 &&
                     <ArticleSortDisplay currentTopicSlug={this.props.currentTopicSlug}/>
+                }
+
+                {
+                    this.props.articles.length > 0 &&
+                    <ArticleFilterDisplay currentUserId={this.props.currentUserId}/>
                 }
 
                 {

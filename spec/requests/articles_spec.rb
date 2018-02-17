@@ -440,9 +440,6 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-
-          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('everyone')
-          expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(1)
       end
 
@@ -470,7 +467,7 @@ describe 'Article API', type: :request, basic: true do
         expect {
           post '/api/v1/articles', params: article_error_attributes, as: :json
 
-          expect(response).to be_json_response(403)
+          expect(response).to be_json_response(422)
 
           article = JSON.parse(response.body)
           expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
@@ -482,7 +479,7 @@ describe 'Article API', type: :request, basic: true do
         expect {
           post '/api/v1/articles', params: article_attributes.deep_merge(article: { topic_id: @other_topic.id }), as: :json
 
-          expect(response).to be_json_response(403)
+          expect(response).to be_json_response(422)
 
           article = JSON.parse(response.body)
           expect(article['errors']['topic'].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
@@ -584,7 +581,7 @@ describe 'Article API', type: :request, basic: true do
           expect {
             put "/api/v1/articles/#{@article.id}", params: article_error_attributes.merge(tags: ['test error' * 30]), as: :json
 
-            expect(response).to be_json_response(403)
+            expect(response).to be_json_response(422)
 
             article = JSON.parse(response.body)
             expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))

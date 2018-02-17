@@ -40,8 +40,8 @@ namespace :InRailsWeBlog do
         personal_tags = Populate::create_dummy_tags_for([main_user, *other_users], 15, visibility: 'only_me', exclude_tag_names: common_tags.map(&:name))
 
         # Create articles with tags
-        main_articles  = Populate::create_dummy_articles_for(main_user, common_tags + personal_tags, 40)
-        other_articles = Populate::create_dummy_articles_for(other_users, common_tags + personal_tags, 5..15)
+        main_articles  = Populate::create_dummy_stories_and_notes_for(main_user, common_tags + personal_tags, 40)
+        other_articles = Populate::create_dummy_stories_and_notes_for(other_users, common_tags + personal_tags, 5..15)
         main_links     = Populate::create_dummy_links_for(main_user, common_tags + personal_tags, 5..15)
 
         # Creation relationships between articles

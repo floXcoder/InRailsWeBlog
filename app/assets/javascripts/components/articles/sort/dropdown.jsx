@@ -7,9 +7,9 @@ import {
 import Dropdown from '../../theme/dropdown';
 
 const ArticleSortDisplay = ({currentTopicSlug}) => (
-    <div className="blog-article-filter">
+    <div className="blog-article-sort">
         <Dropdown button={<span className="material-icons"
-                                data-icon="sort"
+                                data-icon="low_priority"
                                 aria-hidden="true"/>}
                   isRightSide={true}>
             <ul>

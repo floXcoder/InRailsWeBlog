@@ -212,7 +212,7 @@ describe 'Topic API', type: :request, basic: true do
         expect {
           post '/api/v1/topics', params: topic_error_attributes.merge(user_id: @user.id), as: :json
 
-          expect(response).to be_json_response(403)
+          expect(response).to be_json_response(422)
 
           article = JSON.parse(response.body)
           expect(article['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))
@@ -259,7 +259,7 @@ describe 'Topic API', type: :request, basic: true do
           expect {
             put "/api/v1/topics/#{@first_topic.id}", params: topic_error_attributes.merge(user_id: @user.id), as: :json
 
-            expect(response).to be_json_response(403)
+            expect(response).to be_json_response(422)
 
             topic = JSON.parse(response.body)
             expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.topic_name_max_length))

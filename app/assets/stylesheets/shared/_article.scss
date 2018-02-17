@@ -746,10 +746,25 @@
   }
 }
 
-.blog-article-filter {
+.blog-article-sort {
   position: absolute;
   right: -80px;
   top: 30px;
+
+  ul {
+    margin: 0;
+    width: 140px;
+
+    a {
+      color: $off-black !important;
+    }
+  }
+}
+
+.blog-article-filter {
+  position: absolute;
+  right: -80px;
+  top: 80px;
 
   ul {
     margin: 0;

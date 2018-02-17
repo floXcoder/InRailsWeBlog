@@ -7,25 +7,25 @@ class Populate
 
   def self.create_admin
     FactoryBot.create(:admin,
-                       # :with_blog,
-                       pseudo:                ENV['WEBSITE_ADMIN_NAME'],
-                       email:                 ENV['WEBSITE_ADMIN_EMAIL'],
-                       locale:                'fr',
-                       additional_info:       'Administrator',
-                       password:              ENV['WEBSITE_ADMIN_PASSWORD'],
-                       password_confirmation: ENV['WEBSITE_ADMIN_PASSWORD'])
+                      # :with_blog,
+                      pseudo:                ENV['WEBSITE_ADMIN_NAME'],
+                      email:                 ENV['WEBSITE_ADMIN_EMAIL'],
+                      locale:                'fr',
+                      additional_info:       'Administrator',
+                      password:              ENV['WEBSITE_ADMIN_PASSWORD'],
+                      password_confirmation: ENV['WEBSITE_ADMIN_PASSWORD'])
   end
 
   def self.create_main_user
     FactoryBot.create(:user,
-                       pseudo:                ENV['WEBSITE_NAME'],
-                       email:                 ENV['WEBSITE_EMAIL'],
-                       locale:                'fr',
-                       additional_info:       'Utilisateur principal',
-                       city:                  'Paris',
-                       country:               'France',
-                       password:              ENV['WEBSITE_PASSWORD'],
-                       password_confirmation: ENV['WEBSITE_PASSWORD'])
+                      pseudo:                ENV['WEBSITE_NAME'],
+                      email:                 ENV['WEBSITE_EMAIL'],
+                      locale:                'fr',
+                      additional_info:       'Utilisateur principal',
+                      city:                  'Paris',
+                      country:               'France',
+                      password:              ENV['WEBSITE_PASSWORD'],
+                      password_confirmation: ENV['WEBSITE_PASSWORD'])
   end
 
   def self.create_dummy_users(user_number)
@@ -34,12 +34,12 @@ class Populate
     User.transaction do
       user_number.times do
         users << FactoryBot.create(:user,
-                                    locale:          'fr',
-                                    first_name:      Faker::Name.first_name,
-                                    last_name:       Faker::Name.last_name,
-                                    additional_info: Faker::Lorem.paragraph,
-                                    city:            Faker::Address.city,
-                                    phone_number:    Faker::PhoneNumber.phone_number)
+                                   locale:          'fr',
+                                   first_name:      Faker::Name.first_name,
+                                   last_name:       Faker::Name.last_name,
+                                   additional_info: Faker::Lorem.paragraph,
+                                   city:            Faker::Address.city,
+                                   phone_number:    Faker::PhoneNumber.phone_number)
       end
     end
 
@@ -70,9 +70,9 @@ class Populate
 
         topics << Array.new(topic_number_per_user) do |n|
           FactoryBot.create(:topic,
-                             user:       user,
-                             visibility: rand(0..1),
-                             name:       topics_name[n].mb_chars.capitalize.to_s)
+                            user:       user,
+                            visibility: rand(0..1),
+                            name:       topics_name[n].mb_chars.capitalize.to_s)
         end
       end
     end
@@ -97,9 +97,9 @@ class Populate
         tags << Array.new(tags_number_per_user) do |_n|
           tag_index += 1
           FactoryBot.create(:tag,
-                             user:       user,
-                             visibility: options[:visibility] || rand(0..1),
-                             name:       tags_name[tag_index].mb_chars.capitalize.to_s)
+                            user:       user,
+                            visibility: options[:visibility] || rand(0..1),
+                            name:       tags_name[tag_index].mb_chars.capitalize.to_s)
         end
       end
     end
@@ -107,7 +107,7 @@ class Populate
     return tags.flatten
   end
 
-  def self.create_dummy_articles_for(users, tags, articles_by_users_and_topics)
+  def self.create_dummy_stories_and_notes_for(users, tags, articles_by_users_and_topics)
     users = [users] if users.is_a?(User)
 
     articles = []
@@ -126,19 +126,20 @@ class Populate
             parent_tags = permitted_tags.sample(rand(1..2))
             child_tags  = permitted_tags.sample(rand(1..2))
             FactoryBot.create(:article_with_relation_tags,
-                               user:        user,
-                               topic:       topic,
-                               mode:        'note',
-                               visibility:  Article.visibilities.keys.sample,
-                               parent_tags: parent_tags,
-                               child_tags:  child_tags - parent_tags)
+                              user:        user,
+                              topic:       topic,
+                              mode:        'note',
+                              title:       nil,
+                              visibility:  Article.visibilities.keys.sample,
+                              parent_tags: parent_tags,
+                              child_tags:  child_tags - parent_tags)
           else
             FactoryBot.create(:article_with_tags,
-                               user:       user,
-                               topic:      topic,
-                               mode:       'story',
-                               visibility: Article.visibilities.keys.sample,
-                               tags:       permitted_tags.sample(rand(1..3)))
+                              user:       user,
+                              topic:      topic,
+                              mode:       'story',
+                              visibility: Article.visibilities.keys.sample,
+                              tags:       permitted_tags.sample(rand(1..3)))
           end
         end
       end
@@ -163,12 +164,13 @@ class Populate
           permitted_tags = tags.select { |tag| tag.everyone? || (tag.only_me? && tag.user_id == user.id) }
 
           FactoryBot.create(:article_with_tags,
-                             user:       user,
-                             topic:      topic,
-                             mode:       'link',
-                             reference:  Faker::Internet.url,
-                             visibility: Article.visibilities.keys.sample,
-                             tags:       permitted_tags.sample(rand(1..3)))
+                            user:       user,
+                            topic:      topic,
+                            mode:       'link',
+                            title:      nil,
+                            reference:  Faker::Internet.url,
+                            visibility: Article.visibilities.keys.sample,
+                            tags:       permitted_tags.sample(rand(1..3)))
         end
       end
     end
@@ -181,9 +183,9 @@ class Populate
     ArticleRelationship.transaction do
       articles.sample(relationship_number).each do |article|
         article_relationships << FactoryBot.create(:article_relationship,
-                                                    user:   user,
-                                                    parent: article,
-                                                    child:  articles.sample
+                                                   user:   user,
+                                                   parent: article,
+                                                   child:  articles.sample
         )
       end
     end

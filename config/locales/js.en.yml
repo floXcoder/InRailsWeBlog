@@ -286,7 +286,7 @@ en:
         outdated: "Article marked as outdated"
         advanced: "Advanced options"
         user: "Posted by"
-        actions: "Actions:"
+        actions: "Actions"
         infinite:
           loading: "Loading articles"
         placeholders:
@@ -402,6 +402,14 @@ en:
           date_asc: "Oldest"
         link_title: "Change order"
         link: "Change priority"
+      filter:
+        title: "Filter by"
+        filters:
+          story: "Stories"
+          note: "Notes"
+          link: "Links"
+          bookmark: "Bookmarks"
+          draft: "Drafts"
       timeline:
         title: "New article:"
         no_articles: "No articles to display"

@@ -226,7 +226,7 @@ describe 'Tag API', type: :request, basic: true do
           expect {
             put "/api/v1/tags/#{@tags[0].id}", params: tag_error_attributes, as: :json
 
-            expect(response).to be_json_response(403)
+            expect(response).to be_json_response(422)
 
             tag = JSON.parse(response.body)
             expect(tag['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.tag_name_max_length))
