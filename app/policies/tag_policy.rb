@@ -19,7 +19,7 @@ class TagPolicy
   end
 
   def update?
-    owner?
+    @current_user && correct_user?
   end
 
   def destroy?

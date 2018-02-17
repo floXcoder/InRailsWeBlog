@@ -14,14 +14,14 @@ import {
 
 // Autocomplete
 export const loadAutocomplete = (autocompleteParams) => (
-    api.get(`/search/autocomplete`, {
+    api.get(`/api/v1/search/autocomplete`, {
         search: autocompleteParams
     })
 );
 
 export const fetchAutocomplete = (autocompleteParams) => ({
     actionType: ActionTypes.SEARCH_AUTOCOMPLETE,
-    fetchAPI: () => api.get(`/search/autocomplete`, {
+    fetchAPI: () => api.get(`/api/v1/search/autocomplete`, {
         search: autocompleteParams
     }),
     payload: {
@@ -124,7 +124,7 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
     dispatch(initSearch());
 
     return api
-        .get(`/search`, {search: searchParams})
+        .get(`/api/v1/search`, {search: searchParams})
         .then(json => {
             if (json.errors) {
                 return dispatch(failSearch(json));
@@ -178,7 +178,7 @@ export const fetchMetaSearch = (query) => (dispatch) => {
     dispatch(initSearch());
 
     return api
-        .get(`/search/meta`, {
+        .get(`/api/v1/search/meta`, {
             search: {
                 query
             }

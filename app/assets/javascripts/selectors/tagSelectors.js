@@ -13,6 +13,16 @@ export const getTags = createSelector(
     (tags) => tags.toArray()
 );
 
+export const getPublicTags = createSelector(
+    (state) => state.tagState.tags,
+    (tags) => tags.filter((tag) => tag.visibility === 'everyone').toArray()
+);
+
+export const getPrivateTags = createSelector(
+    (state) => state.tagState.tags,
+    (tags) => tags.filter((tag) => tag.visibility === 'only_me').toArray()
+);
+
 export const getClassifiedTags = createSelector(
     (state) => state.tagState.tags,
     (state) => state.tagState.filterText,
@@ -83,5 +93,25 @@ export const getCategorizedTags = createSelector(
         }
 
         return categorizedTags;
+    }
+);
+
+export const getTagIsOwner = (state, tag) => (
+    tag && tag.user ? state.userState.currentId === tag.user.id : false
+);
+
+export const getTagErrors = createSelector(
+    (state) => state.tagState.errors,
+    (tagErrors) => {
+        let errorContent = [];
+        if (typeof tagErrors === 'string') {
+            errorContent = [tagErrors];
+        } else {
+            tagErrors.mapKeys((errorName, errorDescriptions) => {
+                errorDescriptions = errorDescriptions.toJS();
+                errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+            }).toArray();
+        }
+        return errorContent;
     }
 );

@@ -38,10 +38,15 @@ const manageError = (origin, error, url) => {
     if (error.statusText) {
         if (error.statusText === 'Forbidden') {
             Notification.error(I18n.t('js.helpers.errors.not_authorized'), 10);
+            if (document.referrer === '') {
+                window.location = '/';
+            } else {
+                history.back();
+            }
+        } else if (error.statusText === 'Unprocessable Entity') {
+            Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
         } else {
-            if (error.statusText === 'Unprocessable Entity') {
-                Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
-            } else if (error.statusText === 'Internal Server Error') {
+            if (error.statusText === 'Internal Server Error') {
                 if (window.railsEnv === 'development') {
                     error.text().then((text) => log.now(text.split("\n").slice(0, 6)));
                 } else {
@@ -100,7 +105,9 @@ const handleFlashMessage = (response) => {
 };
 
 const handleResponse = (response) => {
-    if (response.bodyUsed || !response.ok) {
+    if (response.status === 422) { // Response must have a primary "errors" key to be processed
+        return response.json();
+    } else if (!response.ok || response.bodyUsed) {
         return {
             errors: response.statusText
         };

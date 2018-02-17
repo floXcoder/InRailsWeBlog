@@ -484,16 +484,20 @@ class Article < ApplicationRecord
     records = records.where(accepted: filter[:accepted]) if filter[:accepted]
     records = records.with_visibility(filter[:visibility]) if filter[:visibility]
 
-    if filter[:user_id]
-      records = records.from_user_id(filter[:user_id], current_user&.id)
-    elsif filter[:user_slug]
-      records = records.from_user(filter[:user_slug], current_user&.id)
-    end
+    if filter[:bookmarked] && current_user
+      records = records.bookmarked_by_user(current_user.id)
+    else
+      if filter[:user_id]
+        records = records.from_user_id(filter[:user_id], current_user&.id)
+      elsif filter[:user_slug]
+        records = records.from_user(filter[:user_slug], current_user&.id)
+      end
 
-    if filter[:topic_id]
-      records = records.from_topic_id(filter[:topic_id]) if filter[:topic_id]
-    elsif filter[:topic_slug]
-      records = records.from_topic(filter[:topic_slug])
+      if filter[:topic_id]
+        records = records.from_topic_id(filter[:topic_id]) if filter[:topic_id]
+      elsif filter[:topic_slug]
+        records = records.from_topic(filter[:topic_slug])
+      end
     end
 
     records = if filter[:parent_tag_slug] && filter[:child_tag_slug]
@@ -512,7 +516,7 @@ class Article < ApplicationRecord
 
     records = records.where(draft: true) if filter[:draft]
 
-    records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
+    records = records.where(mode: filter[:mode]) if filter[:mode]
 
     return records
   end

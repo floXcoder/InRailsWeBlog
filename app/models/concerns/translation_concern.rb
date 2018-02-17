@@ -99,7 +99,7 @@ module TranslationConcern
         if self.fallbacks_for_empty_translations
           translation_keys = send("#{field}_translations").keys
           available_languages = send(:languages)
-          self.current_language = available_languages.first if !available_languages.empty? && !translation_keys.include?(self.current_language)
+          self.current_language = available_languages.first if !available_languages&.empty? && !translation_keys.include?(self.current_language)
         end
 
         # For search indexing

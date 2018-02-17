@@ -7,7 +7,7 @@ module CommentConcern
   end
 
   def comments
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id] || params[:commentable_id])
 
     comments, comments_tree = record.comments_tree(params[:page], params[:per_page] || Setting.comment_per_page)
@@ -22,7 +22,7 @@ module CommentConcern
   end
 
   def add_comment
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id])
     admin_or_authorize record
 
@@ -45,14 +45,14 @@ module CommentConcern
         flash.now[:error] = t('views.comment.flash.error_creation')
         format.json do
           render json:   { errors: comment.errors },
-                 status: :forbidden
+                 status: :unprocessable_entity
         end
       end
     end
   end
 
   def update_comment
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id])
     admin_or_authorize record
 
@@ -72,14 +72,14 @@ module CommentConcern
         flash.now[:error] = t('views.comment.flash.error_edition')
         format.json do
           render json:   { errors: comment.errors },
-                 status: :forbidden
+                 status: :unprocessable_entity
         end
       end
     end
   end
 
   def remove_comment
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id])
     admin_or_authorize record
 
@@ -99,7 +99,7 @@ module CommentConcern
         flash.now[:error] = t('views.comment.flash.error_deletion')
         format.json do
           render json:   { errors: comment.errors },
-                 status: :forbidden
+                 status: :unprocessable_entity
         end
       end
     end

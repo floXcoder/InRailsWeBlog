@@ -80,14 +80,21 @@ export class TagRecord extends Record({
     visibilityTranslated: undefined,
     taggedArticlesCount: undefined,
     parentIds: undefined,
+    parents: List(),
     childIds: undefined,
+    children: List(),
     slug: undefined,
+    viewsCount: undefined,
+    clicksCount: undefined,
+    searchesCount: undefined,
     user: new UserRecord()
 }) {
-    constructor({user, ...props} = {}) {
+    constructor({user, parents, children, ...props} = {}) {
         super({
             ...props,
-            user: new UserRecord(user)
+            user: new UserRecord(user),
+            parents: List(parents).map(tag => new TagRecord(tag)),
+            children: List(children).map(tag => new TagRecord(tag))
         })
     }
 }

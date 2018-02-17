@@ -211,7 +211,7 @@ en:
         submit: "Update"
     tag:
       common:
-        list: "All tags"
+        list: "Tags"
         associated: "Associated tags"
         filter: "Filter by tags..."
         no_tags: "Not tag yet for this topic"
@@ -219,16 +219,36 @@ en:
         usage: "%{count} use"
         link: "See tag details"
         visibility: "Choose visibility"
+        visibility_immutable: "Public tag name cannot be changed"
         synonyms: "Tag synonyms..."
         no_description: "No tag description"
         no_synonyms: "No tag synonyms"
         no_parents: "No parents tag"
         no_children: "No children tag"
+        publics: "Public tags"
+        privates: "Private tags"
+        no_publics: "No public tags"
+        no_privates: "No private tags"
+        placeholders:
+          name: "Tag name"
+          description: "Tag description"
+        stats:
+          title: "Statistics"
+          views: "Views: "
+          clicks: "Clicks: "
+          searches: "Searches: "
+      form:
+        unsaved: "Leave without saving tag?"
       model:
         name: "Tag name"
         description: "Description"
         synonyms: "Synonyms"
         visibility: "Visibility"
+        synonyms: "Synonyms"
+        owner: "Owner"
+        articles_count: "Articles count"
+        parents: "Parents tag"
+        children: "Children tag"
       enums:
         visibility:
           everyone: "Public"
@@ -237,14 +257,22 @@ en:
           - everyone
           - only_me
       show:
-        parents: "Parents tag:"
-        children: "Children tag:"
         back_button: "Cancel"
         edit_link: "Edit"
+      new:
+        title: "Tag creation"
+        submit: "Create"
       edit:
         title: "Tag edition: %{name}"
         back_button: "Cancel"
-        update_label: "Update"
+        submit: "Update"
+      errors:
+        default: "Cannot create tag! Please try again."
+        not_authorized: "Cannot access to this tag!"
+        name:
+          size: "Tag name must be between %{min} and %{max} characters"
+        description:
+          size: "Tag description must be between %{min} and %{max} characters"
     article:
       common:
         draft: "Draft?"
@@ -258,7 +286,7 @@ en:
         outdated: "Article marked as outdated"
         advanced: "Advanced options"
         user: "Posted by"
-        actions: "Actions:"
+        actions: "Actions"
         infinite:
           loading: "Loading articles"
         placeholders:
@@ -374,6 +402,14 @@ en:
           date_asc: "Oldest"
         link_title: "Change order"
         link: "Change priority"
+      filter:
+        title: "Filter by"
+        filters:
+          story: "Stories"
+          note: "Notes"
+          link: "Links"
+          bookmark: "Bookmarks"
+          draft: "Drafts"
       timeline:
         title: "New article:"
         no_articles: "No articles to display"

@@ -15,14 +15,14 @@ module TrackerConcern
 
   # Tracker action method to get views from clients
   def viewed
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     class_model.track_views(params[:id])
     head :no_content
   end
 
   # Tracker action method to get clicks from clients
   def clicked
-    class_model = controller_path.classify.constantize
+    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     class_model.track_clicks(params[:id], params[:user_id])
     head :no_content
   end

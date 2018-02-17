@@ -173,9 +173,9 @@ export default class MainLayout extends React.Component {
                                                              childTagSlug: router.match.params.childTagSlug
                                                          }
                                                      }}>
-                                               <span className="material-icons"
-                                                     data-icon="add_circle_outline"
-                                                     aria-hidden="true"/>
+                                                   <span className="material-icons"
+                                                         data-icon="add_circle_outline"
+                                                         aria-hidden="true"/>
                                                </Link>
                                            }
 

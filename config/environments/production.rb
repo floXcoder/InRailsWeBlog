@@ -68,6 +68,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Prevent attacks
+  config.middleware.use Rack::Attack
+
   # Mails
   config.action_mailer.default_url_options   = { host: ENV['WEBSITE_ADDRESS'] }
   config.action_mailer.delivery_method       = :smtp

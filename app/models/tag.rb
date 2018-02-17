@@ -93,6 +93,7 @@ class Tag < ApplicationRecord
            foreign_key: 'parent_id',
            dependent:   :destroy
   has_many :children,
+           -> { distinct },
            through: :parent_relationships,
            source:  :child
 
@@ -102,6 +103,7 @@ class Tag < ApplicationRecord
            foreign_key: 'child_id',
            dependent:   :destroy
   has_many :parents,
+           -> { distinct },
            through: :child_relationships,
            source:  :parent
 
@@ -191,7 +193,7 @@ class Tag < ApplicationRecord
   }
 
   scope :include_collection, -> { includes(:parent_relationships, :child_relationships) }
-  scope :include_element, -> { includes(:user) }
+  scope :include_element, -> { includes(:user, :parents, :children) }
 
   # == Callbacks ============================================================
   before_create :set_default_color
@@ -454,12 +456,11 @@ class Tag < ApplicationRecord
 
       visibility ||= 'everyone'
       attributes = {
-        user_id:    Tag.visibilities[visibility] == 1 ? current_user_id : nil,
         name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
         visibility: Tag.visibilities[visibility]
       }.compact
 
-      Tag.find_by(attributes) || Tag.new(attributes)
+      Tag.find_by(attributes) || Tag.new(attributes.merge(user_id: current_user_id))
     end
   end
 
@@ -538,6 +539,18 @@ class Tag < ApplicationRecord
               end
 
     return AssetManifest.image_path(picture || default_picture)
+  end
+
+  def parents_for_user(current_user_id)
+    self.parents.select do |parent|
+      parent.everyone? || (parent.only_me? && parent.user_id == current_user_id)
+    end
+  end
+
+  def children_for_user(current_user_id)
+    self.children.select do |child|
+      child.everyone? || (child.only_me? && child.user_id == current_user_id)
+    end
   end
 
   def bookmarked?(user)

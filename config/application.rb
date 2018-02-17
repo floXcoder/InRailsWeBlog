@@ -75,9 +75,6 @@ module InRailsWeBlog
     # Errors handling
     config.exceptions_app = self.routes
 
-    # Prevent attacks
-    config.middleware.use Rack::Attack
-
     # Custom configuration
     config.x.cron_jobs_active = true
   end

@@ -5,178 +5,237 @@ import {
 } from 'react-router-dom';
 
 import {
+    fetchTag,
+    deleteTag,
     spyTrackClick
 } from '../../actions';
 
+import {
+    getTagIsOwner
+} from '../../selectors';
+
 import UserAvatarIcon from '../users/icons/avatar';
 
-// TODO: use redux to get and received tag
+import Spinner from '../materialize/spinner';
+
+@connect((state) => ({
+    isFetching: state.tagState.isFetching,
+    tag: state.tagState.tag,
+    isOwner: getTagIsOwner(state, state.tagState.tag),
+    isUserConnected: state.userState.isConnected
+}), {
+    fetchTag,
+    deleteTag
+})
 export default class TagShow extends React.Component {
     static propTypes = {
+        params: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
+        // From connect
+        isFetching: PropTypes.bool,
         tag: PropTypes.object,
-        params: PropTypes.object,
-        location: PropTypes.object,
-    };
-
-    static defaultProps = {
-        params: {},
-        location: {}
+        isOwner: PropTypes.bool,
+        isUserConnected: PropTypes.bool,
+        fetchTag: PropTypes.func,
+        deleteTag: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        if (props.tag) {
-            this.state.tag = props.tag;
-        } else if (props.params.tagId) {
-            this.props.fetchTag({id: this.props.params.tagId});
+        props.fetchTag(props.params.tagSlug);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!Object.equals(this.props.params, nextProps.params)) {
+            this.props.fetchTag(nextProps.params.tagSlug);
         }
     }
 
-    state = {
-        tag: undefined
+    _handleDeleteClick = (event) => {
+        event.preventDefault();
+
+        this.props.deleteTag(this.props.tag.id)
+            .then(() => this.props.history.push({
+                    pathname: `/`,
+                    state: {reloadTags: true}
+                })
+            );
+
     };
-
-    // onTagChange(tagData) {
-    //     if (Utils.isEmpty(tagData)) {
-    //         return;
-    //     }
-    //
-    //     let newState = {};
-    //
-    //     if (tagData.type === 'loadTag') {
-    //         newState.tag = tagData.tag;
-    //     }
-    //
-    //     if (!Utils.isEmpty(newState)) {
-    //         this.setState(newState);
-    //     }
-    // }
-
-    _handleUserClick = (userId, event) => {
-        // use Link from router
-        // UserStore.onTrackClick(userId);
-        return event;
-    };
-
-    // _handleDeleteClick (event) {
-    //     event.preventDefault();
-    //     if (this.state.article) {
-    //         ArticleActions.deleteArticle({id: this.state.article.id, showMode: true});
-    //     }
-    // }
 
     render() {
-        if (Utils.isEmpty(this.state.tag)) {
-            return null;
+        if (!this.props.tag) {
+            return (
+                <div className="center margin-top-20">
+                    <Spinner size='big'/>
+                </div>
+            )
         }
 
         return (
-            <div>
-                <div className="card blog-tag-item clearfix">
-                    <div className="card-content">
-                        <UserAvatarIcon user={this.state.tag.user}
-                                        className="article-user"/>
+            <article className="card blog-tag">
+                <div className="card-content">
+                    <h1 className="tag-title">
+                        {this.props.tag.name}
+                    </h1>
 
-                        <h1 className="center-align">
-                            <span>
-                                {this.state.tag.name}
-                            </span>
-                        </h1>
+                    <div className="row">
+                        <div className="col s12 l8">
+                            <div className="tag-description">
+                                <h2 className="tag-subtitle">
+                                    {I18n.t('js.tag.model.description')}
+                                </h2>
 
-                        <p className="tag-item-description">
-                            {
-                                this.state.tag.description
-                                    ?
-                                    this.state.tag.description
-                                    :
-                                    <span className="tag-item-no-description">
+                                {
+                                    this.props.tag.description
+                                        ?
+                                        this.props.tag.description
+                                        :
+                                        <span className="tag-no-description">
                                             {I18n.t('js.tag.common.no_description')}
                                         </span>
-                            }
-                        </p>
-
-                        <p className="tag-item-synonyms">
-                            {
-                                this.state.tag.synonyms
-                                    ?
-                                    this.state.tag.synonyms
-                                    :
-                                    <span className="tag-item-no-synonyms">
-                                            {I18n.t('js.tag.common.no_synonyms')}
-                                        </span>
-                            }
-                        </p>
-
-                        <p className="tag-item-visibility">
-                            {I18n.t('js.tag.model.visibility') + ': '}
-                            {
-                                this.state.tag.visibility_translated
-                            }
-                        </p>
-
-                        <p className="tag-item-parents margin-bottom-20">
-                            {I18n.t('js.tag.show.parents')}
-
-                            {
-                                this.state.tag.parents && this.state.tag.parents.length > 0
-                                    ?
-                                    this.state.tag.parents.map((tag) => (
-                                        <Link key={tag.id}
-                                              className="btn-small waves-effect waves-light tag-parent"
-                                              to={`/tag/${tag.slug}`}
-                                              onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
-                                            {tag.name}
-                                        </Link>
-                                    ))
-                                    :
-                                    <span className="tag-item-no-parents">
-                                        {I18n.t('js.tag.common.no_parents')}
-                                    </span>
-                            }
-                        </p>
-
-                        <p className="tag-item-children margin-bottom-20">
-                            {I18n.t('js.tag.show.children')}
-
-                            {
-                                this.state.tag.children && this.state.tag.children.length > 0
-                                    ?
-                                    this.state.tag.children.map((tag) => (
-                                        <Link key={tag.id}
-                                              className="btn-small waves-effect waves-light tag-child"
-                                              to={`/tag/${tag.slug}`}
-                                              onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
-                                            {tag.name}
-                                        </Link>
-                                    ))
-                                    :
-                                    <span className="tag-item-no-children">
-                                            {I18n.t('js.tag.common.no_children')}
-                                        </span>
-                            }
-                        </p>
-                    </div>
-
-                    <div className="card-action article-action clearfix">
-                        <div className="row">
-                            <div className="col s12 m12 l6 md-margin-bottom-20">
-                                <Link className="btn btn-default waves-effect waves-light"
-                                      to={`/`}>
-                                    {I18n.t('js.tag.show.back_button')}
-                                </Link>
+                                }
                             </div>
 
-                            <div className="col s12 m12 l6 right-align">
-                                <Link className="btn waves-effect waves-light"
-                                      to={`/tag/${this.state.tag.slug}/edit`}>
-                                    {I18n.t('js.tag.show.edit_link')}
-                                </Link>
+                            <div className="margin-bottom-20">
+                                <h2 className="tag-subtitle">
+                                    {I18n.t('js.tag.model.parents')}
+                                </h2>
+
+                                {
+                                    this.props.tag.parents.size > 0
+                                        ?
+                                        <div className="tag-parents">
+                                            {
+                                                this.props.tag.parents.map((tag) => (
+                                                    <Link key={tag.id}
+                                                          className="tag-default tag-parent"
+                                                          to={`/tag/${tag.slug}`}
+                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
+                                                        {tag.name}
+                                                    </Link>
+                                                ))
+                                            }
+                                        </div>
+                                        :
+                                        <span className="tag-no-parents">
+                                            {I18n.t('js.tag.common.no_parents')}
+                                        </span>
+                                }
+                            </div>
+
+                            <div className="margin-bottom-20">
+                                <h2 className="tag-subtitle">
+                                    {I18n.t('js.tag.model.children')}
+                                </h2>
+
+                                {
+                                    this.props.tag.children.size > 0
+                                        ?
+                                        <div className="tag-children">
+                                            {
+                                                this.props.tag.children.map((tag) => (
+                                                    <Link key={tag.id}
+                                                          className="tag-default tag-child"
+                                                          to={`/tag/${tag.slug}`}
+                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
+                                                        {tag.name}
+                                                    </Link>
+                                                ))
+                                            }
+                                        </div>
+                                        :
+                                        <span className="tag-no-children">
+                                            {I18n.t('js.tag.common.no_children')}
+                                        </span>
+                                }
+                            </div>
+                        </div>
+
+                        <div className="col s12 l4">
+                            <div className="tag-category">
+                                <h3 className="tag-category-title">
+                                    {I18n.t('js.tag.model.owner')}
+                                </h3>
+
+                                <UserAvatarIcon user={this.props.tag.user}
+                                                className="tag-user"/>
+                            </div>
+
+                            <div className="tag-category">
+                                <h3 className="tag-category-title">
+                                    {I18n.t('js.tag.model.articles_count')}
+                                </h3>
+
+                                <p className="tag-visibility">
+                                    {this.props.tag.taggedArticlesCount}
+                                </p>
+                            </div>
+
+                            <div className="tag-category">
+                                <h3 className="tag-category-title">
+                                    {I18n.t('js.tag.model.visibility')}
+                                </h3>
+
+                                <p className="tag-visibility">
+                                    {this.props.tag.visibilityTranslated}
+                                </p>
+                            </div>
+
+                            {
+                                this.props.tag.synonyms &&
+                                <div className="tag-category">
+                                    <h3 className="tag-category-title">
+                                        {I18n.t('js.tag.model.synonyms')}
+                                    </h3>
+
+                                    <p className="tag-visibility">
+                                        {this.props.tag.synonyms.join(', ')}
+                                    </p>
+                                </div>
+                            }
+
+                            <div className="tag-category">
+                                <h3 className="tag-category-title">
+                                    {I18n.t('js.tag.common.stats.title')}
+                                </h3>
+
+                                <p className="tag-stats">
+                                    {I18n.t('js.tag.common.stats.views')}
+                                    {this.props.tag.viewsCount}
+                                </p>
+                                <p className="tag-stats">
+                                    {I18n.t('js.tag.common.stats.clicks')}
+                                    {this.props.tag.clicksCount}
+                                </p>
+                                <p className="tag-stats">
+                                    {I18n.t('js.tag.common.stats.searches')}
+                                    {this.props.tag.searchesCount}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <div className="card-action article-action clearfix">
+                    <div className="row">
+                        <div className="col s12 m12 l6 md-margin-bottom-20">
+                            <Link className="btn-flat waves-effect waves-light"
+                                  to={`/`}>
+                                {I18n.t('js.tag.show.back_button')}
+                            </Link>
+                        </div>
+
+                        <div className="col s12 m12 l6 right-align">
+                            <Link className="btn waves-effect waves-light"
+                                  to={`/tag/${this.props.tag.slug}/edit`}>
+                                {I18n.t('js.tag.show.edit_link')}
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </article>
         );
     }
 }

@@ -266,6 +266,7 @@
 
   .article-title {
     display: inline-block;
+    position: relative;
     width: 100%;
 
     .title {
@@ -277,6 +278,30 @@
       a {
         color: #333;
       }
+    }
+  }
+
+  .article-collapsible-button {
+    position: absolute;
+    right: 0;
+    top: .4rem;
+
+    a {
+      outline: none;
+    }
+
+    .material-icons {
+      color: $off-black;
+      font-size: 1.4rem;
+    }
+  }
+
+  .article-collapsible {
+    border: 0;
+    margin: 0;
+
+    .collapsible-content {
+      padding: 0;
     }
   }
 }
@@ -721,10 +746,25 @@
   }
 }
 
-.blog-article-filter {
+.blog-article-sort {
   position: absolute;
   right: -80px;
   top: 30px;
+
+  ul {
+    margin: 0;
+    width: 140px;
+
+    a {
+      color: $off-black !important;
+    }
+  }
+}
+
+.blog-article-filter {
+  position: absolute;
+  right: -80px;
+  top: 80px;
 
   ul {
     margin: 0;

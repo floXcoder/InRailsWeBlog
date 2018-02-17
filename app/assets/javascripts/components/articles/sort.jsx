@@ -40,9 +40,9 @@ export default class ArticleIndex extends React.Component {
     constructor(props) {
         super(props);
 
-        this.props.fetchArticles({
-            userId: props.params.currentUserId || this.props.currentUserId,
-            topicId: props.params.currentTopicId || this.props.currentTopicId,
+        props.fetchArticles({
+            userId: props.params.currentUserId || props.currentUserId,
+            topicId: props.params.currentTopicId || props.currentTopicId,
             order: 'priority_desc',
             ...props.params
         }, {

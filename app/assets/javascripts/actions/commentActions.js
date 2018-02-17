@@ -6,18 +6,18 @@ import api from '../middlewares/api';
 
 // Comments
 export const fetchComments = (commentParams) => {
-    let url = `/${I18n.t('js.comment.common.route')}`;
+    let url = `/api/v1/${I18n.t('js.comment.common.route')}`;
     let requestParam = {};
 
     if (commentParams) {
         requestParam = commentParams;
 
         if (commentParams.commentableType && commentParams.commentableId) {
-            url = `/${commentParams.commentableType}/${commentParams.commentableId}/comments`;
+            url = `/api/v1/${commentParams.commentableType}/${commentParams.commentableId}/comments`;
         } else if (commentParams.commentableId) {
             url = commentParams.commentableId + url;
         } else {
-            url = '/comments';
+            url = '/api/v1/comments';
         }
 
         if (commentParams.page) {
@@ -35,9 +35,9 @@ export const fetchComments = (commentParams) => {
 
 // Comment mutations
 export const addComment = (comment, commentableId, commentableType) => {
-    let url = `/${I18n.t('js.comment.common.route')}`;
+    let url = `/api/v1/${I18n.t('js.comment.common.route')}`;
     if (commentableType && commentableId) {
-        url = `/${commentableType}/${commentableId}/comments`;
+        url = `/api/v1/${commentableType}/${commentableId}/comments`;
     } else if (commentableId) {
         url = commentableId + url;
     }
@@ -51,9 +51,9 @@ export const addComment = (comment, commentableId, commentableType) => {
 };
 
 export const updateComment = (comment, commentableId, commentableType) => {
-    let url = `/${I18n.t('js.comment.common.route')}`;
+    let url = `/api/v1/${I18n.t('js.comment.common.route')}`;
     if (commentableType && commentableId) {
-        url = `/${commentableType}/${commentableId}/comments`;
+        url = `/api/v1/${commentableType}/${commentableId}/comments`;
     } else if (commentableId) {
         url = commentableId + url;
     }
@@ -67,9 +67,9 @@ export const updateComment = (comment, commentableId, commentableType) => {
 };
 
 export const deleteComment = (commentId, commentableId, commentableType) => {
-    let url = `/${I18n.t('js.comment.common.route')}`;
+    let url = `/api/v1/${I18n.t('js.comment.common.route')}`;
     if (commentableType && commentableId) {
-        url = `/${commentableType}/${commentableId}/comments`;
+        url = `/api/v1/${commentableType}/${commentableId}/comments`;
     } else if (commentableId) {
         url = commentableId + url;
     }

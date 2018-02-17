@@ -25,7 +25,7 @@ export default class Selecter extends React.Component {
         isEditing: PropTypes.bool,
         isHorizontal: PropTypes.bool,
         isImageValue: PropTypes.bool,
-        onValuesChange: PropTypes.func
+        onChange: PropTypes.func
     };
 
     static defaultProps = {
@@ -50,7 +50,7 @@ export default class Selecter extends React.Component {
         )).compact())(),
     };
 
-    _handleOnValuesChange = (items) => {
+    _handleonChange = (items) => {
         const newValues = items.filter((item) => item.label.length < this.props.maxLength);
 
         if (newValues.length > this.props.maxValues) {
@@ -61,8 +61,8 @@ export default class Selecter extends React.Component {
             values: newValues
         });
 
-        if (this.props.onValuesChange) {
-            this.props.onValuesChange(newValues.map((item) => item.value));
+        if (this.props.onChange) {
+            this.props.onChange(newValues.map((item) => item.value));
         }
     };
 
@@ -150,7 +150,7 @@ export default class Selecter extends React.Component {
             value: this.state.values,
             noResultsText: noResults,
             delimiter: ',',
-            onChange: this._handleOnValuesChange,
+            onChange: this._handleonChange,
         };
 
         return (

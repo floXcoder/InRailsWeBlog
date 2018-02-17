@@ -49,7 +49,7 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkId) => (dispatch,
     } else {
         if (!bookmarkId) {
             return api
-                .post(`/users/${currentUserId}/bookmarks`, {bookmark})
+                .post(`/api/v1/users/${currentUserId}/bookmarks`, {bookmark})
                 .then((response) => {
                     if (response.bookmark) {
                         Notification.alert(I18n.t('js.bookmark.notification.text'), 10, I18n.t('js.bookmark.notification.link'), () => {
@@ -61,7 +61,7 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkId) => (dispatch,
                 });
         } else {
             return api
-                .delete(`/users/${currentUserId}/bookmarks/${bookmarkId}`, {bookmark})
+                .delete(`/api/v1/users/${currentUserId}/bookmarks/${bookmarkId}`, {bookmark})
                 .then((response) => dispatch(deleteBookmark(response)));
         }
     }
