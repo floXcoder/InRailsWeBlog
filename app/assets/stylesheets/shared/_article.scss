@@ -583,7 +583,7 @@
   }
 
   h1, h2 {
-    margin-top: 2rem;
+    margin-top: 1.4rem;
   }
 
   h3, h4 {
@@ -592,31 +592,31 @@
 
   h1 {
     clear: left;
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     font-style: normal;
     font-weight: 700;
+    letter-spacing: .03px;
     line-height: 1.2;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 
   h2 {
     clear: left;
-    font-size: 2.1rem;
+    font-size: 2.2rem;
     font-style: normal;
     font-weight: 600;
+    letter-spacing: .05px;
     line-height: 1.2;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 
   h3 {
     clear: left;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-style: normal;
     font-weight: 600;
+    letter-spacing: .05px;
     line-height: 1.2;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 
@@ -626,7 +626,6 @@
     font-style: normal;
     font-weight: 500;
     line-height: 1.2;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 
@@ -637,7 +636,6 @@
     font-style: normal;
     font-weight: normal;
     line-height: 1.1;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 

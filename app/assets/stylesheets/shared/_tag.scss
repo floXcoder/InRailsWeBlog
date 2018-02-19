@@ -65,6 +65,7 @@
       font-size: 1.2rem;
       font-weight: 500;
       max-width: 180px;
+      outline: none;
       overflow: hidden;
       text-align: left;
       text-overflow: ellipsis;
@@ -102,6 +103,7 @@
     line-height: 28px;
     margin-bottom: 8px;
     opacity: 0;
+    outline: none;
     transform: translateX(-15px);
     transition: all .25s ease-out;
 
@@ -110,7 +112,7 @@
       transform: translateX(0);
     }
 
-    .tag-child-name {
+    &.tag-child-name {
       color: $text-color;
       cursor: pointer;
       font-size: 1.1rem;
@@ -121,11 +123,11 @@
       text-align: left;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
 
-      &.tag-selected {
-        font-size: 1.2rem;
-        font-weight: 600;
-      }
+    &.tag-selected {
+      font-size: 1.2rem;
+      font-weight: 600;
     }
   }
 }

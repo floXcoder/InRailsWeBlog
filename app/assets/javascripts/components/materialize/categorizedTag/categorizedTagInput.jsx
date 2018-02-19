@@ -78,6 +78,14 @@ export default class CategorizedTagInput extends React.Component {
         animateTagValue: undefined
     };
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.value !== nextProps.value) {
+            this.setState({
+                selectedTags: nextProps.value || []
+            });
+        }
+    }
+
     componentWillUnmount() {
         if (this.timeout) {
             clearTimeout(this.timeout);
@@ -176,8 +184,8 @@ export default class CategorizedTagInput extends React.Component {
         }, 150);
     };
 
-    onValueChange = (e) => {
-        const value = e.target.value;
+    onValueChange = (event) => {
+        const value = event.target.value;
 
         this.setState({
             value,

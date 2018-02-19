@@ -89,8 +89,8 @@ export const pipe = (fns, state) => state.withMutations(s => fns.reduce(applyFn,
 export const findItemIndex = (list, itemId, id = 'id') => list.findIndex((item) => item.get(id) === itemId);
 
 export const addOrRemoveArray = (itemArray, item, id = 'id') => {
-    const itemIndex = findItemIndex(itemArray, item[id], id);
-    return mutateArray(itemArray, item, itemIndex > -1 ? item[id] : null);
+    const itemIndex = findItemIndex(itemArray, item && item[id], id);
+    return mutateArray(itemArray, item, item && itemIndex > -1 ? item[id] : null);
 };
 
 export const mutateArray = (itemArray, newItem, removedId = null, id = 'id') => {

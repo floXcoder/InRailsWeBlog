@@ -80,7 +80,7 @@ export default class SearchModule extends React.Component {
             this._resetTagSelection();
         }
 
-        if (nextProps.actionKey) {
+        if (nextProps.actionKey && nextProps.actionKey !== ' ') {
             if (this._handleKeyAction()[nextProps.actionKey]) {
                 this._handleKeyAction()[nextProps.actionKey].call(this, nextProps.actionKey);
             }
@@ -126,8 +126,9 @@ export default class SearchModule extends React.Component {
             },
 
             Escape() {
-                // TODO: close search
                 this._resetTagSelection();
+
+                this._handleSearchClose();
             }
         }
     };
@@ -151,6 +152,12 @@ export default class SearchModule extends React.Component {
                 pathname: '/research',
                 search: `?query=${this.props.query}`
             }));
+    };
+
+    _handleSearchClose = () => {
+        this.props.history.push({
+            hash: undefined
+        });
     };
 
     render() {

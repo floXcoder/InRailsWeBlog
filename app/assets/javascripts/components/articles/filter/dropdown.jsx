@@ -72,7 +72,7 @@ const ArticleFilterDisplay = ({currentUserId}) => (
 );
 
 ArticleFilterDisplay.propTypes = {
-    currentUserId: PropTypes.string
+    currentUserId: PropTypes.number
 };
 
 export default ArticleFilterDisplay;

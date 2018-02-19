@@ -33,7 +33,7 @@ export default function fetchMiddleware({dispatch, getState}) {
         }
 
         if (!shouldCallAPI(getState())) {
-            return;
+            return Promise.resolve();
         }
 
         const actionNames = [

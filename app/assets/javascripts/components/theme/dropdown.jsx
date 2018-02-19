@@ -32,9 +32,11 @@ export default class Dropdown extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            isOpened: nextProps.isOpened
-        });
+        if (this.props.isOpened !== nextProps.isOpened) {
+            this.setState({
+                isOpened: nextProps.isOpened
+            });
+        }
     }
 
     componentWillUnmount() {

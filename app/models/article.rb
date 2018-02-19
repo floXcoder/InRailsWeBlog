@@ -670,8 +670,8 @@ class Article < ApplicationRecord
             }
           end
         end.flatten
-      elsif !attributes[:tags].nil?
-        tags = attributes.delete(:tags)
+      else
+        tags = [attributes.delete(:parent_tags), attributes.delete(:child_tags), attributes.delete(:tags)].compact.flatten
         Tag.parse_tags(tags, current_user&.id).map do |tag|
           tagged_article_attributes << {
             tag: tag, user_id: self.user_id, topic_id: self.topic_id
