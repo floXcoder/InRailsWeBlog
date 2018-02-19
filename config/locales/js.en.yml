@@ -40,7 +40,7 @@ en:
       footer:
         title: "In Rails We Blog"
         description: "A blog for developer"
-        copyright: "Copyright 2018 - InRailsWeBlog. All rights reserved."
+        copyright: "Copyright 2018 - InRailsWeBlog (%{version}). All rights reserved."
         links:
           title: "Links"
           contact: "Contact us by email"

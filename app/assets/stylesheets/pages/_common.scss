@@ -286,9 +286,12 @@ html {
   box-shadow: 0 0 3px $border-dark-color;
   height: 200px;
   left: 0;
-  padding: .6rem;
   position: absolute;
   width: 100%;
+
+  .footer-copyright {
+    color: $off-black;
+  }
 }
 
 .blog-form {

@@ -43,12 +43,13 @@ const FooterLayout = ({}) => (
 
                 <div className="col s12">
                     <div className="footer-copyright">
-                        <div className="container">
-                            &copy; {I18n.t('js.views.footer.copyright')}
-                            <a className="right"
-                               href={I18n.t('js.views.footer.links.github_src')}>
-                                {I18n.t('js.views.footer.links.github')}
-                            </a>
+                        <a className=""
+                           href={I18n.t('js.views.footer.links.github_src')}>
+                            {I18n.t('js.views.footer.links.github')}
+                        </a>
+
+                        <div className="container center-align">
+                            &copy; {I18n.t('js.views.footer.copyright', {version: window.revision})}
                         </div>
                     </div>
                 </div>
