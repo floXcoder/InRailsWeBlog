@@ -57,13 +57,8 @@ export default {
                 component: ArticleSort
             },
             {
-                path: '/user/:userSlug/:topicSlug/tagged/:parentTagSlug/:childTagSlug',
-                exact: true,
-                component: ArticleIndex
-            },
-            {
-                path: '/user/:userSlug/:topicSlug/tagged/:tagSlug',
-                exact: true,
+                path: '/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?',
+                exact: false,
                 component: ArticleIndex
             },
             {
@@ -97,13 +92,8 @@ export default {
                 component: TagEdit
             },
             {
-                path: '/tagged/:parentTagSlug/:childTagSlug',
-                exact: true,
-                component: ArticleIndex
-            },
-            {
-                path: '/tagged/:tagSlug',
-                exact: true,
+                path: '/tagged/:tagSlug/:childTagSlug?',
+                exact: false,
                 component: ArticleIndex
             },
             {

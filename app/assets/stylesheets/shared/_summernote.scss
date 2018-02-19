@@ -10,33 +10,51 @@
 }
 
 .editor-reset {
+  h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {
+    color: $off-black;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4 {
+    margin-bottom: .5rem;
+  }
+
+  h1, h2 {
+    margin-top: 1.4rem;
+  }
+
+  h3, h4 {
+    margin-top: 1.5rem;
+  }
+
   h1 {
     clear: left;
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     font-style: normal;
     font-weight: 700;
+    letter-spacing: .03px;
     line-height: 1.2;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 
   h2 {
     clear: left;
-    font-size: 2.1rem;
+    font-size: 2.2rem;
     font-style: normal;
     font-weight: 600;
+    letter-spacing: .05px;
     line-height: 1.2;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 
   h3 {
     clear: left;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-style: normal;
     font-weight: 600;
+    letter-spacing: .05px;
     line-height: 1.2;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 
@@ -46,7 +64,6 @@
     font-style: normal;
     font-weight: 500;
     line-height: 1.2;
-    margin: 0 0 .444rem;
     text-align: left;
   }
 

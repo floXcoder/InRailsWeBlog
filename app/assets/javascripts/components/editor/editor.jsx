@@ -174,7 +174,7 @@ export default class Editor extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this._editor.summernote) {
+        if (this._editor && this._editor.summernote) {
             this._editor.empty();
             this._editor.summernote('destroy');
         }

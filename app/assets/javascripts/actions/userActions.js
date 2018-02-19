@@ -25,6 +25,9 @@ export const initUser = (userId, options = {}) => ({
     fetchAPI: () => api.get(`/api/v1/users/${userId}`, {
         ...options
     }),
+    shouldCallAPI: (state) => {
+        return !state.userState.user;
+    },
     payload: {
         connection: true
     }

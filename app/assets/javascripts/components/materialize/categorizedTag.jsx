@@ -45,6 +45,20 @@ export default class CategorizedTag extends React.Component {
         selectedTags: []
     };
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.children !== nextProps.children) {
+            let nextTags = nextProps.children;
+
+            if (this.props.transformInitialTags) {
+                nextTags = nextTags.map((tag) => this.props.transformInitialTags(tag));
+            }
+
+            this.setState({
+                selectedTags: nextTags
+            });
+        }
+    }
+
     _handleTagAdded = (categoryId, tagName) => {
         this.setState({
             selectedTags: this.state.selectedTags.concat([{

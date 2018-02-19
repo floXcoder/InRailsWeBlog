@@ -73,6 +73,12 @@ export default class ArticleIndex extends React.Component {
         if (this.props.articlesLoaderMode === 'all') {
             options.limit = 1000;
         }
+
+        if (params.childTagSlug) {
+            params.parentTagSlug = params.tagSlug;
+            delete params.tagSlug;
+        }
+
         this.props.fetchArticles(this._filterParams({...params, ...queryParams}), options);
     };
 

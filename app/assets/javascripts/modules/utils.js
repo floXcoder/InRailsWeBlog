@@ -605,7 +605,7 @@ export const NAVIGATION_KEYMAP = {
     18: 'alt',
     20: 'capslock',
     27: 'esc',
-    32: 'space',
+    // 32: 'space',
     33: 'pageup',
     34: 'pagedown',
     35: 'end',
