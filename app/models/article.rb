@@ -809,7 +809,7 @@ class Article < ApplicationRecord
     html = html.gsub(/<\/pre>/i, '</code></pre>')
 
     # Improve link security
-    html = html.gsub(/<a /i, '<a rel="noopener noreferrer" ')
+    html = html.gsub(/<a /i, '<a rel="noopener noreferrer" target="_blank" ')
 
     return html
   end

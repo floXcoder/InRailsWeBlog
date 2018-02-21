@@ -17,12 +17,12 @@ export default class TagRelationshipDisplay extends React.Component {
     }
 
     state = {
-        reloadLink: false
+        tagId: undefined
     };
 
-    _handleTagClick = (value) => {
+    _handleTagClick = (tagId) => {
         this.setState({
-            reloadLink: !this.state.reloadLink
+            tagId: tagId
         });
     };
 

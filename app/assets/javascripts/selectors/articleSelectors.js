@@ -64,12 +64,12 @@ export const getArticleChildTags = createSelector(
 
 export const getArticleErrors = createSelector(
     (state) => state.articleState.errors,
-    (articleErrors) => {
+    (errors) => {
         let errorContent = [];
-        if (typeof articleErrors === 'string') {
-            errorContent = [articleErrors];
+        if (typeof errors === 'string') {
+            errorContent = [errors];
         } else {
-            articleErrors.mapKeys((errorName, errorDescriptions) => {
+            errors.mapKeys((errorName, errorDescriptions) => {
                 errorDescriptions = errorDescriptions.toJS();
                 errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
             }).toArray();

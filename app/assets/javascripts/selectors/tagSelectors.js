@@ -102,12 +102,12 @@ export const getTagIsOwner = (state, tag) => (
 
 export const getTagErrors = createSelector(
     (state) => state.tagState.errors,
-    (tagErrors) => {
+    (errors) => {
         let errorContent = [];
-        if (typeof tagErrors === 'string') {
-            errorContent = [tagErrors];
+        if (typeof errors === 'string') {
+            errorContent = [errors];
         } else {
-            tagErrors.mapKeys((errorName, errorDescriptions) => {
+            errors.mapKeys((errorName, errorDescriptions) => {
                 errorDescriptions = errorDescriptions.toJS();
                 errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
             }).toArray();
