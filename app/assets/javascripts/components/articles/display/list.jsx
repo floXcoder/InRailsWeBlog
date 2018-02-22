@@ -17,14 +17,11 @@ const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, a
     const ArticleNodes = articles.map((article) => {
             let tagTitle = undefined;
             if (isSortedByTag) {
-                let currentTag = article.tags.toJS();
+                let currentTags = article.tags.toJS();
                 if (parentTag) {
-                    currentTag = currentTag.filter((tag) => !article.parentTagIds.includes(tag.id))
+                    currentTags = currentTags.filter((tag) => !article.parentTagIds.includes(tag.id) && tag.slug !== parentTag)
                 }
-                currentTag = currentTag.sort().first();
-                if (currentTag) {
-                    currentTag = currentTag.name;
-                }
+                let currentTag = currentTags.map((tag) => tag.name).sort().first();
                 if (previousTag !== currentTag) {
                     tagTitle = currentTag;
                     previousTag = currentTag;
