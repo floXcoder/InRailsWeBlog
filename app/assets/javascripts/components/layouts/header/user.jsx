@@ -31,7 +31,7 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
             {
                 !isUserConnected &&
                 <li className="collection-item">
-                    <a href="/signup"
+                    <a href="/api/v1/signup"
                        onClick={onSignupClick}>
                         {I18n.t('js.views.header.user.sign_up')}
                     </a>
@@ -41,7 +41,7 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
             {
                 !isUserConnected &&
                 <li className="collection-item">
-                    <a href="/login"
+                    <a href="/api/v1/login"
                        onClick={onLoginClick}>
                         {I18n.t('js.views.header.user.log_in')}
                     </a>
@@ -60,7 +60,7 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
             {
                 isUserConnected &&
                 <li className="collection-item">
-                    <a href="/logout"
+                    <a href="/api/v1/logout"
                        data-method="delete"
                        rel="nofollow">
                         {I18n.t('js.views.header.user.log_out')}

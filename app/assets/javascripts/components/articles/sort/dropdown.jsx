@@ -6,7 +6,7 @@ import {
 
 import Dropdown from '../../theme/dropdown';
 
-const ArticleSortDisplay = ({currentTopicSlug}) => (
+const ArticleSortDisplay = ({currentTopicSlug, currentOrder}) => (
     <div className="blog-article-sort">
         <Dropdown button={<span className="material-icons"
                                 data-icon="low_priority"
@@ -18,7 +18,8 @@ const ArticleSortDisplay = ({currentTopicSlug}) => (
                 </li>
 
                 <li>
-                    <Link to={{search: 'order=priority_desc'}}>
+                    <Link className={currentOrder === 'priority_desc' ? 'sort-current' : ''}
+                          to={{search: 'order=priority_desc'}}>
                         {I18n.t('js.article.sort.order.priority')}
                     </Link>
                 </li>
@@ -26,13 +27,24 @@ const ArticleSortDisplay = ({currentTopicSlug}) => (
                 <li className="dropdown-divider"/>
 
                 <li>
-                    <Link to={{search: 'order=updated_desc'}}>
+                    <Link className={currentOrder === 'tag_asc' ? 'sort-current' : ''}
+                          to={{search: 'order=tag_asc'}}>
+                        {I18n.t('js.article.sort.order.tag')}
+                    </Link>
+                </li>
+
+                <li className="dropdown-divider"/>
+
+                <li>
+                    <Link className={currentOrder === 'updated_desc' ? 'sort-current' : ''}
+                          to={{search: 'order=updated_desc'}}>
                         {I18n.t('js.article.sort.order.date_desc')}
                     </Link>
                 </li>
 
                 <li>
-                    <Link to={{search: 'order=updated_asc'}}>
+                    <Link className={currentOrder === 'updated_asc' ? 'sort-current' : ''}
+                          to={{search: 'order=updated_asc'}}>
                         {I18n.t('js.article.sort.order.date_asc')}
                     </Link>
                 </li>
@@ -63,7 +75,8 @@ const ArticleSortDisplay = ({currentTopicSlug}) => (
 );
 
 ArticleSortDisplay.propTypes = {
-    currentTopicSlug: PropTypes.string
+    currentTopicSlug: PropTypes.string,
+    currentOrder: PropTypes.string
 };
 
 export default ArticleSortDisplay;

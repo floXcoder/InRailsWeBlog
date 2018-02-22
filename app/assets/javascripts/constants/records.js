@@ -9,6 +9,8 @@ import {
 export const SettingsRecord = new Record({
     articlesLoader: 'infinite',
     articleDisplay: 'card',
+    articleOrder: undefined,
+    tagSidebarWithChild: false,
     searchHighlight: true,
     searchOperator: 'or',
     searchExact: false

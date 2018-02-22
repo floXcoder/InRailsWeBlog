@@ -13,7 +13,8 @@ const initState = new Record({
     isTopicPopupOpened: false,
 
     articlesLoaderMode: 'infinite',
-    articleDisplayMode: 'card'
+    articleDisplayMode: 'card',
+    articleOrderMode: undefined
 });
 
 export default function uiReducer(state = new initState(), action) {
@@ -32,17 +33,18 @@ export default function uiReducer(state = new initState(), action) {
                 isTopicPopupOpened: !state.isTopicPopupOpened
             });
 
-        // case ActionTypes.UI_SWITCH_SEARCH_POPUP:
-        //     return state.merge({
-        //         isSearchPopupOpened: !state.isSearchPopupOpened
-        //     });
+        case ActionTypes.UI_CHANGE_ARTICLE_ORDER:
+            return state.merge({
+                articleOrderMode: action.order
+            });
 
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
             if ((action.user && action.connection) || action.settings) {
                 return state.merge({
                     articlesLoaderMode: action.connection ? action.user.settings.articlesLoader : action.settings.articlesLoader,
-                    articleDisplayMode: action.connection ? action.user.settings.articleDisplay : action.settings.articleDisplay
+                    articleDisplayMode: action.connection ? action.user.settings.articleDisplay : action.settings.articleDisplay,
+                    articleOrderMode: action.connection ? action.user.settings.articleOrder : action.settings.articleOrder
                 })
             } else {
                 return state;

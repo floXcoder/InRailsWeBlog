@@ -61,7 +61,11 @@ export default class ArticleHistory extends React.Component {
 
     _handleRestore = (articleId, versionId) => {
         this.props.restoreArticle(articleId, versionId)
-            .then((response) => this.props.history.push(`/article/${response.article.slug}`));
+            .then((response) => {
+                if (response.article) {
+                    return this.props.history.push(`/article/${response.article.slug}`);
+                }
+            });
     };
 
     render() {

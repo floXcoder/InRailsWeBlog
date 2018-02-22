@@ -9,7 +9,7 @@ import {
 } from '../../actions';
 
 import {
-    getClassifiedTags
+    getSortedTags
 } from '../../selectors';
 
 // TODO: use selector to get current tags of fetch articles: load on click only
@@ -22,7 +22,7 @@ import Spinner from '../materialize/spinner';
 @connect((state) => ({
     isLoading: state.tagState.isFetching,
     filterText: state.tagState.filterText,
-    tags: getClassifiedTags(state)
+    tags: getSortedTags(state)
 }), {
     filterTags
 })
@@ -31,6 +31,7 @@ export default class TagSidebar extends React.Component {
         // From connect
         isLoading: PropTypes.bool,
         filterText: PropTypes.string,
+        hasChildInMainList: PropTypes.bool,
         tags: PropTypes.array,
         fetchTags: PropTypes.func,
         filterTags: PropTypes.func
@@ -85,6 +86,7 @@ export default class TagSidebar extends React.Component {
                         {
                             this.props.tags.length > 0 &&
                             <TagRelationshipDisplay tags={this.props.tags}
+                                                    hasChildInMainList={this.props.hasChildInMainList}
                                                     isFiltering={isFiltering}/>
                         }
 

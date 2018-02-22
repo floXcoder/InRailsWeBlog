@@ -539,6 +539,10 @@ class Article < ApplicationRecord
         order('articles.updated_at ASC')
       when 'updated_desc'
         order('articles.updated_at DESC')
+      when 'tag_asc'
+        order('tags.name ASC')
+      when 'tags_desc'
+        order('tags.name DESC')
       when 'rank_asc'
         joins(:tracker).order('trackers.rank ASC')
       when 'rank_desc'
@@ -809,7 +813,7 @@ class Article < ApplicationRecord
     html = html.gsub(/<\/pre>/i, '</code></pre>')
 
     # Improve link security
-    html = html.gsub(/<a /i, '<a rel="noopener noreferrer" ')
+    html = html.gsub(/<a /i, '<a rel="noopener noreferrer" target="_blank" ')
 
     return html
   end

@@ -59,7 +59,7 @@ export default function mutationMiddleware({dispatch}) {
         });
 
         return mutationAPI().then(
-            response => {
+            (response) => {
                 if (response && response.errors) {
                     return dispatch({
                         ...payload,

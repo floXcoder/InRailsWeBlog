@@ -44,7 +44,7 @@ export default class ParentTag extends React.Component {
             }
         }
 
-        this.props.onTagClick();
+        this.props.onTagClick(tagId);
     };
 
     _handleTagIconClick = (event) => {

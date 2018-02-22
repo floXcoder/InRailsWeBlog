@@ -16,6 +16,8 @@ class SettingSerializer < ActiveModel::Serializer
 
   attributes :articles_loader,
              :article_display,
+             :article_order,
+             :tag_sidebar_with_child,
              :search_highlight,
              :search_operator,
              :search_exact

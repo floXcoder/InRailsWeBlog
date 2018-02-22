@@ -15,7 +15,8 @@ import * as Records from '../constants/records';
 import {
     toList,
     fetchReducer,
-    mutationReducer
+    mutationReducer,
+    findItemIndex
 } from './mutators';
 
 const initState = new Record({
@@ -51,14 +52,14 @@ export default function topicReducer(state = new initState(), action) {
                         };
                     }
                 }
-            , ['isSwitching']);
+                , ['isSwitching']);
 
         case ActionTypes.TOPIC_CHANGE_INIT:
         case ActionTypes.TOPIC_CHANGE_SUCCESS:
         case ActionTypes.TOPIC_CHANGE_ERROR:
             return mutationReducer(state, action, (payload) => ({
                 topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined,
-                currentTopic: payload.topic.id === state.currentTopic.id ? new Records.TopicRecord(payload.topic) : state.currentTopic
+                currentTopic: payload.topic.id === state.currentTopic.id || findItemIndex(state.topics, payload.topic.id) === -1 ? new Records.TopicRecord(payload.topic) : state.currentTopic
             }));
 
         case ActionTypes.USER_FETCH_SUCCESS:

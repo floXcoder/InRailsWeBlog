@@ -23,10 +23,11 @@ export const getPrivateTags = createSelector(
     (tags) => tags.filter((tag) => tag.visibility === 'only_me').toArray()
 );
 
-export const getClassifiedTags = createSelector(
+export const getSortedTags = createSelector(
     (state) => state.tagState.tags,
+    (state) => state.userState.user && state.userState.user.settings.tagSidebarWithChild,
     (state) => state.tagState.filterText,
-    (tags, filterText) => (
+    (tags, displayChildWithParent, filterText) => (
         tags.toJS().map((tag) => {
             let parents = [];
             let children = [];
@@ -51,6 +52,13 @@ export const getClassifiedTags = createSelector(
                         return childTag && _.omit(childTag.toJS(), ['parentIds', 'childIds']);
                     }
                 }).compact();
+            }
+
+            // Will hide also tags which are both without parents and child type
+            if (!displayChildWithParent) {
+                if (parents.length > 0 && children.length === 0) {
+                    return null;
+                }
             }
 
             if (!Utils.isEmpty(filterText) && Utils.isEmpty(children) && !Fuzzy.match(filterText, tag.name)) {
@@ -102,12 +110,12 @@ export const getTagIsOwner = (state, tag) => (
 
 export const getTagErrors = createSelector(
     (state) => state.tagState.errors,
-    (tagErrors) => {
+    (errors) => {
         let errorContent = [];
-        if (typeof tagErrors === 'string') {
-            errorContent = [tagErrors];
+        if (typeof errors === 'string') {
+            errorContent = [errors];
         } else {
-            tagErrors.mapKeys((errorName, errorDescriptions) => {
+            errors.mapKeys((errorName, errorDescriptions) => {
                 errorDescriptions = errorDescriptions.toJS();
                 errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
             }).toArray();

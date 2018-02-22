@@ -28,11 +28,11 @@ module Api::V1
     respond_to :html, :json
 
     def index
-      articles = Article.include_collection.distinct
+      articles = Article.include_collection
 
       articles = articles.default_visibility(current_user, current_admin)
 
-      articles = articles.order_by(filter_params[:order] || 'priority_desc')
+      articles = articles.order_by(filter_articles)
 
       articles = Article.filter_by(articles, filter_params, current_user) unless filter_params.empty?
 
@@ -294,6 +294,21 @@ module Api::V1
         params.permit(article_ids: [])
       else
         {}
+      end
+    end
+
+    def filter_articles
+      if filter_params[:order]
+        if current_user && current_user.article_order != filter_params[:order]
+          current_user.settings['article_order'] = filter_params[:order]
+          current_user.save
+        end
+
+        filter_params[:order]
+      elsif current_user&.article_order
+        current_user.article_order
+      else
+        'priority_desc'
       end
     end
 

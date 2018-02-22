@@ -16,7 +16,8 @@ export const switchTopicPopup = () => ({
     type: ActionTypes.UI_SWITCH_TOPIC_HEADER
 });
 
-// Search
-// export const switchSearchPopup = () => ({
-//     type: ActionTypes.UI_SWITCH_SEARCH_POPUP
-// });
+// Articles
+export const updateArticleOrder = (order) => ({
+    type: ActionTypes.UI_CHANGE_ARTICLE_ORDER,
+    order
+});

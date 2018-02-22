@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    fetchArticles
+    fetchArticles,
+    updateArticleOrder
 } from '../../actions';
 
 import {
@@ -25,9 +26,11 @@ import ArticleNone from '../articles/display/none';
     articlePagination: getArticlePagination(state),
     articlesLoaderMode: state.uiState.articlesLoaderMode,
     articleDisplayMode: state.uiState.articleDisplayMode,
+    articleOrderMode: state.uiState.articleOrderMode,
     articleEditionId: state.articleState.articleEditionId
 }), {
-    fetchArticles
+    fetchArticles,
+    updateArticleOrder
 })
 export default class ArticleIndex extends React.Component {
     static propTypes = {
@@ -43,18 +46,32 @@ export default class ArticleIndex extends React.Component {
         articleEditionId: PropTypes.number,
         articlesLoaderMode: PropTypes.string,
         articleDisplayMode: PropTypes.string,
-        fetchArticles: PropTypes.func
+        articleOrderMode: PropTypes.string,
+        fetchArticles: PropTypes.func,
+        updateArticleOrder: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        this._fetchInitArticles(props.params, props.queryString);
+        this._parseQuery = Utils.parseUrlParameters(props.queryString) || {};
+
+        this._fetchArticles(props.params);
     }
 
     componentWillReceiveProps(nextProps) {
         if (!Object.equals(this.props.params, nextProps.params) || this.props.queryString !== nextProps.queryString) {
-            this._fetchInitArticles(nextProps.params, nextProps.queryString);
+            const nextParseQuery = Utils.parseUrlParameters(nextProps.queryString) || {};
+
+            if (this._parseQuery.order !== nextParseQuery.order) {
+                if (nextParseQuery.order) {
+                    this.props.updateArticleOrder(nextParseQuery.order);
+                }
+            }
+
+            this._parseQuery = nextParseQuery;
+
+            this._fetchArticles(nextProps.params);
         }
     }
 
@@ -66,9 +83,7 @@ export default class ArticleIndex extends React.Component {
         };
     };
 
-    _fetchInitArticles = (params, queryString) => {
-        const queryParams = Utils.parseUrlParameters(queryString);
-
+    _fetchArticles = (params) => {
         let options = {};
         if (this.props.articlesLoaderMode === 'all') {
             options.limit = 1000;
@@ -79,7 +94,7 @@ export default class ArticleIndex extends React.Component {
             delete params.tagSlug;
         }
 
-        this.props.fetchArticles(this._filterParams({...params, ...queryParams}), options);
+        this.props.fetchArticles(this._filterParams({...params, ...this._parseQuery}), options);
     };
 
     _fetchNextArticles = (params = {}) => {
@@ -102,6 +117,7 @@ export default class ArticleIndex extends React.Component {
 
     render() {
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
+        const isSortedByTag = this.props.articleOrderMode === 'tag_asc' || this.props.articleOrderMode === 'tag_desc';
 
         return (
             <div className="blog-article-box">
@@ -114,7 +130,8 @@ export default class ArticleIndex extends React.Component {
 
                 {
                     this.props.articles.length > 0 &&
-                    <ArticleSortDisplay currentTopicSlug={this.props.currentTopicSlug}/>
+                    <ArticleSortDisplay currentTopicSlug={this.props.currentTopicSlug}
+                                        currentOrder={this.props.articleOrderMode}/>
                 }
 
                 {
@@ -129,6 +146,8 @@ export default class ArticleIndex extends React.Component {
                                         articleDisplayMode={this.props.articleDisplayMode}
                                         articleEditionId={this.props.articleEditionId}
                                         hasMoreArticles={hasMoreArticles}
+                                        isSortedByTag={isSortedByTag}
+                                        parentTag={this.props.params.tagSlug}
                                         articleTotalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
                                         fetchArticles={this._fetchNextArticles}/>
                 }
