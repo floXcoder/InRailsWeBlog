@@ -115,10 +115,13 @@ class Topic < ApplicationRecord
             presence: true
 
   validates :name,
-            uniqueness: { scope:          :user_id,
-                          case_sensitive: false,
+            uniqueness: { case_sensitive: false,
                           message:        I18n.t('activerecord.errors.models.topic.already_exist') },
             length:     { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length }
+  validates_uniqueness_of :name,
+                          scope: :user_id,
+                          conditions: -> { with_deleted },
+                          message:        I18n.t('activerecord.errors.models.topic.already_exist')
 
   validates :description,
             length:    { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length },

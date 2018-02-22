@@ -159,6 +159,11 @@ en:
             mode:
               inline: "Display only one article"
               card: "Display each articles within cards"
+        tag:
+          title: "Tags"
+          sidebar:
+            title: "Sidebar"
+            with_child: "Display tag children in main list"
         search:
           title: "Search"
           operator:

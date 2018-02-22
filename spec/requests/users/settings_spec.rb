@@ -41,6 +41,7 @@ describe 'User Settings API', type: :request, basic: true do
         settings = JSON.parse(response.body)
         expect(settings['settings']['articlesLoader']).to eq('infinite')
         expect(settings['settings']['articleDisplay']).to eq('card')
+        expect(settings['settings']['tagSidebarWithChild']).to be false
         expect(settings['settings']['searchHighlight']).to be true
       end
     end
@@ -67,6 +68,7 @@ describe 'User Settings API', type: :request, basic: true do
 
         settings = JSON.parse(response.body)
         expect(settings['settings']['articleDisplay']).to eq('inline')
+        expect(settings['settings']['tagSidebarWithChild']).to be false
         expect(settings['settings']['searchHighlight']).to be false
       end
     end

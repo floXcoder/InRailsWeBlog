@@ -159,6 +159,11 @@ fr:
             mode:
               inline: "Afficher dans un seul article"
               card: "Afficher les articles indépendamment"
+        tag:
+          title: "Labels"
+          sidebar:
+            title: "Sidebar"
+            with_child: "Afficher les labels enfants dans la liste principale"
         search:
           title: "Recherche"
           operator:

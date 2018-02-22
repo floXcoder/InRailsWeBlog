@@ -68,7 +68,11 @@ export default class TopicModule extends React.Component {
 
         if (this.props.currentTopic.id !== newTopicId) {
             this.props.switchTopic(this.props.userId, newTopicId)
-                .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
+                .then((response) => {
+                    if (response.topic) {
+                        return this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`);
+                    }
+                })
                 .then(() => this.props.switchTopicPopup());
         }
     };
@@ -114,14 +118,22 @@ export default class TopicModule extends React.Component {
                     name: this._topicName.value(),
                     visibility: this._topicVisibility.value()
                 })
-                    .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
+                    .then((response) => {
+                        if (response.topic) {
+                            return this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`);
+                        }
+                    })
                     .then(() => this.props.switchTopicPopup());
             } else {
                 this.props.addTopic(this.props.userId, {
                     name: this._topicName.value(),
                     visibility: this._topicVisibility.value()
                 })
-                    .then((response) => this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`))
+                    .then((response) => {
+                        if (response.topic) {
+                            return this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`);
+                        }
+                    })
                     .then(() => this.props.switchTopicPopup());
             }
         }

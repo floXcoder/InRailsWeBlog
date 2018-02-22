@@ -71,8 +71,9 @@ class User < ApplicationRecord
   include Storext.model
   store_attributes :settings do
     articles_loader String, default: 'infinite' # all / paginate / infinite
-
     article_display String, default: 'card' # inline / card (edit)
+
+    tag_sidebar_with_child Boolean, default: false
 
     search_highlight Boolean, default: true
     search_operator String, default: 'and' # and / or

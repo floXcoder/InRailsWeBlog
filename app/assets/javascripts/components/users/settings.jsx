@@ -17,6 +17,7 @@ import SwitchButton from '../materialize/switchButton';
     settings: state.userState.user.settings,
     articlesLoader: state.userState.user && state.userState.user.settings.articlesLoader,
     articleDisplay: state.userState.user && state.userState.user.settings.articleDisplay,
+    tagSidebarWithChild: state.userState.user && state.userState.user.settings.tagSidebarWithChild,
     searchHighlight: state.userState.user && state.userState.user.searchHighlight,
     searchOperator: state.userState.user && state.userState.user.settings.searchOperator,
     searchExact: state.userState.user && state.userState.user.settings.searchExact
@@ -29,6 +30,7 @@ export default class UserSettings extends React.Component {
         currentUserId: PropTypes.number,
         articlesLoader: PropTypes.string,
         articleDisplay: PropTypes.string,
+        tagSidebarWithChild: PropTypes.bool,
         searchHighlight: PropTypes.bool,
         searchOperator: PropTypes.string,
         searchExact: PropTypes.bool,
@@ -57,6 +59,10 @@ export default class UserSettings extends React.Component {
         this._updateSettings({articleDisplay: event.target.id});
     };
 
+    _onTagSidebarWithChildChanged = (value) => {
+        this._updateSettings({tagSidebarWithChild: value});
+    };
+
     _onHighlightChanged = (value) => {
         this._updateSettings({searchHighlight: value});
     };
@@ -82,6 +88,9 @@ export default class UserSettings extends React.Component {
                       secondary={true}>
                     <Menu.Item name={I18n.t('js.user.settings.article.title')}
                                active={activeItem === I18n.t('js.user.settings.article.title')}
+                               onClick={this._handleItemClick}/>
+                    <Menu.Item name={I18n.t('js.user.settings.tag.title')}
+                               active={activeItem === I18n.t('js.user.settings.tag.title')}
                                onClick={this._handleItemClick}/>
                     <Menu.Item name={I18n.t('js.user.settings.search.title')}
                                active={activeItem === I18n.t('js.user.settings.search.title')}
@@ -113,10 +122,29 @@ export default class UserSettings extends React.Component {
                 }
 
                 {
+                    activeItem === I18n.t('js.user.settings.tag.title') &&
+                    <div className="row">
+                        <div className="col s12">
+                            <h6>
+                                {I18n.t('js.user.settings.tag.sidebar.title')}
+                            </h6>
+                            <SwitchButton id="tag-sidebar-child"
+                                          title={I18n.t('js.user.settings.tag.sidebar.with_child')}
+                                          values={I18n.t('js.checkbox')}
+                                          onChange={this._onTagSidebarWithChildChanged}>
+                                {this.props.tagSidebarWithChild}
+                            </SwitchButton>
+                        </div>
+                    </div>
+                }
+
+                {
                     activeItem === I18n.t('js.user.settings.search.title') &&
                     <div className="row">
                         <div className="col s12">
-                            <h6>{I18n.t('js.user.settings.search.operator.title')}</h6>
+                            <h6>
+                                {I18n.t('js.user.settings.search.operator.title')}
+                            </h6>
                             <RadioButtons group="searchOperator"
                                           buttons={I18n.t('js.user.settings.search.operator.mode')}
                                           checkedButton={this.props.searchOperator}
