@@ -54,8 +54,9 @@ export const getSortedTags = createSelector(
                 }).compact();
             }
 
+            // Will hide also tags which are both without parents and child type
             if (!displayChildWithParent) {
-                if (parents.length > 0 && children.length === 0 && tag.taggedArticlesCount === parents.length) {
+                if (parents.length > 0 && children.length === 0) {
                     return null;
                 }
             }

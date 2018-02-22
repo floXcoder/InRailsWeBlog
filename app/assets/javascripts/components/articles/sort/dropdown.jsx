@@ -26,6 +26,14 @@ const ArticleSortDisplay = ({currentTopicSlug}) => (
                 <li className="dropdown-divider"/>
 
                 <li>
+                    <Link to={{search: 'order=tag_asc'}}>
+                        {I18n.t('js.article.sort.order.tag')}
+                    </Link>
+                </li>
+
+                <li className="dropdown-divider"/>
+
+                <li>
                     <Link to={{search: 'order=updated_desc'}}>
                         {I18n.t('js.article.sort.order.date_desc')}
                     </Link>

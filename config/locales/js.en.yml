@@ -311,6 +311,7 @@ en:
           child: "Secondary labels"
           placeholder: "Add label name"
           add: "Add the label:"
+          none: "without tags"
         tooltips:
           title_too_short: "Title too short"
           summary_too_short: "Summary too short"
@@ -403,6 +404,7 @@ en:
         title: "Sort by"
         order:
           priority: "Priority"
+          tag: "Tag"
           date_desc: "Most recent"
           date_asc: "Oldest"
         link_title: "Change order"

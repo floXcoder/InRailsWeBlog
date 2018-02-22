@@ -49,6 +49,8 @@ export default class ArticleIndex extends React.Component {
     constructor(props) {
         super(props);
 
+        this._parseQuery = null;
+
         this._fetchInitArticles(props.params, props.queryString);
     }
 
@@ -67,7 +69,7 @@ export default class ArticleIndex extends React.Component {
     };
 
     _fetchInitArticles = (params, queryString) => {
-        const queryParams = Utils.parseUrlParameters(queryString);
+        this._parseQuery = Utils.parseUrlParameters(queryString);
 
         let options = {};
         if (this.props.articlesLoaderMode === 'all') {
@@ -79,7 +81,7 @@ export default class ArticleIndex extends React.Component {
             delete params.tagSlug;
         }
 
-        this.props.fetchArticles(this._filterParams({...params, ...queryParams}), options);
+        this.props.fetchArticles(this._filterParams({...params, ...this._parseQuery}), options);
     };
 
     _fetchNextArticles = (params = {}) => {
@@ -102,6 +104,7 @@ export default class ArticleIndex extends React.Component {
 
     render() {
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
+        const isSortedByTag = this._parseQuery && (this._parseQuery.order === 'tag_asc' || this._parseQuery.order === 'tag_desc');
 
         return (
             <div className="blog-article-box">
@@ -129,6 +132,8 @@ export default class ArticleIndex extends React.Component {
                                         articleDisplayMode={this.props.articleDisplayMode}
                                         articleEditionId={this.props.articleEditionId}
                                         hasMoreArticles={hasMoreArticles}
+                                        isSortedByTag={isSortedByTag}
+                                        parentTag={this.props.params.tagSlug}
                                         articleTotalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
                                         fetchArticles={this._fetchNextArticles}/>
                 }

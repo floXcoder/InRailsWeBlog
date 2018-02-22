@@ -28,7 +28,7 @@ module Api::V1
     respond_to :html, :json
 
     def index
-      articles = Article.include_collection.distinct
+      articles = Article.include_collection
 
       articles = articles.default_visibility(current_user, current_admin)
 

@@ -539,6 +539,10 @@ class Article < ApplicationRecord
         order('articles.updated_at ASC')
       when 'updated_desc'
         order('articles.updated_at DESC')
+      when 'tag_asc'
+        order('tags.name ASC')
+      when 'tags_desc'
+        order('tags.name DESC')
       when 'rank_asc'
         joins(:tracker).order('trackers.rank ASC')
       when 'rank_desc'

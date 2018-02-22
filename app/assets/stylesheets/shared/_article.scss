@@ -64,6 +64,14 @@
   }
 }
 
+.article-list-tag-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-style: italic;
+  border-bottom: 1px solid $border-dark-color;
+  margin-top: 2rem;
+}
+
 .article-infinite-loading {
   font-size: 1.5rem;
   font-weight: 500;

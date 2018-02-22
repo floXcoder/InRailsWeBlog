@@ -311,6 +311,7 @@ fr:
           child: "Ajouter des labels secondaires"
           placeholder: "Entrer le nom du label"
           add: "Ajouter le label :"
+          none: "Sans labels"
         tooltips:
           title_too_short: "Le titre est trop court"
           summary_too_short: "Le résumé est trop court"
@@ -403,6 +404,7 @@ fr:
         title: "Tirer par"
         order:
           priority: "Priorité"
+          tag: "Label"
           date_desc: "Plus récent"
           date_asc: "Plus ancien"
         link_title: "Changer ordre"
