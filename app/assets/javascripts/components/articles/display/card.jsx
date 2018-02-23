@@ -67,7 +67,7 @@ export default class ArticleCardDisplay extends React.Component {
                         this.props.article.title &&
                         <div className="article-title">
                             <Link to={`/article/${this.props.article.slug}`}
-                                  onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
+                                  onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
                                 <h2 className="title">
                                     {this.props.article.title}
                                 </h2>
@@ -136,6 +136,7 @@ export default class ArticleCardDisplay extends React.Component {
                                 <ArticleActions isInline={true}
                                                 articleId={this.props.article.id}
                                                 articleSlug={this.props.article.slug}
+                                                articleTitle={this.props.article.title}
                                                 articleVisibility={this.props.article.visibility}/>
                             </div>
                         }

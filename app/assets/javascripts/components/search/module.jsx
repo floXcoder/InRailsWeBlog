@@ -59,9 +59,10 @@ export default class SearchModule extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.currentUserId) {
-            props.fetchUserRecents(this.props.currentUserId);
-        }
+        // Fetched by breadcrumb
+        // if (this.props.currentUserId) {
+        //     props.fetchUserRecents(this.props.currentUserId, {limit: 8});
+        // }
     }
 
     state = {

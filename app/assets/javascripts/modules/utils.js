@@ -68,6 +68,7 @@ Object.equals = function (x, y) {
 };
 
 /** ARRAY **/
+// Limit to the nth first element
 Array.prototype.limit = function (limit) {
     if (this && !!limit) {
         return this.slice(0, limit);

@@ -425,7 +425,9 @@ class User < ApplicationRecord
       scope_name: :current_user
     ) if options.has_key?(:current_user)
 
-    serializer_options[users.is_a?(User) ? :serializer : :each_serializer] = if options[:sample]
+    serializer_options[users.is_a?(User) ? :serializer : :each_serializer] = if options[:strict]
+                                                                               UserStrictSerializer
+                                                                             elsif options[:sample]
                                                                                UserSampleSerializer
                                                                              else
                                                                                UserSerializer
@@ -504,9 +506,10 @@ class User < ApplicationRecord
     return {} if last_visits.empty?
 
     {
+      # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
-      tags:     Tag.joins(:user_activities).merge(last_visits).distinct,
-      articles: Article.joins(:user_activities).merge(last_visits).distinct
+      tags:     Tag.order('created_at DESC').joins(:user_activities).merge(last_visits).distinct,
+      articles: Article.order('created_at DESC').joins(:user_activities).merge(last_visits).distinct
     }
   end
 

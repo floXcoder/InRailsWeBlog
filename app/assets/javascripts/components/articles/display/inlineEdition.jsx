@@ -77,7 +77,7 @@ export default class ArticleInlineEditionDisplay extends React.Component {
                     this.props.article.title &&
                     <div className="article-inline-title">
                         <Link to={`/article/${this.props.article.slug}`}
-                              onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
+                              onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
                             <h2 className="title">
                                 {this.props.article.title}
                             </h2>

@@ -93,7 +93,7 @@ export default class SearchIndex extends React.Component {
     };
 
     _handleArticleClick = (article) => {
-        spyTrackClick('article', article.id);
+        spyTrackClick('article', article.id, article.slug, article.title);
 
         this.props.history.push(`/article/${article.slug}`)
     };

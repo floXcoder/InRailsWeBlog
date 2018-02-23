@@ -51,7 +51,7 @@ export default class ArticleInlineDisplay extends React.PureComponent {
                         this.props.title &&
                         <div className="article-inline-title">
                             <Link to={`/article/${this.props.slug}`}
-                                  onClick={spyTrackClick.bind(null, 'article', this.props.id)}>
+                                  onClick={spyTrackClick.bind(null, 'article', this.props.id, this.props.slug, this.props.title)}>
                                 <h2 className="title">
                                     {this.props.title}
                                 </h2>
@@ -68,7 +68,7 @@ export default class ArticleInlineDisplay extends React.PureComponent {
                         <Link className="article-link tooltipped"
                               to={`/article/${this.props.slug}`}
                               data-tooltip={I18n.t('js.article.tooltip.link_to')}
-                              onClick={spyTrackClick.bind(null, 'article', this.props.id)}>
+                              onClick={spyTrackClick.bind(null, 'article', this.props.id, this.props.slug, this.props.title)}>
                                 <span className="material-icons"
                                       data-icon="open_in_new"
                                       aria-hidden="true"/>

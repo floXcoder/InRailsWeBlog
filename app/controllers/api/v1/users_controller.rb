@@ -166,14 +166,16 @@ module Api::V1
       admin_or_authorize user
 
       user_recents = user.recent_visits(params[:limit])
+      recents      = {
+        tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
+        articles: Article.as_flat_json(user_recents[:articles], strict: true),
+        # topics: Topic.as_flat_json(user_recents[:topics], strict: true)
+        # users: User.as_flat_json(user_recents[:users], strict: true)
+      }
 
       respond_to do |format|
         format.json do
-          render json: {
-            tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
-            articles: Article.as_flat_json(user_recents[:articles], strict: true),
-            # topics: Topic.as_flat_json(user_recents[:topics], strict: true)
-          },
+          render json: recents,
                  root: 'recents'
         end
       end

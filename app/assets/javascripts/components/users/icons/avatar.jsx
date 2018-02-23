@@ -11,7 +11,7 @@ import {
 const UserAvatarIcon = ({user, className}) => (
     <Link className={className}
           to={`/user/profile/${user.slug}`}
-          onClick={spyTrackClick.bind(null, 'user', user.id)}>
+          onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}>
         <div className="chip user-avatar">
             {
                 user.avatar

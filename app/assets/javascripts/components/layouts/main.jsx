@@ -14,6 +14,7 @@ import ErrorBoundary from '../errors/boundary';
 
 import HeaderLayout from './header';
 import SidebarLayout from './sidebar';
+import BreadcrumbLayout from './breadcrumb';
 import FooterLayout from './footer';
 
 @pasteManager
@@ -151,6 +152,11 @@ export default class MainLayout extends React.Component {
                                        <div className={classNames('blog-main-content', {
                                            'blog-main-pinned': this.state.isSidebarOpened
                                        })}>
+                                           <ErrorBoundary errorType="text"
+                                                          errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                               <BreadcrumbLayout currentPath={router.location.pathname}/>
+                                           </ErrorBoundary>
+
                                            <div className="container blog-main">
                                                {
                                                    this._renderPermanentRoutes(this.props.routes.permanents.main)

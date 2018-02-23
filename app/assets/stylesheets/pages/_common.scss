@@ -257,12 +257,100 @@ html {
 .blog-main {
   flex: 1 0 auto;
   padding-bottom: 220px;
-  padding-top: 24px;
+  padding-top: .8rem;
   width: 80%;
 
   @media #{$small-and-down} {
     &.container {
       width: 98%;
+    }
+  }
+}
+
+.blog-breadcrumb {
+  margin: .5rem 3rem;
+  position: relative;
+
+  .breadcrumb-list {
+    overflow: hidden;
+    width: 100%;
+
+    li {
+      float: left;
+      margin: 0 .5rem 0 .85rem;
+    }
+
+    a {
+      background: $border-color;
+      padding: .2rem .5rem;
+      float: left;
+      text-decoration: none;
+      color: $text-color;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+      position: relative;
+      line-height: 26px;
+      outline: none;
+
+      &:hover,
+      &:hover::before,
+      &:hover::after {
+        background: $search-highlight-color;
+      }
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1em;
+        background: $border-color;
+        transform: skew(-10deg);
+      }
+
+      &::before {
+        left: -.5rem;
+        border-radius: 5px 0 0 5px;
+      }
+
+      &::after {
+        right: -.5rem;
+        border-radius: 0 5px 5px 0;
+      }
+
+      &.current {
+        background: inherit;
+        color: $off-black;
+
+        &::after,
+        &::before {
+          content: normal;
+        }
+
+        &:hover {
+          font-weight: bold;
+          background: none;
+        }
+      }
+
+      .material-icons {
+        margin-right: .7rem;
+        color: $spectra-color;
+      }
+    }
+
+    .breadcrumb-title {
+      overflow: hidden;
+      max-width: 5rem;
+      transition: max-width 300ms ease-in-out;
+      display: inline-block;
+      height: 23px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:hover {
+        max-width: 1000px;
+      }
     }
   }
 }

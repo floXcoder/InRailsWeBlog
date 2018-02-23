@@ -112,7 +112,7 @@ export default class TagShow extends React.Component {
                                                     <Link key={tag.id}
                                                           className="tag-default tag-parent"
                                                           to={`/tag/${tag.slug}`}
-                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
+                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                                         {tag.name}
                                                     </Link>
                                                 ))
@@ -139,7 +139,7 @@ export default class TagShow extends React.Component {
                                                     <Link key={tag.id}
                                                           className="tag-default tag-child"
                                                           to={`/tag/${tag.slug}`}
-                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
+                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                                         {tag.name}
                                                     </Link>
                                                 ))

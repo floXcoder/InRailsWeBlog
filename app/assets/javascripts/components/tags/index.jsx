@@ -73,7 +73,7 @@ export default class TagIndex extends React.Component {
                                             className="tag-item">
                                             <Link className="tag-default"
                                                   to={`/tag/${tag.slug}`}
-                                                  onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
+                                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                                 {tag.name}
                                             </Link>
 
@@ -106,7 +106,7 @@ export default class TagIndex extends React.Component {
                                             className="tag-item">
                                             <Link className="tag-default"
                                                   to={`/tag/${tag.slug}`}
-                                                  onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
+                                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                                 {tag.name}
                                             </Link>
                                         </li>

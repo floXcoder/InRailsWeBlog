@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Link
+} from 'react-router-dom';
+
+import {
     switchUserSignup,
     switchUserLogin,
     switchTopicPopup,
@@ -107,10 +111,10 @@ export default class HeaderLayout extends React.PureComponent {
                                 }
                             </ul>
 
-                            <a className="brand-logo center"
-                               href="/">
+                            <Link className="brand-logo center"
+                                  to="/">
                                 {I18n.t('js.views.header.title')}
-                            </a>
+                            </Link>
 
                             <HomeSearchHeader hasSearch={this.props.hasSearch}
                                               onFocus={this.props.onSearchOpen}

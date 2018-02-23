@@ -182,6 +182,7 @@ export default class ArticleShow extends React.Component {
 
                             <ArticleActions articleId={this.props.article.id}
                                             articleSlug={this.props.article.slug}
+                                            articleTitle={this.props.article.title}
                                             articleVisibility={this.props.article.visibility}
                                             onDeleteClick={this._handleDeleteClick}/>
                         </div>

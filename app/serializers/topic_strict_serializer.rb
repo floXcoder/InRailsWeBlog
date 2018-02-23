@@ -7,6 +7,7 @@ class TopicStrictSerializer < ActiveModel::Serializer
   attributes :id,
              :user_id,
              :name,
+             :date,
              :visibility,
              :slug
 
@@ -20,6 +21,10 @@ class TopicStrictSerializer < ActiveModel::Serializer
 
   def name
     object.name
+  end
+
+  def date
+    object.created_at.to_i
   end
 
   def visibility

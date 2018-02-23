@@ -305,10 +305,7 @@ export default class Editor extends React.Component {
     };
 
     render() {
-        const containerClassName = classNames({
-            'editor-reset': this.props.mode !== EditorMode.INLINE_EDIT,
-            'article-editing': this.props.mode === EditorMode.INLINE_EDIT
-        });
+        const containerClassName = 'editor-reset';
 
         const editorClassName = classNames({
             'blog-article-content': this.props.mode === EditorMode.INLINE_EDIT
