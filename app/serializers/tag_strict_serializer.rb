@@ -8,6 +8,7 @@ class TagStrictSerializer < ActiveModel::Serializer
              :user_id,
              :name,
              :synonyms,
+             :date,
              :visibility,
              :slug
 
@@ -25,6 +26,10 @@ class TagStrictSerializer < ActiveModel::Serializer
 
   def synonyms
     object.synonyms
+  end
+
+  def date
+    object.created_at.to_i
   end
 
   def visibility

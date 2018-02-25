@@ -27,7 +27,7 @@ export default class SearchArticleModule extends React.Component {
                             <section key={article.id}
                                      className="search-card search-card-small">
                                 <h3 className="search-card-title">
-                                    {article.title}
+                                    {article.title || article.slug}
                                 </h3>
 
                                 <Link className="search-article-link"

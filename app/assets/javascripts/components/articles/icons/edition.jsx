@@ -7,7 +7,7 @@ const ArticleEditionIcons = ({onSaveClick, onCancelClick, onDeleteClick, isOwner
 
     return (
         <div className="article-editing">
-            <a className="btn-floating article-delete tooltipped"
+            <a className="btn-floating article-delete tooltip-bottom"
                data-tooltip={I18n.t('js.article.tooltip.delete')}
                onClick={onDeleteClick}>
                     <span className="material-icons"
@@ -15,7 +15,7 @@ const ArticleEditionIcons = ({onSaveClick, onCancelClick, onDeleteClick, isOwner
                           aria-hidden="true"/>
             </a>
 
-            <a className="article-cancel tooltipped btn-floating"
+            <a className="article-cancel tooltip-bottom btn-floating"
                data-tooltip={I18n.t('js.article.tooltip.cancel')}
                onClick={onCancelClick}>
                     <span className="material-icons"
@@ -23,7 +23,7 @@ const ArticleEditionIcons = ({onSaveClick, onCancelClick, onDeleteClick, isOwner
                           aria-hidden="true"/>
             </a>
 
-            <a className="btn-floating article-update tooltipped"
+            <a className="btn-floating article-update tooltip-bottom"
                data-tooltip={I18n.t('js.article.tooltip.update')}
                onClick={onSaveClick}>
                    <span className="material-icons"

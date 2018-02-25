@@ -28,7 +28,7 @@ const ArticleTimelineDisplay = ({articles, pagination, loadArticles}) => (
                                                 {I18n.t('js.article.timeline.title') + ' '}
 
                                                 <Link to={`/article/${article.slug}`}
-                                                      onClick={spyTrackClick.bind(null, 'article', this.props.article.id)}>
+                                                      onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
                                                     {article.title}
                                                 </Link>
 

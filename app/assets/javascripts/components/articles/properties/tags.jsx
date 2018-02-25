@@ -77,7 +77,7 @@ export default class ArticleTags extends React.PureComponent {
                                 <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
                                       className="tag-default tag-parent"
                                       to={`/tagged/${tag.slug}`}
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id)}
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
                                       onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
                                       onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
                                     {tag.name}
@@ -108,7 +108,7 @@ export default class ArticleTags extends React.PureComponent {
                                     <Link id={`article-${this.props.articleId}-tags-${tag.id}`}
                                           className="tag-default tag-child"
                                           to={`/tagged/${tag.slug}`}
-                                          onClick={spyTrackClick.bind(null, 'tag', tag.id)}
+                                          onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
                                           onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
                                           onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}>
                                         {tag.name}

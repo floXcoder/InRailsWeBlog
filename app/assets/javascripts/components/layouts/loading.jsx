@@ -1,9 +1,6 @@
 'use strict';
 
-import {
-    Dimmer,
-    Loader
-} from 'semantic-ui-react'
+import Spinner from '../materialize/spinner';
 
 const LoadingLayout = ({component: Component, ...rest}) => (
     <div className="row">
@@ -17,24 +14,21 @@ const LoadingLayout = ({component: Component, ...rest}) => (
 
         <div className="col s3">
             <div className="sidebar sidebar-pin">
-                <Dimmer active={true}
-                        inverted={true}>
-                    <Loader inverted={true}>
-                        {I18n.t('js.views.home.loader')}
-                    </Loader>
-                </Dimmer>
+                <div className="center margin-top-20">
+                    <Spinner size="big"/>
+
+                    {I18n.t('js.views.home.loader')}
+                </div>
             </div>
         </div>
 
         <div className="col s9">
             <div className="container blog-main">
-                <Dimmer active={true}
-                        inverted={true}>
-                    <Loader inverted={true}
-                            size="large">
-                        {I18n.t('js.views.home.loader')}
-                    </Loader>
-                </Dimmer>
+                <div className="center margin-top-20">
+                    <Spinner size="big"/>
+
+                    {I18n.t('js.views.home.loader')}
+                </div>
 
                 {
                     Component &&

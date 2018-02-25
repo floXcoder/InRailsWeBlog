@@ -40,18 +40,6 @@ export default class Bookmark extends React.Component {
         })()
     };
 
-    componentDidMount() {
-        if (this.props.isIcon) {
-            $(ReactDOM.findDOMNode(this)).find('.tooltipped').tooltip();
-        }
-    }
-
-    componentDidUpdate() {
-        if (this.props.isIcon) {
-            $(ReactDOM.findDOMNode(this)).find('.tooltipped').tooltip();
-        }
-    }
-
     onUserChange = (bookmarkData) => {
         if (Utils.isEmpty(bookmarkData)) {
             return;
@@ -84,7 +72,7 @@ export default class Bookmark extends React.Component {
             <div className={classNames('bookmark', `bookmark-${this.props.modelName}`, {
                 'bookmarked': this.state.isBookmarked,
                 'bookmark-icon-only': this.props.isIcon,
-                'tooltipped': this.props.isIcon
+                'tooltip-bottom': this.props.isIcon
             })}
                  data-tooltip={bookmarkText}>
                 <a href="#"

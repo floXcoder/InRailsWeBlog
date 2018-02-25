@@ -2,6 +2,12 @@
 
 import api from '../middlewares/api';
 
+import {
+    hasLocalStorage,
+    saveLocalData,
+    getLocalData
+} from '../middlewares/localStorage';
+
 export const spyHeartbeat = (value) => {
     if (window._paq) {
         window._paq.push(['enableHeartBeatTimer', value]);
@@ -36,25 +42,35 @@ export const spySearchResults = (searchParams, response) => {
     }
 };
 
-export const spyTrackView = (elementName, elementId, parentName = null, parentId = null) => {
+export const spyTrackView = (elementName, elementId) => {
     if (process.env.NODE_ENV === 'production') {
         return api
-            .post((parentName && parentId)
-                ? `/api/v1/${parentName}s/${parentId}/${elementName}s/${elementId}/viewed`
-                : `/api/v1/${elementName}s/${elementId}/viewed`,
+            .post(`/api/v1/${elementName}s/${elementId}/viewed`,
                 {
                     id: elementId
                 });
     }
 };
 
-export const spyTrackClick = (elementName, elementId, parentName = null, parentId = null) => {
+export const spyTrackClick = (elementName, elementId, elementSlug = null, elementTitle = null) => {
+    if (hasLocalStorage && elementSlug && elementTitle) {
+        saveLocalData('recents', {
+            type: elementName,
+            id: elementId,
+            title: elementTitle,
+            slug: elementSlug,
+            date: Date.now()
+        });
+    }
+
     return api
-        .post((parentName && parentId)
-            ? `/api/v1/${parentName}s/${parentId}/${elementName}s/${elementId}/clicked`
-            : `/api/v1/${elementName}s/${elementId}/clicked`,
+        .post(`/api/v1/${elementName}s/${elementId}/clicked`,
             {
                 id: elementId,
                 userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined
             });
+};
+
+export const getTracksClick = () => {
+    return getLocalData('recents');
 };

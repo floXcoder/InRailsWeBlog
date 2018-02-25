@@ -41,7 +41,7 @@
   text-rendering: optimizeLegibility;
   font-feature-settings: 'liga';
 
-  &:before {
+  &::before {
     content: attr(data-icon);
   }
 }

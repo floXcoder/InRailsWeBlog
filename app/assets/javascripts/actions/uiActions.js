@@ -11,6 +11,10 @@ export const switchUserLogin = () => ({
     type: ActionTypes.UI_SWITCH_USER_LOGIN
 });
 
+export const switchUserPreference = () => ({
+    type: ActionTypes.UI_SWITCH_USER_PREFERENCE
+});
+
 // Topics
 export const switchTopicPopup = () => ({
     type: ActionTypes.UI_SWITCH_TOPIC_HEADER

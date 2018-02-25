@@ -40,7 +40,7 @@ export default class SearchTagIndex extends React.Component {
 
                                 <Link className="tag-link"
                                       to={`/tagged/${tag.slug}`}
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id)}>
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                     <span className="material-icons"
                                           data-icon="open_in_new"
                                           aria-hidden="true"/>

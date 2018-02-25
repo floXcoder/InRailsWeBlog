@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import Select, {
     Creatable
 } from 'react-select';
@@ -50,7 +48,7 @@ export default class Selecter extends React.Component {
         )).compact())(),
     };
 
-    _handleonChange = (items) => {
+    _handleOnChange = (items) => {
         const newValues = items.filter((item) => item.label.length < this.props.maxLength);
 
         if (newValues.length > this.props.maxValues) {
@@ -150,7 +148,7 @@ export default class Selecter extends React.Component {
             value: this.state.values,
             noResultsText: noResults,
             delimiter: ',',
-            onChange: this._handleonChange,
+            onChange: this._handleOnChange,
         };
 
         return (

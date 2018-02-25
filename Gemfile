@@ -9,7 +9,7 @@ end
 ruby '2.4.1'
 
 # Rails version
-gem 'rails',                    '5.1.4'
+gem 'rails',                    '5.1.5'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '0.21.0'
@@ -17,7 +17,7 @@ gem 'pg',                       '0.21.0'
 # HTTP Response
 gem 'responders',               '2.4.0'
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '5.0.4'
+gem 'secure_headers',           '5.0.5'
 
 # JSON
 gem 'active_model_serializers', '0.10.7'
@@ -77,7 +77,7 @@ gem 'carrierwave',              '1.2.2'
 gem 'mini_magick',              '4.8.0'
 
 # Search in database
-gem 'searchkick',               '2.4.0'
+gem 'searchkick',               '2.5.0'
 gem 'typhoeus',                 '1.3.0'
 
 # Votable models
@@ -123,7 +123,7 @@ group :development do
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
-  gem 'bullet',                 '5.7.2'
+  gem 'bullet',                 '5.7.3'
 
   # Scss lint
   gem 'scss-lint',              '0.38.0', require: false
@@ -159,7 +159,7 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '2.17.0'
+  gem 'capybara',               '2.18.0'
   gem 'capybara-email',         '2.5.0'
   gem 'capybara-screenshot',    '1.0.18'
   gem 'selenium-webdriver',     '3.9.0'
@@ -169,7 +169,7 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',   '1.19.0',   require: false
-  gem 'brakeman',               '4.1.1',    require: false
+  gem 'brakeman',               '4.2.0',    require: false
   gem 'metric_fu',              '4.12.0',   require: false
   gem 'i18n-tasks',             '0.9.20',   require: false
 end

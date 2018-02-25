@@ -48,3 +48,38 @@ export const getUserRecentArticles = createSelector(
     (state) => state.userState.recentArticles,
     (recentArticles) => recentArticles.toArray()
 );
+
+export const getUserRecents = createSelector(
+    (state) => state.userState.recentTags,
+    (state) => state.userState.recentArticles,
+    (_, limit) => limit,
+    (tags, articles, limit) => {
+        let recents = [];
+
+        tags.map((tag) => {
+            recents.push({
+                type: 'tag',
+                title: tag.name,
+                slug: tag.slug,
+                date: tag.date
+            })
+        });
+
+        articles.map((article) => {
+            recents.push({
+                type: 'article',
+                title: article.title,
+                slug: article.slug,
+                date: article.date
+            })
+        });
+
+        recents.sort((a, b) => b.date - a.date);
+
+        recents = recents.limit(limit);
+
+        recents = recents.filter((recent) => !!recent.title);
+
+        return recents;
+    }
+);

@@ -47,7 +47,7 @@ export default class SearchTagModule extends React.Component {
                                 {tag.name}
 
                                 <Link className="tag-link"
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id)}
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
                                       to={`/tagged/${tag.slug}`}>
                                     <span className="material-icons"
                                           data-icon="open_in_new"

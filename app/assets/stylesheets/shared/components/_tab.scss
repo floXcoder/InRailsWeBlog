@@ -1,0 +1,53 @@
+.responsive-tabs {
+
+  .responsive-tabs-navbar {
+    background: none;
+    border: 0;
+    border-bottom: 2px solid $border-color;
+    box-shadow: none;
+    display: block;
+    font-size: 1rem;
+    margin: 1rem 0;
+    min-height: 2.85714286em;
+    width: 100%;
+  }
+
+  .responsive-tab {
+    background: none;
+    border: 0;
+    border-bottom-color: transparent;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    box-shadow: none;
+    display: inline-block;
+    margin: 0 0 -2px;
+    padding: .85714286em 1.14285714em;
+    position: relative;
+    text-decoration: none;
+    text-transform: none;
+    transition: color .1s ease;
+    user-select: none;
+    vertical-align: middle;
+
+    &.active {
+      background-color: transparent;
+      border-color: #1b1c1d;
+      box-shadow: none;
+
+      .responsive-tab-link {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .responsive-tab-link {
+    color: #000;
+    font-weight: normal;
+    line-height: 1;
+    outline: none;
+  }
+
+  .responsive-tabs-content {
+
+  }
+}

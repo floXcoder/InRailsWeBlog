@@ -1,25 +1,25 @@
-.modal-enter {
+.dialog-enter {
   opacity: .01;
 
-  &.modal-enter-active {
+  &.dialog-enter-active {
     transition: opacity 500ms ease-in;
   }
 }
 
-.modal-leave {
+.dialog-leave {
   opacity: 1;
 
-  &.modal-leave-active {
+  &.dialog-leave-active {
     opacity: .01;
     transition: opacity 300ms ease-in;
   }
 }
 
-.modal-appear {
+.dialog-appear {
   opacity: .01;
   transform: scaleY(0);
 
-  &.modal-appear-active {
+  &.dialog-appear-active {
     opacity: 1;
     transform: scaleY(1);
     transition-duration: 900ms;
@@ -28,10 +28,10 @@
   }
 }
 
-.modal-form-appear {
+.dialog-form-appear {
   transform: scaleY(0);
 
-  &.modal-form-appear-active {
+  &.dialog-form-appear-active {
     transform: scaleY(1);
     transition: transform 600ms ease;
   }

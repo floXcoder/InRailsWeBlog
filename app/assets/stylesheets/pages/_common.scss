@@ -1,9 +1,9 @@
 @import 'base/variables';
 @import 'base/materialize';
-@import 'base/semantic';
 @import 'base/utilities';
 @import 'base/open-sans';
 @import 'base/typography';
+
 @import 'shared/topic';
 @import 'shared/article';
 @import 'shared/bookmark';
@@ -12,6 +12,8 @@
 @import 'shared/user';
 @import 'shared/search';
 @import 'shared/connection';
+@import 'shared/tooltip';
+
 @import 'shared/components/collapsible';
 @import 'shared/components/notification';
 @import 'shared/components/rating';
@@ -19,7 +21,10 @@
 @import 'shared/components/double-timeline';
 @import 'shared/components/selecter';
 @import 'shared/components/dropdown';
-@import 'shared/animation/modal';
+@import 'shared/components/modal';
+@import 'shared/components/tab';
+
+@import 'shared/animation/dialog';
 
 // Global font
 html {
@@ -257,12 +262,105 @@ html {
 .blog-main {
   flex: 1 0 auto;
   padding-bottom: 220px;
-  padding-top: 24px;
+  padding-top: .8rem;
   width: 80%;
 
   @media #{$small-and-down} {
     &.container {
       width: 98%;
+    }
+  }
+}
+
+.blog-breadcrumb {
+  margin: .5rem 3rem;
+  position: relative;
+
+  .breadcrumb-list {
+    overflow: hidden;
+    width: 100%;
+
+    li {
+      float: left;
+      margin: 0 .5rem 0 .85rem;
+    }
+
+    a {
+      //background: $border-color;
+      border-bottom: 1px solid $border-dark-color;
+      border-top: 1px solid $border-dark-color;
+      color: $text-color;
+      float: left;
+      line-height: 26px;
+      outline: none;
+      padding: .2rem .5rem;
+      position: relative;
+      text-decoration: none;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+
+      &:hover,
+      &:hover::before,
+      &:hover::after {
+        background: $border-color;
+      }
+
+      &::before,
+      &::after {
+        //background: $border-color;
+        bottom: -1px;
+        content: '';
+        position: absolute;
+        top: -1px;
+        transform: skew(-10deg);
+        width: 1rem;
+      }
+
+      &::before {
+        border-left: 1px solid $border-dark-color;
+        border-radius: 5px 0 0 5px;
+        left: -.5rem;
+      }
+
+      &::after {
+        border-radius: 0 5px 5px 0;
+        border-right: 1px solid $border-dark-color;
+        right: -.5rem;
+      }
+
+      &.current {
+        //background: inherit;
+        border: 0;
+        color: $off-black;
+
+        &::after,
+        &::before {
+          content: normal;
+        }
+
+        &:hover {
+          background: none;
+          font-weight: bold;
+        }
+      }
+
+      .material-icons {
+        color: $spectra-color;
+        margin-right: .7rem;
+      }
+    }
+
+    .breadcrumb-title {
+      display: inline-block;
+      height: 23px;
+      max-width: 5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: max-width 300ms ease-in-out;
+      white-space: nowrap;
+
+      &:hover {
+        max-width: 1000px;
+      }
     }
   }
 }

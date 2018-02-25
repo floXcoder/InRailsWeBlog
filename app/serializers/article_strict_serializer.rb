@@ -10,6 +10,7 @@ class ArticleStrictSerializer < ActiveModel::Serializer
              :title,
              :summary,
              :draft,
+             :date,
              :visibility,
              :current_language,
              :slug
@@ -36,6 +37,10 @@ class ArticleStrictSerializer < ActiveModel::Serializer
 
   def draft
     object.draft
+  end
+
+  def date
+    object.created_at.to_i
   end
 
   def visibility

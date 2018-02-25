@@ -55,7 +55,7 @@ export default class Dialog extends React.Component {
         const FadeTransition = ({children, ...props}) => (
             <CSSTransition {...props}
                            timeout={500}
-                           classNames="modal">
+                           classNames="dialog">
                 {children}
             </CSSTransition>
         );

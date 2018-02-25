@@ -6,7 +6,7 @@ import ArticleDeleteIcon from '../icons/delete';
 import ArticleEditIcon from '../icons/edit';
 import ArticleLinkIcon from '../icons/link';
 
-const ArticleActions = ({isInline, articleId, articleSlug, articleVisibility, onVisibilityClick, onDeleteClick}) => (
+const ArticleActions = ({isInline, articleId, articleSlug, articleTitle, articleVisibility, onVisibilityClick, onDeleteClick}) => (
     <ul className="action-icons">
         {
             !isInline &&
@@ -36,8 +36,9 @@ const ArticleActions = ({isInline, articleId, articleSlug, articleVisibility, on
         {
             isInline &&
             <li className="action-item">
-                <ArticleLinkIcon articleSlug={articleSlug}
-                                 articleId={articleId}/>
+                <ArticleLinkIcon articleId={articleId}
+                                 articleSlug={articleSlug}
+                                 articleTitle={articleTitle}/>
             </li>
         }
     </ul>
@@ -47,6 +48,7 @@ ArticleActions.propTypes = {
     articleId: PropTypes.number.isRequired,
     articleSlug: PropTypes.string.isRequired,
     articleVisibility: PropTypes.string.isRequired,
+    articleTitle: PropTypes.string,
     onVisibilityClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
     isInline: PropTypes.bool

@@ -36,8 +36,10 @@ export default class CategorizedTagInput extends React.Component {
         hasAddNew: PropTypes.bool,
         transformTag: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.object),
+        onTabPress: PropTypes.func,
         onBlur: PropTypes.func,
         onChange: PropTypes.func,
+        onSubmit: PropTypes.func,
         placeholder: PropTypes.string,
         placeholderWithTags: PropTypes.string,
         addNewPlaceholder: PropTypes.string,
@@ -320,7 +322,21 @@ export default class CategorizedTagInput extends React.Component {
     onKeyDown = (event) => {
         switch (event.keyCode) {
             case key.TAB:
+                event.preventDefault();
+                if (this.props.onTabPress) {
+                    this.props.onTabPress();
+                } else {
+                    this.addSelectedTag();
+                }
+                break;
             case key.ENTER:
+                event.preventDefault();
+                if (event.ctrlKey && this.props.onSubmit) {
+                    this.props.onSubmit();
+                } else {
+                    this.addSelectedTag();
+                }
+                break;
             case key.COMMA:
                 event.preventDefault();
                 this.addSelectedTag();
@@ -341,6 +357,10 @@ export default class CategorizedTagInput extends React.Component {
                 this.handleArrowDown();
                 break;
         }
+    };
+
+    focus = () => {
+        this._input.focusInput();
     };
 
     value = () => {

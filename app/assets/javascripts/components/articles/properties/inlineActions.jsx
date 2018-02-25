@@ -3,7 +3,7 @@
 const ArticleInlineActions = ({onSaveClick, onCancelClick, onDeleteClick}) => (
     <ul className="action-icons">
         <li className="action-item">
-            <a className="article-delete tooltipped"
+            <a className="article-delete tooltip-bottom"
                data-tooltip={I18n.t('js.article.tooltip.delete')}
                onClick={onDeleteClick}>
                 <span className="material-icons"
@@ -13,7 +13,7 @@ const ArticleInlineActions = ({onSaveClick, onCancelClick, onDeleteClick}) => (
         </li>
 
         <li className="action-item">
-            <a className="article-cancel tooltipped"
+            <a className="article-cancel tooltip-bottom"
                data-tooltip={I18n.t('js.article.tooltip.cancel')}
                onClick={onCancelClick}>
                 <span className="material-icons"
@@ -23,7 +23,7 @@ const ArticleInlineActions = ({onSaveClick, onCancelClick, onDeleteClick}) => (
         </li>
 
         <li className="action-item">
-            <a className="article-save tooltipped"
+            <a className="article-save tooltip-bottom"
                data-tooltip={I18n.t('js.article.tooltip.update')}
                onClick={onSaveClick}>
                <span className="material-icons"

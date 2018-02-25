@@ -1,8 +1,6 @@
 'use strict';
 
-import {
-    Modal
-} from 'semantic-ui-react';
+import Modal from 'react-responsive-modal';
 
 import {
     signupUser
@@ -19,7 +17,6 @@ export default class Signup extends React.Component {
         onModalChange: PropTypes.func.isRequired,
         // from connect
         signupUser: PropTypes.func
-
     };
 
     constructor(props) {
@@ -28,23 +25,36 @@ export default class Signup extends React.Component {
 
     _handleSubmit = (values) => {
         this.props.signupUser(values.toJS())
-            // to get crsf token in meta tag
-            // and wait for loading session
+        // to get crsf token in meta tag
+        // and wait for loading session
             .then(() => setTimeout(() => location.reload(true), 300));
+    };
+
+    _handleClose = () => {
+        if (this.props.isOpened) {
+            this.props.onModalChange();
+        }
     };
 
     render() {
         return (
-            <Modal open={this.props.isOpened}>
-                <Modal.Header>
-                    {I18n.t('js.user.signup.title')}
-                </Modal.Header>
-                <Modal.Content>
-                    <Modal.Description>
-                        <SignupForm onCancel={this.props.onModalChange}
-                                    onSubmit={this._handleSubmit}/>
-                    </Modal.Description>
-                </Modal.Content>
+            <Modal open={this.props.isOpened}
+                   onClose={this._handleClose}
+                   classNames={{modal: 'responsive-modal'}}
+                   closeOnEsc={true}
+                   closeOnOverlayClick={true}
+                   showCloseIcon={false}
+                   animationDuration={400}>
+                <div className="responsive-modal-title">
+                    <h1>
+                        {I18n.t('js.user.signup.title')}
+                    </h1>
+                </div>
+
+                <div className="responsive-modal-content">
+                    <SignupForm onCancel={this.props.onModalChange}
+                                onSubmit={this._handleSubmit}/>
+                </div>
             </Modal>
         );
     }

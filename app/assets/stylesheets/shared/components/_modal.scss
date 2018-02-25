@@ -1,0 +1,53 @@
+@import 'react-responsive-modal/lib/react-responsive-modal';
+
+.responsive-modal {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0 !important;
+
+  @media #{$large-and-up} {
+    width: 900px;
+  }
+
+  .responsive-modal-title {
+    background: #fff;
+    border-bottom: 1px solid rgba(34, 36, 38, .15);
+    border-top-left-radius: .28571429rem;
+    border-top-right-radius: .28571429rem;
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+
+    h1 {
+      color: $off-black;
+      font-size: 1.42857143rem;
+      font-weight: 700;
+      line-height: 1.28571429em;
+      margin: 0;
+      text-align: left;
+    }
+  }
+
+  .responsive-modal-content {
+    padding: 2rem;
+  }
+}
+
+// Transitions
+
+//.transition-enter {
+//  transform: scale(0);
+//}
+//
+//.transition-enter-active {
+//  transform: scale(1);
+//  transition: transform 1000ms ease;
+//}
+//
+//.transition-exit {
+//  transform: scale(1);
+//}
+//
+//.transition-exit-active {
+//  transform: scale(0);
+//  transition: transform 1000ms ease;
+//}

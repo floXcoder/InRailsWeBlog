@@ -43,7 +43,7 @@ export default class SearchArticleIndex extends React.Component {
                                 <div className="article-content">
                                     <div className="article-title">
                                         <Link to={`/article/${article.slug}`}
-                                              onClick={spyTrackClick.bind(null, 'article', article.id)}>
+                                              onClick={spyTrackClick.bind(null, 'article', article.id, article.slug, article.title)}>
                                             <div className="title"
                                                  dangerouslySetInnerHTML={{__html: article.title}}/>
                                         </Link>
@@ -58,7 +58,7 @@ export default class SearchArticleIndex extends React.Component {
                                                 <div key={tag.id}
                                                      className="article-tag">
                                                     <Link className="tag-default"
-                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id)}
+                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
                                                           to={`/article/tags/${tag.slug}`}>
                                                         {tag.name}
                                                     </Link>

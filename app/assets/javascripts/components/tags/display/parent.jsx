@@ -33,8 +33,8 @@ export default class ParentTag extends React.Component {
         }
     }
 
-    _handleTagClick = (tagId, parent) => {
-        spyTrackClick('tag', tagId);
+    _handleTagClick = (tagId, tagName, tagSlug, parent) => {
+        spyTrackClick('tag', tagId, tagSlug, tagName);
 
         if (parent) {
             if (!this.state.isExpanded) {
@@ -78,7 +78,7 @@ export default class ParentTag extends React.Component {
                     'tag-selected': currentUrl === `/tagged/${this.props.tag.slug}`
                 })}
                       to={`/tagged/${this.props.tag.slug}`}
-                      onClick={this._handleTagClick.bind(this, this.props.tag.id, true)}>
+                      onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
                     {this.props.tag.name}
                 </Link>
 
@@ -92,7 +92,7 @@ export default class ParentTag extends React.Component {
                                       tag={tag}
                                       parentTagSlug={this.props.tag.slug}
                                       isExpanded={this.state.isExpanded}
-                                      onTagClick={this._handleTagClick.bind(this, tag.id, false)}/>
+                                      onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.slug, false)}/>
                         ))
                     }
                 </div>

@@ -16,7 +16,7 @@ const ArticleUserIcon = ({user}) => (
               itemType="https://schema.org/Person"
               itemScope={true}
               itemProp="author"
-              onClick={spyTrackClick.bind(null, 'user', user.id)}>
+              onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}>
                 <span itemProp="name">
                     {user.pseudo}
                 </span>

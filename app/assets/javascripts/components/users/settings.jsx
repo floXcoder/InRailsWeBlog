@@ -1,15 +1,16 @@
 'use strict';
 
 import {
-    Menu
-} from 'semantic-ui-react';
-
-import {
     updateUserSettings
 } from '../../actions';
 
 import RadioButtons from '../materialize/radioButtons';
 import SwitchButton from '../materialize/switchButton';
+
+import {
+    Tabs,
+    Tab
+} from '../theme/tab';
 
 @connect((state) => ({
     currentUserId: state.userState.currentId,
@@ -41,16 +42,6 @@ export default class UserSettings extends React.Component {
         super(props);
     }
 
-    state = {
-        activeItem: I18n.t('js.user.settings.article.title')
-    };
-
-    _handleItemClick = (event, {name}) => {
-        this.setState({
-            activeItem: name
-        });
-    };
-
     _onLoaderChanged = (event) => {
         this._updateSettings({articlesLoader: event.target.id});
     };
@@ -80,25 +71,9 @@ export default class UserSettings extends React.Component {
     };
 
     render() {
-        const {activeItem} = this.state;
-
         return (
-            <div>
-                <Menu pointing={true}
-                      secondary={true}>
-                    <Menu.Item name={I18n.t('js.user.settings.article.title')}
-                               active={activeItem === I18n.t('js.user.settings.article.title')}
-                               onClick={this._handleItemClick}/>
-                    <Menu.Item name={I18n.t('js.user.settings.tag.title')}
-                               active={activeItem === I18n.t('js.user.settings.tag.title')}
-                               onClick={this._handleItemClick}/>
-                    <Menu.Item name={I18n.t('js.user.settings.search.title')}
-                               active={activeItem === I18n.t('js.user.settings.search.title')}
-                               onClick={this._handleItemClick}/>
-                </Menu>
-
-                {
-                    activeItem === I18n.t('js.user.settings.article.title') &&
+            <Tabs>
+                <Tab header={I18n.t('js.user.settings.article.title')}>
                     <div className="row">
                         <div className="col s12">
                             <h6>
@@ -119,10 +94,9 @@ export default class UserSettings extends React.Component {
                                           onChange={this._onDisplayChanged}/>
                         </div>
                     </div>
-                }
+                </Tab>
 
-                {
-                    activeItem === I18n.t('js.user.settings.tag.title') &&
+                <Tab header={I18n.t('js.user.settings.tag.title')}>
                     <div className="row">
                         <div className="col s12">
                             <h6>
@@ -136,10 +110,9 @@ export default class UserSettings extends React.Component {
                             </SwitchButton>
                         </div>
                     </div>
-                }
+                </Tab>
 
-                {
-                    activeItem === I18n.t('js.user.settings.search.title') &&
+                <Tab header={I18n.t('js.user.settings.search.title')}>
                     <div className="row">
                         <div className="col s12">
                             <h6>
@@ -167,8 +140,8 @@ export default class UserSettings extends React.Component {
                             </SwitchButton>
                         </div>
                     </div>
-                }
-            </div>
+                </Tab>
+            </Tabs>
         );
     }
 }

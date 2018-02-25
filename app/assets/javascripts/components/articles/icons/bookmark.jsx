@@ -39,7 +39,7 @@ export default class ArticleBookmarkIcon extends React.PureComponent {
         const bookmarkTooltip = I18n.t('js.article.tooltip.add_bookmark');
 
         return (
-            <a className="btn-floating tooltipped"
+            <a className="btn-floating tooltip-bottom"
                data-tooltip={bookmarkTooltip}
                onClick={this._handleBookmarkClick.bind(this, this.props.articleId)}>
                 <span className={bookmarkClasses}

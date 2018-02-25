@@ -36,6 +36,12 @@ export default class ArticleCommonField extends React.Component {
         this._editor = null;
     }
 
+    state = {
+        hasChildTagFocus: false,
+        parentTags: [],
+        childTags: []
+    };
+
     _handleEditorLoaded = (editor) => {
         this._editor = editor;
     };
@@ -46,6 +52,18 @@ export default class ArticleCommonField extends React.Component {
         }
 
         return event;
+    };
+
+    _handleSwitchTag = () => {
+        this.setState({
+            hasChildTagFocus: !this.state.hasChildTagFocus
+        });
+    };
+
+    _handleParentTagChange = (event, tags) => {
+        this.setState({
+            parentTags: tags
+        });
     };
 
     render() {
@@ -113,6 +131,8 @@ export default class ArticleCommonField extends React.Component {
                            titleClass="form-editor-title"
                            categorizedTags={this.props.userTags}
                            transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
+                           onTabPress={this._handleSwitchTag}
+                           onSubmit={this.props.onSubmit}
                            component={CategorizedField}
                            componentContent={this.props.parentTags}/>
                 </div>
@@ -124,11 +144,13 @@ export default class ArticleCommonField extends React.Component {
                            placeholder={I18n.t('js.article.common.tags.child')}
                            addNewPlaceholder={I18n.t('js.article.common.tags.placeholder')}
                            addNewText={I18n.t('js.article.common.tags.add')}
+                           hasChildTagFocus={this.state.hasChildTagFocus}
                            isSortingCategoriesByAlpha={false}
                            isHorizontal={true}
                            titleClass="form-editor-title"
                            categorizedTags={this.props.userTags}
                            transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
+                           onSubmit={this.props.onSubmit}
                            component={CategorizedField}
                            componentContent={this.props.childTags}/>
                 </div>
