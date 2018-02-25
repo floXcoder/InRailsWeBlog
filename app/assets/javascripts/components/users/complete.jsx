@@ -57,7 +57,6 @@ export default class UserComplete extends React.Component {
 
     componentDidUpdate() {
         $('.user-admin ul.tabs').tabs();
-        $('.tooltipped').tooltip({delay: 50});
     }
 
     _loadArticles = (userId, data = {}) => {
@@ -144,7 +143,7 @@ export default class UserComplete extends React.Component {
                         <div className="card">
                             <div className="user-heading">
                                 <div className="user-heading-menu">
-                                    <a className="btn-flat waves-effect waves-teal tooltipped dropdown-button"
+                                    <a className="btn-flat waves-effect waves-teal tooltip-bottom dropdown-button"
                                        data-tooltip={I18n.t('js.user.show.more_actions')}
                                        data-activates="dropdown-user-menu">
                                         <span className="material-icons"

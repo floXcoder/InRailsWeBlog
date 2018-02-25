@@ -282,6 +282,8 @@ export const uuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g
     return v.toString(16);
 });
 
+export const isNumber = (number) => !isNaN(parseFloat(number)) && isFinite(number);
+
 export const isURL = (url) => /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(url);
 
 export const getUrlPaths = () => window.location.pathname.split('/');
@@ -394,6 +396,17 @@ export const decodeObject = (object) => {
 //         || navigator.userAgent.toLowerCase().indexOf('trident') !== -1;
 
 /** OBJECT **/
+export const mapValues = (object, callback) => {
+    object = Object(object);
+    const result = {};
+
+    Object.keys(object).forEach((key) => {
+        result[key] = callback(object[key], key, object)
+    });
+
+    return result;
+};
+
 export const compact = (object) => {
     let newObject = {};
     Object.keys(object).forEach((key) => {
@@ -605,7 +618,7 @@ export const NAVIGATION_KEYMAP = {
     17: 'ctrl',
     18: 'alt',
     20: 'capslock',
-    27: 'esc',
+    27: 'escape',
     // 32: 'space',
     33: 'pageup',
     34: 'pagedown',

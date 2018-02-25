@@ -9,7 +9,7 @@ import {
 } from '../../../actions';
 
 const ArticleLink = ({articleId, articleSlug, articleTitle, onArticleClick}) => (
-    <Link className="btn-floating tooltipped article-goto"
+    <Link className="btn-floating tooltip-bottom article-goto"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
           to={`/article/${articleSlug}`}
           onClick={_handleArticleClick.bind(null, articleId, articleSlug, articleTitle, onArticleClick)}>

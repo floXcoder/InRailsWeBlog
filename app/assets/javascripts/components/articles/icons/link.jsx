@@ -9,7 +9,7 @@ import {
 } from '../../../actions';
 
 const ArticleLinkIcon = ({articleSlug, articleId, articleTitle}) => (
-    <Link className="article-link tooltipped"
+    <Link className="article-link tooltip-bottom"
           to={`/article/${articleSlug}`}
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
           onClick={spyTrackClick.bind(null, 'article', articleId, articleSlug, articleTitle)}>

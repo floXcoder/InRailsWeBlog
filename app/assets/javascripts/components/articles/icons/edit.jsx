@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 const ArticleEditIcon = ({articleSlug, onEdit}) => (
-    <Link className="article-edit tooltipped"
+    <Link className="article-edit tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.edit')}
           to={`/article/${articleSlug}/edit`}>
             <span className="material-icons"

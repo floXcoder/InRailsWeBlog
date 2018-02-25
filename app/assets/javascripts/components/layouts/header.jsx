@@ -7,26 +7,28 @@ import {
 import {
     switchUserSignup,
     switchUserLogin,
+    switchUserPreference,
     switchTopicPopup,
     fetchTopic
 } from '../../actions';
 
-import Dialog from '../theme/dialog';
+import Dropdown from '../theme/dropdown';
 
 import Login from '../users/login';
 import Signup from '../users/signup';
+import Preference from '../users/preference';
 
 import TopicModule from '../topic/module';
 
 import HomeSearchHeader from './header/search';
 import HomeArticleHeader from './header/article';
-import HomePreferenceHeader from './header/preference';
 import HomeUserHeader from './header/user';
 import HomeTopicHeader from './header/topic';
 
 @connect((state) => ({
     isUserSignupOpened: state.uiState.isUserSignupOpened,
     isUserLoginOpened: state.uiState.isUserLoginOpened,
+    isUserPreferenceOpened: state.uiState.isUserPreferenceOpened,
     isTopicPopupOpened: state.uiState.isTopicPopupOpened,
     isSearchPopupOpened: state.uiState.isSearchPopupOpened,
     isUserConnected: state.userState.isConnected,
@@ -38,6 +40,7 @@ import HomeTopicHeader from './header/topic';
 }), {
     switchUserSignup,
     switchUserLogin,
+    switchUserPreference,
     switchTopicPopup,
     fetchTopic
 })
@@ -51,6 +54,7 @@ export default class HeaderLayout extends React.PureComponent {
         // From connect
         isUserSignupOpened: PropTypes.bool,
         isUserLoginOpened: PropTypes.bool,
+        isUserPreferenceOpened: PropTypes.bool,
         isTopicPopupOpened: PropTypes.bool,
         isSearchPopupOpened: PropTypes.bool,
         isUserConnected: PropTypes.bool,
@@ -61,6 +65,7 @@ export default class HeaderLayout extends React.PureComponent {
         currentTopic: PropTypes.object,
         switchUserSignup: PropTypes.func,
         switchUserLogin: PropTypes.func,
+        switchUserPreference: PropTypes.func,
         switchTopicPopup: PropTypes.func,
         fetchTopic: PropTypes.func
     };
@@ -71,7 +76,7 @@ export default class HeaderLayout extends React.PureComponent {
 
     componentDidMount() {
         $(document).keyup((event) => {
-            if (event.which === '27') {
+            if (Utils.NAVIGATION_KEYMAP[event.which] === 'escape') {
                 this.props.onSearchClose();
             }
         });
@@ -89,7 +94,13 @@ export default class HeaderLayout extends React.PureComponent {
         this.props.switchUserLogin();
     };
 
-    _handleTopicClick = (event) => {
+    _handlePreferenceClick = (event) => {
+        event.preventDefault();
+
+        this.props.switchUserPreference();
+    };
+
+    _handleTopicOpen = (event) => {
         event.preventDefault();
 
         this.props.switchTopicPopup(!this.props.isTopicPopupOpened);
@@ -105,8 +116,21 @@ export default class HeaderLayout extends React.PureComponent {
                                 {
                                     this.props.isUserLoaded &&
                                     <li>
-                                        <HomeTopicHeader currentTopicName={this.props.currentTopic.name}
-                                                         onTopicClick={this._handleTopicClick}/>
+                                        <Dropdown
+                                            button={<HomeTopicHeader currentTopicName={this.props.currentTopic.name}
+                                                                     onTopicClick={this._handleTopicOpen}/>}
+                                            isDefaultOpen={false}
+                                            isOpen={this.props.isTopicPopupOpened}
+                                            onClose={this._handleTopicOpen}
+                                            position="bottom left"
+                                            horizontalOffset={10}
+                                            isFixed={true}
+                                            isHidingOnScroll={false}
+                                            isButton={false}
+                                            hasArrow={false}>
+                                            <TopicModule history={this.props.history}/>
+                                        </Dropdown>
+
                                     </li>
                                 }
                             </ul>
@@ -125,18 +149,12 @@ export default class HeaderLayout extends React.PureComponent {
                                     <HomeArticleHeader/>
                                 </li>
 
-                                {
-                                    this.props.isUserLoaded &&
-                                    <li>
-                                        <HomePreferenceHeader/>
-                                    </li>
-                                }
-
                                 <li>
                                     <HomeUserHeader isUserConnected={this.props.isUserConnected}
                                                     isAdminConnected={this.props.isAdminConnected}
                                                     onSignupClick={this._handleSignupClick}
                                                     onLoginClick={this._handleLoginClick}
+                                                    onPreferenceClick={this._handlePreferenceClick}
                                                     userSlug={this.props.userSlug}/>
                                 </li>
                             </ul>
@@ -153,10 +171,6 @@ export default class HeaderLayout extends React.PureComponent {
                     }
                 </div>
 
-                <Dialog isOpened={this.props.isTopicPopupOpened}>
-                    <TopicModule history={this.props.history}/>
-                </Dialog>
-
                 <div id="clipboard-area"
                      className="hidden">
                     <textarea id="clipboard"
@@ -168,6 +182,9 @@ export default class HeaderLayout extends React.PureComponent {
 
                 <Login isOpened={this.props.isUserLoginOpened}
                        onModalChange={this.props.switchUserLogin}/>
+
+                <Preference isOpened={this.props.isUserPreferenceOpened}
+                            onModalChange={this.props.switchUserPreference}/>
             </header>
         );
     }

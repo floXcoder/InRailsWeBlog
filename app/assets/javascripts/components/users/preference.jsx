@@ -2,33 +2,17 @@
 
 import Modal from 'react-responsive-modal';
 
-import {
-    signupUser
-} from '../../actions';
+import UserSettings from './settings';
 
-import SignupForm from './form/signup';
-
-@connect(null, {
-    signupUser
-})
-export default class Signup extends React.Component {
+export default class UserPreference extends React.Component {
     static propTypes = {
         isOpened: PropTypes.bool.isRequired,
-        onModalChange: PropTypes.func.isRequired,
-        // from connect
-        signupUser: PropTypes.func
+        onModalChange: PropTypes.func.isRequired
     };
 
     constructor(props) {
         super(props);
     }
-
-    _handleSubmit = (values) => {
-        this.props.signupUser(values.toJS())
-        // to get crsf token in meta tag
-        // and wait for loading session
-            .then(() => setTimeout(() => location.reload(true), 300));
-    };
 
     _handleClose = () => {
         if (this.props.isOpened) {
@@ -47,13 +31,12 @@ export default class Signup extends React.Component {
                    animationDuration={400}>
                 <div className="responsive-modal-title">
                     <h1>
-                        {I18n.t('js.user.signup.title')}
+                        {I18n.t('js.views.header.user.settings')}
                     </h1>
                 </div>
 
-                <div className="responsive-modal-content">
-                    <SignupForm onCancel={this.props.onModalChange}
-                                onSubmit={this._handleSubmit}/>
+                <div className="responsive-modal-content user-preference-modal">
+                    <UserSettings/>
                 </div>
             </Modal>
         );

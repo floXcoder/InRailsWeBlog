@@ -11,7 +11,7 @@ const ArticleSortDisplay = ({currentTopicSlug, currentOrder}) => (
         <Dropdown button={<span className="material-icons"
                                 data-icon="low_priority"
                                 aria-hidden="true"/>}
-                  isRightSide={true}>
+                  position="bottom right">
             <ul>
                 <li className="dropdown-header">
                     {I18n.t('js.article.sort.title')}

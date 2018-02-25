@@ -6,7 +6,7 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility}) => {
 
     const visibilityClasses = classNames(
         'article-visibility',
-        'tooltipped',
+        'tooltip-bottom',
         {
             'article-public': isVisible,
             'article-private': !isVisible

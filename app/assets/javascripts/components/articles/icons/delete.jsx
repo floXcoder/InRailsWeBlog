@@ -1,7 +1,7 @@
 'use strict';
 
 const ArticleDeleteIcon = ({onDeleteClick}) => (
-    <a className="article-delete tooltipped"
+    <a className="article-delete tooltip-bottom"
        data-tooltip={I18n.t('js.article.tooltip.delete')}
        onClick={onDeleteClick}>
        <span className="material-icons"

@@ -7,6 +7,7 @@ const HomeTopicHeader = ({currentTopicName, onTopicClick}) => (
         <span className="material-icons left"
               data-icon="class"
               aria-hidden="true"/>
+
         <span className="topic-header-text">
             {I18n.t('js.views.header.topic.button', {current: currentTopicName})}
         </span>

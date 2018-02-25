@@ -9,6 +9,7 @@ import * as ActionTypes from '../constants/actionTypes';
 const initState = new Record({
     isUserSignupOpened: false,
     isUserLoginOpened: false,
+    isUserPreferenceOpened: false,
 
     isTopicPopupOpened: false,
 
@@ -26,6 +27,10 @@ export default function uiReducer(state = new initState(), action) {
         case ActionTypes.UI_SWITCH_USER_LOGIN:
             return state.merge({
                 isUserLoginOpened: !state.isUserLoginOpened
+            });
+        case ActionTypes.UI_SWITCH_USER_PREFERENCE:
+            return state.merge({
+                isUserPreferenceOpened: !state.isUserPreferenceOpened
             });
 
         case ActionTypes.UI_SWITCH_TOPIC_HEADER:

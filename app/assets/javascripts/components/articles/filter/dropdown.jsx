@@ -11,7 +11,7 @@ const ArticleFilterDisplay = ({currentUserId}) => (
         <Dropdown button={<span className="material-icons"
                                 data-icon="filter_list"
                                 aria-hidden="true"/>}
-                  isRightSide={true}>
+                  position="bottom right">
             <ul>
                 <li className="dropdown-header">
                     {I18n.t('js.article.filter.title')}

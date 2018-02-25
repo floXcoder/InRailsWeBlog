@@ -4,22 +4,12 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    Popup
-} from 'semantic-ui-react';
+import Dropdown from '../../theme/dropdown';
 
 const HomeArticleHeader = () => {
-    const button = (
-        <a className="btn-floating waves-effect waves-light header-button">
-            <span className="material-icons"
-                  data-icon="add"
-                  aria-hidden="true"/>
-        </a>
-    );
-
     const popup = (
-        <ul className="collection">
-            <li className="collection-item">
+        <ul>
+            <li>
                 <Link to={{
                     hash: '#new-article',
                     state: {
@@ -31,7 +21,10 @@ const HomeArticleHeader = () => {
                     </span>
                 </Link>
             </li>
-            <li className="collection-item">
+
+            <li className="dropdown-divider"/>
+
+            <li>
                 <Link to={{
                     pathname: '/article/new',
                     state: {
@@ -43,7 +36,10 @@ const HomeArticleHeader = () => {
                     </span>
                 </Link>
             </li>
-            <li className="collection-item">
+
+            <li className="dropdown-divider"/>
+
+            <li>
                 <Link to={{
                     pathname: '/article/new',
                     state: {
@@ -59,14 +55,16 @@ const HomeArticleHeader = () => {
     );
 
     return (
-        <div>
-            <Popup trigger={button}
-                   on="click"
-                   hideOnScroll={true}
-                   position="bottom center">
-                {popup}
-            </Popup>
-        </div>
+        <Dropdown button={<span className="material-icons left"
+                                data-icon="add"
+                                aria-hidden="true"/>}
+                  position="bottom right"
+                  buttonClassName="header-button"
+                  isFloatingButton={true}
+                  isFixed={true}
+                  hasArrow={true}>
+            {popup}
+        </Dropdown>
     );
 };
 

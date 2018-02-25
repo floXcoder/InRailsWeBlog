@@ -30,11 +30,10 @@
   box-shadow: 0 1px 2px 0 $border-dark-color;
   line-height: 2rem;
   margin: 0;
-  min-height: 400px;
   max-height: 600px;
+  min-height: 400px;
   overflow: auto;
   padding: .4rem;
-  position: fixed;
   width: 280px;
   z-index: 60;
 

@@ -24,8 +24,7 @@ en:
         settings:
           button: "Settings"
         user:
-          settings:
-            title: "My parameters"
+          settings: "My parameters"
           sign_up: "Sign up"
           log_in: "Log in"
           log_out: "Log out"

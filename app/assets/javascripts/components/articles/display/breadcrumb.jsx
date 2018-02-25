@@ -19,7 +19,7 @@ const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
             itemType="http://schema.org/ListItem"
             itemProp="itemListElement"
             itemScope={true}>
-            <a href={`/topics/${topic.slug}`}
+            <a href={`/user/${user.slug}/${topic.slug}`}
                itemType="http://schema.org/Thing"
                itemProp="item"
                itemScope={true}>

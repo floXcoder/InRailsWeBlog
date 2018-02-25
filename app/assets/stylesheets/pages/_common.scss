@@ -1,9 +1,9 @@
 @import 'base/variables';
 @import 'base/materialize';
-@import 'base/semantic';
 @import 'base/utilities';
 @import 'base/open-sans';
 @import 'base/typography';
+
 @import 'shared/topic';
 @import 'shared/article';
 @import 'shared/bookmark';
@@ -12,6 +12,8 @@
 @import 'shared/user';
 @import 'shared/search';
 @import 'shared/connection';
+@import 'shared/tooltip';
+
 @import 'shared/components/collapsible';
 @import 'shared/components/notification';
 @import 'shared/components/rating';
@@ -19,7 +21,10 @@
 @import 'shared/components/double-timeline';
 @import 'shared/components/selecter';
 @import 'shared/components/dropdown';
-@import 'shared/animation/modal';
+@import 'shared/components/modal';
+@import 'shared/components/tab';
+
+@import 'shared/animation/dialog';
 
 // Global font
 html {
@@ -281,45 +286,50 @@ html {
     }
 
     a {
-      background: $border-color;
-      padding: .2rem .5rem;
-      float: left;
-      text-decoration: none;
+      //background: $border-color;
+      border-bottom: 1px solid $border-dark-color;
+      border-top: 1px solid $border-dark-color;
       color: $text-color;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-      position: relative;
+      float: left;
       line-height: 26px;
       outline: none;
+      padding: .2rem .5rem;
+      position: relative;
+      text-decoration: none;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
 
       &:hover,
       &:hover::before,
       &:hover::after {
-        background: $search-highlight-color;
+        background: $border-color;
       }
 
       &::before,
       &::after {
+        //background: $border-color;
+        bottom: -1px;
         content: '';
         position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 1em;
-        background: $border-color;
+        top: -1px;
         transform: skew(-10deg);
+        width: 1rem;
       }
 
       &::before {
-        left: -.5rem;
+        border-left: 1px solid $border-dark-color;
         border-radius: 5px 0 0 5px;
+        left: -.5rem;
       }
 
       &::after {
-        right: -.5rem;
         border-radius: 0 5px 5px 0;
+        border-right: 1px solid $border-dark-color;
+        right: -.5rem;
       }
 
       &.current {
-        background: inherit;
+        //background: inherit;
+        border: 0;
         color: $off-black;
 
         &::after,
@@ -328,24 +338,24 @@ html {
         }
 
         &:hover {
-          font-weight: bold;
           background: none;
+          font-weight: bold;
         }
       }
 
       .material-icons {
-        margin-right: .7rem;
         color: $spectra-color;
+        margin-right: .7rem;
       }
     }
 
     .breadcrumb-title {
-      overflow: hidden;
-      max-width: 5rem;
-      transition: max-width 300ms ease-in-out;
       display: inline-block;
       height: 23px;
+      max-width: 5rem;
+      overflow: hidden;
       text-overflow: ellipsis;
+      transition: max-width 300ms ease-in-out;
       white-space: nowrap;
 
       &:hover {
