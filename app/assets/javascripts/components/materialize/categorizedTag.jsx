@@ -15,11 +15,14 @@ export default class CategorizedTag extends React.Component {
         multipleId: PropTypes.number,
         titleClass: PropTypes.string,
         icon: PropTypes.string,
+        hasChildTagFocus: PropTypes.bool,
         children: PropTypes.array,
         isSortingCategoriesByAlpha: PropTypes.bool,
         isHorizontal: PropTypes.bool,
         transformInitialTags: PropTypes.func,
-        onChange: PropTypes.func
+        onTabPress: PropTypes.func,
+        onChange: PropTypes.func,
+        onSubmit: PropTypes.func
     };
 
     static defaultProps = {
@@ -30,11 +33,13 @@ export default class CategorizedTag extends React.Component {
     constructor(props) {
         super(props);
 
+        this._categorizedTagInputRef = null;
+
         if (props.children) {
             let initialTags = props.children;
 
             if (props.transformInitialTags) {
-                initialTags = initialTags.map((tag) => props.transformInitialTags(tag));
+                initialTags = initialTags.map((tag) => props.transformInitialTags(tag)).compact();
             }
 
             this.state.selectedTags = initialTags;
@@ -50,14 +55,24 @@ export default class CategorizedTag extends React.Component {
             let nextTags = nextProps.children;
 
             if (this.props.transformInitialTags) {
-                nextTags = nextTags.map((tag) => this.props.transformInitialTags(tag));
+                nextTags = nextTags.map((tag) => this.props.transformInitialTags(tag)).compact();
             }
 
             this.setState({
                 selectedTags: nextTags
             });
         }
+
+        if (this.props.hasChildTagFocus !== nextProps.hasChildTagFocus) {
+            this.focus();
+        }
     }
+
+    _handleTabPress = () => {
+        if (this.props.onTabPress) {
+            this.props.onTabPress();
+        }
+    };
 
     _handleTagAdded = (categoryId, tagName) => {
         this.setState({
@@ -77,6 +92,12 @@ export default class CategorizedTag extends React.Component {
 
         if (this.props.onChange) {
             this.props.onChange(tags);
+        }
+    };
+
+    focus = () => {
+        if (this._categorizedTagInputRef) {
+            this._categorizedTagInputRef.focus();
         }
     };
 
@@ -130,13 +151,16 @@ export default class CategorizedTag extends React.Component {
                 </label>
 
                 <div className={sliderClass}>
-                    <CategorizedTagInput categories={this.props.categorizedTags}
+                    <CategorizedTagInput ref={(categorizedTagInput) => this._categorizedTagInputRef = categorizedTagInput}
+                                         categories={this.props.categorizedTags}
                                          isSortingCategoriesByAlpha={this.props.isSortingCategoriesByAlpha}
                                          placeholder={this.props.placeholder}
                                          placeholderWithTags={this.props.placeholderWithTags}
                                          addNewPlaceholder={this.props.addNewPlaceholder}
                                          addNewValue={this.props.addNewText}
                                          transformTag={this._handleTagAdded}
+                                         onSubmit={this.props.onSubmit}
+                                         onTabPress={this._handleTabPress}
                                          onChange={this._handleTagChanged}
                                          value={this.state.selectedTags}/>
 
