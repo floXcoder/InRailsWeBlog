@@ -84,7 +84,7 @@ const asyncValidate = (values /*, dispatch */) => {
 export default class SignupForm extends React.Component {
     static propTypes = {
         onCancel: PropTypes.func.isRequired,
-        // from reduxForm
+        // From reduxForm
         handleSubmit: PropTypes.func,
         submitting: PropTypes.bool,
         invalid: PropTypes.bool

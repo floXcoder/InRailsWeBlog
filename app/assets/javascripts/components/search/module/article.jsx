@@ -27,13 +27,16 @@ export default class SearchArticleModule extends React.Component {
                             <section key={article.id}
                                      className="search-card search-card-small">
                                 <h3 className="search-card-title">
-                                    {article.title || article.slug}
+                                    <Link className="search-article-title"
+                                          to={`/article/${article.slug}`}>
+                                        {article.title || article.slug}
+                                    </Link>
                                 </h3>
 
                                 <Link className="search-article-link"
-                                      to={`/article/${article.slug}`}>
+                                      to={`/article/${article.slug}/edit`}>
                                     <span className="material-icons"
-                                          data-icon="open_in_new"
+                                          data-icon="mode_edit"
                                           aria-hidden="true"/>
                                 </Link>
                             </section>

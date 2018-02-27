@@ -44,7 +44,7 @@ export default class Category extends React.Component {
         if (this.props.overhead && i === this.props.overhead) {
             return (
                 <div key={`${value}_${i}`}
-                     className="cti__tag__overhead">
+                     className="cti-tag-overhead">
                     {value}
                 </div>
             );
@@ -88,7 +88,7 @@ export default class Category extends React.Component {
                 this.props.items.length > 0
                     ?
                     <span key="cat_or"
-                          className="cti__category__or">
+                          className="cti-category-or">
                         {I18n.t('js.helpers.or')}
                     </span>
                     :
@@ -96,7 +96,7 @@ export default class Category extends React.Component {
                 this.props.value.length > 0
                     ?
                     <button key="add_btn"
-                            className={classNames('cti__category__add-item', {
+                            className={classNames('cti-category-add-item', {
                                 'cti-selected': selected
                             })}
                             onClick={this._onCreateNew}>
@@ -119,9 +119,9 @@ export default class Category extends React.Component {
         );
 
         return (
-            <div className="cti__category">
-                <h5 className="cti__category__title">{this.props.title}</h5>
-                <div className="cti__category__tags">
+            <div className="cti-category">
+                <h5 className="cti-category-title">{this.props.title}</h5>
+                <div className="cti-category-tags">
                     {items}
                     {addBtn}
                 </div>

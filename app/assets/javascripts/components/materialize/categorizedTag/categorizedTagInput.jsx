@@ -86,6 +86,12 @@ export default class CategorizedTagInput extends React.Component {
                 selectedTags: nextProps.value || []
             });
         }
+
+        if (this.props.categories !== nextProps.categories) {
+            this.setState({
+                categories: nextProps.categories || []
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -153,16 +159,16 @@ export default class CategorizedTagInput extends React.Component {
     };
 
     filterItems = (value, minAutocompleteLength) => {
-        return function (i) {
+        return function (item) {
             // if (value.length === 1) {
-            //     return i.toLowerCase().trim() === value;
+            //     return item.toLowerCase().trim() === value;
             // }
 
             if (value.length < minAutocompleteLength) {
                 return false;
             }
 
-            return i.toLowerCase().indexOf(value.trim().toLowerCase()) >= 0;
+            return item.toLowerCase().indexOf(value.trim().toLowerCase()) >= 0;
         };
     };
 
@@ -369,7 +375,7 @@ export default class CategorizedTagInput extends React.Component {
 
     render() {
         return (
-            <div className="cti__root">
+            <div className="cti-root">
                 <CategorizedInput ref={(input) => this._input = input}
                                   id={this.props.id}
                                   name={this.props.name}

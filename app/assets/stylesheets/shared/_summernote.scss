@@ -86,12 +86,15 @@
 
   ul {
     list-style-type: none;
+    margin: .9rem 0;
     padding: 0 0 0 20px;
 
     li {
+      color: $off-black;
       display: list-item;
       list-style-position: inside;
       list-style-type: disc !important;
+      margin: .3rem 0;
     }
   }
 

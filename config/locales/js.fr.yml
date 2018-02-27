@@ -12,6 +12,7 @@ fr:
         article:
           button: "Articles"
           menu:
+            temporary: "Article en cours"
             add_note: "Prendre une note"
             add_article: "Écrire un article"
             add_link: "Ajouter un lien"
@@ -291,6 +292,8 @@ fr:
         advanced: "Options avancées"
         user: "Posté par"
         actions: "Actions"
+        not_connected:
+          message: "Merci de vous connecter avant de poster l'article"
         infinite:
           loading: "Chargement des articles ..."
         placeholders:

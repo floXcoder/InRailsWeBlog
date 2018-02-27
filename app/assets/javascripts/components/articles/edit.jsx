@@ -1,85 +1,34 @@
 'use strict';
 
-import {
-    Link
-} from 'react-router-dom';
-
-import {
-    fetchArticle,
-    updateArticle
-} from '../../actions';
-
-import {
-    getTags,
-    getCurrentUser,
-    getCurrentTopic,
-    getArticleErrors
-} from '../../selectors';
-
-import {
-    formatTagArticles
-} from '../../forms/article';
-
 import Spinner from '../materialize/spinner';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
+import articleMutationManager from "./managers/mutation";
 
-@connect((state) => ({
-    isFetching: state.articleState.isFetching,
-    article: state.articleState.article,
-    tags: getTags(state),
-    currentUser: getCurrentUser(state),
-    currentTopic: getCurrentTopic(state),
-    articleErrors: getArticleErrors(state)
-}), {
-    fetchArticle,
-    updateArticle
-})
-export default class ArticleEdit extends React.PureComponent {
+@articleMutationManager(`article-${Utils.uuid()}`)
+export default class ArticleEdit extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-        multipleId: PropTypes.number,
-        // from connect
-        isFetching: PropTypes.bool,
-        article: PropTypes.object,
-        tags: PropTypes.array,
+        // From articleMutationManager
+        formId: PropTypes.string.isRequired,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
+        isFetching: PropTypes.bool,
+        article: PropTypes.object,
+        isInline: PropTypes.bool,
+        currentMode: PropTypes.string,
+        isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
-        fetchArticle: PropTypes.func,
-        updateArticle: PropTypes.func
+        onSubmit: PropTypes.func
     };
 
     constructor(props) {
         super(props);
-
-        props.fetchArticle(props.params.articleSlug);
     }
 
-    _handleSubmit = (values) => {
-        let formData = values.toJS();
-
-        formData.id = this.props.article.id;
-
-        formatTagArticles(formData, this.props.article.tags.toJS(), {
-            parentTagIds: this.props.article.parentTagIds.length === 0 ? this.props.article.tags.map((tag) => tag.id) : this.props.article.parentTagIds,
-            childTagIds: this.props.article.childTagIds
-        });
-
-        this.props.updateArticle(formData)
-            .then((response) => {
-                if (response.article) {
-                    this.props.history.push({
-                        pathname: `/article/${response.article.slug}`,
-                        state: {reloadTags: true}
-                    });
-                }
-            });
-
-        return true;
-    };
+    shouldComponentUpdate(nextProps) {
+        return this.props.article !== nextProps.article || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching;
+    }
 
     render() {
         if (!this.props.article) {
@@ -101,12 +50,12 @@ export default class ArticleEdit extends React.PureComponent {
                     }
                 </div>
 
-                <ArticleFormDisplay id={`article-edit-${this.props.article.id}`}
+                <ArticleFormDisplay form={this.props.formId}
                                     currentMode={this.props.article.mode}
                                     isEditing={true}
                                     isDraft={this.props.article.isDraft}
                                     articleErrors={this.props.articleErrors}
-                                    onSubmit={this._handleSubmit}>
+                                    onSubmit={this.props.onSubmit}>
                     {this.props.article}
                 </ArticleFormDisplay>
             </div>

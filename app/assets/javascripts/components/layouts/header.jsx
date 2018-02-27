@@ -5,6 +5,10 @@ import {
 } from 'react-router-dom';
 
 import {
+    getLocalData
+} from '../../middlewares/localStorage';
+
+import {
     switchUserSignup,
     switchUserLogin,
     switchUserPreference,
@@ -72,7 +76,17 @@ export default class HeaderLayout extends React.PureComponent {
 
     constructor(props) {
         super(props);
+
+        // Check if temporary article in local storage
+        const temporaryArticle = getLocalData('article-temporary');
+        if (temporaryArticle && temporaryArticle.length > 0) {
+            this.state.hasTemporaryArticle = true;
+        }
     }
+
+    state = {
+        hasTemporaryArticle: false
+    };
 
     componentDidMount() {
         $(document).keyup((event) => {
@@ -146,7 +160,7 @@ export default class HeaderLayout extends React.PureComponent {
 
                             <ul className="right">
                                 <li>
-                                    <HomeArticleHeader/>
+                                    <HomeArticleHeader hasTemporaryArticle={this.state.hasTemporaryArticle}/>
                                 </li>
 
                                 <li>

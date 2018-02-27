@@ -6,9 +6,30 @@ import {
 
 import Dropdown from '../../theme/dropdown';
 
-const HomeArticleHeader = () => {
+const HomeArticleHeader = ({hasTemporaryArticle}) => {
     const popup = (
         <ul>
+            {
+                hasTemporaryArticle &&
+                <li>
+                    <Link to={{
+                        hash: '#new-article',
+                        state: {
+                            temporary: true
+                        }
+                    }}>
+                        <span className="title title-temporary">
+                            {I18n.t('js.views.header.article.menu.temporary')}
+                        </span>
+                    </Link>
+                </li>
+            }
+
+            {
+                hasTemporaryArticle &&
+                <li className="dropdown-divider"/>
+            }
+
             <li>
                 <Link to={{
                     hash: '#new-article',
@@ -55,17 +76,32 @@ const HomeArticleHeader = () => {
     );
 
     return (
-        <Dropdown button={<span className="material-icons left"
-                                data-icon="add"
-                                aria-hidden="true"/>}
+        <Dropdown button={
+                <span className="material-icons left"
+                      data-icon="add"
+                      aria-hidden="true">
+                    <span className={classNames({
+                        'header-alert': hasTemporaryArticle
+                    })}/>
+                </span>
+            }
                   position="bottom right"
                   buttonClassName="header-button"
                   isFloatingButton={true}
                   isFixed={true}
+                  hasWavesEffect={false}
                   hasArrow={true}>
             {popup}
         </Dropdown>
     );
+};
+
+HomeArticleHeader.propTypes = {
+    hasTemporaryArticle: PropTypes.bool
+};
+
+HomeArticleHeader.defaultProps = {
+    hasTemporaryArticle: false
 };
 
 export default HomeArticleHeader;

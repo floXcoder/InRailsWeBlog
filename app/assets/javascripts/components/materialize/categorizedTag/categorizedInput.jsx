@@ -58,7 +58,7 @@ export default class CategorizedInput extends React.Component {
         const placeholder = this.props.selectedTags.length > 0 && this.props.placeholderWithTags ? this.props.placeholderWithTags : this.props.placeholder;
 
         return (
-            <div className="cti__input"
+            <div className="cti-input"
                  onClick={this.focusInput}>
 
                 {this.getSelectedTags()}
@@ -66,7 +66,7 @@ export default class CategorizedInput extends React.Component {
                 <input ref={(input) => this._input = input}
                        type="text"
                        id={this.props.id}
-                       className="cti__input__input"
+                       className="cti-input-input"
                        name={this.props.name}
                        value={this.props.value}
                        size={size + 2}
@@ -78,7 +78,7 @@ export default class CategorizedInput extends React.Component {
                        aria-label={placeholder}/>
                 {
                     this.props.value.length > 0 &&
-                    <div className="cti__input__arrow"/>
+                    <div className="cti-input-arrow"/>
                 }
             </div>
         );

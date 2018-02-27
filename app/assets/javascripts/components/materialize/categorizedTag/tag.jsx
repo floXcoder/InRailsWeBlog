@@ -25,7 +25,7 @@ export default class Tag extends React.PureComponent {
         if (startIndex > 0) {
             content.push(
                 <span key={1}
-                      className="cti__tag__content--regular">
+                      className="cti-tag-content--regular">
                     {this.props.text.substring(0, startIndex)}
                 </span>
             );
@@ -33,7 +33,7 @@ export default class Tag extends React.PureComponent {
 
         content.push(
             <span key={2}
-                  className="cti__tag__content--match">
+                  className="cti-tag-content-match">
               {this.props.text.substring(startIndex, endIndex)}
             </span>
         );
@@ -41,7 +41,7 @@ export default class Tag extends React.PureComponent {
         if (endIndex < this.props.text.length) {
             content.push(
                 <span key={3}
-                      className="cti__tag__content--regular">
+                      className="cti-tag-content--regular">
                     {this.props.text.substring(endIndex)}
                 </span>
             );
@@ -68,18 +68,18 @@ export default class Tag extends React.PureComponent {
 
     render() {
         return (
-            <div className={classNames('cti__tag', {
+            <div className={classNames('cti-tag', {
                 'cti-selected': this.props.isSelected,
-                'cti__tag__animation': this.props.isAnimated
+                'cti-tag-animation': this.props.isAnimated
             })}
                  onClick={this._onClick}>
-                <div className="cti__tag__content">
+                <div className="cti-tag-content">
                     {this._tagContent()}
                 </div>
 
                 {
                     this.props.isDeletable &&
-                    <span className="cti__tag__delete"
+                    <span className="cti-tag-delete"
                           onClick={this._onDelete}
                           dangerouslySetInnerHTML={{__html: '&times;'}}/>
                 }
