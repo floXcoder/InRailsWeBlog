@@ -11,6 +11,7 @@ import {
 
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
+import ArticleGridDisplay from './grid';
 import ArticleInlineEditionDisplay from './inlineEdition';
 
 @connect((state, props) => ({
@@ -27,7 +28,9 @@ export default class ArticleItemDisplay extends React.Component {
         // From connect
         isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool,
-        inlineEditArticle: PropTypes.func
+        isMasonry: PropTypes.bool,
+        inlineEditArticle: PropTypes.func,
+        onClick: PropTypes.func
     };
 
     constructor(props) {
@@ -67,12 +70,22 @@ export default class ArticleItemDisplay extends React.Component {
                 <ArticleCardDisplay article={this.props.article}
                                     isOwner={this.props.isOwner}
                                     isOutdated={this.props.isOutdated}
+                                    isMasonry={this.props.isMasonry}
                                     onBookmarkClick={this._handleBookmarkClick}
                                     onInlineEdit={this._handleInlineEditClick}
-                                    onVisibilityClick={this._handleVisibilityClick}/>
+                                    onVisibilityClick={this._handleVisibilityClick}
+                                    onClick={this.props.onClick}/>
+            );
+        } else if (this.props.articleDisplayMode === 'grid') {
+            return (
+                <ArticleGridDisplay article={this.props.article}
+                                    isOwner={this.props.isOwner}
+                                    isOutdated={this.props.isOutdated}
+                                    isMasonry={this.props.isMasonry}
+                                    onClick={this.props.onClick}/>
             );
         } else {
-            throw new Error('Article display mode unknown: ' + this.props.articleDisplayMode);
+            throw new Error('Article display mode unknown or empty: ' + this.props.articleDisplayMode);
         }
     }
 }

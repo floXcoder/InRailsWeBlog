@@ -2,34 +2,34 @@
 
 import MasonryLoader from '../../loaders/masonry';
 
-import Pagination from '../materialize/pagination';
-
+// Components must have a "onClick" function to change to exposed mode
+// isMasonry property is passed to components if active
 const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, componentExposedProps) => class extends React.Component {
+    static transitionDuration = 600;
+
     static propTypes = {
         elements: PropTypes.array.isRequired,
         isActive: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
-        hasExposed: PropTypes.bool,
+        hasExposedMode: PropTypes.bool,
         componentsToExposed: PropTypes.array,
-        isPaginated: PropTypes.bool,
-        totalPages: PropTypes.number,
-        onPaginationClick: PropTypes.func
+        topOffset: PropTypes.number
     };
 
     static defaultProps = {
-        hasExposed: false,
-        isPaginated: true,
-        totalPages: 0
+        hasExposedMode: false
     };
 
     constructor(props) {
         super(props);
 
-        this.masonry = null;
+        this._masonry = null;
 
         if (props.isActive) {
             MasonryLoader(({Masonry}) => {
-                this.setState({Masonry: Masonry});
+                this.setState({
+                    Masonry: Masonry
+                });
             });
         }
     }
@@ -37,7 +37,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     state = {
         Masonry: undefined,
         masonryOptions: {
-            transitionDuration: '0.6s',
+            transitionDuration: `${this.constructor.transitionDuration}ms`,
             itemSelector: '.grid-item',
             percentPosition: true
         },
@@ -45,26 +45,27 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     };
 
     componentDidMount() {
-        if (this.props.isActive && this.masonry) {
-            this.masonry.layout();
+        if (this.props.isActive && this._masonry) {
+            this._masonry.layout();
         }
     }
 
-    _handleComponentClick = (elementId, event) => {
-        if (!this.props.hasExposed) {
-            return event;
+    _handleComponentClick = (elementId) => {
+        if (!this.props.hasExposedMode) {
+            return;
         }
-
-        event.preventDefault();
 
         let exposedComponents = this.state.exposedComponents;
         if (exposedComponents[elementId]) {
             delete exposedComponents[elementId];
         } else {
             exposedComponents[elementId] = true;
+
             setTimeout(() => {
-                $('html, body').animate({scrollTop: ReactDOM.findDOMNode(thisrefs[elementId]).getBoundingClientRect().top}, 750);
-            }, 600);
+                const {pageYOffset} = window;
+                const elementTop = pageYOffset + ReactDOM.findDOMNode(this.refs[elementId]).getBoundingClientRect().top - (this.props.topOffset || 0);
+                $('html, body').animate({scrollTop: elementTop}, 600);
+            }, this.constructor.transitionDuration);
         }
         this.setState({
             exposedComponents: exposedComponents
@@ -74,21 +75,12 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     render() {
         let exposedComponents = this.state.exposedComponents;
 
-        if (!!this.props.componentsToExposed) {
-            this.props.componentsToExposed.forEach((componentId) => {
-                exposedComponents[componentId] = true;
-                setTimeout(() => {
-                    $('html, body').animate({scrollTop: ReactDOM.findDOMNode(thisrefs[elementId]).getBoundingClientRect().top}, 750);
-                }, 600);
-            });
-        }
-
-        const ComponentNodes = this.props.elements.map((element) => {
+        const ComponentNodes = this.props.elements.map((element, i) => {
             const itemClasses = classNames(
                 'col s12 m6 l4',
                 'grid-item',
                 {
-                    exposed: this.props.hasExposed && exposedComponents[element.id]
+                    exposed: this.props.hasExposedMode && exposedComponents[element.id]
                 }
             );
 
@@ -96,21 +88,21 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             elementType[this.props.type] = element;
 
             return (
-                <div key={element.id}
+                <div key={`${element.id}-${i}`}
                      ref={element.id}
                      className={itemClasses}>
                     {
-                        (this.props.hasExposed && exposedComponents[element.id])
+                        (this.props.hasExposedMode && exposedComponents[element.id])
                             ?
-                            <div className="card-panel">
-                                <ComponentExposed onClick={this._handleComponentClick}
-                                                  {...elementType}
-                                                  {...componentExposedProps}/>
-                            </div>
+                            <ComponentExposed isMasonry={true}
+                                              {...componentExposedProps}
+                                              {...elementType}
+                                              onClick={this._handleComponentClick.bind(this, element.id)}/>
                             :
-                            <ComponentCard onClick={this._handleComponentClick}
+                            <ComponentCard isMasonry={true}
+                                           {...componentCardProps}
                                            {...elementType}
-                                           {...componentCardProps}/>
+                                           onClick={this._handleComponentClick.bind(this, element.id)}/>
                     }
                 </div>
             );
@@ -123,17 +115,9 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                     <this.state.Masonry className="grid"
                                         elementType="div"
                                         options={this.state.masonryOptions}
-                                        ref={function (c) {
-                                            if (c) this.masonry = c.masonry;
-                                        }.bind(this)}>
+                                        ref={(c) => this._masonry = c && c.masonry}>
                         {ComponentNodes}
                     </this.state.Masonry>
-                }
-
-                {
-                    this.props.isPaginated &&
-                    <Pagination totalPages={this.props.totalPages}
-                                onPaginationClick={this.props.onPaginationClick}/>
                 }
             </div>
         )

@@ -21,6 +21,7 @@
 @import 'shared/components/dropdown';
 @import 'shared/components/modal';
 @import 'shared/components/tab';
+@import 'shared/components/masonry';
 @import 'shared/animation/dialog';
 
 // Global font
@@ -263,7 +264,8 @@ html {
   flex: 1 0 auto;
   padding-bottom: 220px;
   padding-top: .8rem;
-  width: 80%;
+  width: 90%;
+  max-width: inherit;
 
   @media #{$small-and-down} {
     &.container {

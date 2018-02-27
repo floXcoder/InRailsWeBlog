@@ -157,8 +157,9 @@ en:
           display:
             title: "Articles"
             mode:
-              inline: "Display only one article"
-              card: "Display each articles within cards"
+              inline: "On global article"
+              card: "Independent cards"
+              grid: "In grid"
         tag:
           title: "Tags"
           sidebar:

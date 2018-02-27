@@ -28,15 +28,18 @@ export default class ArticleCardDisplay extends React.Component {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool,
+        isMasonry: PropTypes.bool,
         hasActions: PropTypes.bool,
         onInlineEdit: PropTypes.func,
         onBookmarkClick: PropTypes.func,
-        onVisibilityClick: PropTypes.func
+        onVisibilityClick: PropTypes.func,
+        onClick: PropTypes.func
     };
 
     static defaultProps = {
         isOwner: false,
         isOutdated: false,
+        isMasonry: false,
         hasActions: true
     };
 
@@ -51,9 +54,13 @@ export default class ArticleCardDisplay extends React.Component {
     _handleFoldClick = (event) => {
         event.preventDefault();
 
-        this.setState({
-            isFolded: !this.state.isFolded
-        })
+        if (this.props.isMasonry) {
+            this.props.onClick();
+        } else {
+            this.setState({
+                isFolded: !this.state.isFolded
+            });
+        }
     };
 
     render() {
@@ -74,22 +81,40 @@ export default class ArticleCardDisplay extends React.Component {
                             </Link>
 
                             <span className="article-collapsible-button">
+                                <a href="#"
+                                   onClick={this._handleFoldClick}>
+                                   {
+                                       this.props.isMasonry
+                                           ?
+                                           <span className="material-icons"
+                                                 data-icon="fullscreen_exit"
+                                                 aria-hidden="true"/>
+                                           :
+                                           this.state.isFolded
+                                               ?
+                                               <span className="material-icons"
+                                                     data-icon="vertical_align_bottom"
+                                                     aria-hidden="true"/>
+                                               :
+                                               <span className="material-icons"
+                                                     data-icon="vertical_align_center"
+                                                     aria-hidden="true"/>
+                                   }
+                                </a>
+                            </span>
+                        </div>
+                    }
+
+                    {
+                        (!this.props.article.title && this.props.isMasonry) &&
+                        <span className="article-collapsible-button article-no-title">
                             <a href="#"
                                onClick={this._handleFoldClick}>
-                               {
-                                   this.state.isFolded
-                                       ?
-                                       <span className="material-icons"
-                                             data-icon="vertical_align_bottom"
-                                             aria-hidden="true"/>
-                                       :
-                                       <span className="material-icons"
-                                             data-icon="vertical_align_center"
-                                             aria-hidden="true"/>
-                               }
+                               <span className="material-icons"
+                                     data-icon="fullscreen_exit"
+                                     aria-hidden="true"/>
                             </a>
                         </span>
-                        </div>
                     }
 
                     <Collapsible isDefaultOpen={true}

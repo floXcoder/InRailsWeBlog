@@ -157,8 +157,9 @@ fr:
           display:
             title: "Affichage d'un article"
             mode:
-              inline: "Afficher dans un seul article"
-              card: "Afficher les articles indépendamment"
+              inline: "Un seul article global"
+              card: "Cartes indépendantes"
+              grid: "En grille"
         tag:
           title: "Labels"
           sidebar:
