@@ -15,7 +15,7 @@ export default class Login extends React.PureComponent {
     static propTypes = {
         isOpened: PropTypes.bool.isRequired,
         onModalChange: PropTypes.func.isRequired,
-        // from connect
+        // From connect
         loginUser: PropTypes.func
     };
 

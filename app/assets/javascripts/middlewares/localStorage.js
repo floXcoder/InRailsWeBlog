@@ -2,17 +2,17 @@
 
 import _ from 'lodash';
 
-const localDataPrefix = 'sync-';
+const localDataPrefix = 'INR-';
 
 export const hasLocalStorage = !!window.localStorage;
 
-export const saveLocalData = (dataName, dataParams) => {
+export const saveLocalData = (dataName, dataParams, concat = true) => {
     if (hasLocalStorage) {
         const currentItem = `${localDataPrefix}${dataName}`;
         const previousData = JSON.parse(localStorage.getItem(currentItem));
         let currentData = [];
 
-        if (previousData) {
+        if (concat && previousData) {
             currentData = previousData.concat(dataParams);
         } else {
             currentData = currentData.concat(dataParams);
@@ -22,12 +22,23 @@ export const saveLocalData = (dataName, dataParams) => {
     }
 };
 
-export const getLocalData = (dataName) => {
+export const getLocalData = (dataName, remove = false) => {
     if (hasLocalStorage) {
         const currentItem = `${localDataPrefix}${dataName}`;
         const previousData = JSON.parse(localStorage.getItem(currentItem));
 
+        if (remove) {
+            localStorage.removeItem(currentItem);
+        }
+
         return previousData;
+    }
+};
+
+export const removeLocalData = (dataName) => {
+    if (hasLocalStorage) {
+        const currentItem = `${localDataPrefix}${dataName}`;
+        return localStorage.removeItem(currentItem);
     }
 };
 

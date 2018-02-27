@@ -5,7 +5,7 @@ $shadow: rgba(0, 0, 0, .2);
 $primary: #4c66be;
 
 .categorized-tag {
-  .cti__root {
+  .cti-root {
     font-family: sans-serif;
     font-size: 14px;
     font-weight: normal;
@@ -14,7 +14,7 @@ $primary: #4c66be;
     //width: 100%;
   }
 
-  .cti__input {
+  .cti-input {
     background-color: inherit;
     border: 1px solid $secondary-color;
     min-height: 38px;
@@ -23,7 +23,7 @@ $primary: #4c66be;
     position: relative;
   }
 
-  .cti__input__input {
+  .cti-input-input {
     //width: auto;
     border: 0 !important;
     font-size: 1em !important;
@@ -33,7 +33,7 @@ $primary: #4c66be;
     padding: .4em 0 !important;
   }
 
-  .cti__input__arrow {
+  .cti-input-arrow {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 4px solid $secondary-color;
@@ -46,13 +46,13 @@ $primary: #4c66be;
     width: 0;
   }
 
-  .cti__input__tags,
-  .cti__input__input {
+  .cti-input-tags,
+  .cti-input-input {
     display: inline-block;
     vertical-align: middle;
   }
 
-  .cti__tag {
+  .cti-tag {
     background-color: #fff;
     border: 1px solid $border-color;
     border-radius: 3px;
@@ -69,7 +69,7 @@ $primary: #4c66be;
     }
   }
 
-  .cti__tag__overhead {
+  .cti-tag-overhead {
     background-color: #fff;
     color: $light-gray;
     display: inline-block;
@@ -78,19 +78,19 @@ $primary: #4c66be;
     padding: .3em .7em;
   }
 
-  .cti__tag__content--match {
+  .cti-tag-content-match {
     color: $text-color;
     font-weight: bold;
   }
 
-  .cti__tag__delete,
-  .cti__tag__content,
-  .cti__tag__content > span {
+  .cti-tag-delete,
+  .cti-tag-content,
+  .cti-tag-content > span {
     display: inline-block;
     vertical-align: middle;
   }
 
-  .cti__tag__delete {
+  .cti-tag-delete {
     background-color: transparent;
     border: 0;
     color: $text-color;
@@ -99,11 +99,11 @@ $primary: #4c66be;
     padding: 0 0 0 .3em;
   }
 
-  .cti__tag__content > span {
+  .cti-tag-content > span {
     margin-top: -3px;
   }
 
-  .cti__panel {
+  .cti-panel {
     background: #fff;
     border: 1px solid $light-gray;
     box-shadow: 0 0 2px $shadow;
@@ -136,8 +136,8 @@ $primary: #4c66be;
       width: 15px;
     }
 
-    &.cti__panel_arrow_top:before,
-    &.cti__panel_arrow_top:after {
+    &.cti-panel-arrow-top:before,
+    &.cti-panel-arrow-top:after {
       border-bottom: 0;
       border-right: 0;
       bottom: 100%;
@@ -146,18 +146,18 @@ $primary: #4c66be;
     }
   }
 
-  .cti__category__add-item {
+  .cti-category-add-item {
     background: transparent;
     border: 0;
     color: $text-color;
     font-size: 1em;
   }
 
-  .cti__category__add-item.cti-selected {
+  .cti-category-add-item.cti-selected {
     margin-left: .4em;
   }
 
-  .cti__category__or {
+  .cti-category-or {
     margin-left: .4em;
   }
 
@@ -167,11 +167,11 @@ $primary: #4c66be;
     border-radius: 3px;
   }
 
-  .cti__category {
+  .cti-category {
     padding: .4em;
   }
 
-  .cti__category__title {
+  .cti-category-title {
     color: $secondary-color;
     font-size: 1rem;
     //color: #000;
@@ -181,7 +181,7 @@ $primary: #4c66be;
     padding: .3em 0;
   }
 
-  .cti__tag__animation {
+  .cti-tag-animation {
     animation: tag-animation-in-keyframes 1s;
   }
 

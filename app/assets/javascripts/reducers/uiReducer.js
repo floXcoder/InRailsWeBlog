@@ -45,11 +45,17 @@ export default function uiReducer(state = new initState(), action) {
 
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
-            if ((action.user && action.connection) || action.settings) {
+            if (action.connection && action.user && action.user.settings) {
                 return state.merge({
-                    articlesLoaderMode: action.connection ? action.user.settings.articlesLoader : action.settings.articlesLoader,
-                    articleDisplayMode: action.connection ? action.user.settings.articleDisplay : action.settings.articleDisplay,
-                    articleOrderMode: action.connection ? action.user.settings.articleOrder : action.settings.articleOrder
+                    articlesLoaderMode: action.user.settings.articlesLoader,
+                    articleDisplayMode: action.user.settings.articleDisplay,
+                    articleOrderMode: action.user.settings.articleOrder
+                })
+            } else if (action.settings) {
+                return state.merge({
+                    articlesLoaderMode: action.settings.articlesLoader,
+                    articleDisplayMode: action.settings.articleDisplay,
+                    articleOrderMode: action.settings.articleOrder
                 })
             } else {
                 return state;

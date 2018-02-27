@@ -15,7 +15,7 @@ export default class Signup extends React.Component {
     static propTypes = {
         isOpened: PropTypes.bool.isRequired,
         onModalChange: PropTypes.func.isRequired,
-        // from connect
+        // From connect
         signupUser: PropTypes.func
     };
 

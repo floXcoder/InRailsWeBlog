@@ -71,7 +71,7 @@ class User < ApplicationRecord
   include Storext.model
   store_attributes :settings do
     articles_loader String, default: 'infinite' # all / paginate / infinite
-    article_display String, default: 'card' # inline / card (edit)
+    article_display String, default: 'card' # inline / card (with inline edit) / grid
     article_order String, default: nil # Defined in Article::order_by
 
     tag_sidebar_with_child Boolean, default: false

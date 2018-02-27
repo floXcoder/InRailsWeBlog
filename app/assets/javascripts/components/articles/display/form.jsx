@@ -33,7 +33,6 @@ import Submit from '../../materialize/submit';
 import Collapsible from '../../theme/collapsible';
 
 @reduxForm({
-    form: 'article',
     validateArticle
 })
 @connect((state, props) => ({
@@ -46,8 +45,6 @@ import Collapsible from '../../theme/collapsible';
 })
 export default class ArticleFormDisplay extends React.Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
-        multipleId: PropTypes.number,
         isInline: PropTypes.bool,
         isEditing: PropTypes.bool,
         children: PropTypes.object,
@@ -102,12 +99,10 @@ export default class ArticleFormDisplay extends React.Component {
 
     render() {
         return (
-            <form id={this.props.id}
-                  className="article-form"
+            <form className="article-form"
                   onSubmit={this.props.handleSubmit}>
-                <Prompt
-                    when={this.props.dirty && !this.props.submitSucceeded}
-                    message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
+                <Prompt when={this.props.dirty && !this.props.submitSucceeded}
+                        message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
 
                 <div className="card">
                     <h4 className="blog-form-title">
@@ -153,8 +148,7 @@ export default class ArticleFormDisplay extends React.Component {
                                                           articleVisibility={this.props.children.visibility}
                                                           articleAllowComment={this.props.children.allowComment}
                                                           articleLanguage={this.props.children.currentLanguage}
-                                                          defaultVisibility={this.props.defaultVisibility}
-                                                          multipleId={this.props.multipleId}/>
+                                                          defaultVisibility={this.props.defaultVisibility}/>
                                 </Collapsible>
                             </div>
                         </div>

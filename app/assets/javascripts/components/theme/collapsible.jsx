@@ -66,10 +66,10 @@ export default class Collapsible extends React.Component {
                             {this.props.title}
 
                             <span className="collapsible-button">
-                            <button>
-                                toggle
-                            </button>
-                        </span>
+                                <span>
+                                    toggle
+                                </span>
+                            </span>
                         </a>
                     </div>
                 }

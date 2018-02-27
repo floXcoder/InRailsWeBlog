@@ -289,10 +289,16 @@
     }
   }
 
-  .article-collapsible-button {
+  .article-collapsible-button,
+  .article-exposed-button {
     position: absolute;
-    right: 0;
+    right: -.6rem;
     top: .4rem;
+
+    &.article-no-title {
+      right: .3rem;
+      top: 0;
+    }
 
     a {
       outline: none;
@@ -311,6 +317,38 @@
     .collapsible-content {
       padding: 0;
     }
+  }
+}
+
+.article-grid {
+  .article-content {
+    padding: .75rem 1.33rem;
+  }
+
+  .article-exposed-button {
+    &.article-no-title {
+      top: -1.4rem;
+    }
+  }
+
+  .article-tag-title {
+    display: none;
+  }
+
+  .article-child-tags::before {
+    color: $border-dark-color;
+    content: '/';
+    font-size: 1.25rem;
+  }
+
+  .article-parent-tags,
+  .article-child-tags {
+    display: inline-block;
+  }
+
+  .tag-default {
+    font-size: .9rem;
+    padding: .1rem .4rem;
   }
 }
 

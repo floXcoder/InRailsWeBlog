@@ -27,7 +27,7 @@ export const getArticleParentTags = createSelector(
         // If tags and no parents, set as parent tags for display
         const hasParentSlugs = article && article.parentTagSlugs && article.parentTagSlugs.length > 0;
         const hasParentIds = article && article.parentTagIds && article.parentTagIds.length > 0;
-        const tags = article && article.tags.filter((tag) => {
+        const tags = article && article.tags && article.tags.filter((tag) => {
             if (hasParentSlugs) {
                 return article.parentTagSlugs.includes(tag.slug);
             } else if (hasParentIds) {

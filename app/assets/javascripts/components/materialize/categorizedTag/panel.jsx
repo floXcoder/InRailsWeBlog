@@ -23,7 +23,7 @@ export default class Panel extends React.Component {
         }
 
         return (
-            <div className="cti__panel cti__panel_arrow_top">
+            <div className="cti-panel cti-panel-arrow-top">
                 {
                     this.props.categories.map((category, i) => (
                         <Category key={category.id}

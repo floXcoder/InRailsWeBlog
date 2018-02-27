@@ -12,11 +12,10 @@ import SwitchButtonField from '../../../materialize/form/switchButton';
 import SelectField from '../../../materialize/form/select';
 import TextField from '../../../materialize/form/text';
 
-const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility, articleLanguage, articleAllowComment, defaultVisibility, multipleId}) => (
+const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility, articleLanguage, articleAllowComment, defaultVisibility}) => (
     <div className="row margin-top-10">
         <div className="col s12 m6 l4">
             <Field id="article_visibility"
-                   multipleId={multipleId}
                    name="visibility"
                    title={I18n.t('js.article.model.visibility')}
                    default={I18n.t('js.article.common.visibility')}
@@ -27,7 +26,6 @@ const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility,
 
         <div className="col s12 m6 l4">
             <Field id="article_language"
-                   multipleId={multipleId}
                    name="language"
                    title={I18n.t('js.article.model.language')}
                    options={I18n.t('js.languages')}
@@ -39,7 +37,6 @@ const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility,
             currentMode === 'story' &&
             <div className="col s12 m6 l4 center-align">
                 <Field id="article_allow_comment"
-                       multipleId={multipleId}
                        name="allow_comment"
                        title={I18n.t('js.article.common.allow_comment.title')}
                        values={I18n.t('js.article.common.allow_comment')}
@@ -52,7 +49,6 @@ const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility,
             currentMode !== 'link' &&
             <div className="col s12  margin-top-20 margin-bottom-10">
                 <Field id="article_reference"
-                       multipleId={multipleId}
                        name="reference"
                        icon="open_in_new"
                        placeholder={I18n.t(`js.article.common.placeholders.reference.${currentMode}`)}
@@ -69,8 +65,7 @@ ArticleAdvancedField.propTypes = {
     articleAllowComment: PropTypes.bool,
     articleLanguage: PropTypes.string,
     articleVisibility: PropTypes.string,
-    defaultVisibility: PropTypes.string,
-    multipleId: PropTypes.number
+    defaultVisibility: PropTypes.string
 };
 
 export default ArticleAdvancedField;

@@ -76,6 +76,7 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
                   buttonClassName="header-button"
                   isFloatingButton={true}
                   isFixed={true}
+                  hasWavesEffect={false}
                   hasArrow={true}>
             <ul>
                 {

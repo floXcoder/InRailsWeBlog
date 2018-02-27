@@ -23,6 +23,7 @@ export default class Dropdown extends React.Component {
         position: PropTypes.oneOf(POSITIONS),
         className: PropTypes.string,
         hasArrow: PropTypes.bool,
+        hasWavesEffect: PropTypes.bool,
         tooltip: PropTypes.string,
         isDefaultOpen: PropTypes.bool,
         isOpen: PropTypes.bool,
@@ -39,6 +40,7 @@ export default class Dropdown extends React.Component {
         isButton: true,
         position: 'bottom left',
         hasArrow: false,
+        hasWavesEffect: true,
         isOpen: false,
         isFixed: false,
         isDefaultOpen: false,
@@ -284,9 +286,10 @@ export default class Dropdown extends React.Component {
                     {
                         this.props.isButton
                             ?
-                            <a className={classNames('waves-effect waves-spectra', this.props.buttonClassName, {
+                            <a className={classNames(this.props.buttonClassName, {
                                 'btn-flat': !this.props.isFloatingButton,
-                                'btn-floating': this.props.isFloatingButton
+                                'btn-floating': this.props.isFloatingButton,
+                                'waves-effect waves-spectra': this.props.hasWavesEffect
                             })}
                                ref={(buttonRef) => this._buttonRef = buttonRef}
                                href="#"

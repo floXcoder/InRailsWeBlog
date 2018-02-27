@@ -3,7 +3,6 @@
 @import 'base/utilities';
 @import 'base/open-sans';
 @import 'base/typography';
-
 @import 'shared/topic';
 @import 'shared/article';
 @import 'shared/bookmark';
@@ -13,7 +12,6 @@
 @import 'shared/search';
 @import 'shared/connection';
 @import 'shared/tooltip';
-
 @import 'shared/components/collapsible';
 @import 'shared/components/notification';
 @import 'shared/components/rating';
@@ -23,7 +21,7 @@
 @import 'shared/components/dropdown';
 @import 'shared/components/modal';
 @import 'shared/components/tab';
-
+@import 'shared/components/masonry';
 @import 'shared/animation/dialog';
 
 // Global font
@@ -89,17 +87,8 @@ html {
 //}
 
 // Header
-.ui.bottom.popup {
-  padding: 0;
-
-  .collection {
-    margin: 0;
-
-    .title {
-      font-size: 16px;
-      font-weight: 500;
-    }
-  }
+.title-temporary {
+  color: $warning-color;
 }
 
 .blog {
@@ -227,14 +216,26 @@ html {
         background-color: $astral-color;
         box-shadow: 0 1px 3px 0 $border-dark-color, 0 1px 3px 0 $border-dark-color;
         margin: 0 1rem;
+        overflow: visible;
 
         @media #{$medium-and-down} {
           margin: 0 .3rem;
         }
       }
 
-      .ui.menu {
-        background-color: $astral-color;
+      .header-alert::before {
+        background-color: $link-color;
+        border-radius: 50%;
+        color: #fff;
+        content: '!';
+        font-size: .7rem;
+        height: 18px;
+        line-height: 18px;
+        position: absolute;
+        right: -2px;
+        text-align: center;
+        top: -2px;
+        width: 18px;
       }
     }
 
@@ -263,7 +264,8 @@ html {
   flex: 1 0 auto;
   padding-bottom: 220px;
   padding-top: .8rem;
-  width: 80%;
+  width: 90%;
+  max-width: inherit;
 
   @media #{$small-and-down} {
     &.container {
@@ -283,6 +285,12 @@ html {
     li {
       float: left;
       margin: 0 .5rem 0 .85rem;
+
+      &:hover {
+        .breadcrumb-title {
+          max-width: 1000px;
+        }
+      }
     }
 
     a {
@@ -357,10 +365,6 @@ html {
       text-overflow: ellipsis;
       transition: max-width 300ms ease-in-out;
       white-space: nowrap;
-
-      &:hover {
-        max-width: 1000px;
-      }
     }
   }
 }

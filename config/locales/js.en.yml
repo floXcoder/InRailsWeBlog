@@ -12,6 +12,7 @@ en:
         article:
           button: "Articles"
           menu:
+            temporary: "Article en cours"
             add_note: "Take a note"
             add_article: "Write a story"
             add_link: "Add a link"
@@ -156,8 +157,9 @@ en:
           display:
             title: "Articles"
             mode:
-              inline: "Display only one article"
-              card: "Display each articles within cards"
+              inline: "On global article"
+              card: "Independent cards"
+              grid: "In grid"
         tag:
           title: "Tags"
           sidebar:
@@ -291,6 +293,8 @@ en:
         advanced: "Advanced options"
         user: "Posted by"
         actions: "Actions"
+        not_connected:
+          message: "Please log in, before posting article"
         infinite:
           loading: "Loading articles"
         placeholders:
