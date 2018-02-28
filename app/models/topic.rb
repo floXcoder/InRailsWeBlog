@@ -115,8 +115,6 @@ class Topic < ApplicationRecord
             presence: true
 
   validates :name,
-            uniqueness: { case_sensitive: false,
-                          message:        I18n.t('activerecord.errors.models.topic.already_exist') },
             length:     { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length }
   validates_uniqueness_of :name,
                           scope: :user_id,
@@ -416,11 +414,14 @@ class Topic < ApplicationRecord
   end
 
   def format_attributes(attributes = {}, current_user = nil)
-    # Clean attributes
-    attributes = attributes.reject { |_, v| v.blank? }
+    current_language = new_language = current_user&.locale || I18n.locale
 
     # Language
-    self.languages |= [(attributes[:language] || current_user&.locale || I18n.locale).to_s]
+    if self.languages.empty? || attributes[:language].present?
+      new_language = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
+      self.languages |= [new_language]
+      I18n.locale = new_language.to_sym if new_language != current_language.to_s
+    end
 
     # Sanitization
     unless attributes[:name].nil?
@@ -438,6 +439,8 @@ class Topic < ApplicationRecord
     end
 
     self.assign_attributes(attributes)
+  ensure
+    I18n.locale = current_language.to_sym if new_language != current_language.to_s
   end
 
   def bookmarked?(user)

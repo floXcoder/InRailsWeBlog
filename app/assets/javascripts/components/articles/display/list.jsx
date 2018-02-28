@@ -67,6 +67,7 @@ const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, a
             <ArticleMasonry type="article"
                             elements={articles}
                             topOffset={40}
+                            hasColumnButtons={true}
                             hasExposedMode={true}
                             isActive={true}
                             isPaginated={false}/>

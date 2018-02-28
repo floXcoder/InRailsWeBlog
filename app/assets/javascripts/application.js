@@ -26,9 +26,6 @@ window.I18n = I18n;
 window.I18n.defaultLocale = window.defaultLocale;
 window.I18n.locale = window.locale;
 
-// Keyboard inputs
-import 'expose-loader?Mousetrap!mousetrap';
-
 // Configure log level
 if (process.env.NODE_ENV === 'production') {
     log.setLevel('warn');

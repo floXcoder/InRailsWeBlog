@@ -40,7 +40,7 @@ describe 'Topic API', type: :request, basic: true do
 
         json_topics = JSON.parse(response.body)
         expect(json_topics['topics']).not_to be_empty
-        expect(json_topics['topics'].size).to eq(2)
+        expect(json_topics['topics'].size).to eq(1)
       end
     end
 
@@ -90,7 +90,7 @@ describe 'Topic API', type: :request, basic: true do
 
         json_topics = JSON.parse(response.body)
         expect(json_topics['topics']).not_to be_empty
-        expect(json_topics['topics'].size).to eq(2)
+        expect(json_topics['topics'].size).to eq(1)
       end
     end
   end

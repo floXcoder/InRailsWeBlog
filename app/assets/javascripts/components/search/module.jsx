@@ -69,13 +69,6 @@ export default class SearchModule extends React.Component {
         highlightedTagIndex: undefined
     };
 
-    componentDidMount() {
-        // Mousetrap.bind('alt+r', () => {
-        //     this._toggleSearchNav();
-        //     return false;
-        // }, 'keydown');
-    }
-
     componentWillReceiveProps(nextProps) {
         if (this.props.query !== nextProps.query) {
             this._resetTagSelection();

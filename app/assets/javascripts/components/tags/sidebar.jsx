@@ -41,13 +41,6 @@ export default class TagSidebar extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        // Mousetrap.bind('alt+t', () => {
-        //     $('#toggle-tags').sideNav('show');
-        //     return false;
-        // }, 'keydown');
-    }
-
     _handleSearchInput = (value) => {
         this.props.filterTags(value);
     };

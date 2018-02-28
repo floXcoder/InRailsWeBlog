@@ -26,8 +26,8 @@ class LazyLoader extends React.Component {
         this.load();
     }
 
-    componentDidUpdate(previous) {
-        if (this.props.modules === previous.modules) {
+    componentDidUpdate(prevProps) {
+        if (this.props.modules === prevProps.modules) {
             return null;
         }
         this.load();

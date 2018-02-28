@@ -14,7 +14,7 @@ class StaticPagesController < ApplicationController
                       og:          {
                         type:  "#{ENV['WEBSITE_NAME']}:home",
                         url:   root_url,
-                        image: image_url('logos/full_gradient.png')
+                        image: image_url('logos/favicon-192x192.png')
                       }
         render :home
       end

@@ -25,9 +25,7 @@ export default class Login extends React.PureComponent {
 
     _handleSubmit = (values) => {
         this.props.loginUser(values.toJS())
-        // to get CRSF token in meta tag
-        // and wait for loading session
-            .then(() => setTimeout(() => location.reload(true), 300));
+            .then(() => location.reload(true));
     };
 
     _handleClose = () => {

@@ -13,7 +13,8 @@ import * as Records from '../constants/records';
 import {
     toList,
     fetchReducer,
-    mutationReducer, mutateArray
+    mutationReducer,
+    mutateArray
 } from './mutators';
 
 const initState = new Record({

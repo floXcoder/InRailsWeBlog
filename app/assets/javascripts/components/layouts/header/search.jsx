@@ -41,6 +41,12 @@ export default class HomeSearchHeader extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.hasSearch !== this.props.hasSearch && this.props.hasSearch) {
+            this._searchInput.focus();
+        }
+    }
+
     _handleChange = (event) => {
         const value = event.target.value;
 
