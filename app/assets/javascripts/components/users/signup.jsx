@@ -25,9 +25,7 @@ export default class Signup extends React.Component {
 
     _handleSubmit = (values) => {
         this.props.signupUser(values.toJS())
-        // to get crsf token in meta tag
-        // and wait for loading session
-            .then(() => setTimeout(() => location.reload(true), 300));
+            .then(() => location.reload(true));
     };
 
     _handleClose = () => {

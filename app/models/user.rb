@@ -574,7 +574,7 @@ class User < ApplicationRecord
   private
 
   def create_default_topic
-    default_topic = self.topics.create(name: I18n.t('topic.default_name'), languages: [self.locale])
+    default_topic = self.topics.create(name: I18n.t('topic.default_name'), languages: [self.locale], visibility: :only_me)
     update_column(:current_topic_id, default_topic.id)
   end
 

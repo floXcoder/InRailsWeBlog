@@ -44,7 +44,7 @@ export const validateUser = (login) => (
 // User mutations
 export const signupUser = (user, options = {}) => ({
     actionType: ActionTypes.USER,
-    mutationAPI: () => api.post(`/api/v1/users`, {
+    mutationAPI: () => api.post('/api/v1/signup', {
         user,
         ...options
     }),
@@ -55,7 +55,7 @@ export const signupUser = (user, options = {}) => ({
 
 export const loginUser = (user, options = {}) => ({
     actionType: ActionTypes.USER,
-    mutationAPI: () => api.post(`/api/v1/login`, {
+    mutationAPI: () => api.post('/api/v1/login', {
         user,
         ...options
     }),

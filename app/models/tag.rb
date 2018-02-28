@@ -459,6 +459,7 @@ class Tag < ApplicationRecord
         name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
         visibility: Tag.visibilities[visibility]
       }.compact
+      attributes[:user_id] = current_user_id if visibility != 'everyone'
 
       Tag.find_by(attributes) || Tag.new(attributes.merge(user_id: current_user_id))
     end

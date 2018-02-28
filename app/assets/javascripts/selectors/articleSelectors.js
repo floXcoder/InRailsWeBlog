@@ -49,7 +49,7 @@ export const getArticleParentTags = createSelector(
 export const getArticleChildTags = createSelector(
     (article) => article,
     (article) => {
-        const tags = article && article.tags.filter((tag) => (
+        const tags = article && article.tags && article.tags.filter((tag) => (
             article.childTagSlugs ? article.childTagSlugs.includes(tag.slug) : article.childTagIds && article.childTagIds.includes(tag.id)
         ));
 

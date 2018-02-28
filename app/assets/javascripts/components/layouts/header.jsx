@@ -139,6 +139,7 @@ export default class HeaderLayout extends React.PureComponent {
                                             position="bottom left"
                                             horizontalOffset={10}
                                             isFixed={true}
+                                            isClosingOnInsideClick={false}
                                             isHidingOnScroll={false}
                                             isButton={false}
                                             hasArrow={false}>

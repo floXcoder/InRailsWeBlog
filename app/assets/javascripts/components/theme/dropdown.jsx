@@ -29,8 +29,9 @@ export default class Dropdown extends React.Component {
         isOpen: PropTypes.bool,
         isFixed: PropTypes.bool,
         buttonClassName: PropTypes.string,
-        isHidingOnScroll: PropTypes.bool,
+        isClosingOnInsideClick: PropTypes.bool,
         isFloatingButton: PropTypes.bool,
+        isHidingOnScroll: PropTypes.bool,
         horizontalOffset: PropTypes.number,
         verticalOffset: PropTypes.number,
         onClose: PropTypes.func
@@ -46,6 +47,7 @@ export default class Dropdown extends React.Component {
         isDefaultOpen: false,
         isFloatingButton: false,
         isRightSide: false,
+        isClosingOnInsideClick: true,
         isHidingOnScroll: true
     };
 
@@ -249,6 +251,10 @@ export default class Dropdown extends React.Component {
 
     _handleDocumentClick = (event) => {
         if (this._isMounted && this._buttonRef) {
+            if (!this.props.isClosingOnInsideClick && this._contentRef.contains(event.target)) {
+                return;
+            }
+
             if (!this._buttonRef.contains(event.target)) {
                 if (this.state.isOpen) {
                     if (this.props.onClose) {
