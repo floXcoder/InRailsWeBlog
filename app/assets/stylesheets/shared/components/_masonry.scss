@@ -1,6 +1,22 @@
-.grid {
-  .grid-item {
+.masonry {
+  .masonry-buttons {
+   text-align: left;
+  }
 
+  .masonry-button {
+    color: $text-color;
+    outline: none;
+    margin-right: 1rem;
+    margin-left: .5rem;
+
+    .material-icons {
+      font-size: .9rem;
+    }
+  }
+}
+
+.masonry-grid {
+  .masonry-grid-item {
     &.exposed {
       width: 100% !important;
     }

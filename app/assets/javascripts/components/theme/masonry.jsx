@@ -6,17 +6,26 @@ import MasonryLoader from '../../loaders/masonry';
 // isMasonry property is passed to components if active
 const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, componentExposedProps) => class extends React.Component {
     static transitionDuration = 600;
+    static columns = {
+        1: 12,
+        2: 6,
+        3: 4,
+        4: 3,
+        5: 2
+    };
 
     static propTypes = {
         elements: PropTypes.array.isRequired,
         isActive: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
+        hasColumnButtons: PropTypes.bool,
         hasExposedMode: PropTypes.bool,
         componentsToExposed: PropTypes.array,
         topOffset: PropTypes.number
     };
 
     static defaultProps = {
+        hasColumnButtons: false,
         hasExposedMode: false
     };
 
@@ -38,9 +47,10 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         Masonry: undefined,
         masonryOptions: {
             transitionDuration: `${this.constructor.transitionDuration}ms`,
-            itemSelector: '.grid-item',
+            itemSelector: '.masonry-grid-item',
             percentPosition: true
         },
+        columnPosition: 3,
         exposedComponents: {}
     };
 
@@ -49,6 +59,26 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             this._masonry.layout();
         }
     }
+
+    // componentDidUpdate() {
+    //     if (this.props.isActive && this._masonry) {
+    //         this._masonry.layout();
+    //     }
+    // }
+
+    _handleColumnChange = (value, event) => {
+        event.preventDefault();
+
+        let newValue = this.state.columnPosition + value;
+        if (newValue > 5) {
+            newValue = 5;
+        } else if (newValue < 1) {
+            newValue = 1;
+        }
+        this.setState({
+            columnPosition: newValue
+        });
+    };
 
     _handleComponentClick = (elementId) => {
         if (!this.props.hasExposedMode) {
@@ -77,8 +107,12 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
 
         const ComponentNodes = this.props.elements.map((element, i) => {
             const itemClasses = classNames(
-                'col s12 m6 l4',
-                'grid-item',
+                'col s12',
+                {
+                    'l4': !this.props.hasColumnButtons,
+                    [`m${this.constructor.columns[this.state.columnPosition]}`]: this.props.hasColumnButtons
+                },
+                'masonry-grid-item',
                 {
                     exposed: this.props.hasExposedMode && exposedComponents[element.id]
                 }
@@ -109,10 +143,31 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         });
 
         return (
-            <div className="row">
+            <div className="masonry row">
+                {
+                    this.props.hasColumnButtons &&
+                    <div className="masonry-buttons">
+                        <a className="masonry-button"
+                           href="#"
+                           onClick={this._handleColumnChange.bind(this, -1)}>
+                        <span className="material-icons"
+                              data-icon="more_horiz"
+                              aria-hidden="true"/>
+                        </a>
+
+                        <a className="masonry-button"
+                           href="#"
+                           onClick={this._handleColumnChange.bind(this, 1)}>
+                        <span className="material-icons"
+                              data-icon="more_vert"
+                              aria-hidden="true"/>
+                        </a>
+                    </div>
+                }
+
                 {
                     this.state.Masonry &&
-                    <this.state.Masonry className="grid"
+                    <this.state.Masonry className="masonry-grid"
                                         elementType="div"
                                         options={this.state.masonryOptions}
                                         ref={(c) => this._masonry = c && c.masonry}>

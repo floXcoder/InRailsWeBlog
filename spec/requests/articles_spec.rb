@@ -14,12 +14,15 @@ describe 'Article API', type: :request, basic: true do
     @relation_tags_article   = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[1], @tags[2]], child_tags: [@tags[3]])
     @relation_tags_article_2 = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[1], @tags[3]], child_tags: [@tags[2], @tags[4]])
 
+    @private_tags              = create_list(:tag, 2, user: @user, visibility: 'only_me')
+    @article_with_private_tags = create(:article_with_tags, user: @user, topic: @topic, tags: [@private_tags[0], @private_tags[1]])
+
     @second_article = create(:article, user: @user, topic: @topic)
 
     @second_topic    = create(:topic, user: @user)
     @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me')
 
-    @other_topic = create(:topic, user: @other_user)
+    @other_topic      = create(:topic, user: @other_user)
     @other_public_tag = create(:tag, user: @other_user, visibility: 'everyone')
   end
 
@@ -53,7 +56,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(4)
+        expect(json_articles['articles'].size).to eq(5)
       end
 
       it 'returns articles in summary format' do
@@ -64,7 +67,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(4)
+        expect(json_articles['articles'].size).to eq(5)
       end
 
       it 'limits the number of articles' do
@@ -91,7 +94,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(5)
+        expect(json_articles['articles'].size).to eq(6)
       end
     end
 
@@ -103,7 +106,7 @@ describe 'Article API', type: :request, basic: true do
       it 'returns articles for topic' do
         get '/api/v1/articles', params: { filter: { topic_id: @topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(4)
+        expect(json_articles['articles'].size).to eq(5)
 
         get '/api/v1/articles', params: { filter: { topic_id: @second_topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
@@ -191,7 +194,7 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(5)
+        expect(json_articles['articles'].size).to eq(6)
       end
     end
   end
@@ -329,6 +332,19 @@ describe 'Article API', type: :request, basic: true do
         }.to change(Article, :count).by(1)
       end
 
+      it 'returns a new article with a different language' do
+        expect {
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { language: 'en' }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['currentLanguage']).to eq('en')
+          expect(Article.last.title_translations).to eq({ 'en' => article_attributes[:article][:title] })
+        }.to change(Article, :count).by(1)
+      end
+
       it 'returns a new article with relationships to other articles' do
         expect {
           post '/api/v1/articles', params: article_attributes.deep_merge(article: { content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>." }), as: :json
@@ -441,6 +457,24 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(1)
+      end
+
+      it 'returns a new article with a new private tag even if tag is used in another topic' do
+        @user.update_attribute(:current_topic_id, @second_topic.id)
+
+        begin
+          expect {
+            post '/api/v1/articles', params: article_attributes.deep_merge(article: { tags: [{ name: @private_tags[0].name, visibility: 'only_me' }, { name: @private_tags[1].name, visibility: 'only_me' }] }), as: :json
+
+            expect(response).to be_json_response(201)
+
+            article = JSON.parse(response.body)
+            expect(article['article']).not_to be_empty
+            expect(article['article']['tags'].size).to eq(2)
+          }.to change(Article, :count).by(1).and change(Tag, :count).by(0)
+        ensure
+          @user.update_attribute(:current_topic_id, @topic.id)
+        end
       end
 
       it 'returns a new article even if same tag for parent and child' do

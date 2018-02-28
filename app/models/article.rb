@@ -591,6 +591,8 @@ class Article < ApplicationRecord
   end
 
   def format_attributes(attributes = {}, current_user = nil)
+    current_language = new_language = current_user&.locale || I18n.locale
+
     # Topic: Add current topic to article
     if !self.topic_id || attributes[:topic_id].present?
       self.topic_id = attributes[:topic_id] || current_user&.current_topic_id
@@ -598,8 +600,11 @@ class Article < ApplicationRecord
 
     # Language
     if self.languages.empty? || attributes[:language].present?
-      self.languages |= [(attributes[:language] || current_user&.locale || I18n.locale).to_s]
+      new_language = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
+      self.languages |= [new_language]
     end
+
+    I18n.locale = new_language.to_sym if new_language != current_language.to_s
 
     # Sanitization
     unless attributes[:title].nil?
@@ -714,6 +719,8 @@ class Article < ApplicationRecord
     end
 
     self.assign_attributes(attributes)
+  ensure
+    I18n.locale = current_language.to_sym if new_language != current_language.to_s
   end
 
   def default_picture
