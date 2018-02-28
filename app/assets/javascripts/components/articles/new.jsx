@@ -24,13 +24,6 @@ export default class ArticleNew extends React.Component {
         super(props);
     }
 
-    // componentDidMount() {
-    //     Mousetrap.bind('alt+s', () => {
-    //         this._toggleNewForm();
-    //         return false;
-    //     }, 'keydown');
-    // }
-
     shouldComponentUpdate(nextProps) {
         return this.props.articleErrors !== nextProps.articleErrors;
     }

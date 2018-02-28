@@ -9,6 +9,7 @@ import pasteManager from '../modules/pasteManager';
 import matchMedia from '../modules/matchMedia';
 
 import UserManager from './managers/user';
+import HotkeyManager from './managers/hotkey';
 
 import ErrorBoundary from '../errors/boundary';
 
@@ -129,77 +130,79 @@ export default class MainLayout extends React.Component {
 
                        return (
                            <UserManager routerState={router.location.state}>
-                               <div className="blog-content">
-                                   <ErrorBoundary errorType="text"
-                                                  errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                       <HeaderLayout history={router.history}
-                                                     hasSearch={hasSearch}
-                                                     onSearchOpen={this._handleSearchOpen}
-                                                     onSearchClose={this._handleSearchClose}>
-                                           {
-                                               this._renderPermanentRoutes(this.props.routes.permanents.header)
-                                           }
-                                       </HeaderLayout>
-                                   </ErrorBoundary>
-
-                                   <ErrorBoundary errorType="text"
-                                                  className="sidebar sidebar-pin">
-                                       <SidebarLayout isDefaultOpened={!this.props.isMediumScreen}
-                                                      onOpened={this._handleSidebarPinClick}/>
-                                   </ErrorBoundary>
-
-                                   <ErrorBoundary errorType="card">
-                                       <div className={classNames('blog-main-content', {
-                                           'blog-main-pinned': this.state.isSidebarOpened
-                                       })}>
-                                           <ErrorBoundary errorType="text"
-                                                          errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                               <BreadcrumbLayout currentPath={router.location.pathname}/>
-                                           </ErrorBoundary>
-
-                                           <div className="container blog-main">
+                               <HotkeyManager history={router.history}>
+                                   <div className="blog-content">
+                                       <ErrorBoundary errorType="text"
+                                                      errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                           <HeaderLayout history={router.history}
+                                                         hasSearch={hasSearch}
+                                                         onSearchOpen={this._handleSearchOpen}
+                                                         onSearchClose={this._handleSearchClose}>
                                                {
-                                                   this._renderPermanentRoutes(this.props.routes.permanents.main)
+                                                   this._renderPermanentRoutes(this.props.routes.permanents.header)
                                                }
+                                           </HeaderLayout>
+                                       </ErrorBoundary>
 
-                                               <Component params={router.match.params}
-                                                          queryString={router.location.search}
-                                                          history={router.history}
-                                                          initialData={router.location.state}/>
-                                           </div>
+                                       <ErrorBoundary errorType="text"
+                                                      className="sidebar sidebar-pin">
+                                           <SidebarLayout isDefaultOpened={!this.props.isMediumScreen}
+                                                          onOpened={this._handleSidebarPinClick}/>
+                                       </ErrorBoundary>
 
-                                           {
-                                               (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
-                                               <Link className="article-quick-add"
-                                                     to={{
-                                                         hash: '#new-article',
-                                                         state: {
-                                                             mode: 'note',
-                                                             parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
-                                                             childTagSlug: router.match.params.childTagSlug
-                                                         }
-                                                     }}>
+                                       <ErrorBoundary errorType="card">
+                                           <div className={classNames('blog-main-content', {
+                                               'blog-main-pinned': this.state.isSidebarOpened
+                                           })}>
+                                               <ErrorBoundary errorType="text"
+                                                              errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                                   <BreadcrumbLayout currentPath={router.location.pathname}/>
+                                               </ErrorBoundary>
+
+                                               <div className="container blog-main">
+                                                   {
+                                                       this._renderPermanentRoutes(this.props.routes.permanents.main)
+                                                   }
+
+                                                   <Component params={router.match.params}
+                                                              queryString={router.location.search}
+                                                              history={router.history}
+                                                              initialData={router.location.state}/>
+                                               </div>
+
+                                               {
+                                                   (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
+                                                   <Link className="article-quick-add"
+                                                         to={{
+                                                             hash: '#new-article',
+                                                             state: {
+                                                                 mode: 'note',
+                                                                 parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
+                                                                 childTagSlug: router.match.params.childTagSlug
+                                                             }
+                                                         }}>
                                                    <span className="material-icons"
                                                          data-icon="add_circle_outline"
                                                          aria-hidden="true"/>
-                                               </Link>
-                                           }
+                                                   </Link>
+                                               }
 
-                                           <a className="goto-top hide-on-small-and-down"
-                                              onClick={this._handleGoToTopClick}/>
-                                       </div>
-                                   </ErrorBoundary>
+                                               <a className="goto-top hide-on-small-and-down"
+                                                  onClick={this._handleGoToTopClick}/>
+                                           </div>
+                                       </ErrorBoundary>
 
-                                   <ErrorBoundary errorType="text"
-                                                  errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                       <FooterLayout/>
-                                   </ErrorBoundary>
+                                       <ErrorBoundary errorType="text"
+                                                      errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                           <FooterLayout/>
+                                       </ErrorBoundary>
 
-                                   <div className={classNames('blog-cover-layer', {
-                                       'search-form-visible': hasSearch
-                                   })}
-                                        onClick={this._handleCoverClick}/>
-                               </div>
+                                       <div className={classNames('blog-cover-layer', {
+                                           'search-form-visible': hasSearch
+                                       })}
+                                            onClick={this._handleCoverClick}/>
+                                   </div>
+                               </HotkeyManager>
                            </UserManager>
                        );
                    }}/>
