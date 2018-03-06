@@ -15,7 +15,7 @@ import {
     getAutocompleteArticles
 } from '../../selectors';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 import SearchSelectedModule from './module/selected';
 import SearchTagModule from './module/tag';
@@ -163,7 +163,7 @@ export default class SearchModule extends React.Component {
                 {
                     this.props.isSearching &&
                     <div className="search-module-searching">
-                        <Spinner size="big"/>
+                        <Loader size="big"/>
                     </div>
                 }
 

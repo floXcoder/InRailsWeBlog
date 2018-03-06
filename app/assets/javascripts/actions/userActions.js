@@ -7,7 +7,7 @@ import api from '../middlewares/api';
 // Users
 export const fetchUsers = (filter, options = {}) => ({
     actionType: ActionTypes.USER,
-    fetchAPI: () => api.get(`/api/v1/users`, {
+    fetchAPI: () => api.get('/api/v1/users', {
         filter,
         ...options
     })
@@ -85,5 +85,5 @@ const receiveUserRecents = (json) => ({
 export const fetchUserRecents = (userId, options = {}) => (dispatch) => {
     return api
         .get(`/api/v1/users/${userId}/recents`, options)
-        .then(json => dispatch(receiveUserRecents(json)));
+        .then((json) => dispatch(receiveUserRecents(json)));
 };

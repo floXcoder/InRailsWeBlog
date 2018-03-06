@@ -165,6 +165,7 @@ en:
           sidebar:
             title: "Sidebar"
             with_child: "Display tag children in main list"
+            pin: "Sidebar open by default"
         search:
           title: "Search"
           operator:
@@ -179,13 +180,15 @@ en:
         add: "Add to bookmarks"
         remove: "Remove from bookmarks"
         added:
-          ride: "Ride added to bookmarks"
-          shop: "Shop added to bookmarks"
-          product: "Product added to bookmarks"
+          user: "User added to bookmarks"
+          topic: "Topic added to bookmarks"
+          tag: "Tag added to bookmarks"
+          article: "Article added to bookmarks"
         removed:
-          ride: "Ride removed from bookmarks"
-          shop: "Shop removed from bookmarks"
-          product: "Product removed from bookmarks"
+          user: "User removed from bookmarks"
+          topic: "Topic removed from bookmarks"
+          tag: "Tag removed from bookmarks"
+          article: "Article removed from bookmarks"
       notification:
         text: "Bookmark added ajouté"
         link: "My bookmarks"

@@ -165,6 +165,7 @@ fr:
           sidebar:
             title: "Sidebar"
             with_child: "Afficher les labels enfants dans la liste principale"
+            pin: "Liste des labels visibles par défaut"
         search:
           title: "Recherche"
           operator:
@@ -179,13 +180,15 @@ fr:
         add: "Ajouter aux favoris"
         remove: "Enlever des favoris"
         added:
-          ride: "Le parcours a été ajouté aux favoris"
-          shop: "La boutique a été ajoutée aux favoris"
-          product: "Le produit a été ajouté aux favoris"
+          user: "L'utilisateur a été ajouté aux favoris"
+          topic: "Le thème a été ajouté aux favoris"
+          tag: "Le label a été ajouté aux favoris"
+          article: "L'article a été ajouté aux favoris"
         removed:
-          ride: "Le parcours a été enlevé des favoris"
-          shop: "La boutique a été enlevée des favoris"
-          product: "Le produit a été enlevé des favoris"
+          user: "L'utilisateur a été enlevé des favoris"
+          topic: "Le thème a été enlevé des favoris"
+          tag: "La label a été enlevée des favoris"
+          article: "L'article a été enlevé des favoris"
       notification:
         text: "Favoris ajouté"
         link: "Mes favoris"

@@ -110,9 +110,12 @@ $num-cols: 12;
 // Special style
 // ------------------------------------
 @mixin special-style($color) {
-  background-color: $color;
-  box-shadow: 0 0 4px $color;
-  //padding-left: 10px;
+  background-color: lighten($color, 10%);
+  //box-shadow: 0 0 4px $color;
+  padding: .8rem 1rem;
+  border-left: 6px solid darken($color, 20%);
+  margin: .6rem 0 !important;
+  border-radius: 3px;
 }
 
 // Editor

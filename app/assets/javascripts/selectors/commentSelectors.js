@@ -15,5 +15,16 @@ export const getCommentPagination = createSelector(
 
 export const getCommentErrors = createSelector(
     (state) => state.commentState.errors,
-    (commentErrors) => commentErrors.mapEntries((errorName, errorDescription) => I18n.t(`js.comment.model.${errorName}`) + ' ' + (Array.isArray(errorDescription) ? errorDescription.join(I18n.t('js.helpers.and')) : errorDescription)).toArray()
+    (errors) => {
+        let errorContent = [];
+        if (typeof errors === 'string') {
+            errorContent = [errors];
+        } else {
+            errors.mapKeys((errorName, errorDescriptions) => {
+                errorDescriptions = errorDescriptions.toJS();
+                errorContent.push(I18n.t(`js.comment.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+            }).toArray();
+        }
+        return errorContent;
+    }
 );

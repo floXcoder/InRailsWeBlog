@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import AssociatedTagList from './list';
 
-import Spinner from '../../materialize/spinner';
+import Loader from '../../theme/loader';
 
 export default class AssociatedTagBox extends React.Component {
     static propTypes = {
@@ -65,7 +65,7 @@ export default class AssociatedTagBox extends React.Component {
                     'center': this.props.hasMore,
                     'hide': !this.props.hasMore
                 })}>
-                    <Spinner />
+                    <Loader/>
                 </div>
             </div>
         );

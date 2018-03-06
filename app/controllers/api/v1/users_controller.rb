@@ -207,7 +207,7 @@ module Api::V1
       respond_to do |format|
         format.html do
           set_meta_tags title:     titleize(I18n.t('views.user.edit.title')),
-                        canonical: ride_canonical_url("#{user.id}/edit")
+                        canonical: user_canonical_url("#{user.id}/edit")
           render :edit, locals: { user: user }
         end
       end

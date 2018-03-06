@@ -4,7 +4,7 @@ SecureHeaders::Configuration.default do |config|
     default_src:      %w['self' ws: wss: *.l-x.fr],
     connect_src:      %w['self' ws: wss: *.l-x.fr],
     child_src:        %w['self'],
-    script_src:       ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['METRICS_ADDRESS']],
+    script_src:       ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['METRICS_ADDRESS'], ENV['NEWRELIC_ADDRESS']],
     img_src:          ["'self'", 'data:', ENV['METRICS_ADDRESS']],
     font_src:         %w['self' *.l-x.fr data:],
     media_src:        %w['self' *.l-x.fr],

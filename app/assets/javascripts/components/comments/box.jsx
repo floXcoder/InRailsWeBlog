@@ -140,7 +140,7 @@ export default class CommentBox extends React.Component {
     _handleCommentDelete = (commentId) => {
         if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             if (commentId) {
-                this.props.deleteComment(commentId, this.props.commentableId, this.props.commentableType);
+                this.props.deleteComment(commentId, this.props.commentableType, this.props.commentableId);
             }
         } else {
             Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
@@ -152,9 +152,9 @@ export default class CommentBox extends React.Component {
 
         if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             if (commentData.id) {
-                this.props.updateComment(commentData, this.props.commentableId, this.props.commentableType);
+                this.props.updateComment(commentData, this.props.commentableType, this.props.commentableId);
             } else {
-                this.props.addComment(commentData, this.props.commentableId, this.props.commentableType);
+                this.props.addComment(commentData, this.props.commentableType, this.props.commentableId);
             }
         } else {
             Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));

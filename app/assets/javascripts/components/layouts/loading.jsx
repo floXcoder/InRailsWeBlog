@@ -1,6 +1,6 @@
 'use strict';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 const LoadingLayout = ({component: Component, ...rest}) => (
     <div className="row">
@@ -15,7 +15,7 @@ const LoadingLayout = ({component: Component, ...rest}) => (
         <div className="col s3">
             <div className="sidebar sidebar-pin">
                 <div className="center margin-top-20">
-                    <Spinner size="big"/>
+                    <Loader size="big"/>
 
                     {I18n.t('js.views.home.loader')}
                 </div>
@@ -25,7 +25,7 @@ const LoadingLayout = ({component: Component, ...rest}) => (
         <div className="col s9">
             <div className="container blog-main">
                 <div className="center margin-top-20">
-                    <Spinner size="big"/>
+                    <Loader size="big"/>
 
                     {I18n.t('js.views.home.loader')}
                 </div>

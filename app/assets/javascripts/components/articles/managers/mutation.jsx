@@ -148,7 +148,7 @@ export default function articleMutationManager(formId) {
                 }
             }
 
-            shouldComponentUpdate(nextProps, nextState) {
+            shouldComponentUpdate(nextProps) {
                 return (this.props.tags !== nextProps.tags || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.article !== nextProps.article);
             }
 
@@ -167,7 +167,7 @@ export default function articleMutationManager(formId) {
                         childTagIds: this.props.article.childTagIds
                     });
 
-                    this.props.updateArticle(formData)
+                    this.props.updateArticle(formData, {autoSave})
                         .then((response) => {
                             if (response.article && autoSave !== true) {
                                 this.props.history.push({

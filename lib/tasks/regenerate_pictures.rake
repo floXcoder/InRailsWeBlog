@@ -14,23 +14,5 @@ namespace :InRailsWeBlog do
       end
     end
 
-    Ride.transaction do
-      Ride.with_deleted.find_in_batches(batch_size: 200) do |rides|
-        rides.each do |ride|
-          ride.static_map.recreate_versions! if ride.static_map?
-          ride.save!
-        end
-      end
-    end
-
-    Shop.transaction do
-      Shop.with_deleted.find_in_batches(batch_size: 200) do |shops|
-        shops.each do |shop|
-          shop.static_map.recreate_versions! if shop.static_map?
-          shop.save!
-        end
-      end
-    end
-
   end
 end

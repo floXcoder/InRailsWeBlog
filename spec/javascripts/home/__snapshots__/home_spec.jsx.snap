@@ -1,0 +1,1979 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HomePage /> renders home page 1`] = `
+<BrowserRouter>
+  <Switch>
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="0"
+      path="/"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      key="1"
+      path="/research"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="2"
+      path="/user/:topicSlug"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="3"
+      path="/user/:topicSlug/sort"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={false}
+      key="4"
+      path="/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="5"
+      path="/user/:userSlug/:topicSlug"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="6"
+      path="/user/:userSlug/:topicSlug/:articleSlug"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="7"
+      path="/topic/:userSlug/:topicSlug"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="8"
+      path="/tags"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="9"
+      path="/tag/:tagSlug"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="10"
+      path="/tag/:tagSlug/edit"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={false}
+      key="11"
+      path="/tagged/:tagSlug/:childTagSlug?"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="12"
+      path="/article/new"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="13"
+      path="/article/:articleSlug/edit"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="14"
+      path="/article/:articleSlug/history"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="15"
+      path="/article/:topicSlug/:articleSlug"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+    <PasteManagerComponent(MatchMediaComponent(MainLayout))
+      component={[Function]}
+      exact={true}
+      key="16"
+      path="/article/:articleSlug"
+      routes={
+        Object {
+          "home": Object {
+            "views": Array [
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/",
+              },
+              Object {
+                "component": [Function],
+                "path": "/research",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:topicSlug/sort",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/user/:userSlug/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/topic/:userSlug/:topicSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tags",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/tag/:tagSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": false,
+                "path": "/tagged/:tagSlug/:childTagSlug?",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/new",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/edit",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug/history",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:topicSlug/:articleSlug",
+              },
+              Object {
+                "component": [Function],
+                "exact": true,
+                "path": "/article/:articleSlug",
+              },
+            ],
+          },
+          "loading": Object {
+            "exact": true,
+            "path": "/",
+          },
+          "permanents": Object {
+            "header": Array [
+              Object {
+                "component": [Function],
+                "path": "search",
+              },
+            ],
+            "main": Array [
+              Object {
+                "component": [Function],
+                "path": "new-article",
+              },
+            ],
+          },
+        }
+      }
+    />
+  </Switch>
+</BrowserRouter>
+`;

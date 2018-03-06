@@ -57,7 +57,7 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
         saveLocalData('recents', {
             type: elementName,
             id: elementId,
-            title: elementTitle,
+            title: elementTitle.replace(/<.*?>(.*)<\/.*?>/g, '$1'),
             slug: elementSlug,
             date: Date.now()
         });

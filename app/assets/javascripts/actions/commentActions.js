@@ -34,13 +34,8 @@ export const fetchComments = (commentParams) => {
 };
 
 // Comment mutations
-export const addComment = (comment, commentableId, commentableType) => {
-    let url = `/api/v1/${I18n.t('js.comment.common.route')}`;
-    if (commentableType && commentableId) {
-        url = `/api/v1/${commentableType}/${commentableId}/comments`;
-    } else if (commentableId) {
-        url = commentableId + url;
-    }
+export const addComment = (comment, commentableType, commentableId) => {
+    const url = `/api/v1/${commentableType}/${commentableId}/comments`;
 
     return ({
         actionType: ActionTypes.COMMENT,
@@ -50,13 +45,8 @@ export const addComment = (comment, commentableId, commentableType) => {
     });
 };
 
-export const updateComment = (comment, commentableId, commentableType) => {
-    let url = `/api/v1/${I18n.t('js.comment.common.route')}`;
-    if (commentableType && commentableId) {
-        url = `/api/v1/${commentableType}/${commentableId}/comments`;
-    } else if (commentableId) {
-        url = commentableId + url;
-    }
+export const updateComment = (comment, commentableType, commentableId) => {
+    const url = `/api/v1/${commentableType}/${commentableId}/comments/${comment.id}`;
 
     return ({
         actionType: ActionTypes.COMMENT,
@@ -66,13 +56,8 @@ export const updateComment = (comment, commentableId, commentableType) => {
     });
 };
 
-export const deleteComment = (commentId, commentableId, commentableType) => {
-    let url = `/api/v1/${I18n.t('js.comment.common.route')}`;
-    if (commentableType && commentableId) {
-        url = `/api/v1/${commentableType}/${commentableId}/comments`;
-    } else if (commentableId) {
-        url = commentableId + url;
-    }
+export const deleteComment = (commentId, commentableType, commentableId) => {
+    const url = `/api/v1/${commentableType}/${commentableId}/comments/${commentId}`;
 
     return ({
         actionType: ActionTypes.COMMENT,

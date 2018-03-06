@@ -3,7 +3,7 @@
 import _ from 'lodash';
 
 const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly) => {
-    if (window.history && window.history.pushState) {
+    if (window.history && window.history.pushState && window.location.pathname !== 'blank') {
         let urlParams = $(window.location).attr('pathname');
         const previousParams = $.param(_.omit(Utils.getUrlParameters(), Object.keys(paramsToUrl)));
 

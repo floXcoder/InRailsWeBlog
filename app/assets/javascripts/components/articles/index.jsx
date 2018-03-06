@@ -10,7 +10,7 @@ import {
     getArticles
 } from '../../selectors';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 import ArticleListDisplay from './display/list';
 import ArticleSortDisplay from './sort/dropdown';
@@ -123,8 +123,8 @@ export default class ArticleIndex extends React.Component {
             <div className="blog-article-box">
                 {
                     this.props.isFetching &&
-                    <div className="center margin-top-20">
-                        <Spinner size="big"/>
+                    <div className="center">
+                        <Loader size="big"/>
                     </div>
                 }
 

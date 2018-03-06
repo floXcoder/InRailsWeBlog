@@ -6,12 +6,16 @@ import {
     Link
 } from 'react-router-dom';
 
-import SwitchButton from '../materialize/switchButton';
-import Spinner from '../materialize/spinner';
+
 import ArticleTimelineDisplay from '../articles/display/timeline';
+
 import CommentTimeline from '../comments/display/timeline';
+
 import UserActivity from '../users/activity';
 import UserTracking from '../users/tracking';
+
+import SwitchButton from '../materialize/switchButton';
+import Loader from '../theme/loader';
 
 @connect((state) => ({
     isAdminConnected: state.adminState.isConnected
@@ -239,7 +243,7 @@ export default class UserComplete extends React.Component {
                                                                         pagination={this.state.articlesPagination}
                                                                         loadArticles={this._loadArticles}/>
                                                 :
-                                                <Spinner spinnerClass="center-align"/>
+                                                <Loader/>
                                         }
                                     </div>
 
@@ -252,7 +256,7 @@ export default class UserComplete extends React.Component {
                                                                  pagination={this.state.commentsPagination}
                                                                  loadComments={this._loadComments}/>
                                                 :
-                                                <Spinner spinnerClass="center-align"/>
+                                                <Loader/>
                                         }
                                     </div>
 
@@ -424,7 +428,7 @@ export default class UserComplete extends React.Component {
                                                           pagination={this.state.activitiesPagination}
                                                           loadActivities={this._loadActivities}/>
                                             :
-                                            <Spinner spinnerClass="center-align"/>
+                                            <Loader/>
                                     }
                                 </div>
                             </div>

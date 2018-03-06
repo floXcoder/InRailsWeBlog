@@ -23,6 +23,11 @@ export const getPrivateTags = createSelector(
     (tags) => tags.filter((tag) => tag.visibility === 'only_me').toArray()
 );
 
+export const getTag = createSelector(
+    (state) => state.tagState.tag,
+    (tag) => tag
+);
+
 export const getSortedTags = createSelector(
     (state) => state.tagState.tags,
     (state) => state.userState.user && state.userState.user.settings.tagSidebarWithChild,

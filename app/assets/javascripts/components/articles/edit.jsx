@@ -1,6 +1,6 @@
 'use strict';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
@@ -34,7 +34,7 @@ export default class ArticleEdit extends React.Component {
         if (!this.props.article) {
             return (
                 <div className="center margin-top-20">
-                    <Spinner size="big"/>
+                    <Loader size="big"/>
                 </div>
             );
         }

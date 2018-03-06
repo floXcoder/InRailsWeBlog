@@ -7,7 +7,7 @@ import api from '../middlewares/api';
 // Topics
 export const fetchTopics = (userId = null, filter = {}, options = {}) => ({
     actionType: ActionTypes.TOPIC,
-    fetchAPI: () => api.get(userId ? `/api/v1/topics` : `/api/v1/topics`, {
+    fetchAPI: () => api.get('/api/v1/topics', {
         userId,
         filter,
         ...options
@@ -24,7 +24,7 @@ export const fetchTopic = (userId, topicId, options = {}) => ({
 
 export const switchTopic = (userId, newTopicId, options = {}) => ({
     actionType: ActionTypes.TOPIC,
-    fetchAPI: () => api.post(`/api/v1/topics/switch`, {
+    fetchAPI: () => api.post('/api/v1/topics/switch', {
         userId,
         newTopicId,
         ...options
@@ -37,7 +37,7 @@ export const switchTopic = (userId, newTopicId, options = {}) => ({
 // Topic mutations
 export const addTopic = (userId, topic, options = {}) => ({
     actionType: ActionTypes.TOPIC,
-    mutationAPI: () => api.post(`/api/v1/topics`, {
+    mutationAPI: () => api.post('/api/v1/topics', {
         userId,
         topic,
         ...options

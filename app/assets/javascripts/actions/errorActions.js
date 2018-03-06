@@ -37,15 +37,15 @@ const removeError = (errorId) => ({
 export const deleteError = (errorId) => (dispatch) => {
     return api
         .delete(`/errors/${errorId}`)
-        .then(json => dispatch(removeError(errorId)));
+        .then(() => dispatch(removeError(errorId)));
 };
 
 const removeErrors = (json) => ({
     type: ActionTypes.ERROR_DELETE_ALL_SUCCESS,
     removedIds: json
 });
-export const deleteAllErrors = (errorId) => (dispatch) => {
+export const deleteAllErrors = () => (dispatch) => {
     return api
         .delete(`/errors/delete_all`)
-        .then(json => dispatch(removeErrors(json)));
+        .then((json) => dispatch(removeErrors(json)));
 };

@@ -51,8 +51,10 @@ class ArticleSerializer < ActiveModel::Serializer
              :slug,
              :votes_up,
              :votes_down,
-             :outdated_count,
+             :pictures_count,
+             :bookmarks_count,
              :comments_count,
+             :outdated_count,
              :parent_tag_ids,
              :child_tag_ids,
              :new_tag_ids
@@ -110,10 +112,6 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def outdated_count
     object.outdated_articles_count
-  end
-
-  def comments_count
-    object.comments_count
   end
 
   def comments

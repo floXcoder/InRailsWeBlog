@@ -10,7 +10,8 @@ import {
     pushError
 } from '../actions/errorActions';
 
-const token = document.getElementsByName('csrf-token')[0].getAttribute('content');
+const csrfToken = document.getElementsByName('csrf-token')[0];
+const token = csrfToken && csrfToken.getAttribute('content');
 
 const headers = {
     credentials: 'same-origin',

@@ -13,6 +13,11 @@ export const getArticlePagination = createSelector(
     (pagination) => pagination.toJS()
 );
 
+export const getArticle = createSelector(
+    (state) => state.articleState.article,
+    (article) => article
+);
+
 export const getArticleIsOwner = (state, article) => (
     article && article.user ? state.userState.currentId === article.user.id : false
 );
