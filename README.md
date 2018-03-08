@@ -44,6 +44,103 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 * SQL Database
 * A CSS3 / HTML5 compatible Browser (Firefox, Chrome…)
 
+## Installation
+
+### System dependencies
+
+First install required packages:
+
+    sudo apt-get install -y curl git redis-server postgresql postgresql-contrib libpq-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libnotify-bin cmake git-flow gawk libgmp-dev libreadline6-dev cmake
+
+Configure git:
+
+    git config --global color.ui true
+    git config --global core.autocrlf false
+    git config --global core.fileMode false
+    git config --global help.autocorrect 1
+
+### Ruby dependencies
+
+Then install rvm:
+
+    gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+    curl -sSL https://get.rvm.io | bash -s stable --ruby
+    
+Exit the terminal and launch a new terminal in the root directory of the project. The gemset is automatically created.
+
+Install gems in the gemset of the project:
+
+    gem install bundler
+    
+    bundle
+    
+Install for all gemset scss-lint:
+
+    rvm @default do gem install scss-lint
+    
+### Database dependencies
+
+Create the postgres user:
+
+    sudo -u postgres psql
+    postgres=# create user inrailsweblog with password 'inrailsweblog';
+    postgres=# alter role inrailsweblog createdb;
+    postgres=# \q
+
+### Search dependencies
+
+Install ElasticSearch:
+
+    sudo wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+     echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list
+     sudo apt-get update
+     sudo apt-get install elasticsearch
+
+Configure ElasticSearch:
+
+    sudo nano /etc/elasticsearch/elasticsearch.yml
+    cluster.name: elasticsearch
+    network.host: localhost
+    
+    sudo systemctl enable elasticsearch
+
+### Node dependencies
+
+Install NodeJS and Yarn as package manager:
+
+    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    
+    sudo apt-get update
+
+    sudo apt-get install -y nodejs yarn
+
+    sudo npm i -g gulp eslint
+
+Install npm packages for the project:
+
+    yarn
+
+### Test dependencies
+
+Install tidy-html5 (check HTML file validity):
+
+    git clone https://github.com/w3c/tidy-html5
+    cd tidy-html5
+    cd build/cmake
+    cmake ../..
+    make
+    sudo make install
+    cd ../../..
+    rm -rf tidy-html5/
+
+### Populate database
+
+Populate database with dummy data:
+
+    rails InRailsWeBlog:populate[reset,data]
+
 ## Development
 
 ### Local
