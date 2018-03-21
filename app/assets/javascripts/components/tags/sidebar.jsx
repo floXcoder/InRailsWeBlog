@@ -16,8 +16,9 @@ import {
 // import AssociatedTagBox from '../tags/associated/box';
 
 import TagRelationshipDisplay from './display/relationship';
+
 import SearchBar from '../theme/searchBar';
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 @connect((state) => ({
     isLoading: state.tagState.isFetching,
@@ -28,12 +29,11 @@ import Spinner from '../materialize/spinner';
 })
 export default class TagSidebar extends React.Component {
     static propTypes = {
+        hasChildInMainList: PropTypes.bool,
         // From connect
         isLoading: PropTypes.bool,
         filterText: PropTypes.string,
-        hasChildInMainList: PropTypes.bool,
         tags: PropTypes.array,
-        fetchTags: PropTypes.func,
         filterTags: PropTypes.func
     };
 
@@ -53,7 +53,7 @@ export default class TagSidebar extends React.Component {
                 {
                     this.props.isLoading &&
                     <div className="center">
-                        <Spinner/>
+                        <Loader/>
                     </div>
                 }
 

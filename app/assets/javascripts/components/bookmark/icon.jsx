@@ -9,6 +9,7 @@ import {
 } from '../../selectors';
 
 @connect((state, props) => ({
+    currentUserId: state.userState.currentId,
     isBookmarked: getIsBookmarked(state, props)
 }), {
     bookmark
@@ -21,6 +22,7 @@ export default class BookmarkIcon extends React.PureComponent {
         isIcon: PropTypes.bool,
         bookmarkCount: PropTypes.number,
         // From connect
+        currentUserId: PropTypes.number,
         isBookmarked: PropTypes.bool,
         bookmark: PropTypes.func
     };
@@ -38,7 +40,7 @@ export default class BookmarkIcon extends React.PureComponent {
     _handleBookmark = (event) => {
         event.preventDefault();
 
-        this.props.bookmark(this.props.bookmarkType, this.props.bookmarkId, this.props.bookmarkedId);
+        this.props.bookmark(this.props.currentUserId, this.props.bookmarkType, this.props.bookmarkId, this.props.bookmarkedId);
     };
 
     render() {

@@ -50,8 +50,9 @@ export default function tagReducer(state = new initState(), action) {
                 payload.tags ? ({
                     tags: toList(payload.tags, Records.TagRecord)
                 }) : ({
+                    tag: payload.tag && new Records.TagRecord(payload.tag),
                     tags: mutateArray(state.tags, payload.tag && new Records.TagRecord(payload.tag), action.removedId)
-                }), ['tag']);
+                })/*, ['tag']*/);
 
         case ActionTypes.TAG_FILTER_SIDEBAR:
             return state.merge({

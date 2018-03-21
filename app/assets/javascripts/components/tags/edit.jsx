@@ -14,7 +14,7 @@ import {
     getTagErrors
 } from '../../selectors';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 import TagFormDisplay from './display/form';
 
@@ -69,7 +69,7 @@ export default class TagEdit extends React.Component {
         if (!this.props.tag) {
             return (
                 <div className="center margin-top-20">
-                    <Spinner size="big"/>
+                    <Loader size="big"/>
                 </div>
             );
         }

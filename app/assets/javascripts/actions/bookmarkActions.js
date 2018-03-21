@@ -19,12 +19,11 @@ const deleteBookmark = (bookmark) => ({
     removedBookmarkId: bookmark.bookmarkedId,
     bookmark: bookmark
 });
-export const bookmark = (bookmarkedType, bookmarkedId, bookmarkId) => (dispatch, getState) => {
-    const currentUserId = getState().userState.currentId;
+export const bookmark = (currentUserId, bookmarkedType, bookmarkedId, bookmarkId = null) => (dispatch) => {
     const bookmark = {
         userId: currentUserId,
-        modelType: bookmarkedType,
-        modelId: bookmarkedId
+        bookmarkedType: bookmarkedType,
+        bookmarkedId: bookmarkedId
     };
 
     if (!currentUserId) {
@@ -32,12 +31,12 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkId) => (dispatch,
             Notification.alert(I18n.t('js.bookmark.notification.not_connected'));
         } else {
             if (hasLocalStorage) {
-                saveLocalData('bookmark', {bookmark});
+                saveLocalData('bookmark', bookmark);
                 Notification.alert(I18n.t('js.bookmark.notification.saved_later'), 10, I18n.t('js.bookmark.notification.connection'), () => {
                     window.location = '/login';
                 });
 
-                return dispatch(receiveBookmark({bookmark}));
+                return dispatch(receiveBookmark(bookmark));
             } else {
                 Notification.alert(I18n.t('js.bookmark.notification.not_connected'), 10, I18n.t('js.bookmark.notification.connection'), () => {
                     window.location = '/login';
@@ -49,7 +48,7 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkId) => (dispatch,
     } else {
         if (!bookmarkId) {
             return api
-                .post(`/api/v1/users/${currentUserId}/bookmarks`, {bookmark})
+                .post(`/api/v1/users/${currentUserId}/bookmarks`, bookmark)
                 .then((response) => {
                     if (response.bookmark) {
                         Notification.alert(I18n.t('js.bookmark.notification.text'), 10, I18n.t('js.bookmark.notification.link'), () => {
@@ -61,8 +60,8 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkId) => (dispatch,
                 });
         } else {
             return api
-                .delete(`/api/v1/users/${currentUserId}/bookmarks/${bookmarkId}`, {bookmark})
-                .then((response) => dispatch(deleteBookmark(response)));
+                .delete(`/api/v1/users/${currentUserId}/bookmarks/${bookmarkId}`, bookmark)
+                .then(() => dispatch(deleteBookmark(bookmark)));
         }
     }
 };

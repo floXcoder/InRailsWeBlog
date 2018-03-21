@@ -27,7 +27,7 @@ import ArticleActions from './properties/actions';
 // TODO
 // import ArticleVotes from './properties/vote';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 import CommentCountIcon from '../comments/icons/count';
 import CommentBox from '../comments/box';
@@ -104,7 +104,7 @@ export default class ArticleShow extends React.Component {
         if (!this.props.article) {
             return (
                 <div className="center margin-top-20">
-                    <Spinner size='big'/>
+                    <Loader size="big"/>
                 </div>
             )
         }

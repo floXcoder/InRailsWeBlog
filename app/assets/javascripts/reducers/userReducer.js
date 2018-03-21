@@ -62,7 +62,7 @@ export default function userReducer(state = new initState(), action) {
                     };
                 } else if (payload.settings) {
                     return {
-                        user: state.user.merge({settings: new Records.SettingsRecord(payload.settings)})
+                        user: state.user && state.user.merge({settings: new Records.SettingsRecord(payload.settings)})
                     };
                 } else {
                     return {

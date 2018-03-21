@@ -13,7 +13,7 @@ import {
     getPrivateTags
 } from '../../selectors';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 @connect((state) => ({
     currentUserId: state.userState.currentId,
@@ -54,7 +54,7 @@ export default class TagIndex extends React.Component {
                 {
                     this.props.isFetching &&
                     <div className="center margin-top-20">
-                        <Spinner size="big"/>
+                        <Loader size="big"/>
                     </div>
                 }
 

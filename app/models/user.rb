@@ -74,6 +74,7 @@ class User < ApplicationRecord
     article_display String, default: 'card' # inline / card (with inline edit) / grid
     article_order String, default: nil # Defined in Article::order_by
 
+    tag_sidebar_pin Boolean, default: true
     tag_sidebar_with_child Boolean, default: false
 
     search_highlight Boolean, default: true

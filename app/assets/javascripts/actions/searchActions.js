@@ -14,14 +14,14 @@ import {
 
 // Autocomplete
 export const loadAutocomplete = (autocompleteParams) => (
-    api.get(`/api/v1/search/autocomplete`, {
+    api.get('/api/v1/search/autocomplete', {
         search: autocompleteParams
     })
 );
 
 export const fetchAutocomplete = (autocompleteParams) => ({
     actionType: ActionTypes.SEARCH_AUTOCOMPLETE,
-    fetchAPI: () => api.get(`/api/v1/search/autocomplete`, {
+    fetchAPI: () => api.get('/api/v1/search/autocomplete', {
         search: autocompleteParams
     }),
     payload: {
@@ -124,7 +124,7 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
     dispatch(initSearch());
 
     return api
-        .get(`/api/v1/search`, {search: searchParams})
+        .get('/api/v1/search', {search: searchParams})
         .then(json => {
             if (json.errors) {
                 return dispatch(failSearch(json));
@@ -167,21 +167,22 @@ export const filterSearch = (filters, filterOptions) => (dispatch, getState) => 
 };
 
 // Meta search
-const receiveMetaSearch = (query, json) => ({
-    type: ActionTypes.SEARCH_META_SUCCESS,
-    isSearching: false,
-    query,
-    metaResults: json
-});
-
-export const fetchMetaSearch = (query) => (dispatch) => {
-    dispatch(initSearch());
-
-    return api
-        .get(`/api/v1/search/meta`, {
-            search: {
-                query
-            }
-        })
-        .then(json => dispatch(receiveMetaSearch(query, json)));
-};
+// Not used for now
+// const receiveMetaSearch = (query, json) => ({
+//     type: ActionTypes.SEARCH_META_SUCCESS,
+//     isSearching: false,
+//     query,
+//     metaResults: json
+// });
+//
+// export const fetchMetaSearch = (query) => (dispatch) => {
+//     dispatch(initSearch());
+//
+//     return api
+//         .get(`/api/v1/search/meta`, {
+//             search: {
+//                 query
+//             }
+//         })
+//         .then(json => dispatch(receiveMetaSearch(query, json)));
+// };

@@ -1,7 +1,6 @@
 'use strict';
 
-
-let Spinner = ({size, className}) => {
+const Spinner = ({size, className}) => {
     const preloaderClasses = classNames(
         'preloader-wrapper',
         'active',

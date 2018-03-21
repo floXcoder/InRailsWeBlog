@@ -18,6 +18,7 @@ import {
     settings: state.userState.user.settings,
     articlesLoader: state.userState.user && state.userState.user.settings.articlesLoader,
     articleDisplay: state.userState.user && state.userState.user.settings.articleDisplay,
+    tagSidebarPin: state.userState.user && state.userState.user.settings.tagSidebarPin,
     tagSidebarWithChild: state.userState.user && state.userState.user.settings.tagSidebarWithChild,
     searchHighlight: state.userState.user && state.userState.user.searchHighlight,
     searchOperator: state.userState.user && state.userState.user.settings.searchOperator,
@@ -31,6 +32,7 @@ export default class UserSettings extends React.Component {
         currentUserId: PropTypes.number,
         articlesLoader: PropTypes.string,
         articleDisplay: PropTypes.string,
+        tagSidebarPin: PropTypes.bool,
         tagSidebarWithChild: PropTypes.bool,
         searchHighlight: PropTypes.bool,
         searchOperator: PropTypes.string,
@@ -48,6 +50,10 @@ export default class UserSettings extends React.Component {
 
     _onDisplayChanged = (event) => {
         this._updateSettings({articleDisplay: event.target.id});
+    };
+
+    _onTagSidebarPinChanged = (value) => {
+        this._updateSettings({tagSidebarPin: value});
     };
 
     _onTagSidebarWithChildChanged = (value) => {
@@ -102,6 +108,13 @@ export default class UserSettings extends React.Component {
                             <h6>
                                 {I18n.t('js.user.settings.tag.sidebar.title')}
                             </h6>
+                            <SwitchButton id="tag-sidebar-pin"
+                                          title={I18n.t('js.user.settings.tag.sidebar.pin')}
+                                          values={I18n.t('js.checkbox')}
+                                          onChange={this._onTagSidebarPinChanged}>
+                                {this.props.tagSidebarPin}
+                            </SwitchButton>
+
                             <SwitchButton id="tag-sidebar-child"
                                           title={I18n.t('js.user.settings.tag.sidebar.with_child')}
                                           values={I18n.t('js.checkbox')}

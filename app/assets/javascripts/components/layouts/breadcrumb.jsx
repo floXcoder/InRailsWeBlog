@@ -65,7 +65,7 @@ export default class BreadcrumbLayout extends React.Component {
 
     _formatRecents = (recents) => {
         if (recents) {
-            return recents.compact().sort((a, b) => b.date - a.date).limit(this.props.limit).reverse();
+            return recents.compact().sort((a, b) => b.date - a.date).limit(this.props.limit).slice().reverse();
         } else {
             return [];
         }

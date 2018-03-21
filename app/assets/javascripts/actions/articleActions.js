@@ -45,7 +45,7 @@ export const updateArticle = (article, options = {}) => ({
 
 export const updateArticlePriority = (articleIdsByPriority) => ({
     actionType: ActionTypes.ARTICLE,
-    mutationAPI: () => api.update(`/api/v1/articles/priority`, {
+    mutationAPI: () => api.update('/api/v1/articles/priority', {
         articleIds: articleIdsByPriority
     })
 });
@@ -81,8 +81,6 @@ export const restoreArticle = (articleId, versionId) => (dispatch) => (
         .then((response) => dispatch(receiveArticleRestored(response.article)))
 );
 
-// Bookmarks
-// const url = this.url + '/' + data.articleId + '/bookmark';
 
 // Vote
 // let url = this.url + '/' + data.articleId;

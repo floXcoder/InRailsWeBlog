@@ -16,7 +16,7 @@ import {
 
 import highlight from '../modules/highlight';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 import ArticleCardDisplay from './display/card';
 import ArticleVersionsDisplay from './display/versions';
@@ -72,7 +72,7 @@ export default class ArticleHistory extends React.Component {
         if (!this.props.article || !this.props.articleVersions) {
             return (
                 <div className="center margin-top-20">
-                    <Spinner size="big"/>
+                    <Loader size="big"/>
                 </div>
             );
         }

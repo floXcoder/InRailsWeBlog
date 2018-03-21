@@ -2,39 +2,36 @@
 
 import '../test_helper';
 
+import reducers from '../../../app/assets/javascripts/reducers';
+
 import HomePage from '../../../app/assets/javascripts/components/home/home';
 
 describe('<HomePage />', () => {
+    let store;
+    let shallowWrapper, mountWrapper;
 
-    it('load home page', () => {
-        expect(true).toEqual(true);
+    beforeEach(() => {
+        // Mock errors reporting
+        mock('/errors', 200, () => ({}));
+
+        store = buildStore(reducers);
+
+        jest.useFakeTimers();
     });
 
-    // let shallowWrapper, mountWrapper;
-    //
-    // beforeEach(() => {
-    //     initSession();
-    //     shallowWrapper = shallow(<HomePage />);
-    //     mountWrapper = mount(<HomePage />);
-    // });
-    //
-    // afterEach(() => {
-    //     mountWrapper.unmount();
-    //     resetSession();
-    // });
-    //
-    // it('renders affiliation and popular results by default', () => {
-    //     expect(shallowWrapper.find(AffiliationResult)).to.be.present();
-    //     expect(shallowWrapper.find(AffiliationResult)).to.have.prop('title').equal(I18n.t(''));
-    //
-    //     expect(shallowWrapper.find(PopularResult)).to.be.present();
-    //     expect(shallowWrapper.find(PopularResult)).to.have.prop('title').equal(I18n.t(''));
-    // });
-    //
-    // it('renders results if any', () => {
-    //     shallowWrapper.setState({hasResults: true});
-    //     expect(shallowWrapper.find(AffiliationResult)).not.to.be.present();
-    //
-    //     expect(shallowWrapper.find(PopularResult)).not.to.be.present();
-    // });
+    it('renders home page', () => {
+        shallowWrapper = shallow(<HomePage store={store}/>);
+
+        expect(shallowWrapper.find('BrowserRouter')).toHaveLength(1);
+        expect(shallowWrapper.find('Switch')).toHaveLength(1);
+        expect(shallowWrapper.find('PasteManagerComponent(MatchMediaComponent(MainLayout))')).toBeTruthy();
+
+        expect(shallowWrapper.dive()).toMatchSnapshot();
+    });
+
+    afterEach(() => {
+        if (mountWrapper) {
+            mountWrapper.unmount();
+        }
+    });
 });

@@ -16,7 +16,7 @@ import {
 
 import UserAvatarIcon from '../users/icons/avatar';
 
-import Spinner from '../materialize/spinner';
+import Loader from '../theme/loader';
 
 @connect((state) => ({
     isFetching: state.tagState.isFetching,
@@ -68,7 +68,7 @@ export default class TagShow extends React.Component {
         if (!this.props.tag) {
             return (
                 <div className="center margin-top-20">
-                    <Spinner size='big'/>
+                    <Loader size="big"/>
                 </div>
             )
         }

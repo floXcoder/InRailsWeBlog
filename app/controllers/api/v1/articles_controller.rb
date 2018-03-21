@@ -137,10 +137,12 @@ module Api::V1
 
       article.format_attributes(article_params, current_user)
 
+      w params.permit!
+
       respond_to do |format|
         format.json do
           if article.save
-            flash.now[:success] = t('views.article.flash.successful_edition')
+            flash.now[:success] = t('views.article.flash.successful_edition') unless params[:auto_save]
             render json:   article,
                    status: :ok
           else
