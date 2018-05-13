@@ -176,7 +176,7 @@ module Kernel
     # ap msg.class if msg.respond_to?(:class)
     src = caller.first.gsub(Rails.root.to_s + '/', '')
     ap src, color: { string: :purpleish }
-    ap msg
+    msg.respond_to?(:to_unsafe_h) ? ap(msg.to_unsafe_h) : ap(msg)
     ap '*** END ***', color: { string: :green }
   end
 end

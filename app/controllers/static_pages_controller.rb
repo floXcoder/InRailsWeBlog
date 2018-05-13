@@ -9,12 +9,15 @@ class StaticPagesController < ApplicationController
         expires_in 3.hours, public: true
         set_meta_tags title:       titleize(I18n.t('views.home.title')),
                       description: I18n.t('views.home.description'),
-                      canonical:   alternate_urls('')['fr'],
-                      alternate:   alternate_urls(''),
+                      canonical:   canonical_url(root_url),
+                      alternate:   {
+                        fr: canonical_url(root_url),
+                        en: canonical_url(locale_root_en_url)
+                      },
                       og:          {
                         type:  "#{ENV['WEBSITE_NAME']}:home",
                         url:   root_url,
-                        image: image_url('logos/favicon-192x192.png')
+                        image: image_url('logos/full_gradient.png')
                       }
         render :home
       end

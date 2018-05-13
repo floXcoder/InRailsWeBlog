@@ -65,7 +65,7 @@ describe 'Vote Article API', type: :request, basic: true do
   describe '/api/v1/articles/:article_id/votes (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/api/v1/articles/#{@article.id}/votes", headers: @json_header
+        delete "/api/v1/articles/#{@article.id}/votes", as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -90,7 +90,7 @@ describe 'Vote Article API', type: :request, basic: true do
 
       it 'returns ok' do
         expect {
-          delete "/api/v1/articles/#{@article.id}/votes", headers: @json_header
+          delete "/api/v1/articles/#{@article.id}/votes", as: :json
 
           expect(response).to be_json_response(204)
         }.to change(Vote, :count).by(1)

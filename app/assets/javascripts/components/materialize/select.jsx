@@ -172,7 +172,8 @@ export default class Select extends React.Component {
 
                 {
                     this.props.isHorizontal &&
-                    <label className={labelClass}>
+                    <label htmlFor={id}
+                           className={labelClass}>
                         {this.props.title}
                     </label>
                 }
@@ -198,7 +199,8 @@ export default class Select extends React.Component {
 
                     {
                         !this.props.isHorizontal &&
-                        <label className={labelClass}>
+                        <label htmlFor={id}
+                               className={labelClass}>
                             {this.props.title}
                         </label>
                     }

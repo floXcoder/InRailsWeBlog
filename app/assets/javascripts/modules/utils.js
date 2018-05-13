@@ -350,7 +350,7 @@ export const getUrlParameters = () => {
         return undefined;
     }
 
-    parseUrlParameters(query);
+    return parseUrlParameters(query);
 };
 
 export const decodeObject = (object) => {
@@ -609,6 +609,8 @@ export const is = () => {
 
     return exports;
 };
+
+export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));
 
 export const NAVIGATION_KEYMAP = {
     //8: 'backspace',

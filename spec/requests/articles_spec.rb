@@ -666,7 +666,7 @@ describe 'Article API', type: :request, basic: true do
   describe '/api/v1/articles/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/api/v1/articles/#{@article.id}", headers: @json_header
+        delete "/api/v1/articles/#{@article.id}", as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -679,7 +679,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns the soft deleted article id' do
         expect {
-          delete "/api/v1/articles/#{@article.id}", headers: @json_header
+          delete "/api/v1/articles/#{@article.id}", as: :json
 
           expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -687,7 +687,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns the soft deleted article id with relationships removed' do
         expect {
-          delete "/api/v1/articles/#{@relation_tags_article.id}", headers: @json_header
+          delete "/api/v1/articles/#{@relation_tags_article.id}", as: :json
 
           expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(-2).and change(TagRelationship.with_deleted, :count).by(0)
@@ -701,7 +701,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'can remove permanently an article' do
         expect {
-          delete "/api/v1/articles/#{@article.id}", params: { permanently: true }, headers: @json_header
+          delete "/api/v1/articles/#{@article.id}", params: { permanently: true }, as: :json
 
           expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(-1).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(-3).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
@@ -795,7 +795,7 @@ describe 'Article API', type: :request, basic: true do
     describe '/api/v1/articles/:id/comments (DELETE)' do
       context 'when user is not connected' do
         it 'returns an error message' do
-          delete "/api/v1/articles/#{@relation_tags_article_2.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
+          delete "/api/v1/articles/#{@relation_tags_article_2.id}/comments", as: :json, params: { comment: { id: @comments.second.id } }
 
           expect(response).to be_unauthenticated
         end
@@ -807,7 +807,7 @@ describe 'Article API', type: :request, basic: true do
         end
 
         it 'deletes a comment associated to this article' do
-          delete "/api/v1/articles/#{@relation_tags_article_2.id}/comments", headers: @json_header, params: { comment: { id: @comments.second.id } }
+          delete "/api/v1/articles/#{@relation_tags_article_2.id}/comments", as: :json, params: { comment: { id: @comments.second.id } }
 
           expect(response).to be_json_response(202)
 

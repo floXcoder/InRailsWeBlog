@@ -1,6 +1,7 @@
 SecureHeaders::Configuration.default do |config|
   config.csp = {
     preserve_schemes: true,
+    base_uri:         %w['self'],
     default_src:      %w['self' ws: wss: *.l-x.fr],
     connect_src:      %w['self' ws: wss: *.l-x.fr],
     child_src:        %w['self'],

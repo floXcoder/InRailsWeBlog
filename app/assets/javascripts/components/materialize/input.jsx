@@ -10,6 +10,7 @@ export default class Input extends React.Component {
         ]),
         id: PropTypes.string.isRequired,
         className: PropTypes.string,
+        wrapperClassName: PropTypes.string,
         title: PropTypes.oneOfType([
             PropTypes.element,
             PropTypes.object,
@@ -64,7 +65,7 @@ export default class Input extends React.Component {
     }
 
     state = {
-        value: this.props.children || ''
+        value: !Utils.isEmpty(this.props.children) ? this.props.children : ''
     };
 
     componentWillReceiveProps(nextProps) {
@@ -115,7 +116,7 @@ export default class Input extends React.Component {
             }
         }
 
-        const wrapperClass = classNames({
+        const wrapperClass = classNames(this.props.wrapperClassName, {
             'row input-form': this.props.type !== 'hidden'
         });
 

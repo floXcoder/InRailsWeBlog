@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   # Security
-  protect_from_forgery with: :null_session
+  protect_from_forgery with: :exception
 
   # Handle exceptions
   rescue_from StandardError, with: :server_error
@@ -140,36 +140,34 @@ class ApplicationController < ActionController::Base
     base_title.html_safe
   end
 
-  def user_canonical_url(slug)
-    "#{root_url}users/#{slug}" + request.fullpath[/\?.*/].to_s
+  def canonical_url(url)
+    params = request.fullpath[/\?.*/]
+    params ? url + params : url
   end
 
-  def topic_canonical_url(slug)
-    "#{root_url}topics/#{slug}" + request.fullpath[/\?.*/].to_s
-  end
-
-  def article_canonical_url(slug)
-    "#{root_url}articles/#{slug}" + request.fullpath[/\?.*/].to_s
-  end
-
-  def tag_canonical_url(slug)
-    "#{root_url}tags/#{slug}" + request.fullpath[/\?.*/].to_s
-  end
-
-  def alternate_urls(route, slug = nil, options = {})
-    if options[:parent_main_route] && options[:parent_route] && options[:parent_slug]
-      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + options[:parent_route], locale: local)}/#{options[:parent_slug]}/#{I18n.t('routes.' + options[:parent_main_route], locale: local)}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/]}"] }]
-    elsif options[:parent_route] && options[:parent_slug]
-      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + options[:parent_route], locale: local)}/#{options[:parent_slug]}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/]}"] }]
-    elsif route.empty?
-      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{request.fullpath[/\?.*/]}"] }]
+  def alternate_urls(path)
+    params = request.fullpath[/\?.*/]
+    if path.is_a?(Hash)
+      if params
+        path.each { |locale, url| path[locale] = url + params }
+      else
+        path
+      end
     else
-      Hash[I18n.available_locales.map { |local| [local.to_s, "#{root_url}#{local}/#{I18n.t('routes.' + route, locale: local)}/#{slug}#{request.fullpath[/\?.*/]}"] }]
+      Hash[I18n.available_locales.map { |locale| [locale.to_s, params ? send("#{path}_#{locale}_url") + params : send("#{path}_#{locale}_url")] }]
     end
+  end
+
+  def og_image_url(picture)
+    root_url + picture.last(-1)
   end
 
   def image_url(url)
     root_url + 'assets/' + url
+  end
+
+  def js_request?
+    request.format.js?
   end
 
   def json_request?
@@ -250,7 +248,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_coordinates_from_IP
+  def get_coordinates_from_ip
     result         = request.location
     distance       = 100
     ip_coordinates = result.coordinates
@@ -320,7 +318,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found_error(exception)
-    handle_error(exception)
+    # handle_error(exception)
 
     raise if Rails.env.development?
 

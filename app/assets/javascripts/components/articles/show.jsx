@@ -1,7 +1,5 @@
 'use strict';
 
-import LazyLoad from 'react-lazyload';
-
 import {
     fetchArticle,
     deleteArticle
@@ -28,6 +26,7 @@ import ArticleActions from './properties/actions';
 // import ArticleVotes from './properties/vote';
 
 import Loader from '../theme/loader';
+import LazyLoader from '../theme/lazyLoader';
 
 import CommentCountIcon from '../comments/icons/count';
 import CommentBox from '../comments/box';
@@ -213,7 +212,7 @@ export default class ArticleShow extends React.Component {
                 {
                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                     <div className="card-panel">
-                        <LazyLoad height={0}
+                        <LazyLoader height={0}
                                   once={true}
                                   offset={50}>
                             <CommentBox id={`article-comments-${this.props.article.id}`}
@@ -224,7 +223,7 @@ export default class ArticleShow extends React.Component {
                                         isUserOwner={this.props.isOwner}
                                         isPaginated={false}
                                         isRated={true}/>
-                        </LazyLoad>
+                        </LazyLoader>
                     </div>
                 }
             </div>

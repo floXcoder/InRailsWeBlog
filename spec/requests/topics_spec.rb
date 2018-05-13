@@ -272,7 +272,7 @@ describe 'Topic API', type: :request, basic: true do
   describe '/api/v1/topics/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/api/v1/topics/#{@first_topic.id}", headers: @json_header, params: { user_id: @user.id }
+        delete "/api/v1/topics/#{@first_topic.id}", as: :json, params: { user_id: @user.id }
 
         expect(response).to be_unauthenticated
       end
@@ -287,7 +287,7 @@ describe 'Topic API', type: :request, basic: true do
 
       it 'returns the soft deleted topic id' do
         expect {
-          delete "/api/v1/topics/#{@first_topic.id}", headers: @json_header, params: { user_id: @user.id }
+          delete "/api/v1/topics/#{@first_topic.id}", as: :json, params: { user_id: @user.id }
 
           expect(response).to be_json_response(204)
         }.to change(Topic, :count).by(-1).and change(Article, :count).by(-5).and change(TaggedArticle, :count).by(0).and change(TagRelationship, :count).by(0)

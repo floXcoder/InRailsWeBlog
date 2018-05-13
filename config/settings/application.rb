@@ -6,7 +6,7 @@ SimpleConfig.for :application do
   set :website_email, ENV['WEBSITE_EMAIL']
 
   # Cache time
-  set :cache_time, 2.hours
+  set :cache_time, 12.hours
 
   # User validation parameters
   set :user_pseudo_min_length, 3

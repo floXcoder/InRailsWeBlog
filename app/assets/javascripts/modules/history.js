@@ -2,26 +2,29 @@
 
 import _ from 'lodash';
 
-const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly) => {
-    if (window.history && window.history.pushState && window.location.pathname !== 'blank') {
-        let urlParams = $(window.location).attr('pathname');
-        const previousParams = $.param(_.omit(Utils.getUrlParameters(), Object.keys(paramsToUrl)));
+import urlParser from './urlParser';
 
-        paramsToSerialize = _.omitBy(paramsToSerialize, function (value, key) {
-            return (Utils.isEmpty(value) || value === '') || (Utils.isEmpty(key) || key === '');
-        });
-        paramsToUrl = _.omitBy(paramsToUrl, function (value, key) {
-            return (Utils.isEmpty(value) || value === '') || (Utils.isEmpty(key) || key === '');
-        });
+const omitEmptyParams = (params) => _.omitBy(params, (value, key) => (Utils.isEmpty(value) || value === '') || (Utils.isEmpty(key) || key === ''));
+
+const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly) => {
+    if (window.history && window.history.pushState) {
+        paramsToSerialize = omitEmptyParams(paramsToSerialize);
+
+        const urlData = urlParser(location.href).data;
+        let newPath = urlData.attr.path;
+        paramsToUrl = omitEmptyParams(paramsToUrl);
+        const currentUrlParams = omitEmptyParams(urlData.param.query);
+
+        const newParams = {...currentUrlParams, ...paramsToUrl};
 
         if (!Utils.isEmpty($.param(paramsToUrl))) {
-            urlParams += '?' + ((previousParams && previousParams !== '' && previousParams !== '=') ? previousParams + '&' : '') + $.param(paramsToUrl);
+            newPath += '?' + $.param(newParams);
         }
 
         if (replaceOnly) {
-            window.history.replaceState(paramsToSerialize, '', urlParams);
+            window.history.replaceState(paramsToSerialize, '', newPath);
         } else {
-            window.history.pushState(paramsToSerialize, '', urlParams);
+            window.history.pushState(paramsToSerialize, '', newPath);
         }
 
         return true;
@@ -40,7 +43,7 @@ const getPreviousState = (dataName, options) => {
         let dataParams = params[dataName];
 
         if (options && options.useUrlParams) {
-            let urlParams = Utils.getUrlParameters();
+            const urlParams = Utils.getUrlParameters();
             dataParams = _.merge(urlParams, dataParams);
         }
 

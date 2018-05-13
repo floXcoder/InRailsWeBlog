@@ -24,4 +24,6 @@ search:
   paths:
     - app/
     - spec/
+  exclude:
+    - spec/javascripts/translations
   strict: false

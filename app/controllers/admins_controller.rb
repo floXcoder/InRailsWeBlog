@@ -38,8 +38,7 @@ class AdminsController < ApplicationController
     respond_to do |format|
       format.html do
         set_meta_tags title:    titleize_admin(I18n.t('views.admin.dashboard.title')),
-                      noindex:  true,
-                      nofollow: true
+                      noindex:  true, nofollow: true
         render 'admin/index'
       end
     end

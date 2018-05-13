@@ -6,9 +6,9 @@ import * as ActionTypes from '../constants/actionTypes';
 // export function loadPosts(userId) {
 //     return {
 //         // Types of actions to emit before and after
-//         actionType: ActionTypes.ARTICLE,
+//         actionType: ActionTypes.RIDE,
 //         // Check the cache (optional):
-//         shouldCallAPI: (state) => !state.articles[userId],
+//         shouldCallAPI: (state) => !state.posts[userId],
 //         // Perform the fetching:
 //         fetchAPI: () => fetch(`http://myapi.com/users/${userId}/posts`),
 //         // Arguments to inject in begin/end actions

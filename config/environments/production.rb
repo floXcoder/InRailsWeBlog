@@ -86,11 +86,11 @@ Rails.application.configure do
     user_name:           ENV['EMAIL_USER'],
     password:            ENV['EMAIL_PASSWORD'],
     openssl_verify_mode: 'none',
-    open_timeout:        1,
-    read_timeout:        1
+    open_timeout:        3,
+    read_timeout:        3
   }
 
   # Add timeout for ElasticSearch
-  Searchkick.timeout        = 1
-  Searchkick.search_timeout = 1
+  Searchkick.timeout        = 3
+  Searchkick.search_timeout = 3
 end

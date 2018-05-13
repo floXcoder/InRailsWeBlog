@@ -1,7 +1,7 @@
 class ArticleSampleSerializer < ActiveModel::Serializer
-  cache key: 'article_sample', expires_in: 12.hours
-
   include NullAttributesRemover
+
+  cache key: 'article_sample', expires_in: 12.hours
 
   attributes :id,
              :mode,

@@ -198,8 +198,8 @@ class Topic < ApplicationRecord
     boost_where = nil
 
     # Page parameters
-    page     = options[:page] ? options[:page] : 1
-    per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
+    page     = options[:page] || 1
+    per_page = options[:per_page] || Setting.search_per_page
 
     # Order search
     order = order_search(options[:order])

@@ -1,7 +1,7 @@
 class TopicSampleSerializer < ActiveModel::Serializer
-  cache key: 'topic_sample', expires_in: 12.hours
-
   include NullAttributesRemover
+
+  cache key: 'topic_sample', expires_in: 12.hours
 
   attributes :id,
              :user_id,

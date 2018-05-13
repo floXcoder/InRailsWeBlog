@@ -154,7 +154,6 @@ export default class CommentInlineDisplay extends React.Component {
                                  data-tooltip={I18n.t('js.comment.table.actions.show')}>
                                 <a className="btn-floating"
                                    href={this.props.comment.link}
-                                   rel="noopener noreferrer"
                                    target="_blank">
                                     <span className="material-icons"
                                           data-icon="comment"
