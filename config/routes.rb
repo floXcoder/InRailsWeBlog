@@ -162,8 +162,7 @@ Rails.application.routes.draw do
     post    '/admin/login',  to: 'users/sessions#create'
     delete  '/admin/logout', to: 'users/sessions#destroy',  as: :logout_admin
   end
-  devise_for :admins, controllers: { sessions:  'users/sessions',
-                                     passwords: 'users/passwords' }
+  devise_for :admins, controllers: { sessions:  'users/sessions', passwords: 'users/passwords' }
 
   # Admin interface
   authenticate :admin do

@@ -33,7 +33,7 @@ gem 'geocoder',                 '1.4.7'
 gem 'maxminddb',                '0.1.15'
 
 # Model versioning
-gem 'paper_trail',              '9.0.1'
+gem 'paper_trail',              '9.0.2'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.1'
@@ -49,6 +49,9 @@ gem 'sanitize',                 '4.6.4'
 gem 'sidekiq',                  '5.1.3'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '0.6.3'
+gem 'sidekiq-status',           '1.0.1'
+gem 'attentive_sidekiq',        '0.3.3'
+gem 'sidekiq-benchmark',        '0.6.0'
 gem 'whenever',                 '0.10.0', require: false
 
 # Redis session store and cache
@@ -180,7 +183,7 @@ group :development, :test do
   gem 'spring-watcher-listen',  '2.0.1'
 
   # Check errors
-  gem 'rubocop',                '0.55.0',  require: false
+  gem 'rubocop',                '0.56.0',  require: false
 end
 
 group :production do
