@@ -1,9 +1,13 @@
 const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const autoprefixer = require('autoprefixer');
+
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = require('../config').webpack;
 
@@ -41,49 +45,72 @@ _.forEach(config.alias, (value, key) => {
     webPackConfig.resolve.alias[key] = path.resolve(value);
 });
 
+webPackConfig.module = {
+    noParse: config.modules.noParse,
+    rules: [
+        {
+            test: /\.(js|jsx)$/,
+            exclude: config.rules.javascript.exclude,
+            loader: 'babel-loader',
+            options: config.rules.javascript.options
+        },
+        {
+            test: /\.s?[ac]ss$/,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                },
+                // {
+                //     loader: 'style-loader', // creates style nodes from JS strings
+                // },
+                {
+                    loader: 'css-loader', // translates CSS into CommonJS
+                },
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        plugins: () => [autoprefixer('last 2 version')]
+                    }
+                },
+                {
+                    loader: 'sass-loader', // compiles Sass to CSS
+                    options: config.rules.stylesheet.options
+                }
+            ]
+        },
+        {
+            test: /\.(gif|png|jpe?g|svg)$/i,
+            use: [
+                'file-loader',
+                {
+                    loader: 'image-webpack-loader',
+                    options: config.rules.file.options
+                },
+            ],
+        },
+        {
+            test: /\.(woff|woff2|eot|ttf|otf)$/,
+            use: [
+                'file-loader'
+            ]
+        }
+    ]
+};
+
 webPackConfig.plugins = [
     new webpack.ProvidePlugin(config.plugins),
+    new CleanWebpackPlugin(config.clean.pathsToClean, {
+        root: path.resolve(config.output.path)
+    }),
+    new CopyWebpackPlugin([{
+        from: 'images/favicon.ico',
+        to: 'favicon.ico'
+    }]),
     new LodashModuleReplacementPlugin({
         // 'currying': true,
         'caching': true,
         'collections': true,
         'flattening': true,
         'placeholders': true
-    }),
-    // new BundleAnalyzerPlugin({
-    //     // Can be `server`, `static` or `disabled`.
-    //     // In `server` mode analyzer will start HTTP server to show bundle report.
-    //     // In `static` mode single HTML file with bundle report will be generated.
-    //     // In `disabled` mode you can use this plugin to just generate Webpack Stats JSON file by setting `generateStatsFile` to `true`.
-    //     analyzerMode: 'server',
-    //     // Host that will be used in `server` mode to start HTTP server.
-    //     analyzerHost: '127.0.0.1',
-    //     // Port that will be used in `server` mode to start HTTP server.
-    //     analyzerPort: 8888,
-    //     // Path to bundle report file that will be generated in `static` mode.
-    //     // Relative to bundles output directory.
-    //     reportFilename: 'report.html',
-    //     // Module sizes to show in report by default.
-    //     // Should be one of `stat`, `parsed` or `gzip`.
-    //     // See "Definitions" section for more information.
-    //     defaultSizes: 'parsed',
-    //     // Automatically open report in default browser
-    //     openAnalyzer: true,
-    //     // If `true`, Webpack Stats JSON file will be generated in bundles output directory
-    //     generateStatsFile: false,
-    //     // Name of Webpack Stats JSON file that will be generated if `generateStatsFile` is `true`.
-    //     // Relative to bundles output directory.
-    //     statsFilename: 'stats.json',
-    //     // Options for `stats.toJson()` method.
-    //     // For example you can exclude sources of your modules from stats file with `source: false` option.
-    //     // See more options here: https://github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
-    //     statsOptions: null,
-    //     // Log level. Can be 'info', 'warn', 'error' or 'silent'.
-    //     logLevel: 'info'
-    // })
+    })
 ];
-
-webPackConfig.module = {
-    noParse: config.modules.noParse,
-    rules: config.rules
-};

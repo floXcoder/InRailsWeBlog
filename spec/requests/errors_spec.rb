@@ -5,7 +5,6 @@ describe 'Errors API', type: :request, basic: true do
   before(:all) do
   end
 
-  # TODO: test all methods
   # describe '/ (HTML)' do
   #   it 'returns home page' do
   #     get '/'

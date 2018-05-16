@@ -104,16 +104,6 @@ export default class ArticleInlineEditionDisplay extends React.Component {
                                           onCancelClick={this._handleCancelClick}
                                           onSaveClick={this._handleSaveClick}/>
                 </div>
-
-                {
-                    // TODO: display tags?
-                    // this.props.article.tags.map((tag) => (
-                    //     <a key={tag.id}
-                    //        className="btn-small waves-effect waves-light">
-                    //         {tag.name}
-                    //     </a>
-                    // ))
-                }
             </div>
         );
     }

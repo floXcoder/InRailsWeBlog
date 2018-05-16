@@ -1,13 +1,13 @@
-@import 'summernote/dist/summernote-lite';
+@import '~summernote/dist/summernote-lite.css';
 
-@font-face {
-  font-family: 'summernote';
-  font-style: normal;
-  font-weight: normal;
-  src: url("#{$icons-font-path}summernote.eot?e557617934c52ea068954af79ed7c221");
-  src: url("#{$icons-font-path}summernote.eot?#iefix") format('embedded-opentype'),
-  url("#{$icons-font-path}summernote.woff?e557617934c52ea068954af79ed7c221") format('woff'), url("#{$icons-font-path}summernote.ttf?e557617934c52ea068954af79ed7c221") format('truetype');
-}
+//@font-face {
+//  font-family: 'summernote';
+//  font-style: normal;
+//  font-weight: normal;
+//  src: url("#{$icons-font-path}summernote.eot?e557617934c52ea068954af79ed7c221");
+//  src: url("#{$icons-font-path}summernote.eot?#iefix") format('embedded-opentype'),
+//  url("#{$icons-font-path}summernote.woff?e557617934c52ea068954af79ed7c221") format('woff'), url("#{$icons-font-path}summernote.ttf?e557617934c52ea068954af79ed7c221") format('truetype');
+//}
 
 .editor-reset {
   h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, menu, figure, blockquote, p, pre, form {

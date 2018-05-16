@@ -17,8 +17,6 @@ import ArticleTime from './properties/time';
 import ArticleTags from './properties/tags';
 import ArticleActions from './properties/actions';
 // TODO
-// import ArticleTime from './properties/time';
-// TODO
 // import ArticleOutdatedIcon from './icons/outdated';
 // TODO
 // import ArticleBookmarkIcon from './icons/bookmark';

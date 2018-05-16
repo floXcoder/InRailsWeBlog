@@ -1,5 +1,6 @@
                    Prefix Verb   URI Pattern                                     Controller#Action
                      root GET    /                                               static_pages#home
+                          GET    /assets/:asset(.:format)                        redirect(301, http://localhost:8080/assets/%{asset})
                           GET    /user/*id(.:format)                             static_pages#home
                  research GET    /research(.:format)                             static_pages#home
                           GET    /research/*id(.:format)                         static_pages#home

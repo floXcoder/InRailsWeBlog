@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: inrailsweblog_dev
+  database: <%= ENV['DATABASE_DEV_NAME'] %>
   host: localhost
   pool: 15
   username: <%= ENV['DATABASE_DEV_USERNAME'] %>
@@ -10,7 +10,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: inrailsweblog_test
+  database: <%= ENV['DATABASE_TEST_NAME'] %>
   host: localhost
   pool: 15
   username: <%= ENV['DATABASE_TEST_USERNAME'] %>
@@ -19,7 +19,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: inrailsweblog
+  database: <%= ENV['DATABASE_PROD_NAME'] %>
   host: localhost
   pool: 15
   connect_timeout: 30

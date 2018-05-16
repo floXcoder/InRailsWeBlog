@@ -105,7 +105,6 @@ export default class Editor extends React.Component {
                     }
                 });
             } else {
-                // TODO: limit button if small screen
                 const toolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
                     ['specialStyle', ['advice', 'secret', 'cleaner']],

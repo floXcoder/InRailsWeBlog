@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -55,7 +57,7 @@ Rails.application.configure do
   config.lograge.custom_options = lambda do |event|
     options          = event.payload.slice(:request_id, :user_id, :admin_id)
     options[:params] = event.payload[:params].except('controller', 'action')
-    options[:search] = event.payload[:searchkick_runtime] if event.payload[:searchkick_runtime].to_f > 0
+    options[:search] = event.payload[:searchkick_runtime] if event.payload[:searchkick_runtime].positive?
     options
   end
 

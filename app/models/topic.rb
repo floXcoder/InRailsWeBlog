@@ -2,8 +2,8 @@
 #
 # Table name: topics
 #
-#  id                       :integer          not null, primary key
-#  user_id                  :integer
+#  id                       :bigint(8)        not null, primary key
+#  user_id                  :bigint(8)
 #  name                     :string           not null
 #  description_translations :jsonb
 #  languages                :string           default([]), is an Array

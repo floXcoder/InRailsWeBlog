@@ -169,7 +169,6 @@ export default class ArticleCardDisplay extends React.Component {
                 </div>
 
                 {
-                    // TODO
                     // <BookmarkIcon bookmarkType="article"
                     //               bookmarkId={this.props.article.id}
                     //               bookmarkedId={this.props.article.bookmarked}

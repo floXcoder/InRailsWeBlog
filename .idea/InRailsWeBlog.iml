@@ -93,7 +93,6 @@
       <excludeFolder url="file://$MODULE_DIR$/spec/javascripts/translations" />
       <excludeFolder url="file://$MODULE_DIR$/static_analysis" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/assets/fonts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/components" />
     </content>
     <orderEntry type="jdk" jdkName="RVM: ruby-2.4.1 [InRailsWeBlog]" jdkType="RUBY_SDK" />
@@ -247,7 +246,7 @@
     <orderEntry type="library" scope="PROVIDED" name="net-scp (v1.2.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-ssh (v4.2.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="netrc (v0.11.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="newrelic_rpm (v4.8.0.341, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="newrelic_rpm (v5.1.0.344, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.3.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.8.2, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogumbo (v1.5.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -255,7 +254,7 @@
     <orderEntry type="library" scope="PROVIDED" name="oj (v3.6.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="oj_mimic_json (v1.0.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="paper_trail (v8.1.2, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="paper_trail (v9.0.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.12.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="paranoia (v2.4.1, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v2.5.1.0, RVM: ruby-2.4.1 [InRailsWeBlog]) [gem]" level="application" />

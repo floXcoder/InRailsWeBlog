@@ -2,7 +2,7 @@
 #
 # Table name: settings
 #
-#  id         :integer          not null, primary key
+#  id         :bigint(8)        not null, primary key
 #  var        :string           not null
 #  value      :text
 #  thing_id   :integer

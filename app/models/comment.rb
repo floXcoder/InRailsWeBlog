@@ -2,10 +2,10 @@
 #
 # Table name: comments
 #
-#  id               :integer          not null, primary key
+#  id               :bigint(8)        not null, primary key
+#  user_id          :bigint(8)        not null
 #  commentable_type :string           not null
-#  commentable_id   :integer          not null
-#  user_id          :integer          not null
+#  commentable_id   :bigint(8)        not null
 #  title            :string
 #  body             :text
 #  subject          :string

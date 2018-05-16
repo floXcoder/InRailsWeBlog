@@ -295,9 +295,8 @@ describe 'Topic API', type: :request, basic: true do
     end
   end
 
-  # TODO
+  # TODO: add click with user_id to call add_visit_activity
   # context 'tracker' do
-  #   # TODO: add click with user_id to call add_visit_activity
   #   describe '/api/v1/tags/:id/clicked' do
   #     it 'counts a new click on tags' do
   #       post "/api/v1/tags/#{@tags.first.id}/clicked", as: :json

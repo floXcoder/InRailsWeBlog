@@ -33,7 +33,6 @@ export default class ArticleBookmarkIcon extends React.PureComponent {
             return null;
         }
 
-        // TODO
         const bookmarkClasses = classNames('material-icons', {'article-bookmarked': false /* this.state.isBookmarked */});
         // const bookmarkTooltip = this.state.isBookmarked ? I18n.t('js.article.tooltip.remove_bookmark') : I18n.t('js.article.tooltip.add_bookmark');
         const bookmarkTooltip = I18n.t('js.article.tooltip.add_bookmark');

@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/home/home.scss';
+
 import {
     Provider
 } from 'react-redux';

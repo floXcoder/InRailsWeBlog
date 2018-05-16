@@ -2,11 +2,11 @@
 #
 # Table name: tagged_articles
 #
-#  id         :integer          not null, primary key
-#  user_id    :integer          not null
-#  topic_id   :integer          not null
-#  tag_id     :integer          not null
-#  article_id :integer          not null
+#  id         :bigint(8)        not null, primary key
+#  user_id    :bigint(8)        not null
+#  topic_id   :bigint(8)        not null
+#  tag_id     :bigint(8)        not null
+#  article_id :bigint(8)        not null
 #  parent     :boolean          default(FALSE), not null
 #  child      :boolean          default(FALSE), not null
 #  deleted_at :datetime

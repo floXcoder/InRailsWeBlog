@@ -27,9 +27,3 @@ javascript:
       window.currentAdminPseudo = "#{current_admin.pseudo}";
 
 = yield(:javascript)
-
-/[if lt IE 9]
-  = javascript_include_tag 'ie8'
-
-/[if lt IE 10]
-  = javascript_include_tag 'ie9'
