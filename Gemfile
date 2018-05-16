@@ -80,7 +80,7 @@ gem 'carrierwave',              '1.2.2'
 gem 'mini_magick',              '4.8.0'
 
 # Search in database
-gem 'searchkick',               '2.5.0'
+gem 'searchkick',               '3.1.0'
 gem 'typhoeus',                 '1.3.0'
 
 # Votable models

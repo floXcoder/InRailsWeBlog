@@ -834,7 +834,7 @@ class Article < ApplicationRecord
       mode:             mode,
       mode_translated:  mode_translated,
       current_language: current_language,
-      title:            title,
+      title:            title || '', # Title cannot be nil for suggest
       content:          public_content,
       reference:        reference,
       languages:        languages,
