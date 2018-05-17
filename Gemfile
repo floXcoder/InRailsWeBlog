@@ -9,7 +9,7 @@ end
 ruby '2.5.1'
 
 # Rails version
-gem 'rails',                    '5.1.6'
+gem 'rails',                    '5.2.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.0.0'
@@ -158,7 +158,6 @@ group :test do
   gem 'simplecov',              '0.16.1',   require: false
   gem 'fuubar',                 '2.3.1'
   gem 'database_cleaner',       '1.7.0'
-  gem 'spring-commands-rspec',  '1.0.4'
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
@@ -173,14 +172,12 @@ group :test do
   # static analyzer
   gem 'rails_best_practices',   '1.19.2',   require: false
   gem 'brakeman',               '4.3.0',    require: false
-  gem 'metric_fu',              '4.12.0',   require: false
   gem 'i18n-tasks',             '0.9.21',   require: false
 end
 
 group :development, :test do
   # Speed up server and tests
-  gem 'spring',                 '2.0.2'
-  gem 'spring-watcher-listen',  '2.0.1'
+  gem 'bootsnap',               '1.3.0',    require: false
 
   # Check errors
   gem 'rubocop',                '0.56.0',  require: false

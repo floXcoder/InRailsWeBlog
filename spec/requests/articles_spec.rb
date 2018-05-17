@@ -262,7 +262,6 @@ describe 'Article API', type: :request, basic: true do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
 
-        @original_title = @article.title
         @article.update_attributes(title: 'title 2')
         @article.update_attributes(title: 'title 3')
       end
@@ -636,12 +635,13 @@ describe 'Article API', type: :request, basic: true do
     end
 
     context 'when user is connected' do
-      before do
-        login_as(@user, scope: :user, run_callbacks: false)
-
-        @original_title = @article.title
+      before(:all) do
         @article.update_attributes(title: 'title 2')
         @article.update_attributes(title: 'title 3')
+      end
+
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
       end
 
       it 'returns not found if no history given' do

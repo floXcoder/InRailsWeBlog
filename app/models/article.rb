@@ -76,7 +76,7 @@ class Article < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
 
   # Search
-  searchkick searchable:  [:title, :content, :reference, :tags],
+  searchkick searchable:  [:title, :content, :reference],
              filterable:  [:mode, :visibility],
              word_middle: [:title, :content],
              suggest:     [:title],
@@ -381,13 +381,13 @@ class Article < ApplicationRecord
 
     where_options          = options.compact.reject { |_k, v| v.empty? }.map do |key, value|
       case key
-        when :notation
-          [
-            key,
-            value.to_i
-          ]
-        else
-          [key, value]
+      when :notation
+        [
+          key,
+          value.to_i
+        ]
+      else
+        [key, value]
       end
     end.to_h
 
@@ -401,44 +401,44 @@ class Article < ApplicationRecord
     return nil unless order
 
     case order
-      when 'id_asc'
-        { id: :asc }
-      when 'id_desc'
-        { id: :desc }
-      when 'created_asc'
-        { created_at: :asc }
-      when 'created_desc'
-        { created_at: :desc }
-      when 'updated_asc'
-        { updated_at: :asc }
-      when 'updated_desc'
-        { updated_at: :desc }
-      when 'rank_asc'
-        { rank: :asc }
-      when 'rank_desc'
-        { rank: :desc }
-      when 'popularity_asc'
-        { popularity: :asc }
-      when 'popularity_desc'
-        { popularity: :desc }
+    when 'id_asc'
+      { id: :asc }
+    when 'id_desc'
+      { id: :desc }
+    when 'created_asc'
+      { created_at: :asc }
+    when 'created_desc'
+      { created_at: :desc }
+    when 'updated_asc'
+      { updated_at: :asc }
+    when 'updated_desc'
+      { updated_at: :desc }
+    when 'rank_asc'
+      { rank: :asc }
+    when 'rank_desc'
+      { rank: :desc }
+    when 'popularity_asc'
+      { popularity: :asc }
+    when 'popularity_desc'
+      { popularity: :desc }
     end
   end
 
   def self.format_search(article_results, format, current_user = nil)
     serializer_options                = case format
-                                          when 'strict'
-                                            {
-                                              root:   'articles',
-                                              strict: true
-                                            }
-                                          when 'complete'
-                                            {
-                                              complete: true
-                                            }
-                                          else
-                                            {
-                                              sample: true
-                                            }
+                                        when 'strict'
+                                          {
+                                            root:   'articles',
+                                            strict: true
+                                          }
+                                        when 'complete'
+                                          {
+                                            complete: true
+                                          }
+                                        else
+                                          {
+                                            sample: true
+                                          }
                                         end
 
     serializer_options[:current_user] = current_user if current_user
@@ -522,36 +522,36 @@ class Article < ApplicationRecord
 
   def self.order_by(order)
     case order
-      when 'priority_asc'
-        order('articles.priority ASC')
-      when 'priority_desc'
-        order('articles.priority DESC')
-      when 'id_asc'
-        order('articles.id ASC')
-      when 'id_desc'
-        order('articles.id DESC')
-      when 'created_asc'
-        order('articles.created_at ASC')
-      when 'created_desc'
-        order('articles.created_at DESC')
-      when 'updated_asc'
-        order('articles.updated_at ASC')
-      when 'updated_desc'
-        order('articles.updated_at DESC')
-      when 'tag_asc'
-        order('tags.name ASC')
-      when 'tags_desc'
-        order('tags.name DESC')
-      when 'rank_asc'
-        joins(:tracker).order('trackers.rank ASC')
-      when 'rank_desc'
-        joins(:tracker).order('trackers.rank DESC')
-      when 'popularity_asc'
-        joins(:tracker).order('trackers.popularity ASC')
-      when 'popularity_desc'
-        joins(:tracker).order('trackers.popularity DESC')
-      else
-        all
+    when 'priority_asc'
+      order('articles.priority ASC')
+    when 'priority_desc'
+      order('articles.priority DESC')
+    when 'id_asc'
+      order('articles.id ASC')
+    when 'id_desc'
+      order('articles.id DESC')
+    when 'created_asc'
+      order('articles.created_at ASC')
+    when 'created_desc'
+      order('articles.created_at DESC')
+    when 'updated_asc'
+      order('articles.updated_at ASC')
+    when 'updated_desc'
+      order('articles.updated_at DESC')
+    when 'tag_asc'
+      order('tags.name ASC')
+    when 'tags_desc'
+      order('tags.name DESC')
+    when 'rank_asc'
+      joins(:tracker).order('trackers.rank ASC')
+    when 'rank_desc'
+      joins(:tracker).order('trackers.rank DESC')
+    when 'popularity_asc'
+      joins(:tracker).order('trackers.popularity ASC')
+    when 'popularity_desc'
+      joins(:tracker).order('trackers.popularity DESC')
+    else
+      all
     end
   end
 
@@ -599,7 +599,7 @@ class Article < ApplicationRecord
 
     # Language
     if self.languages.empty? || attributes[:language].present?
-      new_language = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
+      new_language   = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
       self.languages |= [new_language]
     end
 
@@ -835,21 +835,21 @@ class Article < ApplicationRecord
       mode_translated:  mode_translated,
       current_language: current_language,
       title:            title || '', # Title cannot be nil for suggest
-      content:          public_content,
-      reference:        reference,
-      languages:        languages,
-      draft:            draft,
-      notation:         notation,
-      priority:         priority,
-      visibility:       visibility,
-      archived:         archived,
-      accepted:         accepted,
-      tags:             tags.ids,
-      created_at:       created_at,
-      updated_at:       updated_at,
-      rank:             rank,
-      popularity:       popularity,
-      slug:             slug
+      content:    public_content,
+      reference:  reference,
+      languages:  languages,
+      draft:      draft,
+      notation:   notation,
+      priority:   priority,
+      visibility: visibility,
+      archived:   archived,
+      accepted:   accepted,
+      tags:       tags.ids,
+      created_at: created_at,
+      updated_at: updated_at,
+      rank:       rank,
+      popularity: popularity,
+      slug:       slug
       # summary:          summary,
       # private_content:   strip_content, # Do not expose secret content
     }

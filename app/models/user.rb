@@ -226,7 +226,7 @@ class User < ApplicationRecord
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
     # # Format use
-    # format = options[:format] || 'sample'
+    format = options[:format] || 'sample'
 
     # If query not defined or blank, search for everything
     query_string = !query || query.blank? ? '*' : query
@@ -273,10 +273,9 @@ class User < ApplicationRecord
                           order:        order)
 
     # Track search results
-    User.track_searches(results.records.ids)
+    User.track_searches(results.map(&:id))
 
-    users = results.records
-    users = users.order_by(options[:order]) if order
+    users = format_search(results, format, options[:current_user])
 
     {
       users:       users,
@@ -327,13 +326,13 @@ class User < ApplicationRecord
 
     where_options = options.compact.reject { |_k, v| v.empty? }.map do |key, value|
       case key
-        when :notation
-          [
-            key,
-            value.to_i
-          ]
-        else
-          [key, value]
+      when :notation
+        [
+          key,
+          value.to_i
+        ]
+      else
+        [key, value]
       end
     end.to_h
 
@@ -344,53 +343,75 @@ class User < ApplicationRecord
     return nil unless order
 
     case order
-      when 'id_asc'
-        { id: :asc }
-      when 'id_desc'
-        { id: :desc }
-      when 'created_asc'
-        { created_at: :asc }
-      when 'created_desc'
-        { created_at: :desc }
-      when 'updated_asc'
-        { updated_at: :asc }
-      when 'updated_desc'
-        { updated_at: :desc }
-      when 'rank_asc'
-        { rank: :asc }
-      when 'rank_desc'
-        { rank: :desc }
-      when 'popularity_asc'
-        { popularity: :asc }
-      when 'popularity_desc'
-        { popularity: :desc }
+    when 'id_asc'
+      { id: :asc }
+    when 'id_desc'
+      { id: :desc }
+    when 'created_asc'
+      { created_at: :asc }
+    when 'created_desc'
+      { created_at: :desc }
+    when 'updated_asc'
+      { updated_at: :asc }
+    when 'updated_desc'
+      { updated_at: :desc }
+    when 'rank_asc'
+      { rank: :asc }
+    when 'rank_desc'
+      { rank: :desc }
+    when 'popularity_asc'
+      { popularity: :asc }
+    when 'popularity_desc'
+      { popularity: :desc }
     end
+  end
+
+  def self.format_search(user_results, format, current_user = nil)
+    serializer_options                = case format
+                                        when 'strict'
+                                          {
+                                            root:   'articles',
+                                            strict: true
+                                          }
+                                        when 'complete'
+                                          {
+                                            complete: true
+                                          }
+                                        else
+                                          {
+                                            sample: true
+                                          }
+                                        end
+
+    serializer_options[:current_user] = current_user if current_user
+
+    User.as_json(user_results, serializer_options)
   end
 
   def self.order_by(order)
     case order
-      when 'id_asc'
-        order('id ASC')
-      when 'id_desc'
-        order('id DESC')
-      when 'created_asc'
-        order('created_at ASC')
-      when 'created_desc'
-        order('created_at DESC')
-      when 'updated_asc'
-        order('updated_at ASC')
-      when 'updated_desc'
-        order('updated_at DESC')
-      when 'rank_asc'
-        joins(:tracker).order('rank ASC')
-      when 'rank_desc'
-        joins(:tracker).order('rank DESC')
-      when 'popularity_asc'
-        joins(:tracker).order('popularity ASC')
-      when 'popularity_desc'
-        joins(:tracker).order('popularity DESC')
-      else
-        all
+    when 'id_asc'
+      order('id ASC')
+    when 'id_desc'
+      order('id DESC')
+    when 'created_asc'
+      order('created_at ASC')
+    when 'created_desc'
+      order('created_at DESC')
+    when 'updated_asc'
+      order('updated_at ASC')
+    when 'updated_desc'
+      order('updated_at DESC')
+    when 'rank_asc'
+      joins(:tracker).order('rank ASC')
+    when 'rank_desc'
+      joins(:tracker).order('rank DESC')
+    when 'popularity_asc'
+      joins(:tracker).order('popularity ASC')
+    when 'popularity_desc'
+      joins(:tracker).order('popularity DESC')
+    else
+      all
     end
   end
 

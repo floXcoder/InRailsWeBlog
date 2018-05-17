@@ -321,19 +321,19 @@ RSpec.describe User, type: :model, basic: true do
       it { is_expected.to respond_to(:search_for) }
 
       it 'search for users' do
-        user_results = User.search_for('user')
+        user_results = User.search_for('user')[:users]
 
         expect(user_results[:users]).not_to be_empty
-        expect(user_results[:users]).to be_a(ActiveRecord::Relation)
+        expect(user_results[:users]).to be_kind_of(Array)
         expect(user_results[:users].size).to eq(1)
         expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
       end
 
       it 'search for users with ordering' do
-        user_results = User.search_for('user', order: 'created_desc')
+        user_results = User.search_for('user', order: 'created_desc')[:users]
 
         expect(user_results[:users]).not_to be_empty
-        expect(user_results[:users]).to be_a(ActiveRecord::Relation)
+        expect(user_results[:users]).to be_kind_of(Array)
         expect(user_results[:users].size).to eq(1)
         expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
       end

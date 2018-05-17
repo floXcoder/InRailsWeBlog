@@ -384,7 +384,7 @@ RSpec.describe Article, type: :model, basic: true do
 
       it { is_expected.to respond_to(:search_for) }
 
-      it 'search for articles' do
+      it 'search for articles with defaults' do
         article_results = Article.search_for('title')[:articles]
 
         expect(article_results[:articles]).not_to be_empty

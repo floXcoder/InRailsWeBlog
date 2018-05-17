@@ -29,6 +29,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
       end
     end
 
+    # TODO
     context 'when user is connected' do
       before do
         login_as(@user, scope: :user, run_callbacks: false)

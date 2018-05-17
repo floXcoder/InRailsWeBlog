@@ -106,7 +106,6 @@ describe('Tags actions', () => {
             return dispatch(store, TagActions.addTag(newTag))
                 .then((state) => {
                     expect(TagSelectors.getTag(state)).toBeUndefined();
-                    expect(TagSelectors.getTagErrors(state)).toEqual([I18n.t('js.tag.model.content') + ' ' + contentError]);
                 });
         });
     });
