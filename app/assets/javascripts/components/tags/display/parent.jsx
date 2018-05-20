@@ -22,15 +22,18 @@ export default class ParentTag extends React.Component {
     };
 
     state = {
+        isFiltering: this.props.isFiltering,
         isExpanded: false
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.isFiltering !== nextProps.isFiltering) {
-            this.setState({
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.isFiltering !== nextProps.isFiltering) {
+            return {
                 isExpanded: nextProps.isFiltering
-            });
+            };
         }
+
+        return null;
     }
 
     _handleTagClick = (tagId, tagName, tagSlug, parent) => {

@@ -37,39 +37,44 @@ export default class BreadcrumbLayout extends React.Component {
         limit: 10
     };
 
-    constructor(props) {
-        super(props);
-
-        if (this.props.currentUserId) {
-            props.fetchUserRecents(this.props.currentUserId, {limit: this.props.limit});
-        } else {
-            this.state.recents = this._formatRecents(getTracksClick());
-        }
-    }
-
-    state = {
-        recents: []
-    };
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.recents !== nextProps.recents) {
-            this.setState({
-                recents: this._formatRecents(nextProps.recents.concat(getTracksClick()))
-            })
-        } else if (this.props.currentPath !== nextProps.currentPath) {
-            this.setState({
-                recents: this._formatRecents(this.props.recents.concat(getTracksClick()))
-            })
-        }
-    }
-
-    _formatRecents = (recents) => {
+    static _formatRecents = (recents, limit) => {
         if (recents) {
-            return recents.compact().sort((a, b) => b.date - a.date).limit(this.props.limit).slice().reverse();
+            return recents.compact().sort((a, b) => b.date - a.date).limit(limit).slice().reverse();
         } else {
             return [];
         }
     };
+
+    constructor(props) {
+        super(props);
+    }
+
+    state = {
+        recents: [],
+        currentPath: this.props.currentPath
+    };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.recents !== nextProps.recents) {
+            return {
+                recents: BreadcrumbLayout._formatRecents(nextProps.recents.concat(getTracksClick()), nextProps.limit),
+                currentPath: prevState.currentPath
+            };
+        } else if (prevState.currentPath !== nextProps.currentPath) {
+            return {
+                recents: BreadcrumbLayout._formatRecents(prevState.recents.concat(getTracksClick()), nextProps.limit),
+                currentPath: nextProps.currentPath
+            };
+        }
+
+        return null;
+    }
+
+    componentDidMount() {
+        if (this.props.currentUserId) {
+            this.props.fetchUserRecents(this.props.currentUserId, {limit: this.props.limit});
+        }
+    }
 
     _iconFromType = (type) => {
         if (type === 'article') {

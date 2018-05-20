@@ -18,12 +18,14 @@ export default class Dialog extends React.Component {
         isOpened: false
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.isOpened !== nextProps.isOpened) {
-            this.setState({
-                isOpened: nextProps.isOpened
-            });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.isOpen !== nextProps.isOpen) {
+            return {
+                isOpen: nextProps.isOpen
+            };
         }
+
+        return null;
     }
 
     componentDidUpdate(prevProps, prevState) {

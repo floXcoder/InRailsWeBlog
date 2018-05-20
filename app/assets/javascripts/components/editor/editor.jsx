@@ -143,33 +143,32 @@ export default class Editor extends React.Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
+    shouldComponentUpdate() {
+        // Do not update
+        return false;
+    }
+
+    componentDidUpdate(prevProps) {
         if (this._editor) {
-            const isCodeView = nextProps.isCodeView;
+            const isCodeView = prevProps.isCodeView;
             const codeViewCommand = isCodeView ? 'codeview.activate' : 'codeview.deactivate';
 
-
-            if (this.props.children !== nextProps.children) {
-                this.replace(nextProps.children);
+            if (this.props.children !== prevProps.children) {
+                this.replace(prevProps.children);
             }
 
-            if (this.props.isDisabled !== nextProps.isDisabled) {
-                this.toggleState(nextProps.isDisabled);
+            if (this.props.isDisabled !== prevProps.isDisabled) {
+                this.toggleState(prevProps.isDisabled);
             }
 
             if (isCodeView !== this.props.isCodeView) {
                 this._editor.summernote(codeViewCommand);
             }
 
-            if (this.props.placeholder !== nextProps.placeholder) {
-                this._notePlaceholder.html(nextProps.placeholder);
+            if (this.props.placeholder !== prevProps.placeholder) {
+                this._notePlaceholder.html(prevProps.placeholder);
             }
         }
-    }
-
-    shouldComponentUpdate() {
-        // Do not update
-        return false;
     }
 
     componentWillUnmount() {

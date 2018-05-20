@@ -40,8 +40,14 @@ export default class MainLayout extends React.Component {
         super(props);
 
         this._router = null;
+    }
 
-        props.onPaste((content) => {
+    state = {
+        isSidebarOpened: !this.props.isMediumScreen
+    };
+
+    componentDidMount() {
+        this.props.onPaste((content) => {
             if (content && this._router && this.props.path !== '/article/new' && this._router.location.hash !== '#new-article') {
                 const isURL = Utils.isURL(content.trim());
 
@@ -63,10 +69,6 @@ export default class MainLayout extends React.Component {
             }
         });
     }
-
-    state = {
-        isSidebarOpened: !this.props.isMediumScreen
-    };
 
     _handleSidebarPinClick = (isPinned) => {
         this.setState({

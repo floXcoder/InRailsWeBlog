@@ -6,7 +6,7 @@ import {
 } from '../../../actions';
 
 @connect((state) => ({
-  query: state.autocompleteState.query
+    query: state.autocompleteState.query
 }), {
     fetchAutocomplete,
     setAutocompleteAction
@@ -32,17 +32,19 @@ export default class HomeSearchHeader extends React.Component {
         value: ''
     };
 
-    componentWillReceiveProps(nextProps) {
+    static getDerivedStateFromProps(nextProps) {
         if (nextProps.query === '') {
-            // On clear input (tag click, ...), set focus to continue searching
-            this.setState({
+            return {
                 value: ''
-            }, () => this._searchInput.focus());
+            };
         }
+
+        return null;
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.hasSearch !== this.props.hasSearch && this.props.hasSearch) {
+        // On clear input (tag click, ...), set focus to continue searching
+        if ((prevProps.hasSearch !== this.props.hasSearch && this.props.hasSearch) || prevProps.query === '') {
             this._searchInput.focus();
         }
     }

@@ -125,6 +125,7 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
 
     return api
         .get('/api/v1/search', {search: searchParams})
+        .promise
         .then(json => {
             if (json.errors) {
                 return dispatch(failSearch(json));

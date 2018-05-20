@@ -10,7 +10,10 @@ export const fetchTags = (filter, options = {}) => ({
     fetchAPI: () => api.get(`/api/v1/tags`, {
         filter,
         ...options
-    })
+    }),
+    shouldCallAPI: (state) => {
+        return !state.userState.isConnected ? state.tagState.tags.size === 0 : true;
+    }
 });
 
 export const fetchTag = (tagId, options = {}) => ({

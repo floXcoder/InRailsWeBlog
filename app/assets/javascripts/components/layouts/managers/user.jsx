@@ -30,36 +30,40 @@ export default class UserManager extends React.Component {
 
     constructor(props) {
         super(props);
+    }
 
+    componentDidMount() {
         // Called each time a route changed!
 
+        log.info('called !')
+
         // Load user environment if connected
-        if (props.isUserConnected) {
+        if (this.props.isUserConnected) {
             // Get current user details with current topic
-            props.initUser(props.currentUserId, {userProfile: true})
-                .then((response) => {
-                    if (response && response.user) {
-                        // Get all user topics
-                        props.fetchTopics(props.currentUserId);
+            this.props.initUser(this.props.currentUserId, {userProfile: true})
+                .fetch.then((response) => {
+                if (response && response.user) {
+                    // Get all user topics
+                    this.props.fetchTopics(this.props.currentUserId);
 
-                        // Loaded when current topic is updated
-                        // Get all user tags for current topic (user private and common public tags associated to his articles)
-                        // props.fetchTags({topicId: response.user.currentTopic.id});
-                    }
+                    // Loaded when current topic is updated
+                    // Get all user tags for current topic (user private and common public tags associated to his articles)
+                    // props.fetchTags({topicId: response.user.currentTopic.id});
+                }
 
-                    if (props.currentTopicId && props.routerState && props.routerState.reloadTags) {
-                        props.fetchTags({topicId: props.currentTopicId});
-                    }
-                });
+                if (this.props.currentTopicId && this.props.routerState && this.props.routerState.reloadTags) {
+                    this.props.fetchTags({topicId: this.props.currentTopicId});
+                }
+            });
         } else {
             // Get only all public tags (by default)
-            props.fetchTags();
+            this.props.fetchTags();
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.currentTopicId !== nextProps.currentTopicId || (nextProps.routerState && nextProps.routerState.reloadTags)) {
-            this.props.fetchTags({topicId: nextProps.currentTopicId});
+    componentDidUpdate(prevProps) {
+        if (this.props.currentTopicId !== prevProps.currentTopicId || (prevProps.routerState && prevProps.routerState.reloadTags)) {
+            this.props.fetchTags({topicId: prevProps.currentTopicId});
         }
     }
 

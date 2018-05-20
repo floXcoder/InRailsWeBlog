@@ -59,6 +59,8 @@ export default class SearchModule extends React.Component {
     constructor(props) {
         super(props);
 
+        this._request = null;
+
         // Fetched by breadcrumb
         // if (this.props.currentUserId) {
         //     props.fetchUserRecents(this.props.currentUserId, {limit: 8});
@@ -69,15 +71,21 @@ export default class SearchModule extends React.Component {
         highlightedTagIndex: undefined
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.query !== nextProps.query) {
+    componentDidUpdate(prevProps) {
+        if (this.props.query !== prevProps.query) {
             this._resetTagSelection();
         }
 
-        if (nextProps.actionKey && nextProps.actionKey !== ' ') {
-            if (this._handleKeyAction()[nextProps.actionKey]) {
-                this._handleKeyAction()[nextProps.actionKey].call(this, nextProps.actionKey);
+        if (prevProps.actionKey && prevProps.actionKey !== ' ') {
+            if (this._handleKeyAction()[prevProps.actionKey]) {
+                this._handleKeyAction()[prevProps.actionKey].call(this, prevProps.actionKey);
             }
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._request && this._request.signal) {
+            this._request.signal.abort();
         }
     }
 
@@ -138,11 +146,12 @@ export default class SearchModule extends React.Component {
     };
 
     _performSearch = () => {
-        this.props.fetchSearch({
+        this._request = this.props.fetchSearch({
             query: this.props.query,
             tags: this.props.selectedTags.map((tag) => tag.id)
-        })
-            .then(() => this.props.history.push({
+        });
+
+        this._request.fetch.then(() => this.props.history.push({
                 pathname: '/research',
                 search: `?query=${this.props.query}`
             }));

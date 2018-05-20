@@ -13,6 +13,7 @@ class LazyLoader extends React.Component {
 
     constructor() {
         super(...arguments);
+
         this.isLoaded = false;
     }
 

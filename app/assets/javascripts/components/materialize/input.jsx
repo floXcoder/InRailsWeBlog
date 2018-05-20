@@ -62,18 +62,22 @@ export default class Input extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this._inputRef = React.createRef();
     }
 
     state = {
-        value: !Utils.isEmpty(this.props.children) ? this.props.children : ''
+        value: ''
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.children !== nextProps.children) {
-            this.setState({
-                value: nextProps.children
-            });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.value !== nextProps.children) {
+            return {
+                value: !Utils.isEmpty(nextProps.children) ? nextProps.children : ''
+            };
         }
+
+        return null;
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -91,11 +95,11 @@ export default class Input extends React.Component {
     };
 
     focus = () => {
-        this.refs[this.props.id].focus();
+        this._inputRef.focus();
     };
 
     value = () => {
-        return this.refs[this.props.id].value;
+        return this._inputRef.value;
     };
 
     setValue = (newValue) => {
@@ -175,7 +179,7 @@ export default class Input extends React.Component {
                         </label>
                     }
 
-                    <input ref={this.props.id}
+                    <input ref={this._inputRef}
                            id={id}
                            className={inputClass}
                            type={this.props.type}

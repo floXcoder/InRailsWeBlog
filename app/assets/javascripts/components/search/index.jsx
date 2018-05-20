@@ -51,11 +51,23 @@ export default class SearchIndex extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this._request = null;
     }
 
     state = {
         value: this.props.query
     };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.value !== nextProps.query) {
+            return {
+                value: nextProps.query
+            };
+        }
+
+        return null;
+    }
 
     componentDidMount() {
         // Retrieve search history if any
@@ -65,11 +77,9 @@ export default class SearchIndex extends React.Component {
         this.props.searchOnHistoryChange();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.query !== nextProps.query) {
-            this.setState({
-               value: nextProps.query
-            });
+    componentWillUnmount() {
+        if (this._request && this._request.signal) {
+            this._request.signal.abort();
         }
     }
 
@@ -82,7 +92,7 @@ export default class SearchIndex extends React.Component {
     };
 
     _handleSuggestionClick = (suggestion) => {
-        this.props.fetchSearch({
+        this._request = this.props.fetchSearch({
             query: suggestion,
             selectedTags: this.props.selectedTags
         });

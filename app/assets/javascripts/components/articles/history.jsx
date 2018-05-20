@@ -48,13 +48,15 @@ export default class ArticleHistory extends React.Component {
 
     constructor(props) {
         super(props);
-
-        props.fetchArticle(props.params.articleSlug);
-        props.fetchArticleHistory(props.params.articleSlug);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!this.props.articleVersions && nextProps.articleVersions && nextProps.articleVersions.length === 0) {
+    componentDidMount() {
+        this.props.fetchArticle(this.props.params.articleSlug);
+        this.props.fetchArticleHistory(this.props.params.articleSlug);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!this.props.articleVersions && prevProps.articleVersions && prevProps.articleVersions.length === 0) {
             Notification.alert(I18n.t('js.article.history.none'));
         }
     }

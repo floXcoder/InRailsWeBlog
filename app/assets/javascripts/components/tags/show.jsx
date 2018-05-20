@@ -42,13 +42,15 @@ export default class TagShow extends React.Component {
 
     constructor(props) {
         super(props);
-
-        props.fetchTag(props.params.tagSlug);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!Object.equals(this.props.params, nextProps.params)) {
-            this.props.fetchTag(nextProps.params.tagSlug);
+    componentDidMount() {
+        this.props.fetchTag(this.props.params.tagSlug);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!Object.equals(this.props.params, prevProps.params)) {
+            this.props.fetchTag(prevProps.params.tagSlug);
         }
     }
 

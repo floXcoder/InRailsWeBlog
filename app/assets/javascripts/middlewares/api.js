@@ -1,6 +1,7 @@
 'use strict';
 
 import 'isomorphic-fetch';
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 
 import {
     stringify
@@ -88,6 +89,10 @@ const handleResponseErrors = (response, url) => {
 };
 
 const handleParseErrors = (error, url) => {
+    if (error.name === 'AbortError') {
+        return;
+    }
+
     manageError('communication', error, url);
 
     return {
@@ -135,9 +140,13 @@ const api = {
         const parameters = stringify(params, {arrayFormat: 'brackets'});
         const urlParams = parameters !== '' ? `${url}.json?${parameters}` : url;
 
-        return fetch(urlParams, {
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        const promise = fetch(urlParams, {
             ...headers,
-            method: 'GET'
+            method: 'GET',
+            signal
         })
             .then((response) => handleResponseErrors(response, urlParams))
             .then((response) => handleFlashMessage(response))
@@ -145,7 +154,12 @@ const api = {
             .then(
                 (json) => json,
                 (error) => handleParseErrors(error, urlParams)
-            )
+            );
+
+        return {
+            promise,
+            controller
+        };
     },
 
     post: (url, params, isData = false) => {

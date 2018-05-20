@@ -85,5 +85,6 @@ const receiveUserRecents = (json) => ({
 export const fetchUserRecents = (userId, options = {}) => (dispatch) => {
     return api
         .get(`/api/v1/users/${userId}/recents`, options)
+        .promise
         .then((json) => dispatch(receiveUserRecents(json)));
 };

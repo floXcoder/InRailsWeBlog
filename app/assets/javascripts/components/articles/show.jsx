@@ -57,12 +57,22 @@ export default class ArticleShow extends React.Component {
     constructor(props) {
         super(props);
 
-        props.fetchArticle(props.params.articleSlug);
+        this._request = null;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!Object.equals(this.props.params, nextProps.params)) {
-            this.props.fetchArticle(nextProps.params.articleSlug);
+    componentDidMount() {
+        this._request = this.props.fetchArticle(this.props.params.articleSlug);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!Object.equals(this.props.params, prevProps.params)) {
+            this._request = this.props.fetchArticle(prevProps.params.articleSlug);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._request && this._request.signal) {
+            this._request.signal.abort();
         }
     }
 

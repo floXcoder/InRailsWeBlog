@@ -43,13 +43,15 @@ export default class TagEdit extends React.Component {
 
     constructor(props) {
         super(props);
+    }
 
-        props.fetchTag(props.params.tagSlug);
+    componentDidMount() {
+        this.props.fetchTag(this.props.params.tagSlug);
     }
 
     _handleSubmit = (values) => {
         let formData = values.toJS();
-        
+
         formData.id = this.props.tag.id;
 
         this.props.updateTag(formData)

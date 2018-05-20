@@ -33,7 +33,10 @@ export default function fetchMiddleware({dispatch, getState}) {
         }
 
         if (!shouldCallAPI(getState())) {
-            return Promise.resolve();
+            return {
+                fetch: Promise.resolve(),
+                signal: null
+            };
         }
 
         const actionNames = [
@@ -63,12 +66,14 @@ export default function fetchMiddleware({dispatch, getState}) {
             type: requestType
         });
 
-        return fetchAPI().then(
+        const fetcher = fetchAPI();
+
+        const fetch = fetcher.promise.then(
             (response) => {
                 if (response && response.errors) {
                     return dispatch({
                         ...payload,
-                        errors: response.errors || [],
+                        errors: response.errors || [],
                         isFetching: false,
                         type: failureType
                     });
@@ -81,6 +86,11 @@ export default function fetchMiddleware({dispatch, getState}) {
                     });
                 }
             }
-        )
+        );
+
+        return {
+            fetch,
+            signal: fetcher.controller
+        }
     };
 };

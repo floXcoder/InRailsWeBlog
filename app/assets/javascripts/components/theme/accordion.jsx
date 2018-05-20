@@ -24,12 +24,14 @@ class AccordionItem extends React.Component {
         isOpen: this.props.isOpen
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.isOpen !== nextProps.isOpen) {
-            this.setState({
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.isOpen !== nextProps.isOpen) {
+            return {
                 isOpen: nextProps.isOpen
-            });
+            };
         }
+
+        return null;
     }
 
     _handleHeaderClick = (event) => {

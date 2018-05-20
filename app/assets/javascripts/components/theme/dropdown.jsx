@@ -66,6 +66,17 @@ export default class Dropdown extends React.Component {
         position: this.props.position
     };
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.isOpen !== nextProps.isOpen) {
+            return {
+                ...prevState,
+                isOpen: nextProps.isOpen
+            };
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         document.addEventListener('click', this._handleDocumentClick, false);
         document.addEventListener('touchend', this._handleDocumentClick, false);
@@ -75,14 +86,6 @@ export default class Dropdown extends React.Component {
         }
 
         this._setPopupStyle();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.isOpen !== nextProps.isOpen) {
-            this.setState({
-                isOpen: nextProps.isOpen
-            });
-        }
     }
 
     componentWillUnmount() {

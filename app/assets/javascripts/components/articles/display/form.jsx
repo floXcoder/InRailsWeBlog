@@ -77,10 +77,6 @@ export default class ArticleFormDisplay extends React.Component {
 
     constructor(props) {
         super(props);
-
-        if (props.userTags.length === 0) {
-            props.fetchTags({userTags: true});
-        }
     }
 
     state = {
@@ -88,6 +84,12 @@ export default class ArticleFormDisplay extends React.Component {
         isDraft: this.props.isDraft || false,
         currentMode: this.props.children.mode || this.props.currentMode
     };
+
+    componentDidMount() {
+        if (this.props.userTags.length === 0) {
+            this.props.fetchTags({userTags: true});
+        }
+    }
 
     _handleModeClick = (mode, event) => {
         event.preventDefault();

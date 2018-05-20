@@ -62,8 +62,10 @@ export default class CategorizedTag extends React.Component {
                 selectedTags: nextTags
             });
         }
+    }
 
-        if (this.props.hasChildTagFocus !== nextProps.hasChildTagFocus) {
+    componentDidUpdate(prevProps) {
+        if (this.props.hasChildTagFocus !== prevProps.hasChildTagFocus) {
             this.focus();
         }
     }

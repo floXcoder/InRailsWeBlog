@@ -136,20 +136,24 @@ export default function articleMutationManager(formId) {
                 article: undefined
             };
 
-            componentWillReceiveProps(nextProps) {
-                if (nextProps.isDirty && nextProps.isValid && !nextProps.isSubmitting && nextProps.formValues !== this.props.formValues) {
-                    this._handleChange(nextProps.formValues);
+            static getDerivedStateFromProps(nextProps, prevState) {
+                if (prevState.article !== nextProps.article) {
+                    return {
+                        article: nextProps.article
+                    };
                 }
 
-                if (this.props.article !== nextProps.article) {
-                    this.setState({
-                        article: nextProps.article
-                    });
-                }
+                return null;
             }
 
             shouldComponentUpdate(nextProps) {
                 return (this.props.tags !== nextProps.tags || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.article !== nextProps.article);
+            }
+
+            componentDidUpdate(prevProps) {
+                if (prevProps.isDirty && prevProps.isValid && !prevProps.isSubmitting && prevProps.formValues !== this.props.formValues) {
+                    this._handleChange(prevProps.formValues);
+                }
             }
 
             _handleChange = _.debounce((values) => {

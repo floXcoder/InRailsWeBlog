@@ -55,13 +55,16 @@ export default class ArticleIndex extends React.Component {
         super(props);
 
         this._parseQuery = Utils.parseUrlParameters(props.queryString) || {};
-
-        this._fetchArticles(props.params);
+        this._request = null;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!Object.equals(this.props.params, nextProps.params) || this.props.queryString !== nextProps.queryString) {
-            const nextParseQuery = Utils.parseUrlParameters(nextProps.queryString) || {};
+    componentDidMount() {
+        this._fetchArticles(this.props.params);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!Object.equals(this.props.params, prevProps.params) || this.props.queryString !== prevProps.queryString) {
+            const nextParseQuery = Utils.parseUrlParameters(prevProps.queryString) || {};
 
             if (this._parseQuery.order !== nextParseQuery.order) {
                 if (nextParseQuery.order) {
@@ -71,7 +74,13 @@ export default class ArticleIndex extends React.Component {
 
             this._parseQuery = nextParseQuery;
 
-            this._fetchArticles(nextProps.params);
+            this._fetchArticles(prevProps.params);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._request && this._request.signal) {
+            this._request.signal.abort();
         }
     }
 
@@ -94,7 +103,7 @@ export default class ArticleIndex extends React.Component {
             delete params.tagSlug;
         }
 
-        this.props.fetchArticles(this._filterParams({...params, ...this._parseQuery}), options);
+        this._request = this.props.fetchArticles(this._filterParams({...params, ...this._parseQuery}), options);
     };
 
     _fetchNextArticles = (params = {}) => {
@@ -104,14 +113,15 @@ export default class ArticleIndex extends React.Component {
                 page: (params.selected || this.props.articlePagination.currentPage) + 1
             };
 
-            this.props.fetchArticles(this._filterParams(queryParams), options, {infinite: !params.selected})
-                .then(() => {
-                    if (params.selected) {
-                        setTimeout(() => {
-                            $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
-                        }, 300);
-                    }
-                });
+            this._request = this.props.fetchArticles(this._filterParams(queryParams), options, {infinite: !params.selected});
+
+            this._request.fetch.then(() => {
+                if (params.selected) {
+                    setTimeout(() => {
+                        $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
+                    }, 300);
+                }
+            });
         }
     };
 
