@@ -71,9 +71,9 @@ export default class Input extends React.Component {
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.value !== nextProps.children) {
+        if (prevState.value !== nextProps.children && !Utils.isEmpty(nextProps.children)) {
             return {
-                value: !Utils.isEmpty(nextProps.children) ? nextProps.children : ''
+                value: nextProps.children || ''
             };
         }
 

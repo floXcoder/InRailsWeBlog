@@ -35,8 +35,6 @@ export default class UserManager extends React.Component {
     componentDidMount() {
         // Called each time a route changed!
 
-        log.info('called !')
-
         // Load user environment if connected
         if (this.props.isUserConnected) {
             // Get current user details with current topic

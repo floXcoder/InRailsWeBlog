@@ -6,6 +6,7 @@ import {
 } from '../../actions';
 
 import EditorLoader from '../../loaders/editor';
+import SanitizePaste from '../../modules/sanitizePaste';
 
 export const EditorMode = {
     EDIT: 1,
@@ -53,14 +54,45 @@ export default class Editor extends React.Component {
 
             const defaultOptions = {
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
+                styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4'],
                 placeholder: this.props.placeholder,
+                popatmouse: false,
                 callbacks: {
                     onChange: this.props.onChange,
                     onFocus: this.props.onFocus,
                     onBlur: this.props.onBlur,
                     onKeyup: this.props.onKeyUp,
                     onKeydown: this._onKeyDown,
-                    onPaste: this.props.onPaste,
+                    onPaste: (event) => {
+                        event.preventDefault();
+
+                        const userAgent = window.navigator.userAgent;
+                        let msIE = userAgent.indexOf('MSIE ');
+                        msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
+                        const firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+                        let text;
+                        let type = 'plain';
+                        if (msIE) {
+                            text = window.clipboardData.getData('Text');
+                        } else {
+                            if (event.originalEvent.clipboardData.types.includes('text/html')) {
+                                text = event.originalEvent.clipboardData.getData('text/html');
+                                type = 'html';
+                            } else {
+                                text = event.originalEvent.clipboardData.getData('text/plain');
+                            }
+                        }
+
+                        if (text) {
+                            if (msIE || firefox) {
+                                setTimeout(() => {
+                                    document.execCommand('insertHTML', false, SanitizePaste.parse(text, type));
+                                }, 10);
+                            } else {
+                                document.execCommand('insertHTML', false, SanitizePaste.parse(text, type));
+                            }
+                        }
+                    },
                     onImageUpload: this.onImageUpload
                 },
                 hint: {

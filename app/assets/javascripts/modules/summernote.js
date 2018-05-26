@@ -5,6 +5,7 @@
 // - Air popover not display
 // - fromOffsetPath: current not defined for the last undo
 // - Improve pasteHTML
+// - Comment method to avoid duplication history when pasting
 import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';
@@ -57,7 +58,8 @@ $.extend($.summernote.plugins, {
             context.memo('button.cleaner', function () {
                 const button = ui.button({
                     contents: '<i class="material-icons">format_clear</i>',
-                    tooltip: 'clean content',
+                    container: options.container,
+                    tooltip: 'Clean content',
                     click: function () {
                         if ($note.summernote('createRange').toString()) {
                             $note.summernote('pasteHTML', $note.summernote('createRange').toString());
@@ -74,31 +76,6 @@ $.extend($.summernote.plugins, {
                 return button.render();
             });
         }
-
-        this.events = {
-            'summernote.paste': function (we, event) {
-                event.preventDefault();
-
-                const userAgent = window.navigator.userAgent;
-                let msIE = userAgent.indexOf('MSIE ');
-                msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
-                const firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-                let text;
-                if (msIE) {
-                    text = window.clipboardData.getData('Text');
-                } else {
-                    text = event.originalEvent.clipboardData.getData('text/html') || event.originalEvent.clipboardData.getData('text/plain');
-                }
-
-                if (text) {
-                    if (msIE || firefox) {
-                        setTimeout($note.summernote('pasteHTML', SanitizePaste.parse(text)), 1);
-                    } else {
-                        $note.summernote('pasteHTML', SanitizePaste.parse(text));
-                    }
-                }
-            }
-        }
     }
 });
 
@@ -111,7 +88,8 @@ $.extend($.summernote.plugins, {
             context.memo('button.advice', function () {
                 const button = ui.button({
                     contents: '<i class="material-icons">thumb_up</i>',
-                    tooltip: 'advice',
+                    container: options.container,
+                    tooltip: 'Advice',
                     click: function (event) {
                         event.preventDefault();
                         applyFormat(context, 'advice');
@@ -133,7 +111,8 @@ $.extend($.summernote.plugins, {
             context.memo('button.secret', function () {
                 const button = ui.button({
                     contents: '<i class="material-icons">security</i>',
-                    tooltip: 'secret',
+                    container: options.container,
+                    tooltip: 'Secret',
                     click: function (event) {
                         event.preventDefault();
                         applyFormat(context, 'secret');

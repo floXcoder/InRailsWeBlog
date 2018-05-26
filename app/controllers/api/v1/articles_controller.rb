@@ -137,8 +137,6 @@ module Api::V1
 
       article.format_attributes(article_params, current_user)
 
-      w params.permit!
-
       respond_to do |format|
         format.json do
           if article.save

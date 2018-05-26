@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This Rack middleware helps solving the issue with some Rails versions which do not accept
 # a '*/*;q=0.6' and their variants 'Accept' request header. This header is particularly used
 # by Google Bot, and if Rails doesn't like it, it will return a 500 or 406 error to Google Bot,
@@ -17,10 +19,10 @@ class GoogleBotAware
     # If the request 'Content Accept' header indicates a '*/*' format,
     # we set the format to :html.
     # This is necessary for GoogleBot which requests / with '*/*;q=0.6' for example.
-    if env["HTTP_ACCEPT"] =~ %r%^\*\/\*;q=\d\.\d$%
-      env["HTTP_ACCEPT"] = '*/*'
-    elsif env["HTTP_ACCEPT"] =~ %r%^\*\/\*,application/json$%
-      env["HTTP_ACCEPT"] = 'application/json'
+    if %r{^\*\/\*;q=\d\.\d$}.match?(env['HTTP_ACCEPT'])
+      env['HTTP_ACCEPT'] = '*/*'
+    elsif %r{^\*\/\*,application/json$}.match?(env['HTTP_ACCEPT'])
+      env['HTTP_ACCEPT'] = 'application/json'
     end
 
     @app.call(env)

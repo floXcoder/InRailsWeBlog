@@ -143,7 +143,7 @@ const SanitizePaste = (function () {
                 html = html.replace(/<o:p(.*?)>([\w\W]*?)<\/o:p>/gi, '$2');
 
                 // ms word break lines
-                html = html.replace(/\n/g, ' ');
+                // html = html.replace(/\n/g, ' ');
 
                 // ms word lists break lines
                 html = html.replace(/<p>\n?<li>/gi, '<li>');
@@ -202,7 +202,7 @@ const SanitizePaste = (function () {
             return html;
         },
 
-        parse: function (html) {
+        parse: function (html, type = 'html') {
             html = $.trim(html);
 
             html = html.replace(/\$/g, '&#36;');
@@ -218,9 +218,17 @@ const SanitizePaste = (function () {
             html = html.replace(/‘/g, '\'');
             html = html.replace(/’/g, '\'');
 
-            // Replace line-break by para
-            // html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '<p>$1</p>');
-            html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '$1<br/>');
+            if (type === 'html') {
+                // // Replace line-break by para
+                // // html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '<p>$1</p>');
+                // html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '$1<br/>');
+                // Remove all line breaks by space if not at the start
+                // while(/<pre(.*?)(?:\r\n|\r|\n)/.exec(html)) {
+                //     html = html.replace(/<pre(.*?)(?:\r\n|\r|\n)/gm, '<pre$1BREAKLINE');
+                // }
+                // html = html.replace(/(.*?)(?:\r\n|\r|\n)/gm, '$1');
+                // html = html.replace(/BREAKLINE/gm, '\n');
+            }
 
             // Sanitize
             html = this._replaceParagraphsToBr(html);
@@ -233,6 +241,10 @@ const SanitizePaste = (function () {
 
             // Remove multi-br
             html = html.replace(/(<br\s?\/?>){1,}/g, '<br/>');
+
+            // Change pre to pre/code
+            html = html.replace(/<pre(.*?)>/g, '<pre$1><code>');
+            html = html.replace(/<\/pre>/g, '</code></pre>');
 
             // Do not include other tag directly inside para to avoid creation of empty line
             // html = html.replace(/<p>(<\w.*?>)<\/p>/g, '$1');

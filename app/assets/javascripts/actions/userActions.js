@@ -38,7 +38,7 @@ export const validateUser = (login) => (
         user: {
             login
         }
-    })
+    }).promise
 );
 
 // User mutations
