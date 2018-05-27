@@ -19,7 +19,7 @@ import ArticleNone from '../articles/display/none';
 
 @connect((state) => ({
     currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopic && state.topicState.currentTopic.id,
+    currentTopicId: state.topicState.currentTopicId,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
     isFetching: state.articleState.isFetching,
     articles: getArticles(state),
@@ -63,8 +63,9 @@ export default class ArticleIndex extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        // Manage articles order or sort
         if (!Object.equals(this.props.params, prevProps.params) || this.props.queryString !== prevProps.queryString) {
-            const nextParseQuery = Utils.parseUrlParameters(prevProps.queryString) || {};
+            const nextParseQuery = Utils.parseUrlParameters(this.props.queryString) || {};
 
             if (this._parseQuery.order !== nextParseQuery.order) {
                 if (nextParseQuery.order) {

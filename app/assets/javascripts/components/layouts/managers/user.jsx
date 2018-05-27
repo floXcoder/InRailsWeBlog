@@ -9,7 +9,7 @@ import {
 @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopic && state.topicState.currentTopic.id
+    currentTopicId: state.topicState.currentTopicId
 }), {
     initUser,
     fetchTopics,
@@ -49,7 +49,7 @@ export default class UserManager extends React.Component {
                     // props.fetchTags({topicId: response.user.currentTopic.id});
                 }
 
-                if (this.props.currentTopicId && this.props.routerState && this.props.routerState.reloadTags) {
+                if (this.props.currentTopicId || (this.props.routerState && this.props.routerState.reloadTags)) {
                     this.props.fetchTags({topicId: this.props.currentTopicId});
                 }
             });

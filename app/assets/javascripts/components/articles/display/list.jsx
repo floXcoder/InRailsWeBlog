@@ -16,51 +16,7 @@ import ArticleItemDisplay from './item';
 const ArticleMasonry = MasonryWrapper(ArticleItemDisplay, {articleDisplayMode: 'grid'}, ArticleItemDisplay, {articleDisplayMode: 'card'});
 
 const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, articleEditionId, hasMoreArticles, isSortedByTag, parentTag, articleTotalPages, fetchArticles}) => {
-    let previousTag = undefined;
-
-    let ArticleNodes = (
-        <TransitionGroup component="div">
-            {
-                articles.map((article) => {
-                        let tagTitle = undefined;
-                        if (isSortedByTag) {
-                            let currentTags = article.tags.toJS();
-                            if (parentTag) {
-                                currentTags = currentTags.filter((tag) => !article.parentTagIds.includes(tag.id) && tag.slug !== parentTag)
-                            }
-                            let currentTag = currentTags.map((tag) => tag.name).sort().first();
-                            if (previousTag !== currentTag) {
-                                tagTitle = currentTag;
-                                previousTag = currentTag;
-                            }
-                            if (article.tags.size === 0) {
-                                previousTag = tagTitle = I18n.t('js.article.common.tags.none');
-                            }
-                        }
-
-                        return (
-                            <CSSTransition key={article.id}
-                                           timeout={150}
-                                           classNames="article">
-                                <div>
-                                    {
-                                        tagTitle &&
-                                        <h6 className="article-list-tag-title">
-                                            {tagTitle}
-                                        </h6>
-                                    }
-
-                                    <ArticleItemDisplay article={article}
-                                                        articleDisplayMode={articleDisplayMode}
-                                                        articleEditionId={articleEditionId}/>
-                                </div>
-
-                            </CSSTransition>
-                        );
-                    }
-                )}
-        </TransitionGroup>
-    );
+    let previousTag, ArticleNodes;
 
     if (articleDisplayMode === 'grid') {
         ArticleNodes = (
@@ -71,6 +27,50 @@ const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, a
                             hasExposedMode={true}
                             isActive={true}
                             isPaginated={false}/>
+        );
+    } else {
+        ArticleNodes = (
+            <TransitionGroup component="div">
+                {
+                    articles.map((article) => {
+                            let tagTitle;
+                            if (isSortedByTag) {
+                                let currentTags = article.tags.toJS();
+                                if (parentTag) {
+                                    currentTags = currentTags.filter((tag) => !article.parentTagIds.includes(tag.id) && tag.slug !== parentTag)
+                                }
+                                let currentTag = currentTags.map((tag) => tag.name).sort().first();
+                                if (previousTag !== currentTag) {
+                                    tagTitle = currentTag;
+                                    previousTag = currentTag;
+                                }
+                                if (article.tags.size === (!!parentTag ? 1 : 0)) {
+                                    previousTag = tagTitle = I18n.t('js.article.common.tags.none');
+                                }
+                            }
+
+                            return (
+                                <CSSTransition key={article.id}
+                                               timeout={150}
+                                               classNames="article">
+                                    <div>
+                                        {
+                                            tagTitle &&
+                                            <h6 className="article-list-tag-title">
+                                                {tagTitle}
+                                            </h6>
+                                        }
+
+                                        <ArticleItemDisplay article={article}
+                                                            articleDisplayMode={articleDisplayMode}
+                                                            articleEditionId={articleEditionId}/>
+                                    </div>
+
+                                </CSSTransition>
+                            );
+                        }
+                    )}
+            </TransitionGroup>
         );
     }
 

@@ -17,7 +17,7 @@ import Loader from '../theme/loader';
 
 @connect((state) => ({
     currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopic && state.topicState.currentTopic.id,
+    currentTopicId: state.topicState.currentTopicId,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
     isFetching: state.tagState.isFetching,
     publicTags: getPublicTags(state),
