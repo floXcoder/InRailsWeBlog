@@ -52,9 +52,10 @@ class ApplicationController < ActionController::Base
       current_user.update_columns(locale: params[:new_lang])
     end
 
-    # Set user location
-    @user_latitude  = request.respond_to?(:location) ? request.location.latitude : 0
-    @user_longitude  = request.respond_to?(:location) ? request.location.longitude : 0
+    # TODO
+    # # Set user location
+    # @user_latitude  = request.respond_to?(:location) ? request.location.latitude : 0
+    # @user_longitude  = request.respond_to?(:location) ? request.location.longitude : 0
   end
 
   # Redirection when Javascript is used.

@@ -19,7 +19,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV['DATABASE_PROD_NAME'] %>
+  database: <%= ENV['DATABASE_PROD_DBNAME'] %>
   host: localhost
   pool: 15
   connect_timeout: 30

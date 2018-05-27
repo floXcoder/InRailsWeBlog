@@ -95,11 +95,11 @@ export default class Input extends React.Component {
     };
 
     focus = () => {
-        this._inputRef.focus();
+        this._inputRef.current.focus();
     };
 
     value = () => {
-        return this._inputRef.value;
+        return this._inputRef.current.value;
     };
 
     setValue = (newValue) => {

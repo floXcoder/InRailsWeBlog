@@ -88,6 +88,7 @@ export class TagRecord extends Record({
     visibility: undefined,
     visibilityTranslated: undefined,
     taggedArticlesCount: undefined,
+    childOnly: undefined,
     parentIds: undefined,
     parents: List(),
     childIds: undefined,

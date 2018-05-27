@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tags
@@ -37,6 +39,7 @@ class TagSerializer < ActiveModel::Serializer
              :visibility_translated,
              :tagged_articles_count,
              :slug,
+             :child_only,
              :parent_ids,
              :child_ids
 
@@ -44,11 +47,15 @@ class TagSerializer < ActiveModel::Serializer
     object.visibility_to_tr
   end
 
+  def child_only
+    object.topic_ids.select { |id| id == instance_options[:current_topic_id] }.size - object.child_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.size == 0
+  end
+
   def parent_ids
-    object.child_relationships.select { |r| r.topic_id == instance_options[:current_topic_id] }.map(&:parent_id)
+    object.child_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:parent_id)
   end
 
   def child_ids
-    object.parent_relationships.select { |r| r.topic_id == instance_options[:current_topic_id] }.map(&:child_id)
+    object.parent_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:child_id)
   end
 end

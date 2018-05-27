@@ -70,6 +70,7 @@ fr:
         remember_me: "Se souvenir de moi"
         cancel: "Annuler"
         submit: "Connexion"
+        connecting: "Connexion en cours"
       signup:
         title: "Créer un compte"
         pseudo: "Pseudo"
@@ -80,6 +81,7 @@ fr:
         terms_of_use_name: "conditions d'utilisations."
         cancel: "Annuler"
         submit: "Créer mon compte"
+        connecting: "Inscription en cours"
         externals:
           google: "S'inscrire avec Google"
           facebook: "S'inscrire avec Facebook"
@@ -751,6 +753,11 @@ fr:
         user_ip: "IP"
         browser: "Navigateur"
         system: "OS"
+    editor:
+      buttons:
+        advice: "Conseil"
+        secret: "Secret"
+        cleaner: "Nettoyer formattage"
     helpers:
       home: "Accueil"
       colon: " : "

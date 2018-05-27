@@ -59,7 +59,7 @@ $.extend($.summernote.plugins, {
                 const button = ui.button({
                     contents: '<i class="material-icons">format_clear</i>',
                     container: options.container,
-                    tooltip: 'Clean content',
+                    tooltip: I18n.t('js.editor.buttons.cleaner'),
                     click: function () {
                         if ($note.summernote('createRange').toString()) {
                             $note.summernote('pasteHTML', $note.summernote('createRange').toString());
@@ -89,7 +89,7 @@ $.extend($.summernote.plugins, {
                 const button = ui.button({
                     contents: '<i class="material-icons">thumb_up</i>',
                     container: options.container,
-                    tooltip: 'Advice',
+                    tooltip: I18n.t('js.editor.buttons.advice'),
                     click: function (event) {
                         event.preventDefault();
                         applyFormat(context, 'advice');
@@ -112,7 +112,7 @@ $.extend($.summernote.plugins, {
                 const button = ui.button({
                     contents: '<i class="material-icons">security</i>',
                     container: options.container,
-                    tooltip: 'Secret',
+                    tooltip: I18n.t('js.editor.buttons.secret'),
                     click: function (event) {
                         event.preventDefault();
                         applyFormat(context, 'secret');

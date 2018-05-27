@@ -133,6 +133,9 @@ Style/MultilineIfModifier:
 Style/MultilineOperationIndentation:
   Enabled: false
 
+Style/NumericPredicate:
+  Enabled: false
+
 Style/RedundantReturn:
   Enabled: false
   AllowMultipleReturnValues: true

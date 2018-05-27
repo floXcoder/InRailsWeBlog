@@ -39,7 +39,7 @@ import CommentBox from '../comments/box';
     fetchArticle,
     deleteArticle
 })
-@highlight
+@highlight(false)
 export default class ArticleShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
@@ -66,7 +66,7 @@ export default class ArticleShow extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (!Object.equals(this.props.params, prevProps.params)) {
-            this._request = this.props.fetchArticle(prevProps.params.articleSlug);
+            this._request = this.props.fetchArticle(this.props.params.articleSlug);
         }
     }
 

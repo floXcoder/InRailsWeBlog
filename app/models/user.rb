@@ -505,7 +505,7 @@ class User < ApplicationRecord
   end
 
   def current_topic
-    Topic.find_by_id(self.current_topic_id)
+    Topic.find_by_id(self.current_topic_id) || self.topics.first
   end
 
   def switch_topic(new_topic)

@@ -114,7 +114,7 @@ export default class HeaderLayout extends React.PureComponent {
         this.props.switchUserPreference();
     };
 
-    _handleTopicOpen = (event) => {
+    _handleTopicSwitch = (event) => {
         event.preventDefault();
 
         this.props.switchTopicPopup(!this.props.isTopicPopupOpened);
@@ -128,14 +128,14 @@ export default class HeaderLayout extends React.PureComponent {
                         <div className="nav-wrapper">
                             <ul className="left">
                                 {
-                                    this.props.isUserLoaded &&
+                                    (this.props.isUserLoaded && this.props.currentTopic) &&
                                     <li>
                                         <Dropdown
                                             button={<HomeTopicHeader currentTopicName={this.props.currentTopic.name}
-                                                                     onTopicClick={this._handleTopicOpen}/>}
+                                                                     onTopicClick={this._handleTopicSwitch}/>}
                                             isDefaultOpen={false}
-                                            isOpen={this.props.isTopicPopupOpened}
-                                            onClose={this._handleTopicOpen}
+                                            isForceOpen={this.props.isTopicPopupOpened}
+                                            onClose={this._handleTopicSwitch}
                                             position="bottom left"
                                             horizontalOffset={10}
                                             isFixed={true}

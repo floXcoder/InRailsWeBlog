@@ -70,6 +70,7 @@ en:
         remember_me: "Remember me"
         cancel: "Cancel"
         submit: "Log in"
+        connecting: "Connecting in progress"
       signup:
         title: "Create an account"
         pseudo: "Pseudo"
@@ -80,6 +81,7 @@ en:
         terms_of_use_name: "terms of use."
         cancel: "Cancel"
         submit: "Create my account"
+        connecting: "Subscribing in progress"
         externals:
           google: "Signup with Google"
           facebook: "Signup with Facebook"
@@ -751,6 +753,11 @@ en:
         user_ip: "IP"
         browser: "Browser"
         system: "System"
+    editor:
+      buttons:
+        advice: "Advice"
+        secret: "Secret"
+        cleaner: "Clean formatting"
     helpers:
       home: "Home"
       colon: ": "

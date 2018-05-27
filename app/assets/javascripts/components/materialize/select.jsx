@@ -76,7 +76,7 @@ export default class Select extends React.Component {
     };
 
     value = () => {
-        return this._selectRef.value;
+        return this._selectRef.current.value;
     };
 
     render() {

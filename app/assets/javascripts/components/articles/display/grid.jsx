@@ -4,6 +4,8 @@ import {
     Link
 } from 'react-router-dom';
 
+import Waypoint from 'react-waypoint';
+
 import {
     spyTrackClick
 } from '../../../actions';
@@ -12,14 +14,15 @@ import highlight from '../../modules/highlight';
 
 import ArticleTags from '../properties/tags';
 
-@highlight
+@highlight()
 export default class ArticleGridDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool,
         hasActions: PropTypes.bool,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        onShow: PropTypes.func
     };
 
     static defaultProps = {
@@ -32,6 +35,13 @@ export default class ArticleGridDisplay extends React.Component {
         super(props);
     }
 
+    _handleWaypointEnter = () => {
+        // spyTrackView('article', this.props.article.id);
+        if(this.props.onShow) {
+            this.props.onShow(this.props.article.id);
+        }
+    };
+
     _handleClick = (event) => {
         event.preventDefault();
 
@@ -43,6 +53,7 @@ export default class ArticleGridDisplay extends React.Component {
     render() {
         return (
             <div className="article-item article-grid">
+                <Waypoint onEnter={this._handleWaypointEnter}/>
                 <div className="article-content">
                     <div className="article-title">
                         {

@@ -64,7 +64,7 @@ export default function topicReducer(state = new initState(), action) {
 
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
-            if (action.user && action.connection) {
+            if (action.user && action.connection && action.user.currentTopic) {
                 return state.merge({
                     currentTopic: new Records.TopicRecord(action.user.currentTopic)
                 });

@@ -29,11 +29,11 @@ gem 'slim-rails',               '3.1.3'
 
 # Internationalization
 gem 'i18n-js',                  '3.0.5'
-gem 'geocoder',                 '1.4.7'
-gem 'maxminddb',                '0.1.15'
+gem 'geocoder',                 '1.4.8'
+gem 'maxminddb',                '0.1.16'
 
 # Model versioning
-gem 'paper_trail',              '9.0.2'
+gem 'paper_trail',              '9.1.0'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.1'
@@ -43,7 +43,7 @@ gem 'public_activity',          '1.5.0'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.4.0'
-gem 'sanitize',                 '4.6.4'
+gem 'sanitize',                 '4.6.5'
 
 # Run asynschronous process
 gem 'sidekiq',                  '5.1.3'
@@ -100,7 +100,7 @@ gem 'friendly_id',              '5.2.4'
 gem 'meta-tags',                '2.9.0'
 
 # Dummy data
-gem 'factory_bot_rails',        '4.8.2',   require: false
+gem 'factory_bot_rails',        '4.10.0',   require: false
 gem 'faker',                    '1.8.7',   require: false
 
 # Deployment
@@ -108,7 +108,7 @@ gem 'capistrano',               '3.10.2'
 gem 'capistrano-rails',         '1.3.1'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.3.0',   require: false
-gem 'capistrano-rails-console', '2.2.1',   require: false
+gem 'capistrano-rails-console', '2.3.0',   require: false
 gem 'capistrano-db-tasks',      '0.6',     require: false
 gem 'capistrano-sidekiq',       '1.0.2',   require: false
 gem 'capistrano-passenger',     '0.2.0',   require: false
@@ -161,7 +161,7 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.1.0'
+  gem 'capybara',               '3.1.1'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.21'
   gem 'selenium-webdriver',     '3.12.0'

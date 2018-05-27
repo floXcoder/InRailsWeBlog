@@ -4,13 +4,15 @@ import {
     Link
 } from 'react-router-dom';
 
+import Waypoint from 'react-waypoint';
+
 import highlight from '../../modules/highlight';
 
 import {
     spyTrackClick
 } from '../../../actions';
 
-@highlight
+@highlight()
 export default class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
         id: PropTypes.number.isRequired,
@@ -18,7 +20,8 @@ export default class ArticleInlineDisplay extends React.PureComponent {
         slug: PropTypes.string.isRequired,
         onInlineEdit: PropTypes.func.isRequired,
         title: PropTypes.string,
-        isOwner: PropTypes.bool
+        isOwner: PropTypes.bool,
+        onShow: PropTypes.func
     };
 
     static defaultProps = {
@@ -34,6 +37,13 @@ export default class ArticleInlineDisplay extends React.PureComponent {
         isOver: false
     };
 
+    _handleWaypointEnter = () => {
+        // spyTrackView('article', this.props.article.id);
+        if(this.props.onShow) {
+            this.props.onShow(this.props.id);
+        }
+    };
+
     _handleOverEdit = () => {
         this.setState({
             isOver: !this.state.isOver
@@ -46,6 +56,7 @@ export default class ArticleInlineDisplay extends React.PureComponent {
                 'article-inline-item', {
                     'article-inline-item-over': this.state.isOver
                 })}>
+                <Waypoint onEnter={this._handleWaypointEnter}/>
                 <div className="article-inline-content">
                     {
                         this.props.title &&

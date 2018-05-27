@@ -50,7 +50,7 @@ export default class TagShow extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (!Object.equals(this.props.params, prevProps.params)) {
-            this.props.fetchTag(prevProps.params.tagSlug);
+            this.props.fetchTag(this.props.params.tagSlug);
         }
     }
 

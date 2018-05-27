@@ -31,7 +31,7 @@ import ArticleVersionsDisplay from './display/versions';
     fetchArticleHistory,
     restoreArticle
 })
-@highlight
+@highlight(false)
 export default class ArticleHistory extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,

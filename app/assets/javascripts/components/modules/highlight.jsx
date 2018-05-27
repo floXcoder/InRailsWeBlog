@@ -6,42 +6,58 @@ import {
 
 import HighlightCode from 'highlight.js';
 
-export default function highlight(WrappedComponent) {
-    return class HighlightComponent extends React.Component {
-        static displayName = `HighlightComponent(${getDisplayName(WrappedComponent)})`;
+export default function highlight(isHighligthingOnShow = true) {
+    return function highlighter(WrappedComponent) {
+        return class HighlightComponent extends React.Component {
+            static displayName = `HighlightComponent(${getDisplayName(WrappedComponent)})`;
 
-        constructor(props) {
-            super(props);
-        }
+            constructor(props) {
+                super(props);
 
-        componentDidMount() {
-            HighlightCode.configure({
-                tabReplace: '  ' // 4 spaces
-            });
+                this._highlightedElements = [];
+            }
 
-            this._highlightCode();
-        }
+            componentDidMount() {
+                HighlightCode.configure({
+                    tabReplace: '  ' // 4 spaces
+                });
 
-        componentDidUpdate() {
-            this._highlightCode();
-        }
-
-        _highlightCode = () => {
-            let domNode = ReactDOM.findDOMNode(this);
-            let nodes = domNode.querySelectorAll('pre code');
-            if (nodes.length > 0) {
-                for (let i = 0; i < nodes.length; i = i + 1) {
-                    HighlightCode.highlightBlock(nodes[i]);
+                if (!isHighligthingOnShow) {
+                    setTimeout(() => this._highlightCode(), 5);
                 }
             }
-        };
 
-        render() {
-            const propsProxy = {
-                ...this.props
+            componentDidUpdate() {
+                if (!isHighligthingOnShow) {
+                    setTimeout(() => this._highlightCode(), 5);
+                }
+            }
+
+            _handleShow = (elementId) => {
+                if (!this._highlightedElements.includes(elementId)) {
+                    this._highlightedElements.push(elementId);
+                    setTimeout(() => this._highlightCode(), 5);
+                }
             };
 
-            return <WrappedComponent {...propsProxy} />;
+            _highlightCode = () => {
+                let domNode = ReactDOM.findDOMNode(this);
+                let nodes = domNode.querySelectorAll('pre code');
+                if (nodes.length > 0) {
+                    for (let i = 0; i < nodes.length; i = i + 1) {
+                        HighlightCode.highlightBlock(nodes[i]);
+                    }
+                }
+            };
+
+            render() {
+                const propsProxy = {
+                    ...this.props,
+                    onShow: this._handleShow
+                };
+
+                return <WrappedComponent {...propsProxy} />;
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ import {
     getDisplayName
 } from '../../modules/common';
 
-export default function articleMutationManager(formId) {
+export default function articleMutationManager(mode, formId) {
     return function articleMutation(WrappedComponent) {
         @connect((state) => ({
             isUserConnected: state.userState.isConnected,
@@ -45,7 +45,7 @@ export default function articleMutationManager(formId) {
             currentTopic: getCurrentTopic(state),
             tags: getTags(state),
             isFetching: state.articleState.isFetching,
-            article: state.articleState.article,
+            article: mode === 'edit' ? state.articleState.article : undefined,
             articleErrors: getArticleErrors(state),
             isDirty: isDirty(formId)(state),
             isValid: isValid(formId)(state),
@@ -152,7 +152,7 @@ export default function articleMutationManager(formId) {
 
             componentDidUpdate(prevProps) {
                 if (prevProps.isDirty && prevProps.isValid && !prevProps.isSubmitting && prevProps.formValues !== this.props.formValues) {
-                    this._handleChange(prevProps.formValues);
+                    this._handleChange(this.props.formValues);
                 }
             }
 

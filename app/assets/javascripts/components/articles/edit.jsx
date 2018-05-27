@@ -6,7 +6,7 @@ import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 import articleMutationManager from "./managers/mutation";
 
-@articleMutationManager(`article-${Utils.uuid()}`)
+@articleMutationManager('edit', `article-${Utils.uuid()}`)
 export default class ArticleEdit extends React.Component {
     static propTypes = {
         // From articleMutationManager

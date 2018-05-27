@@ -1,0 +1,261 @@
+// Three bounces spinner
+/*
+*  Usage:
+*
+  <div class="spinner-three-bounce">
+    <div class="spinner-child spinner-bounce1"></div>
+    <div class="spinner-child spinner-bounce2"></div>
+    <div class="spinner-child spinner-bounce3"></div>
+  </div>
+*
+*/
+
+$spinner-size: 30px !default;
+$spinner-color: #333 !default;
+$spinner-margin: auto !default;
+
+.spinner-animation {
+  display: inline-block;
+}
+
+.spinner-three-bounce {
+  $animationDuration: 1.4s;
+  $delayRange: 0.32s;
+  margin: $spinner-margin;
+  width: $spinner-size * 2;
+  text-align: center;
+  vertical-align: middle;
+
+  .spinner-child {
+    width: $spinner-size / 2;
+    height: $spinner-size / 2;
+    background-color: $spinner-color;
+
+    border-radius: 100%;
+    display: inline-block;
+    animation: spinner-three-bounce $animationDuration ease-in-out 0s infinite both;
+  }
+
+  .spinner-bounce1 {
+    animation-delay: -$delayRange;
+  }
+  .spinner-bounce2 {
+    animation-delay: -$delayRange / 2;
+  }
+}
+
+@keyframes spinner-three-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+// Loader ring
+/*
+*  Usage:
+*
+  <div class="loader-ring">
+    <div class="loader-ring-inner"></div>
+  </div>
+*
+*/
+
+@-webkit-keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-ms-keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-ring {
+  background: none;
+  height: 200px;
+  margin: auto;
+  position: relative;
+  top: 25%;
+  width: 200px;
+
+  @media #{$small-and-down} {
+    height: 100px;
+    width: 100px;
+  }
+
+  & > .loader-ring-inner {
+    animation: loader-ring-animation 2s linear infinite;
+    border-radius: 80px;
+    box-shadow: 0 6px 0 0 $primary-color;
+    display: block;
+    height: 120px;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+    width: 120px;
+
+    @media #{$small-and-down} {
+      height: 80px;
+      width: 80px;
+    }
+  }
+}
+
+// Hexagonal spinner
+/*
+*  Usage:
+*
+  <div class="cxq-spinner cxq-spinner-double-bounce">
+    <div class="cxq-spinner-hexagon cxq-spinner-hexagon-1"></div>
+    <div class="cxq-spinner-hexagon cxq-spinner-hexagon-2"></div>
+  </div>
+*
+*/
+
+$spinner-base-value: 40px;
+
+$spinner-width: $spinner-base-value * 2 * 1.732;
+$spinner-height: $spinner-base-value * 2;
+
+$spinner-hexagon-width: $spinner-width;
+$spinner-hexagon-height: $spinner-height * 2;
+
+$spinner-hexagon-bg-color-1: #fff !default;
+$spinner-hexagon-bg-color-2: #000 !default;
+
+.cxq-spinner {
+  height: $spinner-hexagon-height;
+  margin: auto;
+  position: relative;
+  width: $spinner-hexagon-width;
+}
+
+.cxq-spinner-hexagon {
+  border-radius: 5px/10px;
+  height: $spinner-height;
+  opacity: .4;
+  position: absolute;
+  top: $spinner-base-value;
+  width: $spinner-width;
+
+  &::before,
+  &::after {
+    background: inherit;
+    border-radius: inherit;
+    content: '';
+    height: inherit;
+    position: absolute;
+    width: inherit;
+  }
+
+  &::before {
+    transform: rotate(60deg);
+  }
+
+  &::after {
+    transform: rotate(-60deg);
+  }
+}
+
+.cxq-spinner-hexagon-1 {
+  background: $spinner-hexagon-bg-color-2;
+}
+
+.cxq-spinner-hexagon-2 {
+  background: $spinner-hexagon-bg-color-1;
+}
+
+// double bounce
+.cxq-spinner-double-bounce {
+  .cxq-spinner-hexagon {
+    animation: double-bounce 2s infinite ease-in-out;
+
+    &:nth-child(2) {
+      animation-delay: -1s;
+    }
+  }
+}
+
+@keyframes double-bounce {
+  0%, 100% {
+    -webkit-transform: scale(.2);
+    transform: scale(.2);
+  }
+
+  50% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}

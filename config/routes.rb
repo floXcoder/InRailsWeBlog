@@ -88,7 +88,7 @@ Rails.application.routes.draw do
       # Topics
       resources :topics do
         collection do
-          post :switch,        to: 'topics#switch'
+          get :switch,        to: 'topics#switch'
         end
 
         member do

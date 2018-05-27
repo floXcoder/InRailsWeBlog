@@ -74,7 +74,7 @@ export default class ArticleIndex extends React.Component {
 
             this._parseQuery = nextParseQuery;
 
-            this._fetchArticles(prevProps.params);
+            this._fetchArticles(this.props.params);
         }
     }
 
