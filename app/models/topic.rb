@@ -481,7 +481,7 @@ class Topic < ApplicationRecord
 
   private
 
-  def add_visit_activity(user_id = nil)
+  def add_visit_activity(user_id = nil, parent_id = nil)
     return unless user_id
 
     user = User.find_by(id: user_id)

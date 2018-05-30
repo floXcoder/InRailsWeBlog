@@ -146,6 +146,9 @@ Style/RedundantSelf:
 Style/RegexpLiteral:
   Enabled: false
 
+Style/RescueModifier:
+  Enabled: false
+
 Style/SpaceInLambdaLiteral:
   Enabled: false
 

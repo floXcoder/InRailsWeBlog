@@ -3,8 +3,12 @@
 import {
     initUser,
     fetchTopics,
-    fetchTags
+    fetchTags,
+    getTracksClick,
+    fetchUserRecents,
+    updateUserRecents
 } from '../../../actions';
+import {defer} from "../../../modules/utils";
 
 @connect((state) => ({
     isUserConnected: state.userState.isConnected,
@@ -13,7 +17,9 @@ import {
 }), {
     initUser,
     fetchTopics,
-    fetchTags
+    fetchTags,
+    fetchUserRecents,
+    updateUserRecents
 })
 export default class UserManager extends React.Component {
     static propTypes = {
@@ -25,7 +31,9 @@ export default class UserManager extends React.Component {
         currentTopicId: PropTypes.number,
         initUser: PropTypes.func,
         fetchTopics: PropTypes.func,
-        fetchTags: PropTypes.func
+        fetchTags: PropTypes.func,
+        fetchUserRecents: PropTypes.func,
+        updateUserRecents: PropTypes.func
     };
 
     constructor(props) {
@@ -47,6 +55,17 @@ export default class UserManager extends React.Component {
                     // Loaded when current topic is updated
                     // Get all user tags for current topic (user private and common public tags associated to his articles)
                     // props.fetchTags({topicId: response.user.currentTopic.id});
+
+                    Utils.defer.then(() => {
+                        // Send local recent clicks otherwise fetch them
+                        const userJustSign = sessionStorage && sessionStorage.getItem('user-connection');
+                        if (userJustSign) {
+                            sessionStorage.removeItem('user-connection');
+                            this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
+                        } else {
+                            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
+                        }
+                    });
                 }
 
                 if (this.props.currentTopicId || (this.props.routerState && this.props.routerState.reloadTags)) {

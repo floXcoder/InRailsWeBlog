@@ -68,6 +68,7 @@ Rails.application.routes.draw do
           get      :draft,         to: 'users#draft',              as: :draft
           get      :comments,      to: 'users#comments',           as: :comments
           get      :recents,       to: 'users#recents',            as: :recents
+          post     :recents,       to: 'users#update_recents'
           get      :activities,    to: 'users#activities',         as: :activities
 
           concerns :tracker,       module: :users

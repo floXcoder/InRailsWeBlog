@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import {
     setSelectedTag,
     fetchUserRecents,
@@ -60,11 +62,6 @@ export default class SearchModule extends React.Component {
         super(props);
 
         this._request = null;
-
-        // Fetched by breadcrumb
-        // if (this.props.currentUserId) {
-        //     props.fetchUserRecents(this.props.currentUserId, {limit: 8});
-        // }
     }
 
     state = {
@@ -164,8 +161,8 @@ export default class SearchModule extends React.Component {
     };
 
     render() {
-        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : this.props.recentTags;
-        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : this.props.recentArticles;
+        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : _.uniqBy(this.props.recentTags, (t) => t.name);
+        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : _.uniqBy(this.props.recentArticles, (t) => t.title);
 
         return (
             <div className="search-module-results">

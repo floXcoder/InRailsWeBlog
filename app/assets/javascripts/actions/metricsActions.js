@@ -56,10 +56,12 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
     if (hasLocalStorage && elementSlug && elementTitle) {
         saveLocalData('recents', {
             type: elementName,
-            id: elementId,
+            elementId: elementId,
             title: elementTitle.replace(/<.*?>(.*)<\/.*?>/g, '$1'),
             slug: elementSlug,
-            date: Date.now()
+            date: Date.now(),
+            userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
+            parentId: window.currentUserTopicId ? parseInt(window.currentUserTopicId, 10) : undefined
         });
     }
 
@@ -67,10 +69,11 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
         .post(`/api/v1/${elementName}s/${elementId}/clicked`,
             {
                 id: elementId,
-                userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined
+                userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
+                parentId: window.currentUserTopicId ? parseInt(window.currentUserTopicId, 10) : undefined
             });
 };
 
-export const getTracksClick = () => {
-    return getLocalData('recents');
+export const getTracksClick = (remove = false) => {
+    return getLocalData('recents', remove);
 };

@@ -95,7 +95,7 @@ module ActAsTrackedConcern
     end
 
     # Tracker model method to increment click count
-    def track_clicks(record_id, user_id = nil)
+    def track_clicks(record_id, user_id = nil, parent_id = nil)
       return unless self.tracker_metrics.include? :clicks
 
       if record_id.is_a? Array
@@ -106,7 +106,7 @@ module ActAsTrackedConcern
         $redis.incr(redis_key(record_id, 'clicks'))
       end
 
-      try_callback(:click, record_id, user_id)
+      try_callback(:click, record_id, user_id, parent_id)
     end
 
     # Tracker model method to increment view count
@@ -152,11 +152,11 @@ module ActAsTrackedConcern
       "#{self.name.downcase}:#{metric}:#{record_id}"
     end
 
-    def try_callback(action, record_id, user_id = nil)
+    def try_callback(action, record_id, user_id = nil, parent_id = nil)
       return unless self.tracker_callbacks && self.tracker_callbacks[action]
 
       record = self.find_by(id: record_id)
-      record.send(self.tracker_callbacks[action], user_id) if record && record.respond_to?(self.tracker_callbacks[action], true)
+      record.send(self.tracker_callbacks[action], user_id, parent_id) if record&.respond_to?(self.tracker_callbacks[action], true)
     end
   end
 

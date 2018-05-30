@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 
 import {
-    fetchUserRecents,
     getTracksClick
 } from '../../actions';
 
@@ -13,33 +12,26 @@ import {
     getUserRecents
 } from '../../selectors';
 
-@connect((state) => ({
+@connect((state, props) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     // currentTopic: state.topicState.currentTopic,
-    recents: getUserRecents(state, 8)
-}), {
-    fetchUserRecents
-})
+    recents: getUserRecents(state, props.recentsLimit)
+}))
 export default class BreadcrumbLayout extends React.Component {
     static propTypes = {
         currentPath: PropTypes.string.isRequired,
-        limit: PropTypes.number,
+        recentsLimit: PropTypes.number,
         // From connect
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
-        recents: PropTypes.array,
-        fetchUserRecents: PropTypes.func
+        recents: PropTypes.array
         // currentTopic: PropTypes.object,
     };
 
-    static defaultProps = {
-        limit: 10
-    };
-
-    static _formatRecents = (recents, limit) => {
+    static _formatRecents = (recents, recentsLimit) => {
         if (recents) {
-            return recents.compact().sort((a, b) => b.date - a.date).limit(limit).slice().reverse();
+            return recents.compact().sort((a, b) => b.date - a.date).limit(recentsLimit).slice().reverse();
         } else {
             return [];
         }
@@ -57,23 +49,17 @@ export default class BreadcrumbLayout extends React.Component {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.recents !== nextProps.recents) {
             return {
-                recents: BreadcrumbLayout._formatRecents(nextProps.recents.concat(getTracksClick()), nextProps.limit),
+                recents: BreadcrumbLayout._formatRecents(nextProps.recents.concat(getTracksClick()), nextProps.recentsLimit),
                 currentPath: prevState.currentPath
             };
         } else if (prevState.currentPath !== nextProps.currentPath) {
             return {
-                recents: BreadcrumbLayout._formatRecents(prevState.recents.concat(getTracksClick()), nextProps.limit),
+                recents: BreadcrumbLayout._formatRecents(prevState.recents.concat(getTracksClick()), nextProps.recentsLimit),
                 currentPath: nextProps.currentPath
             };
         }
 
         return null;
-    }
-
-    componentDidMount() {
-        if (this.props.currentUserId) {
-            this.props.fetchUserRecents(this.props.currentUserId, {limit: this.props.limit});
-        }
     }
 
     _iconFromType = (type) => {

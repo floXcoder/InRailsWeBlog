@@ -30,7 +30,13 @@ export default class Login extends React.PureComponent {
 
     _handleSubmit = (values) => {
         this.props.loginUser(values.toJS())
-            .then(() => location.reload(true));
+            .then(() => {
+                if (sessionStorage) {
+                    sessionStorage.setItem(`user-connection`, 'true');
+                }
+
+                location.reload(true);
+            });
     };
 
     _handleClose = () => {

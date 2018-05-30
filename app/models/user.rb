@@ -523,15 +523,16 @@ class User < ApplicationRecord
 
   # Activities
   def recent_visits(limit = 12)
-    last_visits = self.recent_activities.where(key: 'user.visit').limit(limit)
+    last_visits = self.recent_activities.order('activities.created_at DESC').where(key: 'user.visit').where(parameters: { topic_id: self.current_topic_id }).limit(limit)
 
     return {} if last_visits.empty?
 
+    # Override created_at to use the activity field
     {
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
-      tags:     Tag.order('created_at DESC').joins(:user_activities).merge(last_visits).distinct,
-      articles: Article.order('created_at DESC').joins(:user_activities).merge(last_visits).distinct
+      tags:     Tag.joins(:user_activities).merge(last_visits).select('id', 'user_id', 'name', 'synonyms', 'visibility', 'slug', 'activities.created_at').distinct,
+      articles: Article.joins(:user_activities).merge(last_visits).select('id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'activities.created_at').distinct
     }
   end
 

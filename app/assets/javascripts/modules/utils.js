@@ -610,6 +610,8 @@ export const is = () => {
     return exports;
 };
 
+export const defer = Promise.resolve();
+
 export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));
 
 export const NAVIGATION_KEYMAP = {

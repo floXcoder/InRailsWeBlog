@@ -72,10 +72,13 @@ export default function userReducer(state = new initState(), action) {
             }, ['connection', 'settings']);
 
         case ActionTypes.USER_RECENTS:
+        case ActionTypes.USER_RECENTS_CHANGE_INIT:
+        case ActionTypes.USER_RECENTS_CHANGE_SUCCESS:
+        case ActionTypes.USER_RECENTS_CHANGE_ERROR:
             return state.merge({
-                recentTopics: toList(action.recentTopics, Records.TopicRecord),
-                recentTags: toList(action.recentTags, Records.TagRecord),
-                recentArticles: toList(action.recentArticles, Records.ArticleRecord)
+                recentTopics: toList(action.topics, Records.TopicRecord),
+                recentTags: toList(action.tags, Records.TagRecord),
+                recentArticles: toList(action.articles, Records.ArticleRecord)
             });
 
         default:

@@ -51,13 +51,15 @@ export default function fetchMiddleware({dispatch, getState}) {
         ];
 
         if (!actionTypes.every(action => !!action)) {
-            throw new Error(`All actions are not defined : ${actionNames.join(', ')}`);
+            log.error(`All actions are not defined: ${actionNames.join(', ')}`);
+            throw new Error(`All actions are not defined: ${actionNames.join(', ')}`);
         }
 
         const [requestType, successType, failureType] = actionTypes;
 
         if (typeof fetchAPI !== 'function') {
-            throw new Error(`callAPI must be a function`);
+            log.error('callAPI must be a function');
+            throw new Error('callAPI must be a function');
         }
 
         dispatch({

@@ -181,6 +181,34 @@ module Api::V1
       end
     end
 
+    def update_recents
+      user = User.friendly.find(params[:id])
+      admin_or_authorize user, :recents?
+
+      params[:recents]&.each do |recent|
+        next unless recent['user_id'].to_s == user.id.to_s
+
+        user.create_activity(:visit,
+                             recipient_type: recent['type'].classify,
+                             recipient_id: recent['element_id'].to_i,
+                             params: { topic_id: recent['parent_id'] })
+        PublicActivity::Activity.last.update_attribute(:created_at, Time.at((recent['date']/1000).round))
+      end
+
+      user_recents = user.recent_visits(params[:limit])
+      recents      = {
+        tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
+        articles: Article.as_flat_json(user_recents[:articles], strict: true)
+      }
+
+      respond_to do |format|
+        format.json do
+          render json: recents,
+                 root: 'recents'
+        end
+      end
+    end
+
     def activities
       user = User.includes(:activities).friendly.find(params[:id])
       authorize user

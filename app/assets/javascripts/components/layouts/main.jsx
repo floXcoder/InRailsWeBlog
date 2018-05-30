@@ -158,7 +158,8 @@ export default class MainLayout extends React.Component {
                                            })}>
                                                <ErrorBoundary errorType="text"
                                                               errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                                   <BreadcrumbLayout currentPath={router.location.pathname}/>
+                                                   <BreadcrumbLayout currentPath={router.location.pathname}
+                                                                     recentsLimit={8}/>
                                                </ErrorBoundary>
 
                                                <div className="container blog-main">
