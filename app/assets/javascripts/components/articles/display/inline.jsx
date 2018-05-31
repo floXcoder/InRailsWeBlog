@@ -9,7 +9,8 @@ import Waypoint from 'react-waypoint';
 import highlight from '../../modules/highlight';
 
 import {
-    spyTrackClick
+    spyTrackClick,
+    spyTrackView
 } from '../../../actions';
 
 @highlight()
@@ -38,7 +39,8 @@ export default class ArticleInlineDisplay extends React.PureComponent {
     };
 
     _handleWaypointEnter = () => {
-        // spyTrackView('article', this.props.article.id);
+        spyTrackView('article', this.props.id);
+
         if(this.props.onShow) {
             this.props.onShow(this.props.id);
         }

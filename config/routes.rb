@@ -58,6 +58,8 @@ Rails.application.routes.draw do
       resources :users, except: [:new, :create, :destroy] do
         collection do
           get :validation,         to: 'users#validation'
+
+          concerns :tracker,       module: :users
         end
 
         member do
@@ -90,10 +92,12 @@ Rails.application.routes.draw do
       resources :topics do
         collection do
           get :switch,        to: 'topics#switch'
+
+          concerns :tracker,  module: :topics
         end
 
         member do
-          concerns :tracker,   module: :tags
+          concerns :tracker,  module: :tags
         end
       end
 
@@ -101,6 +105,8 @@ Rails.application.routes.draw do
       resources :articles do
         collection do
           put      :priority,  to: 'articles#update_priority'
+
+          concerns :tracker,   module: :articles
         end
 
         member do
@@ -121,6 +127,10 @@ Rails.application.routes.draw do
 
       # Tags
       resources :tags, except: [:new, :create, :edit] do
+        collection do
+          concerns :tracker,   module: :tags
+        end
+
         member do
           concerns :tracker,   module: :tags
 

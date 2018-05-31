@@ -7,7 +7,8 @@ import {
 import Waypoint from 'react-waypoint';
 
 import {
-    spyTrackClick
+    spyTrackClick,
+    spyTrackView
 } from '../../../actions';
 
 import highlight from '../../modules/highlight';
@@ -36,7 +37,8 @@ export default class ArticleGridDisplay extends React.Component {
     }
 
     _handleWaypointEnter = () => {
-        // spyTrackView('article', this.props.article.id);
+        spyTrackView('article', this.props.article.id);
+
         if(this.props.onShow) {
             this.props.onShow(this.props.article.id);
         }
