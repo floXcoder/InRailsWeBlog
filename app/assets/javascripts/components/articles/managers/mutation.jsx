@@ -146,15 +146,29 @@ export default function articleMutationManager(mode, formId) {
                 return null;
             }
 
-            shouldComponentUpdate(nextProps) {
-                return (this.props.tags !== nextProps.tags || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.article !== nextProps.article);
-            }
+            // Utility? Performance are the same...
+            // shouldComponentUpdate(nextProps) {
+            //     return (this.props.tags !== nextProps.tags || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.article !== nextProps.article);
+            // }
 
             componentDidUpdate(prevProps) {
                 if (prevProps.isDirty && prevProps.isValid && !prevProps.isSubmitting && prevProps.formValues !== this.props.formValues) {
                     this._handleChange(this.props.formValues);
                 }
+
+                this._promptUnsavedChange(this.props.isDirty);
             }
+
+            componentWillUnmount() {
+                window.onbeforeunload = null;
+            }
+
+            _promptUnsavedChange = (isUnsaved = false) => {
+                const leaveMessage = I18n.t('js.article.form.unsaved');
+
+                // Detecting browser close
+                window.onbeforeunload = isUnsaved ? (() => leaveMessage) : null;
+            };
 
             _handleChange = _.debounce((values) => {
                 this._handleSubmit(values, true);

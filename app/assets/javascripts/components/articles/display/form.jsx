@@ -104,7 +104,7 @@ export default class ArticleFormDisplay extends React.Component {
             <form className="article-form"
                   onSubmit={this.props.handleSubmit}>
                 <Prompt when={this.props.dirty && !this.props.submitSucceeded}
-                        message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
+                        message={() => I18n.t('js.article.form.unsaved')}/>
 
                 <div className="card">
                     <h4 className="blog-form-title">
