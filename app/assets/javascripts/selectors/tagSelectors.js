@@ -109,6 +109,11 @@ export const getCategorizedTags = createSelector(
     }
 );
 
+export const getCurrentTagSlugs = createSelector(
+    (state) => state.tagState.currentTagSlugs,
+    (tags) => tags.toArray().compact()
+);
+
 export const getTagIsOwner = (state, tag) => (
     tag && tag.user ? state.userState.currentId === tag.user.id : false
 );

@@ -2,7 +2,8 @@
 
 import {
     fetchArticle,
-    deleteArticle
+    deleteArticle,
+    setCurrentTags
 } from '../../actions';
 
 import {
@@ -37,7 +38,8 @@ import CommentBox from '../comments/box';
     isUserConnected: state.userState.isConnected
 }), {
     fetchArticle,
-    deleteArticle
+    deleteArticle,
+    setCurrentTags
 })
 @highlight(false)
 export default class ArticleShow extends React.Component {
@@ -51,7 +53,8 @@ export default class ArticleShow extends React.Component {
         isOutdated: PropTypes.bool,
         isUserConnected: PropTypes.bool,
         fetchArticle: PropTypes.func,
-        deleteArticle: PropTypes.func
+        deleteArticle: PropTypes.func,
+        setCurrentTags: PropTypes.func
     };
 
     constructor(props) {
@@ -65,6 +68,10 @@ export default class ArticleShow extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        if (this.props.article) {
+            this.props.setCurrentTags(this.props.article.tags);
+        }
+
         if (!Object.equals(this.props.params, prevProps.params)) {
             this._request = this.props.fetchArticle(this.props.params.articleSlug);
         }
@@ -165,7 +172,7 @@ export default class ArticleShow extends React.Component {
                             <a href={this.props.article.reference}
                                rel="noopener noreferrer"
                                target="_blank">
-                                {this.props.article.reference.replace(/^(https?):\/\//, '').replace(/\/$/, '')}
+                                {Utils.normalizeLink(this.props.article.reference)}
                             </a>
                         </div>
                     }

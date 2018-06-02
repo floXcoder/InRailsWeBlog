@@ -6,9 +6,9 @@ import {
     fetchTags,
     getTracksClick,
     fetchUserRecents,
-    updateUserRecents
+    updateUserRecents,
+    setCurrentTags
 } from '../../../actions';
-import {defer} from "../../../modules/utils";
 
 @connect((state) => ({
     isUserConnected: state.userState.isConnected,
@@ -19,7 +19,8 @@ import {defer} from "../../../modules/utils";
     fetchTopics,
     fetchTags,
     fetchUserRecents,
-    updateUserRecents
+    updateUserRecents,
+    setCurrentTags
 })
 export default class UserManager extends React.Component {
     static propTypes = {
@@ -33,7 +34,8 @@ export default class UserManager extends React.Component {
         fetchTopics: PropTypes.func,
         fetchTags: PropTypes.func,
         fetchUserRecents: PropTypes.func,
-        updateUserRecents: PropTypes.func
+        updateUserRecents: PropTypes.func,
+        setCurrentTags: PropTypes.func
     };
 
     constructor(props) {
@@ -42,6 +44,9 @@ export default class UserManager extends React.Component {
 
     componentDidMount() {
         // Called each time a route changed!
+
+        // Reset current tags
+        this.props.setCurrentTags();
 
         // Load user environment if connected
         if (this.props.isUserConnected) {

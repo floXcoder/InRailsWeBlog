@@ -1,11 +1,21 @@
 'use strict';
 
-import Loader from '../theme/loader';
+import {
+    deleteArticle,
+    fetchArticle,
+    setCurrentTags
+} from '../../actions';
+
+import articleMutationManager from './managers/mutation';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
-import articleMutationManager from "./managers/mutation";
 
+import Loader from '../theme/loader';
+
+@connect(null, {
+    setCurrentTags
+})
 @articleMutationManager('edit', `article-${Utils.uuid()}`)
 export default class ArticleEdit extends React.Component {
     static propTypes = {
@@ -19,11 +29,18 @@ export default class ArticleEdit extends React.Component {
         currentMode: PropTypes.string,
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
-        onSubmit: PropTypes.func
+        onSubmit: PropTypes.func,
+        setCurrentTags: PropTypes.func
     };
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        if (this.props.article) {
+            this.props.setCurrentTags(this.props.article.tags);
+        }
     }
 
     shouldComponentUpdate(nextProps) {

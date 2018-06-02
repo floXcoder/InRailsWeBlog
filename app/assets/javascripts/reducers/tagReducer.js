@@ -25,6 +25,8 @@ const initState = new Record({
     tags: new List(),
     pagination: new Map(),
 
+    currentTagSlugs: new List(),
+
     tag: undefined,
 
     filterText: undefined
@@ -57,6 +59,11 @@ export default function tagReducer(state = new initState(), action) {
         case ActionTypes.TAG_FILTER_SIDEBAR:
             return state.merge({
                 filterText: action.filterText
+            });
+
+        case ActionTypes.TAG_CURRENT_TAGS:
+            return state.merge({
+                currentTagSlugs: action.tags ? new List(action.tags.map((tag) => tag.slug)) : new List()
             });
 
         default:

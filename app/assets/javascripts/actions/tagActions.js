@@ -66,3 +66,8 @@ export const deleteTag = (tagId, options = {}) => ({
         removedId: tagId
     }
 });
+
+export const setCurrentTags = (tags) => ({
+    type: ActionTypes.TAG_CURRENT_TAGS,
+    tags
+});

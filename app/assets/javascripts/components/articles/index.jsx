@@ -2,7 +2,8 @@
 
 import {
     fetchArticles,
-    updateArticleOrder
+    updateArticleOrder,
+    setCurrentTags
 } from '../../actions';
 
 import {
@@ -30,7 +31,8 @@ import ArticleNone from '../articles/display/none';
     articleEditionId: state.articleState.articleEditionId
 }), {
     fetchArticles,
-    updateArticleOrder
+    updateArticleOrder,
+    setCurrentTags
 })
 export default class ArticleIndex extends React.Component {
     static propTypes = {
@@ -48,7 +50,8 @@ export default class ArticleIndex extends React.Component {
         articleDisplayMode: PropTypes.string,
         articleOrderMode: PropTypes.string,
         fetchArticles: PropTypes.func,
-        updateArticleOrder: PropTypes.func
+        updateArticleOrder: PropTypes.func,
+        setCurrentTags: PropTypes.func
     };
 
     constructor(props) {
@@ -60,6 +63,10 @@ export default class ArticleIndex extends React.Component {
 
     componentDidMount() {
         this._fetchArticles(this.props.params);
+
+        if (this.props.params.tagSlug) {
+            this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}])
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -76,6 +83,10 @@ export default class ArticleIndex extends React.Component {
             this._parseQuery = nextParseQuery;
 
             this._fetchArticles(this.props.params);
+
+            if (this.props.params.tagSlug) {
+                this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}])
+            }
         }
     }
 

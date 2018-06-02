@@ -8,13 +8,22 @@ import {
     spyTrackClick
 } from '../../../actions';
 
+import {
+    getCurrentTagSlugs
+} from '../../../selectors';
+
 import ChildTag from './child';
 
+@connect((state) => ({
+    currentTagSlugs: getCurrentTagSlugs(state)
+}))
 export default class ParentTag extends React.Component {
     static propTypes = {
         tag: PropTypes.object.isRequired,
         onTagClick: PropTypes.func.isRequired,
-        isFiltering: PropTypes.bool
+        isFiltering: PropTypes.bool,
+        // From connect
+        currentTagSlugs: PropTypes.array
     };
 
     static defaultProps = {
@@ -60,7 +69,6 @@ export default class ParentTag extends React.Component {
 
     render() {
         const hasChild = !Utils.isEmpty(this.props.tag.children);
-        const currentUrl = window.location.pathname;
 
         return (
             <div className="tag-parent">
@@ -78,7 +86,7 @@ export default class ParentTag extends React.Component {
                 }
 
                 <Link className={classNames('tag-parent-name', {
-                    'tag-selected': currentUrl === `/tagged/${this.props.tag.slug}`
+                    'tag-selected': this.props.currentTagSlugs.includes(this.props.tag.slug)
                 })}
                       to={`/tagged/${this.props.tag.slug}`}
                       onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
@@ -95,6 +103,7 @@ export default class ParentTag extends React.Component {
                                       tag={tag}
                                       parentTagSlug={this.props.tag.slug}
                                       isExpanded={this.state.isExpanded}
+                                      currentTagSlugs={this.props.currentTagSlugs}
                                       onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.slug, false)}/>
                         ))
                     }
