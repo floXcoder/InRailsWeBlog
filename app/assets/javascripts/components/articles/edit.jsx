@@ -1,8 +1,6 @@
 'use strict';
 
 import {
-    deleteArticle,
-    fetchArticle,
     setCurrentTags
 } from '../../actions';
 
@@ -13,10 +11,10 @@ import ArticleFormDisplay from './display/form';
 
 import Loader from '../theme/loader';
 
+@articleMutationManager('edit', `article-${Utils.uuid()}`)
 @connect(null, {
     setCurrentTags
 })
-@articleMutationManager('edit', `article-${Utils.uuid()}`)
 export default class ArticleEdit extends React.Component {
     static propTypes = {
         // From articleMutationManager
@@ -38,6 +36,12 @@ export default class ArticleEdit extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.article) {
+            this.props.setCurrentTags(this.props.article.tags);
+        }
+    }
+
+    componentDidUpdate() {
         if (this.props.article) {
             this.props.setCurrentTags(this.props.article.tags);
         }

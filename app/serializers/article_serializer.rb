@@ -55,14 +55,12 @@ class ArticleSerializer < ActiveModel::Serializer
              :bookmarks_count,
              :comments_count,
              :outdated_count,
+             :tags,
              :parent_tag_ids,
              :child_tag_ids,
              :new_tag_ids
 
   belongs_to :user, serializer: UserSampleSerializer
-  has_many :tags, serializer: TagSampleSerializer
-  # has_many :parent_tags, serializer: TagSampleSerializer
-  # has_many :child_tags, serializer: TagSampleSerializer
 
   def content
     current_user_id = defined?(current_user) && current_user&.id
@@ -114,6 +112,14 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def comments
     object.comments_tree.flatten if instance_options[:comments]
+  end
+
+  def tags
+    if defined?(current_user) && current_user
+      Tag.as_flat_json(object.tags, sample: true)
+    else
+      Tag.as_flat_json(object.tags.select { |tag| tag.visibility == 'everyone' }, sample: true)
+    end
   end
 
   def parent_tag_ids
