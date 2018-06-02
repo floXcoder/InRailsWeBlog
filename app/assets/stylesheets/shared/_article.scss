@@ -786,6 +786,10 @@
 
     .blog-article-content {
       margin-bottom: .5rem;
+      max-height: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

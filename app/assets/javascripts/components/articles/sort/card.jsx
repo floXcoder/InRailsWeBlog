@@ -24,10 +24,9 @@ const ArticleCardSort = ({article}) => (
 
                     {
                         (article.visibility === 'everyone' && article.commentsCount > 0) &&
-                        <CommentCountIcon
-                            commentLink={`/article/${article.slug}#article-comments-${article.id}`}
-                            commentsCount={article.commentsCount}
-                            hasIcon={false}/>
+                        <CommentCountIcon commentLink={`/article/${article.slug}#article-comments-${article.id}`}
+                                          commentsCount={article.commentsCount}
+                                          hasIcon={false}/>
                     }
                 </div>
             </div>
