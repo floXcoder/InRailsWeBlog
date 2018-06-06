@@ -249,6 +249,7 @@ module Api::V1
                                       :draft,
                                       :topic_id,
                                       :language,
+                                      :picture_ids,
                                       tags:        [
                                                      :name,
                                                      :visibility,

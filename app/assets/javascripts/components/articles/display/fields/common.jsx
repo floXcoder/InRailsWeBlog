@@ -5,7 +5,6 @@ import {
 } from 'redux-form/immutable';
 
 import TextField from '../../../materialize/form/text';
-
 import EditorField from '../../../editor/form/editor';
 import CategorizedField from '../../../materialize/form/categorized';
 import CheckBoxField from '../../../materialize/form/checkbox';
@@ -39,11 +38,18 @@ export default class ArticleCommonField extends React.Component {
     state = {
         hasChildTagFocus: false,
         parentTags: [],
-        childTags: []
+        childTags: [],
+        pictureIds: undefined
     };
 
     _handleEditorLoaded = (editor) => {
         this._editor = editor;
+    };
+
+    _handleImageUploaded = (image) => {
+        this.setState({
+            pictureIds: this.state.pictureIds ? this.state.pictureIds.split(',').concat(image.id).join(',') : image.id.toString()
+        });
     };
 
     _onFieldBlur = (event) => {
@@ -110,13 +116,22 @@ export default class ArticleCommonField extends React.Component {
                         {I18n.t('js.article.model.content')}
                     </div>
                     <Field id="article_content"
-                           multipleId={this.props.multipleId}
+                           modelName="article"
+                           modelId={this.props.article.id}
                            name="content"
                            placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
                            onLoaded={this._handleEditorLoaded}
+                           onImageUpload={this._handleImageUploaded}
                            onSubmit={this.props.onSubmit}
                            component={EditorField}
                            componentContent={this.props.article.content}/>
+
+                    <Field id="article_pictures"
+                           type="hidden"
+                           multipleId={this.props.multipleId}
+                           name="picture_ids"
+                           component={TextField}
+                           componentContent={this.state.pictureIds}/>
                 </div>
 
                 <div className="col s12 xl6">

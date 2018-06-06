@@ -50,7 +50,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             itemSelector: '.masonry-grid-item',
             percentPosition: true
         },
-        columnPosition: 3,
+        columnPosition: 2,
         exposedComponents: {}
     };
 

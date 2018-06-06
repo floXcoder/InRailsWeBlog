@@ -55,6 +55,8 @@ const manageError = (origin, error, url) => {
             // } else {
             //     history.back();
             // }
+        } else if (error.statusText === 'Not found') {
+            // Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
         } else if (error.statusText === 'Unprocessable Entity') {
             Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
         } else {

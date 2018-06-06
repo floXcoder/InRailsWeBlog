@@ -1,5 +1,7 @@
 'use strict';
 
+import LazyLoad from 'vanilla-lazyload';
+
 import {
     fetchArticles,
     updateArticleOrder,
@@ -59,6 +61,7 @@ export default class ArticleIndex extends React.Component {
 
         this._parseQuery = Utils.parseUrlParameters(props.queryString) || {};
         this._request = null;
+        this._lazyLoad = null;
     }
 
     componentDidMount() {
@@ -87,6 +90,12 @@ export default class ArticleIndex extends React.Component {
             if (this.props.params.tagSlug) {
                 this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}])
             }
+        }
+
+        if (this.props.articles.length > 0) {
+            Utils.defer.then(() => {
+                this._lazyLoad = new LazyLoad();
+            });
         }
     }
 

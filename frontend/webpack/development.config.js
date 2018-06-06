@@ -125,9 +125,9 @@ webPackConfig.plugins.push(
             'NODE_ENV': JSON.stringify('development'),
             'ASSET_PATH': JSON.stringify(config.development.assetPath)
         }
-    })
+    }),
     // new webpack.HotModuleReplacementPlugin(),
-    // new BrowserSyncPlugin(config.browserSync)
+    // new BrowserSyncPlugin(config.browserSync),
     // new BundleAnalyzerPlugin({
     //     // Can be `server`, `static` or `disabled`.
     //     // In `server` mode analyzer will start HTTP server to show bundle report.

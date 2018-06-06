@@ -38,6 +38,7 @@ export default class ParentTag extends React.Component {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.isFiltering !== nextProps.isFiltering) {
             return {
+                ...prevState,
                 isExpanded: nextProps.isFiltering
             };
         }

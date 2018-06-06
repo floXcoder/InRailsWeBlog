@@ -48,6 +48,7 @@ export default class Checkbox extends React.PureComponent {
 
         if (prevState.isChecked !== children) {
             return {
+                ...prevState,
                 isChecked: children
             };
         }

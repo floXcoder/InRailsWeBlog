@@ -1,5 +1,7 @@
 'use strict';
 
+import LazyLoad from 'vanilla-lazyload';
+
 import {
     fetchArticle,
     deleteArticle,
@@ -28,7 +30,10 @@ import Loader from '../theme/loader';
 import LazyLoader from '../theme/lazyLoader';
 
 import CommentCountIcon from '../comments/icons/count';
-import CommentBox from '../comments/box';
+
+import CommentBox from '../loaders/commentBox';
+
+import NotFound from '../layouts/notFound';
 
 @connect((state) => ({
     isFetching: state.articleState.isFetching,
@@ -61,6 +66,7 @@ export default class ArticleShow extends React.Component {
         super(props);
 
         this._request = null;
+        this._lazyLoad = null;
     }
 
     componentDidMount() {
@@ -74,6 +80,12 @@ export default class ArticleShow extends React.Component {
 
         if (!Object.equals(this.props.params, prevProps.params)) {
             this._request = this.props.fetchArticle(this.props.params.articleSlug);
+        }
+
+        if (!this._lazyLoad && this.props.article) {
+            Utils.defer.then(() => {
+                this._lazyLoad = new LazyLoad();
+            });
         }
     }
 
@@ -116,11 +128,19 @@ export default class ArticleShow extends React.Component {
 
     render() {
         if (!this.props.article) {
-            return (
-                <div className="center margin-top-20">
-                    <Loader size="big"/>
-                </div>
-            )
+            if (this.props.isFetching) {
+                return (
+                    <div className="center margin-top-20">
+                        <Loader size="big"/>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="center margin-top-20">
+                        <NotFound/>
+                    </div>
+                )
+            }
         }
 
         return (
@@ -228,8 +248,8 @@ export default class ArticleShow extends React.Component {
                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                     <div className="card-panel">
                         <LazyLoader height={0}
-                                  once={true}
-                                  offset={50}>
+                                    once={true}
+                                    offset={50}>
                             <CommentBox id={`article-comments-${this.props.article.id}`}
                                         commentableType="articles"
                                         commentableId={this.props.article.id}

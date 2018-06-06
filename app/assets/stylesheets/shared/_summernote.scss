@@ -116,6 +116,10 @@
     word-wrap: break-word; /* Internet Explorer 5.5+ */
   }
 
+  img {
+    max-width: 100%;
+  }
+
   .secret {
     @include special-style($secret-color);
   }

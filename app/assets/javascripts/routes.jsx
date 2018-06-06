@@ -17,6 +17,8 @@ import UserEdit from './components/loaders/userEdit';
 import SearchModule from './components/loaders/searchModule';
 import SearchIndex from './components/loaders/searchIndex';
 
+import NotFound from './components/layouts/notFound';
+
 export default {
     // Rails routes:
     // /api/v1/*
@@ -143,6 +145,9 @@ export default {
             //     path: '/topic/:topicSlug/article/:articleSlug/edit',
             //     component: ArticleEdit
             // }
+            {
+                component: NotFound
+            }
         ]
     },
 

@@ -33,6 +33,7 @@ export default class Collapsible extends React.Component {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (typeof nextProps.isForceOpen !== 'undefined') {
             return {
+                ...prevState,
                 isOpen: nextProps.isForceOpen
             };
         }

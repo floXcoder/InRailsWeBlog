@@ -773,6 +773,8 @@ en:
         last_word_connector: " and "
         two_words_connector: " and "
         words_connector: ", "
+      not_found:
+        title: "Path not found!"
       errors:
         not_authorized: "You cannot access to this resource!"
         frontend: "An error occurred in the page, please refresh the page or go back"

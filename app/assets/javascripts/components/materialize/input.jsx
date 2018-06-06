@@ -73,6 +73,7 @@ export default class Input extends React.Component {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.value !== nextProps.children && !Utils.isEmpty(nextProps.children)) {
             return {
+                ...prevState,
                 value: nextProps.children || ''
             };
         }
@@ -82,6 +83,14 @@ export default class Input extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         return !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.props.isRequired, nextProps.isRequired);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.children !== this.state.value) {
+            if (this.props.onChange) {
+                this.props.onChange(this.state.value);
+            }
+        }
     }
 
     _handleChange = (event) => {

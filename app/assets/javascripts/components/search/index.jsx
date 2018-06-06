@@ -62,6 +62,7 @@ export default class SearchIndex extends React.Component {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.value !== nextProps.query) {
             return {
+                ...prevState,
                 value: nextProps.query
             };
         }

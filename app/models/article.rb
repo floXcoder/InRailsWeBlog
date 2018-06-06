@@ -638,12 +638,12 @@ class Article < ApplicationRecord
     end
 
     # Pictures
-    if attributes[:pictures].present? && attributes[:pictures].is_a?(Array)
-      attributes.delete(:pictures).each do |picture_id|
+    if attributes[:picture_ids].present?
+      attributes.delete(:picture_ids).split(',').each do |picture_id|
         self.pictures << Picture.find_by(id: picture_id.to_i) if picture_id.present?
       end
     else
-      attributes.delete(:pictures)
+      attributes.delete(:picture_ids)
     end
 
     # Tags
@@ -791,11 +791,13 @@ class Article < ApplicationRecord
   end
 
   def adapted_content(current_user_id)
-    if private_content? && self.user_id != current_user_id
-      public_content
-    else
-      content
-    end
+    formatted_content = if private_content? && self.user_id != current_user_id
+                          public_content
+                        else
+                          content
+                        end
+
+    return formatted_content
   end
 
   def summary_content(current_user_id = nil)
@@ -805,18 +807,21 @@ class Article < ApplicationRecord
   # Sanitize content
   include ActionView::Helpers::SanitizeHelper
 
-  def sanitize_html(html)
+  def sanitize_html(html, lazy_image = true)
     return unless html
     return '' if html.blank?
 
     # Remove empty beginning block
     html = html.sub(/^<p><br><\/p>/, '')
 
-    html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[class href name target src alt center align data-article-relation-id])
+    html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[style class href name target src alt center align data-article-relation-id])
 
-    # Remplace pre by pre > code
+    # Replace pre by pre > code
     html = html.gsub(/<pre>/i, '<pre><code>')
     html = html.gsub(/<\/pre>/i, '</code></pre>')
+
+    # Replace src by data-src for lazy-loading
+    html = html.gsub(/<img (.*?) ?src=/i, '<img \1 data-src=') if lazy_image
 
     # Improve link security
     html = html.gsub(/<a /i, '<a rel="noopener noreferrer" target="_blank" ')

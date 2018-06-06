@@ -79,6 +79,7 @@ export default class TagEdit extends React.Component {
         return (
             <div className="blog-form blog-tag-edit">
                 <TagFormDisplay id={`tag-edit-${this.props.tag.id}`}
+                                tagId={this.props.tag.id}
                                 isEditing={true}
                                 tagErrors={this.props.tagErrors}
                                 onSubmit={this._handleSubmit}>

@@ -87,6 +87,8 @@ export default class ArticleInlineEditionDisplay extends React.Component {
 
                 <div className="article-inline-edition-content">
                     <Editor ref={(editor) => this._editor = editor}
+                            modelName="article"
+                            modelId={this.props.article.id}
                             mode={EditorMode.INLINE_EDIT}
                             onChange={this._handleEditorChange}
                             onSubmit={this._handleSaveClick}

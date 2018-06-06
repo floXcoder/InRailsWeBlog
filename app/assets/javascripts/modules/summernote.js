@@ -5,7 +5,7 @@
 // - Air popover not display
 // - fromOffsetPath: current not defined for the last undo
 // - Improve pasteHTML
-// - Comment method to avoid duplication history when pasting
+// - Comment Codemirror import
 import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';

@@ -4,8 +4,8 @@
   "private": true,
   "description": "InRailsWeBlog blog apps",
   "engines": {
-    "node": "10.2.1",
-    "npm": "6.0.1",
+    "node": "10.3.0",
+    "npm": "6.1.0",
     "yarn": "1.7.0"
   },
   "scripts": {
@@ -20,6 +20,7 @@
   },
   "author": "Flo",
   "license": "ISC",
+  "sideEffects": false,
   "devDependencies": {
     "babel-eslint": "8.2.3",
     "babel-jest": "23.0.0",
@@ -56,7 +57,6 @@
     "babel-runtime": "6.26.0",
     "classnames": "2.2.5",
     "clean-webpack-plugin": "0.1.19",
-    "codemirror": "5.38.0",
     "copy-webpack-plugin": "4.5.1",
     "css-loader": "0.28.11",
     "es6-promise": "4.2.4",
@@ -119,6 +119,7 @@
     "style-loader": "0.21.0",
     "summernote": "0.8.10",
     "uglifyjs-webpack-plugin": "1.2.5",
+    "vanilla-lazyload": "^8.7.1",
     "vinyl-buffer": "1.0.1",
     "waypoints": "4.0.1",
     "webpack": "4.9.1",

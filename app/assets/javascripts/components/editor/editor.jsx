@@ -15,6 +15,8 @@ export const EditorMode = {
 
 export default class Editor extends React.Component {
     static propTypes = {
+        modelName: PropTypes.string.isRequired,
+        modelId: PropTypes.number,
         mode: PropTypes.number,
         id: PropTypes.string,
         placeholder: PropTypes.string,
@@ -220,12 +222,15 @@ export default class Editor extends React.Component {
         }
     };
 
+    _formatContent = (content) => {
+        return content.replace(/ data-src=/g, ' src=');
+    };
+
     onImageUpload = (images) => {
-        uploadImages(images, {
-            userId: 1,
-            model: 'article',
-            modelId: 1
-        }).map((upload) => {
+        uploadImages(images, Utils.compact({
+            model: this.props.modelName,
+            modelId: this.props.modelId
+        })).map((upload) => {
             upload.then((response) => {
                 if (response.upload) {
                     this.insertImage(response.upload.url, response.upload.filename);
@@ -346,7 +351,7 @@ export default class Editor extends React.Component {
                 <div ref={(editor) => this._editorRef = editor}
                      id={this.props.id}
                      className={editorClassName}
-                     dangerouslySetInnerHTML={{__html: this.props.children}}/>
+                     dangerouslySetInnerHTML={{__html: this._formatContent(this.props.children)}}/>
             </div>
         );
     }

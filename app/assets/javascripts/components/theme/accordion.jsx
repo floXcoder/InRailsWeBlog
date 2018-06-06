@@ -27,6 +27,7 @@ class AccordionItem extends React.Component {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.isOpen !== nextProps.isOpen) {
             return {
+                ...prevState,
                 isOpen: nextProps.isOpen
             };
         }
