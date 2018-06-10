@@ -21,6 +21,9 @@ import routes from '../../routes';
 
 import MainLayout from '../layouts/main';
 
+import PasteManager from '../modules/pasteManager';
+import ScrollBackManager from '../modules/scrollBackManager';
+
 export default class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -30,17 +33,21 @@ export default class HomePage extends React.Component {
         return (
             <Provider store={configureStore}>
                 <BrowserRouter>
-                    <Switch>
-                        {
-                            routes.home.views.map((route, index) => (
-                                <MainLayout key={index}
-                                            routes={routes}
-                                            path={route.path}
-                                            exact={route.exact}
-                                            component={route.component}/>
-                            ))
-                        }
-                    </Switch>
+                    <PasteManager>
+                        <ScrollBackManager>
+                            <Switch>
+                                {
+                                    routes.home.views.map((route, index) => (
+                                        <MainLayout key={index}
+                                                    routes={routes}
+                                                    path={route.path}
+                                                    exact={route.exact}
+                                                    component={route.component}/>
+                                    ))
+                                }
+                            </Switch>
+                        </ScrollBackManager>
+                    </PasteManager>
                 </BrowserRouter>
             </Provider>
         );

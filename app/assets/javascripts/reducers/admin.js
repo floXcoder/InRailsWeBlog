@@ -9,6 +9,10 @@ import {
 } from 'redux-immutable';
 
 import {
+    loadingBarReducer
+} from 'react-redux-loading-bar';
+
+import {
     reducer as formReducer
 } from 'redux-form/immutable';
 
@@ -27,7 +31,6 @@ import errorReducer from './errorReducer';
 
 const ReducerRecord = Record({
     uiState: undefined,
-    form: undefined,
     userState: undefined,
     adminState: undefined,
     autocompleteState: undefined,
@@ -36,12 +39,13 @@ const ReducerRecord = Record({
     tagState: undefined,
     articleState: undefined,
     commentState: undefined,
-    errorState: undefined
+    errorState: undefined,
+    form: undefined,
+    loadingBar: undefined
 });
 
 const rootAdminReducer = combineReducers({
     uiState: uiReducer,
-    form: formReducer,
     userState: userReducer,
     adminState: adminReducer,
     autocompleteState: autocompleteReducer,
@@ -50,7 +54,9 @@ const rootAdminReducer = combineReducers({
     tagState: tagReducer,
     articleState: articleReducer,
     commentState: commentReducer,
-    errorState: errorReducer
+    errorState: errorReducer,
+    form: formReducer,
+    loadingBar: loadingBarReducer
 }, ReducerRecord);
 
 export default rootAdminReducer;

@@ -223,7 +223,7 @@ export default class Editor extends React.Component {
     };
 
     _formatContent = (content) => {
-        return content.replace(/ data-src=/g, ' src=');
+        return content && content.replace(/ data-src=/g, ' src=');
     };
 
     onImageUpload = (images) => {

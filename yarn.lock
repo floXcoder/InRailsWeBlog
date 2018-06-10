@@ -248,7 +248,7 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-abortcontroller-polyfill@^1.1.9:
+abortcontroller-polyfill@1.1.9:
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/abortcontroller-polyfill/-/abortcontroller-polyfill-1.1.9.tgz#9fefe359fda2e9e0932dc85e6106453ac393b2da"
 
@@ -8705,7 +8705,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@15.6.1, prop-types@^15.6.1:
+prop-types@15.6.1, prop-types@^15.5.6, prop-types@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -8979,7 +8979,7 @@ react-lazyload@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-lazyload/-/react-lazyload-2.3.0.tgz#ccb134223012447074a96543954f44b055dc6185"
 
-react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
@@ -9047,6 +9047,13 @@ react-reconciler@^0.7.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
+
+react-redux-loading-bar@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/react-redux-loading-bar/-/react-redux-loading-bar-4.0.5.tgz#a536ca27e39070f017f623e4a6d4aefc860ce650"
+  dependencies:
+    prop-types "^15.5.6"
+    react-lifecycles-compat "^3.0.2"
 
 react-redux@5.0.7:
   version "5.0.7"
@@ -11261,7 +11268,7 @@ value-equal@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-0.4.0.tgz#c5bdd2f54ee093c04839d71ce2e4758a6890abc7"
 
-vanilla-lazyload@^8.7.1:
+vanilla-lazyload@8.7.1:
   version "8.7.1"
   resolved "https://registry.yarnpkg.com/vanilla-lazyload/-/vanilla-lazyload-8.7.1.tgz#847c2f63b438bc7d4a8fab15e5074a231e2d94fa"
 

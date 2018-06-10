@@ -89,14 +89,15 @@ export default function articleMutationManager(mode, formId) {
             constructor(props) {
                 super(props);
 
+                // Check fo unsaved article before connection
+                const unsavedArticle = getLocalData(ArticleMutationComponent.unsavedDataName, true);
+
                 if (props.params.articleSlug) {
                     props.fetchArticle(props.params.articleSlug);
                 } else if (props.initialData) {
-                    if (this.state.article) {
-                        this.state.article = props.initialData.article;
+                    this.state.article = props.initialData;
 
-                        Notification.success(I18n.t('js.article.clipboard'));
-                    }
+                    Notification.success(I18n.t('js.article.clipboard'));
 
                     if (props.initialData.parentTagSlug) {
                         this.state.article = this.state.article || {};
@@ -114,11 +115,7 @@ export default function articleMutationManager(mode, formId) {
                             this.state.article = temporaryArticle.first().article;
                         }
                     }
-                }
-
-                // Check fo unsaved article before connection
-                const unsavedArticle = getLocalData(ArticleMutationComponent.unsavedDataName, true);
-                if (unsavedArticle && unsavedArticle.length > 0) {
+                } else if (unsavedArticle && unsavedArticle.length > 0) {
                     this.state.article = unsavedArticle.first().article;
                     this.props.addArticle(this.state.article)
                         .then((response) => {
@@ -137,7 +134,7 @@ export default function articleMutationManager(mode, formId) {
             };
 
             static getDerivedStateFromProps(nextProps, prevState) {
-                if (prevState.article !== nextProps.article) {
+                if (nextProps.article && prevState.article !== nextProps.article) {
                     return {
                         article: nextProps.article
                     };

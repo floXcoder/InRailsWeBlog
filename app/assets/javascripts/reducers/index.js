@@ -12,6 +12,10 @@ import {
     reducer as formReducer
 } from 'redux-form/immutable';
 
+import {
+    loadingBarReducer
+} from 'react-redux-loading-bar';
+
 import uiReducer from './uiReducer';
 import userReducer from './userReducer';
 import adminReducer from './adminReducer';
@@ -28,7 +32,6 @@ import errorReducer from './errorReducer';
 
 const ReducerRecord = Record({
     uiState: undefined,
-    form: undefined,
     userState: undefined,
     bookmarkState: undefined,
     topicState: undefined,
@@ -38,12 +41,13 @@ const ReducerRecord = Record({
     searchState: undefined,
     commentState: undefined,
     errorState: undefined,
-    adminState: undefined
+    adminState: undefined,
+    form: undefined,
+    loadingBar: undefined
 });
 
 const rootReducer = combineReducers({
     uiState: uiReducer,
-    form: formReducer,
     userState: userReducer,
     bookmarkState: bookmarkReducer,
     topicState: topicReducer,
@@ -53,7 +57,9 @@ const rootReducer = combineReducers({
     searchState: searchReducer,
     commentState: commentReducer,
     errorState: errorReducer,
-    adminState: adminReducer
+    adminState: adminReducer,
+    form: formReducer,
+    loadingBar: loadingBarReducer
 }, ReducerRecord);
 
 export default rootReducer;

@@ -5,6 +5,10 @@ import {
 } from 'react-router-dom';
 
 import {
+    ImmutableLoadingBar as LoadingBar
+} from 'react-redux-loading-bar';
+
+import {
     getLocalData
 } from '../../middlewares/localStorage';
 
@@ -125,6 +129,9 @@ export default class HeaderLayout extends React.PureComponent {
             <header className="blog-header animate-search">
                 <div className="navbar-fixed">
                     <nav className="header-nav">
+                        <LoadingBar showFastActions={true}
+                                    style={{backgroundColor: '#0d5ca0', height: '2px'}}/>
+
                         <div className="nav-wrapper">
                             <ul className="left">
                                 {

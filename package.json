@@ -4,7 +4,7 @@
   "private": true,
   "description": "InRailsWeBlog blog apps",
   "engines": {
-    "node": "10.3.0",
+    "node": "10.4.0",
     "npm": "6.1.0",
     "yarn": "1.7.0"
   },
@@ -44,7 +44,7 @@
     "webpack-dev-server": "3.1.4"
   },
   "dependencies": {
-    "abortcontroller-polyfill": "^1.1.9",
+    "abortcontroller-polyfill": "1.1.9",
     "babel-core": "6.26.3",
     "babel-loader": "7.1.4",
     "babel-plugin-lodash": "3.3.2",
@@ -103,6 +103,7 @@
     "react-portal": "4.1.5",
     "react-portal-tooltip": "2.4.0",
     "react-redux": "5.0.7",
+    "react-redux-loading-bar": "^4.0.5",
     "react-responsive-modal": "3.0.2",
     "react-router-dom": "4.2.2",
     "react-select": "1.2.1",
@@ -119,7 +120,7 @@
     "style-loader": "0.21.0",
     "summernote": "0.8.10",
     "uglifyjs-webpack-plugin": "1.2.5",
-    "vanilla-lazyload": "^8.7.1",
+    "vanilla-lazyload": "8.7.1",
     "vinyl-buffer": "1.0.1",
     "waypoints": "4.0.1",
     "webpack": "4.9.1",

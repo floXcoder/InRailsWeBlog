@@ -5,7 +5,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import pasteManager from '../modules/pasteManager';
 import matchMedia from '../modules/matchMedia';
 
 import UserManager from './managers/user';
@@ -18,7 +17,6 @@ import SidebarLayout from './sidebar';
 import BreadcrumbLayout from './breadcrumb';
 import FooterLayout from './footer';
 
-@pasteManager
 @matchMedia
 export default class MainLayout extends React.Component {
     static propTypes = {
@@ -45,30 +43,6 @@ export default class MainLayout extends React.Component {
     state = {
         isSidebarOpened: !this.props.isMediumScreen
     };
-
-    componentDidMount() {
-        this.props.onPaste((content) => {
-            if (content && this._router && this.props.path !== '/article/new' && this._router.location.hash !== '#new-article') {
-                const isURL = Utils.isURL(content.trim());
-
-                let articleData = {};
-                if (isURL) {
-                    articleData.reference = content.trim();
-                } else {
-                    articleData.content = content
-                }
-
-                this._router.history.replace({
-                    hash: '#new-article',
-                    state: {
-                        article: articleData,
-                        mode: isURL ? 'link' : 'story',
-                        isDraft: true
-                    }
-                });
-            }
-        });
-    }
 
     _handleSidebarPinClick = (isPinned) => {
         this.setState({
