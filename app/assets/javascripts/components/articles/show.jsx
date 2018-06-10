@@ -157,8 +157,7 @@ export default class ArticleShow extends React.Component {
                 <article className={classNames('card-panel', 'blog-article', {
                     'article-outdated': this.props.isOutdated
                 })}>
-                    <h1 className="blog-article-title"
-                        itemProp="headline">
+                    <h1 className="blog-article-title">
                         {this.props.article.title}
                     </h1>
 
