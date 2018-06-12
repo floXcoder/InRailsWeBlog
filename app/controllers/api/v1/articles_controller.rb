@@ -81,7 +81,7 @@ module Api::V1
       article = Article.friendly.find(params[:id])
       admin_or_authorize article
 
-      article_versions = article.versions.reverse.reject { |history| history.reify.content.nil? }
+      article_versions = article.versions.where(event: 'update').reverse.drop(1)
 
       respond_to do |format|
         format.json do

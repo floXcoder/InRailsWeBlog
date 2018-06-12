@@ -21,19 +21,19 @@ gem 'secure_headers',           '6.0.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.7'
-gem 'oj',                       '3.6.0'
+gem 'oj',                       '3.6.2'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.1.3'
 
 # Internationalization
-gem 'i18n-js',                  '3.0.5'
-gem 'geocoder',                 '1.4.8'
-gem 'maxminddb',                '0.1.16'
+gem 'i18n-js',                  '3.0.8'
+gem 'geocoder',                 '1.4.9'
+gem 'maxminddb',                '0.1.17'
 
 # Model versioning
-gem 'paper_trail',              '9.1.0'
+gem 'paper_trail',              '9.2.0'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.1'
@@ -97,15 +97,15 @@ gem 'browser',                  '2.5.3'
 
 # SEO
 gem 'friendly_id',              '5.2.4'
-gem 'meta-tags',                '2.9.0'
+gem 'meta-tags',                '2.10.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '4.10.0',   require: false
 gem 'faker',                    '1.8.7',   require: false
 
 # Deployment
-gem 'capistrano',               '3.10.2'
-gem 'capistrano-rails',         '1.3.1'
+gem 'capistrano',               '3.11.0'
+gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.3.0',   require: false
 gem 'capistrano-rails-console', '2.3.0',   require: false
@@ -161,7 +161,7 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.1.1'
+  gem 'capybara',               '3.2.1'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.21'
   gem 'selenium-webdriver',     '3.12.0'
@@ -171,7 +171,7 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',   '1.19.2',   require: false
-  gem 'brakeman',               '4.3.0',    require: false
+  gem 'brakeman',               '4.3.1',    require: false
   gem 'i18n-tasks',             '0.9.21',   require: false
 end
 
@@ -180,7 +180,7 @@ group :development, :test do
   gem 'bootsnap',               '1.3.0',    require: false
 
   # Check errors
-  gem 'rubocop',                '0.56.0',  require: false
+  gem 'rubocop',                '0.57.1',  require: false
 end
 
 group :production do
@@ -191,5 +191,5 @@ group :production do
   gem 'lograge',        '0.10.0'
 
   # Website analysis
-  gem 'newrelic_rpm',   '5.1.0.344'
+  gem 'newrelic_rpm',   '5.2.0.345'
 end

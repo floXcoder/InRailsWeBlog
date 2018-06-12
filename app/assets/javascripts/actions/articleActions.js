@@ -67,6 +67,7 @@ const receiveArticleVersions = (versions) => ({
 });
 export const fetchArticleHistory = (articleId) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/history`)
+        .promise
         .then((response) => dispatch(receiveArticleVersions(response.history)))
 );
 
@@ -78,6 +79,7 @@ export const restoreArticle = (articleId, versionId) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/restore`, {
         versionId
     })
+        .promise
         .then((response) => dispatch(receiveArticleRestored(response.article)))
 );
 

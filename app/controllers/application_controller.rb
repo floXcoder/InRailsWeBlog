@@ -120,7 +120,7 @@ class ApplicationController < ActionController::Base
 
   # Do not save new version when auto-saving
   def paper_trail_enabled_for_controller
-    super && params[:auto_save]
+    super && !params[:auto_save]
   end
 
   protected

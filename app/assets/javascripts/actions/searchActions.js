@@ -16,7 +16,7 @@ import {
 export const loadAutocomplete = (autocompleteParams) => (
     api.get('/api/v1/search/autocomplete', {
         search: autocompleteParams
-    })
+    }).promise
 );
 
 export const fetchAutocomplete = (autocompleteParams) => ({

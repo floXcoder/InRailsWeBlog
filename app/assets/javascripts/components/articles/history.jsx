@@ -31,7 +31,7 @@ import ArticleVersionsDisplay from './display/versions';
     fetchArticleHistory,
     restoreArticle
 })
-@highlight(false)
+@highlight(true)
 export default class ArticleHistory extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
@@ -84,7 +84,8 @@ export default class ArticleHistory extends React.Component {
                 <ArticleCardDisplay article={this.props.article}
                                     hasActions={false}/>
 
-                <ArticleVersionsDisplay articleVersions={this.props.articleVersions}
+                <ArticleVersionsDisplay currentArticle={this.props.article}
+                                        articleVersions={this.props.articleVersions}
                                         onRestore={this._handleRestore}/>
             </div>
         );
