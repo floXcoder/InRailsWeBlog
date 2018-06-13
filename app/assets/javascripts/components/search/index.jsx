@@ -20,6 +20,8 @@ import SearchSelectedIndex from './index/selected';
 import SearchTagIndex from './index/tag';
 import SearchArticleIndex from './index/article';
 
+import Input from '../materialize/input';
+
 @connect((state) => ({
     query: state.searchState.query,
     isSearching: state.searchState.isSearching,
@@ -125,6 +127,10 @@ export default class SearchIndex extends React.Component {
             <div className="search-index">
                 <div className="search-input">
                     <form onSubmit={this._handleSubmit}>
+                        <Input id="ensure_validity"
+                               wrapperClassName="ensure-validity"
+                               title={I18n.t('js.helpers.form.ensure_validity')}/>
+
                         <input ref={(input) => this._searchInput = input}
                                type="search"
                                placeholder={I18n.t('js.search.index.placeholder')}

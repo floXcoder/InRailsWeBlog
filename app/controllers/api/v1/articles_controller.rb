@@ -20,6 +20,8 @@ module Api::V1
   class ArticlesController < ApiController
     before_action :authenticate_user!, except: [:index, :show]
     before_action :verify_requested_format!
+    before_action :honeypot_protection, only: [:create, :update]
+
     after_action :verify_authorized, except: [:index]
 
     include TrackerConcern

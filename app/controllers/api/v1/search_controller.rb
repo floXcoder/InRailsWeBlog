@@ -1,6 +1,7 @@
 module Api::V1
   class SearchController < ApplicationController
     before_action :verify_requested_format!
+    before_action :honeypot_protection, only: [:index, :autocomplete]
 
     respond_to :json
 

@@ -781,6 +781,8 @@ en:
         last_word_connector: " and "
         two_words_connector: " and "
         words_connector: ", "
+      form:
+        ensure_validity: "Leave it blank"
       not_found:
         title: "Path not found!"
       errors:

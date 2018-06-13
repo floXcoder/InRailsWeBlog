@@ -29,6 +29,7 @@ import ArticleCommonField from './fields/common';
 import ArticleAdvancedField from './fields/advanced';
 import ArticleErrorField from './fields/error';
 
+import Input from '../../materialize/input';
 import Submit from '../../materialize/submit';
 import Collapsible from '../../theme/collapsible';
 
@@ -103,6 +104,10 @@ export default class ArticleFormDisplay extends React.Component {
         return (
             <form className="article-form"
                   onSubmit={this.props.handleSubmit}>
+                <Input id="ensure_validity"
+                       wrapperClassName="ensure-validity"
+                       title={I18n.t('js.helpers.form.ensure_validity')}/>
+
                 <Prompt when={this.props.dirty && !this.props.submitSucceeded}
                         message={() => I18n.t('js.article.form.unsaved')}/>
 

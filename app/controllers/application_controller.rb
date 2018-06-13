@@ -265,6 +265,16 @@ class ApplicationController < ActionController::Base
     }.merge(extra_meta)
   end
 
+  def honeypot_protection
+    if (params[:ensure] && !params[:ensure][:validity].blank?) || !params[:ensure_validity].blank?
+      respond_to do |format|
+        format.html { head(200) }
+        format.js { js_redirect_to(root_path) }
+        format.json { render json: { success: true }.to_json, status: :ok }
+      end
+    end
+  end
+
   def without_tracking(model)
     model.public_activity_off
     yield if block_given?

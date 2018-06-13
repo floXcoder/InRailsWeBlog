@@ -9,6 +9,7 @@ import {
 } from '../../actions';
 
 import {
+    getTags,
     getSortedTopicTags
 } from '../../selectors';
 
@@ -24,7 +25,7 @@ import Loader from '../theme/loader';
     isLoading: state.tagState.isFetching,
     filterText: state.tagState.filterText,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
-    tags: getSortedTopicTags(state)
+    tags: state.userState.isConnected ? getSortedTopicTags(state) : getTags(state)
 }), {
     filterTags
 })
@@ -73,10 +74,13 @@ export default class TagSidebar extends React.Component {
                             </Link>
                         </h3>
 
-                        <SearchBar label={I18n.t('js.tag.common.filter')}
-                                   onSearchInput={this._handleSearchInput}>
-                            {this.props.filterText}
-                        </SearchBar>
+                        {
+                            !Utils.isEmpty(this.props.tags) &&
+                            <SearchBar label={I18n.t('js.tag.common.filter')}
+                                       onSearchInput={this._handleSearchInput}>
+                                {this.props.filterText}
+                            </SearchBar>
+                        }
 
                         {
                             this.props.tags.length > 0 &&
@@ -86,7 +90,7 @@ export default class TagSidebar extends React.Component {
                         }
 
                         {
-                            this.props.tags.length === 0 &&
+                            Utils.isEmpty(this.props.tags) &&
                             (
                                 this.props.filterText
                                     ?

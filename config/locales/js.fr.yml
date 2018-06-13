@@ -781,6 +781,8 @@ fr:
         last_word_connector: " et "
         two_words_connector: " et "
         words_connector: ", "
+      form:
+        ensure_validity: "Laisser vide"
       not_found:
         title: "Chemin non trouvé !"
       errors:

@@ -78,8 +78,12 @@ export default class UserManager extends React.Component {
                 }
             });
         } else {
-            // Get only all public tags (by default)
-            this.props.fetchTags();
+            // Get only all public tags
+            this.props.fetchTags({
+                visibility: 'everyone'
+            }, {
+                limit: 200
+            });
         }
     }
 

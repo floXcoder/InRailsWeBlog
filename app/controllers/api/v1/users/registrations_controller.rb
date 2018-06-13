@@ -3,6 +3,8 @@ module Api::V1
     include ActionView::Helpers::TagHelper
     include ApplicationHelper
 
+    before_action :honeypot_protection, only: [:create]
+
     layout 'full_page', except: [:edit, :update]
 
     respond_to :html, :js, :json

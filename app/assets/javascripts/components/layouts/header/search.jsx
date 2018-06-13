@@ -5,6 +5,8 @@ import {
     setAutocompleteAction
 } from '../../../actions';
 
+import Input from '../../materialize/input';
+
 @connect((state) => ({
     query: state.autocompleteState.query
 }), {
@@ -84,6 +86,10 @@ export default class HomeSearchHeader extends React.Component {
                     {
                         'has-focus': this.props.hasSearch
                     })}>
+                    <Input id="ensure_validity"
+                           wrapperClassName="ensure-validity"
+                           title={I18n.t('js.helpers.form.ensure_validity')}/>
+
                     <input ref={(input) => this._searchInput = input}
                            type="search"
                            placeholder={I18n.t('js.search.module.placeholder')}
