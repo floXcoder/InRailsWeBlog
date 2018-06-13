@@ -39,7 +39,7 @@ export default class CategorizedTag extends React.Component {
             let initialTags = props.children;
 
             if (props.transformInitialTags) {
-                initialTags = initialTags.map((tag) => props.transformInitialTags(tag)).compact();
+                initialTags = initialTags.map(props.transformInitialTags).compact();
             }
 
             this.state.selectedTags = initialTags;
@@ -55,7 +55,7 @@ export default class CategorizedTag extends React.Component {
             let nextTags = nextProps.children;
 
             if (this.props.transformInitialTags) {
-                nextTags = nextTags.map((tag) => this.props.transformInitialTags(tag)).compact();
+                nextTags = nextTags.map(this.props.transformInitialTags).compact();
             }
 
             this.setState({

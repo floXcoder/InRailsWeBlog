@@ -25,6 +25,7 @@ const initState = new Record({
     tags: new List(),
     pagination: new Map(),
 
+    topicTags: new List(),
     currentTagSlugs: new List(),
 
     tag: undefined,
@@ -37,13 +38,23 @@ export default function tagReducer(state = new initState(), action) {
         case ActionTypes.TAG_FETCH_INIT:
         case ActionTypes.TAG_FETCH_SUCCESS:
         case ActionTypes.TAG_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) =>
-                payload.tag ? ({
-                    tag: new Records.TagRecord(payload.tag)
-                }) : ({
-                    tags: toList(payload.tags, Records.TagRecord)
-                })
-            );
+            return fetchReducer(state, action, (payload) => {
+                if (payload.tag) {
+                    return {
+                        tag: new Records.TagRecord(payload.tag)
+                    };
+                } else {
+                    if (payload.topicTags) {
+                        return {
+                            topicTags: toList(payload.tags, Records.TagRecord)
+                        };
+                    } else {
+                        return {
+                            tags: toList(payload.tags, Records.TagRecord)
+                        };
+                    }
+                }
+            }, ['tags', 'topicTags']);
 
         case ActionTypes.TAG_CHANGE_INIT:
         case ActionTypes.TAG_CHANGE_SUCCESS:
@@ -61,7 +72,7 @@ export default function tagReducer(state = new initState(), action) {
                 filterText: action.filterText
             });
 
-        case ActionTypes.TAG_CURRENT_TAGS:
+        case ActionTypes.TAG_SET_CURRENT_TAGS:
             return state.merge({
                 currentTagSlugs: action.tags ? new List(action.tags.map((tag) => tag.slug)) : new List()
             });

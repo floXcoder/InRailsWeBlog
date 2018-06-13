@@ -5,7 +5,7 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Tags
-export const fetchTags = (filter, options = {}) => ({
+export const fetchTags = (filter, options = {}, payload = {}) => ({
     actionType: ActionTypes.TAG,
     fetchAPI: () => api.get(`/api/v1/tags`, {
         filter,
@@ -13,7 +13,8 @@ export const fetchTags = (filter, options = {}) => ({
     }),
     shouldCallAPI: (state) => {
         return !state.userState.isConnected ? state.tagState.tags.size === 0 : true;
-    }
+    },
+    payload
 });
 
 export const fetchTag = (tagId, options = {}) => ({
@@ -68,6 +69,6 @@ export const deleteTag = (tagId, options = {}) => ({
 });
 
 export const setCurrentTags = (tags) => ({
-    type: ActionTypes.TAG_CURRENT_TAGS,
+    type: ActionTypes.TAG_SET_CURRENT_TAGS,
     tags
 });

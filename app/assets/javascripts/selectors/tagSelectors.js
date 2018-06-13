@@ -28,8 +28,8 @@ export const getTag = createSelector(
     (tag) => tag
 );
 
-export const getSortedTags = createSelector(
-    (state) => state.tagState.tags,
+export const getSortedTopicTags = createSelector(
+    (state) => state.tagState.topicTags,
     (state) => state.userState.user && state.userState.user.settings.tagSidebarWithChild,
     (state) => state.tagState.filterText,
     (tags, displayChildWithParent, filterText) => (

@@ -188,7 +188,30 @@
   }
 
   .tag-item {
-    padding: 0 0;
+    background-color: rgba(143, 143, 143, .35);
+    border: 0;
+    border-radius: 5px;
+    margin: 5px 10px;
+    padding: 3px 12px;
+
+    .tag-count {
+      float: right;
+      font-weight: 600;
+      line-height: 26px;
+      margin: 5px;
+      padding: .2rem .6rem;
+    }
+
+    .tag-desc {
+      margin: 5px;
+      padding: .2rem .6rem;
+    }
+
+    .tag-synonyms {
+      margin: 5px;
+      padding: .2rem .6rem;
+      font-style: italic;
+    }
   }
 
   .tag-default {

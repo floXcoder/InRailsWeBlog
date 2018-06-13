@@ -149,7 +149,7 @@ export default class SearchModule extends React.Component {
         });
 
         this._request.fetch.then(() => this.props.history.push({
-                pathname: '/research',
+                pathname: '/search',
                 search: `?query=${this.props.query}`
             }));
     };

@@ -45,13 +45,18 @@ export default {
                 component: ArticleIndex
             },
             {
-                path: '/research',
+                path: '/search',
                 component: SearchIndex
             },
             {
                 path: '/user/:topicSlug',
                 exact: true,
                 component: ArticleIndex
+            },
+            {
+                path: '/user/:topicSlug/tags',
+                exact: true,
+                component: TagIndex
             },
             {
                 path: '/user/:topicSlug/sort',
@@ -77,6 +82,11 @@ export default {
                 path: '/topic/:userSlug/:topicSlug',
                 exact: true,
                 component: ArticleIndex
+            },
+            {
+                path: '/tags/:userSlug',
+                exact: true,
+                component: TagIndex
             },
             {
                 path: '/tags',

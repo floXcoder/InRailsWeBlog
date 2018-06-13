@@ -267,6 +267,14 @@ fr:
         visibility_order:
           - everyone
           - only_me
+      index:
+        titles:
+          topic: "Labels associés au thème : %{topic}"
+          user: "Tous vos labels"
+          all: "Tous les labels publics"
+        links:
+          user_tags: "Voir tous vos labels utilisés"
+          all_tags: "Voir tous les labels publics"
       show:
         back_button: "Annuler"
         edit_link: "Modifier ce label"

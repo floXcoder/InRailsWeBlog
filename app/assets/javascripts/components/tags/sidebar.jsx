@@ -9,7 +9,7 @@ import {
 } from '../../actions';
 
 import {
-    getSortedTags
+    getSortedTopicTags
 } from '../../selectors';
 
 // TODO: use selector to get current tags of fetch articles: load on click only
@@ -23,7 +23,8 @@ import Loader from '../theme/loader';
 @connect((state) => ({
     isLoading: state.tagState.isFetching,
     filterText: state.tagState.filterText,
-    tags: getSortedTags(state)
+    currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
+    tags: getSortedTopicTags(state)
 }), {
     filterTags
 })
@@ -33,6 +34,7 @@ export default class TagSidebar extends React.Component {
         // From connect
         isLoading: PropTypes.bool,
         filterText: PropTypes.string,
+        currentTopicSlug: PropTypes.string,
         tags: PropTypes.array,
         filterTags: PropTypes.func
     };
@@ -64,7 +66,7 @@ export default class TagSidebar extends React.Component {
                             {I18n.t('js.tag.common.list')}
 
                             <Link className="tags-link"
-                                  to={`/tags`}>
+                                  to={`/user/${this.props.currentTopicSlug}/tags`}>
                                 <span className="material-icons"
                                       data-icon="open_in_new"
                                       aria-hidden="true"/>

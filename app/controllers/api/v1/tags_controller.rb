@@ -132,7 +132,9 @@ module Api::V1
       if params[:filter]
         params.require(:filter).permit(:visibility,
                                        :user_id,
+                                       :user_slug,
                                        :topic_id,
+                                       :topic_slug,
                                        :accepted,
                                        :bookmarked,
                                        tag_ids:   [],

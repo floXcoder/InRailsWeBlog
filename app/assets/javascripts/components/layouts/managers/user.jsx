@@ -74,7 +74,7 @@ export default class UserManager extends React.Component {
                 }
 
                 if (this.props.currentTopicId || (this.props.routerState && this.props.routerState.reloadTags)) {
-                    this.props.fetchTags({topicId: this.props.currentTopicId});
+                    this.props.fetchTags({topicId: this.props.currentTopicId}, {}, {topicTags: true});
                 }
             });
         } else {

@@ -172,12 +172,18 @@ class Tag < ApplicationRecord
     where(visibility: (visibility.is_a?(String) ? Tag.visibilities[visibility] : visibility))
   }
 
-  scope :from_user, -> (user_id = nil, current_user_id = nil) {
+  scope :from_user, -> (user_slug, current_user_id = nil) {
+    from_user_id(User.find_by(slug: user_slug)&.id, current_user_id)
+  }
+  scope :from_user_id, -> (user_id = nil, current_user_id = nil) {
     where(user_id: user_id).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :current_user_id)',
                                   current_user_id: current_user_id || user_id)
   }
 
-  scope :for_topic, -> (topic_id) {
+  scope :for_topic, -> (topic_slug) {
+    for_topic_id(Topic.find_by(slug: topic_slug)&.id)
+  }
+  scope :for_topic_id, -> (topic_id) {
     joins(:tagged_articles).merge(TaggedArticle.where(topic_id: topic_id)).distinct
   }
 
@@ -432,9 +438,17 @@ class Tag < ApplicationRecord
   def self.filter_by(records, filter, current_user = nil)
     records = records.where(id: filter[:tag_ids]) if filter[:tag_ids]
 
-    records = records.from_user(filter[:user_id], current_user&.id) if filter[:user_id]
+    if filter[:user_id]
+      records = records.from_user_id(filter[:user_id], current_user&.id)
+    elsif filter[:user_slug]
+      records = records.from_user(filter[:user_slug], current_user&.id)
+    end
 
-    records = records.for_topic(filter[:topic_id]) if filter[:topic_id]
+    if filter[:topic_id]
+      records = records.for_topic_id(filter[:topic_id]) if filter[:topic_id]
+    elsif filter[:topic_slug]
+      records = records.for_topic(filter[:topic_slug])
+    end
 
     records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
 
