@@ -20,6 +20,7 @@ import {
     articleDisplay: state.userState.user && state.userState.user.settings.articleDisplay,
     tagSidebarPin: state.userState.user && state.userState.user.settings.tagSidebarPin,
     tagSidebarWithChild: state.userState.user && state.userState.user.settings.tagSidebarWithChild,
+    tagOrder: state.userState.user && state.userState.user.settings.tagOrder,
     searchHighlight: state.userState.user && state.userState.user.searchHighlight,
     searchOperator: state.userState.user && state.userState.user.settings.searchOperator,
     searchExact: state.userState.user && state.userState.user.settings.searchExact
@@ -34,6 +35,7 @@ export default class UserSettings extends React.Component {
         articleDisplay: PropTypes.string,
         tagSidebarPin: PropTypes.bool,
         tagSidebarWithChild: PropTypes.bool,
+        tagOrderMode: PropTypes.string,
         searchHighlight: PropTypes.bool,
         searchOperator: PropTypes.string,
         searchExact: PropTypes.bool,
@@ -58,6 +60,10 @@ export default class UserSettings extends React.Component {
 
     _onTagSidebarWithChildChanged = (value) => {
         this._updateSettings({tagSidebarWithChild: value});
+    };
+
+    _onTagOrderModeChanged = (event) => {
+        this._updateSettings({tagOrder: event.target.id});
     };
 
     _onHighlightChanged = (value) => {
@@ -85,15 +91,17 @@ export default class UserSettings extends React.Component {
                             <h6>
                                 {I18n.t('js.user.settings.article.loader.title')}
                             </h6>
+
                             <RadioButtons group="articlesLoader"
                                           buttons={I18n.t('js.user.settings.article.loader.mode')}
                                           checkedButton={this.props.articlesLoader}
                                           onChange={this._onLoaderChanged}/>
                         </div>
-                        <div className="col s12">
+                        <div className="col s12 margin-top-15">
                             <h6>
                                 {I18n.t('js.user.settings.article.display.title')}
                             </h6>
+
                             <RadioButtons group="articleDisplay"
                                           buttons={I18n.t('js.user.settings.article.display.mode')}
                                           checkedButton={this.props.articleDisplay}
@@ -108,6 +116,7 @@ export default class UserSettings extends React.Component {
                             <h6>
                                 {I18n.t('js.user.settings.tag.sidebar.title')}
                             </h6>
+
                             <SwitchButton id="tag-sidebar-pin"
                                           title={I18n.t('js.user.settings.tag.sidebar.pin')}
                                           values={I18n.t('js.checkbox')}
@@ -122,6 +131,17 @@ export default class UserSettings extends React.Component {
                                 {this.props.tagSidebarWithChild}
                             </SwitchButton>
                         </div>
+
+                        <div className="col s12 margin-top-15">
+                            <h6>
+                                {I18n.t('js.user.settings.tag.order.title')}
+                            </h6>
+
+                            <RadioButtons group="tagOrder"
+                                          buttons={I18n.t('js.user.settings.tag.order.mode')}
+                                          checkedButton={this.props.tagOrder}
+                                          onChange={this._onTagOrderModeChanged}/>
+                        </div>
                     </div>
                 </Tab>
 
@@ -131,12 +151,14 @@ export default class UserSettings extends React.Component {
                             <h6>
                                 {I18n.t('js.user.settings.search.operator.title')}
                             </h6>
+
                             <RadioButtons group="searchOperator"
                                           buttons={I18n.t('js.user.settings.search.operator.mode')}
                                           checkedButton={this.props.searchOperator}
                                           onChange={this._onOperatorSearchChanged}/>
                         </div>
-                        <div className="col s12">
+
+                        <div className="col s12 margin-top-15">
                             <SwitchButton id="search-highlight"
                                           title={I18n.t('js.user.settings.search.highlight')}
                                           values={I18n.t('js.checkbox')}
@@ -144,7 +166,8 @@ export default class UserSettings extends React.Component {
                                 {this.props.searchHighlight}
                             </SwitchButton>
                         </div>
-                        <div className="col s12">
+
+                        <div className="col s12 margin-top-15">
                             <SwitchButton id="search-exact"
                                           title={I18n.t('js.user.settings.search.exact')}
                                           values={I18n.t('js.checkbox')}

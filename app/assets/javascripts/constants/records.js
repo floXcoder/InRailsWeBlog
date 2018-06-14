@@ -12,6 +12,7 @@ export const SettingsRecord = new Record({
     articleOrder: undefined,
     tagSidebarPin: false,
     tagSidebarWithChild: false,
+    tagOrder: undefined,
     searchHighlight: true,
     searchOperator: 'or',
     searchExact: false

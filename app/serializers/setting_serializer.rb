@@ -19,6 +19,7 @@ class SettingSerializer < ActiveModel::Serializer
              :article_order,
              :tag_sidebar_pin,
              :tag_sidebar_with_child,
+             :tag_order,
              :search_highlight,
              :search_operator,
              :search_exact

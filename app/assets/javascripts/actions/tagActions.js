@@ -12,7 +12,7 @@ export const fetchTags = (filter, options = {}, payload = {}) => ({
         ...options
     }),
     shouldCallAPI: (state) => {
-        return !state.userState.isConnected ? state.tagState.tags.size === 0 : true;
+        return !state.userState.isConnected && payload.topicTags ? state.tagState.topicTags.size === 0 : true;
     },
     payload
 });
@@ -51,12 +51,12 @@ export const updateTag = (tag, options = {}) => ({
     })
 });
 
-// export const updateTagPriority = (tagIdsByPriority) => ({
-//     actionType: ActionTypes.TAG,
-//     mutationAPI: () => api.update(`/api/v1/tags/priority`, {
-//         tagIds: tagIdsByPriority
-//     })
-// });
+export const updateTagPriority = (tagIdsByPriority) => ({
+    actionType: ActionTypes.TAG,
+    mutationAPI: () => api.update('/api/v1/tags/priority', {
+        tagIds: tagIdsByPriority
+    })
+});
 
 export const deleteTag = (tagId, options = {}) => ({
     actionType: ActionTypes.TAG,

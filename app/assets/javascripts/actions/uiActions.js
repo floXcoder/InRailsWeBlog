@@ -25,3 +25,9 @@ export const updateArticleOrder = (order) => ({
     type: ActionTypes.UI_CHANGE_ARTICLE_ORDER,
     order
 });
+
+// Tags
+export const updateTagOrder = (order) => ({
+    type: ActionTypes.UI_CHANGE_TAG_ORDER,
+    order
+});

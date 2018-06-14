@@ -31,9 +31,16 @@ export const getTag = createSelector(
 export const getSortedTopicTags = createSelector(
     (state) => state.tagState.topicTags,
     (state) => state.userState.user && state.userState.user.settings.tagSidebarWithChild,
+    (state) => state.userState.user && state.userState.user.settings.tagOrder,
     (state) => state.tagState.filterText,
-    (tags, displayChildWithParent, filterText) => (
-        tags.toJS().map((tag) => {
+    (tags, displayChildWithParent, tagOrder, filterText) => {
+        tags = tags.toJS();
+
+        if (tagOrder === 'priority') {
+            tags = _.sortBy(tags, (t) => -t.priority)
+        }
+
+        return tags.map((tag) => {
             let parents = [];
             let children = [];
 
@@ -43,7 +50,7 @@ export const getSortedTopicTags = createSelector(
                     if (!!parentTag && !Utils.isEmpty(filterText) && !Fuzzy.match(filterText, parentTag.name)) {
                         return null;
                     } else {
-                        return parentTag && _.omit(parentTag.toJS(), ['parentIds', 'childIds']);
+                        return parentTag && _.omit(parentTag, ['parentIds', 'childIds']);
                     }
                 }).compact();
             }
@@ -54,7 +61,7 @@ export const getSortedTopicTags = createSelector(
                     if (!!childTag && !Utils.isEmpty(filterText) && !Fuzzy.match(filterText, childTag.name)) {
                         return null;
                     } else {
-                        return childTag && _.omit(childTag.toJS(), ['parentIds', 'childIds']);
+                        return childTag && _.omit(childTag, ['parentIds', 'childIds']);
                     }
                 }).compact();
             }
@@ -71,8 +78,8 @@ export const getSortedTopicTags = createSelector(
             }
 
             return _.merge(_.omit(tag, ['parentIds', 'childIds']), {parents: parents, children: children});
-        }).compact()
-    )
+        }).compact();
+    }
 );
 
 export const getCategorizedTags = createSelector(

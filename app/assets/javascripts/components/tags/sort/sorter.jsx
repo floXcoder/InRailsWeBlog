@@ -10,20 +10,25 @@ import {
     arrayMove
 } from 'react-sortable-hoc';
 
-import ArticleCardSort from './card';
+const SortableItem = SortableElement(({tag}) => (
+        <div key={tag.id}
+             className="tag-sort-item">
+            {tag.name}
 
-const SortableItem = SortableElement(({article}) => (
-        <ArticleCardSort article={article}/>
+            <span className="tag-count">
+                {`(${tag.taggedArticlesCount})`}
+            </span>
+        </div>
     )
 );
 
-const SortableList = SortableContainer(({articles}) => (
-        <div className="article-sorting-items">
+const SortableList = SortableContainer(({tags}) => (
+        <div className="tag-sorting-items">
             {
-                articles.map((article, i) => (
-                        <SortableItem key={`article-sort-${article.id}`}
+                tags.map((tag, i) => (
+                        <SortableItem key={`tag-sort-${tag.id}`}
                                       index={i}
-                                      article={article}/>
+                                      tag={tag}/>
                     )
                 )
             }
@@ -31,12 +36,12 @@ const SortableList = SortableContainer(({articles}) => (
     )
 );
 
-export default class ArticleSorterDisplay extends React.Component {
+export default class TagSorterDisplay extends React.Component {
     static propTypes = {
-        // Articles must already be sorted by priority
-        articles: PropTypes.array.isRequired,
-        topicSlug: PropTypes.string.isRequired,
-        updateArticlePriority: PropTypes.func.isRequired
+        // Tags must already be sorted by priority
+        tags: PropTypes.array.isRequired,
+        userSlug: PropTypes.string.isRequired,
+        updateTagPriority: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -44,28 +49,28 @@ export default class ArticleSorterDisplay extends React.Component {
     }
 
     state = {
-        articles: this.props.articles
+        tags: this.props.tags
     };
 
     _handleSortEndProduct = ({oldIndex, newIndex}) => {
         this.setState({
-            articles: arrayMove(this.state.articles, oldIndex, newIndex)
+            tags: arrayMove(this.state.tags, oldIndex, newIndex)
         });
     };
 
     _handleSavePriority = (event) => {
         event.preventDefault();
 
-        this.props.updateArticlePriority(this.state.articles.map((article) => article['id']));
+        this.props.updateTagPriority(this.state.tags.map((tag) => tag['id']));
     };
 
     render() {
         return (
-            <div className="article-sorting">
-                <div className="row article-sorting-buttons">
+            <div className="tag-sorting">
+                <div className="row tag-sorting-buttons">
                     <div className="col s12 m6 center-align">
                         <Link className="btn-flat waves-effect waves-teal"
-                              to={`/user/${this.props.topicSlug}`}>
+                              to={`/tags/${this.props.userSlug}`}>
                             {I18n.t('js.helpers.buttons.cancel')}
                         </Link>
                     </div>
@@ -79,7 +84,8 @@ export default class ArticleSorterDisplay extends React.Component {
                     </div>
                 </div>
 
-                <SortableList articles={this.state.articles}
+                <SortableList tags={this.state.tags}
+                              useWindowAsScrollContainer={true}
                               onSortEnd={this._handleSortEndProduct}/>
             </div>
         );

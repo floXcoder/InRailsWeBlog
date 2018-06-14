@@ -73,6 +73,8 @@ fr:
         description: "Modification de l'article : %{title}"
     tag:
       flash:
+        successful_priority_update: "L'ordre des labels a été changé"
+        error_priority_update: "Problème lors du changement de priorité des labels"
         successful_deletion: "L'article a été supprimé."
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
       show:

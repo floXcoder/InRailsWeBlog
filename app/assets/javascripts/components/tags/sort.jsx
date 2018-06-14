@@ -1,40 +1,42 @@
 'use strict';
 
 import {
-    fetchArticles,
-    updateArticlePriority
+    fetchTags,
+    updateTagPriority
 } from '../../actions';
 
 import {
-    getArticles
+    getTags
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
-import ArticleSorter from './sort/sorter';
+import TagSorter from './sort/sorter';
 
 @connect((state) => ({
     currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
     currentTopicId: state.topicState.currentTopicId,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
-    isFetching: state.articleState.isFetching,
-    articles: getArticles(state)
+    isFetching: state.tagState.isFetching,
+    tags: getTags(state)
 }), {
-    fetchArticles,
-    updateArticlePriority
+    fetchTags,
+    updateTagPriority
 })
-export default class ArticleSort extends React.Component {
+export default class TagSort extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
         // From connect
         currentUserId: PropTypes.number,
+        currentUserSlug: PropTypes.string,
         currentTopicId: PropTypes.number,
         currentTopicSlug: PropTypes.string,
         isFetching: PropTypes.bool,
-        articles: PropTypes.array,
-        fetchArticles: PropTypes.func,
-        updateArticlePriority: PropTypes.func
+        tags: PropTypes.array,
+        fetchTags: PropTypes.func,
+        updateTagPriority: PropTypes.func
     };
 
     constructor(props) {
@@ -42,38 +44,36 @@ export default class ArticleSort extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchArticles({
+        this.props.fetchTags({
             userId: this.props.params.currentUserId || this.props.currentUserId,
-            topicId: this.props.params.currentTopicId || this.props.currentTopicId,
             order: 'priority_desc',
             ...this.props.params
         }, {
-            summary: true,
             limit: 1000
         });
     }
 
-    _handleUpdatePriority = (articleIds) => {
-        this.props.updateArticlePriority(articleIds)
-            .then(() => this.props.history.push(`/user/${this.props.currentTopicSlug}`));
+    _handleUpdatePriority = (tagIds) => {
+        this.props.updateTagPriority(tagIds)
+            .then(() => this.props.history.push(`/tags/${this.props.currentUserSlug}`));
     };
 
     render() {
         return (
-            <div className="article-sort">
+            <div className="tag-sort">
                 {
-                    (this.props.isFetching && this.props.articles.length === 0) &&
+                    (this.props.isFetching && this.props.tags.length === 0) &&
                     <div className="center margin-top-20">
                         <Loader size="big"/>
                     </div>
                 }
 
                 {
-                    this.props.articles.length > 0 &&
-                    <ArticleSorter key={Utils.uuid()}
-                                   articles={this.props.articles}
-                                   topicSlug={this.props.currentTopicSlug}
-                                   updateArticlePriority={this._handleUpdatePriority}/>
+                    this.props.tags.length > 0 &&
+                    <TagSorter key={Utils.uuid()}
+                               tags={this.props.tags}
+                               userSlug={this.props.currentUserSlug}
+                               updateTagPriority={this._handleUpdatePriority}/>
                 }
             </div>
         );

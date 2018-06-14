@@ -76,6 +76,7 @@ class User < ApplicationRecord
 
     tag_sidebar_pin Boolean, default: true
     tag_sidebar_with_child Boolean, default: false
+    tag_order String, default: 'name' # Defined in Tag::order_by
 
     search_highlight Boolean, default: true
     search_operator String, default: 'and' # and / or

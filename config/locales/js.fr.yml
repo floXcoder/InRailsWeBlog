@@ -168,6 +168,11 @@ fr:
             title: "Sidebar"
             with_child: "Afficher les labels enfants dans la liste principale"
             pin: "Liste des labels visibles par défaut"
+          order:
+            title: "Ordre des labels par défaut"
+            mode:
+              name: "Nom"
+              priority: "Priorité"
         search:
           title: "Recherche"
           operator:
@@ -272,6 +277,7 @@ fr:
           topic: "Labels associés au thème : %{topic}"
           user: "Tous vos labels"
           all: "Tous les labels publics"
+        sort: "Trier vos labels par priorité"
         links:
           user_tags: "Voir tous vos labels utilisés"
           all_tags: "Voir tous les labels publics"

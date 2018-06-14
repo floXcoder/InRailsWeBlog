@@ -124,6 +124,16 @@ export default class TagIndex extends React.Component {
                         {this._renderTitle()}
                     </h1>
 
+                    {
+                        (!Utils.isEmpty(this.props.params)) && this.props.currentUser &&
+                        <div className="center-align margin-top-20">
+                            <Link className="btn-flat waves-effect waves-light"
+                                  to={`/tags/${this.props.currentUser.slug}/sort`}>
+                                {I18n.t('js.tag.index.sort')}
+                            </Link>
+                        </div>
+                    }
+
                     <h2 className="tag-subtitle">
                         {I18n.t('js.tag.common.publics')}
                     </h2>

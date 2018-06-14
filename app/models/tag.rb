@@ -396,9 +396,9 @@ class Tag < ApplicationRecord
     case order
       when 'name'
         order('tags.name ASC')
-      when 'priority_first'
+      when 'priority_asc'
         order('tags.priority ASC')
-      when 'priority_last'
+      when 'priority_desc'
         order('tags.priority DESC')
       when 'id_asc'
         order('tags.id ASC')

@@ -10,6 +10,7 @@ import ArticleSort from './components/loaders/articleSort';
 import TagIndex from './components/loaders/tagIndex';
 import TagShow from './components/loaders/tagShow';
 import TagEdit from './components/loaders/tagEdit';
+import TagSort from './components/loaders/tagSort';
 
 import UserShow from './components/loaders/userShow';
 import UserEdit from './components/loaders/userEdit';
@@ -82,6 +83,11 @@ export default {
                 path: '/topic/:userSlug/:topicSlug',
                 exact: true,
                 component: ArticleIndex
+            },
+            {
+                path: '/tags/:userSlug/sort',
+                exact: true,
+                component: TagSort
             },
             {
                 path: '/tags/:userSlug',
