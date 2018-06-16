@@ -5,25 +5,23 @@ import {
 } from '../../actions';
 
 import {
-    getIsBookmarked
+    getBookmark
 } from '../../selectors';
 
 @connect((state, props) => ({
-    currentUserId: state.userState.currentId,
-    isBookmarked: getIsBookmarked(state, props)
+    bookmarkData: getBookmark(state, props)
 }), {
     bookmark
 })
 export default class BookmarkIcon extends React.PureComponent {
     static propTypes = {
-        bookmarkType: PropTypes.string.isRequired,
-        bookmarkId: PropTypes.number.isRequired,
-        bookmarkedId: PropTypes.number,
+        bookmarkedType: PropTypes.string.isRequired,
+        bookmarkedId: PropTypes.number.isRequired,
         isIcon: PropTypes.bool,
+        className: PropTypes.string,
         bookmarkCount: PropTypes.number,
         // From connect
-        currentUserId: PropTypes.number,
-        isBookmarked: PropTypes.bool,
+        bookmarkData: PropTypes.object,
         bookmark: PropTypes.func
     };
 
@@ -40,15 +38,15 @@ export default class BookmarkIcon extends React.PureComponent {
     _handleBookmark = (event) => {
         event.preventDefault();
 
-        this.props.bookmark(this.props.currentUserId, this.props.bookmarkType, this.props.bookmarkId, this.props.bookmarkedId);
+        this.props.bookmark(this.props.bookmarkedType, this.props.bookmarkedId, this.props.bookmarkData);
     };
 
     render() {
-        const bookmarkText = this.props.isBookmarked ? I18n.t('js.bookmark.common.remove') : I18n.t('js.bookmark.common.add');
+        const bookmarkText = this.props.bookmarkData ? I18n.t('js.bookmark.common.remove') : I18n.t('js.bookmark.common.add');
 
         return (
-            <div className={classNames('bookmark', `bookmark-${this.props.bookmarkType}`, {
-                'bookmarked': this.props.isBookmarked,
+            <div className={classNames(this.props.className || 'bookmark', `bookmark-${this.props.bookmarkedType}`, {
+                'bookmarked': this.props.bookmarkData,
                 'bookmark-icon-only': this.props.isIcon,
                 'tooltip-bottom': this.props.isIcon
             })}
@@ -70,7 +68,7 @@ export default class BookmarkIcon extends React.PureComponent {
                     }
 
                     {
-                        this.props.isBookmarked
+                        this.props.bookmarkData
                             ?
                             <span className="material-icons bookmark-icon"
                                   data-icon="favorite"
@@ -85,4 +83,3 @@ export default class BookmarkIcon extends React.PureComponent {
         );
     }
 }
-

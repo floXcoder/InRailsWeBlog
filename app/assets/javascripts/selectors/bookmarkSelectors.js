@@ -4,22 +4,26 @@ import {
     createSelector
 } from 'reselect';
 
-export const getIsBookmarked = createSelector(
+export const getBookmarks = createSelector(
+    (state) => state.bookmarkState.bookmarks,
+    (bookmarks) => bookmarks.toArray()
+);
+
+export const getBookmark = createSelector(
     (state) => state.bookmarkState.bookmarks,
     (state) => state.bookmarkState.unbookmarks,
-    (_, props) => props.bookmarkType,
-    (_, props) => props.bookmarkId,
-    (_, props) => !!props.bookmarkedId,
-    (bookmarks, unbookmarks, bookmarkType, bookmarkId, wasBookmarked) => {
-        const isNew = !!bookmarks.find((bookmark) => (bookmark.bookmarkedType && bookmark.bookmarkedType.toLowerCase()) === (bookmarkType && bookmarkType.toLowerCase()) && bookmark.bookmarkedId === bookmarkId);
-        const isDeleted = !!unbookmarks.find((bookmark) => (bookmark.bookmarkedType && bookmark.bookmarkedType.toLowerCase()) === (bookmarkType && bookmarkType.toLowerCase()) && bookmark.bookmarkedId === bookmarkId);
+    (_, props) => props.bookmarkedType,
+    (_, props) => props.bookmarkedId,
+    (bookmarks, unbookmarks, bookmarkedType, bookmarkedId) => {
+        const newBookmark = bookmarks.find((bookmark) => bookmark.bookmarkedType && bookmark.bookmarkedType.toLowerCase() === bookmarkedType && bookmarkedType.toLowerCase() && bookmark.bookmarkedId === bookmarkedId);
+        const deletedBookmark = !!unbookmarks.find((bookmark) => bookmark.bookmarkedType && bookmark.bookmarkedType.toLowerCase() === bookmarkedType && bookmarkedType.toLowerCase() && bookmark.bookmarkedId === bookmarkedId);
 
-        if (isNew) {
-            return true
-        } else if (isDeleted) {
-            return false;
+        if (newBookmark) {
+            return newBookmark;
+        } else if (deletedBookmark) {
+            return null;
         } else {
-            return wasBookmarked;
+            return null;
         }
     }
 );

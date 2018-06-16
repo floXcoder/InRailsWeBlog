@@ -29,9 +29,10 @@ import Preference from '../users/preference';
 import TopicModule from '../topic/module';
 
 import HomeSearchHeader from './header/search';
+import HomeTopicHeader from './header/topic';
+import HomeBookmarkHeader from './header/bookmark';
 import HomeArticleHeader from './header/article';
 import HomeUserHeader from './header/user';
-import HomeTopicHeader from './header/topic';
 
 @connect((state) => ({
     isUserSignupOpened: state.uiState.isUserSignupOpened,
@@ -152,7 +153,6 @@ export default class HeaderLayout extends React.PureComponent {
                                             hasArrow={false}>
                                             <TopicModule history={this.props.history}/>
                                         </Dropdown>
-
                                     </li>
                                 }
                             </ul>
@@ -167,6 +167,10 @@ export default class HeaderLayout extends React.PureComponent {
                                               onClose={this.props.onSearchClose}/>
 
                             <ul className="right">
+                                <li>
+                                    <HomeBookmarkHeader/>
+                                </li>
+
                                 <li>
                                     <HomeArticleHeader hasTemporaryArticle={this.state.hasTemporaryArticle}/>
                                 </li>

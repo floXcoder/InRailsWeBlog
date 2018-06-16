@@ -1,13 +1,19 @@
 'use strict';
 
 import ArticleVisibilityIcon from '../icons/visibility';
+import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleHistoryIcon from '../icons/history';
 import ArticleDeleteIcon from '../icons/delete';
 import ArticleEditIcon from '../icons/edit';
 import ArticleLinkIcon from '../icons/link';
 
-const ArticleActions = ({isInline, articleId, articleSlug, articleTitle, articleVisibility, onVisibilityClick, onDeleteClick}) => (
+const ArticleActions = ({isInline, articleId, articleSlug, articleTitle, articleVisibility, isBookmarked, onVisibilityClick, onDeleteClick}) => (
     <ul className="action-icons">
+        <li className="action-item">
+            <ArticleBookmarkIcon articleId={articleId}/>
+        </li>
+
+        <li className="action-item-divider"/>
         {
             !isInline &&
             <li className="action-item">
@@ -51,11 +57,13 @@ ArticleActions.propTypes = {
     articleTitle: PropTypes.string,
     onVisibilityClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
-    isInline: PropTypes.bool
+    isInline: PropTypes.bool,
+    isBookmarked: PropTypes.bool
 };
 
 ArticleActions.defaultProps = {
-    isInline: false
+    isInline: false,
+    isBookmarked: false
 };
 
 export default ArticleActions;

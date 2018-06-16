@@ -202,6 +202,9 @@ fr:
         saved_later: "Vous n'êtes pas connecté. Le favoris sera associé à votre compte une fois connecté."
         connection: "Se connecter"
         not_connected: "Vous devez vous connecté pour ajouter ou supprimer des favoris"
+      list:
+        title: "Vos favoris"
+        none: "Aucun favoris"
     topic:
       common:
         visibility: "Choisissez la visibilité"

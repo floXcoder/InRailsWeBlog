@@ -18,12 +18,9 @@ import ArticleTags from '../properties/tags';
 import ArticleTime from '../properties/time';
 import ArticleUserIcon from '../icons/user';
 
-import Collapsible from '../../theme/collapsible';
-
 import CommentCountIcon from '../../comments/icons/count';
 
-// TODO
-// import BookmarkIcon from '../../bookmark/icon';
+import Collapsible from '../../theme/collapsible';
 
 @highlight()
 export default class ArticleCardDisplay extends React.Component {
@@ -58,7 +55,7 @@ export default class ArticleCardDisplay extends React.Component {
     _handleWaypointEnter = () => {
         spyTrackView('article', this.props.article.id);
 
-        if(this.props.onShow) {
+        if (this.props.onShow) {
             this.props.onShow(this.props.article.id);
         }
     };
@@ -175,18 +172,12 @@ export default class ArticleCardDisplay extends React.Component {
                                                 articleId={this.props.article.id}
                                                 articleSlug={this.props.article.slug}
                                                 articleTitle={this.props.article.title}
-                                                articleVisibility={this.props.article.visibility}/>
+                                                articleVisibility={this.props.article.visibility}
+                                                isBookmarked={this.props.article.bookmarked}/>
                             </div>
                         }
                     </Collapsible>
                 </div>
-
-                {
-                    // <BookmarkIcon bookmarkType="article"
-                    //               bookmarkId={this.props.article.id}
-                    //               bookmarkedId={this.props.article.bookmarked}
-                    //               isIcon={true}/>
-                }
             </div>
         );
     }

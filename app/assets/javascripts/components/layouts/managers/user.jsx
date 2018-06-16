@@ -7,6 +7,8 @@ import {
     getTracksClick,
     fetchUserRecents,
     updateUserRecents,
+    fetchBookmarks,
+    synchronizeBookmarks,
     setCurrentTags
 } from '../../../actions';
 
@@ -20,6 +22,8 @@ import {
     fetchTags,
     fetchUserRecents,
     updateUserRecents,
+    fetchBookmarks,
+    synchronizeBookmarks,
     setCurrentTags
 })
 export default class UserManager extends React.Component {
@@ -35,6 +39,8 @@ export default class UserManager extends React.Component {
         fetchTags: PropTypes.func,
         fetchUserRecents: PropTypes.func,
         updateUserRecents: PropTypes.func,
+        fetchBookmarks: PropTypes.func,
+        synchronizeBookmarks: PropTypes.func,
         setCurrentTags: PropTypes.func
     };
 
@@ -61,15 +67,24 @@ export default class UserManager extends React.Component {
                     // Get all user tags for current topic (user private and common public tags associated to his articles)
                     // props.fetchTags({topicId: response.user.currentTopic.id});
 
+                    // Send local recent clicks otherwise fetch them
+                    const userJustSign = sessionStorage && sessionStorage.getItem('user-connection');
+
                     Utils.defer.then(() => {
-                        // Send local recent clicks otherwise fetch them
-                        const userJustSign = sessionStorage && sessionStorage.getItem('user-connection');
                         if (userJustSign) {
                             sessionStorage.removeItem('user-connection');
                             this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
                         } else {
                             this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
                         }
+                    });
+
+                    Utils.defer.then(() => {
+                        // if (userJustSign) {
+                        //     this.props.synchronizeBookmarks();
+                        // }
+
+                        this.props.fetchBookmarks(this.props.currentUserId, {topicId: this.props.currentTopicId});
                     });
                 }
 

@@ -142,11 +142,15 @@ class User < ApplicationRecord
 
   has_many :bookmarks,
            dependent: :destroy
+  has_many :bookmarked_articles,
+           through:     :bookmarks,
+           source:      :bookmarked,
+           source_type: 'Article'
+
   has_many :followers,
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
            source:  :user
-
   has_many :following_users,
            -> { where(bookmarks: { follow: true }) },
            through:     :bookmarks,

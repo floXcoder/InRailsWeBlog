@@ -4,7 +4,7 @@
   "private": true,
   "description": "InRailsWeBlog blog apps",
   "engines": {
-    "node": "10.4.0",
+    "node": "10.4.1",
     "npm": "6.1.0",
     "yarn": "1.7.0"
   },

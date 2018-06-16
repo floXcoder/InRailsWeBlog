@@ -68,3 +68,40 @@
     width: 2rem;
   }
 }
+
+.bookmarks-header {
+  margin: 15px;
+  min-width: 220px;
+}
+
+.bookmarks-list {
+  .bookmarks-header-title {
+    margin: 5px;
+  }
+
+  .bookmarks-inline {
+    margin-bottom: 10px;
+    padding: 5px 0;
+
+    &:hover {
+      box-shadow: 0 1px 2px 0 rgba(198, 106, 106, .2), 0 2px 4px 0 rgba(0, 0, 0, .19);
+    }
+  }
+
+  .bookmarks-icon {
+    max-width: 40px;
+    vertical-align: middle;
+  }
+
+  .bookmarks-title {
+    font-size: 1rem;
+    vertical-align: middle;
+    color: $off-black;
+    line-height: 1.5rem;
+  }
+
+  .bookmarks-none {
+    font-style: italic;
+    margin-top: 10px;
+  }
+}

@@ -9,6 +9,7 @@
 #  follow          :boolean          default(FALSE)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  topic_id        :bigint(8)
 #
 
 FactoryBot.define do

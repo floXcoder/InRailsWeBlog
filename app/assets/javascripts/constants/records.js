@@ -195,4 +195,12 @@ export class CommentRecord extends Record({
     }
 }
 
-
+export const BookmarkRecord = new Record({
+    id: undefined,
+    userId: undefined,
+    bookmarkedId: undefined,
+    bookmarkedType: undefined,
+    follow: undefined,
+    name: undefined,
+    slug: undefined
+});

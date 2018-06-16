@@ -202,6 +202,9 @@ en:
         saved_later: "You are not connected. Bookmarks will be added after connection."
         connection: "Log in"
         not_connected: "You must be connected to add or remove bookmarks"
+      list:
+        title: "Vos favoris"
+        none: "Aucun favoris"
     topic:
       common:
         visibility: "Choose visibility"

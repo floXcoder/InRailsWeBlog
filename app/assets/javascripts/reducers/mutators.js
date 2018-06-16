@@ -86,7 +86,7 @@ export const toList = (elements, record) => {
 const applyFn = (state, fn) => fn(state);
 export const pipe = (fns, state) => state.withMutations(s => fns.reduce(applyFn, s));
 
-export const findItemIndex = (list, itemId, id = 'id') => list.findIndex((item) => item.get(id) === itemId);
+export const findItemIndex = (list, itemId, id = 'id') => list.findIndex((item) => (item[id] || item.get(id)) === itemId);
 
 export const addOrRemoveArray = (itemArray, item, id = 'id') => {
     const itemIndex = findItemIndex(itemArray, item && item[id], id);

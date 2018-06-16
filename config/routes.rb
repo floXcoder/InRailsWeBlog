@@ -67,8 +67,6 @@ Rails.application.routes.draw do
           get      :show,          to: 'users#show',               as: :root
 
           get      :profile,       to: 'users#profile',            as: :profile
-          get      :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
-          get      :draft,         to: 'users#draft',              as: :draft
           get      :comments,      to: 'users#comments',           as: :comments
           get      :recents,       to: 'users#recents',            as: :recents
           post     :recents,       to: 'users#update_recents'
@@ -77,7 +75,7 @@ Rails.application.routes.draw do
           concerns :tracker,       module: :users
         end
 
-        resources :bookmarks, controller: 'users/bookmarks', only: [:create, :destroy]
+        resources :bookmarks, controller: 'users/bookmarks', only: [:index, :create, :destroy]
 
         resources :settings, controller: 'users/settings', only: [:index] do
           collection do
@@ -113,8 +111,6 @@ Rails.application.routes.draw do
         member do
           get      :history,   to: 'articles#history'
           get      :restore,   to: 'articles#restore'
-          post     :bookmark,  to: 'articles#add_bookmark'
-          delete   :bookmark,  to: 'articles#remove_bookmark'
 
           concerns :tracker,   module: :articles
 

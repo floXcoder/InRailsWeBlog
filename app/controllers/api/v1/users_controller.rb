@@ -120,31 +120,6 @@ module Api::V1
       end
     end
 
-    def bookmarks
-      user = User.friendly.find(params[:id])
-      authorize user
-
-      respond_to do |format|
-        format.html do
-          set_meta_tags title:       titleize(I18n.t('views.user.bookmarks.title', pseudo: user.pseudo)),
-                        description: I18n.t('views.user.bookmarks.description', pseudo: user.pseudo),
-                        author:      user_canonical_url(user.slug),
-                        canonical:   user_canonical_url("#{user.slug}/bookmarks")
-          render :show, locals: {
-            user: user,
-            mode: 'bookmark'
-          }
-        end
-      end
-    end
-
-    # def draft
-    #   user = User.friendly.find(params[:id])
-    #   authorize user
-    #
-    #   render :show, locals: { user: user, mode: 'draft' }
-    # end
-
     def comments
       user = User.includes(:comments).friendly.find(params[:id])
       authorize user
