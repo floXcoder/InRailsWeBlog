@@ -345,13 +345,15 @@ class User < ApplicationRecord
   end
 
   def self.order_search(order)
-    return nil unless order
-
     case order
     when 'id_asc'
       { id: :asc }
     when 'id_desc'
       { id: :desc }
+    when 'priority_asc'
+      { priority: :asc }
+    when 'priority_desc'
+      { priority: :desc }
     when 'created_asc'
       { created_at: :asc }
     when 'created_desc'
@@ -368,6 +370,8 @@ class User < ApplicationRecord
       { popularity: :asc }
     when 'popularity_desc'
       { popularity: :desc }
+    else
+      nil
     end
   end
 

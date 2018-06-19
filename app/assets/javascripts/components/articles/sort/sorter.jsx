@@ -80,6 +80,7 @@ export default class ArticleSorterDisplay extends React.Component {
                 </div>
 
                 <SortableList articles={this.state.articles}
+                              useWindowAsScrollContainer={true}
                               onSortEnd={this._handleSortEndProduct}/>
             </div>
         );

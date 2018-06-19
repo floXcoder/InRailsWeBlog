@@ -66,7 +66,7 @@ gem 'date_validator',           '0.9.0'
 
 # Global and model settings
 gem 'simpleconfig',             '2.0.1'
-gem 'rails-settings-cached',    '0.6.6'
+gem 'rails-settings-cached',    '0.7.0'
 gem 'storext',                  '2.2.2'
 
 # Authentification
@@ -180,7 +180,7 @@ group :development, :test do
   gem 'bootsnap',               '1.3.0',    require: false
 
   # Check errors
-  gem 'rubocop',                '0.57.1',  require: false
+  gem 'rubocop',                '0.57.2',  require: false
 end
 
 group :production do

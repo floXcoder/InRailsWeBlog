@@ -58,6 +58,11 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
                 actionKey: undefined
             });
 
+        case ActionTypes.SEARCH_FETCH_SUCCESS:
+            return state.merge({
+                actionKey: undefined
+            });
+
         default:
             return state;
     }

@@ -46,7 +46,6 @@ class ArticleSerializer < ActiveModel::Serializer
              :allow_comment,
              :draft,
              :current_language,
-             :bookmarked,
              :outdated,
              :slug,
              :votes_up,
@@ -55,12 +54,19 @@ class ArticleSerializer < ActiveModel::Serializer
              :bookmarks_count,
              :comments_count,
              :outdated_count,
-             :tags,
              :parent_tag_ids,
              :child_tag_ids,
              :new_tag_ids
 
   belongs_to :user, serializer: UserSampleSerializer
+
+  has_many :tags, serializer: TagSampleSerializer do
+    if scope.is_a?(User)
+      object.tags
+    else
+      object.tags.select { |tag| tag.visibility == 'everyone' }
+    end
+  end
 
   def content
     current_user_id = defined?(current_user) && current_user&.id
@@ -77,17 +83,6 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def visibility_translated
     object.visibility_to_tr
-  end
-
-  def bookmarked
-    if defined?(current_user) && current_user
-      object.bookmarked?(current_user)
-
-      # object.user_bookmarks.exists?(current_user.id)
-      # object.bookmarks.find_by(user_id: current_user.id)&.id
-    else
-      false
-    end
   end
 
   def outdated
@@ -112,14 +107,6 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def comments
     object.comments_tree.flatten if instance_options[:comments]
-  end
-
-  def tags
-    if defined?(current_user) && current_user
-      Tag.as_flat_json(object.tags, sample: true)
-    else
-      Tag.as_flat_json(object.tags.select { |tag| tag.visibility == 'everyone' }, sample: true)
-    end
   end
 
   def parent_tag_ids

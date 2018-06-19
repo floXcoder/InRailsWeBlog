@@ -125,7 +125,7 @@ RSpec.describe User, type: :model, basic: true do
     it { expect(@user.state).to eq('state') }
     it { expect(@user.allow_comment).to be true }
     it { expect(@user.visibility).to eq('everyone') }
-    it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_display' => 'card', 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
+    it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_display' => 'card', 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
     it { expect(@user.pictures_count).to eq(0) }
     it { expect(@user.topics_count).to eq(1) }
     it { expect(@user.articles_count).to eq(0) }
@@ -148,7 +148,7 @@ RSpec.describe User, type: :model, basic: true do
       it { expect(@user.locale).to eq('fr') }
       it { expect(@user.allow_comment).to be true }
       it { expect(@user.visibility).to eq('everyone') }
-      it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_display' => 'card', 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
+      it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_display' => 'card', 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
       it { expect(@user.pictures_count).to eq(0) }
       it { expect(@user.topics_count).to eq(0) }
       it { expect(@user.articles_count).to eq(0) }

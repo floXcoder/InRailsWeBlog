@@ -97,8 +97,6 @@ export default function articleMutationManager(mode, formId) {
                 } else if (props.initialData) {
                     this.state.article = props.initialData;
 
-                    Notification.success(I18n.t('js.article.clipboard'));
-
                     if (props.initialData.parentTagSlug) {
                         this.state.article = this.state.article || {};
 
@@ -114,6 +112,10 @@ export default function articleMutationManager(mode, formId) {
                         if (temporaryArticle && temporaryArticle.length > 0) {
                             this.state.article = temporaryArticle.first().article;
                         }
+                    }
+
+                    if (props.initialData.content) {
+                        Notification.success(I18n.t('js.article.clipboard'));
                     }
                 } else if (unsavedArticle && unsavedArticle.length > 0) {
                     this.state.article = unsavedArticle.first().article;
@@ -230,11 +232,12 @@ export default function articleMutationManager(mode, formId) {
 
                             this.props.switchUserLogin();
                         } else {
+                            removeLocalData(ArticleMutationComponent.temporaryDataName);
+                            removeLocalData(ArticleMutationComponent.unsavedDataName);
+
                             this.props.addArticle(formData)
                                 .then((response) => {
                                     if (response.article) {
-                                        removeLocalData(ArticleMutationComponent.temporaryDataName);
-
                                         this.props.history.push({
                                             pathname: `/article/${response.article.slug}`,
                                             state: {reloadTags: true}

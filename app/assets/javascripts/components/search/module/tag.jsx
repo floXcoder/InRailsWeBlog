@@ -44,7 +44,10 @@ export default class SearchTagModule extends React.Component {
                                 <span className="material-icons tag-icon"
                                       data-icon="label"
                                       aria-hidden="true"/>
-                                {tag.name}
+
+                                <span className="tag-name">
+                                    {tag.name}
+                                </span>
 
                                 <Link className="tag-link"
                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}

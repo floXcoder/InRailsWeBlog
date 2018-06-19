@@ -5,10 +5,12 @@ import {
     setAutocompleteAction
 } from '../../../actions';
 
-import Input from '../../materialize/input';
+import EnsureValidity from '../../modules/ensureValidity';
 
 @connect((state) => ({
-    query: state.autocompleteState.query
+    query: state.autocompleteState.query,
+    currentUserId: state.userState.currentId,
+    currentTopicId: state.topicState.currentTopicId
 }), {
     fetchAutocomplete,
     setAutocompleteAction
@@ -20,6 +22,8 @@ export default class HomeSearchHeader extends React.Component {
         onClose: PropTypes.func.isRequired,
         // Fom connect
         query: PropTypes.string,
+        currentUserId: PropTypes.number,
+        currentTopicId: PropTypes.number,
         fetchAutocomplete: PropTypes.func,
         setAutocompleteAction: PropTypes.func
     };
@@ -30,19 +34,19 @@ export default class HomeSearchHeader extends React.Component {
         this._searchInput = null;
     }
 
-    state = {
-        value: ''
-    };
+    // state = {
+    //     value: ''
+    // };
 
-    static getDerivedStateFromProps(nextProps) {
-        if (nextProps.query === '') {
-            return {
-                value: ''
-            };
-        }
-
-        return null;
-    }
+    // static getDerivedStateFromProps(nextProps) {
+    //     if (nextProps.query === '') {
+    //         return {
+    //             value: ''
+    //         };
+    //     }
+    //
+    //     return null;
+    // }
 
     componentDidUpdate(prevProps) {
         // On clear input (tag click, ...), set focus to continue searching
@@ -54,13 +58,15 @@ export default class HomeSearchHeader extends React.Component {
     _handleChange = (event) => {
         const value = event.target.value;
 
-        this.setState({
-            value
-        });
+        // this.setState({
+        //     value
+        // });
 
         this.props.fetchAutocomplete({
             selectedTypes: ['article', 'tag', 'topic'],
             query: value,
+            userId: this.props.currentUserId,
+            topicId: this.props.currentTopicId,
             limit: 6
         });
     };
@@ -86,9 +92,7 @@ export default class HomeSearchHeader extends React.Component {
                     {
                         'has-focus': this.props.hasSearch
                     })}>
-                    <Input id="ensure_validity"
-                           wrapperClassName="ensure-validity"
-                           title={I18n.t('js.helpers.form.ensure_validity')}/>
+                    <EnsureValidity/>
 
                     <input ref={(input) => this._searchInput = input}
                            type="search"
@@ -96,7 +100,7 @@ export default class HomeSearchHeader extends React.Component {
                            onFocus={this.props.onFocus}
                            onKeyDown={this._handleKeyDown}
                            onChange={this._handleChange}
-                           value={this.state.value}/>
+                           value={this.props.query}/>
 
                     <a className="search-header-button"
                        href="/">

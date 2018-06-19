@@ -235,7 +235,7 @@ class Article < ApplicationRecord
 
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
-  scope :include_collection, -> { includes(:tags, :tagged_articles, :user_bookmarks, user: [:picture]) }
+  scope :include_collection, -> { includes(:tags, :tagged_articles, user: [:picture]) }
   scope :include_element, -> { includes(:user, :parent_tags, :child_tags, :tagged_articles, :tracker) }
 
   # == Callbacks ============================================================
@@ -260,7 +260,7 @@ class Article < ApplicationRecord
   #  page (page number for pagination)
   #  per_page (number of articles per page for pagination)
   #  exact (exact search or include misspellings, default: 2)
-  #  tags (array of tags associated with articles)
+  #  tags (array of tag ids associated with articles)
   #  operator (array of tags associated with articles, default: AND)
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
@@ -279,7 +279,7 @@ class Article < ApplicationRecord
     misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
-    operator = options[:operator] ? options[:operator] : 'and'
+    operator = options[:operator] || 'and'
 
     # Highlight results and select a fragment
     # highlight = options[:highlight] ? { fields: { content: { fragment_size: 10 } }, tag: '<span class="search-highlight">' } : false
@@ -305,7 +305,7 @@ class Article < ApplicationRecord
     per_page = options[:per_page] || Setting.search_per_page
 
     # Order search
-    order = order_search(options[:order])
+    order = order_search(options[:order] || 'priority_desc')
 
     # Includes to add when retrieving data from DB
     includes = if format == 'strict'
@@ -379,7 +379,7 @@ class Article < ApplicationRecord
   def self.where_search(options)
     options ||= {}
 
-    where_options          = options.compact.reject { |_k, v| v.empty? }.map do |key, value|
+    where_options           = options.compact.select { |_k, v| v.present? }.map do |key, value|
       case key
       when :notation
         [
@@ -391,20 +391,21 @@ class Article < ApplicationRecord
       end
     end.to_h
 
-    where_options[:tags]   = { all: options[:tags] } if options[:tags]
-    where_options[:topics] = { all: options[:topics] } if options[:topics]
+    where_options[:tag_ids] = { all: options[:tag_ids] } if options[:tag_ids]
 
     return where_options
   end
 
   def self.order_search(order)
-    return nil unless order
-
     case order
     when 'id_asc'
       { id: :asc }
     when 'id_desc'
       { id: :desc }
+    when 'priority_asc'
+      { priority: :asc }
+    when 'priority_desc'
+      { priority: :desc }
     when 'created_asc'
       { created_at: :asc }
     when 'created_desc'
@@ -421,6 +422,8 @@ class Article < ApplicationRecord
       { popularity: :asc }
     when 'popularity_desc'
       { popularity: :desc }
+    else
+      nil
     end
   end
 
@@ -782,6 +785,16 @@ class Article < ApplicationRecord
     sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish if self.content
   end
 
+  def formatted_content
+    formatted_content = public_content
+
+    # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
+
+    formatted_content = ActionController::Base.helpers.strip_tags(formatted_content)
+
+    return formatted_content
+  end
+
   def public_content
     self.content&.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
   end
@@ -836,11 +849,12 @@ class Article < ApplicationRecord
       topic_id:         topic_id,
       topic_name:       topic&.name,
       topic_slug:       topic&.slug,
+      tag_ids:          tags.ids,
       mode:             mode,
       mode_translated:  mode_translated,
       current_language: current_language,
       title:            title || '', # Title cannot be nil for suggest
-      content:    public_content,
+      content:    formatted_content,
       reference:  reference,
       languages:  languages,
       draft:      draft,
@@ -849,7 +863,6 @@ class Article < ApplicationRecord
       visibility: visibility,
       archived:   archived,
       accepted:   accepted,
-      tags:       tags.ids,
       created_at: created_at,
       updated_at: updated_at,
       rank:       rank,

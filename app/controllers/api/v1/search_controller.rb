@@ -43,8 +43,9 @@ module Api::V1
                               notation:  search_params[:notation],
                               accepted:  search_params[:accepted],
                               home_page: search_params[:home_page],
-                              tags:      search_params[:tags] ? search_params[:tags].first.split(',') : nil,
-                              topics:    search_params[:topics] ? search_params[:topics].first.split(',') : nil
+                              user_id:   search_params[:user_id],
+                              topic_id:  search_params[:topic_id],
+                              tag_ids:   search_params[:tag_ids] ? search_params[:tag_ids].first.split(',') : nil
                             }.merge(visibility).compact
         )
       end
@@ -60,6 +61,8 @@ module Api::V1
           operator: current_user ? current_user.search_operator : nil,
           order:    search_params[:order],
           where:    {
+                      user_id:   search_params[:user_id],
+                      topic_ids: search_params[:topic_id],
                       accepted:  search_params[:accepted],
                       home_page: search_params[:home_page]
                     }.merge(visibility).compact
@@ -77,6 +80,7 @@ module Api::V1
           operator: current_user ? current_user.search_operator : nil,
           order:    search_params[:order],
           where:    {
+                      user_id:   search_params[:user_id],
                       accepted:  search_params[:accepted],
                       home_page: search_params[:home_page]
                     }.merge(visibility).compact
@@ -87,31 +91,31 @@ module Api::V1
 
       searches.map do |search|
         case search.model_name.human
-          when 'Article'
-            article_results = Article.parsed_search(search, results_format, current_user)
+        when 'Article'
+          article_results = Article.parsed_search(search, results_format, current_user)
 
-            next if article_results[:articles].empty?
-            search_results.merge!(article_results[:articles])
-            search_results[:suggestions][:articles]  = article_results[:suggestions]
-            search_results[:aggregations][:articles] = article_results[:aggregations]
-            search_results[:totalCount][:articles]   = article_results[:total_count]
-            search_results[:totalPages][:articles]   = article_results[:total_pages]
-          when 'Tag'
-            tag_results = Tag.parsed_search(search, results_format, current_user)
+          next if article_results[:articles].empty?
+          search_results.merge!(article_results[:articles])
+          search_results[:suggestions][:articles]  = article_results[:suggestions]
+          search_results[:aggregations][:articles] = article_results[:aggregations]
+          search_results[:totalCount][:articles]   = article_results[:total_count]
+          search_results[:totalPages][:articles]   = article_results[:total_pages]
+        when 'Tag'
+          tag_results = Tag.parsed_search(search, results_format, current_user)
 
-            next if tag_results[:tags].empty?
-            search_results.merge!(tag_results[:tags])
-            search_results[:suggestions][:tags] = tag_results[:suggestions]
-            search_results[:totalCount][:tags]  = tag_results[:total_count]
-            search_results[:totalPages][:tags]  = tag_results[:total_pages]
-          when 'Topic'
-            topic_results = Topic.parsed_search(search, results_format, current_user)
+          next if tag_results[:tags].empty?
+          search_results.merge!(tag_results[:tags])
+          search_results[:suggestions][:tags] = tag_results[:suggestions]
+          search_results[:totalCount][:tags]  = tag_results[:total_count]
+          search_results[:totalPages][:tags]  = tag_results[:total_pages]
+        when 'Topic'
+          topic_results = Topic.parsed_search(search, results_format, current_user)
 
-            next if topic_results[:topics].empty?
-            search_results.merge!(topic_results[:topics])
-            search_results[:suggestions][:topics] = topic_results[:suggestions]
-            search_results[:totalCount][:topics]  = topic_results[:total_count]
-            search_results[:totalPages][:topics]  = topic_results[:total_pages]
+          next if topic_results[:topics].empty?
+          search_results.merge!(topic_results[:topics])
+          search_results[:suggestions][:topics] = topic_results[:suggestions]
+          search_results[:totalCount][:topics]  = topic_results[:total_count]
+          search_results[:totalPages][:topics]  = topic_results[:total_pages]
         end
       end
 
@@ -127,8 +131,9 @@ module Api::V1
       autocomplete_results  = {}
 
       where_options = {
-        languages: search_params[:language]
-      }
+        languages: search_params[:language],
+        user_id:   search_params[:user_id]
+      }.compact
       visibility    = if current_user
                         { _or: [{ visibility: 'only_me', user_id: current_user.id }, { visibility: 'everyone' }] }
                       elsif !current_admin
@@ -148,7 +153,9 @@ module Api::V1
           defer:  true,
           format: 'strict',
           limit:  search_params[:limit] || Setting.per_page,
-          where:  where_options
+          where:  where_options.merge(
+            topic_id:  search_params[:topic_id]
+          )
         )
       end
 
@@ -158,7 +165,9 @@ module Api::V1
           defer:  true,
           format: 'strict',
           limit:  search_params[:limit] || Setting.per_page,
-          where:  where_options
+          where:  where_options.merge(
+            topic_ids: [search_params[:topic_id]]
+          )
         )
       end
 
@@ -176,20 +185,20 @@ module Api::V1
 
       searches.map do |search|
         case search.model_name.human
-          when 'Article'
-            article_results = Article.format_search(search.results, 'strict', current_user)
-            next if article_results[:articles].empty?
-            autocomplete_results[:articles] = article_results[:articles]
-          when 'Tag'
-            tag_results = Tag.format_search(search, 'strict', current_user)
+        when 'Article'
+          article_results = Article.format_search(search.results, 'strict', current_user)
+          next if article_results[:articles].empty?
+          autocomplete_results[:articles] = article_results[:articles]
+        when 'Tag'
+          tag_results = Tag.format_search(search, 'strict', current_user)
 
-            next if tag_results[:tags].empty?
-            autocomplete_results[:tags] = tag_results[:tags]
-          when 'Topic'
-            topic_results = Topic.format_search(search, 'strict', current_user)
+          next if tag_results[:tags].empty?
+          autocomplete_results[:tags] = tag_results[:tags]
+        when 'Topic'
+          topic_results = Topic.format_search(search, 'strict', current_user)
 
-            next if topic_results[:topics].empty?
-            autocomplete_results[:topics] = topic_results[:topics]
+          next if topic_results[:topics].empty?
+          autocomplete_results[:topics] = topic_results[:topics]
         end
       end
 
@@ -203,6 +212,8 @@ module Api::V1
     def search_params
       if params[:search].present?
         params.require(:search).permit(:complete,
+                                       :user_id,
+                                       :topic_id,
                                        :per_page,
                                        :article_per_page,
                                        :tag_per_page,
@@ -222,7 +233,7 @@ module Api::V1
                                        :order,
                                        :selected_types,
                                        selected_types: [],
-                                       tags:           [],
+                                       tag_ids:        [],
                                        order:          []
         ).reject { |_, v| v.blank? }
       else

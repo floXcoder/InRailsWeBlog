@@ -50,7 +50,7 @@ export const setSelectedTag = (tag) => (dispatch) => {
 };
 
 // Search history
-export const getSearchHistory = (params = {}) => (dispatch) => {
+export const getSearchContext = (params = {}) => (dispatch) => {
     const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
     const searchData = {...previousSearchData, ...params};
 
@@ -159,8 +159,7 @@ export const fetchSearch = (searchData, saveHistory = true) => (dispatch, getSta
 };
 
 export const filterSearch = (filters, filterOptions) => (dispatch, getState) => {
-    let searchParams = getState().searchState.searchParams.concat(filters).toJS();
-    searchParams.page = 1;
+    const searchParams = getState().searchState.searchParams.concat(filters).toJS();
 
     _saveHistory(getState().searchState, searchParams);
 

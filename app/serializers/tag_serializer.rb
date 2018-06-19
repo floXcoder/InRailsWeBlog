@@ -48,7 +48,7 @@ class TagSerializer < ActiveModel::Serializer
   end
 
   def child_only
-    object.topic_ids.select { |id| id == instance_options[:current_topic_id] }.size - object.child_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.size <= 0
+    object.tagged_articles.map(&:topic_id).select { |id| id == instance_options[:current_topic_id] }.size - object.child_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.size <= 0
   end
 
   def parent_ids

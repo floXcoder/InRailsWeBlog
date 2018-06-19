@@ -85,5 +85,4 @@ Rails.application.configure do
 
   # Custom configurations
   config.x.cron_jobs_active = false
-  config.x.log_sql_source   = false
 end

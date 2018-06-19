@@ -88,7 +88,7 @@ export default class ArticleIndex extends React.Component {
             this._fetchArticles(this.props.params);
 
             if (this.props.params.tagSlug) {
-                this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}])
+                this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}]);
             }
         }
 

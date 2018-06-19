@@ -9,15 +9,17 @@ describe 'Article API', type: :request, basic: true do
 
     @topic = create(:topic, user: @user)
 
-    @tags                    = create_list(:tag, 5, user: @user)
-    @article                 = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
-    @relation_tags_article   = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[1], @tags[2]], child_tags: [@tags[3]])
-    @relation_tags_article_2 = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[1], @tags[3]], child_tags: [@tags[2], @tags[4]])
+    @public_tags             = create_list(:tag, 5, user: @user, visibility: 'everyone')
+    @article                 = create(:article_with_tags, user: @user, topic: @topic, tags: [@public_tags[0], @public_tags[1], @public_tags[2]])
+    @relation_tags_article   = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[2]], child_tags: [@public_tags[3]])
+    @relation_tags_article_2 = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[3]], child_tags: [@public_tags[2], @public_tags[4]])
 
     @private_tags              = create_list(:tag, 2, user: @user, visibility: 'only_me')
     @article_with_private_tags = create(:article_with_tags, user: @user, topic: @topic, tags: [@private_tags[0], @private_tags[1]])
 
     @second_article = create(:article, user: @user, topic: @topic)
+
+    @article_with_mixed_tags = create(:article_with_relation_tags, user: @user, topic: @topic, title: 'mixed_tags', parent_tags: [@public_tags[0], @private_tags[0]], child_tags: [@public_tags[1], @private_tags[1]])
 
     @second_topic    = create(:topic, user: @user)
     @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me')
@@ -56,7 +58,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(5)
+        expect(json_articles['articles'].size).to eq(6)
       end
 
       it 'returns articles in summary format' do
@@ -67,7 +69,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(5)
+        expect(json_articles['articles'].size).to eq(6)
       end
 
       it 'limits the number of articles' do
@@ -94,7 +96,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(6)
+        expect(json_articles['articles'].size).to eq(7)
       end
     end
 
@@ -106,7 +108,7 @@ describe 'Article API', type: :request, basic: true do
       it 'returns articles for topic' do
         get '/api/v1/articles', params: { filter: { topic_id: @topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(5)
+        expect(json_articles['articles'].size).to eq(6)
 
         get '/api/v1/articles', params: { filter: { topic_id: @second_topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
@@ -114,41 +116,41 @@ describe 'Article API', type: :request, basic: true do
       end
 
       it 'returns articles for tags' do
-        get '/api/v1/articles', params: { filter: { tag_slug: @tags[0].slug } }, as: :json
+        get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(1)
+        expect(json_articles['articles'].size).to eq(2)
 
-        # get '/api/v1/articles', params: { filter: { tag_slugs: [@tags[0].slug, @tags[1].slug] } }, as: :json
+        # get '/api/v1/articles', params: { filter: { tag_slugs: [@public_tags[0].slug, @public_tags[1].slug] } }, as: :json
         # json_articles = JSON.parse(response.body)
         # expect(json_articles['articles'].size).to eq(3)
       end
 
       it 'returns articles for parent and child tags' do
-        get '/api/v1/articles', params: { filter: { parent_tag_slug: @tags[0].slug, child_tag_slug: @tags[1].slug } }, as: :json
+        get '/api/v1/articles', params: { filter: { parent_tag_slug: @public_tags[0].slug, child_tag_slug: @public_tags[1].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles']).to be_empty
+        expect(json_articles['articles'].size).to eq(1)
 
-        get '/api/v1/articles', params: { filter: { parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[3].slug } }, as: :json
+        get '/api/v1/articles', params: { filter: { parent_tag_slug: @public_tags[1].slug, child_tag_slug: @public_tags[3].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(1)
       end
 
       it 'returns articles for parent tags' do
-        get '/api/v1/articles', params: { filter: { parent_tag_slug: @tags[0].slug } }, as: :json
+        get '/api/v1/articles', params: { filter: { parent_tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles']).to be_empty
+        expect(json_articles['articles'].size).to eq(1)
 
-        get '/api/v1/articles', params: { filter: { parent_tag_slug: @tags[1].slug } }, as: :json
+        get '/api/v1/articles', params: { filter: { parent_tag_slug: @public_tags[1].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(2)
       end
 
       it 'returns articles for child tags' do
-        get '/api/v1/articles', params: { filter: { child_tag_slug: @tags[0].slug } }, as: :json
+        get '/api/v1/articles', params: { filter: { child_tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).to be_empty
 
-        get '/api/v1/articles', params: { filter: { child_tag_slug: @tags[2].slug } }, as: :json
+        get '/api/v1/articles', params: { filter: { child_tag_slug: @public_tags[2].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(1)
       end
@@ -166,11 +168,24 @@ describe 'Article API', type: :request, basic: true do
       end
     end
 
+    context 'when fetching public articles' do
+      it 'returns public articles without private tags' do
+        get '/api/v1/articles', as: :json
+
+        expect(response).to be_json_response
+
+        json_articles = JSON.parse(response.body)
+
+        tags_for_mixed_article = json_articles['articles'].select { |article| article['title'] == 'mixed_tags' }.first['tags'].map { |tag| tag['name'] }
+        expect(tags_for_mixed_article).to eq([@public_tags[0].name, @public_tags[1].name])
+      end
+    end
+
     context 'when fetching articles in database' do
       it 'limits the number of database queries' do
         expect {
           get '/api/v1/articles', params: { filter: { topic_id: @topic.id }, limit: 20 }, as: :json
-        }.to make_database_queries(count: 6..10)
+        }.to make_database_queries(count: 5..10)
       end
     end
 
@@ -194,7 +209,7 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(6)
+        expect(json_articles['articles'].size).to eq(7)
       end
     end
   end
@@ -246,35 +261,15 @@ describe 'Article API', type: :request, basic: true do
         expect(article['article']).not_to be_empty
         expect(article['article']['title']).to eq(@article.title)
       end
-    end
-  end
 
-  describe '/api/v1/articles/:id/history' do
-    context 'when user is not connected' do
-      it 'returns an error message' do
-        get "/api/v1/articles/#{@article.id}/history", as: :json
-
-        expect(response).to be_unauthenticated
-      end
-    end
-
-    context 'when user is connected' do
-      before do
-        login_as(@user, scope: :user, run_callbacks: false)
-
-        @article.update_attributes(title: 'title 2')
-        @article.update_attributes(title: 'title 3')
-      end
-
-      it 'returns the article history' do
-        get "/api/v1/articles/#{@article.id}/history", as: :json
+      it 'returns the article without private tags' do
+        get "/api/v1/articles/#{@article_with_mixed_tags.id}", as: :json
 
         expect(response).to be_json_response
-        json_history = JSON.parse(response.body)
-        expect(json_history['history']).not_to be_empty
-        expect(json_history['history'].size).to eq(2)
-        articles_history = json_history['history'].map { |m| m['article']['title'] }
-        expect(articles_history).to eq(['title 3', 'title 2'])
+
+        article = JSON.parse(response.body)
+        expect(article['article']).not_to be_empty
+        expect(article['article']['tags'].map { |tag| tag['name'] }).to eq([@public_tags[0].name, @public_tags[1].name])
       end
     end
   end
@@ -380,7 +375,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with existing tags associated to current topic' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { tags: [{ name: @tags[0].name, visibility: @tags[0].visibility }, { name: @tags[1].name, visibility: @tags[1].visibility }] }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { tags: [{ name: @public_tags[0].name, visibility: @public_tags[0].visibility }, { name: @public_tags[1].name, visibility: @public_tags[1].visibility }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -390,14 +385,14 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']['parentTagIds']).to be_empty
           expect(article['article']['childTagIds']).to be_empty
 
-          expect(@tags[0].topics).to include(@user.current_topic)
-          expect(@tags[1].topics).to include(@user.current_topic)
+          expect(@public_tags[0].topics).to include(@user.current_topic)
+          expect(@public_tags[1].topics).to include(@user.current_topic)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0)
       end
 
       it 'returns a new article with parent and child tags associated' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: @tags[2].name, visibility: @tags[2].visibility }], child_tags: [{ name: @tags[3].name, visibility: @tags[3].visibility }] }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: @public_tags[2].name, visibility: @public_tags[2].visibility }], child_tags: [{ name: @public_tags[3].name, visibility: @public_tags[3].visibility }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -407,8 +402,8 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']['parentTagIds'].size).to eq(1)
           expect(article['article']['childTagIds'].size).to eq(1)
 
-          expect(@tags[2].children.last).to eq(@tags[3])
-          expect(@tags[3].parents.last).to eq(@tags[2])
+          expect(@public_tags[2].children.last).to eq(@public_tags[3])
+          expect(@public_tags[3].parents.last).to eq(@public_tags[2])
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(1)
       end
 
@@ -593,7 +588,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns updated article and tags relationship' do
         expect {
-          put "/api/v1/articles/#{@relation_tags_article.id}", params: article_attributes.deep_merge(article: { parent_tags: [{ name: @tags[1].name, visibility: @tags[1].visibility }], child_tags: [{ name: @tags[3].name, visibility: @tags[3].visibility }] }), as: :json
+          put "/api/v1/articles/#{@relation_tags_article.id}", params: article_attributes.deep_merge(article: { parent_tags: [{ name: @public_tags[1].name, visibility: @public_tags[1].visibility }], child_tags: [{ name: @public_tags[3].name, visibility: @public_tags[3].visibility }] }), as: :json
 
           expect(response).to be_json_response
 
@@ -621,44 +616,6 @@ describe 'Article API', type: :request, basic: true do
             expect(article['errors']['content'].first).to eq(I18n.t('errors.messages.blank'))
           }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
         end
-      end
-    end
-  end
-
-  describe '/api/v1/articles/:id/restore' do
-    context 'when user is not connected' do
-      it 'returns an error message' do
-        get "/api/v1/articles/#{@article.id}/restore", as: :json
-
-        expect(response).to be_unauthenticated
-      end
-    end
-
-    context 'when user is connected' do
-      before(:all) do
-        @article.update_attributes(title: 'title 2')
-        @article.update_attributes(title: 'title 3')
-      end
-
-      before do
-        login_as(@user, scope: :user, run_callbacks: false)
-      end
-
-      it 'returns not found if no history given' do
-        get "/api/v1/articles/#{@article.id}/restore", as: :json
-
-        expect(response).to be_json_response(404)
-        json_history = JSON.parse(response.body)
-        expect(json_history).to be_empty
-      end
-
-      it 'returns the restored article' do
-        get "/api/v1/articles/#{@article.id}/restore", params: { version_id: PaperTrail::Version.last.id }, as: :json
-
-        expect(response).to be_json_response(202)
-        json_history = JSON.parse(response.body)
-        expect(json_history['article']).not_to be_empty
-        expect(json_history['article']['title']).to eq('title 3')
       end
     end
   end

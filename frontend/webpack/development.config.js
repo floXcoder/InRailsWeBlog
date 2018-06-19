@@ -63,6 +63,9 @@ webPackConfig = _.merge(webPackConfig, {
         watchOptions: {
             ignored: /node_modules/
         },
+        historyApiFallback: {
+            disableDotRule: true
+        },
         stats: {
             colors: true,
             warnings: true,

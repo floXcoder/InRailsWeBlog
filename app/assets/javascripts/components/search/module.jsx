@@ -24,7 +24,9 @@ import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
 @connect((state) => ({
+    isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
+    currentTopicId: state.topicState.currentTopicId,
     recentTopics: getUserRecentTopics(state),
     recentTags: getUserRecentTags(state),
     recentArticles: getUserRecentArticles(state),
@@ -43,7 +45,9 @@ export default class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // From connect
+        isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
+        currentTopicId: PropTypes.number,
         recentTopics: PropTypes.array,
         recentTags: PropTypes.array,
         recentArticles: PropTypes.array,
@@ -73,9 +77,9 @@ export default class SearchModule extends React.Component {
             this._resetTagSelection();
         }
 
-        if (prevProps.actionKey && prevProps.actionKey !== ' ') {
-            if (this._handleKeyAction()[prevProps.actionKey]) {
-                this._handleKeyAction()[prevProps.actionKey].call(this, prevProps.actionKey);
+        if (this.props.actionKey && this.props.actionKey !== ' ') {
+            if (this._handleKeyAction()[this.props.actionKey]) {
+                this._handleKeyAction()[this.props.actionKey].call(this, this.props.actionKey);
             }
         }
     }
@@ -143,15 +147,10 @@ export default class SearchModule extends React.Component {
     };
 
     _performSearch = () => {
-        this._request = this.props.fetchSearch({
-            query: this.props.query,
-            tags: this.props.selectedTags.map((tag) => tag.id)
+        this.props.history.push({
+            pathname: '/search',
+            search: $.param(Utils.compact({query: this.props.query, tagIds: this.props.selectedTags.map((tag) => tag.id)}))
         });
-
-        this._request.fetch.then(() => this.props.history.push({
-                pathname: '/search',
-                search: `?query=${this.props.query}`
-            }));
     };
 
     _handleSearchClose = () => {
@@ -161,8 +160,8 @@ export default class SearchModule extends React.Component {
     };
 
     render() {
-        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : _.uniqBy(this.props.recentTags, (t) => t.name);
-        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : _.uniqBy(this.props.recentArticles, (t) => t.title);
+        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : _.uniqBy(this.props.recentTags, (tag) => tag.name);
+        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : _.uniqBy(this.props.recentArticles, (article) => article.title);
 
         return (
             <div className="search-module-results">

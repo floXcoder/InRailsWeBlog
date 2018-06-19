@@ -9,14 +9,56 @@ describe 'User Bookmarks API', type: :request, basic: true do
     @tag     = create(:tag, user: @user)
     @article = create(:article, user: @user, topic: @topic)
 
-    @tag_bookmark = create(:bookmark, user: @user, bookmarked: @tag)
+    @article_to_bookmark = create(:article, user: @user, topic: @topic)
+
+    @article_bookmark = create(:bookmark, user: @user, bookmarked: @article, topic: @topic)
+
+    @other_topic            = create(:topic, user: @user)
+    @other_article          = create(:article, user: @user, topic: @other_topic)
+    @other_article_bookmark = create(:bookmark, user: @user, bookmarked: @other_article, topic: @other_topic)
   end
 
   let(:bookmark_attributes) {
     {
-      bookmark: { model_type: 'article', model_id: @article.id }
+      bookmark: { bookmarked_model: 'article', bookmarked_id: @article_to_bookmark.id }
     }
   }
+
+  describe '/api/v1/users/:user_id/bookmarks' do
+    context 'when user is not connected' do
+      it 'returns an error message' do
+        get "/api/v1/users/#{@user.id}/bookmarks", as: :json
+
+        expect(response).to be_unauthenticated
+      end
+    end
+
+    context 'when user is connected' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns all bookmarks' do
+        get "/api/v1/users/#{@user.id}/bookmarks", as: :json
+
+        expect(response).to be_json_response
+
+        bookmarks = JSON.parse(response.body)
+        expect(bookmarks['bookmarks']).not_to be_empty
+        expect(bookmarks['bookmarks'].size).to eq(2)
+      end
+
+      it 'returns all bookmarks for a given topic' do
+        get "/api/v1/users/#{@user.id}/bookmarks", params: { topic_id: @topic.id }, as: :json
+
+        expect(response).to be_json_response
+
+        bookmarks = JSON.parse(response.body)
+        expect(bookmarks['bookmarks']).not_to be_empty
+        expect(bookmarks['bookmarks'].size).to eq(1)
+      end
+    end
+  end
 
   describe '/api/v1/users/:user_id/bookmarks (POST)' do
     context 'when user is not connected' do
@@ -29,7 +71,6 @@ describe 'User Bookmarks API', type: :request, basic: true do
       end
     end
 
-    # TODO
     context 'when user is connected' do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
@@ -53,7 +94,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
     context 'when user is not connected' do
       it 'returns an error message' do
         expect {
-          delete "/api/v1/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", as: :json
+          delete "/api/v1/users/#{@user.id}/bookmarks/#{@article_bookmark.id}", as: :json
 
           expect(response).to be_unauthenticated
         }.not_to change(Bookmark, :count)
@@ -67,7 +108,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
 
       it 'returns the deleted bookmark id' do
         expect {
-          delete "/api/v1/users/#{@user.id}/bookmarks/#{@tag_bookmark.id}", as: :json, params: { bookmark: { model_type: 'tag', model_id: @tag.id } }
+          delete "/api/v1/users/#{@user.id}/bookmarks/#{@article_bookmark.id}", as: :json, params: { bookmark: { bookmarked_model: 'article', bookmarked_id: @article.id } }
 
           expect(response).to be_json_response(204)
         }.to change(Bookmark, :count).by(-1)

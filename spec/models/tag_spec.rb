@@ -250,15 +250,15 @@ RSpec.describe Tag, type: :model, basic: true do
 
     describe '::from_user' do
       it { is_expected.to respond_to(:from_user) }
-      it { expect(Tag.from_user(@user.id)).to include(@tag, private_tag) }
-      it { expect(Tag.from_user(@user.id, @user.id)).to include(@tag, private_tag) }
-      it { expect(Tag.from_user(@user.id, @user.id)).not_to include(other_tag) }
+      it { expect(Tag.from_user(@user.slug)).to include(@tag, private_tag) }
+      it { expect(Tag.from_user(@user.slug, @user.id)).to include(@tag, private_tag) }
+      it { expect(Tag.from_user(@user.slug, @user.id)).not_to include(other_tag) }
     end
 
     describe '::for_topic' do
       it { is_expected.to respond_to(:for_topic) }
-      it { expect(Tag.for_topic(topic.id)).to include(@tag, other_public_tag) }
-      it { expect(Tag.for_topic(topic.id)).not_to include(private_tag, other_tag) }
+      it { expect(Tag.for_topic(topic.slug)).to include(@tag, other_public_tag) }
+      it { expect(Tag.for_topic(topic.slug)).not_to include(private_tag, other_tag) }
     end
 
     describe '::most_used' do

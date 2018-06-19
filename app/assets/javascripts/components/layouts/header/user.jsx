@@ -19,81 +19,72 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
         </React.Fragment>
     );
 
-    const visitorContent = (
-        <React.Fragment>
-            <li>
-                <a href="/api/v1/signup"
-                   onClick={onSignupClick}>
-                    {I18n.t('js.views.header.user.sign_up')}
-                </a>
-            </li>
+    if (isUserConnected) {
+        return (
+            <Dropdown button={<span className="material-icons left"
+                                    data-icon="account_circle"
+                                    aria-hidden="true"/>}
+                      position="bottom right"
+                      buttonClassName="header-button"
+                      isFloatingButton={true}
+                      isFixed={true}
+                      hasWavesEffect={false}
+                      hasArrow={true}>
+                <ul>
+                    {
+                        isAdminConnected &&
+                        adminContent
+                    }
 
-            <li className="dropdown-divider"/>
+                    <li>
+                        <a href={`/user/profile/${userSlug}`}>
+                            {I18n.t('js.views.header.user.profile')}
+                        </a>
+                    </li>
 
-            <li>
-                <a href="/api/v1/login"
-                   onClick={onLoginClick}>
-                    {I18n.t('js.views.header.user.log_in')}
-                </a>
-            </li>
-        </React.Fragment>
-    );
+                    <li className="dropdown-divider"/>
 
-    const userContent = (
-        <React.Fragment>
-            <li>
-                <a href={`/user/profile/${userSlug}`}>
-                    {I18n.t('js.views.header.user.profile')}
-                </a>
-            </li>
+                    <li>
+                        <a href="#"
+                           onClick={onPreferenceClick}>
+                            {I18n.t('js.views.header.user.settings')}
+                        </a>
+                    </li>
 
-            <li className="dropdown-divider"/>
+                    <li className="dropdown-divider"/>
 
-            <li>
-                <a href="#"
-                   onClick={onPreferenceClick}>
-                    {I18n.t('js.views.header.user.settings')}
-                </a>
-            </li>
-
-            <li className="dropdown-divider"/>
-
-            <li>
-                <a href="/api/v1/logout"
-                   data-method="delete"
-                   rel="nofollow">
-                    {I18n.t('js.views.header.user.log_out')}
-                </a>
-            </li>
-        </React.Fragment>
-    );
-
-    return (
-        <Dropdown button={<span className="material-icons left"
-                                data-icon="account_circle"
-                                aria-hidden="true"/>}
-                  position="bottom right"
-                  buttonClassName="header-button"
-                  isFloatingButton={true}
-                  isFixed={true}
-                  hasWavesEffect={false}
-                  hasArrow={true}>
+                    <li>
+                        <a href="/api/v1/logout"
+                           data-method="delete"
+                           rel="nofollow">
+                            {I18n.t('js.views.header.user.log_out')}
+                        </a>
+                    </li>
+                </ul>
+            </Dropdown>
+        );
+    } else {
+        return (
             <ul>
-                {
-                    isAdminConnected &&
-                    adminContent
-                }
-                {
-                    !isUserConnected &&
-                    visitorContent
-                }
-                {
-                    isUserConnected &&
-                    userContent
-                }
+                <li>
+                    <a href="/api/v1/signup"
+                       onClick={onSignupClick}>
+                        {I18n.t('js.views.header.user.sign_up')}
+                    </a>
+                </li>
+
+                <li className="dropdown-divider"/>
+
+                <li>
+                    <a href="/api/v1/login"
+                       onClick={onLoginClick}>
+                        {I18n.t('js.views.header.user.log_in')}
+                    </a>
+                </li>
             </ul>
-        </Dropdown>
-    );
+        );
+    }
+
 };
 
 HomeUserHeader.propTypes = {

@@ -2,7 +2,8 @@
 
 export default class SearchSuggestionIndex extends React.Component {
     static propTypes = {
-        suggestions: PropTypes.array.isRequired,
+        articleSuggestions: PropTypes.array.isRequired,
+        tagSuggestions: PropTypes.array.isRequired,
         onSuggestionClick: PropTypes.func.isRequired
     };
 
@@ -17,24 +18,45 @@ export default class SearchSuggestionIndex extends React.Component {
     };
 
     render() {
-        if (this.props.suggestions.length === 0) {
+        if (Utils.isEmpty(this.props.articleSuggestions) && Utils.isEmpty(this.props.tagSuggestions)) {
             return null;
         }
 
         return (
             <div className="search-index-category">
-                <div className="search-suggestion">
-                    {
-                        this.props.suggestions.map((suggestion) => (
-                            <a key={suggestion}
-                               className="btn-small waves-effect waves-light"
-                               href="#"
-                               onClick={this._handleSuggestionClick.bind(this, suggestion)}>
-                                {suggestion}
-                            </a>
-                        ))
-                    }
-                </div>
+                {
+                    !Utils.isEmpty(this.props.tagSuggestions) &&
+                    <div className="search-suggestion">
+                        {I18n.t('js.search.index.suggestions.tags')}
+                        {
+                            this.props.tagSuggestions.map((suggestion) => (
+                                <a key={suggestion}
+                                   className="search-suggestion-tag"
+                                   href="#"
+                                   onClick={this._handleSuggestionClick.bind(this, suggestion)}>
+                                    {suggestion}
+                                </a>
+                            ))
+                        }
+                    </div>
+                }
+
+                {
+                    !Utils.isEmpty(this.props.articleSuggestions) &&
+                    <div className="search-suggestion">
+                        {I18n.t('js.search.index.suggestions.articles')}
+                        {
+                            this.props.articleSuggestions.map((suggestion) => (
+                                <a key={suggestion}
+                                   className="search-suggestion-article"
+                                   href="#"
+                                   onClick={this._handleSuggestionClick.bind(this, suggestion)}>
+                                    {suggestion}
+                                </a>
+                            ))
+                        }
+                    </div>
+                }
             </div>
         );
     }

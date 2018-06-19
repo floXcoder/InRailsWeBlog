@@ -71,6 +71,9 @@ fr:
         cancel: "Annuler"
         submit: "Connexion"
         connecting: "Connexion en cours"
+        externals:
+          google: "Se connecter avec Google"
+          facebook: "Se connecter avec Facebook"
       signup:
         title: "Créer un compte"
         pseudo: "Pseudo"
@@ -85,16 +88,6 @@ fr:
         externals:
           google: "S'inscrire avec Google"
           facebook: "S'inscrire avec Facebook"
-      login:
-        title: "Connection"
-        login: "Pseudo ou Email"
-        password: "Mot de passe"
-        remember_me: "Se souvenir de moi"
-        cancel: "Annuler"
-        submit: "Connexion"
-        externals:
-          google: "Se connecter avec Google"
-          facebook: "Se connecter avec Facebook"
       index:
         link_to_user: "Détails de l'utilisateur"
         search: "Chercher utilisateur"
@@ -369,6 +362,9 @@ fr:
           true: "Activé"
           false: "Désactivé"
         topic: "Thème"
+        tagged_articles:
+          tag:
+            name: "Tag associé à l'article"
       enums:
         visibility:
           everyone: "Public"
@@ -461,6 +457,10 @@ fr:
           default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
           bookmark: "%{message}"
     search:
+      filters:
+        priority: "Priorité"
+        date: "Date"
+        all_topics: "Pour tous les thèmes"
       module:
         placeholder: "Recherche"
         button: "Rechercher"
@@ -470,6 +470,17 @@ fr:
           title: "Articles"
       index:
         placeholder: "Recherche"
+        button: "Trouver"
+        results:
+          one: "1 résultat"
+          other: "%{count} résultats"
+        suggestions:
+          tags: "Essayer les tags suivants :"
+          articles: "Essayer avec l'orthographe :"
+        filters:
+          button: "Filtrer par"
+        articles:
+          title: "Articles"
     comment:
       common:
         route: "commentaires"

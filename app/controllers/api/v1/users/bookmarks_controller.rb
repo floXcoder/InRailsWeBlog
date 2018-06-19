@@ -7,14 +7,12 @@ module Api::V1
     respond_to :json
 
     def index
-      bookmarks = Rails.cache.fetch("user_bookmarks:#{params[:user_id]}-#{params[:topic_id]}", expires_in: CONFIG.cache_time) do
-        user = User.find(params[:user_id])
-        admin_or_authorize user, :bookmarks?
+      user = User.find(params[:user_id])
+      admin_or_authorize user, :bookmarks?
 
-        bookmarks = user.bookmarks.includes(:bookmarked)
+      bookmarks = user.bookmarks.includes(:bookmarked)
 
-        bookmarks = bookmarks.where(topic_id: params[:topic_id]) if params[:topic_id].present?
-      end
+      bookmarks = bookmarks.where(topic_id: params[:topic_id]) if params[:topic_id].present?
 
       respond_to do |format|
         format.json do

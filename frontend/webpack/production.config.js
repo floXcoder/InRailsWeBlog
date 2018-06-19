@@ -41,6 +41,8 @@ webPackConfig = _.merge(webPackConfig, {
         chunkFilename: config.production.chunkFilename + '.js'
     },
 
+    bail: true,
+
     devtool: false
 });
 
@@ -70,6 +72,9 @@ webPackConfig.optimization = {
     },
     minimizer: [
         new UglifyJsPlugin({
+            parallel: true,
+            cache: true,
+            sourceMap: false,
             uglifyOptions: {
                 ecma: 5,
                 output: {
@@ -80,8 +85,7 @@ webPackConfig.optimization = {
                     drop_console: true,
                     warnings: true
                 }
-            },
-            sourceMap: false
+            }
         }),
         new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: {discardComments: {removeAll: true}},

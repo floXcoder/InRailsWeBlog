@@ -17,6 +17,7 @@ FactoryBot.define do
   factory :bookmark do
     # user
     # bookmarked
+    # topic
 
     follow true
   end

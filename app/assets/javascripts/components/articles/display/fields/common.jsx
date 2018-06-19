@@ -52,9 +52,19 @@ export default class ArticleCommonField extends React.Component {
         });
     };
 
-    _onFieldBlur = (event) => {
+    _handleTitleBlur = (event) => {
         if (this._editor) {
             this._editor.focus();
+        }
+
+        return event;
+    };
+
+    _handleTitleKeyPress = (event) => {
+        if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
+            if (this._editor) {
+                this._editor.focus();
+            }
         }
 
         return event;
@@ -87,7 +97,8 @@ export default class ArticleCommonField extends React.Component {
                                icon="create"
                                placeholder={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
                                characterCount={window.settings.article_title_max_length}
-                               onBlur={this._onFieldBlur}
+                               onBlur={this._handleTitleBlur}
+                               onKeyPress={this._handleTitleKeyPress}
                                component={TextField}
                                componentContent={this.props.article.title}/>
                     </div>

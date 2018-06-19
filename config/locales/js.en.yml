@@ -71,6 +71,9 @@ en:
         cancel: "Cancel"
         submit: "Log in"
         connecting: "Connecting in progress"
+        externals:
+          google: "Login with Google"
+          facebook: "Login with Facebook"
       signup:
         title: "Create an account"
         pseudo: "Pseudo"
@@ -85,16 +88,6 @@ en:
         externals:
           google: "Signup with Google"
           facebook: "Signup with Facebook"
-      login:
-        title: "Connection"
-        login: "Pseudo or Email"
-        password: "Password"
-        remember_me: "Remember me"
-        cancel: "Cancel"
-        submit: "Connection"
-        externals:
-          google: "Login with Google"
-          facebook: "Login with Facebook"
       index:
         link_to_user: "User details"
         search: "Find user"
@@ -369,6 +362,9 @@ en:
           true: "Enabled"
           false: "Disabled"
         topic: "Topic"
+        tagged_articles:
+          tag:
+            name: "Tag associated to the article"
       enums:
         visibility:
           everyone: "Public"
@@ -461,6 +457,10 @@ en:
           default: "Cannot add to bookmarks! Try to reload the page."
           bookmark: "%{message}"
     search:
+      filters:
+        priority: "Priority"
+        date: "Date"
+        all_topics: "For all topics"
       module:
         placeholder: "Search"
         button: "Search"
@@ -470,6 +470,17 @@ en:
           title: "Articles"
       index:
         placeholder: "Search"
+        button: "Trouver"
+        results:
+          one: "1 result"
+          other: "%{count} results"
+        suggestions:
+          tags: "Try with the following tags:"
+          articles: "Try with the spelling:"
+        filters:
+          button: "Filter by"
+        articles:
+          title: "Articles"
     comment:
       common:
         route: "comments"

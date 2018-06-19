@@ -183,7 +183,7 @@ class Topic < ApplicationRecord
     misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
-    operator = options[:operator] ? options[:operator] : 'and'
+    operator = options[:operator] || 'and'
 
     # Highlight results and select a fragment
     highlight = false
@@ -251,7 +251,7 @@ class Topic < ApplicationRecord
     order = order_search(options[:order])
 
     # Set result limit
-    limit = options[:limit] ? options[:limit] : Setting.per_page
+    limit = options[:limit] || Setting.per_page
 
     # Perform search
     results = Topic.search(query_string,
@@ -272,31 +272,33 @@ class Topic < ApplicationRecord
   end
 
   def self.order_search(order)
-    return nil unless order
-
     case order
-      when 'id_asc'
-        { id: :asc }
-      when 'id_desc'
-        { id: :desc }
-      when 'created_asc'
-        { created_at: :asc }
-      when 'created_desc'
-        { created_at: :desc }
-      when 'updated_asc'
-        { updated_at: :asc }
-      when 'updated_desc'
-        { updated_at: :desc }
-      when 'rank_asc'
-        { rank: :asc }
-      when 'rank_desc'
-        { rank: :desc }
-      when 'popularity_asc'
-        { popularity: :asc }
-      when 'popularity_desc'
-        { popularity: :desc }
-      else
-        nil
+    when 'id_asc'
+      { id: :asc }
+    when 'id_desc'
+      { id: :desc }
+    when 'priority_asc'
+      { priority: :asc }
+    when 'priority_desc'
+      { priority: :desc }
+    when 'created_asc'
+      { created_at: :asc }
+    when 'created_desc'
+      { created_at: :desc }
+    when 'updated_asc'
+      { updated_at: :asc }
+    when 'updated_desc'
+      { updated_at: :desc }
+    when 'rank_asc'
+      { rank: :asc }
+    when 'rank_desc'
+      { rank: :desc }
+    when 'popularity_asc'
+      { popularity: :asc }
+    when 'popularity_desc'
+      { popularity: :desc }
+    else
+      nil
     end
   end
 
