@@ -101,6 +101,12 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
+"@dsvllc/summernote-image-attributes@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dsvllc/summernote-image-attributes/-/summernote-image-attributes-1.0.0.tgz#71fc7bae3334e5c10c2f621968a57751c3742fca"
+  dependencies:
+    summernote "^0.8.10"
+
 "@gulp-sourcemaps/identity-map@1.X":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@gulp-sourcemaps/identity-map/-/identity-map-1.0.1.tgz#cfa23bc5840f9104ce32a65e74db7e7a974bbee1"
@@ -9861,7 +9867,7 @@ sum-up@^1.0.1:
   dependencies:
     chalk "^1.0.0"
 
-summernote@0.8.10:
+summernote@0.8.10, summernote@^0.8.10:
   version "0.8.10"
   resolved "https://registry.yarnpkg.com/summernote/-/summernote-0.8.10.tgz#21a5d7f18a3b07500b58b60d5907417a54897520"
 

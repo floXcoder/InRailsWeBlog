@@ -124,11 +124,11 @@ export default class Editor extends React.Component {
             if (this.props.mode === EditorMode.INLINE_EDIT) {
                 let airToolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
-                    ['specialStyle', ['advice', 'secret', 'cleaner']],
-                    ['clear', ['clear']],
-                    ['undo', ['undo', 'redo']],
+                    ['specialStyle', ['advice', 'secret']],
                     ['para', ['ul', 'ol']],
-                    ['insert', ['link', 'picture', 'video']]
+                    ['insert', ['link', 'picture', 'video']],
+                    ['undo', ['undo', 'redo']],
+                    ['clear', ['clear']]
                 ];
 
                 this._editor = $editor.summernote({
@@ -141,13 +141,13 @@ export default class Editor extends React.Component {
             } else {
                 const toolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
-                    ['specialStyle', ['advice', 'secret', 'cleaner']],
-                    ['clear', ['clear']],
-                    ['undo', ['undo', 'redo']],
-                    ['view', ['fullscreen']],
                     ['para', ['ul', 'ol']],
+                    ['specialStyle', ['advice', 'secret']],
                     ['table', ['table']],
                     ['insert', ['link', 'picture', 'video']],
+                    ['undo', ['undo', 'redo']],
+                    ['clear', ['clear']],
+                    ['view', ['fullscreen']],
                     ['help', ['codeview', 'help']]
                 ];
 

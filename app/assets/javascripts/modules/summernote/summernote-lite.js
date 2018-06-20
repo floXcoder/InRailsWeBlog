@@ -329,7 +329,7 @@ var dropdownCheck = renderer.create('<div class="note-dropdown-menu note-check" 
     });
 });
 var dropdownButtonContents = function (contents, options) {
-    return contents + ' ' + icon(options.icons.caret, 'span');
+    return contents + ' ' + ui.icon(options.icons.caret, 'span');
 };
 var dropdownButton = function (opt, callback) {
     return buttonGroup([
@@ -989,38 +989,38 @@ if (isMSIE) {
 }
 var isEdge = /Edge\/\d+/.test(userAgent);
 var hasCodeMirror = !!window.CodeMirror;
-// if (!hasCodeMirror && isSupportAmd) {
-//     // Webpack
-//     if (typeof __webpack_require__ === 'function') {
-//         try {
-//             // If CodeMirror can't be resolved, `require.resolve` will throw an
-//             // exception and `hasCodeMirror` won't be set to `true`.
-//             require.resolve('codemirror');
-//             hasCodeMirror = true;
-//         }
-//         catch (e) {
-//             // do nothing
-//         }
-//     }
-//     else if (typeof require !== 'undefined') {
-//         // Browserify
-//         if (typeof require.resolve !== 'undefined') {
-//             try {
-//                 // If CodeMirror can't be resolved, `require.resolve` will throw an
-//                 // exception and `hasCodeMirror` won't be set to `true`.
-//                 require.resolve('codemirror');
-//                 hasCodeMirror = true;
-//             }
-//             catch (e) {
-//                 // do nothing
-//             }
-//             // Almond/Require
-//         }
-//         else if (typeof require.specified !== 'undefined') {
-//             hasCodeMirror = require.specified('codemirror');
-//         }
-//     }
-// }
+if (!hasCodeMirror && isSupportAmd) {
+    // Webpack
+    if (typeof __webpack_require__ === 'function') {
+        try {
+            // If CodeMirror can't be resolved, `require.resolve` will throw an
+            // exception and `hasCodeMirror` won't be set to `true`.
+            require.resolve('codemirror');
+            hasCodeMirror = true;
+        }
+        catch (e) {
+            // do nothing
+        }
+    }
+    else if (typeof require !== 'undefined') {
+        // Browserify
+        if (typeof require.resolve !== 'undefined') {
+            try {
+                // If CodeMirror can't be resolved, `require.resolve` will throw an
+                // exception and `hasCodeMirror` won't be set to `true`.
+                require.resolve('codemirror');
+                hasCodeMirror = true;
+            }
+            catch (e) {
+                // do nothing
+            }
+            // Almond/Require
+        }
+        else if (typeof require.specified !== 'undefined') {
+            hasCodeMirror = require.specified('codemirror');
+        }
+    }
+}
 var isSupportTouch = (('ontouchstart' in window) ||
     (navigator.MaxTouchPoints > 0) ||
     (navigator.msMaxTouchPoints > 0));
@@ -5140,16 +5140,16 @@ var Dropzone = /** @class */ (function () {
 }());
 
 var CodeMirror;
-// if (env.hasCodeMirror) {
-//     if (env.isSupportAmd) {
-//         require(['codemirror'], function (cm) {
-//             CodeMirror = cm;
-//         });
-//     }
-//     else {
-//         CodeMirror = window.CodeMirror;
-//     }
-// }
+if (env.hasCodeMirror) {
+    if (env.isSupportAmd) {
+        require(['codemirror'], function (cm) {
+            CodeMirror = cm;
+        });
+    }
+    else {
+        CodeMirror = window.CodeMirror;
+    }
+}
 /**
  * @class Codeview
  */

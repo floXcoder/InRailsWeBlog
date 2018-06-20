@@ -114,3 +114,7 @@ webPackConfig.plugins = [
         'placeholders': true
     })
 ];
+
+_.map(config.ignorePlugins, (ignore) => {
+    webPackConfig.plugins.push(new webpack.IgnorePlugin(ignore));
+});

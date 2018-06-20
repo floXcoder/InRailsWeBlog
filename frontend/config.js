@@ -84,6 +84,9 @@ module.exports = {
             connect: ['react-redux', 'connect'],
             classNames: 'classnames'
         },
+        ignorePlugins: [
+            /^codemirror$/
+        ],
         happyPack: {
             id: 'jsx',
             loaders: [

@@ -62,7 +62,9 @@ export default class ArticleCommonField extends React.Component {
 
     _handleTitleKeyPress = (event) => {
         if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
-            if (this._editor) {
+            if (event.ctrlKey) {
+                this.props.onSubmit();
+            } else if (this._editor) {
                 this._editor.focus();
             }
         }
@@ -116,7 +118,7 @@ export default class ArticleCommonField extends React.Component {
                                icon="link"
                                placeholder={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
                                characterCount={window.settings.article_title_max_length}
-                               onBlur={this._onFieldBlur}
+                               onBlur={this._handleTitleBlur}
                                component={TextField}
                                componentContent={this.props.article.reference}/>
                     </div>

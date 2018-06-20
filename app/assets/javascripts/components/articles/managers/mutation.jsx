@@ -174,6 +174,10 @@ export default function articleMutationManager(mode, formId) {
             }, ArticleMutationComponent.waitTimeBeforeSaving);
 
             _handleSubmit = (values, autoSave = false) => {
+                if (!values) {
+                    return;
+                }
+
                 let formData = values.toJS();
 
                 if (this.state.article && this.state.article.id) {

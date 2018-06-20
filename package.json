@@ -44,6 +44,7 @@
     "webpack-dev-server": "3.1.4"
   },
   "dependencies": {
+    "@dsvllc/summernote-image-attributes": "^1.0.0",
     "abortcontroller-polyfill": "1.1.9",
     "babel-core": "6.26.3",
     "babel-loader": "7.1.4",
