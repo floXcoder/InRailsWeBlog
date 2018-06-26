@@ -6,7 +6,7 @@ role :web, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
 role :db, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
 role :production, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
 
-server ENV['DEPLOY_SERVER'], user: ENV['DEPLOY_USER'], roles: %w{web app db production}, primary: true
+server ENV['DEPLOY_SERVER'], user: ENV['DEPLOY_USER'], roles: %w[web app db production], primary: true
 
 set :branch, 'master'
 

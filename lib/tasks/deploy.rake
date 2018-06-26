@@ -4,7 +4,7 @@ namespace :InRailsWeBlog do
   ## rails InRailsWeBlog:deploy
   ## rails InRailsWeBlog:deploy COMMENT='Comment...'
   ## rails InRailsWeBlog:deploy NO_TEST=true  # To skip tests
-  desc 'Deploy project to server (repo must be on develop branch). Ex: rake InRailsWeBlog:deploy EVOL=#350,#360'
+  desc 'Deploy project to server (repo must be on develop branch). Ex: rake InRailsWeBlog:deploy'
   task :deploy do |_task, _args|
     # Check for uncommitted files
     fail 'Files not committed in repo, run git status' if %x(git diff --exit-code) != ''
@@ -23,8 +23,8 @@ namespace :InRailsWeBlog do
         end
         Rake.application.invoke_task('spec')
 
-          # No JS tests for the moment
-          # system('./node_modules/karma/bin/karma start ./frontend/test/karma.conf.js --single-run', out: $stdout, err: :out)
+        # No JS tests for the moment
+        # system('./node_modules/karma/bin/karma start ./frontend/test/karma.conf.js --single-run', out: $stdout, err: :out)
       rescue StandardError => error
         if error
           puts 'Error in tests. Do you want to continue ? (y or n)'
