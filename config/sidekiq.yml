@@ -12,3 +12,9 @@ production:
   - [high, 2]
   - default
   - mailers
+
+attentive:
+  # Time in seconds between checks for disappeared jobs
+  :execution_interval: 600  # default: 600
+  # Time limit in seconds to perform disappeared jobs check
+  :timeout_interval: 60     # default: 60

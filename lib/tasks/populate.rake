@@ -8,7 +8,7 @@ namespace :InRailsWeBlog do
   desc 'Reset and migrate the database the database, initialize with the seed data and reindex models for search'
   task :populate, [:reset, :data] => :environment do |_, args|
     unless Rails.env.production?
-      `spring stop` if Rails.env.development?
+      # `spring stop` if Rails.env.development?
 
       if args.reset
         # Recreate table

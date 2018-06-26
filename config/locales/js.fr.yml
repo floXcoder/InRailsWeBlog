@@ -70,6 +70,10 @@ fr:
         remember_me: "Se souvenir de moi"
         cancel: "Annuler"
         submit: "Connexion"
+        connecting: "Connexion en cours"
+        externals:
+          google: "Se connecter avec Google"
+          facebook: "Se connecter avec Facebook"
       signup:
         title: "Créer un compte"
         pseudo: "Pseudo"
@@ -80,19 +84,10 @@ fr:
         terms_of_use_name: "conditions d'utilisations."
         cancel: "Annuler"
         submit: "Créer mon compte"
+        connecting: "Inscription en cours"
         externals:
           google: "S'inscrire avec Google"
           facebook: "S'inscrire avec Facebook"
-      login:
-        title: "Connection"
-        login: "Pseudo ou Email"
-        password: "Mot de passe"
-        remember_me: "Se souvenir de moi"
-        cancel: "Annuler"
-        submit: "Connexion"
-        externals:
-          google: "Se connecter avec Google"
-          facebook: "Se connecter avec Facebook"
       index:
         link_to_user: "Détails de l'utilisateur"
         search: "Chercher utilisateur"
@@ -166,6 +161,11 @@ fr:
             title: "Sidebar"
             with_child: "Afficher les labels enfants dans la liste principale"
             pin: "Liste des labels visibles par défaut"
+          order:
+            title: "Ordre des labels par défaut"
+            mode:
+              name: "Nom"
+              priority: "Priorité"
         search:
           title: "Recherche"
           operator:
@@ -195,6 +195,9 @@ fr:
         saved_later: "Vous n'êtes pas connecté. Le favoris sera associé à votre compte une fois connecté."
         connection: "Se connecter"
         not_connected: "Vous devez vous connecté pour ajouter ou supprimer des favoris"
+      list:
+        title: "Vos favoris"
+        none: "Aucun favoris"
     topic:
       common:
         visibility: "Choisissez la visibilité"
@@ -265,6 +268,15 @@ fr:
         visibility_order:
           - everyone
           - only_me
+      index:
+        titles:
+          topic: "Labels associés au thème : %{topic}"
+          user: "Tous vos labels"
+          all: "Tous les labels publics"
+        sort: "Trier vos labels par priorité"
+        links:
+          user_tags: "Voir tous vos labels utilisés"
+          all_tags: "Voir tous les labels publics"
       show:
         back_button: "Annuler"
         edit_link: "Modifier ce label"
@@ -350,6 +362,9 @@ fr:
           true: "Activé"
           false: "Désactivé"
         topic: "Thème"
+        tagged_articles:
+          tag:
+            name: "Tag associé à l'article"
       enums:
         visibility:
           everyone: "Public"
@@ -442,6 +457,10 @@ fr:
           default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
           bookmark: "%{message}"
     search:
+      filters:
+        priority: "Priorité"
+        date: "Date"
+        all_topics: "Pour tous les thèmes"
       module:
         placeholder: "Recherche"
         button: "Rechercher"
@@ -451,6 +470,17 @@ fr:
           title: "Articles"
       index:
         placeholder: "Recherche"
+        button: "Trouver"
+        results:
+          one: "1 résultat"
+          other: "%{count} résultats"
+        suggestions:
+          tags: "Essayer les tags suivants :"
+          articles: "Essayer avec l'orthographe :"
+        filters:
+          button: "Filtrer par"
+        articles:
+          title: "Articles"
     comment:
       common:
         route: "commentaires"
@@ -751,6 +781,11 @@ fr:
         user_ip: "IP"
         browser: "Navigateur"
         system: "OS"
+    editor:
+      buttons:
+        advice: "Conseil"
+        secret: "Secret"
+        cleaner: "Nettoyer formattage"
     helpers:
       home: "Accueil"
       colon: " : "
@@ -766,6 +801,10 @@ fr:
         last_word_connector: " et "
         two_words_connector: " et "
         words_connector: ", "
+      form:
+        ensure_validity: "Laisser vide"
+      not_found:
+        title: "Chemin non trouvé !"
       errors:
         not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
         frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'accueil"

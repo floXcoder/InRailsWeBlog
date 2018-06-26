@@ -73,6 +73,8 @@ en:
         description: "Article edition: %{title}"
     tag:
       flash:
+        successful_priority_update: "Tags order changed"
+        error_priority_update: "Cannot change tags order"
         successful_deletion: "Article has been removed."
         error_deletion: "Cannot delete article: %{errors}"
       show:

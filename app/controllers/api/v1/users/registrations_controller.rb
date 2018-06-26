@@ -1,11 +1,13 @@
 module Api::V1
   class Users::RegistrationsController < Devise::RegistrationsController
+    include ActionView::Helpers::TagHelper
+    include ApplicationHelper
+
+    before_action :honeypot_protection, only: [:create]
+
     layout 'full_page', except: [:edit, :update]
 
     respond_to :html, :js, :json
-
-    include ActionView::Helpers::TagHelper
-    include ApplicationHelper
 
     def create
       build_resource(sign_up_params)

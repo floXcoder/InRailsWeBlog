@@ -120,31 +120,6 @@ module Api::V1
       end
     end
 
-    def bookmarks
-      user = User.friendly.find(params[:id])
-      authorize user
-
-      respond_to do |format|
-        format.html do
-          set_meta_tags title:       titleize(I18n.t('views.user.bookmarks.title', pseudo: user.pseudo)),
-                        description: I18n.t('views.user.bookmarks.description', pseudo: user.pseudo),
-                        author:      user_canonical_url(user.slug),
-                        canonical:   user_canonical_url("#{user.slug}/bookmarks")
-          render :show, locals: {
-            user: user,
-            mode: 'bookmark'
-          }
-        end
-      end
-    end
-
-    # def draft
-    #   user = User.friendly.find(params[:id])
-    #   authorize user
-    #
-    #   render :show, locals: { user: user, mode: 'draft' }
-    # end
-
     def comments
       user = User.includes(:comments).friendly.find(params[:id])
       authorize user
@@ -171,6 +146,34 @@ module Api::V1
         articles: Article.as_flat_json(user_recents[:articles], strict: true),
         # topics: Topic.as_flat_json(user_recents[:topics], strict: true)
         # users: User.as_flat_json(user_recents[:users], strict: true)
+      }
+
+      respond_to do |format|
+        format.json do
+          render json: recents,
+                 root: 'recents'
+        end
+      end
+    end
+
+    def update_recents
+      user = User.friendly.find(params[:id])
+      admin_or_authorize user, :recents?
+
+      params[:recents]&.each do |recent|
+        next unless recent['user_id'].to_s == user.id.to_s
+
+        user.create_activity(:visit,
+                             recipient_type: recent['type'].classify,
+                             recipient_id: recent['element_id'].to_i,
+                             params: { topic_id: recent['parent_id'] })
+        PublicActivity::Activity.last.update_attribute(:created_at, Time.at((recent['date']/1000).round))
+      end
+
+      user_recents = user.recent_visits(params[:limit])
+      recents      = {
+        tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
+        articles: Article.as_flat_json(user_recents[:articles], strict: true)
       }
 
       respond_to do |format|

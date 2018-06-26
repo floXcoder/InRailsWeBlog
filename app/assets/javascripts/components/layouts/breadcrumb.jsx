@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 
 import {
-    fetchUserRecents,
     getTracksClick
 } from '../../actions';
 
@@ -13,63 +12,55 @@ import {
     getUserRecents
 } from '../../selectors';
 
-@connect((state) => ({
+@connect((state, props) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     // currentTopic: state.topicState.currentTopic,
-    recents: getUserRecents(state, 8)
-}), {
-    fetchUserRecents
-})
+    recents: getUserRecents(state, props.recentsLimit)
+}))
 export default class BreadcrumbLayout extends React.Component {
     static propTypes = {
         currentPath: PropTypes.string.isRequired,
-        limit: PropTypes.number,
+        recentsLimit: PropTypes.number,
         // From connect
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
-        recents: PropTypes.array,
-        fetchUserRecents: PropTypes.func
+        recents: PropTypes.array
         // currentTopic: PropTypes.object,
     };
 
-    static defaultProps = {
-        limit: 10
-    };
-
-    constructor(props) {
-        super(props);
-
-        if (this.props.currentUserId) {
-            props.fetchUserRecents(this.props.currentUserId, {limit: this.props.limit});
-        } else {
-            this.state.recents = this._formatRecents(getTracksClick());
-        }
-    }
-
-    state = {
-        recents: []
-    };
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.recents !== nextProps.recents) {
-            this.setState({
-                recents: this._formatRecents(nextProps.recents.concat(getTracksClick()))
-            })
-        } else if (this.props.currentPath !== nextProps.currentPath) {
-            this.setState({
-                recents: this._formatRecents(this.props.recents.concat(getTracksClick()))
-            })
-        }
-    }
-
-    _formatRecents = (recents) => {
+    static _formatRecents = (recents, recentsLimit) => {
         if (recents) {
-            return recents.compact().sort((a, b) => b.date - a.date).limit(this.props.limit).slice().reverse();
+            return recents.compact().sort((a, b) => b.date - a.date).limit(recentsLimit).slice().reverse();
         } else {
             return [];
         }
     };
+
+    constructor(props) {
+        super(props);
+    }
+
+    state = {
+        recents: [],
+        currentPath: this.props.currentPath
+    };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.recents !== nextProps.recents) {
+            return {
+                recents: BreadcrumbLayout._formatRecents(nextProps.recents.concat(getTracksClick()), nextProps.recentsLimit),
+                currentPath: prevState.currentPath
+            };
+        } else if (prevState.currentPath !== nextProps.currentPath) {
+            return {
+                recents: BreadcrumbLayout._formatRecents(prevState.recents.concat(getTracksClick()), nextProps.recentsLimit),
+                currentPath: nextProps.currentPath
+            };
+        }
+
+        return null;
+    }
 
     _iconFromType = (type) => {
         if (type === 'article') {

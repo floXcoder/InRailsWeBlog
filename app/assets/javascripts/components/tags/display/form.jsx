@@ -30,6 +30,7 @@ import Submit from '../../materialize/submit';
 export default class TagFormDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
+        tagId: PropTypes.string.isRequired,
         multipleId: PropTypes.number,
         isInline: PropTypes.bool,
         isEditing: PropTypes.bool,
@@ -111,7 +112,8 @@ export default class TagFormDisplay extends React.Component {
                                             {I18n.t('js.tag.model.description')}
                                         </div>
                                         <Field id="tag_description"
-                                               multipleId={this.props.multipleId}
+                                               modelName="tag"
+                                               modelId={this.props.tagId}
                                                name="description"
                                                placeholder={I18n.t('js.tag.common.placeholders.description')}
                                                onSubmit={this.props.handleSubmit}

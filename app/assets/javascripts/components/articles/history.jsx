@@ -31,7 +31,7 @@ import ArticleVersionsDisplay from './display/versions';
     fetchArticleHistory,
     restoreArticle
 })
-@highlight
+@highlight(true)
 export default class ArticleHistory extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
@@ -48,13 +48,15 @@ export default class ArticleHistory extends React.Component {
 
     constructor(props) {
         super(props);
-
-        props.fetchArticle(props.params.articleSlug);
-        props.fetchArticleHistory(props.params.articleSlug);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!this.props.articleVersions && nextProps.articleVersions && nextProps.articleVersions.length === 0) {
+    componentDidMount() {
+        this.props.fetchArticle(this.props.params.articleSlug);
+        this.props.fetchArticleHistory(this.props.params.articleSlug);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!this.props.articleVersions && prevProps.articleVersions && prevProps.articleVersions.length === 0) {
             Notification.alert(I18n.t('js.article.history.none'));
         }
     }
@@ -82,7 +84,8 @@ export default class ArticleHistory extends React.Component {
                 <ArticleCardDisplay article={this.props.article}
                                     hasActions={false}/>
 
-                <ArticleVersionsDisplay articleVersions={this.props.articleVersions}
+                <ArticleVersionsDisplay currentArticle={this.props.article}
+                                        articleVersions={this.props.articleVersions}
                                         onRestore={this._handleRestore}/>
             </div>
         );

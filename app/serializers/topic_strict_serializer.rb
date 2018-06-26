@@ -1,7 +1,7 @@
 class TopicStrictSerializer < ActiveModel::Serializer
-  cache key: 'topic_strict', expires_in: 12.hours
-
   include NullAttributesRemover
+
+  cache key: 'topic_strict', expires_in: 12.hours
 
   # Methods with attributes must be defined to work with searchkick results
   attributes :id,

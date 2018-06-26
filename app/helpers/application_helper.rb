@@ -13,6 +13,18 @@ module ApplicationHelper
     base_title.html_safe
   end
 
+  def meta_og(locale)
+    case locale.to_s
+    when 'fr'
+      'fr_FR'
+    when 'en'
+      'en_GB'
+    else
+      'fr_FR'
+    end
+  end
+
+
   def controller?(*controller)
     controller.include?(params[:controller])
   end

@@ -1,63 +1,27 @@
 const publicDir = './public';
 const assetDir = './app/assets';
-const vendorDir = './vendor/assets';
 const frontendDir = './node_modules';
 
 module.exports = {
     webpack: {
-        context: './app/assets/javascripts',
+        context: './app/assets',
         entries: {
-            home: ['./pages/home/home.jsx'],
-            'errors/error': ['./pages/errors/error.jsx'],
-            // 'users/show': ['./pages/users/show.jsx'],
-            // 'users/edit': ['./pages/users/edit.jsx'],
-            // 'users/login': ['./pages/users/login.jsx'],
-            // 'users/signup': ['./pages/users/signup.jsx'],
-            // 'users/password': ['./pages/users/password.jsx'],
-            // 'articles/show': ['./pages/articles/show.jsx'],
-            // 'articles/edit': ['./pages/articles/edit.jsx'],
-            // 'tags/show': ['./pages/tags/show.jsx'],
-            // 'admin/dashboard': ['./pages/admin/dashboard.jsx'],
-            // 'admin/users/index': ['./pages/admin/managers/index.jsx'],
-            // 'admin/users/show': ['./pages/admin/managers/show.jsx'],
-            // 'admin/errors': ['./pages/admin/managers/errors.jsx']
+            home: ['./javascripts/pages/home/home.jsx'],
+            'errors/error': ['./javascripts/pages/errors/error.jsx'],
+            // 'users/show': ['./javascripts/pages/users/show.jsx'],
+            // 'users/edit': ['./javascripts/pages/users/edit.jsx'],
+            // 'users/login': ['./javascripts/pages/users/login.jsx'],
+            // 'users/signup': ['./javascripts/pages/users/signup.jsx'],
+            // 'users/password': ['./javascripts/pages/users/password.jsx'],
+            // 'articles/show': ['./javascripts/pages/articles/show.jsx'],
+            // 'articles/edit': ['./javascripts/pages/articles/edit.jsx'],
+            // 'tags/show': ['./javascripts/pages/tags/show.jsx'],
+            // 'admin/dashboard': ['./javascripts/pages/admin/dashboard.jsx'],
+            // 'admin/users/index': ['./javascripts/pages/admin/managers/index.jsx'],
+            // 'admin/users/show': ['./javascripts/pages/admin/managers/show.jsx'],
+            // 'admin/errors': ['./javascripts/pages/admin/managers/errors.jsx']
         },
 
-        commons: [
-            {
-                name: 'commons',
-                files: [
-                    'home',
-                    'errors/error'
-                    // 'users/show', 'users/edit',
-                    // 'articles/show', 'articles/edit',
-                    // 'tags/show'
-                ]
-            },
-            {
-                asyncName: 'commons-article',
-                files: [
-                    'article-index',
-                    'article-show',
-                    'article-history'
-                ]
-            },
-            // {
-            //     name: 'commons-full-page',
-            //     files: [
-            //         'users/login', 'users/signup', 'users/password', 'errors/error'
-            //     ]
-            // },
-            // {
-            //     name: 'commons-admin',
-            //     files: [
-            //         'admin/dashboard',
-            //         'admin/users/index',
-            //         'admin/users/show',
-            //         'admin/errors'
-            //     ]
-            // }
-        ],
         output: {
             path: './public/assets',
             publicPath: '/assets/'
@@ -68,20 +32,44 @@ module.exports = {
             ],
             // noParse: []
         },
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
+        rules: {
+            javascript: {
                 exclude: /node_modules\/(?!(materialize-css)\/).*/,
-                loader: 'babel-loader',
                 options: {
                     babelrc: true,
                     cacheDirectory: true
                 }
+            },
+            stylesheet: {
+                options: {
+                    includePaths: [
+                        assetDir + '/stylesheets',
+                        frontendDir
+                    ],
+                    indentedSyntax: false // use cscc syntax and not sass
+                }
+            },
+            file: {
+                options: {
+                    bypassOnDebug: false,
+                    outputPath: 'images/',
+                    name: '[name].[hash].[ext]',
+                    publicPath: 'assets/',
+                    mozjpeg: {
+                        progressive: true,
+                        quality: 85
+                    },
+                    pngquant: {
+                        quality: '65-90',
+                        speed: 4
+                    },
+                },
             }
-        ],
+        },
         alias: {
             react: 'node_modules/react',
-            jquery: 'node_modules/jquery/dist/jquery'
+            jquery: 'node_modules/jquery/dist/jquery',
+            lodash: 'node_modules/lodash'
         },
         plugins: {
             $: 'jquery',
@@ -96,6 +84,9 @@ module.exports = {
             connect: ['react-redux', 'connect'],
             classNames: 'classnames'
         },
+        ignorePlugins: [
+            /^codemirror$/
+        ],
         happyPack: {
             id: 'jsx',
             loaders: [
@@ -112,53 +103,40 @@ module.exports = {
             ],
             threads: 4
         },
+        translations: 'javascripts/translations',
+        images: [
+            {
+                from: 'images/logos',
+                to: 'logos'
+            }
+        ],
         development: {
-            filename: '[name].js',
-            chunkFilename: '[name].async.js',
-            commonFilename: '.js'
+            assetPath: 'http://localhost:8080/assets/',
+            filename: '[name]',
+            chunkFilename: '[name]'
         },
         production: {
-            filename: '[name]-[chunkhash].js',
-            commonFilename: '-[chunkhash].js',
-            chunkFilename: '[name]-[chunkhash].async.js',
+            filename: '[name].[hash]',
+            chunkFilename: '[name].[hash].[id]',
             manifestFilename: 'rev-manifest.json'
+        },
+        browserSync: {
+            proxy: {
+                target: 'localhost:3002',
+                reqHeaders: function () {
+                    return {
+                        host: 'localhost:3000'
+                    };
+                }
+            },
+            notify: false,
+            open: false
+        },
+        clean: {
+            pathsToClean: [
+                '../assets/*'
+            ]
         }
-    },
-    browserSync: {
-        proxy: {
-            target: 'localhost:3001',
-            reqHeaders: function () {
-                return {
-                    host: 'localhost:3000'
-                };
-            }
-        },
-        notify: false,
-        open: false
-    },
-    sass: {
-        src: [
-            assetDir + '/stylesheets/pages/**/*.scss',
-            assetDir + '/stylesheets/**/_*.scss',
-            '!**/*_scsslint_tmp*.scss'
-        ],
-        dest: publicDir + '/assets',
-        settings: {
-            includePaths: [
-                assetDir + '/stylesheets',
-                frontendDir,
-                vendorDir + '/stylesheets'
-            ],
-            indentedSyntax: false // use cscc syntax and not sass
-        },
-        autoPrefixer: ['last 2 version']
-    },
-    images: {
-        src: [
-            assetDir + '/images/**/*',
-            vendorDir + '/images/**/*'
-        ],
-        dest: publicDir + '/assets'
     },
     views: {
         src: [
@@ -169,36 +147,8 @@ module.exports = {
             './config/locales/**/*.yml'
         ]
     },
-    fonts: {
-        src: [
-            vendorDir + '/fonts/**/*',
-            assetDir + '/fonts/**/*',
-            frontendDir + '/summernote/dist/font/**/*'
-        ],
-        dest: publicDir + '/assets/fonts'
-    },
-    data: {
-        src: [
-            vendorDir + '/data/**/*'
-        ],
-        dest: publicDir + '/assets/data'
-    },
     production: {
         manifestFilename: 'rev-manifest.json',
         dest: publicDir + '/assets'
     },
-    clean: [
-        publicDir + '/javascripts',
-        publicDir + '/stylesheets',
-        publicDir + '/images',
-        publicDir + '/fonts',
-        publicDir + '/assets',
-        publicDir + 'rev-manifest.json'
-    ]
-
-    // devServer: {
-    //     contentBase: path.resolve('./public/assets'),
-    //     publicPath: 'http://localhost:8080/assets/',
-    //     hot: true
-    // }
 };

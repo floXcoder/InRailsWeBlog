@@ -1,4 +1,6 @@
 class PublicActivitiesSerializer < ActiveModel::Serializer
+  include Rails.application.routes.url_helpers
+
   cache key: 'public_activities', expires_in: 12.hours
 
   attributes :id,
@@ -15,7 +17,6 @@ class PublicActivitiesSerializer < ActiveModel::Serializer
     I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
   end
 
-  include Rails.application.routes.url_helpers
   def link
     if object.trackable_type == 'Article'
       article_path(object.trackable_id)

@@ -2,9 +2,9 @@
 #
 # Table name: articles
 #
-#  id                      :integer          not null, primary key
-#  user_id                 :integer
-#  topic_id                :integer
+#  id                      :bigint(8)        not null, primary key
+#  user_id                 :bigint(8)
+#  topic_id                :bigint(8)
 #  mode                    :integer          default("story"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
@@ -46,7 +46,6 @@ class ArticleSerializer < ActiveModel::Serializer
              :allow_comment,
              :draft,
              :current_language,
-             :bookmarked,
              :outdated,
              :slug,
              :votes_up,
@@ -60,9 +59,14 @@ class ArticleSerializer < ActiveModel::Serializer
              :new_tag_ids
 
   belongs_to :user, serializer: UserSampleSerializer
-  has_many :tags, serializer: TagSampleSerializer
-  # has_many :parent_tags, serializer: TagSampleSerializer
-  # has_many :child_tags, serializer: TagSampleSerializer
+
+  has_many :tags, serializer: TagSampleSerializer do
+    if scope.is_a?(User)
+      object.tags
+    else
+      object.tags.select { |tag| tag.visibility == 'everyone' }
+    end
+  end
 
   def content
     current_user_id = defined?(current_user) && current_user&.id
@@ -79,19 +83,6 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def visibility_translated
     object.visibility_to_tr
-  end
-
-  # TODO: N+1 query problem
-  # TODO: directly use current_user_id ?
-  def bookmarked
-    if defined?(current_user) && current_user
-      object.bookmarked?(current_user)
-
-      # object.user_bookmarks.exists?(current_user.id)
-      # object.bookmarks.find_by(user_id: current_user.id)&.id
-    else
-      false
-    end
   end
 
   def outdated

@@ -2,13 +2,14 @@
 #
 # Table name: bookmarks
 #
-#  id              :integer          not null, primary key
-#  user_id         :integer          not null
+#  id              :bigint(8)        not null, primary key
+#  user_id         :bigint(8)        not null
 #  bookmarked_type :string           not null
-#  bookmarked_id   :integer          not null
+#  bookmarked_id   :bigint(8)        not null
 #  follow          :boolean          default(FALSE)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  topic_id        :bigint(8)
 #
 
 class Bookmark < ApplicationRecord
@@ -26,6 +27,9 @@ class Bookmark < ApplicationRecord
              polymorphic:   true,
              counter_cache: true
 
+  belongs_to :topic,
+             optional: true
+
   # == Validations ==========================================================
   validates :user,
             presence: true
@@ -36,7 +40,7 @@ class Bookmark < ApplicationRecord
   validates_uniqueness_of :user_id,
                           scope:     [:bookmarked_id, :bookmarked_type],
                           allow_nil: false,
-                          message: I18n.t('activerecord.errors.models.bookmark.already_bookmarked')
+                          message:   I18n.t('activerecord.errors.models.bookmark.already_bookmarked')
 
   # == Scopes ===============================================================
   scope :users, -> { where(bookmarked_type: 'User').includes(:bookmarked) }
@@ -52,10 +56,11 @@ class Bookmark < ApplicationRecord
     self.user_id == user.id
   end
 
-  def add(user, model_name, model_id)
+  def add(user, model_name, model_id, topic_id)
     if user && model_name && model_id
       model_class = model_name.classify.constantize rescue nil
       related_object = model_class&.find_by(id: model_id)
+
       if !related_object
         errors.add(:base, I18n.t('activerecord.errors.models.bookmark.model_unknown'))
         return false
@@ -66,6 +71,7 @@ class Bookmark < ApplicationRecord
         related_object.create_activity(action: :bookmarked, owner: user) if related_object.respond_to?(:create_activity)
 
         self.user_id         = user.id
+        self.topic_id        = topic_id
         self.bookmarked_id   = model_id
         self.bookmarked_type = model_name.classify
         return self.save

@@ -2,7 +2,7 @@
 #
 # Table name: admins
 #
-#  id                     :integer          not null, primary key
+#  id                     :bigint(8)        not null, primary key
 #  pseudo                 :string           default(""), not null
 #  additional_info        :string
 #  locale                 :string           default("fr")

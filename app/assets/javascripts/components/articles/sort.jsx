@@ -15,7 +15,7 @@ import ArticleSorter from './sort/sorter';
 
 @connect((state) => ({
     currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopic && state.topicState.currentTopic.id,
+    currentTopicId: state.topicState.currentTopicId,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
     isFetching: state.articleState.isFetching,
     articles: getArticles(state)
@@ -23,7 +23,7 @@ import ArticleSorter from './sort/sorter';
     fetchArticles,
     updateArticlePriority
 })
-export default class ArticleIndex extends React.Component {
+export default class ArticleSort extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
@@ -39,12 +39,14 @@ export default class ArticleIndex extends React.Component {
 
     constructor(props) {
         super(props);
+    }
 
-        props.fetchArticles({
-            userId: props.params.currentUserId || props.currentUserId,
-            topicId: props.params.currentTopicId || props.currentTopicId,
+    componentDidMount() {
+        this.props.fetchArticles({
+            userId: this.props.params.currentUserId || this.props.currentUserId,
+            topicId: this.props.params.currentTopicId || this.props.currentTopicId,
             order: 'priority_desc',
-            ...props.params
+            ...this.props.params
         }, {
             summary: true,
             limit: 1000
@@ -68,7 +70,8 @@ export default class ArticleIndex extends React.Component {
 
                 {
                     this.props.articles.length > 0 &&
-                    <ArticleSorter articles={this.props.articles}
+                    <ArticleSorter key={Utils.uuid()}
+                                   articles={this.props.articles}
                                    topicSlug={this.props.currentTopicSlug}
                                    updateArticlePriority={this._handleUpdatePriority}/>
                 }

@@ -9,7 +9,8 @@ import {
 } from '../../actions';
 
 import {
-    getSortedTags
+    getTags,
+    getSortedTopicTags
 } from '../../selectors';
 
 // TODO: use selector to get current tags of fetch articles: load on click only
@@ -23,7 +24,8 @@ import Loader from '../theme/loader';
 @connect((state) => ({
     isLoading: state.tagState.isFetching,
     filterText: state.tagState.filterText,
-    tags: getSortedTags(state)
+    currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
+    tags: state.userState.isConnected ? getSortedTopicTags(state) : getTags(state)
 }), {
     filterTags
 })
@@ -33,6 +35,7 @@ export default class TagSidebar extends React.Component {
         // From connect
         isLoading: PropTypes.bool,
         filterText: PropTypes.string,
+        currentTopicSlug: PropTypes.string,
         tags: PropTypes.array,
         filterTags: PropTypes.func
     };
@@ -64,17 +67,20 @@ export default class TagSidebar extends React.Component {
                             {I18n.t('js.tag.common.list')}
 
                             <Link className="tags-link"
-                                  to={`/tags`}>
+                                  to={`/user/${this.props.currentTopicSlug}/tags`}>
                                 <span className="material-icons"
                                       data-icon="open_in_new"
                                       aria-hidden="true"/>
                             </Link>
                         </h3>
 
-                        <SearchBar label={I18n.t('js.tag.common.filter')}
-                                   onSearchInput={this._handleSearchInput}>
-                            {this.props.filterText}
-                        </SearchBar>
+                        {
+                            !Utils.isEmpty(this.props.tags) &&
+                            <SearchBar label={I18n.t('js.tag.common.filter')}
+                                       onSearchInput={this._handleSearchInput}>
+                                {this.props.filterText}
+                            </SearchBar>
+                        }
 
                         {
                             this.props.tags.length > 0 &&
@@ -84,7 +90,7 @@ export default class TagSidebar extends React.Component {
                         }
 
                         {
-                            this.props.tags.length === 0 &&
+                            Utils.isEmpty(this.props.tags) &&
                             (
                                 this.props.filterText
                                     ?

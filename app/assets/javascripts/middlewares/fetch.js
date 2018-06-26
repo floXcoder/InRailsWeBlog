@@ -6,9 +6,9 @@ import * as ActionTypes from '../constants/actionTypes';
 // export function loadPosts(userId) {
 //     return {
 //         // Types of actions to emit before and after
-//         actionType: ActionTypes.ARTICLE,
+//         actionType: ActionTypes.RIDE,
 //         // Check the cache (optional):
-//         shouldCallAPI: (state) => !state.articles[userId],
+//         shouldCallAPI: (state) => !state.posts[userId],
 //         // Perform the fetching:
 //         fetchAPI: () => fetch(`http://myapi.com/users/${userId}/posts`),
 //         // Arguments to inject in begin/end actions
@@ -33,7 +33,10 @@ export default function fetchMiddleware({dispatch, getState}) {
         }
 
         if (!shouldCallAPI(getState())) {
-            return Promise.resolve();
+            return {
+                fetch: Promise.resolve(),
+                signal: null
+            };
         }
 
         const actionNames = [
@@ -48,13 +51,15 @@ export default function fetchMiddleware({dispatch, getState}) {
         ];
 
         if (!actionTypes.every(action => !!action)) {
-            throw new Error(`All actions are not defined : ${actionNames.join(', ')}`);
+            log.error(`All actions are not defined: ${actionNames.join(', ')}`);
+            throw new Error(`All actions are not defined: ${actionNames.join(', ')}`);
         }
 
         const [requestType, successType, failureType] = actionTypes;
 
         if (typeof fetchAPI !== 'function') {
-            throw new Error(`callAPI must be a function`);
+            log.error('callAPI must be a function');
+            throw new Error('callAPI must be a function');
         }
 
         dispatch({
@@ -63,12 +68,14 @@ export default function fetchMiddleware({dispatch, getState}) {
             type: requestType
         });
 
-        return fetchAPI().then(
+        const fetcher = fetchAPI();
+
+        const fetch = fetcher.promise.then(
             (response) => {
                 if (response && response.errors) {
                     return dispatch({
                         ...payload,
-                        errors: response.errors || [],
+                        errors: response.errors || [],
                         isFetching: false,
                         type: failureType
                     });
@@ -81,6 +88,11 @@ export default function fetchMiddleware({dispatch, getState}) {
                     });
                 }
             }
-        )
+        );
+
+        return {
+            fetch,
+            signal: fetcher.controller
+        }
     };
 };

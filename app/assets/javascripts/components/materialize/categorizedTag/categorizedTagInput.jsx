@@ -63,7 +63,7 @@ export default class CategorizedTagInput extends React.Component {
     constructor(props) {
         super(props);
 
-        if (!this.props.categories.every(isCategoryValid)) {
+        if (!props.categories.every(isCategoryValid)) {
             throw new Error('invalid categories source provided for react-categorized-tag-input');
         }
     }

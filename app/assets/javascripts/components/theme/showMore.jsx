@@ -33,7 +33,7 @@ export default class ShowMore extends React.PureComponent {
 
     render() {
         let content = this.props.children;
-        if (!/^<p>/.test(content) || !/^<div>/.test(content)) {
+        if (content && (!/^<p>/.test(content) || !/^<div>/.test(content))) {
             content = '<p>' + content + '</p>';
         }
 

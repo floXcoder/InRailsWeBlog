@@ -26,7 +26,7 @@ export default class Dropdown extends React.Component {
         hasWavesEffect: PropTypes.bool,
         tooltip: PropTypes.string,
         isDefaultOpen: PropTypes.bool,
-        isOpen: PropTypes.bool,
+        isForceOpen: PropTypes.bool,
         isFixed: PropTypes.bool,
         buttonClassName: PropTypes.string,
         isClosingOnInsideClick: PropTypes.bool,
@@ -42,7 +42,6 @@ export default class Dropdown extends React.Component {
         position: 'bottom left',
         hasArrow: false,
         hasWavesEffect: true,
-        isOpen: false,
         isFixed: false,
         isDefaultOpen: false,
         isFloatingButton: false,
@@ -66,6 +65,17 @@ export default class Dropdown extends React.Component {
         position: this.props.position
     };
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (typeof nextProps.isForceOpen !== 'undefined') {
+            return {
+                ...prevState,
+                isOpen: nextProps.isForceOpen
+            };
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         document.addEventListener('click', this._handleDocumentClick, false);
         document.addEventListener('touchend', this._handleDocumentClick, false);
@@ -75,14 +85,6 @@ export default class Dropdown extends React.Component {
         }
 
         this._setPopupStyle();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.isOpen !== nextProps.isOpen) {
-            this.setState({
-                isOpen: nextProps.isOpen
-            });
-        }
     }
 
     componentWillUnmount() {

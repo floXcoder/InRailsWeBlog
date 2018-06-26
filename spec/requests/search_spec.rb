@@ -9,6 +9,8 @@ describe 'Search API', type: :request, basic: true do
     @tags = create_list(:tag, 5, user: @user, visibility: 'everyone') # Tags are generated with "tag" in name
     @articles = create_list(:article, 5, user: @user, topic: @topic, title: 'article name', visibility: 'everyone')
 
+    @private_article = create(:article, user: @user, topic: @topic, title: 'article private name', visibility: 'only_me')
+
     Article.reindex
     Tag.reindex
     Article.search_index.refresh
@@ -39,6 +41,43 @@ describe 'Search API', type: :request, basic: true do
         expect(results['articles'].size).to eq(5)
         expect(results['totalCount']['articles']).to eq(5)
         expect(results['totalPages']['articles']).to eq(1)
+      end
+    end
+
+    context 'when mixed public and private articles' do
+      it 'returns public articles only when not connected' do
+        get '/api/v1/search', params: { search: { query: 'article' } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+
+        expect(results['articles'].size).to eq(5)
+        expect(results['totalCount']['articles']).to eq(5)
+      end
+
+      it 'returns public articles for a specific topic only when not connected' do
+        get '/api/v1/search', params: { search: { query: 'article', topic_id: @topic.id } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+
+        expect(results['articles'].size).to eq(5)
+        expect(results['totalCount']['articles']).to eq(5)
+      end
+
+      it 'returns all articles only when connected' do
+        login_as(@user, scope: :user, run_callbacks: false)
+
+        get '/api/v1/search', params: { search: { query: 'article' } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+
+        expect(results['articles'].size).to eq(6)
+        expect(results['totalCount']['articles']).to eq(6)
       end
     end
   end

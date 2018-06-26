@@ -15,7 +15,9 @@ const initState = new Record({
 
     articlesLoaderMode: 'infinite',
     articleDisplayMode: 'card',
-    articleOrderMode: undefined
+    articleOrderMode: undefined,
+
+    tagOrderMode: undefined
 });
 
 export default function uiReducer(state = new initState(), action) {
@@ -43,19 +45,26 @@ export default function uiReducer(state = new initState(), action) {
                 articleOrderMode: action.order
             });
 
+        case ActionTypes.UI_CHANGE_TAG_ORDER:
+            return state.merge({
+                tagOrderMode: action.order
+            });
+
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
             if (action.connection && action.user && action.user.settings) {
                 return state.merge({
                     articlesLoaderMode: action.user.settings.articlesLoader,
                     articleDisplayMode: action.user.settings.articleDisplay,
-                    articleOrderMode: action.user.settings.articleOrder
+                    articleOrderMode: action.user.settings.articleOrder,
+                    tagOrderMode: action.user.settings.tagOrder
                 })
             } else if (action.settings) {
                 return state.merge({
                     articlesLoaderMode: action.settings.articlesLoader,
                     articleDisplayMode: action.settings.articleDisplay,
-                    articleOrderMode: action.settings.articleOrder
+                    articleOrderMode: action.settings.articleOrder,
+                    tagOrderMode: action.settings.tagOrder
                 })
             } else {
                 return state;

@@ -37,7 +37,7 @@ import {
     getDisplayName
 } from '../../modules/common';
 
-export default function articleMutationManager(formId) {
+export default function articleMutationManager(mode, formId) {
     return function articleMutation(WrappedComponent) {
         @connect((state) => ({
             isUserConnected: state.userState.isConnected,
@@ -45,7 +45,7 @@ export default function articleMutationManager(formId) {
             currentTopic: getCurrentTopic(state),
             tags: getTags(state),
             isFetching: state.articleState.isFetching,
-            article: state.articleState.article,
+            article: mode === 'edit' ? state.articleState.article : undefined,
             articleErrors: getArticleErrors(state),
             isDirty: isDirty(formId)(state),
             isValid: isValid(formId)(state),
@@ -89,14 +89,13 @@ export default function articleMutationManager(formId) {
             constructor(props) {
                 super(props);
 
+                // Check fo unsaved article before connection
+                const unsavedArticle = getLocalData(ArticleMutationComponent.unsavedDataName, true);
+
                 if (props.params.articleSlug) {
                     props.fetchArticle(props.params.articleSlug);
                 } else if (props.initialData) {
-                    if (this.state.article) {
-                        this.state.article = props.initialData.article;
-
-                        Notification.success(I18n.t('js.article.clipboard'));
-                    }
+                    this.state.article = props.initialData;
 
                     if (props.initialData.parentTagSlug) {
                         this.state.article = this.state.article || {};
@@ -114,11 +113,11 @@ export default function articleMutationManager(formId) {
                             this.state.article = temporaryArticle.first().article;
                         }
                     }
-                }
 
-                // Check fo unsaved article before connection
-                const unsavedArticle = getLocalData(ArticleMutationComponent.unsavedDataName, true);
-                if (unsavedArticle && unsavedArticle.length > 0) {
+                    if (props.initialData.content) {
+                        Notification.success(I18n.t('js.article.clipboard'));
+                    }
+                } else if (unsavedArticle && unsavedArticle.length > 0) {
                     this.state.article = unsavedArticle.first().article;
                     this.props.addArticle(this.state.article)
                         .then((response) => {
@@ -136,27 +135,49 @@ export default function articleMutationManager(formId) {
                 article: undefined
             };
 
-            componentWillReceiveProps(nextProps) {
-                if (nextProps.isDirty && nextProps.isValid && !nextProps.isSubmitting && nextProps.formValues !== this.props.formValues) {
-                    this._handleChange(nextProps.formValues);
-                }
-
-                if (this.props.article !== nextProps.article) {
-                    this.setState({
+            static getDerivedStateFromProps(nextProps, prevState) {
+                if (nextProps.article && prevState.article !== nextProps.article) {
+                    return {
                         article: nextProps.article
-                    });
+                    };
                 }
+
+                return null;
             }
 
-            shouldComponentUpdate(nextProps) {
-                return (this.props.tags !== nextProps.tags || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.article !== nextProps.article);
+            // Utility? Performance are the same...
+            // shouldComponentUpdate(nextProps) {
+            //     return (this.props.tags !== nextProps.tags || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.article !== nextProps.article);
+            // }
+
+            componentDidUpdate(prevProps) {
+                if (prevProps.isDirty && prevProps.isValid && !prevProps.isSubmitting && prevProps.formValues !== this.props.formValues) {
+                    this._handleChange(this.props.formValues);
+                }
+
+                this._promptUnsavedChange(this.props.isDirty);
             }
+
+            componentWillUnmount() {
+                window.onbeforeunload = null;
+            }
+
+            _promptUnsavedChange = (isUnsaved = false) => {
+                const leaveMessage = I18n.t('js.article.form.unsaved');
+
+                // Detecting browser close
+                window.onbeforeunload = isUnsaved ? (() => leaveMessage) : null;
+            };
 
             _handleChange = _.debounce((values) => {
                 this._handleSubmit(values, true);
             }, ArticleMutationComponent.waitTimeBeforeSaving);
 
             _handleSubmit = (values, autoSave = false) => {
+                if (!values) {
+                    return;
+                }
+
                 let formData = values.toJS();
 
                 if (this.state.article && this.state.article.id) {
@@ -215,11 +236,12 @@ export default function articleMutationManager(formId) {
 
                             this.props.switchUserLogin();
                         } else {
+                            removeLocalData(ArticleMutationComponent.temporaryDataName);
+                            removeLocalData(ArticleMutationComponent.unsavedDataName);
+
                             this.props.addArticle(formData)
                                 .then((response) => {
                                     if (response.article) {
-                                        removeLocalData(ArticleMutationComponent.temporaryDataName);
-
                                         this.props.history.push({
                                             pathname: `/article/${response.article.slug}`,
                                             state: {reloadTags: true}

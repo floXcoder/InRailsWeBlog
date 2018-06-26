@@ -12,6 +12,7 @@ export const SettingsRecord = new Record({
     articleOrder: undefined,
     tagSidebarPin: false,
     tagSidebarWithChild: false,
+    tagOrder: undefined,
     searchHighlight: true,
     searchOperator: 'or',
     searchExact: false
@@ -88,6 +89,7 @@ export class TagRecord extends Record({
     visibility: undefined,
     visibilityTranslated: undefined,
     taggedArticlesCount: undefined,
+    childOnly: undefined,
     parentIds: undefined,
     parents: List(),
     childIds: undefined,
@@ -193,4 +195,12 @@ export class CommentRecord extends Record({
     }
 }
 
-
+export const BookmarkRecord = new Record({
+    id: undefined,
+    userId: undefined,
+    bookmarkedId: undefined,
+    bookmarkedType: undefined,
+    follow: undefined,
+    name: undefined,
+    slug: undefined
+});

@@ -16,7 +16,8 @@ RSpec.describe Bookmark, type: :model, basic: true do
 
   before(:all) do
     @user       = create(:user)
-    @bookmarked = create(:article, user: @user, topic: create(:topic, user: @user))
+    @topic      = create(:topic, user: @user)
+    @bookmarked = create(:article, user: @user, topic: @topic)
   end
 
   before do
@@ -108,7 +109,7 @@ RSpec.describe Bookmark, type: :model, basic: true do
 
       it 'adds a bookmark' do
         bookmark       = Bookmark.new
-        bookmark_added = bookmark.add(user, 'Article', article.id)
+        bookmark_added = bookmark.add(user, 'Article', article.id, @topic.id)
 
         expect(bookmark).to be_valid
         expect(bookmark_added).to be true
@@ -116,17 +117,17 @@ RSpec.describe Bookmark, type: :model, basic: true do
 
       it 'rejects unknown model' do
         bookmark       = Bookmark.new
-        bookmark_added = bookmark.add(user, 'Unknown', article.id)
+        bookmark_added = bookmark.add(user, 'Unknown', article.id, @topic.id)
 
         expect(bookmark_added).to be false
         expect(bookmark.errors[:base].first).to eq(I18n.t('activerecord.errors.models.bookmark.model_unknown'))
       end
 
       it 'rejects already bookmarked' do
-        Bookmark.new.add(user, 'Article', article.id)
+        Bookmark.new.add(user, 'Article', article.id, @topic.id)
 
         bookmark       = Bookmark.new
-        bookmark_added = bookmark.add(user, 'Article', article.id)
+        bookmark_added = bookmark.add(user, 'Article', article.id, @topic.id)
         expect(bookmark_added).to be false
         expect(bookmark.errors[:base].first).to eq(I18n.t('activerecord.errors.models.bookmark.already_bookmarked'))
       end
@@ -137,7 +138,7 @@ RSpec.describe Bookmark, type: :model, basic: true do
 
       it 'removes a bookmark' do
         bookmark = Bookmark.new
-        bookmark.add(user, 'Article', article.id)
+        bookmark.add(user, 'Article', article.id, @topic.id)
         bookmark_removed = bookmark.remove(user, 'Article', article.id)
 
         expect(bookmark_removed).to be true
@@ -145,7 +146,7 @@ RSpec.describe Bookmark, type: :model, basic: true do
 
       it 'rejects unknown model' do
         bookmark = Bookmark.new
-        bookmark.add(user, 'Article', article.id)
+        bookmark.add(user, 'Article', article.id, @topic.id)
         bookmark_removed = bookmark.remove(user, 'Unknown', article.id)
 
         expect(bookmark_removed).to be false
@@ -154,7 +155,7 @@ RSpec.describe Bookmark, type: :model, basic: true do
 
       it 'rejects already unbookmarked' do
         bookmark = Bookmark.new
-        bookmark.add(user, 'Article', article.id)
+        bookmark.add(user, 'Article', article.id, @topic.id)
         bookmark.remove(user, 'Article', article.id)
         bookmark_removed = bookmark.remove(user, 'Article', article.id)
 

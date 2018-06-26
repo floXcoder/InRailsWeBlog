@@ -38,6 +38,8 @@ export default class Select extends React.Component {
     constructor(props) {
         super(props);
 
+        this._selectRef = React.createRef();
+
         this._value = null;
     }
 
@@ -74,8 +76,7 @@ export default class Select extends React.Component {
     };
 
     value = () => {
-        const id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
-        return this.refs[id].value;
+        return this._selectRef.current.value;
     };
 
     render() {
@@ -172,13 +173,14 @@ export default class Select extends React.Component {
 
                 {
                     this.props.isHorizontal &&
-                    <label className={labelClass}>
+                    <label htmlFor={id}
+                           className={labelClass}>
                         {this.props.title}
                     </label>
                 }
 
                 <div className={selectClass}>
-                    <select ref={id}
+                    <select ref={this._selectRef}
                             id={id}
                             name={name}
                             disabled={this.props.isDisabled}
@@ -198,7 +200,8 @@ export default class Select extends React.Component {
 
                     {
                         !this.props.isHorizontal &&
-                        <label className={labelClass}>
+                        <label htmlFor={id}
+                               className={labelClass}>
                             {this.props.title}
                         </label>
                     }

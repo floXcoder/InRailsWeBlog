@@ -1,6 +1,5 @@
 'use strict';
 
-// TODO: use connect for article visibility and user connected
 const ArticleVisibilityIcon = ({articleId, articleVisibility}) => {
     const isVisible = articleVisibility === 'everyone';
 

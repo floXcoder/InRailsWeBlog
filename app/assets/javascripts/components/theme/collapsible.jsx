@@ -11,7 +11,7 @@ export default class Collapsible extends React.Component {
             PropTypes.array
         ]).isRequired,
         isDefaultOpen: PropTypes.bool,
-        isOpen: PropTypes.bool,
+        isForceOpen: PropTypes.bool,
         title: PropTypes.string,
         className: PropTypes.string,
         hasButton: PropTypes.bool
@@ -19,7 +19,6 @@ export default class Collapsible extends React.Component {
 
     static defaultProps = {
         isDefaultOpen: true,
-        isOpen: true,
         hasButton: true
     };
 
@@ -31,12 +30,15 @@ export default class Collapsible extends React.Component {
         isOpen: this.props.isDefaultOpen
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.isOpen !== nextProps.isOpen) {
-            this.setState({
-                isOpen: nextProps.isOpen
-            });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (typeof nextProps.isForceOpen !== 'undefined') {
+            return {
+                ...prevState,
+                isOpen: nextProps.isForceOpen
+            };
         }
+
+        return null;
     }
 
     _handleClick = (event) => {

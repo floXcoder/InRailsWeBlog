@@ -31,7 +31,6 @@ feature 'User Index page', advanced: true, js: true do
 
   feature 'User Index content' do
     scenario 'user can show all users' do
-      # TODO
       # is_expected.to have_css('.user-card', minimum: 3)
     end
   end

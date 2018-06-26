@@ -1,8 +1,11 @@
 'use strict';
 
+import LazyLoad from 'vanilla-lazyload';
+
 import {
     fetchArticles,
-    updateArticleOrder
+    updateArticleOrder,
+    setCurrentTags
 } from '../../actions';
 
 import {
@@ -19,7 +22,7 @@ import ArticleNone from '../articles/display/none';
 
 @connect((state) => ({
     currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopic && state.topicState.currentTopic.id,
+    currentTopicId: state.topicState.currentTopicId,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
     isFetching: state.articleState.isFetching,
     articles: getArticles(state),
@@ -30,7 +33,8 @@ import ArticleNone from '../articles/display/none';
     articleEditionId: state.articleState.articleEditionId
 }), {
     fetchArticles,
-    updateArticleOrder
+    updateArticleOrder,
+    setCurrentTags
 })
 export default class ArticleIndex extends React.Component {
     static propTypes = {
@@ -48,20 +52,30 @@ export default class ArticleIndex extends React.Component {
         articleDisplayMode: PropTypes.string,
         articleOrderMode: PropTypes.string,
         fetchArticles: PropTypes.func,
-        updateArticleOrder: PropTypes.func
+        updateArticleOrder: PropTypes.func,
+        setCurrentTags: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
         this._parseQuery = Utils.parseUrlParameters(props.queryString) || {};
-
-        this._fetchArticles(props.params);
+        this._request = null;
+        this._lazyLoad = null;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!Object.equals(this.props.params, nextProps.params) || this.props.queryString !== nextProps.queryString) {
-            const nextParseQuery = Utils.parseUrlParameters(nextProps.queryString) || {};
+    componentDidMount() {
+        this._fetchArticles(this.props.params);
+
+        if (this.props.params.tagSlug) {
+            this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}])
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        // Manage articles order or sort
+        if (!Object.equals(this.props.params, prevProps.params) || this.props.queryString !== prevProps.queryString) {
+            const nextParseQuery = Utils.parseUrlParameters(this.props.queryString) || {};
 
             if (this._parseQuery.order !== nextParseQuery.order) {
                 if (nextParseQuery.order) {
@@ -71,7 +85,23 @@ export default class ArticleIndex extends React.Component {
 
             this._parseQuery = nextParseQuery;
 
-            this._fetchArticles(nextProps.params);
+            this._fetchArticles(this.props.params);
+
+            if (this.props.params.tagSlug) {
+                this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}]);
+            }
+        }
+
+        if (this.props.articles.length > 0) {
+            Utils.defer.then(() => {
+                this._lazyLoad = new LazyLoad();
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._request && this._request.signal) {
+            this._request.signal.abort();
         }
     }
 
@@ -94,7 +124,7 @@ export default class ArticleIndex extends React.Component {
             delete params.tagSlug;
         }
 
-        this.props.fetchArticles(this._filterParams({...params, ...this._parseQuery}), options);
+        this._request = this.props.fetchArticles(this._filterParams({...params, ...this._parseQuery}), options);
     };
 
     _fetchNextArticles = (params = {}) => {
@@ -104,14 +134,15 @@ export default class ArticleIndex extends React.Component {
                 page: (params.selected || this.props.articlePagination.currentPage) + 1
             };
 
-            this.props.fetchArticles(this._filterParams(queryParams), options, {infinite: !params.selected})
-                .then(() => {
-                    if (params.selected) {
-                        setTimeout(() => {
-                            $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
-                        }, 300);
-                    }
-                });
+            this._request = this.props.fetchArticles(this._filterParams(queryParams), options, {infinite: !params.selected});
+
+            this._request.fetch.then(() => {
+                if (params.selected) {
+                    setTimeout(() => {
+                        $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
+                    }, 300);
+                }
+            });
         }
     };
 

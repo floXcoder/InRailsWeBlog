@@ -26,7 +26,6 @@ feature 'Home page', advanced: true, js: true do
     end
   end
 
-  # TODO: complete after design
   feature 'Home page content' do
     scenario 'use can see the sidebar' do
       # is_expected.to have_css('.col.s3.blog-sidebar')

@@ -3,6 +3,7 @@
 export default class SearchSelectedIndex extends React.Component {
     static propTypes = {
         selectedTags: PropTypes.array.isRequired,
+        className: PropTypes.string,
         onTagClick: PropTypes.func.isRequired
     };
 
@@ -12,7 +13,7 @@ export default class SearchSelectedIndex extends React.Component {
 
     render() {
         return (
-            <div className="search-category">
+            <div className={classNames('search-category', this.props.className)}>
                 <div className="tag-selected-list">
                     {
                         this.props.selectedTags.map((tag) => (

@@ -38,7 +38,7 @@ export const validateUser = (login) => (
         user: {
             login
         }
-    })
+    }).promise
 );
 
 // User mutations
@@ -78,12 +78,21 @@ export const updateUserSettings = (userId, settings, options = {}) => ({
 // User recent events
 const receiveUserRecents = (json) => ({
     type: ActionTypes.USER_RECENTS,
-    recentTopics: json.topics || [],
-    recentTags: json.tags || [],
-    recentArticles: json.articles || []
+    topics: json.topics || [],
+    tags: json.tags || [],
+    articles: json.articles || []
 });
 export const fetchUserRecents = (userId, options = {}) => (dispatch) => {
     return api
         .get(`/api/v1/users/${userId}/recents`, options)
+        .promise
         .then((json) => dispatch(receiveUserRecents(json)));
 };
+
+export const updateUserRecents = (userId, recents, options = {}) => ({
+    actionType: ActionTypes.USER_RECENTS,
+    mutationAPI: () => api.post(`/api/v1/users/${userId}/recents`, {
+        recents,
+        ...options
+    })
+});

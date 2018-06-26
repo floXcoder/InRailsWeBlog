@@ -18,6 +18,8 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
 
+import NotFound from '../layouts/notFound';
+
 @connect((state) => ({
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
@@ -42,13 +44,15 @@ export default class TagShow extends React.Component {
 
     constructor(props) {
         super(props);
-
-        props.fetchTag(props.params.tagSlug);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!Object.equals(this.props.params, nextProps.params)) {
-            this.props.fetchTag(nextProps.params.tagSlug);
+    componentDidMount() {
+        this.props.fetchTag(this.props.params.tagSlug);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!Object.equals(this.props.params, prevProps.params)) {
+            this.props.fetchTag(this.props.params.tagSlug);
         }
     }
 
@@ -66,11 +70,19 @@ export default class TagShow extends React.Component {
 
     render() {
         if (!this.props.tag) {
-            return (
-                <div className="center margin-top-20">
-                    <Loader size="big"/>
-                </div>
-            )
+            if (this.props.isFetching) {
+                return (
+                    <div className="center margin-top-20">
+                        <Loader size="big"/>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="center margin-top-20">
+                        <NotFound/>
+                    </div>
+                )
+            }
         }
 
         return (

@@ -1,14 +1,14 @@
 require_relative 'boot'
 
 # Pick the frameworks you want:
+require 'active_model/railtie'
 require 'active_record/railtie'
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
-require 'action_cable/engine'
+# require 'action_cable/engine'
 
-# Require for performance test only
-require 'rails/test_unit/railtie' if Rails.env.test?
-
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 # preload tokens in application.yml to local ENV
@@ -20,6 +20,14 @@ end
 
 module InRailsWeBlog
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    # config.load_defaults 5.0
+
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration can go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded after loading
+    # the framework and any gems in your application.
+
     config.generators do |generator|
       generator.test_framework :rspec,
                                fixtures: true,
@@ -56,6 +64,30 @@ module InRailsWeBlog
 
     # Enable origin-checking CSRF mitigation. Previous versions had false.
     config.action_controller.forgery_protection_origin_check = true
+
+    # Make Active Record use stable #cache_key alongside new #cache_version method.
+    # This is needed for recyclable cache keys.
+    config.active_record.cache_versioning = true
+
+    # Use AES-256-GCM authenticated encryption for encrypted cookies.
+    # Also, embed cookie expiry in signed or encrypted cookies for increased security.
+    #
+    # This option is not backwards compatible with earlier Rails versions.
+    # It's best enabled when your entire app is migrated and stable on 5.2.
+    #
+    # Existing cookies will be converted on read then written with the new scheme.
+    config.action_dispatch.use_authenticated_cookie_encryption = true
+
+    # Use AES-256-GCM authenticated encryption as default cipher for encrypting messages
+    # instead of AES-256-CBC, when use_authenticated_message_encryption is set to true.
+    config.active_support.use_authenticated_message_encryption = true
+
+    # Add default protection from forgery to ActionController::Base instead of in
+    # ApplicationController.
+    config.action_controller.default_protect_from_forgery = true
+
+    # Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
+    config.active_support.use_sha1_digests = true
 
     # Use sidekiq for ActiveJob (not working with letter_opener)
     config.active_job.queue_adapter = :sidekiq

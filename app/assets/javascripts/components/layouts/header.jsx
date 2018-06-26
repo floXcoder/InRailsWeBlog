@@ -5,6 +5,10 @@ import {
 } from 'react-router-dom';
 
 import {
+    ImmutableLoadingBar as LoadingBar
+} from 'react-redux-loading-bar';
+
+import {
     getLocalData
 } from '../../middlewares/localStorage';
 
@@ -25,9 +29,10 @@ import Preference from '../users/preference';
 import TopicModule from '../topic/module';
 
 import HomeSearchHeader from './header/search';
+import HomeTopicHeader from './header/topic';
+import HomeBookmarkHeader from './header/bookmark';
 import HomeArticleHeader from './header/article';
 import HomeUserHeader from './header/user';
-import HomeTopicHeader from './header/topic';
 
 @connect((state) => ({
     isUserSignupOpened: state.uiState.isUserSignupOpened,
@@ -114,7 +119,7 @@ export default class HeaderLayout extends React.PureComponent {
         this.props.switchUserPreference();
     };
 
-    _handleTopicOpen = (event) => {
+    _handleTopicSwitch = (event) => {
         event.preventDefault();
 
         this.props.switchTopicPopup(!this.props.isTopicPopupOpened);
@@ -125,17 +130,20 @@ export default class HeaderLayout extends React.PureComponent {
             <header className="blog-header animate-search">
                 <div className="navbar-fixed">
                     <nav className="header-nav">
+                        <LoadingBar showFastActions={true}
+                                    style={{backgroundColor: '#0d5ca0', height: '2px'}}/>
+
                         <div className="nav-wrapper">
                             <ul className="left">
                                 {
-                                    this.props.isUserLoaded &&
+                                    (this.props.isUserLoaded && this.props.currentTopic) &&
                                     <li>
                                         <Dropdown
                                             button={<HomeTopicHeader currentTopicName={this.props.currentTopic.name}
-                                                                     onTopicClick={this._handleTopicOpen}/>}
+                                                                     onTopicClick={this._handleTopicSwitch}/>}
                                             isDefaultOpen={false}
-                                            isOpen={this.props.isTopicPopupOpened}
-                                            onClose={this._handleTopicOpen}
+                                            isForceOpen={this.props.isTopicPopupOpened}
+                                            onClose={this._handleTopicSwitch}
                                             position="bottom left"
                                             horizontalOffset={10}
                                             isFixed={true}
@@ -145,7 +153,6 @@ export default class HeaderLayout extends React.PureComponent {
                                             hasArrow={false}>
                                             <TopicModule history={this.props.history}/>
                                         </Dropdown>
-
                                     </li>
                                 }
                             </ul>
@@ -160,6 +167,10 @@ export default class HeaderLayout extends React.PureComponent {
                                               onClose={this.props.onSearchClose}/>
 
                             <ul className="right">
+                                <li>
+                                    <HomeBookmarkHeader/>
+                                </li>
+
                                 <li>
                                     <HomeArticleHeader hasTemporaryArticle={this.state.hasTemporaryArticle}/>
                                 </li>

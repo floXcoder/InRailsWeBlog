@@ -2,8 +2,8 @@
 #
 # Table name: tags
 #
-#  id                       :integer          not null, primary key
-#  user_id                  :integer
+#  id                       :bigint(8)        not null, primary key
+#  user_id                  :bigint(8)
 #  name                     :string           not null
 #  description_translations :jsonb
 #  languages                :string           default([]), is an Array
@@ -172,12 +172,18 @@ class Tag < ApplicationRecord
     where(visibility: (visibility.is_a?(String) ? Tag.visibilities[visibility] : visibility))
   }
 
-  scope :from_user, -> (user_id = nil, current_user_id = nil) {
+  scope :from_user, -> (user_slug, current_user_id = nil) {
+    from_user_id(User.find_by(slug: user_slug)&.id, current_user_id)
+  }
+  scope :from_user_id, -> (user_id = nil, current_user_id = nil) {
     where(user_id: user_id).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :current_user_id)',
                                   current_user_id: current_user_id || user_id)
   }
 
-  scope :for_topic, -> (topic_id) {
+  scope :for_topic, -> (topic_slug) {
+    for_topic_id(Topic.find_by(slug: topic_slug)&.id)
+  }
+  scope :for_topic_id, -> (topic_id) {
     joins(:tagged_articles).merge(TaggedArticle.where(topic_id: topic_id)).distinct
   }
 
@@ -192,7 +198,7 @@ class Tag < ApplicationRecord
     joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id })
   }
 
-  scope :include_collection, -> { includes(:parent_relationships, :child_relationships) }
+  scope :include_collection, -> { includes(:parent_relationships, :child_relationships, :tagged_articles) }
   scope :include_element, -> { includes(:user, :parents, :children) }
 
   # == Callbacks ============================================================
@@ -226,13 +232,13 @@ class Tag < ApplicationRecord
     misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
-    operator = options[:operator] ? options[:operator] : 'and'
+    operator = options[:operator] || 'and'
 
     # Highlight results and select a fragment
     highlight = false
 
     # Where options only for ElasticSearch
-    where_options = nil
+    where_options = where_search(options[:where])
 
     # Aggregations
     aggregations = nil
@@ -241,8 +247,8 @@ class Tag < ApplicationRecord
     boost_where = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
 
     # Page parameters
-    page     = options[:page] ? options[:page] : 1
-    per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
+    page     = options[:page] || 1
+    per_page = options[:per_page] || Setting.search_per_page
 
     # Order search
     order = order_search(options[:order])
@@ -253,7 +259,7 @@ class Tag < ApplicationRecord
                elsif format == 'complete'
                  [:user]
                else
-                 [:user]
+                 []
                end
 
     # Perform search
@@ -288,13 +294,13 @@ class Tag < ApplicationRecord
     fields = %w[name^3 description]
 
     # Where options only for ElasticSearch
-    where_options ||= {}
+    where_options = where_search(options[:where])
 
     # Order search
     order = order_search(options[:order])
 
     # Set result limit
-    limit = options[:limit] ? options[:limit] : Setting.per_page
+    limit = options[:limit] || Setting.per_page
 
     # Perform search
     results = Tag.search(query_string,
@@ -314,50 +320,70 @@ class Tag < ApplicationRecord
     end
   end
 
-  def self.order_search(order)
-    return nil unless order
+  def self.where_search(options)
+    options ||= {}
 
-    case order
-      when 'id_asc'
-        { id: :asc }
-      when 'id_desc'
-        { id: :desc }
-      when 'created_asc'
-        { created_at: :asc }
-      when 'created_desc'
-        { created_at: :desc }
-      when 'updated_asc'
-        { updated_at: :asc }
-      when 'updated_desc'
-        { updated_at: :desc }
-      when 'rank_asc'
-        { rank: :asc }
-      when 'rank_desc'
-        { rank: :desc }
-      when 'popularity_asc'
-        { popularity: :asc }
-      when 'popularity_desc'
-        { popularity: :desc }
+    where_options           = options.compact.select { |_k, v| v.present? }.map do |key, value|
+      case key
+      when :notation
+        [
+          key,
+          value.to_i
+        ]
       else
-        nil
+        [key, value]
+      end
+    end.to_h
+
+    return where_options
+  end
+
+  def self.order_search(order)
+    case order
+    when 'id_asc'
+      { id: :asc }
+    when 'id_desc'
+      { id: :desc }
+    when 'priority_asc'
+      { priority: :asc }
+    when 'priority_desc'
+      { priority: :desc }
+    when 'created_asc'
+      { created_at: :asc }
+    when 'created_desc'
+      { created_at: :desc }
+    when 'updated_asc'
+      { updated_at: :asc }
+    when 'updated_desc'
+      { updated_at: :desc }
+    when 'rank_asc'
+      { rank: :asc }
+    when 'rank_desc'
+      { rank: :desc }
+    when 'popularity_asc'
+      { popularity: :asc }
+    when 'popularity_desc'
+      { popularity: :desc }
+    else
+      nil
     end
   end
 
   def self.format_search(tag_results, format, current_user = nil)
     serializer_options                = case format
-                                          when 'strict'
-                                            {
-                                              root:   'tags',
-                                              strict: true
-                                            }
-                                          when 'complete'
-                                            {
-                                              complete: true
-                                            }
-                                          else
-                                            {
-                                              sample: true
-                                            }
+                                        when 'strict'
+                                          {
+                                            root:   'tags',
+                                            strict: true
+                                          }
+                                        when 'complete'
+                                          {
+                                            complete: true
+                                          }
+                                        else
+                                          {
+                                            sample: true
+                                          }
                                         end
 
     serializer_options[:current_user] = current_user if current_user
@@ -388,34 +414,34 @@ class Tag < ApplicationRecord
 
   def self.order_by(order)
     case order
-      when 'name'
-        order('tags.name ASC')
-      when 'priority_first'
-        order('tags.priority ASC')
-      when 'priority_last'
-        order('tags.priority DESC')
-      when 'id_asc'
-        order('tags.id ASC')
-      when 'id_desc'
-        order('tags.id DESC')
-      when 'created_asc'
-        order('tags.created_at ASC')
-      when 'created_desc'
-        order('tags.created_at DESC')
-      when 'updated_asc'
-        order('tags.updated_at ASC')
-      when 'updated_desc'
-        order('tags.updated_at DESC')
-      when 'rank_asc'
-        joins(:tracker).order('trackers.rank ASC')
-      when 'rank_desc'
-        joins(:tracker).order('trackers.rank DESC')
-      when 'popularity_asc'
-        joins(:tracker).order('trackers.popularity ASC')
-      when 'popularity_desc'
-        joins(:tracker).order('trackers.popularity DESC')
-      else
-        all
+    when 'name'
+      order('tags.name ASC')
+    when 'priority_asc'
+      order('tags.priority ASC')
+    when 'priority_desc'
+      order('tags.priority DESC')
+    when 'id_asc'
+      order('tags.id ASC')
+    when 'id_desc'
+      order('tags.id DESC')
+    when 'created_asc'
+      order('tags.created_at ASC')
+    when 'created_desc'
+      order('tags.created_at DESC')
+    when 'updated_asc'
+      order('tags.updated_at ASC')
+    when 'updated_desc'
+      order('tags.updated_at DESC')
+    when 'rank_asc'
+      joins(:tracker).order('trackers.rank ASC')
+    when 'rank_desc'
+      joins(:tracker).order('trackers.rank DESC')
+    when 'popularity_asc'
+      joins(:tracker).order('trackers.popularity ASC')
+    when 'popularity_desc'
+      joins(:tracker).order('trackers.popularity DESC')
+    else
+      all
     end
   end
 
@@ -432,9 +458,17 @@ class Tag < ApplicationRecord
   def self.filter_by(records, filter, current_user = nil)
     records = records.where(id: filter[:tag_ids]) if filter[:tag_ids]
 
-    records = records.from_user(filter[:user_id], current_user&.id) if filter[:user_id]
+    if filter[:user_id]
+      records = records.from_user_id(filter[:user_id], current_user&.id)
+    elsif filter[:user_slug]
+      records = records.from_user(filter[:user_slug], current_user&.id)
+    end
 
-    records = records.for_topic(filter[:topic_id]) if filter[:topic_id]
+    if filter[:topic_id]
+      records = records.for_topic_id(filter[:topic_id]) if filter[:topic_id]
+    elsif filter[:topic_slug]
+      records = records.for_topic(filter[:topic_slug])
+    end
 
     records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
 
@@ -454,8 +488,8 @@ class Tag < ApplicationRecord
                            [tag_properties[:name], tag_properties[:visibility]]
                          end
 
-      visibility ||= 'everyone'
-      attributes = {
+      visibility           ||= 'everyone'
+      attributes           = {
         name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
         visibility: Tag.visibilities[visibility]
       }.compact
@@ -510,9 +544,9 @@ class Tag < ApplicationRecord
 
     #  Language
     if self.languages.empty? || attributes[:language].present?
-      new_language = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
+      new_language   = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
       self.languages |= [new_language]
-      I18n.locale = new_language.to_sym if new_language != current_language.to_s
+      I18n.locale    = new_language.to_sym if new_language != current_language.to_s
     end
 
     # Sanitization
@@ -583,6 +617,7 @@ class Tag < ApplicationRecord
     {
       id:                    id,
       user_id:               user_id,
+      topic_ids:             topics.ids,
       name:                  name,
       description:           description,
       languages:             languages,
@@ -608,13 +643,13 @@ class Tag < ApplicationRecord
 
   private
 
-  def add_visit_activity(user_id = nil)
+  def add_visit_activity(user_id = nil, parent_id = nil)
     return unless user_id
 
     user = User.find_by(id: user_id)
     return unless user
 
-    user.create_activity(:visit, recipient: self)
+    user.create_activity(:visit, recipient: self, params: { topic_id: parent_id })
   end
 
   def name_visibility

@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id                     :integer          not null, primary key
+#  id                     :bigint(8)        not null, primary key
 #  pseudo                 :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
@@ -76,6 +76,7 @@ class User < ApplicationRecord
 
     tag_sidebar_pin Boolean, default: true
     tag_sidebar_with_child Boolean, default: false
+    tag_order String, default: 'name' # Defined in Tag::order_by
 
     search_highlight Boolean, default: true
     search_operator String, default: 'and' # and / or
@@ -141,11 +142,15 @@ class User < ApplicationRecord
 
   has_many :bookmarks,
            dependent: :destroy
+  has_many :bookmarked_articles,
+           through:     :bookmarks,
+           source:      :bookmarked,
+           source_type: 'Article'
+
   has_many :followers,
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
            source:  :user
-
   has_many :following_users,
            -> { where(bookmarks: { follow: true }) },
            through:     :bookmarks,
@@ -226,7 +231,7 @@ class User < ApplicationRecord
   #  exact (do not misspelling, default: false, 1 character)
   def self.search_for(query, options = {})
     # # Format use
-    # format = options[:format] || 'sample'
+    format = options[:format] || 'sample'
 
     # If query not defined or blank, search for everything
     query_string = !query || query.blank? ? '*' : query
@@ -252,8 +257,8 @@ class User < ApplicationRecord
     boost_where = nil
 
     # Page parameters
-    page     = options[:page] ? options[:page] : 1
-    per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
+    page     = options[:page] || 1
+    per_page = options[:per_page] || Setting.search_per_page
 
     # Order search
     order = order_search(options[:order])
@@ -273,10 +278,9 @@ class User < ApplicationRecord
                           order:        order)
 
     # Track search results
-    User.track_searches(results.records.ids)
+    User.track_searches(results.map(&:id))
 
-    users = results.records
-    users = users.order_by(options[:order]) if order
+    users = format_search(results, format, options[:current_user])
 
     {
       users:       users,
@@ -327,13 +331,13 @@ class User < ApplicationRecord
 
     where_options = options.compact.reject { |_k, v| v.empty? }.map do |key, value|
       case key
-        when :notation
-          [
-            key,
-            value.to_i
-          ]
-        else
-          [key, value]
+      when :notation
+        [
+          key,
+          value.to_i
+        ]
+      else
+        [key, value]
       end
     end.to_h
 
@@ -341,56 +345,82 @@ class User < ApplicationRecord
   end
 
   def self.order_search(order)
-    return nil unless order
-
     case order
-      when 'id_asc'
-        { id: :asc }
-      when 'id_desc'
-        { id: :desc }
-      when 'created_asc'
-        { created_at: :asc }
-      when 'created_desc'
-        { created_at: :desc }
-      when 'updated_asc'
-        { updated_at: :asc }
-      when 'updated_desc'
-        { updated_at: :desc }
-      when 'rank_asc'
-        { rank: :asc }
-      when 'rank_desc'
-        { rank: :desc }
-      when 'popularity_asc'
-        { popularity: :asc }
-      when 'popularity_desc'
-        { popularity: :desc }
+    when 'id_asc'
+      { id: :asc }
+    when 'id_desc'
+      { id: :desc }
+    when 'priority_asc'
+      { priority: :asc }
+    when 'priority_desc'
+      { priority: :desc }
+    when 'created_asc'
+      { created_at: :asc }
+    when 'created_desc'
+      { created_at: :desc }
+    when 'updated_asc'
+      { updated_at: :asc }
+    when 'updated_desc'
+      { updated_at: :desc }
+    when 'rank_asc'
+      { rank: :asc }
+    when 'rank_desc'
+      { rank: :desc }
+    when 'popularity_asc'
+      { popularity: :asc }
+    when 'popularity_desc'
+      { popularity: :desc }
+    else
+      nil
     end
+  end
+
+  def self.format_search(user_results, format, current_user = nil)
+    serializer_options                = case format
+                                        when 'strict'
+                                          {
+                                            root:   'articles',
+                                            strict: true
+                                          }
+                                        when 'complete'
+                                          {
+                                            complete: true
+                                          }
+                                        else
+                                          {
+                                            sample: true
+                                          }
+                                        end
+
+    serializer_options[:current_user] = current_user if current_user
+
+    User.as_json(user_results, serializer_options)
   end
 
   def self.order_by(order)
     case order
-      when 'id_asc'
-        order('id ASC')
-      when 'id_desc'
-        order('id DESC')
-      when 'created_asc'
-        order('created_at ASC')
-      when 'created_desc'
-        order('created_at DESC')
-      when 'updated_asc'
-        order('updated_at ASC')
-      when 'updated_desc'
-        order('updated_at DESC')
-      when 'rank_asc'
-        joins(:tracker).order('rank ASC')
-      when 'rank_desc'
-        joins(:tracker).order('rank DESC')
-      when 'popularity_asc'
-        joins(:tracker).order('popularity ASC')
-      when 'popularity_desc'
-        joins(:tracker).order('popularity DESC')
-      else
-        all
+    when 'id_asc'
+      order('id ASC')
+    when 'id_desc'
+      order('id DESC')
+    when 'created_asc'
+      order('created_at ASC')
+    when 'created_desc'
+      order('created_at DESC')
+    when 'updated_asc'
+      order('updated_at ASC')
+    when 'updated_desc'
+      order('updated_at DESC')
+    when 'rank_asc'
+      joins(:tracker).order('rank ASC')
+    when 'rank_desc'
+      joins(:tracker).order('rank DESC')
+    when 'popularity_asc'
+      joins(:tracker).order('popularity ASC')
+    when 'popularity_desc'
+      joins(:tracker).order('popularity DESC')
+    else
+      all
     end
   end
 
@@ -484,7 +514,7 @@ class User < ApplicationRecord
   end
 
   def current_topic
-    Topic.find_by_id(self.current_topic_id)
+    Topic.find_by_id(self.current_topic_id) || self.topics.first
   end
 
   def switch_topic(new_topic)
@@ -502,15 +532,16 @@ class User < ApplicationRecord
 
   # Activities
   def recent_visits(limit = 12)
-    last_visits = self.recent_activities.where(key: 'user.visit').limit(limit)
+    last_visits = self.recent_activities.order('activities.created_at DESC').where(key: 'user.visit').where(parameters: { topic_id: self.current_topic_id }).limit(limit)
 
     return {} if last_visits.empty?
 
+    # Override created_at to use the activity field
     {
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
-      tags:     Tag.order('created_at DESC').joins(:user_activities).merge(last_visits).distinct,
-      articles: Article.order('created_at DESC').joins(:user_activities).merge(last_visits).distinct
+      tags:     Tag.joins(:user_activities).merge(last_visits).select('id', 'user_id', 'name', 'synonyms', 'visibility', 'slug', 'activities.created_at').distinct,
+      articles: Article.joins(:user_activities).merge(last_visits).select('id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'activities.created_at').distinct
     }
   end
 

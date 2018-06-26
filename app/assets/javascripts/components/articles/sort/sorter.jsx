@@ -18,7 +18,7 @@ const SortableItem = SortableElement(({article}) => (
 );
 
 const SortableList = SortableContainer(({articles}) => (
-        <ul className="article-sorting-items">
+        <div className="article-sorting-items">
             {
                 articles.map((article, i) => (
                         <SortableItem key={`article-sort-${article.id}`}
@@ -27,13 +27,13 @@ const SortableList = SortableContainer(({articles}) => (
                     )
                 )
             }
-        </ul>
+        </div>
     )
 );
 
-export default class ArticleSorterDisplay extends React.Component {
+export default class ArticleSorter extends React.Component {
     static propTypes = {
-        // Articles must already sorted by priority
+        // Articles must already be sorted by priority
         articles: PropTypes.array.isRequired,
         topicSlug: PropTypes.string.isRequired,
         updateArticlePriority: PropTypes.func.isRequired
@@ -80,6 +80,7 @@ export default class ArticleSorterDisplay extends React.Component {
                 </div>
 
                 <SortableList articles={this.state.articles}
+                              useWindowAsScrollContainer={true}
                               onSortEnd={this._handleSortEndProduct}/>
             </div>
         );

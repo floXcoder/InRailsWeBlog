@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import api from '../middlewares/api';
 
 import {
@@ -42,13 +44,21 @@ export const spySearchResults = (searchParams, response) => {
     }
 };
 
+const sendViewTimer = 2000;
+const elementsViewed = {};
+const sendTrackView = _.debounce((elementsViewed) => {
+    Object.keys(elementsViewed).forEach((elementName) => {
+        api.post(`/api/v1/${elementName}s/viewed`,
+            {
+                ids: elementsViewed[elementName]
+            });
+        elementsViewed[elementName] = [];
+    });
+}, sendViewTimer);
 export const spyTrackView = (elementName, elementId) => {
     if (process.env.NODE_ENV === 'production') {
-        return api
-            .post(`/api/v1/${elementName}s/${elementId}/viewed`,
-                {
-                    id: elementId
-                });
+        elementsViewed[elementName] = (elementsViewed[elementName] || []).concat(elementId);
+        sendTrackView(elementsViewed);
     }
 };
 
@@ -56,10 +66,12 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
     if (hasLocalStorage && elementSlug && elementTitle) {
         saveLocalData('recents', {
             type: elementName,
-            id: elementId,
+            elementId: elementId,
             title: elementTitle.replace(/<.*?>(.*)<\/.*?>/g, '$1'),
             slug: elementSlug,
-            date: Date.now()
+            date: Date.now(),
+            userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
+            parentId: window.currentUserTopicId ? parseInt(window.currentUserTopicId, 10) : undefined
         });
     }
 
@@ -67,10 +79,11 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
         .post(`/api/v1/${elementName}s/${elementId}/clicked`,
             {
                 id: elementId,
-                userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined
+                userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
+                parentId: window.currentUserTopicId ? parseInt(window.currentUserTopicId, 10) : undefined
             });
 };
 
-export const getTracksClick = () => {
-    return getLocalData('recents');
+export const getTracksClick = (remove = false) => {
+    return getLocalData('recents', remove);
 };

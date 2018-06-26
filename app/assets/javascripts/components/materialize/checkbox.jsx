@@ -39,14 +39,21 @@ export default class Checkbox extends React.PureComponent {
     }
 
     state = {
-        isChecked: (this.props.children === true || this.props.children === '1' || this.props.children === 'on' || this.props.isDefaultChecked) && this.props.children !== false,
+        isChecked: false,
         isValid: true
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.children !== nextProps.children) {
-            this.setState({isChecked: nextProps.children});
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const children = (nextProps.children === true || nextProps.children === '1' || nextProps.children === 'on' || nextProps.isDefaultChecked) && nextProps.children !== false;
+
+        if (prevState.isChecked !== children) {
+            return {
+                ...prevState,
+                isChecked: children
+            };
         }
+
+        return null;
     }
 
     toggleCheckbox = () => {

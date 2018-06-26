@@ -2,16 +2,17 @@
 
 import SlickSlider from 'react-slick';
 
-const Slider = ({children, isAutoPlay, hasArrows, hasDots, isLoop, showSlideNumber}) => {
+const Slider = ({children, isAutoPlay, hasArrows, hasDots, isLoop, slidesToShow, initialSlide}) => {
     let settings = {
         arrows: hasArrows,
         dots: hasDots,
         infinite: isLoop,
         speed: 500,
-        slidesToShow: showSlideNumber,
+        slidesToShow: slidesToShow,
         slidesToScroll: 2,
         adaptiveHeight: false,
         lazyLoad: true,
+        initialSlide: initialSlide,
         autoplay: isAutoPlay,
         autoplaySpeed: 4000
     };
@@ -32,7 +33,8 @@ Slider.propTypes = {
     hasArrows: PropTypes.bool,
     hasDots: PropTypes.bool,
     isLoop: PropTypes.bool,
-    showSlideNumber: PropTypes.number
+    slidesToShow: PropTypes.number,
+    initialSlide: PropTypes.number
 };
 
 Slider.defaultProps = {
@@ -40,7 +42,8 @@ Slider.defaultProps = {
     hasArrows: false,
     hasDots: false,
     isLoop: true,
-    showSlideNumber: 1
+    slidesToShow: 1,
+    initialSlide: 0
 };
 
 export default Slider;

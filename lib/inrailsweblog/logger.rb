@@ -14,16 +14,16 @@ module InRailsWeBlog
       build.info(message)
     end
 
-    def self.read_latest
+    def self.read_latest(size = 4_000)
       path = Rails.root.join('log', file_name)
       self.build unless File.exist?(path)
-      tail_output, _ = Popen.popen(%W(tail -n 2000 #{path}))
+      tail_output, _ = Popen.popen(%W[tail -n #{size} #{path}])
       tail_output.split("\n")
     end
 
-    def self.read_latest_for(filename)
-      path           = Rails.root.join('log', filename)
-      tail_output, _ = Popen.popen(%W(tail -n 2000 #{path}))
+    def self.read_latest_for(filename, size = 4_000)
+      path         = Rails.root.join('log', filename)
+      tail_output, = Popen.popen(%W[tail -n #{size} #{path}])
       tail_output.split("\n")
     end
 

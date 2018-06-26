@@ -34,7 +34,6 @@ feature 'Admin Index page', advanced: true, js: true do
 
   feature 'Admin index content' do
     scenario 'user can admin categories' do
-      # TODO
       # is_expected.to have_css('.admin-search')
       # is_expected.to have_css('input#admin-search-input')
       # is_expected.to have_css('.admin-item', minimum: 12)

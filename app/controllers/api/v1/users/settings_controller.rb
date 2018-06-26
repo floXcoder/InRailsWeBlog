@@ -30,7 +30,7 @@ module Api::V1
           elsif pref_value == 'false'
             pref_value = false
           end
-          user.settings[pref_type.downcase.to_s] = pref_value
+          user.settings[pref_type.to_s.downcase] = pref_value
         end
         user.save
       end

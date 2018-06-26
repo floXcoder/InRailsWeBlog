@@ -81,7 +81,7 @@ export default class LightBox extends React.Component {
                     (!currentPicture.copyright && currentPicture.user && currentPicture.user.id !== 1) &&
                     <span>
                         {` (${I18n.t('js.picture.copyright.default')} `}
-                        <a href={`/users/${currentPicture.user.slug}`}>{currentPicture.user.pseudo}</a>
+                        <a href={currentPicture.user.link}>{currentPicture.user.pseudo}</a>
                         )
                     </span>
                 }

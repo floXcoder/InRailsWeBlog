@@ -5,7 +5,7 @@ import ArticleFormDisplay from './display/form';
 
 import articleMutationManager from './managers/mutation';
 
-@articleMutationManager(`article-${Utils.uuid()}`)
+@articleMutationManager('new', `article-${Utils.uuid()}`)
 export default class ArticleNew extends React.Component {
     static propTypes = {
         // From articleMutationManager

@@ -32,7 +32,7 @@ export default function matchMedia(WrappedComponent) {
             isExtraLargeScreen: screen.width > this.props.largeScreenSize,
         };
 
-        componentWillMount() {
+        componentDidMount() {
             if (this.props.mediaWatchSize && window.matchMedia) {
                 let mql = null;
 

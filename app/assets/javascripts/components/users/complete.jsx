@@ -36,16 +36,6 @@ export default class UserComplete extends React.Component {
 
     constructor(props) {
         super(props);
-
-        // TODO
-        // UserActions.loadUser({
-        //     userId: props.userId,
-        //     completeUser: true
-        // });
-
-        this._loadArticles(props.userId);
-        this._loadComments(props.userId);
-        this._loadActivities(props.userId);
     }
 
     state = {
@@ -58,6 +48,18 @@ export default class UserComplete extends React.Component {
         userActivities: null,
         activitiesPagination: null
     };
+
+    componentDidMount() {
+        // TODO
+        // UserActions.loadUser({
+        //     userId: props.userId,
+        //     completeUser: true
+        // });
+
+        this._loadArticles(props.userId);
+        this._loadComments(props.userId);
+        this._loadActivities(props.userId);
+    }
 
     componentDidUpdate() {
         $('.user-admin ul.tabs').tabs();

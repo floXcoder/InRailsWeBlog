@@ -24,7 +24,7 @@ export const fetchTopic = (userId, topicId, options = {}) => ({
 
 export const switchTopic = (userId, newTopicId, options = {}) => ({
     actionType: ActionTypes.TOPIC,
-    fetchAPI: () => api.post('/api/v1/topics/switch', {
+    fetchAPI: () => api.get('/api/v1/topics/switch', {
         userId,
         newTopicId,
         ...options

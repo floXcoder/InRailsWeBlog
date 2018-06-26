@@ -6,6 +6,7 @@ import {
 
 import Dropdown from '../../theme/dropdown';
 
+// Managed by article index
 const ArticleSortDisplay = ({currentTopicSlug, currentOrder}) => (
     <div className="blog-article-sort">
         <Dropdown button={<span className="material-icons"

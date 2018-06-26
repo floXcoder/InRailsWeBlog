@@ -23,7 +23,7 @@ class ErrorsController < ApplicationController
                   description: I18n.t('views.error.description')
 
     respond_to do |format|
-      format.html { render 'errors/show', locals: { status: status_code } }
+      format.html { render 'errors/show', locals: { status: status_code }, status: status_code }
       format.json { render json: { error: t('views.error.status.explanation.default'), status: status_code } }
       format.all { render body: nil, status: status_code }
     end

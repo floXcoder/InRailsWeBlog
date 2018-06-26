@@ -2,8 +2,8 @@
 #
 # Table name: topics
 #
-#  id                       :integer          not null, primary key
-#  user_id                  :integer
+#  id                       :bigint(8)        not null, primary key
+#  user_id                  :bigint(8)
 #  name                     :string           not null
 #  description_translations :jsonb
 #  languages                :string           default([]), is an Array
@@ -183,7 +183,7 @@ class Topic < ApplicationRecord
     misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
-    operator = options[:operator] ? options[:operator] : 'and'
+    operator = options[:operator] || 'and'
 
     # Highlight results and select a fragment
     highlight = false
@@ -198,8 +198,8 @@ class Topic < ApplicationRecord
     boost_where = nil
 
     # Page parameters
-    page     = options[:page] ? options[:page] : 1
-    per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
+    page     = options[:page] || 1
+    per_page = options[:per_page] || Setting.search_per_page
 
     # Order search
     order = order_search(options[:order])
@@ -251,7 +251,7 @@ class Topic < ApplicationRecord
     order = order_search(options[:order])
 
     # Set result limit
-    limit = options[:limit] ? options[:limit] : Setting.per_page
+    limit = options[:limit] || Setting.per_page
 
     # Perform search
     results = Topic.search(query_string,
@@ -272,31 +272,33 @@ class Topic < ApplicationRecord
   end
 
   def self.order_search(order)
-    return nil unless order
-
     case order
-      when 'id_asc'
-        { id: :asc }
-      when 'id_desc'
-        { id: :desc }
-      when 'created_asc'
-        { created_at: :asc }
-      when 'created_desc'
-        { created_at: :desc }
-      when 'updated_asc'
-        { updated_at: :asc }
-      when 'updated_desc'
-        { updated_at: :desc }
-      when 'rank_asc'
-        { rank: :asc }
-      when 'rank_desc'
-        { rank: :desc }
-      when 'popularity_asc'
-        { popularity: :asc }
-      when 'popularity_desc'
-        { popularity: :desc }
-      else
-        nil
+    when 'id_asc'
+      { id: :asc }
+    when 'id_desc'
+      { id: :desc }
+    when 'priority_asc'
+      { priority: :asc }
+    when 'priority_desc'
+      { priority: :desc }
+    when 'created_asc'
+      { created_at: :asc }
+    when 'created_desc'
+      { created_at: :desc }
+    when 'updated_asc'
+      { updated_at: :asc }
+    when 'updated_desc'
+      { updated_at: :desc }
+    when 'rank_asc'
+      { rank: :asc }
+    when 'rank_desc'
+      { rank: :desc }
+    when 'popularity_asc'
+      { popularity: :asc }
+    when 'popularity_desc'
+      { popularity: :desc }
+    else
+      nil
     end
   end
 
@@ -481,7 +483,7 @@ class Topic < ApplicationRecord
 
   private
 
-  def add_visit_activity(user_id = nil)
+  def add_visit_activity(user_id = nil, parent_id = nil)
     return unless user_id
 
     user = User.find_by(id: user_id)

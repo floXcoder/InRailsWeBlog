@@ -1,13 +1,15 @@
 module Api::V1
   class Users::SessionsController < Devise::SessionsController
-    layout 'full_page'
+    include ActionView::Helpers::TagHelper
+    include ApplicationHelper
 
     prepend_before_action :check_unconfirmed_user, if: -> { request.xhr? }
 
-    respond_to :html, :js, :json
+    before_action :honeypot_protection, only: [:create]
 
-    include ActionView::Helpers::TagHelper
-    include ApplicationHelper
+    layout 'full_page'
+
+    respond_to :html, :js, :json
 
     def create
       self.resource = warden.authenticate!(auth_options)

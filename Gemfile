@@ -6,54 +6,57 @@ git_source(:github) do |repo_name|
 end
 
 # Specify exact Ruby version (mandatory)
-ruby '2.4.1'
+ruby '2.5.1'
 
 # Rails version
-gem 'rails',                    '5.1.5'
+gem 'rails',                    '5.2.0'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '0.21.0'
+gem 'pg',                       '1.0.0'
 
 # HTTP Response
 gem 'responders',               '2.4.0'
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '5.0.5'
+gem 'secure_headers',           '6.0.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.7'
-gem 'oj',                       '3.4.0'
+gem 'oj',                       '3.6.2'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.1.3'
 
 # Internationalization
-gem 'i18n-js',                  '3.0.4'
-gem 'geocoder',                 '1.4.5'
-gem 'maxminddb',                '0.1.15'
+gem 'i18n-js',                  '3.0.8'
+gem 'geocoder',                 '1.4.9'
+gem 'maxminddb',                '0.1.17'
 
 # Model versioning
-gem 'paper_trail',              '8.1.2'
+gem 'paper_trail',              '9.2.0'
 
 # Marked as deleted
-gem 'paranoia',                 '2.4.0'
+gem 'paranoia',                 '2.4.1'
 
 # User activities
 gem 'public_activity',          '1.5.0'
 
 # Format user input
-gem 'auto_strip_attributes',    '2.3.0'
-gem 'sanitize',                 '4.6.0'
+gem 'auto_strip_attributes',    '2.4.0'
+gem 'sanitize',                 '4.6.5'
 
 # Run asynschronous process
-gem 'sidekiq',                  '5.1.1'
+gem 'sidekiq',                  '5.1.3'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '0.6.3'
+gem 'sidekiq-status',           '1.0.1'
+gem 'attentive_sidekiq',        '0.3.3'
+gem 'sidekiq-benchmark',        '0.6.0'
 gem 'whenever',                 '0.10.0', require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.6.0'
-gem 'redis-session-store',      '0.9.2'
+gem 'redis-session-store',      '0.10.0'
 gem 'readthis',                 '2.2.0'
 gem 'hiredis',                  '0.6.1'
 gem 'redis-rack-cache',         '2.0.2'
@@ -63,11 +66,11 @@ gem 'date_validator',           '0.9.0'
 
 # Global and model settings
 gem 'simpleconfig',             '2.0.1'
-gem 'rails-settings-cached',    '0.6.6'
+gem 'rails-settings-cached',    '0.7.0'
 gem 'storext',                  '2.2.2'
 
 # Authentification
-gem 'devise',                   '4.4.1'
+gem 'devise',                   '4.4.3'
 
 # Authorization mechanism
 gem 'pundit',                   '1.1.0'
@@ -77,7 +80,7 @@ gem 'carrierwave',              '1.2.2'
 gem 'mini_magick',              '4.8.0'
 
 # Search in database
-gem 'searchkick',               '2.5.0'
+gem 'searchkick',               '3.1.0'
 gem 'typhoeus',                 '1.3.0'
 
 # Votable models
@@ -87,32 +90,35 @@ gem 'thumbs_up',                '0.6.9'
 gem 'acts_as_commentable_with_threading', '2.0.1'
 
 # Prevent DDOS attacks
-gem 'rack-attack',              '5.0.1'
+gem 'rack-attack',              '5.2.0'
 
 # Manage errors
-gem 'browser',                  '2.5.2'
+gem 'browser',                  '2.5.3'
 
 # SEO
-gem 'friendly_id',              '5.2.3'
-gem 'meta-tags',                '2.7.1'
+gem 'friendly_id',              '5.2.4'
+gem 'meta-tags',                '2.10.0'
 
 # Dummy data
-gem 'factory_bot_rails',        '4.8.2',   require: false
+gem 'factory_bot_rails',        '4.10.0',   require: false
 gem 'faker',                    '1.8.7',   require: false
 
 # Deployment
-gem 'capistrano',               '3.10.1'
-gem 'capistrano-rails',         '1.3.1'
+gem 'capistrano',               '3.11.0'
+gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.3.0',   require: false
-gem 'capistrano-rails-console', '2.2.1',   require: false
+gem 'capistrano-rails-console', '2.3.0',   require: false
 gem 'capistrano-db-tasks',      '0.6',     require: false
-gem 'capistrano-sidekiq',       '1.0.0',   require: false
+gem 'capistrano-sidekiq',       '1.0.2',   require: false
 gem 'capistrano-passenger',     '0.2.0',   require: false
+
+# Speed up boot
+gem 'bootsnap',                 '1.3.0',   require: false
 
 group :development do
   # server
-  gem 'puma',                   '3.11.2'
+  gem 'puma',                   '3.11.4'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.6'
@@ -123,7 +129,7 @@ group :development do
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
-  gem 'bullet',                 '5.7.3'
+  gem 'bullet',                 '5.7.5'
 
   # Scss lint
   gem 'scss-lint',              '0.38.0', require: false
@@ -140,11 +146,11 @@ group :development do
   gem 'guard-process',          '1.2.1'
 
   # Find index to add
-  gem 'lol_dba',                '2.1.4'
-  gem 'unique_validation_inspector', '0.2.0'
+  gem 'lol_dba',                '2.1.5'
+  gem 'unique_validation_inspector', '0.3.0'
 
   # Faster ruby code
-  gem 'fasterer',               '0.4.0'
+  gem 'fasterer',               '0.4.1'
 end
 
 group :test do
@@ -152,35 +158,29 @@ group :test do
   gem 'rspec-rails',            '3.7.2'
   gem 'shoulda-matchers',       '3.1.2',    require: false
   gem 'shoulda-callback-matchers', '1.1.4', require: false
-  gem 'simplecov',              '0.15.1',   require: false
+  gem 'simplecov',              '0.16.1',   require: false
   gem 'fuubar',                 '2.3.1'
-  gem 'database_cleaner',       '1.6.2'
-  gem 'spring-commands-rspec',  '1.0.4'
+  gem 'database_cleaner',       '1.7.0'
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '2.18.0'
-  gem 'capybara-email',         '2.5.0'
-  gem 'capybara-screenshot',    '1.0.18'
-  gem 'selenium-webdriver',     '3.9.0'
+  gem 'capybara',               '3.2.1'
+  gem 'capybara-email',         '3.0.1'
+  gem 'capybara-screenshot',    '1.0.21'
+  gem 'selenium-webdriver',     '3.12.0'
   gem 'chromedriver-helper',    '1.2.0'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'
 
   # static analyzer
-  gem 'rails_best_practices',   '1.19.0',   require: false
-  gem 'brakeman',               '4.2.0',    require: false
-  gem 'metric_fu',              '4.12.0',   require: false
-  gem 'i18n-tasks',             '0.9.20',   require: false
+  gem 'rails_best_practices',   '1.19.2',   require: false
+  gem 'brakeman',               '4.3.1',    require: false
+  gem 'i18n-tasks',             '0.9.21',   require: false
 end
 
 group :development, :test do
-  # Speed up server and tests
-  gem 'spring',                 '2.0.2'
-  gem 'spring-watcher-listen',  '2.0.1'
-
   # Check errors
-  gem 'rubocop',                '0.52.1',  require: false
+  gem 'rubocop',                '0.57.2',  require: false
 end
 
 group :production do
@@ -188,8 +188,8 @@ group :production do
   gem 'passenger',      '~> 5'
 
   # Improve log outputs
-  gem 'lograge',        '0.9.0'
+  gem 'lograge',        '0.10.0'
 
   # Website analysis
-  gem 'newrelic_rpm',   '4.8.0.341'
+  gem 'newrelic_rpm',   '5.2.0.345'
 end

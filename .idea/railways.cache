@@ -1,10 +1,11 @@
                    Prefix Verb   URI Pattern                                     Controller#Action
                      root GET    /                                               static_pages#home
                           GET    /user/*id(.:format)                             static_pages#home
-                 research GET    /research(.:format)                             static_pages#home
-                          GET    /research/*id(.:format)                         static_pages#home
+                   search GET    /search(.:format)                               static_pages#home
+                          GET    /search/*id(.:format)                           static_pages#home
                           GET    /topic/*id(.:format)                            static_pages#home
                      tags GET    /tags(.:format)                                 static_pages#home
+                          GET    /tags/*ids(.:format)                            static_pages#home
                           GET    /tagged/*id(.:format)                           static_pages#home
                           GET    /tag/*id(.:format)                              static_pages#home
                           GET    /article/*id(.:format)                          static_pages#home
@@ -35,16 +36,18 @@
               user_unlock GET    /api/v1/users/unlock(.:format)                  api/v1/unlocks#show
                           POST   /api/v1/users/unlock(.:format)                  api/v1/unlocks#create
          validation_users GET    /api/v1/users/validation(.:format)              api/v1/users#validation
+            clicked_users POST   /api/v1/users/clicked(.:format)                 api/v1/users#clicked
+             viewed_users POST   /api/v1/users/viewed(.:format)                  api/v1/users#viewed
                 root_user GET    /api/v1/users/:id(.:format)                     api/v1/users#show
              profile_user GET    /api/v1/users/:id/profile(.:format)             api/v1/users#profile
-           bookmarks_user GET    /api/v1/users/:id/bookmarks(.:format)           api/v1/users#bookmarks
-               draft_user GET    /api/v1/users/:id/draft(.:format)               api/v1/users#draft
             comments_user GET    /api/v1/users/:id/comments(.:format)            api/v1/users#comments
              recents_user GET    /api/v1/users/:id/recents(.:format)             api/v1/users#recents
+                          POST   /api/v1/users/:id/recents(.:format)             api/v1/users#update_recents
           activities_user GET    /api/v1/users/:id/activities(.:format)          api/v1/users#activities
              clicked_user POST   /api/v1/users/:id/clicked(.:format)             api/v1/users#clicked
               viewed_user POST   /api/v1/users/:id/viewed(.:format)              api/v1/users#viewed
-           user_bookmarks POST   /api/v1/users/:user_id/bookmarks(.:format)      api/v1/users/bookmarks#create
+           user_bookmarks GET    /api/v1/users/:user_id/bookmarks(.:format)      api/v1/users/bookmarks#index
+                          POST   /api/v1/users/:user_id/bookmarks(.:format)      api/v1/users/bookmarks#create
             user_bookmark DELETE /api/v1/users/:user_id/bookmarks/:id(.:format)  api/v1/users/bookmarks#destroy
             user_settings POST   /api/v1/users/:user_id/settings(.:format)       api/v1/users/settings#update
                           GET    /api/v1/users/:user_id/settings(.:format)       api/v1/users/settings#index
@@ -54,7 +57,9 @@
                           PATCH  /api/v1/users/:id(.:format)                     api/v1/users#update
                           PUT    /api/v1/users/:id(.:format)                     api/v1/users#update
                activities GET    /api/v1/activities(.:format)                    api/v1/activities#index
-            switch_topics POST   /api/v1/topics/switch(.:format)                 api/v1/topics#switch
+            switch_topics GET    /api/v1/topics/switch(.:format)                 api/v1/topics#switch
+           clicked_topics POST   /api/v1/topics/clicked(.:format)                api/v1/topics#clicked
+            viewed_topics POST   /api/v1/topics/viewed(.:format)                 api/v1/topics#viewed
             clicked_topic POST   /api/v1/topics/:id/clicked(.:format)            api/v1/tags#clicked
              viewed_topic POST   /api/v1/topics/:id/viewed(.:format)             api/v1/tags#viewed
                    topics GET    /api/v1/topics(.:format)                        api/v1/topics#index
@@ -66,10 +71,10 @@
                           PUT    /api/v1/topics/:id(.:format)                    api/v1/topics#update
                           DELETE /api/v1/topics/:id(.:format)                    api/v1/topics#destroy
         priority_articles PUT    /api/v1/articles/priority(.:format)             api/v1/articles#update_priority
+         clicked_articles POST   /api/v1/articles/clicked(.:format)              api/v1/articles#clicked
+          viewed_articles POST   /api/v1/articles/viewed(.:format)               api/v1/articles#viewed
           history_article GET    /api/v1/articles/:id/history(.:format)          api/v1/articles#history
           restore_article GET    /api/v1/articles/:id/restore(.:format)          api/v1/articles#restore
-         bookmark_article POST   /api/v1/articles/:id/bookmark(.:format)         api/v1/articles#add_bookmark
-                          DELETE /api/v1/articles/:id/bookmark(.:format)         api/v1/articles#remove_bookmark
           clicked_article POST   /api/v1/articles/:id/clicked(.:format)          api/v1/articles#clicked
            viewed_article POST   /api/v1/articles/:id/viewed(.:format)           api/v1/articles#viewed
          comments_article GET    /api/v1/articles/:id/comments(.:format)         api/v1/articles#comments
@@ -88,6 +93,9 @@
                           PATCH  /api/v1/articles/:id(.:format)                  api/v1/articles#update
                           PUT    /api/v1/articles/:id(.:format)                  api/v1/articles#update
                           DELETE /api/v1/articles/:id(.:format)                  api/v1/articles#destroy
+            priority_tags PUT    /api/v1/tags/priority(.:format)                 api/v1/tags#update_priority
+             clicked_tags POST   /api/v1/tags/clicked(.:format)                  api/v1/tags#clicked
+              viewed_tags POST   /api/v1/tags/viewed(.:format)                   api/v1/tags#viewed
               clicked_tag POST   /api/v1/tags/:id/clicked(.:format)              api/v1/tags#clicked
                viewed_tag POST   /api/v1/tags/:id/viewed(.:format)               api/v1/tags#viewed
              comments_tag GET    /api/v1/tags/:id/comments(.:format)             api/v1/tags#comments

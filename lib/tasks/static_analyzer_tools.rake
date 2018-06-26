@@ -39,18 +39,6 @@ namespace :InRailsWeBlog do
       Brakeman.run app_path: Rails.root, output_files: output_file, print_report: true
     end
 
-    desc 'Metric_fu'
-    task metric_fu: :environment do
-      Rails.env = 'test'
-
-      # Waiting for a new version of metric_fu with updated tools: Flog and Reek not workings
-      output_path = Rails.root.join('static_analysis', 'metric_fu')
-      output_file = Rails.root.join('static_analysis', 'metric_fu.html')
-      %x(metric_fu --format html --out #{output_path} --no-open --no-rcov --no-rails-best-practices --no-flog --no-reek)
-      %x(rm #{output_file}) if File.exist?(output_file)
-      %x(ln -s #{Rails.root}/static_analysis/metric_fu/index.html #{output_file})
-    end
-
     desc 'Javascript ESLint'
     task eslint: :environment do
       output_file = Rails.root.join('static_analysis', 'eslint.html')

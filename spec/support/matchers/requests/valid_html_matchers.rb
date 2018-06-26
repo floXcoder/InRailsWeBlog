@@ -1,7 +1,7 @@
-RSpec::Matchers.define :be_html_response do |_response_value|
+RSpec::Matchers.define :be_html_response do |response_value|
   match do |actual|
     @response = actual.status
-    expect(actual.status).to eq(200)
+    expect(actual.status).to eq(response_value || 200)
     expect(actual.content_type).to eq('text/html')
   end
 

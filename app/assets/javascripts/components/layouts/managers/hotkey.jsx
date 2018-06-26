@@ -5,6 +5,7 @@ import MouseTrap from 'mousetrap';
 
 import {
     switchUserLogin,
+    switchTopicPopup,
     switchUserPreference
 } from '../../../actions';
 
@@ -13,6 +14,7 @@ import {
     currentUserId: state.userState.currentId
 }), {
     switchUserLogin,
+    switchTopicPopup,
     switchUserPreference
 })
 export default class HotkeyManager extends React.Component {
@@ -23,7 +25,8 @@ export default class HotkeyManager extends React.Component {
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
         switchUserLogin: PropTypes.func,
-        switchUserPreference: PropTypes.func,
+        switchTopicPopup: PropTypes.func,
+        switchUserPreference: PropTypes.func
     };
 
     constructor(props) {
@@ -41,6 +44,11 @@ export default class HotkeyManager extends React.Component {
         Mousetrap.bind('alt+l', (event) => {
             event.preventDefault();
             this.props.switchUserLogin();
+        }, 'keydown');
+
+        Mousetrap.bind('alt+t', (event) => {
+            event.preventDefault();
+            this.props.switchTopicPopup();
         }, 'keydown');
 
         Mousetrap.bind('alt+s', (event) => {

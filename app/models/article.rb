@@ -1,12 +1,11 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: articles
 #
-#  id                      :integer          not null, primary key
-#  user_id                 :integer
-#  topic_id                :integer
+#  id                      :bigint(8)        not null, primary key
+#  user_id                 :bigint(8)
+#  topic_id                :bigint(8)
 #  mode                    :integer          default("story"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
@@ -62,7 +61,7 @@ class Article < ApplicationRecord
   acts_as_voteable
 
   # Versioning
-  has_paper_trail on: [:update], only: [:title_translations, :summary_translations, :content_translations, :reference]
+  has_paper_trail only: [:title_translations, :summary_translations, :content_translations, :reference]
 
   # Track activities
   include ActAsTrackedConcern
@@ -77,7 +76,7 @@ class Article < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
 
   # Search
-  searchkick searchable:  [:title, :content, :reference, :tags],
+  searchkick searchable:  [:title, :content, :reference],
              filterable:  [:mode, :visibility],
              word_middle: [:title, :content],
              suggest:     [:title],
@@ -236,7 +235,7 @@ class Article < ApplicationRecord
 
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
-  scope :include_collection, -> { includes(:tags, :tagged_articles, :user_bookmarks, user: [:picture]) }
+  scope :include_collection, -> { includes(:tags, :tagged_articles, user: [:picture]) }
   scope :include_element, -> { includes(:user, :parent_tags, :child_tags, :tagged_articles, :tracker) }
 
   # == Callbacks ============================================================
@@ -261,7 +260,7 @@ class Article < ApplicationRecord
   #  page (page number for pagination)
   #  per_page (number of articles per page for pagination)
   #  exact (exact search or include misspellings, default: 2)
-  #  tags (array of tags associated with articles)
+  #  tags (array of tag ids associated with articles)
   #  operator (array of tags associated with articles, default: AND)
   #  highlight (highlight content, default: true)
   #  exact (do not misspelling, default: false, 1 character)
@@ -280,7 +279,7 @@ class Article < ApplicationRecord
     misspellings_retry    = 3
 
     # Operator type: 'and' or 'or'
-    operator = options[:operator] ? options[:operator] : 'and'
+    operator = options[:operator] || 'and'
 
     # Highlight results and select a fragment
     # highlight = options[:highlight] ? { fields: { content: { fragment_size: 10 } }, tag: '<span class="search-highlight">' } : false
@@ -302,11 +301,11 @@ class Article < ApplicationRecord
     boost_where[:topic_id] = options[:current_topic_id] if options[:current_topic_id]
 
     # Page parameters
-    page     = options[:page] ? options[:page] : 1
-    per_page = options[:per_page] ? options[:per_page] : Setting.search_per_page
+    page     = options[:page] || 1
+    per_page = options[:per_page] || Setting.search_per_page
 
     # Order search
-    order = order_search(options[:order])
+    order = order_search(options[:order] || 'priority_desc')
 
     # Includes to add when retrieving data from DB
     includes = if format == 'strict'
@@ -380,66 +379,69 @@ class Article < ApplicationRecord
   def self.where_search(options)
     options ||= {}
 
-    where_options          = options.compact.reject { |_k, v| v.empty? }.map do |key, value|
+    where_options           = options.compact.select { |_k, v| v.present? }.map do |key, value|
       case key
-        when :notation
-          [
-            key,
-            value.to_i
-          ]
-        else
-          [key, value]
+      when :notation
+        [
+          key,
+          value.to_i
+        ]
+      else
+        [key, value]
       end
     end.to_h
 
-    where_options[:tags]   = { all: options[:tags] } if options[:tags]
-    where_options[:topics] = { all: options[:topics] } if options[:topics]
+    where_options[:tag_ids] = { all: options[:tag_ids] } if options[:tag_ids]
 
     return where_options
   end
 
   def self.order_search(order)
-    return nil unless order
-
     case order
-      when 'id_asc'
-        { id: :asc }
-      when 'id_desc'
-        { id: :desc }
-      when 'created_asc'
-        { created_at: :asc }
-      when 'created_desc'
-        { created_at: :desc }
-      when 'updated_asc'
-        { updated_at: :asc }
-      when 'updated_desc'
-        { updated_at: :desc }
-      when 'rank_asc'
-        { rank: :asc }
-      when 'rank_desc'
-        { rank: :desc }
-      when 'popularity_asc'
-        { popularity: :asc }
-      when 'popularity_desc'
-        { popularity: :desc }
+    when 'id_asc'
+      { id: :asc }
+    when 'id_desc'
+      { id: :desc }
+    when 'priority_asc'
+      { priority: :asc }
+    when 'priority_desc'
+      { priority: :desc }
+    when 'created_asc'
+      { created_at: :asc }
+    when 'created_desc'
+      { created_at: :desc }
+    when 'updated_asc'
+      { updated_at: :asc }
+    when 'updated_desc'
+      { updated_at: :desc }
+    when 'rank_asc'
+      { rank: :asc }
+    when 'rank_desc'
+      { rank: :desc }
+    when 'popularity_asc'
+      { popularity: :asc }
+    when 'popularity_desc'
+      { popularity: :desc }
+    else
+      nil
     end
   end
 
   def self.format_search(article_results, format, current_user = nil)
     serializer_options                = case format
-                                          when 'strict'
-                                            {
-                                              root:   'articles',
-                                              strict: true
-                                            }
-                                          when 'complete'
-                                            {
-                                              complete: true
-                                            }
-                                          else
-                                            {
-                                              sample: true
-                                            }
+                                        when 'strict'
+                                          {
+                                            root:   'articles',
+                                            strict: true
+                                          }
+                                        when 'complete'
+                                          {
+                                            complete: true
+                                          }
+                                        else
+                                          {
+                                            sample: true
+                                          }
                                         end
 
     serializer_options[:current_user] = current_user if current_user
@@ -523,36 +525,36 @@ class Article < ApplicationRecord
 
   def self.order_by(order)
     case order
-      when 'priority_asc'
-        order('articles.priority ASC')
-      when 'priority_desc'
-        order('articles.priority DESC')
-      when 'id_asc'
-        order('articles.id ASC')
-      when 'id_desc'
-        order('articles.id DESC')
-      when 'created_asc'
-        order('articles.created_at ASC')
-      when 'created_desc'
-        order('articles.created_at DESC')
-      when 'updated_asc'
-        order('articles.updated_at ASC')
-      when 'updated_desc'
-        order('articles.updated_at DESC')
-      when 'tag_asc'
-        order('tags.name ASC')
-      when 'tags_desc'
-        order('tags.name DESC')
-      when 'rank_asc'
-        joins(:tracker).order('trackers.rank ASC')
-      when 'rank_desc'
-        joins(:tracker).order('trackers.rank DESC')
-      when 'popularity_asc'
-        joins(:tracker).order('trackers.popularity ASC')
-      when 'popularity_desc'
-        joins(:tracker).order('trackers.popularity DESC')
-      else
-        all
+    when 'priority_asc'
+      order('articles.priority ASC')
+    when 'priority_desc'
+      order('articles.priority DESC')
+    when 'id_asc'
+      order('articles.id ASC')
+    when 'id_desc'
+      order('articles.id DESC')
+    when 'created_asc'
+      order('articles.created_at ASC')
+    when 'created_desc'
+      order('articles.created_at DESC')
+    when 'updated_asc'
+      order('articles.updated_at ASC')
+    when 'updated_desc'
+      order('articles.updated_at DESC')
+    when 'tag_asc'
+      order('tags.name ASC')
+    when 'tags_desc'
+      order('tags.name DESC')
+    when 'rank_asc'
+      joins(:tracker).order('trackers.rank ASC')
+    when 'rank_desc'
+      joins(:tracker).order('trackers.rank DESC')
+    when 'popularity_asc'
+      joins(:tracker).order('trackers.popularity ASC')
+    when 'popularity_desc'
+      joins(:tracker).order('trackers.popularity DESC')
+    else
+      all
     end
   end
 
@@ -600,7 +602,7 @@ class Article < ApplicationRecord
 
     # Language
     if self.languages.empty? || attributes[:language].present?
-      new_language = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
+      new_language   = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
       self.languages |= [new_language]
     end
 
@@ -639,12 +641,12 @@ class Article < ApplicationRecord
     end
 
     # Pictures
-    if attributes[:pictures].present? && attributes[:pictures].is_a?(Array)
-      attributes.delete(:pictures).each do |picture_id|
+    if attributes[:picture_ids].present?
+      attributes.delete(:picture_ids).split(',').each do |picture_id|
         self.pictures << Picture.find_by(id: picture_id.to_i) if picture_id.present?
       end
     else
-      attributes.delete(:pictures)
+      attributes.delete(:picture_ids)
     end
 
     # Tags
@@ -783,6 +785,16 @@ class Article < ApplicationRecord
     sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish if self.content
   end
 
+  def formatted_content
+    formatted_content = public_content
+
+    # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
+
+    formatted_content = ActionController::Base.helpers.strip_tags(formatted_content)
+
+    return formatted_content
+  end
+
   def public_content
     self.content&.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
   end
@@ -792,11 +804,13 @@ class Article < ApplicationRecord
   end
 
   def adapted_content(current_user_id)
-    if private_content? && self.user_id != current_user_id
-      public_content
-    else
-      content
-    end
+    formatted_content = if private_content? && self.user_id != current_user_id
+                          public_content
+                        else
+                          content
+                        end
+
+    return formatted_content
   end
 
   def summary_content(current_user_id = nil)
@@ -806,18 +820,21 @@ class Article < ApplicationRecord
   # Sanitize content
   include ActionView::Helpers::SanitizeHelper
 
-  def sanitize_html(html)
+  def sanitize_html(html, lazy_image = true)
     return unless html
     return '' if html.blank?
 
     # Remove empty beginning block
     html = html.sub(/^<p><br><\/p>/, '')
 
-    html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[class href name target src alt center align data-article-relation-id])
+    html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[style class href name target src alt center align data-article-relation-id])
 
-    # Remplace pre by pre > code
+    # Replace pre by pre > code
     html = html.gsub(/<pre>/i, '<pre><code>')
     html = html.gsub(/<\/pre>/i, '</code></pre>')
+
+    # Replace src by data-src for lazy-loading
+    html = html.gsub(/<img (.*?) ?src=/i, '<img \1 data-src=') if lazy_image
 
     # Improve link security
     html = html.gsub(/<a /i, '<a rel="noopener noreferrer" target="_blank" ')
@@ -832,25 +849,25 @@ class Article < ApplicationRecord
       topic_id:         topic_id,
       topic_name:       topic&.name,
       topic_slug:       topic&.slug,
+      tag_ids:          tags.ids,
       mode:             mode,
       mode_translated:  mode_translated,
       current_language: current_language,
-      title:            title,
-      content:          public_content,
-      reference:        reference,
-      languages:        languages,
-      draft:            draft,
-      notation:         notation,
-      priority:         priority,
-      visibility:       visibility,
-      archived:         archived,
-      accepted:         accepted,
-      tags:             tags.ids,
-      created_at:       created_at,
-      updated_at:       updated_at,
-      rank:             rank,
-      popularity:       popularity,
-      slug:             slug
+      title:            title || '', # Title cannot be nil for suggest
+      content:    formatted_content,
+      reference:  reference,
+      languages:  languages,
+      draft:      draft,
+      notation:   notation,
+      priority:   priority,
+      visibility: visibility,
+      archived:   archived,
+      accepted:   accepted,
+      created_at: created_at,
+      updated_at: updated_at,
+      rank:       rank,
+      popularity: popularity,
+      slug:       slug
       # summary:          summary,
       # private_content:   strip_content, # Do not expose secret content
     }
@@ -871,13 +888,13 @@ class Article < ApplicationRecord
 
   private
 
-  def add_visit_activity(user_id = nil)
+  def add_visit_activity(user_id = nil, parent_id = nil)
     return unless user_id
 
     user = User.find_by(id: user_id)
     return unless user
 
-    user.create_activity(:visit, recipient: self)
+    user.create_activity(:visit, recipient: self, params: { topic_id: parent_id })
   end
 
   def prevent_revert_to_draft

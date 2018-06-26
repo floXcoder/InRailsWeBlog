@@ -25,6 +25,10 @@ export default class SearchTagIndex extends React.Component {
             <div className="search-index-category">
                 <h2>
                     {I18n.t('js.search.module.tags.title')}
+
+                    <span className="search-index-count">
+                        {`(${I18n.t('js.search.index.results', {count: this.props.tags.length})})`}
+                    </span>
                 </h2>
 
                 <div className="tag-list">

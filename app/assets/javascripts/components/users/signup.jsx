@@ -8,7 +8,11 @@ import {
 
 import SignupForm from './form/signup';
 
-@connect(null, {
+import BounceSpinner from '../theme/spinner/bounce';
+
+@connect((state) => ({
+    isProcessing: state.userState.isProcessing
+}), {
     signupUser
 })
 export default class Signup extends React.Component {
@@ -16,6 +20,7 @@ export default class Signup extends React.Component {
         isOpened: PropTypes.bool.isRequired,
         onModalChange: PropTypes.func.isRequired,
         // From connect
+        isProcessing: PropTypes.bool,
         signupUser: PropTypes.func
     };
 
@@ -25,7 +30,13 @@ export default class Signup extends React.Component {
 
     _handleSubmit = (values) => {
         this.props.signupUser(values.toJS())
-            .then(() => location.reload(true));
+            .then(() => {
+                if (sessionStorage) {
+                    sessionStorage.setItem(`user-connection`, 'true');
+                }
+
+                location.reload(true);
+            });
     };
 
     _handleClose = () => {
@@ -50,8 +61,19 @@ export default class Signup extends React.Component {
                 </div>
 
                 <div className="responsive-modal-content">
-                    <SignupForm onCancel={this.props.onModalChange}
-                                onSubmit={this._handleSubmit}/>
+                    {
+                        this.props.isProcessing
+                            ?
+                            <div className="center-align">
+                                <h2>
+                                    {I18n.t('js.user.signup.connecting')}
+                                    <BounceSpinner className="margin-bottom-10"/>
+                                </h2>
+                            </div>
+                            :
+                            <SignupForm onCancel={this.props.onModalChange}
+                                        onSubmit={this._handleSubmit}/>
+                    }
                 </div>
             </Modal>
         );

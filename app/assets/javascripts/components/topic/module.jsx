@@ -68,6 +68,7 @@ export default class TopicModule extends React.Component {
 
         if (this.props.currentTopic.id !== newTopicId) {
             this.props.switchTopic(this.props.userId, newTopicId)
+                .fetch
                 .then((response) => {
                     if (response.topic) {
                         return this.props.history.push(`/user/${this.props.userSlug}/${response.topic.slug}`);

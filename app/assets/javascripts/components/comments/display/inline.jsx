@@ -97,7 +97,7 @@ export default class CommentInlineDisplay extends React.Component {
 
         if (!Utils.isEmpty(commentToUpdate)) {
             commentToUpdate.id = this.props.comment.id;
-            this.props.updateComment(commentToUpdate, this.props.comment.commentable.id, {url: this.props.comment.commentable.link});
+            this.props.updateComment(commentToUpdate, this.props.comment.commentableType, this.props.comment.commentable.id);
         }
     };
 
@@ -154,7 +154,6 @@ export default class CommentInlineDisplay extends React.Component {
                                  data-tooltip={I18n.t('js.comment.table.actions.show')}>
                                 <a className="btn-floating"
                                    href={this.props.comment.link}
-                                   rel="noopener noreferrer"
                                    target="_blank">
                                     <span className="material-icons"
                                           data-icon="comment"

@@ -2,8 +2,8 @@
 #
 # Table name: topics
 #
-#  id                       :integer          not null, primary key
-#  user_id                  :integer
+#  id                       :bigint(8)        not null, primary key
+#  user_id                  :bigint(8)
 #  name                     :string           not null
 #  description_translations :jsonb
 #  languages                :string           default([]), is an Array
@@ -33,7 +33,7 @@ class TopicSerializer < ActiveModel::Serializer
              :visibility_translated,
              :slug
 
-  has_many :tags, if: -> { instance_options[:with_tags] }, each_serializer: TagSerializer do
+  has_many :tags, if: -> { instance_options[:with_tags] }, serializer: TagSerializer do
     Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')
   end
 

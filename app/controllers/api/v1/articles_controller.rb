@@ -20,6 +20,8 @@ module Api::V1
   class ArticlesController < ApiController
     before_action :authenticate_user!, except: [:index, :show]
     before_action :verify_requested_format!
+    before_action :honeypot_protection, only: [:create, :update]
+
     after_action :verify_authorized, except: [:index]
 
     include TrackerConcern
@@ -81,7 +83,7 @@ module Api::V1
       article = Article.friendly.find(params[:id])
       admin_or_authorize article
 
-      article_versions = article.versions.reverse.reject { |history| history.reify.content.nil? }
+      article_versions = article.versions.where(event: 'update').reverse.drop(1)
 
       respond_to do |format|
         format.json do
@@ -136,8 +138,6 @@ module Api::V1
       admin_or_authorize article
 
       article.format_attributes(article_params, current_user)
-
-      w params.permit!
 
       respond_to do |format|
         format.json do
@@ -251,6 +251,7 @@ module Api::V1
                                       :draft,
                                       :topic_id,
                                       :language,
+                                      :picture_ids,
                                       tags:        [
                                                      :name,
                                                      :visibility,

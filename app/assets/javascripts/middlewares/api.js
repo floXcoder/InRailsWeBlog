@@ -1,6 +1,7 @@
 'use strict';
 
 import 'isomorphic-fetch';
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 
 import {
     stringify
@@ -10,27 +11,37 @@ import {
     pushError
 } from '../actions/errorActions';
 
-const csrfToken = document.getElementsByName('csrf-token')[0];
-const token = csrfToken && csrfToken.getAttribute('content');
+const getHeaders = () => {
+    const csrfToken = document.getElementsByName('csrf-token')[0];
+    const token = csrfToken && csrfToken.getAttribute('content');
 
-const headers = {
-    credentials: 'same-origin',
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': token
-    }
+    return {
+        credentials: 'same-origin',
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': token
+        })
+    };
 };
 
-const dataHeaders = {
-    credentials: 'same-origin',
-    headers: {
-        Accept: 'application/json',
-        'X-CSRF-Token': token
-    }
+const getDataHeaders = () => {
+    const csrfToken = document.getElementsByName('csrf-token')[0];
+    const token = csrfToken && csrfToken.getAttribute('content');
+
+    return {
+        credentials: 'same-origin',
+        headers: new Headers({
+            'X-CSRF-Token': token
+        })
+    };
 };
 
 const manageError = (origin, error, url) => {
+    if(url === '/errors') {
+        return;
+    }
+
     let errorContent = {
         url,
         origin
@@ -39,11 +50,13 @@ const manageError = (origin, error, url) => {
     if (error.statusText) {
         if (error.statusText === 'Forbidden') {
             Notification.error(I18n.t('js.helpers.errors.not_authorized'), 10);
-            if (document.referrer === '') {
-                window.location = '/';
-            } else {
-                history.back();
-            }
+            // if (document.referrer === '') {
+            //     window.location = '/';
+            // } else {
+            //     history.back();
+            // }
+        } else if (error.statusText === 'Not found') {
+            // Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
         } else if (error.statusText === 'Unprocessable Entity') {
             Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
         } else {
@@ -76,6 +89,10 @@ const handleResponseErrors = (response, url) => {
 };
 
 const handleParseErrors = (error, url) => {
+    if (error.name === 'AbortError') {
+        return;
+    }
+
     manageError('communication', error, url);
 
     return {
@@ -117,15 +134,19 @@ const handleResponse = (response) => {
     }
 };
 
-
 const api = {
     get: (url, params) => {
+        const headers = getHeaders();
         const parameters = stringify(params, {arrayFormat: 'brackets'});
-        const urlParams = parameters !== '' ? `${url}?${parameters}` : url;
+        const urlParams = parameters !== '' ? `${url}.json?${parameters}` : url;
 
-        return fetch(urlParams, {
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        const promise = fetch(urlParams, {
             ...headers,
-            method: 'GET'
+            method: 'GET',
+            signal
         })
             .then((response) => handleResponseErrors(response, urlParams))
             .then((response) => handleFlashMessage(response))
@@ -133,12 +154,17 @@ const api = {
             .then(
                 (json) => json,
                 (error) => handleParseErrors(error, urlParams)
-            )
+            );
+
+        return {
+            promise,
+            controller
+        };
     },
 
     post: (url, params, isData = false) => {
         const parameters = isData ? params : JSON.stringify(params);
-        const postHeaders = isData ? dataHeaders : headers;
+        const postHeaders = isData ? getDataHeaders() : getHeaders();
 
         return fetch(url, {
             ...postHeaders,
@@ -155,6 +181,7 @@ const api = {
     },
 
     update: (url, params) => {
+        const headers = getHeaders();
         const parameters = JSON.stringify(params);
 
         return fetch(url, {
@@ -172,6 +199,7 @@ const api = {
     },
 
     delete: (url, params) => {
+        const headers = getHeaders();
         const parameters = JSON.stringify(params);
 
         return fetch(url, {

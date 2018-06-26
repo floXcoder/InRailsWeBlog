@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170819105714) do
+ActiveRecord::Schema.define(version: 2018_06_16_191350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,7 +107,9 @@ ActiveRecord::Schema.define(version: 20170819105714) do
     t.boolean "follow", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "topic_id"
     t.index ["bookmarked_id", "bookmarked_type"], name: "index_bookmarks_on_bookmarked_id_and_bookmarked_type"
+    t.index ["topic_id"], name: "index_bookmarks_on_topic_id"
     t.index ["user_id", "bookmarked_id", "bookmarked_type"], name: "index_user_and_bookmarks_uniqueness", unique: true
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end

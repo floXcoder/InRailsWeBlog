@@ -4,8 +4,11 @@ import {
     Link
 } from 'react-router-dom';
 
+import Waypoint from 'react-waypoint';
+
 import {
-    spyTrackClick
+    spyTrackClick,
+    spyTrackView
 } from '../../../actions';
 
 import highlight from '../../modules/highlight';
@@ -15,14 +18,11 @@ import ArticleTags from '../properties/tags';
 import ArticleTime from '../properties/time';
 import ArticleUserIcon from '../icons/user';
 
-import Collapsible from '../../theme/collapsible';
-
 import CommentCountIcon from '../../comments/icons/count';
 
-// TODO
-// import BookmarkIcon from '../../bookmark/icon';
+import Collapsible from '../../theme/collapsible';
 
-@highlight
+@highlight()
 export default class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -33,7 +33,8 @@ export default class ArticleCardDisplay extends React.Component {
         onInlineEdit: PropTypes.func,
         onBookmarkClick: PropTypes.func,
         onVisibilityClick: PropTypes.func,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        onShow: PropTypes.func
     };
 
     static defaultProps = {
@@ -49,6 +50,14 @@ export default class ArticleCardDisplay extends React.Component {
 
     state = {
         isFolded: false
+    };
+
+    _handleWaypointEnter = () => {
+        spyTrackView('article', this.props.article.id);
+
+        if (this.props.onShow) {
+            this.props.onShow(this.props.article.id);
+        }
     };
 
     _handleFoldClick = (event) => {
@@ -69,6 +78,7 @@ export default class ArticleCardDisplay extends React.Component {
 
         return (
             <div className="article-item">
+                <Waypoint onEnter={this._handleWaypointEnter}/>
                 <div className="article-content">
                     {
                         this.props.article.title &&
@@ -118,7 +128,7 @@ export default class ArticleCardDisplay extends React.Component {
                     }
 
                     <Collapsible isDefaultOpen={true}
-                                 isOpen={!this.state.isFolded}
+                                 isForceOpen={!this.state.isFolded}
                                  className="article-collapsible">
                         <div className="article-info">
                             <div className="blog-article-info">
@@ -162,19 +172,12 @@ export default class ArticleCardDisplay extends React.Component {
                                                 articleId={this.props.article.id}
                                                 articleSlug={this.props.article.slug}
                                                 articleTitle={this.props.article.title}
-                                                articleVisibility={this.props.article.visibility}/>
+                                                articleVisibility={this.props.article.visibility}
+                                                isBookmarked={this.props.article.bookmarked}/>
                             </div>
                         }
                     </Collapsible>
                 </div>
-
-                {
-                    // TODO
-                    // <BookmarkIcon bookmarkType="article"
-                    //               bookmarkId={this.props.article.id}
-                    //               bookmarkedId={this.props.article.bookmarked}
-                    //               isIcon={true}/>
-                }
             </div>
         );
     }

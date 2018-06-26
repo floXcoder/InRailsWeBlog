@@ -13,7 +13,7 @@ LineLength:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   Exclude:
     - 'node_modules/**/*'
 
@@ -133,6 +133,9 @@ Style/MultilineIfModifier:
 Style/MultilineOperationIndentation:
   Enabled: false
 
+Style/NumericPredicate:
+  Enabled: false
+
 Style/RedundantReturn:
   Enabled: false
   AllowMultipleReturnValues: true
@@ -141,6 +144,9 @@ Style/RedundantSelf:
   Enabled: false
 
 Style/RegexpLiteral:
+  Enabled: false
+
+Style/RescueModifier:
   Enabled: false
 
 Style/SpaceInLambdaLiteral:

@@ -1,10 +1,11 @@
 'use strict';
 
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'vanilla-lazyload';
 
 import {
     fetchArticle,
-    deleteArticle
+    deleteArticle,
+    setCurrentTags
 } from '../../actions';
 
 import {
@@ -19,8 +20,6 @@ import ArticleTime from './properties/time';
 import ArticleTags from './properties/tags';
 import ArticleActions from './properties/actions';
 // TODO
-// import ArticleTime from './properties/time';
-// TODO
 // import ArticleOutdatedIcon from './icons/outdated';
 // TODO
 // import ArticleBookmarkIcon from './icons/bookmark';
@@ -28,9 +27,13 @@ import ArticleActions from './properties/actions';
 // import ArticleVotes from './properties/vote';
 
 import Loader from '../theme/loader';
+import LazyLoader from '../theme/lazyLoader';
 
 import CommentCountIcon from '../comments/icons/count';
-import CommentBox from '../comments/box';
+
+import CommentBox from '../loaders/commentBox';
+
+import NotFound from '../layouts/notFound';
 
 @connect((state) => ({
     isFetching: state.articleState.isFetching,
@@ -40,9 +43,10 @@ import CommentBox from '../comments/box';
     isUserConnected: state.userState.isConnected
 }), {
     fetchArticle,
-    deleteArticle
+    deleteArticle,
+    setCurrentTags
 })
-@highlight
+@highlight(false)
 export default class ArticleShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
@@ -54,18 +58,40 @@ export default class ArticleShow extends React.Component {
         isOutdated: PropTypes.bool,
         isUserConnected: PropTypes.bool,
         fetchArticle: PropTypes.func,
-        deleteArticle: PropTypes.func
+        deleteArticle: PropTypes.func,
+        setCurrentTags: PropTypes.func
     };
 
     constructor(props) {
         super(props);
 
-        props.fetchArticle(props.params.articleSlug);
+        this._request = null;
+        this._lazyLoad = null;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!Object.equals(this.props.params, nextProps.params)) {
-            this.props.fetchArticle(nextProps.params.articleSlug);
+    componentDidMount() {
+        this._request = this.props.fetchArticle(this.props.params.articleSlug);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.article) {
+            this.props.setCurrentTags(this.props.article.tags);
+        }
+
+        if (!Object.equals(this.props.params, prevProps.params)) {
+            this._request = this.props.fetchArticle(this.props.params.articleSlug);
+        }
+
+        if (!this._lazyLoad && this.props.article) {
+            Utils.defer.then(() => {
+                this._lazyLoad = new LazyLoad();
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._request && this._request.signal) {
+            this._request.signal.abort();
         }
     }
 
@@ -102,11 +128,19 @@ export default class ArticleShow extends React.Component {
 
     render() {
         if (!this.props.article) {
-            return (
-                <div className="center margin-top-20">
-                    <Loader size="big"/>
-                </div>
-            )
+            if (this.props.isFetching) {
+                return (
+                    <div className="center margin-top-20">
+                        <Loader size="big"/>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="center margin-top-20">
+                        <NotFound/>
+                    </div>
+                )
+            }
         }
 
         return (
@@ -123,8 +157,7 @@ export default class ArticleShow extends React.Component {
                 <article className={classNames('card-panel', 'blog-article', {
                     'article-outdated': this.props.isOutdated
                 })}>
-                    <h1 className="blog-article-title"
-                        itemProp="headline">
+                    <h1 className="blog-article-title">
                         {this.props.article.title}
                     </h1>
 
@@ -158,7 +191,7 @@ export default class ArticleShow extends React.Component {
                             <a href={this.props.article.reference}
                                rel="noopener noreferrer"
                                target="_blank">
-                                {this.props.article.reference.replace(/^(https?):\/\//, '').replace(/\/$/, '')}
+                                {Utils.normalizeLink(this.props.article.reference)}
                             </a>
                         </div>
                     }
@@ -213,9 +246,9 @@ export default class ArticleShow extends React.Component {
                 {
                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                     <div className="card-panel">
-                        <LazyLoad height={0}
-                                  once={true}
-                                  offset={50}>
+                        <LazyLoader height={0}
+                                    once={true}
+                                    offset={50}>
                             <CommentBox id={`article-comments-${this.props.article.id}`}
                                         commentableType="articles"
                                         commentableId={this.props.article.id}
@@ -224,7 +257,7 @@ export default class ArticleShow extends React.Component {
                                         isUserOwner={this.props.isOwner}
                                         isPaginated={false}
                                         isRated={true}/>
-                        </LazyLoad>
+                        </LazyLoader>
                     </div>
                 }
             </div>

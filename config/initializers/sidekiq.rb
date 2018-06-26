@@ -1,6 +1,13 @@
 Sidekiq.configure_server do |config|
-  config.redis = { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
+  config.redis = { url:       "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
                    namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}" }
+
+  config.server_middleware do |chain|
+    chain.add AttentiveSidekiq::Middleware::Server::Attentionist
+  end
+
+  Sidekiq::Status.configure_server_middleware config, expiration: 60 * 60 * 24 * 30 # 30 days
+  Sidekiq::Status.configure_client_middleware config, expiration: 60 * 60 * 24 * 30 # 30 days
 
   if Rails.configuration.x.cron_jobs_active
     schedule_file = 'config/sidekiq_schedule.yml'
@@ -15,6 +22,8 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
+  config.redis = { url:       "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
                    namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}" }
+
+  Sidekiq::Status.configure_client_middleware config, expiration: 60 * 60 * 24 * 30 # 30 days
 end

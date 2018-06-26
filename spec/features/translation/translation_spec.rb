@@ -3,7 +3,6 @@ feature 'Translation', advanced: true, js: true do
   scenario 'user see the page in french by default' do
     logout
     visit root_path
-    # TODO
     # expect(page).to have_content('Articles')
     # expect(page).to have_content('Thèmes')
   end
@@ -11,7 +10,6 @@ feature 'Translation', advanced: true, js: true do
   scenario 'user can change the language of the current page to english' do
     logout
     visit root_path
-    # TODO
     # within('.footer-language') do
     #   click_link 'Langue'
     #   click_link 'Anglais'

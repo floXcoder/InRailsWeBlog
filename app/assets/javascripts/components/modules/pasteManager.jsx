@@ -1,43 +1,53 @@
 'use strict';
 
 import {
-    getDisplayName
-} from './common';
+    withRouter
+} from 'react-router-dom';
 
 import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/sanitizePaste';
 
-export default function pasteManager(WrappedComponent) {
-    return class PasteManagerComponent extends React.Component {
-        static displayName = `PasteManagerComponent(${getDisplayName(WrappedComponent)})`;
+@withRouter
+export default class PasteManager extends React.Component {
+    static propTypes = {
+        children: PropTypes.element.isRequired,
+        // From router
+        location: PropTypes.object,
+        history: PropTypes.object
+    };
 
-        constructor(props) {
-            super(props);
+    constructor(props) {
+        super(props);
+    }
 
-            this._pasteCallback = null;
-        }
+    componentDidMount() {
+        ClipboardManager.initialize(this._onPaste);
+    }
 
-        componentDidMount() {
-            ClipboardManager.initialize(this._onPaste);
-        }
+    _onPaste = (content) => {
+        if (content && this.props.location.pathname !== '/article/new' && this.props.location.hash !== '#new-article') {
+            const isURL = Utils.isURL(content.trim());
 
-        _onPaste = (content) => {
-            if (this._pasteCallback) {
-                this._pasteCallback(SanitizePaste.parse(content))
-            }
-        };
-
-        _handlePaste = (callback) => {
-            this._pasteCallback = callback;
-        };
-
-        render() {
-            const propsProxy = {
-                ...this.props,
-                onPaste: this._handlePaste
+            let articleData = {
+                mode: isURL ? 'link' : 'story',
+                isDraft: true
             };
+            if (isURL) {
+                articleData.reference = content.trim();
+            } else {
+                articleData.content = SanitizePaste.parse(content);
+            }
 
-            return <WrappedComponent {...propsProxy} />;
+            this.props.history.replace({
+                hash: '#new-article',
+                state: {
+                    ...articleData
+                }
+            });
         }
+    };
+
+    render() {
+        return React.Children.only(this.props.children);
     }
 }

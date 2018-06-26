@@ -11,7 +11,7 @@ class AssetManifest
 
     if AssetManifest.manifest
       url += '.css' unless url.end_with?('.css')
-      '/assets/' + (AssetManifest.manifest[url] || url)
+      AssetManifest.manifest[url] || url
     else
       '/assets/' + url
     end
@@ -22,7 +22,7 @@ class AssetManifest
 
     if AssetManifest.manifest
       url += '.js' unless url.end_with?('.js')
-      '/assets/' + (AssetManifest.manifest[url] || url)
+      AssetManifest.manifest[url] || url
     else
       '/assets/' + url
     end
@@ -33,7 +33,7 @@ class AssetManifest
 
     if !url.start_with?('/uploads/')
       if AssetManifest.manifest
-        '/assets/' + (AssetManifest.manifest[url] || url)
+        AssetManifest.manifest[url] || url
       else
         '/assets/' + url
       end
@@ -46,7 +46,7 @@ class AssetManifest
     return unless url
 
     if AssetManifest.manifest
-      (AssetManifest.manifest[url] || url)
+      AssetManifest.manifest[url] || url
     else
       url
     end

@@ -30,9 +30,7 @@ shared_examples 'a valid page' do
   end
 
   scenario 'has the correct layout' do
-    # TODO: update header and footer after design completion
-
-    # # Correct title
+    # Correct title
     # if content[:admin]
     #   is_expected.to have_title(titleize_admin(content[:title]))
     # else

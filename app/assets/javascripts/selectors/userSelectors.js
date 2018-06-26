@@ -38,15 +38,22 @@ export const getCurrentUser = createSelector(
 // User recents
 export const getUserRecentTopics = createSelector(
     (state) => state.userState.recentTopics,
-    (recentTopics) => recentTopics.toArray()
+    (_, limit) => limit,
+    (recentTopics, limit) => {
+        return recentTopics.sort((a, b) => b.date - a.date).filter((recent) => !!recent.name).toArray().limit(limit);
+    }
 );
 export const getUserRecentTags = createSelector(
     (state) => state.userState.recentTags,
-    (recentTags) => recentTags.toArray()
+    (recentTags, limit) => {
+        return recentTags.sort((a, b) => b.date - a.date).filter((recent) => !!recent.name).toArray().limit(limit);
+    }
 );
 export const getUserRecentArticles = createSelector(
     (state) => state.userState.recentArticles,
-    (recentArticles) => recentArticles.toArray()
+    (recentArticles, limit) => {
+        return recentArticles.sort((a, b) => b.date - a.date).filter((recent) => !!recent.title).toArray().limit(limit);
+    }
 );
 
 export const getUserRecents = createSelector(
@@ -78,7 +85,7 @@ export const getUserRecents = createSelector(
 
         recents = recents.limit(limit);
 
-        recents = recents.filter((recent) => !!recent.title);
+        recents = recents.filter((recent) => !!recent.title || !!recent.name);
 
         return recents;
     }

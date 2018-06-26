@@ -10,6 +10,7 @@ export default class Input extends React.Component {
         ]),
         id: PropTypes.string.isRequired,
         className: PropTypes.string,
+        wrapperClassName: PropTypes.string,
         title: PropTypes.oneOfType([
             PropTypes.element,
             PropTypes.object,
@@ -61,22 +62,24 @@ export default class Input extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this._inputRef = React.createRef();
     }
 
     state = {
-        value: this.props.children || ''
+        value: !Utils.isEmpty(this.props.children) ? this.props.children : ''
     };
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.children !== nextProps.children) {
-            this.setState({
-                value: nextProps.children
-            });
-        }
-    }
 
     shouldComponentUpdate(nextProps, nextState) {
         return !_.isEqual(this.state.value, nextState.value) || !_.isEqual(this.props.className, nextProps.className) || !_.isEqual(this.props.isRequired, nextProps.isRequired);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.children !== this.state.value) {
+            if (this.props.onChange) {
+                this.props.onChange(this.state.value);
+            }
+        }
     }
 
     _handleChange = (event) => {
@@ -90,11 +93,11 @@ export default class Input extends React.Component {
     };
 
     focus = () => {
-        this.refs[this.props.id].focus();
+        this._inputRef.current.focus();
     };
 
     value = () => {
-        return this.refs[this.props.id].value;
+        return this._inputRef.current.value;
     };
 
     setValue = (newValue) => {
@@ -115,7 +118,7 @@ export default class Input extends React.Component {
             }
         }
 
-        const wrapperClass = classNames({
+        const wrapperClass = classNames(this.props.wrapperClassName, {
             'row input-form': this.props.type !== 'hidden'
         });
 
@@ -174,7 +177,7 @@ export default class Input extends React.Component {
                         </label>
                     }
 
-                    <input ref={this.props.id}
+                    <input ref={this._inputRef}
                            id={id}
                            className={inputClass}
                            type={this.props.type}

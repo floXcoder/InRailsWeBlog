@@ -75,25 +75,24 @@ export default class CommentBox extends React.Component {
     }
 
     state = {
-        isCommentsLoaded: false,
+        isCommentsLoaded: !Utils.isEmpty(this.props.initialComments),
         isShowingCommentForm: false
     };
 
-    componentWillMount() {
-        if (Utils.isEmpty(this.props.initialComments)) {
-            this._loadComments();
-        } else {
-            this.setState({
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.initialComments !== nextProps.comments) {
+            return {
+                ...prevState,
                 isCommentsLoaded: true
-            });
+            };
         }
+
+        return null;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.comments !== nextProps.comments) {
-            this.setState({
-                isCommentsLoaded: true
-            });
+    componentDidMount() {
+        if (!this.state.isCommentsLoaded) {
+            this._loadComments();
         }
     }
 

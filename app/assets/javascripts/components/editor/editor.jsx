@@ -6,6 +6,7 @@ import {
 } from '../../actions';
 
 import EditorLoader from '../../loaders/editor';
+import SanitizePaste from '../../modules/sanitizePaste';
 
 export const EditorMode = {
     EDIT: 1,
@@ -14,6 +15,8 @@ export const EditorMode = {
 
 export default class Editor extends React.Component {
     static propTypes = {
+        modelName: PropTypes.string.isRequired,
+        modelId: PropTypes.number,
         mode: PropTypes.number,
         id: PropTypes.string,
         placeholder: PropTypes.string,
@@ -53,14 +56,45 @@ export default class Editor extends React.Component {
 
             const defaultOptions = {
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
+                styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4'],
                 placeholder: this.props.placeholder,
+                popatmouse: false,
                 callbacks: {
                     onChange: this.props.onChange,
                     onFocus: this.props.onFocus,
                     onBlur: this.props.onBlur,
                     onKeyup: this.props.onKeyUp,
                     onKeydown: this._onKeyDown,
-                    onPaste: this.props.onPaste,
+                    onPaste: (event) => {
+                        event.preventDefault();
+
+                        const userAgent = window.navigator.userAgent;
+                        let msIE = userAgent.indexOf('MSIE ');
+                        msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
+                        const firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+                        let text;
+                        let type = 'plain';
+                        if (msIE) {
+                            text = window.clipboardData.getData('Text');
+                        } else {
+                            if (event.originalEvent.clipboardData.types.includes('text/html')) {
+                                text = event.originalEvent.clipboardData.getData('text/html');
+                                type = 'html';
+                            } else {
+                                text = event.originalEvent.clipboardData.getData('text/plain');
+                            }
+                        }
+
+                        if (text) {
+                            if (msIE || firefox) {
+                                setTimeout(() => {
+                                    document.execCommand('insertHTML', false, SanitizePaste.parse(text, type));
+                                }, 10);
+                            } else {
+                                document.execCommand('insertHTML', false, SanitizePaste.parse(text, type));
+                            }
+                        }
+                    },
                     onImageUpload: this.onImageUpload
                 },
                 hint: {
@@ -90,11 +124,11 @@ export default class Editor extends React.Component {
             if (this.props.mode === EditorMode.INLINE_EDIT) {
                 let airToolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
-                    ['specialStyle', ['advice', 'secret', 'cleaner']],
-                    ['clear', ['clear']],
-                    ['undo', ['undo', 'redo']],
+                    ['specialStyle', ['advice', 'secret']],
                     ['para', ['ul', 'ol']],
-                    ['insert', ['link', 'picture', 'video']]
+                    ['insert', ['link', 'picture', 'video']],
+                    ['undo', ['undo', 'redo']],
+                    ['clear', ['clear']]
                 ];
 
                 this._editor = $editor.summernote({
@@ -105,16 +139,15 @@ export default class Editor extends React.Component {
                     }
                 });
             } else {
-                // TODO: limit button if small screen
                 const toolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
-                    ['specialStyle', ['advice', 'secret', 'cleaner']],
-                    ['clear', ['clear']],
-                    ['undo', ['undo', 'redo']],
-                    ['view', ['fullscreen']],
                     ['para', ['ul', 'ol']],
+                    ['specialStyle', ['advice', 'secret']],
                     ['table', ['table']],
                     ['insert', ['link', 'picture', 'video']],
+                    ['undo', ['undo', 'redo']],
+                    ['clear', ['clear']],
+                    ['view', ['fullscreen']],
                     ['help', ['codeview', 'help']]
                 ];
 
@@ -144,33 +177,32 @@ export default class Editor extends React.Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
+    shouldComponentUpdate() {
+        // Do not update
+        return false;
+    }
+
+    componentDidUpdate(prevProps) {
         if (this._editor) {
-            const isCodeView = nextProps.isCodeView;
+            const isCodeView = prevProps.isCodeView;
             const codeViewCommand = isCodeView ? 'codeview.activate' : 'codeview.deactivate';
 
-
-            if (this.props.children !== nextProps.children) {
-                this.replace(nextProps.children);
+            if (this.props.children !== prevProps.children) {
+                this.replace(prevProps.children);
             }
 
-            if (this.props.isDisabled !== nextProps.isDisabled) {
-                this.toggleState(nextProps.isDisabled);
+            if (this.props.isDisabled !== prevProps.isDisabled) {
+                this.toggleState(prevProps.isDisabled);
             }
 
             if (isCodeView !== this.props.isCodeView) {
                 this._editor.summernote(codeViewCommand);
             }
 
-            if (this.props.placeholder !== nextProps.placeholder) {
-                this._notePlaceholder.html(nextProps.placeholder);
+            if (this.props.placeholder !== prevProps.placeholder) {
+                this._notePlaceholder.html(prevProps.placeholder);
             }
         }
-    }
-
-    shouldComponentUpdate() {
-        // Do not update
-        return false;
     }
 
     componentWillUnmount() {
@@ -190,12 +222,15 @@ export default class Editor extends React.Component {
         }
     };
 
+    _formatContent = (content) => {
+        return content && content.replace(/ data-src=/g, ' src=');
+    };
+
     onImageUpload = (images) => {
-        uploadImages(images, {
-            userId: 1,
-            model: 'article',
-            modelId: 1
-        }).map((upload) => {
+        uploadImages(images, Utils.compact({
+            model: this.props.modelName,
+            modelId: this.props.modelId
+        })).map((upload) => {
             upload.then((response) => {
                 if (response.upload) {
                     this.insertImage(response.upload.url, response.upload.filename);
@@ -316,7 +351,7 @@ export default class Editor extends React.Component {
                 <div ref={(editor) => this._editorRef = editor}
                      id={this.props.id}
                      className={editorClassName}
-                     dangerouslySetInnerHTML={{__html: this.props.children}}/>
+                     dangerouslySetInnerHTML={{__html: this._formatContent(this.props.children)}}/>
             </div>
         );
     }

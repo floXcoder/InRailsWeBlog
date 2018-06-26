@@ -62,8 +62,8 @@ module Api::V1
           #                 url:   tag_url(tag),
           #                 image: root_url + tag.default_picture
           #               }
-          render json:       tag,
-                 serializer: TagCompleteSerializer,
+          render json:            tag,
+                 serializer:      TagCompleteSerializer,
                  current_user_id: current_user&.id
         end
       end
@@ -78,11 +78,35 @@ module Api::V1
       respond_to do |format|
         format.json do
           if tag.save
-            render json:   tag,
-                   serializer:  TagSerializer,
+            render json:             tag,
+                   serializer:       TagSerializer,
                    current_topic_id: current_user&.current_topic_id
           else
             render json:   { errors: tag.errors },
+                   status: :unprocessable_entity
+          end
+        end
+      end
+    end
+
+    def update_priority
+      tags = []
+      priority_params[:tag_ids].reverse.each_with_index do |id, i|
+        tag = Tag.find(id)
+        admin_or_authorize tag, :update?
+        tags << tag if tag.update_columns(priority: i + 1)
+      end
+
+      respond_to do |format|
+        format.json do
+          if tags.present?
+            flash.now[:success] = t('views.tag.flash.successful_priority_update')
+            render json:            tags.reverse,
+                   each_serializer: TagSerializer,
+                   status:          :ok
+          else
+            flash.now[:error] = t('views.tag.flash.error_priority_update')
+            render json:   { errors: t('views.tag.flash.error_priority_update') },
                    status: :unprocessable_entity
           end
         end
@@ -128,11 +152,22 @@ module Api::V1
       end
     end
 
+    def priority_params
+      if params[:tag_ids]
+        params.permit(tag_ids: [])
+      else
+        {}
+      end
+    end
+
     def filter_params
       if params[:filter]
         params.require(:filter).permit(:visibility,
+                                       :order,
                                        :user_id,
+                                       :user_slug,
                                        :topic_id,
+                                       :topic_slug,
                                        :accepted,
                                        :bookmarked,
                                        tag_ids:   [],

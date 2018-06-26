@@ -70,6 +70,10 @@ en:
         remember_me: "Remember me"
         cancel: "Cancel"
         submit: "Log in"
+        connecting: "Connecting in progress"
+        externals:
+          google: "Login with Google"
+          facebook: "Login with Facebook"
       signup:
         title: "Create an account"
         pseudo: "Pseudo"
@@ -80,19 +84,10 @@ en:
         terms_of_use_name: "terms of use."
         cancel: "Cancel"
         submit: "Create my account"
+        connecting: "Subscribing in progress"
         externals:
           google: "Signup with Google"
           facebook: "Signup with Facebook"
-      login:
-        title: "Connection"
-        login: "Pseudo or Email"
-        password: "Password"
-        remember_me: "Remember me"
-        cancel: "Cancel"
-        submit: "Connection"
-        externals:
-          google: "Login with Google"
-          facebook: "Login with Facebook"
       index:
         link_to_user: "User details"
         search: "Find user"
@@ -166,6 +161,11 @@ en:
             title: "Sidebar"
             with_child: "Display tag children in main list"
             pin: "Sidebar open by default"
+          order:
+            title: "Tags order by default"
+            mode:
+              name: "Name"
+              priority: "Priority"
         search:
           title: "Search"
           operator:
@@ -195,6 +195,9 @@ en:
         saved_later: "You are not connected. Bookmarks will be added after connection."
         connection: "Log in"
         not_connected: "You must be connected to add or remove bookmarks"
+      list:
+        title: "Vos favoris"
+        none: "Aucun favoris"
     topic:
       common:
         visibility: "Choose visibility"
@@ -265,6 +268,15 @@ en:
         visibility_order:
           - everyone
           - only_me
+      index:
+        titles:
+          topic: "Tags for the current topic: %{topic}"
+          user: "All your tags"
+          all: "All public tags"
+        sort: "Sort your tags by priority"
+        links:
+          user_tags: "See all your used tags"
+          all_tags: "See all public tags"
       show:
         back_button: "Cancel"
         edit_link: "Edit"
@@ -350,6 +362,9 @@ en:
           true: "Enabled"
           false: "Disabled"
         topic: "Topic"
+        tagged_articles:
+          tag:
+            name: "Tag associated to the article"
       enums:
         visibility:
           everyone: "Public"
@@ -442,6 +457,10 @@ en:
           default: "Cannot add to bookmarks! Try to reload the page."
           bookmark: "%{message}"
     search:
+      filters:
+        priority: "Priority"
+        date: "Date"
+        all_topics: "For all topics"
       module:
         placeholder: "Search"
         button: "Search"
@@ -451,6 +470,17 @@ en:
           title: "Articles"
       index:
         placeholder: "Search"
+        button: "Trouver"
+        results:
+          one: "1 result"
+          other: "%{count} results"
+        suggestions:
+          tags: "Try with the following tags:"
+          articles: "Try with the spelling:"
+        filters:
+          button: "Filter by"
+        articles:
+          title: "Articles"
     comment:
       common:
         route: "comments"
@@ -751,6 +781,11 @@ en:
         user_ip: "IP"
         browser: "Browser"
         system: "System"
+    editor:
+      buttons:
+        advice: "Advice"
+        secret: "Secret"
+        cleaner: "Clean formatting"
     helpers:
       home: "Home"
       colon: ": "
@@ -766,6 +801,10 @@ en:
         last_word_connector: " and "
         two_words_connector: " and "
         words_connector: ", "
+      form:
+        ensure_validity: "Leave it blank"
+      not_found:
+        title: "Path not found!"
       errors:
         not_authorized: "You cannot access to this resource!"
         frontend: "An error occurred in the page, please refresh the page or go back"

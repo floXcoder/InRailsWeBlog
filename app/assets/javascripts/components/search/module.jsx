@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import {
     setSelectedTag,
     fetchUserRecents,
@@ -22,7 +24,9 @@ import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
 @connect((state) => ({
+    isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
+    currentTopicId: state.topicState.currentTopicId,
     recentTopics: getUserRecentTopics(state),
     recentTags: getUserRecentTags(state),
     recentArticles: getUserRecentArticles(state),
@@ -41,7 +45,9 @@ export default class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // From connect
+        isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
+        currentTopicId: PropTypes.number,
         recentTopics: PropTypes.array,
         recentTags: PropTypes.array,
         recentArticles: PropTypes.array,
@@ -59,25 +65,28 @@ export default class SearchModule extends React.Component {
     constructor(props) {
         super(props);
 
-        // Fetched by breadcrumb
-        // if (this.props.currentUserId) {
-        //     props.fetchUserRecents(this.props.currentUserId, {limit: 8});
-        // }
+        this._request = null;
     }
 
     state = {
         highlightedTagIndex: undefined
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.query !== nextProps.query) {
+    componentDidUpdate(prevProps) {
+        if (this.props.query !== prevProps.query) {
             this._resetTagSelection();
         }
 
-        if (nextProps.actionKey && nextProps.actionKey !== ' ') {
-            if (this._handleKeyAction()[nextProps.actionKey]) {
-                this._handleKeyAction()[nextProps.actionKey].call(this, nextProps.actionKey);
+        if (this.props.actionKey && this.props.actionKey !== ' ') {
+            if (this._handleKeyAction()[this.props.actionKey]) {
+                this._handleKeyAction()[this.props.actionKey].call(this, this.props.actionKey);
             }
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._request && this._request.signal) {
+            this._request.signal.abort();
         }
     }
 
@@ -138,14 +147,10 @@ export default class SearchModule extends React.Component {
     };
 
     _performSearch = () => {
-        this.props.fetchSearch({
-            query: this.props.query,
-            tags: this.props.selectedTags.map((tag) => tag.id)
-        })
-            .then(() => this.props.history.push({
-                pathname: '/research',
-                search: `?query=${this.props.query}`
-            }));
+        this.props.history.push({
+            pathname: '/search',
+            search: $.param(Utils.compact({query: this.props.query, tagIds: this.props.selectedTags.map((tag) => tag.id)}))
+        });
     };
 
     _handleSearchClose = () => {
@@ -155,8 +160,8 @@ export default class SearchModule extends React.Component {
     };
 
     render() {
-        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : this.props.recentTags;
-        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : this.props.recentArticles;
+        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : _.uniqBy(this.props.recentTags, (tag) => tag.name);
+        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : _.uniqBy(this.props.recentArticles, (article) => article.title);
 
         return (
             <div className="search-module-results">

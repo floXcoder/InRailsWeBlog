@@ -1,5 +1,7 @@
 class UploadsWorker
   include Sidekiq::Worker
+  include Sidekiq::Status::Worker
+
   sidekiq_options queue: :default
 
   # Clean uploads without imageable_id and older than 1 day

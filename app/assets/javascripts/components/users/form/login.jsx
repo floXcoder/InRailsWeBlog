@@ -9,6 +9,8 @@ import {
     validateUser
 } from '../../../actions/userActions';
 
+import EnsureValidity from '../../modules/ensureValidity';
+
 import Submit from '../../materialize/submit';
 
 import TextField from '../../materialize/form/text';
@@ -52,6 +54,8 @@ export default class LoginForm extends React.Component {
         return (
             <form className={classNames('blog-form', 'connection', {'form-invalid': this.props.invalid})}
                   onSubmit={this.props.handleSubmit}>
+                <EnsureValidity/>
+
                 <div className="row connection-externals margin-bottom-0">
                     <div className="col s12 l6">
                         <div className="connection-google">

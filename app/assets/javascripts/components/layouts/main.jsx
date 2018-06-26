@@ -5,7 +5,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import pasteManager from '../modules/pasteManager';
 import matchMedia from '../modules/matchMedia';
 
 import UserManager from './managers/user';
@@ -18,7 +17,6 @@ import SidebarLayout from './sidebar';
 import BreadcrumbLayout from './breadcrumb';
 import FooterLayout from './footer';
 
-@pasteManager
 @matchMedia
 export default class MainLayout extends React.Component {
     static propTypes = {
@@ -40,28 +38,6 @@ export default class MainLayout extends React.Component {
         super(props);
 
         this._router = null;
-
-        props.onPaste((content) => {
-            if (content && this._router && this.props.path !== '/article/new' && this._router.location.hash !== '#new-article') {
-                const isURL = Utils.isURL(content.trim());
-
-                let articleData = {};
-                if (isURL) {
-                    articleData.reference = content.trim();
-                } else {
-                    articleData.content = content
-                }
-
-                this._router.history.replace({
-                    hash: '#new-article',
-                    state: {
-                        article: articleData,
-                        mode: isURL ? 'link' : 'story',
-                        isDraft: true
-                    }
-                });
-            }
-        });
     }
 
     state = {
@@ -156,7 +132,8 @@ export default class MainLayout extends React.Component {
                                            })}>
                                                <ErrorBoundary errorType="text"
                                                               errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                                   <BreadcrumbLayout currentPath={router.location.pathname}/>
+                                                   <BreadcrumbLayout currentPath={router.location.pathname}
+                                                                     recentsLimit={8}/>
                                                </ErrorBoundary>
 
                                                <div className="container blog-main">
@@ -181,9 +158,9 @@ export default class MainLayout extends React.Component {
                                                                  childTagSlug: router.match.params.childTagSlug
                                                              }
                                                          }}>
-                                                   <span className="material-icons"
-                                                         data-icon="add_circle_outline"
-                                                         aria-hidden="true"/>
+                                                       <span className="material-icons"
+                                                             data-icon="add_circle_outline"
+                                                             aria-hidden="true"/>
                                                    </Link>
                                                }
 

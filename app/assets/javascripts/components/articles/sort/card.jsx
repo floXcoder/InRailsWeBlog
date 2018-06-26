@@ -12,24 +12,23 @@ const ArticleCardSort = ({article}) => (
                     {article.title}
                 </h2>
 
-                <div className="blog-article-info">
-                    {
-                        article.tags.size > 0 &&
+                {
+                    article.tags.size > 0 &&
+                    <div className="blog-article-info">
                         <ArticleTags articleId={article.id}
                                      tags={article.tags}
                                      parentTagIds={article.parentTagIds}
                                      childTagIds={article.childTagIds}
                                      hasTooltip={false}/>
-                    }
+                    </div>
+                }
 
-                    {
-                        (article.visibility === 'everyone' && article.commentsCount > 0) &&
-                        <CommentCountIcon
-                            commentLink={`/article/${article.slug}#article-comments-${article.id}`}
-                            commentsCount={article.commentsCount}
-                            hasIcon={false}/>
-                    }
-                </div>
+                {
+                    (article.visibility === 'everyone' && article.commentsCount > 0) &&
+                    <CommentCountIcon commentLink={`/article/${article.slug}#article-comments-${article.id}`}
+                                      commentsCount={article.commentsCount}
+                                      hasIcon={false}/>
+                }
             </div>
 
             <div className="blog-article-content"

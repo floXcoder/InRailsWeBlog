@@ -7,10 +7,11 @@ Rails.application.routes.draw do
 
   # Routes managed by javascript router
   get '/user/*id',      to: 'static_pages#home'
-  get '/research',      to: 'static_pages#home'
-  get '/research/*id',  to: 'static_pages#home'
+  get '/search',        to: 'static_pages#home'
+  get '/search/*id',    to: 'static_pages#home'
   get '/topic/*id',     to: 'static_pages#home'
   get '/tags',          to: 'static_pages#home'
+  get '/tags/*ids',     to: 'static_pages#home'
   get '/tagged/*id',    to: 'static_pages#home'
   get '/tag/*id',       to: 'static_pages#home'
   get '/article/*id',   to: 'static_pages#home'
@@ -58,22 +59,23 @@ Rails.application.routes.draw do
       resources :users, except: [:new, :create, :destroy] do
         collection do
           get :validation,         to: 'users#validation'
+
+          concerns :tracker,       module: :users
         end
 
         member do
           get      :show,          to: 'users#show',               as: :root
 
           get      :profile,       to: 'users#profile',            as: :profile
-          get      :bookmarks,     to: 'users#bookmarks',          as: :bookmarks
-          get      :draft,         to: 'users#draft',              as: :draft
           get      :comments,      to: 'users#comments',           as: :comments
           get      :recents,       to: 'users#recents',            as: :recents
+          post     :recents,       to: 'users#update_recents'
           get      :activities,    to: 'users#activities',         as: :activities
 
           concerns :tracker,       module: :users
         end
 
-        resources :bookmarks, controller: 'users/bookmarks', only: [:create, :destroy]
+        resources :bookmarks, controller: 'users/bookmarks', only: [:index, :create, :destroy]
 
         resources :settings, controller: 'users/settings', only: [:index] do
           collection do
@@ -88,11 +90,13 @@ Rails.application.routes.draw do
       # Topics
       resources :topics do
         collection do
-          post :switch,        to: 'topics#switch'
+          get :switch,        to: 'topics#switch'
+
+          concerns :tracker,  module: :topics
         end
 
         member do
-          concerns :tracker,   module: :tags
+          concerns :tracker,  module: :tags
         end
       end
 
@@ -100,13 +104,13 @@ Rails.application.routes.draw do
       resources :articles do
         collection do
           put      :priority,  to: 'articles#update_priority'
+
+          concerns :tracker,   module: :articles
         end
 
         member do
           get      :history,   to: 'articles#history'
           get      :restore,   to: 'articles#restore'
-          post     :bookmark,  to: 'articles#add_bookmark'
-          delete   :bookmark,  to: 'articles#remove_bookmark'
 
           concerns :tracker,   module: :articles
 
@@ -120,6 +124,12 @@ Rails.application.routes.draw do
 
       # Tags
       resources :tags, except: [:new, :create, :edit] do
+        collection do
+          put      :priority,  to: 'tags#update_priority'
+
+          concerns :tracker,   module: :tags
+        end
+
         member do
           concerns :tracker,   module: :tags
 
@@ -162,8 +172,7 @@ Rails.application.routes.draw do
     post    '/admin/login',  to: 'users/sessions#create'
     delete  '/admin/logout', to: 'users/sessions#destroy',  as: :logout_admin
   end
-  devise_for :admins, controllers: { sessions:  'users/sessions',
-                                     passwords: 'users/passwords' }
+  devise_for :admins, controllers: { sessions:  'users/sessions', passwords: 'users/passwords' }
 
   # Admin interface
   authenticate :admin do

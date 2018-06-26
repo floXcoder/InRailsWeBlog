@@ -5,12 +5,16 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Tags
-export const fetchTags = (filter, options = {}) => ({
+export const fetchTags = (filter, options = {}, payload = {}) => ({
     actionType: ActionTypes.TAG,
     fetchAPI: () => api.get(`/api/v1/tags`, {
         filter,
         ...options
-    })
+    }),
+    shouldCallAPI: (state) => {
+        return !state.userState.isConnected && payload.topicTags ? state.tagState.topicTags.size === 0 : true;
+    },
+    payload
 });
 
 export const fetchTag = (tagId, options = {}) => ({
@@ -47,12 +51,12 @@ export const updateTag = (tag, options = {}) => ({
     })
 });
 
-// export const updateTagPriority = (tagIdsByPriority) => ({
-//     actionType: ActionTypes.TAG,
-//     mutationAPI: () => api.update(`/api/v1/tags/priority`, {
-//         tagIds: tagIdsByPriority
-//     })
-// });
+export const updateTagPriority = (tagIdsByPriority) => ({
+    actionType: ActionTypes.TAG,
+    mutationAPI: () => api.update('/api/v1/tags/priority', {
+        tagIds: tagIdsByPriority
+    })
+});
 
 export const deleteTag = (tagId, options = {}) => ({
     actionType: ActionTypes.TAG,
@@ -62,4 +66,9 @@ export const deleteTag = (tagId, options = {}) => ({
     payload: {
         removedId: tagId
     }
+});
+
+export const setCurrentTags = (tags) => ({
+    type: ActionTypes.TAG_SET_CURRENT_TAGS,
+    tags
 });

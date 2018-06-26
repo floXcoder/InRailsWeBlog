@@ -2,9 +2,9 @@
 #
 # Table name: articles
 #
-#  id                      :integer          not null, primary key
-#  user_id                 :integer
-#  topic_id                :integer
+#  id                      :bigint(8)        not null, primary key
+#  user_id                 :bigint(8)
+#  topic_id                :bigint(8)
 #  mode                    :integer          default("story"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb

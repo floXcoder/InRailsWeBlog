@@ -10,7 +10,7 @@ module Api::V1
       upload = current_user.uploads.build
       admin_or_authorize upload
 
-      if upload_params[:model] && upload_params[:model_id]
+      if upload_params[:model].present? && upload_params[:model_id].present?
         class_model = upload_params[:model].classify.constantize
         model       = class_model.find(upload_params[:model_id])
         admin_or_authorize model

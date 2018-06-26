@@ -10,12 +10,15 @@ import ArticleSort from './components/loaders/articleSort';
 import TagIndex from './components/loaders/tagIndex';
 import TagShow from './components/loaders/tagShow';
 import TagEdit from './components/loaders/tagEdit';
+import TagSort from './components/loaders/tagSort';
 
 import UserShow from './components/loaders/userShow';
 import UserEdit from './components/loaders/userEdit';
 
 import SearchModule from './components/loaders/searchModule';
 import SearchIndex from './components/loaders/searchIndex';
+
+import NotFound from './components/layouts/notFound';
 
 export default {
     // Rails routes:
@@ -43,13 +46,18 @@ export default {
                 component: ArticleIndex
             },
             {
-                path: '/research',
+                path: '/search',
                 component: SearchIndex
             },
             {
                 path: '/user/:topicSlug',
                 exact: true,
                 component: ArticleIndex
+            },
+            {
+                path: '/user/:topicSlug/tags',
+                exact: true,
+                component: TagIndex
             },
             {
                 path: '/user/:topicSlug/sort',
@@ -75,6 +83,16 @@ export default {
                 path: '/topic/:userSlug/:topicSlug',
                 exact: true,
                 component: ArticleIndex
+            },
+            {
+                path: '/tags/:userSlug/sort',
+                exact: true,
+                component: TagSort
+            },
+            {
+                path: '/tags/:userSlug',
+                exact: true,
+                component: TagIndex
             },
             {
                 path: '/tags',
@@ -143,6 +161,9 @@ export default {
             //     path: '/topic/:topicSlug/article/:articleSlug/edit',
             //     component: ArticleEdit
             // }
+            {
+                component: NotFound
+            }
         ]
     },
 
