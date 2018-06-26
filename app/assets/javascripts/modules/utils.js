@@ -282,7 +282,7 @@ export const uuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g
     return v.toString(16);
 });
 
-export const normalizeLink = (link) => link.replace(/^(https?):\/\//, '').replace(/\/$/, '');
+export const normalizeLink = (link) => link ? link.replace(/^(https?):\/\//, '').replace(/\/$/, '') : null;
 
 export const isNumber = (number) => !isNaN(parseFloat(number)) && isFinite(number);
 

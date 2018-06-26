@@ -67,7 +67,7 @@ export default class Input extends React.Component {
     }
 
     state = {
-        value: this.props.children || ''
+        value: !Utils.isEmpty(this.props.children) ? this.props.children : ''
     };
 
     shouldComponentUpdate(nextProps, nextState) {

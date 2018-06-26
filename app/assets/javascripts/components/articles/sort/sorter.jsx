@@ -31,7 +31,7 @@ const SortableList = SortableContainer(({articles}) => (
     )
 );
 
-export default class ArticleSorterDisplay extends React.Component {
+export default class ArticleSorter extends React.Component {
     static propTypes = {
         // Articles must already be sorted by priority
         articles: PropTypes.array.isRequired,

@@ -1,4 +1,4 @@
-lock '3.10.2'
+lock '3.11.0'
 
 set :application, 'InRailsWeBlog'
 set :repo_url, ENV['GIT_REPO_ADDRESS']
