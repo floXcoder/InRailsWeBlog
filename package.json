@@ -16,7 +16,7 @@
     "test:watch": "jest --watch --config ./frontend/test/jest.conf.json",
     "test:coverage": "jest --coverage --config ./frontend/test/jest.conf.json",
     "build:prod": "webpack --progress --config frontend/webpack/production.config.js",
-    "production": "webpack --env production --mode production --config frontend/webpack/production.config.js"
+    "production": "webpack --config frontend/webpack/production.config.js"
   },
   "author": "Flo",
   "license": "ISC",

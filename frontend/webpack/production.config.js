@@ -18,6 +18,11 @@ webPackConfig.output = _.merge(webPackConfig.output, {
 });
 
 webPackConfig = _.merge(webPackConfig, {
+    output: {
+        pathinfo: false,
+        chunkFilename: config.production.chunkFilename + '.js'
+    },
+
     stats: {
         colors: true,
         warnings: true,
@@ -36,22 +41,28 @@ webPackConfig = _.merge(webPackConfig, {
         publicPath: true
     },
 
-    output: {
-        pathinfo: false,
-        chunkFilename: config.production.chunkFilename + '.js'
-    },
-
     bail: true,
 
     devtool: false
 });
 
+// Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json#L1285
 webPackConfig.optimization = {
-    namedModules: false,
-    namedChunks: false,
-    noEmitOnErrors: true,
+    flagIncludedChunks: true,
+    occurrenceOrder: true,
+    sideEffects: false, // => incompatible with I18n module
+    providedExports: true,
+    usedExports: true,
     concatenateModules: true,
     minimize: true,
+    noEmitOnErrors: true,
+    namedModules: false,
+    namedChunks: false,
+    nodeEnv: 'production',
+    mangleWasmImports: true,
+    removeAvailableModules: true,
+    removeEmptyChunks: true,
+    mergeDuplicateChunks: true,
     runtimeChunk: {
         name: 'runtime'
     },
