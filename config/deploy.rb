@@ -109,12 +109,12 @@ namespace :assets do
 end
 
 namespace :deploy do
-  desc 'Restart application'
-  task :restart do
-    on roles(:web), in: :sequence, wait: 5 do
-      execute :sudo, '/etc/init.d/apache2 restart'
-    end
-  end
+  # desc 'Restart application'
+  # task :restart do
+  #   on roles(:web), in: :sequence, wait: 5 do
+  #     execute :sudo, '/etc/init.d/apache2 restart'
+  #   end
+  # end
 
   desc 'Index elastic search'
   task :elastic_search do
