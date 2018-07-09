@@ -6,6 +6,7 @@ before_script:
 #  - export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin
   - pwd
   - whoami
+  - rvm gemset use InRailsWeBlog
   - ruby -v
   - gem install bundler --no-ri --no-rdoc
   - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
