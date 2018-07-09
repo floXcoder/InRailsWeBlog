@@ -35,6 +35,9 @@ test:
     DATABASE_TEST_USERNAME: 'inrailsweblog_test'
     DATABASE_TEST_PASSWORD: 'inrailsweblog'
   script:
+    - bundle exec rails db:drop RAILS_ENV=test
+    - bundle exec rails db:create RAILS_ENV=test
+    - bundle exec rails db:schema:load RAILS_ENV=test
     - bundle exec rspec -t basic spec/
 
 deploy:
