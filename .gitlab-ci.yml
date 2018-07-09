@@ -10,6 +10,7 @@ before_script:
   - gem install bundler --no-ri --no-rdoc
   - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
+
 audit:
   script:
     - gem install bundler-audit
