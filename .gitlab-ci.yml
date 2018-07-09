@@ -1,0 +1,47 @@
+stages:
+  - test
+  - deploy
+
+before_script:
+#  - export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin
+  - pwd
+  - whoami
+  - ruby -v
+  - gem install bundler --no-ri --no-rdoc
+  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
+
+audit:
+  script:
+    - gem install bundler-audit
+    - bundle audit check --update
+  allow_failure: true
+
+brakeman:
+  script:
+    - bundle exec brakeman -q
+  allow_failure: true
+
+missing_translations:
+  script:
+    - bundle exec i18n-tasks missing
+
+test:
+  stage: test
+  variables:
+    RAILS_ENV: 'test'
+    DATABASE_TEST_NAME: 'inrailsweblog_test'
+    DATABASE_TEST_USERNAME: 'inrailsweblog_test'
+    DATABASE_TEST_PASSWORD: 'inrailsweblog'
+  script:
+    - bundle exec rspec -t basic spec/
+
+deploy:
+  stage: deploy
+  script:
+    - bundle exec rails InRailsWeBlog:deploy NO_TEST=true
+  environment:
+    name: production
+    url: https://www.inrailsweblog.com
+#  when: manual
+  only:
+    - master
