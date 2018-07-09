@@ -14,6 +14,7 @@ before_script:
   - whoami
   - rvm gemset use InRailsWeBlog
   - ruby -v
+  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
 build:
   stage: build
