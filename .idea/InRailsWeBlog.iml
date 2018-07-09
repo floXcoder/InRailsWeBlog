@@ -317,7 +317,7 @@
     <orderEntry type="library" scope="PROVIDED" name="slim (v3.0.9, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="slim-rails (v3.1.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spoon (v0.0.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sprockets (v3.7.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sprockets (v3.7.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.2.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sshkit (v1.16.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sshkit-interactive (v0.3.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
