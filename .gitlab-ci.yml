@@ -1,4 +1,5 @@
 stages:
+  - build
   - test
   - deploy
 
@@ -8,22 +9,32 @@ before_script:
   - whoami
   - rvm gemset use InRailsWeBlog
   - ruby -v
-  - gem install bundler --no-ri --no-rdoc
-  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
+cache:
+  paths:
+    - vendor/bundle
+
+build:
+  stage: build
+  script:
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
 audit:
+  stage: test
   script:
     - gem install bundler-audit
     - bundle audit check --update
   allow_failure: true
 
 brakeman:
+  stage: test
   script:
     - bundle exec brakeman -q
   allow_failure: true
 
 missing_translations:
+  stage: test
   script:
     - bundle exec i18n-tasks missing
 
