@@ -3,11 +3,6 @@
   "version": "0.8.0",
   "private": true,
   "description": "InRailsWeBlog blog apps",
-  "engines": {
-    "node": "10.5.0",
-    "npm": "6.1.0",
-    "yarn": "1.7.0"
-  },
   "scripts": {
     "start": "bundle exec guard",
     "development": "webpack-dev-server --config frontend/webpack/development.config.js",
