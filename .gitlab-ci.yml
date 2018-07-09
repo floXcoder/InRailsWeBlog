@@ -13,7 +13,7 @@ before_script:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-  - vendor/bundle
+  - vendor
 
 build:
   stage: build
