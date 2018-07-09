@@ -3,17 +3,18 @@ stages:
   - test
   - deploy
 
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - vendor
+
 before_script:
 #  - export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin
   - pwd
   - whoami
   - rvm gemset use InRailsWeBlog
   - ruby -v
-
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-  - vendor
+  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
 build:
   stage: build
