@@ -42,6 +42,5 @@ deploy:
   environment:
     name: production
     url: https://www.inrailsweblog.com
-#  when: manual
   only:
     - master
