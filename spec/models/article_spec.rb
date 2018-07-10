@@ -525,7 +525,7 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '.default_picture' do
       it { is_expected.to respond_to(:default_picture) }
-      it { expect(@article.default_picture).to eq('') }
+      it { expect(@article.default_picture).to eq('/assets/') }
     end
 
     describe '.mark_as_outdated' do
