@@ -20,6 +20,8 @@ build:
   script:
     - gem install bundler --no-ri --no-rdoc
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
+  only:
+    - develop
 
 audit:
   stage: test
@@ -27,12 +29,16 @@ audit:
     - gem install bundler-audit
     - bundle audit check --update
   allow_failure: true
+  only:
+    - develop
 
 brakeman:
   stage: test
   script:
     - bundle exec brakeman -q
   allow_failure: true
+  only:
+    - develop
 
 test:
   stage: test
@@ -43,11 +49,8 @@ test:
     DATABASE_TEST_PASSWORD: 'inrailsweblog'
   script:
     - bundle exec rspec -t basic spec/
-
-predeploy:
-  stage: deploy
-  script:
-    - bundle exec rails InRailsWeBlog:create_version
+  only:
+    - develop
 
 deploy:
   stage: deploy
@@ -64,4 +67,4 @@ deploy:
   script:
     - bundle exec cap production deploy
   only:
-    - tags
+    - master
