@@ -17,7 +17,7 @@ build:
   only:
     - develop
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
+    key: build-cache
     paths:
     - vendor/
 
