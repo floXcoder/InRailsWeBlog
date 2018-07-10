@@ -177,7 +177,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         tags_for_mixed_article = json_articles['articles'].select { |article| article['title'] == 'mixed_tags' }.first['tags'].map { |tag| tag['name'] }
-        expect(tags_for_mixed_article).to eq([@public_tags[0].name, @public_tags[1].name])
+        expect(tags_for_mixed_article.sort).to eq([@public_tags[0].name, @public_tags[1].name].sort)
       end
     end
 
@@ -269,7 +269,7 @@ describe 'Article API', type: :request, basic: true do
 
         article = JSON.parse(response.body)
         expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].map { |tag| tag['name'] }).to eq([@public_tags[0].name, @public_tags[1].name])
+        expect(article['article']['tags'].map { |tag| tag['name'] }.sort).to eq([@public_tags[0].name, @public_tags[1].name].sort)
       end
     end
   end
