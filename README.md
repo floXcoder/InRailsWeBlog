@@ -1,4 +1,4 @@
-# InRailsWeBlog
+# InRailsWeBlog [![pipeline status](https://gitlab.l-x.fr/Flo/InRailsWeBlog/badges/develop/pipeline.svg)](https://gitlab.l-x.fr/Flo/InRailsWeBlog/commits/develop) [![coverage report](https://gitlab.l-x.fr/Flo/InRailsWeBlog/badges/develop/coverage.svg)](https://gitlab.l-x.fr/Flo/InRailsWeBlog/commits/develop)
 
 This is a not so simple blog.
 
@@ -287,7 +287,17 @@ Two productions environment are available:
 
 #### Production
 
-https://www.inrailsweblog.fr
+https://www.inrailsweblog.com
+
+Gitlab is used for automatic deployment: 
+
+- Push new modifications on develop branch, Gitlab will build and run tests on this branch.
+
+- Create a new Gitflow Release version and push modifications on master branch to deploy on website. Increment each time the version number.
+
+
+- To deploy manually: 
+
 
     rails InRailsWeBlog:deploy ENV=prod NO_TEST=true
 
