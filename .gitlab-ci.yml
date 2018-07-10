@@ -30,7 +30,9 @@ audit:
   only:
     - develop
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
+    key: build-cache
+    paths:
+    - vendor/
 
 brakeman:
   stage: test
@@ -40,7 +42,9 @@ brakeman:
   only:
     - develop
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
+    key: build-cache
+    paths:
+    - vendor/
 
 test:
   stage: test
@@ -54,7 +58,9 @@ test:
   only:
     - develop
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
+    key: build-cache
+    paths:
+    - vendor/
 
 deploy:
   stage: deploy
