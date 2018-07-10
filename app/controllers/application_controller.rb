@@ -333,6 +333,8 @@ class ApplicationController < ActionController::Base
   def not_found_error(exception)
     # handle_error(exception)
 
+    # Raven.capture_exception(exception)
+
     raise if Rails.env.development?
 
     respond_to do |format|
@@ -344,6 +346,8 @@ class ApplicationController < ActionController::Base
 
   def server_error(exception)
     handle_error(exception)
+
+    Raven.capture_exception(exception)
 
     raise if Rails.env.development?
 
