@@ -25,8 +25,8 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host          = ENV['WEBSITE_ADDRESS']
   config.action_controller.default_url_options = { host: ENV['WEBSITE_ADDRESS'] }
+  config.action_controller.asset_host          = ENV['WEBSITE_ASSET']
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
