@@ -3,8 +3,8 @@ RSpec::Matchers.define :act_as_paranoid do |model|
     expect(actual).to have_db_column(:deleted_at)
     # expect(actual).to have_db_index(:deleted_at)
 
-    expect(model.all.where_sql).to include('"deleted_at" IS NULL')
-    expect(model.unscoped.where_sql.to_s).to eq('')
+    expect(model.all.to_sql).to include('"deleted_at" IS NULL')
+    expect(model.unscoped.to_sql.to_s).not_to include('"deleted_at" IS NULL')
   end
 
   description do

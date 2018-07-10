@@ -1,0 +1,70 @@
+stages:
+  - build
+  - test
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - vendor
+
+before_script:
+  - pwd
+  - whoami
+  - rvm gemset use InRailsWeBlog
+  - ruby -v
+  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
+
+build:
+  stage: build
+  script:
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
+  only:
+    - develop
+
+audit:
+  stage: test
+  script:
+    - gem install bundler-audit
+    - bundle audit check --update
+  allow_failure: true
+  only:
+    - develop
+
+brakeman:
+  stage: test
+  script:
+    - bundle exec brakeman -q
+  allow_failure: true
+  only:
+    - develop
+
+test:
+  stage: test
+  variables:
+    RAILS_ENV: 'test'
+    DATABASE_TEST_NAME: 'inrailsweblog_test'
+    DATABASE_TEST_USERNAME: 'inrailsweblog_test'
+    DATABASE_TEST_PASSWORD: 'inrailsweblog'
+  script:
+    - bundle exec rspec -t basic spec/
+  only:
+    - develop
+
+deploy:
+  stage: deploy
+  variables:
+    DEPLOY_SERVER: "$DEPLOY_SERVER"
+    DEPLOY_USER: "$DEPLOY_USER"
+    GIT_REPO_ADDRESS: "$GIT_REPO_ADDRESS"
+    GIT_REPO_USER: "$GIT_REPO_USER"
+    GIT_REPO_PORT: "$GIT_REPO_PORT"
+  environment:
+    name: production
+    url: https://www.inrailsweblog.com
+  # when: manual
+  script:
+    - bundle exec cap production deploy
+  only:
+    - master

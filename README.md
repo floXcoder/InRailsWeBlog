@@ -116,7 +116,7 @@ Install NodeJS and Yarn as package manager:
 
     sudo apt-get install -y nodejs yarn
 
-    sudo npm i -g gulp eslint
+    sudo npm i -g webpack eslint
 
 Install npm packages for the project:
 
@@ -181,12 +181,6 @@ Check outdated gems:
 Check outdated npm packages:
 
     yarn outdated
-
-### Task manager: Gulp
-
-List all gulps tasks:
-
-    gulp --tasks
 
 ### Database
 
@@ -297,10 +291,11 @@ https://www.inrailsweblog.fr
 
     rails InRailsWeBlog:deploy ENV=prod NO_TEST=true
 
-- Gulp:
+- After the first deployment, executes the cron tasks:
 
 
-    gulp webpack:production --env=production
+    RAILS_ENV=production bundle exec rake locatipic:update_geolite --silent
+    RAILS_ENV=production bundle exec rake locatipic:seo[sitemap] --silent
 
 - Other commands:
 
@@ -314,11 +309,11 @@ https://www.inrailsweblog.fr
     cap production rails:console
     cap production rails:console sandbox=1
 
-### Gulp
+### Webpack assets
 
 Run in production:
 
-    gulp production
+    npm run production
 
 ### Sidekiq
 

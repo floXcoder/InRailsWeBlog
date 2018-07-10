@@ -3,4 +3,4 @@
 - javascript "tags/edit-#{I18n.locale}"
 - javascript_defer 'commons', 'tags/show'
 
-= content_tag :div, '', id: 'tag-show-component', data: { tag: Tag.as_json(tag, current_user: current_user }) }
+= content_tag :div, '', id: 'tag-show-component', data: { tag: Tag.as_json(tag, current_user: current_user) }
