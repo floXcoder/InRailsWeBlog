@@ -68,3 +68,11 @@ deploy:
     - bundle exec cap production deploy
   only:
     - master
+
+postdeploy:
+  stage: deploy
+  script:
+    - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
+    - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
+  only:
+    - master
