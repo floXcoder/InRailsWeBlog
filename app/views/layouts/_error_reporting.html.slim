@@ -1,0 +1,9 @@
+- if Rails.env.production? && ENV['SENTRY_ADDRESS']
+  script crossorigin="anonymous" src="https://#{ENV['SENTRY_ADDRESS']}/3.26.2/raven.min.js"
+  javascript:
+      Raven.config('https://fc25f6cf95b44d23bc968e14d25f218b@sentry.artphotolimited.com/4').install();
+      Raven.setTagsContext({
+          userId: "#{current_user&.id}",
+          topicId: "#{current_user&.current_topic_id}",
+          locale: "#{I18n.locale}"
+      });

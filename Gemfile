@@ -185,8 +185,8 @@ group :development, :test do
 end
 
 group :production do
-  # server
-  gem 'passenger',      '~> 5'
+  # Errors reporting
+  gem 'sentry-raven',   '2.7.4'
 
   # Improve log outputs
   gem 'lograge',        '0.10.0'

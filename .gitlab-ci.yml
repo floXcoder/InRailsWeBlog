@@ -4,9 +4,9 @@ stages:
   - deploy
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
+  key: gems
   paths:
-  - vendor
+    - vendor
 
 before_script:
   - pwd
@@ -17,6 +17,10 @@ before_script:
 
 build:
   stage: build
+  cache:
+    key: gems
+    paths:
+      - vendor
   script:
     - gem install bundler --no-ri --no-rdoc
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
@@ -25,6 +29,11 @@ build:
 
 audit:
   stage: test
+  cache:
+    key: gems
+    paths:
+      - vendor
+    policy: pull
   script:
     - gem install bundler-audit
     - bundle audit check --update
@@ -34,6 +43,11 @@ audit:
 
 brakeman:
   stage: test
+  cache:
+    key: gems
+    paths:
+      - vendor
+    policy: pull
   script:
     - bundle exec brakeman -q
   allow_failure: true
@@ -47,6 +61,11 @@ test:
     DATABASE_TEST_NAME: 'inrailsweblog_test'
     DATABASE_TEST_USERNAME: 'inrailsweblog_test'
     DATABASE_TEST_PASSWORD: 'inrailsweblog'
+  cache:
+    key: gems
+    paths:
+      - vendor
+    policy: pull
   script:
     - bundle exec rspec -t basic spec/
   only:
@@ -63,7 +82,11 @@ deploy:
   environment:
     name: production
     url: https://www.inrailsweblog.com
-  # when: manual
+  cache:
+    key: gems
+    paths:
+      - vendor
+    policy: pull
   script:
     - bundle exec cap production deploy
   only:
@@ -71,6 +94,11 @@ deploy:
 
 postdeploy:
   stage: deploy
+  cache:
+    key: gems
+    paths:
+      - vendor
+    policy: pull
   script:
     - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
     - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
