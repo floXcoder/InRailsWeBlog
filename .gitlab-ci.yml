@@ -15,7 +15,6 @@ build:
     key: gems
     paths:
       - vendor
-    policy: push
   script:
     - gem install bundler --no-ri --no-rdoc
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
