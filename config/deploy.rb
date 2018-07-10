@@ -159,12 +159,10 @@ namespace :deploy do
     end
   end
 
-  # after :publishing, :elastic_search
-  # after :publishing, :flush_redis
-
   after :publishing, :flush_redis
-  # after :publishing, :generate_sitemap
+  after :publishing, :elastic_search
   after :publishing, :update_revision_file
+  # after :publishing, :generate_sitemap
 
   after :publishing, :restart
   after :finishing, :cleanup

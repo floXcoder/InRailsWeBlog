@@ -34,11 +34,6 @@ brakeman:
     - bundle exec brakeman -q
   allow_failure: true
 
-missing_translations:
-  stage: test
-  script:
-    - bundle exec i18n-tasks missing
-
 test:
   stage: test
   variables:
@@ -49,12 +44,24 @@ test:
   script:
     - bundle exec rspec -t basic spec/
 
-deploy:
+predeploy:
   stage: deploy
   script:
-    - bundle exec rails InRailsWeBlog:deploy NO_TEST=true
+    - bundle exec rails InRailsWeBlog:create_version
+
+deploy:
+  stage: deploy
+  variables:
+    DEPLOY_SERVER: "$DEPLOY_SERVER"
+    DEPLOY_USER: "$DEPLOY_USER"
+    GIT_REPO_ADDRESS: "$GIT_REPO_ADDRESS"
+    GIT_REPO_USER: "$GIT_REPO_USER"
+    GIT_REPO_PORT: "$GIT_REPO_PORT"
   environment:
     name: production
     url: https://www.inrailsweblog.com
+  # when: manual
+  script:
+    - bundle exec cap production deploy
   only:
-    - master
+    - tags

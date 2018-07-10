@@ -4,7 +4,6 @@ namespace :InRailsWeBlog do
 
   # rails InRailsWeBlog:static_analysis:best_pratices
   # rails InRailsWeBlog:static_analysis:rubocop
-  # rails InRailsWeBlog:static_analysis:brakeman
   # rails InRailsWeBlog:static_analysis:metric_fu
   # rails InRailsWeBlog:static_analysis:eslint
   # rails InRailsWeBlog:static_analysis:rspec_basic_coverage
@@ -29,30 +28,11 @@ namespace :InRailsWeBlog do
       cli.run(%W[--rails --format html -o #{output_file} --display-cop-names --extra-details --fail-level warning --except Style,Metrics])
     end
 
-    desc 'Brakeman'
-    task brakeman: :environment do
-      Rails.env = 'test'
-
-      require 'brakeman'
-
-      output_file = ['static_analysis/brakeman.html']
-      Brakeman.run app_path: Rails.root, output_files: output_file, print_report: true
-    end
-
     desc 'Javascript ESLint'
     task eslint: :environment do
       output_file = Rails.root.join('static_analysis', 'eslint.html')
       %x(node #{Rails.root}/node_modules/eslint/bin/eslint.js -o #{output_file} -f html --ext .jsx,.js -c #{Rails.root}/.eslintrc --ignore-pattern '*i18n*' app/assets/javascripts/**)
     end
-
-    # desc 'Find database indexes'
-    # task find_database_indexes: :environment do
-    #   Rails.env = 'test'
-    #
-    #   output_file = Rails.root.join('static_analysis', 'db_indexes.html')
-    #   %x(lol_dba db:find_indexes > #{output_file})
-    #   %x(rake inspect_unique_validations >> #{output_file})
-    # end
 
     desc 'Code coverage for basic tests'
     task rspec_basic_coverage: :environment do
@@ -101,7 +81,16 @@ namespace :InRailsWeBlog do
       end
     end
 
+    # desc 'Find database indexes'
+    # task find_database_indexes: :environment do
+    #   Rails.env = 'test'
+    #
+    #   output_file = Rails.root.join('static_analysis', 'db_indexes.html')
+    #   %x(lol_dba db:find_indexes > #{output_file})
+    #   %x(rake inspect_unique_validations >> #{output_file})
+    # end
+
     desc 'Generate all reports'
-    task all: [:best_pratices, :rubocop, :brakeman, :metric_fu, :eslint, :rspec_basic_coverage, :rspec_advanced_coverage]
+    task all: [:best_pratices, :rubocop, :metric_fu, :eslint, :rspec_basic_coverage, :rspec_advanced_coverage]
   end
 end
