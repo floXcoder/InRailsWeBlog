@@ -4,7 +4,7 @@ namespace :InRailsWeBlog do
   ## rails InRailsWeBlog:create_version
   ## rails InRailsWeBlog:create_version COMMENT='Comment associated to the version'
   desc 'Create new version using Gitflow'
-  task :deploy do |_task, _args|
+  task :create_version do |_task, _args|
     # Fetch tags
     %x(git fetch --tags)
     # Get last tag of master
