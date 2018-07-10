@@ -3,17 +3,11 @@ stages:
   - test
   - deploy
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-  - vendor
-
 before_script:
   - pwd
   - whoami
   - rvm gemset use InRailsWeBlog
   - ruby -v
-  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
 build:
   stage: build
@@ -22,6 +16,10 @@ build:
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
   only:
     - develop
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+    - vendor/
 
 audit:
   stage: test
@@ -31,6 +29,8 @@ audit:
   allow_failure: true
   only:
     - develop
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
 
 brakeman:
   stage: test
@@ -39,6 +39,8 @@ brakeman:
   allow_failure: true
   only:
     - develop
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
 
 test:
   stage: test
@@ -51,6 +53,8 @@ test:
     - bundle exec rspec -t basic spec/
   only:
     - develop
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
 
 deploy:
   stage: deploy
