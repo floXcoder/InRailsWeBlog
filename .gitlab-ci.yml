@@ -13,6 +13,7 @@ before_script:
   - whoami
   - rvm gemset use InRailsWeBlog
   - ruby -v
+  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
 build:
   stage: build
@@ -81,7 +82,11 @@ deploy:
   environment:
     name: production
     url: https://www.inrailsweblog.com
-  # when: manual
+  cache:
+    key: gems
+    paths:
+      - vendor
+    policy: pull
   script:
     - bundle exec cap production deploy
   only:
