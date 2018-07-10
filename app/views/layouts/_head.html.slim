@@ -26,6 +26,8 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   
   = render 'layouts/stylesheet'
   
+  = render 'layouts/error_reporting'
+  
   javascript:
       window.railsEnv = "#{Rails.env}";
       window.settings = JSON.parse('#{raw CONFIG.to_hash.merge(Setting.get_all).to_json}');

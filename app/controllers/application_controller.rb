@@ -16,6 +16,9 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Pundit::AuthorizationNotPerformedError, with: :user_not_authorized
 
+  # Error reporting
+  before_action :set_raven_context
+
   # Devise
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -352,6 +355,24 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def set_raven_context
+    if Rails.env.production? && ENV['SENTRY_RAILS_KEY']
+      Raven.user_context(
+        id:         current_user&.id.to_s,
+        email:      current_user&.email,
+        first_name: current_user&.first_name,
+        last_name:  current_user&.last_name,
+        ip_address: request.ip
+      )
+
+      Raven.tags_context(
+        language: I18n.locale
+      )
+
+      Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+    end
+  end
 
   def flash_to_headers
     return if !json_request? || flash.empty? || response.status == 302
