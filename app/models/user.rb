@@ -518,14 +518,15 @@ class User < ApplicationRecord
   end
 
   def switch_topic(new_topic)
+    # TODO
     if self.current_topic_id == new_topic.id
-      self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.already_selected'))
-      return false
+      # self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.already_selected'))
+      return new_topic
     elsif self.id != new_topic.user_id
       self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.not_owner'))
       return false
     else
-      update_column(:current_topic_id, new_topic.id)
+      update_attribute(:current_topic_id, new_topic.id)
       return new_topic
     end
   end
