@@ -21,16 +21,16 @@ gem 'secure_headers',           '6.0.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.7'
-gem 'oj',                       '3.6.2'
+gem 'oj',                       '3.6.4'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.1.3'
 
 # Internationalization
-gem 'i18n-js',                  '3.0.8'
+gem 'i18n-js',                  '3.0.11'
 gem 'geocoder',                 '1.4.9'
-gem 'maxminddb',                '0.1.17'
+gem 'maxminddb',                '0.1.20'
 
 # Model versioning
 gem 'paper_trail',              '9.2.0'
@@ -48,8 +48,8 @@ gem 'sanitize',                 '4.6.5'
 # Run asynschronous process
 gem 'sidekiq',                  '5.1.3'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
-gem 'sidekiq-cron',             '0.6.3'
-gem 'sidekiq-status',           '1.0.1'
+gem 'sidekiq-cron',             '1.0.0'
+gem 'sidekiq-status',           '1.0.2'
 gem 'attentive_sidekiq',        '0.3.3'
 gem 'sidekiq-benchmark',        '0.6.0'
 gem 'whenever',                 '0.10.0', require: false
@@ -66,7 +66,7 @@ gem 'date_validator',           '0.9.0'
 
 # Global and model settings
 gem 'simpleconfig',             '2.0.1'
-gem 'rails-settings-cached',    '0.7.0'
+gem 'rails-settings-cached',    '0.7.1'
 gem 'storext',                  '2.2.2'
 
 # Authentification
@@ -76,7 +76,8 @@ gem 'devise',                   '4.4.3'
 gem 'pundit',                   '1.1.0'
 
 # Upload pictures
-gem 'carrierwave',              '1.2.2'
+gem 'carrierwave',              '1.2.3'
+gem 'carrierwave-imageoptimizer', '1.4.0'
 gem 'mini_magick',              '4.8.0'
 
 # Search in database
@@ -90,7 +91,7 @@ gem 'thumbs_up',                '0.6.9'
 gem 'acts_as_commentable_with_threading', '2.0.1'
 
 # Prevent DDOS attacks
-gem 'rack-attack',              '5.2.0'
+gem 'rack-attack',              '5.4.0'
 
 # Manage errors
 gem 'browser',                  '2.5.3'
@@ -101,7 +102,7 @@ gem 'meta-tags',                '2.10.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '4.10.0',   require: false
-gem 'faker',                    '1.8.7',   require: false
+gem 'faker',                    '1.9.1',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.0'
@@ -115,11 +116,11 @@ gem 'capistrano-passenger',     '0.2.0',   require: false
 gem 'health_check',             '3.0.0'
 
 # Speed up boot
-gem 'bootsnap',                 '1.3.0',   require: false
+gem 'bootsnap',                 '1.3.1',   require: false
 
 group :development do
   # server
-  gem 'puma',                   '3.11.4'
+  gem 'puma',                   '3.12.0'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.6'
@@ -165,10 +166,10 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.2.1'
+  gem 'capybara',               '3.3.1'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.21'
-  gem 'selenium-webdriver',     '3.12.0'
+  gem 'selenium-webdriver',     '3.13.0'
   gem 'chromedriver-helper',    '1.2.0'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'
@@ -181,7 +182,7 @@ end
 
 group :development, :test do
   # Check errors
-  gem 'rubocop',                '0.57.2',  require: false
+  gem 'rubocop',                '0.58.1',  require: false
 end
 
 group :production do

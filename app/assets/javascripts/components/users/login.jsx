@@ -11,7 +11,8 @@ import LoginForm from './form/login';
 import BounceSpinner from '../theme/spinner/bounce';
 
 @connect((state) => ({
-    isProcessing: state.userState.isProcessing
+    isProcessing: state.userState.isProcessing,
+    isConnected: state.userState.isConnected
 }), {
     loginUser
 })
@@ -21,6 +22,7 @@ export default class Login extends React.PureComponent {
         onModalChange: PropTypes.func.isRequired,
         // From connect
         isProcessing: PropTypes.bool,
+        isConnected: PropTypes.bool,
         loginUser: PropTypes.func
     };
 
@@ -62,17 +64,29 @@ export default class Login extends React.PureComponent {
 
                 <div className="responsive-modal-content">
                     {
-                        this.props.isProcessing
-                            ?
+                        this.props.isProcessing &&
                             <div className="center-align">
                                 <h2>
                                     {I18n.t('js.user.login.connecting')}
                                     <BounceSpinner className="margin-bottom-10"/>
                                 </h2>
                             </div>
-                            :
-                            <LoginForm onCancel={this.props.onModalChange}
-                                       onSubmit={this._handleSubmit}/>
+                    }
+
+                    {
+                        this.props.isConnected &&
+                        <div className="center-align">
+                            <h2>
+                                {I18n.t('js.user.login.connected')}
+                                <BounceSpinner className="margin-bottom-10"/>
+                            </h2>
+                        </div>
+                    }
+
+                    {
+                        (!this.props.isProcessing && !this.props.isConnected) &&
+                        <LoginForm onCancel={this.props.onModalChange}
+                                   onSubmit={this._handleSubmit}/>
                     }
                 </div>
             </Modal>

@@ -1,5 +1,5 @@
 class UserSampleSerializer < ActiveModel::Serializer
-  cache key: 'user_strict', expires_in: 12.hours
+  cache key: 'user_strict', expires_in: CONFIG.cache_time
 
   attributes :id,
              :pseudo,

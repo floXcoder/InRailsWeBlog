@@ -30,11 +30,13 @@ class TaggedArticle < ApplicationRecord
   belongs_to :user
   belongs_to :topic
 
-  belongs_to :article
+  belongs_to :article,
+             touch: true
 
   belongs_to :tag,
              autosave:      true,
-             counter_cache: true
+             counter_cache: true,
+             touch:         true
 
   # == Validations ==========================================================
   validates :user,

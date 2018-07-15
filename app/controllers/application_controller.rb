@@ -161,12 +161,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def og_image_url(picture)
-    root_url + picture.last(-1)
-  end
-
   def image_url(url)
-    root_url + 'assets/' + url
+    (Rails.env.production? ? "https://#{ENV['WEBSITE_ASSET']}/" : root_url) + 'assets/' + url
   end
 
   def js_request?
@@ -333,7 +329,7 @@ class ApplicationController < ActionController::Base
   def not_found_error(exception)
     # handle_error(exception)
 
-    # Raven.capture_exception(exception)
+    # Raven.capture_exception(exception) if Rails.env.production?
 
     raise if Rails.env.development?
 
@@ -347,7 +343,7 @@ class ApplicationController < ActionController::Base
   def server_error(exception)
     handle_error(exception)
 
-    Raven.capture_exception(exception)
+    Raven.capture_exception(exception) if Rails.env.production?
 
     raise if Rails.env.development?
 

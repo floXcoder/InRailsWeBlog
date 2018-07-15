@@ -42,7 +42,7 @@ export const getArticleParentTags = createSelector(
             }
         });
 
-        // Use isImmutable in new version
+        // Use isImmutable function in new version
         if (tags && tags.size !== undefined) {
             return tags.toArray();
         } else {

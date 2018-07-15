@@ -29,7 +29,7 @@
 #
 
 class ArticleSerializer < ActiveModel::Serializer
-  cache key: 'article', expires_in: 12.hours
+  # cache key: 'article', expires_in: CONFIG.cache_time
 
   attributes :id,
              :mode,

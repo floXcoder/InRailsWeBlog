@@ -41,14 +41,14 @@ export default class ArticleEdit extends React.Component {
         }
     }
 
+    shouldComponentUpdate(nextProps) {
+        return this.props.article !== nextProps.article || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching;
+    }
+
     componentDidUpdate() {
         if (this.props.article) {
             this.props.setCurrentTags(this.props.article.tags);
         }
-    }
-
-    shouldComponentUpdate(nextProps) {
-        return this.props.article !== nextProps.article || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching;
     }
 
     render() {
@@ -71,7 +71,8 @@ export default class ArticleEdit extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay form={this.props.formId}
+                <ArticleFormDisplay key={Utils.uuid()}
+                                    form={this.props.formId}
                                     currentMode={this.props.article.mode}
                                     isEditing={true}
                                     isDraft={this.props.article.isDraft}

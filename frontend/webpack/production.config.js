@@ -106,6 +106,14 @@ webPackConfig.optimization = {
 };
 
 webPackConfig.plugins.push(
+    new webpack.DefinePlugin({
+        'global.WEBPACK': JSON.stringify(true),
+        'process.env': {
+            'NODE_ENV': JSON.stringify('production'),
+            'ASSET_PATH': JSON.stringify(config.production.assetPath)
+        },
+        'NODE_ENV': JSON.stringify('production')
+    }),
     new webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false
@@ -135,12 +143,5 @@ webPackConfig.plugins.push(
         // both options are optional
         filename: config.production.filename + '.css',
         chunkFilename: config.production.chunkFilename + '.css'
-    }),
-    new webpack.DefinePlugin({
-        'global.WEBPACK': JSON.stringify(true),
-        'process.env': {
-            'NODE_ENV': JSON.stringify('production')
-        },
-        'NODE_ENV': JSON.stringify('production')
     })
 );

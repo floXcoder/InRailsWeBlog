@@ -15,7 +15,7 @@ export default class ArticleCommonField extends React.Component {
         onSubmit: PropTypes.func.isRequired,
         multipleId: PropTypes.number,
         article: PropTypes.object,
-        userTags: PropTypes.array,
+        availableTags: PropTypes.array,
         parentTags: PropTypes.array,
         childTags: PropTypes.array,
         isDraft: PropTypes.bool,
@@ -25,7 +25,7 @@ export default class ArticleCommonField extends React.Component {
 
     static defaultProps = {
         article: {},
-        userTags: [],
+        availableTags: [],
         multipleId: 0
     };
 
@@ -157,7 +157,7 @@ export default class ArticleCommonField extends React.Component {
                            isSortingCategoriesByAlpha={false}
                            isHorizontal={true}
                            titleClass="form-editor-title"
-                           categorizedTags={this.props.userTags}
+                           categorizedTags={this.props.availableTags}
                            transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
                            onTabPress={this._handleSwitchTag}
                            onSubmit={this.props.onSubmit}
@@ -176,7 +176,7 @@ export default class ArticleCommonField extends React.Component {
                            isSortingCategoriesByAlpha={false}
                            isHorizontal={true}
                            titleClass="form-editor-title"
-                           categorizedTags={this.props.userTags}
+                           categorizedTags={this.props.availableTags}
                            transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
                            onSubmit={this.props.onSubmit}
                            component={CategorizedField}

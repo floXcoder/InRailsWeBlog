@@ -15,7 +15,7 @@ import ArticleItemDisplay from './item';
 
 const ArticleMasonry = MasonryWrapper(ArticleItemDisplay, {articleDisplayMode: 'grid'}, ArticleItemDisplay, {articleDisplayMode: 'card'});
 
-const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, articleEditionId, hasMoreArticles, isSortedByTag, parentTag, articleTotalPages, fetchArticles}) => {
+const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, articleEditionId, hasMoreArticles, isSortedByTag, isMinimized, parentTag, articleTotalPages, fetchArticles}) => {
     let previousTag, ArticleNodes;
 
     if (articleDisplayMode === 'grid') {
@@ -63,7 +63,8 @@ const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, a
 
                                         <ArticleItemDisplay article={article}
                                                             articleDisplayMode={articleDisplayMode}
-                                                            articleEditionId={articleEditionId}/>
+                                                            articleEditionId={articleEditionId}
+                                                            isMinimized={isMinimized}/>
                                     </div>
 
                                 </CSSTransition>
@@ -117,13 +118,15 @@ ArticleListDisplay.propTypes = {
     articleTotalPages: PropTypes.number,
     hasMoreArticles: PropTypes.bool,
     isSortedByTag: PropTypes.bool,
+    isMinimized: PropTypes.bool,
     parentTag: PropTypes.string,
     articleEditionId: PropTypes.number
 };
 
 ArticleListDisplay.defaultProps = {
     hasMoreArticles: false,
-    isSortedByTag: false
+    isSortedByTag: false,
+    isMinimized: false
 };
 
 export default ArticleListDisplay;

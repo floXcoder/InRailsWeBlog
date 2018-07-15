@@ -56,6 +56,8 @@ export default function userReducer(state = new initState(), action) {
         case ActionTypes.USER_CHANGE_ERROR:
             return mutationReducer(state, action, (payload) => {
                 if (payload.connection) {
+                    window.currentUserId = payload.user.id;
+
                     return {
                         user: new Records.UserRecord(payload.user),
                         isConnected: true

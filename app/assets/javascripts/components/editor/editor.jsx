@@ -56,7 +56,7 @@ export default class Editor extends React.Component {
 
             const defaultOptions = {
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
-                styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4'],
+                styleTags: ['p', 'h1', 'h2', 'h3', 'h4'],
                 placeholder: this.props.placeholder,
                 popatmouse: false,
                 callbacks: {
@@ -124,7 +124,7 @@ export default class Editor extends React.Component {
             if (this.props.mode === EditorMode.INLINE_EDIT) {
                 let airToolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
-                    ['specialStyle', ['advice', 'secret']],
+                    ['specialStyle', ['pre', 'advice', 'secret']],
                     ['para', ['ul', 'ol']],
                     ['insert', ['link', 'picture', 'video']],
                     ['undo', ['undo', 'redo']],
@@ -142,7 +142,7 @@ export default class Editor extends React.Component {
                 const toolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
                     ['para', ['ul', 'ol']],
-                    ['specialStyle', ['advice', 'secret']],
+                    ['specialStyle', ['code', 'pre', 'advice', 'secret']],
                     ['table', ['table']],
                     ['insert', ['link', 'picture', 'video']],
                     ['undo', ['undo', 'redo']],

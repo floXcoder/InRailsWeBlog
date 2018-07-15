@@ -1,23 +1,24 @@
 class PictureUploader < CarrierWave::Uploader::Base
-  # include ::CarrierWave::Backgrounder::Delay
-
   include CarrierWave::MiniMagick
+  # include ::CarrierWave::Backgrounder::Delay
+  include CarrierWave::ImageOptimizer
+
   storage :file
 
   before :cache, :reset_secure_token
   before :cache, :save_original_filename
 
   process resize_to_limit: [1600, 1200]
-  process :optimize
+  process optimize: [{ quality: 80, quiet: true }]
 
   version :medium do
     process resize_to_limit: [460, 460]
-    process :optimize
+    process optimize: [{ quality: 80, quiet: true }]
   end
 
   version :mini, from_version: :medium do
     process resize_to_limit: [260, 260]
-    process :optimize
+    process optimize: [{ quality: 80, quiet: true }]
   end
 
   # Override the directory where uploaded files will be stored.
@@ -44,18 +45,18 @@ class PictureUploader < CarrierWave::Uploader::Base
     %w[jpg jpeg gif png]
   end
 
-  # Progressive JPEG
-  def optimize
-    manipulate! do |image|
-      image.combine_options do |combine|
-        combine.strip
-        combine.quality '85'
-        combine.depth '8'
-        combine.interlace 'Plane'
-      end
-      image
-    end
-  end
+  # # Progressive JPEG
+  # def optimize
+  #   manipulate! do |image|
+  #     image.combine_options do |combine|
+  #       combine.strip
+  #       combine.quality '85'
+  #       combine.depth '8'
+  #       combine.interlace 'Plane'
+  #     end
+  #     image
+  #   end
+  # end
 
   protected
 

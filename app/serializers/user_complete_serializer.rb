@@ -1,5 +1,5 @@
 class UserCompleteSerializer < ActiveModel::Serializer
-  cache key: 'complete_user', expires_in: 12.hours
+  cache key: 'complete_user', expires_in: CONFIG.cache_time
 
   attributes :id,
              :pseudo,

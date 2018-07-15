@@ -37,7 +37,7 @@ export const getSortedTopicTags = createSelector(
         tags = tags.toJS();
 
         if (tagOrder === 'priority') {
-            tags = _.sortBy(tags, (t) => -t.priority)
+            tags = _.sortBy(tags, (t) => -t.priority);
         }
 
         return tags.map((tag) => {
@@ -83,7 +83,7 @@ export const getSortedTopicTags = createSelector(
 );
 
 export const getCategorizedTags = createSelector(
-    getTags,
+    (state) => state.tagState.topicTags,
     (tags) => {
         let categorizedTags = [];
 
@@ -102,14 +102,12 @@ export const getCategorizedTags = createSelector(
                 }
             });
 
-            categorizedTags = Object.keys(tagsByVisibility).map((visibility) => (
-                {
-                    id: visibility,
-                    type: ' ',
-                    title: I18n.t(`js.tag.enums.visibility.${visibility}`),
-                    items: tagsByVisibility[visibility]
-                }
-            ))
+            categorizedTags = Object.keys(tagsByVisibility).map((visibility) => ({
+                id: visibility,
+                type: ' ',
+                title: I18n.t(`js.tag.enums.visibility.${visibility}`),
+                items: tagsByVisibility[visibility]
+            }));
         }
 
         return categorizedTags;

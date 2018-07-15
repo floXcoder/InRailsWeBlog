@@ -22,7 +22,7 @@
 #
 
 class TopicSerializer < ActiveModel::Serializer
-  cache key: 'topic', expires_in: 12.hours
+  cache key: 'topic', expires_in: CONFIG.cache_time
 
   attributes :id,
              :user_id,
@@ -31,7 +31,8 @@ class TopicSerializer < ActiveModel::Serializer
              :priority,
              :visibility,
              :visibility_translated,
-             :slug
+             :slug,
+             :updated_at
 
   has_many :tags, if: -> { instance_options[:with_tags] }, serializer: TagSerializer do
     Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')

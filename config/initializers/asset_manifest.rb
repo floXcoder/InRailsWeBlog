@@ -33,9 +33,9 @@ class AssetManifest
 
     if !url.start_with?('/uploads/')
       if AssetManifest.manifest
-        AssetManifest.manifest[url] || url
+        AssetManifest.root_url + '/assets/' + AssetManifest.manifest[url] || url
       else
-        '/assets/' + url
+        AssetManifest.root_url + '/assets/' + url
       end
     else
       url
@@ -46,9 +46,13 @@ class AssetManifest
     return unless url
 
     if AssetManifest.manifest
-      AssetManifest.manifest[url] || url
+      AssetManifest.root_url + AssetManifest.manifest[url] || url
     else
-      url
+      AssetManifest.root_url + url
     end
+  end
+
+  def self.root_url
+    (Rails.env.production? ? "https://#{ENV['WEBSITE_ASSET']}" : Rails.application.routes.url_helpers.root_url(host: "http://#{ENV['WEBSITE_ADDRESS']}"))
   end
 end

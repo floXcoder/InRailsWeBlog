@@ -12,11 +12,12 @@
 #
 
 class SettingSerializer < ActiveModel::Serializer
-  cache key: 'settings', expires_in: 12.hours
+  cache key: 'settings', expires_in: CONFIG.cache_time
 
   attributes :articles_loader,
              :article_display,
              :article_order,
+             :article_child_tagged,
              :tag_sidebar_pin,
              :tag_sidebar_with_child,
              :tag_order,

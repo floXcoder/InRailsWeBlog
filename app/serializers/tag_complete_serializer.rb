@@ -1,5 +1,5 @@
 class TagCompleteSerializer < ActiveModel::Serializer
-  cache key: 'tag_complete', expires_in: 12.hours
+  cache key: 'tag_complete', expires_in: CONFIG.cache_time
 
   attributes :id,
              :name,

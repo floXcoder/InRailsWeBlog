@@ -41,7 +41,7 @@ module Api::V1
                    serializer: TopicSerializer,
                    status:     :ok
           else
-            render json:   { errors: topic.errors },
+            render json:   { errors: user.errors },
                    status: :forbidden
           end
         end

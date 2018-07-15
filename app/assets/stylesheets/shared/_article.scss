@@ -255,6 +255,25 @@
   }
 }
 
+.article-floating-container {
+  position: absolute;
+  right: -30px;
+}
+
+.article-floating-icon {
+  z-index: 1;
+  background-color: lighten($astral-color, 55%);
+  height: 80px;
+  width: 30px !important;
+  padding-left: 3px;
+  border-radius: 30px;
+  padding-top: 3px;
+
+  .material-icons {
+    color: #777;
+  }
+}
+
 .article-item {
   border-width: 0;
   box-shadow: 0 0 5px rgba(0, 0, 0, .1);
@@ -273,25 +292,22 @@
 
   .article-title {
     display: inline-block;
+    outline: none;
+    width: 95%;
     position: relative;
-    width: 100%;
 
     .title {
       color: #333;
       font-size: 18px;
       line-height: 30px;
       margin: .4rem 0 1.1rem;
-
-      a {
-        color: #333;
-      }
     }
   }
 
   .article-collapsible-button,
   .article-exposed-button {
     position: absolute;
-    right: -.6rem;
+    right: -2rem;
     top: .4rem;
 
     &.article-no-title {
@@ -721,6 +737,18 @@
     padding-left: 2.5rem;
   }
 
+  p > code {
+    background-color: $background-color;
+    border: 1px solid $border-color;
+    border-radius: .25rem;
+    margin: .8rem .4rem;
+    padding: .25rem;
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+  }
+
   pre {
     background-color: $background-color;
     border: 1px solid $border-color;
@@ -793,30 +821,44 @@
   }
 }
 
-.blog-article-sort {
-  position: absolute;
-  right: -80px;
-  top: 30px;
-
-  .sort-current {
-    font-weight: 600;
+.blog-article-box {
+  .fixed-action-btn {
+    position: absolute;
+    right: -80px;
+    top: -40px;
+    z-index: inherit;
   }
 
-  ul {
-    margin: 0;
-    width: 140px;
-
-    a {
-      color: $off-black !important;
-    }
+  .btn-floating {
+    background-color: #777 !important;
   }
 }
 
-.blog-article-filter {
-  position: absolute;
-  right: -80px;
-  top: 80px;
-}
+
+//.blog-article-sort {
+//  position: absolute;
+//  right: -80px;
+//  top: 30px;
+//
+//  .sort-current {
+//    font-weight: 600;
+//  }
+//
+//  ul {
+//    margin: 0;
+//    width: 140px;
+//
+//    a {
+//      color: $off-black !important;
+//    }
+//  }
+//}
+//
+//.blog-article-filter {
+//  position: absolute;
+//  right: -80px;
+//  top: 80px;
+//}
 
 .article-errors {
   color: $error-color;

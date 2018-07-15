@@ -8,19 +8,36 @@ cache:
   paths:
     - vendor
 
+.default-cache: &default-cache
+  key: "ruby-2.5.1-debian-stretch-with-yarn"
+  paths:
+    - vendor/bundle
+    - .yarn-cache/
+
+.push-cache: &push-cache
+  cache:
+    <<: *default-cache
+    policy: push
+
+.pull-cache: &pull-cache
+  cache:
+    <<: *default-cache
+    policy: pull
+
+
 before_script:
-  - pwd
-  - whoami
+  - date
   - rvm gemset use InRailsWeBlog
+  - bundle --version
   - ruby -v
-  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
+
+after_script:
+  - date
 
 build:
   stage: build
   cache:
-    key: gems
-    paths:
-      - vendor
+    <<: *default-cache
   script:
     - gem install bundler --no-ri --no-rdoc
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
@@ -29,11 +46,7 @@ build:
 
 audit:
   stage: test
-  cache:
-    key: gems
-    paths:
-      - vendor
-    policy: pull
+  <<: *pull-cache
   script:
     - gem install bundler-audit
     - bundle audit check --update
@@ -43,11 +56,7 @@ audit:
 
 brakeman:
   stage: test
-  cache:
-    key: gems
-    paths:
-      - vendor
-    policy: pull
+  <<: *pull-cache
   script:
     - bundle exec brakeman -q
   allow_failure: true
@@ -61,11 +70,7 @@ test:
     DATABASE_TEST_NAME: 'inrailsweblog_test'
     DATABASE_TEST_USERNAME: 'inrailsweblog_test'
     DATABASE_TEST_PASSWORD: 'inrailsweblog'
-  cache:
-    key: gems
-    paths:
-      - vendor
-    policy: pull
+  <<: *pull-cache
   script:
     - bundle exec rspec -t basic spec/
   only:
@@ -74,6 +79,7 @@ test:
 deploy:
   stage: deploy
   variables:
+    RAILS_ENV: 'production'
     DEPLOY_SERVER: "$DEPLOY_SERVER"
     DEPLOY_USER: "$DEPLOY_USER"
     GIT_REPO_ADDRESS: "$GIT_REPO_ADDRESS"
@@ -82,11 +88,7 @@ deploy:
   environment:
     name: production
     url: https://www.inrailsweblog.com
-  cache:
-    key: gems
-    paths:
-      - vendor
-    policy: pull
+  <<: *pull-cache
   script:
     - bundle exec cap production deploy
   only:
@@ -94,11 +96,7 @@ deploy:
 
 postdeploy:
   stage: deploy
-  cache:
-    key: gems
-    paths:
-      - vendor
-    policy: pull
+  <<: *pull-cache
   script:
     - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
     - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'

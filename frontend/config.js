@@ -116,6 +116,7 @@ module.exports = {
             chunkFilename: '[name]'
         },
         production: {
+            assetPath: 'https://assets.inrailsweblog.com/assets/',
             filename: '[name].[hash]',
             chunkFilename: '[name].[hash].[id]',
             manifestFilename: 'rev-manifest.json'
