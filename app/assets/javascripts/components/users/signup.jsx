@@ -11,7 +11,8 @@ import SignupForm from './form/signup';
 import BounceSpinner from '../theme/spinner/bounce';
 
 @connect((state) => ({
-    isProcessing: state.userState.isProcessing
+    isProcessing: state.userState.isProcessing,
+    isConnected: state.userState.isConnected
 }), {
     signupUser
 })
@@ -21,6 +22,7 @@ export default class Signup extends React.Component {
         onModalChange: PropTypes.func.isRequired,
         // From connect
         isProcessing: PropTypes.bool,
+        isConnected: PropTypes.bool,
         signupUser: PropTypes.func
     };
 
@@ -62,17 +64,29 @@ export default class Signup extends React.Component {
 
                 <div className="responsive-modal-content">
                     {
-                        this.props.isProcessing
-                            ?
-                            <div className="center-align">
-                                <h2>
-                                    {I18n.t('js.user.signup.connecting')}
-                                    <BounceSpinner className="margin-bottom-10"/>
-                                </h2>
-                            </div>
-                            :
-                            <SignupForm onCancel={this.props.onModalChange}
-                                        onSubmit={this._handleSubmit}/>
+                        this.props.isProcessing &&
+                        <div className="center-align">
+                            <h2>
+                                {I18n.t('js.user.signup.connecting')}
+                                <BounceSpinner className="margin-bottom-10"/>
+                            </h2>
+                        </div>
+                    }
+
+                    {
+                        this.props.isConnected &&
+                        <div className="center-align">
+                            <h2>
+                                {I18n.t('js.user.signup.connected')}
+                                <BounceSpinner className="margin-bottom-10"/>
+                            </h2>
+                        </div>
+                    }
+
+                    {
+                        (!this.props.isProcessing && !this.props.isConnected) &&
+                        <SignupForm onCancel={this.props.onModalChange}
+                                    onSubmit={this._handleSubmit}/>
                     }
                 </div>
             </Modal>

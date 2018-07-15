@@ -13,7 +13,7 @@
 #
 
 class BookmarkSerializer < ActiveModel::Serializer
-  cache key: 'bookmark', expires_in: 12.hours
+  cache key: 'bookmark', expires_in: CONFIG.cache_time
 
   attributes :id,
              :user_id,

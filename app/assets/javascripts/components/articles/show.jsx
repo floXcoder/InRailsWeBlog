@@ -3,6 +3,11 @@
 import LazyLoad from 'vanilla-lazyload';
 
 import {
+    StickyContainer,
+    Sticky
+} from 'react-sticky';
+
+import {
     fetchArticle,
     deleteArticle,
     setCurrentTags
@@ -18,6 +23,7 @@ import highlight from '../modules/highlight';
 import ArticleUserIcon from './icons/user';
 import ArticleTime from './properties/time';
 import ArticleTags from './properties/tags';
+import ArticleFloatingIcons from './properties/floatingIcons';
 import ArticleActions from './properties/actions';
 // TODO
 // import ArticleOutdatedIcon from './icons/outdated';
@@ -144,123 +150,138 @@ export default class ArticleShow extends React.Component {
         }
 
         return (
-            <div>
-                {
-                    this.props.isOutdated &&
-                    <div className="card center-align">
-                        <p>
-                            {I18n.t('js.article.common.outdated')}
-                        </p>
+            <StickyContainer>
+                <div>
+                    <div className="article-floating-container">
+                        <Sticky topOffset={-50}
+                                bottomOffset={0}>
+                            {({style, isSticky}) => (
+                                <ArticleFloatingIcons style={style}
+                                                      isSticky={isSticky}
+                                                      articleId={this.props.article.id}
+                                                      articleSlug={this.props.article.slug}
+                                                      articleTitle={this.props.article.title}/>
+                            )}
+                        </Sticky>
                     </div>
-                }
-
-                <article className={classNames('card-panel', 'blog-article', {
-                    'article-outdated': this.props.isOutdated
-                })}>
-                    <h1 className="blog-article-title">
-                        {this.props.article.title}
-                    </h1>
 
                     {
-                        this.props.article.summary &&
-                        <h2 className="blog-article-summary">
-                            {this.props.article.summary}
-                        </h2>
+                        this.props.isOutdated &&
+                        <div className="card center-align">
+                            <p>
+                                {I18n.t('js.article.common.outdated')}
+                            </p>
+                        </div>
                     }
 
-                    <div className="blog-article-info">
-                        <ArticleUserIcon user={this.props.article.user}/>
-
-                        <span className="blog-article-info-sep">-</span>
-
-                        <ArticleTime articleDate={this.props.article.date}/>
+                    <article className={classNames('card-panel', 'blog-article', {
+                        'article-outdated': this.props.isOutdated
+                    })}>
+                        <h1 className="blog-article-title">
+                            {this.props.article.title}
+                        </h1>
 
                         {
-                            this.props.article.visibility === 'everyone' &&
-                            <CommentCountIcon commentLink={`#article-comments-${this.props.article.id}`}
-                                              commentsCount={this.props.article.commentsCount}/>
+                            this.props.article.summary &&
+                            <h2 className="blog-article-summary">
+                                {this.props.article.summary}
+                            </h2>
                         }
-                    </div>
 
-                    <div className="blog-article-content"
-                         dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
-
-                    {
-                        this.props.article.reference &&
                         <div className="blog-article-info">
-                            <a href={this.props.article.reference}
-                               rel="noopener noreferrer"
-                               target="_blank">
-                                {Utils.normalizeLink(this.props.article.reference)}
-                            </a>
-                        </div>
-                    }
+                            <ArticleUserIcon user={this.props.article.user}/>
 
-                    {
-                        this.props.article.tags.size > 0 &&
-                        <div className="blog-article-info">
-                            <ArticleTags articleId={this.props.article.id}
-                                         tags={this.props.article.tags}
-                                         parentTagIds={this.props.article.parentTagIds}
-                                         childTagIds={this.props.article.childTagIds}/>
-                        </div>
-                    }
+                            <span className="blog-article-info-sep">-</span>
 
-                    {
-                        this.props.isOwner &&
-                        <div className="article-actions">
-                            <div className="article-actions-text">
-                                {I18n.t('js.article.common.actions')}
+                            <ArticleTime articleDate={this.props.article.date}/>
+
+                            {
+                                this.props.article.visibility === 'everyone' &&
+                                <CommentCountIcon commentLink={`#article-comments-${this.props.article.id}`}
+                                                  commentsCount={this.props.article.commentsCount}/>
+                            }
+                        </div>
+
+                        <div className="blog-article-content"
+                             dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+
+                        {
+                            this.props.article.reference &&
+                            <div className="blog-article-info">
+                                <a href={this.props.article.reference}
+                                   rel="noopener noreferrer"
+                                   target="_blank">
+                                    {Utils.normalizeLink(this.props.article.reference)}
+                                </a>
                             </div>
+                        }
 
-                            <ArticleActions articleId={this.props.article.id}
-                                            articleSlug={this.props.article.slug}
-                                            articleTitle={this.props.article.title}
-                                            articleVisibility={this.props.article.visibility}
-                                            onDeleteClick={this._handleDeleteClick}/>
+                        {
+                            this.props.article.tags.size > 0 &&
+                            <div className="blog-article-info">
+                                <ArticleTags articleId={this.props.article.id}
+                                             tags={this.props.article.tags}
+                                             parentTagIds={this.props.article.parentTagIds}
+                                             childTagIds={this.props.article.childTagIds}/>
+                            </div>
+                        }
+
+                        {
+                            this.props.isOwner &&
+                            <div className="article-actions">
+                                <div className="article-actions-text">
+                                    {I18n.t('js.article.common.actions')}
+                                </div>
+
+                                <ArticleActions articleId={this.props.article.id}
+                                                articleSlug={this.props.article.slug}
+                                                articleTitle={this.props.article.title}
+                                                articleVisibility={this.props.article.visibility}
+                                                onDeleteClick={this._handleDeleteClick}/>
+                            </div>
+                        }
+                    </article>
+
+                    {
+                        // TODO
+                        // <ArticleVotes articleId={this.props.article.id}
+                        //               onVoteClick={this._handleVoteClick}
+                        //               articleVotesUp={this.props.article.votesUp}
+                        //               articleVotesDown={this.props.article.votesDown}/>
+                    }
+                    {
+                        // TODO
+                        // <ArticleBookmarkIcon articleId={this.props.article.id}
+                        //                      isOwner={this.props.isUserConnected}
+                        //                      onBookmarkClick={this._handleBookmarkClick}/>
+                    }
+                    {
+                        // TODO
+                        // <ArticleOutdatedIcon articleId={this.props.article.id}
+                        //                      isOwner={this.props.isUserConnected}
+                        //                      isOutdated={this.props.isOutdated}
+                        //                      onOutdatedClick={this._handleOutdatedClick}/>
+                    }
+
+                    {
+                        (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
+                        <div className="card-panel">
+                            <LazyLoader height={0}
+                                        once={true}
+                                        offset={50}>
+                                <CommentBox id={`article-comments-${this.props.article.id}`}
+                                            commentableType="articles"
+                                            commentableId={this.props.article.id}
+                                            ownerId={this.props.article.user.id}
+                                            commentsCount={this.props.article.commentsCount}
+                                            isUserOwner={this.props.isOwner}
+                                            isPaginated={false}
+                                            isRated={true}/>
+                            </LazyLoader>
                         </div>
                     }
-                </article>
-
-                {
-                    // TODO
-                    // <ArticleVotes articleId={this.props.article.id}
-                    //               onVoteClick={this._handleVoteClick}
-                    //               articleVotesUp={this.props.article.votesUp}
-                    //               articleVotesDown={this.props.article.votesDown}/>
-                }
-                {
-                    // TODO
-                    // <ArticleBookmarkIcon articleId={this.props.article.id}
-                    //                      isOwner={this.props.isUserConnected}
-                    //                      onBookmarkClick={this._handleBookmarkClick}/>
-                }
-                {
-                    // TODO
-                    // <ArticleOutdatedIcon articleId={this.props.article.id}
-                    //                      isOwner={this.props.isUserConnected}
-                    //                      isOutdated={this.props.isOutdated}
-                    //                      onOutdatedClick={this._handleOutdatedClick}/>
-                }
-
-                {
-                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
-                    <div className="card-panel">
-                        <LazyLoader height={0}
-                                    once={true}
-                                    offset={50}>
-                            <CommentBox id={`article-comments-${this.props.article.id}`}
-                                        commentableType="articles"
-                                        commentableId={this.props.article.id}
-                                        ownerId={this.props.article.user.id}
-                                        commentsCount={this.props.article.commentsCount}
-                                        isUserOwner={this.props.isOwner}
-                                        isPaginated={false}
-                                        isRated={true}/>
-                        </LazyLoader>
-                    </div>
-                }
-            </div>
+                </div>
+            </StickyContainer>
         );
     }
 }

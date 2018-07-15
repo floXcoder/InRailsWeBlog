@@ -28,7 +28,7 @@
 #
 
 class TagSerializer < ActiveModel::Serializer
-  cache key: 'tag', expires_in: 12.hours
+  # cache key: 'tag', expires_in: CONFIG.cache_time
 
   attributes :id,
              :name,

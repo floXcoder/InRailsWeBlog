@@ -13,6 +13,7 @@ import {
     getArticles
 } from '../../selectors';
 
+import FixedActionButton from '../materialize/fab';
 import Loader from '../theme/loader';
 
 import ArticleListDisplay from './display/list';
@@ -63,6 +64,10 @@ export default class ArticleIndex extends React.Component {
         this._request = null;
         this._lazyLoad = null;
     }
+
+    state = {
+        isMinimized: false
+    };
 
     componentDidMount() {
         this._fetchArticles(this.props.params);
@@ -146,6 +151,14 @@ export default class ArticleIndex extends React.Component {
         }
     };
 
+    _handleMinimizeAll = (event) => {
+        event.preventDefault();
+
+        this.setState({
+            isMinimized: !this.state.isMinimized
+        })
+    };
+
     render() {
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
         const isSortedByTag = this.props.articleOrderMode === 'tag_asc' || this.props.articleOrderMode === 'tag_desc';
@@ -161,13 +174,22 @@ export default class ArticleIndex extends React.Component {
 
                 {
                     this.props.articles.length > 0 &&
-                    <ArticleSortDisplay currentTopicSlug={this.props.currentTopicSlug}
-                                        currentOrder={this.props.articleOrderMode}/>
-                }
+                    <FixedActionButton>
+                        <ArticleSortDisplay currentTopicSlug={this.props.currentTopicSlug}
+                                            currentOrder={this.props.articleOrderMode}/>
 
-                {
-                    this.props.articles.length > 0 &&
-                    <ArticleFilterDisplay currentUserId={this.props.currentUserId}/>
+                        <ArticleFilterDisplay currentUserId={this.props.currentUserId}/>
+
+                        <div className="blog-article-minimize">
+                            <a className="btn-flat waves-effect waves-spectra"
+                               href="#"
+                               onClick={this._handleMinimizeAll}>
+                            <span className="material-icons"
+                                  data-icon="vertical_align_center"
+                                  aria-hidden="true"/>
+                            </a>
+                        </div>
+                    </FixedActionButton>
                 }
 
                 {
@@ -178,6 +200,7 @@ export default class ArticleIndex extends React.Component {
                                         articleEditionId={this.props.articleEditionId}
                                         hasMoreArticles={hasMoreArticles}
                                         isSortedByTag={isSortedByTag}
+                                        isMinimized={this.state.isMinimized}
                                         parentTag={this.props.params.tagSlug}
                                         articleTotalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
                                         fetchArticles={this._fetchNextArticles}/>

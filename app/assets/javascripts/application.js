@@ -1,5 +1,7 @@
 'use strict';
 
+__webpack_public_path__ = process.env.ASSET_PATH;
+
 // Polyfill promise
 require('es6-promise').polyfill();
 

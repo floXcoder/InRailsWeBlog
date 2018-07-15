@@ -71,6 +71,7 @@ fr:
         cancel: "Annuler"
         submit: "Connexion"
         connecting: "Connexion en cours"
+        connected: "Connecté, redirection vers votre compte"
         externals:
           google: "Se connecter avec Google"
           facebook: "Se connecter avec Facebook"
@@ -85,6 +86,7 @@ fr:
         cancel: "Annuler"
         submit: "Créer mon compte"
         connecting: "Inscription en cours"
+        connected: "Connecté, redirection vers votre compte"
         externals:
           google: "S'inscrire avec Google"
           facebook: "S'inscrire avec Facebook"
@@ -155,6 +157,8 @@ fr:
               inline: "Un seul article global"
               card: "Cartes indépendantes"
               grid: "En grille"
+          child_tagged:
+            title: "Afficher les articles enfants avec le parent"
         tag:
           title: "Labels"
           sidebar:
@@ -783,6 +787,8 @@ fr:
         system: "OS"
     editor:
       buttons:
+        code: "Code simple"
+        pre: "Code multi-line (CTRL+E)"
         advice: "Conseil"
         secret: "Secret"
         cleaner: "Nettoyer formattage"

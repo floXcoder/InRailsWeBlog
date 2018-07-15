@@ -10,6 +10,7 @@ export const SettingsRecord = new Record({
     articlesLoader: 'infinite',
     articleDisplay: 'card',
     articleOrder: undefined,
+    articleChildTagged: false,
     tagSidebarPin: false,
     tagSidebarWithChild: false,
     tagOrder: undefined,

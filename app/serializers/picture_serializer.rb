@@ -20,7 +20,7 @@
 #
 
 class PictureSerializer < ActiveModel::Serializer
-  cache key: 'picture', expires_in: 12.hours
+  cache key: 'picture', expires_in: CONFIG.cache_time
 
   attributes :id,
              :description,
@@ -50,8 +50,4 @@ class PictureSerializer < ActiveModel::Serializer
   def dimension
     object.image&.file&.size
   end
-
-  # def user
-  #   UserSampleSerializer.new(object.user).attributes
-  # end
 end

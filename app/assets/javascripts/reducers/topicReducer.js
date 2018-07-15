@@ -40,6 +40,8 @@ export default function topicReducer(state = new initState(), action) {
         case ActionTypes.TOPIC_FETCH_ERROR:
             return fetchReducer(state, action, (payload) => {
                     if (payload.isSwitching) {
+                        window.currentUserTopicId = payload.topic.id;
+
                         return {
                             currentTopicId: payload.topic.id,
                             currentTopic: new Records.TopicRecord(payload.topic)

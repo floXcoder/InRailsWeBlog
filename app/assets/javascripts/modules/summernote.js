@@ -15,8 +15,6 @@ import 'summernote/dist/lang/summernote-fr-FR';
 import '@dsvllc/summernote-image-attributes';
 import '@dsvllc/summernote-image-attributes/lang/fr-FR';
 
-import SanitizePaste from './sanitizePaste';
-
 $.extend($.summernote.options, {
     cleanParseContent: true,
     advice: true,
@@ -96,14 +94,18 @@ ui.icon = function (iconClassName, tagName) {
 };
 
 $.extend($.summernote.options.keyMap.pc, {
-    'CTRL+ENTER': 'Save'
+    'CTRL+ENTER': 'Save',
+    'CTRL+P': 'Code',
+    'CTRL+L': 'Pre'
 });
 
 $.extend($.summernote.options.keyMap.mac, {
-    'CMD+ENTER': 'Save'
+    'CMD+ENTER': 'Save',
+    'CMD+P': 'Code',
+    'CMD+L': 'Pre'
 });
 
-const applyFormat = (context, formatName) => {
+const applyClass = (context, formatName) => {
     let $node = $(context.invoke('restoreTarget'));
     if ($node.length === 0) {
         $node = $(document.getSelection().focusNode.parentElement, '.note-editable');
@@ -114,6 +116,39 @@ const applyFormat = (context, formatName) => {
     }
 
     $node.toggleClass(formatName);
+};
+
+const applyTag = (context, tag) => {
+    if (window.getSelection) {
+        const selection = window.getSelection();
+        const selected = (selection.rangeCount > 0) && selection.getRangeAt(0);
+
+        // Only wrap tag around selected text
+        if (selected.startOffset !== selected.endOffset) {
+            const range = selected.cloneRange();
+
+            const startParentElement = range.startContainer.parentElement;
+            const endParentElement = range.endContainer.parentElement;
+
+            // if the selection starts and ends different elements, we could be in trouble
+            if (!startParentElement.isSameNode(endParentElement)) {
+                if (!self.isSelectionParsable(startParentElement, endParentElement)) {
+                    return;
+                }
+            }
+
+            const newNode = document.createElement(tag);
+            // https://developer.mozilla.org/en-US/docs/Web/API/Range/surroundContents
+            // Parses inline nodes, but not block based nodes...blocks are handled above.
+            newNode.appendChild(range.extractContents());
+            range.insertNode(newNode);
+
+            // Restore the selections
+            range.selectNodeContents(newNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }
 };
 
 // $.extend($.summernote.plugins, {
@@ -162,7 +197,7 @@ $.extend($.summernote.plugins, {
                     tooltip: I18n.t('js.editor.buttons.advice'),
                     click: function (event) {
                         event.preventDefault();
-                        applyFormat(context, 'advice');
+                        applyClass(context, 'advice');
                         context.triggerEvent('change', $note.summernote('code'));
                     }
                 });
@@ -187,7 +222,7 @@ $.extend($.summernote.plugins, {
                     tooltip: I18n.t('js.editor.buttons.secret'),
                     click: function (event) {
                         event.preventDefault();
-                        applyFormat(context, 'secret');
+                        applyClass(context, 'secret');
                         context.triggerEvent('change', $note.summernote('code'));
                     }
                 });
@@ -195,5 +230,66 @@ $.extend($.summernote.plugins, {
                 return button.render();
             });
         }
+    }
+});
+
+$.extend($.summernote.plugins, {
+    'code': function (context) {
+        const ui = $.summernote.ui;
+        const options = context.options;
+        const $note = context.layoutInfo.note;
+
+        if (options.secret) {
+            context.memo('button.code', function () {
+                const button = ui.button({
+                    contents: '<i class="material-icons">format_quote</i>',
+                    container: options.container,
+                    tooltip: I18n.t('js.editor.buttons.code'),
+                    click: function (event) {
+                        event.preventDefault();
+                        applyTag(context, 'code');
+                        context.triggerEvent('change', $note.summernote('code'));
+                    }
+                });
+
+                return button.render();
+            });
+        }
+    }
+});
+
+$.extend($.summernote.plugins, {
+    'pre': function (context) {
+        const ui = $.summernote.ui;
+        const options = context.options;
+        const $note = context.layoutInfo.note;
+
+        if (options.secret) {
+            context.memo('button.pre', function () {
+                const button = ui.button({
+                    contents: '<i class="material-icons">short_text</i>',
+                    container: options.container,
+                    tooltip: I18n.t('js.editor.buttons.pre'),
+                    click: function (event) {
+                        event.preventDefault();
+                        applyTag(context, 'pre');
+                        context.triggerEvent('change', $note.summernote('code'));
+                    }
+                });
+
+                return button.render();
+            });
+        }
+
+        this.events = {
+            'summernote.keyup': function (we, event) {
+                if (event.keyCode === 69 && event.ctrlKey) {
+                    event.preventDefault();
+
+                    applyTag(context, 'pre');
+                    context.triggerEvent('change', $note.summernote('code'));
+                }
+            }
+        };
     }
 });

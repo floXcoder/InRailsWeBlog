@@ -258,19 +258,25 @@ export default function articleMutationManager(mode, formId) {
                 const isInline = this.props.initialData && this.props.initialData.mode === 'note';
                 const isDraft = this.props.initialData ? this.props.initialData.isDraft : false;
 
+                // Ensure article is correct (do not use previous one)
+                let article = this.state.article;
+                if (mode === 'edit' && this.state.article && this.state.article.slug !== this.props.params.articleSlug) {
+                    article = undefined;
+                }
+
                 const propsProxy = {
                     currentUser: this.props.currentUser,
                     currentTopic: this.props.currentTopic,
                     formId: formId,
                     onSubmit: this._handleSubmit,
-                    article: this.state.article,
+                    article: article,
                     currentMode: currentMode,
                     isInline: isInline,
                     isDraft: isDraft,
                     articleErrors: this.props.articleErrors
                 };
 
-                return <WrappedComponent {...propsProxy} />;
+                return <WrappedComponent {...propsProxy}/>;
             }
         }
 

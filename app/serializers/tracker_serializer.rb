@@ -17,7 +17,7 @@
 #
 
 class TrackerSerializer < ActiveModel::Serializer
-  cache key: 'tracker', expires_in: 12.hours
+  cache key: 'tracker', expires_in: CONFIG.cache_time
 
   attributes :views_count,
              :queries_count,

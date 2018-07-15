@@ -25,12 +25,17 @@ export default class ArticleItemDisplay extends React.Component {
         article: PropTypes.object.isRequired,
         articleDisplayMode: PropTypes.string.isRequired,
         articleEditionId: PropTypes.number,
+        isMinimized: PropTypes.bool,
         // From connect
         isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool,
         isMasonry: PropTypes.bool,
         inlineEditArticle: PropTypes.func,
         onClick: PropTypes.func
+    };
+
+    static defaultProps = {
+        isMinimized: false
     };
 
     constructor(props) {
@@ -71,6 +76,7 @@ export default class ArticleItemDisplay extends React.Component {
                                     isOwner={this.props.isOwner}
                                     isOutdated={this.props.isOutdated}
                                     isMasonry={this.props.isMasonry}
+                                    isMinimized={this.props.isMinimized}
                                     onBookmarkClick={this._handleBookmarkClick}
                                     onInlineEdit={this._handleInlineEditClick}
                                     onVisibilityClick={this._handleVisibilityClick}

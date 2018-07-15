@@ -103,6 +103,12 @@ webPackConfig.optimization = {
 };
 
 webPackConfig.plugins.push(
+    new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify('development'),
+            'ASSET_PATH': JSON.stringify(config.development.assetPath)
+        }
+    }),
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),
@@ -122,12 +128,6 @@ webPackConfig.plugins.push(
         // both options are optional
         filename: config.development.filename + '.css',
         chunkFilename: config.development.chunkFilename + '.css'
-    }),
-    new webpack.DefinePlugin({
-        'process.env': {
-            'NODE_ENV': JSON.stringify('development'),
-            'ASSET_PATH': JSON.stringify(config.development.assetPath)
-        }
     }),
     // new webpack.HotModuleReplacementPlugin(),
     // new BrowserSyncPlugin(config.browserSync),

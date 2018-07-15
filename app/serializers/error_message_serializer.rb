@@ -28,7 +28,7 @@
 #
 
 class ErrorMessageSerializer < ActiveModel::Serializer
-  cache key: 'failure', expires_in: 12.hours
+  cache key: 'failure', expires_in: CONFIG.cache_time
 
   attributes :id,
              :origin,

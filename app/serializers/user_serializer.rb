@@ -50,7 +50,7 @@
 #
 
 class UserSerializer < ActiveModel::Serializer
-  cache key: 'user', expires_in: 12.hours
+  cache key: 'user', expires_in: CONFIG.cache_time
 
   attributes :id,
              :pseudo,

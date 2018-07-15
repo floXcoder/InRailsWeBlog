@@ -228,6 +228,7 @@ class Article < ApplicationRecord
   }
 
   scope :with_tags, -> (tag_slugs) { left_outer_joins(:tags).where(tags: { slug: tag_slugs }) }
+  scope :with_no_parent_tags, -> (parent_tag_slugs) { joins(:tags).where(tagged_articles: { parent: false }, tags: { slug: parent_tag_slugs }) }
   scope :with_parent_tags, -> (parent_tag_slugs) { joins(:tags).where(tagged_articles: { parent: true }, tags: { slug: parent_tag_slugs }) }
   scope :with_child_tags, -> (child_tag_slugs) { joins(:tags).where(tagged_articles: { child: true }, tags: { slug: child_tag_slugs }) }
 
@@ -511,7 +512,7 @@ class Article < ApplicationRecord
               elsif filter[:child_tag_slug]
                 records.with_child_tags(filter[:child_tag_slug])
               elsif filter[:tag_slug]
-                records.with_tags(filter[:tag_slug])
+                current_user && current_user.settings['article_child_tagged'] ? records.with_tags(filter[:tag_slug]) : records.with_no_parent_tags(filter[:tag_slug])
               else
                 records
               end
@@ -829,8 +830,11 @@ class Article < ApplicationRecord
 
     html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[style class href name target src alt center align data-article-relation-id])
 
+    html = html.gsub(/(<code>){2,}/i, '<code>')
+    html = html.gsub(/(<\/code>){2,}/i, '</code>')
+
     # Replace pre by pre > code
-    html = html.gsub(/<pre>/i, '<pre><code>')
+    html = html.gsub(/<pre (.*?)>/i, '<pre \1><code>')
     html = html.gsub(/<\/pre>/i, '</code></pre>')
 
     # Replace src by data-src for lazy-loading

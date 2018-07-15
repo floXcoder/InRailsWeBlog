@@ -73,6 +73,7 @@ class User < ApplicationRecord
     articles_loader String, default: 'infinite' # all / paginate / infinite
     article_display String, default: 'card' # inline / card (with inline edit) / grid
     article_order String, default: nil # Defined in Article::order_by
+    article_child_tagged Boolean, default: false # Display articles for parent tag
 
     tag_sidebar_pin Boolean, default: true
     tag_sidebar_with_child Boolean, default: false
@@ -518,17 +519,16 @@ class User < ApplicationRecord
   end
 
   def switch_topic(new_topic)
-    # TODO
     if self.current_topic_id == new_topic.id
       # self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.already_selected'))
       return new_topic
     elsif self.id != new_topic.user_id
       self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.not_owner'))
-      return false
     else
-      update_attribute(:current_topic_id, new_topic.id)
-      return new_topic
+      self.current_topic_id = new_topic.id
     end
+
+    save
   end
 
   # Activities

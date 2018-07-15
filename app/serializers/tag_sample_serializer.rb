@@ -1,7 +1,7 @@
 class TagSampleSerializer < ActiveModel::Serializer
   include NullAttributesRemover
 
-  cache key: 'tag_sample', expires_in: 12.hours
+  cache key: 'tag_sample', expires_in: CONFIG.cache_time
 
   attributes :id,
              :user_id,

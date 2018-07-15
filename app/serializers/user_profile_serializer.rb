@@ -1,5 +1,5 @@
 class UserProfileSerializer < ActiveModel::Serializer
-  cache key: 'user_profile', expires_in: 12.hours
+  cache key: 'user_profile', expires_in: CONFIG.cache_time
 
   attributes :id,
              :pseudo,
@@ -11,8 +11,9 @@ class UserProfileSerializer < ActiveModel::Serializer
              :avatar_url,
              :articles_count,
              :draft_count,
-             :settings,
-             :current_topic
+             :settings
+
+  has_one :current_topic
 
   def articles_count
     object.articles.size
@@ -20,9 +21,5 @@ class UserProfileSerializer < ActiveModel::Serializer
 
   def draft_count
     object.draft_articles.size
-  end
-
-  def current_topic
-    TopicSerializer.new(object.current_topic).attributes if object.current_topic
   end
 end

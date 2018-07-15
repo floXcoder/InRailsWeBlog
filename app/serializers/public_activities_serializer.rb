@@ -1,7 +1,7 @@
 class PublicActivitiesSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  cache key: 'public_activities', expires_in: 12.hours
+  cache key: 'public_activities', expires_in: CONFIG.cache_time
 
   attributes :id,
              :trackable_id,

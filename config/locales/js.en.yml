@@ -71,6 +71,7 @@ en:
         cancel: "Cancel"
         submit: "Log in"
         connecting: "Connecting in progress"
+        connected: "Connected, redirection to your account"
         externals:
           google: "Login with Google"
           facebook: "Login with Facebook"
@@ -85,6 +86,7 @@ en:
         cancel: "Cancel"
         submit: "Create my account"
         connecting: "Subscribing in progress"
+        connected: "Connected, redirection to your account"
         externals:
           google: "Signup with Google"
           facebook: "Signup with Facebook"
@@ -155,6 +157,8 @@ en:
               inline: "On global article"
               card: "Independent cards"
               grid: "In grid"
+          child_tagged:
+            title: "Display child articles with parent tag"
         tag:
           title: "Tags"
           sidebar:
@@ -783,6 +787,8 @@ en:
         system: "System"
     editor:
       buttons:
+        code: "Simple code"
+        pre: "Multi-line code (CTRL+E)"
         advice: "Advice"
         secret: "Secret"
         cleaner: "Clean formatting"

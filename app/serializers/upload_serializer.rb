@@ -1,5 +1,5 @@
 class UploadSerializer < ActiveModel::Serializer
-  cache key: 'upload', expires_in: 12.hours
+  cache key: 'upload', expires_in: CONFIG.cache_time
 
   attributes :id,
              :url,

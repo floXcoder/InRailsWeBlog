@@ -38,7 +38,7 @@ import Collapsible from '../../theme/collapsible';
     validateArticle
 })
 @connect((state, props) => ({
-    userTags: getCategorizedTags(state),
+    availableTags: getCategorizedTags(state),
     parentTags: getArticleParentTags(props.children),
     childTags: getArticleChildTags(props.children),
     defaultVisibility: getCurrentTopicVisibility(state)
@@ -61,7 +61,7 @@ export default class ArticleFormDisplay extends React.Component {
         invalid: PropTypes.bool,
         dirty: PropTypes.bool,
         // From connect
-        userTags: PropTypes.array,
+        availableTags: PropTypes.array,
         parentTags: PropTypes.array,
         childTags: PropTypes.array,
         defaultVisibility: PropTypes.string,
@@ -88,8 +88,8 @@ export default class ArticleFormDisplay extends React.Component {
     };
 
     componentDidMount() {
-        if (this.props.userTags.length === 0) {
-            this.props.fetchTags({userTags: true});
+        if (this.props.availableTags.length === 0) {
+            this.props.fetchTags({availableTags: true});
         }
     }
 
@@ -140,7 +140,7 @@ export default class ArticleFormDisplay extends React.Component {
                                 <ArticleCommonField currentMode={this.state.currentMode}
                                                     article={this.props.children}
                                                     isDraft={this.props.isDraft}
-                                                    userTags={this.props.userTags}
+                                                    availableTags={this.props.availableTags}
                                                     parentTags={this.props.parentTags}
                                                     childTags={this.props.childTags}
                                                     onSubmit={this.props.handleSubmit}/>

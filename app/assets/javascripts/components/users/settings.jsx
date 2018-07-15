@@ -18,6 +18,7 @@ import {
     settings: state.userState.user.settings,
     articlesLoader: state.userState.user && state.userState.user.settings.articlesLoader,
     articleDisplay: state.userState.user && state.userState.user.settings.articleDisplay,
+    articleChildTagged: state.userState.user && state.userState.user.settings.articleChildTagged,
     tagSidebarPin: state.userState.user && state.userState.user.settings.tagSidebarPin,
     tagSidebarWithChild: state.userState.user && state.userState.user.settings.tagSidebarWithChild,
     tagOrder: state.userState.user && state.userState.user.settings.tagOrder,
@@ -33,9 +34,10 @@ export default class UserSettings extends React.Component {
         currentUserId: PropTypes.number,
         articlesLoader: PropTypes.string,
         articleDisplay: PropTypes.string,
+        articleChildTagged: PropTypes.bool,
         tagSidebarPin: PropTypes.bool,
         tagSidebarWithChild: PropTypes.bool,
-        tagOrderMode: PropTypes.string,
+        tagOrder: PropTypes.string,
         searchHighlight: PropTypes.bool,
         searchOperator: PropTypes.string,
         searchExact: PropTypes.bool,
@@ -52,6 +54,10 @@ export default class UserSettings extends React.Component {
 
     _onDisplayChanged = (event) => {
         this._updateSettings({articleDisplay: event.target.id});
+    };
+
+    _onChildTaggedChanged = (value) => {
+        this._updateSettings({articleChildTagged: value});
     };
 
     _onTagSidebarPinChanged = (value) => {
@@ -106,6 +112,14 @@ export default class UserSettings extends React.Component {
                                           buttons={I18n.t('js.user.settings.article.display.mode')}
                                           checkedButton={this.props.articleDisplay}
                                           onChange={this._onDisplayChanged}/>
+                        </div>
+                        <div className="col s12 margin-top-15">
+                            <SwitchButton id="article-child-tagged"
+                                          title={I18n.t('js.user.settings.article.child_tagged.title')}
+                                          values={I18n.t('js.checkbox')}
+                                          onChange={this._onChildTaggedChanged}>
+                                {this.props.articleChildTagged}
+                            </SwitchButton>
                         </div>
                     </div>
                 </Tab>

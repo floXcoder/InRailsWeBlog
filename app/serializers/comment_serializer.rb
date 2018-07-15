@@ -23,7 +23,7 @@
 #
 
 class CommentSerializer < ActiveModel::Serializer
-  cache key: 'comment', expires_in: 12.hours
+  cache key: 'comment', expires_in: CONFIG.cache_time
 
   attributes :id,
              :title,

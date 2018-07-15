@@ -25,14 +25,17 @@ class TagRelationship < ApplicationRecord
   belongs_to :user
   belongs_to :topic
 
-  belongs_to :article
+  belongs_to :article,
+             touch: true
 
   belongs_to :parent,
-             class_name: 'Tag',
-             foreign_key: 'parent_id'
+             class_name:  'Tag',
+             foreign_key: 'parent_id',
+             touch:       true
   belongs_to :child,
-             class_name: 'Tag',
-             foreign_key: 'child_id'
+             class_name:  'Tag',
+             foreign_key: 'child_id',
+             touch:       true
 
   # == Validations ==========================================================
   validates :user,
@@ -45,15 +48,15 @@ class TagRelationship < ApplicationRecord
 
   validates :parent,
             presence: true,
-            on: :update
+            on:       :update
   validates :child,
             presence: true,
-            on: :update
+            on:       :update
 
   validates_uniqueness_of :topic_id,
-                          scope: [:parent_id, :child_id],
+                          scope:     [:parent_id, :child_id],
                           allow_nil: true,
-                          message: I18n.t('activerecord.errors.models.tag_relationship.already_linked')
+                          message:   I18n.t('activerecord.errors.models.tag_relationship.already_linked')
 
   # == Scopes ===============================================================
 
