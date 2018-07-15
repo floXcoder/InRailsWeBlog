@@ -24,12 +24,12 @@ cache:
     <<: *default-cache
     policy: pull
 
-
 before_script:
   - date
   - rvm gemset use InRailsWeBlog
   - bundle --version
   - ruby -v
+  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
 after_script:
   - date
