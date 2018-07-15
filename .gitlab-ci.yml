@@ -12,7 +12,7 @@ cache:
   key: "ruby-2.5.1-debian-stretch-with-yarn"
   paths:
     - vendor/bundle
-    - .yarn-cache/
+#    - .yarn-cache/
 
 .push-cache: &push-cache
   cache:
@@ -66,10 +66,10 @@ brakeman:
 test:
   stage: test
   variables:
-    RAILS_ENV: 'test'
-    DATABASE_TEST_NAME: 'inrailsweblog_test'
-    DATABASE_TEST_USERNAME: 'inrailsweblog_test'
-    DATABASE_TEST_PASSWORD: 'inrailsweblog'
+    RAILS_ENV: "test"
+    DATABASE_TEST_NAME: "inrailsweblog_test"
+    DATABASE_TEST_USERNAME: "inrailsweblog_test"
+    DATABASE_TEST_PASSWORD: "inrailsweblog"
   <<: *pull-cache
   script:
     - bundle exec rspec -t basic spec/
@@ -79,7 +79,7 @@ test:
 deploy:
   stage: deploy
   variables:
-    RAILS_ENV: 'production'
+    RAILS_ENV: "production"
     DEPLOY_SERVER: "$DEPLOY_SERVER"
     DEPLOY_USER: "$DEPLOY_USER"
     GIT_REPO_ADDRESS: "$GIT_REPO_ADDRESS"
