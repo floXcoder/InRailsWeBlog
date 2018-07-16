@@ -50,15 +50,14 @@ export default class UserComplete extends React.Component {
     };
 
     componentDidMount() {
-        // TODO
         // UserActions.loadUser({
         //     userId: props.userId,
         //     completeUser: true
         // });
 
-        this._loadArticles(props.userId);
-        this._loadComments(props.userId);
-        this._loadActivities(props.userId);
+        this._loadArticles(this.props.userId);
+        this._loadComments(this.props.userId);
+        this._loadActivities(this.props.userId);
     }
 
     componentDidUpdate() {
@@ -66,7 +65,6 @@ export default class UserComplete extends React.Component {
     }
 
     _loadArticles = (userId, data = {}) => {
-        // TODO
         // ArticleActions.loadArticles({
         //     userId: userId,
         //     page: data.page || 1,
@@ -75,14 +73,12 @@ export default class UserComplete extends React.Component {
     };
 
     _loadComments = (userId, data = {}) => {
-        // TODO
         // UserActions.loadUserComments(userId, {
         //     page: data.page || 1
         // });
     };
 
     _loadActivities = (userId, data = {}) => {
-        // TODO
         // UserActions.loadUserActivities(userId, {
         //     page: data.page || 1
         // });
@@ -131,7 +127,6 @@ export default class UserComplete extends React.Component {
 
     _onAdminChange = (newAdminState) => {
         if (this.props.isAdminConnected) {
-            // TODO
             // UserActions.updateUser({
             //     id: this.state.user.id,
             //     admin: newAdminState,
@@ -141,7 +136,6 @@ export default class UserComplete extends React.Component {
     };
 
     render() {
-        // TODO: replace dropdown
         return (
             <div className="user-admin">
                 <div className="row">

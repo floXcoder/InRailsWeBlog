@@ -3,6 +3,8 @@
 // File called to set up environment before all tests
 
 // Global variables from Webpack config
+import * as ArticleActions from "../../app/assets/javascripts/actions/articleActions";
+
 global.$ = global.jQuery = global.jquery = require('jquery');
 global.log = require('loglevel');
 global.React = require('react');
@@ -82,7 +84,10 @@ import mutationMiddleware from '../../app/assets/javascripts/middlewares/mutatio
 global.buildStore = applyMiddleware(fetchMiddleware, mutationMiddleware, thunk)(createStore);
 
 global.dispatch = (store, actionCreator) => {
-    const dispatch = store.dispatch(actionCreator);
+    let dispatch = store.dispatch(actionCreator);
+    if (dispatch.fetch) {
+        dispatch = dispatch.fetch;
+    }
     const isPromise = (typeof dispatch.then === 'function');
 
     if (isPromise) {

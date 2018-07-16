@@ -38,8 +38,6 @@ export default class ArticleCardDisplay extends React.Component {
         isMinimized: PropTypes.bool,
         hasActions: PropTypes.bool,
         onInlineEdit: PropTypes.func,
-        onBookmarkClick: PropTypes.func,
-        onVisibilityClick: PropTypes.func,
         onClick: PropTypes.func,
         onShow: PropTypes.func
     };
@@ -94,9 +92,6 @@ export default class ArticleCardDisplay extends React.Component {
     };
 
     render() {
-        // TODO
-        // 'article-outdated': this.props.isOutdated
-
         return (
             <StickyContainer>
                 <div className="article-item">
@@ -115,7 +110,9 @@ export default class ArticleCardDisplay extends React.Component {
                         </Sticky>
                     </div>
 
-                    <div className="article-content">
+                    <div className={classNames('article-content', {
+                             'article-outdated': this.props.article.outdated
+                         })}>
                         {
                             this.props.article.title &&
                             <div className="article-title">
@@ -209,6 +206,7 @@ export default class ArticleCardDisplay extends React.Component {
                                                     articleSlug={this.props.article.slug}
                                                     articleTitle={this.props.article.title}
                                                     articleVisibility={this.props.article.visibility}
+                                                    isOutdated={this.props.article.outdated}
                                                     isBookmarked={this.props.article.bookmarked}/>
                                 </div>
                             }

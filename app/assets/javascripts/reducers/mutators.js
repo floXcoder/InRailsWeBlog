@@ -9,7 +9,7 @@ export const fetchReducer = (state, action, payloadReducer, omitItems = []) => {
     const actionName = action.type.split('/')[1];
 
     if (!actionName) {
-        throw new Error(`To use fetchReducer, action name must respect format: TYPE/FETCH_`);
+        throw new Error('To use fetchReducer, action name must respect format: TYPE/FETCH_');
     }
 
     const {type, isFetching, meta, ...actionContent} = action;
@@ -42,7 +42,7 @@ export const mutationReducer = (state, action, payloadReducer, omitItems = []) =
     const actionName = action.type.split('/')[1];
 
     if (!actionName) {
-        throw new Error(`To use fetchReducer, action name must respect format: TYPE/CHANGE_`);
+        throw new Error('To use fetchReducer, action name must respect format: TYPE/CHANGE_');
     }
 
     const {type, isProcessing, removedId, ...actionContent} = action;

@@ -20,7 +20,6 @@ export default class ArticleGridDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,
-        isOutdated: PropTypes.bool,
         hasActions: PropTypes.bool,
         onClick: PropTypes.func,
         onShow: PropTypes.func
@@ -28,7 +27,6 @@ export default class ArticleGridDisplay extends React.Component {
 
     static defaultProps = {
         isOwner: false,
-        isOutdated: false,
         hasActions: true
     };
 

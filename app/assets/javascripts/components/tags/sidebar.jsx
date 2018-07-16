@@ -13,7 +13,6 @@ import {
     getSortedTopicTags
 } from '../../selectors';
 
-// TODO: use selector to get current tags of fetch articles: load on click only
 // import AssociatedTagBox from '../tags/associated/box';
 
 import TagRelationshipDisplay from './display/relationship';

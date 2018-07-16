@@ -26,8 +26,7 @@ export default class ArticleInlineDisplay extends React.PureComponent {
     };
 
     static defaultProps = {
-        isOwner: false,
-        isOutdated: false
+        isOwner: false
     };
 
     constructor(props) {

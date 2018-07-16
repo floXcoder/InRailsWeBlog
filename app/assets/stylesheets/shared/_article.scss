@@ -79,7 +79,7 @@
 }
 
 .article-outdated {
-  background-color: $secondary-color;
+  border: 1px solid $warning-color;
 }
 
 .blog-article-history {
@@ -212,6 +212,17 @@
         &:hover {
           background-color: $warning-color;
           color: #fff;
+        }
+      }
+
+      .article-outdate {
+        &:hover {
+          background-color: $secondary-color;
+          color: #fff;
+        }
+
+        .article-outdate-icon {
+          color: $error-color;
         }
       }
 

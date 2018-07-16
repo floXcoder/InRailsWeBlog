@@ -50,7 +50,7 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 
 First install required packages:
 
-    sudo apt-get install -y curl git redis-server postgresql postgresql-contrib libpq-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libnotify-bin cmake git-flow gawk libgmp-dev libreadline6-dev cmake libpng-dev  optipng jpegoptim
+    sudo apt-get install -y curl git redis-server postgresql postgresql-contrib libpq-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libnotify-bin cmake git-flow gawk libgmp-dev libreadline6-dev cmake libpng-dev  optipng jpegoptim
 
 Configure git:
 
@@ -291,7 +291,7 @@ https://www.inrailsweblog.com
 
 Gitlab is used for automatic deployment: 
 
-- Push new modifications on develop branch, Gitlab will build and run tests on this branch.
+- Push new modifications on develop branch, Gitlab will build and run tests on this branch. **Do not forget to push tags when deploying a new version.**
 
 - Create a new Gitflow Release version and push modifications on master branch to deploy on website. Increment each time the version number.
 
@@ -344,6 +344,10 @@ The project is based on git:
 https://gitlab.l-x.fr/Flo/InRailsWeBlog/tree/develop
 
 Gitflow is used for branch management.
+
+### Create major version
+
+To create a new major version, start manually a new Gitflow release named "0.Y.0" or "X.0.0". Next release will increment the minor version (Z).
 
 ### Remote repository
 

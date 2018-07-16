@@ -462,8 +462,8 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '::filter_by' do
       before do
-        @tags                  = create_list(:tag, 3, user: @user)
-        @article_with_tags     = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0]])
+        @tags                       = create_list(:tag, 3, user: @user)
+        @article_with_tags          = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0]])
         @article_with_relation_tags = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[0], @tags[1]], child_tags: [@tags[2]])
       end
 
@@ -473,8 +473,23 @@ RSpec.describe Article, type: :model, basic: true do
       it { expect(Article.filter_by(Article.all, parent_tag_slug: @tags[1].slug)).to contain_exactly(@article_with_relation_tags) }
       it { expect(Article.filter_by(Article.all, child_tag_slug: @tags[2].slug)).to contain_exactly(@article_with_relation_tags) }
 
-        # TODO: test where parent tags only and for all tags
-      # it { expect(Article.filter_by(Article.all, tag_slug: @tags[0].slug)).to contain_exactly(@article_with_tags, @article_with_relation_tags) }
+      describe 'display parent article only' do
+        before do
+          @user.settings['article_child_tagged'] = false
+          @user.save
+        end
+
+        it { expect(Article.filter_by(Article.all, { tag_slug: @tags[0].slug }, @user)).to contain_exactly(@article_with_tags) }
+      end
+
+      describe 'display all article for a tag' do
+        before do
+          @user.settings['article_child_tagged'] = true
+          @user.save
+        end
+
+        it { expect(Article.filter_by(Article.all, { tag_slug: @tags[0].slug }, @user)).to contain_exactly(@article_with_tags, @article_with_relation_tags) }
+      end
     end
 
     describe '::order_by' do
@@ -527,8 +542,7 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '.default_picture' do
       it { is_expected.to respond_to(:default_picture) }
-      # TODO: double slash
-      it { expect(@article.default_picture).to eq('http://www.inrailsweblog.com//assets/') }
+      it { expect(@article.default_picture).to eq("http://#{ENV['WEBSITE_ADDRESS']}/assets/") }
     end
 
     describe '.mark_as_outdated' do

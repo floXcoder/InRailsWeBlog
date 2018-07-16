@@ -165,9 +165,9 @@ module Api::V1
 
         user.create_activity(:visit,
                              recipient_type: recent['type'].classify,
-                             recipient_id: recent['element_id'].to_i,
-                             params: { topic_id: recent['parent_id'] })
-        PublicActivity::Activity.last.update_attribute(:created_at, Time.at((recent['date']/1000).round))
+                             recipient_id:   recent['element_id'].to_i,
+                             params:         { topic_id: recent['parent_id'] })
+        PublicActivity::Activity.last.update_attribute(:created_at, Time.at((recent['date'] / 1000).round))
       end
 
       user_recents = user.recent_visits(params[:limit])

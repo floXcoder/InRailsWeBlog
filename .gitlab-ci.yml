@@ -3,16 +3,13 @@ stages:
   - test
   - deploy
 
-cache:
-  key: gems
-  paths:
-    - vendor
-
 .default-cache: &default-cache
   key: "ruby-2.5.1-debian-stretch-with-yarn"
   paths:
+    - .bundle
     - vendor/bundle
-#    - .yarn-cache/
+    - .yarn-cache/
+    - node_modules
 
 .push-cache: &push-cache
   cache:
@@ -29,7 +26,6 @@ before_script:
   - rvm gemset use InRailsWeBlog
   - bundle --version
   - ruby -v
-  - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
 
 after_script:
   - date
@@ -41,6 +37,7 @@ build:
   script:
     - gem install bundler --no-ri --no-rdoc
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
+    - yarn install --frozen-lockfile --cache-folder .yarn-cache
   only:
     - develop
 
@@ -63,16 +60,25 @@ brakeman:
   only:
     - develop
 
-test:
+rails_test:
   stage: test
   variables:
     RAILS_ENV: "test"
     DATABASE_TEST_NAME: "inrailsweblog_test"
     DATABASE_TEST_USERNAME: "inrailsweblog_test"
     DATABASE_TEST_PASSWORD: "inrailsweblog"
+    COVERAGE: "true"
   <<: *pull-cache
   script:
     - bundle exec rspec -t basic spec/
+  only:
+    - develop
+
+npm_test:
+  stage: test
+  <<: *pull-cache
+  script:
+    - npm run test
   only:
     - develop
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const ArticleVisibilityIcon = ({articleId, articleVisibility}) => {
+const ArticleVisibilityIcon = ({articleId, articleVisibility, onVisibilityClick}) => {
     const isVisible = articleVisibility === 'everyone';
 
     const visibilityClasses = classNames(
@@ -16,7 +16,8 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility}) => {
 
     return (
         <a className={visibilityClasses}
-           data-tooltip={visibilityTooltip}>
+           data-tooltip={visibilityTooltip}
+           onClick={onVisibilityClick}>
             <span className="material-icons"
                   data-icon={isVisible ? 'visibility' : 'visibility_off'}
                   aria-hidden="true"/>
@@ -26,7 +27,8 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility}) => {
 
 ArticleVisibilityIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
-    articleVisibility: PropTypes.string.isRequired
+    articleVisibility: PropTypes.string.isRequired,
+    onVisibilityClick: PropTypes.func
 };
 
 export default ArticleVisibilityIcon;

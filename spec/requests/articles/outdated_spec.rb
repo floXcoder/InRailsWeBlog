@@ -28,12 +28,14 @@ describe 'Outdated Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'cannot mark his own article as outdated' do
+      it 'marks article as outdated' do
         expect {
           post "/api/v1/articles/#{@article.id}/outdated", as: :json
 
-          expect(response).to be_unauthorized
-        }.not_to change(OutdatedArticle, :count)
+          expect(response).to be_json_response
+          article = JSON.parse(response.body)
+          expect(article['article']['id']).to eq(@article.id)
+        }.to change(OutdatedArticle, :count).by(1)
       end
     end
 
@@ -46,7 +48,9 @@ describe 'Outdated Article API', type: :request, basic: true do
         expect {
           post "/api/v1/articles/#{@article.id}/outdated", as: :json
 
-          expect(response).to be_json_response(204)
+          expect(response).to be_json_response
+          article = JSON.parse(response.body)
+          expect(article['article']['id']).to eq(@article.id)
         }.to change(OutdatedArticle, :count).by(1)
       end
     end
@@ -66,14 +70,18 @@ describe 'Outdated Article API', type: :request, basic: true do
     context 'when user is connected' do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
+
+        @article.mark_as_outdated(@user)
       end
 
-      it 'cannot unmark his own article' do
+      it 'unmarks the article' do
         expect {
-          post "/api/v1/articles/#{@article.id}/outdated", as: :json
+          delete "/api/v1/articles/#{@article.id}/outdated", as: :json
 
-          expect(response).to be_unauthorized
-        }.not_to change(OutdatedArticle, :count)
+          expect(response).to be_json_response
+          article = JSON.parse(response.body)
+          expect(article['article']['id']).to eq(@article.id)
+        }.to change(OutdatedArticle, :count).by(-1)
       end
     end
 
@@ -88,7 +96,7 @@ describe 'Outdated Article API', type: :request, basic: true do
         expect {
           delete "/api/v1/articles/#{@article.id}/outdated", as: :json
 
-          expect(response).to be_unauthorized
+          expect(response).to be_json_response(422)
         }.not_to change(OutdatedArticle, :count)
       end
     end
@@ -104,7 +112,9 @@ describe 'Outdated Article API', type: :request, basic: true do
         expect {
           delete "/api/v1/articles/#{@article.id}/outdated", as: :json
 
-          expect(response).to be_json_response(204)
+          expect(response).to be_json_response
+          article = JSON.parse(response.body)
+          expect(article['article']['id']).to eq(@article.id)
         }.to change(OutdatedArticle, :count).by(-1)
       end
     end

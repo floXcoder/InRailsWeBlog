@@ -21,7 +21,7 @@ describe('Topics actions', () => {
         it('should fetch all topics', () => {
             const topics = FactoryGenerator.create('topics', {number: 3});
 
-            mock('/api/v1/topics?userId=1', 200, () => ({
+            mock('/api/v1/topics.json?userId=1', 200, () => ({
                     topics,
                     meta: {
                         currentPage: 1,
@@ -44,7 +44,7 @@ describe('Topics actions', () => {
         it('should fetch one topic', () => {
             const topic = FactoryGenerator.create('topics');
 
-            mock(`/api/v1/topics/${topic.id}?userId=1`, 200, () => ({
+            mock(`/api/v1/topics/${topic.id}.json?userId=1`, 200, () => ({
                     topic: topic
                 })
             );

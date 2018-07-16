@@ -28,11 +28,12 @@ const deleteBookmark = (bookmark) => ({
     bookmark: bookmark
 });
 
-export const bookmark = (bookmarkedModel, bookmarkedId, bookmarkData) => (dispatch, getState) => {
-    const currentUserId = getState().userState.currentId;
+export const bookmark = (bookmarkedModel, bookmarkedId, bookmarkData, currentUserId = null) => (dispatch, getState) => {
+    currentUserId = currentUserId || getState().userState.currentId;
+
     const bookmark = {
         userId: currentUserId,
-        bookmarkedModel,
+        bookmarkedType: bookmarkedModel,
         bookmarkedId
     };
 

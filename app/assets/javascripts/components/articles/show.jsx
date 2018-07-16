@@ -9,6 +9,9 @@ import {
 
 import {
     fetchArticle,
+    updateArticle,
+    markArticleOutdated,
+    unmarkArticleOutdated,
     deleteArticle,
     setCurrentTags
 } from '../../actions';
@@ -25,12 +28,6 @@ import ArticleTime from './properties/time';
 import ArticleTags from './properties/tags';
 import ArticleFloatingIcons from './properties/floatingIcons';
 import ArticleActions from './properties/actions';
-// TODO
-// import ArticleOutdatedIcon from './icons/outdated';
-// TODO
-// import ArticleBookmarkIcon from './icons/bookmark';
-// TODO
-// import ArticleVotes from './properties/vote';
 
 import Loader from '../theme/loader';
 import LazyLoader from '../theme/lazyLoader';
@@ -45,10 +42,12 @@ import NotFound from '../layouts/notFound';
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
-    isOutdated: getArticleIsOutdated(state.articleState.article),
     isUserConnected: state.userState.isConnected
 }), {
     fetchArticle,
+    updateArticle,
+    markArticleOutdated,
+    unmarkArticleOutdated,
     deleteArticle,
     setCurrentTags
 })
@@ -61,9 +60,11 @@ export default class ArticleShow extends React.Component {
         isFetching: PropTypes.bool,
         article: PropTypes.object,
         isOwner: PropTypes.bool,
-        isOutdated: PropTypes.bool,
         isUserConnected: PropTypes.bool,
         fetchArticle: PropTypes.func,
+        updateArticle: PropTypes.func,
+        markArticleOutdated: PropTypes.func,
+        unmarkArticleOutdated: PropTypes.func,
         deleteArticle: PropTypes.func,
         setCurrentTags: PropTypes.func
     };
@@ -101,6 +102,27 @@ export default class ArticleShow extends React.Component {
         }
     }
 
+    _handleOutdatedClick = (event) => {
+        event.preventDefault();
+
+        if (this.props.article.outdated) {
+            this.props.unmarkArticleOutdated(this.props.article.id)
+                .then((response) => response && response.errors && Notification.error(response.errors, 10));
+        } else {
+            this.props.markArticleOutdated(this.props.article.id)
+                .then((response) => response && response.errors && Notification.error(response.errors, 10));
+        }
+    };
+
+    _handleVisibilityClick = (event) => {
+        event.preventDefault();
+
+        this.props.updateArticle({
+            id: this.props.article.id,
+            visibility: this.props.article.visibility === 'everyone' ? 'only_me' : 'everyone'
+        });
+    };
+
     _handleDeleteClick = (event) => {
         event.preventDefault();
 
@@ -110,27 +132,7 @@ export default class ArticleShow extends React.Component {
                     state: {reloadTags: true}
                 })
             );
-
     };
-
-    // TODO
-    _handleVisibilityClick = (articleId) => {
-    };
-
-    // TODO
-    // _handleBookmarkClick = (articleId, isBookmarked) => {
-    //     // ArticleActions.bookmarkArticle({articleId: articleId, isBookmarked: isBookmarked});
-    // };
-
-    // TODO
-    // _handleVoteClick = (articleId, isUp) => {
-    //     // ArticleActions.voteArticle({articleId: articleId, isUp: isUp});
-    // };
-
-    // TODO
-    // _handleOutdatedClick = (articleId, isOutdated) => {
-    //     // ArticleActions.outdateArticle({articleId: articleId, isOutdated: isOutdated});
-    // };
 
     render() {
         if (!this.props.article) {
@@ -165,17 +167,8 @@ export default class ArticleShow extends React.Component {
                         </Sticky>
                     </div>
 
-                    {
-                        this.props.isOutdated &&
-                        <div className="card center-align">
-                            <p>
-                                {I18n.t('js.article.common.outdated')}
-                            </p>
-                        </div>
-                    }
-
                     <article className={classNames('card-panel', 'blog-article', {
-                        'article-outdated': this.props.isOutdated
+                        'article-outdated': this.props.article.outdated
                     })}>
                         <h1 className="blog-article-title">
                             {this.props.article.title}
@@ -237,31 +230,14 @@ export default class ArticleShow extends React.Component {
                                                 articleSlug={this.props.article.slug}
                                                 articleTitle={this.props.article.title}
                                                 articleVisibility={this.props.article.visibility}
+                                                isOutdated={this.props.article.outdated}
+                                                isBookmarked={this.props.article.bookmarked}
+                                                onOutdatedClick={this._handleOutdatedClick}
+                                                onVisibilityClick={this._handleVisibilityClick}
                                                 onDeleteClick={this._handleDeleteClick}/>
                             </div>
                         }
                     </article>
-
-                    {
-                        // TODO
-                        // <ArticleVotes articleId={this.props.article.id}
-                        //               onVoteClick={this._handleVoteClick}
-                        //               articleVotesUp={this.props.article.votesUp}
-                        //               articleVotesDown={this.props.article.votesDown}/>
-                    }
-                    {
-                        // TODO
-                        // <ArticleBookmarkIcon articleId={this.props.article.id}
-                        //                      isOwner={this.props.isUserConnected}
-                        //                      onBookmarkClick={this._handleBookmarkClick}/>
-                    }
-                    {
-                        // TODO
-                        // <ArticleOutdatedIcon articleId={this.props.article.id}
-                        //                      isOwner={this.props.isUserConnected}
-                        //                      isOutdated={this.props.isOutdated}
-                        //                      onOutdatedClick={this._handleOutdatedClick}/>
-                    }
 
                     {
                         (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&

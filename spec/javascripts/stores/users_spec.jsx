@@ -62,7 +62,7 @@ describe('Users actions', () => {
         it('should initialize user', () => {
             const user = FactoryGenerator.create('users');
 
-            mock(`/api/v1/users/${user.id}?userProfile=true`, 200, () => ({
+            mock(`/api/v1/users/${user.id}.json?userProfile=true`, 200, () => ({
                     user: user
                 })
             );
@@ -80,7 +80,7 @@ describe('Users actions', () => {
         it('should validate user', () => {
             const user = FactoryGenerator.create('users');
 
-            mock('glob:/api/v1/users/validation?*', 200, () => ({
+            mock('glob:/api/v1/users/validation.json?*', 200, () => ({
                     success: true
                 })
             );

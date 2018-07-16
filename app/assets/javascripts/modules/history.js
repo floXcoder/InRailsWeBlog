@@ -22,9 +22,15 @@ const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly) => {
         }
 
         if (replaceOnly) {
-            window.history.replaceState(paramsToSerialize, '', newPath);
+            try {
+                window.history.replaceState(paramsToSerialize, '', newPath);
+            } catch(error) {
+            }
         } else {
-            window.history.pushState(paramsToSerialize, '', newPath);
+            try {
+                window.history.pushState(paramsToSerialize, '', newPath);
+            } catch(error) {
+            }
         }
 
         return true;

@@ -22,34 +22,25 @@ export default class UserEdit extends React.Component {
     constructor(props) {
         super(props);
 
-        // TODO
         // UserActions.loadUser({
         //     userId: this.props.userId || this.props.params.userId,
         //     completeUser: true
         // });
+
+        // if (userData.type === 'loadUser') {
+        //     newState.user = userData.user;
+        //     newState.userTracker = _.omit(userData.user.tracker, 'comments_count');
+        //     newState.userTracker.sign_in_count = userData.user.sign_in_count;
+        // }
+        //
+        // if (!Utils.isEmpty(newState)) {
+        //     this.setState(newState);
+        // }
     }
 
     state = {
         user: {}
     };
-
-    onUserChange(userData) {
-        if (Utils.isEmpty(userData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (userData.type === 'loadUser') {
-            newState.user = userData.user;
-            newState.userTracker = _.omit(userData.user.tracker, 'comments_count');
-            newState.userTracker.sign_in_count = userData.user.sign_in_count;
-        }
-
-        if (!Utils.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
 
     render() {
         if (Utils.isEmpty(this.state.user)) {

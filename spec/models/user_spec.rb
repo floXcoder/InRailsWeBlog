@@ -66,12 +66,12 @@ RSpec.describe User, type: :model, basic: true do
       additional_info:       'My personal info',
       locale:                'fr',
       # birth_date:            Chronic.parse('yesterday 12:00'),
-      street:                'street',
-      postcode:              '33000',
-      state:                 'state',
-      mobile_number:         '0606060606',
-      phone_number:          '0101010101',
-      slug:                  'example_user'
+      street:        'street',
+      postcode:      '33000',
+      state:         'state',
+      mobile_number: '0606060606',
+      phone_number:  '0101010101',
+      slug:          'example_user'
     )
     @user.confirm
   end
@@ -422,17 +422,15 @@ RSpec.describe User, type: :model, basic: true do
       it { is_expected.to respond_to(:switch_topic) }
 
       it 'switches topic' do
-        topic       = create(:topic, user: @user)
-        other_topic = create(:topic, user: other_user)
+        second_topic = create(:topic, user: @user)
+        other_topic  = create(:topic, user: other_user)
 
-        # TODO: test all cases
-        # expect(@user.switch_topic(topic)).to eq(topic)
-        #
-        # expect(@user.switch_topic(topic)).to be false
-        # expect(@user.errors[:topic].first).to eq(I18n.t('activerecord.errors.models.topic.already_selected'))
-        #
-        # expect(@user.switch_topic(other_topic)).to be false
-        # expect(@user.errors[:topic].second).to eq(I18n.t('activerecord.errors.models.topic.not_owner'))
+        expect(@user.switch_topic(@user.current_topic)).to eq(@user.current_topic)
+
+        expect(@user.switch_topic(second_topic)).to be true
+
+        expect(@user.switch_topic(other_topic)).to be false
+        expect(@user.errors[:topic].first).to eq(I18n.t('activerecord.errors.models.topic.not_owner'))
       end
     end
 

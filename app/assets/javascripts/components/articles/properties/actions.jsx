@@ -7,19 +7,40 @@ import ArticleDeleteIcon from '../icons/delete';
 import ArticleEditIcon from '../icons/edit';
 import ArticleLinkIcon from '../icons/link';
 
-const ArticleActions = ({isInline, articleId, articleSlug, articleTitle, articleVisibility, isBookmarked, onVisibilityClick, onDeleteClick}) => (
+import ArticleOutdatedIcon from '../icons/outdated';
+
+const ArticleActions = ({isInline, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, isBookmarked, onVisibilityClick, onOutdatedClick, onDeleteClick}) => (
     <ul className="action-icons">
         <li className="action-item">
             <ArticleBookmarkIcon articleId={articleId}/>
         </li>
 
-        <li className="action-item-divider"/>
+        {
+            !isInline &&
+            <li className="action-item-divider"/>
+        }
+
+        {
+            !isInline &&
+            <li className="action-item">
+                <ArticleOutdatedIcon articleId={articleId}
+                                     isOutdated={isOutdated}
+                                     onOutdatedClick={onOutdatedClick}/>
+            </li>
+        }
+
+        {
+            !isInline &&
+            <li className="action-item-divider"/>
+        }
         {
             !isInline &&
             <li className="action-item">
                 <ArticleDeleteIcon onDeleteClick={onDeleteClick}/>
             </li>
         }
+
+        <li className="action-item-divider"/>
 
         {
             !isInline &&
@@ -30,7 +51,8 @@ const ArticleActions = ({isInline, articleId, articleSlug, articleTitle, article
 
         <li className="action-item">
             <ArticleVisibilityIcon articleId={articleId}
-                                   articleVisibility={articleVisibility}/>
+                                   articleVisibility={articleVisibility}
+                                   onVisibilityClick={onVisibilityClick}/>
         </li>
 
         <li className="action-item-divider"/>
@@ -56,13 +78,16 @@ ArticleActions.propTypes = {
     articleVisibility: PropTypes.string.isRequired,
     articleTitle: PropTypes.string,
     onVisibilityClick: PropTypes.func,
+    onOutdatedClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
     isInline: PropTypes.bool,
+    isOutdated: PropTypes.bool,
     isBookmarked: PropTypes.bool
 };
 
 ArticleActions.defaultProps = {
     isInline: false,
+    isOutdated: false,
     isBookmarked: false
 };
 

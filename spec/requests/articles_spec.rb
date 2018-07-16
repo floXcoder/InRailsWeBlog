@@ -115,15 +115,30 @@ describe 'Article API', type: :request, basic: true do
         expect(json_articles['articles'].size).to eq(1)
       end
 
-      it 'returns articles for tags' do
-        # TODO: test where parent tags only and for all tags
-        # get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
-        # json_articles = JSON.parse(response.body)
-        # expect(json_articles['articles'].size).to eq(2)
+      it 'returns articles for this tag only' do
+        @user.settings['article_child_tagged'] = false
+        @user.save
+
+        get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
+        json_articles = JSON.parse(response.body)
+        expect(json_articles['articles'].size).to eq(1)
 
         # get '/api/v1/articles', params: { filter: { tag_slugs: [@public_tags[0].slug, @public_tags[1].slug] } }, as: :json
         # json_articles = JSON.parse(response.body)
-        # expect(json_articles['articles'].size).to eq(3)
+        # expect(json_articles['articles'].size).to eq(7)
+      end
+
+      it 'returns articles for this tag and its children' do
+        @user.settings['article_child_tagged'] = true
+        @user.save
+
+        get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
+        json_articles = JSON.parse(response.body)
+        expect(json_articles['articles'].size).to eq(2)
+
+        # get '/api/v1/articles', params: { filter: { tag_slugs: [@public_tags[0].slug, @public_tags[1].slug] } }, as: :json
+        # json_articles = JSON.parse(response.body)
+        # expect(json_articles['articles'].size).to eq(7)
       end
 
       it 'returns articles for parent and child tags' do
@@ -678,13 +693,17 @@ describe 'Article API', type: :request, basic: true do
       }
     }
 
+    let(:comment_error_attributes) {
+      {
+        comment: { title: 'a' }
+      }
+    }
+
     let(:comment_updated_attributes) {
       {
         comment: { id: @comments.first.id, title: 'title updated', body: 'The comment updated' }
       }
     }
-
-    # TODO: test comments with error
 
     describe '/api/v1/articles/:id/comments' do
       it 'returns all comments for this article' do
@@ -720,6 +739,18 @@ describe 'Article API', type: :request, basic: true do
           json_comment = JSON.parse(response.body)
           expect(json_comment['comment']).not_to be_empty
           expect(json_comment['comment']['title']).to eq(comment_attributes[:comment][:title])
+        end
+
+        it 'returns the errors for incorrect attributes' do
+          expect {
+            post "/api/v1/articles/#{@relation_tags_article_2.id}/comments", params: comment_error_attributes, as: :json
+
+            expect(response).to be_json_response(422)
+
+            json_comment = JSON.parse(response.body)
+            expect(json_comment['errors']['body'].first).to eq(I18n.t('errors.messages.blank'))
+            expect(json_comment['errors']['body'].second).to eq(I18n.t('errors.messages.too_short.one', count: CONFIG.comment_title_min_length))
+          }.to_not change(Comment, :count)
         end
       end
     end
@@ -778,10 +809,9 @@ describe 'Article API', type: :request, basic: true do
   end
 
   context 'tracker' do
-    # TODO: add click with user_id to call add_visit_activity
     describe '/api/v1/articles/:id/clicked' do
       it 'counts a new click on article' do
-        post "/api/v1/articles/#{@relation_tags_article_2.id}/clicked", as: :json
+        post "/api/v1/articles/#{@relation_tags_article_2.id}/clicked", params: { user_id: @user.id, parent_id: @topic.id }, as: :json
 
         expect(response).to be_json_response(204)
       end

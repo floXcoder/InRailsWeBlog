@@ -5,8 +5,7 @@ import {
 } from '../../../actions';
 
 import {
-    getArticleIsOwner,
-    getArticleIsOutdated
+    getArticleIsOwner
 } from '../../../selectors';
 
 import ArticleCardDisplay from './card';
@@ -15,8 +14,7 @@ import ArticleGridDisplay from './grid';
 import ArticleInlineEditionDisplay from './inlineEdition';
 
 @connect((state, props) => ({
-    isOwner: getArticleIsOwner(state, props.article),
-    isOutdated: getArticleIsOutdated(props.article)
+    isOwner: getArticleIsOwner(state, props.article)
 }), {
     inlineEditArticle
 })
@@ -28,7 +26,6 @@ export default class ArticleItemDisplay extends React.Component {
         isMinimized: PropTypes.bool,
         // From connect
         isOwner: PropTypes.bool,
-        isOutdated: PropTypes.bool,
         isMasonry: PropTypes.bool,
         inlineEditArticle: PropTypes.func,
         onClick: PropTypes.func
@@ -44,15 +41,6 @@ export default class ArticleItemDisplay extends React.Component {
 
     _handleInlineEditClick = () => {
         this.props.inlineEditArticle(this.props.article.id);
-    };
-
-    _handleBookmarkClick = (article, isBookmarked) => {
-        // TODO
-        // ArticleActions.bookmarkArticle({article: article, isBookmarked: isBookmarked});
-    };
-
-    _handleVisibilityClick = (article) => {
-        // TODO
     };
 
     render() {
@@ -74,19 +62,15 @@ export default class ArticleItemDisplay extends React.Component {
             return (
                 <ArticleCardDisplay article={this.props.article}
                                     isOwner={this.props.isOwner}
-                                    isOutdated={this.props.isOutdated}
                                     isMasonry={this.props.isMasonry}
                                     isMinimized={this.props.isMinimized}
-                                    onBookmarkClick={this._handleBookmarkClick}
                                     onInlineEdit={this._handleInlineEditClick}
-                                    onVisibilityClick={this._handleVisibilityClick}
                                     onClick={this.props.onClick}/>
             );
         } else if (this.props.articleDisplayMode === 'grid') {
             return (
                 <ArticleGridDisplay article={this.props.article}
                                     isOwner={this.props.isOwner}
-                                    isOutdated={this.props.isOutdated}
                                     isMasonry={this.props.isMasonry}
                                     onClick={this.props.onClick}/>
             );

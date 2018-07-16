@@ -33,7 +33,6 @@ describe('Tags actions', () => {
                     expect(TagSelectors.getPublicTags(state)).toHaveLength(publicTags.length);
                     expect(TagSelectors.getPrivateTags(state)).toHaveLength(privateTags.length);
                     expect(TagSelectors.getTags(state).first().id).toEqual(1);
-                    expect(TagSelectors.getSortedTags(state)).toHaveLength(publicTags.length + privateTags.length);
                     expect(TagSelectors.getCategorizedTags(state)).toHaveLength(2);
                     expect(TagSelectors.getCategorizedTags(state).first().id).toEqual('only_me');
                 });
@@ -72,7 +71,6 @@ describe('Tags actions', () => {
             return dispatch(store, TagActions.fetchTags())
                 .then((state) => {
                     expect(state.tagState.filterText).toEqual(filterText);
-                    expect(TagSelectors.getSortedTags(state)).toHaveLength(1);
                 });
         });
     });

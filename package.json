@@ -75,7 +75,7 @@
     "mini-css-extract-plugin": "0.4.1",
     "mousetrap": "1.6.2",
     "node-sass": "4.9.2",
-    "optimize-css-assets-webpack-plugin": "4.0.3",
+    "optimize-css-assets-webpack-plugin": "5.0.0",
     "postcss-loader": "2.1.6",
     "prop-types": "15.6.2",
     "qs": "6.5.2",
@@ -117,7 +117,7 @@
     "vanilla-lazyload": "8.10.0",
     "vinyl-buffer": "1.0.1",
     "waypoints": "4.0.1",
-    "webpack": "4.16.0",
+    "webpack": "4.16.1",
     "webpack-cli": "3.0.8",
     "webpack-manifest-plugin": "2.0.3"
   }

@@ -56,15 +56,6 @@ describe 'Users API', type: :request, basic: true do
     end
   end
 
-  # describe '/api/v1/users/:id (HTML)' do
-  #   it 'returns the page' do
-  #     get "/api/v1/users/#{@user.id}"
-  #
-  #     expect(response).to be_html_response
-  #     expect(response.body).to match('id="user-show-component"')
-  #   end
-  # end
-
   describe '/api/v1/users/:id' do
     it 'returns the user' do
       get "/api/v1/users/#{@user.id}", as: :json
@@ -75,24 +66,7 @@ describe 'Users API', type: :request, basic: true do
       expect(user['user']).not_to be_empty
       expect(user['user']['pseudo']).to eq('Main User')
     end
-
-  # TODO: test user complete
-  # TODO: test user profile
   end
-
-  # TODO: test user bookmarks show
-  # describe '/api/v1/users/:id/bookmarks (HTML)' do
-  #   before do
-  #     login_as(@user, scope: :admin, run_callbacks: false)
-  #   end
-  #
-  #   it 'returns the page' do
-  #     get "/api/v1/users/#{@user.id}/bookmarks"
-  #
-  #     expect(response).to be_html_response
-  #     expect(response.body).to match('id="user-bookmarks-component"')
-  #   end
-  # end
 
   describe '/api/v1/users/:id/comments' do
     context 'when user is not connected' do
@@ -122,7 +96,38 @@ describe 'Users API', type: :request, basic: true do
     end
   end
 
-  # TODO: test user recents
+  describe '/api/v1/users/:id/recents' do
+    context 'when user is not connected' do
+      it 'returns an error message' do
+        get "/api/v1/users/#{@user.id}/recents", as: :json
+
+        expect(response).to be_unauthenticated
+      end
+    end
+
+    context 'when user is connected' do
+      let(:tag) { create(:tag, user: @user) }
+
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+
+        @user.create_activity(:visit,
+                              recipient: tag,
+                              params:    { topic_id: @user.current_topic_id })
+      end
+
+      it 'returns user recents' do
+        get "/api/v1/users/#{@user.id}/recents", as: :json
+
+        expect(response).to be_json_response
+
+        recents = JSON.parse(response.body)
+        expect(recents['articles']).to be_empty
+        expect(recents['tags']).not_to be_empty
+        expect(recents['tags'].first['id']).to eq(tag.id)
+      end
+    end
+  end
 
   describe '/api/v1/users/:id/activities' do
     context 'when user is not connected' do
@@ -148,19 +153,6 @@ describe 'Users API', type: :request, basic: true do
       end
     end
   end
-
-  # describe '/api/v1/users/:id/edit (HTML)' do
-  #   before do
-  #     login_as(@user, scope: :admin, run_callbacks: false)
-  #   end
-  #
-  #   it 'returns the page' do
-  #     get "/api/v1/users/#{@user.id}/edit"
-  #
-  #     expect(response).to be_html_response
-  #     expect(response.body).to match('div class="card user-edit"')
-  #   end
-  # end
 
   context 'tracker' do
     describe '/api/v1/users/:id/clicked' do

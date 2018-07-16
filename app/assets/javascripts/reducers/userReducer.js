@@ -43,13 +43,27 @@ export default function userReducer(state = new initState(), action) {
         case ActionTypes.USER_FETCH_INIT:
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) =>
-                payload.user ? ({
-                    user: new Records.UserRecord(payload.user),
-                    isLoaded: payload.connection && !!payload.user
-                }) : ({
-                    users: toList(payload.users, Records.UserRecord)
-                }), ['connection']);
+            return fetchReducer(state, action, (payload) => {
+                if (payload.connection) {
+                    window.currentUserId = payload.user.id;
+
+                    return {
+                        currentId: payload.user.id,
+                        user: new Records.UserRecord(payload.user),
+                        isLoaded: payload.connection && !!payload.user,
+                        isConnected: true
+                    };
+                } else if (payload.user) {
+                    return {
+                        user: new Records.UserRecord(payload.user),
+                        isLoaded: payload.connection && !!payload.user
+                    };
+                } else {
+                    return {
+                        users: toList(payload.users, Records.UserRecord)
+                    };
+                }
+            }, ['connection']);
 
         case ActionTypes.USER_CHANGE_INIT:
         case ActionTypes.USER_CHANGE_SUCCESS:
@@ -59,6 +73,7 @@ export default function userReducer(state = new initState(), action) {
                     window.currentUserId = payload.user.id;
 
                     return {
+                        currentId: payload.user.id,
                         user: new Records.UserRecord(payload.user),
                         isConnected: true
                     };

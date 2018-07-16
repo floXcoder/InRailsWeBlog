@@ -5,15 +5,12 @@ describe 'Errors API', type: :request, basic: true do
   before(:all) do
   end
 
-  # describe '/ (HTML)' do
+  # describe '404 (HTML)' do
   #   it 'returns home page' do
-  #     get '/'
+  #     get '/not-found'
   #
-  #     expect(response).to be_html_response
-  #     expect(response.body).to match('id="home-component"')
+  #     expect(response).to be_html_response(404)
   #   end
   # end
-
-  # TODO: test 500 and 404 pages (request with errors)
 
 end

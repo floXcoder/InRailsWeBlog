@@ -49,6 +49,7 @@ module Api::V1
           else
             render json:            articles,
                    each_serializer: ArticleSerializer,
+                   with_outdated:   true,
                    meta:            meta_attributes(articles)
           end
         end
@@ -143,8 +144,11 @@ module Api::V1
         format.json do
           if article.save
             flash.now[:success] = t('views.article.flash.successful_edition') unless params[:auto_save]
-            render json:   article,
-                   status: :ok
+            render json:          article,
+                   serializer:    ArticleSerializer,
+                   with_vote:     true,
+                   with_outdated: true,
+                   status:        :ok
           else
             flash.now[:error] = t('views.article.flash.error_edition')
             render json:   { errors: article.errors },
