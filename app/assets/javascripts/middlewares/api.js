@@ -38,7 +38,7 @@ const getDataHeaders = () => {
 };
 
 const manageError = (origin, error, url) => {
-    if(url === '/errors') {
+    if (url === '/errors') {
         return;
     }
 
@@ -123,12 +123,16 @@ const handleFlashMessage = (response) => {
 };
 
 const handleResponse = (response) => {
-    if (response.status === 422) { // Response must have a primary "errors" key to be processed
-        return response.json();
-    } else if (!response.ok || response.bodyUsed) {
+    if (response.bodyUsed) {
         return {
             errors: response.statusText
         };
+    } else if (response.status === 422) { // Response must have a primary "errors" key to be processed
+        return response.json();
+    } else if (!response.ok) {
+        return response.json().then((status) => ({
+            errors: status.error || response.statusText
+        }));
     } else if (response.status !== 204) { // No content response
         return response.json();
     }

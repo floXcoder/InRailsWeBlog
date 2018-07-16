@@ -35,7 +35,7 @@ class AssetManifest
       if AssetManifest.manifest
         AssetManifest.root_url + AssetManifest.manifest[url] || url
       else
-        AssetManifest.root_url + '/assets/' + url
+        AssetManifest.root_url + 'assets/' + url
       end
     else
       url

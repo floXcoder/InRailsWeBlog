@@ -83,14 +83,13 @@ export const restoreArticle = (articleId, versionId) => (dispatch) => (
         .then((response) => dispatch(receiveArticleRestored(response.article)))
 );
 
+// Article outdate
+export const markArticleOutdated = (articleId) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.post(`/api/v1/articles/${articleId}/outdated`)
+});
 
-// Vote
-// let url = this.url + '/' + data.articleId;
-// if (data.isUp) {
-//     url += '/vote_up';
-// } else {
-//     url += '/vote_down';
-// }
-
-// Outdated
-// const url = this.url + '/' + data.articleId + '/outdate';
+export const unmarkArticleOutdated = (articleId) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.delete(`/api/v1/articles/${articleId}/outdated`)
+});

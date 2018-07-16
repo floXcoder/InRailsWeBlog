@@ -520,15 +520,14 @@ class User < ApplicationRecord
 
   def switch_topic(new_topic)
     if self.current_topic_id == new_topic.id
-      # self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.already_selected'))
       return new_topic
     elsif self.id != new_topic.user_id
       self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.not_owner'))
+      return false
     else
       self.current_topic_id = new_topic.id
+      return true
     end
-
-    save
   end
 
   # Activities

@@ -751,6 +751,7 @@ class Article < ApplicationRecord
   def remove_outdated(user)
     if !self.marked_as_outdated.exists?(user.id)
       errors.add(:outdated, I18n.t('activerecord.errors.models.outdated_article.not_outdated'))
+      return false
     else
       return self.marked_as_outdated.delete(user)
     end

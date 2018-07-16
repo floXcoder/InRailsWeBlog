@@ -22,10 +22,6 @@ export const getArticleIsOwner = (state, article) => (
     article && article.user ? state.userState.currentId === article.user.id : false
 );
 
-export const getArticleIsOutdated = (article) => (
-    article ? article.outdatedNumber > 3 : false
-);
-
 export const getArticleParentTags = createSelector(
     (article) => article,
     (article) => {
@@ -87,12 +83,3 @@ export const getArticleVersions = createSelector(
     (state) => state.articleState.articleVersions,
     (articleVersions) => articleVersions && articleVersions.toJS()
 );
-
-// TODO: useful ?
-// export const getArticleContent = (stateArticles, id) => {
-//     // return isHighlightingResults && !Utils.isEmpty(article.highlight_content) ?
-//     //     article.highlight_content :
-//     //     article.content
-//
-//     return stateArticles.articles[id].content;
-// };

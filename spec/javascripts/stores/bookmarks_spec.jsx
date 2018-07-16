@@ -35,24 +35,34 @@ describe('Bookmarks actions', () => {
                 })
             );
 
-            return dispatch(store, BookmarkActions.bookmark(currentUser.id, 'article', bookmarkedArticle.id))
+            return dispatch(store, BookmarkActions.bookmark('article', bookmarkedArticle.id, null, currentUser.id))
                 .then((state) => {
-                    expect(BookmarkSelectors.getIsBookmarked(state, {
-                        bookmarkId: 1,
-                        bookmarkType: 'article'
-                    })).toBe(true);
+                    expect(BookmarkSelectors.getBookmark(state, {
+                        bookmarkedType: 'article',
+                        bookmarkedId: 1
+                    })).toEqual({
+                        id: 1,
+                        userId: 1,
+                        bookmarkedId: 1,
+                        bookmarkedType: 'article',
+                        follow: false
+                    });
                 });
         });
 
         it('should bookmark an article if user is not connected', () => {
             const bookmarkedArticle = FactoryGenerator.create('articles');
 
-            const state = dispatch(store, BookmarkActions.bookmark(null, 'article', bookmarkedArticle.id));
+            const state = dispatch(store, BookmarkActions.bookmark('article', bookmarkedArticle.id));
 
-            expect(BookmarkSelectors.getIsBookmarked(state, {
-                bookmarkId: 1,
-                bookmarkType: 'article'
-            })).toBe(true);
+            expect(BookmarkSelectors.getBookmark(state, {
+                bookmarkedType: 'article',
+                bookmarkedId: 1
+            })).toEqual({
+                userId: undefined,
+                bookmarkedId: 1,
+                bookmarkedType: 'article'
+            });
 
             expect(global.Notification.alert).toHaveBeenCalledTimes(1);
         });
@@ -70,12 +80,12 @@ describe('Bookmarks actions', () => {
 
             mock(`/api/v1/users/${currentUser.id}/bookmarks/${bookmark.id}`, 204);
 
-            return dispatch(store, BookmarkActions.bookmark(currentUser.id, 'article', bookmarkedArticle.id, bookmark.id))
+            return dispatch(store, BookmarkActions.bookmark('article', bookmarkedArticle.id, {id: bookmark.id}, currentUser.id))
                 .then((state) => {
-                    expect(BookmarkSelectors.getIsBookmarked(state, {
-                        bookmarkId: 1,
-                        bookmarkType: 'article'
-                    })).toBe(false);
+                    expect(BookmarkSelectors.getBookmark(state, {
+                        bookmarkedType: 'article',
+                        bookmarkedId: 1
+                    })).toBe(null);
                 });
         });
 
@@ -90,12 +100,12 @@ describe('Bookmarks actions', () => {
                 follow: false
             };
 
-            const state = dispatch(store, BookmarkActions.bookmark(null, 'article', bookmarkedArticle.id, bookmark.id));
+            const state = dispatch(store, BookmarkActions.bookmark('article', bookmarkedArticle.id, {id: bookmark.id}));
 
-            expect(BookmarkSelectors.getIsBookmarked(state, {
-                bookmarkId: 1,
-                bookmarkType: 'article'
-            })).toBe(false);
+            expect(BookmarkSelectors.getBookmark(state, {
+                bookmarkedType: 'article',
+                bookmarkedId: 1
+            })).toBe(null);
 
             expect(global.Notification.alert).toHaveBeenCalledTimes(1);
         });

@@ -43,11 +43,11 @@ class ArticlePolicy
   end
 
   def add_outdated?
-    @current_user && @article.everyone? && !@article.user?(@current_user)
+    @current_user && correct_user?
   end
 
   def remove_outdated?
-    @current_user && @article.everyone? && !@article.user?(@current_user) && @article.outdated?(@current_user)
+    @current_user && correct_user?
   end
 
   # Comments

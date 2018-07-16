@@ -42,11 +42,11 @@ describe ArticlePolicy, basic: true do
       it { should grant(:vote_up) }
       it { should grant(:vote_down) }
       it { should grant(:add_outdated) }
+      it { should grant(:remove_outdated) }
       it { should grant(:add_comment) }
       it { should grant(:update_comment) }
       it { should grant(:remove_comment) }
 
-      it { should_not grant(:remove_outdated) }
       it { should_not grant(:history) }
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
@@ -64,11 +64,11 @@ describe ArticlePolicy, basic: true do
       it { should grant(:update) }
       it { should grant(:restore) }
       it { should grant(:destroy) }
+      it { should grant(:add_outdated) }
+      it { should grant(:remove_outdated) }
 
       it { should_not grant(:vote_up) }
       it { should_not grant(:vote_down) }
-      it { should_not grant(:add_outdated) }
-      it { should_not grant(:remove_outdated) }
       it { should_not grant(:add_comment) }
       it { should_not grant(:update_comment) }
       it { should_not grant(:remove_comment) }
@@ -127,11 +127,11 @@ describe ArticlePolicy, basic: true do
       it { should grant(:update) }
       it { should grant(:restore) }
       it { should grant(:destroy) }
+      it { should grant(:add_outdated) }
+      it { should grant(:remove_outdated) }
 
       it { should_not grant(:vote_up) }
       it { should_not grant(:vote_down) }
-      it { should_not grant(:add_outdated) }
-      it { should_not grant(:remove_outdated) }
       it { should_not grant(:add_comment) }
       it { should_not grant(:update_comment) }
       it { should_not grant(:remove_comment) }

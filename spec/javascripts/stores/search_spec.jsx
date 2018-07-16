@@ -21,7 +21,7 @@ describe('Search actions', () => {
         it('should load autocomplete results', () => {
             const articles = FactoryGenerator.create('articles', {number: 3});
 
-            mock('glob:/api/v1/search/autocomplete?*', 200, () => ({
+            mock('glob:/api/v1/search/autocomplete.json?*', 200, () => ({
                     articles
                 })
             );
@@ -43,7 +43,7 @@ describe('Search actions', () => {
             const tags = FactoryGenerator.create('tags', {number: 3});
             const topics = FactoryGenerator.create('topics', {number: 3});
 
-            mock('glob:/api/v1/search/autocomplete?*', 200, () => ({
+            mock('glob:/api/v1/search/autocomplete.json?*', 200, () => ({
                     articles,
                     tags,
                     topics
@@ -80,7 +80,7 @@ describe('Search actions', () => {
             const tags = FactoryGenerator.create('tags', {number: 3});
             const topics = FactoryGenerator.create('topics', {number: 3});
 
-            mock('glob:/api/v1/search?*', 200, () => ({
+            mock('glob:/api/v1/search.json?*', 200, () => ({
                     articles,
                     tags,
                     topics

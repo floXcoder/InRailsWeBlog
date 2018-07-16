@@ -291,7 +291,7 @@ https://www.inrailsweblog.com
 
 Gitlab is used for automatic deployment: 
 
-- Push new modifications on develop branch, Gitlab will build and run tests on this branch.
+- Push new modifications on develop branch, Gitlab will build and run tests on this branch. **Do not forget to push tags when deploying a new version.**
 
 - Create a new Gitflow Release version and push modifications on master branch to deploy on website. Increment each time the version number.
 
@@ -344,6 +344,10 @@ The project is based on git:
 https://gitlab.l-x.fr/Flo/InRailsWeBlog/tree/develop
 
 Gitflow is used for branch management.
+
+### Create major version
+
+To create a new major version, start manually a new Gitflow release named "0.Y.0" or "X.0.0". Next release will increment the minor version (Z).
 
 ### Remote repository
 

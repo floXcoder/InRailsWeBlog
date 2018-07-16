@@ -63,7 +63,7 @@ export default function topicReducer(state = new initState(), action) {
         case ActionTypes.TOPIC_CHANGE_ERROR:
             return mutationReducer(state, action, (payload) => ({
                 topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined,
-                currentTopicId: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.topics, payload.topic.id) === -1 ? payload.topic.id : state.currentTopicId,
+                currentTopicId: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.topics, payload.topic.id) === -1 ? (payload.topic && payload.topic.id) : state.currentTopicId,
                 currentTopic: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.topics, payload.topic.id) === -1 ? new Records.TopicRecord(payload.topic) : state.currentTopic
             }));
 

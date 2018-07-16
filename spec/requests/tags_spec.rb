@@ -237,7 +237,6 @@ describe 'Tag API', type: :request, basic: true do
     end
   end
 
-  # TODO: test tag delete with error
   describe '/api/v1/tags/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
@@ -394,10 +393,9 @@ describe 'Tag API', type: :request, basic: true do
   end
 
   context 'tracker' do
-    # TODO: add click with user_id to call add_visit_activity
     describe '/api/v1/tags/:id/clicked' do
       it 'counts a new click on tags' do
-        post "/api/v1/tags/#{@tags.first.id}/clicked", as: :json
+        post "/api/v1/tags/#{@tags.first.id}/clicked", params: { user_id: @user.id, parent_id: @topic.id }, as: :json
 
         expect(response).to be_json_response(204)
       end

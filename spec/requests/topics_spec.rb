@@ -295,23 +295,22 @@ describe 'Topic API', type: :request, basic: true do
     end
   end
 
-  # TODO: add click with user_id to call add_visit_activity
-  # context 'tracker' do
-  #   describe '/api/v1/tags/:id/clicked' do
-  #     it 'counts a new click on tags' do
-  #       post "/api/v1/tags/#{@tags.first.id}/clicked", as: :json
-  #
-  #       expect(response).to be_json_response(204)
-  #     end
-  #   end
-  #
-  #   describe '/api/v1/tags/:id/viewed' do
-  #     it 'counts a new view on tags' do
-  #       post "/api/v1/tags/#{@tags.second.id}/viewed", as: :json
-  #
-  #       expect(response).to be_json_response(204)
-  #     end
-  #   end
-  # end
+  context 'tracker' do
+    describe '/api/v1/tags/:id/clicked' do
+      it 'counts a new click on tags' do
+        post "/api/v1/tags/#{@first_topic.id}/clicked", params: { user_id: @user.id }, as: :json
+
+        expect(response).to be_json_response(204)
+      end
+    end
+
+    describe '/api/v1/tags/:id/viewed' do
+      it 'counts a new view on tags' do
+        post "/api/v1/tags/#{@second_topic.id}/viewed", as: :json
+
+        expect(response).to be_json_response(204)
+      end
+    end
+  end
 
 end

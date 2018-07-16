@@ -36,7 +36,7 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          if user.switch_topic(topic)
+          if user.switch_topic(topic) && user.save
             render json:       topic,
                    serializer: TopicSerializer,
                    status:     :ok
@@ -70,7 +70,7 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          if topic.save && user.switch_topic(topic)
+          if topic.save && user.switch_topic(topic) && user.save
             render json:       topic,
                    serializer: TopicSerializer,
                    status:     :created

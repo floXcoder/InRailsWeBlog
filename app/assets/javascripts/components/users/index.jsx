@@ -21,8 +21,16 @@ export default class UserIndex extends React.Component {
     constructor(props) {
         super(props);
 
-        // TODO
         // UserActions.loadUsers({page: 1});
+
+        // if (typeof(userData.users) !== 'undefined') {
+        //     newState.users = userData.users;
+        //     newState.usersPagination = userData.meta;
+        // }
+        //
+        // if (!Utils.isEmpty(newState)) {
+        //     this.setState(newState);
+        // }
     }
 
     state = {
@@ -31,31 +39,13 @@ export default class UserIndex extends React.Component {
         filteredUsers: undefined
     };
 
-    onUserChange(userData) {
-        if (Utils.isEmpty(userData)) {
-            return;
-        }
-
-        let newState = {};
-
-        if (typeof(userData.users) !== 'undefined') {
-            newState.users = userData.users;
-            newState.usersPagination = userData.meta;
-        }
-
-        if (!Utils.isEmpty(newState)) {
-            this.setState(newState);
-        }
-    }
-
     _handleUserInput = (filterText) => {
-        // TODO
         // let filteredUsers = Filtering.filterArrayOfObject(this.state.users, 'pseudo', filterText);
 
-        this.setState({
-            filterText: filterText,
-            filteredUsers: filteredUsers
-        });
+        // this.setState({
+        //     filterText: filterText,
+        //     filteredUsers: filteredUsers
+        // });
     };
 
     _handleUserClick = (userId, event) => {
@@ -71,7 +61,6 @@ export default class UserIndex extends React.Component {
     };
 
     _handlePaginationClick = (paginate) => {
-        // TODO
         // UserActions.loadUsers({page: paginate.selected + 1});
 
         setTimeout(() => {
