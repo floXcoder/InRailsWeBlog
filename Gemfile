@@ -30,7 +30,7 @@ gem 'slim-rails',               '3.1.3'
 # Internationalization
 gem 'i18n-js',                  '3.0.11'
 gem 'geocoder',                 '1.4.9'
-gem 'maxminddb',                '0.1.20'
+gem 'maxminddb',                '0.1.21'
 
 # Model versioning
 gem 'paper_trail',              '9.2.0'
@@ -39,7 +39,7 @@ gem 'paper_trail',              '9.2.0'
 gem 'paranoia',                 '2.4.1'
 
 # User activities
-gem 'public_activity',          '1.5.0'
+gem 'public_activity',          '1.6.0'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.4.0'
@@ -166,10 +166,10 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.3.1'
+  gem 'capybara',               '3.4.1'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.21'
-  gem 'selenium-webdriver',     '3.13.0'
+  gem 'selenium-webdriver',     '3.13.1'
   gem 'chromedriver-helper',    '1.2.0'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'

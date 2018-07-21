@@ -23,7 +23,9 @@ const ArticleFilterDisplay = ({currentUserId}) => (
                     </Link>
                 </li>
 
-                <li className="dropdown-divider"/>
+                <li className="dropdown-divider">
+                    &nbsp;
+                </li>
 
                 <li>
                     <Link to={{search: 'mode=note'}}>
@@ -31,7 +33,9 @@ const ArticleFilterDisplay = ({currentUserId}) => (
                     </Link>
                 </li>
 
-                <li className="dropdown-divider"/>
+                <li className="dropdown-divider">
+                    &nbsp;
+                </li>
 
                 <li>
                     <Link to={{search: 'mode=link'}}>
@@ -41,7 +45,9 @@ const ArticleFilterDisplay = ({currentUserId}) => (
 
                 {
                     currentUserId &&
-                    <li className="dropdown-divider"/>
+                    <li className="dropdown-divider">
+                        &nbsp;
+                    </li>
                 }
 
                 {
@@ -55,7 +61,9 @@ const ArticleFilterDisplay = ({currentUserId}) => (
 
                 {
                     currentUserId &&
-                    <li className="dropdown-divider"/>
+                    <li className="dropdown-divider">
+                        &nbsp;
+                    </li>
                 }
 
                 {

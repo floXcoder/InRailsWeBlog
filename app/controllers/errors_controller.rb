@@ -3,6 +3,7 @@ class ErrorsController < ApplicationController
 
   before_action :authenticate_admin!, except: [:show, :create]
 
+  skip_before_action :verify_authenticity_token, only: [:show, :create]
   skip_before_action :set_locale, only: [:show, :create]
 
   respond_to :html, :json

@@ -48,7 +48,7 @@ module Api::V1
 
     def index
       users = User.include_collection.all.order('users.id ASC')
-      users = users.paginate(page: params[:page], per_page: Setting.per_page) if params[:page]
+      users = users.paginate(page: params[:page], per_page: Setting.per_page)
 
       respond_to do |format|
         format.html do

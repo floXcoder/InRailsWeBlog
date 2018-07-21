@@ -23,7 +23,7 @@ import {
 } from '../../../actions';
 
 import {
-    getTags,
+    getTopicTags,
     getCurrentUser,
     getCurrentTopic,
     getArticleErrors
@@ -43,7 +43,7 @@ export default function articleMutationManager(mode, formId) {
             isUserConnected: state.userState.isConnected,
             currentUser: getCurrentUser(state),
             currentTopic: getCurrentTopic(state),
-            tags: getTags(state),
+            tags: getTopicTags(state),
             isFetching: state.articleState.isFetching,
             article: mode === 'edit' ? state.articleState.article : undefined,
             articleErrors: getArticleErrors(state),
@@ -160,6 +160,8 @@ export default function articleMutationManager(mode, formId) {
 
             componentWillUnmount() {
                 window.onbeforeunload = null;
+
+                this._handleChange.cancel();
             }
 
             _promptUnsavedChange = (isUnsaved = false) => {

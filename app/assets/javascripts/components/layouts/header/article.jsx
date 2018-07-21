@@ -6,7 +6,7 @@ import {
 
 import Dropdown from '../../theme/dropdown';
 
-const HomeArticleHeader = ({hasTemporaryArticle}) => {
+const HomeArticleHeader = ({params, hasTemporaryArticle}) => {
     const popup = (
         <ul>
             {
@@ -27,14 +27,18 @@ const HomeArticleHeader = ({hasTemporaryArticle}) => {
 
             {
                 hasTemporaryArticle &&
-                <li className="dropdown-divider"/>
+                <li className="dropdown-divider">
+                    &nbsp;
+                </li>
             }
 
             <li>
                 <Link to={{
                     hash: '#new-article',
                     state: {
-                        mode: 'note'
+                        mode: 'note',
+                        parentTagSlug: params.parentTagSlug || params.tagSlug,
+                        childTagSlug: params.childTagSlug
                     }
                 }}>
                     <span className="title">
@@ -43,13 +47,17 @@ const HomeArticleHeader = ({hasTemporaryArticle}) => {
                 </Link>
             </li>
 
-            <li className="dropdown-divider"/>
+            <li className="dropdown-divider">
+                &nbsp;
+            </li>
 
             <li>
                 <Link to={{
                     pathname: '/article/new',
                     state: {
-                        mode: 'story'
+                        mode: 'story',
+                        parentTagSlug: params.parentTagSlug || params.tagSlug,
+                        childTagSlug: params.childTagSlug
                     }
                 }}>
                     <span className="title">
@@ -58,13 +66,17 @@ const HomeArticleHeader = ({hasTemporaryArticle}) => {
                 </Link>
             </li>
 
-            <li className="dropdown-divider"/>
+            <li className="dropdown-divider">
+                &nbsp;
+            </li>
 
             <li>
                 <Link to={{
                     pathname: '/article/new',
                     state: {
-                        mode: 'link'
+                        mode: 'link',
+                        parentTagSlug: params.parentTagSlug || params.tagSlug,
+                        childTagSlug: params.childTagSlug
                     }
                 }}>
                     <span className="title">
@@ -77,14 +89,14 @@ const HomeArticleHeader = ({hasTemporaryArticle}) => {
 
     return (
         <Dropdown button={
-                <span className="material-icons left"
-                      data-icon="add"
-                      aria-hidden="true">
+            <span className="material-icons left"
+                  data-icon="add"
+                  aria-hidden="true">
                     <span className={classNames({
                         'header-alert': hasTemporaryArticle
                     })}/>
                 </span>
-            }
+        }
                   position="bottom right"
                   buttonClassName="header-button"
                   isFloatingButton={true}
@@ -97,10 +109,12 @@ const HomeArticleHeader = ({hasTemporaryArticle}) => {
 };
 
 HomeArticleHeader.propTypes = {
+    params: PropTypes.object,
     hasTemporaryArticle: PropTypes.bool
 };
 
 HomeArticleHeader.defaultProps = {
+    params: {},
     hasTemporaryArticle: false
 };
 

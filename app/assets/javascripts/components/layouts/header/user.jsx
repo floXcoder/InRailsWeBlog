@@ -15,7 +15,9 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
                 </a>
             </li>
 
-            <li className="dropdown-divider"/>
+            <li className="dropdown-divider">
+                &nbsp;
+            </li>
         </React.Fragment>
     );
 
@@ -42,7 +44,9 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
                         </a>
                     </li>
 
-                    <li className="dropdown-divider"/>
+                    <li className="dropdown-divider">
+                        &nbsp;
+                    </li>
 
                     <li>
                         <a href="#"
@@ -51,7 +55,9 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
                         </a>
                     </li>
 
-                    <li className="dropdown-divider"/>
+                    <li className="dropdown-divider">
+                        &nbsp;
+                    </li>
 
                     <li>
                         <a href="/api/v1/logout"
@@ -73,7 +79,9 @@ const HomeUserHeader = ({isUserConnected, isAdminConnected, onLoginClick, onSign
                     </a>
                 </li>
 
-                <li className="dropdown-divider"/>
+                <li className="dropdown-divider">
+                    &nbsp;
+                </li>
 
                 <li>
                     <a href="/api/v1/login"

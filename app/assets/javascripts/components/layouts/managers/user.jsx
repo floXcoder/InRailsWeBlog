@@ -103,7 +103,7 @@ export default class UserManager extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.currentTopicId !== prevProps.currentTopicId || (prevProps.routerState && prevProps.routerState.reloadTags)) {
+        if ((this.props.currentTopicId !== prevProps.currentTopicId && prevProps.isUserConnected === this.props.isUserConnected) || (prevProps.routerState && prevProps.routerState.reloadTags)) {
             this.props.fetchTags({topicId: this.props.currentTopicId}, {}, {topicTags: true});
         }
     }

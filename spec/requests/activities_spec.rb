@@ -49,7 +49,7 @@ describe 'Activities API', type: :request, basic: true do
       before do
         login_as(@other_user, scope: :user, run_callbacks: false)
 
-        post "/api/v1/users/#{@other_user.id}/bookmarks", params: { bookmark: { bookmarked_model: 'article', bookmarked_id: @article.id } }, as: :json
+        post "/api/v1/users/#{@other_user.id}/bookmarks", params: { bookmark: { bookmarked_type: 'article', bookmarked_id: @article.id } }, as: :json
         post "/api/v1/articles/#{@article.id}/votes", as: :json
         post "/api/v1/articles/#{@article.id}/outdated", as: :json
         post "/api/v1/articles/#{@article.id}/comments", params: { comment: { title: 'title', body: 'The comment' } }, as: :json

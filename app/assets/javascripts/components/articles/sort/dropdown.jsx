@@ -25,7 +25,9 @@ const ArticleSortDisplay = ({currentTopicSlug, currentOrder}) => (
                     </Link>
                 </li>
 
-                <li className="dropdown-divider"/>
+                <li className="dropdown-divider">
+                    &nbsp;
+                </li>
 
                 <li>
                     <Link className={currentOrder === 'tag_asc' ? 'sort-current' : ''}
@@ -34,7 +36,9 @@ const ArticleSortDisplay = ({currentTopicSlug, currentOrder}) => (
                     </Link>
                 </li>
 
-                <li className="dropdown-divider"/>
+                <li className="dropdown-divider">
+                    &nbsp;
+                </li>
 
                 <li>
                     <Link className={currentOrder === 'updated_desc' ? 'sort-current' : ''}
@@ -52,7 +56,9 @@ const ArticleSortDisplay = ({currentTopicSlug, currentOrder}) => (
 
                 {
                     currentTopicSlug &&
-                    <li className="dropdown-divider"/>
+                    <li className="dropdown-divider">
+                        &nbsp;
+                    </li>
                 }
 
                 {

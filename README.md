@@ -191,6 +191,19 @@ Populate with default data:
 Populate with dummy data:
 
     rails InRailsWeBlog:populate[reset,dummy]
+    
+Import/export production data:
+
+    sudo pg_dump --username inrailsweblog --format=custom --file inrailsweblog.sql inrailsweblog
+    
+    sudo -u postgres psql
+    
+    alter role inrailsweblog superuser;
+
+    DISABLE_DATABASE_ENVIRONMENT_CHECK=1 rails db:drop && rails db:create && rails db:migrate
+    
+    pg_restore --username inrailsweblog --clean --dbname inrailsweblog_dev inrailsweblog.sql
+    
 
 ### External tools
 
@@ -296,7 +309,7 @@ Gitlab is used for automatic deployment:
 - Create a new Gitflow Release version and push modifications on master branch to deploy on website. Increment each time the version number.
 
 
-- To deploy manually: 
+- To deploy manually:
 
 
     rails InRailsWeBlog:deploy ENV=prod NO_TEST=true
@@ -304,8 +317,8 @@ Gitlab is used for automatic deployment:
 - After the first deployment, executes the cron tasks:
 
 
-    RAILS_ENV=production bundle exec rake locatipic:update_geolite --silent
-    RAILS_ENV=production bundle exec rake locatipic:seo[sitemap] --silent
+    RAILS_ENV=production bundle exec rake InRailsWeBlog:update_geolite --silent
+    RAILS_ENV=production bundle exec rake InRailsWeBlog:seo[sitemap] --silent
 
 - Other commands:
 
