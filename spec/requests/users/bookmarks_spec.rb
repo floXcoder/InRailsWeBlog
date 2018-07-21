@@ -20,7 +20,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
 
   let(:bookmark_attributes) {
     {
-      bookmark: { bookmarked_model: 'article', bookmarked_id: @article_to_bookmark.id }
+      bookmark: { bookmarked_type: 'article', bookmarked_id: @article_to_bookmark.id }
     }
   }
 
@@ -108,7 +108,7 @@ describe 'User Bookmarks API', type: :request, basic: true do
 
       it 'returns the deleted bookmark id' do
         expect {
-          delete "/api/v1/users/#{@user.id}/bookmarks/#{@article_bookmark.id}", as: :json, params: { bookmark: { bookmarked_model: 'article', bookmarked_id: @article.id } }
+          delete "/api/v1/users/#{@user.id}/bookmarks/#{@article_bookmark.id}", as: :json, params: { bookmark: { bookmarked_type: 'article', bookmarked_id: @article.id } }
 
           expect(response).to be_json_response(204)
         }.to change(Bookmark, :count).by(-1)

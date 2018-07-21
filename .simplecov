@@ -16,4 +16,4 @@ SimpleCov.start do
     add_group 'Workers',        'app/workers'
 end if ENV["COVERAGE"]
 
-SimpleCov.coverage_dir('static_analysis')
+SimpleCov.coverage_dir('coverage')

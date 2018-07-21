@@ -56,6 +56,7 @@ import HomeUserHeader from './header/user';
 export default class HeaderLayout extends React.PureComponent {
     static propTypes = {
         history: PropTypes.object.isRequired,
+        params: PropTypes.object.isRequired,
         hasSearch: PropTypes.bool.isRequired,
         onSearchOpen: PropTypes.func.isRequired,
         onSearchClose: PropTypes.func.isRequired,
@@ -159,7 +160,9 @@ export default class HeaderLayout extends React.PureComponent {
 
                             <Link className="brand-logo center"
                                   to="/">
-                                {I18n.t('js.views.header.title')}
+                                <h1>
+                                    {I18n.t('js.views.header.title')}
+                                </h1>
                             </Link>
 
                             <HomeSearchHeader hasSearch={this.props.hasSearch}
@@ -172,7 +175,8 @@ export default class HeaderLayout extends React.PureComponent {
                                 </li>
 
                                 <li>
-                                    <HomeArticleHeader hasTemporaryArticle={this.state.hasTemporaryArticle}/>
+                                    <HomeArticleHeader params={this.props.params}
+                                                       hasTemporaryArticle={this.state.hasTemporaryArticle}/>
                                 </li>
 
                                 <li>

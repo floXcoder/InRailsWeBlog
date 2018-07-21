@@ -96,6 +96,7 @@ export default class HomeSearchHeader extends React.Component {
 
                     <input ref={(input) => this._searchInput = input}
                            type="search"
+                           name="search"
                            placeholder={I18n.t('js.search.module.placeholder')}
                            onFocus={this.props.onFocus}
                            onKeyDown={this._handleKeyDown}
@@ -108,6 +109,10 @@ export default class HomeSearchHeader extends React.Component {
                               data-icon="search"
                               aria-hidden="true"/>
                     </a>
+
+                    <button className="search-header-submit"
+                            type="submit"
+                            name="action"/>
 
                     <a className="search-header-close"
                        href="#"

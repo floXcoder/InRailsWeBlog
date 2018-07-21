@@ -28,12 +28,12 @@ const deleteBookmark = (bookmark) => ({
     bookmark: bookmark
 });
 
-export const bookmark = (bookmarkedModel, bookmarkedId, bookmarkData, currentUserId = null) => (dispatch, getState) => {
+export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUserId = null) => (dispatch, getState) => {
     currentUserId = currentUserId || getState().userState.currentId;
 
     const bookmark = {
         userId: currentUserId,
-        bookmarkedType: bookmarkedModel,
+        bookmarkedType,
         bookmarkedId
     };
 
@@ -93,7 +93,7 @@ export const synchronizeBookmarks = () => (dispatch) => {
         const dataParams = pendingData[dataName];
         if (dataName === 'bookmark') {
             dataParams.map((bookmarkParams) => {
-                dispatch(bookmark(bookmarkParams.bookmarkedModel, bookmarkParams.bookmarkedId, bookmarkParams.isRemoving));
+                dispatch(bookmark(bookmarkParams.bookmarkedType, bookmarkParams.bookmarkedId, bookmarkParams.isRemoving));
             });
         }
     });

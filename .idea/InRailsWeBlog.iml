@@ -186,7 +186,7 @@
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.9.25, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="formatador (v0.2.5, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="friendly_id (v5.2.4, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="fugit (v1.1.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fugit (v1.1.4, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fuubar (v2.3.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="geocoder (v1.4.9, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />

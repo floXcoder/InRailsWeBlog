@@ -65,7 +65,9 @@ export default class SearchArticleIndex extends React.Component {
                                     </a>
                                 </li>
 
-                                <li className="dropdown-divider"/>
+                                <li className="dropdown-divider">
+                                    &nbsp;
+                                </li>
 
                                 <li>
                                     <a onClick={this._handleFilter.bind(this, 'date')}>
@@ -73,7 +75,9 @@ export default class SearchArticleIndex extends React.Component {
                                     </a>
                                 </li>
 
-                                <li className="dropdown-divider"/>
+                                <li className="dropdown-divider">
+                                    &nbsp;
+                                </li>
 
                                 <li>
                                     <a onClick={this._handleFilter.bind(this, 'all_topics')}>

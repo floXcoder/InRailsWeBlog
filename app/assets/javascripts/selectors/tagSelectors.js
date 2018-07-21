@@ -13,6 +13,11 @@ export const getTags = createSelector(
     (tags) => tags.toArray()
 );
 
+export const getTopicTags = createSelector(
+    (state) => state.tagState.topicTags,
+    (tags) => tags.toArray()
+);
+
 export const getPublicTags = createSelector(
     (state) => state.tagState.tags,
     (tags) => tags.filter((tag) => tag.visibility === 'everyone').toArray()

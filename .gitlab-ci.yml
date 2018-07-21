@@ -102,7 +102,7 @@ deploy:
 
 postdeploy:
   stage: deploy
-  <<: *pull-cache
+  cache: {}
   script:
     - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
     - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'

@@ -79,7 +79,12 @@ export default class Editor extends React.Component {
                         } else {
                             if (event.originalEvent.clipboardData.types.includes('text/html')) {
                                 text = event.originalEvent.clipboardData.getData('text/html');
-                                type = 'html';
+
+                                if (text) {
+                                    type = 'html';
+                                } else {
+                                    text = event.originalEvent.clipboardData.getData('text/plain');
+                                }
                             } else {
                                 text = event.originalEvent.clipboardData.getData('text/plain');
                             }

@@ -29,11 +29,12 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          if bookmark.add(user, bookmark_params[:bookmarked_model], bookmark_params[:bookmarked_id], bookmark_params[:topic_id])
+          if bookmark.add(user, bookmark_params[:bookmarked_type], bookmark_params[:bookmarked_id], bookmark_params[:topic_id])
             render json:       bookmark,
                    serializer: BookmarkSerializer,
                    status:     :created
           else
+            w bookmark.errors
             render json:   { errors: bookmark.errors },
                    status: :unprocessable_entity
           end
@@ -48,7 +49,7 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          if bookmark.remove(user, bookmark_params[:bookmarked_model], bookmark_params[:bookmarked_id])
+          if bookmark.remove(user, bookmark_params[:bookmarked_type], bookmark_params[:bookmarked_id])
             head :no_content
           else
             render json:   { errors: bookmark.errors },
@@ -61,7 +62,7 @@ module Api::V1
     private
 
     def bookmark_params
-      params.require(:bookmark).permit(:bookmarked_model,
+      params.require(:bookmark).permit(:bookmarked_type,
                                        :bookmarked_id,
                                        :topic_id)
     end

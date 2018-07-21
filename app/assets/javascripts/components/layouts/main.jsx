@@ -111,6 +111,7 @@ export default class MainLayout extends React.Component {
                                        <ErrorBoundary errorType="text"
                                                       errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
                                            <HeaderLayout history={router.history}
+                                                         params={router.match.params}
                                                          hasSearch={hasSearch}
                                                          onSearchOpen={this._handleSearchOpen}
                                                          onSearchClose={this._handleSearchClose}>

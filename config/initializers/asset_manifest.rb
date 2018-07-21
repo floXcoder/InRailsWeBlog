@@ -33,7 +33,7 @@ class AssetManifest
 
     if !url.start_with?('/uploads/')
       if AssetManifest.manifest
-        AssetManifest.root_url + AssetManifest.manifest[url] || url
+        AssetManifest.root_url + (AssetManifest.manifest[url] || url)
       else
         AssetManifest.root_url + 'assets/' + url
       end
@@ -46,7 +46,7 @@ class AssetManifest
     return unless url
 
     if AssetManifest.manifest
-      AssetManifest.root_url + AssetManifest.manifest[url] || url
+      AssetManifest.root_url + (AssetManifest.manifest[url] || url)
     else
       AssetManifest.root_url + url
     end

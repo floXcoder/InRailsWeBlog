@@ -1,5 +1,7 @@
 # Limit directory being watched
+# ignore %w[bin db log node_modules public tmp]
 directories %w[app db config frontend lib spec]
+
 # Clear console when launching guard
 clearing :on
 # Display notification in OS
@@ -8,16 +10,16 @@ notification :off
 # Don't display a pry console
 interactor :off
 
-guard 'migrate' do
+guard :migrate do
   watch(%r{^db/migrate/(\d+).+\.rb})
 end
 
-guard 'process', name: 'i18n-js', command: 'rails i18n:js:export' do
+guard :process, name: 'i18n-js', command: 'rails i18n:js:export' do
   watch(%r{^config/i18n-js\.yml})
   watch(%r{^config/locales/js\..+\.yml})
 end
 
-guard 'process', name: 'Webpack', command: 'npm run development' do
+guard :process, name: 'Webpack', command: 'npm run development' do
   watch(%r{^frontend/.+\.js$})
 end
 
@@ -31,14 +33,14 @@ guard :rails, server: :puma, port: 3000, timeout: 60 do
   watch(%r{^lib/.*})
 end
 
-guard 'sidekiq', environment: 'development' do
+guard :sidekiq, environment: 'development' do
   watch(%r{^app/workers/.+\.rb})
   watch(%r{^app/mailers/.+\.rb})
   watch(%r{^config/initializers/sidekiq\.rb})
   watch(%r{^config/sidekiq\.yml})
 end
 
-guard 'annotate', routes: false do
+guard :annotate, routes: false do
   watch(%r{^db/schema\.rb})
   # watch(%r{^app/models/.+\.rb$})
 end
