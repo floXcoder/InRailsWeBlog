@@ -153,6 +153,9 @@ group :development do
 
   # Faster ruby code
   gem 'fasterer',               '0.4.1'
+
+  # Load tests
+  gem 'ruby-jmeter',            '3.1.08',  require: false
 end
 
 group :test do
