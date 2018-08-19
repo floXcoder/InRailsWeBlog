@@ -34,8 +34,8 @@ FactoryBot.define do
     rating            { Random.rand(1..5) }
     positive_reviews  { Random.rand(0..10) }
     negative_reviews  { Random.rand(0..10) }
-    accepted          true
-    ask_for_deletion  false
+    accepted          { true }
+    ask_for_deletion  { false }
   end
 
 end

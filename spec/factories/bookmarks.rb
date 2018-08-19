@@ -19,7 +19,7 @@ FactoryBot.define do
     # bookmarked
     # topic
 
-    follow true
+    follow { true }
   end
 
 end

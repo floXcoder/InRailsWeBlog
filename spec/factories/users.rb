@@ -54,24 +54,24 @@ FactoryBot.define do
   factory :user do
     sequence(:pseudo)     { |n| "Person #{n + 1}" }
     sequence(:email)      { |n| "person_#{n + 1}@example.com" }
-    password              'password'
-    password_confirmation 'password'
-    first_name            'First name'
-    last_name             'Last name'
-    street                'Street'
-    city                  'City'
-    postcode              '33000'
-    state                 'Gironde'
-    country               'France'
-    additional_info       'Personal information'
+    password              { 'password' }
+    password_confirmation { 'password' }
+    first_name            { 'First name' }
+    last_name             { 'Last name' }
+    street                { 'Street' }
+    city                  { 'City' }
+    postcode              { '33000' }
+    state                 { 'Gironde' }
+    country               { 'France' }
+    additional_info       { 'Personal information' }
     birth_date            { Faker::Date.backward(365) }
-    locale                'fr'
-    mobile_number         '0300000000'
-    phone_number          '0600000000'
-    pictures_count        0
+    locale                { 'fr' }
+    mobile_number         { '0300000000' }
+    phone_number          { '0600000000' }
+    pictures_count        { 0 }
     settings              { {} }
     # external              false
-    visibility            'everyone'
+    visibility            { 'everyone' }
 
     trait :fake do
       first_name      { Faker::Name.first_name }
@@ -81,8 +81,8 @@ FactoryBot.define do
     end
 
     transient do
-      confirmation_email  false
-      not_confirmed       false
+      confirmation_email  { false }
+      not_confirmed       { false }
     end
 
     after(:build) do |user, evaluator|

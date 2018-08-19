@@ -28,9 +28,9 @@ FactoryBot.define do
 
     sequence(:name)         { |n| "Topic #{n}" }
     sequence(:description)  { |n| "Topic description #{n}" } # description_translations
-    languages               ['fr']
-    priority                0
-    visibility              'everyone'
+    languages               { ['fr'] }
+    priority                { 0 }
+    visibility              { 'everyone' }
   end
 
 end

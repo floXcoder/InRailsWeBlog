@@ -30,11 +30,11 @@ FactoryBot.define do
   factory :admin do
     sequence(:pseudo)     { |n| "Admin #{n + 1}" }
     sequence(:email)      { |n| "admin_#{n + 1}@example.com" }
-    additional_info       'Personal information'
-    locale                'fr'
+    additional_info       { 'Personal information' }
+    locale                { 'fr' }
     settings              { {} }
-    password              'password'
-    password_confirmation 'password'
+    password              { 'password' }
+    password_confirmation { 'password' }
 
     # after(:build) { |admin| admin.class.skip_callback(:create, :after, :create_blog_environment, raise: false) }
 

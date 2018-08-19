@@ -18,7 +18,7 @@ FactoryBot.define do
     # voter
     # voteable
 
-    vote true
+    vote { true }
   end
 
 end

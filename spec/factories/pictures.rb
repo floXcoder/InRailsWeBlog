@@ -28,7 +28,7 @@ FactoryBot.define do
     sequence(:description)  { |n| "Picture description #{n + 1}" }
     sequence(:copyright)    { |n| "Picture copyright #{n + 1}" }
     priority                { Random.rand(0..10) }
-    accepted                true
+    accepted                { true }
     image_secure_token      { SecureRandom.uuid }
     original_filename       { Faker::Lorem.word }
 
