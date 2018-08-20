@@ -30,7 +30,7 @@ import Submit from '../../materialize/submit';
 export default class TagFormDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
-        tagId: PropTypes.string.isRequired,
+        tagId: PropTypes.number.isRequired,
         multipleId: PropTypes.number,
         isInline: PropTypes.bool,
         isEditing: PropTypes.bool,
@@ -147,6 +147,7 @@ export default class TagFormDisplay extends React.Component {
                                                placeholder={I18n.t('js.tag.common.synonyms')}
                                                isEditing={true}
                                                isHorizontal={true}
+                                               isMultiple={true}
                                                component={SelecterField}
                                                componentContent={this.props.children.synonyms}/>
                                     </div>

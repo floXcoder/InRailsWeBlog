@@ -1,7 +1,5 @@
 'use strict';
 
-import LazyLoad from 'vanilla-lazyload';
-
 import {
     StickyContainer,
     Sticky
@@ -73,7 +71,6 @@ export default class ArticleShow extends React.Component {
         super(props);
 
         this._request = null;
-        this._lazyLoad = null;
     }
 
     componentDidMount() {
@@ -87,12 +84,6 @@ export default class ArticleShow extends React.Component {
 
         if (!Object.equals(this.props.params, prevProps.params)) {
             this._request = this.props.fetchArticle(this.props.params.articleSlug);
-        }
-
-        if (!this._lazyLoad && this.props.article) {
-            Utils.defer.then(() => {
-                this._lazyLoad = new LazyLoad();
-            });
         }
     }
 
