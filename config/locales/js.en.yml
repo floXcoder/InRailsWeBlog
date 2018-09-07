@@ -220,10 +220,12 @@ en:
       new:
         title: "Add a topic"
         input: "Topic name"
+        cancel: "Cancel"
         submit: "Add topic"
       edit:
         title: "Update topic"
         input: "Theme name"
+        delete: "Delete"
         submit: "Update"
     tag:
       common:
@@ -260,7 +262,6 @@ en:
         description: "Description"
         synonyms: "Synonyms"
         visibility: "Visibility"
-        synonyms: "Synonyms"
         owner: "Owner"
         articles_count: "Articles count"
         parents: "Parents tag"
@@ -528,7 +529,6 @@ en:
         actions:
           button: "Actions"
           show: "See comment"
-          delete: "Remove comment"
           accepted: "Apply"
           delete: "Remove this comment"
           delete_permanently: "Remove PERMANENTLY this comment"
@@ -811,6 +811,8 @@ en:
         ensure_validity: "Leave it blank"
       not_found:
         title: "Path not found!"
+      not_authorized:
+        title: "You cannot access to this element"
       errors:
         not_authorized: "You cannot access to this resource!"
         frontend: "An error occurred in the page, please refresh the page or go back"

@@ -8,9 +8,7 @@ import {
 
 import {
     BrowserRouter,
-    Switch,
-    Route,
-    Link
+    Switch
 } from 'react-router-dom';
 
 import {

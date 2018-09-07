@@ -6,7 +6,7 @@ import {
 
 import Dropdown from '../../theme/dropdown';
 
-const HomeArticleHeader = ({params, hasTemporaryArticle}) => {
+const HomeArticleHeader = ({parentTagSlug, childTagSlug, hasTemporaryArticle}) => {
     const popup = (
         <ul>
             {
@@ -37,8 +37,8 @@ const HomeArticleHeader = ({params, hasTemporaryArticle}) => {
                     hash: '#new-article',
                     state: {
                         mode: 'note',
-                        parentTagSlug: params.parentTagSlug || params.tagSlug,
-                        childTagSlug: params.childTagSlug
+                        parentTagSlug: parentTagSlug,
+                        childTagSlug: childTagSlug
                     }
                 }}>
                     <span className="title">
@@ -56,8 +56,8 @@ const HomeArticleHeader = ({params, hasTemporaryArticle}) => {
                     pathname: '/article/new',
                     state: {
                         mode: 'story',
-                        parentTagSlug: params.parentTagSlug || params.tagSlug,
-                        childTagSlug: params.childTagSlug
+                        parentTagSlug: parentTagSlug,
+                        childTagSlug: childTagSlug
                     }
                 }}>
                     <span className="title">
@@ -75,8 +75,8 @@ const HomeArticleHeader = ({params, hasTemporaryArticle}) => {
                     pathname: '/article/new',
                     state: {
                         mode: 'link',
-                        parentTagSlug: params.parentTagSlug || params.tagSlug,
-                        childTagSlug: params.childTagSlug
+                        parentTagSlug: parentTagSlug,
+                        childTagSlug: childTagSlug
                     }
                 }}>
                     <span className="title">
@@ -109,12 +109,12 @@ const HomeArticleHeader = ({params, hasTemporaryArticle}) => {
 };
 
 HomeArticleHeader.propTypes = {
-    params: PropTypes.object,
+    parentTagSlug: PropTypes.string,
+    childTagSlug: PropTypes.string,
     hasTemporaryArticle: PropTypes.bool
 };
 
 HomeArticleHeader.defaultProps = {
-    params: {},
     hasTemporaryArticle: false
 };
 

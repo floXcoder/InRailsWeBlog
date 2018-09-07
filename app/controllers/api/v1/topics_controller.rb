@@ -83,7 +83,6 @@ module Api::V1
     end
 
     def update
-      # user  = User.find(params[:user_id])
       topic = Topic.find(params[:id])
       authorize topic
 
@@ -104,14 +103,24 @@ module Api::V1
     end
 
     def destroy
-      # user  = User.find(params[:user_id])
+      user  = User.find(params[:user_id])
       topic = Topic.find(params[:id])
       authorize topic
 
       respond_to do |format|
         format.json do
           if topic.destroy
-            head :no_content
+            # Switch topic if needed and return current topic
+            current_topic = user.current_topic
+            if user.current_topic_id == topic.id
+              current_topic = user.topics.first
+              user.switch_topic(user.topics.first)
+              user.save
+            end
+
+            render json:       current_topic,
+                   serializer: TopicSerializer,
+                   status:     :ok
           else
             render json:   { errors: topic.errors },
                    status: :unprocessable_entity

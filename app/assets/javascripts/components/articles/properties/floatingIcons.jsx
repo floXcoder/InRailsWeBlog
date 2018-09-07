@@ -6,6 +6,7 @@ import ArticleLinkIcon from '../icons/link';
 export default class ArticleFloatingIcons extends React.Component {
     static propTypes = {
         style: PropTypes.object.isRequired,
+        isOwner: PropTypes.bool.isRequired,
         isSticky: PropTypes.bool.isRequired,
         articleId: PropTypes.number.isRequired,
         articleSlug: PropTypes.string.isRequired,
@@ -19,8 +20,15 @@ export default class ArticleFloatingIcons extends React.Component {
     render() {
         return (
             <div className="article-floating-icon"
-                 style={{...this.props.style, top: (this.props.style.top || 0) + 80, display: this.props.isSticky ? 'block' : 'none'}}>
-                <ArticleEditIcon articleSlug={this.props.articleSlug}/>
+                 style={{
+                     ...this.props.style,
+                     top: (this.props.style.top || 0) + 80,
+                     display: this.props.isSticky ? 'block' : 'none'
+                 }}>
+                {
+                    this.props.isOwner &&
+                    <ArticleEditIcon articleSlug={this.props.articleSlug}/>
+                }
 
                 <ArticleLinkIcon articleId={this.props.articleId}
                                  articleSlug={this.props.articleSlug}

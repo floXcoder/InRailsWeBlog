@@ -131,7 +131,7 @@ const handleResponse = (response) => {
         return response.json();
     } else if (!response.ok) {
         return response.json().then((status) => ({
-            errors: status.error || response.statusText
+            errors: status.error || status.errors || response.statusText
         }));
     } else if (response.status !== 204) { // No content response
         return response.json();

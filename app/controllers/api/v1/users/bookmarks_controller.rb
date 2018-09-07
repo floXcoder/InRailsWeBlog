@@ -34,7 +34,6 @@ module Api::V1
                    serializer: BookmarkSerializer,
                    status:     :created
           else
-            w bookmark.errors
             render json:   { errors: bookmark.errors },
                    status: :unprocessable_entity
           end

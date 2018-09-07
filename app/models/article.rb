@@ -835,7 +835,7 @@ class Article < ApplicationRecord
     html = html.gsub(/(<\/code>){2,}/i, '</code>')
 
     # Replace pre by pre > code
-    html = html.gsub(/<pre (.*?)>/i, '<pre \1><code>')
+    html = html.gsub(/<pre( ?)(.*?)>/i, '<pre\1\2><code>')
     html = html.gsub(/<\/pre>/i, '</code></pre>')
 
     # Replace src by data-src for lazy-loading

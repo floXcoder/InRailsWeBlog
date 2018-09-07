@@ -11,6 +11,8 @@ import ArticleFormDisplay from './display/form';
 
 import Loader from '../theme/loader';
 
+import NotAuthorized from '../layouts/notAuthorized';
+
 @articleMutationManager('edit', `article-${Utils.uuid()}`)
 @connect(null, {
     setCurrentTags
@@ -58,6 +60,14 @@ export default class ArticleEdit extends React.Component {
                     <Loader size="big"/>
                 </div>
             );
+        }
+
+        if(!this.props.currentUser || this.props.currentUser.id !== this.props.article.user.id) {
+            return (
+                <div className="center margin-top-20">
+                    <NotAuthorized/>
+                </div>
+            )
         }
 
         return (

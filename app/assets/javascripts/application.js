@@ -31,22 +31,24 @@ window.I18n.locale = window.locale;
 // Configure log level
 if (process.env.NODE_ENV === 'production') {
     log.setLevel('warn');
-    log.now = function () {
+    log.now = () => {
     };
 } else {
     log.setLevel('info');
-    log.now = function (data, colorStyle) {
+    log.now = (data, colorStyle) => {
         screenLog.log(data, colorStyle);
     };
+
+    window.w = log.info;
 
     const screenLog = require('./modules/screenLog').default;
     screenLog.init({freeConsole: true});
 }
 
-log.trace = function (data) {
+log.trace = data => {
     console.trace(data);
 };
-log.table = function (data) {
+log.table = data => {
     console.table(data);
 };
 

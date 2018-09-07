@@ -36,6 +36,7 @@ export default class ArticleCommonField extends React.Component {
     }
 
     state = {
+        isEditorCodeView: false,
         hasChildTagFocus: false,
         parentTags: [],
         childTags: [],
@@ -70,6 +71,12 @@ export default class ArticleCommonField extends React.Component {
         }
 
         return event;
+    };
+
+    _handleBlurEditor = () => {
+        this.setState({
+            isEditorCodeView: !this.state.isEditorCodeView
+        })
     };
 
     _handleSwitchTag = () => {
@@ -134,7 +141,9 @@ export default class ArticleCommonField extends React.Component {
                            name="content"
                            placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
                            onLoaded={this._handleEditorLoaded}
+                           isCodeView={this.state.isEditorCodeView}
                            onImageUpload={this._handleImageUploaded}
+                           onBlur={this._handleBlurEditor}
                            onSubmit={this.props.onSubmit}
                            component={EditorField}
                            componentContent={this.props.article.content}/>

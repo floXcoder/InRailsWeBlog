@@ -60,7 +60,7 @@ export default function articleMutationManager(mode, formId) {
         class ArticleMutationComponent extends React.Component {
             static displayName = `ArticleMutationManager(${getDisplayName(WrappedComponent)})`;
 
-            static waitTimeBeforeSaving = 10000;
+            static waitTimeBeforeSaving = 20000;
             static temporaryDataName = 'article-temporary';
             static unsavedDataName = 'article-unsaved';
 

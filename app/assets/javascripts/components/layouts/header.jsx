@@ -20,6 +20,10 @@ import {
     fetchTopic
 } from '../../actions';
 
+import {
+    getCurrentTagSlugs
+} from '../../selectors';
+
 import Dropdown from '../theme/dropdown';
 
 import Login from '../users/login';
@@ -45,7 +49,8 @@ import HomeUserHeader from './header/user';
     isAdminConnected: state.userState.isAdminConnected,
     currentUserId: state.userState.currentId,
     userSlug: state.userState.user && state.userState.user.slug,
-    currentTopic: state.topicState.currentTopic
+    currentTopic: state.topicState.currentTopic,
+    currentTagSlugs: getCurrentTagSlugs(state)
 }), {
     switchUserSignup,
     switchUserLogin,
@@ -73,6 +78,7 @@ export default class HeaderLayout extends React.PureComponent {
         currentUserId: PropTypes.number,
         userSlug: PropTypes.string,
         currentTopic: PropTypes.object,
+        currentTagSlugs: PropTypes.array,
         switchUserSignup: PropTypes.func,
         switchUserLogin: PropTypes.func,
         switchUserPreference: PropTypes.func,
@@ -175,7 +181,8 @@ export default class HeaderLayout extends React.PureComponent {
                                 </li>
 
                                 <li>
-                                    <HomeArticleHeader params={this.props.params}
+                                    <HomeArticleHeader parentTagSlug={this.props.params.parentTagSlug || this.props.params.tagSlug || this.props.currentTagSlugs.first()}
+                                                       childTagSlug={this.props.params.childTagSlug}
                                                        hasTemporaryArticle={this.state.hasTemporaryArticle}/>
                                 </li>
 

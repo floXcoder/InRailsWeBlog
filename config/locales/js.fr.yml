@@ -220,10 +220,12 @@ fr:
       new:
         title: "Ajouter un thème"
         input: "Nom du thème"
+        cancel: "Annuler"
         submit: "Ajouter"
       edit:
         title: "Modifier le thème"
         input: "Nom du thème"
+        delete: "Supprimer"
         submit: "Mettre à jour"
     tag:
       common:
@@ -260,7 +262,6 @@ fr:
         description: "Description"
         synonyms: "Synonymes"
         visibility: "Visibilité"
-        synonyms: "Synonymes"
         owner: "Créateur"
         articles_count: "Nombre d'articles"
         parents: "Labels parents"
@@ -528,7 +529,6 @@ fr:
         actions:
           button: "Actions"
           show: "Voir le commentaire"
-          delete: "Supprimer le commentaire"
           accepted: "Valider le commentaire"
           delete: "Supprimer ce commentaire"
           delete_permanently: "Supprimer DÉFINITIVEMENT ce commentaire"
@@ -811,6 +811,8 @@ fr:
         ensure_validity: "Laisser vide"
       not_found:
         title: "Chemin non trouvé !"
+      not_authorized:
+        title: "Vous ne pouvez pas accéder à cet élément"
       errors:
         not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
         frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'accueil"

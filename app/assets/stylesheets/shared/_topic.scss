@@ -153,6 +153,16 @@
     }
   }
 
+  .topic-cancel {
+    color: $background-color;
+  }
+
+  .topic-delete {
+    color: $background-color;
+    font-size: .8rem;
+    font-style: italic;
+  }
+
   .topic-edit-content {
     display: table;
     height: 100%;
@@ -193,7 +203,7 @@
 
     label {
       color: $background-color;
-      top: -14px;
+      //top: -14px;
     }
   }
 

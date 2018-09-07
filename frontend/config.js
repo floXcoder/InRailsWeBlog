@@ -139,15 +139,6 @@ module.exports = {
             ]
         }
     },
-    views: {
-        src: [
-            './app/views/**/*.slim',
-            './app/helpers/**/*.rb',
-            './app/controllers/**/*.rb',
-            './app/serializers/**/*.rb',
-            './config/locales/**/*.yml'
-        ]
-    },
     production: {
         manifestFilename: 'rev-manifest.json',
         dest: publicDir + '/assets'

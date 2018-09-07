@@ -65,8 +65,8 @@ export default function articleReducer(state = new initState(), action) {
                 payload.articles ? ({
                     articles: toList(payload.articles, Records.ArticleRecord)
                 }) : ({
-                    article: payload.article && new Records.ArticleRecord(payload.article),
-                    articles: mutateArray(state.articles, payload.article && new Records.ArticleRecord(payload.article), action.removedId)
+                    article: payload.article && (new Records.ArticleRecord(payload.article)),
+                    articles: mutateArray(state.articles, payload.article && (new Records.ArticleRecord(payload.article)), action.removedId)
                 }) /*, ['article']*/);
 
         // History and restoration

@@ -145,18 +145,22 @@ export default class ArticleShow extends React.Component {
         return (
             <StickyContainer>
                 <div>
-                    <div className="article-floating-container">
-                        <Sticky topOffset={-50}
-                                bottomOffset={0}>
-                            {({style, isSticky}) => (
-                                <ArticleFloatingIcons style={style}
-                                                      isSticky={isSticky}
-                                                      articleId={this.props.article.id}
-                                                      articleSlug={this.props.article.slug}
-                                                      articleTitle={this.props.article.title}/>
-                            )}
-                        </Sticky>
-                    </div>
+                    {
+                        this.props.isUserConnected &&
+                        <div className="article-floating-container">
+                            <Sticky topOffset={-50}
+                                    bottomOffset={0}>
+                                {({style, isSticky}) => (
+                                    <ArticleFloatingIcons style={style}
+                                                          isSticky={isSticky}
+                                                          isOwner={this.props.isOwner}
+                                                          articleId={this.props.article.id}
+                                                          articleSlug={this.props.article.slug}
+                                                          articleTitle={this.props.article.title}/>
+                                )}
+                            </Sticky>
+                        </div>
+                    }
 
                     <article className={classNames('card-panel', 'blog-article', {
                         'article-outdated': this.props.article.outdated

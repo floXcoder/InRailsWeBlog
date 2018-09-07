@@ -45,7 +45,7 @@ $.extend($.summernote.options, {
         'magic': 'text_fields',
         'menuCheck': 'check_circle',
         'minus': 'minimize',
-        'unlink': 'link_off',
+        'unlink': 'delete',
         'orderedlist': 'format_list_numbered',
         'outdent': 'format_indent_decrease',
         'pencil': 'create',
@@ -71,6 +71,20 @@ $.extend($.summernote.options, {
             ['float', ['floatLeft', 'floatRight', 'floatNone']],
             ['remove', ['removeMedia']]
         ],
+        link: [
+            ['link', ['linkDialogShow', 'unlink']]
+        ],
+        table: [
+            ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+            ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
+        ],
+        air: [
+            ['color', ['color']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['para', ['ul', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture']]
+        ]
     },
     imageAttributesIcon: '<span class="material-icons">create</span>',
     imageAttributesRemoveEmpty: true,
@@ -118,6 +132,44 @@ const applyClass = (context, formatName) => {
     $node.toggleClass(formatName);
 };
 
+const isPara = (node) => {
+    return node && /^P|^LI|^H[1-7]/.test(node.nodeName.toUpperCase());
+};
+
+const areDifferentBlockElements = (startEl, endEl) => {
+    const startElDisplay = getComputedStyle(startEl, null).display;
+    const endElDisplay  = getComputedStyle(endEl, null).display;
+
+    if(startElDisplay !== 'inline' && endElDisplay !== 'inline') {
+        // console.log("Can't insert across two block elements.");
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
+const isSelectionParsable = (startEl, endEl) => {
+    if (startEl.isSameNode(endEl)) {
+        return true;
+    }
+    if (areDifferentBlockElements(startEl, endEl)) {
+        return false;
+    }
+    // if they're not different block elements, then we need to check if they share a common block ancestor
+    // could do this recursively, if we want to back farther up the node chain...
+    const startElParent = startEl.parentElement;
+    const endElParent = endEl.parentElement;
+    if (startEl.isSameNode(endElParent)
+        || endEl.isSameNode(startElParent)
+        || startElParent.isSameNode(endElParent)) {
+        return true;
+    } else {
+        // console.log("Unable to parse across so many nodes. Sorry!");
+    }
+    return false;
+};
+
 const applyTag = (context, tag) => {
     if (window.getSelection) {
         const selection = window.getSelection();
@@ -130,18 +182,26 @@ const applyTag = (context, tag) => {
             const startParentElement = range.startContainer.parentElement;
             const endParentElement = range.endContainer.parentElement;
 
-            // if the selection starts and ends different elements, we could be in trouble
-            if (!startParentElement.isSameNode(endParentElement)) {
-                if (!self.isSelectionParsable(startParentElement, endParentElement)) {
-                    return;
-                }
-            }
+            // // if the selection starts and ends different elements, we could be in trouble
+            // if (!startParentElement.isSameNode(endParentElement)) {
+            //     if (!isSelectionParsable(startParentElement, endParentElement)) {
+            //         return;
+            //     }
+            // }
 
             const newNode = document.createElement(tag);
             // https://developer.mozilla.org/en-US/docs/Web/API/Range/surroundContents
             // Parses inline nodes, but not block based nodes...blocks are handled above.
             newNode.appendChild(range.extractContents());
             range.insertNode(newNode);
+
+            if(!startParentElement.isSameNode(endParentElement)) {
+                // Remove empty surrounding para
+                if(isPara(startParentElement) && isPara(endParentElement)) {
+                    startParentElement.remove();
+                    endParentElement.remove();
+                }
+            }
 
             // Restore the selections
             range.selectNodeContents(newNode);
@@ -285,7 +345,6 @@ $.extend($.summernote.plugins, {
             'summernote.keyup': function (we, event) {
                 if (event.keyCode === 69 && event.ctrlKey) {
                     event.preventDefault();
-
                     applyTag(context, 'pre');
                     context.triggerEvent('change', $note.summernote('code'));
                 }
