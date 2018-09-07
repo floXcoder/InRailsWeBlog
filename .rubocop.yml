@@ -92,6 +92,12 @@ Metrics/PerceivedComplexity:
 Rails/OutputSafety:
   Enabled: false
 
+Rspec/ExampleLength:
+  Max: 10
+
+Rspec/MultipleExpectations:
+  Max: 10
+
 Style/AsciiComments:
   Enabled: false
 

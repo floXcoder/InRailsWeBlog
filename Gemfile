@@ -12,7 +12,7 @@ ruby '2.5.1'
 gem 'rails',                    '5.2.1'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.0.0'
+gem 'pg',                       '1.1.3'
 
 # HTTP Response
 gem 'responders',               '2.4.0'
@@ -21,7 +21,7 @@ gem 'secure_headers',           '6.0.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.7'
-gem 'oj',                       '3.6.6'
+gem 'oj',                       '3.6.7'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
@@ -33,16 +33,16 @@ gem 'geocoder',                 '1.5.0'
 gem 'maxminddb',                '0.1.21'
 
 # Model versioning
-gem 'paper_trail',              '9.2.0'
+gem 'paper_trail',              '10.0.1'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.1'
 
 # User activities
-gem 'public_activity',          '1.6.1'
+gem 'public_activity',          '1.6.2'
 
 # Format user input
-gem 'auto_strip_attributes',    '2.4.0'
+gem 'auto_strip_attributes',    '2.5.0'
 gem 'sanitize',                 '4.6.6'
 
 # Run asynschronous process
@@ -127,7 +127,7 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.4.0'
+  gem 'better_errors',          '2.5.0'
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
@@ -169,7 +169,7 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.6.0'
+  gem 'capybara',               '3.7.1'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.21'
   gem 'selenium-webdriver',     '3.14.0'
@@ -180,13 +180,13 @@ group :test do
   # static analyzer
   gem 'rails_best_practices',   '1.19.3',   require: false
   gem 'brakeman',               '4.3.1',    require: false
-  gem 'i18n-tasks',             '0.9.23',   require: false
+  gem 'i18n-tasks',             '0.9.24',   require: false
 end
 
 group :development, :test do
   # Check errors
   gem 'rubocop',                '0.58.2',  require: false
-  gem 'rubocop-rspec',          '1.28',    require: false
+  gem 'rubocop-rspec',          '1.29.1',  require: false
 end
 
 group :production do

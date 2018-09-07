@@ -289,7 +289,10 @@ describe 'Topic API', type: :request, basic: true do
         expect {
           delete "/api/v1/topics/#{@first_topic.id}", as: :json, params: { user_id: @user.id }
 
-          expect(response).to be_json_response(204)
+          expect(response).to be_json_response
+
+          topic = JSON.parse(response.body)
+          expect(topic['topic']).not_to be_empty
         }.to change(Topic, :count).by(-1).and change(Article, :count).by(-5).and change(TaggedArticle, :count).by(0).and change(TagRelationship, :count).by(0)
       end
     end
