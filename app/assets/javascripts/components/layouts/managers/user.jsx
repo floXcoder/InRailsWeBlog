@@ -12,7 +12,7 @@ import {
     setCurrentTags
 } from '../../../actions';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     currentTopicId: state.topicState.currentTopicId
@@ -26,7 +26,7 @@ import {
     synchronizeBookmarks,
     setCurrentTags
 })
-export default class UserManager extends React.Component {
+class UserManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
         routerState: PropTypes.object,

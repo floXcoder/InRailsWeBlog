@@ -20,7 +20,7 @@ import Loader from '../theme/loader';
 
 import NotFound from '../layouts/notFound';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
     isOwner: getTagIsOwner(state, state.tagState.tag),
@@ -29,7 +29,7 @@ import NotFound from '../layouts/notFound';
     fetchTag,
     deleteTag
 })
-export default class TagShow extends React.Component {
+class TagShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,

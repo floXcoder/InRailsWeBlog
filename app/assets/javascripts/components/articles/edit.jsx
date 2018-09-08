@@ -14,10 +14,10 @@ import Loader from '../theme/loader';
 import NotAuthorized from '../layouts/notAuthorized';
 
 @articleMutationManager('edit', `article-${Utils.uuid()}`)
-@connect(null, {
+export default @connect(null, {
     setCurrentTags
 })
-export default class ArticleEdit extends React.Component {
+class ArticleEdit extends React.Component {
     static propTypes = {
         // From articleMutationManager
         formId: PropTypes.string.isRequired,

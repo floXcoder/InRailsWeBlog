@@ -191,7 +191,7 @@ export default class Select extends React.Component {
                         {
                             this.props.default &&
                             <option value="default"
-                                    disabled="true">
+                                    disabled={true}>
                                 {this.props.default}
                             </option>
                         }

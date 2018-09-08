@@ -7,7 +7,7 @@ import {
 
 import EnsureValidity from '../../modules/ensureValidity';
 
-@connect((state) => ({
+export default @connect((state) => ({
     query: state.autocompleteState.query,
     currentUserId: state.userState.currentId,
     currentTopicId: state.topicState.currentTopicId
@@ -15,7 +15,7 @@ import EnsureValidity from '../../modules/ensureValidity';
     fetchAutocomplete,
     setAutocompleteAction
 })
-export default class HomeSearchHeader extends React.Component {
+class HomeSearchHeader extends React.Component {
     static propTypes = {
         hasSearch: PropTypes.bool.isRequired,
         onFocus: PropTypes.func.isRequired,

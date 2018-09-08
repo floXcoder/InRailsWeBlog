@@ -13,12 +13,12 @@ import ArticleInlineDisplay from './inline';
 import ArticleGridDisplay from './grid';
 import ArticleInlineEditionDisplay from './inlineEdition';
 
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     isOwner: getArticleIsOwner(state, props.article)
 }), {
     inlineEditArticle
 })
-export default class ArticleItemDisplay extends React.Component {
+class ArticleItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         articleDisplayMode: PropTypes.string.isRequired,

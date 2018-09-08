@@ -87,22 +87,6 @@ module.exports = {
         ignorePlugins: [
             /^codemirror$/
         ],
-        happyPack: {
-            id: 'jsx',
-            loaders: [
-                {
-                    loader: 'babel-loader',
-                    query: {
-                        presets: [
-                            'es2015',
-                            'stage-2',
-                            'react'
-                        ]
-                    }
-                }
-            ],
-            threads: 4
-        },
         translations: 'javascripts/translations',
         images: [
             {

@@ -16,7 +16,7 @@ import TagFormDisplay from './display/form';
 
 import NotAuthorized from '../layouts/notAuthorized';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
@@ -25,7 +25,7 @@ import NotAuthorized from '../layouts/notAuthorized';
     fetchTag,
     updateTag
 })
-export default class TagEdit extends React.Component {
+class TagEdit extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,

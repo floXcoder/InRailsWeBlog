@@ -19,7 +19,7 @@ import ArticleSortDisplay from './sort/dropdown';
 import ArticleFilterDisplay from './filter/dropdown';
 import ArticleNone from '../articles/display/none';
 
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentTopicId: state.topicState.currentTopicId,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
@@ -35,7 +35,7 @@ import ArticleNone from '../articles/display/none';
     updateArticleOrder,
     setCurrentTags
 })
-export default class ArticleIndex extends React.Component {
+class ArticleIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         queryString: PropTypes.string,

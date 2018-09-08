@@ -45,7 +45,7 @@ $.extend($.summernote.options, {
         'magic': 'text_fields',
         'menuCheck': 'check_circle',
         'minus': 'minimize',
-        'unlink': 'delete',
+        'unlink': 'link_off',
         'orderedlist': 'format_list_numbered',
         'outdent': 'format_indent_decrease',
         'pencil': 'create',

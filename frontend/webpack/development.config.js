@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
-const HappyPack = require('happypack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -112,7 +111,6 @@ webPackConfig.plugins.push(
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),
-    new HappyPack(config.happyPack),
     new CopyWebpackPlugin([{
         from: config.translations,
         to: 'translations/' + config.development.filename + '.[ext]',

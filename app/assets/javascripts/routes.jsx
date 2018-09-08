@@ -162,6 +162,7 @@ export default {
             //     component: ArticleEdit
             // }
             {
+                path: '/404',
                 component: NotFound
             }
         ]

@@ -8,12 +8,12 @@ import {
     getBookmark
 } from '../../selectors';
 
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     bookmarkData: getBookmark(state, props)
 }), {
     bookmark
 })
-export default class BookmarkIcon extends React.PureComponent {
+class BookmarkIcon extends React.PureComponent {
     static propTypes = {
         bookmarkedType: PropTypes.string.isRequired,
         bookmarkedId: PropTypes.number.isRequired,

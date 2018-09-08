@@ -28,8 +28,8 @@ import CommentCountIcon from '../../comments/icons/count';
 
 import Collapsible from '../../theme/collapsible';
 
-@highlight()
-export default class ArticleCardDisplay extends React.Component {
+export default @highlight()
+class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,
@@ -103,6 +103,7 @@ export default class ArticleCardDisplay extends React.Component {
                             {({style, isSticky}) => (
                                 <ArticleFloatingIcons style={style}
                                                       isSticky={isSticky}
+                                                      isOwner={this.props.isOwner}
                                                       articleId={this.props.article.id}
                                                       articleSlug={this.props.article.slug}
                                                       articleTitle={this.props.article.title}/>

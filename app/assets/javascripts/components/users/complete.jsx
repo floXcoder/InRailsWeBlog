@@ -17,10 +17,10 @@ import UserTracking from '../users/tracking';
 import SwitchButton from '../materialize/switchButton';
 import Loader from '../theme/loader';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isAdminConnected: state.adminState.isConnected
 }))
-export default class UserComplete extends React.Component {
+class UserComplete extends React.Component {
     static propTypes = {
         userId: PropTypes.oneOfType([
             PropTypes.number,

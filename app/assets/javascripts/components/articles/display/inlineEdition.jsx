@@ -15,12 +15,12 @@ import ArticleInlineActions from '../properties/inlineActions';
 
 import Editor, {EditorMode} from '../../editor/editor';
 
-@connect(null, {
+export default @connect(null, {
     inlineEditArticle,
     updateArticle,
     deleteArticle
 })
-export default class ArticleInlineEditionDisplay extends React.Component {
+class ArticleInlineEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,

@@ -15,7 +15,7 @@ import {
 
 import InlineEditTopic from './display/inlineEdit';
 
-@connect((state) => ({
+export default @connect((state) => ({
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
     isLoading: state.topicState.isFetching,
@@ -28,7 +28,7 @@ import InlineEditTopic from './display/inlineEdit';
     switchTopic,
     switchTopicPopup
 })
-export default class TopicModule extends React.Component {
+class TopicModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // From connect

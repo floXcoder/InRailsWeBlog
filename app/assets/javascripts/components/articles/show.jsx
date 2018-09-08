@@ -36,7 +36,7 @@ import CommentBox from '../loaders/commentBox';
 
 import NotFound from '../layouts/notFound';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
@@ -50,7 +50,7 @@ import NotFound from '../layouts/notFound';
     setCurrentTags
 })
 @highlight(false)
-export default class ArticleShow extends React.Component {
+class ArticleShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,

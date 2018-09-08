@@ -24,7 +24,7 @@ import SearchArticleIndex from './index/article';
 
 import EnsureValidity from '../modules/ensureValidity';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     currentTopicId: state.topicState.currentTopicId,
@@ -42,7 +42,7 @@ import EnsureValidity from '../modules/ensureValidity';
     fetchSearch,
     filterSearch
 })
-export default class SearchIndex extends React.Component {
+class SearchIndex extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // From connect

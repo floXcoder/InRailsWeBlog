@@ -37,7 +37,7 @@ I18n.locale = 'fr';
 // Configure log level
 log.setLevel('info');
 
-// Fail tests on any warnings
+// Mark as failed if any warnings
 console.error = message => {
     throw new Error(message);
 };
@@ -45,6 +45,8 @@ console.error = message => {
 window.onerror = function (message, url, lineNumber, columnNumber, trace) {
     log.error(trace);
 };
+
+window.w = log.info;
 
 // Make Enzyme functions available in all test files without importing
 import Enzyme from 'enzyme';

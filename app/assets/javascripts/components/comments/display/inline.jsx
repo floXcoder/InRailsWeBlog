@@ -12,11 +12,11 @@ import FixedActionButton from '../../materialize/fab';
 
 import UserAvatarIcon from '../../users/icons/avatar';
 
-@connect(null, {
+export default @connect(null, {
     updateComment,
     deleteComment
 })
-export default class CommentInlineDisplay extends React.Component {
+class CommentInlineDisplay extends React.Component {
     static propTypes = {
         comment: PropTypes.object.isRequired,
         isInlineEditing: PropTypes.bool,

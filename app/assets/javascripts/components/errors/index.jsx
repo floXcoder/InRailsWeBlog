@@ -10,14 +10,14 @@ import {
     getFailures
 } from '../../selectors';
 
-@connect((state) => ({
+export default @connect((state) => ({
     errors: getFailures(state)
 }), {
     fetchErrors,
     deleteError,
     deleteAllErrors
 })
-export default class ErrorIndex extends React.PureComponent {
+class ErrorIndex extends React.PureComponent {
     static propTypes = {
         // From connect
         errors: PropTypes.array,

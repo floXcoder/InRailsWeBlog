@@ -20,7 +20,7 @@ import TagRelationshipDisplay from './display/relationship';
 import SearchBar from '../theme/searchBar';
 import Loader from '../theme/loader';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isLoading: state.tagState.isFetching,
     filterText: state.tagState.filterText,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
@@ -28,7 +28,7 @@ import Loader from '../theme/loader';
 }), {
     filterTags
 })
-export default class TagSidebar extends React.Component {
+class TagSidebar extends React.Component {
     static propTypes = {
         hasChildInMainList: PropTypes.bool,
         // From connect

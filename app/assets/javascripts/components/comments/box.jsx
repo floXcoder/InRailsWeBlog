@@ -24,7 +24,7 @@ import CircleSpinner from '../theme/spinner/circle';
 import CommentList from '../comments/list';
 import CommentForm from '../comments/form';
 
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     isSuperUserConnected: getIsPrimaryUser(state),
@@ -38,7 +38,7 @@ import CommentForm from '../comments/form';
     deleteComment
 })
 
-export default class CommentBox extends React.Component {
+class CommentBox extends React.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,
         ownerId: PropTypes.number.isRequired,

@@ -23,7 +23,7 @@ import SearchSelectedModule from './module/selected';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     currentTopicId: state.topicState.currentTopicId,
@@ -41,7 +41,7 @@ import SearchArticleModule from './module/article';
     fetchUserRecents,
     fetchSearch
 })
-export default class SearchModule extends React.Component {
+class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // From connect

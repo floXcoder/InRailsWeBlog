@@ -9,8 +9,6 @@ exports[`<HomePage /> renders home page 1`] = `
           component={[Function]}
           exact={true}
           key="0"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/"
           routes={
             Object {
@@ -117,6 +115,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -140,13 +139,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
+          exact={false}
           key="1"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/search"
           routes={
             Object {
@@ -253,6 +250,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -276,14 +274,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="2"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/user/:topicSlug"
           routes={
             Object {
@@ -390,6 +385,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -413,14 +409,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="3"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/user/:topicSlug/tags"
           routes={
             Object {
@@ -527,6 +520,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -550,14 +544,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="4"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/user/:topicSlug/sort"
           routes={
             Object {
@@ -664,6 +655,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -687,14 +679,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={false}
           key="5"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?"
           routes={
             Object {
@@ -801,6 +790,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -824,14 +814,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="6"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/user/:userSlug/:topicSlug"
           routes={
             Object {
@@ -938,6 +925,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -961,14 +949,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="7"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/user/:userSlug/:topicSlug/:articleSlug"
           routes={
             Object {
@@ -1075,6 +1060,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -1098,14 +1084,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="8"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/topic/:userSlug/:topicSlug"
           routes={
             Object {
@@ -1212,6 +1195,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -1235,14 +1219,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="9"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/tags/:userSlug/sort"
           routes={
             Object {
@@ -1349,6 +1330,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -1372,14 +1354,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="10"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/tags/:userSlug"
           routes={
             Object {
@@ -1486,6 +1465,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -1509,14 +1489,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="11"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/tags"
           routes={
             Object {
@@ -1623,6 +1600,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -1646,14 +1624,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="12"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/tag/:tagSlug"
           routes={
             Object {
@@ -1760,6 +1735,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -1783,14 +1759,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="13"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/tag/:tagSlug/edit"
           routes={
             Object {
@@ -1897,6 +1870,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -1920,14 +1894,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={false}
           key="14"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/tagged/:tagSlug/:childTagSlug?"
           routes={
             Object {
@@ -2034,6 +2005,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -2057,14 +2029,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="15"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/article/new"
           routes={
             Object {
@@ -2171,6 +2140,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -2194,14 +2164,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="16"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/article/:articleSlug/edit"
           routes={
             Object {
@@ -2308,6 +2275,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -2331,14 +2299,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="17"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/article/:articleSlug/history"
           routes={
             Object {
@@ -2445,6 +2410,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -2468,14 +2434,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="18"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/article/:topicSlug/:articleSlug"
           routes={
             Object {
@@ -2582,6 +2545,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -2605,14 +2569,11 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
           exact={true}
           key="19"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
           path="/article/:articleSlug"
           routes={
             Object {
@@ -2719,6 +2680,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -2742,13 +2704,12 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
         <MatchMediaComponent(MainLayout)
           component={[Function]}
+          exact={false}
           key="20"
-          largeScreenSize={1200}
-          mediumScreenSize={992}
+          path="/404"
           routes={
             Object {
               "home": Object {
@@ -2854,6 +2815,7 @@ exports[`<HomePage /> renders home page 1`] = `
                   },
                   Object {
                     "component": [Function],
+                    "path": "/404",
                   },
                 ],
               },
@@ -2877,7 +2839,6 @@ exports[`<HomePage /> renders home page 1`] = `
               },
             }
           }
-          smallScreenSize={600}
         />
       </Switch>
     </withRouter(ScrollBackManager)>

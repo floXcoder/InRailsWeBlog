@@ -38,7 +38,7 @@ import HomeBookmarkHeader from './header/bookmark';
 import HomeArticleHeader from './header/article';
 import HomeUserHeader from './header/user';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isUserSignupOpened: state.uiState.isUserSignupOpened,
     isUserLoginOpened: state.uiState.isUserLoginOpened,
     isUserPreferenceOpened: state.uiState.isUserPreferenceOpened,
@@ -58,7 +58,7 @@ import HomeUserHeader from './header/user';
     switchTopicPopup,
     fetchTopic
 })
-export default class HeaderLayout extends React.PureComponent {
+class HeaderLayout extends React.PureComponent {
     static propTypes = {
         history: PropTypes.object.isRequired,
         params: PropTypes.object.isRequired,

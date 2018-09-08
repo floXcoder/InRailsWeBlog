@@ -34,7 +34,7 @@ import EnsureValidity from '../../modules/ensureValidity';
 import Submit from '../../materialize/submit';
 import Collapsible from '../../theme/collapsible';
 
-@reduxForm({
+export default @reduxForm({
     validateArticle
 })
 @connect((state, props) => ({
@@ -45,7 +45,7 @@ import Collapsible from '../../theme/collapsible';
 }), {
     fetchTags
 })
-export default class ArticleFormDisplay extends React.Component {
+class ArticleFormDisplay extends React.Component {
     static propTypes = {
         isInline: PropTypes.bool,
         isEditing: PropTypes.bool,

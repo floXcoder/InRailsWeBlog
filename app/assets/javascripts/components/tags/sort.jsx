@@ -13,7 +13,7 @@ import Loader from '../theme/loader';
 
 import TagSorter from './sort/sorter';
 
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentTopicId: state.topicState.currentTopicId,
@@ -24,7 +24,7 @@ import TagSorter from './sort/sorter';
     fetchTags,
     updateTagPriority
 })
-export default class TagSort extends React.Component {
+class TagSort extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,

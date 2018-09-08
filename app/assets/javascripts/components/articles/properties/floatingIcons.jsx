@@ -6,11 +6,15 @@ import ArticleLinkIcon from '../icons/link';
 export default class ArticleFloatingIcons extends React.Component {
     static propTypes = {
         style: PropTypes.object.isRequired,
-        isOwner: PropTypes.bool.isRequired,
         isSticky: PropTypes.bool.isRequired,
         articleId: PropTypes.number.isRequired,
         articleSlug: PropTypes.string.isRequired,
+        isOwner: PropTypes.bool,
         articleTitle: PropTypes.string
+    };
+
+    static defaultProps = {
+        isOwner: false
     };
 
     constructor(props) {

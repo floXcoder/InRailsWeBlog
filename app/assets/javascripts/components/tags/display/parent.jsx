@@ -14,10 +14,10 @@ import {
 
 import ChildTag from './child';
 
-@connect((state) => ({
+export default @connect((state) => ({
     currentTagSlugs: getCurrentTagSlugs(state)
 }))
-export default class ParentTag extends React.Component {
+class ParentTag extends React.Component {
     static propTypes = {
         tag: PropTypes.object.isRequired,
         onTagClick: PropTypes.func.isRequired,

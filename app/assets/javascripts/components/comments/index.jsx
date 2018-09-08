@@ -11,7 +11,7 @@ import {
 
 import CommentTableDisplay from './display/table';
 
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     hasInitialComments: !Utils.isEmpty(props.comments),
     isLoading: state.commentState.isFetching,
     comments: props.comments || getComments(state),
@@ -19,7 +19,7 @@ import CommentTableDisplay from './display/table';
 }), {
     fetchComments
 })
-export default class CommentIndex extends React.Component {
+class CommentIndex extends React.Component {
     static propTypes = {
         userId: PropTypes.number,
         isShowingLast: PropTypes.bool,
