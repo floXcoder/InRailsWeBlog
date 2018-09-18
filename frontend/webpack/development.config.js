@@ -52,7 +52,7 @@ webPackConfig = _.merge(webPackConfig, {
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
-        hot: false, // Hot react not fully working now
+        hot: true, // Hot react not fully working now
         inline: true,
         overlay: true,
         compress: true,
@@ -108,6 +108,7 @@ webPackConfig.plugins.push(
             'ASSET_PATH': JSON.stringify(config.development.assetPath)
         }
     }),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),
