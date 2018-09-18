@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AssetManifest
   def self.manifest
     asset_file = Rails.root.join('public', 'assets', 'rev-manifest.json')

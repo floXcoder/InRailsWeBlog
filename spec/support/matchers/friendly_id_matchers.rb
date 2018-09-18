@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_friendly_id do |value|
   match do |actual|
     expect(actual).to respond_to(value)

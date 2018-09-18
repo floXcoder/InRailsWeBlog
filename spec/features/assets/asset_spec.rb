@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Assets', advanced: true, js: true do
 
   scenario 'generates all assets' do

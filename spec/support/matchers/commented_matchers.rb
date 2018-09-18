@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :acts_as_commentable do |model|
   match do |actual|
     expect(actual).to have_many(:comment_threads)

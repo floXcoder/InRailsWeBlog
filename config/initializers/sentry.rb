@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if Rails.env.production? && ENV['SENTRY_RAILS_KEY']
   Raven.configure do |config|
     config.dsn = ENV['SENTRY_RAILS_KEY']

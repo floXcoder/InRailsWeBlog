@@ -1,4 +1,6 @@
-class UserSampleSerializer < ActiveModel::Serializer
+# frozen_string_literal: true
+
+class UserStrictSerializer < ActiveModel::Serializer
   cache key: 'user_strict', expires_in: CONFIG.cache_time
 
   attributes :id,

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: pictures
@@ -23,13 +25,15 @@ require 'rails_helper'
 RSpec.describe Picture, type: :model, basic: true do
 
   before(:all) do
-    @user = create(:user)
+    @user    = create(:user)
+    @topic   = create(:topic, user: @user)
+    @article = create(:article, user: @user, topic: @topic)
   end
 
   before do
     @picture = Picture.create(
       user:               @user,
-      imageable_type:     'Article',
+      imageable:          @article,
       description:        'Picture description',
       copyright:          'Picture copyright',
       image:              'my_image.jpg',

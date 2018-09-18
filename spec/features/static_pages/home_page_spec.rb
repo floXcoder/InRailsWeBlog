@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Home page', advanced: true, js: true do
 
   given(:homepage) { HomePage.new }

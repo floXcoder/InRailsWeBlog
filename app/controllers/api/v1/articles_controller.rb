@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -30,15 +32,7 @@ module Api::V1
     respond_to :html, :json
 
     def index
-      articles = Article.include_collection
-
-      articles = articles.default_visibility(current_user, current_admin)
-
-      articles = articles.order_by(filter_articles)
-
-      articles = Article.filter_by(articles, filter_params, current_user) unless filter_params.empty?
-
-      articles = params[:limit] ? articles.limit(params[:limit]) : articles.paginate(page: params[:page], per_page: Setting.per_page)
+      articles = ::Articles::FindQueries.new.all(filter_params.merge(page: params[:page], limit: params[:limit]), current_user, current_admin)
 
       respond_to do |format|
         format.json do
@@ -99,18 +93,18 @@ module Api::V1
       article = current_user.articles.build
       admin_or_authorize article
 
-      article.format_attributes(article_params, current_user)
+      stored_article = ::Articles::StoreService.new(article, article_params.merge(current_user: current_user)).perform
 
       respond_to do |format|
         format.json do
-          if article.save
-            flash.now[:success] = t('views.article.flash.successful_creation')
-            render json:       article,
+          if stored_article.success?
+            flash.now[:success] = stored_article.message
+            render json:       stored_article.result,
                    serializer: ArticleSerializer,
                    status:     :created
           else
-            flash.now[:error] = t('views.article.flash.error_creation')
-            render json:   { errors: article.errors },
+            flash.now[:error] = stored_article.message
+            render json:   { errors: stored_article.errors },
                    status: :unprocessable_entity
           end
         end
@@ -138,20 +132,20 @@ module Api::V1
       article = Article.find(params[:id])
       admin_or_authorize article
 
-      article.format_attributes(article_params, current_user)
+      stored_article = ::Articles::StoreService.new(article, article_params.merge(current_user: current_user)).perform
 
       respond_to do |format|
         format.json do
-          if article.save
-            flash.now[:success] = t('views.article.flash.successful_edition') unless params[:auto_save]
+          if stored_article.success?
+            flash.now[:success] = stored_article.message unless params[:auto_save]
             render json:          article,
                    serializer:    ArticleSerializer,
                    with_vote:     true,
                    with_outdated: true,
                    status:        :ok
           else
-            flash.now[:error] = t('views.article.flash.error_edition')
-            render json:   { errors: article.errors },
+            flash.now[:error] = stored_article.message
+            render json:   { errors: stored_article.errors },
                    status: :unprocessable_entity
           end
         end
@@ -301,21 +295,6 @@ module Api::V1
         params.permit(article_ids: [])
       else
         {}
-      end
-    end
-
-    def filter_articles
-      if filter_params[:order]
-        if current_user && current_user.article_order != filter_params[:order]
-          current_user.settings['article_order'] = filter_params[:order]
-          current_user.save
-        end
-
-        filter_params[:order]
-      elsif current_user&.article_order
-        current_user.article_order
-      else
-        'priority_desc'
       end
     end
 

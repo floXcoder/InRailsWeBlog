@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tags
@@ -286,75 +288,6 @@ RSpec.describe Tag, type: :model, basic: true do
       it { expect(Tag.bookmarked_by_user(@user)).not_to include(other_tag) }
     end
 
-    describe '::search_for' do
-      before do
-        Tag.reindex
-        Tag.search_index.refresh
-      end
-
-      it { is_expected.to respond_to(:search_for) }
-
-      it 'search for tags' do
-        tag_results = Tag.search_for('tag')[:tags]
-
-        expect(tag_results[:tags]).not_to be_empty
-        expect(tag_results[:tags]).to be_a(Array)
-        expect(tag_results[:tags].size).to eq(4)
-        expect(tag_results[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
-      end
-
-      it 'search for tags in strict mode' do
-        tag_results = Tag.search_for('tag', format: :strict)[:tags]
-
-        expect(tag_results[:tags]).not_to be_empty
-        expect(tag_results[:tags]).to be_a(Array)
-        expect(tag_results[:tags].size).to eq(4)
-        expect(tag_results[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
-      end
-
-      it 'search for tags with ordering' do
-        tag_results = Tag.search_for('tag', order: 'created_desc')[:tags]
-
-        expect(tag_results[:tags]).not_to be_empty
-        expect(tag_results[:tags]).to be_a(Array)
-        expect(tag_results[:tags].size).to eq(4)
-        expect(tag_results[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
-      end
-    end
-
-    describe '::autocomplete_for' do
-      before do
-        Tag.reindex
-        Tag.search_index.refresh
-      end
-
-      it { is_expected.to respond_to(:autocomplete_for) }
-
-      it 'autocompletes for tags' do
-        tag_autocompletes = Tag.autocomplete_for('ta')
-
-        expect(tag_autocompletes).not_to be_empty
-        expect(tag_autocompletes[:tags]).not_to be_empty
-        expect(tag_autocompletes[:tags].size).to eq(4)
-        expect(tag_autocompletes[:tags].map { |tag| tag[:name] }).to include(@tag.name, other_tag.name)
-      end
-    end
-
-    describe '::order_by' do
-      it { is_expected.to respond_to(:order_by) }
-      it { expect(Tag.order_by('id_asc')).to be_kind_of(ActiveRecord::Relation) }
-    end
-
-    describe '::default_visibility' do
-      it { is_expected.to respond_to(:default_visibility) }
-      it { expect(Tag.default_visibility).to be_kind_of(ActiveRecord::Relation) }
-    end
-
-    describe '::filter_by' do
-      it { is_expected.to respond_to(:filter_by) }
-      it { expect(Tag.filter_by(Tag.all, user_id: @user.id, topic_id: topic.id)).to include(@tag) }
-    end
-
     describe '::parse_tags' do
       it { is_expected.to respond_to(:parse_tags) }
       it { expect(Tag.parse_tags(["#{@tag.name},only_me"], @user.id)).to eq([@tag]) }
@@ -390,12 +323,6 @@ RSpec.describe Tag, type: :model, basic: true do
       it { is_expected.to respond_to(:user?) }
       it { expect(@tag.user?(@user)).to be true }
       it { expect(@tag.user?(other_user)).to be false }
-    end
-
-    describe '.format_attributes' do
-      it { is_expected.to respond_to(:format_attributes) }
-      it { expect(@tag.format_attributes).to be_nil }
-      it { expect(@tag.format_attributes(@tag.attributes)).to be_nil }
     end
 
     describe '.default_picture' do

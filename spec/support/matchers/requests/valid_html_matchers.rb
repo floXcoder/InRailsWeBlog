@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :be_html_response do |response_value|
   match do |actual|
     @response = actual.status

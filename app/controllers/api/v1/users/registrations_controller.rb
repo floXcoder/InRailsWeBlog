@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V1
   class Users::RegistrationsController < Devise::RegistrationsController
     include ActionView::Helpers::TagHelper

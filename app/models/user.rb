@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -190,7 +192,7 @@ class User < ApplicationRecord
            class_name: 'Picture',
            dependent:  :destroy
 
-  has_many :activities,
+  has_many :performed_activities,
            as:         :owner,
            class_name: 'PublicActivity::Activity'
 
@@ -218,186 +220,6 @@ class User < ApplicationRecord
   after_create :create_default_topic
 
   # == Class Methods ========================================================
-  # Article Search
-  # +query+ parameter: string to query
-  # +options+ parameter:
-  #  current_user_id (current user id)
-  #  current_topic_id (current topic id for current user)
-  #  page (page number for pagination)
-  #  per_page (number of users per page for pagination)
-  #  exact (exact search or include misspellings, default: 2)
-  #  tags (array of tags associated with users)
-  #  operator (array of tags associated with users, default: AND)
-  #  highlight (highlight content, default: true)
-  #  exact (do not misspelling, default: false, 1 character)
-  def self.search_for(query, options = {})
-    # # Format use
-    format = options[:format] || 'sample'
-
-    # If query not defined or blank, search for everything
-    query_string = !query || query.blank? ? '*' : query
-
-    # Fields with boost
-    fields = %w[pseudo]
-
-    # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
-    misspellings_distance = options[:exact] || query_string.length < 7 ? 0 : 2
-    misspellings_retry    = 3
-
-    # Operator type: 'and' or 'or'
-    operator = options[:operator] ? options[:operator] : 'and'
-
-    # Highlight results and select a fragment
-    # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="search-highlight">'} : false
-    highlight = false
-
-    # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}
-    where_options = where_search(options[:where])
-
-    # Boost user users first
-    boost_where = nil
-
-    # Page parameters
-    page     = options[:page] || 1
-    per_page = options[:per_page] || Setting.search_per_page
-
-    # Order search
-    order = order_search(options[:order])
-
-    # Perform search
-    results = User.search(query_string,
-                          fields:       fields,
-                          boost_where:  boost_where,
-                          highlight:    highlight,
-                          match:        :word_middle,
-                          misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
-                          suggest:      true,
-                          page:         page,
-                          per_page:     per_page,
-                          operator:     operator,
-                          where:        where_options,
-                          order:        order)
-
-    # Track search results
-    User.track_searches(results.map(&:id))
-
-    users = format_search(results, format, options[:current_user])
-
-    {
-      users:       users,
-      suggestions: results.suggestions,
-      total_count: results.total_count,
-      total_pages: results.total_pages
-    }
-  end
-
-  def self.autocomplete_for(query, options = {})
-    # If query not defined or blank, search for everything
-    query_string = !query || query.blank? ? '*' : query
-
-    # Fields with boost
-    fields = %w[pseudo]
-
-    # Where options only for ElasticSearch
-    where_options = where_search(options[:where])
-
-    # Order search
-    order = order_search(options[:order])
-
-    # Set result limit
-    limit = options[:limit] ? options[:limit] : Setting.per_page
-
-    # Perform search
-    results = User.search(query_string,
-                          fields:       fields,
-                          match:        :word_middle,
-                          misspellings: false,
-                          load:         false,
-                          where:        where_options,
-                          order:        order,
-                          limit:        limit,
-                          execute:      !options[:defer])
-
-    return results.map do |user|
-      {
-        pseudo: user.pseudo,
-        icon:   'user',
-        link:   Rails.application.routes.url_helpers.user_path(user.slug)
-      }
-    end
-  end
-
-  def self.where_search(options)
-    options ||= {}
-
-    where_options = options.compact.reject { |_k, v| v.empty? }.map do |key, value|
-      case key
-      when :notation
-        [
-          key,
-          value.to_i
-        ]
-      else
-        [key, value]
-      end
-    end.to_h
-
-    return where_options
-  end
-
-  def self.order_search(order)
-    case order
-    when 'id_asc'
-      { id: :asc }
-    when 'id_desc'
-      { id: :desc }
-    when 'priority_asc'
-      { priority: :asc }
-    when 'priority_desc'
-      { priority: :desc }
-    when 'created_asc'
-      { created_at: :asc }
-    when 'created_desc'
-      { created_at: :desc }
-    when 'updated_asc'
-      { updated_at: :asc }
-    when 'updated_desc'
-      { updated_at: :desc }
-    when 'rank_asc'
-      { rank: :asc }
-    when 'rank_desc'
-      { rank: :desc }
-    when 'popularity_asc'
-      { popularity: :asc }
-    when 'popularity_desc'
-      { popularity: :desc }
-    else
-      nil
-    end
-  end
-
-  def self.format_search(user_results, format, current_user = nil)
-    serializer_options                = case format
-                                        when 'strict'
-                                          {
-                                            root:   'articles',
-                                            strict: true
-                                          }
-                                        when 'complete'
-                                          {
-                                            complete: true
-                                          }
-                                        else
-                                          {
-                                            sample: true
-                                          }
-                                        end
-
-    serializer_options[:current_user] = current_user if current_user
-
-    User.as_json(user_results, serializer_options)
-  end
-
   def self.order_by(order)
     case order
     when 'id_asc'
@@ -481,37 +303,6 @@ class User < ApplicationRecord
 
   def avatar_url
     self.picture&.image&.url(:mini)
-  end
-
-  def format_attributes(attributes = {})
-    # Sanitization
-    unless attributes[:first_name].nil?
-      attributes[:first_name] = Sanitize.fragment(attributes.delete(:first_name))
-    end
-    unless attributes[:last_name].nil?
-      attributes[:last_name] = Sanitize.fragment(attributes.delete(:last_name))
-    end
-    unless attributes[:city].nil?
-      attributes[:city] = Sanitize.fragment(attributes.delete(:city))
-    end
-    unless attributes[:additional_info].nil?
-      attributes[:additional_info] = Sanitize.fragment(attributes.delete(:additional_info))
-    end
-
-    # User picture: take uploaded picture otherwise remote url
-    if attributes[:picture_attributes] &&
-      attributes[:picture_attributes][:image] &&
-      attributes[:picture_attributes][:remote_image_url] &&
-      !attributes[:picture_attributes][:remote_image_url].blank?
-      attributes[:picture_attributes].delete(:remote_image_url)
-    end
-
-    if attributes[:picture_attributes] &&
-      !attributes[:picture_attributes][:user_id]
-      attributes[:picture_attributes][:user_id] = self.id
-    end
-
-    return attributes
   end
 
   def current_topic

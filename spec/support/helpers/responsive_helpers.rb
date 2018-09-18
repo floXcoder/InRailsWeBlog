@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Features
   module ResponsiveHelpers
     def resize_window_to_mobile

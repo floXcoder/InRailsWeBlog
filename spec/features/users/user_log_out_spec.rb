@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Log out', :devise do
 
   # Not working, incorrect user !

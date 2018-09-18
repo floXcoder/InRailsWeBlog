@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Search API', type: :request, basic: true do
@@ -12,12 +14,14 @@ describe 'Search API', type: :request, basic: true do
     @private_article = create(:article, user: @user, topic: @topic, title: 'article private name', visibility: 'only_me')
 
     Article.reindex
-    Tag.reindex
     Article.search_index.refresh
+    Topic.reindex
+    Topic.search_index.refresh
+    Tag.reindex
     Tag.search_index.refresh
   end
 
-  describe '/api/v1/search' do
+  describe '/api/v1/search', search: true do
     context 'when no parameters' do
       it 'returns all results' do
         get '/api/v1/search', as: :json
@@ -82,7 +86,7 @@ describe 'Search API', type: :request, basic: true do
     end
   end
 
-  describe '/api/v1/search/autocomplete' do
+  describe '/api/v1/search/autocomplete', search: true do
     context 'when no parameters' do
       it 'returns an empty set of autocompletion' do
         get '/api/v1/search/autocomplete', as: :json

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_search do |model|
   match do |actual|
     expect(actual).to respond_to(:search_data)

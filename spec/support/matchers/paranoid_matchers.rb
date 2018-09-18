@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :act_as_paranoid do |model|
   match do |actual|
     expect(actual).to have_db_column(:deleted_at)

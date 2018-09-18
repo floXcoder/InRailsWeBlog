@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_uploader do |column|
   match do |actual|
     expect(actual).to callback(:"store_#{column}!").after(:save)

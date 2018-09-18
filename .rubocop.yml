@@ -93,10 +93,16 @@ Rails/OutputSafety:
   Enabled: false
 
 Rspec/ExampleLength:
-  Max: 10
+  Max: 15
+
+Rspec/InstanceVariable:
+  Enabled: false
 
 Rspec/MultipleExpectations:
   Max: 10
+
+Rspec/NestedGroups:
+  Max: 4
 
 Style/AsciiComments:
   Enabled: false

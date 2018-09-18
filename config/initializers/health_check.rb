@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 HealthCheck.setup do |config|
 
   # uri prefix (no leading slash)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Not working in global mode
 # feature 'Log in', advanced: true, js: true do
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Sign Up', advanced: true, js: true do
 
   # Checkbox for accept terms not found !

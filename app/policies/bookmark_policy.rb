@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BookmarkPolicy
   attr_reader :current_user, :bookmark
 

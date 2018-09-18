@@ -8,8 +8,8 @@ en:
       description: "InRailsWeBlog: advanced blog"
     user:
       flash:
-        successful_update: "Profile updated"
-        error_update: "Profile not updated. Please correct error fields"
+        successful_edition: "Profile updated"
+        error_edition: "Profile not updated. Please correct error fields"
       signup:
         title: "Sign Up"
         subtitle: "Add your details to create an account"
@@ -57,7 +57,6 @@ en:
       flash:
         not_found: "Article not found"
         undelete_link: "Cancel deletion."
-        successful_undeletion: "Article restored"
         successful_creation: "Article added"
         error_creation: "Cannot create the article, please correct the errors"
         successful_edition: "Article updated"
@@ -66,13 +65,24 @@ en:
         error_priority_update: "Cannot change articles order"
         successful_deletion: "Article deleted."
         error_deletion: "Problem during article deletion: %{errors}"
+        successful_undeletion: "Article restored"
       show:
         title: "Article: %{title}"
       edit:
         title: "Article edition: %{title}"
         description: "Article edition: %{title}"
+    topic:
+      flash:
+        successful_creation: "Topic added"
+        error_creation: "Cannot create the topic, please correct the errors"
+        successful_edition: "Topic updated"
+        error_edition: "Cannot update the topic!"
     tag:
       flash:
+        successful_creation: "Tag added"
+        error_creation: "Cannot create the tag, please correct the errors"
+        successful_edition: "Tag updated"
+        error_edition: "Cannot update the tag!"
         successful_priority_update: "Tags order changed"
         error_priority_update: "Cannot change tags order"
         successful_deletion: "Article has been removed."
@@ -235,6 +245,7 @@ en:
           model_unknown: "Cannot add to bookmark"
           not_bookmarked: "Not in your bookmarks!"
         topic:
+          required: "A topic is required to create an article"
           already_selected: "Topic already selected"
           already_exist: "Cannot have two topics with the same name"
           not_owner: "You don't own this topic"
@@ -242,6 +253,9 @@ en:
           already_voted: "Already voted"
         picture:
           image_size: "must be less than 5MB"
+          attributes:
+            imageable:
+              required: "Image model is required"
   errors:
     format: "%{attribute} %{message}"
     messages:

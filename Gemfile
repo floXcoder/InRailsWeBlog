@@ -115,9 +115,6 @@ gem 'capistrano-sidekiq',       '1.0.2',   require: false
 gem 'capistrano-passenger',     '0.2.0',   require: false
 gem 'health_check',             '3.0.0'
 
-# Speed up boot
-gem 'bootsnap',                 '1.3.1',   require: false
-
 group :development do
   # server
   gem 'puma',                   '3.12.0'
@@ -187,6 +184,9 @@ group :development, :test do
   # Check errors
   gem 'rubocop',                '0.58.2',  require: false
   gem 'rubocop-rspec',          '1.29.1',  require: false
+
+  # Speed up boot
+  gem 'bootsnap',               '1.3.1',   require: false
 end
 
 group :production do

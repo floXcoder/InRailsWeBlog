@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArticleSampleSerializer < ActiveModel::Serializer
   include NullAttributesRemover
 

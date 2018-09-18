@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_strip_attributes do |columns|
   match do |actual|
     columns.each do |column|

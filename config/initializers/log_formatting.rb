@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActiveSupport::Logger::SimpleFormatter
   SEVERITY_TO_TAG_MAP   = { 'DEBUG' => 'debug', 'INFO' => 'info', 'WARN' => 'warn', 'ERROR' => 'ERROR', 'FATAL' => 'FATAL', 'UNKNOWN' => 'UNKNOWN' }
   SEVERITY_TO_COLOR_MAP = { 'DEBUG' => '0;37', 'INFO' => '32', 'WARN' => '33', 'ERROR' => '31', 'FATAL' => '31', 'UNKNOWN' => '37' }

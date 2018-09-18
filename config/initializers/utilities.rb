@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ###
 # Add pluck_to_hash to ActiveRecord
 ###

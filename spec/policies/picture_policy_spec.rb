@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PicturePolicy, basic: true do
@@ -6,7 +8,10 @@ describe PicturePolicy, basic: true do
     @owner_user = create(:user)
     @other_user = create(:user)
 
-    @picture = FactoryBot.create(:picture, user: @owner_user, imageable_type: 'Article')
+    @topic   = create(:topic, user: @owner_user)
+    @article = create(:article, user: @owner_user, topic: @topic)
+
+    @picture = FactoryBot.create(:picture, user: @owner_user, imageable: @article)
   end
 
   subject { PicturePolicy.new(user, @picture) }

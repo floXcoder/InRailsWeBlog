@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Topic API', type: :request, basic: true do
@@ -7,7 +9,7 @@ describe 'Topic API', type: :request, basic: true do
     @other_user = create(:user)
     @admin      = create(:admin)
 
-    @first_topic  = create(:topic, user: @user)
+    @first_topic  = create(:topic, user: @user, visibility: 'everyone')
     @second_topic = create(:topic, user: @user, visibility: 'only_me')
 
     @other_topic = create(:topic, user: @other_user)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tags
@@ -23,18 +25,7 @@ module Api::V1
 
     def index
       tags = Rails.cache.fetch("user_tags:#{current_user&.id}_and_#{filter_params[:topic_id] || current_user&.current_topic_id}", expires_in: CONFIG.cache_time) do
-        tags = Tag.include_collection.distinct
-
-        tags = tags.order_by(filter_params[:order] || 'name')
-
-        tags = tags.default_visibility(current_user, current_admin)
-
-        # When filtering by topic, private tags not assigned to an article are not returned
-        tags = Tag.filter_by(tags, filter_params, current_user) unless filter_params.empty?
-
-        tags = tags.limit(params[:limit]) if params[:limit]
-
-        tags
+        ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]), current_user, current_admin)
       end
 
       respond_to do |format|
@@ -73,16 +64,17 @@ module Api::V1
       tag = Tag.find(params[:id])
       admin_or_authorize tag
 
-      tag.format_attributes(tag_params, current_user)
+      stored_tag = ::Tags::StoreService.new(tag, tag_params.merge(current_user: current_user)).perform
 
       respond_to do |format|
         format.json do
-          if tag.save
+          if stored_tag.success?
             render json:             tag,
                    serializer:       TagSerializer,
                    current_topic_id: current_user&.current_topic_id
           else
-            render json:   { errors: tag.errors },
+            flash.now[:error] = stored_tag.message
+            render json:   { errors: stored_tag.errors },
                    status: :unprocessable_entity
           end
         end

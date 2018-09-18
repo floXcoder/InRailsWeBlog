@@ -8,8 +8,8 @@ fr:
       description: "InRailsWeBlog : blog avancé"
     user:
       flash:
-        successful_update: "Profil mis à jour"
-        error_update: "Le profil n'est pas été mis à jour, merci de corriger les erreurs indiquées"
+        successful_edition: "Profil mis à jour"
+        error_edition: "Le profil n'est pas été mis à jour, merci de corriger les erreurs indiquées"
       signup:
         title: "Créer un compte sur InRailsWeBlog"
         subtitle: "Rentrer les détails pour votre compte"
@@ -57,22 +57,32 @@ fr:
       flash:
         not_found: "L'article n'a pas été trouvé"
         undelete_link: "Annuler la suppression."
-        successful_undeletion: "Article restauré"
         successful_creation: "Article ajouté"
         error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
         successful_edition: "Article mis à jour"
+        error_edition: "Problème lors de la mise à jour de l'article !"
         successful_priority_update: "L'ordre des articles a été changé"
         error_priority_update: "Problème lors du changement de priorité des articles"
-        error_edition: "Problème lors de la mise à jour de l'article !"
         successful_deletion: "L'article a été supprimé."
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
+        successful_undeletion: "Article restauré"
       show:
         title: "Article : %{title}"
       edit:
         title: "Modification de l'article : %{title}"
         description: "Modification de l'article : %{title}"
+    topic:
+      flash:
+        successful_creation: "Thème ajouté"
+        error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Thème mis à jour"
+        error_edition: "Problème lors de la mise à jour du thème !"
     tag:
       flash:
+        successful_creation: "Label ajouté"
+        error_creation: "Le label n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Label mis à jour"
+        error_edition: "Problème lors de la mise à jour du label !"
         successful_priority_update: "L'ordre des labels a été changé"
         error_priority_update: "Problème lors du changement de priorité des labels"
         successful_deletion: "L'article a été supprimé."
@@ -235,6 +245,7 @@ fr:
           model_unknown: "Impossible d'ajouter ou de supprimer cet élément dans les favoris"
           not_bookmarked: "Élément non existant dans les favoris !"
         topic:
+          required: "Un thème est requis pour créer l'article"
           already_selected: "Le nouveau thème est déjà celui utilisé"
           already_exist: "Un thème avec le même nom existe déjà"
           not_owner: "Vous devez être le propriétaire du thème pour l'utiliser"
@@ -242,6 +253,9 @@ fr:
           already_voted: "Vous ne pouvez pas voter une seconde fois"
         picture:
           image_size: "doit être inférieur à 5Mo"
+          attributes:
+            imageable:
+              required: "Le modèle de l'image est requis"
   errors:
     format: "%{attribute} %{message}"
     messages:

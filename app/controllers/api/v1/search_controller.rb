@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V1
   class SearchController < ApplicationController
     before_action :verify_requested_format!
@@ -6,204 +8,32 @@ module Api::V1
     respond_to :json
 
     def index
-      article_search = tag_search = topic_search = nil
-      search_results = {
-        suggestions:  {},
-        aggregations: {},
-        totalCount:   {},
-        totalPages:   {}
-      }
+      search_results = Searches::SearchService.new(search_params[:query], search_params.merge(current_user: current_user, current_admin: current_admin)).perform
 
-      results_format = search_params[:complete] ? 'complete' : 'sample'
-      visibility     = if current_user
-                         { _or: [{ visibility: 'only_me', user_id: current_user.id }, { visibility: 'everyone' }] }
-                       elsif !current_admin
-                         { visibility: 'everyone' }
-                       else
-                         { visibility: search_params[:visibility] }
-                       end
+      if search_results.success?
+        current_user&.create_activity(:search, params: { query: search_params[:query], count: search_results.result[:totalCount].values.reduce(:+) })
 
-      if search_type('article', search_params[:selected_types])
-        article_search = Article.search_for(
-          search_params[:query],
-          defer:            true,
-          format:           results_format,
-          page:             search_params[:article_page] || search_params[:page],
-          per_page:         search_params[:article_per_page] || search_params[:per_page] || Setting.search_per_page,
-          current_user_id:  current_user&.id,
-          current_topic_id: current_user&.current_topic_id,
-          highlight:        current_user ? current_user.search_highlight : true,
-          exact:            current_user ? current_user.search_exact : nil,
-          operator:         current_user ? current_user.search_operator : nil,
-          order:            search_params[:order],
-          where:            {
-                              mode:      search_params[:mode],
-                              draft:     search_params[:draft],
-                              languages: search_params[:language],
-                              notation:  search_params[:notation],
-                              accepted:  search_params[:accepted],
-                              home_page: search_params[:home_page],
-                              user_id:   search_params[:user_id],
-                              topic_id:  search_params[:topic_id],
-                              tag_ids:   search_params[:tag_ids] ? search_params[:tag_ids].first.split(',') : nil
-                            }.merge(visibility).compact
-        )
-      end
-
-      if search_type('tag', search_params[:selected_types])
-        tag_search = Tag.search_for(
-          search_params[:query],
-          defer:    true,
-          format:   results_format,
-          page:     search_params[:tag_page] || search_params[:page],
-          per_page: search_params[:tag_per_page] || search_params[:per_page] || Setting.search_per_page,
-          exact:    current_user ? current_user.search_exact : nil,
-          operator: current_user ? current_user.search_operator : nil,
-          order:    search_params[:order],
-          where:    {
-                      user_id:   search_params[:user_id],
-                      topic_ids: search_params[:topic_id],
-                      accepted:  search_params[:accepted],
-                      home_page: search_params[:home_page]
-                    }.merge(visibility).compact
-        )
-      end
-
-      if search_type('topic', search_params[:selected_types])
-        topic_search = Topic.search_for(
-          search_params[:query],
-          defer:    true,
-          format:   results_format,
-          page:     search_params[:topic_page] || search_params[:page],
-          per_page: search_params[:topic_per_page] || search_params[:per_page] || Setting.search_per_page,
-          exact:    current_user ? current_user.search_exact : nil,
-          operator: current_user ? current_user.search_operator : nil,
-          order:    search_params[:order],
-          where:    {
-                      user_id:   search_params[:user_id],
-                      accepted:  search_params[:accepted],
-                      home_page: search_params[:home_page]
-                    }.merge(visibility).compact
-        )
-      end
-
-      searches = Searchkick.multi_search([article_search, tag_search, topic_search].compact)
-
-      searches.map do |search|
-        case search.model_name.human
-        when 'Article'
-          article_results = Article.parsed_search(search, results_format, current_user)
-
-          next if article_results[:articles].empty?
-          search_results.merge!(article_results[:articles])
-          search_results[:suggestions][:articles]  = article_results[:suggestions]
-          search_results[:aggregations][:articles] = article_results[:aggregations]
-          search_results[:totalCount][:articles]   = article_results[:total_count]
-          search_results[:totalPages][:articles]   = article_results[:total_pages]
-        when 'Tag'
-          tag_results = Tag.parsed_search(search, results_format, current_user)
-
-          next if tag_results[:tags].empty?
-          search_results.merge!(tag_results[:tags])
-          search_results[:suggestions][:tags] = tag_results[:suggestions]
-          search_results[:totalCount][:tags]  = tag_results[:total_count]
-          search_results[:totalPages][:tags]  = tag_results[:total_pages]
-        when 'Topic'
-          topic_results = Topic.parsed_search(search, results_format, current_user)
-
-          next if topic_results[:topics].empty?
-          search_results.merge!(topic_results[:topics])
-          search_results[:suggestions][:topics] = topic_results[:suggestions]
-          search_results[:totalCount][:topics]  = topic_results[:total_count]
-          search_results[:totalPages][:topics]  = topic_results[:total_pages]
+        respond_to do |format|
+          format.json { render json: search_results.result }
         end
-      end
-
-      current_user&.create_activity(:search, params: { query: search_params[:query], count: search_results[:totalCount].values.reduce(:+) })
-
-      respond_to do |format|
-        format.json { render json: search_results }
+      else
+        respond_to do |format|
+          format.json { render json: [] }
+        end
       end
     end
 
     def autocomplete
-      articles_autocomplete = tags_autocomplete = topics_autocomplete = nil
-      autocomplete_results  = {}
+      autocomplete_results = Searches::AutocompleteService.new(search_params[:query], search_params.merge(current_user: current_user, current_admin: current_admin)).perform
 
-      where_options = {
-        languages: search_params[:language],
-        user_id:   search_params[:user_id]
-      }.compact
-      visibility    = if current_user
-                        { _or: [{ visibility: 'only_me', user_id: current_user.id }, { visibility: 'everyone' }] }
-                      elsif !current_admin
-                        { visibility: 'everyone' }
-                      end
-      where_options.merge(visibility)
-
-      if search_type('article', search_params[:selected_types])
-        where_options.merge(
-          mode:   search_params[:mode],
-          draft:  search_params[:draft],
-          tags:   search_params[:tags] ? search_params[:tags].first.split(',') : nil,
-          topics: search_params[:topics] ? search_params[:topics].first.split(',') : nil
-        )
-        articles_autocomplete = Article.autocomplete_for(
-          search_params[:query],
-          defer:  true,
-          format: 'strict',
-          limit:  search_params[:limit] || Setting.per_page,
-          where:  where_options.merge(
-            topic_id:  search_params[:topic_id]
-          )
-        )
-      end
-
-      if search_type('tag', search_params[:selected_types])
-        tags_autocomplete = Tag.autocomplete_for(
-          search_params[:query],
-          defer:  true,
-          format: 'strict',
-          limit:  search_params[:limit] || Setting.per_page,
-          where:  where_options.merge(
-            topic_ids: [search_params[:topic_id]]
-          )
-        )
-      end
-
-      if search_type('topic', search_params[:selected_types])
-        topics_autocomplete = Topic.autocomplete_for(
-          search_params[:query],
-          defer:  true,
-          format: 'strict',
-          limit:  search_params[:limit] || Setting.per_page,
-          where:  where_options
-        )
-      end
-
-      searches = Searchkick.multi_search([articles_autocomplete, tags_autocomplete, topics_autocomplete].compact)
-
-      searches.map do |search|
-        case search.model_name.human
-        when 'Article'
-          article_results = Article.format_search(search.results, 'strict', current_user)
-          next if article_results[:articles].empty?
-          autocomplete_results[:articles] = article_results[:articles]
-        when 'Tag'
-          tag_results = Tag.format_search(search, 'strict', current_user)
-
-          next if tag_results[:tags].empty?
-          autocomplete_results[:tags] = tag_results[:tags]
-        when 'Topic'
-          topic_results = Topic.format_search(search, 'strict', current_user)
-
-          next if topic_results[:topics].empty?
-          autocomplete_results[:topics] = topic_results[:topics]
+      if autocomplete_results.success?
+        respond_to do |format|
+          format.json { render json: autocomplete_results.result }
         end
-      end
-
-      respond_to do |format|
-        format.json { render json: autocomplete_results }
+      else
+        respond_to do |format|
+          format.json { render json: [] }
+        end
       end
     end
 
@@ -238,20 +68,6 @@ module Api::V1
         ).reject { |_, v| v.blank? }
       else
         {}
-      end
-    end
-
-    def search_type(type, current_type, options = {})
-      (return options[:strict] ? false : true) unless current_type
-
-      if current_type.is_a?(Array)
-        return current_type.map(&:downcase).include?(type.to_s.downcase)
-      else
-        if type.to_s.casecmp(current_type.to_s).zero?
-          return true
-        else
-          return !%w[article tag topic].include?(current_type.to_s.downcase)
-        end
       end
     end
   end

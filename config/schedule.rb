@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Run by whenever: add to cron table
 set :output, Whenever.path + '/log/cron.log'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TagPolicy
   attr_reader :current_user, :tag
 

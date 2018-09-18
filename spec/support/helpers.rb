@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'support/helpers/session_helpers'
 require 'support/helpers/form_helpers'
 require 'support/helpers/sidekiq_helpers'

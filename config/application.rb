@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 # Pick the frameworks you want:
@@ -23,7 +25,7 @@ end
 module InRailsWeBlog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    # config.load_defaults 5.0
+    config.load_defaults 5.2
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -44,6 +46,7 @@ module InRailsWeBlog
 
     # Load files from lib directory
     config.enable_dependency_loading = true
+    config.autoload_paths += Dir["#{config.root}/app/services/**/"]
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     # Database time zone
@@ -93,11 +96,6 @@ module InRailsWeBlog
 
     # Use sidekiq for ActiveJob (not working with letter_opener)
     config.active_job.queue_adapter = :sidekiq
-
-    # Json adapter for serializers
-    ActiveModel::Serializer.config.adapter = :json
-    ActiveModel::Serializer.config.key_transform = :camel_lower
-    ActiveModel::Serializer.config.default_includes = '**'
 
     # Cache with Redis
     config.cache_store = :readthis_store, {

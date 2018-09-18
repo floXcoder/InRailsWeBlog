@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -10,7 +12,7 @@
 #  country                :string           default("")
 #  additional_info        :string           default("")
 #  locale                 :string           default("fr")
-#  settings            :text             default({}), not null
+#  settings               :text             default({}), not null
 #  admin                  :boolean          default(FALSE), not null
 #  slug                   :string
 #  created_at             :datetime         not null
@@ -185,10 +187,10 @@ module Api::V1
     end
 
     def activities
-      user = User.includes(:activities).friendly.find(params[:id])
+      user = User.includes(:performed_activities).friendly.find(params[:id])
       authorize user
 
-      user_activities = user.activities.order('activities.created_at DESC')
+      user_activities = user.performed_activities.order('activities.created_at DESC')
       user_activities = user_activities.paginate(page: params[:page], per_page: Setting.per_page) if params[:page]
 
       respond_to do |format|
@@ -220,21 +222,11 @@ module Api::V1
       user = User.friendly.find(params[:id])
       authorize user
 
-      update_user_params = user_params
-      # User picture: take uploaded picture otherwise remote url
-      if params[:picture_attributes] &&
-        params[:picture_attributes][:image] &&
-        params[:picture_attributes][:remote_image_url] &&
-        params[:picture_attributes][:remote_image_url].present?
-        update_user_params[:picture_attributes].delete(:remote_image_url)
-      end
+      stored_user = ::Users::StoreService.new(user, user_params.merge(current_user: current_user)).perform
 
-      # Current use can not remove his own admin rights
-      update_user_params.delete(:admin) if current_user&.admin? && current_user.id == user.id
-
-      if user.update_without_password(update_user_params)
+      if stored_user.success?
         respond_to do |format|
-          flash[:success] = t('views.user.flash.successful_update')
+          flash[:success] = stored_user.message
           format.html do
             redirect_to root_user_path(user)
           end
@@ -252,12 +244,12 @@ module Api::V1
         end
       else
         respond_to do |format|
-          flash.now[:error] = t('views.user.flash.error_update')
+          flash.now[:error] = stored_user.message
           format.html do
             render :edit, locals: { user: user }
           end
           format.json do
-            render json:   { errors: user.errors },
+            render json:   { errors: stored_user.errors },
                    status: :unprocessable_entity
           end
         end
