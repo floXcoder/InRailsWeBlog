@@ -4,19 +4,19 @@ ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
 require 'bundler/setup' # Set up gems listed in the Gemfile.
 
-# Listen >=2.8 patch to silence duplicate directory errors.
-require 'listen/record/symlink_detector'
-module Listen
-  class Record
-    class SymlinkDetector
-      def _fail(_, _)
-        fail Error, "Don't watch locally-symlinked directory twice"
+if ENV['RAILS_ENV'] != 'production' && ENV['RAILS_ENV'] != 'beta'
+  # Listen >=2.8 patch to silence duplicate directory errors.
+  require 'listen/record/symlink_detector'
+  module Listen
+    class Record
+      class SymlinkDetector
+        def _fail(_, _)
+          fail Error, "Don't watch locally-symlinked directory twice"
+        end
       end
     end
   end
-end
 
-if ENV['RAILS_ENV'] != 'production' && ENV['RAILS_ENV'] != 'beta'
   require 'bootsnap' # Speed up boot time by caching expensive operations.
 
   Bootsnap.setup(
