@@ -1,15 +1,20 @@
 'use strict';
 
+import {
+    hot
+} from 'react-hot-loader';
+
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
 import articleMutationManager from './managers/mutation';
 
-@articleMutationManager('new', `article-${Utils.uuid()}`)
-export default class ArticleNew extends React.Component {
+export default @articleMutationManager('new', `article-${Utils.uuid()}`)
+@hot(module)
+class ArticleNew extends React.Component {
     static propTypes = {
         // From articleMutationManager
-        formId: PropTypes.string.isRequired,
+        formId: PropTypes.string,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         article: PropTypes.object,

@@ -12,8 +12,8 @@ import TagShow from './components/loaders/tagShow';
 import TagEdit from './components/loaders/tagEdit';
 import TagSort from './components/loaders/tagSort';
 
-import UserShow from './components/loaders/userShow';
-import UserEdit from './components/loaders/userEdit';
+// import UserShow from './components/loaders/userShow';
+// import UserEdit from './components/loaders/userEdit';
 
 import SearchModule from './components/loaders/searchModule';
 import SearchIndex from './components/loaders/searchIndex';

@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    Link
-} from 'react-router-dom';
-
 import Dropdown from '../../theme/dropdown';
 
 import BookmarkList from '../../bookmark/list';
@@ -13,8 +9,7 @@ const HomeBookmarkHeader = () => {
         <Dropdown button={
                 <span className="material-icons left"
                       data-icon="favorite"
-                      aria-hidden="true">
-                </span>
+                      aria-hidden="true"/>
             }
                   position="bottom right"
                   buttonClassName="header-button"

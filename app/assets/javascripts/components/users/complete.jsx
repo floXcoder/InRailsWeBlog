@@ -145,7 +145,7 @@ class UserComplete extends React.Component {
                                 <div className="user-heading-menu">
                                     <a className="btn-flat waves-effect waves-teal tooltip-bottom dropdown-button"
                                        data-tooltip={I18n.t('js.user.show.more_actions')}
-                                       data-activates="dropdown-user-menu">
+                                       data-target="dropdown-user-menu">
                                         <span className="material-icons"
                                               data-icon="more_vert"
                                               aria-hidden="true"/>

@@ -4,8 +4,8 @@ import ReactPaginate from 'react-paginate';
 
 import history from '../modules/history';
 
-@history
-export default class Pagination extends React.PureComponent {
+export default @history
+class Pagination extends React.PureComponent {
     static propTypes = {
         totalPages: PropTypes.number,
         initialPage: PropTypes.number,

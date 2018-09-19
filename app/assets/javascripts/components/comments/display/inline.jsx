@@ -77,8 +77,6 @@ class CommentInlineDisplay extends React.Component {
             event.preventDefault();
         }
 
-        $('#comment-actions').find('.fixed-action-btn').closeFAB();
-
         this.props.deleteComment(this.props.comment.id, this.props.comment.commentable.id, {permanently: isPermanently === true});
     };
 

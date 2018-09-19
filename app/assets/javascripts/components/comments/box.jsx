@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     CSSTransition
 } from 'react-transition-group';
 
@@ -37,7 +41,7 @@ export default @connect((state, props) => ({
     updateComment,
     deleteComment
 })
-
+@hot(module)
 class CommentBox extends React.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,

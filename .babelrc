@@ -16,7 +16,6 @@
     "@babel/preset-react"
   ],
   "plugins": [
-    "react-hot-loader/babel",
     "lodash",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-syntax-import-meta",
@@ -31,7 +30,8 @@
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-proposal-numeric-separator",
-    "@babel/plugin-proposal-throw-expressions"
+    "@babel/plugin-proposal-throw-expressions",
+    "react-hot-loader/babel"
   ],
   "env": {
     "development": {

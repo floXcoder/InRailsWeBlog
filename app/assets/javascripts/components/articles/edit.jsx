@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     setCurrentTags
 } from '../../actions';
 
@@ -13,14 +17,15 @@ import Loader from '../theme/loader';
 
 import NotAuthorized from '../layouts/notAuthorized';
 
-@articleMutationManager('edit', `article-${Utils.uuid()}`)
-export default @connect(null, {
+export default @articleMutationManager('edit', `article-${Utils.uuid()}`)
+@connect(null, {
     setCurrentTags
 })
+@hot(module)
 class ArticleEdit extends React.Component {
     static propTypes = {
         // From articleMutationManager
-        formId: PropTypes.string.isRequired,
+        formId: PropTypes.string,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         isFetching: PropTypes.bool,

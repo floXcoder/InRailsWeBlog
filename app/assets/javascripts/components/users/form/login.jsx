@@ -32,12 +32,12 @@ const asyncValidate = (values /*, dispatch */) => {
     }
 };
 
-@reduxForm({
+export default @reduxForm({
     form: 'login',
     asyncValidate,
     asyncBlurFields: ['login']
 })
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
     static propTypes = {
         onCancel: PropTypes.func.isRequired,
         // From reduxForm

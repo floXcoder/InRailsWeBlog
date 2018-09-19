@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     fetchTags,
     updateTagPriority
 } from '../../actions';

@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     getSearchContext,
     searchOnHistoryChange,
     setSelectedTag,
@@ -42,6 +46,7 @@ export default @connect((state) => ({
     fetchSearch,
     filterSearch
 })
+@hot(module)
 class SearchIndex extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,

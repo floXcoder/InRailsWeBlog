@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     Link
 } from 'react-router-dom';
 
@@ -29,6 +33,7 @@ export default @connect((state) => ({
     fetchTag,
     deleteTag
 })
+@hot(module)
 class TagShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,

@@ -1,5 +1,10 @@
 'use strict';
 
+import {
+    TransitionGroup,
+    CSSTransition
+} from 'react-transition-group';
+
 import UserCardDisplay from './display/card';
 
 import SearchBar from '../theme/searchBar';
@@ -7,11 +12,6 @@ import SearchBar from '../theme/searchBar';
 // import Filtering from '../../modules/filter';
 
 import Pagination from '../materialize/pagination';
-
-import {
-    TransitionGroup,
-    CSSTransition
-} from 'react-transition-group';
 
 export default class UserIndex extends React.Component {
     static propTypes = {

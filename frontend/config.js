@@ -77,6 +77,7 @@ module.exports = {
             jquery: 'jquery',
             "window.$": 'jquery',
             "window.jQuery": 'jquery',
+            M: 'materialize-css',
             log: 'loglevel',
             React: 'react',
             ReactDOM: 'react-dom',

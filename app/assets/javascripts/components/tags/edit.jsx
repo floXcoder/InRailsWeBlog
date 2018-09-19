@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     fetchTag,
     updateTag
 } from '../../actions';
@@ -25,6 +29,7 @@ export default @connect((state) => ({
     fetchTag,
     updateTag
 })
+@hot(module)
 class TagEdit extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,

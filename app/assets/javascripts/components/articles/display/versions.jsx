@@ -16,11 +16,17 @@ export default class ArticleVersionsDisplay extends React.Component {
     }
 
     componentDidMount() {
-        $('.blog-article-history.collapsible').collapsible();
+        const collapsibles = document.querySelectorAll('.blog-article-history.collapsible');
+        M.Collapsible.init(collapsibles, {
+            accordion: false
+        });
     }
 
     componentDidUpdate() {
-        $('.blog-article-history.collapsible').collapsible();
+        const collapsibles = document.querySelectorAll('.blog-article-history.collapsible');
+        M.Collapsible.init(collapsibles, {
+            accordion: false
+        });
     }
 
     _handleRestoreClick = (articleId, versionId) => {

@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     fetchArticles,
     updateArticlePriority
 } from '../../actions';
@@ -23,6 +27,7 @@ export default @connect((state) => ({
     fetchArticles,
     updateArticlePriority
 })
+@hot(module)
 class ArticleSort extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,

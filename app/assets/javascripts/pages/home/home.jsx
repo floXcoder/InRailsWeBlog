@@ -27,7 +27,6 @@ const render = Component => {
 render(HomePage);
 
 // webpack Hot Module Replacement API
-if (module.hot) {
-    module.hot.accept('../../components/home/home', () => render(HomePage));
+if(module.hot) {
+    module.hot.accept();
 }
-

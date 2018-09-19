@@ -30,28 +30,5 @@
     .editing-field {
       min-width: 380px;
     }
-
-    .actions {
-      position: relative;
-
-      .fixed-action-btn {
-        position: absolute;
-        right: 0;
-        top: -30px;
-        z-index: inherit;
-
-        .comment-link {
-          text-align: center;
-
-          &.on {
-            background-color: #388e3c;
-          }
-
-          &.off {
-            background-color: #757575;
-          }
-        }
-      }
-    }
   }
 }

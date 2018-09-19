@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     Link
 } from 'react-router-dom';
 
@@ -32,6 +36,7 @@ export default @connect((state) => ({
     restoreArticle
 })
 @highlight(true)
+@hot(module)
 class ArticleHistory extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,

@@ -23,11 +23,11 @@ import EditorField from '../../editor/form/editor';
 
 import Submit from '../../materialize/submit';
 
-@reduxForm({
+export default @reduxForm({
     form: 'tag',
     validateTag
 })
-export default class TagFormDisplay extends React.Component {
+class TagFormDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         tagId: PropTypes.number.isRequired,
@@ -128,7 +128,6 @@ export default class TagFormDisplay extends React.Component {
                                         <Field id="tag_visibility"
                                                multipleId={this.props.multipleId}
                                                name="visibility"
-                                               title={I18n.t('js.tag.model.visibility')}
                                                default={I18n.t('js.tag.common.visibility')}
                                                options={I18n.t('js.tag.enums.visibility')}
                                                component={SelectField}
@@ -143,10 +142,8 @@ export default class TagFormDisplay extends React.Component {
                                                multipleId={this.props.multipleId}
                                                name="synonyms"
                                                elements={[]}
-                                               title={I18n.t('js.tag.model.synonyms')}
                                                placeholder={I18n.t('js.tag.common.synonyms')}
                                                isEditing={true}
-                                               isHorizontal={true}
                                                isMultiple={true}
                                                component={SelecterField}
                                                componentContent={this.props.children.synonyms}/>

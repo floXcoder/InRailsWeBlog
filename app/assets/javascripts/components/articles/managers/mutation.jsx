@@ -152,7 +152,7 @@ export default function articleMutationManager(mode, formId) {
 
             componentDidUpdate(prevProps) {
                 if (prevProps.isDirty && prevProps.isValid && !prevProps.isSubmitting && prevProps.formValues !== this.props.formValues) {
-                    this._handleChange(this.props.formValues);
+                    // this._handleChange(this.props.formValues);
                 }
 
                 this._promptUnsavedChange(this.props.isDirty);
@@ -161,7 +161,7 @@ export default function articleMutationManager(mode, formId) {
             componentWillUnmount() {
                 window.onbeforeunload = null;
 
-                this._handleChange.cancel();
+                // this._handleChange.cancel();
             }
 
             _promptUnsavedChange = (isUnsaved = false) => {
@@ -171,9 +171,9 @@ export default function articleMutationManager(mode, formId) {
                 window.onbeforeunload = isUnsaved ? (() => leaveMessage) : null;
             };
 
-            _handleChange = _.debounce((values) => {
-                this._handleSubmit(values, true);
-            }, ArticleMutationComponent.waitTimeBeforeSaving);
+            // _handleChange = _.debounce((values) => {
+            //     this._handleSubmit(values, true);
+            // }, ArticleMutationComponent.waitTimeBeforeSaving);
 
             _handleSubmit = (values, autoSave = false) => {
                 if (!values) {

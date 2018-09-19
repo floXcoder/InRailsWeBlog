@@ -71,7 +71,7 @@ en:
         cancel: "Cancel"
         submit: "Log in"
         connecting: "Connecting in progress"
-        connected: "Connected, redirection to your account"
+        connected: "Redirection to your account"
         externals:
           google: "Login with Google"
           facebook: "Login with Facebook"
@@ -86,7 +86,7 @@ en:
         cancel: "Cancel"
         submit: "Create my account"
         connecting: "Subscribing in progress"
-        connected: "Connected, redirection to your account"
+        connected: "Redirection to your account"
         externals:
           google: "Signup with Google"
           facebook: "Signup with Facebook"

@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     fetchArticles,
     updateArticleOrder,
     setCurrentTags
@@ -35,6 +39,7 @@ export default @connect((state) => ({
     updateArticleOrder,
     setCurrentTags
 })
+@hot(module)
 class ArticleIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,

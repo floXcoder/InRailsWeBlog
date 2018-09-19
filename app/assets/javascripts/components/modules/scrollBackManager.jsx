@@ -4,8 +4,8 @@ import {
     withRouter
 } from 'react-router-dom';
 
-@withRouter
-export default class ScrollBackManager extends React.Component {
+export default @withRouter
+class ScrollBackManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         // From router

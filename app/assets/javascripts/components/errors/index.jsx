@@ -34,6 +34,13 @@ class ErrorIndex extends React.PureComponent {
         this.props.fetchErrors();
     }
 
+    componentDidUpdate() {
+        const collapsibles = document.querySelectorAll('.collapsible');
+        M.Collapsible.init(collapsibles, {
+            accordion: false
+        });
+    }
+
     _handleDeleteError = (errorId, event) => {
         event.preventDefault();
 

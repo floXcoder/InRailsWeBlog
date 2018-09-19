@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    hot
+} from 'react-hot-loader';
+
 import _ from 'lodash';
 
 import {
@@ -41,6 +45,7 @@ export default @connect((state) => ({
     fetchUserRecents,
     fetchSearch
 })
+@hot(module)
 class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,

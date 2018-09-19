@@ -5,14 +5,16 @@ const RadioButtons = ({buttons, group, checkedButton, onChange}) => (
         {
             Object.keys(buttons).map((key) => (
                 <div key={key}>
-                    <input id={key}
-                           type="radio"
-                           name={group}
-                           checked={checkedButton === key}
-                           onChange={onChange}/>
-
                     <label htmlFor={key}>
-                        {buttons[key]}
+                        <input id={key}
+                               type="radio"
+                               name={group}
+                               checked={checkedButton === key}
+                               onChange={onChange}/>
+
+                        <span>
+                            {buttons[key]}
+                        </span>
                     </label>
                 </div>
             ))

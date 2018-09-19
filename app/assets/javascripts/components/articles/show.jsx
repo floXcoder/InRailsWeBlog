@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     StickyContainer,
     Sticky
 } from 'react-sticky';
@@ -50,6 +54,7 @@ export default @connect((state) => ({
     setCurrentTags
 })
 @highlight(false)
+@hot(module)
 class ArticleShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
