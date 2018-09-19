@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserProfileSerializer < ActiveModel::Serializer
   cache key: 'user_profile', expires_in: CONFIG.cache_time
 

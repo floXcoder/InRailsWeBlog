@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PicturePolicy
   attr_reader :current_user, :picture
 

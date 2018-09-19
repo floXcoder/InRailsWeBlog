@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const webpack = require('webpack');
-const HappyPack = require('happypack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -118,7 +117,6 @@ webPackConfig.plugins.push(
         minimize: true,
         debug: false
     }),
-    new HappyPack(config.happyPack),
     new CopyWebpackPlugin([{
         from: config.translations,
         to: 'translations/' + config.production.filename + '.[ext]',

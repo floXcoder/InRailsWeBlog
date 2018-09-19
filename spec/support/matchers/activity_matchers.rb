@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_activity do |_value|
   match do |actual|
     expect(actual).to respond_to(:activity_owner_global)

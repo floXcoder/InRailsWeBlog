@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     fetchArticles,
     updateArticlePriority
 } from '../../actions';
@@ -13,7 +17,7 @@ import Loader from '../theme/loader';
 
 import ArticleSorter from './sort/sorter';
 
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentTopicId: state.topicState.currentTopicId,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
@@ -23,7 +27,8 @@ import ArticleSorter from './sort/sorter';
     fetchArticles,
     updateArticlePriority
 })
-export default class ArticleSort extends React.Component {
+@hot(module)
+class ArticleSort extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,

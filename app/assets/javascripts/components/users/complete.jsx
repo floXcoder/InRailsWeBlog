@@ -17,10 +17,10 @@ import UserTracking from '../users/tracking';
 import SwitchButton from '../materialize/switchButton';
 import Loader from '../theme/loader';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isAdminConnected: state.adminState.isConnected
 }))
-export default class UserComplete extends React.Component {
+class UserComplete extends React.Component {
     static propTypes = {
         userId: PropTypes.oneOfType([
             PropTypes.number,
@@ -145,7 +145,7 @@ export default class UserComplete extends React.Component {
                                 <div className="user-heading-menu">
                                     <a className="btn-flat waves-effect waves-teal tooltip-bottom dropdown-button"
                                        data-tooltip={I18n.t('js.user.show.more_actions')}
-                                       data-activates="dropdown-user-menu">
+                                       data-target="dropdown-user-menu">
                                         <span className="material-icons"
                                               data-icon="more_vert"
                                               aria-hidden="true"/>

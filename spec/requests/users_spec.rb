@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Users API', type: :request, basic: true do
@@ -113,8 +115,10 @@ describe 'Users API', type: :request, basic: true do
 
         @user.create_activity(:visit,
                               recipient: tag,
+                              owner:     @user,
                               params:    { topic_id: @user.current_topic_id })
       end
+
 
       it 'returns user recents' do
         get "/api/v1/users/#{@user.id}/recents", as: :json

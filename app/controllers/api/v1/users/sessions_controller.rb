@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V1
   class Users::SessionsController < Devise::SessionsController
     include ActionView::Helpers::TagHelper

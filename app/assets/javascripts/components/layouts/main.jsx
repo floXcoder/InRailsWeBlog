@@ -17,8 +17,8 @@ import SidebarLayout from './sidebar';
 import BreadcrumbLayout from './breadcrumb';
 import FooterLayout from './footer';
 
-@matchMedia
-export default class MainLayout extends React.Component {
+export default @matchMedia
+class MainLayout extends React.Component {
     static propTypes = {
         routes: PropTypes.object.isRequired,
         path: PropTypes.string.isRequired,

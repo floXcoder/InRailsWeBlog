@@ -10,13 +10,13 @@ import SignupForm from './form/signup';
 
 import BounceSpinner from '../theme/spinner/bounce';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isProcessing: state.userState.isProcessing,
     isConnected: state.userState.isConnected
 }), {
     signupUser
 })
-export default class Signup extends React.Component {
+class Signup extends React.Component {
     static propTypes = {
         isOpened: PropTypes.bool.isRequired,
         onModalChange: PropTypes.func.isRequired,

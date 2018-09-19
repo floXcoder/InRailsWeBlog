@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Convert json parameters, sent from Javascript UI, from camelCase to snake_case.
 # This bridges the gap between javascript and ruby naming conventions.
 module ActionController

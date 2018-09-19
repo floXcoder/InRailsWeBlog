@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'User Bookmarks', advanced: true, js: true do
 
   background(:all) do

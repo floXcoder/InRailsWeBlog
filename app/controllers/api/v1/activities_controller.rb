@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V1
   class ActivitiesController < ApplicationController
     before_action :authenticate_admin!

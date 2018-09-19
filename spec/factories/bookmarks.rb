@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: bookmarks
@@ -19,7 +21,7 @@ FactoryBot.define do
     # bookmarked
     # topic
 
-    follow true
+    follow { true }
   end
 
 end

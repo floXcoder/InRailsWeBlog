@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tags
@@ -132,9 +134,9 @@ class Tag < ApplicationRecord
            through: :bookmarks,
            source:  :user
 
-  has_many :activities,
-           as:         :trackable,
-           class_name: 'PublicActivity::Activity'
+  # has_many :activities,
+  #          as:         :trackable,
+  #          class_name: 'PublicActivity::Activity'
   has_many :user_activities,
            as:         :recipient,
            class_name: 'PublicActivity::Activity'
@@ -198,7 +200,6 @@ class Tag < ApplicationRecord
     joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id })
   }
 
-  scope :include_collection, -> { includes(:parent_relationships, :child_relationships, :tagged_articles) }
   scope :include_element, -> { includes(:user, :parents, :children) }
 
   # == Callbacks ============================================================
@@ -207,277 +208,6 @@ class Tag < ApplicationRecord
   after_commit :invalidate_tag_cache
 
   # == Class Methods ========================================================
-  # Tag Search
-  # +query+ parameter: string to query
-  # +options+ parameter:
-  #  current_user_id (current user id)
-  #  page (page number for pagination)
-  #  per_page (number of tags per page for pagination)
-  #  exact (exact search or include misspellings, default: 2)
-  #  operator (array of tags associated with tags, default: AND)
-  #  highlight (highlight content, default: true)
-  #  exact (do not misspelling, default: false, 1 character)
-  def self.search_for(query, options = {})
-    # Format use
-    format = options[:format] || 'sample'
-
-    # If query not defined or blank, search for everything
-    query_string = !query || query.blank? ? '*' : query
-
-    # Fields with boost
-    fields = %w[name^10 description]
-
-    # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
-    misspellings_distance = options[:exact] || query_string.length < 7 ? 0 : 2
-    misspellings_retry    = 3
-
-    # Operator type: 'and' or 'or'
-    operator = options[:operator] || 'and'
-
-    # Highlight results and select a fragment
-    highlight = false
-
-    # Where options only for ElasticSearch
-    where_options = where_search(options[:where])
-
-    # Aggregations
-    aggregations = nil
-
-    # Boost user tags first
-    boost_where = options[:current_user_id] ? { user_id: options[:current_user_id] } : nil
-
-    # Page parameters
-    page     = options[:page] || 1
-    per_page = options[:per_page] || Setting.search_per_page
-
-    # Order search
-    order = order_search(options[:order])
-
-    # Includes to add when retrieving data from DB
-    includes = if format == 'strict'
-                 [:user]
-               elsif format == 'complete'
-                 [:user]
-               else
-                 []
-               end
-
-    # Perform search
-    results = Tag.search(query_string,
-                         fields:       fields,
-                         highlight:    highlight,
-                         boost_where:  boost_where,
-                         match:        :word_middle,
-                         misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
-                         suggest:      true,
-                         page:         page,
-                         per_page:     per_page,
-                         operator:     operator,
-                         where:        where_options,
-                         order:        order,
-                         aggs:         aggregations,
-                         includes:     includes,
-                         execute:      !options[:defer])
-
-    if options[:defer]
-      results
-    else
-      parsed_search(results, format, options[:current_user])
-    end
-  end
-
-  def self.autocomplete_for(query, options = {})
-    # If query not defined or blank, search for everything
-    query_string = !query || query.blank? ? nil : query
-
-    # Fields with boost
-    fields = %w[name^3 description]
-
-    # Where options only for ElasticSearch
-    where_options = where_search(options[:where])
-
-    # Order search
-    order = order_search(options[:order])
-
-    # Set result limit
-    limit = options[:limit] || Setting.per_page
-
-    # Perform search
-    results = Tag.search(query_string,
-                         fields:       fields,
-                         match:        :word_middle,
-                         misspellings: false,
-                         load:         false,
-                         where:        where_options,
-                         order:        order,
-                         limit:        limit,
-                         execute:      !options[:defer])
-
-    if options[:defer]
-      results
-    else
-      format_search(results, 'strict')
-    end
-  end
-
-  def self.where_search(options)
-    options ||= {}
-
-    where_options           = options.compact.select { |_k, v| v.present? }.map do |key, value|
-      case key
-      when :notation
-        [
-          key,
-          value.to_i
-        ]
-      else
-        [key, value]
-      end
-    end.to_h
-
-    return where_options
-  end
-
-  def self.order_search(order)
-    case order
-    when 'id_asc'
-      { id: :asc }
-    when 'id_desc'
-      { id: :desc }
-    when 'priority_asc'
-      { priority: :asc }
-    when 'priority_desc'
-      { priority: :desc }
-    when 'created_asc'
-      { created_at: :asc }
-    when 'created_desc'
-      { created_at: :desc }
-    when 'updated_asc'
-      { updated_at: :asc }
-    when 'updated_desc'
-      { updated_at: :desc }
-    when 'rank_asc'
-      { rank: :asc }
-    when 'rank_desc'
-      { rank: :desc }
-    when 'popularity_asc'
-      { popularity: :asc }
-    when 'popularity_desc'
-      { popularity: :desc }
-    else
-      nil
-    end
-  end
-
-  def self.format_search(tag_results, format, current_user = nil)
-    serializer_options                = case format
-                                        when 'strict'
-                                          {
-                                            root:   'tags',
-                                            strict: true
-                                          }
-                                        when 'complete'
-                                          {
-                                            complete: true
-                                          }
-                                        else
-                                          {
-                                            sample: true
-                                          }
-                                        end
-
-    serializer_options[:current_user] = current_user if current_user
-
-    Tag.as_json(tag_results, serializer_options)
-  end
-
-  def self.parsed_search(results, format, current_user = nil)
-    formatted_aggregations = {}
-    results.aggs&.each do |key, value|
-      formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h if value['buckets'].any?
-    end
-
-    # Track search results
-    Tag.track_searches(results.map(&:id))
-
-    # Format results into JSON
-    tags = format_search(results, format, current_user)
-
-    {
-      tags:         tags,
-      suggestions:  results.suggestions,
-      aggregations: formatted_aggregations,
-      total_count:  results.total_count,
-      total_pages:  results.total_pages
-    }
-  end
-
-  def self.order_by(order)
-    case order
-    when 'name'
-      order('tags.name ASC')
-    when 'priority_asc'
-      order('tags.priority ASC')
-    when 'priority_desc'
-      order('tags.priority DESC')
-    when 'id_asc'
-      order('tags.id ASC')
-    when 'id_desc'
-      order('tags.id DESC')
-    when 'created_asc'
-      order('tags.created_at ASC')
-    when 'created_desc'
-      order('tags.created_at DESC')
-    when 'updated_asc'
-      order('tags.updated_at ASC')
-    when 'updated_desc'
-      order('tags.updated_at DESC')
-    when 'rank_asc'
-      joins(:tracker).order('trackers.rank ASC')
-    when 'rank_desc'
-      joins(:tracker).order('trackers.rank DESC')
-    when 'popularity_asc'
-      joins(:tracker).order('trackers.popularity ASC')
-    when 'popularity_desc'
-      joins(:tracker).order('trackers.popularity DESC')
-    else
-      all
-    end
-  end
-
-  def self.default_visibility(current_user = nil, current_admin = nil)
-    if current_admin
-      all
-    elsif current_user
-      everyone_and_user(current_user.id)
-    else
-      everyone
-    end
-  end
-
-  def self.filter_by(records, filter, current_user = nil)
-    records = records.where(id: filter[:tag_ids]) if filter[:tag_ids]
-
-    if filter[:user_id]
-      records = records.from_user_id(filter[:user_id], current_user&.id)
-    elsif filter[:user_slug]
-      records = records.from_user(filter[:user_slug], current_user&.id)
-    end
-
-    if filter[:topic_id]
-      records = records.for_topic_id(filter[:topic_id]) if filter[:topic_id]
-    elsif filter[:topic_slug]
-      records = records.for_topic(filter[:topic_slug])
-    end
-
-    records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
-
-    records = records.where(accepted: filter[:accepted]) if filter[:accepted]
-    records = records.with_visibility(filter[:visibility]) if filter[:visibility]
-
-    return records
-  end
-
   def self.parse_tags(tags, current_user_id)
     return [] unless tags.is_a?(Array) || !tags.empty?
 
@@ -537,36 +267,6 @@ class Tag < ApplicationRecord
   # == Instance Methods =====================================================
   def user?(user)
     self.user_id == user.id if user
-  end
-
-  def format_attributes(attributes = {}, current_user = nil)
-    current_language = new_language = current_user&.locale || I18n.locale
-
-    #  Language
-    if self.languages.empty? || attributes[:language].present?
-      new_language   = (attributes.delete(:language) || current_user&.locale || I18n.locale).to_s
-      self.languages |= [new_language]
-      I18n.locale    = new_language.to_sym if new_language != current_language.to_s
-    end
-
-    # Sanitization
-    unless attributes[:name].nil?
-      sanitized_name = Sanitize.fragment(attributes.delete(:name))
-      self.slug      = nil if sanitized_name != self.name
-      self.name      = sanitized_name
-    end
-
-    unless attributes[:description].nil?
-      self.description = Sanitize.fragment(attributes.delete(:description))
-    end
-
-    unless attributes[:icon].nil?
-      self.build_icon(image: attributes.delete(:icon))
-    end
-
-    self.assign_attributes(attributes)
-  ensure
-    I18n.locale = current_language.to_sym if new_language != current_language.to_s
   end
 
   def default_picture
@@ -649,7 +349,7 @@ class Tag < ApplicationRecord
     user = User.find_by(id: user_id)
     return unless user
 
-    user.create_activity(:visit, recipient: self, params: { topic_id: parent_id })
+    user.create_activity(:visit, recipient: self, owner: user, params: { topic_id: parent_id })
   end
 
   def name_visibility

@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    hot
+} from 'react-hot-loader';
+
 import _ from 'lodash';
 
 import {
@@ -23,7 +27,7 @@ import SearchSelectedModule from './module/selected';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     currentTopicId: state.topicState.currentTopicId,
@@ -41,7 +45,8 @@ import SearchArticleModule from './module/article';
     fetchUserRecents,
     fetchSearch
 })
-export default class SearchModule extends React.Component {
+@hot(module)
+class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // From connect

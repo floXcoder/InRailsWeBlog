@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ApplicationHelper, type: :helper, basic: true do
   describe '#titleize' do
     it 'returns the page title' do

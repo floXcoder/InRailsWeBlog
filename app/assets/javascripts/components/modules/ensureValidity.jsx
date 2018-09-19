@@ -5,7 +5,7 @@ const EnsureValidity = () => (
         <input id="ensure_validity"
                className="validate"
                name="ensure[validity]"
-               value=""
+               defaultValue=""
                type="text"/>
         <label htmlFor="ensure_validity">{I18n.t('js.helpers.form.ensure_validity')}</label>
     </div>

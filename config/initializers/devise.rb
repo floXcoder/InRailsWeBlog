@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Devise.setup do |config|
   # The secret key used by Devise.
   config.secret_key = ENV['DEVISE_SECRET_KEY']

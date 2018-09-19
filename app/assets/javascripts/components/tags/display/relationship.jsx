@@ -22,7 +22,7 @@ export default class TagRelationshipDisplay extends React.Component {
 
     _handleTagClick = (tagId) => {
         this.setState({
-            tagId: tagId
+            tagId
         });
     };
 

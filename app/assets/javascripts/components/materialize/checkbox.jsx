@@ -20,8 +20,7 @@ export default class Checkbox extends React.PureComponent {
         isInputField: PropTypes.bool,
         isDisabled: PropTypes.bool,
         isMultiple: PropTypes.bool,
-        isRequired: PropTypes.bool,
-        isHorizontal: PropTypes.bool
+        isRequired: PropTypes.bool
     };
 
     static defaultProps = {
@@ -30,8 +29,7 @@ export default class Checkbox extends React.PureComponent {
         isInputField: true,
         isDisabled: false,
         isMultiple: false,
-        isRequired: false,
-        isHorizontal: false
+        isRequired: false
     };
 
     constructor(props) {
@@ -71,19 +69,7 @@ export default class Checkbox extends React.PureComponent {
     };
 
     render() {
-        const fieldClass = classNames(
-            this.props.className,
-            {
-                'input-horizontal-field': this.props.isHorizontal,
-                'row': this.props.isHorizontal
-            });
-
-        const labelClass = classNames({
-            'col m4': this.props.isHorizontal
-        });
-
         const checkboxClass = classNames({
-            'col m8': this.props.isHorizontal,
             'filled-in': this.props.hasFillStyle,
             'invalid': !this.state.isValid
         });
@@ -103,30 +89,20 @@ export default class Checkbox extends React.PureComponent {
         }
 
         return (
-            <div className={fieldClass}>
-                {
-                    this.props.isHorizontal &&
-                    <label htmlFor={this.props.id}
-                           className={labelClass}>
-                        {this.props.title}
-                    </label>
-                }
-
-                <input id={id}
-                       className={checkboxClass}
-                       type="checkbox"
-                       name={name}
-                       checked={this.state.isChecked}
-                       data-unchecked-value="0"
-                       disabled={this.props.isDisabled}
-                       required={this.props.isRequired}
-                       onChange={this.toggleCheckbox}/>
-
+            <div className={this.props.className}>
                 <label htmlFor={this.props.id}>
-                    {
-                        !this.props.isHorizontal &&
-                        this.props.title
-                    }
+                    <input id={id}
+                           className={checkboxClass}
+                           type="checkbox"
+                           name={name}
+                           checked={this.state.isChecked}
+                           data-unchecked-value="0"
+                           disabled={this.props.isDisabled}
+                           required={this.props.isRequired}
+                           onChange={this.toggleCheckbox}/>
+                    <span>
+                        {this.props.title}
+                    </span>
                 </label>
             </div>
         );

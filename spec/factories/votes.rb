@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: votes
@@ -18,7 +20,7 @@ FactoryBot.define do
     # voter
     # voteable
 
-    vote true
+    vote { true }
   end
 
 end

@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import Form from '../materialize/form';
 import Input from '../materialize/input';
 import Textarea from '../materialize/textarea';

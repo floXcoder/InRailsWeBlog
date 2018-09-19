@@ -12,7 +12,7 @@ import {
     Tab
 } from '../theme/tab';
 
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     user: state.userState.user,
     settings: state.userState.user.settings,
@@ -28,7 +28,7 @@ import {
 }), {
     updateUserSettings
 })
-export default class UserSettings extends React.Component {
+class UserSettings extends React.Component {
     static propTypes = {
         // From connect
         currentUserId: PropTypes.number,

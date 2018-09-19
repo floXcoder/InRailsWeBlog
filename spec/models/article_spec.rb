@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -249,7 +251,7 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to act_as_paranoid(Article) }
 
     it 'uses counter cache for pictures' do
-      picture = create(:picture, user: @user, imageable_type: 'Article')
+      picture = create(:picture, user: @user, imageable_type: 'Article', imageable_id: @article.id)
       expect {
         @article.pictures << picture
       }.to change(@article.reload, :pictures_count).by(1)
@@ -376,127 +378,6 @@ RSpec.describe Article, type: :model, basic: true do
       it { expect(Article.bookmarked_by_user(@user)).not_to include(other_article) }
     end
 
-    describe '::search_for' do
-      before do
-        Article.reindex
-        Article.search_index.refresh
-      end
-
-      it { is_expected.to respond_to(:search_for) }
-
-      it 'search for articles with defaults' do
-        article_results = Article.search_for('title')[:articles]
-
-        expect(article_results[:articles]).not_to be_empty
-        expect(article_results[:articles]).to be_kind_of(Array)
-        expect(article_results[:articles].size).to eq(2)
-        expect(article_results[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
-      end
-
-      it 'search for articles in strict mode' do
-        article_results = Article.search_for('title', format: :strict)[:articles]
-
-        expect(article_results[:articles]).not_to be_empty
-        expect(article_results[:articles]).to be_kind_of(Array)
-        expect(article_results[:articles].size).to eq(2)
-        expect(article_results[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
-      end
-
-      it 'search for articles with ordering' do
-        article_results = Article.search_for('title', order: 'created_desc')[:articles]
-
-        expect(article_results[:articles]).not_to be_empty
-        expect(article_results[:articles]).to be_kind_of(Array)
-        expect(article_results[:articles].size).to eq(2)
-        expect(article_results[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
-      end
-
-      # Take into account:
-      # Language when creating
-      # Language when updating
-      # Highlight option
-      # Current language when getting data with translation helper
-      # it 'search for articles in multi-languages' do
-      #   begin
-      #     I18n.locale = :fr
-      #     article_fr = create(:article, user: @user, topic: @topic, content: 'language in french', languages: ['fr'])
-      #     multi_lg_article = create(:article, user: @user, topic: @topic, content: 'language in french', languages: ['fr'])
-      #     I18n.locale = :en
-      #     article_en = create(:article, user: @user, topic: @topic, content: 'language in english', languages: ['en'])
-      #     multi_lg_article.update(content: 'language in english', languages: ['en', 'fr'])
-      #
-      #     I18n.locale = :fr
-      #     article_results = Article.search_for('language', highlight: true)[:articles]
-      #
-      #     I18n.locale = :en
-      #     article_results = Article.search_for('language', highlight: true)[:articles]
-      #
-      #   ensure
-      #     I18n.locale = :fr
-      #   end
-      # end
-    end
-
-    describe '::autocomplete_for' do
-      before do
-        Article.reindex
-        Article.search_index.refresh
-      end
-
-      it { is_expected.to respond_to(:autocomplete_for) }
-
-      it 'autocompletes for articles' do
-        article_autocompletes = Article.autocomplete_for('tit')
-
-        expect(article_autocompletes).not_to be_empty
-        expect(article_autocompletes[:articles]).not_to be_empty
-        expect(article_autocompletes[:articles].size).to eq(2)
-        expect(article_autocompletes[:articles].map { |article| article[:title] }).to include(@article.title, other_article.title)
-      end
-    end
-
-    describe '::default_visibility' do
-      it { is_expected.to respond_to(:default_visibility) }
-      it { expect(Article.default_visibility).to be_kind_of(ActiveRecord::Relation) }
-    end
-
-    describe '::filter_by' do
-      before do
-        @tags                       = create_list(:tag, 3, user: @user)
-        @article_with_tags          = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0]])
-        @article_with_relation_tags = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[0], @tags[1]], child_tags: [@tags[2]])
-      end
-
-      it { is_expected.to respond_to(:filter_by) }
-      it { expect(Article.filter_by(Article.all, topic_id: @topic.id)).to include(@article) }
-      it { expect(Article.filter_by(Article.all, parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[2].slug)).to contain_exactly(@article_with_relation_tags) }
-      it { expect(Article.filter_by(Article.all, parent_tag_slug: @tags[1].slug)).to contain_exactly(@article_with_relation_tags) }
-      it { expect(Article.filter_by(Article.all, child_tag_slug: @tags[2].slug)).to contain_exactly(@article_with_relation_tags) }
-
-      describe 'display parent article only' do
-        before do
-          @user.settings['article_child_tagged'] = false
-          @user.save
-        end
-
-        it { expect(Article.filter_by(Article.all, { tag_slug: @tags[0].slug }, @user)).to contain_exactly(@article_with_tags) }
-      end
-
-      describe 'display all article for a tag' do
-        before do
-          @user.settings['article_child_tagged'] = true
-          @user.save
-        end
-
-        it { expect(Article.filter_by(Article.all, { tag_slug: @tags[0].slug }, @user)).to contain_exactly(@article_with_tags, @article_with_relation_tags) }
-      end
-    end
-
-    describe '::order_by' do
-      it { is_expected.to respond_to(:order_by) }
-      it { expect(Article.order_by('id_asc')).to be_kind_of(ActiveRecord::Relation) }
-    end
-
     describe '::as_json' do
       it { is_expected.to respond_to(:as_json) }
       it { expect(Article.as_json(@article)).to be_a(Hash) }
@@ -532,12 +413,6 @@ RSpec.describe Article, type: :model, basic: true do
       it { is_expected.to respond_to(:user?) }
       it { expect(@article.user?(@user)).to be true }
       it { expect(@article.user?(other_user)).to be false }
-    end
-
-    describe '.format_attributes' do
-      it { is_expected.to respond_to(:format_attributes) }
-      it { expect(@article.format_attributes).to be_nil }
-      it { expect(@article.format_attributes(@article.attributes)).to be_nil }
     end
 
     describe '.default_picture' do
@@ -611,11 +486,6 @@ RSpec.describe Article, type: :model, basic: true do
       it { expect(@article.normalize_friendly_id).to be_a(String) }
     end
 
-    describe '.strip_content' do
-      it { is_expected.to respond_to(:strip_content) }
-      it { expect(@article.strip_content).to be_a(String) }
-    end
-
     describe '.public_content' do
       it { is_expected.to respond_to(:public_content) }
 
@@ -651,11 +521,6 @@ RSpec.describe Article, type: :model, basic: true do
     describe '.summary_content' do
       it { is_expected.to respond_to(:summary_content) }
       it { expect(@article.summary_content).to be_a(String) }
-    end
-
-    describe '.sanitize_html' do
-      it { is_expected.to respond_to(:sanitize_html) }
-      it { expect(@article.sanitize_html(content)).to be_a(String) }
     end
 
     describe '.search_data' do

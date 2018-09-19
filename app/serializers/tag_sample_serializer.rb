@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TagSampleSerializer < ActiveModel::Serializer
   include NullAttributesRemover
 

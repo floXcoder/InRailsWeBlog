@@ -1,8 +1,8 @@
 'use strict';
 
 import {
-    Link
-} from 'react-router-dom';
+    hot
+} from 'react-hot-loader';
 
 import {
     fetchTag,
@@ -18,7 +18,9 @@ import Loader from '../theme/loader';
 
 import TagFormDisplay from './display/form';
 
-@connect((state) => ({
+import NotAuthorized from '../layouts/notAuthorized';
+
+export default @connect((state) => ({
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
@@ -27,7 +29,8 @@ import TagFormDisplay from './display/form';
     fetchTag,
     updateTag
 })
-export default class TagEdit extends React.Component {
+@hot(module)
+class TagEdit extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
@@ -74,6 +77,14 @@ export default class TagEdit extends React.Component {
                     <Loader size="big"/>
                 </div>
             );
+        }
+
+        if(!this.props.currentUser || this.props.currentUser.id !== this.props.tag.user.id) {
+            return (
+                <div className="center margin-top-20">
+                    <NotAuthorized/>
+                </div>
+            )
         }
 
         return (

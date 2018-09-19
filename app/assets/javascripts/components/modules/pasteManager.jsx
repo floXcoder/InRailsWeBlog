@@ -7,8 +7,8 @@ import {
 import ClipboardManager from '../../modules/clipboard';
 import SanitizePaste from '../../modules/sanitizePaste';
 
-@withRouter
-export default class PasteManager extends React.Component {
+export default @withRouter
+class PasteManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         // From router

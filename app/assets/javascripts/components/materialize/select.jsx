@@ -3,7 +3,7 @@
 export default class Select extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
+        title: PropTypes.string,
         options: PropTypes.oneOfType([
             PropTypes.object,
             PropTypes.array
@@ -55,7 +55,7 @@ export default class Select extends React.Component {
         const id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
         const selector = `#${id}`;
-        $(selector).material_select();
+        $(selector).formSelect();
         if (init) {
             $(selector).on('change', this._handleSelectChange);
         }
@@ -191,7 +191,7 @@ export default class Select extends React.Component {
                         {
                             this.props.default &&
                             <option value="default"
-                                    disabled="true">
+                                    disabled={true}>
                                 {this.props.default}
                             </option>
                         }

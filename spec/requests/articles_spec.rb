@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Article API', type: :request, basic: true do
@@ -561,7 +563,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns updated article with new relationships' do
         expect {
-          @article.format_attributes(content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.")
+          ::Articles::StoreService.new(@article, content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.").perform
           @article.save!
           relationships = @article.child_relationships
           expect(relationships.count).to eq(1)

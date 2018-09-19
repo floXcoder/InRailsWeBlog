@@ -9,7 +9,12 @@ export default class ArticleFloatingIcons extends React.Component {
         isSticky: PropTypes.bool.isRequired,
         articleId: PropTypes.number.isRequired,
         articleSlug: PropTypes.string.isRequired,
+        isOwner: PropTypes.bool,
         articleTitle: PropTypes.string
+    };
+
+    static defaultProps = {
+        isOwner: false
     };
 
     constructor(props) {
@@ -19,8 +24,15 @@ export default class ArticleFloatingIcons extends React.Component {
     render() {
         return (
             <div className="article-floating-icon"
-                 style={{...this.props.style, top: (this.props.style.top || 0) + 80, display: this.props.isSticky ? 'block' : 'none'}}>
-                <ArticleEditIcon articleSlug={this.props.articleSlug}/>
+                 style={{
+                     ...this.props.style,
+                     top: (this.props.style.top || 0) + 80,
+                     display: this.props.isSticky ? 'block' : 'none'
+                 }}>
+                {
+                    this.props.isOwner &&
+                    <ArticleEditIcon articleSlug={this.props.articleSlug}/>
+                }
 
                 <ArticleLinkIcon articleId={this.props.articleId}
                                  articleSlug={this.props.articleSlug}

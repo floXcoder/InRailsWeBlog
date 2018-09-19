@@ -10,13 +10,13 @@ import LoginForm from './form/login';
 
 import BounceSpinner from '../theme/spinner/bounce';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isProcessing: state.userState.isProcessing,
     isConnected: state.userState.isConnected
 }), {
     loginUser
 })
-export default class Login extends React.PureComponent {
+class Login extends React.PureComponent {
     static propTypes = {
         isOpened: PropTypes.bool.isRequired,
         onModalChange: PropTypes.func.isRequired,

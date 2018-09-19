@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -259,7 +261,7 @@ RSpec.describe User, type: :model, basic: true do
     it { is_expected.to act_as_paranoid(User) }
 
     it 'uses counter cache for pictures' do
-      picture = create(:picture, user: @user, imageable_type: 'User')
+      picture = create(:picture, user: @user, imageable_type: 'User', imageable_id: @user.id)
       expect {
         @user.pictures << picture
       }.to change(@user.reload, :pictures_count).by(1)
@@ -310,51 +312,6 @@ RSpec.describe User, type: :model, basic: true do
       it { is_expected.to respond_to(:bookmarked_by_user) }
       it { expect(User.bookmarked_by_user(@user)).to include(@user) }
       it { expect(User.bookmarked_by_user(@user)).not_to include(other_user) }
-    end
-
-    describe '::search_for' do
-      before do
-        User.reindex
-        User.search_index.refresh
-      end
-
-      it { is_expected.to respond_to(:search_for) }
-
-      it 'search for users' do
-        user_results = User.search_for('user')[:users]
-
-        expect(user_results[:users]).not_to be_empty
-        expect(user_results[:users]).to be_kind_of(Array)
-        expect(user_results[:users].size).to eq(1)
-        expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
-      end
-
-      it 'search for users with ordering' do
-        user_results = User.search_for('user', order: 'created_desc')[:users]
-
-        expect(user_results[:users]).not_to be_empty
-        expect(user_results[:users]).to be_kind_of(Array)
-        expect(user_results[:users].size).to eq(1)
-        expect(user_results[:users].map { |user| user[:pseudo] }).to include(@user.pseudo)
-      end
-    end
-
-    describe '::autocomplete_for' do
-      before do
-        User.reindex
-        User.search_index.refresh
-      end
-
-      it { is_expected.to respond_to(:autocomplete_for) }
-
-      it 'autocompletes for users' do
-        user_autocompletes = User.autocomplete_for('us')
-
-        expect(user_autocompletes).not_to be_empty
-        expect(user_autocompletes).to be_a(Array)
-        expect(user_autocompletes.size).to eq(1)
-        expect(user_autocompletes.map { |user| user[:pseudo] }).to include(@user.pseudo)
-      end
     end
 
     describe '::order_by' do

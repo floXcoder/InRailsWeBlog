@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_paper_trail do |model|
   match do |actual|
     expect(actual).to have_many(:versions)

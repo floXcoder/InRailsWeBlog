@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
-const HappyPack = require('happypack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -53,7 +52,7 @@ webPackConfig = _.merge(webPackConfig, {
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
-        hot: false, // Hot react not fully working now
+        hot: true, // Hot react not fully working now
         inline: true,
         overlay: true,
         compress: true,
@@ -109,10 +108,10 @@ webPackConfig.plugins.push(
             'ASSET_PATH': JSON.stringify(config.development.assetPath)
         }
     }),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),
-    new HappyPack(config.happyPack),
     new CopyWebpackPlugin([{
         from: config.translations,
         to: 'translations/' + config.development.filename + '.[ext]',

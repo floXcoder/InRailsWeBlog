@@ -56,7 +56,7 @@ export default class Editor extends React.Component {
 
             const defaultOptions = {
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
-                styleTags: ['p', 'h1', 'h2', 'h3', 'h4'],
+                styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4'],
                 placeholder: this.props.placeholder,
                 popatmouse: false,
                 callbacks: {

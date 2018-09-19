@@ -9,7 +9,7 @@ import {
     switchUserPreference
 } from '../../../actions';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId
 }), {
@@ -17,7 +17,7 @@ import {
     switchTopicPopup,
     switchUserPreference
 })
-export default class HotkeyManager extends React.Component {
+class HotkeyManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,

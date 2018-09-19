@@ -4,30 +4,41 @@ import {
     Children
 } from 'react';
 
-const FixedActionButton = ({children}) => (
-    <div className="fixed-action-btn horizontal click-to-toggle">
-        <a className="btn-floating btn-large">
-            <span className="material-icons"
-                  data-icon="menu"
-                  aria-hidden="true"/>
-        </a>
-        <ul>
-            {
-                Children.map(children, (button) => (
-                    <li>
-                        {button}
-                    </li>
-                ))
-            }
-        </ul>
-    </div>
-);
+export default class FixedActionButton extends React.PureComponent {
+    static propTypes = {
+        children: PropTypes.oneOfType([
+            PropTypes.array,
+            PropTypes.element
+        ]).isRequired
+    };
 
-FixedActionButton.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.element
-    ]).isRequired
-};
+    componentDidMount() {
+        const fab = document.querySelectorAll('.fixed-action-btn');
+        M.FloatingActionButton.init(fab, {
+            direction: 'left',
+            hoverEnabled: false
+        });
+    }
 
-export default FixedActionButton;
+    render() {
+        return (
+            <div className="fixed-action-btn click-to-toggle">
+                <a className="btn-floating btn-large">
+                    <span className="material-icons"
+                          data-icon="menu"
+                          aria-hidden="true"/>
+                </a>
+
+                <ul>
+                    {
+                        Children.map(this.props.children, (button) => (
+                            <li>
+                                {button}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        );
+    }
+}

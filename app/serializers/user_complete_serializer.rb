@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserCompleteSerializer < ActiveModel::Serializer
   cache key: 'complete_user', expires_in: CONFIG.cache_time
 

@@ -8,10 +8,10 @@ import {
     getBookmarks
 } from '../../selectors';
 
-@connect((state) => ({
+export default @connect((state) => ({
     bookmarks: getBookmarks(state)
 }))
-export default class BookmarkList extends React.Component {
+class BookmarkList extends React.Component {
     static propTypes = {
         // From connect
         bookmarks: PropTypes.array

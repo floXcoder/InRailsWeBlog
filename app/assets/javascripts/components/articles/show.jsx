@@ -1,6 +1,8 @@
 'use strict';
 
-import LazyLoad from 'vanilla-lazyload';
+import {
+    hot
+} from 'react-hot-loader';
 
 import {
     StickyContainer,
@@ -38,7 +40,7 @@ import CommentBox from '../loaders/commentBox';
 
 import NotFound from '../layouts/notFound';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
@@ -52,7 +54,8 @@ import NotFound from '../layouts/notFound';
     setCurrentTags
 })
 @highlight(false)
-export default class ArticleShow extends React.Component {
+@hot(module)
+class ArticleShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
@@ -73,7 +76,6 @@ export default class ArticleShow extends React.Component {
         super(props);
 
         this._request = null;
-        this._lazyLoad = null;
     }
 
     componentDidMount() {
@@ -87,12 +89,6 @@ export default class ArticleShow extends React.Component {
 
         if (!Object.equals(this.props.params, prevProps.params)) {
             this._request = this.props.fetchArticle(this.props.params.articleSlug);
-        }
-
-        if (!this._lazyLoad && this.props.article) {
-            Utils.defer.then(() => {
-                this._lazyLoad = new LazyLoad();
-            });
         }
     }
 
@@ -154,18 +150,22 @@ export default class ArticleShow extends React.Component {
         return (
             <StickyContainer>
                 <div>
-                    <div className="article-floating-container">
-                        <Sticky topOffset={-50}
-                                bottomOffset={0}>
-                            {({style, isSticky}) => (
-                                <ArticleFloatingIcons style={style}
-                                                      isSticky={isSticky}
-                                                      articleId={this.props.article.id}
-                                                      articleSlug={this.props.article.slug}
-                                                      articleTitle={this.props.article.title}/>
-                            )}
-                        </Sticky>
-                    </div>
+                    {
+                        this.props.isUserConnected &&
+                        <div className="article-floating-container">
+                            <Sticky topOffset={-50}
+                                    bottomOffset={0}>
+                                {({style, isSticky}) => (
+                                    <ArticleFloatingIcons style={style}
+                                                          isSticky={isSticky}
+                                                          isOwner={this.props.isOwner}
+                                                          articleId={this.props.article.id}
+                                                          articleSlug={this.props.article.slug}
+                                                          articleTitle={this.props.article.title}/>
+                                )}
+                            </Sticky>
+                        </div>
+                    }
 
                     <article className={classNames('card-panel', 'blog-article', {
                         'article-outdated': this.props.article.outdated

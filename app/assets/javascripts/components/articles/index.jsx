@@ -1,6 +1,8 @@
 'use strict';
 
-import LazyLoad from 'vanilla-lazyload';
+import {
+    hot
+} from 'react-hot-loader';
 
 import {
     fetchArticles,
@@ -21,7 +23,7 @@ import ArticleSortDisplay from './sort/dropdown';
 import ArticleFilterDisplay from './filter/dropdown';
 import ArticleNone from '../articles/display/none';
 
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentTopicId: state.topicState.currentTopicId,
     currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
@@ -37,7 +39,8 @@ import ArticleNone from '../articles/display/none';
     updateArticleOrder,
     setCurrentTags
 })
-export default class ArticleIndex extends React.Component {
+@hot(module)
+class ArticleIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         queryString: PropTypes.string,
@@ -62,7 +65,6 @@ export default class ArticleIndex extends React.Component {
 
         this._parseQuery = Utils.parseUrlParameters(props.queryString) || {};
         this._request = null;
-        this._lazyLoad = null;
     }
 
     state = {
@@ -95,12 +97,6 @@ export default class ArticleIndex extends React.Component {
             if (this.props.params.tagSlug) {
                 this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}]);
             }
-        }
-
-        if (this.props.articles.length > 0) {
-            Utils.defer.then(() => {
-                this._lazyLoad = new LazyLoad();
-            });
         }
     }
 

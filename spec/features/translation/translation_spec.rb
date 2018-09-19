@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Translation', advanced: true, js: true do
 
   scenario 'user see the page in french by default' do

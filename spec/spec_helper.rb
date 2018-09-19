@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # figure out where we are being loaded from
 if $LOADED_FEATURES.grep(/spec\/spec_helper\.rb/).any?
   begin

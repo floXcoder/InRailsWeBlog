@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V1
   class TopicsController < ApplicationController
     before_action :authenticate_user!, except: [:index]
@@ -10,15 +12,7 @@ module Api::V1
 
     def index
       topics = Rails.cache.fetch("user_topics:#{params[:user_id] || current_user&.id}", expires_in: CONFIG.cache_time) do
-        topics = Topic
-                   .order('topics.name ASC')
-                   .distinct
-
-        topics = topics.from_user(params[:user_id], current_user&.id)
-
-        topics = Topic.filter_by(topics, filter_params, current_user) unless filter_params.empty?
-
-        topics
+        ::Topics::FindQueries.new.all(filter_params.merge(user_id: params[:user_id]), current_user, current_admin)
       end
 
       respond_to do |format|
@@ -66,16 +60,17 @@ module Api::V1
       topic = user.topics.build
       authorize topic
 
-      topic.format_attributes(topic_params, current_user)
+      stored_topic = ::Topics::StoreService.new(topic, topic_params.merge(current_user: current_user)).perform
 
       respond_to do |format|
         format.json do
-          if topic.save && user.switch_topic(topic) && user.save
-            render json:       topic,
+          if stored_topic.success? && user.switch_topic(topic) && user.save
+            render json:       stored_topic.result,
                    serializer: TopicSerializer,
                    status:     :created
           else
-            render json:   { errors: topic.errors },
+            flash.now[:error] = stored_topic.message
+            render json:   { errors: stored_topic.errors },
                    status: :unprocessable_entity
           end
         end
@@ -83,20 +78,20 @@ module Api::V1
     end
 
     def update
-      # user  = User.find(params[:user_id])
       topic = Topic.find(params[:id])
       authorize topic
 
-      topic.format_attributes(topic_params)
+      stored_topic = ::Topics::StoreService.new(topic, topic_params.merge(current_user: current_user)).perform
 
       respond_to do |format|
         format.json do
-          if topic.save
-            render json:       topic,
+          if stored_topic.success?
+            render json:       stored_topic.result,
                    serializer: TopicSerializer,
                    status:     :ok
           else
-            render json:   { errors: topic.errors },
+            flash.now[:error] = stored_topic.message
+            render json:   { errors: stored_topic.errors },
                    status: :unprocessable_entity
           end
         end
@@ -104,14 +99,24 @@ module Api::V1
     end
 
     def destroy
-      # user  = User.find(params[:user_id])
+      user  = User.find(params[:user_id])
       topic = Topic.find(params[:id])
       authorize topic
 
       respond_to do |format|
         format.json do
           if topic.destroy
-            head :no_content
+            # Switch topic if needed and return current topic
+            current_topic = user.current_topic
+            if user.current_topic_id == topic.id
+              current_topic = user.topics.first
+              user.switch_topic(user.topics.first)
+              user.save
+            end
+
+            render json:       current_topic,
+                   serializer: TopicSerializer,
+                   status:     :ok
           else
             render json:   { errors: topic.errors },
                    status: :unprocessable_entity

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Error Show page', advanced: true, js: true do
 
   given(:error_page) { ErrorsPage.new('/404') }

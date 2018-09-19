@@ -10,14 +10,14 @@ import {
     getFailures
 } from '../../selectors';
 
-@connect((state) => ({
+export default @connect((state) => ({
     errors: getFailures(state)
 }), {
     fetchErrors,
     deleteError,
     deleteAllErrors
 })
-export default class ErrorIndex extends React.PureComponent {
+class ErrorIndex extends React.PureComponent {
     static propTypes = {
         // From connect
         errors: PropTypes.array,
@@ -32,6 +32,13 @@ export default class ErrorIndex extends React.PureComponent {
 
     componentDidMount() {
         this.props.fetchErrors();
+    }
+
+    componentDidUpdate() {
+        const collapsibles = document.querySelectorAll('.collapsible');
+        M.Collapsible.init(collapsibles, {
+            accordion: false
+        });
     }
 
     _handleDeleteError = (errorId, event) => {

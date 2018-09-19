@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     Link
 } from 'react-router-dom';
 
@@ -16,7 +20,7 @@ import {
 
 import Loader from '../theme/loader';
 
-@connect((state) => ({
+export default @connect((state) => ({
     currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
     isFetching: state.tagState.isFetching,
@@ -25,7 +29,8 @@ import Loader from '../theme/loader';
 }), {
     fetchTags
 })
-export default class TagIndex extends React.Component {
+@hot(module)
+class TagIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,

@@ -22,6 +22,7 @@ export default class Selecter extends React.Component {
         isMultiple: PropTypes.bool,
         isEditing: PropTypes.bool,
         isHorizontal: PropTypes.bool,
+        isClearable: PropTypes.bool,
         isImageValue: PropTypes.bool,
         onChange: PropTypes.func
     };
@@ -33,6 +34,7 @@ export default class Selecter extends React.Component {
         isMultiple: true,
         isEditing: false,
         isHorizontal: false,
+        isClearable: true,
         isImageValue: false
     };
 
@@ -41,6 +43,7 @@ export default class Selecter extends React.Component {
     }
 
     state = {
+        inputValue: '',
         values: (() => ((this.props.children || []).map((element) => !Utils.isEmpty(element) ? {
                 label: element,
                 value: element
@@ -48,7 +51,35 @@ export default class Selecter extends React.Component {
         )).compact())(),
     };
 
-    _handleOnChange = (items) => {
+    _handleInputChange = (inputValue) => {
+        this.setState({
+            inputValue
+        });
+    };
+
+    _handleKeyDown = (event) => {
+        const {
+            inputValue,
+            values
+        } = this.state;
+
+        if (!inputValue) return;
+
+        switch (event.key) {
+            case 'Enter':
+            case 'Tab':
+                if (inputValue.length >= this.props.maxLength) {
+                    this.setState({
+                        inputValue: I18n.t('js.selecter.tags.too_long')
+                    });
+                } else {
+                    this._handleChange([...values, this._handleCreateOption(inputValue)])
+                }
+                event.preventDefault();
+        }
+    };
+
+    _handleChange = (items) => {
         const newValues = items.filter((item) => item.label.length < this.props.maxLength);
 
         if (newValues.length > this.props.maxValues) {
@@ -56,6 +87,7 @@ export default class Selecter extends React.Component {
         }
 
         this.setState({
+            inputValue: '',
             values: newValues
         });
 
@@ -65,15 +97,10 @@ export default class Selecter extends React.Component {
     };
 
     _handleCreateOption = (label) => {
-        let renderString = label;
-
-        if (label.length >= this.props.maxLength) {
-            renderString = I18n.t('js.selecter.tags.too_long');
-        } else {
-            renderString = I18n.t('js.selecter.tags.add') + ' ' + label + ' ...';
-        }
-
-        return renderString;
+        return {
+            label: label,
+            value: label
+        };
     };
 
     value = () => {
@@ -142,13 +169,22 @@ export default class Selecter extends React.Component {
         const selectDefaultProps = {
             id: id,
             name: name,
-            multi: this.props.isMultiple,
+            isMulti: this.props.isMultiple,
+            isClearable: this.props.isClearable,
+            classNamePrefix: 'react-select',
             placeholder: this.props.placeholder,
             options: options,
+            inputValue: this.state.inputValue,
             value: this.state.values,
-            noResultsText: noResults,
+            noOptionsMessage: noResults,
             delimiter: ',',
-            onChange: this._handleOnChange,
+            onChange: this._handleChange,
+            onInputChange: this._handleInputChange,
+            onKeyDown: this._handleKeyDown
+        };
+
+        const components = {
+            DropdownIndicator: null,
         };
 
         return (
@@ -170,7 +206,10 @@ export default class Selecter extends React.Component {
                         this.props.isEditing
                             ?
                             <Creatable {...selectDefaultProps}
-                                       promptTextCreator={this._handleCreateOption}/>
+                                       promptTextCreator={this._handleCreateOption}
+                                       menuIsOpen={false}
+                                       components={components}
+                            />
                             :
                             <Select {...selectDefaultProps}/>
                     }

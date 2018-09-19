@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -34,20 +36,20 @@ FactoryBot.define do
     # user
     # topic
 
-    mode            'story'
+    mode            { 'story' }
     title           { Faker::Lorem.sentence } # title_translations
     summary         { Faker::Lorem.paragraph(1, false) } # summary_translations
     content         { Faker::Lorem.paragraph(1..20) } # content_translations
-    languages       ['fr']
+    languages       { ['fr'] }
     reference       { Faker::Internet.url }
-    notation        0
-    priority        0
-    visibility      'everyone'
-    allow_comment   true
+    notation        { 0 }
+    priority        { 0 }
+    visibility      { 'everyone' }
+    allow_comment   { true }
 
     factory :article_with_tags do
       transient do
-        tags []
+        tags { [] }
       end
 
       after(:build) do |article, evaluator|
@@ -59,8 +61,8 @@ FactoryBot.define do
 
     factory :article_with_relation_tags do
       transient do
-        parent_tags []
-        child_tags []
+        parent_tags { [] }
+        child_tags { [] }
       end
 
       after(:build) do |article, evaluator|

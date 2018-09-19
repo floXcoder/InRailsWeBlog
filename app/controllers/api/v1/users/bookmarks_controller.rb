@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V1
   class Users::BookmarksController < ApplicationController
     before_action :authenticate_user!
@@ -34,7 +36,6 @@ module Api::V1
                    serializer: BookmarkSerializer,
                    status:     :created
           else
-            w bookmark.errors
             render json:   { errors: bookmark.errors },
                    status: :unprocessable_entity
           end

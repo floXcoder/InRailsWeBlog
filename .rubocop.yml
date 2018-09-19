@@ -2,9 +2,7 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # http://rubocop.readthedocs.io/en/latest
 
-AllCops:
-  Exclude:
-    - 'config/initializers/secure_headers.rb'
+require: rubocop-rspec
 
 Documentation:
   Enabled: false
@@ -15,6 +13,7 @@ LineLength:
 AllCops:
   TargetRubyVersion: 2.5
   Exclude:
+    - 'config/initializers/secure_headers.rb'
     - 'node_modules/**/*'
 
 Bundler/OrderedGems:
@@ -92,6 +91,18 @@ Metrics/PerceivedComplexity:
 
 Rails/OutputSafety:
   Enabled: false
+
+Rspec/ExampleLength:
+  Max: 15
+
+Rspec/InstanceVariable:
+  Enabled: false
+
+Rspec/MultipleExpectations:
+  Max: 10
+
+Rspec/NestedGroups:
+  Max: 4
 
 Style/AsciiComments:
   Enabled: false

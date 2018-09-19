@@ -13,8 +13,8 @@ import {
     spyTrackView
 } from '../../../actions';
 
-@highlight()
-export default class ArticleInlineDisplay extends React.PureComponent {
+export default @highlight()
+class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
         id: PropTypes.number.isRequired,
         content: PropTypes.string.isRequired,

@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    hot
+} from 'react-hot-loader';
+
+import {
     Link
 } from 'react-router-dom';
 
@@ -21,7 +25,7 @@ import Loader from '../theme/loader';
 import ArticleCardDisplay from './display/card';
 import ArticleVersionsDisplay from './display/versions';
 
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
@@ -32,7 +36,8 @@ import ArticleVersionsDisplay from './display/versions';
     restoreArticle
 })
 @highlight(true)
-export default class ArticleHistory extends React.Component {
+@hot(module)
+class ArticleHistory extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,

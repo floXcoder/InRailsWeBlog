@@ -12,13 +12,13 @@ import {
     getUserRecents
 } from '../../selectors';
 
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     // currentTopic: state.topicState.currentTopic,
     recents: getUserRecents(state, props.recentsLimit)
 }))
-export default class BreadcrumbLayout extends React.Component {
+class BreadcrumbLayout extends React.Component {
     static propTypes = {
         currentPath: PropTypes.string.isRequired,
         recentsLimit: PropTypes.number,
@@ -27,14 +27,6 @@ export default class BreadcrumbLayout extends React.Component {
         currentUserId: PropTypes.number,
         recents: PropTypes.array
         // currentTopic: PropTypes.object,
-    };
-
-    static _formatRecents = (recents, recentsLimit) => {
-        if (recents) {
-            return recents.compact().sort((a, b) => b.date - a.date).limit(recentsLimit).slice().reverse();
-        } else {
-            return [];
-        }
     };
 
     constructor(props) {
@@ -47,14 +39,22 @@ export default class BreadcrumbLayout extends React.Component {
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        const _formatRecents = (recents, recentsLimit) => {
+            if (recents) {
+                return recents.compact().sort((a, b) => b.date - a.date).limit(recentsLimit).slice().reverse();
+            } else {
+                return [];
+            }
+        };
+
         if (prevState.recents !== nextProps.recents) {
             return {
-                recents: BreadcrumbLayout._formatRecents(nextProps.recents.concat(getTracksClick()), nextProps.recentsLimit),
+                recents: _formatRecents(nextProps.recents.concat(getTracksClick()), nextProps.recentsLimit),
                 currentPath: prevState.currentPath
             };
         } else if (prevState.currentPath !== nextProps.currentPath) {
             return {
-                recents: BreadcrumbLayout._formatRecents(prevState.recents.concat(getTracksClick()), nextProps.recentsLimit),
+                recents: _formatRecents(prevState.recents.concat(getTracksClick()), nextProps.recentsLimit),
                 currentPath: nextProps.currentPath
             };
         }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: trackers
@@ -25,7 +27,7 @@ FactoryBot.define do
     clicks_count    { Random.rand(20..500) }
     # rank            { Random.rand(0..100) }
     # popularity      { Random.rand(0..100) }
-    home_page       false
+    home_page       { false }
   end
 
 end

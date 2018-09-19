@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UploadSerializer < ActiveModel::Serializer
   cache key: 'upload', expires_in: CONFIG.cache_time
 

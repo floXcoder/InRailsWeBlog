@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Warden::Manager.after_set_user do |resource, auth, opts|
   scope = opts[:scope]
   auth.cookies.signed["#{scope}.id"] = resource.id

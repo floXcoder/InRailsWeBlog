@@ -8,10 +8,10 @@ import Select from '../../materialize/select';
 import Checkbox from '../../materialize/checkbox';
 import Submit from '../../materialize/submit';
 
-@connect(null, {
+export default @connect(null, {
     fetchComments
 })
-export default class CommentFilterDisplay extends React.Component {
+class CommentFilterDisplay extends React.Component {
     static propTypes = {
         filters: PropTypes.object,
         // From connect

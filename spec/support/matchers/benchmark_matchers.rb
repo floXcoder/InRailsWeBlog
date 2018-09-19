@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'benchmark'
 
 RSpec::Matchers.define :take_less_than do |duration|

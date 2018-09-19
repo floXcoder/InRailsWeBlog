@@ -91,16 +91,18 @@ Create the postgres user:
 
 Install ElasticSearch:
 
-    sudo wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-     echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list
-     sudo apt-get update
-     sudo apt-get install elasticsearch
+    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+    echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list
+    sudo apt-get update
+    sudo apt-get install elasticsearch
 
 Configure ElasticSearch:
 
     sudo nano /etc/elasticsearch/elasticsearch.yml
     cluster.name: elasticsearch
     network.host: localhost
+
+Start ElasticSearch:
     
     sudo systemctl enable elasticsearch
 
@@ -215,7 +217,7 @@ http://localhost:9200/_plugin/head/
 
 Update all indexes:
 
-    rake searchkick:reindex:all
+    rails searchkick:reindex:all
     
 #### Maxminddb
 
@@ -248,7 +250,7 @@ Ruby/Rails
 
 Run all static analysis tools:
 
-    rake InRailsWeBlog:static_analysis:all
+    rails InRailsWeBlog:static_analysis:all
     
 Cron tool to run analysis tools:
 
@@ -266,7 +268,7 @@ Javascript:
 
 Generate documentation:
 
-    bundle rake doc:app
+    bundle rails doc:app
 
 ## Test
 
@@ -317,8 +319,8 @@ Gitlab is used for automatic deployment:
 - After the first deployment, executes the cron tasks:
 
 
-    RAILS_ENV=production bundle exec rake InRailsWeBlog:update_geolite --silent
-    RAILS_ENV=production bundle exec rake InRailsWeBlog:seo[sitemap] --silent
+    RAILS_ENV=production bundle exec rails InRailsWeBlog:update_geolite --silent
+    RAILS_ENV=production bundle exec rails InRailsWeBlog:seo[sitemap] --silent
 
 - Other commands:
 

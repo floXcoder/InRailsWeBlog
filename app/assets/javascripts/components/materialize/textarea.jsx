@@ -81,7 +81,7 @@ export default class Textarea extends React.Component {
     };
 
     autoResize = () => {
-        $(ReactDOM.findDOMNode(this.refs[this.props.id])).trigger('autoresize');
+        M.textareaAutoResize($(ReactDOM.findDOMNode(this.refs[this.props.id])));
     };
 
     render() {

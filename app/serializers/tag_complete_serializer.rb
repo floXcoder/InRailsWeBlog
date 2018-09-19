@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TagCompleteSerializer < ActiveModel::Serializer
   cache key: 'tag_complete', expires_in: CONFIG.cache_time
 

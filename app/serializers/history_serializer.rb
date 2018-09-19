@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HistorySerializer < ActiveModel::Serializer
   # No cache for history
 

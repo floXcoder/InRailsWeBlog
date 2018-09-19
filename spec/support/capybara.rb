@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Capybara.run_server = true
 
 Capybara.app_host    = 'http://localhost:3020'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :be_unauthorized do |_value|
   match do |actual|
     expect(actual.status).to eq(403)

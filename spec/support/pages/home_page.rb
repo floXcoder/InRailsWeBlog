@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'support/pages/site_page'
 
 class HomePage < SitePage

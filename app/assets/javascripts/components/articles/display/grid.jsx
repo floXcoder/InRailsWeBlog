@@ -15,8 +15,8 @@ import highlight from '../../modules/highlight';
 
 import ArticleTags from '../properties/tags';
 
-@highlight()
-export default class ArticleGridDisplay extends React.Component {
+export default @highlight()
+class ArticleGridDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,

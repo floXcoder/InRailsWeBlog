@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Global static variables
 # Dynamic variables are defined in: config/app.yml
 SimpleConfig.for :application do

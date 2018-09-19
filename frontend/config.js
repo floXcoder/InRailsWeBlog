@@ -77,6 +77,7 @@ module.exports = {
             jquery: 'jquery',
             "window.$": 'jquery',
             "window.jQuery": 'jquery',
+            M: 'materialize-css',
             log: 'loglevel',
             React: 'react',
             ReactDOM: 'react-dom',
@@ -87,22 +88,6 @@ module.exports = {
         ignorePlugins: [
             /^codemirror$/
         ],
-        happyPack: {
-            id: 'jsx',
-            loaders: [
-                {
-                    loader: 'babel-loader',
-                    query: {
-                        presets: [
-                            'es2015',
-                            'stage-2',
-                            'react'
-                        ]
-                    }
-                }
-            ],
-            threads: 4
-        },
         translations: 'javascripts/translations',
         images: [
             {
@@ -138,15 +123,6 @@ module.exports = {
                 '../assets/*'
             ]
         }
-    },
-    views: {
-        src: [
-            './app/views/**/*.slim',
-            './app/helpers/**/*.rb',
-            './app/controllers/**/*.rb',
-            './app/serializers/**/*.rb',
-            './config/locales/**/*.yml'
-        ]
     },
     production: {
         manifestFilename: 'rev-manifest.json',
