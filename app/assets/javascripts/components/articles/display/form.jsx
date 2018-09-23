@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import {
     Link,
     Prompt
@@ -91,6 +93,11 @@ class ArticleFormDisplay extends React.Component {
         if (this.props.availableTags.length === 0) {
             this.props.fetchTags({availableTags: true});
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        // For each change in form, reduxForm reload the all form
+        return !_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState);
     }
 
     _handleModeClick = (mode, event) => {

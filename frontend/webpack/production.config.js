@@ -68,8 +68,8 @@ webPackConfig.optimization = {
     splitChunks: {
         name: true,
         minChunks: 2,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3
+        maxAsyncRequests: 8,
+        maxInitialRequests: 5
         // JS not working if cacheGroups
         // cacheGroups: {
         //     styles: {

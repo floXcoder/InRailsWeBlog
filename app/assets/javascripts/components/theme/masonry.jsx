@@ -1,19 +1,21 @@
 'use strict';
 
+import '../../../stylesheets/components/masonry.scss';
+
 import MasonryLoader from '../../loaders/masonry';
+
+const transitionDuration = 600;
+const columns = {
+    1: 12,
+    2: 6,
+    3: 4,
+    4: 3,
+    5: 2
+};
 
 // Components must have a "onClick" function to change to exposed mode
 // isMasonry property is passed to components if active
 const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, componentExposedProps) => class extends React.Component {
-    static transitionDuration = 600;
-    static columns = {
-        1: 12,
-        2: 6,
-        3: 4,
-        4: 3,
-        5: 2
-    };
-
     static propTypes = {
         elements: PropTypes.array.isRequired,
         isActive: PropTypes.bool.isRequired,
@@ -46,7 +48,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     state = {
         Masonry: undefined,
         masonryOptions: {
-            transitionDuration: `${this.constructor.transitionDuration}ms`,
+            transitionDuration: `${transitionDuration}ms`,
             itemSelector: '.masonry-grid-item',
             percentPosition: true
         },
@@ -95,7 +97,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 const {pageYOffset} = window;
                 const elementTop = pageYOffset + ReactDOM.findDOMNode(this.refs[elementId]).getBoundingClientRect().top - (this.props.topOffset || 0);
                 $('html, body').animate({scrollTop: elementTop}, 600);
-            }, this.constructor.transitionDuration);
+            }, transitionDuration);
         }
         this.setState({
             exposedComponents: exposedComponents
@@ -110,7 +112,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 'col s12',
                 {
                     'l4': !this.props.hasColumnButtons,
-                    [`m${this.constructor.columns[this.state.columnPosition]}`]: this.props.hasColumnButtons
+                    [`m${columns[this.state.columnPosition]}`]: this.props.hasColumnButtons
                 },
                 'masonry-grid-item',
                 {

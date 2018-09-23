@@ -325,6 +325,18 @@ RSpec.describe Tag, type: :model, basic: true do
       it { expect(@tag.user?(other_user)).to be false }
     end
 
+    describe '.child_only_for_topic' do
+      it { is_expected.to respond_to(:child_only_for_topic) }
+    end
+
+    describe '.tagged_for_topic' do
+      it { is_expected.to respond_to(:tagged_for_topic) }
+    end
+
+    describe '.tagged_as_child_for_topic' do
+      it { is_expected.to respond_to(:tagged_as_child_for_topic) }
+    end
+
     describe '.default_picture' do
       it { is_expected.to respond_to(:default_picture) }
       it { expect(@tag.default_picture).to eq("http://#{ENV['WEBSITE_ADDRESS']}/assets/") }

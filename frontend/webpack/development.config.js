@@ -96,8 +96,8 @@ webPackConfig.optimization = {
         // chunks: 'async', // 'all' : not working
         name: true,
         minChunks: 2,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3
+        maxAsyncRequests: 8,
+        maxInitialRequests: 5
     }
 };
 

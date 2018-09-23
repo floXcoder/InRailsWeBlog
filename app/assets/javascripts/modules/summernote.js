@@ -12,6 +12,8 @@ import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';
 
+import '../../stylesheets/components/summernote.scss';
+
 import '@dsvllc/summernote-image-attributes';
 import '@dsvllc/summernote-image-attributes/lang/fr-FR';
 
@@ -141,7 +143,7 @@ const areDifferentBlockElements = (startEl, endEl) => {
     const endElDisplay  = getComputedStyle(endEl, null).display;
 
     if(startElDisplay !== 'inline' && endElDisplay !== 'inline') {
-        // console.log("Can't insert across two block elements.");
+        // console.error("Can't insert across two block elements.");
         return true;
     }
     else {
@@ -165,7 +167,7 @@ const isSelectionParsable = (startEl, endEl) => {
         || startElParent.isSameNode(endElParent)) {
         return true;
     } else {
-        // console.log("Unable to parse across so many nodes. Sorry!");
+        // console.error("Unable to parse across so many nodes. Sorry!");
     }
     return false;
 };

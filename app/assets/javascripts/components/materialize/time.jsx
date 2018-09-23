@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/clockpicker.scss';
+
 import '../../modules/clockpicker';
 
 export default class Time extends React.PureComponent {

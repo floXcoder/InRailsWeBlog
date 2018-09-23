@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/comment.scss';
+
 import {
     hot
 } from 'react-hot-loader';

@@ -7,24 +7,16 @@
 @import 'shared/topic';
 @import 'shared/article';
 @import 'shared/bookmark';
-@import 'shared/comment';
 @import 'shared/tag';
 @import 'shared/user';
 @import 'shared/search';
 @import 'shared/connection';
 @import 'shared/tooltip';
-@import 'shared/components/collapsible';
-@import 'shared/components/notification';
-@import 'shared/components/rating';
-@import 'shared/components/single-timeline';
-@import 'shared/components/double-timeline';
-@import 'shared/components/selecter';
-@import 'shared/components/dropdown';
-@import 'shared/components/modal';
-@import 'shared/components/tab';
-@import 'shared/components/masonry';
-@import 'shared/components/loader';
-@import 'shared/components/spinners';
+@import 'shared/notification';
+@import 'shared/modal';
+@import 'shared/rating';
+@import 'shared/spinners';
+@import 'shared/animation/loader';
 @import 'shared/animation/dialog';
 
 // Global font

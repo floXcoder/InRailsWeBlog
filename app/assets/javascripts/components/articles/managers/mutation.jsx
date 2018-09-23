@@ -37,6 +37,10 @@ import {
     getDisplayName
 } from '../../modules/common';
 
+const waitTimeBeforeSaving = 3000;
+const temporaryDataName = 'article-temporary';
+const unsavedDataName = 'article-unsaved';
+
 export default function articleMutationManager(mode, formId) {
     return function articleMutation(WrappedComponent) {
         @connect((state) => ({
@@ -59,10 +63,6 @@ export default function articleMutationManager(mode, formId) {
         })
         class ArticleMutationComponent extends React.Component {
             static displayName = `ArticleMutationManager(${getDisplayName(WrappedComponent)})`;
-
-            static waitTimeBeforeSaving = 20000;
-            static temporaryDataName = 'article-temporary';
-            static unsavedDataName = 'article-unsaved';
 
             static propTypes = {
                 params: PropTypes.object.isRequired,
@@ -90,7 +90,7 @@ export default function articleMutationManager(mode, formId) {
                 super(props);
 
                 // Check fo unsaved article before connection
-                const unsavedArticle = getLocalData(ArticleMutationComponent.unsavedDataName, true);
+                const unsavedArticle = getLocalData(unsavedDataName, true);
 
                 if (props.params.articleSlug) {
                     props.fetchArticle(props.params.articleSlug);
@@ -108,7 +108,7 @@ export default function articleMutationManager(mode, formId) {
                     }
 
                     if (props.initialData.temporary) {
-                        const temporaryArticle = getLocalData(ArticleMutationComponent.temporaryDataName, true);
+                        const temporaryArticle = getLocalData(temporaryDataName, true);
                         if (temporaryArticle && temporaryArticle.length > 0) {
                             this.state.article = temporaryArticle.first().article;
                         }
@@ -145,14 +145,9 @@ export default function articleMutationManager(mode, formId) {
                 return null;
             }
 
-            // Utility? Performance are the same...
-            // shouldComponentUpdate(nextProps) {
-            //     return (this.props.tags !== nextProps.tags || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.article !== nextProps.article);
-            // }
-
             componentDidUpdate(prevProps) {
                 if (prevProps.isDirty && prevProps.isValid && !prevProps.isSubmitting && prevProps.formValues !== this.props.formValues) {
-                    // this._handleChange(this.props.formValues);
+                    this._handleChange(this.props.formValues);
                 }
 
                 this._promptUnsavedChange(this.props.isDirty);
@@ -161,7 +156,7 @@ export default function articleMutationManager(mode, formId) {
             componentWillUnmount() {
                 window.onbeforeunload = null;
 
-                // this._handleChange.cancel();
+                this._handleChange.cancel();
             }
 
             _promptUnsavedChange = (isUnsaved = false) => {
@@ -171,9 +166,9 @@ export default function articleMutationManager(mode, formId) {
                 window.onbeforeunload = isUnsaved ? (() => leaveMessage) : null;
             };
 
-            // _handleChange = _.debounce((values) => {
-            //     this._handleSubmit(values, true);
-            // }, ArticleMutationComponent.waitTimeBeforeSaving);
+            _handleChange = _.debounce((values) => {
+                this._handleSubmit(values, true);
+            }, waitTimeBeforeSaving);
 
             _handleSubmit = (values, autoSave = false) => {
                 if (!values) {
@@ -224,13 +219,13 @@ export default function articleMutationManager(mode, formId) {
                     }
 
                     if (autoSave === true) {
-                        saveLocalData(ArticleMutationComponent.temporaryDataName, {
+                        saveLocalData(temporaryDataName, {
                             article: formData
                         }, false);
                     } else {
                         if (!this.props.isUserConnected) {
                             // Save article in local storage to get it back after reload
-                            saveLocalData(ArticleMutationComponent.unsavedDataName, {
+                            saveLocalData(unsavedDataName, {
                                 article: formData
                             }, false);
 
@@ -238,8 +233,8 @@ export default function articleMutationManager(mode, formId) {
 
                             this.props.switchUserLogin();
                         } else {
-                            removeLocalData(ArticleMutationComponent.temporaryDataName);
-                            removeLocalData(ArticleMutationComponent.unsavedDataName);
+                            removeLocalData(temporaryDataName);
+                            removeLocalData(unsavedDataName);
 
                             this.props.addArticle(formData)
                                 .then((response) => {

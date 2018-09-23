@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/show-more.scss';
+
 export default class ShowMore extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,

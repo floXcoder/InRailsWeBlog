@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/collapsible.scss';
+
 import {
     Collapse
 } from 'react-collapse';

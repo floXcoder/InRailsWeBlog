@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/animated.scss';
+
 const AnimatedText = ({title, subtitle}) => (
     <section className="card-title cd-intro">
         <div className="cd-intro-content mask">

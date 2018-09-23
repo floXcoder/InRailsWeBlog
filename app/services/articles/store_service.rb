@@ -122,7 +122,7 @@ module Articles
         end
 
         new_tag_relationships = tag_relationships_attributes.map do |tag_relationships_attribute|
-          if (tag_relationship = TagRelationship.where(tag_relationships_attribute).first)
+          if (tag_relationship = @article.tag_relationships.where(tag_relationships_attribute).first)
             tag_relationship.assign_attributes(tag_relationships_attribute)
             tag_relationship
           else
