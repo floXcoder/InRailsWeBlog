@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/accordion.scss';
+
 class AccordionItem extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,

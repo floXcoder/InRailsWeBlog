@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/categorized-tag.scss';
+
 import CategorizedTagInput from './categorizedTag/categorizedTagInput';
 
 export default class CategorizedTag extends React.Component {

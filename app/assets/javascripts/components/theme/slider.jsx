@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/slick.scss';
+
 import SlickSlider from 'react-slick';
 
 const Slider = ({children, isAutoPlay, hasArrows, hasDots, isLoop, slidesToShow, initialSlide}) => {

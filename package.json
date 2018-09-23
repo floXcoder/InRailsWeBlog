@@ -75,7 +75,7 @@
     "react-collapse": "4.0.3",
     "react-dom": "16.5.2",
     "react-dropzone-component": "3.2.0",
-    "react-hot-loader": "4.3.8",
+    "react-hot-loader": "4.3.11",
     "react-image-lightbox": "5.0.0",
     "react-infinite-scroll-component": "4.2.0",
     "react-lazyload": "2.3.0",
@@ -86,7 +86,7 @@
     "react-portal": "4.1.5",
     "react-portal-tooltip": "2.4.0",
     "react-redux": "5.0.7",
-    "react-redux-loading-bar": "4.0.7",
+    "react-redux-loading-bar": "4.0.8",
     "react-responsive-modal": "3.4.0",
     "react-router-dom": "4.3.1",
     "react-select": "2.0.0",
@@ -101,14 +101,11 @@
     "require-dir": "1.0.0",
     "reselect": "3.0.1",
     "sass-loader": "7.1.0",
-    "style-loader": "0.23.0",
     "summernote": "0.8.10",
     "uglifyjs-webpack-plugin": "2.0.1",
-    "vinyl-buffer": "1.0.1",
     "waypoints": "4.0.1",
     "webpack": "4.19.1",
     "webpack-cli": "3.1.0",
-    "webpack-hot-middleware": "2.24.0",
     "webpack-manifest-plugin": "2.0.4"
   },
   "devDependencies": {
@@ -127,6 +124,7 @@
     "react-test-renderer": "16.5.2",
     "redux-devtools-extension": "2.13.5",
     "webpack-bundle-analyzer": "3.0.2",
-    "webpack-dev-server": "3.1.8"
+    "webpack-dev-server": "3.1.8",
+    "webpack-hot-middleware": "2.24.2"
   }
 }

@@ -7804,9 +7804,9 @@ react-dropzone-component@3.2.0:
     dropzone "^5.4.0"
     extend "^3.0.1"
 
-react-hot-loader@4.3.8:
-  version "4.3.8"
-  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.3.8.tgz#81f174a9b70fb5a4d4f2e9134d73659ddcd779cf"
+react-hot-loader@4.3.11:
+  version "4.3.11"
+  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.3.11.tgz#fe5cf7be7700c249b58293f977c1e6e0900f0d87"
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"
@@ -7904,9 +7904,9 @@ react-portal@4.1.5:
   dependencies:
     prop-types "^15.5.8"
 
-react-redux-loading-bar@4.0.7:
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/react-redux-loading-bar/-/react-redux-loading-bar-4.0.7.tgz#f3b87455d26e359c70fb9852fae9e997b287970b"
+react-redux-loading-bar@4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/react-redux-loading-bar/-/react-redux-loading-bar-4.0.8.tgz#e84d59d1517b79f53b0f39c8ddb40682af648c1b"
   dependencies:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.2"
@@ -9913,9 +9913,9 @@ webpack-dev-server@3.1.8:
     webpack-log "^2.0.0"
     yargs "12.0.2"
 
-webpack-hot-middleware@2.24.0:
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.24.0.tgz#d67ae5107edff29debbab3631a424c998856fd47"
+webpack-hot-middleware@2.24.2:
+  version "2.24.2"
+  resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.24.2.tgz#0d2deeb813f67693e2997b87c3a9d9be324575dd"
   dependencies:
     ansi-html "0.0.7"
     html-entities "^1.2.0"

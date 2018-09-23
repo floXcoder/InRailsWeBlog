@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :InRailsWeBlog do
 
   # rails InRailsWeBlog:static_analysis:all

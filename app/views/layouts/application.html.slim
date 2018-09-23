@@ -8,6 +8,8 @@ html lang="#{I18n.locale}"
 
     = yield
 
+    = render 'layouts/stylesheet'
+    
     = render 'layouts/javascript'
 
     - if ENV['METRICS_ADDRESS'] && Rails.env.production?

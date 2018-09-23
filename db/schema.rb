@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_16_191350) do
+ActiveRecord::Schema.define(version: 2018_09_22_203546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -212,7 +212,6 @@ ActiveRecord::Schema.define(version: 2018_06_16_191350) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_tag_relationships_on_deleted_at"
-    t.index ["topic_id", "parent_id", "child_id"], name: "index_tag_relationship_uniqueness", unique: true, where: "(deleted_at IS NULL)"
     t.index ["user_id", "topic_id"], name: "index_tag_relationships_on_user_id_and_topic_id", where: "(deleted_at IS NULL)"
   end
 

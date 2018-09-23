@@ -281,6 +281,18 @@ class Tag < ApplicationRecord
     return AssetManifest.image_path(picture || default_picture)
   end
 
+  def child_only_for_topic(topic_id)
+    tagged_for_topic(topic_id).size <= tagged_as_child_for_topic(topic_id).size
+  end
+
+  def tagged_for_topic(topic_id)
+    self.tagged_articles.map(&:topic_id).select { |id| id == topic_id }
+  end
+
+  def tagged_as_child_for_topic(topic_id)
+    self.child_relationships.select { |relation| relation.topic_id == topic_id }
+  end
+
   def parents_for_user(current_user_id)
     self.parents.select do |parent|
       parent.everyone? || (parent.only_me? && parent.user_id == current_user_id)

@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/selecter.scss';
+
 import Select, {
     Creatable
 } from 'react-select';

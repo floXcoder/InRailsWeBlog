@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/dropdown.scss';
+
 import {
     Portal
 } from 'react-portal';
