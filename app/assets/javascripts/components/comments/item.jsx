@@ -2,6 +2,13 @@
 
 import marked from 'marked';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+
+import ReplyIcon from '@material-ui/icons/Reply';
+
 import Dropdown from '../theme/dropdown';
 import Rating from '../theme/rating';
 import UserAvatarIcon from '../users/icons/avatar';
@@ -72,9 +79,7 @@ export default class CommentItem extends React.Component {
     _handleDeleteClick = (event) => {
         event.preventDefault();
 
-        Notification.alert(I18n.t('js.comment.delete.confirmation_message'), 10, I18n.t('js.comment.delete.confirmation_button'), () => {
-            this.props.onDelete(this.props.comment.id);
-        });
+        Notification.alert(I18n.t('js.comment.delete.confirmation_message'), 10, I18n.t('js.comment.delete.confirmation_button'), this.props.onDelete.bind(this, this.props.comment.id));
     };
 
     _handleAskForDeletionClick = (event) => {
@@ -106,25 +111,101 @@ export default class CommentItem extends React.Component {
             return (
                 <div id={`comment-${this.props.id}`}
                      className="comment-item">
-                    {
-                        this.props.comment.askForDeletion
-                            ?
-                            <span className="comment-ask-for-deletion">
-                                {I18n.t('js.comment.reply.ask_for_deletion')}
-                            </span>
-                            :
-                            isOwnerComment
-                                ?
-                                <span className="comment-reply-owner">
-                                {I18n.t('js.comment.reply.owner')}
-                            </span>
-                                :
-                                <UserAvatarIcon user={this.props.comment.user}/>
-                    }
+                    <div className="comment-item-header">
+                        <div className="header-avatar">
+                            {
+                                this.props.comment.askForDeletion
+                                    ?
+                                    <span className="comment-ask-for-deletion">
+                                        {I18n.t('js.comment.reply.ask_for_deletion')}
+                                    </span>
+                                    :
+                                    isOwnerComment
+                                        ?
+                                        <span className="comment-reply-owner">
+                                            {I18n.t('js.comment.reply.owner')}
+                                        </span>
+                                        :
+                                        <UserAvatarIcon user={this.props.comment.user}
+                                                        secondary={
+                                                            <span className="comment-date">
+                                                                {this.props.comment.postedAt}
+                                                            </span>}/>
+                            }
+                        </div>
 
-                    <span className="comment-date">
-                    {this.props.comment.postedAt}
-                </span>
+                        <div className="header-action">
+                            <Dropdown tooltip={I18n.t('js.comment.common.actions')}
+                                      button={<ReplyIcon color="secondary"/>}>
+                                {
+                                    (this.props.currentUserId === this.props.comment.user.id || this.props.isSuperUser)
+                                        ?
+                                        <List component="div"
+                                              disablePadding={true}>
+                                            {
+                                                this.props.comment.nestedLevel < 4 &&
+                                                <ListItem button={true}
+                                                          component="a"
+                                                          onClick={this._handleReplyClick}>
+                                                    <ListItemText>
+                                                        {I18n.t(`js.comment.reply.${(this.props.isOwner ? 'owner_button' : 'button')}`)}
+                                                    </ListItemText>
+                                                </ListItem>
+                                            }
+
+                                            <Divider/>
+
+                                            <ListItem button={true}
+                                                      component="a"
+                                                      onClick={this._handleModifyClick}>
+                                                <ListItemText>
+                                                    {I18n.t('js.comment.edit.button')}
+                                                </ListItemText>
+                                            </ListItem>
+
+                                            <Divider/>
+
+                                            <ListItem button={true}
+                                                      component="a"
+                                                      onClick={this._handleDeleteClick}>
+                                                <ListItemText>
+                                                    {I18n.t('js.comment.delete.button')}
+                                                </ListItemText>
+                                            </ListItem>
+                                        </List>
+                                        :
+                                        <List component="div"
+                                              disablePadding={true}>
+                                            {
+                                                this.props.comment.nestedLevel < 4 &&
+                                                <ListItem button={true}
+                                                          component="a"
+                                                          onClick={this._handleReplyClick}>
+                                                    <ListItemText>
+                                                        {I18n.t(`js.comment.reply.${(this.props.isOwner ? 'owner_button' : 'button')}`)}
+                                                    </ListItemText>
+                                                </ListItem>
+                                            }
+
+                                            {
+                                                this.props.isOwner &&
+                                                <>
+                                                    <Divider/>
+
+                                                    <ListItem button={true}
+                                                              component="a"
+                                                              onClick={this._handleAskForDeletionClick}>
+                                                        <ListItemText>
+                                                            {I18n.t('js.comment.ask_for_deletion.button')}
+                                                        </ListItemText>
+                                                    </ListItem>
+                                                </>
+                                            }
+                                        </List>
+                                }
+                            </Dropdown>
+                        </div>
+                    </div>
 
                     {
                         this.props.comment.rating > 0 &&
@@ -139,69 +220,6 @@ export default class CommentItem extends React.Component {
 
                     <div className="comment-body"
                          dangerouslySetInnerHTML={{__html: marked(this.props.comment.body.toString(), {sanitize: true})}}/>
-
-                    <div className="secondary-content">
-                        <Dropdown tooltip={I18n.t('js.comment.common.actions')}
-                                  button={<span className="material-icons"
-                                                data-icon="reply"
-                                                aria-hidden="true"/>}>
-                            {
-                                (this.props.currentUserId === this.props.comment.user.id || this.props.isSuperUser)
-                                    ?
-                                    <ul>
-                                        {
-                                            this.props.comment.nestedLevel < 4 &&
-                                            <li>
-                                                <a onClick={this._handleReplyClick}>
-                                                    {I18n.t(`js.comment.reply.${(this.props.isOwner ? 'owner_button' : 'button')}`)}
-                                                </a>
-                                            </li>
-                                        }
-
-                                        <li className="divider"/>
-
-                                        <li>
-                                            <a onClick={this._handleModifyClick}>
-                                                {I18n.t('js.comment.edit.button')}
-                                            </a>
-                                        </li>
-
-                                        <li className="divider"/>
-
-                                        <li>
-                                            <a onClick={this._handleDeleteClick}>
-                                                {I18n.t('js.comment.delete.button')}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    :
-                                    <ul>
-                                        {
-                                            this.props.comment.nestedLevel < 4 &&
-                                            <li>
-                                                <a onClick={this._handleReplyClick}>
-                                                    {I18n.t(`js.comment.reply.${(this.props.isOwner ? 'owner_button' : 'button')}`)}
-                                                </a>
-                                            </li>
-                                        }
-
-                                        {
-                                            this.props.isOwner &&
-                                            <li className="divider"/>
-                                        }
-
-                                        {
-                                            this.props.isOwner &&
-                                            <li>
-                                                <a onClick={this._handleAskForDeletionClick}>
-                                                    {I18n.t('js.comment.ask_for_deletion.button')}
-                                                </a>
-                                            </li>
-                                        }
-                                    </ul>
-                            }
-                        </Dropdown>
-                    </div>
                 </div>
             );
         }

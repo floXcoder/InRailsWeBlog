@@ -2,8 +2,6 @@
 
 module Articles
   class StoreService < BaseService
-    include ActionView::Helpers::SanitizeHelper
-
     def initialize(article, *args)
       super(*args)
 
@@ -38,7 +36,7 @@ module Articles
       end
 
       unless @params[:content].nil?
-        @article.content = sanitize_html(@params.delete(:content))
+        @article.content = ::Sanitizer.new.sanitize_html(@params.delete(:content))
 
         # Extract all relationship ids
         other_ids             = []
@@ -61,7 +59,10 @@ module Articles
       # Pictures
       if @params[:picture_ids].present?
         @params.delete(:picture_ids).split(',').each do |picture_id|
-          @article.pictures << Picture.find_by(id: picture_id.to_i) if picture_id.present?
+          if picture_id.present?
+            picture = Picture.find_by(id: picture_id.to_i)
+            @article.pictures << picture
+          end
         end
       else
         @params.delete(:picture_ids)
@@ -108,7 +109,8 @@ module Articles
           end
         end
 
-        new_tagged_articles = tagged_article_attributes.map do |tagged_article_attribute|
+        @article.tagged_articles = [] if tagged_article_attributes.present?
+        tagged_article_attributes.map do |tagged_article_attribute|
           if @article.id
             if (tagged_article = @article.tagged_articles.where(tag_id: tagged_article_attribute[:tag].id).first)
               tagged_article.assign_attributes(tagged_article_attribute)
@@ -121,7 +123,8 @@ module Articles
           end
         end
 
-        new_tag_relationships = tag_relationships_attributes.map do |tag_relationships_attribute|
+        @article.tag_relationships = [] if tag_relationships_attributes.present?
+        tag_relationships_attributes.map do |tag_relationships_attribute|
           if (tag_relationship = @article.tag_relationships.where(tag_relationships_attribute).first)
             tag_relationship.assign_attributes(tag_relationships_attribute)
             tag_relationship
@@ -133,9 +136,6 @@ module Articles
         @params.delete(:parent_tags)
         @params.delete(:child_tags)
         @params.delete(:tags)
-
-        @article.tagged_articles   = new_tagged_articles
-        @article.tag_relationships = new_tag_relationships
       end
 
       @article.assign_attributes(@params)
@@ -143,40 +143,17 @@ module Articles
       new_record = @article.new_record?
       if @article.save
         message = new_record ? I18n.t('views.article.flash.successful_creation') : I18n.t('views.article.flash.successful_edition')
-        success(@article, message)
+        @article.pictures.each do |picture|
+          picture.imageable = @article
+          picture.save(validate: false)
+        end
+        success(@article.reload, message)
       else
         message = new_record ? I18n.t('views.article.flash.error_creation') : I18n.t('views.article.flash.error_edition')
         error(message, @article.errors)
       end
     ensure
       I18n.locale = current_language.to_sym if new_language != current_language.to_s
-    end
-
-    private
-
-    def sanitize_html(html, lazy_image = true)
-      return unless html
-      return '' if html.blank?
-
-      # Remove empty beginning block
-      html = html.sub(/^<p><br><\/p>/, '')
-
-      html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img], attributes: %w[style class href name target src alt center align data-article-relation-id])
-
-      html = html.gsub(/(<code>){2,}/i, '<code>')
-      html = html.gsub(/(<\/code>){2,}/i, '</code>')
-
-      # Replace pre by pre > code
-      html = html.gsub(/<pre( ?)(.*?)>/i, '<pre\1\2><code>')
-      html = html.gsub(/<\/pre>/i, '</code></pre>')
-
-      # Replace src by data-src for lazy-loading
-      html = html.gsub(/<img (.*?) ?src=/i, '<img \1 data-src=') if lazy_image
-
-      # Improve link security
-      html = html.gsub(/<a /i, '<a rel="noopener noreferrer" target="_blank" ')
-
-      return html
     end
 
   end

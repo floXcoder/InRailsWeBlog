@@ -42,6 +42,11 @@ const manageError = (origin, error, url) => {
         return;
     }
 
+    // Error message display by handleFlashMessage function
+    if (error.headers && error.headers.get('X-Flash-Messages')) {
+        return;
+    }
+
     let errorContent = {
         url,
         origin
@@ -91,6 +96,10 @@ const handleResponseErrors = (response, url) => {
 const handleParseErrors = (error, url) => {
     if (error.name === 'AbortError') {
         return;
+    }
+
+    if (error.message === 'NetworkError when attempting to fetch resource.') {
+        error.message = I18n.t('js.helpers.errors.network');
     }
 
     manageError('communication', error, url);

@@ -18,16 +18,21 @@ const UserCardDisplay = ({user, onUserClick}) => (
                         {user.pseudo}
                     </span>
         </div>
+
         <div className="card-action center-align">
             {
                 <a href={`/users/${user.id}`}
-                   onClick={(event) => onUserClick(user.id, event)}>
+                   onClick={_handleClick.bind(null, user.id, onUserClick)}>
                     {I18n.t('js.user.index.link_to_user')}
                 </a>
             }
         </div>
     </div>
 );
+
+const _handleClick = (userId, onUserClick, event) => {
+    onUserClick(userId, event);
+};
 
 UserCardDisplay.propTypes = {
     user: PropTypes.object.isRequired,

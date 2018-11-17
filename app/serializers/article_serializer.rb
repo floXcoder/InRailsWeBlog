@@ -49,6 +49,7 @@ class ArticleSerializer < ActiveModel::Serializer
              :draft,
              :current_language,
              :outdated,
+             :default_picture,
              :slug,
              :votes_up,
              :votes_down,

@@ -24,15 +24,29 @@ module Api::V1
     respond_to :html, :json
 
     def index
-      tags = Rails.cache.fetch("user_tags:#{current_user&.id}_and_#{filter_params[:topic_id] || current_user&.current_topic_id}", expires_in: CONFIG.cache_time) do
-        ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]), current_user, current_admin)
-      end
+      topic_id = nil
+
+      tags = if params[:populars]
+               ::Tags::FindQueries.new.populars(limit: params[:limit])
+             elsif filter_params[:topic_slug].present? || filter_params[:topic_id].present?
+               topic_id = if filter_params[:topic_slug]
+                            Topic.friendly.find(filter_params[:topic_slug]).id
+                          else
+                            filter_params[:topic_id].to_i
+                          end
+
+               Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: CONFIG.cache_time) do
+                 ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
+               end
+             else
+               ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
+             end
 
       respond_to do |format|
         format.json do
           render json:             tags,
                  each_serializer:  TagSerializer,
-                 current_topic_id: filter_params[:topic_id].to_i
+                 current_topic_id: topic_id
         end
       end
     end
@@ -69,7 +83,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_tag.success?
-            render json:             tag,
+            render json:             stored_tag.result,
                    serializer:       TagSerializer,
                    current_topic_id: current_user&.current_topic_id
           else

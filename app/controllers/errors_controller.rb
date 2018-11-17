@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ErrorsController < ApplicationController
-  layout 'full_page'
-
   before_action :authenticate_admin!, except: [:show, :create]
 
   skip_before_action :verify_authenticity_token, only: [:show, :create]

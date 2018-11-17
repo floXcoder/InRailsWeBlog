@@ -16,7 +16,7 @@ import {
 } from '../../../middlewares/localStorage';
 
 import {
-    switchUserLogin,
+    showUserLogin,
     addArticle,
     fetchArticle,
     updateArticle
@@ -25,7 +25,7 @@ import {
 import {
     getTopicTags,
     getCurrentUser,
-    getCurrentTopic,
+    getCurrentUserTopic,
     getArticleErrors
 } from '../../../selectors';
 
@@ -37,7 +37,7 @@ import {
     getDisplayName
 } from '../../modules/common';
 
-const waitTimeBeforeSaving = 3000;
+const waitTimeBeforeSaving = 30000;
 const temporaryDataName = 'article-temporary';
 const unsavedDataName = 'article-unsaved';
 
@@ -46,7 +46,7 @@ export default function articleMutationManager(mode, formId) {
         @connect((state) => ({
             isUserConnected: state.userState.isConnected,
             currentUser: getCurrentUser(state),
-            currentTopic: getCurrentTopic(state),
+            currentTopic: getCurrentUserTopic(state),
             tags: getTopicTags(state),
             isFetching: state.articleState.isFetching,
             article: mode === 'edit' ? state.articleState.article : undefined,
@@ -56,7 +56,7 @@ export default function articleMutationManager(mode, formId) {
             isSubmitting: isSubmitting(formId)(state),
             formValues: getFormValues(formId)(state)
         }), {
-            switchUserLogin,
+            showUserLogin,
             addArticle,
             fetchArticle,
             updateArticle
@@ -68,7 +68,7 @@ export default function articleMutationManager(mode, formId) {
                 params: PropTypes.object.isRequired,
                 history: PropTypes.object.isRequired,
                 initialData: PropTypes.object,
-                // From connect
+                // from connect
                 isUserConnected: PropTypes.bool,
                 currentUser: PropTypes.object,
                 currentTopic: PropTypes.object,
@@ -80,7 +80,7 @@ export default function articleMutationManager(mode, formId) {
                 isValid: PropTypes.bool,
                 isSubmitting: PropTypes.bool,
                 formValues: PropTypes.object,
-                switchUserLogin: PropTypes.func,
+                showUserLogin: PropTypes.func,
                 addArticle: PropTypes.func,
                 fetchArticle: PropTypes.func,
                 updateArticle: PropTypes.func
@@ -123,7 +123,7 @@ export default function articleMutationManager(mode, formId) {
                         .then((response) => {
                             if (response.article) {
                                 this.props.history.push({
-                                    pathname: `/article/${response.article.slug}`,
+                                    pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
                                     state: {reloadTags: true}
                                 });
                             }
@@ -189,7 +189,7 @@ export default function articleMutationManager(mode, formId) {
                         .then((response) => {
                             if (response.article && autoSave !== true) {
                                 this.props.history.push({
-                                    pathname: `/article/${response.article.slug}`,
+                                    pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
                                     state: {reloadTags: true}
                                 });
                             }
@@ -231,7 +231,7 @@ export default function articleMutationManager(mode, formId) {
 
                             Notification.alert(I18n.t('js.article.common.not_connected.message'));
 
-                            this.props.switchUserLogin();
+                            this.props.showUserLogin();
                         } else {
                             removeLocalData(temporaryDataName);
                             removeLocalData(unsavedDataName);
@@ -240,7 +240,7 @@ export default function articleMutationManager(mode, formId) {
                                 .then((response) => {
                                     if (response.article) {
                                         this.props.history.push({
-                                            pathname: `/article/${response.article.slug}`,
+                                            pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
                                             state: {reloadTags: true}
                                         });
                                     }

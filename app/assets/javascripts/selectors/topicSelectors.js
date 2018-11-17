@@ -15,21 +15,61 @@ export const getTopicPagination = createSelector(
     (pagination) => pagination.toJS()
 );
 
+export const getUserTopics = createSelector(
+    (state) => state.topicState.userTopics,
+    (topics) => topics.toArray()
+);
+
+export const getPublicTopics = createSelector(
+    (state) => state.topicState.userTopics,
+    (topics) => topics.filter((topic) => topic.visibility === 'everyone').toArray()
+);
+
+export const getPrivateTopics = createSelector(
+    (state) => state.topicState.userTopics,
+    (topics) => topics.filter((topic) => topic.visibility === 'only_me').toArray()
+);
+
 // Topic
 export const getTopic = createSelector(
     (state) => state.topicState.topic,
     (topic) => topic
 );
 
-// Current topic
-export const getCurrentTopic = createSelector(
+export const getEditingTopic = createSelector(
+    (state) => state.topicState.userTopics,
+    (_, routerState) => routerState && routerState.topicId,
+    (topics, topicId) => topics.find((topic) => topic.id === topicId)
+);
+
+// Current topic of user
+export const getCurrentUserTopic = createSelector(
     (state) => state.topicState.currentTopic,
     (topic) => topic
 );
 
-export const getCurrentTopicVisibility = createSelector(
+export const getCurrentUserTopicVisibility = createSelector(
     (state) => state.topicState.currentTopic,
     (topic) => topic && topic.visibility
+);
+
+export const getIsCurrentTopicOwner = createSelector(
+    (state) => state.topicState.userTopics,
+    (_, params) => params,
+    (userTopics, params) => {
+        if (!userTopics) {
+            return false;
+        }
+
+        let currentTopicSlug = params.topicSlug;
+
+        // Extract topicSlug from article if any
+        if (params.articleSlug) {
+            currentTopicSlug = params.articleSlug.match(/@.*?$/).first().substr(1);
+        }
+
+        return userTopics.some((topic) => topic.slug === currentTopicSlug);
+    }
 );
 
 export const getTopicErrors = createSelector(

@@ -11,7 +11,7 @@ module.exports = (props = {}) => ({
     visibility: 'everyone',
     visibilityTranslated: 'Public',
     taggedArticlesCount: props.defined ? 3 : Math.random() * 10 | 0,
-    slug: `/tag/${props.id}`,
+    slug: `/tags/${props.id}`,
     viewsCount: props.defined ? 5 : Math.random() * 10 | 0,
     clicksCount: props.defined ? 5 : Math.random() * 10 | 0,
     searchesCount: props.defined ? 5 : Math.random() * 10 | 0,

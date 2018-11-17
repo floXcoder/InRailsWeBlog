@@ -1,18 +1,28 @@
 'use strict';
 
-const ArticleDeleteIcon = ({onDeleteClick}) => (
-    <a className="article-delete tooltip-bottom"
-       data-tooltip={I18n.t('js.article.tooltip.delete')}
-       onClick={onDeleteClick}>
-       <span className="material-icons"
-             data-icon="delete"
-             aria-hidden="true"/>
-    </a>
+import DeleteIcon from '@material-ui/icons/DeleteOutline';
+
+const ArticleDeleteIcon = ({onDeleteClick, size, color}) => (
+    <span className="tooltip-bottom"
+          data-tooltip={I18n.t('js.article.tooltip.delete')}>
+        <a href="#"
+           onClick={onDeleteClick}>
+           <DeleteIcon color={color}
+                       fontSize={size}/>
+        </a>
+    </span>
 );
 
 
 ArticleDeleteIcon.propTypes = {
-    onDeleteClick: PropTypes.func.isRequired
+    onDeleteClick: PropTypes.func.isRequired,
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+};
+
+ArticleDeleteIcon.defaultProps = {
+    size: 'default',
+    color: 'primary'
 };
 
 export default ArticleDeleteIcon;

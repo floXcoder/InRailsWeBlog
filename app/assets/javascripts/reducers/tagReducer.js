@@ -25,6 +25,8 @@ const initState = new Record({
     tags: new List(),
     pagination: new Map(),
 
+    popularTags: new List(),
+
     topicTags: new List(),
     currentTagSlugs: new List(),
 
@@ -48,13 +50,17 @@ export default function tagReducer(state = new initState(), action) {
                         return {
                             topicTags: toList(payload.tags, Records.TagRecord)
                         };
+                    } else if (payload.populars) {
+                        return {
+                            popularTags: toList(payload.tags, Records.TagRecord)
+                        };
                     } else {
                         return {
                             tags: toList(payload.tags, Records.TagRecord)
                         };
                     }
                 }
-            }, ['tags', 'topicTags']);
+            }, ['tags', 'topicTags', 'populars']);
 
         case ActionTypes.TAG_CHANGE_INIT:
         case ActionTypes.TAG_CHANGE_SUCCESS:

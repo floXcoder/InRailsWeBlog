@@ -6,23 +6,34 @@ This is a not so simple blog.
 
 ### Users
 
-Each user start with a default topic.
+Each user start with a default private topic, named "Default".
 
 ### Topics
 
 All articles are created inside a topic.
-A user can create any topic he wants. All articles will be associated tot the current topic
+A user can create any topics he wants. All articles will be associated to the current topic.
 
 ### Articles
 
-An article contains text, images and links to other articles or external links.
+An article contains text, images and links, to other articles or external links.
+
+If parent topic is private, only user tags can be used.
+Conversely, if parent topic is public, only shared tags can be used.
+An article cannot mix public and private tags.
+
+An article from a private topic can be shared with other users or groups. Or publicly with a dedicated link.
+
+Articles types:
+* Article: default mode
+* Link: link as title (title is still used for link name)
+* Note: not used for now 
 
 ### Tags
 
-Each article can be tagged with a tag.
-The first tag will be the main (or parent) tag for the current article. Other tags will be the children tags.
-
 All tags are displayed in a sidebar, sorted by parent tags then children tags.
+
+Each article can be tagged with a tag.
+Two categories of tags: parent or child. The association to an article define the order of the tags.
 
 ### Search
 
@@ -30,7 +41,7 @@ Search is performed by default in the current topic and look for content in all 
 
 ### Group
 
-Groups are a set of users. Every user can subscribe to a group and share specific articles to the group.
+Groups are a set of users. Every user can subscribe to a group and share specific articles to the group (To be done).
 
 ## Inspiration
 
@@ -40,9 +51,9 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 
 ## Requirements
 
-* Rails 5.0.1
+* Rails 5.2
 * SQL Database
-* A CSS3 / HTML5 compatible Browser (Firefox, Chrome…)
+* A CSS3 / HTML5 compatible Browser (Firefox, Chrome, …)
 
 ## Installation
 

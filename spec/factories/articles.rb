@@ -46,26 +46,16 @@ FactoryBot.define do
     priority        { 0 }
     visibility      { 'everyone' }
     allow_comment   { true }
+    draft           { false }
 
-    factory :article_with_tags do
-      transient do
-        tags { [] }
-      end
-
-      after(:build) do |article, evaluator|
-        evaluator.tags.map do |tag|
-          article.tagged_articles << build(:tagged_article, tag: tag, user: article.user, topic: article.topic)
-        end
-      end
+    transient do
+      tags { [] }
+      parent_tags { [] }
+      child_tags { [] }
     end
 
-    factory :article_with_relation_tags do
-      transient do
-        parent_tags { [] }
-        child_tags { [] }
-      end
-
-      after(:build) do |article, evaluator|
+    after(:build) do |article, evaluator|
+      if evaluator.parent_tags.present? && evaluator.child_tags.present?
         evaluator.parent_tags.flatten.map do |tag|
           article.tagged_articles << build(:tagged_article, tag: tag, user: article.user, topic: article.topic, parent: true)
         end
@@ -78,6 +68,12 @@ FactoryBot.define do
           evaluator.child_tags.map do |child_tag|
             article.tag_relationships << TagRelationship.find_or_initialize_by(parent: parent_tag, child: child_tag, user: article.user, topic: article.topic)
           end
+        end
+      elsif evaluator.tags.empty?
+           article.tagged_articles << build(:tagged_article, tag: Tag.create(name: SecureRandom.uuid, user: article.user, visibility: article.visibility), user: article.user, topic: article.topic) unless article.draft?
+      else
+        evaluator.tags.map do |tag|
+          article.tagged_articles << build(:tagged_article, tag: tag, user: article.user, topic: article.topic)
         end
       end
     end

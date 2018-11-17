@@ -1,18 +1,24 @@
 'use strict';
 
-import Input from '../materialize/input';
+import TextField from '@material-ui/core/TextField';
 
-const SearchBar = ({label, children, onSearchInput}) => (
+const SearchBar = ({classes, label, children, onSearchInput}) => (
     <form className="tag-search"
+          noValidate={true}
           onSubmit={_handleSubmit}>
-        <Input id="filter-text-input"
-               title={label}
-               onChange={_handleSearchChange.bind(null, onSearchInput)}/>
+        <TextField id="filter-text-input"
+                   classes={{
+                       root: classes
+                   }}
+                   label={label}
+                   margin="normal"
+                   variant="standard"
+                   onChange={_handleSearchChange.bind(null, onSearchInput)}/>
     </form>
 );
 
-const _handleSearchChange = (onSearchInput, value) => {
-    onSearchInput(value);
+const _handleSearchChange = (onSearchInput, event) => {
+    onSearchInput(event.target.value);
 };
 
 const _handleSubmit = () => {
@@ -20,9 +26,10 @@ const _handleSubmit = () => {
 };
 
 SearchBar.propTypes = {
+    classes: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onSearchInput: PropTypes.func.isRequired,
     children: PropTypes.string
 };
 
-export default SearchBar;
+export default React.memo(SearchBar);

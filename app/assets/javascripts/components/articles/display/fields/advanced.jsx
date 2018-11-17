@@ -5,67 +5,91 @@ import {
 } from 'redux-form/immutable';
 
 import {
-    getCurrentLocale
-} from '../../../../selectors';
+    withStyles
+} from '@material-ui/core/styles';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
-import SwitchButtonField from '../../../materialize/form/switchButton';
-import SelectField from '../../../materialize/form/select';
-import TextField from '../../../materialize/form/text';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
-const ArticleAdvancedField = ({currentMode, articleReference, articleVisibility, articleLanguage, articleAllowComment, defaultVisibility}) => (
-    <div className="row margin-top-10">
-        <div className="col s12 m6 l4">
-            <Field id="article_visibility"
-                   name="visibility"
-                   title={I18n.t('js.article.model.visibility')}
-                   default={I18n.t('js.article.common.visibility')}
-                   options={I18n.t('js.article.enums.visibility')}
-                   component={SelectField}
-                   componentContent={articleVisibility || defaultVisibility}/>
-        </div>
+import SelectFieldForm from '../../../material-ui/form/select';
+import TextFieldForm from '../../../material-ui/form/text';
+import CheckBoxFieldForm from '../../../material-ui/form/checkbox';
+import SwitchFormField from '../../../material-ui/form/switch';
 
-        <div className="col s12 m6 l4">
-            <Field id="article_language"
-                   name="language"
-                   title={I18n.t('js.article.model.language')}
-                   options={I18n.t('js.languages')}
-                   component={SelectField}
-                   componentContent={articleLanguage || getCurrentLocale()}/>
-        </div>
+import styles from '../../../../../jss/article/form/common';
 
-        {
-            currentMode === 'story' &&
-            <div className="col s12 m6 l4 center-align">
-                <Field id="article_allow_comment"
-                       name="allow_comment"
-                       title={I18n.t('js.article.common.allow_comment.title')}
-                       values={I18n.t('js.article.common.allow_comment')}
-                       component={SwitchButtonField}
-                       componentContent={typeof articleAllowComment === 'undefined' && defaultVisibility === 'only_me' ? false : articleAllowComment}/>
+export default @withStyles(styles)
+
+class ArticleAdvancedField extends React.PureComponent {
+    static propTypes = {
+        currentMode: PropTypes.string.isRequired,
+        inheritVisibility: PropTypes.string,
+        // from styles
+        classes: PropTypes.object
+    };
+
+    render() {
+        return (
+            <div className="row">
+                <div className="col s12 center-align margin-top-10 margin-bottom-30">
+                    <Field name="draft"
+                           id="article_draft"
+                           label={I18n.t('js.article.common.draft')}
+                           component={CheckBoxFieldForm}/>
+                </div>
+
+                {
+                    this.props.inheritVisibility !== 'only_me' &&
+                    <div className="col s12 m6">
+                        <Field name="visibility"
+                               id="article_visibility"
+                               className={this.props.classes.select}
+                               label={I18n.t('js.article.model.visibility')}
+                               options={I18n.t('js.article.enums.visibility')}
+                               component={SelectFieldForm}/>
+                    </div>
+                }
+
+                {/*<div className="col s12 m6">*/}
+                    {/*<Field name="language"*/}
+                           {/*id="article_language"*/}
+                           {/*className={this.props.classes.select}*/}
+                           {/*label={I18n.t('js.article.model.language')}*/}
+                           {/*options={I18n.t('js.languages')}*/}
+                           {/*component={SelectFieldForm}/>*/}
+                {/*</div>*/}
+
+                {
+                    // this.props.currentMode === 'story' &&
+                    this.props.inheritVisibility !== 'only_me' &&
+                    <div className="col s12 m6">
+                        <Field name="allowComment"
+                               id="article_allow_comment"
+                               label={I18n.t('js.article.common.allow_comment.title')}
+                               values={I18n.t('js.article.common.allow_comment')}
+                               component={SwitchFormField}/>
+                    </div>
+                }
+
+                {
+                    this.props.currentMode !== 'link' &&
+                    <div className="col s12 margin-top-30 margin-bottom-30">
+                        <Field name="reference"
+                               id="article_reference"
+                               className={this.props.classes.select}
+                               icon="open_in_new"
+                               label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
+                               InputProps={{
+                                   startAdornment: (
+                                       <InputAdornment position="start">
+                                           <OpenInNewIcon/>
+                                       </InputAdornment>
+                                   ),
+                               }}
+                               component={TextFieldForm}/>
+                    </div>
+                }
             </div>
-        }
-
-        {
-            currentMode !== 'link' &&
-            <div className="col s12  margin-top-20 margin-bottom-10">
-                <Field id="article_reference"
-                       name="reference"
-                       icon="open_in_new"
-                       placeholder={I18n.t(`js.article.common.placeholders.reference.${currentMode}`)}
-                       component={TextField}
-                       componentContent={articleReference}/>
-            </div>
-        }
-    </div>
-);
-
-ArticleAdvancedField.propTypes = {
-    currentMode: PropTypes.string.isRequired,
-    articleReference: PropTypes.string,
-    articleAllowComment: PropTypes.bool,
-    articleLanguage: PropTypes.string,
-    articleVisibility: PropTypes.string,
-    defaultVisibility: PropTypes.string
-};
-
-export default ArticleAdvancedField;
+        );
+    }
+}

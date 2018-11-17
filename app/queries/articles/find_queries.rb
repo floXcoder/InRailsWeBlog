@@ -1,20 +1,49 @@
 # frozen_string_literal: true
 
 module Articles
-  class FindQueries
+  class FindQueries < BaseQuery
     attr_reader :relation
 
-    def initialize(relation = Article.all)
+    def initialize(current_user = nil, current_admin = nil, relation = Article.all)
+      super(current_user, current_admin)
+
       @relation = relation.extending(Scopes)
     end
 
-    def all(params = {}, current_user = nil, current_admin = nil)
+    def all(params = {})
+      @relation = if @current_user
+                    @relation
+                      .include_collection
+                      .with_adapted_visibility(@current_user, @current_admin)
+                      .order_by(filter_articles(params))
+                      .filter_by(params, @current_user)
+                      .paginate_or_limit(params)
+                  else
+                    @relation
+                      .include_collection
+                      .everyone
+                      .order_by(filter_articles(params))
+                      .paginate_or_limit(params)
+                  end
+
+
+      return @relation
+    end
+
+    def home(params = {})
       @relation = @relation
                     .include_collection
-                    .with_adapted_visibility(current_user, current_admin)
-                    .order_by(filter_articles(params))
-                    .filter_by(params, current_user)
-                    .paginate_or_limit(params)
+                    .everyone
+                    .home(params[:limit])
+
+      return @relation
+    end
+
+    def populars(params = {})
+      @relation = @relation
+                    .include_collection
+                    .everyone
+                    .populars(params[:limit])
 
       return @relation
     end
@@ -25,7 +54,7 @@ module Articles
       end
 
       def include_element
-        includes(:user, :parent_tags, :child_tags, :tagged_articles, :tracker)
+        includes(:user, :tagged_articles)
       end
 
       def with_adapted_visibility(current_user = nil, current_admin = nil)
@@ -93,7 +122,7 @@ module Articles
           end
 
           if filter[:topic_id]
-            records = records.from_topic_id(filter[:topic_id]) if filter[:topic_id]
+            records = records.from_topic_id(filter[:topic_id])
           elsif filter[:topic_slug]
             records = records.from_topic(filter[:topic_slug])
           end
@@ -108,7 +137,7 @@ module Articles
                   elsif filter[:child_tag_slug]
                     records.with_child_tags(filter[:child_tag_slug])
                   elsif filter[:tag_slug]
-                    current_user && current_user.settings['article_child_tagged'] ? records.with_tags(filter[:tag_slug]) : records.with_no_parent_tags(filter[:tag_slug])
+                    current_user&.settings['tag_parent_and_child'] ? records.with_tags(filter[:tag_slug]) : records.with_no_parent_tags(filter[:tag_slug])
                   else
                     records
                   end
@@ -121,22 +150,27 @@ module Articles
       end
 
       def paginate_or_limit(params)
-        params[:limit] ? self.limit(params[:limit]) : self.paginate(page: params[:page], per_page: Setting.per_page)
+        params[:limit].present? ? self.limit(params[:limit]) : self.paginate(page: params[:page], per_page: Setting.per_page)
       end
     end
 
     private
 
     def filter_articles(params)
-      if params[:order]
+      if params[:order].present?
         if @current_user && @current_user.article_order != params[:order]
           @current_user.settings['article_order'] = params[:order]
           @current_user.save
         end
 
         params[:order]
-      elsif @current_user&.article_order
-        @current_user.article_order
+      elsif @current_user
+        topic_order = nil
+        if params[:topic_slug].present?
+          topic       = @current_user.topics.friendly.find(params[:topic_slug])
+          topic_order = topic.article_order
+        end
+        topic_order || @current_user.article_order
       else
         'priority_desc'
       end

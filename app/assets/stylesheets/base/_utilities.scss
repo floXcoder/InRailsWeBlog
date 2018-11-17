@@ -1,6 +1,99 @@
-// Animate when visible
-.is-hidden {
-  opacity: 0;
+/*********************
+  Media Query Classes
+**********************/
+.hide-on-small {
+  @media #{$small-and-down} {
+    display: none !important;
+  }
+}
+
+.hide-on-med-and-down {
+  @media #{$medium-and-down} {
+    display: none !important;
+  }
+}
+
+.hide-on-med-and-up {
+  @media #{$medium-and-up} {
+    display: none !important;
+  }
+}
+
+.hide-on-med-only {
+  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
+    display: none !important;
+  }
+}
+
+.hide-on-large-only {
+  @media #{$large-and-up} {
+    display: none !important;
+  }
+}
+
+.hide-on-extra-large-only {
+  @media #{$extra-large-and-up} {
+    display: none !important;
+  }
+}
+
+.show-on-extra-large {
+  @media #{$extra-large-and-up} {
+    display: block !important;
+  }
+}
+
+.show-on-large {
+  @media #{$large-and-up} {
+    display: block !important;
+  }
+}
+
+.show-on-medium {
+  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
+    display: block !important;
+  }
+}
+
+.show-on-small {
+  @media #{$small-and-down} {
+    display: block !important;
+  }
+}
+
+.show-on-medium-and-up {
+  @media #{$medium-and-up} {
+    display: block !important;
+  }
+}
+
+.show-on-medium-and-down {
+  @media #{$medium-and-down} {
+    display: block !important;
+  }
+}
+
+.hide-on-med-to-large-only {
+  @media only screen and (min-width: $medium-screen) and (max-width: $large-screen) {
+    display: none !important;
+  }
+}
+
+.show-on-med-to-large-only {
+  @media only screen and (min-width: $medium-screen) and (max-width: $large-screen) {
+    width: 100% !important;
+  }
+}
+
+// Center text on mobile
+.center-on-small-only {
+  @media #{$small-and-down} {
+    text-align: center;
+  }
+}
+
+.hide {
+  display: none !important;
 }
 
 .is-visible {
@@ -21,17 +114,41 @@
   font-weight: 600;
 }
 
+// Text Align
+.left-align {
+  text-align: left;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.center,
+.center-align {
+  text-align: center;
+}
+
+.left {
+  float: left !important;
+}
+
+.right {
+  float: right !important;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
 // For honeypot
 .ensure-validity {
   display: none;
-}
-
-// Show full text button
-.btn-full-text {
-  height: 100%;
-  line-height: 28px;
-  padding-bottom: 5px;
-  padding-top: 5px;
 }
 
 // Hidden textarea for clipboard
@@ -58,38 +175,6 @@
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.adaptative-text {
-  font-weight: 300;
-  $i: 0;
-  @while $i <= $intervals {
-    @media only screen and (min-width: 360 + ($i * $interval-size)) {
-      font-size: .9rem * (1 + (.02 * $i));
-    }
-    $i: $i + 1;
-  }
-
-  // Handle below 360px screen
-  @media only screen and (max-width: 360px) {
-    font-size: 1.2rem;
-  }
-}
-
-.adaptative-title {
-  font-weight: 400;
-  $i: 0;
-  @while $i <= $intervals {
-    @media only screen and (min-width: 360 + ($i * $interval-size)) {
-      font-size: 2rem * (1 + (.02 * $i));
-    }
-    $i: $i + 1;
-  }
-
-  // Handle below 360px screen
-  @media only screen and (max-width: 360px) {
-    font-size: 2rem;
-  }
 }
 
 @for $i from 0 through 20 {
@@ -123,6 +208,20 @@
     .md-margin-bottom-#{$i * 10} {
       margin-bottom: $i * 10px !important;
     }
+  }
+}
+
+.hr-around-text {
+  align-items: center;
+  display: flex;
+  //margin: 1em 0;
+
+  &::before,
+  &::after {
+    border-bottom: 1px solid $border-color;
+    content: '';
+    flex: 1;
+    margin: 0 .8rem;
   }
 }
 

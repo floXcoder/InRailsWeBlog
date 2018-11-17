@@ -18,7 +18,7 @@ module.exports = (props = {}) => ({
     languages: ['fr'],
     visibility: 'everyone',
     visibilityTranslated: 'Public',
-    slug: `/article/${props.id}`,
+    slug: `/users/${props.id}/articles/${props.id}`,
     bookmarked: false,
     outdated: false,
     picturesCount: props.defined ? 4 : Math.random() * 10 | 0,

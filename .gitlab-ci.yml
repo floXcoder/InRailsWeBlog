@@ -2,6 +2,7 @@ stages:
   - build
   - test
   - deploy
+  - check
 
 .default-cache: &default-cache
   key: "ruby-2.5.1-debian-stretch-with-yarn"
@@ -60,7 +61,7 @@ brakeman:
   only:
     - develop
 
-rails_test:
+test:rails:
   stage: test
   variables:
     RAILS_ENV: "test"
@@ -74,7 +75,7 @@ rails_test:
   only:
     - develop
 
-npm_test:
+test:npm:
   stage: test
   <<: *pull-cache
   script:
@@ -100,7 +101,7 @@ deploy:
   only:
     - master
 
-postdeploy:
+check:deploy:
   stage: deploy
   cache: {}
   script:

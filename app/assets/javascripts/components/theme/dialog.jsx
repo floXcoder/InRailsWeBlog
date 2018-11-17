@@ -6,7 +6,7 @@ import {
 
 export default class Dialog extends React.Component {
     static propTypes = {
-        isOpened: PropTypes.bool.isRequired,
+        isOpen: PropTypes.bool.isRequired,
         children: PropTypes.object.isRequired
     };
 
@@ -15,7 +15,7 @@ export default class Dialog extends React.Component {
     }
 
     state = {
-        isOpened: false
+        isOpen: false
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -30,9 +30,9 @@ export default class Dialog extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (!prevState.isOpened && this.state.isOpened) {
+        if (!prevState.isOpen && this.state.isOpen) {
             document.addEventListener('click', this._closeOnDocumentClick);
-        } else if (prevState.isOpened && !this.state.isOpened) {
+        } else if (prevState.isOpen && !this.state.isOpen) {
             document.removeEventListener('click', this._closeOnDocumentClick);
         }
     }
@@ -50,7 +50,7 @@ export default class Dialog extends React.Component {
         }
 
         this.setState({
-            isOpened: false
+            isOpen: false
         });
     };
 
@@ -64,7 +64,7 @@ export default class Dialog extends React.Component {
         );
 
         return (
-            <FadeTransition in={this.state.isOpened}
+            <FadeTransition in={this.state.isOpen}
                             mountOnEnter={true}
                             unmountOnExit={true}>
                 {React.Children.only(this.props.children)}

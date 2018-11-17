@@ -106,11 +106,23 @@ module Api::V1
           #                 image: user.avatar_url
           #               }
           #
-          if params[:complete_user] && current_user && (current_user.id == user.id || current_user.admin?)
+
+          if params[:complete] && (current_user&.id == user.id || current_user.admin?)
             User.track_views(user.id)
             render json:       user,
                    serializer: UserCompleteSerializer
-          elsif params[:user_profile] && current_user&.id == user.id
+          elsif params[:profile] && current_user&.id == user.id
+            topic_slug = if params[:topic_slug].present?
+                           params[:topic_slug]
+                         elsif params[:article_slug].present?
+                           params[:article_slug].scan(/@(.*?)$/).last.first
+                         end
+
+            if topic_slug && current_user.current_topic.slug != topic_slug
+              topic = Topic.friendly.find(topic_slug)
+              user.switch_topic(topic) && user.save if topic.user_id == user.id
+            end
+
             render json:       user,
                    serializer: UserProfileSerializer
           else
@@ -231,13 +243,13 @@ module Api::V1
             redirect_to root_user_path(user)
           end
           format.json do
-            if params[:complete_user] && current_user
+            if params[:complete] && current_user
               authorize current_user, :admin?
-              render json:       user,
+              render json:       stored_user.result,
                      serializer: UserCompleteSerializer,
                      status:     :ok
             else
-              render json:       user,
+              render json:       stored_user.result,
                      serializer: UserSerializer
             end
           end

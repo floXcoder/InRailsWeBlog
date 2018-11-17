@@ -4,8 +4,8 @@ import {
     fetchComments
 } from '../../../actions';
 
-import Select from '../../materialize/select';
-import Checkbox from '../../materialize/checkbox';
+// import Select from '../../materialize/select';
+// import Checkbox from '../../materialize/checkbox';
 import Submit from '../../materialize/submit';
 
 export default @connect(null, {
@@ -14,7 +14,7 @@ export default @connect(null, {
 class CommentFilterDisplay extends React.Component {
     static propTypes = {
         filters: PropTypes.object,
-        // From connect
+        // from connect
         fetchComments: PropTypes.func
     };
 

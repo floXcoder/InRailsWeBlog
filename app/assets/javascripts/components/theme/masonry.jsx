@@ -2,6 +2,12 @@
 
 import '../../../stylesheets/components/masonry.scss';
 
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+
 import MasonryLoader from '../../loaders/masonry';
 
 const transitionDuration = 600;
@@ -149,21 +155,21 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 {
                     this.props.hasColumnButtons &&
                     <div className="masonry-buttons">
-                        <a className="masonry-button"
-                           href="#"
-                           onClick={this._handleColumnChange.bind(this, -1)}>
-                        <span className="material-icons"
-                              data-icon="more_horiz"
-                              aria-hidden="true"/>
-                        </a>
+                        <Tooltip title={I18n.t('js.article.masonry.add_column')}>
+                            <IconButton aria-label="Delete"
+                                        className="masonry-button"
+                                        onClick={this._handleColumnChange.bind(this, -1)}>
+                                <RemoveIcon/>
+                            </IconButton>
+                        </Tooltip>
 
-                        <a className="masonry-button"
-                           href="#"
-                           onClick={this._handleColumnChange.bind(this, 1)}>
-                        <span className="material-icons"
-                              data-icon="more_vert"
-                              aria-hidden="true"/>
-                        </a>
+                        <Tooltip title={I18n.t('js.article.masonry.remove_column')}>
+                            <IconButton aria-label="Delete"
+                                        className="masonry-button"
+                                        onClick={this._handleColumnChange.bind(this, 1)}>
+                                <AddIcon/>
+                            </IconButton>
+                        </Tooltip>
                     </div>
                 }
 

@@ -53,6 +53,7 @@ class Tag < ApplicationRecord
   has_paper_trail on: [:update], only: [:name, :description_translations, :synonyms]
 
   # Track activities
+  ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { click: :add_visit_activity }
 
@@ -72,6 +73,7 @@ class Tag < ApplicationRecord
              language:    -> { I18n.locale == :fr ? 'french' : 'english' }
 
   # Comments
+  ## scopes: most_rated, recently_rated
   include CommentableConcern
 
   # Marked as deleted

@@ -35,7 +35,7 @@ describe Tags::FindQueries, type: :query, basic: true do
       end
 
       it 'returns all public tags and user tags' do
-        tags = ::Tags::FindQueries.new.all({}, @user)
+        tags = ::Tags::FindQueries.new(@user).all({})
 
         expect(tags.count).to eq(Tag.everyone_and_user(@user.id).count)
       end
@@ -47,7 +47,7 @@ describe Tags::FindQueries, type: :query, basic: true do
       end
 
       it 'returns all public tags and user tags' do
-        tags = ::Tags::FindQueries.new.all({}, @user, @admin)
+        tags = ::Tags::FindQueries.new(@user, @admin).all({})
 
         expect(tags.count).to eq(Tag.all.count)
       end

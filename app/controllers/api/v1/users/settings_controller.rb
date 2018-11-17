@@ -25,22 +25,29 @@ module Api::V1
       user = User.find(params[:user_id])
       authorize user, :settings?
 
-      if params[:settings]
+      topic = params[:topic_slug].present? ? user.topics.find_by(slug: params[:topic_slug]) : nil
+
+      if params[:settings].present?
         params[:settings].each do |pref_type, pref_value|
           if pref_value == 'true'
             pref_value = true
           elsif pref_value == 'false'
             pref_value = false
           end
-          user.settings[pref_type.to_s.downcase] = pref_value
+          if topic
+            topic.settings[pref_type.to_s.downcase] = pref_value
+          else
+            user.settings[pref_type.to_s.downcase] = pref_value
+          end
         end
-        user.save
+        topic ? topic.save : user.save
       end
 
       respond_to do |format|
         format.json do
-          render json:       user,
+          render json:       (topic || user),
                  root:       'settings',
+                 meta:       { topic: !!topic },
                  serializer: SettingSerializer
         end
       end

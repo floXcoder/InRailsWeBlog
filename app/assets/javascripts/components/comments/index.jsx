@@ -28,7 +28,7 @@ class CommentIndex extends React.Component {
         isPaginated: PropTypes.bool,
         onPaginationClick: PropTypes.func,
         isTable: PropTypes.bool,
-        // From connect
+        // from connect
         hasInitialComments: PropTypes.bool,
         isLoading: PropTypes.bool,
         comments: PropTypes.array,

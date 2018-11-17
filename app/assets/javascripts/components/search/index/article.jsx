@@ -4,14 +4,24 @@ import {
     Link
 } from 'react-router-dom';
 
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import Chip from '@material-ui/core/Chip';
+
+import FilterListIcon from '@material-ui/icons/FilterList';
+import LabelIcon from '@material-ui/icons/Label';
+
 import {
     spyTrackClick
 } from '../../../actions';
 
 import Dropdown from '../../theme/dropdown';
 
-export default class SearchArticleIndex extends React.Component {
+export default class SearchArticleIndex extends React.PureComponent {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         articles: PropTypes.array.isRequired,
         isSearching: PropTypes.bool.isRequired,
         onFilter: PropTypes.func.isRequired,
@@ -36,27 +46,25 @@ export default class SearchArticleIndex extends React.Component {
 
     render() {
         return (
-            <div className="search-index-category">
-                <h2>
+            <div className={this.props.classes.category}>
+                <h2 className={this.props.classes.categoryName}>
                     {I18n.t('js.search.index.articles.title')}
 
-                    <span className="search-index-count">
+                    <span className={this.props.classes.categoryCount}>
                         {`(${I18n.t('js.search.index.results', {count: this.props.articles.length})})`}
                     </span>
 
-                    <div className="search-index-filter">
+                    <div className={this.props.classes.categoryFilter}>
                         <Dropdown hasWavesEffect={false}
-                                  buttonClassName="header-button"
                                   isClosingOnInsideClick={true}
                                   hasArrow={true}
                                   position="bottom right"
                                   button={
-                                      <span>
-                                        {I18n.t('js.search.index.filters.button')}
-                                        <span className="material-icons"
-                                              data-icon="filter_list"
-                                              aria-hidden="true"/>
-                                    </span>
+                                      <Button className={this.props.classes.categoryFilterButton}
+                                      >
+                                          {I18n.t('js.search.index.filters.button')}
+                                          <FilterListIcon/>
+                                      </Button>
                                   }>
                             <ul>
                                 <li>
@@ -89,44 +97,50 @@ export default class SearchArticleIndex extends React.Component {
                     </div>
                 </h2>
 
-                <div className="article-result-list">
+                <div>
                     {
                         this.props.articles.map((article) => (
-                            <div key={article.id}
-                                 className="article-item search-card-article"
-                                 onClick={this._handleArticleClick.bind(this, article)}>
-                                <div className="article-content">
-                                    <div className="article-title">
-                                        <Link to={`/article/${article.slug}`}
-                                              onClick={spyTrackClick.bind(null, 'article', article.id, article.slug, article.title)}>
-                                            <span className="title"
-                                                  dangerouslySetInnerHTML={{__html: article.title}}/>
-                                        </Link>
+                            <Card key={article.id}
+                                  className={this.props.classes.articleCard}
+                                  component="article">
+                                <CardHeader title={
+                                    <Link className={this.props.classes.articleTitle}
+                                          to={`/users/${article.user.slug}/articles/${article.slug}`}
+                                          onClick={this._handleArticleClick.bind(this, article)}>
+                                        <span className="title"
+                                              dangerouslySetInnerHTML={{__html: article.title}}/>
+                                    </Link>
+                                }
+                                            subheader={
+                                                <span className={this.props.classes.articleSubtitle}>
+                                                    {`(${article.date} - ${article.user.pseudo})`}
+                                                </span>
+                                            }
+                                />
 
-                                        <span className="article-subtitle">
-                                            {`(${article.date} - ${article.user.pseudo})`}
-                                        </span>
-                                    </div>
+                                <CardContent classes={{
+                                    root: this.props.classes.articleContent
+                                }}>
+                                    <div className="normalized-content"
+                                         dangerouslySetInnerHTML={{__html: article.content}}/>
 
-                                    <div className="search-article-tags article-tags">
+                                    <div className={this.props.classes.articleTags}>
                                         {
                                             article.tags.map((tag) => (
-                                                <div key={tag.id}
-                                                     className="article-tag">
-                                                    <Link className="tag-default"
-                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
-                                                          to={`/article/tags/${tag.slug}`}>
-                                                        {tag.name}
-                                                    </Link>
-                                                </div>
+                                                <Chip key={tag.id}
+                                                      className={this.props.classes.articleTag}
+                                                      component={Link}
+                                                      to={`/tagged/${tag.slug}`}
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
+                                                      icon={<LabelIcon/>}
+                                                      label={tag.name}
+                                                      clickable={true}
+                                                      variant="outlined"/>
                                             ))
                                         }
                                     </div>
-
-                                    <div className="blog-article-content"
-                                         dangerouslySetInnerHTML={{__html: article.content}}/>
-                                </div>
-                            </div>
+                                </CardContent>
+                            </Card>
                         ))
                     }
                 </div>

@@ -2,7 +2,7 @@
 
 const EnsureValidity = () => (
     <div className="ensure-validity">
-        <input id="ensure_validity"
+        <input id={`ensure_validity_${Utils.uuid()}`}
                className="validate"
                name="ensure[validity]"
                defaultValue=""
@@ -11,5 +11,5 @@ const EnsureValidity = () => (
     </div>
 );
 
-export default EnsureValidity;
+export default React.memo(EnsureValidity);
 

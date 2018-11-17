@@ -1,15 +1,30 @@
 'use strict';
 
 import {
+    withRouter,
     Link
 } from 'react-router-dom';
 
-import Waypoint from 'react-waypoint';
+import Observer from '@researchgate/react-intersection-observer';
 
 import {
     StickyContainer,
     Sticky
 } from 'react-sticky';
+
+import {
+    withStyles
+} from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {
     spyTrackClick,
@@ -19,39 +34,45 @@ import {
 import highlight from '../../modules/highlight';
 
 import ArticleTags from '../properties/tags';
-import ArticleTime from '../properties/time';
-import ArticleUserIcon from '../icons/user';
+import ArticleAvatarIcon from '../icons/avatar';
 import ArticleFloatingIcons from '../properties/floatingIcons';
 import ArticleActions from '../properties/actions';
 
-import CommentCountIcon from '../../comments/icons/count';
+import styles from '../../../../jss/article/card';
 
-import Collapsible from '../../theme/collapsible';
-
-export default @highlight()
+export default @withRouter
+@highlight()
+@withStyles(styles)
 class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,
         isOutdated: PropTypes.bool,
-        isMasonry: PropTypes.bool,
         isMinimized: PropTypes.bool,
         hasActions: PropTypes.bool,
         onInlineEdit: PropTypes.func,
+        onEnter: PropTypes.func,
+        onExit: PropTypes.func,
         onClick: PropTypes.func,
-        onShow: PropTypes.func
+        // from highlight
+        onShow: PropTypes.func,
+        // from withRouter
+        history: PropTypes.object,
+        // from styles
+        classes: PropTypes.object
     };
 
     static defaultProps = {
         isOwner: false,
         isOutdated: false,
-        isMasonry: false,
         isMinimized: false,
         hasActions: true
     };
 
     constructor(props) {
         super(props);
+
+        this._headerRef = null;
     }
 
     state = {
@@ -71,149 +92,165 @@ class ArticleCardDisplay extends React.Component {
         return null;
     }
 
-    _handleWaypointEnter = () => {
-        spyTrackView('article', this.props.article.id);
+    _handleViewportChange = event => {
+        if (event.isIntersecting) {
+            spyTrackView('article', this.props.article.id);
 
-        if (this.props.onShow) {
-            this.props.onShow(this.props.article.id);
+            if (this.props.onShow) {
+                this.props.onShow(this.props.article.id);
+            }
+
+            if (this.props.onEnter) {
+                this.props.onEnter(this.props.article);
+            }
+        } else {
+            if (this.props.onExit) {
+                this.props.onExit(this.props.article);
+            }
         }
     };
 
     _handleFoldClick = (event) => {
         event.preventDefault();
 
-        if (this.props.isMasonry) {
-            this.props.onClick();
-        } else {
-            this.setState({
-                isFolded: !this.state.isFolded
-            });
-        }
+        this.setState({
+            isFolded: !this.state.isFolded
+        });
+    };
+
+    _handleTitleClick = (event) => {
+        event.preventDefault();
+
+        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
+
+        const position = ReactDOM.findDOMNode(this._headerRef).getBoundingClientRect();
+
+        this.props.history.push({
+            pathname: `/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`,
+            state: {
+                position: {x: position.x, y: position.y},
+                title: this.props.article.title
+            }
+        });
     };
 
     render() {
         return (
             <StickyContainer>
-                <div className="article-item">
-                    <Waypoint onEnter={this._handleWaypointEnter}/>
-
-                    <div className="article-floating-container">
-                        <Sticky topOffset={-50}
-                                bottomOffset={-160}>
-                            {({style, isSticky}) => (
-                                <ArticleFloatingIcons style={style}
-                                                      isSticky={isSticky}
-                                                      isOwner={this.props.isOwner}
-                                                      articleId={this.props.article.id}
-                                                      articleSlug={this.props.article.slug}
-                                                      articleTitle={this.props.article.title}/>
-                            )}
-                        </Sticky>
-                    </div>
-
-                    <div className={classNames('article-content', {
-                             'article-outdated': this.props.article.outdated
-                         })}>
+                <Observer onChange={this._handleViewportChange}>
+                    <Card component="article"
+                          id={this.props.article.id}
+                          className={classNames(this.props.classes.card, {
+                              [this.props.classes.outdated]: this.props.article.outdated
+                          })}>
                         {
-                            this.props.article.title &&
-                            <div className="article-title">
-                                <Link to={`/article/${this.props.article.slug}`}
-                                      onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
-                                    <h2 className="title">
-                                        {this.props.article.title}
-                                    </h2>
-                                </Link>
-
-                                <span className="article-collapsible-button">
-                                    <a href="#"
-                                       onClick={this._handleFoldClick}>
-                                       {
-                                           this.props.isMasonry
-                                               ?
-                                               <span className="material-icons"
-                                                     data-icon="fullscreen_exit"
-                                                     aria-hidden="true"/>
-                                               :
-                                               this.state.isFolded
-                                                   ?
-                                                   <span className="material-icons"
-                                                         data-icon="vertical_align_bottom"
-                                                         aria-hidden="true"/>
-                                                   :
-                                                   <span className="material-icons"
-                                                         data-icon="vertical_align_center"
-                                                         aria-hidden="true"/>
-                                       }
-                                    </a>
-                                </span>
+                            this.props.hasActions &&
+                            <div className={this.props.classes.floatingButtons}>
+                                <Sticky topOffset={-80}
+                                        bottomOffset={-260}>
+                                    {({style, isSticky}) => (
+                                        <ArticleFloatingIcons style={style}
+                                                              className={this.props.classes.floatingIcons}
+                                                              isSticky={isSticky}
+                                                              display="list"
+                                                              size="default"
+                                                              color="primary"
+                                                              isOwner={this.props.isOwner}
+                                                              userSlug={this.props.article.user.slug}
+                                                              articleId={this.props.article.id}
+                                                              articleSlug={this.props.article.slug}
+                                                              articleTitle={this.props.article.title}
+                                                              articleVisibility={this.props.article.visibility}/>
+                                    )}
+                                </Sticky>
                             </div>
                         }
 
-                        {
-                            (!this.props.article.title && this.props.isMasonry) &&
-                            <span className="article-collapsible-button article-no-title">
-                            <a href="#"
-                               onClick={this._handleFoldClick}>
-                               <span className="material-icons"
-                                     data-icon="fullscreen_exit"
-                                     aria-hidden="true"/>
-                            </a>
-                        </span>
-                        }
-
-                        <Collapsible isDefaultOpen={true}
-                                     isForceOpen={!this.state.isFolded}
-                                     className="article-collapsible">
-                            <div className="article-info">
-                                <div className="blog-article-info">
-                                    <ArticleUserIcon user={this.props.article.user}/>
-
-                                    <span className="blog-article-info-sep">|</span>
-
-                                    <ArticleTime articleDate={this.props.article.date}/>
-
-                                    {
-                                        this.props.article.visibility === 'everyone' &&
-                                        <CommentCountIcon
-                                            commentLink={`/article/${this.props.article.slug}#article-comments-${this.props.article.id}`}
-                                            commentsCount={this.props.article.commentsCount}
-                                            hasIcon={false}/>
+                        <CardHeader innerRef={(ref) => this._headerRef = ref}
+                                    classes={{
+                                        root: this.props.classes.header
+                                    }}
+                                    action={
+                                        <IconButton className={classNames(this.props.classes.expand, {
+                                            [this.props.classes.expandOpen]: this.state.isFolded
+                                        })}
+                                                    aria-expanded={this.state.isFolded}
+                                                    aria-label="Show more"
+                                                    onClick={this._handleFoldClick}>
+                                            <ExpandMoreIcon/>
+                                        </IconButton>
                                     }
-                                </div>
-                            </div>
+                                    title={
+                                        <Grid container={true}
+                                              classes={{
+                                                  container: this.props.classes.info
+                                              }}
+                                              spacing={16}
+                                              direction="row"
+                                              justify="space-between"
+                                              alignItems="center">
+                                            <Grid classes={{
+                                                item: this.props.classes.infoItem
+                                            }}
+                                                  item={true}>
+                                                <ArticleAvatarIcon classes={this.props.classes}
+                                                                   user={this.props.article.user}
+                                                                   articleDate={this.props.article.date}/>
+                                            </Grid>
+                                        </Grid>
+                                    }
+                                    subheader={
+                                        <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                              onClick={this._handleTitleClick}>
+                                            <h1 className={this.props.classes.title}>
+                                                {this.props.article.title}
+                                            </h1>
+                                        </Link>
+                                    }/>
 
-                            <div className="blog-article-content"
-                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
-
+                        <Collapse in={!this.state.isFolded}
+                                  timeout="auto"
+                                  unmountOnExit={true}>
                             {
-                                this.props.article.tags.size > 0 &&
-                                <div className="blog-article-info">
+                                this.props.article.defaultPicture &&
+                                <CardMedia className={this.props.classes.media}
+                                           image={this.props.article.defaultPicture}
+                                           title={this.props.article.name}/>
+                            }
+
+                            <CardContent classes={{
+                                root: this.props.classes.content
+                            }}>
+                                <div className="normalized-content"
+                                     dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                            </CardContent>
+
+                            <CardActions className={this.props.classes.actions}
+                                         disableActionSpacing={true}>
+                                {
+                                    this.props.article.tags.size > 0 &&
                                     <ArticleTags articleId={this.props.article.id}
                                                  tags={this.props.article.tags}
                                                  parentTagIds={this.props.article.parentTagIds}
                                                  childTagIds={this.props.article.childTagIds}/>
-                                </div>
-                            }
+                                }
 
-                            {
-                                this.props.isOwner &&
-                                <div className="article-actions">
-                                    <div className="article-actions-text">
-                                        {I18n.t('js.article.common.actions')}
-                                    </div>
-
-                                    <ArticleActions isInline={true}
+                                {
+                                    this.props.isOwner &&
+                                    <ArticleActions classes={this.props.classes}
+                                                    isInline={true}
+                                                    userSlug={this.props.article.user.slug}
                                                     articleId={this.props.article.id}
                                                     articleSlug={this.props.article.slug}
                                                     articleTitle={this.props.article.title}
                                                     articleVisibility={this.props.article.visibility}
                                                     isOutdated={this.props.article.outdated}
                                                     isBookmarked={this.props.article.bookmarked}/>
-                                </div>
-                            }
-                        </Collapsible>
-                    </div>
-                </div>
+                                }
+                            </CardActions>
+                        </Collapse>
+                    </Card>
+                </Observer>
             </StickyContainer>
         );
     }

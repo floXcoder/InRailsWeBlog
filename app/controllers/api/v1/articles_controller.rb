@@ -32,7 +32,13 @@ module Api::V1
     respond_to :html, :json
 
     def index
-      articles = ::Articles::FindQueries.new.all(filter_params.merge(page: params[:page], limit: params[:limit]), current_user, current_admin)
+      articles = if params[:home]
+                   ::Articles::FindQueries.new.home(limit: params[:limit])
+                 elsif params[:populars]
+                   ::Articles::FindQueries.new.populars(limit: params[:limit])
+                 else
+                   ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
+                 end
 
       respond_to do |format|
         format.json do
@@ -138,7 +144,7 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message unless params[:auto_save]
-            render json:          article,
+            render json:          stored_article.result,
                    serializer:    ArticleSerializer,
                    with_vote:     true,
                    with_outdated: true,

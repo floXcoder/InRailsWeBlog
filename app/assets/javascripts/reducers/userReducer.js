@@ -77,16 +77,18 @@ export default function userReducer(state = new initState(), action) {
                         user: new Records.UserRecord(payload.user),
                         isConnected: true
                     };
-                } else if (payload.settings) {
+                } else if (payload.settings && (!payload.meta || !payload.meta.topic)) {
                     return {
                         user: state.user && state.user.merge({settings: new Records.SettingsRecord(payload.settings)})
                     };
-                } else {
+                } else if (payload.user) {
                     return {
                         user: new Records.UserRecord(payload.user)
                     };
+                } else {
+                    return {};
                 }
-            }, ['connection', 'settings']);
+            }, ['connection', 'settings', 'meta']);
 
         case ActionTypes.USER_RECENTS:
         case ActionTypes.USER_RECENTS_CHANGE_INIT:

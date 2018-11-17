@@ -1,5 +1,9 @@
 'use strict';
 
+import HomeHome from './components/loaders/homeHome';
+
+import TopicModal from './components/loaders/topicModal';
+
 import ArticleIndex from './components/loaders/articleIndex';
 import ArticleShow from './components/loaders/articleShow';
 import ArticleNew from './components/loaders/articleNew';
@@ -12,6 +16,7 @@ import TagShow from './components/loaders/tagShow';
 import TagEdit from './components/loaders/tagEdit';
 import TagSort from './components/loaders/tagSort';
 
+import UserHome from './components/loaders/userHome';
 // import UserShow from './components/loaders/userShow';
 // import UserEdit from './components/loaders/userEdit';
 
@@ -33,137 +38,165 @@ export default {
     // /422
     // /500
 
-    loading: {
-        path: '/',
-        exact: true
-    },
-
-    home: {
-        views: [
+    static: {
+        home: [
             {
                 path: '/',
                 exact: true,
-                component: ArticleIndex
+                component: () => HomeHome
             },
             {
                 path: '/search',
-                component: SearchIndex
+                hasBreadcrumb: false,
+                component: () => SearchIndex
             },
+            // tag
             {
-                path: '/user/:topicSlug',
+                path: '/tags/:tagSlug',
                 exact: true,
-                component: ArticleIndex
-            },
-            {
-                path: '/user/:topicSlug/tags',
-                exact: true,
-                component: TagIndex
-            },
-            {
-                path: '/user/:topicSlug/sort',
-                exact: true,
-                component: ArticleSort
-            },
-            {
-                path: '/user/:userSlug/:topicSlug/tagged/:tagSlug/:childTagSlug?',
-                exact: false,
-                component: ArticleIndex
-            },
-            {
-                path: '/user/:userSlug/:topicSlug',
-                exact: true,
-                component: ArticleIndex
-            },
-            {
-                path: '/user/:userSlug/:topicSlug/:articleSlug',
-                exact: true,
-                component: ArticleShow
-            },
-            {
-                path: '/topic/:userSlug/:topicSlug',
-                exact: true,
-                component: ArticleIndex
-            },
-            {
-                path: '/tags/:userSlug/sort',
-                exact: true,
-                component: TagSort
-            },
-            {
-                path: '/tags/:userSlug',
-                exact: true,
-                component: TagIndex
+                component: () => TagShow
             },
             {
                 path: '/tags',
                 exact: true,
-                component: TagIndex
+                component: () => TagIndex
             },
-            {
-                path: '/tag/:tagSlug',
-                exact: true,
-                component: TagShow
-            },
-            {
-                path: '/tag/:tagSlug/edit',
-                exact: true,
-                component: TagEdit
-            },
+            // tagged
             {
                 path: '/tagged/:tagSlug/:childTagSlug?',
                 exact: false,
-                component: ArticleIndex
+                component: () => ArticleIndex
+            },
+            // user: topics
+            {
+                path: '/users/:userSlug/topics/:topicSlug',
+                exact: true,
+                component: () => ArticleIndex
+            },
+            // user : tags
+            {
+                path: '/users/:userSlug/topics/:topicSlug/tags',
+                exact: true,
+                component: () => TagIndex
+            },
+            // user: articles
+            {
+                path: '/users/:userSlug',
+                exact: true,
+                component: () => ArticleIndex
             },
             {
-                path: '/article/new',
+                path: '/users/:userSlug/articles/:articleSlug',
                 exact: true,
-                component: ArticleNew
+                component: () => ArticleShow
             },
-            {
-                path: '/article/:articleSlug/edit',
-                exact: true,
-                component: ArticleEdit
-            },
-            {
-                path: '/article/:articleSlug/history',
-                exact: true,
-                component: ArticleHistory
-            },
-            {
-                path: '/article/:topicSlug/:articleSlug',
-                exact: true,
-                component: ArticleShow
-            },
-            {
-                path: '/article/:articleSlug',
-                exact: true,
-                component: ArticleShow
-            },
-            // {
-            //     path: '/topic/:topicSlug/tags/:tagSlug',
-            //     exact: true,
-            //     component: ArticleIndex
-            // },
-            // {
-            //     path: '/topic/:topicSlug/user/:userSlug',
-            //     component: ArticleIndex
-            // },
-            // {
-            //     path: '/topic/:topicSlug/article/new',
-            //     exact: true,
-            //     component: ArticleNew
-            // },
-            // {
-            //     path: '/topic/:topicSlug/article/:articleSlug',
-            //     component: ArticleShow
-            // },
-            // {
-            //     path: '/topic/:topicSlug/article/:articleSlug/edit',
-            //     component: ArticleEdit
-            // }
+            // Miscellaneous
             {
                 path: '/404',
-                component: NotFound
+                component: () => NotFound
+            }
+        ],
+        user: [
+            {
+                path: '/',
+                exact: true,
+                tagCloud: true,
+                component: () => UserHome
+            },
+            // search
+            {
+                path: '/search',
+                hasBreadcrumb: false,
+                component: () => SearchIndex
+            },
+            // tag
+            {
+                path: '/tags/:tagSlug/edit',
+                exact: true,
+                component: () => TagEdit
+            },
+            {
+                path: '/tags/:userSlug/sort',
+                exact: true,
+                component: () => TagSort
+            },
+            {
+                path: '/tags/:tagSlug',
+                exact: true,
+                component: () => TagShow
+            },
+            {
+                path: '/tags',
+                exact: true,
+                component: () => TagIndex
+            },
+            // tagged
+            {
+                path: '/tagged/:tagSlug/:childTagSlug?',
+                exact: false,
+                tagCloud: true,
+                // redirect: true,
+                // redirectCondition: 'tagSlug',
+                // redirectPath: (options = {}) => `/users/${options.userSlug}/topics/${options.topicSlug}/tagged/${options.tagSlug}` + (options.childTagSlug ? `/${options.childTagSlug}` : ''),
+                component: () => ArticleIndex
+            },
+            {
+                path: '/users/:userSlug/topics/:topicSlug/tagged/:tagSlug/:childTagSlug?',
+                exact: false,
+                component: () => ArticleIndex
+            },
+            // user: topics
+            {
+                path: '/users/:userSlug/topics',
+                exact: true,
+                component: () => UserHome
+            },
+            {
+                path: '/users/:userSlug/topics/:topicSlug',
+                exact: true,
+                component: () => ArticleIndex
+            },
+            // user : tags
+            {
+                path: '/users/:userSlug/topics/:topicSlug/tags',
+                exact: true,
+                component: () => TagIndex
+            },
+            // user: articles
+            {
+                path: '/users/:userSlug/topics/:topicSlug/sort',
+                exact: true,
+                component: () => ArticleSort
+            },
+            {
+                path: '/users/:userSlug/topics/:topicSlug/article-new',
+                exact: true,
+                component: () => ArticleNew
+            },
+            {
+                path: '/users/:userSlug/articles/:articleSlug/edit',
+                exact: true,
+                component: () => ArticleEdit
+            },
+            {
+                path: '/users/:userSlug/articles/:articleSlug/history',
+                exact: true,
+                component: () => ArticleHistory
+            },
+            {
+                path: '/users/:userSlug/articles/:articleSlug',
+                exact: true,
+                component: () => ArticleShow
+            },
+            {
+                path: '/users/:userSlug',
+                exact: true,
+                component: () => UserHome
+            },
+            // Miscellaneous
+            {
+                path: '/404',
+                component: () => NotFound
             }
         ]
     },
@@ -173,13 +206,17 @@ export default {
         header: [
             {
                 path: 'search',
-                component: SearchModule
+                component: () => SearchModule
             }
         ],
         main: [
             {
                 path: 'new-article',
-                component: ArticleNew
+                component: () => ArticleNew
+            },
+            {
+                path: 'new-topic',
+                component: () => TopicModal
             }
         ]
     }

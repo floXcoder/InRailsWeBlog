@@ -25,6 +25,9 @@ const initState = new Record({
     articles: new List(),
     pagination: new Map(),
 
+    homeArticles: new List(),
+    popularArticles: new List(),
+
     article: undefined,
     articleEditionId: undefined,
     articleVersions: undefined
@@ -45,13 +48,21 @@ export default function articleReducer(state = new initState(), action) {
                         return {
                             articles: state.articles.concat(toList(payload.articles, Records.ArticleRecord))
                         };
+                    } else if (payload.home) {
+                        return {
+                            homeArticles: toList(payload.articles, Records.ArticleRecord)
+                        };
+                    } else if (payload.populars) {
+                        return {
+                            popularArticles: toList(payload.articles, Records.ArticleRecord)
+                        };
                     } else {
                         return {
                             articles: toList(payload.articles, Records.ArticleRecord)
                         };
                     }
                 }
-            }, ['infinite']);
+            }, ['infinite', 'home', 'populars']);
 
         case ActionTypes.ARTICLE_EDITION:
             return state.merge({

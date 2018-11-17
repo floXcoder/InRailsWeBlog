@@ -50,6 +50,10 @@ fr:
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
       home:
         loader: "Chargement"
+        articles:
+          title: "Explorez les articles populaires"
+        tags:
+          title: "Labels"
     user:
       model:
         pseudo: "Pseudo"
@@ -90,6 +94,14 @@ fr:
         externals:
           google: "S'inscrire avec Google"
           facebook: "S'inscrire avec Facebook"
+      home:
+        private:
+          title: "Vos thèmes privés"
+          subtitle: "Les articles associés seront vus uniquement par vous (avec vos propres labels)"
+        public:
+          title: "Vos thèmes publiques"
+          subtitle: "Les articles seront partagés pour tout le mondes (avec les labels communs)"
+        add_topic: "Ajouter un thème"
       index:
         link_to_user: "Détails de l'utilisateur"
         search: "Chercher utilisateur"
@@ -157,14 +169,13 @@ fr:
               inline: "Un seul article global"
               card: "Cartes indépendantes"
               grid: "En grille"
-          child_tagged:
-            title: "Afficher les articles enfants avec le parent"
         tag:
           title: "Labels"
           sidebar:
             title: "Sidebar"
             with_child: "Afficher les labels enfants dans la liste principale"
             pin: "Liste des labels visibles par défaut"
+          parent_and_child: "Afficher les articles enfants avec le parent"
           order:
             title: "Ordre des labels par défaut"
             mode:
@@ -172,6 +183,7 @@ fr:
               priority: "Priorité"
         search:
           title: "Recherche"
+          options: "Résultats"
           operator:
             title: "Opérateur"
             mode:
@@ -333,6 +345,8 @@ fr:
           parent: "Ajouter des labels principaux"
           child: "Ajouter des labels secondaires"
           placeholder: "Entrer le nom du label"
+          everyone: "Labels partagés"
+          only_me: "Labels perso"
           add: "Ajouter le label :"
           none: "Sans labels"
         tooltips:
@@ -351,6 +365,7 @@ fr:
           common: "Merci de remplir l'article comme indiqué avant de continuer"
       form:
         unsaved: "Quitter sans sauvegarder l'article ?"
+        next: "Suivant"
       model:
         title: "Titre"
         summary: "Résumé"
@@ -367,9 +382,7 @@ fr:
           true: "Activé"
           false: "Désactivé"
         topic: "Thème"
-        tagged_articles:
-          tag:
-            name: "Tag associé à l'article"
+        tagged_articles: "Labels de l'article"
       enums:
         visibility:
           everyone: "Public"
@@ -399,6 +412,9 @@ fr:
         update: "Mettre à jour"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
+      masonry:
+        add_column: "Ajouter colonne"
+        remove_column: "Enlever colonne"
       history:
         changed_at: "Version modifiée"
         restore: "Restaurer cette version"
@@ -446,6 +462,8 @@ fr:
       timeline:
         title: "Nouvel article :"
         no_articles: "Pas d'articles à afficher"
+      toc:
+        title: "Table des matières"
       clipboard: "Article temporaire créé avec les données copiées"
       errors:
         default: "Impossible de créer l'article ! Merci de réessayer."
@@ -471,8 +489,10 @@ fr:
         button: "Rechercher"
         tags:
           title: "Labels"
+          recents: "(Labels récents)"
         articles:
           title: "Articles"
+          recents: "(Articles récents)"
       index:
         placeholder: "Recherche"
         button: "Trouver"
@@ -491,7 +511,7 @@ fr:
         route: "commentaires"
         title: "Commentaires"
         empty: "Soyez le premier à mettre votre commentaire !"
-        no_opinion: "Aucun utilisateur n'a encore commenté"
+        no_opinion: "Soyez le premier à mettre un commentaire ..."
         actions: "Actions"
         loading: "Chargement des commentaires ..."
         no_data: "Pas de commentaires à afficher pour cette sélection"
@@ -642,9 +662,6 @@ fr:
         show:
           title: "Détails de l'utilisateur"
     form:
-      wizard:
-        previous: "Précédent"
-        next: "Suivant"
       errors:
         text: "Ce champ est requis"
         alphanumeric: "Ne doit contenir que des lettres, chiffres ou tirets"
@@ -817,9 +834,10 @@ fr:
         not_authorized: "Vous n'avez pas la permission d'accéder à cette ressource !"
         frontend: "Une erreur est survenue, essayer de rafraîchir ou retourner à la page d'accueil"
         unprocessable: "Impossible de prendre en compte cet élément, données incorrectes"
+        network: "Problème réseau, merci de vérifier votre connexion"
+        server: "Une erreur serveur s'est produite, merci de réessayer plus tard"
         boundary:
           title: "Impossible d'afficher le composant"
           message: "Une erreur est survenue lors de l'affichage du composant. Merci de recharger la page."
           header: "Impossible d'afficher le menu"
           footer: "Impossible d'afficher le bas de page"
-        server: "Une erreur serveur s'est produite, merci de réessayer plus tard"

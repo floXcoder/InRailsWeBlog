@@ -5,11 +5,11 @@ __webpack_public_path__ = process.env.ASSET_PATH;
 // Polyfill promise
 require('es6-promise').polyfill();
 
+// Polyfill observer
+import 'intersection-observer';
+
 // jQuery
 import 'jquery-ujs';
-
-// Materialize
-import './common/materialize';
 
 // Expose global variables
 import * as utils from './modules/utils';
@@ -27,6 +27,9 @@ import I18n from 'imports-loader?this=>window!./modules/i18n';
 window.I18n = I18n;
 window.I18n.defaultLocale = window.defaultLocale;
 window.I18n.locale = window.locale;
+
+// Image lazyloading
+import 'lazysizes';
 
 // Configure log level
 if (process.env.NODE_ENV === 'production') {

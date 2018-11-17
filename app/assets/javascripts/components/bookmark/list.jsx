@@ -5,16 +5,30 @@ import {
 } from 'react-router-dom';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+
+import {
     getBookmarks
 } from '../../selectors';
+
+import styles from '../../../jss/user/bookmark';
 
 export default @connect((state) => ({
     bookmarks: getBookmarks(state)
 }))
+
+@withStyles(styles)
 class BookmarkList extends React.Component {
     static propTypes = {
-        // From connect
-        bookmarks: PropTypes.array
+        // from connect
+        bookmarks: PropTypes.array,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -28,39 +42,42 @@ class BookmarkList extends React.Component {
 
     render() {
         return (
-            <div className="bookmarks-header">
-                <div className="bookmarks-list">
-                    <h3 className="bookmarks-header-title">
+            <div className={this.props.classes.root}>
+                <div>
+                    <h3 className={this.props.classes.title}>
                         {I18n.t('js.bookmark.list.title')}
                     </h3>
 
                     {
                         this.props.bookmarks.length > 0
                             ?
-                            <div className="margin-top-10">
+                            <List component="div">
                                 {
                                     this.props.bookmarks.map((bookmark, i) => (
-                                        <div key={i}
-                                             className="row bookmarks-inline">
-                                            <Link className="bookmarks-title"
-                                                  to={`/article/${bookmark.slug}`}>
-                                                <div className="col s2 bookmarks-icon">
-                                                    <span className="material-icons"
-                                                          data-icon="assignment"
-                                                          aria-hidden="true"/>
-                                                </div>
+                                        <React.Fragment key={i}>
+                                            <ListItem button={true}
+                                                      component={Link}
+                                                      className={this.props.classes.link}
+                                                      to={`/users/${bookmark.parentSlug}/articles/${bookmark.slug}`}>
+                                                {/*<ListItemIcon>*/}
+                                                {/*<InboxIcon />*/}
+                                                {/*</ListItemIcon>*/}
 
-                                                <div className="col s10">
-
+                                                <ListItemText>
                                                     {bookmark.name || bookmark.slug}
-                                                </div>
-                                            </Link>
-                                        </div>
+                                                </ListItemText>
+                                            </ListItem>
+
+                                            {
+                                                (this.props.bookmarks.length > 1 && i < this.props.bookmarks.length - 1) &&
+                                                <Divider/>
+                                            }
+                                        </React.Fragment>
                                     ))
                                 }
-                            </div>
+                            </List>
                             :
-                            <div className="bookmarks-none">
+                            <div className={this.props.classes.none}>
                                 {I18n.t('js.bookmark.list.none')}
                             </div>
                     }

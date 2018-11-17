@@ -15,8 +15,8 @@ describe 'Tag API', type: :request, basic: true do
     @tags         = create_list(:tag, 5, user: @user)
     @private_tags = create_list(:tag, 5, user: @user, visibility: 'only_me')
 
-    @article = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
-    @article = create(:article_with_tags, user: @user, topic: @other_topic, tags: [@private_tags[0], @private_tags[1], @private_tags[2]])
+    @article = create(:article, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
+    @article = create(:article, user: @user, topic: @other_topic, tags: [@private_tags[0], @private_tags[1], @private_tags[2]])
   end
 
   let(:tag_attributes) {

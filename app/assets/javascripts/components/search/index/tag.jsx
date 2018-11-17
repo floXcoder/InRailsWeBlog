@@ -4,12 +4,17 @@ import {
     Link
 } from 'react-router-dom';
 
+import Chip from '@material-ui/core/Chip';
+
+import LabelIcon from '@material-ui/icons/Label';
+
 import {
     spyTrackClick
 } from '../../../actions';
 
-export default class SearchTagIndex extends React.Component {
+export default class SearchTagIndex extends React.PureComponent {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         tags: PropTypes.array.isRequired,
         isSearching: PropTypes.bool.isRequired,
         onTagClick: PropTypes.func.isRequired,
@@ -20,36 +25,35 @@ export default class SearchTagIndex extends React.Component {
         super(props);
     }
 
+    _handleTagClick = (tag, event) => {
+        spyTrackClick('tag', tag.id, tag.slug, tag.name);
+
+        this.props.onTagClick(tag);
+    };
+
     render() {
         return (
-            <div className="search-index-category">
-                <h2>
+            <div className={this.props.classes.category}>
+                <h2 className={this.props.classes.categoryName}>
                     {I18n.t('js.search.module.tags.title')}
 
-                    <span className="search-index-count">
+                    <span className={this.props.classes.categoryCount}>
                         {`(${I18n.t('js.search.index.results', {count: this.props.tags.length})})`}
                     </span>
                 </h2>
 
-                <div className="tag-list">
+                <div>
                     {
-                        this.props.tags.limit(12).map((tag) => (
-                            <span key={tag.id}
-                                  className="tag"
-                                  onClick={this.props.onTagClick.bind(null, tag)}>
-                                <span className="material-icons tag-icon"
-                                      data-icon="label"
-                                      aria-hidden="true"/>
-                                {tag.name}
-
-                                <Link className="tag-link"
-                                      to={`/tagged/${tag.slug}`}
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                    <span className="material-icons"
-                                          data-icon="open_in_new"
-                                          aria-hidden="true"/>
-                                </Link>
-                            </span>
+                        this.props.tags.map((tag) => (
+                            <Chip key={tag.id}
+                                  className={this.props.classes.tag}
+                                  icon={<LabelIcon/>}
+                                  label={tag.name}
+                                  color="primary"
+                                  variant="outlined"
+                                  component={Link}
+                                  to={`/tagged/${tag.slug}`}
+                                  onClick={this._handleTagClick.bind(this, tag)}/>
                         ))
                     }
                 </div>

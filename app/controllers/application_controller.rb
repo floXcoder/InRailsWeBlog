@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
       super(options)
     else
       respond_to do |format|
-        format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: :not_found }
+        format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
         format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
         format.all { render body: nil, status: :not_found }
       end
@@ -335,7 +335,7 @@ class ApplicationController < ActionController::Base
     raise if Rails.env.development?
 
     respond_to do |format|
-      format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: :not_found }
+      format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
       format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
       format.all { render body: nil, status: :not_found }
     end
@@ -349,7 +349,7 @@ class ApplicationController < ActionController::Base
     raise if Rails.env.development?
 
     respond_to do |format|
-      format.html { render 'errors/show', layout: 'full_page', locals: { status: 500 }, status: :internal_server_error }
+      format.html { render 'errors/show', locals: { status: 500 }, status: :internal_server_error }
       format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }
       format.all { render body: nil, status: :internal_server_error }
     end

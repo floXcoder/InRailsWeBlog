@@ -9,11 +9,11 @@ feature 'Article Show page', advanced: true, js: true do
     @topic = create(:topic, user: @user)
 
     @tags            = create_list(:tag, 3, user: @user)
-    @article         = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
+    @article         = create(:article, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
     @private_article = create(:article, user: @user, topic: @topic, visibility: 'only_me')
   end
 
-  given(:article_page) { ArticlePage.new(article_path(@article)) }
+  given(:article_page) { ArticlePage.new("/users/#{@article.user.slug}/articles/#{@article.slug}") }
 
   background do
     logout
@@ -28,8 +28,8 @@ feature 'Article Show page', advanced: true, js: true do
         {
           current_page: article_page,
           title:        t('views.article.show.title', title: @article.title),
-          asset_name:   'articles/show',
-          common_js:    ['commons']
+          asset_name:   'assets/home',
+          common_js:    ['assets/runtime', 'assets/home']
         }
       }
     end

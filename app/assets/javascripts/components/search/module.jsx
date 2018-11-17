@@ -1,10 +1,20 @@
 'use strict';
 
+import _ from 'lodash';
+
 import {
     hot
 } from 'react-hot-loader';
 
-import _ from 'lodash';
+import {
+    withStyles
+} from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+
+import CloseIcon from '@material-ui/icons/Close';
 
 import {
     setSelectedTag,
@@ -23,14 +33,18 @@ import {
 
 import Loader from '../theme/loader';
 
-import SearchSelectedModule from './module/selected';
+// import SearchSelectedModule from './module/selected';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
-export default @connect((state) => ({
+import styles from '../../../jss/search/module';
+
+export default @hot(module)
+
+@connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopicId,
+    currentUserTopicId: state.topicState.currentUserTopicId,
     recentTopics: getUserRecentTopics(state),
     recentTags: getUserRecentTags(state),
     recentArticles: getUserRecentArticles(state),
@@ -45,14 +59,14 @@ export default @connect((state) => ({
     fetchUserRecents,
     fetchSearch
 })
-@hot(module)
+@withStyles(styles)
 class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
-        // From connect
+        // from connect
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
-        currentTopicId: PropTypes.number,
+        currentUserTopicId: PropTypes.number,
         recentTopics: PropTypes.array,
         recentTags: PropTypes.array,
         recentArticles: PropTypes.array,
@@ -64,7 +78,9 @@ class SearchModule extends React.Component {
         actionKey: PropTypes.string,
         setSelectedTag: PropTypes.func,
         fetchUserRecents: PropTypes.func,
-        fetchSearch: PropTypes.func
+        fetchSearch: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -154,7 +170,10 @@ class SearchModule extends React.Component {
     _performSearch = () => {
         this.props.history.push({
             pathname: '/search',
-            search: $.param(Utils.compact({query: this.props.query, tagIds: this.props.selectedTags.map((tag) => tag.id)}))
+            search: $.param(Utils.compact({
+                query: this.props.query,
+                tagIds: this.props.selectedTags.map((tag) => tag.id)
+            }))
         });
     };
 
@@ -169,7 +188,9 @@ class SearchModule extends React.Component {
         const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : _.uniqBy(this.props.recentArticles, (article) => article.title);
 
         return (
-            <div className="search-module-results">
+            <Paper className="search-module-results"
+                   square={true}
+                   elevation={4}>
                 {
                     this.props.isSearching &&
                     <div className="search-module-searching">
@@ -177,28 +198,62 @@ class SearchModule extends React.Component {
                     </div>
                 }
 
-                <div className="search-module-container">
+                <div className="search-module-close show-on-small">
+                    <IconButton aria-expanded={true}
+                                aria-label="Close"
+                                onClick={this._handleSearchClose}>
+                        <CloseIcon color="primary"
+                                   fontSize="large"/>
+                    </IconButton>
+                </div>
+
+                <div className={this.props.classes.container}>
                     {
-                        this.props.selectedTags.length > 0 &&
-                        <SearchSelectedModule selectedTags={this.props.selectedTags}
-                                              onTagClick={this._handleTagSelection}/>
+                        // this.props.selectedTags.length > 0 &&
+                        // <SearchSelectedModule classes={this.props.classes}
+                        //                       selectedTags={this.props.selectedTags}
+                        //                       onTagClick={this._handleTagSelection}/>
                     }
 
-                    <SearchTagModule tags={tags}
-                                     isSearching={this.props.isSearching}
-                                     selectedTags={this.props.selectedTags}
-                                     highlightedTagIndex={this.state.highlightedTagIndex}
-                                     onTagClick={this._handleTagSelection}/>
+                    <Grid container={true}
+                          spacing={32}
+                          direction="row-reverse"
+                          justify="space-between"
+                          alignItems="flex-start">
+                        <Grid item={true}
+                              xs={12}
+                              sm={6}
+                              lg={3}>
+                            <SearchTagModule classes={this.props.classes}
+                                             tags={tags}
+                                             hasQuery={!this.props.query}
+                                             isSearching={this.props.isSearching}
+                                             selectedTags={this.props.selectedTags}
+                                             highlightedTagIndex={this.state.highlightedTagIndex}
+                                             onTagClick={this._handleTagSelection}/>
+                        </Grid>
 
-                    <SearchArticleModule articles={articles}
-                                         isSearching={this.props.isSearching}/>
+                        <Grid item={true}
+                              xs={12}
+                              sm={6}
+                              lg={9}>
+                            <SearchArticleModule classes={this.props.classes}
+                                                 articles={articles}
+                                                 hasQuery={!this.props.query}
+                                                 isSearching={this.props.isSearching}/>
+                        </Grid>
+                    </Grid>
 
-                    <button className="search-module-btn"
+                    <div className="center-align">
+                        <Button
+                            color="primary"
+                            variant="outlined"
                             onClick={this._performSearch}>
-                        {I18n.t('js.search.module.button')}
-                    </button>
+                            {I18n.t('js.search.module.button')}
+                        </Button>
+                    </div>
                 </div>
-            </div>
+            </Paper>
         );
     }
 }

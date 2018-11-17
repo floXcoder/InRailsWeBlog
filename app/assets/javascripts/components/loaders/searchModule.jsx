@@ -3,7 +3,7 @@
 import LazyLoaderFactory from './lazyLoader';
 
 const SearchModule = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "search-module" */ '../search/module')}
+    <LazyLoaderFactory module={import(/* webpackPrefetch: true, webpackChunkName: "search-module" */ '../search/module')}
                        props={props}/>
 );
 

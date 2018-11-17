@@ -7,11 +7,13 @@ import {
 import * as ActionTypes from '../constants/actionTypes';
 
 const initState = new Record({
-    isUserSignupOpened: false,
-    isUserLoginOpened: false,
-    isUserPreferenceOpened: false,
+    isUserSignupOpen: false,
+    isUserLoginOpen: false,
+    isUserPreferenceOpen: false,
 
-    isTopicPopupOpened: false,
+    isTagSidebarOpen: false,
+
+    isTopicPopupOpen: false,
 
     articlesLoaderMode: 'infinite',
     articleDisplayMode: 'card',
@@ -24,20 +26,25 @@ export default function uiReducer(state = new initState(), action) {
     switch (action.type) {
         case ActionTypes.UI_SWITCH_USER_SIGNUP:
             return state.merge({
-                isUserSignupOpened: !state.isUserSignupOpened
+                isUserSignupOpen: !state.isUserSignupOpen
             });
         case ActionTypes.UI_SWITCH_USER_LOGIN:
             return state.merge({
-                isUserLoginOpened: !state.isUserLoginOpened
+                isUserLoginOpen: !state.isUserLoginOpen
             });
         case ActionTypes.UI_SWITCH_USER_PREFERENCE:
             return state.merge({
-                isUserPreferenceOpened: !state.isUserPreferenceOpened
+                isUserPreferenceOpen: !state.isUserPreferenceOpen
+            });
+
+        case ActionTypes.UI_SWITCH_TAG_SIDEBAR:
+            return state.merge({
+                isTagSidebarOpen: action.isOpen
             });
 
         case ActionTypes.UI_SWITCH_TOPIC_HEADER:
             return state.merge({
-                isTopicPopupOpened: !state.isTopicPopupOpened
+                isTopicPopupOpen: !state.isTopicPopupOpen
             });
 
         case ActionTypes.UI_CHANGE_ARTICLE_ORDER:
@@ -50,21 +57,42 @@ export default function uiReducer(state = new initState(), action) {
                 tagOrderMode: action.order
             });
 
+        // Update UI according to user settings
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
             if (action.connection && action.user && action.user.settings) {
-                return state.merge({
+                return state.merge(Utils.compact({
                     articlesLoaderMode: action.user.settings.articlesLoader,
                     articleDisplayMode: action.user.settings.articleDisplay,
                     articleOrderMode: action.user.settings.articleOrder,
-                    tagOrderMode: action.user.settings.tagOrder
-                })
-            } else if (action.settings) {
-                return state.merge({
+                    tagOrderMode: action.user.settings.tagOrder,
+                    isTagSidebarOpen: !action.user.settings.tagSidebarPin
+                }));
+            } else if (action.settings && action.meta && !action.meta.topic) {
+                return state.merge(Utils.compact({
                     articlesLoaderMode: action.settings.articlesLoader,
                     articleDisplayMode: action.settings.articleDisplay,
                     articleOrderMode: action.settings.articleOrder,
-                    tagOrderMode: action.settings.tagOrder
+                    tagOrderMode: action.settings.tagOrder,
+                    isTagSidebarOpen: !action.settings.tagSidebarPin
+                }));
+            } else if (action.settings && action.meta && action.meta.topic) {
+                return state.merge(Utils.compact({
+                    articlesLoaderMode: action.settings.articlesLoader,
+                    articleDisplayMode: action.settings.articleDisplay,
+                    articleOrderMode: action.settings.articleOrder,
+                    tagOrderMode: action.settings.tagOrder,
+                    isTagSidebarOpen: !action.settings.tagSidebarPin
+                }));
+            } else {
+                return state;
+            }
+
+
+        case ActionTypes.TOPIC_FETCH_SUCCESS:
+            if (action.isSwitching && action.topic && action.topic.settings) {
+                return state.merge({
+                    isTagSidebarOpen: !action.topic.settings.tagSidebarPin
                 })
             } else {
                 return state;

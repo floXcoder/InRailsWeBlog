@@ -38,7 +38,7 @@ RSpec.describe Article, type: :model, basic: true do
   end
 
   before do
-    @article = Article.create(
+    @article = Article.new(
       user:          @user,
       topic:         @topic,
       mode:          :story,
@@ -54,6 +54,8 @@ RSpec.describe Article, type: :model, basic: true do
       archived:      false,
       accepted:      true
     )
+    @article.tagged_articles << build(:tagged_article, tag: Tag.create(name: SecureRandom.uuid, user: @article.user, visibility: @article.visibility), user: @article.user, topic: @article.topic)
+    @article.save
   end
 
   subject { @article }
@@ -99,12 +101,19 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe 'Default Attributes' do
       before do
-        @article = Article.create(
-          user:    @user,
-          content: 'Content of my article'
+        @article = Article.new(
+          user:      @user,
+          topic:     @topic,
+          title:     'Title',
+          content:   'Content of my article',
+          languages: ['fr']
         )
+
+        @article.tagged_articles << build(:tagged_article, tag: Tag.create(name: SecureRandom.uuid, user: @article.user, visibility: @article.visibility), user: @article.user, topic: @article.topic)
+        @article.save
       end
 
+      it { expect(@article).to be_valid }
       it { expect(@article.notation).to eq(0) }
       it { expect(@article.priority).to eq(0) }
       it { expect(@article.visibility).to eq('everyone') }
@@ -417,7 +426,7 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '.default_picture' do
       it { is_expected.to respond_to(:default_picture) }
-      it { expect(@article.default_picture).to eq("http://#{ENV['WEBSITE_ADDRESS']}/assets/") }
+      it { expect(@article.default_picture).to eq(nil) }
     end
 
     describe '.mark_as_outdated' do

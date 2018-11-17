@@ -4,7 +4,7 @@ SecureHeaders::Configuration.default do |config|
   config.csp = {
     preserve_schemes: true,
     base_uri:         ["'self'"],
-    default_src:      ['localhost:8080', "'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET']],
+    default_src:      ['localhost:8080', "'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], 'www.youtube.com', 'vimeo.com', 'vine.com', 'www.instagram.com', 'www.dailymotion.com', 'v.youku.com'],
     connect_src:      ['localhost:8080', "'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET']],
     worker_src:       ["'self'"],
     script_src:       ['localhost:8080', "'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_ADDRESS'], ENV['NEWRELIC_ADDRESS'], ENV['NEWRELIC_SECOND_ADDRESS']],

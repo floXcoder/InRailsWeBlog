@@ -32,8 +32,8 @@ describe Searches::SearchService, type: :service, basic: true do
         expect(results.result[:articles].size).to eq(5)
         expect(results.result[:totalCount][:articles]).to eq(5)
 
-        expect(results.result[:tags].size).to eq(5)
-        expect(results.result[:totalCount][:tags]).to eq(5)
+        expect(results.result[:tags].size).to eq(5 + 5)
+        expect(results.result[:totalCount][:tags]).to eq(5 + 5)
 
         expect(results.result[:topics].size).to eq(2)
         expect(results.result[:totalCount][:topics]).to eq(2)

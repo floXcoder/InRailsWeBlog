@@ -2,6 +2,7 @@
 
 export default class SearchSelectedModule extends React.Component {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         selectedTags: PropTypes.array.isRequired,
         onTagClick: PropTypes.func.isRequired
     };

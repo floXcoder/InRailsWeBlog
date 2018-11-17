@@ -92,7 +92,7 @@ export default class CommentList extends React.PureComponent {
         }
 
         return (
-            <TransitionGroup component="ul"
+            <TransitionGroup component="div"
                              className="collection">
                 {
                     this.props.comments.map((comment) => {
@@ -105,7 +105,7 @@ export default class CommentList extends React.PureComponent {
                                 <CSSTransition key={comment.id}
                                                timeout={500}
                                                classNames="comment">
-                                    <li className={itemClasses}>
+                                    <div className={itemClasses}>
                                         <CommentItem id={comment.id}
                                                      comment={comment}
                                                      currentUserId={this.props.currentUserId}
@@ -138,7 +138,7 @@ export default class CommentList extends React.PureComponent {
                                                 </div>
                                             </CSSTransition>
                                         }
-                                    </li>
+                                    </div>
                                 </CSSTransition>
                             );
                         }

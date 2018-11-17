@@ -5,14 +5,14 @@
 .comments {
   margin-top: 3rem;
 
-  .comments-title {
-    font-size: 2rem;
-    font-weight: 300;
-    margin-bottom: 2rem;
-  }
+  //.comments-title {
+  //  font-size: 2rem;
+  //  font-weight: 300;
+  //  margin-bottom: 2rem;
+  //}
 
   .comments-box {
-    border: 1px solid #e0e1e5;
+    //border: 1px solid #e0e1e5;
     padding: 1rem;
   }
 
@@ -24,7 +24,33 @@
       padding-left: 20px;
       padding-right: 50px;
 
+      &.avatar {
+        .title {
+          line-height: 2.2rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .summary {
+          font-size: .9rem;
+          font-style: italic;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .material-icons.circle {
+          background-color: #999;
+          color: #fff;
+          font-size: 18px;
+          line-height: 42px;
+          text-align: center;
+        }
+      }
+
       .secondary-content {
+        position: absolute;
         right: 0;
         top: 0;
       }
@@ -50,17 +76,10 @@
 
     .comment-date {
       color: #6d7a97;
-      display: inline-block;
       font-size: 14px;
-      height: 32px;
-      line-height: 32px;
-      margin-left: 20px;
-      overflow: hidden;
     }
 
     .comment-rating {
-      //display: inline;
-
       .star-rating-input {
         margin: .8rem 0 .2rem .8rem;
       }
@@ -82,6 +101,31 @@
     .comment-body {
       margin-left: 1rem;
       margin-top: .5rem;
+      white-space: pre;
+    }
+  }
+
+  .comment-item {
+    position: relative;
+  }
+
+  .comment-item-header {
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+
+    .header-avatar {
+      flex: 1 1 auto;
+      margin-right: 16px;
+    }
+
+    .header-action {
+      flex: 0 0 auto;
+      align-self: flex-start;
+      margin-top: -8px;
+      margin-right: -20px;
     }
   }
 
@@ -92,6 +136,7 @@
       font-size: 24px;
       font-weight: 300;
       line-height: 48px;
+      margin-bottom: 12px;
     }
 
     .comment-form-error {

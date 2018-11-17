@@ -63,7 +63,7 @@ fr:
         error_edition: "Problème lors de la mise à jour de l'article !"
         successful_priority_update: "L'ordre des articles a été changé"
         error_priority_update: "Problème lors du changement de priorité des articles"
-        successful_deletion: "L'article a été supprimé."
+        successful_deletion: "L'article a été supprimé"
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
         successful_undeletion: "Article restauré"
       show:
@@ -77,6 +77,8 @@ fr:
         error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
         successful_edition: "Thème mis à jour"
         error_edition: "Problème lors de la mise à jour du thème !"
+        successful_deletion: "Le thème a été supprimé"
+        error_deletion: "Problème lors de la suppression du thème : %{errors}"
     tag:
       flash:
         successful_creation: "Label ajouté"
@@ -85,7 +87,7 @@ fr:
         error_edition: "Problème lors de la mise à jour du label !"
         successful_priority_update: "L'ordre des labels a été changé"
         error_priority_update: "Problème lors du changement de priorité des labels"
-        successful_deletion: "L'article a été supprimé."
+        successful_deletion: "L'article a été supprimé"
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
       show:
         title: "Label : %{name}"
@@ -222,6 +224,7 @@ fr:
           has_many: "Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent"
       models:
         article:
+          pertinent_tags: "Les labels doivent être du même type que le thème (soit public soit privé)"
           bad_topic_owner: "Le thème n'appartient pas au créateur de l'article"
           prevent_revert_to_draft: "Un article public ne peut pas être un brouillon"
         article_relationship:
@@ -385,7 +388,7 @@ fr:
       - "samedi"
     formats:
       default: "%d/%m/%Y"
-      short: "%e %b"
+      short: "%e %b %Y"
       long: "%e %B %Y"
     month_names:
       - ~
@@ -458,7 +461,7 @@ fr:
       short: "%d %b %Hh%M"
       custom: "Le %d %b à %Hh%M"
       custom_date: "%d %b"
-      custom_full_date: "%d %B"
+      custom_full_date: "%d %B %Y"
       custom_begin: "Du %d %b à %Hh%M"
       custom_end: "Au %d %b à %Hh%M"
     pm: "pm"

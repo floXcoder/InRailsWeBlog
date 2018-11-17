@@ -8,10 +8,10 @@ import {
     spyTrackClick
 } from '../../../actions';
 
-const ArticleLink = ({articleId, articleSlug, articleTitle, onArticleClick}) => (
+const ArticleLink = ({userSlug, articleId, articleSlug, articleTitle, onArticleClick}) => (
     <Link className="btn-floating tooltip-bottom article-goto"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}
-          to={`/article/${articleSlug}`}
+          to={`/users/${userSlug}/articles/${articleSlug}`}
           onClick={_handleArticleClick.bind(null, articleId, articleSlug, articleTitle, onArticleClick)}>
         <span className="material-icons"
               data-icon="home"
@@ -28,6 +28,7 @@ const _handleArticleClick = (articleId, articleSlug, articleTitle, onArticleClic
 };
 
 ArticleLink.propTypes = {
+    userSlug: PropTypes.string.isRequired,
     articleId: PropTypes.number.isRequired,
     articleSlug: PropTypes.string.isRequired,
     articleTitle: PropTypes.string,

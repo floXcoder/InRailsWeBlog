@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
 module Topics
-  class FindQueries
+  class FindQueries < BaseQuery
     attr_reader :relation
 
-    def initialize(relation = Topic.all)
+    def initialize(current_user = nil, current_admin = nil, relation = Topic.all)
+      super(current_user, current_admin)
+
       @relation = relation.extending(Scopes)
     end
 
-    def all(params = {}, current_user = nil, current_admin = nil)
+    def all(params = {})
       @relation = @relation
                     .order('topics.name ASC')
                     .distinct
-                    .with_adapted_visibility(current_user, current_admin)
-                    .filter_by(params, current_user)
+                    .with_adapted_visibility(@current_user, @current_admin)
+                    .filter_by(params, @current_user)
 
       return @relation
     end

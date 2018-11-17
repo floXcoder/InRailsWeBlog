@@ -72,18 +72,18 @@ class User < ApplicationRecord
   # Store settings
   include Storext.model
   store_attributes :settings do
-    articles_loader String, default: 'infinite' # all / paginate / infinite
-    article_display String, default: 'card' # inline / card (with inline edit) / grid
-    article_order String, default: nil # Defined in Article::order_by
-    article_child_tagged Boolean, default: false # Display articles for parent tag
+    articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
+    article_display String, default: 'card' # Display articles: inline / card (with inline edit) / grid
+    article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
 
-    tag_sidebar_pin Boolean, default: true
-    tag_sidebar_with_child Boolean, default: false
-    tag_order String, default: 'name' # Defined in Tag::order_by
+    tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default
+    tag_sidebar_with_child Boolean, default: false # Display child only tags in sidebar
+    tag_order String, default: 'name' # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
+    tag_parent_and_child Boolean, default: true # Display child articles for parent tag
 
-    search_highlight Boolean, default: true
-    search_operator String, default: 'and' # and / or
-    search_exact Boolean, default: true
+    search_highlight Boolean, default: true # Highlight terms in search results
+    search_operator String, default: 'and' # Search mode for multi-terms: and / or
+    search_exact Boolean, default: true # Search for exact terms
   end
 
   # Strip whitespaces
@@ -101,6 +101,7 @@ class User < ApplicationRecord
              language:    I18n.locale == :fr ? 'french' : 'english'
 
   # Track activities
+  ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
   acts_as_tracked :queries, :clicks, :views
 

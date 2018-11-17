@@ -5,8 +5,18 @@ import {
 } from 'react-hot-loader';
 
 import {
-    setCurrentTags
+    withStyles
+} from '@material-ui/core/styles';
+
+import {
+    setCurrentTags,
+    switchTagSidebar
 } from '../../actions';
+
+import {
+    getCurrentUserTopicVisibility,
+    getCurrentLocale,
+} from '../../selectors';
 
 import articleMutationManager from './managers/mutation';
 
@@ -17,14 +27,22 @@ import Loader from '../theme/loader';
 
 import NotAuthorized from '../layouts/notAuthorized';
 
-export default @articleMutationManager('edit', `article-${Utils.uuid()}`)
-@connect(null, {
-    setCurrentTags
+import styles from '../../../jss/article/form';
+
+export default @hot(module)
+
+@articleMutationManager('edit', `article-${Utils.uuid()}`)
+@connect((state) => ({
+    userSlug: state.userState.currentSlug,
+    inheritVisibility: getCurrentUserTopicVisibility(state)
+}), {
+    setCurrentTags,
+    switchTagSidebar
 })
-@hot(module)
+@withStyles(styles)
 class ArticleEdit extends React.Component {
     static propTypes = {
-        // From articleMutationManager
+        // from articleMutationManager
         formId: PropTypes.string,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
@@ -35,7 +53,13 @@ class ArticleEdit extends React.Component {
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
         onSubmit: PropTypes.func,
-        setCurrentTags: PropTypes.func
+        // from connect
+        userSlug: PropTypes.string,
+        inheritVisibility: PropTypes.string,
+        setCurrentTags: PropTypes.func,
+        switchTagSidebar: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -46,10 +70,12 @@ class ArticleEdit extends React.Component {
         if (this.props.article) {
             this.props.setCurrentTags(this.props.article.tags);
         }
+
+        this.props.switchTagSidebar(false);
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.props.article !== nextProps.article || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching;
+        return this.props.article !== nextProps.article || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.inheritVisibility !== nextProps.inheritVisibility;
     }
 
     componentDidUpdate() {
@@ -67,7 +93,7 @@ class ArticleEdit extends React.Component {
             );
         }
 
-        if(!this.props.currentUser || this.props.currentUser.id !== this.props.article.user.id) {
+        if (!this.props.currentUser || this.props.currentUser.id !== this.props.article.user.id) {
             return (
                 <div className="center margin-top-20">
                     <NotAuthorized/>
@@ -75,9 +101,21 @@ class ArticleEdit extends React.Component {
             )
         }
 
+        const initialValues = {
+            mode: this.props.article.mode,
+            title: this.props.article.title,
+            summary: this.props.article.summary,
+            reference: this.props.article.reference,
+            picture_ids: '',
+            draft: this.props.isDraft || this.props.article.draft,
+            visibility: this.props.article.visibility || this.props.inheritVisibility,
+            language: this.props.article.language || getCurrentLocale(),
+            allowComment: typeof this.props.article.allowComment === 'undefined' && this.props.inheritVisibility === 'only_me' ? false : this.props.article.allowComment
+        };
+
         return (
-            <div className="blog-form blog-article-edit">
-                <div className="blog-breadcrumb">
+            <div className={this.props.classes.root}>
+                <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&
                         <ArticleBreadcrumbDisplay user={this.props.currentUser}
@@ -86,8 +124,10 @@ class ArticleEdit extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay key={Utils.uuid()}
-                                    form={this.props.formId}
+                <ArticleFormDisplay form={this.props.formId}
+                                    inheritVisibility={this.props.inheritVisibility}
+                                    userSlug={this.props.userSlug}
+                                    initialValues={initialValues}
                                     currentMode={this.props.article.mode}
                                     isEditing={true}
                                     isDraft={this.props.article.isDraft}

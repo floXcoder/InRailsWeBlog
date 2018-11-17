@@ -9,7 +9,7 @@ feature 'Article Edit page', advanced: true, js: true do
     @topic = create(:topic, user: @user)
 
     @tags            = create_list(:tag, 3, user: @user)
-    @article         = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
+    @article         = create(:article, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
     @private_article = create(:article, user: @user, topic: @topic, visibility: 'only_me')
   end
 

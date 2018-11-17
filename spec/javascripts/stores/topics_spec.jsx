@@ -67,8 +67,8 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.switchTopic())
                 .then((state) => {
-                    expect(TopicSelectors.getCurrentTopic(state).id).toEqual(topic.id);
-                    expect(TopicSelectors.getCurrentTopicVisibility(state)).toEqual('everyone');
+                    expect(TopicSelectors.getCurrentUserTopic(state).id).toEqual(topic.id);
+                    expect(TopicSelectors.getCurrentUserTopicVisibility(state)).toEqual('everyone');
                 });
         });
     });
@@ -84,8 +84,8 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.addTopic(1, newTopic))
                 .then((state) => {
-                    expect(TopicSelectors.getCurrentTopic(state).id).toEqual(newTopic.id);
-                    expect(TopicSelectors.getCurrentTopicVisibility(state)).toEqual('everyone');
+                    expect(TopicSelectors.getCurrentUserTopic(state).id).toEqual(newTopic.id);
+                    expect(TopicSelectors.getCurrentUserTopicVisibility(state)).toEqual('everyone');
                     expect(TopicSelectors.getTopicErrors(state)).toEqual([]);
                 });
         });
@@ -101,7 +101,7 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.addTopic(1, newTopic))
                 .then((state) => {
-                    expect(TopicSelectors.getCurrentTopic(state)).toBeUndefined();
+                    expect(TopicSelectors.getCurrentUserTopic(state)).toBeUndefined();
                     expect(TopicSelectors.getTopicErrors(state)).toEqual([I18n.t('js.topic.model.name') + ' ' + nameError]);
                 });
         });
@@ -119,7 +119,7 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.updateTopic(1, {id: topic.id, ...updateParameters}))
                 .then((state) => {
-                    expect(TopicSelectors.getCurrentTopic(state).id).toEqual(topic.id);
+                    expect(TopicSelectors.getCurrentUserTopic(state).id).toEqual(topic.id);
                     expect(TopicSelectors.getTopicErrors(state)).toEqual([]);
                 });
         });

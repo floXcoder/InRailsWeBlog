@@ -1,24 +1,37 @@
 'use strict';
 
-const ArticleOutdatedIcon = ({articleId, isOutdated, onOutdatedClick}) => {
-    const outdatedTooltip = isOutdated ? I18n.t('js.article.tooltip.remove_outdated') : I18n.t('js.article.tooltip.add_outdated');
-    const outdatedIcon = isOutdated ? 'highlight_off' : 'highlight_off';
+import HighlightIcon from '@material-ui/icons/HighlightOutlined';
+import HighlightOffIcon from '@material-ui/icons/HighlightOffOutlined';
 
-    return (
-        <a className="article-outdate tooltip-bottom"
-           data-tooltip={outdatedTooltip}
+const ArticleOutdatedIcon = ({articleId, isOutdated, onOutdatedClick, size, color}) => (
+    <span className="tooltip-bottom"
+          data-tooltip={isOutdated ? I18n.t('js.article.tooltip.remove_outdated') : I18n.t('js.article.tooltip.add_outdated')}>
+        <a href="#"
            onClick={onOutdatedClick}>
-            <span className={classNames('material-icons', {'article-outdate-icon': isOutdated})}
-                  data-icon={outdatedIcon}
-                  aria-hidden="true"/>
+            {
+                isOutdated
+                    ?
+                    <HighlightIcon color={color}
+                                   fontSize={size}/>
+                    :
+                    <HighlightOffIcon color={color}
+                                      fontSize={size}/>
+            }
         </a>
-    );
-};
+    </span>
+);
 
 ArticleOutdatedIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     isOutdated: PropTypes.bool.isRequired,
-    onOutdatedClick: PropTypes.func.isRequired
+    onOutdatedClick: PropTypes.func.isRequired,
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
 };
 
-export default ArticleOutdatedIcon;
+ArticleOutdatedIcon.defaultProps = {
+    size: 'default',
+    color: 'primary'
+};
+
+export default React.memo(ArticleOutdatedIcon);

@@ -107,6 +107,7 @@ export default function highlight(highlightOnShow = true) {
                 super(props);
 
                 this._highlightedElements = [];
+                this._unmounted = false;
             }
 
             componentDidMount() {
@@ -114,27 +115,35 @@ export default function highlight(highlightOnShow = true) {
                     tabReplace: '  ' // 4 spaces
                 });
 
-                if (!highlightOnShow) {
+                if (highlightOnShow) {
                     setTimeout(() => this._highlightCode(), 5);
                 }
             }
 
             componentDidUpdate() {
-                if (!highlightOnShow) {
+                if (highlightOnShow) {
                     setTimeout(() => this._highlightCode(), 5);
                 }
             }
 
-            _handleShow = (elementId) => {
-                if (!this._highlightedElements.includes(elementId)) {
+            componentWillUnmount() {
+                this._unmounted = true;
+            }
+
+            _handleShow = (elementId, force = false) => {
+                if (!this._highlightedElements.includes(elementId) || force) {
                     this._highlightedElements.push(elementId);
                     setTimeout(() => this._highlightCode(), 5);
                 }
             };
 
             _highlightCode = () => {
-                let domNode = ReactDOM.findDOMNode(this);
-                let nodes = domNode.querySelectorAll('pre code');
+                if (this._unmounted) {
+                    return;
+                }
+
+                const domNode = ReactDOM.findDOMNode(this);
+                const nodes = domNode.querySelectorAll('pre code');
                 if (nodes.length > 0) {
                     for (let i = 0; i < nodes.length; i = i + 1) {
                         HighlightCode.highlightBlock(nodes[i]);

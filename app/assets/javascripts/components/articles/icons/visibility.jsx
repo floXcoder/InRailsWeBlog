@@ -1,34 +1,44 @@
 'use strict';
 
-const ArticleVisibilityIcon = ({articleId, articleVisibility, onVisibilityClick}) => {
-    const isVisible = articleVisibility === 'everyone';
+import VisibilityIcon from '@material-ui/icons/VisibilityOutlined';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOffOutlined';
 
-    const visibilityClasses = classNames(
-        'article-visibility',
-        'tooltip-bottom',
-        {
-            'article-public': isVisible,
-            'article-private': !isVisible
-        });
+const ArticleVisibilityIcon = ({articleId, articleVisibility, onVisibilityClick, size, color}) => {
+    const isVisible = articleVisibility === 'everyone';
 
     const visibilityName = I18n.t(`js.article.enums.visibility.${articleVisibility}`);
     const visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
     return (
-        <a className={visibilityClasses}
-           data-tooltip={visibilityTooltip}
-           onClick={onVisibilityClick}>
-            <span className="material-icons"
-                  data-icon={isVisible ? 'visibility' : 'visibility_off'}
-                  aria-hidden="true"/>
-        </a>
+        <span className="tooltip-bottom"
+              data-tooltip={visibilityTooltip}>
+            <a href="#"
+               onClick={onVisibilityClick}>
+                {
+                    isVisible
+                        ?
+                        <VisibilityIcon color={color}
+                                        fontSize={size}/>
+                        :
+                        <VisibilityOffIcon color={color}
+                                           fontSize={size}/>
+                }
+            </a>
+        </span>
     );
 };
 
 ArticleVisibilityIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     articleVisibility: PropTypes.string.isRequired,
-    onVisibilityClick: PropTypes.func
+    onVisibilityClick: PropTypes.func,
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
 };
 
-export default ArticleVisibilityIcon;
+ArticleVisibilityIcon.defaultProps = {
+    size: 'default',
+    color: 'primary'
+};
+
+export default React.memo(ArticleVisibilityIcon);

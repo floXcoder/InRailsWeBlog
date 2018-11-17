@@ -195,9 +195,9 @@ var DropdownUI = /** @class */ (function () {
         this.$button.parent().removeClass('open');
     };
     DropdownUI.prototype.toggle = function () {
-        var isOpened = this.$button.parent().hasClass('open');
+        var isOpen = this.$button.parent().hasClass('open');
         this.clear();
-        if (isOpened) {
+        if (isOpen) {
             this.hide();
         }
         else {
@@ -3175,6 +3175,7 @@ function readFileAsDataURL(file) {
         }).readAsDataURL(file);
     }).promise();
 }
+
 /**
  * @method createImage
  *
@@ -3195,6 +3196,31 @@ function createImage(url) {
         }).css({
             display: 'none'
         }).appendTo(document.body).attr('src', url);
+    }).promise();
+}
+
+/**
+ * @method createImage
+ *
+ * create `<image>` from url string
+ *
+ * @param {String} url
+ * @param {Object} srcset
+ * @return {Promise} - then: $image
+ */
+function createPicture(url, param, srcsets) {
+    return $$1.Deferred(function (deferred) {
+        var $picture = $$1('<picture>');
+        for (var srcsetIndex = 0; srcsetIndex < srcsets.length; srcsetIndex++) {
+            if (srcsets[srcsetIndex].maxWidth) {
+                $picture.append($$1('<source>').attr('media', '(max-width: ' + srcsets[srcsetIndex].maxWidth + 'px)').attr('data-srcset', srcsets[srcsetIndex].url));
+            } else {
+                $picture.append($$1('<source>').attr('data-srcset', srcsets[srcsetIndex].url));
+            }
+        }
+        var $img = $$1('<img>').addClass('lazyload').attr('data-src', url);
+        $picture.append($img);
+        deferred.resolve($picture);
     }).promise();
 }
 
@@ -4472,6 +4498,9 @@ var Editor = /** @class */ (function () {
             if ($target.parent('figure').length) {
                 $target.parent('figure').remove();
             }
+            else if ($target.is('picture')) {
+                $target.remove();
+            }
             else {
                 $target = $$1(_this.restoreTarget()).detach();
             }
@@ -4761,9 +4790,10 @@ var Editor = /** @class */ (function () {
      * @param {String|Function} param
      * @return {Promise}
      */
-    Editor.prototype.insertImage = function (src, param) {
+    Editor.prototype.insertImage = function (src, param, srcsets) {
         var _this = this;
-        return createImage(src, param).then(function ($image) {
+        var imagePromise = srcsets ? createPicture(src, param, srcsets) : createImage(src, param);
+        return imagePromise.then(function ($image) {
             _this.beforeCommand();
             if (typeof param === 'function') {
                 param($image);
@@ -6354,14 +6384,20 @@ var Toolbar = /** @class */ (function () {
         });
         // check if the web app is currently using another static bar
         var otherBarHeight = 0;
-        if (this.options.otherStaticBar) {
+        if (this.options.otherStaticBarHeight) {
+            otherBarHeight = this.options.otherStaticBarHeight;
+        } else if (this.options.otherStaticBar) {
             otherBarHeight = $$1(this.options.otherStaticBar).outerHeight();
+        }
+        if (!otherBarHeight) {
+            otherBarHeight = 0;
         }
         var currentOffset = this.$document.scrollTop();
         var editorOffsetTop = this.$editor.offset().top;
         var editorOffsetBottom = editorOffsetTop + editorHeight;
         var activateOffset = editorOffsetTop - otherBarHeight;
         var deactivateOffsetBottom = editorOffsetBottom - otherBarHeight - toolbarHeight;
+
         if ((currentOffset > activateOffset) && (currentOffset < deactivateOffsetBottom)) {
             this.$toolbar.css({
                 position: 'fixed',

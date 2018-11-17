@@ -1,5 +1,8 @@
 'use strict';
 
+import FavoriteIcon from '@material-ui/icons/FavoriteOutlined';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorderOutlined';
+
 import {
     bookmark
 } from '../../actions';
@@ -13,22 +16,27 @@ export default @connect((state, props) => ({
 }), {
     bookmark
 })
+
 class BookmarkIcon extends React.PureComponent {
     static propTypes = {
         bookmarkedType: PropTypes.string.isRequired,
         bookmarkedId: PropTypes.number.isRequired,
-        isIcon: PropTypes.bool,
         className: PropTypes.string,
         bookmarkCount: PropTypes.number,
-        // From connect
+        isIcon: PropTypes.bool,
+        size: PropTypes.oneOf(['small', 'default', 'large']),
+        color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+        // from connect
         bookmarkData: PropTypes.object,
         bookmark: PropTypes.func
     };
 
     static defaultProps = {
         isBookmarked: false,
+        bookmarkCount: 0,
         isIcon: false,
-        bookmarkCount: 0
+        size: 'default',
+        color: 'primary'
     };
 
     constructor(props) {
@@ -44,42 +52,46 @@ class BookmarkIcon extends React.PureComponent {
     render() {
         const bookmarkText = this.props.bookmarkData ? I18n.t('js.bookmark.common.remove') : I18n.t('js.bookmark.common.add');
 
-        return (
-            <div className={classNames(this.props.className || 'bookmark', `bookmark-${this.props.bookmarkedType}`, {
-                'bookmarked': this.props.bookmarkData,
-                'bookmark-icon-only': this.props.isIcon,
-                'tooltip-bottom': this.props.isIcon
-            })}
-                 data-tooltip={bookmarkText}>
-                <a href="#"
-                   onClick={this._handleBookmark}>
-                    {
-                        !this.props.isIcon &&
+        if (this.props.isIcon) {
+            return (
+                <span
+                    className={classNames('tooltip-bottom', this.props.className, `bookmark-${this.props.bookmarkedType}`)}
+                    data-tooltip={bookmarkText}>
+                    <a href="#"
+                       onClick={this._handleBookmark}>
+                        {
+                            this.props.bookmarkData
+                                ?
+                                <FavoriteIcon color={this.props.color}
+                                              fontSize={this.props.size}/>
+                                :
+                                <FavoriteBorderIcon color={this.props.color}
+                                                    fontSize={this.props.size}/>
+                        }
+                    </a>
+                </span>
+            );
+        } else {
+            return (
+                <span
+                    className={classNames(this.props.className || 'bookmark', `bookmark-${this.props.bookmarkedType}`, {
+                        'bookmarked': this.props.bookmarkData,
+                    })}>
+                    <a href="#"
+                       onClick={this._handleBookmark}>
                         <span>
                             {bookmarkText}
                         </span>
-                    }
 
-                    {
-                        this.props.bookmarkCount !== 0 &&
-                        <span>
-                            {` (${this.props.bookmarkCount})`}
-                        </span>
-                    }
-
-                    {
-                        this.props.bookmarkData
-                            ?
-                            <span className="material-icons bookmark-icon"
-                                  data-icon="favorite"
-                                  aria-hidden="true"/>
-                            :
-                            <span className="material-icons bookmark-icon"
-                                  data-icon="favorite_border"
-                                  aria-hidden="true"/>
-                    }
-                </a>
-            </div>
-        );
+                        {
+                            this.props.bookmarkCount !== 0 &&
+                            <span>
+                                {` (${this.props.bookmarkCount})`}
+                            </span>
+                        }
+                    </a>
+                </span>
+            );
+        }
     }
 }

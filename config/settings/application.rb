@@ -25,7 +25,7 @@ SimpleConfig.for :application do
   set :topic_description_max_length, 3_000
 
   # Article validation parameters
-  set :article_title_min_length, 3
+  set :article_title_min_length, 1
   set :article_title_max_length, 128
   set :article_summary_min_length, 3
   set :article_summary_max_length, 256

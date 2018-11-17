@@ -40,7 +40,7 @@ namespace :InRailsWeBlog do
         end
 
         get name: 'User profile',
-            url:  'https://www.inrailsweblog.com/api/v1/users/2.json?userProfile=true' do
+            url:  'https://www.inrailsweblog.com/api/v1/users/2.json?profile=true' do
           with_xhr
           assert contains: 'pseudo'
         end

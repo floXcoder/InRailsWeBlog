@@ -1,3 +1,5 @@
 'use strict';
 
-import '../fullPage';
+import '../../../stylesheets/pages/errors/error.scss';
+
+import '../common';

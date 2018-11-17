@@ -1,43 +1,52 @@
 'use strict';
 
-const ArticleInlineActions = ({onSaveClick, onCancelClick, onDeleteClick}) => (
-    <ul className="action-icons">
-        <li className="action-item">
-            <a className="article-delete tooltip-bottom"
-               data-tooltip={I18n.t('js.article.tooltip.delete')}
+import SendIcon from '@material-ui/icons/Send';
+import ClearIcon from '@material-ui/icons/Clear';
+import DeleteIcon from '@material-ui/icons/DeleteOutline';
+
+const ArticleInlineActions = ({classes, onSaveClick, onCancelClick, onDeleteClick, color, size}) => (
+    <ul className={classes.actionButtons}>
+        <li className={classNames('tooltip-bottom', classes.actionItem)}
+            data-tooltip={I18n.t('js.article.tooltip.delete')}>
+            <a href="#"
                onClick={onDeleteClick}>
-                <span className="material-icons"
-                      data-icon="delete"
-                      aria-hidden="true"/>
+                <DeleteIcon color={color}
+                            fontSize={size}/>
             </a>
         </li>
 
-        <li className="action-item">
-            <a className="article-cancel tooltip-bottom"
-               data-tooltip={I18n.t('js.article.tooltip.cancel')}
+        <li className={classNames('tooltip-bottom', classes.actionItem)}
+            data-tooltip={I18n.t('js.article.tooltip.cancel')}>
+            <a href="#"
                onClick={onCancelClick}>
-                <span className="material-icons"
-                      data-icon="clear"
-                      aria-hidden="true"/>
+                <ClearIcon color={color}
+                           fontSize={size}/>
             </a>
         </li>
 
-        <li className="action-item">
-            <a className="article-save tooltip-bottom"
-               data-tooltip={I18n.t('js.article.tooltip.update')}
+        <li className={classNames('tooltip-bottom', classes.actionItem)}
+            data-tooltip={I18n.t('js.article.tooltip.update')}>
+            <a href="#"
                onClick={onSaveClick}>
-               <span className="material-icons"
-                     data-icon="check"
-                     aria-hidden="true"/>
+                <SendIcon color={color}
+                           fontSize="large"/>
             </a>
         </li>
     </ul>
 );
 
 ArticleInlineActions.propTypes = {
-    onDeleteClick: PropTypes.func.isRequired,
+    classes: PropTypes.string.isRequired,
+    onSaveClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
-    onSaveClick: PropTypes.func.isRequired
+    onDeleteClick: PropTypes.func.isRequired,
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action'])
 };
 
-export default ArticleInlineActions;
+ArticleInlineActions.defaultProps = {
+    size: 'default',
+    color: 'action'
+};
+
+export default React.memo(ArticleInlineActions);

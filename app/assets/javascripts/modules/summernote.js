@@ -8,6 +8,8 @@
 // - fromOffsetPath: current not defined for the last undo
 // - Improve pasteHTML
 // - Change dropdownButtonContents to use ui icon method
+// - Ensure otherBarHeight is defined
+// - createPicture added (used in insertImage) and manage remove in removeMedia
 import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';
@@ -101,25 +103,65 @@ $.extend($.summernote.options, {
     imageAttributesDisableLink: true,
     imageAttributesDisableLinkUrl: true,
     imageAttributesDisableLinkTarget: true,
-    imageAttributesDisableUpload: true,
+    imageAttributesDisableUpload: true
+});
+
+$.extend(true, $.summernote.lang, {
+    'en-US': {
+        style: {
+            style: 'Style',
+            p: 'Normal',
+            blockquote: 'Quote',
+            pre: 'Code',
+            h2: 'Title',
+            h3: 'Subtitle',
+            h4: 'Interline'
+        }
+    }
+});
+
+$.extend(true, $.summernote.lang, {
+    'fr-FR': {
+        style: {
+            style: 'Style',
+            p: 'Normal',
+            blockquote: 'Citation',
+            pre: 'Code source',
+            h2: 'Titre',
+            h3: 'Sous-titre',
+            h4: 'Interligne'
+        }
+    }
+});
+
+$.extend($.summernote.options.keyMap.pc, {
+    'CTRL+ENTER': 'Save',
+    'CTRL+P': 'Code',
+    'CTRL+L': 'Pre',
+    'CTRL+NUM1': 'formatH2',
+    'CTRL+NUM2': 'formatH3',
+    'CTRL+NUM3': 'formatH4',
+    'CTRL+NUM4': 'formatH4',
+    'CTRL+NUM5': 'formatH4',
+    'CTRL+NUM6': 'formatH4'
+});
+
+$.extend($.summernote.options.keyMap.mac, {
+    'CMD+ENTER': 'Save',
+    'CMD+P': 'Code',
+    'CMD+L': 'Pre',
+    'CMD+NUM1': 'formatH2',
+    'CMD+NUM2': 'formatH3',
+    'CMD+NUM3': 'formatH4',
+    'CMD+NUM4': 'formatH4',
+    'CMD+NUM5': 'formatH4',
+    'CMD+NUM6': 'formatH4'
 });
 
 const ui = $.summernote.ui;
 ui.icon = function (iconClassName, tagName) {
     return '<span class="material-icons">' + iconClassName + '</span>';
 };
-
-$.extend($.summernote.options.keyMap.pc, {
-    'CTRL+ENTER': 'Save',
-    'CTRL+P': 'Code',
-    'CTRL+L': 'Pre'
-});
-
-$.extend($.summernote.options.keyMap.mac, {
-    'CMD+ENTER': 'Save',
-    'CMD+P': 'Code',
-    'CMD+L': 'Pre'
-});
 
 const applyClass = (context, formatName) => {
     let $node = $(context.invoke('restoreTarget'));
@@ -140,13 +182,12 @@ const isPara = (node) => {
 
 const areDifferentBlockElements = (startEl, endEl) => {
     const startElDisplay = getComputedStyle(startEl, null).display;
-    const endElDisplay  = getComputedStyle(endEl, null).display;
+    const endElDisplay = getComputedStyle(endEl, null).display;
 
-    if(startElDisplay !== 'inline' && endElDisplay !== 'inline') {
+    if (startElDisplay !== 'inline' && endElDisplay !== 'inline') {
         // console.error("Can't insert across two block elements.");
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 };
@@ -197,9 +238,9 @@ const applyTag = (context, tag) => {
             newNode.appendChild(range.extractContents());
             range.insertNode(newNode);
 
-            if(!startParentElement.isSameNode(endParentElement)) {
+            if (!startParentElement.isSameNode(endParentElement)) {
                 // Remove empty surrounding para
-                if(isPara(startParentElement) && isPara(endParentElement)) {
+                if (isPara(startParentElement) && isPara(endParentElement)) {
                     startParentElement.remove();
                     endParentElement.remove();
                 }

@@ -74,7 +74,7 @@ export default class CategorizedTagInput extends React.Component {
             item: 0,
             category: 0
         },
-        isPanelOpened: false,
+        isPanelOpen: false,
         selectedTags: this.props.value || [],
         categories: this.props.categories,
         animateTagValue: undefined
@@ -174,7 +174,7 @@ export default class CategorizedTagInput extends React.Component {
 
     openPanel = () => {
         this.setState({
-            isPanelOpened: true
+            isPanelOpen: true
         });
     };
 
@@ -187,7 +187,7 @@ export default class CategorizedTagInput extends React.Component {
         this.timeout = setTimeout(() => {
             this.timeout = undefined;
             this.setState({
-                isPanelOpened: false
+                isPanelOpen: false
             });
         }, 150);
     };
@@ -197,7 +197,7 @@ export default class CategorizedTagInput extends React.Component {
 
         this.setState({
             value,
-            isPanelOpened: value.trim().length > 0 || !isNaN(Number(value.trim()))
+            isPanelOpen: value.trim().length > 0 || !isNaN(Number(value.trim()))
         });
 
         this.filterCategories(value);
@@ -234,7 +234,7 @@ export default class CategorizedTagInput extends React.Component {
             this.setState({
                 value: '',
                 animateTagValue: tagValuePresent,
-                isPanelOpened: true
+                isPanelOpen: true
             });
         } else {
             let newTags = this.state.selectedTags.concat([{
@@ -246,7 +246,7 @@ export default class CategorizedTagInput extends React.Component {
             this.setState({
                 selectedTags: newTags,
                 value: '',
-                isPanelOpened: true
+                isPanelOpen: true
             });
 
             this._input.focusInput();
@@ -257,7 +257,7 @@ export default class CategorizedTagInput extends React.Component {
     };
 
     addSelectedTag = () => {
-        if (!(this.state.isPanelOpened && this.state.value.length > 0)) {
+        if (!(this.state.isPanelOpen && this.state.value.length > 0)) {
             return;
         }
 
@@ -392,7 +392,7 @@ export default class CategorizedTagInput extends React.Component {
                                   onBlur={this.props.onBlur}/>
 
                 {
-                    this.state.isPanelOpened &&
+                    this.state.isPanelOpen &&
                     <Panel categories={this.state.categories}
                            selection={this.state.selection}
                            onAdd={this.onAdd}

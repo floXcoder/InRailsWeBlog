@@ -26,7 +26,7 @@ export const getUserPagination = createSelector(
 
 export const getUser = createSelector(
     (state) => state.userState.user,
-    (user) => user ? user.toJS() : {}
+    (user) => user
 );
 
 // Current user

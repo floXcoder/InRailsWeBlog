@@ -1,43 +1,74 @@
 'use strict';
 
 import {
+    withRouter,
     Link,
     Prompt
 } from 'react-router-dom';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+
+import {
     inlineEditArticle,
     updateArticle,
-    deleteArticle, spyTrackClick
+    deleteArticle,
+    spyTrackClick
 } from '../../../actions';
 
 import ArticleInlineActions from '../properties/inlineActions';
 
 import Editor, {EditorMode} from '../../editor/editor';
 
-export default @connect(null, {
+import styles from '../../../../jss/article/inline';
+
+export default @withRouter
+@connect(null, {
     inlineEditArticle,
     updateArticle,
     deleteArticle
 })
+@withStyles(styles)
 class ArticleInlineEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,
-        // From connect
+        // from connect
         inlineEditArticle: PropTypes.func,
         updateArticle: PropTypes.func,
-        deleteArticle: PropTypes.func
+        deleteArticle: PropTypes.func,
+        // from withRouter
+        history: PropTypes.object,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
         super(props);
 
+        this._headerRed = null;
         this._editor = null;
     }
 
     state = {
-      isModified: false
+        isModified: false
+    };
+
+    _handleTitleClick = (event) => {
+        event.preventDefault();
+
+        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
+
+        const position = ReactDOM.findDOMNode(this._headerRed).getBoundingClientRect();
+
+        this.props.history.push({
+            pathname: `/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`,
+            state: {
+                position: {x: position.x, y: position.y},
+                title: this.props.article.title
+            }
+        });
     };
 
     _handleDeleteClick = () => {
@@ -68,24 +99,23 @@ class ArticleInlineEditionDisplay extends React.Component {
 
     render() {
         return (
-            <div className="article-inline-edition">
+            <div className={this.props.classes.root}>
                 <Prompt
                     when={this.state.isModified}
                     message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
 
                 {
                     this.props.article.title &&
-                    <div className="article-inline-title">
-                        <Link to={`/article/${this.props.article.slug}`}
-                              onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
-                            <h2 className="title">
-                                {this.props.article.title}
-                            </h2>
-                        </Link>
-                    </div>
+                    <Link innerRef={(ref) => this._headerRed = ref}
+                          to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                          onClick={this._handleTitleClick}>
+                        <h1 className={this.props.classes.title}>
+                            {this.props.article.title}
+                        </h1>
+                    </Link>
                 }
 
-                <div className="article-inline-edition-content">
+                <div className={this.props.classes.inlineEditor}>
                     <Editor ref={(editor) => this._editor = editor}
                             modelName="article"
                             modelId={this.props.article.id}
@@ -97,14 +127,11 @@ class ArticleInlineEditionDisplay extends React.Component {
                     </Editor>
                 </div>
 
-                <div className="article-actions">
-                    <div className="article-actions-text">
-                        {I18n.t('js.article.common.actions')}
-                    </div>
-
-                    <ArticleInlineActions onDeleteClick={this._handleDeleteClick}
+                <div className={this.props.classes.actions}>
+                    <ArticleInlineActions classes={this.props.classes}
+                                          onSaveClick={this._handleSaveClick}
                                           onCancelClick={this._handleCancelClick}
-                                          onSaveClick={this._handleSaveClick}/>
+                                          onDeleteClick={this._handleDeleteClick}/>
                 </div>
             </div>
         );

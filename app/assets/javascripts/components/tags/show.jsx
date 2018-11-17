@@ -9,6 +9,12 @@ import {
 } from 'react-router-dom';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
+import {
     fetchTag,
     deleteTag,
     spyTrackClick
@@ -24,7 +30,11 @@ import Loader from '../theme/loader';
 
 import NotFound from '../layouts/notFound';
 
-export default @connect((state) => ({
+import styles from '../../../jss/tag/show';
+
+export default @hot(module)
+
+@connect((state) => ({
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
     isOwner: getTagIsOwner(state, state.tagState.tag),
@@ -33,18 +43,20 @@ export default @connect((state) => ({
     fetchTag,
     deleteTag
 })
-@hot(module)
+@withStyles(styles)
 class TagShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
-        // From connect
+        // from connect
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
         isOwner: PropTypes.bool,
         isUserConnected: PropTypes.bool,
         fetchTag: PropTypes.func,
-        deleteTag: PropTypes.func
+        deleteTag: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -91,164 +103,191 @@ class TagShow extends React.Component {
         }
 
         return (
-            <article className="card blog-tag">
-                <div className="card-content">
-                    <h1 className="tag-title">
-                        {this.props.tag.name}
-                    </h1>
+            <article className={this.props.classes.root}>
+                <Typography className={this.props.classes.title}
+                            component="h1"
+                            variant="h1">
+                    {this.props.tag.name}
+                </Typography>
 
-                    <div className="row">
-                        <div className="col s12 l8">
-                            <div className="tag-description">
-                                <h2 className="tag-subtitle">
-                                    {I18n.t('js.tag.model.description')}
-                                </h2>
 
-                                {
-                                    this.props.tag.description
-                                        ?
-                                        this.props.tag.description
-                                        :
-                                        <span className="tag-no-description">
-                                            {I18n.t('js.tag.common.no_description')}
-                                        </span>
-                                }
-                            </div>
-
-                            <div className="margin-bottom-20">
-                                <h2 className="tag-subtitle">
-                                    {I18n.t('js.tag.model.parents')}
-                                </h2>
-
-                                {
-                                    this.props.tag.parents.size > 0
-                                        ?
-                                        <div className="tag-parents">
-                                            {
-                                                this.props.tag.parents.map((tag) => (
-                                                    <Link key={tag.id}
-                                                          className="tag-default tag-parent"
-                                                          to={`/tag/${tag.slug}`}
-                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                                        {tag.name}
-                                                    </Link>
-                                                ))
-                                            }
-                                        </div>
-                                        :
-                                        <span className="tag-no-parents">
-                                            {I18n.t('js.tag.common.no_parents')}
-                                        </span>
-                                }
-                            </div>
-
-                            <div className="margin-bottom-20">
-                                <h2 className="tag-subtitle">
-                                    {I18n.t('js.tag.model.children')}
-                                </h2>
-
-                                {
-                                    this.props.tag.children.size > 0
-                                        ?
-                                        <div className="tag-children">
-                                            {
-                                                this.props.tag.children.map((tag) => (
-                                                    <Link key={tag.id}
-                                                          className="tag-default tag-child"
-                                                          to={`/tag/${tag.slug}`}
-                                                          onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                                        {tag.name}
-                                                    </Link>
-                                                ))
-                                            }
-                                        </div>
-                                        :
-                                        <span className="tag-no-children">
-                                            {I18n.t('js.tag.common.no_children')}
-                                        </span>
-                                }
-                            </div>
-                        </div>
-
-                        <div className="col s12 l4">
-                            <div className="tag-category">
-                                <h3 className="tag-category-title">
-                                    {I18n.t('js.tag.model.owner')}
-                                </h3>
-
-                                <UserAvatarIcon user={this.props.tag.user}
-                                                className="tag-user"/>
-                            </div>
-
-                            <div className="tag-category">
-                                <h3 className="tag-category-title">
-                                    {I18n.t('js.tag.model.articles_count')}
-                                </h3>
-
-                                <p className="tag-visibility">
-                                    {this.props.tag.taggedArticlesCount}
-                                </p>
-                            </div>
-
-                            <div className="tag-category">
-                                <h3 className="tag-category-title">
-                                    {I18n.t('js.tag.model.visibility')}
-                                </h3>
-
-                                <p className="tag-visibility">
-                                    {this.props.tag.visibilityTranslated}
-                                </p>
-                            </div>
+                <div className="row">
+                    <div className="col s12 l7">
+                        <div>
+                            <Typography className={this.props.classes.subtitle}
+                                        component="h2"
+                                        variant="h2">
+                                {I18n.t('js.tag.model.description')}
+                            </Typography>
 
                             {
-                                this.props.tag.synonyms &&
-                                <div className="tag-category">
-                                    <h3 className="tag-category-title">
-                                        {I18n.t('js.tag.model.synonyms')}
-                                    </h3>
+                                this.props.tag.description
+                                    ?
+                                    this.props.tag.description
+                                    :
+                                    <p className="">
+                                        {I18n.t('js.tag.common.no_description')}
+                                    </p>
+                            }
+                        </div>
 
-                                    <p className="tag-visibility">
+                        <div className="margin-bottom-20">
+                            <Typography className={this.props.classes.subtitle}
+                                        component="h2"
+                                        variant="h2">
+                                {I18n.t('js.tag.model.parents')}
+                            </Typography>
+
+                            {
+                                this.props.tag.parents.size > 0
+                                    ?
+                                    <div className="tag-parents">
+                                        {
+                                            this.props.tag.parents.map((tag) => (
+                                                <Link key={tag.id}
+                                                      to={`/tags/${tag.slug}`}
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
+                                                    {tag.name}
+                                                </Link>
+                                            ))
+                                        }
+                                    </div>
+                                    :
+                                    <p className="">
+                                        {I18n.t('js.tag.common.no_parents')}
+                                    </p>
+                            }
+                        </div>
+
+                        <div className="margin-bottom-20">
+                            <Typography className={this.props.classes.subtitle}
+                                        component="h2"
+                                        variant="h2">
+                                {I18n.t('js.tag.model.children')}
+                            </Typography>
+
+                            {
+                                this.props.tag.children.size > 0
+                                    ?
+                                    <div>
+                                        {
+                                            this.props.tag.children.map((tag) => (
+                                                <Link key={tag.id}
+                                                      to={`/tags/${tag.slug}`}
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
+                                                    {tag.name}
+                                                </Link>
+                                            ))
+                                        }
+                                    </div>
+                                    :
+                                    <span>
+                                        {I18n.t('js.tag.common.no_children')}
+                                    </span>
+                            }
+                        </div>
+                    </div>
+
+                    <div className="col s12 l5">
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        component="h3"
+                                        variant="h3">
+                                {I18n.t('js.tag.model.owner')}
+                            </Typography>
+
+                            <UserAvatarIcon className={this.props.classes.avatar}
+                                            user={this.props.tag.user}/>
+                        </div>
+
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        component="h3"
+                                        variant="h3">
+                                {I18n.t('js.tag.model.articles_count')}
+                            </Typography>
+
+                            <p>
+                                {this.props.tag.taggedArticlesCount}
+                            </p>
+                        </div>
+
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        component="h3"
+                                        variant="h3">
+                                {I18n.t('js.tag.model.visibility')}
+                            </Typography>
+
+                            <p>
+                                {this.props.tag.visibilityTranslated}
+                            </p>
+                        </div>
+
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        component="h3"
+                                        variant="h3">
+                                {I18n.t('js.tag.model.synonyms')}
+                            </Typography>
+
+                            {
+                                !Utils.isEmpty(this.props.tag.synonyms)
+                                    ?
+                                    <p>
                                         {this.props.tag.synonyms.join(', ')}
                                     </p>
-                                </div>
+                                    :
+                                    <p>
+                                        {I18n.t('js.tag.common.no_synonyms')}
+                                    </p>
                             }
 
-                            <div className="tag-category">
-                                <h3 className="tag-category-title">
-                                    {I18n.t('js.tag.common.stats.title')}
-                                </h3>
+                        </div>
 
-                                <p className="tag-stats">
-                                    {I18n.t('js.tag.common.stats.views')}
-                                    {this.props.tag.viewsCount}
-                                </p>
-                                <p className="tag-stats">
-                                    {I18n.t('js.tag.common.stats.clicks')}
-                                    {this.props.tag.clicksCount}
-                                </p>
-                                <p className="tag-stats">
-                                    {I18n.t('js.tag.common.stats.searches')}
-                                    {this.props.tag.searchesCount}
-                                </p>
-                            </div>
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        component="h3"
+                                        variant="h3">
+                                {I18n.t('js.tag.common.stats.title')}
+                            </Typography>
+
+                            <p>
+                                {I18n.t('js.tag.common.stats.views')}
+                                {this.props.tag.viewsCount}
+                            </p>
+                            <p>
+                                {I18n.t('js.tag.common.stats.clicks')}
+                                {this.props.tag.clicksCount}
+                            </p>
+                            <p>
+                                {I18n.t('js.tag.common.stats.searches')}
+                                {this.props.tag.searchesCount}
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div className="card-action article-action clearfix">
+                <div className="margin-top-40 margin-bottom-20">
                     <div className="row">
-                        <div className="col s12 m12 l6 md-margin-bottom-20">
-                            <Link className="btn-flat waves-effect waves-light"
-                                  to={`/`}>
+                        <div className="col s6 center-align">
+                            <Button color="default"
+                                    variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={'/'}>
                                 {I18n.t('js.tag.show.back_button')}
-                            </Link>
+                            </Button>
                         </div>
 
-                        <div className="col s12 m12 l6 right-align">
-                            <Link className="btn waves-effect waves-light"
-                                  to={`/tag/${this.props.tag.slug}/edit`}>
+                        <div className="col s6 center-align">
+                            <Button color="default"
+                                    variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={`/tags/${this.props.tag.slug}/edit`}>
                                 {I18n.t('js.tag.show.edit_link')}
-                            </Link>
+                            </Button>
                         </div>
                     </div>
                 </div>

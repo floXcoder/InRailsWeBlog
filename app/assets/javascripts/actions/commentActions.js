@@ -46,7 +46,7 @@ export const addComment = (comment, commentableType, commentableId) => {
 };
 
 export const updateComment = (comment, commentableType, commentableId) => {
-    const url = `/api/v1/${commentableType}/${commentableId}/comments/${comment.id}`;
+    const url = `/api/v1/${commentableType}/${commentableId}/comments`;
 
     return ({
         actionType: ActionTypes.COMMENT,
@@ -57,7 +57,7 @@ export const updateComment = (comment, commentableType, commentableId) => {
 };
 
 export const deleteComment = (commentId, commentableType, commentableId) => {
-    const url = `/api/v1/${commentableType}/${commentableId}/comments/${commentId}`;
+    const url = `/api/v1/${commentableType}/${commentableId}/comments`;
 
     return ({
         actionType: ActionTypes.COMMENT,

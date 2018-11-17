@@ -47,7 +47,8 @@ module InRailsWeBlog
     # Load files from lib directory
     config.enable_dependency_loading = true
     config.autoload_paths += Dir["#{config.root}/app/services/**/"]
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.autoload_paths += Dir["#{config.root}/lib/inrailsweblog/**/"]
+    config.autoload_paths += Dir["#{config.root}/lib/populate/**/"]
 
     # Database time zone
     config.time_zone = 'Paris'

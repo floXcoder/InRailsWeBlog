@@ -13,6 +13,16 @@ export const getArticlePagination = createSelector(
     (pagination) => pagination.toJS()
 );
 
+export const getHomeArticles = createSelector(
+    (state) => state.articleState.homeArticles,
+    (articles) => articles.toArray()
+);
+
+export const getPopularArticles = createSelector(
+    (state) => state.articleState.popularArticles,
+    (articles) => articles.toArray()
+);
+
 export const getArticle = createSelector(
     (state) => state.articleState.article,
     (article) => article

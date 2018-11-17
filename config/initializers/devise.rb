@@ -112,7 +112,7 @@ end
 Rails.application.config.to_prepare do
   # Devise::SessionsController.layout 'full_page'
   # Devise::RegistrationsController.layout proc { |controller| user_signed_in? ? "application" : 'full_page' }
-  Devise::ConfirmationsController.layout 'full_page'
-  Devise::UnlocksController.layout 'full_page'
-  Devise::PasswordsController.layout 'full_page'
+  # Devise::ConfirmationsController.layout 'full_page'
+  # Devise::UnlocksController.layout 'full_page'
+  # Devise::PasswordsController.layout 'full_page'
 end

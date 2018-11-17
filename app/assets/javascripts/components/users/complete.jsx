@@ -14,7 +14,7 @@ import CommentTimeline from '../comments/display/timeline';
 import UserActivity from '../users/activity';
 import UserTracking from '../users/tracking';
 
-import SwitchButton from '../materialize/switchButton';
+// import SwitchButton from '../materialize/switchButton';
 import Loader from '../theme/loader';
 
 export default @connect((state) => ({
@@ -26,7 +26,7 @@ class UserComplete extends React.Component {
             PropTypes.number,
             PropTypes.string
         ]).isRequired,
-        // From connect
+        // from connect
         isAdminConnected: PropTypes.bool
     };
 
@@ -154,7 +154,7 @@ class UserComplete extends React.Component {
                                     <ul id="dropdown-user-menu"
                                         className='dropdown-content'>
                                         <li>
-                                            <Link to={`/user/profile/${this.props.userId}/edit`}>
+                                            <Link to={`/users/${this.props.userId}/edit`}>
                                                 {I18n.t('js.user.show.edit')}
                                             </Link>
                                         </li>
@@ -200,7 +200,7 @@ class UserComplete extends React.Component {
                                 </div>
 
                                 <Link className="user-edit-icon"
-                                      to={`/user/profile/${this.props.userId}/edit`}>
+                                      to={`/users/${this.props.userId}/edit`}>
                                     <span className="material-icons"
                                           data-icon="mode_edit"
                                           aria-hidden="true"/>

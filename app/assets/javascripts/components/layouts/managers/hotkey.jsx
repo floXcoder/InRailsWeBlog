@@ -1,32 +1,40 @@
 'use strict';
 
+import {
+    withRouter
+} from 'react-router-dom';
+
 // Keyboard inputs
-import MouseTrap from 'mousetrap';
+import Mousetrap from 'mousetrap';
 
 import {
-    switchUserLogin,
-    switchTopicPopup,
-    switchUserPreference
+    showUserLogin,
+    showTopicPopup,
+    showUserPreference
 } from '../../../actions';
 
-export default @connect((state) => ({
+export default @withRouter
+@connect((state) => ({
     isUserConnected: state.userState.isConnected,
-    currentUserId: state.userState.currentId
+    currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug
 }), {
-    switchUserLogin,
-    switchTopicPopup,
-    switchUserPreference
+    showUserLogin,
+    showTopicPopup,
+    showUserPreference
 })
 class HotkeyManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-        // From connect
-        isUserConnected: PropTypes.bool,
-        currentUserId: PropTypes.number,
-        switchUserLogin: PropTypes.func,
-        switchTopicPopup: PropTypes.func,
-        switchUserPreference: PropTypes.func
+        // from router
+        history: PropTypes.object,
+        // from connect
+        currentUserSlug: PropTypes.string,
+        currentUserTopicSlug: PropTypes.string,
+        showUserLogin: PropTypes.func,
+        showTopicPopup: PropTypes.func,
+        showUserPreference: PropTypes.func
     };
 
     constructor(props) {
@@ -38,17 +46,17 @@ class HotkeyManager extends React.Component {
     _setHotkeys = () => {
         Mousetrap.bind('alt+a', (event) => {
             event.preventDefault();
-            this.props.history.push('/article/new');
+            this.props.history.push(`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/article-new`);
         }, 'keydown');
 
         Mousetrap.bind('alt+l', (event) => {
             event.preventDefault();
-            this.props.switchUserLogin();
+            this.props.showUserLogin();
         }, 'keydown');
 
         Mousetrap.bind('alt+t', (event) => {
             event.preventDefault();
-            this.props.switchTopicPopup();
+            this.props.showTopicPopup();
         }, 'keydown');
 
         Mousetrap.bind('alt+s', (event) => {
@@ -60,7 +68,7 @@ class HotkeyManager extends React.Component {
 
         Mousetrap.bind('alt+p', (event) => {
             event.preventDefault();
-            this.props.switchUserPreference();
+            this.props.showUserPreference();
         }, 'keydown');
     };
 

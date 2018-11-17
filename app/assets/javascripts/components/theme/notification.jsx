@@ -1,74 +1,155 @@
 'use strict';
 
 import {
-    OrderedSet
-} from 'immutable';
+    withStyles
+} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import IconButton from '@material-ui/core/IconButton';
 
-import {
-    NotificationStack
-} from 'react-notification';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import WarningIcon from '@material-ui/icons/Warning';
+import CloseIcon from '@material-ui/icons/Close';
+
+import styles from '../../../jss/notification';
+
+const variantIcon = {
+    success: CheckCircleIcon,
+    warning: WarningIcon,
+    error: ErrorIcon,
+    alert: InfoIcon
+};
+
+@withStyles(styles)
+class NotificationContent extends React.Component {
+    static propTypes = {
+        messageInfo: PropTypes.object.isRequired,
+        onClose: PropTypes.func.isRequired,
+        // from styles
+        classes: PropTypes.object
+    };
+
+    render() {
+        let actions = [
+            <IconButton key="close"
+                        aria-label="Close"
+                        color="inherit"
+                        className={this.props.classes.close}
+                        onClick={this.props.onClose}>
+                <CloseIcon/>
+            </IconButton>
+        ];
+
+        if (this.props.messageInfo.actionButton) {
+            actions.unshift(
+                <Button key="undo"
+                        color="secondary"
+                        size="small"
+                        onClick={this.props.messageInfo.actionCallback}>
+                    {this.props.messageInfo.actionButton}
+                </Button>
+            );
+        }
+
+        const Icon = variantIcon[this.props.messageInfo.level || 'info'];
+        const className = this.props.classes[this.props.messageInfo.level || 'info'];
+
+        return (
+            <SnackbarContent
+                className={className}
+                aria-describedby="message-notification"
+                message={
+                    <span id="message-notification"
+                          className={this.props.classes.message}>
+                        <Icon className={classNames(this.props.classes.icon, this.props.classes.iconVariant)}/>
+                        {this.props.messageInfo.message}
+                    </span>
+                }
+                action={actions}/>
+        );
+    }
+}
 
 class Notification extends React.Component {
     constructor(props) {
         super(props);
+
+        this._queue = [];
     }
 
     state = {
-        notifications: OrderedSet()
+        isOpen: false,
+        messageInfo: {}
     };
 
-    // Time in seconds
-    alert = (message, time = 10, actionButton, actionCallback) => {
-        this._add('alert', message, time, actionButton, actionCallback);
-    };
-
-    success = (message, time = 10, actionButton, actionCallback) => {
-        this._add('success', message, time, actionButton, actionCallback);
-    };
-
-    error = (message, time = 15, actionButton, actionCallback) => {
-        this._add('error', message, time, actionButton, actionCallback);
-    };
-
-    _add = (level, message, time = 10, actionButton, actionCallback) => {
-        const key = Utils.uuid();
-
-        return this.setState({
-            notifications: this.state.notifications.add({
-                message: message,
-                key: key,
-                action: actionButton,
-                className: `notification-${level}`,
-                onClick: (deactivate) => {
-                    if (typeof deactivate === 'function') {
-                        deactivate();
-                    }
-
-                    if (typeof actionCallback === 'function') {
-                        actionCallback();
-                    }
-
-                    setTimeout(() => this.removeNotification(key), 400);
-                },
-                dismissAfter: time * 1000
-            })
+    _handleAdd = (level, message, duration = 8, actionButton, actionCallback) => {
+        this._queue.push({
+            key: Utils.uuid(),
+            duration: duration * 1000,
+            level,
+            message,
+            actionButton,
+            actionCallback
         });
+
+        if (this.state.isOpen) {
+            // immediately begin dismissing current message to start showing new one
+            this.setState({isOpen: false});
+        } else {
+            this._processQueue();
+        }
     };
 
-    removeNotification = (key) => {
-        this.setState({
-            notifications: this.state.notifications.filter(n => n.key !== key)
-        })
+    _processQueue = () => {
+        if (this._queue.length > 0) {
+            this.setState({
+                messageInfo: this._queue.shift(),
+                isOpen: true
+            });
+        }
+    };
+
+    _handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({isOpen: false});
+    };
+
+    _handleExited = () => {
+        this._processQueue();
+    };
+
+    // Duration in seconds
+    alert = (message, duration = 10, actionButton, actionCallback) => {
+        this._handleAdd('alert', message, duration, actionButton, actionCallback);
+    };
+
+    success = (message, duration = 10, actionButton, actionCallback) => {
+        this._handleAdd('success', message, duration, actionButton, actionCallback);
+    };
+
+    error = (message, duration = 15, actionButton, actionCallback) => {
+        this._handleAdd('error', message, duration, actionButton, actionCallback);
     };
 
     render() {
         return (
-            <div className="notification">
-                <NotificationStack notifications={this.state.notifications.toArray()}
-                                   onDismiss={notification => this.setState({
-                                       notifications: this.state.notifications.delete(notification)
-                                   })}/>
-            </div>
+            <Snackbar anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+            }}
+                      open={this.state.isOpen}
+                      autoHideDuration={10000}
+                      onClose={this._handleClose}
+                      onExited={this._handleExited}>
+                <NotificationContent messageInfo={this.state.messageInfo}
+                                     onClose={this._handleClose}/>
+            </Snackbar>
         );
     }
 }

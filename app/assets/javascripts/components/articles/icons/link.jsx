@@ -4,25 +4,35 @@ import {
     Link
 } from 'react-router-dom';
 
+import AssignmentIcon from '@material-ui/icons/AssignmentOutlined';
+
 import {
     spyTrackClick
 } from '../../../actions';
 
-const ArticleLinkIcon = ({articleSlug, articleId, articleTitle}) => (
-    <Link className="article-link tooltip-bottom"
-          to={`/article/${articleSlug}`}
-          data-tooltip={I18n.t('js.article.tooltip.link_to')}
-          onClick={spyTrackClick.bind(null, 'article', articleId, articleSlug, articleTitle)}>
-        <span className="material-icons"
-              data-icon="open_in_new"
-              aria-hidden="true"/>
-    </Link>
+const ArticleLinkIcon = ({userSlug, articleSlug, articleId, articleTitle, size, color}) => (
+    <span className="tooltip-bottom"
+          data-tooltip={I18n.t('js.article.tooltip.link_to')}>
+        <Link to={`/users/${userSlug}/articles/${articleSlug}`}
+              onClick={spyTrackClick.bind(null, 'article', articleId, articleSlug, articleTitle)}>
+            <AssignmentIcon color={color}
+                            fontSize={size}/>
+        </Link>
+    </span>
 );
 
 ArticleLinkIcon.propTypes = {
+    userSlug: PropTypes.string.isRequired,
     articleSlug: PropTypes.string.isRequired,
     articleId: PropTypes.number.isRequired,
-    articleTitle: PropTypes.string
+    articleTitle: PropTypes.string,
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
 };
 
-export default ArticleLinkIcon;
+ArticleLinkIcon.defaultProps = {
+    size: 'default',
+    color: 'primary'
+};
+
+export default React.memo(ArticleLinkIcon);

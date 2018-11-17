@@ -5,6 +5,16 @@ import {
 } from 'react-router-dom';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
+
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import LabelIcon from '@material-ui/icons/Label';
+import ClassIcon from '@material-ui/icons/Class';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
+import {
     getTracksClick
 } from '../../actions';
 
@@ -12,21 +22,27 @@ import {
     getUserRecents
 } from '../../selectors';
 
+import styles from '../../../jss/user/breadcrumb';
+
 export default @connect((state, props) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     // currentTopic: state.topicState.currentTopic,
     recents: getUserRecents(state, props.recentsLimit)
 }))
+
+@withStyles(styles)
 class BreadcrumbLayout extends React.Component {
     static propTypes = {
         currentPath: PropTypes.string.isRequired,
         recentsLimit: PropTypes.number,
-        // From connect
+        // from connect
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
-        recents: PropTypes.array
+        recents: PropTypes.array,
         // currentTopic: PropTypes.object,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -64,27 +80,27 @@ class BreadcrumbLayout extends React.Component {
 
     _iconFromType = (type) => {
         if (type === 'article') {
-            return 'assignment';
+            return <AssignmentIcon/>;
         } else if (type === 'tag') {
-            return 'label';
+            return <LabelIcon/>;
         } else if (type === 'topic') {
-            return 'class';
+            return <ClassIcon/>;
         } else if (type === 'user') {
-            return 'account_circle';
+            return <AccountCircleIcon/>;
         } else {
-            return '';
+            return null;
         }
     };
 
     _linkFromRecent = (recent) => {
         if (recent.type === 'article') {
-            return `/article/${recent.slug}`;
+            return `/users/${recent.user.slug}/articles/${recent.slug}`;
         } else if (recent.type === 'tag') {
             return `/tagged/${recent.slug}`;
         } else if (recent.type === 'topic') {
-            return `/topic/${recent.slug}`;
+            return `/users/${recent.user.slug}/topics/${recent.slug}`;
         } else if (recent.type === 'user') {
-            return `/user/${recent.slug}`;
+            return `/users/${recent.slug}`;
         } else {
             return '';
         }
@@ -94,25 +110,21 @@ class BreadcrumbLayout extends React.Component {
         // this.props.currentTopic && this.props.currentTopic.name
 
         return (
-            <div className="blog-breadcrumb">
-                <ul className="breadcrumb-list">
-                    {
-                        this.state.recents.map((recent, i) => (
-                            <li key={i}>
-                                <Link className={(i === this.state.recents.length - 1) ? 'current' : undefined}
-                                      to={this._linkFromRecent(recent)}>
-                                    <span className="material-icons"
-                                          data-icon={this._iconFromType(recent.type)}
-                                          aria-hidden="true"/>
-
-                                    <span className="breadcrumb-title">
-                                        {recent.title}
-                                    </span>
-                                </Link>
-                            </li>
-                        ))
-                    }
-                </ul>
+            <div className={this.props.classes.breadcrumb}>
+                {
+                    this.state.recents.map((recent, i) => (
+                        <Chip key={i}
+                              icon={this._iconFromType(recent.type)}
+                              label={recent.title}
+                              className={classNames(this.props.classes.chip, {
+                                  [this.props.classes.currentChip]: i === this.state.recents.length - 1
+                              })}
+                              variant="outlined"
+                              clickable={true}
+                              component={Link}
+                              to={this._linkFromRecent(recent)}/>
+                    ))
+                }
             </div>
         );
     }

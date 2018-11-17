@@ -127,7 +127,7 @@ class Populate
           if (n % 2).zero?
             parent_tags = permitted_tags.sample(rand(1..2))
             child_tags  = permitted_tags.sample(rand(1..2))
-            FactoryBot.create(:article_with_relation_tags,
+            FactoryBot.create(:article,
                               user:        user,
                               topic:       topic,
                               mode:        'note',
@@ -136,7 +136,7 @@ class Populate
                               parent_tags: parent_tags,
                               child_tags:  child_tags - parent_tags)
           else
-            FactoryBot.create(:article_with_tags,
+            FactoryBot.create(:article,
                               user:       user,
                               topic:      topic,
                               mode:       'story',
@@ -165,7 +165,7 @@ class Populate
         Topic.where(user_id: user.id).map do |topic|
           permitted_tags = tags.select { |tag| tag.everyone? || (tag.only_me? && tag.user_id == user.id) }
 
-          FactoryBot.create(:article_with_tags,
+          FactoryBot.create(:article,
                             user:       user,
                             topic:      topic,
                             mode:       'link',

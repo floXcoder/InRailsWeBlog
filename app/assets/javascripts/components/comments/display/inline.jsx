@@ -5,10 +5,10 @@ import {
     deleteComment
 } from '../../../actions';
 
-import Input from '../../materialize/input';
-import Textarea from '../../materialize/textarea';
+// import Input from '../../materialize/input';
+// import Textarea from '../../materialize/textarea';
 import ShowMore from '../../theme/showMore';
-import FixedActionButton from '../../materialize/fab';
+// import FixedActionButton from '../../materialize/fab';
 
 import UserAvatarIcon from '../../users/icons/avatar';
 
@@ -21,7 +21,7 @@ class CommentInlineDisplay extends React.Component {
         comment: PropTypes.object.isRequired,
         isInlineEditing: PropTypes.bool,
         onClick: PropTypes.func,
-        // From connect
+        // from connect
         updateComment: PropTypes.func,
         deleteComment: PropTypes.func
     };

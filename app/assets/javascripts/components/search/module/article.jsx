@@ -4,9 +4,19 @@ import {
     Link
 } from 'react-router-dom';
 
-export default class SearchArticleModule extends React.Component {
+import Grid from '@material-ui/core/Grid';
+
+// import EditIcon from '@material-ui/icons/Edit';
+
+import {
+    spyTrackClick
+} from '../../../actions';
+
+export default class SearchArticleModule extends React.PureComponent {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         articles: PropTypes.array.isRequired,
+        hasQuery: PropTypes.bool.isRequired,
         isSearching: PropTypes.bool.isRequired
     };
 
@@ -14,31 +24,46 @@ export default class SearchArticleModule extends React.Component {
         super(props);
     }
 
+    _handleArticleClick = (article) => {
+        spyTrackClick('article', article.id, article.slug, article.title);
+    };
+
     render() {
         return (
-            <div className="search-category">
-                <h2>
+            <div className={this.props.classes.category}>
+                <h2 className={this.props.classes.categoryName}>
                     {I18n.t('js.search.module.articles.title')}
+                    {
+                        this.props.hasQuery &&
+                        <span className={this.props.classes.categoryCount}>
+                            {I18n.t('js.search.module.articles.recents')}
+                        </span>
+                    }
                 </h2>
 
-                <div className="shows-list">
+                <div>
                     {
                         this.props.articles.map((article) => (
-                            <section key={article.id}
-                                     className="search-card search-card-small">
-                                <h3 className="search-card-title">
-                                    <Link className="search-article-title"
-                                          to={`/article/${article.slug}`}>
-                                        {article.title || article.slug}
-                                    </Link>
-                                </h3>
+                            <section key={article.id}>
+                                <Grid container={true}
+                                      spacing={16}
+                                      direction="row"
+                                      justify="flex-start"
+                                      alignItems="center">
+                                    <Grid item={true}>
+                                        <Link className={this.props.classes.articleTitle}
+                                              to={`/users/${article.user.slug}/articles/${article.slug}`}
+                                              onClick={this._handleArticleClick.bind(this, article)}>
+                                            {article.title || article.slug}
+                                        </Link>
+                                    </Grid>
 
-                                <Link className="search-article-link"
-                                      to={`/article/${article.slug}/edit`}>
-                                    <span className="material-icons"
-                                          data-icon="mode_edit"
-                                          aria-hidden="true"/>
-                                </Link>
+                                    {/*<Grid item={true}>*/}
+                                        {/*<Link to={`/users/${article.user.slug}/articles/${article.slug}/edit`}>*/}
+                                            {/*<EditIcon className={this.props.classes.articleEdit}/>*/}
+                                        {/*</Link>*/}
+                                    {/*</Grid>*/}
+                                </Grid>
                             </section>
                         ))
                     }

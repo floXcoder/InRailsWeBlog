@@ -19,7 +19,7 @@ export default @connect((state) => ({
 })
 class ErrorIndex extends React.PureComponent {
     static propTypes = {
-        // From connect
+        // from connect
         errors: PropTypes.array,
         fetchErrors: PropTypes.func,
         deleteError: PropTypes.func,
