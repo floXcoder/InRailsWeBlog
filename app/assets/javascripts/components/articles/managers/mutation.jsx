@@ -37,7 +37,7 @@ import {
     getDisplayName
 } from '../../modules/common';
 
-const waitTimeBeforeSaving = 30000;
+const waitTimeBeforeSaving = 10000;
 const temporaryDataName = 'article-temporary';
 const unsavedDataName = 'article-unsaved';
 
