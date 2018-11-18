@@ -5,7 +5,6 @@ import Sticky from 'react-stickynode';
 import {
     withStyles
 } from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -41,11 +40,9 @@ export default @connect((state) => ({
 })
 
 @withStyles(styles)
-@withWidth()
 class ArticleAppendixDisplay extends React.Component {
     static propTypes = {
         currentArticles: PropTypes.array.isRequired,
-        currentTags: PropTypes.array.isRequired,
         onMinimized: PropTypes.func.isRequired,
         // from connect
         currentUserId: PropTypes.number,
@@ -54,17 +51,9 @@ class ArticleAppendixDisplay extends React.Component {
         currentUserTopicSlug: PropTypes.string,
         articleOrderMode: PropTypes.string,
         articles: PropTypes.array,
-        tags: PropTypes.array,
         updateUserSettings: PropTypes.func,
         // from styles
-        classes: PropTypes.object,
-        // from withWidth
-        width: PropTypes.string
-    };
-
-    static defaultProps = {
-        currentArticles: [],
-        currentTags: []
+        classes: PropTypes.object
     };
 
     constructor(props) {

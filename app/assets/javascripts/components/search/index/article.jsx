@@ -23,7 +23,6 @@ export default class SearchArticleIndex extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         articles: PropTypes.array.isRequired,
-        isSearching: PropTypes.bool.isRequired,
         onFilter: PropTypes.func.isRequired,
         onArticleClick: PropTypes.func.isRequired
     };
@@ -55,8 +54,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                     </span>
 
                     <div className={this.props.classes.categoryFilter}>
-                        <Dropdown hasWavesEffect={false}
-                                  isClosingOnInsideClick={true}
+                        <Dropdown isClosingOnInsideClick={true}
                                   hasArrow={true}
                                   position="bottom right"
                                   button={

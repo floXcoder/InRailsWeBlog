@@ -99,7 +99,7 @@ module.exports = {
             filename: '[name]',
             chunkFilename: '[name]',
             watchPath: [
-                'app/controller/**/*',
+                'app/controllers/**/*',
                 'app/queries/**/*',
                 'app/serializers/**/*',
                 'app/views/**/*'

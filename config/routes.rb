@@ -124,7 +124,7 @@ Rails.application.routes.draw do
       end
 
       # Tags
-      resources :tags, except: [:new, :create, :edit] do
+      resources :tags, except: [:new, :create] do
         collection do
           put      :priority,  to: 'tags#update_priority'
 

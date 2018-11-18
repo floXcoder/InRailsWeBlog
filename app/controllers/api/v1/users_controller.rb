@@ -37,12 +37,12 @@
 #
 
 module Api::V1
-  class UsersController < ApplicationController
-    before_action :authenticate_user!, except: [:index, :show, :validation]
-    before_action :verify_requested_format!
+  class UsersController < ApiController
+    skip_before_action :authenticate_user!, only: [:index, :show, :validation]
+    skip_before_action :set_locale, only: [:validation]
+
     after_action :verify_authorized, except: [:index, :validation]
 
-    skip_before_action :set_locale, only: [:validation]
 
     include TrackerConcern
 
@@ -62,7 +62,7 @@ module Api::V1
         format.json do
           render json:            users,
                  each_serializer: UserSampleSerializer,
-                 meta:            meta_attributes(users)
+                 meta:            meta_pagination_attributes(users)
         end
       end
     end
@@ -145,7 +145,7 @@ module Api::V1
         format.json do
           render json:            user_comments,
                  each_serializer: CommentFullSerializer,
-                 meta:            meta_attributes(user_comments)
+                 meta:            meta_pagination_attributes(user_comments)
         end
       end
     end
@@ -210,7 +210,7 @@ module Api::V1
           render json:            user_activities,
                  each_serializer: PublicActivitiesSerializer,
                  root:            'activities',
-                 meta:            meta_attributes(user_activities)
+                 meta:            meta_pagination_attributes(user_activities)
         end
       end
     end

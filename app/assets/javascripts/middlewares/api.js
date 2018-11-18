@@ -109,6 +109,17 @@ const handleParseErrors = (error, url) => {
     };
 };
 
+const handleMetaTags = (response) => {
+    let metaTags = response.headers.get('X-Meta-Tags');
+
+    if (metaTags) {
+        metaTags = JSON.parse(decodeURIComponent(escape(metaTags)));
+        Head.define(metaTags);
+    }
+
+    return response;
+};
+
 const handleFlashMessage = (response) => {
     let flashMessage = response.headers.get('X-Flash-Messages');
 
@@ -162,6 +173,7 @@ const api = {
             signal
         })
             .then((response) => handleResponseErrors(response, urlParams))
+            .then((response) => handleMetaTags(response))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
             .then(

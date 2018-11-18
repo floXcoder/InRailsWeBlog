@@ -29,7 +29,6 @@ import styles from '../../../jss/tag/edit';
 export default @hot(module)
 
 @connect((state) => ({
-    isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
     tagErrors: getTagErrors(state)
@@ -42,9 +41,7 @@ class TagEdit extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
-        multipleId: PropTypes.number,
         // from connect
-        isFetching: PropTypes.bool,
         tag: PropTypes.object,
         currentUser: PropTypes.object,
         tagErrors: PropTypes.array,
@@ -59,7 +56,7 @@ class TagEdit extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTag(this.props.params.tagSlug);
+        this.props.fetchTag(this.props.params.tagSlug, {edit: true});
     }
 
     _handleSubmit = (values) => {

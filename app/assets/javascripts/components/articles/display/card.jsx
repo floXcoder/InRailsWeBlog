@@ -47,13 +47,11 @@ class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,
-        isOutdated: PropTypes.bool,
+        // isOutdated: PropTypes.bool,
         isMinimized: PropTypes.bool,
         hasActions: PropTypes.bool,
-        onInlineEdit: PropTypes.func,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
-        onClick: PropTypes.func,
         // from highlight
         onShow: PropTypes.func,
         // from withRouter
@@ -64,7 +62,7 @@ class ArticleCardDisplay extends React.Component {
 
     static defaultProps = {
         isOwner: false,
-        isOutdated: false,
+        // isOutdated: false,
         isMinimized: false,
         hasActions: true
     };

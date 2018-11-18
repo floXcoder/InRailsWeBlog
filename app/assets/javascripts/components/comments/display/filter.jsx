@@ -13,13 +13,8 @@ export default @connect(null, {
 })
 class CommentFilterDisplay extends React.Component {
     static propTypes = {
-        filters: PropTypes.object,
         // from connect
         fetchComments: PropTypes.func
-    };
-
-    static defaultProps = {
-        filters: {}
     };
 
     constructor(props) {

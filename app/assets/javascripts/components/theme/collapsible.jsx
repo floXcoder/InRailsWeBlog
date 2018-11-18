@@ -15,13 +15,11 @@ export default class Collapsible extends React.Component {
         isDefaultOpen: PropTypes.bool,
         isForceOpen: PropTypes.bool,
         title: PropTypes.string,
-        className: PropTypes.string,
-        hasButton: PropTypes.bool
+        className: PropTypes.string
     };
 
     static defaultProps = {
-        isDefaultOpen: true,
-        hasButton: true
+        isDefaultOpen: true
     };
 
     constructor(props) {

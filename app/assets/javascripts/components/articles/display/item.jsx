@@ -28,7 +28,6 @@ class ArticleItemDisplay extends React.Component {
         onExit: PropTypes.func,
         // from connect
         isOwner: PropTypes.bool,
-        isMasonry: PropTypes.bool,
         inlineEditArticle: PropTypes.func,
         onClick: PropTypes.func
     };

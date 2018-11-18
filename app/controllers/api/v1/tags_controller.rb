@@ -13,9 +13,9 @@
 #
 
 module Api::V1
-  class TagsController < ApplicationController
-    before_action :authenticate_user!, except: [:index, :show]
-    before_action :verify_requested_format!
+  class TagsController < ApiController
+    skip_before_action :authenticate_user!, only: [:index, :show]
+
     after_action :verify_authorized, except: [:index]
 
     include TrackerConcern
@@ -43,6 +43,10 @@ module Api::V1
              end
 
       respond_to do |format|
+        if filter_params[:user_slug].present?
+          set_meta_tags title: titleize(I18n.t('views.tag.index.title', user: User.find_by(slug: filter_params[:user_slug]).pseudo))
+        end
+
         format.json do
           render json:             tags,
                  each_serializer:  TagSerializer,
@@ -57,16 +61,26 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          # set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
-          #               description: tag.meta_description,
-          #               author:      alternate_urls(tag.user.slug)['fr'],
-          #               canonical:   alternate_urls(tag.slug)['fr'],
-          #               alternate:   alternate_urls('tags', tag.slug),
-          #               og:          {
-          #                 type:  "#{ENV['WEBSITE_NAME']}:tag",
-          #                 url:   tag_url(tag),
-          #                 image: root_url + tag.default_picture
-          #               }
+          set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
+                        description: tag.meta_description,
+                        author:      tag.user.pseudo
+
+          render json:            tag,
+                 serializer:      TagCompleteSerializer,
+                 current_user_id: current_user&.id
+        end
+      end
+    end
+
+    def edit
+      tag = Tag.include_element.friendly.find(params[:id])
+      authorize tag
+
+      respond_to do |format|
+        format.json do
+          set_meta_tags title:       titleize(I18n.t('views.tag.edit.title', name: tag.name)),
+                        description: tag.meta_description
+
           render json:            tag,
                  serializer:      TagCompleteSerializer,
                  current_user_id: current_user&.id

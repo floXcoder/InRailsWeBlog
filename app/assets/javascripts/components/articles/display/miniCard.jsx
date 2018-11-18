@@ -31,7 +31,7 @@ class ArticleMiniCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         // from highlight
-        onShow: PropTypes.func,
+        // onShow: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };

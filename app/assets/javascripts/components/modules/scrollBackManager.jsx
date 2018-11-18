@@ -9,8 +9,7 @@ class ScrollBackManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         // from router
-        location: PropTypes.object,
-        history: PropTypes.object
+        location: PropTypes.object
     };
 
     constructor(props) {

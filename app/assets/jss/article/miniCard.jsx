@@ -24,7 +24,7 @@ const styles = (theme) => ({
         paddingBottom: '0 !important'
     },
     title: {
-        color: theme.palette.text.primary,
+        color: theme.palette.primary.main,
         margin: '1rem 0 .3rem',
         fontSize: h1SizeExtract,
         fontWeight: h1WeightExtract,

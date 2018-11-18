@@ -5,7 +5,7 @@ en:
   views:
     home:
       title: "InRailsWeBlog"
-      description: "InRailsWeBlog: advanced blog"
+      description: "InRailsWeBlog blog"
     user:
       flash:
         successful_edition: "Profile updated"
@@ -46,31 +46,13 @@ en:
         title: "All users"
         description: "Users list"
       show:
-        title: "%{pseudo}: My activities"
-        description: "My activities"
+        title: "%{pseudo}"
+        description: "User articles: %{pseudo}"
       edit:
         title: "Edit my profil"
       bookmarks:
         title: "%{pseudo}: My bookmarks"
         description: "%{pseudo}: My bookmarks"
-    article:
-      flash:
-        not_found: "Article not found"
-        undelete_link: "Cancel deletion."
-        successful_creation: "Article added"
-        error_creation: "Cannot create the article, please correct the errors"
-        successful_edition: "Article updated"
-        error_edition: "Cannot update the article!"
-        successful_priority_update: "Articles order changed"
-        error_priority_update: "Cannot change articles order"
-        successful_deletion: "Article deleted"
-        error_deletion: "Problem during article deletion: %{errors}"
-        successful_undeletion: "Article restored"
-      show:
-        title: "Article: %{title}"
-      edit:
-        title: "Article edition: %{title}"
-        description: "Article edition: %{title}"
     topic:
       flash:
         successful_creation: "Topic added"
@@ -89,8 +71,35 @@ en:
         error_priority_update: "Cannot change tags order"
         successful_deletion: "Article has been removed"
         error_deletion: "Cannot delete article: %{errors}"
+      index:
+        title: "User tags: %{user}"
       show:
-        title: "Label : %{name}"
+        title: "Tag: %{name}"
+      edit:
+        title: "Tag edition: %{name}"
+    article:
+      flash:
+        not_found: "Article not found"
+        undelete_link: "Cancel deletion."
+        successful_creation: "Article added"
+        error_creation: "Cannot create the article, please correct the errors"
+        successful_edition: "Article updated"
+        error_edition: "Cannot update the article!"
+        successful_priority_update: "Articles order changed"
+        error_priority_update: "Cannot change articles order"
+        successful_deletion: "Article deleted"
+        error_deletion: "Problem during article deletion: %{errors}"
+        successful_undeletion: "Article restored"
+      index:
+        title:
+          default: "Articles list"
+          tagged: "Articles for %{tag}"
+          topic: "Articles of %{topic}"
+      show:
+        title: "%{title}"
+      edit:
+        title: "Article edition: %{title}"
+        description: "Article edition: %{title}"
     picture:
       flash:
         successful_deletion: "Picture removed"
@@ -110,6 +119,9 @@ en:
         title: "Log in (Admin)"
       dashboard:
         title: "Admin"
+    search:
+      index:
+        title: "Votre recherche : %{query}"
     errors:
       flash:
         successful_deletion: "Error removed"

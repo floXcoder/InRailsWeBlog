@@ -40,10 +40,8 @@ class ArticleGridDisplay extends React.Component {
         article: PropTypes.object.isRequired,
         isOwner: PropTypes.bool,
         isMinimized: PropTypes.bool,
-        hasActions: PropTypes.bool,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
-        onClick: PropTypes.func,
         // from highlight
         onShow: PropTypes.func,
         // from styles
@@ -52,8 +50,7 @@ class ArticleGridDisplay extends React.Component {
 
     static defaultProps = {
         isOwner: false,
-        isMinimized: false,
-        hasActions: true
+        isMinimized: false
     };
 
     constructor(props) {

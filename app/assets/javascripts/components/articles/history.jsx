@@ -35,8 +35,6 @@ export default @hot(module)
 @connect((state) => ({
     currentUser: getCurrentUser(state),
     currentTopic: getCurrentUserTopic(state),
-    isUserConnected: state.userState.isConnected,
-    isFetching: state.articleState.isFetching,
     article: state.articleState.article,
     articleVersions: getArticleVersions(state)
 }), {
@@ -53,15 +51,13 @@ class ArticleHistory extends React.Component {
         // from connect
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
-        isFetching: PropTypes.bool,
         article: PropTypes.object,
         articleVersions: PropTypes.array,
-        isUserConnected: PropTypes.bool,
         fetchArticle: PropTypes.func,
         fetchArticleHistory: PropTypes.func,
         restoreArticle: PropTypes.func,
         // from highlight
-        onShow: PropTypes.func,
+        // onShow: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };

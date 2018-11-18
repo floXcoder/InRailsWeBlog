@@ -17,8 +17,6 @@ import UserComplete from './complete';
 // import styles from '../../../jss/user/show';
 
 export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
-    isFetching: state.userState.isFetching,
     user: getUser(state)
 }), {
     // fetchUser,
@@ -27,13 +25,10 @@ export default @connect((state) => ({
 class UserShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
         // from connect
-        isUserConnected: PropTypes.bool,
-        isFetching: PropTypes.bool,
         user: PropTypes.object,
         // from styles
-        classes: PropTypes.object
+        // classes: PropTypes.object
     };
 
     static defaultProps = {
@@ -48,7 +43,7 @@ class UserShow extends React.Component {
             <div>
                 {
                     this.props.user &&
-                    <UserComplete userId={this.props.userId || this.props.params.userPseudo}/>
+                    <UserComplete userId={this.props.user.id || this.props.params.userPseudo}/>
                 }
             </div>
         );

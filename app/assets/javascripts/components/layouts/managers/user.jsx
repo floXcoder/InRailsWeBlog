@@ -50,7 +50,6 @@ class UserManager extends React.Component {
         fetchUserRecents: PropTypes.func,
         updateUserRecents: PropTypes.func,
         fetchBookmarks: PropTypes.func,
-        synchronizeBookmarks: PropTypes.func,
         setCurrentTags: PropTypes.func
     };
 

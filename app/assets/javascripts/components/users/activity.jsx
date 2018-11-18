@@ -33,14 +33,15 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
                           aria-hidden="true"/>
                 </div>
                 <div className="activity-list-content">
-                        <span className="activity-list-heading">
-                            {I18n.t(`js.activities.${model}.${action}`)}
-                        </span>
+                    <span className="activity-list-heading">
+                        {I18n.t(`js.activities.${model}.${action}`)}
+                    </span>
+
                     <span className="activity-list-date">
-                            <a href={activity.link}>
-                                {activity.performed_at}
-                            </a>
-                        </span>
+                        <a href={activity.link}>
+                            {activity.performed_at}
+                        </a>
+                    </span>
                 </div>
             </li>
         );

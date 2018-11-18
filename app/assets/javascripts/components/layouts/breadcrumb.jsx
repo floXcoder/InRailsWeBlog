@@ -25,9 +25,6 @@ import {
 import styles from '../../../jss/user/breadcrumb';
 
 export default @connect((state, props) => ({
-    isUserConnected: state.userState.isConnected,
-    currentUserId: state.userState.currentId,
-    // currentTopic: state.topicState.currentTopic,
     recents: getUserRecents(state, props.recentsLimit)
 }))
 
@@ -37,10 +34,7 @@ class BreadcrumbLayout extends React.Component {
         currentPath: PropTypes.string.isRequired,
         recentsLimit: PropTypes.number,
         // from connect
-        isUserConnected: PropTypes.bool,
-        currentUserId: PropTypes.number,
         recents: PropTypes.array,
-        // currentTopic: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };

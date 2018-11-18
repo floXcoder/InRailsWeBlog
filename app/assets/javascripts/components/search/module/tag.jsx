@@ -17,7 +17,6 @@ export default class SearchTagModule extends React.Component {
         classes: PropTypes.object.isRequired,
         tags: PropTypes.array.isRequired,
         hasQuery: PropTypes.bool.isRequired,
-        isSearching: PropTypes.bool.isRequired,
         onTagClick: PropTypes.func.isRequired,
         selectedTags: PropTypes.array,
         highlightedTagIndex: PropTypes.number

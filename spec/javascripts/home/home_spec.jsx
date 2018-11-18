@@ -32,7 +32,7 @@ describe('<HomePage />', () => {
         // console.log(shallowWrapper.render())
         // console.log(shallowWrapper.text())
 
-        expect(shallowWrapper.find('MuiThemeProvider')).toHaveLength(1);
+        expect(shallowWrapper.find('MuiThemeProviderOld')).toHaveLength(1);
         expect(shallowWrapper.find('BrowserRouter')).toHaveLength(1);
         expect(shallowWrapper.find('Provider')).toHaveLength(1);
         // expect(shallowWrapper.find('HeaderLayoutHome')).toHaveLength(1);

@@ -17,9 +17,14 @@ import * as utils from './modules/utils';
 window.Utils = utils;
 
 // Notifications
-import Notification from './components/theme/notification';
+import NotificationLayout from './components/layouts/notification';
 
-window.Notification = Notification;
+window.Notification = NotificationLayout;
+
+// Head
+import HeadLayout from './components/layouts/head';
+
+window.Head = HeadLayout;
 
 // Translation
 import I18n from 'imports-loader?this=>window!./modules/i18n';

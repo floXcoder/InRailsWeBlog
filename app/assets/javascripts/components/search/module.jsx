@@ -17,13 +17,10 @@ import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
 
 import {
-    setSelectedTag,
-    fetchUserRecents,
-    fetchSearch
+    setSelectedTag
 } from '../../actions';
 
 import {
-    getUserRecentTopics,
     getUserRecentTags,
     getUserRecentArticles,
     getSelectedTags,
@@ -42,10 +39,6 @@ import styles from '../../../jss/search/module';
 export default @hot(module)
 
 @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
-    currentUserId: state.userState.currentId,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    recentTopics: getUserRecentTopics(state),
     recentTags: getUserRecentTags(state),
     recentArticles: getUserRecentArticles(state),
     isSearching: state.autocompleteState.isFetching,
@@ -55,19 +48,13 @@ export default @hot(module)
     selectedTags: getSelectedTags(state),
     articles: getAutocompleteArticles(state)
 }), {
-    setSelectedTag,
-    fetchUserRecents,
-    fetchSearch
+    setSelectedTag
 })
 @withStyles(styles)
 class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // from connect
-        isUserConnected: PropTypes.bool,
-        currentUserId: PropTypes.number,
-        currentUserTopicId: PropTypes.number,
-        recentTopics: PropTypes.array,
         recentTags: PropTypes.array,
         recentArticles: PropTypes.array,
         tags: PropTypes.array,
@@ -77,8 +64,6 @@ class SearchModule extends React.Component {
         query: PropTypes.string,
         actionKey: PropTypes.string,
         setSelectedTag: PropTypes.func,
-        fetchUserRecents: PropTypes.func,
-        fetchSearch: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -227,7 +212,6 @@ class SearchModule extends React.Component {
                             <SearchTagModule classes={this.props.classes}
                                              tags={tags}
                                              hasQuery={!this.props.query}
-                                             isSearching={this.props.isSearching}
                                              selectedTags={this.props.selectedTags}
                                              highlightedTagIndex={this.state.highlightedTagIndex}
                                              onTagClick={this._handleTagSelection}/>
@@ -239,8 +223,7 @@ class SearchModule extends React.Component {
                               lg={9}>
                             <SearchArticleModule classes={this.props.classes}
                                                  articles={articles}
-                                                 hasQuery={!this.props.query}
-                                                 isSearching={this.props.isSearching}/>
+                                                 hasQuery={!this.props.query}/>
                         </Grid>
                     </Grid>
 

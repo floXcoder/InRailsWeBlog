@@ -45,8 +45,6 @@ export default @hot(module)
 @withStyles(styles)
 class UserHome extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
         // from connect
         isFetching: PropTypes.bool,
         user: PropTypes.object,

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Api::V1
-  class TopicsController < ApplicationController
-    before_action :authenticate_user!, except: [:index]
-    before_action :verify_requested_format!
+  class TopicsController < ApiController
+    skip_before_action :authenticate_user!, only: [:index]
+
     after_action :verify_authorized, except: [:index]
 
     include TrackerConcern

@@ -77,8 +77,7 @@ class ArticleIndex extends React.Component {
 
     state = {
         isMinimized: false,
-        currentArticles: [],
-        currentTags: []
+        currentArticles: []
     };
 
     componentDidMount() {

@@ -93,7 +93,7 @@ export default function articleMutationManager(mode, formId) {
                 const unsavedArticle = getLocalData(unsavedDataName, true);
 
                 if (props.params.articleSlug) {
-                    props.fetchArticle(props.params.articleSlug);
+                    props.fetchArticle(props.params.articleSlug, {edit: true});
                 } else if (props.initialData) {
                     this.state.article = props.initialData;
 

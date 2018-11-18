@@ -41,7 +41,6 @@ class TagFormDisplay extends React.Component {
         id: PropTypes.string.isRequired,
         tagId: PropTypes.number.isRequired,
         multipleId: PropTypes.number,
-        isInline: PropTypes.bool,
         isEditing: PropTypes.bool,
         children: PropTypes.object,
         tagErrors: PropTypes.array,
@@ -49,14 +48,12 @@ class TagFormDisplay extends React.Component {
         handleSubmit: PropTypes.func,
         submitting: PropTypes.bool,
         submitSucceeded: PropTypes.bool,
-        invalid: PropTypes.bool,
         dirty: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
 
     static defaultProps = {
-        isInline: false,
         isEditing: false,
         children: {}
     };
@@ -99,7 +96,7 @@ class TagFormDisplay extends React.Component {
                                            underline: !this.props.children.name && this.props.classes.nameUnderline
                                        }
                                    }}
-                                   id="article_title"
+                                   id="tag_name"
                                    label={I18n.t('js.tag.common.placeholders.name')}
                                    autoFocus={true}
                                    required={true}

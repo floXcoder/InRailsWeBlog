@@ -16,19 +16,14 @@ export default @withStyles(styles)
 class ArticleTagField extends React.Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
-        article: PropTypes.object,
         availableTags: PropTypes.array,
         parentTags: PropTypes.array,
         childTags: PropTypes.array,
-        isDraft: PropTypes.bool,
-        onInputsChange: PropTypes.func,
-        onIsLinkChange: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
 
     static defaultProps = {
-        article: {},
         parentTags: [],
         childTags: [],
         availableTags: []

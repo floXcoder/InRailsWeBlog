@@ -52,7 +52,6 @@ export default @hot(module)
 class TagIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
         // from connect
         isUserConnected: PropTypes.bool,
         currentUser: PropTypes.object,
@@ -244,7 +243,7 @@ class TagIndex extends React.Component {
                 </div>
 
                 {
-                    this.props.isUserConnected &&
+                    this.props.currentUser &&
                     <div className="margin-top-40 margin-bottom-20">
                         <div className="row">
                             <div className="col s6 center-align">

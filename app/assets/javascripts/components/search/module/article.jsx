@@ -16,8 +16,7 @@ export default class SearchArticleModule extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         articles: PropTypes.array.isRequired,
-        hasQuery: PropTypes.bool.isRequired,
-        isSearching: PropTypes.bool.isRequired
+        hasQuery: PropTypes.bool.isRequired
     };
 
     constructor(props) {

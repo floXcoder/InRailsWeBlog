@@ -20,10 +20,6 @@ import {
     spyTrackClick
 } from '../../actions';
 
-import {
-    getTagIsOwner
-} from '../../selectors';
-
 import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
@@ -36,9 +32,7 @@ export default @hot(module)
 
 @connect((state) => ({
     isFetching: state.tagState.isFetching,
-    tag: state.tagState.tag,
-    isOwner: getTagIsOwner(state, state.tagState.tag),
-    isUserConnected: state.userState.isConnected
+    tag: state.tagState.tag
 }), {
     fetchTag,
     deleteTag
@@ -51,8 +45,6 @@ class TagShow extends React.Component {
         // from connect
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
-        isOwner: PropTypes.bool,
-        isUserConnected: PropTypes.bool,
         fetchTag: PropTypes.func,
         deleteTag: PropTypes.func,
         // from styles

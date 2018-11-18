@@ -46,8 +46,8 @@
         <predefined_log_file enabled="true" id="RUBY_RSPEC" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="true" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="RVM: ruby-2.5.1 [InRailsWeBlog]" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
         <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
         <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
@@ -67,7 +67,7 @@
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_SPEC_RUNNER" VALUE="false" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="true" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
         <method v="2" />
       </configuration>
@@ -135,7 +135,7 @@
     <orderEntry type="library" scope="PROVIDED" name="browser (v2.5.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bullet (v5.9.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.16.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.17.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.11.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-bundler (v1.4.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-db-tasks (v0.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -144,7 +144,7 @@
     <orderEntry type="library" scope="PROVIDED" name="capistrano-rails-console (v2.3.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-rvm (v0.1.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-sidekiq (v1.0.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="capybara (v3.10.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="capybara (v3.11.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara-email (v3.0.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara-screenshot (v1.0.22, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="carrierwave (v1.2.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -191,7 +191,7 @@
     <orderEntry type="library" scope="PROVIDED" name="fuubar (v2.3.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="geocoder (v1.5.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="guard (v2.14.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="guard (v2.15.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-annotate (v2.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-bundler (v2.1.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-compat (v1.2.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -209,7 +209,7 @@
     <orderEntry type="library" scope="PROVIDED" name="http-cookie (v1.0.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="http_accept_language (v2.1.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.1.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="i18n-js (v3.1.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="i18n-js (v3.2.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n-tasks (v0.9.28, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ice_nine (v0.11.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="image_optimizer (v1.8.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -226,7 +226,7 @@
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.7.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v0.3.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="maxminddb (v0.1.22, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="meta-tags (v2.10.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="meta-tags (v2.11.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="method_source (v0.9.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mime-types (v3.2.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mime-types-data (v3.2018.0812, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />

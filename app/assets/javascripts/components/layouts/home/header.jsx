@@ -45,8 +45,7 @@ export default @withRouter
 
 @connect((state) => ({
     isUserSignupOpen: state.uiState.isUserSignupOpen,
-    isUserLoginOpen: state.uiState.isUserLoginOpen,
-    isSearchPopupOpen: state.uiState.isSearchPopupOpen
+    isUserLoginOpen: state.uiState.isUserLoginOpen
 }), {
     showUserSignup,
     showUserLogin
@@ -61,7 +60,6 @@ class HeaderLayoutHome extends React.Component {
         // from connect
         isUserSignupOpen: PropTypes.bool,
         isUserLoginOpen: PropTypes.bool,
-        isSearchPopupOpen: PropTypes.bool,
         showUserSignup: PropTypes.func,
         showUserLogin: PropTypes.func,
         // from styles

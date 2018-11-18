@@ -33,57 +33,36 @@ shared_examples 'a valid page' do
 
   scenario 'has the correct layout' do
     # Correct title
-    # if content[:admin]
-    #   is_expected.to have_title(titleize_admin(content[:title]))
-    # else
-    #   is_expected.to have_title(titleize(content[:title]))
-    # end
-    #
-    # # Header
-    # unless content[:full_page]
-    #   if content[:admin]
-    #     is_expected.to have_css('header.blog-header.admin-header nav')
-    #   else
-    #     is_expected.to have_css('header.blog-header nav')
-    #   end
-    #
-    #   within content[:current_page].header do
-    #     is_expected.to have_link(ENV['WEBSITE_NAME'], href: root_path)
-    #
-    #     # is_expected.to have_selector('a.search-toggle', text: 'search')
-    #
-    #     if content[:connected]
-    #       # is_expected.to have_selector("a[href=\"#{logout_path}\"]", text: /#{t('views.header.log_out')}/i, visible: false)
-    #     else
-    #       # is_expected.to have_selector('a[href="#home-contact"]', text: /#{t('views.header.contact')}/i)
-    #
-    #       # is_expected.to have_selector("a[href=\"#{signup_path}\"]", text: /#{t('views.header.sign_up')}/i, visible: false)
-    #       # is_expected.to have_selector("a[href=\"#{login_path}\"]", text: /#{t('views.header.log_in')}/i, visible: false)
-    #     end
-    #   end unless content[:admin]
-    # end
-    #
-    # # Footer
-    # unless content[:full_page] || content[:admin]
-    #   is_expected.to have_css('footer.blog-footer')
-    #
-    #   within content[:current_page].footer do
-    #     # is_expected.to have_link(t('views.footer.blog'), href: blog_path)
-    #     # is_expected.to have_link(t('views.footer.about_us'), href: about_us_path)
-    #     # is_expected.to have_link(t('views.footer.terms_of_use'), href: terms_path)
-    #     # is_expected.to have_link(t('views.footer.privacy'), href: privacy_path)
-    #     # is_expected.to have_link(t('views.footer.contact'), href: contact_path)
-    #     # is_expected.to have_link(t('views.footer.support'), href: support_path)
-    #     # is_expected.to have_link(t('views.footer.media'), href: media_path)
-    #   end
-    # end
-    #
+    is_expected.to have_title(titleize(content[:title]))
+
+    # Header
+    is_expected.to have_css('header')
+
+    within content[:current_page].header do
+      is_expected.to have_link(ENV['WEBSITE_NAME'], href: root_path)
+
+      is_expected.to have_selector('form.blog-search-header')
+
+      if content[:connected]
+        is_expected.to have_css(".header-button", count: 3)
+      else
+        is_expected.to have_css("button", text: /#{t('js.views.header.user.sign_up')}/i)
+        is_expected.to have_selector("button", text: /#{t('js.views.header.user.log_in')}/i)
+      end
+    end
+
+    # Link in dropdown outside header
+    if content[:connected]
+      is_expected.to have_selector("a[href=\"#{logout_path}\"]", visible: false)
+    end
+
+    # Footer
+    is_expected.not_to have_css('footer')
+
     # # Copyright
-    # unless content[:full_page] || content[:admin]
-    #   within content[:current_page].footer do
-    #     is_expected.to have_css('.footer-copyright')
-    #     # is_expected.to have_content(/#{t('views.copyright', website: ENV['WEBSITE_NAME'])}/i)
-    #   end
+    # within content[:current_page].footer do
+    #   is_expected.to have_css('.footer-copyright')
+    #   # is_expected.to have_content(/#{t('views.copyright', website: ENV['WEBSITE_NAME'])}/i)
     # end
   end
 end

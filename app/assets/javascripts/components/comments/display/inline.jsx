@@ -19,8 +19,6 @@ export default @connect(null, {
 class CommentInlineDisplay extends React.Component {
     static propTypes = {
         comment: PropTypes.object.isRequired,
-        isInlineEditing: PropTypes.bool,
-        onClick: PropTypes.func,
         // from connect
         updateComment: PropTypes.func,
         deleteComment: PropTypes.func

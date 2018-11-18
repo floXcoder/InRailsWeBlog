@@ -22,10 +22,8 @@ export default class CommentItem extends React.Component {
         currentUserId: PropTypes.number,
         isOwner: PropTypes.bool.isRequired,
         ownerId: PropTypes.number.isRequired,
-        isConnected: PropTypes.bool,
         isSuperUser: PropTypes.bool,
         isAskingForDeletion: PropTypes.bool,
-        onDropdownClick: PropTypes.func,
         onSubmit: PropTypes.func.isRequired,
         onReply: PropTypes.func.isRequired,
         onAskForDeletion: PropTypes.func.isRequired,
@@ -33,7 +31,6 @@ export default class CommentItem extends React.Component {
     };
 
     static defaultProps = {
-        isConnected: false,
         isSuperUser: false,
         isAskingForDeletion: false
     };

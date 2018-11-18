@@ -51,7 +51,6 @@ export default @hot(module)
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentTopic: state.topicState.currentTopic,
     query: state.searchState.query,
-    isSearching: state.searchState.isSearching,
     selectedTags: getSelectedTags(state),
     tagSuggestions: getTagSuggestions(state),
     articleSuggestions: getArticleSuggestions(state),
@@ -74,7 +73,6 @@ class SearchIndex extends React.Component {
         currentUserTopicId: PropTypes.number,
         currentTopic: PropTypes.object,
         query: PropTypes.string,
-        isSearching: PropTypes.bool,
         selectedTags: PropTypes.array,
         tagSuggestions: PropTypes.array,
         articleSuggestions: PropTypes.array,
@@ -259,7 +257,6 @@ class SearchIndex extends React.Component {
                               lg={Utils.isEmpty(this.props.articles) ? 12 : 3}>
                             <SearchTagIndex classes={this.props.classes}
                                             tags={this.props.tags}
-                                            isSearching={this.props.isSearching}
                                             onTagClick={this._handleTagSelection}/>
                         </Grid>
                     }
@@ -272,7 +269,6 @@ class SearchIndex extends React.Component {
                               lg={Utils.isEmpty(this.props.tags) ? 12 : 9}>
                             <SearchArticleIndex classes={this.props.classes}
                                                 articles={this.props.articles}
-                                                isSearching={this.props.isSearching}
                                                 onFilter={this._handleFilter}
                                                 onArticleClick={this._handleArticleClick}/>
                         </Grid>

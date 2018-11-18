@@ -3,7 +3,6 @@
 export default class Rating extends React.PureComponent {
     static propTypes = {
         initialRating: PropTypes.number,
-        ratingCount: PropTypes.number,
         isReadOnly: PropTypes.bool,
         starNumber: PropTypes.number,
         hasClear: PropTypes.bool,

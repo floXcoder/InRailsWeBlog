@@ -25,7 +25,6 @@ export default class Dropdown extends React.Component {
         position: PropTypes.oneOf(POSITIONS),
         className: PropTypes.string,
         hasArrow: PropTypes.bool,
-        hasWavesEffect: PropTypes.bool,
         tooltip: PropTypes.string,
         isDefaultOpen: PropTypes.bool,
         isForceOpen: PropTypes.bool,
@@ -43,11 +42,9 @@ export default class Dropdown extends React.Component {
         isButton: true,
         position: 'bottom center',
         hasArrow: false,
-        hasWavesEffect: true,
         isFixed: false,
         isDefaultOpen: false,
         isFloatingButton: false,
-        isRightSide: false,
         isClosingOnInsideClick: true,
         isHidingOnScroll: true
     };

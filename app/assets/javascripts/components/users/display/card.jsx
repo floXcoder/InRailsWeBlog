@@ -15,8 +15,8 @@ const UserCardDisplay = ({user, onUserClick}) => (
 
             }
             <span className="card-title">
-                        {user.pseudo}
-                    </span>
+                {user.pseudo}
+            </span>
         </div>
 
         <div className="card-action center-align">

@@ -8,12 +8,11 @@ feature 'Article Edit page', advanced: true, js: true do
 
     @topic = create(:topic, user: @user)
 
-    @tags            = create_list(:tag, 3, user: @user)
-    @article         = create(:article, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
-    @private_article = create(:article, user: @user, topic: @topic, visibility: 'only_me')
+    @tags    = create_list(:tag, 3, user: @user)
+    @article = create(:article, user: @user, topic: @topic, tags: [@tags[0], @tags[1], @tags[2]])
   end
 
-  given(:edit_article_page) { ArticlePage.new(edit_article_path(@article.id)) }
+  given(:edit_article_page) { ArticlePage.new("/users/#{@article.user.slug}/articles/#{@article.slug}/edit") }
 
   background do
     login_as(@user, scope: :user, run_callbacks: false)
@@ -28,8 +27,8 @@ feature 'Article Edit page', advanced: true, js: true do
         {
           current_page: edit_article_page,
           title:        t('views.article.edit.title', title: @article.title),
-          asset_name:   'articles/edit',
-          common_js:    ['commons'],
+          asset_name:   'assets/user',
+          common_js:    ['assets/runtime', 'assets/user'],
           connected:    true
         }
       }

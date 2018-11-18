@@ -437,7 +437,7 @@ class Article < ApplicationRecord
 
   # SEO
   def meta_description
-    [self.title, self.summary.summary(60)].join(I18n.t('helpers.colon'))
+    [self.title, self.summary&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

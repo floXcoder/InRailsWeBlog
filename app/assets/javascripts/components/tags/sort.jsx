@@ -20,8 +20,6 @@ import TagSorter from './sort/sorter';
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     isFetching: state.tagState.isFetching,
     tags: getTags(state)
 }), {
@@ -35,8 +33,6 @@ class TagSort extends React.Component {
         // from connect
         currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
-        currentUserTopicId: PropTypes.number,
-        currentUserTopicSlug: PropTypes.string,
         isFetching: PropTypes.bool,
         tags: PropTypes.array,
         fetchTags: PropTypes.func,

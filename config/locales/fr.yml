@@ -5,7 +5,7 @@ fr:
   views:
     home:
       title: "InRailsWeBlog"
-      description: "InRailsWeBlog : blog avancé"
+      description: "InRailsWeBlog blog"
     user:
       flash:
         successful_edition: "Profil mis à jour"
@@ -47,30 +47,12 @@ fr:
         description: "Liste de tous les utilisateurs"
       show:
         title: "%{pseudo} sur InRailsWeBlog"
-        description: "Détails de l'utilisateur : %{pseudo}"
+        description: "Articles de l'utilisateur : %{pseudo}"
       edit:
         title: "Mise à jour de mes informations personnelles"
       bookmarks:
         title: "%{pseudo} : Mes favoris"
         description: "%{pseudo} : Mes favoris"
-    article:
-      flash:
-        not_found: "L'article n'a pas été trouvé"
-        undelete_link: "Annuler la suppression."
-        successful_creation: "Article ajouté"
-        error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Article mis à jour"
-        error_edition: "Problème lors de la mise à jour de l'article !"
-        successful_priority_update: "L'ordre des articles a été changé"
-        error_priority_update: "Problème lors du changement de priorité des articles"
-        successful_deletion: "L'article a été supprimé"
-        error_deletion: "Problème lors de la suppression de l'article : %{errors}"
-        successful_undeletion: "Article restauré"
-      show:
-        title: "Article : %{title}"
-      edit:
-        title: "Modification de l'article : %{title}"
-        description: "Modification de l'article : %{title}"
     topic:
       flash:
         successful_creation: "Thème ajouté"
@@ -89,8 +71,35 @@ fr:
         error_priority_update: "Problème lors du changement de priorité des labels"
         successful_deletion: "L'article a été supprimé"
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
+      index:
+        title: "Labels de l'utilisateur : %{user}"
       show:
         title: "Label : %{name}"
+      edit:
+        title: "Modification du Label : %{name}"
+    article:
+      flash:
+        not_found: "L'article n'a pas été trouvé"
+        undelete_link: "Annuler la suppression."
+        successful_creation: "Article ajouté"
+        error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Article mis à jour"
+        error_edition: "Problème lors de la mise à jour de l'article !"
+        successful_priority_update: "L'ordre des articles a été changé"
+        error_priority_update: "Problème lors du changement de priorité des articles"
+        successful_deletion: "L'article a été supprimé"
+        error_deletion: "Problème lors de la suppression de l'article : %{errors}"
+        successful_undeletion: "Article restauré"
+      index:
+        title:
+          default: "Liste des articles"
+          tagged: "Articles pour %{tag}"
+          topic: "Articles de %{topic}"
+      show:
+        title: "%{title}"
+      edit:
+        title: "Modification de l'article : %{title}"
+        description: "Modification de l'article : %{title}"
     picture:
       flash:
         successful_deletion: "L'image a bien été supprimée"
@@ -110,6 +119,9 @@ fr:
         title: "Se connecter (Admin)"
       dashboard:
         title: "Admin"
+    search:
+      index:
+        title: "Votre recherche : %{query}"
     errors:
       flash:
         successful_deletion: "L'erreur a bien été supprimée"

@@ -21,14 +21,13 @@ class ArticleSortMenu extends React.Component {
         onOrderChange: PropTypes.func.isRequired,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
-        currentOrder: PropTypes.string,
         // from styles
         classes: PropTypes.object
     };
 
     state = {
         anchorEl: null,
-        selectedIndex: 1,
+        selectedIndex: 1
     };
 
     handleClickListItem = event => {

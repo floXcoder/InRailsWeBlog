@@ -24,8 +24,8 @@
 #
 
 module Api::V1
-  class CommentsController < ApplicationController
-    before_action :verify_requested_format!
+  class CommentsController < ApiController
+    skip_before_action :authenticate_user!
 
     respond_to :json
 
@@ -41,11 +41,11 @@ module Api::V1
           if params[:complete]
             render json:            comments,
                    each_serializer: CommentFullSerializer,
-                   meta:            meta_attributes(comments)
+                   meta:            meta_pagination_attributes(comments)
           else
             render json:            comments,
                    each_serializer: CommentSerializer,
-                   meta:            meta_attributes(comments)
+                   meta:            meta_pagination_attributes(comments)
           end
         end
       end

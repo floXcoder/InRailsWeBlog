@@ -16,9 +16,7 @@ export default class SearchTagIndex extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         tags: PropTypes.array.isRequired,
-        isSearching: PropTypes.bool.isRequired,
-        onTagClick: PropTypes.func.isRequired,
-        highlightedTagIndex: PropTypes.number
+        onTagClick: PropTypes.func.isRequired
     };
 
     constructor(props) {

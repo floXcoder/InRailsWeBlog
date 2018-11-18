@@ -24,10 +24,11 @@ require 'html_validation'
 require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'capybara/email/rspec'
-include PageValidations
-include Warden::Test::Helpers
 
 require 'spec_helper'
+
+include PageValidations
+include Warden::Test::Helpers
 
 # Setup warden in test mode
 Warden.test_mode!

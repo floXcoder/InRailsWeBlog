@@ -4,6 +4,8 @@ html lang="#{I18n.locale}"
   = render 'layouts/head'
 
   body.blog class="lang-#{I18n.locale}"
+    #head-component
+  
     = yield
     
     = render 'layouts/flash_messages', flash: flash

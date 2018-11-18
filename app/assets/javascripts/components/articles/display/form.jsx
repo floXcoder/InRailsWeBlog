@@ -55,10 +55,8 @@ class ArticleFormDisplay extends React.Component {
     static propTypes = {
         userSlug: PropTypes.string.isRequired,
         inheritVisibility: PropTypes.string,
-        isInline: PropTypes.bool,
         isEditing: PropTypes.bool,
         children: PropTypes.object,
-        hasModeSelection: PropTypes.bool,
         currentMode: PropTypes.string,
         errorStep: PropTypes.string,
         articleErrors: PropTypes.array,
@@ -67,7 +65,6 @@ class ArticleFormDisplay extends React.Component {
         handleSubmit: PropTypes.func,
         submitting: PropTypes.bool,
         submitSucceeded: PropTypes.bool,
-        invalid: PropTypes.bool,
         dirty: PropTypes.bool,
         // from connect
         availableTags: PropTypes.array,
@@ -77,10 +74,8 @@ class ArticleFormDisplay extends React.Component {
     };
 
     static defaultProps = {
-        isInline: false,
         isEditing: false,
         children: {},
-        hasModeSelection: true,
         currentMode: 'story'
     };
 

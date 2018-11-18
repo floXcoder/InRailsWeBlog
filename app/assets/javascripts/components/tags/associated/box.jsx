@@ -34,10 +34,6 @@ export default class AssociatedTagBox extends React.Component {
         // }
     }
 
-    state = {
-        isLoading: true
-    };
-
     _handleTagClick = (tagId, activeTag) => {
     };
 

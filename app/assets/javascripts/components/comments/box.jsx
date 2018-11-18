@@ -186,11 +186,11 @@ class CommentBox extends React.Component {
                         (
                             !this.props.isUserOwner
                                 ?
-                                <div className="comments-none">
+                                <div>
                                     {I18n.t('js.comment.common.empty')}
                                 </div>
                                 :
-                                <div className="comments-none">
+                                <div>
                                     {I18n.t('js.comment.common.no_opinion')}
                                 </div>
                         )
@@ -208,7 +208,7 @@ class CommentBox extends React.Component {
 
                     {
                         this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isUserOwner &&
-                        <div className="center-align">
+                        <div className="center-align margin-top-20">
                             <Button color="primary"
                                     variant="outlined"
                                     onClick={this._handleShowFormComment}>

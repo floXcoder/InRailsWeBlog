@@ -20,8 +20,8 @@
 
 module Api::V1
   class ArticlesController < ApiController
-    before_action :authenticate_user!, except: [:index, :show]
-    before_action :verify_requested_format!
+    skip_before_action :authenticate_user!, only: [:index, :show]
+
     before_action :honeypot_protection, only: [:create, :update]
 
     after_action :verify_authorized, except: [:index]
@@ -29,7 +29,7 @@ module Api::V1
     include TrackerConcern
     include CommentConcern
 
-    respond_to :html, :json
+    respond_to :json
 
     def index
       articles = if params[:home]
@@ -42,15 +42,23 @@ module Api::V1
 
       respond_to do |format|
         format.json do
+          if filter_params[:parent_tag_slug].present? || filter_params[:tag_slug].present?
+            set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence).name))
+          elsif filter_params[:topic_slug].present?
+            set_meta_tags title: titleize(I18n.t('views.article.index.title.topic', topic: Topic.find_by(slug: filter_params[:topic_slug]).name))
+          else
+            set_meta_tags title: titleize(I18n.t('views.article.index.title.default'))
+          end
+
           if params[:summary]
             render json:            articles,
                    each_serializer: ArticleSampleSerializer,
-                   meta:            meta_attributes(articles)
+                   meta:            meta_pagination_attributes(articles)
           else
             render json:            articles,
                    each_serializer: ArticleSerializer,
                    with_outdated:   true,
-                   meta:            meta_attributes(articles)
+                   meta:            meta_pagination_attributes(articles)
           end
         end
       end
@@ -62,16 +70,17 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          # set_meta_tags title:       titleize(I18n.t('views.article.show.title')),
-          #               description: article.meta_description,
-          #               author:      alternate_urls(article.user.slug)['fr'],
-          #               canonical:   alternate_urls(article.slug)['fr'],
-          #               alternate:   alternate_urls('articles', article.slug),
-          #               og:          {
-          #                 type:  "#{ENV['WEBSITE_NAME']}:article",
-          #                 url:   article_url(article),
-          #                 image: root_url + article.default_picture
-          #               }
+          set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title)),
+                        description: article.meta_description,
+                        author:      article.user.pseudo
+          # canonical:   alternate_urls(article.slug)['fr'],
+          # alternate:   alternate_urls('articles', article.slug),
+          # og: {
+          #       type:  "#{ENV['WEBSITE_NAME']}:article",
+          #       url:   article_url(article),
+          #       image: article.default_picture ? (root_url + article.default_picture) : nil
+          #     }.compact
+
           render json:          article,
                  serializer:    ArticleSerializer,
                  with_vote:     true,
@@ -122,14 +131,12 @@ module Api::V1
       admin_or_authorize article
 
       respond_to do |format|
-        format.html do
+        format.json do
           set_meta_tags title:       titleize(I18n.t('views.article.edit.title', title: article.title)),
-                        description: I18n.t('views.article.edit.description', title: article.title),
-                        canonical:   article_canonical_url("#{article.id}/edit")
-          render :edit, locals: {
-            article:         article,
-            current_user_id: current_user&.id
-          }
+                        description: I18n.t('views.article.edit.description', title: article.title)
+
+          render json:       article,
+                 serializer: ArticleSerializer
         end
       end
     end
@@ -195,9 +202,6 @@ module Api::V1
 
         respond_to do |format|
           flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
-          # format.html do
-          #   redirect_to article_path(article)
-          # end
           format.json do
             render json:   article,
                    status: :accepted

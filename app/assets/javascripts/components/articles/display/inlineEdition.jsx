@@ -33,7 +33,6 @@ export default @withRouter
 class ArticleInlineEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        isOwner: PropTypes.bool,
         // from connect
         inlineEditArticle: PropTypes.func,
         updateArticle: PropTypes.func,

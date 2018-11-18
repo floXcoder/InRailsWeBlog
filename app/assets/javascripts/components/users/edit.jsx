@@ -9,12 +9,8 @@
 
 export default class UserEdit extends React.Component {
     static propTypes = {
-        userId: PropTypes.string,
-        params: PropTypes.object
-    };
-
-    static defaultProps = {
-        params: {}
+        // userId: PropTypes.string,
+        // params: PropTypes.object
     };
 
     constructor(props) {

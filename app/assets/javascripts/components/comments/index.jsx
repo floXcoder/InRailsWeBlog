@@ -24,7 +24,6 @@ class CommentIndex extends React.Component {
         userId: PropTypes.number,
         isShowingLast: PropTypes.bool,
         filters: PropTypes.object,
-        commentTotalPages: PropTypes.number,
         isPaginated: PropTypes.bool,
         onPaginationClick: PropTypes.func,
         isTable: PropTypes.bool,

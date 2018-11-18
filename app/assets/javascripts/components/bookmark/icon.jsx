@@ -32,7 +32,6 @@ class BookmarkIcon extends React.PureComponent {
     };
 
     static defaultProps = {
-        isBookmarked: false,
         bookmarkCount: 0,
         isIcon: false,
         size: 'default',

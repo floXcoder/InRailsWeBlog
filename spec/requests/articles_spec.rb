@@ -435,14 +435,14 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
 
-          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('everyone')
-          expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('only_me')
+          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('only_me')
+          expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('everyone')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
       end
 
       it 'returns a new article with tags having the correct association and visibility' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: 'parent tag public', visibility: 'everyone' }], child_tags: [{ name: 'child tag private', visibility: 'only_me' }] }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: 'parent tag public', visibility: 'everyone' }], child_tags: [{ name: 'child tag public', visibility: 'everyone' }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -450,12 +450,12 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
 
-          public_parent_tag = Tag.find(article['article']['tags'][0]['id'])
-          private_child_tag = Tag.find(article['article']['tags'][1]['id'])
+          public_parent_tag = Tag.find(article['article']['tags'][1]['id'])
+          private_child_tag = Tag.find(article['article']['tags'][0]['id'])
           expect(public_parent_tag.children.last).to eq(private_child_tag)
           expect(private_child_tag.parents.last).to eq(public_parent_tag)
           expect(public_parent_tag.visibility).to eq('everyone')
-          expect(private_child_tag.visibility).to eq('only_me')
+          expect(private_child_tag.visibility).to eq('everyone')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
       end
 

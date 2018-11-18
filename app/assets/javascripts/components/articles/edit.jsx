@@ -48,11 +48,11 @@ class ArticleEdit extends React.Component {
         currentTopic: PropTypes.object,
         isFetching: PropTypes.bool,
         article: PropTypes.object,
-        isInline: PropTypes.bool,
-        currentMode: PropTypes.string,
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
         onSubmit: PropTypes.func,
+        // isInline: PropTypes.bool,
+        // currentMode: PropTypes.string,
         // from connect
         userSlug: PropTypes.string,
         inheritVisibility: PropTypes.string,

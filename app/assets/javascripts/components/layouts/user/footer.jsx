@@ -18,7 +18,7 @@ class FooterLayoutUser extends React.Component {
         location: PropTypes.object,
         history: PropTypes.object,
         // from styles
-        classes: PropTypes.object
+        // classes: PropTypes.object
     };
 
     _handleSearchClose = () => {

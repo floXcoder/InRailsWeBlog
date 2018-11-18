@@ -22,8 +22,6 @@ class ArticleCommonField extends React.Component {
         change: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         article: PropTypes.object,
-        onInputsChange: PropTypes.func,
-        onIsLinkChange: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };

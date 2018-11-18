@@ -67,6 +67,9 @@ Devise.setup do |config|
   # ==> Configuration for :recoverable
   config.reset_password_within = 6.hours
 
+  # ==> Send email after password changed
+  config.send_password_change_notification = true
+
   # ==> Navigation configuration
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
