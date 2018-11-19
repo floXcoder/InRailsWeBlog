@@ -61,7 +61,7 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 
 First install required packages:
 
-    sudo apt-get install -y curl git redis-server postgresql postgresql-contrib libpq-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libnotify-bin cmake git-flow gawk libgmp-dev libreadline6-dev cmake libpng-dev  optipng jpegoptim
+    sudo apt-get install -y curl git redis-server postgresql postgresql-contrib libpq-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libnotify-bin cmake git-flow gawk libgmp-dev libreadline6-dev cmake libpng-dev optipng jpegoptim chromedriver
 
 Configure git:
 
@@ -169,17 +169,17 @@ http://localhost:3000
 List all available tasks for Rails project :
 
     rails -T
-    
+
 - Flush Redis keys:
 
 
     rails InRailsWeBlog:flush_redis
-    
+
 - SEO:
 
 
     rails InRailsWeBlog:seo
-       
+
 - Update counter cache:
 
 
@@ -208,15 +208,15 @@ Populate with dummy data:
 Import/export production data:
 
     sudo pg_dump --username inrailsweblog --format=custom --file inrailsweblog.sql inrailsweblog
-    
+
     sudo -u postgres psql
-    
+
     alter role inrailsweblog superuser;
 
     DISABLE_DATABASE_ENVIRONMENT_CHECK=1 rails db:drop && rails db:create && rails db:migrate
-    
+
     pg_restore --username inrailsweblog --clean --dbname inrailsweblog_dev inrailsweblog.sql
-    
+
 
 ### External tools
 
@@ -229,7 +229,7 @@ http://localhost:9200/_plugin/head/
 Update all indexes:
 
     rails searchkick:reindex:all
-    
+
 #### Maxminddb
 
 Maxminddb uses a Geolite2 database to fetch location from IP (http://dev.maxmind.com/geoip/geoip2/geolite2).
@@ -262,7 +262,7 @@ Ruby/Rails
 Run all static analysis tools:
 
     rails InRailsWeBlog:static_analysis:all
-    
+
 Cron tool to run analysis tools:
 
     whenever --update-crontab
@@ -296,13 +296,13 @@ Basic tests:
 Advanced tests (with HTML):
 
     rspec -t advanced
-    
+
 ### Javascript tests
 
     npm run test
-    
+
 Or with coverage:
-    
+
     npm run test:coverage
 
 ## Production
@@ -337,11 +337,11 @@ Gitlab is used for automatic deployment:
 
 
     cap production passenger:restart
-    
+
     cap production sidekiq:restart
     cap production sidekiq:start
-    cap production sidekiq:stop   
-    
+    cap production sidekiq:stop
+
     cap production rails:console
     cap production rails:console sandbox=1
 
