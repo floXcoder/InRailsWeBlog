@@ -442,7 +442,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with tags having the correct association and visibility' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: 'parent tag public', visibility: 'everyone' }], child_tags: [{ name: 'child tag public', visibility: 'everyone' }] }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: 'Parent tag public', visibility: 'everyone' }], child_tags: [{ name: 'Child tag public', visibility: 'everyone' }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -450,8 +450,8 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
 
-          public_parent_tag = Tag.find(article['article']['tags'][1]['id'])
-          private_child_tag = Tag.find(article['article']['tags'][0]['id'])
+          public_parent_tag = Tag.find_by(name: article['article']['tags'][0]['name'])
+          private_child_tag = Tag.find_by(name: article['article']['tags'][1]['name'])
           expect(public_parent_tag.children.last).to eq(private_child_tag)
           expect(private_child_tag.parents.last).to eq(public_parent_tag)
           expect(public_parent_tag.visibility).to eq('everyone')
