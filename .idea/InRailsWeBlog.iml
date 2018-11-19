@@ -12,8 +12,8 @@
   <component name="ModuleRunConfigurationManager">
     <shared>
       <configuration default="false" name="RSpec : Basic" type="RSpecRunConfigurationType" factoryName="RSpec">
-        <predefined_log_file id="RUBY_RSPEC" enabled="true" />
         <module name="InRailsWeBlog" />
+        <predefined_log_file enabled="true" id="RUBY_RSPEC" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="true" />
@@ -42,8 +42,8 @@
         <method v="2" />
       </configuration>
       <configuration default="false" name="RSpec" type="RSpecRunConfigurationType" factoryName="RSpec">
-        <predefined_log_file id="RUBY_RSPEC" enabled="true" />
         <module name="InRailsWeBlog" />
+        <predefined_log_file enabled="true" id="RUBY_RSPEC" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
@@ -135,7 +135,7 @@
     <orderEntry type="library" scope="PROVIDED" name="browser (v2.5.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bullet (v5.7.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.16.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.17.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.11.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-bundler (v1.3.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-db-tasks (v0.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
