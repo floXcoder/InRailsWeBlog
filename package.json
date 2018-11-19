@@ -120,7 +120,7 @@
     "sane": "4.0.2",
     "sass-loader": "7.1.0",
     "summernote": "0.8.10",
-    "uglifyjs-webpack-plugin": "2.0.1",
+    "terser-webpack-plugin": "1.1.0",
     "waypoints": "4.0.1",
     "webpack": "4.25.1",
     "webpack-cli": "3.1.2",

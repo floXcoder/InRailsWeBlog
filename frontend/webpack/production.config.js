@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const config = require('../config').webpack;
 let webPackConfig = module.exports = require('./main.config.js');
@@ -81,25 +81,36 @@ webPackConfig.optimization = {
         // }
     },
     minimizer: [
-        new UglifyJsPlugin({
+        new TerserPlugin({
             parallel: true,
-            cache: true,
             sourceMap: false,
-            uglifyOptions: {
+            cache: true,
+            terserOptions: {
                 ecma: 5,
+                warnings: false,
+                parse: {},
+                compress: {},
+                mangle: true,
+                module: false,
+                toplevel: false,
+                nameCache: null,
+                ie8: false,
+                keep_classnames: undefined,
+                keep_fnames: false,
+                safari10: true,
                 output: {
                     comments: false
-                },
-                compress: {
-                    dead_code: false,
-                    drop_console: true,
-                    warnings: true
                 }
             }
         }),
         new OptimizeCSSAssetsPlugin({
-            cssProcessorOptions: {discardComments: {removeAll: true}},
-            canPrint: true
+            cssProcessorOptions: {
+                discardComments: {
+                    removeAll: true
+                }
+            },
+            canPrint: true,
+            discardComments: true
         })
     ]
 };
