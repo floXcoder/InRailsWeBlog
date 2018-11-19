@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-feature 'Article Show page for visitor', advanced: true, js: true do
+feature 'Article Show page for visitors', advanced: true, js: true do
 
   background(:all) do
     @user       = create(:user)
-    @other_user = create(:user)
 
     @topic = create(:topic, user: @user)
 
@@ -17,6 +16,7 @@ feature 'Article Show page for visitor', advanced: true, js: true do
   background do
     logout(:user)
     article_page.visit
+    page.driver.browser.navigate.refresh
   end
 
   subject { article_page }

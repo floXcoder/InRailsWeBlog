@@ -3,8 +3,9 @@
 feature 'Home page for visitors', advanced: true, js: true do
 
   background(:all) do
+    Rails.logger.warn 'init all'
+
     @user       = create(:user)
-    @other_user = create(:user)
 
     @topic = create(:topic, visibility: 'everyone', user: @user)
 
@@ -16,7 +17,8 @@ feature 'Home page for visitors', advanced: true, js: true do
 
   background do
     logout(:user)
-    visit root_path
+    homepage.visit
+    page.driver.browser.navigate.refresh
   end
 
   subject { homepage }

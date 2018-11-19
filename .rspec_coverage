@@ -1,5 +1,3 @@
 --require rails_helper
---tag basic
---format Fuubar
---color
---out static_analysis/rspec_coverage.html
+--format h
+--out static_analysis/rspec_results.html

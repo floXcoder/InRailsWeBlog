@@ -4,7 +4,6 @@ feature 'Search for visitors', advanced: true, js: true, search: true do
 
   background(:all) do
     @user       = create(:user)
-    @other_user = create(:user)
 
     @topic = create(:topic, visibility: 'everyone', user: @user)
 
@@ -26,6 +25,7 @@ feature 'Search for visitors', advanced: true, js: true, search: true do
   background do
     logout(:user)
     search_page.visit
+    page.driver.browser.navigate.refresh
   end
 
   subject { search_page }

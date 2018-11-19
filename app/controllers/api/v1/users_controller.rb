@@ -43,7 +43,6 @@ module Api::V1
 
     after_action :verify_authorized, except: [:index, :validation]
 
-
     include TrackerConcern
 
     respond_to :html, :json

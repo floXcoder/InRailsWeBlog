@@ -427,7 +427,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with tags having the correct visibility' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { tags: [{ name: 'tag public', visibility: 'everyone' }, { name: 'tag private', visibility: 'only_me' }] }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { tags: [{ name: 'Tag public', visibility: 'everyone' }, { name: 'Tag private', visibility: 'only_me' }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -435,8 +435,8 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
 
-          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('only_me')
-          expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('everyone')
+          expect(Tag.find_by(name: 'Tag public').visibility).to eq('everyone')
+          expect(Tag.find_by(name: 'Tag private').visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
       end
 

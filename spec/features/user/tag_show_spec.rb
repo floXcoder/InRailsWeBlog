@@ -1,21 +1,22 @@
 # frozen_string_literal: true
 
-feature 'Tag edit for owners', advanced: true, js: true do
+feature 'Tag show for users', advanced: true, js: true do
 
   background(:all) do
     @user       = create(:user)
-    @other_user = create(:user)
 
     @topic = create(:topic, user: @user)
 
     @tags     = create_list(:tag, 2, user: @user)
+    @articles = create_list(:article, 3, user: @user, topic: @topic, tags: [@tags[0], @tags[1]])
   end
 
-  given(:tag_page) { TagPage.new("/tags/#{@tags.first.slug}/edit") }
+  given(:tag_page) { TagPage.new("/tags/#{@tags.first.slug}") }
 
   background do
     login_as(@user, scope: :user, run_callbacks: false)
     tag_page.visit
+    page.driver.browser.navigate.refresh
   end
 
   subject { tag_page }
@@ -25,7 +26,7 @@ feature 'Tag edit for owners', advanced: true, js: true do
       let(:content) {
         {
           current_page: tag_page,
-          title:        I18n.t('views.tag.edit.title', name: @tags.first.name),
+          title:        I18n.t('views.tag.show.title', name: @tags.first.name),
           asset_name:   'assets/user',
           common_js:    ['assets/runtime', 'assets/user'],
           connected:    true
@@ -38,10 +39,15 @@ feature 'Tag edit for owners', advanced: true, js: true do
     end
   end
 
-  feature 'Tag edit content for owner' do
-    scenario 'owner can edit the tags' do
-      is_expected.to have_css('input#tag_name')
-      is_expected.to have_css('.note-editor.note-frame')
+  feature 'Tag show content for owner' do
+    scenario 'owner can see the tag details' do
+      is_expected.to have_css('h1', text: @tags.first.name)
+      is_expected.to have_content(t('js.tag.model.parents'))
+      is_expected.to have_content(t('js.tag.model.children'))
+    end
+
+    scenario 'users can edit the tag' do
+      is_expected.to have_link(I18n.t('js.tag.show.edit_link'), href: "/tags/#{@tags.first.slug}/edit")
     end
 
     scenario 'users can see the topic sidebar' do

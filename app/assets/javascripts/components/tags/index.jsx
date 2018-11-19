@@ -176,7 +176,7 @@ class TagIndex extends React.Component {
                     </Typography>
 
                     {
-                        (!Utils.isEmpty(this.props.params)) && this.props.currentUser &&
+                        (!Utils.isEmpty(this.props.params) && this.props.currentUser) &&
                         <div className="center-align margin-top-20">
                             <Button color="default"
                                     variant="outlined"

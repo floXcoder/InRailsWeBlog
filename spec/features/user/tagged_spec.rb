@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-feature 'Topic show for users', advanced: true, js: true do
+feature 'Tagged for users', advanced: true, js: true do
 
   background(:all) do
     @user       = create(:user)
-    @other_user = create(:user)
 
     @topic = create(:topic, user: @user)
 
@@ -12,21 +11,22 @@ feature 'Topic show for users', advanced: true, js: true do
     @articles = create_list(:article, 3, user: @user, topic: @topic, tags: [@tags[0], @tags[1]])
   end
 
-  given(:topic_page) { TopicPage.new("/users/#{@user.slug}/topics/#{@topic.slug}") }
+  given(:tagged_page) { TagPage.new("/tagged/#{@tags.first.slug}") }
 
   background do
     login_as(@user, scope: :user, run_callbacks: false)
-    topic_page.visit
+    tagged_page.visit
+    page.driver.browser.navigate.refresh
   end
 
-  subject { topic_page }
+  subject { tagged_page }
 
   feature 'owner can see the page' do
     it_behaves_like 'a valid page' do
       let(:content) {
         {
-          current_page: topic_page,
-          title:        I18n.t('views.article.index.title.topic', topic: @topic.name),
+          current_page: tagged_page,
+          title:        I18n.t('views.article.index.title.tagged', tag: @tags.first.name),
           asset_name:   'assets/user',
           common_js:    ['assets/runtime', 'assets/user'],
           connected:    true
@@ -39,7 +39,7 @@ feature 'Topic show for users', advanced: true, js: true do
     end
   end
 
-  feature 'Topic Show content for owner' do
+  feature 'Tagged content for owner' do
     scenario 'owner can see the articles' do
       is_expected.to have_css('article', count: 3)
       is_expected.to have_content(@articles.first.title)
@@ -49,8 +49,9 @@ feature 'Topic show for users', advanced: true, js: true do
       is_expected.to have_css("button[class*='ArticleAppendixDisplay-fabButton-']")
     end
 
-    scenario 'users can see the topic sidebar' do
-      is_expected.to have_css("ul[class*='TagSidebar-root-']")
+    scenario 'users can see the sidebar' do
+      is_expected.to have_css("div[class*='TagSidebar-list-']")
+      is_expected.to have_css("a[class*='TagSidebar-tagList-']", count: 2)
     end
   end
 

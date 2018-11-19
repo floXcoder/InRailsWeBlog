@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-feature 'Article Edit page', advanced: true, js: true do
+feature 'Article Edit page for users', advanced: true, js: true do
 
   background(:all) do
     @user       = create(:user)
-    @other_user = create(:user)
 
     @topic = create(:topic, user: @user)
 
@@ -17,6 +16,7 @@ feature 'Article Edit page', advanced: true, js: true do
   background do
     login_as(@user, scope: :user, run_callbacks: false)
     edit_article_page.visit
+    page.driver.browser.navigate.refresh
   end
 
   subject { edit_article_page }

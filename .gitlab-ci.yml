@@ -71,7 +71,20 @@ test:rails:
     COVERAGE: "true"
   <<: *pull-cache
   script:
-    - bundle exec rspec -t basic spec/
+    - bundle exec rspec --tag basic spec/
+  only:
+    - develop
+
+test:browser:
+  stage: test
+  variables:
+    RAILS_ENV: "test"
+    DATABASE_TEST_NAME: "inrailsweblog_test"
+    DATABASE_TEST_USERNAME: "inrailsweblog_test"
+    DATABASE_TEST_PASSWORD: "inrailsweblog"
+  <<: *pull-cache
+  script:
+    - bundle exec rspec --tag advanced spec/
   only:
     - develop
 

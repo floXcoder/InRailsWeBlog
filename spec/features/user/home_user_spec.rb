@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-feature 'Home page for users', advanced: true, js: true do
+feature 'Home User page for users', advanced: true, js: true do
 
   background(:all) do
     @user       = create(:user)
-    @other_user = create(:user)
 
     @public_topic = create(:topic, visibility: 'everyone', user: @user)
     @tags         = create_list(:tag, 2, visibility: 'everyone', user: @user)
@@ -18,6 +17,7 @@ feature 'Home page for users', advanced: true, js: true do
   background do
     login_as(@user, scope: :user, run_callbacks: false)
     homepage.visit
+    page.driver.browser.navigate.refresh
   end
 
   subject { homepage }

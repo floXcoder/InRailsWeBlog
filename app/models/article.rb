@@ -363,6 +363,7 @@ class Article < ApplicationRecord
 
   def formatted_content
     formatted_content = public_content
+    return formatted_content unless formatted_content
 
     # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
 
