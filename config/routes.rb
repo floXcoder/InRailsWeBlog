@@ -5,18 +5,17 @@ require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
   # Root path
-  root 'static_pages#home'
+  root 'single_pages#home'
 
   # Routes managed by javascript router
-  get '/user/*id',      to: 'static_pages#home'
-  get '/search',        to: 'static_pages#home'
-  get '/search/*id',    to: 'static_pages#home'
-  get '/topic/*id',     to: 'static_pages#home'
-  get '/tags',          to: 'static_pages#home'
-  get '/tags/*ids',     to: 'static_pages#home'
-  get '/tagged/*id',    to: 'static_pages#home'
-  get '/tag/*id',       to: 'static_pages#home'
-  get '/article/*id',   to: 'static_pages#home'
+  get '/users/*id',     to: 'single_pages#home'
+  get '/search',        to: 'single_pages#home'
+  get '/search/*id',    to: 'single_pages#home'
+  get '/topics/*id',    to: 'single_pages#home'
+  get '/tags',          to: 'single_pages#home'
+  get '/tags/*ids',     to: 'single_pages#home'
+  get '/tagged/*id',    to: 'single_pages#home'
+  get '/articles/*id',  to: 'single_pages#home'
 
   # Concerns
   concern :tracker do |options|
@@ -125,7 +124,7 @@ Rails.application.routes.draw do
       end
 
       # Tags
-      resources :tags, except: [:new, :create, :edit] do
+      resources :tags, except: [:new, :create] do
         collection do
           put      :priority,  to: 'tags#update_priority'
 
@@ -155,7 +154,7 @@ Rails.application.routes.draw do
   end
 
   # SEO
-  get '/robots.:format' => 'static_pages#robots'
+  get '/robots.:format' => 'single_pages#robots'
 
   # Errors
   %w[404 422 500].each do |code|

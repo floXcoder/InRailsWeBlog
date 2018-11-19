@@ -11,6 +11,13 @@ import {
 } from 'react-transition-group';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+import CommentIcon from '@material-ui/icons/Comment';
+
+import {
     fetchComments,
     addComment,
     updateComment,
@@ -23,27 +30,31 @@ import {
     getCommentPagination
 } from '../../selectors';
 
-import Button from '../materialize/button';
 import Pagination from '../materialize/pagination';
 import CircleSpinner from '../theme/spinner/circle';
 
 import CommentList from '../comments/list';
 import CommentForm from '../comments/form';
 
-export default @connect((state, props) => ({
+import styles from '../../../jss/comment/box';
+
+export default @hot(module)
+
+@connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     isSuperUserConnected: getIsPrimaryUser(state),
-    comments: props.initialComments || getComments(state),
+    comments: getComments(state),
     commentsPagination: getCommentPagination(state),
-    isLoadingComments: !!props.initialComments || state.commentState.isFetching
+    isLoadingComments: state.commentState.isFetching
 }), {
     fetchComments,
     addComment,
     updateComment,
     deleteComment
 })
-@hot(module)
+
+@withStyles(styles)
 class CommentBox extends React.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,
@@ -51,11 +62,10 @@ class CommentBox extends React.Component {
         isUserOwner: PropTypes.bool.isRequired,
         commentableType: PropTypes.string,
         id: PropTypes.string,
-        initialComments: PropTypes.array,
         commentsCount: PropTypes.number,
         isPaginated: PropTypes.bool,
         isRated: PropTypes.bool,
-        // From connect
+        // from connect
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
         isSuperUserConnected: PropTypes.bool,
@@ -65,13 +75,14 @@ class CommentBox extends React.Component {
         fetchComments: PropTypes.func,
         addComment: PropTypes.func,
         updateComment: PropTypes.func,
-        deleteComment: PropTypes.func
+        deleteComment: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     static defaultProps = {
         isUserConnected: false,
         isSuperUserConnected: false,
-        initialComments: [],
         isPaginated: false,
         isRated: true
     };
@@ -81,20 +92,9 @@ class CommentBox extends React.Component {
     }
 
     state = {
-        isCommentsLoaded: !Utils.isEmpty(this.props.initialComments),
+        isCommentsLoaded: false,
         isShowingCommentForm: false
     };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.initialComments !== nextProps.comments) {
-            return {
-                ...prevState,
-                isCommentsLoaded: true
-            };
-        }
-
-        return null;
-    }
 
     componentDidMount() {
         if (!this.state.isCommentsLoaded) {
@@ -109,6 +109,7 @@ class CommentBox extends React.Component {
                 this.setState({
                     isCommentsLoaded: true
                 });
+
                 return;
             }
 
@@ -133,7 +134,7 @@ class CommentBox extends React.Component {
         if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             this.setState({isShowingCommentForm: true});
         } else {
-            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
@@ -148,7 +149,7 @@ class CommentBox extends React.Component {
                 this.props.deleteComment(commentId, this.props.commentableType, this.props.commentableId);
             }
         } else {
-            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
@@ -162,34 +163,34 @@ class CommentBox extends React.Component {
                 this.props.addComment(commentData, this.props.commentableType, this.props.commentableId);
             }
         } else {
-            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
     render() {
         return (
             <div id={this.props.id}
-                 className="comments">
-                <h2 className="comments-title">
+                 className={classNames('comments', this.props.classes.root)}>
+                <h2 className={this.props.classes.title}>
                     {I18n.t('js.comment.common.title')}
                 </h2>
 
-                <div className="comments-box">
+                <div className={this.props.classes.content}>
                     {
                         this.props.isLoadingComments &&
                         <CircleSpinner className="center-align"/>
                     }
 
                     {
-                        (this.props.comments && this.props.comments.length === 0) &&
+                        (this.props.comments && this.props.comments.length === 0 && !this.state.isShowingCommentForm) &&
                         (
                             !this.props.isUserOwner
                                 ?
-                                <div className="comments-none">
+                                <div>
                                     {I18n.t('js.comment.common.empty')}
                                 </div>
                                 :
-                                <div className="comments-none">
+                                <div>
                                     {I18n.t('js.comment.common.no_opinion')}
                                 </div>
                         )
@@ -207,11 +208,11 @@ class CommentBox extends React.Component {
 
                     {
                         this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isUserOwner &&
-                        <div className="center-align">
-                            <Button icon="comment"
-                                    className="btn-full-text"
-                                    iconPosition="left"
-                                    onButtonClick={this._handleShowFormComment}>
+                        <div className="center-align margin-top-20">
+                            <Button color="primary"
+                                    variant="outlined"
+                                    onClick={this._handleShowFormComment}>
+                                <CommentIcon className={this.props.classes.leftIcon}/>
                                 {I18n.t('js.comment.new.button')}
                             </Button>
                         </div>

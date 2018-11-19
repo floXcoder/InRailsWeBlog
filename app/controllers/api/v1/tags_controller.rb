@@ -13,9 +13,9 @@
 #
 
 module Api::V1
-  class TagsController < ApplicationController
-    before_action :authenticate_user!, except: [:index, :show]
-    before_action :verify_requested_format!
+  class TagsController < ApiController
+    skip_before_action :authenticate_user!, only: [:index, :show]
+
     after_action :verify_authorized, except: [:index]
 
     include TrackerConcern
@@ -24,15 +24,33 @@ module Api::V1
     respond_to :html, :json
 
     def index
-      tags = Rails.cache.fetch("user_tags:#{current_user&.id}_and_#{filter_params[:topic_id] || current_user&.current_topic_id}", expires_in: CONFIG.cache_time) do
-        ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]), current_user, current_admin)
-      end
+      topic_id = nil
+
+      tags = if params[:populars]
+               ::Tags::FindQueries.new.populars(limit: params[:limit])
+             elsif filter_params[:topic_slug].present? || filter_params[:topic_id].present?
+               topic_id = if filter_params[:topic_slug]
+                            Topic.friendly.find(filter_params[:topic_slug]).id
+                          else
+                            filter_params[:topic_id].to_i
+                          end
+
+               Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: CONFIG.cache_time) do
+                 ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
+               end
+             else
+               ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
+             end
 
       respond_to do |format|
+        if filter_params[:user_slug].present?
+          set_meta_tags title: titleize(I18n.t('views.tag.index.title', user: User.find_by(slug: filter_params[:user_slug]).pseudo))
+        end
+
         format.json do
           render json:             tags,
                  each_serializer:  TagSerializer,
-                 current_topic_id: filter_params[:topic_id].to_i
+                 current_topic_id: topic_id
         end
       end
     end
@@ -43,16 +61,26 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          # set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
-          #               description: tag.meta_description,
-          #               author:      alternate_urls(tag.user.slug)['fr'],
-          #               canonical:   alternate_urls(tag.slug)['fr'],
-          #               alternate:   alternate_urls('tags', tag.slug),
-          #               og:          {
-          #                 type:  "#{ENV['WEBSITE_NAME']}:tag",
-          #                 url:   tag_url(tag),
-          #                 image: root_url + tag.default_picture
-          #               }
+          set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
+                        description: tag.meta_description,
+                        author:      tag.user.pseudo
+
+          render json:            tag,
+                 serializer:      TagCompleteSerializer,
+                 current_user_id: current_user&.id
+        end
+      end
+    end
+
+    def edit
+      tag = Tag.include_element.friendly.find(params[:id])
+      authorize tag
+
+      respond_to do |format|
+        format.json do
+          set_meta_tags title:       titleize(I18n.t('views.tag.edit.title', name: tag.name)),
+                        description: tag.meta_description
+
           render json:            tag,
                  serializer:      TagCompleteSerializer,
                  current_user_id: current_user&.id
@@ -69,7 +97,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_tag.success?
-            render json:             tag,
+            render json:             stored_tag.result,
                    serializer:       TagSerializer,
                    current_topic_id: current_user&.current_topic_id
           else

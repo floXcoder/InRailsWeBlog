@@ -11,4 +11,4 @@ ArticleTime.propTypes = {
     articleDate: PropTypes.string.isRequired
 };
 
-export default ArticleTime;
+export default React.memo(ArticleTime);

@@ -106,11 +106,12 @@ RSpec.describe Comment, type: :model, basic: true do
       before do
         @comment = Comment.create(
           user:             @user,
-          commentable_id:   0,
-          commentable_type: 'User'
+          commentable:      @commentable,
+          body:             'My comment body'
         )
       end
 
+      it { expect(@comment).to be_valid }
       it { expect(@comment.rating).to eq(0) }
       it { expect(@comment.positive_reviews).to eq(0) }
       it { expect(@comment.negative_reviews).to eq(0) }
@@ -119,7 +120,7 @@ RSpec.describe Comment, type: :model, basic: true do
   end
 
   context 'Properties' do
-    it { is_expected.to have_strip_attributes([:title, :subject, :body]) }
+    it { is_expected.to have_strip_attributes([:title, :subject]) }
 
     # it { is_expected.to have_activity }
 

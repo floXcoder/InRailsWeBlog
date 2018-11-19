@@ -30,6 +30,7 @@ const deleteBookmark = (bookmark) => ({
 
 export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUserId = null) => (dispatch, getState) => {
     currentUserId = currentUserId || getState().userState.currentId;
+    const currentUserTopicId = getState().topicState.currentUserTopicId;
 
     const bookmark = {
         userId: currentUserId,
@@ -37,10 +38,8 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUser
         bookmarkedId
     };
 
-    const currentTopicId = window.currentUserTopicId ? parseInt(window.currentUserTopicId, 10) : undefined;
-
-    if (currentTopicId) {
-        bookmark.topicId = currentTopicId;
+    if (currentUserTopicId) {
+        bookmark.topicId = currentUserTopicId;
     }
 
     if (!currentUserId) {

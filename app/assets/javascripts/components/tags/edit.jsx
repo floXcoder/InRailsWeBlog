@@ -5,6 +5,10 @@ import {
 } from 'react-hot-loader';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+
+import {
     fetchTag,
     updateTag
 } from '../../actions';
@@ -20,8 +24,11 @@ import TagFormDisplay from './display/form';
 
 import NotAuthorized from '../layouts/notAuthorized';
 
-export default @connect((state) => ({
-    isFetching: state.tagState.isFetching,
+import styles from '../../../jss/tag/edit';
+
+export default @hot(module)
+
+@connect((state) => ({
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
     tagErrors: getTagErrors(state)
@@ -29,19 +36,19 @@ export default @connect((state) => ({
     fetchTag,
     updateTag
 })
-@hot(module)
+@withStyles(styles)
 class TagEdit extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
-        multipleId: PropTypes.number,
-        // From connect
-        isFetching: PropTypes.bool,
+        // from connect
         tag: PropTypes.object,
         currentUser: PropTypes.object,
         tagErrors: PropTypes.array,
         fetchTag: PropTypes.func,
-        updateTag: PropTypes.func
+        updateTag: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -49,7 +56,7 @@ class TagEdit extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTag(this.props.params.tagSlug);
+        this.props.fetchTag(this.props.params.tagSlug, {edit: true});
     }
 
     _handleSubmit = (values) => {
@@ -61,7 +68,7 @@ class TagEdit extends React.Component {
             .then((response) => {
                 if (response.tag) {
                     this.props.history.push({
-                        pathname: `/tag/${response.tag.slug}`,
+                        pathname: `/tags/${response.tag.slug}`,
                         state: {reloadTags: true}
                     });
                 }
@@ -79,7 +86,7 @@ class TagEdit extends React.Component {
             );
         }
 
-        if(!this.props.currentUser || this.props.currentUser.id !== this.props.tag.user.id) {
+        if (!this.props.currentUser || this.props.currentUser.id !== this.props.tag.user.id) {
             return (
                 <div className="center margin-top-20">
                     <NotAuthorized/>
@@ -87,9 +94,12 @@ class TagEdit extends React.Component {
             )
         }
 
+        const initialValues = this.props.tag.merge({});
+
         return (
-            <div className="blog-form blog-tag-edit">
-                <TagFormDisplay id={`tag-edit-${this.props.tag.id}`}
+            <div className={this.props.classes.root}>
+                <TagFormDisplay initialValues={initialValues}
+                                id={`tag-edit-${this.props.tag.id}`}
                                 tagId={this.props.tag.id}
                                 isEditing={true}
                                 tagErrors={this.props.tagErrors}

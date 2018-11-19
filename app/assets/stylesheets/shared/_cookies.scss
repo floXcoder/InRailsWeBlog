@@ -1,0 +1,32 @@
+// Cookies
+.cookies-message {
+  background-color: $background-color;
+  border-top: 1px solid $border-color;
+  bottom: 0;
+  color: $text-color;
+  font-size: 1rem;
+  left: 0;
+  margin: 0;
+  padding: 15px 30px;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+
+  @media #{$medium-and-down} {
+    padding: 15px;
+  }
+
+  .cookies-more {
+    border-bottom: 1px dashed $border-color;
+    color: $text-color;
+  }
+
+  .cookies-button {
+    background-color: $border-color;
+    color: $background-color;
+    margin-left: 15px;
+    padding: 3px;
+    text-align: right;
+  }
+}

@@ -10,6 +10,12 @@ import {
 } from 'react-sticky';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+
+import {
     fetchArticle,
     updateArticle,
     markArticleOutdated,
@@ -19,19 +25,14 @@ import {
 } from '../../actions';
 
 import {
-    getArticleIsOwner,
-    getArticleIsOutdated
+    getCurrentUser,
+    getCurrentUserTopic,
+    getIsCurrentTopicOwner,
+    getArticleIsOwner
 } from '../../selectors';
 
 import highlight from '../modules/highlight';
 
-import ArticleUserIcon from './icons/user';
-import ArticleTime from './properties/time';
-import ArticleTags from './properties/tags';
-import ArticleFloatingIcons from './properties/floatingIcons';
-import ArticleActions from './properties/actions';
-
-import Loader from '../theme/loader';
 import LazyLoader from '../theme/lazyLoader';
 
 import CommentCountIcon from '../comments/icons/count';
@@ -40,7 +41,20 @@ import CommentBox from '../loaders/commentBox';
 
 import NotFound from '../layouts/notFound';
 
-export default @connect((state) => ({
+import ArticleBreadcrumbDisplay from './display/breadcrumb';
+import ArticleAvatarIcon from './icons/avatar';
+import ArticleTags from './properties/tags';
+import ArticleFloatingIcons from './properties/floatingIcons';
+import ArticleActions from './properties/actions';
+
+import styles from '../../../jss/article/show';
+
+export default @hot(module)
+
+@connect((state, props) => ({
+    currentUser: getCurrentUser(state),
+    currentTopic: getCurrentUserTopic(state),
+    isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.params),
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
@@ -53,13 +67,18 @@ export default @connect((state) => ({
     deleteArticle,
     setCurrentTags
 })
+
 @highlight(false)
-@hot(module)
+@withStyles(styles)
 class ArticleShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
-        // From connect
+        initialData: PropTypes.object,
+        // from connect
+        currentUser: PropTypes.object,
+        currentTopic: PropTypes.object,
+        isCurrentTopicOwner: PropTypes.bool,
         isFetching: PropTypes.bool,
         article: PropTypes.object,
         isOwner: PropTypes.bool,
@@ -69,7 +88,11 @@ class ArticleShow extends React.Component {
         markArticleOutdated: PropTypes.func,
         unmarkArticleOutdated: PropTypes.func,
         deleteArticle: PropTypes.func,
-        setCurrentTags: PropTypes.func
+        setCurrentTags: PropTypes.func,
+        // from highlight
+        onShow: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -85,6 +108,9 @@ class ArticleShow extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.article) {
             this.props.setCurrentTags(this.props.article.tags);
+
+            // Highlight code
+            this.props.onShow(this.props.article.id, true);
         }
 
         if (!Object.equals(this.props.params, prevProps.params)) {
@@ -131,117 +157,159 @@ class ArticleShow extends React.Component {
     };
 
     render() {
-        if (!this.props.article) {
-            if (this.props.isFetching) {
-                return (
-                    <div className="center margin-top-20">
-                        <Loader size="big"/>
-                    </div>
-                )
-            } else {
-                return (
-                    <div className="center margin-top-20">
-                        <NotFound/>
-                    </div>
-                )
-            }
+        if (!this.props.article && !this.props.isFetching) {
+            return (
+                <div className="center margin-top-20">
+                    <NotFound/>
+                </div>
+            )
         }
 
         return (
             <StickyContainer>
-                <div>
-                    {
-                        this.props.isUserConnected &&
-                        <div className="article-floating-container">
-                            <Sticky topOffset={-50}
-                                    bottomOffset={0}>
-                                {({style, isSticky}) => (
-                                    <ArticleFloatingIcons style={style}
-                                                          isSticky={isSticky}
-                                                          isOwner={this.props.isOwner}
-                                                          articleId={this.props.article.id}
-                                                          articleSlug={this.props.article.slug}
-                                                          articleTitle={this.props.article.title}/>
-                                )}
-                            </Sticky>
+                {
+                    (this.props.initialData && this.props.initialData.position && this.props.isFetching) &&
+                    <div className="center margin-top-20">
+                        <div className="parent">
+                            <span className="transition"
+                                  style={{
+                                      top: this.props.initialData.position.y,
+                                      left: this.props.initialData.position.x
+                                  }}>
+                                {this.props.initialData.title}
+                            </span>
                         </div>
-                    }
+                    </div>
+                }
 
-                    <article className={classNames('card-panel', 'blog-article', {
-                        'article-outdated': this.props.article.outdated
-                    })}>
-                        <h1 className="blog-article-title">
-                            {this.props.article.title}
-                        </h1>
-
+                {
+                    this.props.article && !this.props.isFetching &&
+                    <article className={this.props.classes.root}>
                         {
-                            this.props.article.summary &&
-                            <h2 className="blog-article-summary">
-                                {this.props.article.summary}
-                            </h2>
+                            this.props.isCurrentTopicOwner &&
+                            <div className={this.props.classes.breadcrumb}>
+                                <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                                                          topic={this.props.currentTopic}/>
+                            </div>
                         }
 
-                        <div className="blog-article-info">
-                            <ArticleUserIcon user={this.props.article.user}/>
+                        {
+                            this.props.isUserConnected &&
+                            <div className={this.props.classes.floatingButtons}>
+                                <Sticky topOffset={0}
+                                        bottomOffset={-430}>
+                                    {({style, isSticky}) => (
+                                        <ArticleFloatingIcons style={style}
+                                                              className={this.props.classes.floatingIcons}
+                                                              isSticky={isSticky}
+                                                              display="item"
+                                                              size="default"
+                                                              color="action"
+                                                              isOwner={this.props.isOwner}
+                                                              userSlug={this.props.article.user.slug}
+                                                              articleId={this.props.article.id}
+                                                              articleSlug={this.props.article.slug}
+                                                              articleTitle={this.props.article.title}
+                                                              articleVisibility={this.props.article.visibility}
+                                                              onVisibilityClick={this._handleVisibilityClick}/>
+                                    )}
+                                </Sticky>
+                            </div>
+                        }
 
-                            <span className="blog-article-info-sep">-</span>
+                        <div className={classNames({
+                            [this.props.classes.outdated]: this.props.article.outdated
+                        })}>
+                            <Grid container={true}>
+                                {
+                                    this.props.article.summary &&
+                                    <Grid item={true}
+                                          xs={12}>
+                                        <h2 className="blog-article-summary">
+                                            {this.props.article.summary}
+                                        </h2>
+                                    </Grid>
+                                }
 
-                            <ArticleTime articleDate={this.props.article.date}/>
+                                <Grid item={true}
+                                      xs={12}>
+                                    <Grid container={true}
+                                          classes={{
+                                              container: this.props.classes.info
+                                          }}
+                                          spacing={16}
+                                          direction="row"
+                                          justify="space-between"
+                                          alignItems="center">
+                                        <Grid item={true}>
+                                            <ArticleAvatarIcon classes={this.props.classes}
+                                                               user={this.props.article.user}
+                                                               articleDate={this.props.article.date}/>
+                                        </Grid>
+
+                                        {
+                                            (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
+                                            <Grid className="hide-on-small"
+                                                  item={true}>
+                                                <CommentCountIcon className={this.props.classes.commentCount}
+                                                                  commentLink={`#article-comments-${this.props.article.id}`}
+                                                                  commentsCount={this.props.article.commentsCount}
+                                                                  hasIcon={false}/>
+                                            </Grid>
+                                        }
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+
+                            <Typography className={this.props.classes.title}
+                                        variant="h1">
+                                {this.props.article.title}
+                            </Typography>
+
+                            <div className={classNames('normalized-content', this.props.classes.content)}
+                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
 
                             {
-                                this.props.article.visibility === 'everyone' &&
-                                <CommentCountIcon commentLink={`#article-comments-${this.props.article.id}`}
-                                                  commentsCount={this.props.article.commentsCount}/>
+                                this.props.article.reference &&
+                                <div className="blog-article-info">
+                                    <a href={this.props.article.reference}
+                                       rel="noopener noreferrer"
+                                       target="_blank">
+                                        {Utils.normalizeLink(this.props.article.reference)}
+                                    </a>
+                                </div>
                             }
+
+                            <div className={this.props.classes.actions}>
+                                {
+                                    this.props.article.tags.size > 0 &&
+                                    <ArticleTags articleId={this.props.article.id}
+                                                 tags={this.props.article.tags}
+                                                 parentTagIds={this.props.article.parentTagIds}
+                                                 childTagIds={this.props.article.childTagIds}/>
+                                }
+
+                                {
+                                    this.props.isOwner &&
+                                    <ArticleActions classes={this.props.classes}
+                                                    size="default"
+                                                    color="action"
+                                                    userSlug={this.props.article.user.slug}
+                                                    articleId={this.props.article.id}
+                                                    articleSlug={this.props.article.slug}
+                                                    articleTitle={this.props.article.title}
+                                                    articleVisibility={this.props.article.visibility}
+                                                    isOutdated={this.props.article.outdated}
+                                                    isBookmarked={this.props.article.bookmarked}
+                                                    onOutdatedClick={this._handleOutdatedClick}
+                                                    onVisibilityClick={this._handleVisibilityClick}
+                                                    onDeleteClick={this._handleDeleteClick}/>
+                                }
+                            </div>
                         </div>
 
-                        <div className="blog-article-content"
-                             dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
-
                         {
-                            this.props.article.reference &&
-                            <div className="blog-article-info">
-                                <a href={this.props.article.reference}
-                                   rel="noopener noreferrer"
-                                   target="_blank">
-                                    {Utils.normalizeLink(this.props.article.reference)}
-                                </a>
-                            </div>
-                        }
-
-                        {
-                            this.props.article.tags.size > 0 &&
-                            <div className="blog-article-info">
-                                <ArticleTags articleId={this.props.article.id}
-                                             tags={this.props.article.tags}
-                                             parentTagIds={this.props.article.parentTagIds}
-                                             childTagIds={this.props.article.childTagIds}/>
-                            </div>
-                        }
-
-                        {
-                            this.props.isOwner &&
-                            <div className="article-actions">
-                                <div className="article-actions-text">
-                                    {I18n.t('js.article.common.actions')}
-                                </div>
-
-                                <ArticleActions articleId={this.props.article.id}
-                                                articleSlug={this.props.article.slug}
-                                                articleTitle={this.props.article.title}
-                                                articleVisibility={this.props.article.visibility}
-                                                isOutdated={this.props.article.outdated}
-                                                isBookmarked={this.props.article.bookmarked}
-                                                onOutdatedClick={this._handleOutdatedClick}
-                                                onVisibilityClick={this._handleVisibilityClick}
-                                                onDeleteClick={this._handleDeleteClick}/>
-                            </div>
-                        }
-                    </article>
-
-                    {
-                        (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
-                        <div className="card-panel">
+                            (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                             <LazyLoader height={0}
                                         once={true}
                                         offset={50}>
@@ -254,9 +322,9 @@ class ArticleShow extends React.Component {
                                             isPaginated={false}
                                             isRated={true}/>
                             </LazyLoader>
-                        </div>
-                    }
-                </div>
+                        }
+                    </article>
+                }
             </StickyContainer>
         );
     }

@@ -52,10 +52,10 @@ class TagSerializer < ActiveModel::Serializer
   end
 
   def parent_ids
-    object.child_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:parent_id)
+    object.child_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:parent_id).uniq if instance_options[:current_topic_id]
   end
 
   def child_ids
-    object.parent_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:child_id)
+    object.parent_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:child_id).uniq if instance_options[:current_topic_id]
   end
 end

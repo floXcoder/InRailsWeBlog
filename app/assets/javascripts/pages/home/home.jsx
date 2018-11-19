@@ -6,25 +6,14 @@ import {
 
 import '../common';
 
-import HomePage from '../../components/home/home';
+import ApplicationLayoutHome from '../../components/layouts/home/application';
 
-// ReactDOM.render(
-//     <AppContainer>
-//         <HomePage />
-//     </AppContainer>,
-//     document.getElementById('home-component')
-// );
-
-const render = Component => {
-    ReactDOM.render(
-        <AppContainer>
-            <Component/>
-        </AppContainer>,
-        document.getElementById('home-component'),
-    )
-};
-
-render(HomePage);
+ReactDOM.render(
+    <AppContainer>
+        <ApplicationLayoutHome/>
+    </AppContainer>,
+    document.getElementById('home-component')
+);
 
 // webpack Hot Module Replacement API
 if(module.hot) {

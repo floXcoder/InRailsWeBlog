@@ -2,13 +2,13 @@
 
 export default class Sidebar extends React.PureComponent {
     static propTypes = {
-        onOpened: PropTypes.func.isRequired,
+        onOpen: PropTypes.func.isRequired,
         children: PropTypes.object.isRequired,
-        isDefaultOpened: PropTypes.bool
+        isDefaultOpen: PropTypes.bool
     };
 
     static defaultProps = {
-        isDefaultOpened: true
+        isDefaultOpen: true
     };
 
     constructor(props) {
@@ -16,7 +16,7 @@ export default class Sidebar extends React.PureComponent {
     }
 
     state = {
-        isPinned: this.props.isDefaultOpened
+        isPinned: this.props.isDefaultOpen
     };
 
     _toggleSidebar = () => {
@@ -24,20 +24,20 @@ export default class Sidebar extends React.PureComponent {
             isPinned: !this.state.isPinned
         });
 
-        if (this.props.onOpened) {
-            this.props.onOpened(!this.state.isPinned);
+        if (this.props.onOpen) {
+            this.props.onOpen(!this.state.isPinned);
         }
     };
 
     _handleMouseEnter = () => {
-        if (!this.state.isPinned && this.props.onOpened) {
-            this.props.onOpened(true);
+        if (!this.state.isPinned && this.props.onOpen) {
+            this.props.onOpen(true);
         }
     };
 
     _handleMouseLeave = () => {
-        if (!this.state.isPinned && this.props.onOpened) {
-            this.props.onOpened(false);
+        if (!this.state.isPinned && this.props.onOpen) {
+            this.props.onOpen(false);
         }
     };
 

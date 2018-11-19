@@ -23,10 +23,17 @@ class BookmarkSerializer < ActiveModel::Serializer
              :bookmarked_type,
              :follow,
              :name,
+             :parent_slug,
              :slug
 
   def name
     object.bookmarked.title
+  end
+
+  def parent_slug
+    if object.bookmarked.respond_to?(:user)
+      object.bookmarked.user.slug
+    end
   end
 
   def slug

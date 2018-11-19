@@ -2,8 +2,8 @@
 
 import {
     initUser,
-    fetchTopics,
     fetchTags,
+    switchTopic,
     getTracksClick,
     fetchUserRecents,
     updateUserRecents,
@@ -12,36 +12,49 @@ import {
     setCurrentTags
 } from '../../../actions';
 
+import {
+    getUserTopics
+} from '../../../selectors';
+
 export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
-    currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopicId
+    userId: state.userState.currentId,
+    currentUser: state.userState.user,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    userTopics: getUserTopics(state)
 }), {
     initUser,
-    fetchTopics,
     fetchTags,
+    switchTopic,
     fetchUserRecents,
     updateUserRecents,
     fetchBookmarks,
     synchronizeBookmarks,
     setCurrentTags
 })
+
 class UserManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
-        routerState: PropTypes.object,
-        // From connect
-        isUserConnected: PropTypes.bool,
-        currentUserId: PropTypes.number,
-        currentTopicId: PropTypes.number,
+        params: PropTypes.object.isRequired,
+        initialData: PropTypes.object,
+        // from connect
+        userId: PropTypes.number,
+        currentUser: PropTypes.object,
+        currentUserTopicId: PropTypes.number,
+        currentUserTopicSlug: PropTypes.string,
+        userTopics: PropTypes.array,
         initUser: PropTypes.func,
-        fetchTopics: PropTypes.func,
         fetchTags: PropTypes.func,
+        switchTopic: PropTypes.func,
         fetchUserRecents: PropTypes.func,
         updateUserRecents: PropTypes.func,
         fetchBookmarks: PropTypes.func,
-        synchronizeBookmarks: PropTypes.func,
         setCurrentTags: PropTypes.func
+    };
+
+    static defaultProps = {
+        initialData: {}
     };
 
     constructor(props) {
@@ -49,23 +62,17 @@ class UserManager extends React.Component {
     }
 
     componentDidMount() {
-        // Called each time a route changed!
-
-        // Reset current tags
-        this.props.setCurrentTags();
-
-        // Load user environment if connected
-        if (this.props.isUserConnected) {
-            // Get current user details with current topic
-            this.props.initUser(this.props.currentUserId, {userProfile: true})
+        // Load user environment:
+        // Get current user details with all topics (called only once by session)
+        if (!this.props.currentUser) {
+            this.props.initUser(this.props.userId, {
+                profile: true,
+                topicSlug: this.props.params.topicSlug,
+                articleSlug: this.props.params.articleSlug
+            })
                 .fetch.then((response) => {
                 if (response && response.user) {
-                    // Get all user topics
-                    this.props.fetchTopics(this.props.currentUserId);
-
-                    // Loaded when current topic is updated
-                    // Get all user tags for current topic (user private and common public tags associated to his articles)
-                    // props.fetchTags({topicId: response.user.currentTopic.id});
+                    this._fetchTags(response.user.id, (this.props.params.topicSlug || this.props.params.articleSlug) ? response.user.currentTopic.slug : null);
 
                     // Send local recent clicks otherwise fetch them
                     const userJustSign = sessionStorage && sessionStorage.getItem('user-connection');
@@ -73,9 +80,9 @@ class UserManager extends React.Component {
                     Utils.defer.then(() => {
                         if (userJustSign) {
                             sessionStorage.removeItem('user-connection');
-                            this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
+                            this.props.updateUserRecents(this.props.userId, getTracksClick(true));
                         } else {
-                            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
+                            this.props.fetchUserRecents(this.props.userId, {limit: 10});
                         }
                     });
 
@@ -84,29 +91,70 @@ class UserManager extends React.Component {
                         //     this.props.synchronizeBookmarks();
                         // }
 
-                        this.props.fetchBookmarks(this.props.currentUserId, {topicId: this.props.currentTopicId});
+                        this.props.fetchBookmarks(this.props.userId, {topicId: this.props.currentUserTopicId});
                     });
-                }
-
-                if (this.props.currentTopicId || (this.props.routerState && this.props.routerState.reloadTags)) {
-                    this.props.fetchTags({topicId: this.props.currentTopicId}, {}, {topicTags: true});
                 }
             });
         } else {
-            // Get only all public tags
-            this.props.fetchTags({
-                visibility: 'everyone'
-            }, {
-                limit: 200
-            });
+            let newTopicSlug = this.props.params.topicSlug;
+
+            // Extract topicSlug from article if any
+            if (this.props.params.articleSlug) {
+                newTopicSlug = this.props.params.articleSlug.match(/@.*?$/).first().substr(1);
+            }
+
+            this._fetchTags(this.props.userId, newTopicSlug);
+            this._checkTopic(this.props.userId, this.props.currentUserTopicSlug, newTopicSlug)
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if ((this.props.currentTopicId !== prevProps.currentTopicId && prevProps.isUserConnected === this.props.isUserConnected) || (prevProps.routerState && prevProps.routerState.reloadTags)) {
-            this.props.fetchTags({topicId: this.props.currentTopicId}, {}, {topicTags: true});
+    _fetchTags = (userId, topicSlug = null) => {
+        // Load tags according to the current route
+        if (this.props.initialData.reloadTags) {
+            this.props.fetchTags({
+                    topicId: this.props.currentUserTopicId
+                },
+                {},
+                {
+                    topicTags: true
+                });
+        } else if (topicSlug) {
+            this.props.fetchTags({
+                    topicSlug: topicSlug
+                },
+                {},
+                {
+                    topicTags: true
+                });
+        } else {
+            this.props.fetchTags({
+                userId: userId
+            });
         }
-    }
+
+        // Reset current tags
+        this.props.setCurrentTags();
+    };
+
+    _checkTopic = (userId, currentUserTopicSlug, newTopicSlug) => {
+        // Switch topic only if new topic belongs to current user
+        if (!this.props.userTopics.some((topic) => topic.slug === newTopicSlug)) {
+            return;
+        }
+
+        if (newTopicSlug && currentUserTopicSlug !== newTopicSlug) {
+            this.props.switchTopic(userId, newTopicSlug);
+        }
+
+        //                this.props.switchTopic(this.props.userId, newTopicId)
+        //                 .fetch
+        //                 .then((response) => {
+        //                     if (response.topic) {
+        //                         return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
+        //                     }
+        //                 })
+        //                 .then(() => this.props.showTopicPopup());
+    };
 
     render() {
         return React.Children.only(this.props.children);

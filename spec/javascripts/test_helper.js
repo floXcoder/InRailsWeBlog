@@ -19,9 +19,6 @@ require('es6-promise').polyfill();
 // jQuery Rails (require is required to find jQuery)
 require('jquery-ujs');
 
-// Materialize
-import '../../app/assets/javascripts/common/materialize';
-
 // Expose global variables
 import * as utils from '../../app/assets/javascripts/modules/utils';
 

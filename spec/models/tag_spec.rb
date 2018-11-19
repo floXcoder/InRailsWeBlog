@@ -88,10 +88,11 @@ RSpec.describe Tag, type: :model, basic: true do
       before do
         @tag = Tag.create(
           user: @user,
-          name: 'Tag'
+          name: 'Tag default'
         )
       end
 
+      it { expect(@tag).to be_valid }
       it { expect(@tag.synonyms).to eq([]) }
       it { expect(@tag.priority).to eq(0) }
       it { expect(@tag.visibility).to eq('everyone') }

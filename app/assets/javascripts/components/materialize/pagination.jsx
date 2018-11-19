@@ -14,7 +14,7 @@ class Pagination extends React.PureComponent {
         className: PropTypes.string,
         hasHistory: PropTypes.bool,
         onPaginationClick: PropTypes.func,
-        // From history
+        // from history
         addToHistory: PropTypes.func,
         onHistoryChanged: PropTypes.func
     };

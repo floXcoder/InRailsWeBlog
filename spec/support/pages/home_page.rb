@@ -12,12 +12,4 @@ class HomePage < SitePage
   def path
     @home_page
   end
-
-  def head
-    find('head', visible: false)
-  end
-
-  def header
-    find('header nav')
-  end
 end

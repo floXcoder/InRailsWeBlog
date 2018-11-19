@@ -65,6 +65,7 @@ class Article < ApplicationRecord
   has_paper_trail only: [:title_translations, :summary_translations, :content_translations, :reference]
 
   # Track activities
+  ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { click: :add_visit_activity }
 
@@ -86,6 +87,7 @@ class Article < ApplicationRecord
   # index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
 
   # Comments
+  ## scopes: most_rated, recently_rated
   include CommentableConcern
 
   # Marked as deleted
@@ -178,11 +180,15 @@ class Article < ApplicationRecord
             presence: true
 
   validates :title,
-            length: { minimum: CONFIG.article_title_min_length, maximum: CONFIG.article_title_max_length },
-            if:     -> { title.present? }
+            length: { minimum: CONFIG.article_title_min_length, maximum: CONFIG.article_title_max_length }
+  validates :topic,
+            presence: true,
+            unless:   -> { draft? }
+
   validates :summary,
             length: { minimum: CONFIG.article_summary_min_length, maximum: CONFIG.article_summary_max_length },
             if:     -> { summary.present? }
+
   validates :content,
             presence: true,
             length:   { minimum: CONFIG.article_content_min_length, maximum: CONFIG.article_content_max_length },
@@ -197,10 +203,16 @@ class Article < ApplicationRecord
   validates :visibility,
             presence: true
 
+  validate :current_topic_belongs_to_user
+
+  validates :tagged_articles,
+            presence: true,
+            unless:   -> { draft? }
+
+  validate :pertinent_tags
+
   validate :prevent_revert_to_draft,
            on: :update
-
-  validate :current_topic_belongs_to_user
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
@@ -221,7 +233,7 @@ class Article < ApplicationRecord
   }
 
   scope :from_topic, -> (topic_slug) {
-    where(topic: Topic.find_by(slug: topic_slug))
+    where(topic_id: Topic.find_by(slug: topic_slug).id)
     # includes(:topic).where(topics: { slug: topic_slug }) # Slower ??
   }
   scope :from_topic_id, -> (topic_id = nil) {
@@ -237,7 +249,7 @@ class Article < ApplicationRecord
 
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
-  scope :include_element, -> { includes(:user, :parent_tags, :child_tags, :tagged_articles, :tracker) }
+  scope :include_element, -> { includes(:user, :tagged_articles) }
 
   # == Callbacks ============================================================
   # Visibility: private for draft articles
@@ -292,12 +304,12 @@ class Article < ApplicationRecord
 
     picture = if self.pictures_count > 0
                 # Use sort_by to avoid N+1 queries and new graph model
-                self.pictures.sort_by(&:priority).reverse.first.image.mini.url
+                self.pictures.sort_by(&:priority).reverse.first.image.medium.url
               else
                 default_picture
               end
 
-    return AssetManifest.image_path(picture || default_picture)
+    picture.present? || default_picture.present? ? AssetManifest.image_path(picture || default_picture) : nil
   end
 
   def mark_as_outdated(user)
@@ -332,12 +344,13 @@ class Article < ApplicationRecord
 
   def slug_candidates
     [
-      "#{self.title}_at_#{self.user.pseudo}"
+      "#{self.title}__at__#{self.topic.slug}"
     ]
   end
 
+  # Called by friendlyId to transform 'at' to @
   def normalize_friendly_id(_string = nil)
-    super.tr('-', '_').gsub('_at_', '@')
+    super.gsub('__at__', '@')
   end
 
   def mode_translated
@@ -350,10 +363,14 @@ class Article < ApplicationRecord
 
   def formatted_content
     formatted_content = public_content
+    return formatted_content unless formatted_content
 
     # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
 
+    # Format returns to line
+    formatted_content = formatted_content.gsub(/\<br\>/im, '@@').gsub(/\<p\>/im, '@@')
     formatted_content = ActionController::Base.helpers.strip_tags(formatted_content)
+    formatted_content = formatted_content.gsub(/@@/im, '<br>')
 
     return formatted_content
   end
@@ -376,8 +393,8 @@ class Article < ApplicationRecord
     return formatted_content
   end
 
-  def summary_content(current_user_id = nil)
-    adapted_content(current_user_id).summary
+  def summary_content(size = 90, current_user_id = nil)
+    adapted_content(current_user_id).summary(size)
   end
 
   def search_data
@@ -421,7 +438,7 @@ class Article < ApplicationRecord
 
   # SEO
   def meta_description
-    [self.title, self.summary.summary(60)].join(I18n.t('helpers.colon'))
+    [self.title, self.summary&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private
@@ -435,17 +452,25 @@ class Article < ApplicationRecord
     user.create_activity(:visit, recipient: self, owner: user, params: { topic_id: parent_id })
   end
 
-  def prevent_revert_to_draft
-    if self.everyone? && draft_changed? && !draft_was
-      errors.add(:base, I18n.t('activerecord.errors.models.article.prevent_revert_to_draft'))
-    end
-  end
-
   def current_topic_belongs_to_user
     return unless self.topic_id.present? && self.topic_id_changed?
 
     unless self.user.topics.exists?(self.topic_id)
       errors.add(:topic, I18n.t('activerecord.errors.models.article.bad_topic_owner'))
+    end
+  end
+
+  def pertinent_tags
+    return unless self.tagged_articles
+
+    unless self.tags.all? { |tag| tag.visibility == self.topic.visibility }
+      errors.add(:tagged_articles, I18n.t('activerecord.errors.models.article.pertinent_tags'))
+    end
+  end
+
+  def prevent_revert_to_draft
+    if self.everyone? && draft_changed? && !draft_was
+      errors.add(:base, I18n.t('activerecord.errors.models.article.prevent_revert_to_draft'))
     end
   end
 

@@ -15,7 +15,7 @@ import ArticleItemDisplay from './item';
 
 const ArticleMasonry = MasonryWrapper(ArticleItemDisplay, {articleDisplayMode: 'grid'}, ArticleItemDisplay, {articleDisplayMode: 'card'});
 
-const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, articleEditionId, hasMoreArticles, isSortedByTag, isMinimized, parentTag, articleTotalPages, fetchArticles}) => {
+const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, hasMoreArticles, isSortedByTag, parentTag, articleTotalPages, fetchArticles, ...other}) => {
     let previousTag, ArticleNodes;
 
     if (articleDisplayMode === 'grid') {
@@ -63,10 +63,8 @@ const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, a
 
                                         <ArticleItemDisplay article={article}
                                                             articleDisplayMode={articleDisplayMode}
-                                                            articleEditionId={articleEditionId}
-                                                            isMinimized={isMinimized}/>
+                                                            {...other}/>
                                     </div>
-
                                 </CSSTransition>
                             );
                         }
@@ -83,23 +81,18 @@ const ArticleListDisplay = ({articles, articlesLoaderMode, articleDisplayMode, a
 
     return (
         <div>
-            <div className={classNames({
-                'card-panel': articleDisplayMode === 'inline'
-            })}>
-                <div className="blog-article-list">
-                    {
-                            articlesLoaderMode === 'infinite'
-                                ?
-                                <InfiniteScroll next={fetchArticles}
-                                                hasMore={hasMoreArticles}
-                                                loader={LoadingArticles}>
-                                    {ArticleNodes}
-                                </InfiniteScroll>
-                                :
-                                ArticleNodes
-                    }
-                </div>
-            </div>
+            {
+                articlesLoaderMode === 'infinite'
+                    ?
+                    <InfiniteScroll dataLength={articles.length}
+                                    next={fetchArticles}
+                                    hasMore={hasMoreArticles}
+                                    loader={LoadingArticles}>
+                        {ArticleNodes}
+                    </InfiniteScroll>
+                    :
+                    ArticleNodes
+            }
 
             {
                 articlesLoaderMode === 'pagination' &&
@@ -120,7 +113,9 @@ ArticleListDisplay.propTypes = {
     isSortedByTag: PropTypes.bool,
     isMinimized: PropTypes.bool,
     parentTag: PropTypes.string,
-    articleEditionId: PropTypes.number
+    articleEditionId: PropTypes.number,
+    onShow: PropTypes.func,
+    onExit: PropTypes.func
 };
 
 ArticleListDisplay.defaultProps = {

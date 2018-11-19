@@ -15,7 +15,7 @@ export default class CategorizedTag extends React.Component {
         placeholderWithTags: PropTypes.string,
         name: PropTypes.string,
         multipleId: PropTypes.number,
-        titleClass: PropTypes.string,
+        labelClass: PropTypes.string,
         icon: PropTypes.string,
         hasChildTagFocus: PropTypes.bool,
         children: PropTypes.array,
@@ -149,7 +149,7 @@ export default class CategorizedTag extends React.Component {
                 }
 
                 <label className={labelClass}>
-                    <span className={this.props.titleClass}>
+                    <span className={this.props.labelClass}>
                         {this.props.title}
                     </span>
                 </label>

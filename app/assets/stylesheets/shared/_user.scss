@@ -1,35 +1,4 @@
 @import 'shared/animation/user';
-@import 'pages/users/avatar';
-
-//.blog-user-pref {
-//  background-color: #546e7a;
-//  border-top: 1px solid #111;
-//  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .5), 0 2px 10px 0 rgba(0, 0, 0, .5);
-//  display: none;
-//  margin-bottom: 0;
-//  position: fixed;
-//  right: 0;
-//  min-width: 800px;
-//  z-index: 100;
-//
-//  .collapsible-body .row {
-//    background-color: white;
-//    margin: 0;
-//    padding: 1.2rem;
-//  }
-//}
-
-//@media #{$medium-and-down} {
-//  .blog-user-pref {
-//    min-width: 640px;
-//  }
-//}
-
-//@media #{$small-and-down} {
-//  .blog-user-pref {
-//    min-width: 360px;
-//  }
-//}
 
 .blog-user {
   .user-card {
@@ -71,253 +40,294 @@
   }
 }
 
-.user-activity {
-  .activity-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+//.user-activity {
+//  .activity-list {
+//    list-style: none;
+//    margin: 0;
+//    padding: 0;
+//
+//    > li {
+//      border-bottom: 1px solid $border-dark-color;
+//      box-sizing: border-box;
+//      list-style: none;
+//      margin: 0;
+//      min-height: 48px;
+//      padding: 8px 4px;
+//      position: relative;
+//
+//      .activity-list-action-dropdown {
+//        display: none;
+//        position: absolute;
+//        right: 16px;
+//        top: 10px;
+//      }
+//
+//      &:last-child {
+//        border-bottom: 0;
+//      }
+//
+//      > .activity-list-content {
+//        overflow: hidden;
+//
+//        > span {
+//          display: block;
+//        }
+//
+//        .activity-list-heading {
+//          color: $text-color;
+//          display: block;
+//          font-size: 14px;
+//          font-weight: 500;
+//          margin: 0;
+//          overflow: hidden;
+//          padding-bottom: 1px;
+//        }
+//
+//        //.activity-list-body {
+//        //}
+//
+//        .activity-list-date {
+//          color: $text-color;
+//        }
+//
+//        .activity-list-menu {
+//          float: right;
+//
+//          .activity-list-menu-toggle {
+//            border-radius: 14px;
+//            color: $text-color;
+//            display: block;
+//            font-size: 18px;
+//            height: 28px;
+//            line-height: 28px;
+//            text-align: center;
+//            width: 28px;
+//          }
+//        }
+//
+//        .activity-list-action {
+//          display: none;
+//          float: right;
+//          margin-left: 8px;
+//          margin-top: 2px;
+//        }
+//
+//        .activity-list-action-placeholder {
+//          display: none;
+//          float: right;
+//          height: 32px;
+//          margin-left: 8px;
+//          width: 32px;
+//        }
+//      }
+//
+//      > a.activity-list-content {
+//        color: $text-color;
+//        display: block;
+//      }
+//    }
+//  }
+//
+//  .activity-list-addon-element {
+//    bottom: -1px;
+//    display: block;
+//    left: -64px;
+//    padding: 8px 0;
+//    position: absolute;
+//    text-align: center;
+//    top: -1px;
+//    width: 64px;
+//
+//    & > .activity-list-addon-avatar {
+//      margin-top: 2px;
+//    }
+//
+//    & > .activity-list-addon-icon {
+//      color: #7cb342;
+//      font-size: 28px;
+//      margin-top: 4px;
+//    }
+//  }
+//
+//  .activity-list-outside {
+//    > li {
+//      padding: 0;
+//
+//      &.heading_list {
+//        padding: 32px 16px 16px;
+//      }
+//
+//      > .activity-list-content {
+//        color: $text-color;
+//        display: block;
+//        padding: 8px 16px;
+//      }
+//    }
+//
+//    &.activity-list-addon li {
+//      margin-left: 0;
+//
+//      .activity-list-addon-element {
+//        float: left;
+//        left: auto;
+//        position: relative;
+//        top: auto;
+//      }
+//
+//      .activity-list-content {
+//        padding-left: 0;
+//      }
+//    }
+//  }
+//
+//  .activity-list-addon > li {
+//    margin-left: 64px;
+//    position: relative;
+//
+//    &:last-child .activity-list-addon-element {
+//      border-bottom: 0;
+//      bottom: 0;
+//    }
+//
+//    &:first-child .activity-list-addon-element {
+//      top: 0;
+//    }
+//  }
+//}
+//
+//.user-tracking {
+//  .tracking-name {
+//    clear: both;
+//    font-size: 1rem;
+//    line-height: 1.3rem;
+//    margin: .4664rem 0 1.5rem;
+//  }
+//}
+//
+//.user-heading {
+//  .heading-1 {
+//    font-size: 18px;
+//    font-weight: 400;
+//    line-height: 24px;
+//
+//    .sub-heading {
+//      display: block;
+//      font-size: 14px;
+//      font-weight: 300;
+//      line-height: 18px;
+//    }
+//  }
+//
+//  .heading-2 {
+//    font-size: 22px;
+//    font-weight: 400;
+//    line-height: 28px;
+//    margin: 0 0 16px;
+//
+//    .sub-heading {
+//      display: block;
+//      font-size: 16px;
+//      font-weight: 300;
+//      line-height: 20px;
+//    }
+//  }
+//
+//  .heading-3 {
+//    color: $text-color;
+//    font-size: 16px;
+//    font-weight: 400;
+//    line-height: 20px;
+//    margin: 0 0 16px;
+//  }
+//
+//  .heading-4 {
+//    color: $text-color;
+//    font-size: 16px;
+//    font-weight: 400;
+//    line-height: 20px;
+//    margin: 0 0 16px;
+//  }
+//}
+//
+//.user-heading {
+//  background: $primary-color;
+//  box-sizing: border-box;
+//  color: $background-color;
+//  padding: 24px;
+//  position: relative;
+//  transition: all 280ms cubic-bezier(.4, 0, .2, 1);
+//
+//  .user-heading-menu {
+//    position: absolute;
+//    right: 8px;
+//    top: 8px;
+//
+//    .btn-flat {
+//      color: inherit;
+//    }
+//  }
+//
+//  .user-heading-avatar {
+//    float: left;
+//    margin-right: 24px;
+//    position: relative;
+//
+//    .thumbnail {
+//      border: 2px solid $background-color;
+//      border-radius: 50%;
+//      box-sizing: border-box;
+//      height: 82px;
+//      line-height: 74px;
+//      overflow: hidden;
+//      width: 82px;
+//    }
+//  }
+//
+//  .user-heading-content {
+//    padding: 16px 0;
+//
+//    .user-stats {
+//      list-style: none;
+//      margin: 0;
+//      overflow: hidden;
+//      padding: 0;
+//      text-align: center;
+//
+//      li {
+//        float: left;
+//        list-style: none;
+//        margin-right: 48px;
+//        padding: 0;
+//      }
+//    }
+//  }
+//
+//  .user-edit-icon {
+//    background: $success-color;
+//    border-radius: 50%;
+//    bottom: -22px;
+//    box-sizing: border-box;
+//    display: block;
+//    height: 48px;
+//    position: absolute;
+//    right: 24px;
+//    text-align: center;
+//    width: 48px;
+//
+//    .material-icons {
+//      color: $background-color;
+//      font-size: 24px;
+//      height: inherit;
+//      left: 0;
+//      line-height: 48px;
+//      position: absolute;
+//      top: 0;
+//      width: inherit;
+//    }
+//  }
+//}
 
-    > li {
-      border-bottom: 1px solid $border-dark-color;
-      box-sizing: border-box;
-      list-style: none;
-      margin: 0;
-      min-height: 48px;
-      padding: 8px 4px;
-      position: relative;
-
-      .activity-list-action-dropdown {
-        display: none;
-        position: absolute;
-        right: 16px;
-        top: 10px;
-      }
-
-      &:last-child {
-        border-bottom: 0;
-      }
-
-      > .activity-list-content {
-        overflow: hidden;
-
-        > span {
-          display: block;
-        }
-
-        .activity-list-heading {
-          color: $text-color;
-          display: block;
-          font-size: 14px;
-          font-weight: 500;
-          margin: 0;
-          overflow: hidden;
-          padding-bottom: 1px;
-        }
-
-        //.activity-list-body {
-        //}
-
-        .activity-list-date {
-          color: $text-color;
-        }
-
-        .activity-list-menu {
-          float: right;
-
-          .activity-list-menu-toggle {
-            border-radius: 14px;
-            color: $off-black;
-            display: block;
-            font-size: 18px;
-            height: 28px;
-            line-height: 28px;
-            text-align: center;
-            width: 28px;
-          }
-        }
-
-        .activity-list-action {
-          display: none;
-          float: right;
-          margin-left: 8px;
-          margin-top: 2px;
-        }
-
-        .activity-list-action-placeholder {
-          display: none;
-          float: right;
-          height: 32px;
-          margin-left: 8px;
-          width: 32px;
-        }
-      }
-
-      > a.activity-list-content {
-        color: $off-black;
-        display: block;
-      }
-    }
-  }
-
-  .activity-list-addon-element {
-    bottom: -1px;
-    display: block;
-    left: -64px;
-    padding: 8px 0;
-    position: absolute;
-    text-align: center;
-    top: -1px;
-    width: 64px;
-
-    & > .activity-list-addon-avatar {
-      margin-top: 2px;
-    }
-
-    & > .activity-list-addon-icon {
-      color: #7cb342;
-      font-size: 28px;
-      margin-top: 4px;
-    }
-  }
-
-  .activity-list-outside {
-    > li {
-      padding: 0;
-
-      &.heading_list {
-        padding: 32px 16px 16px;
-      }
-
-      > .activity-list-content {
-        color: $off-black;
-        display: block;
-        padding: 8px 16px;
-      }
-    }
-
-    &.activity-list-addon li {
-      margin-left: 0;
-
-      .activity-list-addon-element {
-        float: left;
-        left: auto;
-        position: relative;
-        top: auto;
-      }
-
-      .activity-list-content {
-        padding-left: 0;
-      }
-    }
-  }
-
-  .activity-list-addon > li {
-    margin-left: 64px;
-    position: relative;
-
-    &:last-child .activity-list-addon-element {
-      border-bottom: 0;
-      bottom: 0;
-    }
-
-    &:first-child .activity-list-addon-element {
-      top: 0;
-    }
-  }
-}
-
-.user-tracking {
-  .tracking-name {
-    clear: both;
-    font-size: 1rem;
-    line-height: 1.3rem;
-    margin: .4664rem 0 1.5rem;
-  }
-}
-
-.user-heading {
-  background: $primary-color;
-  box-sizing: border-box;
-  color: $background-color;
-  padding: 24px;
-  position: relative;
-  transition: all 280ms cubic-bezier(.4, 0, .2, 1);
-
-  .user-heading-menu {
-    position: absolute;
-    right: 8px;
-    top: 8px;
-
-    .btn-flat {
-      color: inherit;
-    }
-  }
-
-  .user-heading-avatar {
-    float: left;
-    margin-right: 24px;
-    position: relative;
-
-    .thumbnail {
-      border: 2px solid $background-color;
-      border-radius: 50%;
-      box-sizing: border-box;
-      height: 82px;
-      line-height: 74px;
-      overflow: hidden;
-      width: 82px;
-    }
-  }
-
-  .user-heading-content {
-    padding: 16px 0;
-
-    .user-stats {
-      list-style: none;
-      margin: 0;
-      overflow: hidden;
-      padding: 0;
-      text-align: center;
-
-      li {
-        float: left;
-        list-style: none;
-        margin-right: 48px;
-        padding: 0;
-      }
-    }
-  }
-
-  .user-edit-icon {
-    background: $success-color;
-    border-radius: 50%;
-    bottom: -22px;
-    box-sizing: border-box;
-    display: block;
-    height: 48px;
-    position: absolute;
-    right: 24px;
-    text-align: center;
-    width: 48px;
-
-    .material-icons {
-      color: $background-color;
-      font-size: 24px;
-      height: inherit;
-      left: 0;
-      line-height: 48px;
-      position: absolute;
-      top: 0;
-      width: inherit;
-    }
-  }
-}
-
-.user-content {
-  padding: 32px;
-  position: relative;
-}
-
-.user-preference-modal {
-  padding-top: 0 !important;
-}
+//.user-content {
+//  padding: 32px;
+//  position: relative;
+//}

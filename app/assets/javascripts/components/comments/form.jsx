@@ -1,8 +1,12 @@
 'use strict';
 
-import Input from '../materialize/input';
-import Textarea from '../materialize/textarea';
-import Submit from '../materialize/submit';
+// import Input from '../materialize/input';
+// import Textarea from '../materialize/textarea';
+// import Submit from '../materialize/submit';
+
+import TextField from '@material-ui/core/TextField';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Button from '@material-ui/core/Button';
 
 import Rating from '../theme/rating';
 
@@ -32,22 +36,14 @@ export default class CommentForm extends React.PureComponent {
     }
 
     state = {
-        title: this.props.isAskingForDeletion ? I18n.t('js.comment.form.title.deletion_reply') : this.props.title,
-        body: this.props.body,
+        title: (this.props.isAskingForDeletion ? I18n.t('js.comment.form.title.deletion_reply') : this.props.title) || '',
+        body: this.props.body || '',
         rating: this.props.rating
     };
 
-    componentDidMount() {
-        if (this.props.isAskingForDeletion) {
-            this._body.focus();
-        } else {
-            this._title.focus();
-        }
-    }
-
-    _handleFormChange = (name, value) => {
+    _handleFormChange = (name, event) => {
         this.setState({
-            [name]: typeof value === 'string' ? value.trim() : value
+            [name]: event.target ? event.target.value : event
         });
     };
 
@@ -82,69 +78,78 @@ export default class CommentForm extends React.PureComponent {
 
     render() {
         return (
-            <div className="row">
+            <div className="row comment-form">
                 <div className="col s12">
                     <div className={classNames('card-panel', {'comment-form-owner': this.props.isOwner})}>
-                        <span className="card-title comment-form-title">
+                        <div className="card-title comment-form-title">
                             {this.props.formTitle}
-                        </span>
-
-                        <span className="comment-form-explanation hide-on-small-and-down">
-                            {I18n.t('js.comment.form.explanation')}
-                            <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
-                                {I18n.t('js.comment.form.syntax')}
-                            </a>
-                        </span>
+                        </div>
 
                         <form id="comment-form"
-                              className="comment-form"
                               acceptCharset="UTF-8"
                               noValidate="novalidate"
                               onSubmit={this._handleSubmit}>
-                            <Input ref={(title) => this._title = title}
-                                   id="comment-title"
-                                   title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.title_for_deletion') : I18n.t('js.comment.form.comment.title')}
-                                   autoComplete="off"
-                                   minLength={window.settings.comment_title_min_length}
-                                   maxLength={window.settings.comment_title_max_length}
-                                   characterCount={window.settings.comment_title_max_length}
-                                   onChange={this._handleFormChange.bind(this, 'title')}>
-                                {this.props.title}
-                            </Input>
+                            <TextField style={{margin: 8}}
+                                       fullWidth={true}
+                                       autoFocus={true}
+                                       autoComplete="off"
+                                       label={this.props.isAskingForDeletion
+                                           ?
+                                           I18n.t('js.comment.form.comment.title_for_deletion')
+                                           :
+                                           I18n.t('js.comment.form.comment.title')}
+                                       variant="outlined"
+                                       value={this.state.title}
+                                       onChange={this._handleFormChange.bind(this, 'title')}/>
                             {
-                                this.state.title && (this.state.title.length < window.settings.comment_body_min_length || this.state.title.length > window.settings.comment_title_max_length) &&
-                                <span className="comment-form-error">
+                                this.state.title && (this.state.title.length < window.settings.comment_title_min_length || this.state.title.length > window.settings.comment_title_max_length) &&
+                                <FormHelperText id="component-error-text"
+                                                className="comment-form-error">
                                     {
                                         I18n.t('js.comment.errors.title.size', {
                                             min: window.settings.comment_title_min_length,
                                             max: window.settings.comment_title_max_length
                                         })
                                     }
-                                </span>
+                                </FormHelperText>
                             }
 
-                            <Textarea ref={(body) => this._body = body}
-                                      id="comment-body"
-                                      className="margin-top-30"
-                                      title={this.props.isAskingForDeletion ? I18n.t('js.comment.form.comment.body_for_deletion') : I18n.t('js.comment.form.comment.body')}
-                                      isRequired={true}
-                                      minLength={window.settings.comment_body_min_length}
-                                      maxLength={window.settings.comment_body_max_length}
-                                      characterCount={window.settings.comment_body_max_length}
-                                      onChange={this._handleFormChange.bind(this, 'body')}>
-                                {this.props.body}
-                            </Textarea>
+                            <TextField multiline={true}
+                                       style={{margin: 8}}
+                                       className="margin-top-30"
+                                       rowsMax="4"
+                                       fullWidth={true}
+                                       autoFocus={true}
+                                       required={true}
+                                       autoComplete="off"
+                                       label={this.props.isAskingForDeletion
+                                           ?
+                                           I18n.t('js.comment.form.comment.body_for_deletion')
+                                           :
+                                           I18n.t('js.comment.form.comment.body')}
+                                       variant="outlined"
+                                       value={this.state.body}
+                                       onChange={this._handleFormChange.bind(this, 'body')}/>
+
                             {
                                 this.state.body && (this.state.body.length < window.settings.comment_body_min_length || this.state.body.length > window.settings.comment_body_max_length) &&
-                                <span className="comment-form-error">
+                                <FormHelperText id="component-error-text"
+                                                className="comment-form-error">
                                     {
                                         I18n.t('js.comment.errors.body.size', {
                                             min: window.settings.comment_body_min_length,
                                             max: window.settings.comment_body_max_length
                                         })
                                     }
-                                </span>
+                                </FormHelperText>
                             }
+
+                            <span className="comment-form-explanation hide-on-small">
+                                {I18n.t('js.comment.form.explanation')}
+                                <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
+                                    {I18n.t('js.comment.form.syntax')}
+                                </a>
+                            </span>
 
                             {
                                 this.props.isRated && !this.props.isAskingForDeletion &&
@@ -152,7 +157,7 @@ export default class CommentForm extends React.PureComponent {
                                     <Rating initialRating={this.props.rating}
                                             isReadOnly={false}
                                             hasInput={true}
-                                            inputId="comment_rating"
+                                            inputId="comment-rating"
                                             labelName={I18n.t('js.comment.form.comment.notation')}
                                             onChange={this._handleFormChange.bind(this, 'rating')}/>
                                 </div>
@@ -167,10 +172,11 @@ export default class CommentForm extends React.PureComponent {
                                 </div>
 
                                 <div className="col s6 right-align">
-                                    <Submit id="comment-submit"
+                                    <Button color="primary"
+                                            variant="contained"
                                             onClick={this._handleSubmit}>
                                         {I18n.t('js.comment.form.submit')}
-                                    </Submit>
+                                    </Button>
                                 </div>
                             </div>
                         </form>

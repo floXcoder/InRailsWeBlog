@@ -20,6 +20,7 @@ class UserCompleteSerializer < ActiveModel::Serializer
              :articles_count
 
   has_one :tracker
+
   # has_many :activities, serializer: PublicActivitiesSerializer
   # has_many :articles, serializer: ArticleSampleSerializer
   # has_many :comments, serializer: CommentSerializer

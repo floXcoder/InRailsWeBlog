@@ -4,11 +4,6 @@
     margin-top: 8px;
   }
 
-  .card-content > .row,
-  .card-action > .row {
-    margin-bottom: 0;
-  }
-
   a {
     text-decoration: underline;
   }
@@ -85,36 +80,6 @@
     color: #767676;
     font-size: 1.1rem;
     font-weight: bold;
-  }
-
-  .connection-pro {
-    margin: 10px 0 20px;
-
-    .connection-pro-button {
-      text-decoration: none;
-
-      .material-icons {
-        font-size: 1.3rem;
-        margin-left: 5px;
-        vertical-align: middle;
-      }
-    }
-
-    .connection-pro-type {
-      display: none;
-      margin-bottom: 20px;
-      margin-top: 10px;
-
-      &.connection-pro-visible {
-        display: block;
-      }
-    }
-  }
-
-  .connection-checkbox {
-    & > .input-field {
-      margin-top: 0;
-    }
   }
 
   .btn {

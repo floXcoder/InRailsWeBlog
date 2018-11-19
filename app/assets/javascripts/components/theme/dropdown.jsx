@@ -25,7 +25,6 @@ export default class Dropdown extends React.Component {
         position: PropTypes.oneOf(POSITIONS),
         className: PropTypes.string,
         hasArrow: PropTypes.bool,
-        hasWavesEffect: PropTypes.bool,
         tooltip: PropTypes.string,
         isDefaultOpen: PropTypes.bool,
         isForceOpen: PropTypes.bool,
@@ -41,13 +40,11 @@ export default class Dropdown extends React.Component {
 
     static defaultProps = {
         isButton: true,
-        position: 'bottom left',
+        position: 'bottom center',
         hasArrow: false,
-        hasWavesEffect: true,
         isFixed: false,
         isDefaultOpen: false,
         isFloatingButton: false,
-        isRightSide: false,
         isClosingOnInsideClick: true,
         isHidingOnScroll: true
     };
@@ -57,8 +54,8 @@ export default class Dropdown extends React.Component {
 
         this._isMounted = true;
         this._buttonRef = null;
-        this._contentRef = null;
-        this._contentCoords = null;
+        this._popupRef = null;
+        this._popupCoords = null;
     }
 
     state = {
@@ -117,8 +114,8 @@ export default class Dropdown extends React.Component {
             style.right = 'auto';
         } else {
             // if not left nor right, we are horizontally centering the element
-            const xOffset = (this._buttonCoords.width - this._contentCoords.width) / 2;
-            style.left = Math.round(this._buttonCoords.left + xOffset + pageXOffset);
+            const xOffset = (this._buttonCoords.width - this._popupCoords.width) / 2;
+            style.left = Math.round(this._buttonCoords.left + xOffset + pageXOffset) - 15;
             style.right = 'auto';
         }
 
@@ -130,11 +127,11 @@ export default class Dropdown extends React.Component {
             style.bottom = 'auto';
         } else {
             // if not top nor bottom, we are vertically centering the element
-            const yOffset = (this._buttonCoords.height + this._contentCoords.height) / 2;
+            const yOffset = (this._buttonCoords.height + this._popupCoords.height) / 2;
             style.top = Math.round((this._buttonCoords.bottom + pageYOffset) - yOffset);
             style.bottom = 'auto';
 
-            const xOffset = this._contentCoords.width + 8;
+            const xOffset = this._popupCoords.width + 8;
             if (positions.includes('right')) {
                 style.right -= xOffset;
             } else {
@@ -169,8 +166,8 @@ export default class Dropdown extends React.Component {
         const element = {
             top: style.top,
             left: style.left,
-            width: this._contentCoords.width,
-            height: this._contentCoords.height,
+            width: this._popupCoords.width,
+            height: this._popupCoords.height,
         };
 
         if (Utils.isNumber(style.right)) {
@@ -202,9 +199,9 @@ export default class Dropdown extends React.Component {
 
     _setPopupStyle = () => {
         this._buttonCoords = this._buttonRef ? this._buttonRef.getBoundingClientRect() : null;
-        this._contentCoords = this._contentRef ? this._contentRef.getBoundingClientRect() : null;
+        this._popupCoords = this._popupRef ? this._popupRef.getBoundingClientRect() : null;
 
-        if (!this._buttonCoords || !this._contentCoords) {
+        if (!this._buttonCoords || !this._popupCoords) {
             return;
         }
 
@@ -255,7 +252,7 @@ export default class Dropdown extends React.Component {
 
     _handleDocumentClick = (event) => {
         if (this._isMounted && this._buttonRef) {
-            if (!this.props.isClosingOnInsideClick && this._contentRef.contains(event.target)) {
+            if (!this.props.isClosingOnInsideClick && this._popupRef.contains(event.target)) {
                 return;
             }
 
@@ -286,7 +283,7 @@ export default class Dropdown extends React.Component {
         const hasTooltip = !this.state.isOpen && !!this.props.tooltip;
 
         return (
-            <div>
+            <>
                 <div className={classNames(
                     this.props.className,
                     {
@@ -297,9 +294,7 @@ export default class Dropdown extends React.Component {
                         this.props.isButton
                             ?
                             <a className={classNames(this.props.buttonClassName, {
-                                'btn-flat': !this.props.isFloatingButton,
                                 'btn-floating': this.props.isFloatingButton,
-                                'waves-effect waves-spectra': this.props.hasWavesEffect
                             })}
                                ref={(buttonRef) => this._buttonRef = buttonRef}
                                href="#"
@@ -314,7 +309,7 @@ export default class Dropdown extends React.Component {
                 </div>
 
                 <Portal>
-                    <div ref={(contentRef) => this._contentRef = contentRef}
+                    <div ref={(contentRef) => this._popupRef = contentRef}
                          style={this.state.style}
                          className={classNames(this.state.position, 'dropdown-slider', {
                              'dropdown-slider-open': this.state.isOpen,
@@ -323,7 +318,7 @@ export default class Dropdown extends React.Component {
                         {this.props.children}
                     </div>
                 </Portal>
-            </div>
+            </>
         );
     }
 }

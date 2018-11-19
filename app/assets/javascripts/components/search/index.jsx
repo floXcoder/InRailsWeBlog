@@ -5,6 +5,17 @@ import {
 } from 'react-hot-loader';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+import SearchIcon from '@material-ui/icons/Search';
+
+import {
     getSearchContext,
     searchOnHistoryChange,
     setSelectedTag,
@@ -26,14 +37,20 @@ import SearchSelectedIndex from './index/selected';
 import SearchTagIndex from './index/tag';
 import SearchArticleIndex from './index/article';
 
+import ArticleBreadcrumbDisplay from '../articles/display/breadcrumb';
+
 import EnsureValidity from '../modules/ensureValidity';
 
-export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
+import styles from '../../../jss/search/index';
+
+export default @hot(module)
+
+@connect((state) => ({
     currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopicId,
+    currentUser: state.userState.user,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentTopic: state.topicState.currentTopic,
     query: state.searchState.query,
-    isSearching: state.searchState.isSearching,
     selectedTags: getSelectedTags(state),
     tagSuggestions: getTagSuggestions(state),
     articleSuggestions: getArticleSuggestions(state),
@@ -46,16 +63,16 @@ export default @connect((state) => ({
     fetchSearch,
     filterSearch
 })
-@hot(module)
+@withStyles(styles)
 class SearchIndex extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
-        // From connect
-        isUserConnected: PropTypes.bool,
+        // from connect
         currentUserId: PropTypes.number,
-        currentTopicId: PropTypes.number,
+        currentUser: PropTypes.object,
+        currentUserTopicId: PropTypes.number,
+        currentTopic: PropTypes.object,
         query: PropTypes.string,
-        isSearching: PropTypes.bool,
         selectedTags: PropTypes.array,
         tagSuggestions: PropTypes.array,
         articleSuggestions: PropTypes.array,
@@ -65,7 +82,9 @@ class SearchIndex extends React.Component {
         searchOnHistoryChange: PropTypes.func,
         setSelectedTag: PropTypes.func,
         fetchSearch: PropTypes.func,
-        filterSearch: PropTypes.func
+        filterSearch: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -129,7 +148,7 @@ class SearchIndex extends React.Component {
     _handleArticleClick = (article) => {
         spyTrackClick('article', article.id, article.slug, article.title);
 
-        this.props.history.push(`/article/${article.slug}`);
+        this.props.history.push(`/users/${article.user.slug}/articles/${article.slug}`);
     };
 
     _handleSubmit = (event) => {
@@ -156,72 +175,105 @@ class SearchIndex extends React.Component {
         this._request = this.props.fetchSearch({
             query: query,
             userId: this.props.currentUserId,
-            topicId: this.props.currentTopicId,
+            topicId: this.props.currentUserTopicId,
             tagIds: this.props.selectedTags.map((tag) => tag.id)
         });
     };
 
     render() {
         return (
-            <div className="search-index">
-                <div className="search-input">
-                    <div className="search-form">
-                        <form onSubmit={this._handleSubmit}>
-                            <EnsureValidity/>
-
-                            <div className="row margin-bottom-5">
-                                <div className="col s12 m8 l9 xl10">
-                                    <div className="input-field">
-                                <span className="material-icons prefix"
-                                      data-icon="search"
-                                      aria-hidden="true"/>
-                                        <input type="search"
-                                               placeholder={I18n.t('js.search.index.placeholder')}
-                                               autoFocus={true}
-                                               value={this.state.value}
-                                               onChange={this._handleChange}
-                                               onSubmit={this._handleSubmit}/>
-                                    </div>
-                                </div>
-
-                                <div className="col s12 m4 l3 xl2">
-                                    <div className="valign-wrapper">
-                                        <button className="btn search-form-submit"
-                                                onClick={this._handleSubmit}>
-                                            {I18n.t('js.search.index.button')}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+            <div className={this.props.classes.root}>
+                {
+                    (this.props.currentUser && this.props.currentTopic) &&
+                    <div className={this.props.classes.breadcrumb}>
+                        <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                                                  topic={this.props.currentTopic}/>
                     </div>
+                }
 
-                    {
-                        !Utils.isEmpty(this.props.selectedTags) &&
-                        <SearchSelectedIndex selectedTags={this.props.selectedTags}
-                                             className="article-category"
-                                             onTagClick={this._handleTagSelection}/>
-                    }
-                </div>
+                <form onSubmit={this._handleSubmit}>
+                    <EnsureValidity/>
 
-                <SearchSuggestionIndex articleSuggestions={this.props.articleSuggestions}
+                    <Grid container={true}
+                          spacing={32}
+                          direction="row"
+                          justify="center"
+                          alignItems="center">
+                        <Grid item={true}
+                              className={this.props.classes.inputItem}>
+                            <FormControl classes={{
+                                root: this.props.classes.inputForm
+                            }}>
+                                <Input classes={{
+                                    input: this.props.classes.inputInput
+                                }}
+                                       type="search"
+                                       autoFocus={true}
+                                       placeholder={I18n.t('js.search.index.placeholder')}
+                                       value={this.state.value}
+                                       onChange={this._handleChange}
+                                       onSubmit={this._handleSubmit}
+                                       startAdornment={
+                                           <InputAdornment position="start">
+                                               <SearchIcon/>
+                                           </InputAdornment>
+                                       }
+                                />
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item={true}>
+                            <Button color="primary"
+                                    variant="outlined"
+                                    onClick={this._handleSubmit}>
+                                {I18n.t('js.search.index.button')}
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+
+                {
+                    !Utils.isEmpty(this.props.selectedTags) &&
+                    <SearchSelectedIndex selectedTags={this.props.selectedTags}
+                                         className="article-category"
+                                         onTagClick={this._handleTagSelection}/>
+                }
+
+                <SearchSuggestionIndex classes={this.props.classes}
+                                       articleSuggestions={this.props.articleSuggestions}
                                        tagSuggestions={this.props.tagSuggestions}
                                        onSuggestionClick={this._handleSuggestionClick}/>
 
-                {
-                    !Utils.isEmpty(this.props.tags) &&
-                    <SearchTagIndex tags={this.props.tags}
-                                    isSearching={this.props.isSearching}
-                                    onTagClick={this._handleTagSelection}/>
-                }
+                <Grid container={true}
+                      spacing={32}
+                      direction="row-reverse"
+                      justify="space-between"
+                      alignItems="flex-start">
+                    {
+                        !Utils.isEmpty(this.props.tags) &&
+                        <Grid item={true}
+                              xs={12}
+                              sm={Utils.isEmpty(this.props.articles) ? 12 : 6}
+                              lg={Utils.isEmpty(this.props.articles) ? 12 : 3}>
+                            <SearchTagIndex classes={this.props.classes}
+                                            tags={this.props.tags}
+                                            onTagClick={this._handleTagSelection}/>
+                        </Grid>
+                    }
 
-                {
-                    !Utils.isEmpty(this.props.articles) &&
-                    <SearchArticleIndex articles={this.props.articles}
-                                        isSearching={this.props.isSearching}
-                                        onFilter={this._handleFilter}
-                                        onArticleClick={this._handleArticleClick}/>
-                }
+                    {
+                        !Utils.isEmpty(this.props.articles) &&
+                        <Grid item={true}
+                              xs={12}
+                              sm={Utils.isEmpty(this.props.tags) ? 12 : 6}
+                              lg={Utils.isEmpty(this.props.tags) ? 12 : 9}>
+                            <SearchArticleIndex classes={this.props.classes}
+                                                articles={this.props.articles}
+                                                onFilter={this._handleFilter}
+                                                onArticleClick={this._handleArticleClick}/>
+                        </Grid>
+                    }
+                </Grid>
             </div>
         );
     }

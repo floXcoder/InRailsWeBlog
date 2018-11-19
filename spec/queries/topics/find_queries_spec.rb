@@ -35,13 +35,13 @@ describe Topics::FindQueries, type: :query, basic: true do
       end
 
       it 'returns all public topics and user topics' do
-        topics = ::Topics::FindQueries.new.all({}, @user)
+        topics = ::Topics::FindQueries.new(@user).all({})
 
         expect(topics.count).to eq(Topic.everyone_and_user(@user.id).count)
       end
 
       it 'returns all user topics for a user id' do
-        topics = ::Topics::FindQueries.new.all({ user_id: @user.id }, @user)
+        topics = ::Topics::FindQueries.new(@user).all({ user_id: @user.id })
 
         expect(topics.count).to eq(Topic.from_user(@user.id, @user.id).count)
       end
@@ -53,7 +53,7 @@ describe Topics::FindQueries, type: :query, basic: true do
       end
 
       it 'returns all public topics and user topics' do
-        topics = ::Topics::FindQueries.new.all({}, @user, @admin)
+        topics = ::Topics::FindQueries.new(@user, @admin).all({})
 
         expect(topics.count).to eq(Topic.all.count)
       end

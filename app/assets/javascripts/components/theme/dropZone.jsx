@@ -32,7 +32,7 @@ export default class DropZone extends React.Component {
         onUploadRemove: PropTypes.func,
         defaultData: PropTypes.object,
         serverFiles: PropTypes.array,
-        onDeleteFile: PropTypes.func
+        // onDeleteFile: PropTypes.func
     };
 
     static defaultProps = {

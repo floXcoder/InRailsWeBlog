@@ -42,6 +42,11 @@ const manageError = (origin, error, url) => {
         return;
     }
 
+    // Error message display by handleFlashMessage function
+    if (error.headers && error.headers.get('X-Flash-Messages')) {
+        return;
+    }
+
     let errorContent = {
         url,
         origin
@@ -93,11 +98,26 @@ const handleParseErrors = (error, url) => {
         return;
     }
 
+    if (error.message === 'NetworkError when attempting to fetch resource.') {
+        error.message = I18n.t('js.helpers.errors.network');
+    }
+
     manageError('communication', error, url);
 
     return {
         errors: error.message
     };
+};
+
+const handleMetaTags = (response) => {
+    let metaTags = response.headers.get('X-Meta-Tags');
+
+    if (metaTags) {
+        metaTags = JSON.parse(decodeURIComponent(escape(metaTags)));
+        Head.define(metaTags);
+    }
+
+    return response;
 };
 
 const handleFlashMessage = (response) => {
@@ -153,6 +173,7 @@ const api = {
             signal
         })
             .then((response) => handleResponseErrors(response, urlParams))
+            .then((response) => handleMetaTags(response))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
             .then(

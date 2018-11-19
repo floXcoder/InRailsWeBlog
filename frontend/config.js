@@ -7,6 +7,7 @@ module.exports = {
         context: './app/assets',
         entries: {
             home: ['./javascripts/pages/home/home.jsx'],
+            user: ['./javascripts/pages/home/user.jsx'],
             'errors/error': ['./javascripts/pages/errors/error.jsx'],
             // 'users/show': ['./javascripts/pages/users/show.jsx'],
             // 'users/edit': ['./javascripts/pages/users/edit.jsx'],
@@ -34,7 +35,6 @@ module.exports = {
         },
         rules: {
             javascript: {
-                exclude: /node_modules\/(?!(materialize-css)\/).*/,
                 options: {
                     babelrc: true,
                     cacheDirectory: true
@@ -62,8 +62,8 @@ module.exports = {
                     pngquant: {
                         quality: '65-90',
                         speed: 4
-                    },
-                },
+                    }
+                }
             }
         },
         alias: {
@@ -77,7 +77,6 @@ module.exports = {
             jquery: 'jquery',
             "window.$": 'jquery',
             "window.jQuery": 'jquery',
-            M: 'materialize-css',
             log: 'loglevel',
             React: 'react',
             ReactDOM: 'react-dom',
@@ -98,6 +97,17 @@ module.exports = {
         development: {
             assetPath: 'http://localhost:8080/assets/',
             filename: '[name]',
+            chunkFilename: '[name]',
+            watchPath: [
+                'app/controllers/**/*',
+                'app/queries/**/*',
+                'app/serializers/**/*',
+                'app/views/**/*'
+            ]
+        },
+        test: {
+            assetPath: 'http://localhost:3020/assets/',
+            filename: '[name]',
             chunkFilename: '[name]'
         },
         production: {
@@ -105,18 +115,6 @@ module.exports = {
             filename: '[name].[hash]',
             chunkFilename: '[name].[hash].[id]',
             manifestFilename: 'rev-manifest.json'
-        },
-        browserSync: {
-            proxy: {
-                target: 'localhost:3002',
-                reqHeaders: function () {
-                    return {
-                        host: 'localhost:3000'
-                    };
-                }
-            },
-            notify: false,
-            open: false
         },
         clean: {
             pathsToClean: [

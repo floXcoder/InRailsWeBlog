@@ -39,6 +39,7 @@ class Picture < ApplicationRecord
   belongs_to :imageable,
              polymorphic: true,
              touch: true,
+             optional: true,
              counter_cache: true
 
   # == Validations ==========================================================

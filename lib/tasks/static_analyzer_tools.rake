@@ -25,7 +25,7 @@ namespace :InRailsWeBlog do
       Rails.env = 'test'
 
       require 'rubocop'
-      cli = RuboCop::CLI.new
+      cli         = RuboCop::CLI.new
       output_file = Rails.root.join('static_analysis', 'rubocop.html')
       cli.run(%W[--rails --format html -o #{output_file} --display-cop-names --extra-details --fail-level warning --except Style,Metrics])
     end
@@ -45,16 +45,17 @@ namespace :InRailsWeBlog do
       ENV['COVERAGE'] = 'true'
 
       RSpec::Core::RakeTask.new(:spec) do |t|
-        t.pattern = Dir.glob('spec/**/*_spec.rb')
+        t.pattern    = Dir.glob('spec/**/*_spec.rb')
         t.rspec_opts = '--options .rspec_coverage'
+        t.rspec_opts << ' --tag basic'
       end
 
       begin
         Rake.application.invoke_task('spec')
       ensure
         generated_file = "#{Rails.root}/static_analysis/index.html"
-        output_file = Rails.root.join('static_analysis', 'basic_code_coverage.html')
-        %x(mv #{Rails.root}/static_analysis/index.html #{output_file}) if File.exist?(generated_file)
+        output_file    = Rails.root.join('static_analysis', 'basic_code_coverage.html')
+        %x(mv #{Rails.root}/static_analysis/rspec_results.html #{output_file}) if File.exist?(generated_file)
       end
     end
 
@@ -67,19 +68,17 @@ namespace :InRailsWeBlog do
       ENV['COVERAGE'] = 'true'
 
       RSpec::Core::RakeTask.new(:spec) do |t|
-        t.pattern = Dir.glob('spec/**/*_spec.rb')
-        t.rspec_opts = ' --require rails_helper'
-        t.rspec_opts << ' --format h'
+        t.pattern    = Dir.glob('spec/**/*_spec.rb')
+        t.rspec_opts = '--options .rspec_coverage'
         t.rspec_opts << ' --tag advanced'
-        t.rspec_opts << ' --out static_analysis/advanced_rspec.html'
       end
 
       begin
         Rake.application.invoke_task('spec')
       ensure
         generated_file = "#{Rails.root}/static_analysis/index.html"
-        output_file = Rails.root.join('static_analysis', 'advanced_code_coverage.html')
-        %x(mv #{Rails.root}/static_analysis/index.html #{output_file}) if File.exist?(generated_file)
+        output_file    = Rails.root.join('static_analysis', 'advanced_code_coverage.html')
+        %x(mv #{Rails.root}/static_analysis/rspec_results.html #{output_file}) if File.exist?(generated_file)
       end
     end
 

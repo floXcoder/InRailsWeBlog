@@ -62,12 +62,12 @@ describe('Users actions', () => {
         it('should initialize user', () => {
             const user = FactoryGenerator.create('users');
 
-            mock(`/api/v1/users/${user.id}.json?userProfile=true`, 200, () => ({
+            mock(`/api/v1/users/${user.id}.json?profile=true`, 200, () => ({
                     user: user
                 })
             );
 
-            return dispatch(store, UserActions.initUser(user.id, {userProfile: true}))
+            return dispatch(store, UserActions.initUser(user.id, {profile: true}))
                 .then((state) => {
                     expect(UserSelectors.getUser(state).id).toEqual(user.id);
                     expect(UserSelectors.getUser(state).email).toEqual(user.email);
@@ -148,7 +148,7 @@ describe('Users actions', () => {
 
             return dispatch(store, UserActions.updateUserSettings(user.id))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('grid');
+                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('card');
                 });
         });
     });

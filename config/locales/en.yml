@@ -5,7 +5,7 @@ en:
   views:
     home:
       title: "InRailsWeBlog"
-      description: "InRailsWeBlog: advanced blog"
+      description: "InRailsWeBlog blog"
     user:
       flash:
         successful_edition: "Profile updated"
@@ -46,13 +46,37 @@ en:
         title: "All users"
         description: "Users list"
       show:
-        title: "%{pseudo}: My activities"
-        description: "My activities"
+        title: "%{pseudo}"
+        description: "User articles: %{pseudo}"
       edit:
         title: "Edit my profil"
       bookmarks:
         title: "%{pseudo}: My bookmarks"
         description: "%{pseudo}: My bookmarks"
+    topic:
+      flash:
+        successful_creation: "Topic added"
+        error_creation: "Cannot create the topic, please correct the errors"
+        successful_edition: "Topic updated"
+        error_edition: "Cannot update the topic!"
+        successful_deletion: "Topic deleted"
+        error_deletion: "Problem during topic deletion: %{errors}"
+    tag:
+      flash:
+        successful_creation: "Tag added"
+        error_creation: "Cannot create the tag, please correct the errors"
+        successful_edition: "Tag updated"
+        error_edition: "Cannot update the tag!"
+        successful_priority_update: "Tags order changed"
+        error_priority_update: "Cannot change tags order"
+        successful_deletion: "Article has been removed"
+        error_deletion: "Cannot delete article: %{errors}"
+      index:
+        title: "User tags: %{user}"
+      show:
+        title: "Tag: %{name}"
+      edit:
+        title: "Tag edition: %{name}"
     article:
       flash:
         not_found: "Article not found"
@@ -63,32 +87,19 @@ en:
         error_edition: "Cannot update the article!"
         successful_priority_update: "Articles order changed"
         error_priority_update: "Cannot change articles order"
-        successful_deletion: "Article deleted."
+        successful_deletion: "Article deleted"
         error_deletion: "Problem during article deletion: %{errors}"
         successful_undeletion: "Article restored"
+      index:
+        title:
+          default: "Articles list"
+          tagged: "Articles for %{tag}"
+          topic: "Articles of %{topic}"
       show:
-        title: "Article: %{title}"
+        title: "%{title}"
       edit:
         title: "Article edition: %{title}"
         description: "Article edition: %{title}"
-    topic:
-      flash:
-        successful_creation: "Topic added"
-        error_creation: "Cannot create the topic, please correct the errors"
-        successful_edition: "Topic updated"
-        error_edition: "Cannot update the topic!"
-    tag:
-      flash:
-        successful_creation: "Tag added"
-        error_creation: "Cannot create the tag, please correct the errors"
-        successful_edition: "Tag updated"
-        error_edition: "Cannot update the tag!"
-        successful_priority_update: "Tags order changed"
-        error_priority_update: "Cannot change tags order"
-        successful_deletion: "Article has been removed."
-        error_deletion: "Cannot delete article: %{errors}"
-      show:
-        title: "Label : %{name}"
     picture:
       flash:
         successful_deletion: "Picture removed"
@@ -108,6 +119,9 @@ en:
         title: "Log in (Admin)"
       dashboard:
         title: "Admin"
+    search:
+      index:
+        title: "Votre recherche : %{query}"
     errors:
       flash:
         successful_deletion: "Error removed"
@@ -222,6 +236,7 @@ en:
           has_many: "Cannot delete record because dependent %{record} exist"
       models:
         article:
+          pertinent_tags: "Tags must be the same type than the topic (either public or private)"
           bad_topic_owner: "The topic is not the same than the user"
           prevent_revert_to_draft: "A public article cannot be a draft"
         article_relationship:
@@ -458,7 +473,7 @@ en:
       short: "%d %b %H:%M"
       custom: "%d %b at %H:%M"
       custom_date: "%d %b"
-      custom_full_date: "%d %B"
+      custom_full_date: "%d %B %Y"
       custom_begin: "From %d %b at %Hh%M"
       custom_end: "To %d %b at %Hh%M"
     pm: "pm"

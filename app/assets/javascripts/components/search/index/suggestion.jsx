@@ -1,6 +1,6 @@
 'use strict';
 
-export default class SearchSuggestionIndex extends React.Component {
+export default class SearchSuggestionIndex extends React.PureComponent {
     static propTypes = {
         articleSuggestions: PropTypes.array.isRequired,
         tagSuggestions: PropTypes.array.isRequired,

@@ -4,6 +4,8 @@ import {
     Link
 } from 'react-router-dom';
 
+import Button from '@material-ui/core/Button';
+
 import {
     SortableContainer,
     SortableElement,
@@ -12,17 +14,19 @@ import {
 
 import ArticleCardSort from './card';
 
-const SortableItem = SortableElement(({article}) => (
-        <ArticleCardSort article={article}/>
+const SortableItem = SortableElement(({classes, article}) => (
+        <ArticleCardSort classes={classes}
+                         article={article}/>
     )
 );
 
-const SortableList = SortableContainer(({articles}) => (
-        <div className="article-sorting-items">
+const SortableList = SortableContainer(({classes, articles}) => (
+        <div className={classes.sortingItems}>
             {
                 articles.map((article, i) => (
                         <SortableItem key={`article-sort-${article.id}`}
                                       index={i}
+                                      classes={classes}
                                       article={article}/>
                     )
                 )
@@ -33,6 +37,7 @@ const SortableList = SortableContainer(({articles}) => (
 
 export default class ArticleSorter extends React.Component {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         // Articles must already be sorted by priority
         articles: PropTypes.array.isRequired,
         topicSlug: PropTypes.string.isRequired,
@@ -61,25 +66,29 @@ export default class ArticleSorter extends React.Component {
 
     render() {
         return (
-            <div className="article-sorting">
-                <div className="row article-sorting-buttons">
+            <div className={this.props.classes.sorting}>
+                <div className="row">
                     <div className="col s12 m6 center-align">
-                        <Link className="btn-flat waves-effect waves-teal"
-                              to={`/user/${this.props.topicSlug}`}>
+                        <Button color="default"
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={`/users/${this.props.topicSlug}`}>
                             {I18n.t('js.helpers.buttons.cancel')}
-                        </Link>
+                        </Button>
                     </div>
 
                     <div className="col s12 m6 center-align">
-                        <a className="btn waves-effect waves-spectra"
-                           href="#"
-                           onClick={this._handleSavePriority}>
+                        <Button color="primary"
+                                variant="outlined"
+                                onClick={this._handleSavePriority}>
                             {I18n.t('js.helpers.buttons.apply')}
-                        </a>
+                        </Button>
                     </div>
                 </div>
 
-                <SortableList articles={this.state.articles}
+                <SortableList classes={this.props.classes}
+                              articles={this.state.articles}
                               useWindowAsScrollContainer={true}
                               onSortEnd={this._handleSortEndProduct}/>
             </div>

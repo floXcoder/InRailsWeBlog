@@ -79,7 +79,7 @@ describe('Comments actions', () => {
             const comment = FactoryGenerator.create('comments');
             const updateParameters = {title: 'Updated comment title'};
 
-            mock(`/api/v1/article/1/comments/${comment.id}`, 200, (request) => ({
+            mock(`/api/v1/article/1/comments`, 200, (request) => ({
                     comment: {...comment, ...request.comment}
                 })
             );
@@ -96,7 +96,7 @@ describe('Comments actions', () => {
         it('should delete a comment', () => {
             const comment = FactoryGenerator.create('comments');
 
-            mock(`/api/v1/article/1/comments/${comment.id}`, 202, () => ({
+            mock(`/api/v1/article/1/comments`, 202, () => ({
                     deletedCommentIds: [comment.id]
                 })
             );

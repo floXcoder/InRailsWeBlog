@@ -24,11 +24,10 @@ class CommentIndex extends React.Component {
         userId: PropTypes.number,
         isShowingLast: PropTypes.bool,
         filters: PropTypes.object,
-        commentTotalPages: PropTypes.number,
         isPaginated: PropTypes.bool,
         onPaginationClick: PropTypes.func,
         isTable: PropTypes.bool,
-        // From connect
+        // from connect
         hasInitialComments: PropTypes.bool,
         isLoading: PropTypes.bool,
         comments: PropTypes.array,

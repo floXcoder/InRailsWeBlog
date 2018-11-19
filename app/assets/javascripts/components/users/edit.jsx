@@ -1,20 +1,16 @@
 'use strict';
 
-import Form from '../materialize/form';
-import Input from '../materialize/input';
-import Textarea from '../materialize/textarea';
-import Checkbox from '../materialize/checkbox';
-import File from '../materialize/file';
-import Submit from '../materialize/submit';
+// import Form from '../materialize/form';
+// import Input from '../materialize/input';
+// import Textarea from '../materialize/textarea';
+// import Checkbox from '../materialize/checkbox';
+// import File from '../materialize/file';
+// import Submit from '../materialize/submit';
 
 export default class UserEdit extends React.Component {
     static propTypes = {
-        userId: PropTypes.string,
-        params: PropTypes.object
-    };
-
-    static defaultProps = {
-        params: {}
+        // userId: PropTypes.string,
+        // params: PropTypes.object
     };
 
     constructor(props) {

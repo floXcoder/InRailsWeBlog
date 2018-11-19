@@ -14,10 +14,6 @@ class AccordionItem extends React.Component {
         onHeaderClick: PropTypes.func
     };
 
-    static defaultProps = {
-        isOpen: true
-    };
-
     constructor(props) {
         super(props);
     }

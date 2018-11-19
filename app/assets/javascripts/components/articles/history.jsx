@@ -5,8 +5,8 @@ import {
 } from 'react-hot-loader';
 
 import {
-    Link
-} from 'react-router-dom';
+    withStyles
+} from '@material-ui/core/styles';
 
 import {
     fetchArticle,
@@ -15,6 +15,8 @@ import {
 } from '../../actions';
 
 import {
+    getCurrentUserTopic,
+    getCurrentUser,
     getArticleVersions
 } from '../../selectors';
 
@@ -22,12 +24,17 @@ import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
 
+import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleCardDisplay from './display/card';
 import ArticleVersionsDisplay from './display/versions';
 
-export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
-    isFetching: state.articleState.isFetching,
+import styles from '../../../jss/article/history';
+
+export default @hot(module)
+
+@connect((state) => ({
+    currentUser: getCurrentUser(state),
+    currentTopic: getCurrentUserTopic(state),
     article: state.articleState.article,
     articleVersions: getArticleVersions(state)
 }), {
@@ -36,19 +43,23 @@ export default @connect((state) => ({
     restoreArticle
 })
 @highlight(true)
-@hot(module)
+@withStyles(styles)
 class ArticleHistory extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
-        // From connect
-        isFetching: PropTypes.bool,
+        // from connect
+        currentUser: PropTypes.object,
+        currentTopic: PropTypes.object,
         article: PropTypes.object,
         articleVersions: PropTypes.array,
-        isUserConnected: PropTypes.bool,
         fetchArticle: PropTypes.func,
         fetchArticleHistory: PropTypes.func,
-        restoreArticle: PropTypes.func
+        restoreArticle: PropTypes.func,
+        // from highlight
+        // onShow: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -70,7 +81,7 @@ class ArticleHistory extends React.Component {
         this.props.restoreArticle(articleId, versionId)
             .then((response) => {
                 if (response.article) {
-                    return this.props.history.push(`/article/${response.article.slug}`);
+                    return this.props.history.push(`/users/${response.article.user.slug}/articles/${response.article.slug}`);
                 }
             });
     };
@@ -85,7 +96,13 @@ class ArticleHistory extends React.Component {
         }
 
         return (
-            <div className="articles-history">
+            <div className={this.props.classes.history}>
+                <div className={this.props.classes.breadcrumb}>
+                    <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                                              topic={this.props.currentTopic}
+                                              article={this.props.article}/>
+                </div>
+
                 <ArticleCardDisplay article={this.props.article}
                                     hasActions={false}/>
 

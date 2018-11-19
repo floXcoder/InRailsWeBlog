@@ -10,7 +10,7 @@ export const SettingsRecord = new Record({
     articlesLoader: 'infinite',
     articleDisplay: 'card',
     articleOrder: undefined,
-    articleChildTagged: false,
+    tagParentAndChild: false,
     tagSidebarPin: false,
     tagSidebarWithChild: false,
     tagOrder: undefined,
@@ -38,10 +38,11 @@ export class UserRecord extends Record({
     tracker: undefined,
     settings: new SettingsRecord()
 }) {
-    constructor({settings, ...props} = {}) {
+    constructor({settings, topics, ...props} = {}) {
         super({
             ...props,
-            settings: new SettingsRecord(settings)
+            settings: new SettingsRecord(settings),
+            topics: List(topics).map(topic => new TopicRecord(topic))
         })
     }
 }
@@ -70,11 +71,13 @@ export class TopicRecord extends Record({
     viewsCount: undefined,
     clicksCount: undefined,
     searchesCount: undefined,
+    settings: new SettingsRecord(),
     tags: List()
 }) {
-    constructor({tags, ...props} = {}) {
+    constructor({settings, tags, ...props} = {}) {
         super({
             ...props,
+            settings: new SettingsRecord(settings),
             tags: List(tags).map(tag => new TagRecord(tag))
         })
     }
@@ -127,9 +130,12 @@ export class ArticleRecord extends Record({
     draft: undefined,
     currentLanguage: undefined,
     languages: undefined,
+    language: undefined,
     visibility: undefined,
     visibilityTranslated: undefined,
+    defaultPicture: undefined,
     slug: undefined,
+    picture_ids: undefined,
     bookmarked: false,
     outdated: false,
     votesUp: undefined,
@@ -203,5 +209,6 @@ export const BookmarkRecord = new Record({
     bookmarkedType: undefined,
     follow: undefined,
     name: undefined,
+    parentSlug: undefined,
     slug: undefined
 });

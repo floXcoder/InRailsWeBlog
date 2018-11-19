@@ -4,14 +4,19 @@ import {
     Link
 } from 'react-router-dom';
 
+import Chip from '@material-ui/core/Chip';
+
+import LabelIcon from '@material-ui/icons/Label';
+
 import {
     spyTrackClick
 } from '../../../actions';
 
 export default class SearchTagModule extends React.Component {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         tags: PropTypes.array.isRequired,
-        isSearching: PropTypes.bool.isRequired,
+        hasQuery: PropTypes.bool.isRequired,
         onTagClick: PropTypes.func.isRequired,
         selectedTags: PropTypes.array,
         highlightedTagIndex: PropTypes.number
@@ -25,38 +30,40 @@ export default class SearchTagModule extends React.Component {
         super(props);
     }
 
+    _handleTagClick = (tag, event) => {
+        spyTrackClick('tag', tag.id, tag.slug, tag.name);
+
+        this.props.onTagClick(tag);
+    };
+
     render() {
         return (
-            <div className="search-category">
-                <h2>
+            <div className={this.props.classes.category}>
+                <h2 className={this.props.classes.categoryName}>
                     {I18n.t('js.search.module.tags.title')}
+                    {
+                        this.props.hasQuery &&
+                        <span className={this.props.classes.categoryCount}>
+                            {I18n.t('js.search.module.tags.recents')}
+                        </span>
+                    }
                 </h2>
 
-                <div className="tag-list">
+                <div>
                     {
-                        this.props.tags.limit(12).map((tag, i) => (
-                            <span key={tag.id}
-                                  className={classNames('tag', {
-                                      'tag-selected': this.props.selectedTags.includes(tag),
-                                      'tag-highlighted': this.props.highlightedTagIndex === i
+                        this.props.tags.map((tag, i) => (
+                            <Chip key={tag.id}
+                                  className={classNames(this.props.classes.tag, {
+                                      [this.props.classes.tagSelected]: this.props.selectedTags.includes(tag),
+                                      [this.props.classes.tagHighlighted]: this.props.highlightedTagIndex === i
                                   })}
-                                  onClick={this.props.onTagClick.bind(null, tag)}>
-                                <span className="material-icons tag-icon"
-                                      data-icon="label"
-                                      aria-hidden="true"/>
-
-                                <span className="tag-name">
-                                    {tag.name}
-                                </span>
-
-                                <Link className="tag-link"
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
-                                      to={`/tagged/${tag.slug}`}>
-                                    <span className="material-icons"
-                                          data-icon="open_in_new"
-                                          aria-hidden="true"/>
-                                </Link>
-                            </span>
+                                  icon={<LabelIcon/>}
+                                  label={tag.name}
+                                  color="primary"
+                                  variant="outlined"
+                                  component={Link}
+                                  to={`/tagged/${tag.slug}`}
+                                  onClick={this._handleTagClick.bind(this, tag)}/>
                         ))
                     }
                 </div>

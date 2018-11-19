@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: topics
@@ -21,6 +20,7 @@
 #  deleted_at               :datetime
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  settings                 :jsonb            not null
 #
 
 class TopicSerializer < ActiveModel::Serializer
@@ -33,8 +33,9 @@ class TopicSerializer < ActiveModel::Serializer
              :priority,
              :visibility,
              :visibility_translated,
-             :slug,
-             :updated_at
+             :updated_at,
+             :settings,
+             :slug
 
   has_many :tags, if: -> { instance_options[:with_tags] }, serializer: TagSerializer do
     Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')

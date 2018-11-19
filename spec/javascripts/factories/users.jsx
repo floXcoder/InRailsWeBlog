@@ -15,7 +15,7 @@ module.exports = (props = {}) => ({
     lastSignInAt: props.defined ? '05-05-2017' : faker.date.past().toDateString(),
     articlesCount: props.defined ? 5 : Math.random() * 10 | 0,
     avatarUrl: props.defined ? '/assets/users/avatar.png' : faker.image.imageUrl(),
-    slug: `/user/${props.id}`,
+    slug: `/users/${props.id}`,
 
     settings: {belongsTo: 'settings'}
 });

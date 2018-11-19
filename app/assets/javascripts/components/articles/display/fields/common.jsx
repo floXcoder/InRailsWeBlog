@@ -4,43 +4,41 @@ import {
     Field
 } from 'redux-form/immutable';
 
-import TextField from '../../../materialize/form/text';
-import EditorField from '../../../editor/form/editor';
-import CategorizedField from '../../../materialize/form/categorized';
-import CheckBoxField from '../../../materialize/form/checkbox';
+import {
+    withStyles
+} from '@material-ui/core/styles';
 
-export default class ArticleCommonField extends React.Component {
+import EditorField from '../../../editor/form/editor';
+
+import TextFieldForm from '../../../material-ui/form/text';
+
+import styles from '../../../../../jss/article/form/common';
+
+export default @withStyles(styles)
+
+class ArticleCommonField extends React.Component {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,
+        change: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        multipleId: PropTypes.number,
         article: PropTypes.object,
-        availableTags: PropTypes.array,
-        parentTags: PropTypes.array,
-        childTags: PropTypes.array,
-        isDraft: PropTypes.bool,
-        onInputsChange: PropTypes.func,
-        onIsLinkChange: PropTypes.func
+        // from styles
+        classes: PropTypes.object
     };
 
     static defaultProps = {
         article: {},
-        availableTags: [],
-        multipleId: 0
     };
 
     constructor(props) {
         super(props);
 
         this._editor = null;
+        this._pictureIds = null;
     }
 
     state = {
-        isEditorCodeView: false,
-        hasChildTagFocus: false,
-        parentTags: [],
-        childTags: [],
-        pictureIds: undefined
+        isEditorCodeView: false
     };
 
     _handleEditorLoaded = (editor) => {
@@ -48,9 +46,7 @@ export default class ArticleCommonField extends React.Component {
     };
 
     _handleImageUploaded = (image) => {
-        this.setState({
-            pictureIds: this.state.pictureIds ? this.state.pictureIds.split(',').concat(image.id).join(',') : image.id.toString()
-        });
+        this.props.change('picture_ids', this._pictureIds ? this._pictureIds.split(',').concat(image.id).join(',') : image.id.toString());
     };
 
     _handleTitleBlur = (event) => {
@@ -79,37 +75,22 @@ export default class ArticleCommonField extends React.Component {
         })
     };
 
-    _handleSwitchTag = () => {
-        this.setState({
-            hasChildTagFocus: !this.state.hasChildTagFocus
-        });
-    };
-
-    _handleParentTagChange = (event, tags) => {
-        this.setState({
-            parentTags: tags
-        });
-    };
-
     render() {
         return (
-            <div className="row">
+            <div className={classNames(this.props.classes.root, 'row')}>
                 {
                     this.props.currentMode === 'story' &&
                     <div className="col s12">
-                        <div className="form-editor-title">
-                            {I18n.t('js.article.model.title')}
-                        </div>
-                        <Field id="article_title"
-                               multipleId={this.props.multipleId}
-                               name="title"
-                               icon="create"
-                               placeholder={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
-                               characterCount={window.settings.article_title_max_length}
+                        <Field name="title"
+                               component={TextFieldForm}
+                               className={this.props.classes.title}
+                               id="article_title"
+                               label={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
+                               autoFocus={true}
+                               required={true}
+                               color="primary"
                                onBlur={this._handleTitleBlur}
-                               onKeyPress={this._handleTitleKeyPress}
-                               component={TextField}
-                               componentContent={this.props.article.title}/>
+                               onKeyPress={this._handleTitleKeyPress}/>
                     </div>
                 }
 
@@ -119,26 +100,21 @@ export default class ArticleCommonField extends React.Component {
                         <div className="form-editor-title">
                             {I18n.t('js.article.model.reference')}
                         </div>
-                        <Field id="article_reference"
-                               multipleId={this.props.multipleId}
-                               name="reference"
+                        <Field name="reference"
+                               id="article_reference"
                                icon="link"
-                               placeholder={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
+                               label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
                                characterCount={window.settings.article_title_max_length}
                                onBlur={this._handleTitleBlur}
-                               component={TextField}
-                               componentContent={this.props.article.reference}/>
+                               component={TextFieldForm}/>
                     </div>
                 }
 
                 <div className="col s12">
-                    <div className="form-editor-title">
-                        {I18n.t('js.article.model.content')}
-                    </div>
-                    <Field id="article_content"
-                           modelName="article"
+                    <Field name="content"
+                           id="article_content"
                            modelId={this.props.article.id}
-                           name="content"
+                           modelName="article"
                            placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
                            onLoaded={this._handleEditorLoaded}
                            isCodeView={this.state.isEditorCodeView}
@@ -147,58 +123,6 @@ export default class ArticleCommonField extends React.Component {
                            onSubmit={this.props.onSubmit}
                            component={EditorField}
                            componentContent={this.props.article.content}/>
-
-                    <Field id="article_pictures"
-                           type="hidden"
-                           multipleId={this.props.multipleId}
-                           name="picture_ids"
-                           component={TextField}
-                           componentContent={this.state.pictureIds}/>
-                </div>
-
-                <div className="col s12 xl6">
-                    <Field id="article_parent_tags"
-                           name="parent_tags"
-                           title={I18n.t('js.article.model.parent_tags')}
-                           placeholder={I18n.t('js.article.common.tags.parent')}
-                           addNewPlaceholder={I18n.t('js.article.common.tags.placeholder')}
-                           addNewText={I18n.t('js.article.common.tags.add')}
-                           isSortingCategoriesByAlpha={false}
-                           isHorizontal={true}
-                           titleClass="form-editor-title"
-                           categorizedTags={this.props.availableTags}
-                           transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
-                           onTabPress={this._handleSwitchTag}
-                           onSubmit={this.props.onSubmit}
-                           component={CategorizedField}
-                           componentContent={this.props.parentTags}/>
-                </div>
-
-                <div className="col s12 xl6">
-                    <Field id="article_child_tags"
-                           name="child_tags"
-                           title={I18n.t('js.article.model.child_tags')}
-                           placeholder={I18n.t('js.article.common.tags.child')}
-                           addNewPlaceholder={I18n.t('js.article.common.tags.placeholder')}
-                           addNewText={I18n.t('js.article.common.tags.add')}
-                           hasChildTagFocus={this.state.hasChildTagFocus}
-                           isSortingCategoriesByAlpha={false}
-                           isHorizontal={true}
-                           titleClass="form-editor-title"
-                           categorizedTags={this.props.availableTags}
-                           transformInitialTags={(tag) => ({category: tag.visibility, value: tag.name})}
-                           onSubmit={this.props.onSubmit}
-                           component={CategorizedField}
-                           componentContent={this.props.childTags}/>
-                </div>
-
-                <div className="col s12 center-align">
-                    <Field id="article_draft"
-                           name="draft"
-                           title={I18n.t('js.article.common.draft')}
-                           multipleId={this.props.multipleId}
-                           component={CheckBoxField}
-                           componentContent={this.props.isDraft || this.props.article.draft}/>
                 </div>
             </div>
         );

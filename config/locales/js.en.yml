@@ -50,6 +50,10 @@ en:
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
       home:
         loader: "Loading"
+        articles:
+          title: "Explore popular articles"
+        tags:
+          title: "Tags"
     user:
       model:
         pseudo: "Pseudo"
@@ -90,6 +94,14 @@ en:
         externals:
           google: "Signup with Google"
           facebook: "Signup with Facebook"
+      home:
+        private:
+          title: "Your private topics"
+          subtitle: "Write your private articles here (with your own tags)"
+        public:
+          title: "Your public topics"
+          subtitle: "Write your shared articles here (with public tags)"
+        add_topic: "Add a topic"
       index:
         link_to_user: "User details"
         search: "Find user"
@@ -157,14 +169,13 @@ en:
               inline: "On global article"
               card: "Independent cards"
               grid: "In grid"
-          child_tagged:
-            title: "Display child articles with parent tag"
         tag:
           title: "Tags"
           sidebar:
             title: "Sidebar"
             with_child: "Display tag children in main list"
             pin: "Sidebar open by default"
+          parent_and_child: "Display child articles with parent tag"
           order:
             title: "Tags order by default"
             mode:
@@ -172,6 +183,7 @@ en:
               priority: "Priority"
         search:
           title: "Search"
+          options: "Results"
           operator:
             title: "Operator"
             mode:
@@ -329,11 +341,13 @@ en:
             note: "New content"
             link: "Link description"
         tags:
-          default: "Add labels to article"
-          parent: "Main labels"
-          child: "Secondary labels"
-          placeholder: "Add label name"
-          add: "Add the label:"
+          default: "Add tags to article"
+          parent: "Main tags"
+          child: "Secondary tags"
+          placeholder: "Add tag name"
+          everyone: "Shared tags"
+          only_me: "Private tags"
+          add: "Add the tags:"
           none: "without tags"
         tooltips:
           title_too_short: "Title too short"
@@ -351,6 +365,7 @@ en:
           common: "Please correct errors before submitting"
       form:
         unsaved: "Leave without saving article?"
+        next: "Next"
       model:
         title: "Title"
         summary: "Summary"
@@ -367,9 +382,7 @@ en:
           true: "Enabled"
           false: "Disabled"
         topic: "Topic"
-        tagged_articles:
-          tag:
-            name: "Tag associated to the article"
+        tagged_articles: "Article tag"
       enums:
         visibility:
           everyone: "Public"
@@ -399,6 +412,9 @@ en:
         update: "Update"
         delete: "Remove this article"
         updated_at: "Last modification"
+      masonry:
+        add_column: "Add column"
+        remove_column: "Remove column"
       history:
         changed_at: "Version changed"
         restore: "Restore this version"
@@ -446,6 +462,8 @@ en:
       timeline:
         title: "New article:"
         no_articles: "No articles to display"
+      toc:
+        title: "Table of content"
       clipboard: "A draft article has been created with the data"
       errors:
         default: "Cannot create article! Please try again."
@@ -471,8 +489,10 @@ en:
         button: "Search"
         tags:
           title: "Tags"
+          recents: "(Recent tags)"
         articles:
           title: "Articles"
+          recents: "(Recent articles)"
       index:
         placeholder: "Search"
         button: "Trouver"
@@ -491,7 +511,7 @@ en:
         route: "comments"
         title: "Comments"
         empty: "Be the first to post your comment!"
-        no_opinion: "No users posted a comment yet"
+        no_opinion: "Be the first to write a response..."
         actions: "Actions"
         loading: "Loading comments..."
         no_data: "No comments to display"
@@ -642,9 +662,6 @@ en:
         show:
           title: "User details"
     form:
-      wizard:
-        previous: "Previous"
-        next: "Next"
       errors:
         text: "This field is required"
         alphanumeric: "Must contain only letters, numbers or dashes"
@@ -817,9 +834,10 @@ en:
         not_authorized: "You cannot access to this resource!"
         frontend: "An error occurred in the page, please refresh the page or go back"
         unprocessable: "Cannot process this element, incorrect data"
+        network: "NetworkError, please check your connection"
+        server: "A server error occurred, please retry later"
         boundary:
           title: "Cannot display the component"
           message: "Please reload the page."
           header: "Cannot display the header"
           footer: "Cannot display the footer"
-        server: "A server error occurred, please retry later"

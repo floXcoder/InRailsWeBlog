@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module Api::V1
-  class ActivitiesController < ApplicationController
+  class ActivitiesController < ApiController
+    skip_before_action :authenticate_user!
+
     before_action :authenticate_admin!
-    before_action :verify_requested_format!
 
     respond_to :json
 
@@ -21,7 +22,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           render json: activities,
-                 meta: meta_attributes(activities)
+                 meta: meta_pagination_attributes(activities)
         end
       end
     end

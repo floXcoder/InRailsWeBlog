@@ -2,13 +2,20 @@
 
 RSpec.configure do |config|
   config.before(:suite) do
-    # DatabaseCleaner.clean_with(:transaction)
     DatabaseCleaner.clean_with(:truncation)
 
     Searchkick.disable_callbacks
   end
 
-  config.before(:all, basic: true) do
+  config.before(:all) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:all, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:all) do
     DatabaseCleaner.start
   end
 
@@ -18,21 +25,19 @@ RSpec.configure do |config|
     Searchkick.disable_callbacks
   end
 
+  config.around(:each) do |example|
+    expect {
+      example.run
+    }.to_not raise_exception
+  end
+
   # config.before(:each, type: :feature) do
   #   resize_window_to_default
   # end
 
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
+  config.after(:each, js: true) do
     Warden.test_reset!
-    DatabaseCleaner.clean
-  end
-
-  config.after(:all, js: true) do
-    Warden.test_reset!
+    Capybara.current_session.driver.browser.manage.delete_all_cookies
     Capybara.reset_sessions!
   end
 

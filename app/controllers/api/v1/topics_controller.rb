@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Api::V1
-  class TopicsController < ApplicationController
-    before_action :authenticate_user!, except: [:index]
-    before_action :verify_requested_format!
+  class TopicsController < ApiController
+    skip_before_action :authenticate_user!, only: [:index]
+
     after_action :verify_authorized, except: [:index]
 
     include TrackerConcern
@@ -12,7 +12,7 @@ module Api::V1
 
     def index
       topics = Rails.cache.fetch("user_topics:#{params[:user_id] || current_user&.id}", expires_in: CONFIG.cache_time) do
-        ::Topics::FindQueries.new.all(filter_params.merge(user_id: params[:user_id]), current_user, current_admin)
+        ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
       end
 
       respond_to do |format|
@@ -25,7 +25,7 @@ module Api::V1
 
     def switch
       user  = User.friendly.find(params[:user_id])
-      topic = Topic.friendly.find(params[:new_topic_id])
+      topic = user.topics.friendly.find(params[:new_topic])
       authorize topic
 
       respond_to do |format|
@@ -114,10 +114,12 @@ module Api::V1
               user.save
             end
 
+            flash.now[:success] = I18n.t('views.topic.flash.successful_deletion')
             render json:       current_topic,
                    serializer: TopicSerializer,
                    status:     :ok
           else
+            flash.now[:error] = I18n.t('views.topic.flash.error_deletion', errors: topic.errors.to_s)
             render json:   { errors: topic.errors },
                    status: :unprocessable_entity
           end

@@ -5,6 +5,16 @@ import {
 } from 'react-router-dom';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -14,16 +24,21 @@ import {
 
 import ChildTag from './child';
 
+import styles from '../../../../jss/tag/sidebar';
+
 export default @connect((state) => ({
     currentTagSlugs: getCurrentTagSlugs(state)
 }))
+
+@withStyles(styles)
 class ParentTag extends React.Component {
     static propTypes = {
         tag: PropTypes.object.isRequired,
-        onTagClick: PropTypes.func.isRequired,
         isFiltering: PropTypes.bool,
-        // From connect
-        currentTagSlugs: PropTypes.array
+        // from connect
+        currentTagSlugs: PropTypes.array,
+        // from styles
+        classes: PropTypes.object
     };
 
     static defaultProps = {
@@ -56,8 +71,6 @@ class ParentTag extends React.Component {
                 });
             }
         }
-
-        this.props.onTagClick(tagId);
     };
 
     _handleTagIconClick = (event) => {
@@ -72,44 +85,49 @@ class ParentTag extends React.Component {
         const hasChild = !Utils.isEmpty(this.props.tag.children);
 
         return (
-            <div className="tag-parent">
-                {
-                    hasChild
-                        ?
-                        <span className="material-icons tag-parent-icon"
-                              data-icon={this.state.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
-                              aria-hidden="true"
-                              onClick={this._handleTagIconClick}/>
-                        :
-                        <div className="tag-parent-icon">
-                            &nbsp;
-                        </div>
-                }
+            <>
+                <ListItem button={true}
+                          component={Link}
+                          className={this.props.classes.label}
+                          to={`/tagged/${this.props.tag.slug}`}
+                          onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
+                    <ListItemText classes={{
+                        primary: classNames({
+                            [this.props.classes.selectedLabel]: this.props.currentTagSlugs.includes(this.props.tag.slug)
+                        })
+                    }}>
+                        {this.props.tag.name}
+                    </ListItemText>
 
-                <Link className={classNames('tag-parent-name', {
-                    'tag-selected': this.props.currentTagSlugs.includes(this.props.tag.slug)
-                })}
-                      to={`/tagged/${this.props.tag.slug}`}
-                      onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
-                    {this.props.tag.name}
-                </Link>
-
-
-                <div className={classNames('tag-parent-children', {
-                    'tag-parent-children-display': this.state.isExpanded
-                })}>
                     {
-                        this.props.tag.children.map((tag, i) => (
-                            <ChildTag key={i}
-                                      tag={tag}
-                                      parentTagSlug={this.props.tag.slug}
-                                      isExpanded={this.state.isExpanded}
-                                      currentTagSlugs={this.props.currentTagSlugs}
-                                      onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.slug, false)}/>
-                        ))
+                        hasChild && (this.state.isExpanded ? <ExpandLess onClick={this._handleTagIconClick}/> :
+                            <ExpandMore onClick={this._handleTagIconClick}/>)
                     }
-                </div>
-            </div>
+                </ListItem>
+
+                {
+                    hasChild &&
+                    <Collapse in={this.state.isExpanded}
+                              timeout="auto"
+                              unmountOnExit={true}>
+                        <List component="div"
+                              disablePadding={true}
+                              dense={true}>
+                            {
+                                this.props.tag.children.map((tag, i) => (
+                                    <ChildTag key={i}
+                                              tag={tag}
+                                              parentTagSlug={this.props.tag.slug}
+                                              isExpanded={this.state.isExpanded}
+                                              currentTagSlugs={this.props.currentTagSlugs}
+                                              classes={this.props.classes}
+                                              onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.slug, false)}/>
+                                ))
+                            }
+                        </List>
+                    </Collapse>
+                }
+            </>
         );
     };
 }

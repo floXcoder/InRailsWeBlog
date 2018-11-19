@@ -2,6 +2,10 @@
 
 import _ from 'lodash';
 
+import {
+    configureStore
+} from '../stores';
+
 import api from '../middlewares/api';
 
 import {
@@ -63,6 +67,9 @@ export const spyTrackView = (elementName, elementId) => {
 };
 
 export const spyTrackClick = (elementName, elementId, elementSlug = null, elementTitle = null) => {
+    const currentUserId = configureStore.getState().userState.currentId;
+    const currentUserTopicId = configureStore.getState().topicState.currentUserTopicId;
+
     if (hasLocalStorage && elementSlug && elementTitle) {
         saveLocalData('recents', {
             type: elementName,
@@ -70,8 +77,8 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
             title: elementTitle.replace(/<.*?>(.*)<\/.*?>/g, '$1'),
             slug: elementSlug,
             date: Date.now(),
-            userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
-            parentId: window.currentUserTopicId ? parseInt(window.currentUserTopicId, 10) : undefined
+            userId: currentUserId,
+            parentId: currentUserTopicId
         });
     }
 
@@ -79,8 +86,8 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
         .post(`/api/v1/${elementName}s/${elementId}/clicked`,
             {
                 id: elementId,
-                userId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
-                parentId: window.currentUserTopicId ? parseInt(window.currentUserTopicId, 10) : undefined
+                userId: currentUserId,
+                parentId: currentUserTopicId
             });
 };
 

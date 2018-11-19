@@ -21,6 +21,25 @@ const SanitizePaste = (function () {
             return html;
         },
 
+        _replaceTitles: function (html) {
+            html = html.replace(/<h6/gi, '<h4');
+            html = html.replace(/<\/h6>/gi, '</h4>');
+
+            html = html.replace(/<h5/gi, '<h4');
+            html = html.replace(/<\/h5>/gi, '</h4>');
+
+            html = html.replace(/<h3/gi, '<h4');
+            html = html.replace(/<\/h3>/gi, '</h4>');
+
+            html = html.replace(/<h2/gi, '<h3');
+            html = html.replace(/<\/h2>/gi, '</h3>');
+
+            html = html.replace(/<h1/gi, '<h2');
+            html = html.replace(/<\/h1>/gi, '</h2>');
+
+            return html;
+        },
+
         _onPasteWord: function (html) {
             // comments
             html = html.replace(/<!--[\s\S]*?-->/gi, '');
@@ -233,6 +252,7 @@ const SanitizePaste = (function () {
             // Sanitize
             html = this._replaceParagraphsToBr(html);
             html = this._replaceDivs(html);
+            html = this._replaceTitles(html);
 
             html = this._onPasteWord(html);
             html = this._onPasteExtra(html);

@@ -31,4 +31,4 @@ CircleSpinner.propTypes = {
     className: PropTypes.string
 };
 
-export default CircleSpinner;
+export default React.memo(CircleSpinner);

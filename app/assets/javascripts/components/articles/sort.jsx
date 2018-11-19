@@ -5,6 +5,10 @@ import {
 } from 'react-hot-loader';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+
+import {
     fetchArticles,
     updateArticlePriority
 } from '../../actions';
@@ -17,29 +21,34 @@ import Loader from '../theme/loader';
 
 import ArticleSorter from './sort/sorter';
 
-export default @connect((state) => ({
+import styles from '../../../jss/article/sort';
+
+export default @hot(module)
+@connect((state) => ({
     currentUserId: state.userState.currentId,
-    currentTopicId: state.topicState.currentTopicId,
-    currentTopicSlug: state.topicState.currentTopic && state.topicState.currentTopic.slug,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     isFetching: state.articleState.isFetching,
     articles: getArticles(state)
 }), {
     fetchArticles,
     updateArticlePriority
 })
-@hot(module)
+@withStyles(styles)
 class ArticleSort extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
-        // From connect
+        // from connect
         currentUserId: PropTypes.number,
-        currentTopicId: PropTypes.number,
-        currentTopicSlug: PropTypes.string,
+        currentUserTopicId: PropTypes.number,
+        currentUserTopicSlug: PropTypes.string,
         isFetching: PropTypes.bool,
         articles: PropTypes.array,
         fetchArticles: PropTypes.func,
-        updateArticlePriority: PropTypes.func
+        updateArticlePriority: PropTypes.func,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -49,7 +58,7 @@ class ArticleSort extends React.Component {
     componentDidMount() {
         this.props.fetchArticles({
             userId: this.props.params.currentUserId || this.props.currentUserId,
-            topicId: this.props.params.currentTopicId || this.props.currentTopicId,
+            topicId: this.props.params.currentUserTopicId || this.props.currentUserTopicId,
             order: 'priority_desc',
             ...this.props.params
         }, {
@@ -60,12 +69,12 @@ class ArticleSort extends React.Component {
 
     _handleUpdatePriority = (articleIds) => {
         this.props.updateArticlePriority(articleIds)
-            .then(() => this.props.history.push(`/user/${this.props.currentTopicSlug}`));
+            .then(() => this.props.history.push(`/users/${this.props.currentUserTopicSlug}`));
     };
 
     render() {
         return (
-            <div className="article-sort">
+            <div className={this.props.classes.root}>
                 {
                     (this.props.isFetching && this.props.articles.length === 0) &&
                     <div className="center margin-top-20">
@@ -76,8 +85,9 @@ class ArticleSort extends React.Component {
                 {
                     this.props.articles.length > 0 &&
                     <ArticleSorter key={Utils.uuid()}
+                                   classes={this.props.classes}
                                    articles={this.props.articles}
-                                   topicSlug={this.props.currentTopicSlug}
+                                   topicSlug={this.props.currentUserTopicSlug}
                                    updateArticlePriority={this._handleUpdatePriority}/>
                 }
             </div>

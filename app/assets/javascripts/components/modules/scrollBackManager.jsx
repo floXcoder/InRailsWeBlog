@@ -8,9 +8,8 @@ export default @withRouter
 class ScrollBackManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
-        // From router
-        location: PropTypes.object,
-        history: PropTypes.object
+        // from router
+        location: PropTypes.object
     };
 
     constructor(props) {

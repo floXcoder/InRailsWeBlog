@@ -1,5 +1,7 @@
 'use strict';
 
+import List from '@material-ui/core/List';
+
 import ParentTag from './parent';
 
 export default class TagRelationshipDisplay extends React.Component {
@@ -16,28 +18,17 @@ export default class TagRelationshipDisplay extends React.Component {
         super(props);
     }
 
-    state = {
-        tagId: undefined
-    };
-
-    _handleTagClick = (tagId) => {
-        this.setState({
-            tagId
-        });
-    };
-
     render() {
         return (
-            <div>
+            <List dense={true}>
                 {
                     this.props.tags.map((tag, i) => (
                         <ParentTag key={i}
                                    tag={tag}
-                                   isFiltering={this.props.isFiltering}
-                                   onTagClick={this._handleTagClick}/>
+                                   isFiltering={this.props.isFiltering}/>
                     ))
                 }
-            </div>
+            </List>
         );
     }
 }

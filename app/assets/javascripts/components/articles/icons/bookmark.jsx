@@ -2,15 +2,24 @@
 
 import BookmarkIcon from '../../bookmark/icon';
 
-const ArticleEditIcon = ({articleId}) => (
+const ArticleBookmarkIcon = ({articleId, size, color}) => (
     <BookmarkIcon bookmarkedType="article"
                   bookmarkedId={articleId}
                   className="article-bookmark"
-                  isIcon={true}/>
+                  isIcon={true}
+                  color={color}
+                  size={size}/>
 );
 
-ArticleEditIcon.propTypes = {
-    articleId: PropTypes.number.isRequired
+ArticleBookmarkIcon.propTypes = {
+    articleId: PropTypes.number.isRequired,
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
 };
 
-export default ArticleEditIcon;
+ArticleBookmarkIcon.defaultProps = {
+    size: 'default',
+    color: 'primary'
+};
+
+export default React.memo(ArticleBookmarkIcon);

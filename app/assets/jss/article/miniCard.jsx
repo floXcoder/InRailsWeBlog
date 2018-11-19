@@ -1,0 +1,96 @@
+'use strict';
+
+import {
+    h1SizeExtract,
+    h1WeightExtract,
+    h1LineHeightExtract,
+    h1SpacingExtract
+} from '../theme';
+
+const styles = (theme) => ({
+    card: {
+        position: 'relative',
+        margin: '.4rem .3rem 1.2rem',
+        overflow: 'visible',
+        border: 0,
+        boxShadow: theme.shadows[0],
+    },
+    header: {
+        paddingTop: 0,
+        paddingBottom: 0
+    },
+    headerItem: {
+        paddingTop: '0 !important',
+        paddingBottom: '0 !important'
+    },
+    title: {
+        color: theme.palette.primary.main,
+        margin: '1rem 0 .3rem',
+        fontSize: h1SizeExtract,
+        fontWeight: h1WeightExtract,
+        lineHeight: h1LineHeightExtract,
+        letterSpacing: h1SpacingExtract,
+        textAlign: 'left'
+    },
+    info: {
+        color: '#999',
+        marginBottom: 3,
+        marginTop: 0
+    },
+    infoItem: {
+        paddingTop: '2px !important',
+        paddingBottom: '2px !important'
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    content: {
+        paddingTop: 6
+    },
+    avatarContainer: {
+        paddingLeft: 6,
+        paddingTop: 4,
+        paddingBottom: 4
+    },
+    avatar: {
+        display: 'none'
+    },
+    avatarIcon: {
+        fontSize: 26
+    },
+    userPseudo: {
+        fontSize: '.9rem',
+        color: 'inherit'
+    },
+    separator: {
+        fontSize: 20,
+        '&:after': {
+            content: "'\\00B7'"
+        }
+    },
+    date: {
+        fontSize: '.9rem'
+    },
+    commentCount: {
+        fontSize: '1rem',
+        color: 'inherit'
+    },
+    articleContent: {
+        paddingTop: 4
+    },
+    articleTags: {
+        marginTop: theme.spacing.unit,
+        marginBottom: theme.spacing.unit,
+        marginLeft: -theme.spacing.unit
+    },
+    articleTag: {
+        border: 0,
+        marginLeft: theme.spacing.unit / 2,
+        marginRight: theme.spacing.unit / 2
+    },
+
+
+});
+
+export default styles;

@@ -30,8 +30,11 @@ class ApplicationController < ActionController::Base
   # Set who is responsible of a modification
   before_action :set_paper_trail_whodunnit
 
-  # Set flash to header if ajax request
+  # Set flash to headers if ajax request
   after_action :flash_to_headers
+
+  # Set meta to headers
+  after_action :meta_to_headers
 
   def set_locale
     I18n.locale =
@@ -59,7 +62,7 @@ class ApplicationController < ActionController::Base
 
     # Set user location
     @user_latitude  = request.respond_to?(:location) ? request.location.latitude : 0
-    @user_longitude  = request.respond_to?(:location) ? request.location.longitude : 0
+    @user_longitude = request.respond_to?(:location) ? request.location.longitude : 0
   end
 
   # Redirection when Javascript is used.
@@ -115,7 +118,7 @@ class ApplicationController < ActionController::Base
       super(options)
     else
       respond_to do |format|
-        format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: :not_found }
+        format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
         format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
         format.all { render body: nil, status: :not_found }
       end
@@ -177,8 +180,8 @@ class ApplicationController < ActionController::Base
   # Prevent page caching for sensitive data
   def reset_cache_headers
     response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
+    response.headers['Pragma']        = 'no-cache'
+    response.headers['Expires']       = 'Fri, 01 Jan 1990 00:00:00 GMT'
   end
 
   def configure_permitted_parameters
@@ -257,7 +260,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Add pagination for active model serializer
-  def meta_attributes(resource, extra_meta = {})
+  def meta_pagination_attributes(resource, extra_meta = {})
     {
       current_page: resource.current_page,
       total_pages:  resource.total_pages,
@@ -309,7 +312,7 @@ class ApplicationController < ActionController::Base
 
     # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
     self.response_body = nil
-    @_response_body = nil
+    @_response_body    = nil
 
     if exception.respond_to?(:policy) && exception.respond_to?(:query)
       policy_name = exception.policy.class.to_s.underscore
@@ -335,7 +338,7 @@ class ApplicationController < ActionController::Base
     raise if Rails.env.development?
 
     respond_to do |format|
-      format.html { render 'errors/show', layout: 'full_page', locals: { status: 404 }, status: :not_found }
+      format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
       format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
       format.all { render body: nil, status: :not_found }
     end
@@ -349,7 +352,7 @@ class ApplicationController < ActionController::Base
     raise if Rails.env.development?
 
     respond_to do |format|
-      format.html { render 'errors/show', layout: 'full_page', locals: { status: 500 }, status: :internal_server_error }
+      format.html { render 'errors/show', locals: { status: 500 }, status: :internal_server_error }
       format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }
       format.all { render body: nil, status: :internal_server_error }
     end
@@ -373,6 +376,26 @@ class ApplicationController < ActionController::Base
 
       Raven.extra_context(params: params.to_unsafe_h, url: request.url)
     end
+  end
+
+  def meta_to_headers
+    return if !json_request? || meta_tags.meta_tags.blank? || response.status == 302
+
+    # Convert to simple hash
+    head_tags = {}
+    meta_tags.meta_tags.map do |key, tag|
+      if tag.is_a?(Hash)
+        tag.map do |subkey, subtag|
+          head_tags["#{key}_#{subkey}"] = subtag
+        end
+      else
+        head_tags[key] = tag
+      end
+    end
+
+    # avoiding XSS injections
+    meta_json                       = Hash[head_tags.map { |k, v| [k, ERB::Util.h(v)] }].to_json
+    response.headers['X-Meta-Tags'] = meta_json
   end
 
   def flash_to_headers

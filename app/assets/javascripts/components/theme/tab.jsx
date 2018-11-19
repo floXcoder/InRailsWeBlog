@@ -64,15 +64,17 @@ export class Tabs extends React.Component {
     }
 }
 
+const _handleTabHeaderClick = (tabIndex, onClick, event) => {
+    event.preventDefault();
+    onClick(tabIndex);
+};
+
 export const Tab = ({header, isActive, tabIndex, onClick}) => {
     return (
         <li className={classNames('responsive-tab', {'active': isActive})}>
             <a className="responsive-tab-link"
                href="#"
-               onClick={(event) => {
-                   event.preventDefault();
-                   onClick(tabIndex);
-               }}>
+               onClick={_handleTabHeaderClick.bind(null, tabIndex, onClick)}>
                 {header}
             </a>
         </li>

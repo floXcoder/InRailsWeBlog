@@ -22,11 +22,11 @@ export const fetchTopic = (userId, topicId, options = {}) => ({
     })
 });
 
-export const switchTopic = (userId, newTopicId, options = {}) => ({
+export const switchTopic = (userId, newTopic, options = {}) => ({
     actionType: ActionTypes.TOPIC,
     fetchAPI: () => api.get('/api/v1/topics/switch', {
         userId,
-        newTopicId,
+        newTopic,
         ...options
     }),
     payload: {

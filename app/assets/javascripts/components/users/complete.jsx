@@ -14,7 +14,7 @@ import CommentTimeline from '../comments/display/timeline';
 import UserActivity from '../users/activity';
 import UserTracking from '../users/tracking';
 
-import SwitchButton from '../materialize/switchButton';
+// import SwitchButton from '../materialize/switchButton';
 import Loader from '../theme/loader';
 
 export default @connect((state) => ({
@@ -26,7 +26,7 @@ class UserComplete extends React.Component {
             PropTypes.number,
             PropTypes.string
         ]).isRequired,
-        // From connect
+        // from connect
         isAdminConnected: PropTypes.bool
     };
 
@@ -154,7 +154,7 @@ class UserComplete extends React.Component {
                                     <ul id="dropdown-user-menu"
                                         className='dropdown-content'>
                                         <li>
-                                            <Link to={`/user/profile/${this.props.userId}/edit`}>
+                                            <Link to={`/users/${this.props.userId}/edit`}>
                                                 {I18n.t('js.user.show.edit')}
                                             </Link>
                                         </li>
@@ -200,7 +200,7 @@ class UserComplete extends React.Component {
                                 </div>
 
                                 <Link className="user-edit-icon"
-                                      to={`/user/profile/${this.props.userId}/edit`}>
+                                      to={`/users/${this.props.userId}/edit`}>
                                     <span className="material-icons"
                                           data-icon="mode_edit"
                                           aria-hidden="true"/>
@@ -380,22 +380,24 @@ class UserComplete extends React.Component {
                                                                     data-icon="verified_user"
                                                                     aria-hidden="true"/>
                                                             </div>
+
                                                             <div className="activity-list-content">
-                                                            <span className="activity-list-heading">
-                                                                {
-                                                                    this.state.user.admin ?
-                                                                        <span className="">
-                                                                            {I18n.t('js.user.show.is_admin')}
-                                                                        </span>
-                                                                        :
-                                                                        <span>
-                                                                            {I18n.t('js.user.show.not_admin')}
-                                                                        </span>
-                                                                }
-                                                            </span>
+                                                                <span className="activity-list-heading">
+                                                                    {
+                                                                        this.state.user.admin ?
+                                                                            <span className="">
+                                                                                {I18n.t('js.user.show.is_admin')}
+                                                                            </span>
+                                                                            :
+                                                                            <span>
+                                                                                {I18n.t('js.user.show.not_admin')}
+                                                                            </span>
+                                                                    }
+                                                                </span>
+
                                                                 <span className="activity-list-body">
-                                                                {I18n.t('js.user.model.admin').capitalize()}
-                                                            </span>
+                                                                    {I18n.t('js.user.model.admin').capitalize()}
+                                                                </span>
                                                             </div>
                                                         </li>
                                                     }

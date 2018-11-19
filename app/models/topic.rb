@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: topics
@@ -21,6 +20,7 @@
 #  deleted_at               :datetime
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  settings                 :jsonb            not null
 #
 
 class Topic < ApplicationRecord
@@ -36,6 +36,20 @@ class Topic < ApplicationRecord
              auto_strip_translation_fields:    [:description],
              fallbacks_for_empty_translations: true
 
+  # Store settings
+  include Storext.model
+  # Settings are inherited from user
+  store_attributes :settings do
+    articles_loader String, default: nil # Load articles by: all / paginate / infinite
+    article_display String, default: nil # Display articles: inline / card (with inline edit) / grid
+    article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
+
+    tag_sidebar_pin Boolean, default: nil # Tag sidebar pinned by default
+    tag_sidebar_with_child Boolean, default: nil # Display child only tags in sidebar
+    tag_order String, default: 'name' # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
+    tag_parent_and_child Boolean, default: nil # Display child articles for parent tag
+  end
+
   # Strip whitespaces
   auto_strip_attributes :name, :color
 
@@ -44,6 +58,7 @@ class Topic < ApplicationRecord
   has_paper_trail on: [:update], only: [:name, :description_translations]
 
   # Track activities
+  ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { click: :add_visit_activity }
 
@@ -52,7 +67,7 @@ class Topic < ApplicationRecord
   tracked owner: :user
 
   include NiceUrlConcern
-  friendly_id :slug_candidates, use: :slugged
+  friendly_id :slug_candidates, scope: :user, use: [:slugged, :scoped]
 
   # Search
   searchkick searchable:  [:name, :description],
@@ -155,6 +170,8 @@ class Topic < ApplicationRecord
   # == Callbacks ============================================================
   before_create :set_default_color
 
+  after_update :regenerate_article_slug
+
   after_commit :invalidate_topic_cache
 
   # == Class Methods ========================================================
@@ -200,7 +217,7 @@ class Topic < ApplicationRecord
 
   def slug_candidates
     [
-      [:name, :id]
+      [:name]
     ]
   end
 
@@ -239,6 +256,17 @@ class Topic < ApplicationRecord
 
   def set_default_color
     self.color = Setting.topic_color unless self.color
+  end
+
+  def regenerate_article_slug
+    if name_previous_change
+      self.articles.find_in_batches(batch_size: 200) do |articles|
+        articles.each do |article|
+          article.slug = nil
+          article.save!
+        end
+      end
+    end
   end
 
   def invalidate_topic_cache

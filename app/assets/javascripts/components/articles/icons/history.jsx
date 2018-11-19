@@ -4,18 +4,28 @@ import {
     Link
 } from 'react-router-dom';
 
-const ArticleHistoryIcon = ({articleSlug}) => (
-    <Link className="article-history tooltip-bottom"
-          to={`/article/${articleSlug}/history`}
+import HistoryIcon from '@material-ui/icons/HistoryOutlined';
+
+const ArticleHistoryIcon = ({userSlug, articleSlug, size, color}) => (
+    <span className="tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.history')}>
-        <span className="material-icons"
-              data-icon="history"
-              aria-hidden="true"/>
-    </Link>
+        <Link to={`/users/${userSlug}/articles/${articleSlug}/history`}>
+            <HistoryIcon color={color}
+                         fontSize={size}/>
+        </Link>
+    </span>
 );
 
 ArticleHistoryIcon.propTypes = {
-    articleSlug: PropTypes.string.isRequired
+    userSlug: PropTypes.string.isRequired,
+    articleSlug: PropTypes.string.isRequired,
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
 };
 
-export default ArticleHistoryIcon;
+ArticleHistoryIcon.defaultProps = {
+    size: 'default',
+    color: 'primary'
+};
+
+export default React.memo(ArticleHistoryIcon);

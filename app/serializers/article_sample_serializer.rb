@@ -16,6 +16,7 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :current_language,
              :date,
              :date_short,
+             :default_picture,
              :slug,
              :outdated_articles_count,
              :comments_count,

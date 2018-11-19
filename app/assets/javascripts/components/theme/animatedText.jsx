@@ -13,7 +13,7 @@ const AnimatedText = ({title, subtitle}) => (
 
             {
                 subtitle &&
-                <div className="action-wrapper hide-on-small-and-down">
+                <div className="action-wrapper hide-on-small">
                     <h2>
                         {subtitle}
                     </h2>
@@ -28,4 +28,4 @@ AnimatedText.propTypes = {
     subtitle: PropTypes.string
 };
 
-export default AnimatedText;
+export default React.memo(AnimatedText);

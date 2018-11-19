@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    Link
+} from 'react-router-dom';
+
 const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
     <ul className="article-breadcrumb"
         itemType="http://schema.org/BreadcrumbList"
@@ -8,9 +12,14 @@ const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
             itemType="http://schema.org/ListItem"
             itemProp="itemListElement"
             itemScope={true}>
-            <span itemProp="name">
-                {user.pseudo}
-            </span>
+            <Link to={`/users/${user.slug}`}
+                  itemType="http://schema.org/Thing"
+                  itemProp="item"
+                  itemScope={true}>
+                <span itemProp="name">
+                    {user.pseudo}
+                </span>
+            </Link>
             <meta itemProp="position"
                   content="1"/>
         </li>
@@ -19,14 +28,14 @@ const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
             itemType="http://schema.org/ListItem"
             itemProp="itemListElement"
             itemScope={true}>
-            <a href={`/user/${user.slug}/${topic.slug}`}
-               itemType="http://schema.org/Thing"
-               itemProp="item"
-               itemScope={true}>
+            <Link to={`/users/${user.slug}/topics/${topic.slug}`}
+                  itemType="http://schema.org/Thing"
+                  itemProp="item"
+                  itemScope={true}>
                 <span itemProp="name">
                     {topic.name}
                 </span>
-            </a>
+            </Link>
             <meta itemProp="position"
                   content="2"/>
         </li>
@@ -40,14 +49,14 @@ const ArticleBreadcrumbDisplay = ({user, topic, article}) => (
                 itemType="http://schema.org/ListItem"
                 itemProp="itemListElement"
                 itemScope={true}>
-                <a href={`/article/${article.slug}`}
-                   itemType="http://schema.org/Thing"
-                   itemProp="item"
-                   itemScope={true}>
+                <Link to={`/users/${article.user.slug}/articles/${article.slug}`}
+                      itemType="http://schema.org/Thing"
+                      itemProp="item"
+                      itemScope={true}>
                     <span itemProp="name">
                         {article.title}
                     </span>
-                </a>
+                </Link>
                 <meta itemProp="position"
                       content="3"/>
             </li>

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 module Api::V1
-  class SearchController < ApplicationController
-    before_action :verify_requested_format!
+  class SearchController < ApiController
+    skip_before_action :authenticate_user!
+
     before_action :honeypot_protection, only: [:index, :autocomplete]
 
     respond_to :json
@@ -14,11 +15,14 @@ module Api::V1
         current_user&.create_activity(:search, params: { query: search_params[:query], count: search_results.result[:totalCount].values.reduce(:+) })
 
         respond_to do |format|
+          set_meta_tags title: titleize(I18n.t('views.search.index.title', query: search_params[:query]))
+
           format.json { render json: search_results.result }
         end
       else
         respond_to do |format|
-          format.json { render json: [] }
+          format.json { render json: [],
+                               root: 'search' }
         end
       end
     end
@@ -32,7 +36,8 @@ module Api::V1
         end
       else
         respond_to do |format|
-          format.json { render json: [] }
+          format.json { render json: [],
+                               root: 'search' }
         end
       end
     end

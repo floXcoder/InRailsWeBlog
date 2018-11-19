@@ -17,6 +17,8 @@ class UserProfileSerializer < ActiveModel::Serializer
 
   has_one :current_topic
 
+  has_many :topics, serializer: TopicSampleSerializer
+
   def articles_count
     object.articles.size
   end

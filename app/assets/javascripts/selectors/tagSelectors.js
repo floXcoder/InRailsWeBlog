@@ -28,6 +28,11 @@ export const getPrivateTags = createSelector(
     (tags) => tags.filter((tag) => tag.visibility === 'only_me').toArray()
 );
 
+export const getPopularTags = createSelector(
+    (state) => state.tagState.popularTags,
+    (tags) => tags.toArray()
+);
+
 export const getTag = createSelector(
     (state) => state.tagState.tag,
     (tag) => tag
@@ -89,28 +94,35 @@ export const getSortedTopicTags = createSelector(
 
 export const getCategorizedTags = createSelector(
     (state) => state.tagState.topicTags,
-    (tags) => {
+    (_, inheritVisibility) => inheritVisibility,
+    (tags, inheritVisibility) => {
         let categorizedTags = [];
 
         if (tags) {
             // Define order in categorized box
             let tagsByVisibility = {
-                only_me: [],
-                everyone: [],
+                // only_me: [],
+                // everyone: []
             };
 
+            if (inheritVisibility) {
+                tagsByVisibility[inheritVisibility] = [];
+            }
+
             tags.forEach((tag) => {
-                if (!tagsByVisibility[tag.visibility]) {
-                    tagsByVisibility[tag.visibility] = [tag.name];
-                } else {
-                    tagsByVisibility[tag.visibility].push(tag.name);
+                if (tag.visibility === inheritVisibility) {
+                    if (!tagsByVisibility[tag.visibility]) {
+                        tagsByVisibility[tag.visibility] = [tag.name];
+                    } else {
+                        tagsByVisibility[tag.visibility].push(tag.name);
+                    }
                 }
             });
 
             categorizedTags = Object.keys(tagsByVisibility).map((visibility) => ({
                 id: visibility,
                 type: ' ',
-                title: I18n.t(`js.tag.enums.visibility.${visibility}`),
+                title: I18n.t(`js.article.common.tags.${visibility}`),
                 items: tagsByVisibility[visibility]
             }));
         }

@@ -40,7 +40,7 @@ describe Articles::FindQueries, type: :query, basic: true do
       end
 
       it 'returns all public articles and user articles' do
-        articles = ::Articles::FindQueries.new.all({}, @user)
+        articles = ::Articles::FindQueries.new(@user).all({})
 
         expect(articles.count).to eq(Article.everyone_and_user(@user.id).count)
       end
@@ -52,7 +52,7 @@ describe Articles::FindQueries, type: :query, basic: true do
       end
 
       it 'returns all public articles and user articles' do
-        articles = ::Articles::FindQueries.new.all({}, @user, @admin)
+        articles = ::Articles::FindQueries.new(@user, @admin).all({})
 
         expect(articles.count).to eq(Article.all.count)
       end
@@ -61,33 +61,34 @@ describe Articles::FindQueries, type: :query, basic: true do
     context 'with filter params' do
       before(:all) do
         @tags                       = create_list(:tag, 3, user: @user)
-        @article_with_tags          = create(:article_with_tags, user: @user, topic: @topic, tags: [@tags[0]])
-        @article_with_relation_tags = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@tags[0], @tags[1]], child_tags: [@tags[2]])
+        @article_with_tags          = create(:article, user: @user, topic: @topic, tags: [@tags[0]])
+        @article = create(:article, user: @user, topic: @topic, parent_tags: [@tags[0], @tags[1]], child_tags: [@tags[2]])
       end
 
-      it { expect(::Articles::FindQueries.new.all(topic_id: @topic.id)).to include(@article) }
-      it { expect(::Articles::FindQueries.new.all(parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[2].slug)).to contain_exactly(@article_with_relation_tags) }
+      it { expect(::Articles::FindQueries.new(@user).all(topic_id: @topic.id)).to include(@article) }
 
-      it { expect(::Articles::FindQueries.new.all(parent_tag_slug: @tags[1].slug)).to contain_exactly(@article_with_relation_tags) }
+      it { expect(::Articles::FindQueries.new(@user).all(parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[2].slug)).to contain_exactly(@article) }
 
-      it { expect(::Articles::FindQueries.new.all(child_tag_slug: @tags[2].slug)).to contain_exactly(@article_with_relation_tags) }
+      it { expect(::Articles::FindQueries.new(@user).all(parent_tag_slug: @tags[1].slug)).to contain_exactly(@article) }
+
+      it { expect(::Articles::FindQueries.new(@user).all(child_tag_slug: @tags[2].slug)).to contain_exactly(@article) }
 
       describe 'display parent article only' do
         before do
-          @user.settings['article_child_tagged'] = false
+          @user.settings['tag_parent_and_child'] = false
           @user.save
         end
 
-        it { expect(::Articles::FindQueries.new.all({ tag_slug: @tags[0].slug }, @user)).to contain_exactly(@article_with_tags) }
+        it { expect(::Articles::FindQueries.new(@user).all({ tag_slug: @tags[0].slug })).to contain_exactly(@article_with_tags) }
       end
 
       describe 'display all article for a tag' do
         before do
-          @user.settings['article_child_tagged'] = true
+          @user.settings['tag_parent_and_child'] = true
           @user.save
         end
 
-        it { expect(::Articles::FindQueries.new.all({ tag_slug: @tags[0].slug }, @user)).to contain_exactly(@article_with_tags, @article_with_relation_tags) }
+        it { expect(::Articles::FindQueries.new(@user).all({ tag_slug: @tags[0].slug })).to contain_exactly(@article_with_tags, @article) }
       end
     end
   end

@@ -33,8 +33,10 @@ describe('Tags actions', () => {
                     expect(TagSelectors.getPublicTags(state)).toHaveLength(publicTags.length);
                     expect(TagSelectors.getPrivateTags(state)).toHaveLength(privateTags.length);
                     expect(TagSelectors.getTags(state).first().id).toEqual(1);
-                    expect(TagSelectors.getCategorizedTags(state)).toHaveLength(2);
-                    expect(TagSelectors.getCategorizedTags(state).first().id).toEqual('only_me');
+                    expect(TagSelectors.getCategorizedTags(state, 'everyone')).toHaveLength(1);
+                    expect(TagSelectors.getCategorizedTags(state, 'everyone').first().id).toEqual('everyone');
+                    expect(TagSelectors.getCategorizedTags(state, 'only_me')).toHaveLength(1);
+                    expect(TagSelectors.getCategorizedTags(state, 'only_me').first().id).toEqual('only_me');
                 });
         });
     });

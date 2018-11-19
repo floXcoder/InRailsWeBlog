@@ -30,8 +30,12 @@ class SitePage
     dom_class(model)
   end
 
+  def head
+    find('head', visible: false)
+  end
+
   def header
-    find('header nav')
+    find('header.animate-search')
   end
 
   def flash

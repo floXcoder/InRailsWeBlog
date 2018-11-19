@@ -6,15 +6,25 @@ import {
 } from 'redux-form/immutable';
 
 import {
+    withStyles
+} from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Button from '@material-ui/core/Button';
+
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LockIcon from '@material-ui/icons/Lock';
+
+import {
     validateUser
 } from '../../../actions/userActions';
 
 import EnsureValidity from '../../modules/ensureValidity';
 
-import Submit from '../../materialize/submit';
+import TextFieldForm from '../../material-ui/form/text';
+import CheckBoxForm from '../../material-ui/form/checkbox';
 
-import TextField from '../../materialize/form/text';
-import CheckBoxField from '../../materialize/form/checkbox';
+import styles from '../../../../jss/user/connection';
 
 const asyncValidate = (values /*, dispatch */) => {
     if (values.get('login')) {
@@ -32,18 +42,23 @@ const asyncValidate = (values /*, dispatch */) => {
     }
 };
 
+
 export default @reduxForm({
     form: 'login',
     asyncValidate,
     asyncBlurFields: ['login']
 })
+
+@withStyles(styles)
 class LoginForm extends React.Component {
     static propTypes = {
         onCancel: PropTypes.func.isRequired,
-        // From reduxForm
+        // from reduxForm
         handleSubmit: PropTypes.func,
         submitting: PropTypes.bool,
-        invalid: PropTypes.bool
+        invalid: PropTypes.bool,
+        // from styles
+        classes: PropTypes.object
     };
 
     constructor(props) {
@@ -80,53 +95,82 @@ class LoginForm extends React.Component {
                     {I18n.t('js.helpers.or')}
                 </div>
 
-                <div className="row margin-bottom-0">
-                    <div className="col s12">
-                        <Field id="user_login_login"
-                               name="login"
-                               title={I18n.t('js.user.login.login')}
-                               icon="account_circle"
-                               labelClass="important"
-                               isRequired={true}
-                               hasAutoFocus={true}
-                               component={TextField}/>
-                    </div>
+                <Grid classes={{container: this.props.classes.fieldItem}}
+                      container={true}
+                      spacing={16}
+                      direction="column"
+                      justify="space-between"
+                      alignItems="center">
+                    <Grid classes={{item: this.props.classes.fieldItem}}
+                          item={true}>
+                        <Field name="login"
+                               component={TextFieldForm}
+                               id="user_login_login"
+                               className={this.props.classes.textField}
+                               label={I18n.t('js.user.login.login')}
+                               autoFocus={true}
+                               required={true}
+                               color="primary"
+                               InputProps={{
+                                   startAdornment: (
+                                       <InputAdornment position="start">
+                                           <AccountCircleIcon/>
+                                       </InputAdornment>
+                                   )
+                               }}/>
+                    </Grid>
 
-                    <div className="col s12">
-                        <Field id="user_password_login"
-                               name="password"
+                    <Grid classes={{item: this.props.classes.fieldItem}}
+                          item={true}>
+                        <Field name="password"
+                               component={TextFieldForm}
+                               id="user_password_login"
+                               className={this.props.classes.textField}
+                               label={I18n.t('js.user.login.password')}
+                               required={true}
+                               autoComplete="off"
+                               color="primary"
                                type="password"
-                               title={I18n.t('js.user.login.password')}
-                               icon="lock"
-                               labelClass="important"
-                               isRequired={true}
-                               component={TextField}/>
-                    </div>
-                </div>
+                               InputProps={{
+                                   startAdornment: (
+                                       <InputAdornment position="start">
+                                           <LockIcon/>
+                                       </InputAdornment>
+                                   )
+                               }}/>
+                    </Grid>
 
-                <div className="connection-checkbox margin-bottom-20">
-                    <Field id="user_remember_me"
-                           name="remember_me"
-                           title={I18n.t('js.user.login.remember_me')}
-                           isDefaultChecked={true}
-                           isRequired={true}
-                           component={CheckBoxField}/>
-                </div>
+                    <Grid item={true}>
+                        <Field name="remember_me"
+                               component={CheckBoxForm}
+                               id="user_remember_me"
+                               label={I18n.t('js.user.login.remember_me')}
+                               color="primary"/>
+                    </Grid>
+                </Grid>
 
-                <div className="left margin-bottom-20">
-                    <a className="btn-flat waves-effect waves-spectra"
-                       href="#"
-                       onClick={this.props.onCancel}>
-                        {I18n.t('js.user.login.cancel')}
-                    </a>
-                </div>
+                <Grid className="center-align margin-top-15"
+                      container={true}
+                      spacing={16}
+                      direction="row-reverse"
+                      justify="space-between"
+                      alignItems="center">
+                    <Grid item={true}>
+                        <Button type="submit"
+                                id="login-submit"
+                                variant="contained"
+                                color="primary"
+                                disabled={this.props.submitting}>
+                            {I18n.t('js.user.login.submit')}
+                        </Button>
+                    </Grid>
 
-                <div className="right">
-                    <Submit id="login-submit"
-                            disabled={this.props.submitting}>
-                        {I18n.t('js.user.login.submit')}
-                    </Submit>
-                </div>
+                    <Grid item={true}>
+                        <Button onClick={this.props.onCancel}>
+                            {I18n.t('js.user.login.cancel')}
+                        </Button>
+                    </Grid>
+                </Grid>
             </form>
         );
     }

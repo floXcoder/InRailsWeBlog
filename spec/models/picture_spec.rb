@@ -86,12 +86,14 @@ RSpec.describe Picture, type: :model, basic: true do
     describe 'Default Attributes' do
       before do
         @picture = Picture.create(
-          imageable_type: 'Article',
-          image:          'my_image.jpg',
-          image_tmp:      'my_tmp_image'
+          user:      @user,
+          imageable: @article,
+          image:     'my_image.jpg',
+          image_tmp: 'my_tmp_image'
         )
       end
 
+      it { expect(@picture).to be_valid }
       it { expect(@picture.priority).to eq(0) }
       it { expect(@picture.accepted).to be true }
     end

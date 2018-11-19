@@ -29,7 +29,8 @@ module ActAsTrackedConcern
     # Helpers scope to get useful information
     scope :most_viewed, -> { joins(:tracker).order('trackers.views_count DESC') }
     scope :most_clicked, -> { joins(:tracker).order('trackers.clicks_count DESC') }
-    scope :recently_tracked, -> { where(trackers: { updated_at: 15.days.ago..Time.zone.now }) }
+    scope :recently_tracked, -> { joins(:tracker).where(trackers: { updated_at: 15.days.ago..Time.zone.now }) }
+    scope :home, -> (limit = 10) { joins(:tracker).where(trackers: { home_page: true }).limit(limit) }
 
     # Popularity
     before_update :update_popularity

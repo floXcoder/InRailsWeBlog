@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
+const sane = require('sane');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -14,6 +15,10 @@ webPackConfig.mode = 'development';
 
 webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.development.filename + '.js'
+});
+
+webPackConfig.module.rules[1].use.unshift({
+    loader: 'css-hot-loader'
 });
 
 webPackConfig = _.merge(webPackConfig, {
@@ -52,7 +57,7 @@ webPackConfig = _.merge(webPackConfig, {
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
-        hot: true, // Hot react not fully working now
+        hot: true,
         inline: true,
         overlay: true,
         compress: true,
@@ -81,6 +86,16 @@ webPackConfig = _.merge(webPackConfig, {
             children: false,
             source: false,
             publicPath: false
+        },
+        // Use sane to monitor all of the templates files and sub-directories
+        before: (app, server) => {
+            const watcher = sane(path.join(__dirname, '../..'), {
+                glob: config.development.watchPath
+            });
+            watcher.on('change', function (filePath, root, stat) {
+                console.log('  File modified:', filePath);
+                server.sockWrite(server.sockets, "content-changed");
+            });
         }
     }
 });
@@ -128,8 +143,6 @@ webPackConfig.plugins.push(
         filename: config.development.filename + '.css',
         chunkFilename: config.development.chunkFilename + '.css'
     }),
-    // new webpack.HotModuleReplacementPlugin(),
-    // new BrowserSyncPlugin(config.browserSync),
     // new BundleAnalyzerPlugin({
     //     // Can be `server`, `static` or `disabled`.
     //     // In `server` mode analyzer will start HTTP server to show bundle report.

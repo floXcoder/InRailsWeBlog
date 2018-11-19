@@ -11,7 +11,7 @@ export default @withRouter
 class PasteManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
-        // From router
+        // from router
         location: PropTypes.object,
         history: PropTypes.object
     };

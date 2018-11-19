@@ -1,17 +1,37 @@
 'use strict';
 
+import {
+    hot
+} from 'react-hot-loader';
+
+import {
+    withStyles
+} from '@material-ui/core/styles';
+
+import {
+    getUser,
+} from '../../selectors';
+
 import UserComplete from './complete';
 
-export default class UserShow extends React.Component {
+// import styles from '../../../jss/user/show';
+
+export default @connect((state) => ({
+    user: getUser(state)
+}), {
+    // fetchUser,
+})
+@withStyles(styles)
+class UserShow extends React.Component {
     static propTypes = {
-        // From router
-        history: PropTypes.func,
-        userId: PropTypes.number,
-        params: PropTypes.object
+        params: PropTypes.object.isRequired,
+        // from connect
+        user: PropTypes.object,
+        // from styles
+        // classes: PropTypes.object
     };
 
     static defaultProps = {
-        params: {}
     };
 
     constructor(props) {
@@ -22,8 +42,8 @@ export default class UserShow extends React.Component {
         return (
             <div>
                 {
-                    (this.props.userId || this.props.params.userPseudo) &&
-                    <UserComplete userId={this.props.userId || this.props.params.userPseudo}/>
+                    this.props.user &&
+                    <UserComplete userId={this.props.user.id || this.props.params.userPseudo}/>
                 }
             </div>
         );

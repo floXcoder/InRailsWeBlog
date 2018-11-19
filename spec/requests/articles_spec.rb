@@ -12,19 +12,19 @@ describe 'Article API', type: :request, basic: true do
     @topic = create(:topic, user: @user)
 
     @public_tags             = create_list(:tag, 5, user: @user, visibility: 'everyone')
-    @article                 = create(:article_with_tags, user: @user, topic: @topic, tags: [@public_tags[0], @public_tags[1], @public_tags[2]])
-    @relation_tags_article   = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[2]], child_tags: [@public_tags[3]])
-    @relation_tags_article_2 = create(:article_with_relation_tags, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[3]], child_tags: [@public_tags[2], @public_tags[4]])
+    @article                 = create(:article, user: @user, topic: @topic, tags: [@public_tags[0], @public_tags[1], @public_tags[2]])
+    @relation_tags_article   = create(:article, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[2]], child_tags: [@public_tags[3]])
+    @relation_tags_article_2 = create(:article, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[3]], child_tags: [@public_tags[2], @public_tags[4]])
 
     @private_tags              = create_list(:tag, 2, user: @user, visibility: 'only_me')
-    @article_with_private_tags = create(:article_with_tags, user: @user, topic: @topic, tags: [@private_tags[0], @private_tags[1]])
+    @article_with_private_tags = create(:article, user: @user, topic: @topic, tags: [@private_tags[0], @private_tags[1]])
 
-    @second_article = create(:article, user: @user, topic: @topic)
+    @second_article = create(:article, user: @user, topic: @topic, tags: [@public_tags[4]])
 
-    @article_with_mixed_tags = create(:article_with_relation_tags, user: @user, topic: @topic, title: 'mixed_tags', parent_tags: [@public_tags[0], @private_tags[0]], child_tags: [@public_tags[1], @private_tags[1]])
+    @article_with_mixed_tags = create(:article, user: @user, topic: @topic, title: 'mixed_tags', parent_tags: [@public_tags[0], @private_tags[0]], child_tags: [@public_tags[1], @private_tags[1]])
 
     @second_topic    = create(:topic, user: @user)
-    @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me')
+    @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me', draft: true)
 
     @other_topic      = create(:topic, user: @other_user)
     @other_public_tag = create(:tag, user: @other_user, visibility: 'everyone')
@@ -32,7 +32,7 @@ describe 'Article API', type: :request, basic: true do
 
   let(:article_attributes) {
     {
-      article: { title: 'title', summary: 'summary', content: 'content' }
+      article: { title: 'title', summary: 'summary', content: 'content', visibility: 'only_me', tags: [{ name: @private_tags[0].name, visibility: @private_tags[0].visibility }] }
     }
   }
   let(:article_error_attributes) {
@@ -118,7 +118,7 @@ describe 'Article API', type: :request, basic: true do
       end
 
       it 'returns articles for this tag only' do
-        @user.settings['article_child_tagged'] = false
+        @user.settings['tag_parent_and_child'] = false
         @user.save
 
         get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
@@ -131,7 +131,7 @@ describe 'Article API', type: :request, basic: true do
       end
 
       it 'returns articles for this tag and its children' do
-        @user.settings['article_child_tagged'] = true
+        @user.settings['tag_parent_and_child'] = true
         @user.save
 
         get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
@@ -182,7 +182,7 @@ describe 'Article API', type: :request, basic: true do
       it 'returns draft articles for current user' do
         get '/api/v1/articles', params: { filter: { draft: true } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles']).to be_empty
+        expect(json_articles['articles'].size).to eq(1)
       end
     end
 
@@ -227,7 +227,7 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(7)
+        expect(json_articles['articles'].size).to eq(6)
       end
     end
   end
@@ -316,7 +316,7 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['title']).to eq(article_attributes[:article][:title])
           expect(article['article']['topicId']).to eq(@user.current_topic_id)
-          expect(article['article']['tags'].size).to eq(0)
+          expect(article['article']['tags'].size).to eq(1)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
       end
 
@@ -427,7 +427,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article with tags having the correct visibility' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { tags: [{ name: 'tag public', visibility: 'everyone' }, { name: 'tag private', visibility: 'only_me' }] }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { tags: [{ name: 'Tag public', visibility: 'everyone' }, { name: 'Tag private', visibility: 'only_me' }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -435,14 +435,14 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
 
-          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('everyone')
-          expect(Tag.find(article['article']['tags'][1]['id']).visibility).to eq('only_me')
+          expect(Tag.find_by(name: 'Tag public').visibility).to eq('everyone')
+          expect(Tag.find_by(name: 'Tag private').visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
       end
 
       it 'returns a new article with tags having the correct association and visibility' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: 'parent tag public', visibility: 'everyone' }], child_tags: [{ name: 'child tag private', visibility: 'only_me' }] }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { parent_tags: [{ name: 'Parent tag public', visibility: 'everyone' }], child_tags: [{ name: 'Child tag public', visibility: 'everyone' }] }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -450,12 +450,12 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
 
-          public_parent_tag = Tag.find(article['article']['tags'][0]['id'])
-          private_child_tag = Tag.find(article['article']['tags'][1]['id'])
-          expect(public_parent_tag.children.last).to eq(private_child_tag)
-          expect(private_child_tag.parents.last).to eq(public_parent_tag)
-          expect(public_parent_tag.visibility).to eq('everyone')
-          expect(private_child_tag.visibility).to eq('only_me')
+          parent_tag = Tag.find_by(name: 'Parent tag public')
+          child_tag = Tag.find_by(name: 'Child tag public')
+          expect(parent_tag.children.last).to eq(child_tag)
+          expect(child_tag.parents.last).to eq(parent_tag)
+          expect(parent_tag.visibility).to eq('everyone')
+          expect(child_tag.visibility).to eq('everyone')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
       end
 
@@ -657,7 +657,7 @@ describe 'Article API', type: :request, basic: true do
           delete "/api/v1/articles/#{@article.id}", as: :json
 
           expect(response).to be_json_response(204)
-        }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
+        }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-@article.tagged_articles.count).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
       end
 
       it 'returns the soft deleted article id with relationships removed' do
@@ -665,7 +665,7 @@ describe 'Article API', type: :request, basic: true do
           delete "/api/v1/articles/#{@relation_tags_article.id}", as: :json
 
           expect(response).to be_json_response(204)
-        }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(-2).and change(TagRelationship.with_deleted, :count).by(0)
+        }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-@article.tagged_articles.count).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(-2).and change(TagRelationship.with_deleted, :count).by(0)
       end
     end
 
@@ -679,7 +679,7 @@ describe 'Article API', type: :request, basic: true do
           delete "/api/v1/articles/#{@article.id}", params: { permanently: true }, as: :json
 
           expect(response).to be_json_response(204)
-        }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(-1).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-3).and change(TaggedArticle.with_deleted, :count).by(-3).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
+        }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(-1).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-@article.tagged_articles.count).and change(TaggedArticle.with_deleted, :count).by(-@article.tagged_articles.count).and change(TagRelationship, :count).by(0).and change(TagRelationship.with_deleted, :count).by(0)
       end
     end
   end

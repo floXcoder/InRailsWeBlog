@@ -19,7 +19,7 @@ export const fetchTags = (filter, options = {}, payload = {}) => ({
 
 export const fetchTag = (tagId, options = {}) => ({
     actionType: ActionTypes.TAG,
-    fetchAPI: () => api.get(`/api/v1/tags/${tagId}`, {
+    fetchAPI: () => api.get(options.edit ? `/api/v1/tags/${tagId}/edit` : `/api/v1/tags/${tagId}`, {
         ...options
     })
 });

@@ -1,5 +1,7 @@
 'use strict';
 
+import withWidth from '@material-ui/core/withWidth';
+
 import {
     uploadImages,
     loadAutocomplete
@@ -13,7 +15,8 @@ export const EditorMode = {
     INLINE_EDIT: 2
 };
 
-export default class Editor extends React.Component {
+export default @withWidth()
+class Editor extends React.Component {
     static propTypes = {
         modelName: PropTypes.string.isRequired,
         modelId: PropTypes.number,
@@ -27,11 +30,14 @@ export default class Editor extends React.Component {
         onFocus: PropTypes.func,
         onBlur: PropTypes.func,
         onKeyUp: PropTypes.func,
-        onKeyDown: PropTypes.func,
-        onPaste: PropTypes.func,
+        // onKeyDown: PropTypes.func,
+        // onPaste: PropTypes.func,
         onChange: PropTypes.func,
         onImageUpload: PropTypes.func,
-        onSubmit: PropTypes.func
+        onSubmit: PropTypes.func,
+        // from withWidth
+        width: PropTypes.string
+
     };
 
     static defaultProps = {
@@ -52,11 +58,11 @@ export default class Editor extends React.Component {
 
     componentDidMount() {
         EditorLoader(() => {
-            let $editor = $(ReactDOM.findDOMNode(this._editorRef));
+            const $editor = $(ReactDOM.findDOMNode(this._editorRef));
 
             const defaultOptions = {
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
-                styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4'],
+                styleTags: ['p', 'pre', 'h2', 'h3', 'h4'],
                 placeholder: this.props.placeholder,
                 popatmouse: false,
                 callbacks: {
@@ -136,6 +142,15 @@ export default class Editor extends React.Component {
                     ['clear', ['clear']]
                 ];
 
+                if (this.props.width === 'xs' || this.props.width === 'sm') {
+                    airToolbar = [
+                        ['style', ['style', 'bold', 'italic', 'underline']],
+                        ['specialStyle', ['pre', 'advice', 'secret']],
+                        ['para', ['ul', 'ol']],
+                        ['insert', ['link', 'picture', 'video']]
+                    ];
+                }
+
                 this._editor = $editor.summernote({
                     ...defaultOptions,
                     airMode: true,
@@ -144,23 +159,32 @@ export default class Editor extends React.Component {
                     }
                 });
             } else {
-                const toolbar = [
+                let toolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
                     ['para', ['ul', 'ol']],
                     ['specialStyle', ['code', 'pre', 'advice', 'secret']],
                     ['table', ['table']],
                     ['insert', ['link', 'picture', 'video']],
                     ['undo', ['undo', 'redo']],
-                    ['clear', ['clear']],
-                    ['view', ['fullscreen']],
-                    ['help', ['codeview', 'help']]
+                    // ['clear', ['clear']],
+                    // ['view', ['fullscreen']],
+                    // ['help', ['codeview', 'help']]
                 ];
+
+                if (this.props.width === 'xs' || this.props.width === 'sm') {
+                    toolbar = [
+                        ['style', ['style', 'bold', 'italic', 'underline']],
+                        ['para', ['ul', 'ol']],
+                        ['specialStyle', ['code', 'pre', 'advice', 'secret']],
+                        ['insert', ['link', 'picture', 'video']]
+                    ];
+                }
 
                 this._editor = $editor.summernote({
                     ...defaultOptions,
                     toolbar: toolbar,
                     followingToolbar: true,
-                    otherStaticBar: '.nav-wrapper',
+                    otherStaticBarHeight: this.props.width === 'xs' ? 111 : 136
                 });
 
                 if (this.props.isCodeView) {
@@ -238,7 +262,19 @@ export default class Editor extends React.Component {
         })).map((upload) => {
             upload.then((response) => {
                 if (response.upload) {
-                    this.insertImage(response.upload.url, response.upload.filename);
+                    this.insertImage(response.upload.url, response.upload.filename, [
+                        {
+                            maxWidth: '600',
+                            url: response.upload.miniUrl
+                        },
+                        {
+                            maxWidth: '992',
+                            url: response.upload.mediumUrl
+                        },
+                        {
+                            url: response.upload.url
+                        }
+                    ]);
 
                     if (this.props.onImageUpload) {
                         this.props.onImageUpload(response.upload);
@@ -309,9 +345,9 @@ export default class Editor extends React.Component {
         }
     };
 
-    insertImage = (url, filenameOrCallback) => {
+    insertImage = (url, filenameOrCallback, srcsets) => {
         if (this._editor) {
-            this._editor.summernote('insertImage', url, filenameOrCallback);
+            this._editor.summernote('insertImage', url, filenameOrCallback, srcsets);
         }
     };
 

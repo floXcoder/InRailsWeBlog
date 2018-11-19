@@ -1,21 +1,32 @@
 # frozen_string_literal: true
 
 module Tags
-  class FindQueries
+  class FindQueries < BaseQuery
     attr_reader :relation
 
-    def initialize(relation = Tag.all)
+    def initialize(current_user = nil, current_admin = nil, relation = Tag.all)
+      super(current_user, current_admin)
+
       @relation = relation.extending(Scopes)
     end
 
-    def all(params = {}, current_user = nil, current_admin = nil)
+    def all(params = {})
       @relation = @relation
                     .include_collection
-                    .with_adapted_visibility(current_user, current_admin)
+                    .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(params[:order] || 'name')
-                    .filter_by(params, current_user)
+                    .filter_by(params, @current_user)
                     .distinct
                     .paginate_or_limit(params)
+
+      return @relation
+    end
+
+    def populars(params = {})
+      @relation = @relation
+                    .include_collection
+                    .everyone
+                    .populars(params[:limit])
 
       return @relation
     end

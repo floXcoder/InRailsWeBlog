@@ -3,7 +3,7 @@
 import LazyLoaderFactory from './lazyLoader';
 
 const SearchIndex = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "search-index" */ '../search/index')}
+    <LazyLoaderFactory module={import(/* webpackPrefetch: true, webpackChunkName: "search-index" */ '../search/index')}
                        props={props}/>
 );
 

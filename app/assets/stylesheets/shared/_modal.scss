@@ -1,7 +1,9 @@
+.responsive-modal-overlay {
+  z-index: 1250;
+}
+
 .responsive-modal {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  padding: 0 !important;
+  width: 95%;
 
   @media #{$large-and-up} {
     width: 900px;
@@ -16,7 +18,7 @@
     padding: 1.25rem 1.5rem;
 
     h1 {
-      color: $off-black;
+      color: $text-color;
       font-size: 1.42857143rem;
       font-weight: 700;
       line-height: 1.28571429em;
@@ -26,26 +28,10 @@
   }
 
   .responsive-modal-content {
-    padding: 2rem;
+    padding: 0;
+
+    @media #{$large-and-up} {
+      padding: 2rem;
+    }
   }
 }
-
-// Transitions
-
-//.transition-enter {
-//  transform: scale(0);
-//}
-//
-//.transition-enter-active {
-//  transform: scale(1);
-//  transition: transform 1000ms ease;
-//}
-//
-//.transition-exit {
-//  transform: scale(1);
-//}
-//
-//.transition-exit-active {
-//  transform: scale(0);
-//  transition: transform 1000ms ease;
-//}

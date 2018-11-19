@@ -61,16 +61,17 @@ RSpec.describe Admin, type: :model, basic: true do
     it { expect(@admin.settings).to eq({}) }
     it { expect(@admin.slug).to eq('example_admin') }
 
-    describe 'Default Attributes' do
-      before do
-        @admin = Admin.create(
-          pseudo: 'Admin'
-        )
-      end
-
-      it { expect(@admin.locale).to eq('fr') }
-      it { expect(@admin.settings).to eq({}) }
-    end
+    # describe 'Default Attributes' do
+    #   before do
+    #     @admin = Admin.create(
+    #       pseudo: 'Admin'
+    #     )
+    #   end
+    #
+    #   it { expect(@admin).to be_valid }
+    #   it { expect(@admin.locale).to eq('fr') }
+    #   it { expect(@admin.settings).to eq({}) }
+    # end
 
     describe '#pseudo' do
       it { is_expected.to validate_presence_of(:pseudo) }

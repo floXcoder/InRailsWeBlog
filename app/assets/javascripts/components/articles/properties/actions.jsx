@@ -9,86 +9,99 @@ import ArticleLinkIcon from '../icons/link';
 
 import ArticleOutdatedIcon from '../icons/outdated';
 
-const ArticleActions = ({isInline, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, isBookmarked, onVisibilityClick, onOutdatedClick, onDeleteClick}) => (
-    <ul className="action-icons">
-        <li className="action-item">
-            <ArticleBookmarkIcon articleId={articleId}/>
-        </li>
-
+const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, isBookmarked, onVisibilityClick, onOutdatedClick, onDeleteClick, size, color}) => (
+    <ul className={classes.actionButtons}>
         {
             !isInline &&
-            <li className="action-item-divider"/>
+            <li className={classes.actionItem}>
+                <ArticleDeleteIcon onDeleteClick={onDeleteClick}
+                                   size={size}
+                                   color={color}/>
+            </li>
         }
 
         {
             !isInline &&
-            <li className="action-item">
+            <li className={classes.actionItem}>
                 <ArticleOutdatedIcon articleId={articleId}
                                      isOutdated={isOutdated}
-                                     onOutdatedClick={onOutdatedClick}/>
+                                     onOutdatedClick={onOutdatedClick}
+                                     size={size}
+                                     color={color}/>
             </li>
         }
 
         {
-            !isInline &&
-            <li className="action-item-divider"/>
-        }
-        {
-            !isInline &&
-            <li className="action-item">
-                <ArticleDeleteIcon onDeleteClick={onDeleteClick}/>
+            (!isInline && userSlug) &&
+            <li className={classes.actionItem}>
+                <ArticleHistoryIcon userSlug={userSlug}
+                                    articleSlug={articleSlug}
+                                    size={size}
+                                    color={color}/>
             </li>
         }
 
-        <li className="action-item-divider"/>
-
-        {
-            !isInline &&
-            <li className="action-item">
-                <ArticleHistoryIcon articleSlug={articleSlug}/>
-            </li>
-        }
-
-        <li className="action-item">
+        <li className={classes.actionItem}>
             <ArticleVisibilityIcon articleId={articleId}
                                    articleVisibility={articleVisibility}
-                                   onVisibilityClick={onVisibilityClick}/>
+                                   onVisibilityClick={onVisibilityClick}
+                                   size={size}
+                                   color={color}/>
         </li>
 
-        <li className="action-item-divider"/>
-
-        <li className="action-item">
-            <ArticleEditIcon articleSlug={articleSlug}/>
+        <li className={classes.actionItem}>
+            <ArticleBookmarkIcon articleId={articleId}
+                                 size={size}
+                                 color={color}/>
         </li>
 
         {
-            isInline &&
-            <li className="action-item">
+            userSlug &&
+            <li className={classes.actionItem}>
+                <ArticleEditIcon userSlug={userSlug}
+                                 articleSlug={articleSlug}
+                                 size={size}
+                                 color={color}/>
+            </li>
+        }
+
+        {
+            (isInline && userSlug) &&
+            <li className={classes.actionItem}>
                 <ArticleLinkIcon articleId={articleId}
                                  articleSlug={articleSlug}
-                                 articleTitle={articleTitle}/>
+                                 articleTitle={articleTitle}
+                                 userSlug={userSlug}
+                                 size={size}
+                                 color={color}/>
             </li>
         }
     </ul>
 );
 
 ArticleActions.propTypes = {
+    classes: PropTypes.object.isRequired,
     articleId: PropTypes.number.isRequired,
     articleSlug: PropTypes.string.isRequired,
     articleVisibility: PropTypes.string.isRequired,
+    userSlug: PropTypes.string,
     articleTitle: PropTypes.string,
     onVisibilityClick: PropTypes.func,
     onOutdatedClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
     isInline: PropTypes.bool,
     isOutdated: PropTypes.bool,
-    isBookmarked: PropTypes.bool
+    isBookmarked: PropTypes.bool,
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action'])
 };
 
 ArticleActions.defaultProps = {
     isInline: false,
     isOutdated: false,
-    isBookmarked: false
+    isBookmarked: false,
+    size: 'default',
+    color: 'action'
 };
 
-export default ArticleActions;
+export default React.memo(ArticleActions);

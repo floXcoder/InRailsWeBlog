@@ -3,20 +3,20 @@
 import * as ActionTypes from '../constants/actionTypes';
 
 // Users
-export const switchUserSignup = () => ({
+export const showUserSignup = () => ({
     type: ActionTypes.UI_SWITCH_USER_SIGNUP
 });
 
-export const switchUserLogin = () => ({
+export const showUserLogin = () => ({
     type: ActionTypes.UI_SWITCH_USER_LOGIN
 });
 
-export const switchUserPreference = () => ({
+export const showUserPreference = () => ({
     type: ActionTypes.UI_SWITCH_USER_PREFERENCE
 });
 
 // Topics
-export const switchTopicPopup = () => ({
+export const showTopicPopup = () => ({
     type: ActionTypes.UI_SWITCH_TOPIC_HEADER
 });
 
@@ -27,6 +27,11 @@ export const updateArticleOrder = (order) => ({
 });
 
 // Tags
+export const switchTagSidebar = (isOpen) => ({
+    type: ActionTypes.UI_SWITCH_TAG_SIDEBAR,
+    isOpen
+});
+
 export const updateTagOrder = (order) => ({
     type: ActionTypes.UI_CHANGE_TAG_ORDER,
     order

@@ -18,7 +18,7 @@ module CommentConcern
       format.json do
         render json:            comments_tree,
                each_serializer: CommentSerializer,
-               meta:            meta_attributes(comments)
+               meta:            meta_pagination_attributes(comments)
       end
     end
   end

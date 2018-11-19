@@ -3,7 +3,7 @@
 import LazyLoaderFactory from './lazyLoader';
 
 const ArticleShow = (props) => (
-    <LazyLoaderFactory module={import(/* webpackChunkName: "article-show" */ '../articles/show')}
+    <LazyLoaderFactory module={import(/* webpackPrefetch: true, webpackChunkName: "article-show" */ '../articles/show')}
                        props={props}/>
 );
 

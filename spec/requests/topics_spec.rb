@@ -112,7 +112,7 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic_id: @first_topic.id }, as: :json
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @first_topic.id }, as: :json
 
         expect(response).to be_unauthorized
       end
@@ -124,7 +124,7 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns the new topic' do
-        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic_id: @first_topic.id }, as: :json
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @first_topic.id }, as: :json
 
         expect(response).to be_json_response
 
@@ -295,7 +295,7 @@ describe 'Topic API', type: :request, basic: true do
 
           topic = JSON.parse(response.body)
           expect(topic['topic']).not_to be_empty
-        }.to change(Topic, :count).by(-1).and change(Article, :count).by(-5).and change(TaggedArticle, :count).by(0).and change(TagRelationship, :count).by(0)
+        }.to change(Topic, :count).by(-1).and change(Article, :count).by(-@first_topic.articles.count).and change(TaggedArticle, :count).by(-@first_topic.tags.count).and change(TagRelationship, :count).by(0)
       end
     end
   end

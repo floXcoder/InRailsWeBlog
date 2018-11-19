@@ -28,7 +28,7 @@ class Comment < ApplicationRecord
 
   # == Attributes ===========================================================
   # Strip whitespaces
-  auto_strip_attributes :title, :subject, :body
+  auto_strip_attributes :title, :subject
 
   # == Extensions ===========================================================
   # Act as a nested tree
