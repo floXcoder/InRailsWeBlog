@@ -3,13 +3,11 @@
 feature 'Home page for visitors', advanced: true, js: true do
 
   background(:all) do
-    Rails.logger.warn 'init all'
-
-    @user       = create(:user)
+    @user = create(:user)
 
     @topic = create(:topic, visibility: 'everyone', user: @user)
 
-    @tags    = create_list(:tag, 2, visibility: 'everyone', user: @user)
+    @tags     = create_list(:tag, 2, visibility: 'everyone', user: @user)
     @articles = create_list(:article, 3, visibility: 'everyone', user: @user, topic: @topic, tags: [@tags[0], @tags[1]])
   end
 

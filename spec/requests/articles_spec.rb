@@ -450,12 +450,12 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
 
-          public_parent_tag = Tag.find_by(name: article['article']['tags'][0]['name'])
-          private_child_tag = Tag.find_by(name: article['article']['tags'][1]['name'])
-          expect(public_parent_tag.children.last).to eq(private_child_tag)
-          expect(private_child_tag.parents.last).to eq(public_parent_tag)
-          expect(public_parent_tag.visibility).to eq('everyone')
-          expect(private_child_tag.visibility).to eq('everyone')
+          parent_tag = Tag.find_by(name: 'Parent tag public')
+          child_tag = Tag.find_by(name: 'Child tag public')
+          expect(parent_tag.children.last).to eq(child_tag)
+          expect(child_tag.parents.last).to eq(parent_tag)
+          expect(parent_tag.visibility).to eq('everyone')
+          expect(child_tag.visibility).to eq('everyone')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(2)
       end
 

@@ -148,7 +148,7 @@ describe('Users actions', () => {
 
             return dispatch(store, UserActions.updateUserSettings(user.id))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('grid');
+                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('card');
                 });
         });
     });
