@@ -75,18 +75,18 @@ test:rails:
   only:
     - develop
 
-test:browser:
-  stage: test
-  variables:
-    RAILS_ENV: "test"
-    DATABASE_TEST_NAME: "inrailsweblog_test"
-    DATABASE_TEST_USERNAME: "inrailsweblog_test"
-    DATABASE_TEST_PASSWORD: "inrailsweblog"
-  <<: *pull-cache
-  script:
-    - bundle exec rspec --tag advanced spec/
-  only:
-    - develop
+#test:browser:
+#  stage: test
+#  variables:
+#    RAILS_ENV: "test"
+#    DATABASE_TEST_NAME: "inrailsweblog_test"
+#    DATABASE_TEST_USERNAME: "inrailsweblog_test"
+#    DATABASE_TEST_PASSWORD: "inrailsweblog"
+#  <<: *pull-cache
+#  script:
+#    - bundle exec rspec --tag advanced spec/
+#  only:
+#    - develop
 
 test:npm:
   stage: test
@@ -115,7 +115,7 @@ deploy:
     - master
 
 check:deploy:
-  stage: deploy
+  stage: check
   cache: {}
   script:
     - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
