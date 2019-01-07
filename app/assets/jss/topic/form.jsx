@@ -11,6 +11,9 @@ const styles = (theme) => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing.unit * 4,
     },
+    input: {
+        margin: '1rem .1rem'
+    }
 });
 
 export default styles;

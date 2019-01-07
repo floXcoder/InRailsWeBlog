@@ -25,6 +25,7 @@ const initState = new Record({
     errors: new Map(),
 
     topics: new List(),
+    metaTags: new Map(),
     pagination: new Map(),
 
     userTopics: new List(),

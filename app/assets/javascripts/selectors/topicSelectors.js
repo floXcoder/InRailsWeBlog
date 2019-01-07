@@ -10,6 +10,11 @@ export const getTopics = createSelector(
     (topics) => topics.toArray()
 );
 
+export const getTopicMetaTags = createSelector(
+    (state) => state.topicState.metaTags,
+    (metaTags) => metaTags.toJS()
+);
+
 export const getTopicPagination = createSelector(
     (state) => state.topicState.pagination,
     (pagination) => pagination.toJS()

@@ -28,4 +28,4 @@ AnimatedText.propTypes = {
     subtitle: PropTypes.string
 };
 
-export default React.memo(AnimatedText);
+export default AnimatedText;

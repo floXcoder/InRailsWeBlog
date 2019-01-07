@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    lazy
+} from 'react';
+
+import {
     withRouter,
     Route,
     Link
@@ -49,9 +53,7 @@ import {
     getCurrentTagSlugs
 } from '../../../selectors';
 
-import Login from '../../users/login';
-import Signup from '../../users/signup';
-import Preference from '../../users/preference';
+const Preference = lazy(() => import(/* webpackChunkName: "user-preference" */ '../../users/preference'));
 
 import TopicModule from '../../topics/module';
 
@@ -59,7 +61,7 @@ import BookmarkList from '../../bookmark/list';
 
 import TagSidebar from '../../tags/sidebar';
 
-import HomeSearchHeader from '../header/search';
+const HomeSearchHeader = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../header/search'));
 import HomeBookmarkHeader from '../header/bookmark';
 import HomeArticleHeader from '../header/article';
 import HomeUserHeader from '../header/user';
@@ -68,6 +70,10 @@ import HeaderUserMenu from '../header/menus/user';
 import HeaderArticleMenu from '../header/menus/article';
 
 import styles from '../../../../jss/user/header';
+
+import {
+    articleTemporaryDataName
+} from '../../modules/constants';
 
 export default @withRouter
 
@@ -124,7 +130,7 @@ class HeaderLayoutUser extends React.PureComponent {
         this._anchorEl = null;
 
         // Check if temporary article in local storage
-        const temporaryArticle = getLocalData('article-temporary');
+        const temporaryArticle = getLocalData(articleTemporaryDataName);
         if (temporaryArticle && temporaryArticle.length > 0) {
             this.state.hasTemporaryArticle = true;
         }
@@ -337,7 +343,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
                             <Link className={this.props.classes.title}
                                   to="/">
-                                <h1>
+                                <h1 className={this.props.classes.websiteTitle}>
                                     InR
                                 </h1>
                             </Link>
@@ -414,12 +420,6 @@ class HeaderLayoutUser extends React.PureComponent {
                     <textarea id="clipboard"
                               title="clipboard"/>
                 </div>
-
-                <Signup isOpen={this.props.isUserSignupOpen}
-                        onModalChange={this.props.showUserSignup}/>
-
-                <Login isOpen={this.props.isUserLoginOpen}
-                       onModalChange={this.props.showUserLogin}/>
 
                 <Preference isOpen={this.props.isUserPreferenceOpen}
                             onModalChange={this.props.showUserPreference}/>

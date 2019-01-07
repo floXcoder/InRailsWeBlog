@@ -27,7 +27,8 @@ const finalCreateStore = composeWithDevTools(
         thunk,
         loadingBarMiddleware({
             promiseTypeSuffixes: ['FETCH_INIT', 'FETCH_SUCCESS', 'FETCH_ERROR']
-        }))
+        })
+    )
 )(createStore);
 
 export const configureStore = finalCreateStore(adminReducers);

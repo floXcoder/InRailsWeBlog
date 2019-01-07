@@ -34,4 +34,4 @@ ArticleEditIcon.defaultProps = {
     color: 'primary'
 };
 
-export default React.memo(ArticleEditIcon);
+export default ArticleEditIcon;

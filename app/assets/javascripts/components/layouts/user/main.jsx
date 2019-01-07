@@ -16,7 +16,8 @@ import UserManager from '../../layouts/managers/user';
 import ErrorBoundary from '../../errors/boundary';
 
 import RedirectLayout from './redirect';
-import SidebarLayout from './sidebar';
+import TagSidebarLayout from './tagSidebar';
+import ArticleSidebarLayout from './articleSidebar';
 import BreadcrumbLayout from '../breadcrumb';
 
 import styles from '../../../../jss/user/main';
@@ -27,15 +28,14 @@ class MainLayoutUser extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
         permanentRoutes: PropTypes.array.isRequired,
-        // from connect
-        currentUserSlug: PropTypes.string,
-        currentUserTopicSlug: PropTypes.string,
         // from styles
         classes: PropTypes.object
     };
 
     constructor(props) {
         super(props);
+
+        this._previousRoute = {};
     }
 
     _renderPermanentRoutes = (routes) => {
@@ -68,12 +68,14 @@ class MainLayoutUser extends React.Component {
                                    path={route.path}
                                    exact={route.exact}
                                    render={(router) => {
-                                       if (route.redirect || (route.redirectCondition && router.match.params[route.redirectCondition])) {
+                                       if (route.redirect && route.redirect(route, this._previousRoute)) {
                                            return (
                                                <RedirectLayout redirectPath={route.redirectPath}
                                                                {...router.match.params}/>
                                            );
                                        }
+
+                                       this._previousRoute = route;
 
                                        const Component = route.component();
 
@@ -85,15 +87,24 @@ class MainLayoutUser extends React.Component {
                                                        <ErrorBoundary errorType="text"
                                                                       errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                                                            <div className={this.props.classes.sidebar}>
-                                                               <SidebarLayout params={router.match.params}
-                                                                              isCloud={route.tagCloud}/>
+                                                               <TagSidebarLayout params={router.match.params}
+                                                                                 isCloud={route.tagCloud}/>
+                                                           </div>
+                                                       </ErrorBoundary>
+                                                   </Hidden>
+
+                                                   <Hidden smDown={true}>
+                                                       <ErrorBoundary errorType="text"
+                                                                      errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
+                                                           <div className={this.props.classes.sidebar}>
+                                                               <ArticleSidebarLayout params={router.match.params}/>
                                                            </div>
                                                        </ErrorBoundary>
                                                    </Hidden>
 
                                                    <main className={this.props.classes.content}>
                                                        {
-                                                           route.hasBreadcrumb &&
+                                                           route.noBreadcrumb &&
                                                            <ErrorBoundary errorType="text"
                                                                           errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                                                                <div className={this.props.classes.breadcrumb}>
@@ -134,7 +145,7 @@ class MainLayoutUser extends React.Component {
                                                    </main>
                                                </div>
                                            </UserManager>
-                                       )
+                                       );
                                    }}/>
                         );
                     })

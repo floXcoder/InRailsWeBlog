@@ -41,11 +41,11 @@ module Api::V1
           if params[:complete]
             render json:            comments,
                    each_serializer: CommentFullSerializer,
-                   meta:            meta_pagination_attributes(comments)
+                   meta:            meta_attributes(pagination: comments)
           else
             render json:            comments,
                    each_serializer: CommentSerializer,
-                   meta:            meta_pagination_attributes(comments)
+                   meta:            meta_attributes(pagination: comments)
           end
         end
       end

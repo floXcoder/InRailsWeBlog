@@ -20,7 +20,7 @@ const styles = (theme) => ({
     },
     title: {
         marginTop: '1rem',
-        marginBottom: '.8rem',
+        marginBottom: '1.8rem',
         fontSize: h1Size,
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
@@ -41,8 +41,8 @@ const styles = (theme) => ({
         flexWrap: 'wrap'
     },
     avatar: {
-        width: 50,
-        height: 50,
+        width: 42,
+        height: 42,
     },
     avatarIcon: {
         fontSize: 36
@@ -65,15 +65,15 @@ const styles = (theme) => ({
     info: {
         color: theme.palette.grey[600],
         fontSize: '.9rem',
-        marginBottom: 10,
         marginTop: 10,
+        marginBottom: 0,
         [theme.breakpoints.down('md')]: {
             margin: 0
         }
     },
     floatingButtons: {
         position: 'absolute',
-        left: -90,
+        left: -110,
         [theme.breakpoints.down('md')]: {
             display: 'none'
         }
@@ -82,7 +82,7 @@ const styles = (theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        fontSize: '2rem'
+        fontSize: '2.2rem'
     },
     actionButtons: {
         // display: 'inline-flex',

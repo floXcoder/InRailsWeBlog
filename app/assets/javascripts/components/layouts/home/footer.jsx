@@ -4,21 +4,14 @@ import {
     withRouter
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-
-import styles from '../../../../jss/home/footer';
+// import styles from '../../../../jss/home/footer';
 
 export default @withRouter
-@withStyles(styles)
 class FooterLayoutHome extends React.Component {
     static propTypes = {
         // from router
         location: PropTypes.object,
-        history: PropTypes.object,
-        // from styles
-        // classes: PropTypes.object
+        history: PropTypes.object
     };
 
     _handleSearchClose = () => {

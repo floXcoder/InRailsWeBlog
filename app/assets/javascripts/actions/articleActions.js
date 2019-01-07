@@ -61,14 +61,15 @@ export const deleteArticle = (articleId, options = {}) => ({
 });
 
 // Article history
-const receiveArticleVersions = (versions) => ({
+const receiveArticleVersions = (versions, meta) => ({
     type: ActionTypes.ARTICLE_HISTORY,
-    versions
+    versions,
+    meta
 });
 export const fetchArticleHistory = (articleId) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/history`)
         .promise
-        .then((response) => dispatch(receiveArticleVersions(response.history)))
+        .then((response) => dispatch(receiveArticleVersions(response.history, response.meta)))
 );
 
 const receiveArticleRestored = (article) => ({

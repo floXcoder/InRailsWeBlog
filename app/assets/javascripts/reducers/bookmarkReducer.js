@@ -2,6 +2,7 @@
 
 import {
     Record,
+    Map,
     List
 } from 'immutable';
 
@@ -19,6 +20,7 @@ const initState = new Record({
     isFetching: false,
     isProcessing: false,
     errors: new Map(),
+    metaTags: new Map(),
     pagination: new Map(),
 
     bookmarks: new List(),

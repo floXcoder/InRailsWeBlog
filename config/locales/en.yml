@@ -72,7 +72,10 @@ en:
         successful_deletion: "Article has been removed"
         error_deletion: "Cannot delete article: %{errors}"
       index:
-        title: "User tags: %{user}"
+        title:
+          default: "Tags list"
+          user: "User tags: %{user}"
+          topic: "Topic tags: %{topic}"
       show:
         title: "Tag: %{name}"
       edit:
@@ -96,10 +99,13 @@ en:
           tagged: "Articles for %{tag}"
           topic: "Articles of %{topic}"
       show:
-        title: "%{title}"
+        title: "%{title} - %{topic}"
       edit:
-        title: "Article edition: %{title}"
-        description: "Article edition: %{title}"
+        title: "Edition of %{title} - %{topic}"
+        description: "Article edition: %{title} - %{topic}"
+      history:
+        title: "Previous versions of %{title} - %{topic}"
+        description: "Previous versions of %{title} - %{topic}"
     picture:
       flash:
         successful_deletion: "Picture removed"
@@ -121,7 +127,7 @@ en:
         title: "Admin"
     search:
       index:
-        title: "Votre recherche : %{query}"
+        title: "Search: %{query}"
     errors:
       flash:
         successful_deletion: "Error removed"

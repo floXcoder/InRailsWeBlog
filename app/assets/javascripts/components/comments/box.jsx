@@ -171,6 +171,8 @@ class CommentBox extends React.Component {
         return (
             <div id={this.props.id}
                  className={classNames('comments', this.props.classes.root)}>
+                <hr className={this.props.classes.separation}/>
+
                 <h2 className={this.props.classes.title}>
                     {I18n.t('js.comment.common.title')}
                 </h2>

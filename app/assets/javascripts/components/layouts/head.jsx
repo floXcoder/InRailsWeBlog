@@ -4,70 +4,56 @@ import {
     Helmet
 } from 'react-helmet';
 
-class HeadLayout extends React.Component {
+export default class HeadLayout extends React.Component {
+    static propTypes = {
+        // from connect
+        metaTags: PropTypes.object
+    };
+
+    static defaultProps = {
+        metaTags: {
+            og: {}
+        }
+    };
+
     constructor(props) {
         super(props);
     }
-
-    state = {
-        title: '',
-        description: '',
-        author: null,
-        og_type: null,
-        og_url: null,
-        og_image: null
-    };
-
-    define = ({title, description, author, og_type, og_url, og_image}) => {
-        this.setState({
-            title,
-            description,
-            author,
-            og_type,
-            og_url,
-            og_image
-        });
-    };
 
     render() {
         return (
             <Helmet>
                 <title>
-                    {this.state.title}
+                    {this.props.metaTags.title}
                 </title>
 
                 <meta name="description"
-                      content={this.state.description}/>
+                      content={this.props.metaTags.description}/>
 
                 {
-                    this.state.author &&
+                    this.props.metaTags.author &&
                     <meta property="author"
-                          content={this.state.author}/>
+                          content={this.props.metaTags.author}/>
                 }
 
                 {
-                    this.state.og_type &&
+                    this.props.metaTags.og_type &&
                     <meta property="og:type"
-                          content={this.state.og_type}/>
+                          content={this.props.metaTags.og.type}/>
                 }
 
                 {
-                    this.state.og_url &&
+                    this.props.metaTags.og_url &&
                     <meta property="og:url"
-                          content={this.state.og_url}/>
+                          content={this.props.metaTags.og.url}/>
                 }
 
                 {
-                    this.state.og_type &&
+                    this.props.metaTags.og_type &&
                     <meta property="og:image"
-                          content={this.state.og_image}/>
+                          content={this.props.metaTags.og.image}/>
                 }
             </Helmet>
         );
     }
 }
-
-export default ReactDOM.render(
-    <HeadLayout/>,
-    document.getElementById('head-component')
-);

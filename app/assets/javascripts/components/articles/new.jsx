@@ -17,10 +17,12 @@ import {
     getCurrentLocale
 } from '../../selectors';
 
+import articleMutationManager from './managers/mutation';
+
+import HeadLayout from '../layouts/head';
+
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
-
-import articleMutationManager from './managers/mutation';
 
 import styles from '../../../jss/article/form';
 
@@ -45,6 +47,7 @@ class ArticleNew extends React.Component {
         currentMode: PropTypes.string,
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
+        onCancelClick: PropTypes.func,
         onSubmit: PropTypes.func,
         // from connect
         userSlug: PropTypes.string,
@@ -76,7 +79,7 @@ class ArticleNew extends React.Component {
         };
 
         let errorStep = null;
-        if(this.props.articleErrors.length > 0) {
+        if (this.props.articleErrors.length > 0) {
             if (this.props.articleErrors.some((error) => error.includes('Tags') || error.includes('Labels'))) {
                 errorStep = 'tag';
             } else {
@@ -86,6 +89,11 @@ class ArticleNew extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
+                <HeadLayout metaTags={{
+                    title: I18n.t('js.article.new.meta.title', {topic: this.props.currentTopic ? this.props.currentTopic.name : null}),
+                    description: I18n.t('js.article.new.meta.description')
+                }}/>
+
                 <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&
@@ -103,6 +111,7 @@ class ArticleNew extends React.Component {
                                     isInline={this.props.isInline}
                                     isDraft={this.props.isDraft}
                                     articleErrors={this.props.articleErrors}
+                                    onCancelClick={this.props.onCancelClick}
                                     onSubmit={this.props.onSubmit}>
                     {this.props.article}
                 </ArticleFormDisplay>

@@ -16,6 +16,10 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import styles from '../../../jss/notification';
 
+import {
+    notificationDuration
+} from '../modules/constants';
+
 const variantIcon = {
     success: CheckCircleIcon,
     warning: WarningIcon,
@@ -85,10 +89,9 @@ class Notification extends React.Component {
         messageInfo: {}
     };
 
-    _handleAdd = (level, message, duration = 8, actionButton, actionCallback) => {
+    _handleAdd = (level, message, actionButton, actionCallback) => {
         this._queue.push({
             key: Utils.uuid(),
-            duration: duration * 1000,
             level,
             message,
             actionButton,
@@ -113,9 +116,9 @@ class Notification extends React.Component {
     };
 
     _handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+        // if (reason === 'clickaway') {
+        //     return;
+        // }
 
         this.setState({isOpen: false});
     };
@@ -124,17 +127,16 @@ class Notification extends React.Component {
         this._processQueue();
     };
 
-    // Duration in seconds
-    alert = (message, duration = 10, actionButton, actionCallback) => {
-        this._handleAdd('alert', message, duration, actionButton, actionCallback);
+    alert = (message, actionButton, actionCallback) => {
+        this._handleAdd('alert', message, actionButton, actionCallback);
     };
 
-    success = (message, duration = 10, actionButton, actionCallback) => {
-        this._handleAdd('success', message, duration, actionButton, actionCallback);
+    success = (message, actionButton, actionCallback) => {
+        this._handleAdd('success', message, actionButton, actionCallback);
     };
 
-    error = (message, duration = 15, actionButton, actionCallback) => {
-        this._handleAdd('error', message, duration, actionButton, actionCallback);
+    error = (message, actionButton, actionCallback) => {
+        this._handleAdd('error', message, actionButton, actionCallback);
     };
 
     render() {
@@ -144,7 +146,7 @@ class Notification extends React.Component {
                 horizontal: 'center',
             }}
                       open={this.state.isOpen}
-                      autoHideDuration={10000}
+                      autoHideDuration={notificationDuration}
                       onClose={this._handleClose}
                       onExited={this._handleExited}>
                 <NotificationContent messageInfo={this.state.messageInfo}

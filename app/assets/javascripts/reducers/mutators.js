@@ -2,8 +2,13 @@
 
 import {
     Map,
-    List
+    List,
+    fromJS
 } from 'immutable';
+
+const emptyMetaTags = new Map();
+const emptyPagination = new Map();
+const emptyErrors = new Map();
 
 export const fetchReducer = (state, action, payloadReducer, omitItems = []) => {
     const actionName = action.type.split('/')[1];
@@ -25,8 +30,9 @@ export const fetchReducer = (state, action, payloadReducer, omitItems = []) => {
                 isFetching,
                 ...Utils.omit(actionContent, omitItems),
                 ...payloadReducer({...actionContent, meta}),
-                pagination: meta || {},
-                errors: new Map()
+                metaTags: meta && meta.metaTags ? fromJS(meta.metaTags) : emptyMetaTags,
+                pagination: meta && meta.pagination ? fromJS(meta.pagination) : emptyPagination,
+                errors: emptyErrors
             });
         case 'FETCH_ERROR':
             return state.merge({
@@ -58,7 +64,7 @@ export const mutationReducer = (state, action, payloadReducer, omitItems = []) =
                 isProcessing,
                 ...Utils.omit(actionContent, omitItems),
                 ...payloadReducer(actionContent),
-                errors: new Map()
+                errors: emptyErrors
             });
         case 'CHANGE_ERROR':
             return state.merge({
@@ -86,7 +92,7 @@ export const toList = (elements, record) => {
 const applyFn = (state, fn) => fn(state);
 export const pipe = (fns, state) => state.withMutations(s => fns.reduce(applyFn, s));
 
-export const findItemIndex = (list, itemId, id = 'id') => list.findIndex((item) => (item[id] || item.get(id)) === itemId);
+export const findItemIndex = (list, itemId, id = 'id') => list.findIndex((item) => (item[id] || item.get(id)) === itemId);
 
 export const addOrRemoveArray = (itemArray, item, id = 'id') => {
     const itemIndex = findItemIndex(itemArray, item && item[id], id);

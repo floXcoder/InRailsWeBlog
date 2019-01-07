@@ -13,6 +13,11 @@ export const getTags = createSelector(
     (tags) => tags.toArray()
 );
 
+export const getTagMetaTags = createSelector(
+    (state) => state.tagState.metaTags,
+    (metaTags) => metaTags.toJS()
+);
+
 export const getTopicTags = createSelector(
     (state) => state.tagState.topicTags,
     (tags) => tags.toArray()

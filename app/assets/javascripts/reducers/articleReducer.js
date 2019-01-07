@@ -23,6 +23,7 @@ const initState = new Record({
     errors: new Map(),
 
     articles: new List(),
+    metaTags: new Map(),
     pagination: new Map(),
 
     homeArticles: new List(),
@@ -83,7 +84,8 @@ export default function articleReducer(state = new initState(), action) {
         // History and restoration
         case ActionTypes.ARTICLE_HISTORY:
             return state.merge({
-                articleVersions: action.versions
+                articleVersions: action.versions,
+                metaTags: action.meta && action.meta.metaTags ? action.meta.metaTags : state.metaTags
             });
 
         case ActionTypes.ARTICLE_RESTORE:

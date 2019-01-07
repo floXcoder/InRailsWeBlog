@@ -22,7 +22,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           render json: activities,
-                 meta: meta_pagination_attributes(activities)
+                 meta: meta_attributes(pagination: activities)
         end
       end
     end

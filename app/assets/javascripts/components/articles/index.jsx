@@ -11,25 +11,29 @@ import {
 import {
     fetchArticles,
     updateArticleOrder,
+    setCurrentArticles,
     setCurrentTags
 } from '../../actions';
 
 import {
+    getArticleMetaTags,
     getArticlePagination,
     getArticles
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
+import HeadLayout from '../layouts/head';
+
 import ArticleListDisplay from './display/list';
 import ArticleNoneDisplay from '../articles/display/none';
-import ArticleAppendixDisplay from '../articles/display/appendix';
 
 import styles from '../../../jss/article/index';
 
 export default @hot(module)
 
 @connect((state) => ({
+    metaTags: getArticleMetaTags(state),
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
@@ -39,10 +43,12 @@ export default @hot(module)
     articlesLoaderMode: state.uiState.articlesLoaderMode,
     articleDisplayMode: state.uiState.articleDisplayMode,
     articleOrderMode: state.uiState.articleOrderMode,
+    areArticlesMinimized: state.uiState.areArticlesMinimized,
     articleEditionId: state.articleState.articleEditionId
 }), {
     fetchArticles,
     updateArticleOrder,
+    setCurrentArticles,
     setCurrentTags
 })
 @withStyles(styles)
@@ -51,9 +57,10 @@ class ArticleIndex extends React.Component {
         params: PropTypes.object.isRequired,
         queryString: PropTypes.string,
         // from connect
+        metaTags: PropTypes.object,
         userId: PropTypes.number,
         userSlug: PropTypes.string,
-        currentUserTopicId: PropTypes.string,
+        currentUserTopicId: PropTypes.number,
         isFetching: PropTypes.bool,
         articles: PropTypes.array,
         articlePagination: PropTypes.object,
@@ -61,8 +68,10 @@ class ArticleIndex extends React.Component {
         articlesLoaderMode: PropTypes.string,
         articleDisplayMode: PropTypes.string,
         articleOrderMode: PropTypes.string,
+        areArticlesMinimized: PropTypes.bool,
         fetchArticles: PropTypes.func,
         updateArticleOrder: PropTypes.func,
+        setCurrentArticles: PropTypes.func,
         setCurrentTags: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -74,11 +83,6 @@ class ArticleIndex extends React.Component {
         this._parseQuery = Utils.parseUrlParameters(props.queryString) || {};
         this._request = null;
     }
-
-    state = {
-        isMinimized: false,
-        currentArticles: []
-    };
 
     componentDidMount() {
         this._fetchArticles(this.props.params);
@@ -149,31 +153,21 @@ class ArticleIndex extends React.Component {
             this._request.fetch.then(() => {
                 if (params.selected) {
                     setTimeout(() => {
-                        $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
+                        if (ReactDOM.findDOMNode(this)) {
+                            $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
+                        }
                     }, 300);
                 }
             });
         }
     };
 
-    _handleMinimizeAll = (event) => {
-        event.preventDefault();
-
-        this.setState({
-            isMinimized: !this.state.isMinimized
-        })
-    };
-
     _handleArticleEnter = (article) => {
-        this.setState({
-            currentArticles: this.state.currentArticles.concat(article.id)
-        })
+        this.props.setCurrentArticles('add', article.id);
     };
 
     _handleArticleExit = (article) => {
-        this.setState({
-            currentArticles: this.state.currentArticles.remove(article.id)
-        })
+        this.props.setCurrentArticles('remove', article.id);
     };
 
     render() {
@@ -185,6 +179,8 @@ class ArticleIndex extends React.Component {
                 <div className="blog-article-box">
                     <ArticleNoneDisplay userSlug={this.props.params.userSlug}
                                         topicSlug={this.props.params.topicSlug}
+                                        tagSlug={this.props.params.tagSlug}
+                                        childTagSlug={this.props.params.childTagSlug}
                                         isTopicPage={true}
                                         isSearchPage={false}/>
                 </div>
@@ -195,6 +191,8 @@ class ArticleIndex extends React.Component {
             <div className={classNames(this.props.classes.root, {
                 [this.props.classes.grid]: this.props.articleDisplayMode === 'grid'
             })}>
+                <HeadLayout metaTags={this.props.metaTags}/>
+
                 {
                     this.props.isFetching &&
                     <div className={this.props.classes.root}>
@@ -206,27 +204,18 @@ class ArticleIndex extends React.Component {
 
                 {
                     this.props.articles.length > 0 &&
-                    <div className="row">
-                        <div className="col s12 l10 offset-l1">
-                            <ArticleListDisplay articles={this.props.articles}
-                                                articlesLoaderMode={this.props.articlesLoaderMode}
-                                                articleDisplayMode={this.props.articleDisplayMode}
-                                                articleEditionId={this.props.articleEditionId}
-                                                hasMoreArticles={hasMoreArticles}
-                                                isSortedByTag={isSortedByTag}
-                                                isMinimized={this.state.isMinimized}
-                                                parentTag={this.props.params.tagSlug}
-                                                articleTotalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
-                                                onEnter={this._handleArticleEnter}
-                                                onExit={this._handleArticleExit}
-                                                fetchArticles={this._fetchNextArticles}/>
-                        </div>
-
-                        <div className="col s12 l1">
-                            <ArticleAppendixDisplay currentArticles={this.state.currentArticles}
-                                                    onMinimized={this._handleMinimizeAll}/>
-                        </div>
-                    </div>
+                    <ArticleListDisplay articles={this.props.articles}
+                                        articlesLoaderMode={this.props.articlesLoaderMode}
+                                        articleDisplayMode={this.props.articleDisplayMode}
+                                        articleEditionId={this.props.articleEditionId}
+                                        hasMoreArticles={hasMoreArticles}
+                                        isSortedByTag={isSortedByTag}
+                                        isMinimized={this.props.areArticlesMinimized}
+                                        parentTag={this.props.params.tagSlug}
+                                        articleTotalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
+                                        onEnter={this._handleArticleEnter}
+                                        onExit={this._handleArticleExit}
+                                        fetchArticles={this._fetchNextArticles}/>
                 }
             </div>
         );

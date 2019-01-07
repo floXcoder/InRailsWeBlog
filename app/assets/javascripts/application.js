@@ -21,11 +21,6 @@ import NotificationLayout from './components/layouts/notification';
 
 window.Notification = NotificationLayout;
 
-// Head
-import HeadLayout from './components/layouts/head';
-
-window.Head = HeadLayout;
-
 // Translation
 import I18n from 'imports-loader?this=>window!./modules/i18n';
 
@@ -70,13 +65,13 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
         if (reactRootComponent[0]) {
             // Test if React component
             if (!ReactDOM.findDOMNode(reactRootComponent[0]).children[0]) {
-                Notification.alert(I18n.t('js.helpers.errors.frontend'), 300, I18n.t('js.helpers.home'), () => window.location = '/');
+                Notification.alert(I18n.t('js.helpers.errors.frontend'), I18n.t('js.helpers.home'), () => window.location = '/');
             }
         }
     }
     catch (e) {
         // Root node is not a React component so React is not mounted
-        Notification.alert(I18n.t('js.helpers.errors.frontend'), 300, I18n.t('js.helpers.home'), () => window.location = '/');
+        Notification.alert(I18n.t('js.helpers.errors.frontend'), I18n.t('js.helpers.home'), () => window.location = '/');
     }
 
     if (!trace) {
@@ -98,14 +93,3 @@ window.onerror = function (message, url, lineNumber, columnNumber, trace) {
         log.now('Error: ' + message + ' (File: ' + url + ' ; ' + lineNumber + ')', 'text-error');
     }
 };
-
-// IE10 viewport hack for Surface/desktop Windows 8 bug
-if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-    const msViewportStyle = document.createElement('style');
-    msViewportStyle.appendChild(
-        document.createTextNode(
-            '@-ms-viewport{width:auto!important}'
-        )
-    );
-    document.querySelector('head').appendChild(msViewportStyle);
-}

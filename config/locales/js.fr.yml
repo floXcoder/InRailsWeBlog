@@ -355,7 +355,10 @@ fr:
           content_too_short: "Le contenu est trop court"
         no_results:
           topic:
-            title: "Pas d'articles associés à ce thème"
+            title:
+              default: "Pas d'articles associés à ce thème"
+              tag: "Pas d'articles associés à ce thème pour ce label"
+              child_tag: "Pas d'articles associés à ce thème pour ce sous-label"
             content: "Ajouter de nouveau article en cliquant que le bouton ci-dessous"
             button: "Ajouter nouvel article"
           search:
@@ -431,6 +434,9 @@ fr:
       show:
         new_tags: "Ajouter des synonymes ou description aux nouveaux labels ajoutés :"
       new:
+        meta:
+          title: "Nouvel article - %{topic} - InRailsWeBlog"
+          description: "Ajout d'un article - InRailsWeBlog"
         title: "Créer un nouvel article"
         tags:
           title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
@@ -445,10 +451,10 @@ fr:
       sort:
         title: "Tirer par"
         order:
-          priority: "Priorité"
-          tag: "Label"
-          date_desc: "Plus récent"
-          date_asc: "Plus ancien"
+          priority_desc: "Priorité"
+          tag_asc: "Label"
+          updated_desc: "Plus récent"
+          updated_asc: "Plus ancien"
         link_title: "Changer ordre"
         link: "Changer la priorité"
       filter:

@@ -26,6 +26,17 @@ export const updateArticleOrder = (order) => ({
     order
 });
 
+export const switchArticleMinimized = (order) => ({
+    type: ActionTypes.UI_SWITCH_ARTICLE_MINIMIZED,
+    order
+});
+
+export const setCurrentArticles = (action, article) => ({
+    type: ActionTypes.UI_CHANGE_CURRENT_ARTICLES,
+    action,
+    article
+});
+
 // Tags
 export const switchTagSidebar = (isOpen) => ({
     type: ActionTypes.UI_SWITCH_TAG_SIDEBAR,

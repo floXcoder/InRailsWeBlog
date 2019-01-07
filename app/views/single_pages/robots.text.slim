@@ -1,9 +1,6 @@
 - if Rails.env.production?
   = "User-Agent: *\n"
   = 'Disallow: /'
-  / = "Disallow: /tools\n"
-  / = "Disallow: /admin/*\n"
-  / = "Sitemap: #{root_url}sitemap.xml.gz"
 - else
   = "User-Agent: *\n"
   = 'Disallow: /'

@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    withRouter,
     Link
 } from 'react-router-dom';
 
@@ -40,8 +39,7 @@ import ArticleActions from '../properties/actions';
 
 import styles from '../../../../jss/article/card';
 
-export default @withRouter
-@highlight()
+export default @highlight()
 @withStyles(styles)
 class ArticleCardDisplay extends React.Component {
     static propTypes = {
@@ -54,8 +52,6 @@ class ArticleCardDisplay extends React.Component {
         onExit: PropTypes.func,
         // from highlight
         onShow: PropTypes.func,
-        // from withRouter
-        history: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };
@@ -69,8 +65,6 @@ class ArticleCardDisplay extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this._headerRef = null;
     }
 
     state = {
@@ -117,19 +111,19 @@ class ArticleCardDisplay extends React.Component {
     };
 
     _handleTitleClick = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
 
         spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
 
-        const position = ReactDOM.findDOMNode(this._headerRef).getBoundingClientRect();
-
-        this.props.history.push({
-            pathname: `/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`,
-            state: {
-                position: {x: position.x, y: position.y},
-                title: this.props.article.title
-            }
-        });
+        // const position = ReactDOM.findDOMNode(this._headerRef).getBoundingClientRect();
+        //
+        // this.props.history.push({
+        //     pathname: `/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`,
+        //     state: {
+        //         position: {x: position.x, y: position.y},
+        //         title: this.props.article.title
+        //     }
+        // });
     };
 
     render() {
@@ -157,15 +151,13 @@ class ArticleCardDisplay extends React.Component {
                                                               userSlug={this.props.article.user.slug}
                                                               articleId={this.props.article.id}
                                                               articleSlug={this.props.article.slug}
-                                                              articleTitle={this.props.article.title}
-                                                              articleVisibility={this.props.article.visibility}/>
+                                                              articleTitle={this.props.article.title}/>
                                     )}
                                 </Sticky>
                             </div>
                         }
 
-                        <CardHeader innerRef={(ref) => this._headerRef = ref}
-                                    classes={{
+                        <CardHeader classes={{
                                         root: this.props.classes.header
                                     }}
                                     action={

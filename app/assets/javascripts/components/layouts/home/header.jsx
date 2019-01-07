@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    lazy
+} from 'react';
+
+import {
     withRouter,
     Route,
     Link
@@ -34,10 +38,10 @@ import {
     showUserLogin
 } from '../../../actions';
 
-import Login from '../../users/login';
-import Signup from '../../users/signup';
+const Signup = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "user-signup" */ '../../users/signup'));
+const Login = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "user-login" */ '../../users/login'));
 
-import HomeSearchHeader from '../header/search';
+const HomeSearchHeader = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../header/search'));
 
 import styles from '../../../../jss/home/header';
 

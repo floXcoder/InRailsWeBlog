@@ -9,7 +9,7 @@ end
 ruby '2.5.1'
 
 # Rails version
-gem 'rails',                    '5.2.1'
+gem 'rails',                    '5.2.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.1.3'
@@ -21,7 +21,7 @@ gem 'secure_headers',           '6.0.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.8'
-gem 'oj',                       '3.7.1'
+gem 'oj',                       '3.7.6'
 gem 'oj_mimic_json',            '1.0.1'
 
 # Use slim instead of erb
@@ -33,13 +33,13 @@ gem 'geocoder',                 '1.5.0'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '10.0.1'
+gem 'paper_trail',              '10.1.0'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.1'
 
 # User activities
-gem 'public_activity',          '1.6.2'
+gem 'public_activity',          '1.6.3'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.5.0'
@@ -49,7 +49,7 @@ gem 'sanitize',                 '5.0.0'
 gem 'sidekiq',                  '5.2.3'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '1.0.4'
-gem 'sidekiq-status',           '1.1.0'
+gem 'sidekiq-status',           '1.1.1'
 gem 'attentive_sidekiq',        '0.3.3'
 gem 'sidekiq-benchmark',        '0.6.0'
 gem 'whenever',                 '0.10.0', require: false
@@ -76,7 +76,7 @@ gem 'devise',                   '4.5.0'
 gem 'pundit',                   '2.0.0'
 
 # Upload pictures
-gem 'carrierwave',              '1.2.3'
+gem 'carrierwave',              '1.3.1'
 gem 'carrierwave-imageoptimizer', '1.4.0'
 gem 'mini_magick',              '4.9.2'
 
@@ -97,7 +97,7 @@ gem 'rack-attack',              '5.4.2'
 gem 'browser',                  '2.5.3'
 
 # SEO
-gem 'friendly_id',              '5.2.4'
+gem 'friendly_id',              '5.2.5'
 gem 'meta-tags',                '2.11.0'
 
 # Dummy data
@@ -108,7 +108,7 @@ gem 'faker',                    '1.9.1',   require: false
 gem 'capistrano',               '3.11.0'
 gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
-gem 'capistrano-bundler',       '1.4.0',   require: false
+gem 'capistrano-bundler',       '1.5.0',   require: false
 gem 'capistrano-rails-console', '2.3.0',   require: false
 gem 'capistrano-db-tasks',      '0.6',     require: false
 gem 'capistrano-sidekiq',       '1.0.2',   require: false
@@ -120,7 +120,7 @@ group :development do
   gem 'puma',                   '3.12.0'
 
   # Debugging tool
-  gem 'pry-rails',              '0.3.7'
+  gem 'pry-rails',              '0.3.9'
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
@@ -166,7 +166,7 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.11.1'
+  gem 'capybara',               '3.12.0'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.22'
   gem 'selenium-webdriver',     '3.141.0'
@@ -182,8 +182,8 @@ end
 
 group :development, :test do
   # Check errors
-  gem 'rubocop',                '0.60.0',  require: false
-  gem 'rubocop-rspec',          '1.30.1',  require: false
+  gem 'rubocop',                '0.62.0',  require: false
+  gem 'rubocop-rspec',          '1.31.0',  require: false
 
   # Speed up boot
   gem 'bootsnap',               '1.3.2',   require: false
@@ -197,5 +197,5 @@ group :production do
   gem 'lograge',        '0.10.0'
 
   # Website analysis
-  gem 'newrelic_rpm',   '5.5.0.348'
+  gem 'newrelic_rpm',   '5.6.0.349'
 end

@@ -15,6 +15,7 @@ import {
 } from '../../actions';
 
 import {
+    getArticleMetaTags,
     getCurrentUserTopic,
     getCurrentUser,
     getArticleVersions
@@ -23,6 +24,8 @@ import {
 import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
+
+import HeadLayout from '../layouts/head';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleCardDisplay from './display/card';
@@ -33,6 +36,7 @@ import styles from '../../../jss/article/history';
 export default @hot(module)
 
 @connect((state) => ({
+    metaTags: getArticleMetaTags(state),
     currentUser: getCurrentUser(state),
     currentTopic: getCurrentUserTopic(state),
     article: state.articleState.article,
@@ -49,6 +53,7 @@ class ArticleHistory extends React.Component {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
         // from connect
+        metaTags: PropTypes.object,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         article: PropTypes.object,
@@ -67,8 +72,9 @@ class ArticleHistory extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchArticle(this.props.params.articleSlug);
-        this.props.fetchArticleHistory(this.props.params.articleSlug);
+        this.props.fetchArticle(this.props.params.articleSlug)
+            .fetch
+            .then(() => this.props.fetchArticleHistory(this.props.params.articleSlug));
     }
 
     componentDidUpdate(prevProps) {
@@ -97,6 +103,8 @@ class ArticleHistory extends React.Component {
 
         return (
             <div className={this.props.classes.history}>
+                <HeadLayout metaTags={this.props.metaTags}/>
+
                 <div className={this.props.classes.breadcrumb}>
                     <ArticleBreadcrumbDisplay user={this.props.currentUser}
                                               topic={this.props.currentTopic}

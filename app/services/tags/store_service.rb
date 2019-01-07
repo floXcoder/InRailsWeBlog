@@ -25,8 +25,10 @@ module Tags
         @tag.name      = sanitized_name
       end
 
-      unless @params[:description].nil?
+      if !@params[:description].nil?
         @tag.description = Sanitize.fragment(@params.delete(:description))
+      else
+        @params.delete(:description)
       end
 
       unless @params[:icon].nil?

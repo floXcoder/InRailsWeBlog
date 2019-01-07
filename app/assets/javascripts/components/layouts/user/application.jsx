@@ -1,6 +1,8 @@
 'use strict';
 
-import '../../../../stylesheets/pages/home/user.scss';
+import {
+    Suspense
+} from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -47,28 +49,30 @@ export default class ApplicationLayoutUser extends React.Component {
 
                 <Provider store={configureStore}>
                     <BrowserRouter>
-                        <PasteManager>
-                            <ScrollBackManager>
-                                <HotkeyManager>
-                                    <>
-                                        <ErrorBoundary errorType="text"
-                                                       errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                            <HeaderLayoutUser permanentRoutes={routes.permanents.header}/>
-                                        </ErrorBoundary>
+                        <Suspense fallback={<div/>}>
+                            <PasteManager>
+                                <ScrollBackManager>
+                                    <HotkeyManager>
+                                        <>
+                                            <ErrorBoundary errorType="text"
+                                                           errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                                <HeaderLayoutUser permanentRoutes={routes.permanents.header}/>
+                                            </ErrorBoundary>
 
-                                        <ErrorBoundary errorType="card">
-                                            <MainLayoutUser routes={routes.static.user}
-                                                            permanentRoutes={routes.permanents.main}/>
-                                        </ErrorBoundary>
+                                            <ErrorBoundary errorType="card">
+                                                <MainLayoutUser routes={routes.static.user}
+                                                                permanentRoutes={routes.permanents.main}/>
+                                            </ErrorBoundary>
 
-                                        <ErrorBoundary errorType="text"
-                                                       errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                            <FooterLayoutUser/>
-                                        </ErrorBoundary>
-                                    </>
-                                </HotkeyManager>
-                            </ScrollBackManager>
-                        </PasteManager>
+                                            <ErrorBoundary errorType="text"
+                                                           errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                                <FooterLayoutUser/>
+                                            </ErrorBoundary>
+                                        </>
+                                    </HotkeyManager>
+                                </ScrollBackManager>
+                            </PasteManager>
+                        </Suspense>
                     </BrowserRouter>
                 </Provider>
             </MuiThemeProvider>

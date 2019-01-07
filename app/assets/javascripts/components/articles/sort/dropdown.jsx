@@ -13,12 +13,20 @@ import Button from '@material-ui/core/Button';
 
 import styles from '../../../../jss/article/filter';
 
+const sortOptions = [
+    'priority_desc',
+    'tag_asc',
+    'updated_desc',
+    'updated_asc'
+];
+
 // Managed by article index
 export default @withStyles(styles)
 
 class ArticleSortMenu extends React.Component {
     static propTypes = {
         onOrderChange: PropTypes.func.isRequired,
+        currentOrder: PropTypes.string,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
         // from styles
@@ -27,50 +35,37 @@ class ArticleSortMenu extends React.Component {
 
     state = {
         anchorEl: null,
-        selectedIndex: 1
+        selectedIndex: sortOptions.findIndex((option) => option === this.props.currentOrder)
     };
 
-    handleClickListItem = event => {
-        this.setState({anchorEl: event.currentTarget});
+    _handleClickListItem = event => {
+        this.setState({
+            anchorEl: event.currentTarget
+        });
     };
 
-    handleMenuItemClick = (event, index) => {
-        this.setState({selectedIndex: index, anchorEl: null});
+    _handleMenuItemClick = (event, index) => {
+        this.setState({
+            selectedIndex: index,
+            anchorEl: null
+        });
     };
 
-    handleClose = () => {
-        this.setState({anchorEl: null});
+    _handleClose = () => {
+        this.setState({
+            anchorEl: null
+        });
     };
 
     render() {
-        const {anchorEl} = this.state;
-
-        let options = [
-            <Link key={1}
+        let options = sortOptions.map((option) => (
+            <Link key={option}
                   className={this.props.classes.buttonLink}
-                  to={{search: 'order=priority_desc'}}
-                  onClick={this.props.onOrderChange.bind(this, 'priority_desc')}>
-                {I18n.t('js.article.sort.order.priority')}
-            </Link>,
-            <Link key={2}
-                  className={this.props.classes.buttonLink}
-                  to={{search: 'order=tag_asc'}}
-                  onClick={this.props.onOrderChange.bind(this, 'tag_asc')}>
-                {I18n.t('js.article.sort.order.tag')}
-            </Link>,
-            <Link key={3}
-                  className={this.props.classes.buttonLink}
-                  to={{search: 'order=updated_desc'}}
-                  onClick={this.props.onOrderChange.bind(this, 'updated_desc')}>
-                {I18n.t('js.article.sort.order.date_desc')}
-            </Link>,
-            <Link key={4}
-                  className={this.props.classes.buttonLink}
-                  to={{search: 'order=updated_asc'}}
-                  onClick={this.props.onOrderChange.bind(this, 'updated_asc')}>
-                {I18n.t('js.article.sort.order.date_asc')}
+                  to={{search: `order=${option}`}}
+                  onClick={this.props.onOrderChange.bind(this, option)}>
+                {I18n.t(`js.article.sort.order.${option}`)}
             </Link>
-        ];
+        ));
 
         if (this.props.currentUserSlug && this.props.currentUserTopicSlug) {
             options.push(
@@ -85,18 +80,18 @@ class ArticleSortMenu extends React.Component {
             <>
                 <Button className={this.props.classes.button}
                         variant="outlined"
-                        onClick={this.handleClickListItem}>
+                        onClick={this._handleClickListItem}>
                     {I18n.t('js.article.sort.title')}
                 </Button>
 
-                <Menu anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={this.handleClose}>
+                <Menu anchorEl={this.state.anchorEl}
+                      open={Boolean(this.state.anchorEl)}
+                      onClose={this._handleClose}>
                     {
                         options.map((option, index) => (
                             <MenuItem key={index}
                                       selected={index === this.state.selectedIndex}
-                                      onClick={event => this.handleMenuItemClick(event, index)}>
+                                      onClick={event => this._handleMenuItemClick(event, index)}>
                                 {option}
                             </MenuItem>
                         ))

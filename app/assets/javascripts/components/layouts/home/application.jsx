@@ -1,6 +1,8 @@
 'use strict';
 
-import '../../../../stylesheets/pages/home/home.scss';
+import {
+    Suspense
+} from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -45,26 +47,28 @@ export default class ApplicationLayoutHome extends React.Component {
 
                 <Provider store={configureStore}>
                     <BrowserRouter>
-                        <PasteManager>
-                            <ScrollBackManager>
-                                <>
-                                    <ErrorBoundary errorType="text"
-                                                   errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                        <HeaderLayoutHome permanentRoutes={routes.permanents.header}/>
-                                    </ErrorBoundary>
+                        <Suspense fallback={<div/>}>
+                            <PasteManager>
+                                <ScrollBackManager>
+                                    <>
+                                        <ErrorBoundary errorType="text"
+                                                       errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                            <HeaderLayoutHome permanentRoutes={routes.permanents.header}/>
+                                        </ErrorBoundary>
 
-                                    <ErrorBoundary errorType="card">
-                                        <MainLayoutHome routes={routes.static.home}
-                                                        permanentRoutes={routes.permanents.main}/>
-                                    </ErrorBoundary>
+                                        <ErrorBoundary errorType="card">
+                                            <MainLayoutHome routes={routes.static.home}
+                                                            permanentRoutes={routes.permanents.main}/>
+                                        </ErrorBoundary>
 
-                                    <ErrorBoundary errorType="text"
-                                                   errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                        <FooterLayoutHome/>
-                                    </ErrorBoundary>
-                                </>
-                            </ScrollBackManager>
-                        </PasteManager>
+                                        <ErrorBoundary errorType="text"
+                                                       errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                            <FooterLayoutHome/>
+                                        </ErrorBoundary>
+                                    </>
+                                </ScrollBackManager>
+                            </PasteManager>
+                        </Suspense>
                     </BrowserRouter>
                 </Provider>
             </MuiThemeProvider>

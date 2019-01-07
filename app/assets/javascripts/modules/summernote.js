@@ -1,15 +1,8 @@
 'use strict';
 
-// Current version: 0.8.10
+// Current version: 0.8.11
 
 // import 'summernote/dist/summernote-lite';
-// For now, use local summernote to correct errors:
-// - Air popover not display
-// - fromOffsetPath: current not defined for the last undo
-// - Improve pasteHTML
-// - Change dropdownButtonContents to use ui icon method
-// - Ensure otherBarHeight is defined
-// - createPicture added (used in insertImage) and manage remove in removeMedia
 import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';
@@ -184,12 +177,7 @@ const areDifferentBlockElements = (startEl, endEl) => {
     const startElDisplay = getComputedStyle(startEl, null).display;
     const endElDisplay = getComputedStyle(endEl, null).display;
 
-    if (startElDisplay !== 'inline' && endElDisplay !== 'inline') {
-        // console.error("Can't insert across two block elements.");
-        return true;
-    } else {
-        return false;
-    }
+    return startElDisplay !== 'inline' && endElDisplay !== 'inline';
 };
 
 const isSelectionParsable = (startEl, endEl) => {
@@ -213,7 +201,7 @@ const isSelectionParsable = (startEl, endEl) => {
     return false;
 };
 
-const applyTag = (context, tag) => {
+const applyTag = (context, tag, className) => {
     if (window.getSelection) {
         const selection = window.getSelection();
         const selected = (selection.rangeCount > 0) && selection.getRangeAt(0);
@@ -233,6 +221,9 @@ const applyTag = (context, tag) => {
             // }
 
             const newNode = document.createElement(tag);
+
+            newNode.className = className;
+
             // https://developer.mozilla.org/en-US/docs/Web/API/Range/surroundContents
             // Parses inline nodes, but not block based nodes...blocks are handled above.
             newNode.appendChild(range.extractContents());
@@ -300,7 +291,7 @@ $.extend($.summernote.plugins, {
                     tooltip: I18n.t('js.editor.buttons.advice'),
                     click: function (event) {
                         event.preventDefault();
-                        applyClass(context, 'advice');
+                        applyTag(context, 'p', 'advice');
                         context.triggerEvent('change', $note.summernote('code'));
                     }
                 });
@@ -325,7 +316,7 @@ $.extend($.summernote.plugins, {
                     tooltip: I18n.t('js.editor.buttons.secret'),
                     click: function (event) {
                         event.preventDefault();
-                        applyClass(context, 'secret');
+                        applyTag(context, 'p', 'secret');
                         context.triggerEvent('change', $note.summernote('code'));
                     }
                 });
@@ -375,7 +366,7 @@ $.extend($.summernote.plugins, {
                     tooltip: I18n.t('js.editor.buttons.pre'),
                     click: function (event) {
                         event.preventDefault();
-                        applyTag(context, 'pre');
+                        document.execCommand('FormatBlock', false, 'pre');
                         context.triggerEvent('change', $note.summernote('code'));
                     }
                 });
@@ -388,7 +379,7 @@ $.extend($.summernote.plugins, {
             'summernote.keyup': function (we, event) {
                 if (event.keyCode === 69 && event.ctrlKey) {
                     event.preventDefault();
-                    applyTag(context, 'pre');
+                    document.execCommand('FormatBlock', false, 'pre');
                     context.triggerEvent('change', $note.summernote('code'));
                 }
             }

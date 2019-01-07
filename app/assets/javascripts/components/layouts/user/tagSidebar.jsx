@@ -29,7 +29,7 @@ export default @connect((state, props) => ({
 })
 
 @withStyles(styles)
-class SidebarLayout extends React.PureComponent {
+class TagSidebarLayout extends React.PureComponent {
     static propTypes = {
         params: PropTypes.object.isRequired,
         isCloud: PropTypes.bool,
@@ -112,7 +112,8 @@ class SidebarLayout extends React.PureComponent {
 
     render() {
         return (
-            <Drawer variant="permanent"
+            <Drawer anchor="left"
+                    variant="permanent"
                     classes={{
                         paper: classNames(this.props.classes.drawerPaper, !this.state.isExpanded && this.props.classes.drawerPaperClose),
                     }}

@@ -355,7 +355,10 @@ en:
           content_too_short: "Content too short"
         no_results:
           topic:
-            title: "No articles for this topic"
+            title:
+              default: "No articles for this topic"
+              tag: "No articles for this topic with this tag"
+              child_tag: "No articles for this topic with this sub-tag"
             content: "You can add a new article in this topic"
             button: "Add an article"
           search:
@@ -431,6 +434,9 @@ en:
       show:
         new_tags: "Add synonyms or description to new tags:"
       new:
+        meta:
+          title: "New article - %{topic} - InRailsWeBlog"
+          description: "Add a new article - InRailsWeBlog"
         title: "Create a new article"
         tags:
           title: "Add tags (right click: parent tag / left click: children tag)"
@@ -445,10 +451,10 @@ en:
       sort:
         title: "Sort by"
         order:
-          priority: "Priority"
-          tag: "Tag"
-          date_desc: "Most recent"
-          date_asc: "Oldest"
+          priority_desc: "Priority"
+          tag_asc: "Tag"
+          updated_desc: "Most recent"
+          updated_asc: "Oldest"
         link_title: "Change order"
         link: "Change priority"
       filter:

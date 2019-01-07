@@ -31,13 +31,6 @@ class ArticleAdvancedField extends React.PureComponent {
     render() {
         return (
             <div className="row">
-                <div className="col s12 center-align margin-top-10 margin-bottom-30">
-                    <Field name="draft"
-                           id="article_draft"
-                           label={I18n.t('js.article.common.draft')}
-                           component={CheckBoxFieldForm}/>
-                </div>
-
                 {
                     this.props.inheritVisibility !== 'only_me' &&
                     <div className="col s12 m6">
@@ -60,20 +53,8 @@ class ArticleAdvancedField extends React.PureComponent {
                 {/*</div>*/}
 
                 {
-                    // this.props.currentMode === 'story' &&
-                    this.props.inheritVisibility !== 'only_me' &&
-                    <div className="col s12 m6">
-                        <Field name="allowComment"
-                               id="article_allow_comment"
-                               label={I18n.t('js.article.common.allow_comment.title')}
-                               values={I18n.t('js.article.common.allow_comment')}
-                               component={SwitchFormField}/>
-                    </div>
-                }
-
-                {
                     this.props.currentMode !== 'link' &&
-                    <div className="col s12 margin-top-30 margin-bottom-30">
+                    <div className="col s12 center-align margin-top-30 margin-bottom-30">
                         <Field name="reference"
                                id="article_reference"
                                className={this.props.classes.select}
@@ -89,6 +70,25 @@ class ArticleAdvancedField extends React.PureComponent {
                                component={TextFieldForm}/>
                     </div>
                 }
+
+                {
+                    // this.props.currentMode === 'story' &&
+                    this.props.inheritVisibility !== 'only_me' &&
+                    <div className="col s12 m6">
+                        <Field name="allowComment"
+                               id="article_allow_comment"
+                               label={I18n.t('js.article.common.allow_comment.title')}
+                               values={I18n.t('js.article.common.allow_comment')}
+                               component={SwitchFormField}/>
+                    </div>
+                }
+
+                <div className="col s12 center-align margin-top-10 margin-bottom-30">
+                    <Field name="draft"
+                           id="article_draft"
+                           label={I18n.t('js.article.common.draft')}
+                           component={CheckBoxFieldForm}/>
+                </div>
             </div>
         );
     }

@@ -8,4 +8,4 @@ const NotFound = ({}) => (
     </div>
 );
 
-export default React.memo(NotFound);
+export default NotFound;

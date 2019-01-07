@@ -8,6 +8,12 @@ export const getArticles = createSelector(
     (state) => state.articleState.articles,
     (articles) => articles.toArray()
 );
+
+export const getArticleMetaTags = createSelector(
+    (state) => state.articleState.metaTags,
+    (metaTags) => metaTags.toJS()
+);
+
 export const getArticlePagination = createSelector(
     (state) => state.articleState.pagination,
     (pagination) => pagination.toJS()

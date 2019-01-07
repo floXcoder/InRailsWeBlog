@@ -171,12 +171,13 @@ class TagSidebar extends React.Component {
                         }>
                             <TagRelationshipDisplay tags={this.props.tags}
                                                     hasChildInMainList={this.props.hasChildInMainList}
+                                                    currentTagSlug={this.props.currentTagSlug}
                                                     isFiltering={isFiltering}/>
                         </div>
                     }
 
                     {
-                        Utils.isEmpty(this.props.tags) &&
+                        this.props.isOpen && Utils.isEmpty(this.props.tags) &&
                         <div>
                             {
                                 this.props.filterText

@@ -60,35 +60,21 @@ class ArticleMiniCardDisplay extends React.Component {
                                 </Link>
                             }
                             subheader={
-                                <Grid container={true}
-                                      classes={{
-                                          container: this.props.classes.info
-                                      }}
-                                      spacing={16}
-                                      direction="row"
-                                      justify="flex-start"
-                                      alignItems="center">
-                                    <Grid item={true}
-                                          className={this.props.classes.headerItem}>
-                                        <Link className={this.props.classes.userPseudo}
-                                              to={`/users/${this.props.article.user.slug}`}
-                                              onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
-                                            {this.props.article.user.pseudo}
-                                        </Link>
-                                    </Grid>
-
-                                    <Grid item={true}
-                                          className={this.props.classes.headerItem}>
-                                        <div className={this.props.classes.separator}/>
-                                    </Grid>
-
-                                    <Grid item={true}
-                                          className={this.props.classes.headerItem}>
-                                        <div className={this.props.classes.date}>
-                                            {this.props.article.date}
-                                        </div>
-                                    </Grid>
-                                </Grid>
+                                <div className={this.props.classes.articleTags}>
+                                    {
+                                        this.props.article.tags.map((tag) => (
+                                            <Chip key={tag.id}
+                                                  className={this.props.classes.articleTag}
+                                                  component={Link}
+                                                  to={`/tagged/${tag.slug}`}
+                                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
+                                                  icon={<LabelIcon/>}
+                                                  label={tag.name}
+                                                  clickable={true}
+                                                  variant="outlined"/>
+                                        ))
+                                    }
+                                </div>
                             }
                 />
 
@@ -123,21 +109,36 @@ class ArticleMiniCardDisplay extends React.Component {
                         }
                     </Grid>
 
-                    <div className={this.props.classes.articleTags}>
-                        {
-                            this.props.article.tags.map((tag) => (
-                                <Chip key={tag.id}
-                                      className={this.props.classes.articleTag}
-                                      component={Link}
-                                      to={`/tagged/${tag.slug}`}
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
-                                      icon={<LabelIcon/>}
-                                      label={tag.name}
-                                      clickable={true}
-                                      variant="outlined"/>
-                            ))
-                        }
-                    </div>
+
+                    <Grid container={true}
+                          classes={{
+                              container: this.props.classes.info
+                          }}
+                          spacing={16}
+                          direction="row"
+                          justify="flex-start"
+                          alignItems="center">
+                        <Grid item={true}
+                              className={this.props.classes.headerItem}>
+                            <Link className={this.props.classes.userPseudo}
+                                  to={`/users/${this.props.article.user.slug}`}
+                                  onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
+                                {this.props.article.user.pseudo}
+                            </Link>
+                        </Grid>
+
+                        <Grid item={true}
+                              className={this.props.classes.headerItem}>
+                            <div className={this.props.classes.separator}/>
+                        </Grid>
+
+                        <Grid item={true}
+                              className={this.props.classes.headerItem}>
+                            <div className={this.props.classes.date}>
+                                {this.props.article.date}
+                            </div>
+                        </Grid>
+                    </Grid>
                 </CardContent>
             </Card>
         );

@@ -51,7 +51,7 @@ class ArticleVersionsDisplay extends React.Component {
 
     render() {
         return (
-            <div className="">
+            <>
                 {
                     this.props.articleVersions.map((version, i) => {
                         return (
@@ -62,17 +62,18 @@ class ArticleVersionsDisplay extends React.Component {
                                     title: this.props.classes.versionTitle
                                 }}
                                             action={
-                                    <IconButton className={classNames(this.props.classes.expand, {
-                                        [this.props.classes.expandOpen]: this.state.expanded.includes(version.id)
-                                    })}
-                                                aria-expanded={this.state.expanded.includes(version.id)}
-                                                aria-label="Show more"
-                                                onClick={this._handleFoldClick.bind(this, version.id)}>
-                                        <ExpandMoreIcon/>
-                                    </IconButton>
-                                }
+                                                <IconButton className={classNames(this.props.classes.expand, {
+                                                    [this.props.classes.expandOpen]: this.state.expanded.includes(version.id)
+                                                })}
+                                                            aria-expanded={this.state.expanded.includes(version.id)}
+                                                            aria-label="Show more"
+                                                            onClick={this._handleFoldClick.bind(this, version.id)}>
+                                                    <ExpandMoreIcon/>
+                                                </IconButton>
+                                            }
                                             title={
-                                                <div>
+                                                <div className={this.props.classes.cardTitle}
+                                                     onClick={this._handleFoldClick.bind(this, version.id)}>
                                                     <ChangeHistoryIcon/>
                                                     {` ${I18n.t('js.article.history.changed_at')} ${version.changedAt}`}
                                                 </div>
@@ -125,7 +126,7 @@ class ArticleVersionsDisplay extends React.Component {
                         );
                     })
                 }
-            </div>
+            </>
         );
     }
 }

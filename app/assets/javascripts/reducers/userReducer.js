@@ -29,6 +29,7 @@ const initState = new Record({
     isAdminConnected: !!window.currentAdminId,
 
     users: new List(),
+    metaTags: new Map(),
     pagination: new Map(),
 
     user: undefined,

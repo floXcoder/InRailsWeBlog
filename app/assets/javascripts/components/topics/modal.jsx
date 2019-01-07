@@ -21,9 +21,9 @@ import {
     getEditingTopic
 } from '../../selectors';
 
-import FromTopic from './form';
+import FormTopic from './form';
 
-import styles from '../../../jss/topic/new';
+import styles from '../../../jss/topic/form';
 
 export default @hot(module)
 
@@ -126,7 +126,8 @@ class TopicModal extends React.Component {
                         }
                     </Typography>
 
-                    <FromTopic topic={this.props.editingTopic}
+                    <FormTopic classes={this.props.classes}
+                               topic={this.props.editingTopic}
                                isEditing={!!this.props.editingTopic}
                                defaultVisibility={this.props.initialData.visibility}
                                onCancel={this._handleClose}

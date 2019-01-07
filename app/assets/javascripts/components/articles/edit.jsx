@@ -14,8 +14,9 @@ import {
 } from '../../actions';
 
 import {
+    getArticleMetaTags,
     getCurrentUserTopicVisibility,
-    getCurrentLocale,
+    getCurrentLocale
 } from '../../selectors';
 
 import articleMutationManager from './managers/mutation';
@@ -25,6 +26,7 @@ import ArticleFormDisplay from './display/form';
 
 import Loader from '../theme/loader';
 
+import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
 import styles from '../../../jss/article/form';
@@ -33,6 +35,7 @@ export default @hot(module)
 
 @articleMutationManager('edit', `article-${Utils.uuid()}`)
 @connect((state) => ({
+    metaTags: getArticleMetaTags(state),
     userSlug: state.userState.currentSlug,
     inheritVisibility: getCurrentUserTopicVisibility(state)
 }), {
@@ -54,6 +57,7 @@ class ArticleEdit extends React.Component {
         // isInline: PropTypes.bool,
         // currentMode: PropTypes.string,
         // from connect
+        metaTags: PropTypes.object,
         userSlug: PropTypes.string,
         inheritVisibility: PropTypes.string,
         setCurrentTags: PropTypes.func,
@@ -115,6 +119,8 @@ class ArticleEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
+                <HeadLayout metaTags={this.props.metaTags}/>
+
                 <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&

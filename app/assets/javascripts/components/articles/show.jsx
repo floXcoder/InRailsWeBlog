@@ -25,6 +25,7 @@ import {
 } from '../../actions';
 
 import {
+    getArticleMetaTags,
     getCurrentUser,
     getCurrentUserTopic,
     getIsCurrentTopicOwner,
@@ -39,6 +40,7 @@ import CommentCountIcon from '../comments/icons/count';
 
 import CommentBox from '../loaders/commentBox';
 
+import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
@@ -52,6 +54,7 @@ import styles from '../../../jss/article/show';
 export default @hot(module)
 
 @connect((state, props) => ({
+    metaTags: getArticleMetaTags(state),
     currentUser: getCurrentUser(state),
     currentTopic: getCurrentUserTopic(state),
     isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.params),
@@ -76,6 +79,7 @@ class ArticleShow extends React.Component {
         history: PropTypes.object.isRequired,
         initialData: PropTypes.object,
         // from connect
+        metaTags: PropTypes.object,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         isCurrentTopicOwner: PropTypes.bool,
@@ -129,10 +133,10 @@ class ArticleShow extends React.Component {
 
         if (this.props.article.outdated) {
             this.props.unmarkArticleOutdated(this.props.article.id)
-                .then((response) => response && response.errors && Notification.error(response.errors, 10));
+                .then((response) => response && response.errors && Notification.error(response.errors));
         } else {
             this.props.markArticleOutdated(this.props.article.id)
-                .then((response) => response && response.errors && Notification.error(response.errors, 10));
+                .then((response) => response && response.errors && Notification.error(response.errors));
         }
     };
 
@@ -185,6 +189,8 @@ class ArticleShow extends React.Component {
                 {
                     this.props.article && !this.props.isFetching &&
                     <article className={this.props.classes.root}>
+                        <HeadLayout metaTags={this.props.metaTags}/>
+
                         {
                             this.props.isCurrentTopicOwner &&
                             <div className={this.props.classes.breadcrumb}>
@@ -209,9 +215,7 @@ class ArticleShow extends React.Component {
                                                               userSlug={this.props.article.user.slug}
                                                               articleId={this.props.article.id}
                                                               articleSlug={this.props.article.slug}
-                                                              articleTitle={this.props.article.title}
-                                                              articleVisibility={this.props.article.visibility}
-                                                              onVisibilityClick={this._handleVisibilityClick}/>
+                                                              articleTitle={this.props.article.title}/>
                                     )}
                                 </Sticky>
                             </div>
@@ -237,7 +241,7 @@ class ArticleShow extends React.Component {
                                           classes={{
                                               container: this.props.classes.info
                                           }}
-                                          spacing={16}
+                                          spacing={8}
                                           direction="row"
                                           justify="space-between"
                                           alignItems="center">

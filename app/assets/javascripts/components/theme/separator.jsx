@@ -14,4 +14,4 @@ Separator.propTypes = {
     className: PropTypes.string
 };
 
-export default React.memo(Separator);
+export default Separator;

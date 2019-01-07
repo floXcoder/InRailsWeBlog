@@ -28,17 +28,21 @@ import {
 } from '../../actions';
 
 import {
+    getTagMetaTags,
     getPublicTags,
     getPrivateTags
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
+import HeadLayout from '../layouts/head';
+
 import styles from '../../../jss/tag/index';
 
 export default @hot(module)
 
 @connect((state) => ({
+    metaTags: getTagMetaTags(state),
     isUserConnected: state.userState.isConnected,
     currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
@@ -53,6 +57,7 @@ class TagIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         // from connect
+        metaTags: PropTypes.object,
         isUserConnected: PropTypes.bool,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
@@ -161,6 +166,8 @@ class TagIndex extends React.Component {
     render() {
         return (
             <div className={this.props.classes.root}>
+                <HeadLayout metaTags={this.props.metaTags}/>
+
                 {
                     this.props.isFetching &&
                     <div className="center margin-top-20">

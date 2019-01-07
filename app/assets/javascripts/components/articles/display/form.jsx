@@ -60,6 +60,7 @@ class ArticleFormDisplay extends React.Component {
         currentMode: PropTypes.string,
         errorStep: PropTypes.string,
         articleErrors: PropTypes.array,
+        onCancelClick: PropTypes.func,
         // from reduxForm
         change: PropTypes.func,
         handleSubmit: PropTypes.func,
@@ -206,14 +207,17 @@ class ArticleFormDisplay extends React.Component {
                             <div className="row">
                                 <div className="col s6 left-align">
                                     <Button color="default"
+                                            size="small"
                                             component={Link}
-                                            to={this.props.isEditing ? `/users/${this.props.userSlug}/articles/${this.props.children.slug}` : `/users/${this.props.userSlug}`}>
+                                            to={this.props.isEditing ? `/users/${this.props.userSlug}/articles/${this.props.children.slug}` : `/users/${this.props.userSlug}`}
+                                    onClick={this.props.onCancelClick}>
                                         {I18n.t('js.helpers.buttons.cancel')}
                                     </Button>
                                 </div>
 
                                 <div className="col s6 right-align">
                                     <Button color="primary"
+                                            variant="outlined"
                                             disabled={this.props.submitting}
                                             onClick={this.props.handleSubmit}>
                                         {

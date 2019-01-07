@@ -16,8 +16,11 @@ const styles = (theme) => ({
         position: 'relative'
     },
     card: {
-      marginTop: 12,
-      marginBottom: 12
+        marginTop: 12,
+        marginBottom: 12
+    },
+    cardTitle: {
+        cursor: 'pointer'
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -27,7 +30,7 @@ const styles = (theme) => ({
         marginTop: 8,
         marginLeft: 'auto',
         [theme.breakpoints.up('sm')]: {
-            marginRight: -2,
+            marginRight: 5
         },
     },
     expandOpen: {

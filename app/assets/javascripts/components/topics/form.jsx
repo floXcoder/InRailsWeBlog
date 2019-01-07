@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 
 export default class FormTopic extends React.Component {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         onCancel: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
@@ -58,7 +59,7 @@ export default class FormTopic extends React.Component {
             <form id="topic-edit"
                   className="topic-form"
                   onSubmit={this._handleTopicSubmit}>
-                <TextField style={{margin: 8}}
+                <TextField className={this.props.classes.input}
                            fullWidth={true}
                            autoFocus={true}
                            label={this.props.isEditing
@@ -71,7 +72,7 @@ export default class FormTopic extends React.Component {
                            onChange={this._handleNameChange}/>
 
                 <TextField select={true}
-                           style={{margin: 8}}
+                           className={this.props.classes.input}
                            fullWidth={true}
                            label={I18n.t('js.topic.model.visibility')}
                            value={this.state.visibility}

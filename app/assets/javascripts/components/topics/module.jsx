@@ -13,6 +13,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
 
 import {
+    showTopicPopup,
     spyTrackClick
 } from '../../actions';
 
@@ -26,7 +27,9 @@ export default @connect((state) => ({
     userSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     topics: getUserTopics(state)
-}))
+}), {
+    showTopicPopup
+})
 
 @withStyles(styles)
 class TopicModule extends React.Component {
@@ -36,6 +39,7 @@ class TopicModule extends React.Component {
         userSlug: PropTypes.string,
         topics: PropTypes.array,
         currentUserTopicId: PropTypes.number,
+        showTopicPopup: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -50,6 +54,8 @@ class TopicModule extends React.Component {
 
     _handleSwitchTopicClick = (topicId) => {
         spyTrackClick('topic', topicId);
+
+        this.props.showTopicPopup();
     };
 
     _handleOverEdit = (topicId) => {

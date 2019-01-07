@@ -25,17 +25,21 @@ module Articles
       I18n.locale = new_language.to_sym if new_language != current_language.to_s
 
       # Sanitization
-      unless @params[:title].nil?
+      if !@params[:title].nil?
         sanitized_title = Sanitize.fragment(@params.delete(:title))
         @article.slug   = nil if sanitized_title != @article.title
         @article.title  = sanitized_title
+      else
+        @params.delete(:title)
       end
 
-      unless @params[:summary].nil?
+      if !@params[:summary].nil?
         @article.summary = Sanitize.fragment(@params.delete(:summary))
+      else
+        @params.delete(:summary)
       end
 
-      unless @params[:content].nil?
+      if !@params[:content].nil?
         @article.content = ::Sanitizer.new.sanitize_html(@params.delete(:content))
 
         # Extract all relationship ids
@@ -48,6 +52,8 @@ module Articles
         end
 
         @article.child_relationships = article_relationships
+      else
+        @params.delete(:content)
       end
 
       unless @params[:reference].nil?

@@ -6,6 +6,15 @@ const styles = (theme) => ({
         marginBottom: '3rem',
         position: 'relative'
     },
+    separation: {
+        width: '80%',
+        display: 'block',
+        height: 1,
+        border: 0,
+        borderTop: '1px solid #ddd',
+        padding: 0,
+        margin: 'auto'
+    },
     title: {
         fontSize: '2rem',
         textAlign: 'center'

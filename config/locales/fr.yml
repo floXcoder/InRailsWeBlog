@@ -72,7 +72,10 @@ fr:
         successful_deletion: "L'article a été supprimé"
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
       index:
-        title: "Labels de l'utilisateur : %{user}"
+        title:
+          default: "Liste des labels"
+          user: "Labels de l'utilisateur : %{user}"
+          topic: "Labels du thème : %{topic}"
       show:
         title: "Label : %{name}"
       edit:
@@ -96,10 +99,13 @@ fr:
           tagged: "Articles pour %{tag}"
           topic: "Articles de %{topic}"
       show:
-        title: "%{title}"
+        title: "%{title} - %{topic}"
       edit:
-        title: "Modification de l'article : %{title}"
-        description: "Modification de l'article : %{title}"
+        title: "Modification de %{title} - %{topic}"
+        description: "Modification de l'article : %{title} - %{topic}"
+      history:
+        title: "Historique de %{title} - %{topic}"
+        description: "Historique de l'article : %{title} - %{topic}"
     picture:
       flash:
         successful_deletion: "L'image a bien été supprimée"
@@ -121,7 +127,7 @@ fr:
         title: "Admin"
     search:
       index:
-        title: "Votre recherche : %{query}"
+        title: "Recherche : %{query}"
     errors:
       flash:
         successful_deletion: "L'erreur a bien été supprimée"
