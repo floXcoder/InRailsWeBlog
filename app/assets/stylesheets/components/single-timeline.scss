@@ -1,24 +1,38 @@
 .single-timeline {
   box-sizing: border-box;
-  position: relative;
   min-height: 40px;
-  padding: 8px 0 8px 62px;
+  padding: 0px 0 8px 42px;
+  position: relative;
+  list-style: none;
 
   &::before {
-    position: absolute;
-    left: 29px;
-    top: 0;
-    bottom: 0;
-    width: 3px;
     background: rgba(0, 0, 0, .085);
     content: '';
     display: block;
+    position: absolute;
+    left: 9px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+  }
+
+  .timeline-separator {
+    list-style: none;
+    position: relative;
+    left: -54px;
+    padding: 3px 0;
+    width: auto;
+    background: #334a67;
+    text-align: center;
+    border: 4px solid #fff;
+    color: #fff;
   }
 
   .timeline-item {
     position: relative;
-    min-height: 64px;
-    padding: 16px 0;
+    min-height: 36px;
+    padding: 5px 0;
+    list-style: none;
 
     .timeline-icon {
       position: absolute;
@@ -27,7 +41,25 @@
       height: 44px;
       width: 44px;
       border-radius: 50%;
-      background: #64b5f6;
+      background: #334a67;
+      text-align: center;
+      border: 4px solid #fff;
+
+      .material-icons {
+        color: #fff;
+        font-size: 18px;
+        line-height: 36px;
+      }
+    }
+
+    .timeline-no-icon {
+      position: absolute;
+      left: -41px;
+      top: 8px;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #334a67;
       text-align: center;
       border: 4px solid #fff;
 
@@ -52,7 +84,9 @@
     }
 
     .timeline-content {
-      padding: 0 4px 8px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 90%;
       overflow: hidden;
 
       .material-icons {

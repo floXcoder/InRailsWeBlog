@@ -30,7 +30,7 @@ import {
     getCommentPagination
 } from '../../selectors';
 
-import Pagination from '../materialize/pagination';
+import Pagination from '../theme/pagination';
 import CircleSpinner from '../theme/spinner/circle';
 
 import CommentList from '../comments/list';

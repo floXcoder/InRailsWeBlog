@@ -44,6 +44,17 @@ const styles = (theme) => ({
             display: 'none'
         }
     },
+    quickAdd: {
+        bottom: '3rem',
+        outline: 'none',
+        position: 'fixed',
+        right: '2rem',
+        zIndex: 100
+    },
+    quickAddIcon: {
+        color: theme.palette.primary.main,
+        fontSize: 38
+    },
     footer: {
         backgroundColor: theme.palette.background.paper,
         marginTop: theme.spacing.unit * 8,

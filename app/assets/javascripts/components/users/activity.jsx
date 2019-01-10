@@ -1,6 +1,6 @@
 'use strict';
 
-import Pagination from '../materialize/pagination';
+import Pagination from '../theme/pagination';
 
 const UserActivity = ({activities, pagination, loadActivities}) => {
     let ActivityNodes = activities.map((activity) => {

@@ -21,7 +21,7 @@ export const showTopicPopup = () => ({
 });
 
 // Articles
-export const updateArticleOrder = (order) => ({
+export const updateArticleOrderDisplay = (order) => ({
     type: ActionTypes.UI_CHANGE_ARTICLE_ORDER,
     order
 });
@@ -31,10 +31,10 @@ export const switchArticleMinimized = (order) => ({
     order
 });
 
-export const setCurrentArticles = (action, article) => ({
+export const setCurrentArticles = (action, articleId) => ({
     type: ActionTypes.UI_CHANGE_CURRENT_ARTICLES,
     action,
-    article
+    articleId
 });
 
 // Tags
@@ -43,7 +43,7 @@ export const switchTagSidebar = (isOpen) => ({
     isOpen
 });
 
-export const updateTagOrder = (order) => ({
-    type: ActionTypes.UI_CHANGE_TAG_ORDER,
-    order
-});
+// export const updateTagOrderDisplay = (order) => ({
+//     type: ActionTypes.UI_CHANGE_TAG_ORDER,
+//     order
+// });

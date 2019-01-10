@@ -63,11 +63,11 @@ export default function uiReducer(state = new initState(), action) {
         case ActionTypes.UI_CHANGE_CURRENT_ARTICLES:
             if(action.action === 'add') {
                 return state.merge({
-                    currentArticles: state.currentArticles.concat(action.article)
+                    currentArticles: state.currentArticles.concat(action.articleId)
                 });
             } else {
                 return state.merge({
-                    currentArticles: state.currentArticles.filter((article) => article === action.article)
+                    currentArticles: state.currentArticles.filter((articleId) => articleId !== action.articleId)
                 });
             }
 

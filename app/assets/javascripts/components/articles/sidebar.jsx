@@ -10,12 +10,13 @@ import {
 } from '../../actions';
 
 import {
-    getArticles,
-    getCurrentArticles,
-    getSortedTopicTags
+    getCategorizedArticles,
+    getArticlePagination,
+    getCurrentArticles
 } from '../../selectors';
 
 import ArticleOrderDisplay from './display/order';
+import ArticleTimelineDisplay from './display/timeline';
 
 import styles from '../../../jss/article/sidebar';
 
@@ -25,9 +26,9 @@ export default @connect((state) => ({
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     articleOrderMode: state.uiState.articleOrderMode,
-    articles: getArticles(state),
-    currentArticles: getCurrentArticles(state),
-    tags: getSortedTopicTags(state)
+    categorizedArticles: getCategorizedArticles(state),
+    articlePagination: getArticlePagination(state),
+    currentArticles: getCurrentArticles(state)
 }), {
     switchArticleMinimized,
     updateUserSettings
@@ -42,7 +43,8 @@ class ArticleSidebar extends React.Component {
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         articleOrderMode: PropTypes.string,
-        articles: PropTypes.array,
+        categorizedArticles: PropTypes.object,
+        articlePagination: PropTypes.object,
         currentArticles: PropTypes.array,
         switchArticleMinimized: PropTypes.func,
         updateUserSettings: PropTypes.func,
@@ -65,34 +67,22 @@ class ArticleSidebar extends React.Component {
     render() {
         return (
             <div>
-                <h2>
+                <h2 className={this.props.classes.title}>
                     {I18n.t('js.article.toc.title')}
                 </h2>
 
-                <div>
-                    <ArticleOrderDisplay classes={this.props.classes}
-                                         currentUserId={this.props.currentUserId}
-                                         currentUserSlug={this.props.currentUserSlug}
-                                         currentUserTopicSlug={this.props.currentUserTopicSlug}
-                                         articleOrderMode={this.props.articleOrderMode}
-                                         onMinimized={this.props.switchArticleMinimized}
-                                         onOrderChange={this._handleOrderChange}/>
-                </div>
+                <ArticleOrderDisplay classes={this.props.classes}
+                                     currentUserId={this.props.currentUserId}
+                                     currentUserSlug={this.props.currentUserSlug}
+                                     currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                     articleOrderMode={this.props.articleOrderMode}
+                                     onMinimized={this.props.switchArticleMinimized}
+                                     onOrderChange={this._handleOrderChange}/>
 
-                <div>
-                    {
-                        this.props.articles.map((article) => (
-                            <div key={article.id}>
-                                <a href={'#' + article.id}
-                                   className={classNames(this.props.classes.articleLink, {
-                                       [this.props.classes.currentLink]: this.props.currentArticles.includes(article.id)
-                                   })}>
-                                    {article.title}
-                                </a>
-                            </div>
-                        ))
-                    }
-                </div>
+                <ArticleTimelineDisplay classes={this.props.classes}
+                                        categorizedArticles={this.props.categorizedArticles}
+                                        articlePagination={this.props.articlePagination}
+                                        currentArticles={this.props.currentArticles}/>
             </div>
         );
     }

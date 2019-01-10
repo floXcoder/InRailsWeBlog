@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    lazy
+    lazy,
+    Suspense
 } from 'react';
 
 import {
@@ -270,11 +271,13 @@ class HeaderLayoutHome extends React.Component {
                               title="clipboard"/>
                 </div>
 
-                <Signup isOpen={this.props.isUserSignupOpen}
-                        onModalChange={this.props.showUserSignup}/>
+                <Suspense fallback={<div/>}>
+                    <Signup isOpen={this.props.isUserSignupOpen}
+                            onModalChange={this.props.showUserSignup}/>
 
-                <Login isOpen={this.props.isUserLoginOpen}
-                       onModalChange={this.props.showUserLogin}/>
+                    <Login isOpen={this.props.isUserLoginOpen}
+                           onModalChange={this.props.showUserLogin}/>
+                </Suspense>
             </>
         );
     }

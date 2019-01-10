@@ -3,7 +3,7 @@
 import CommentInlineDisplay from './inline';
 import CommentFilterDisplay from './filter';
 
-import Pagination from '../../materialize/pagination';
+import Pagination from '../../theme/pagination';
 
 const CommentTableDisplay = ({comments, isLoading, hasFilter, filters, isInlineEditing, isPaginated, totalPages, onPaginationClick}) => (
     <div className="row comment-table">

@@ -1,29 +1,45 @@
 'use strict';
 
-const SingleTimelineItem = (props) => (
-    <div className="timeline-item">
-        <div className="timeline-icon">
-            <span className="material-icons"
-                  data-icon={props.icon}
-                  aria-hidden="true"/>
+const SingleTimelineItem = ({title, currentSeparator, icon, children, date}) => (
+    <li className="timeline-item">
+        <div className={icon ? 'timeline-icon' : 'timeline-no-icon'}>
+            {
+                icon &&
+                <span className="material-icons"
+                      data-icon={icon}
+                      aria-hidden="true"/>
+            }
         </div>
-        <div className="timeline-date">
-            {props.date}
-        </div>
-        <div className="timeline-content">
-            {props.title}
-            <div className="card-panel">
-                {props.children}
+
+        {
+            date &&
+            <div className="timeline-date">
+                {date}
             </div>
+        }
+
+        <div className="timeline-content">
+            {title}
+
+            {
+                children &&
+                <div className="card-panel">
+                    {children}
+                </div>
+            }
         </div>
-    </div>
+    </li>
 );
 
 SingleTimelineItem.propTypes = {
-    icon: PropTypes.string.isRequired,
     title: PropTypes.element.isRequired,
-    children: PropTypes.element.isRequired,
+    currentSeparator: PropTypes.string,
+    icon: PropTypes.string,
+    children: PropTypes.element,
     date: PropTypes.string
+};
+
+SingleTimelineItem.defaultProps = {
 };
 
 export default SingleTimelineItem;

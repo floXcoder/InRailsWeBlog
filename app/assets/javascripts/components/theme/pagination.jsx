@@ -1,6 +1,11 @@
 'use strict';
 
+import '../../../stylesheets/components/pagination.scss';
+
 import ReactPaginate from 'react-paginate';
+
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import history from '../modules/history';
 
@@ -77,7 +82,7 @@ class Pagination extends React.PureComponent {
         }
 
         return (
-            <div className={classNames('clearfix', className)}>
+            <div className={className}>
                 <ReactPaginate ref={(pagination) => this._pagination = pagination}
                                pageCount={totalPages}
                                initialPage={initialPage - 1}
@@ -85,20 +90,15 @@ class Pagination extends React.PureComponent {
                                disableInitialCallback={true}
                                pageRangeDisplayed={pageRangeDisplayed}
                                marginPagesDisplayed={marginPagesDisplayed}
-                               previousLabel={<span className="material-icons"
-                                                    data-icon="chevron_left"
-                                                    aria-hidden="true"/>}
-                               nextLabel={<span className="material-icons"
-                                                data-icon="chevron_right"
-                                                aria-hidden="true"/>}
+                               previousLabel={<ChevronLeftIcon className="pagination-icon"/>}
+                               nextLabel={<ChevronRightIcon className="pagination-icon"/>}
                                breakLabel={<span className="break">...</span>}
                                onPageChange={this._handlePaginationClick}
                                containerClassName="pagination center-align"
-                               subContainerClassName="pages"
-                               pageClassName="waves-effect"
+                               pageClassName="pagination-page"
                                activeClassName="active"
                                disabledClassName="disabled"/>
             </div>
         );
     }
-};
+}

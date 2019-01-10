@@ -144,6 +144,7 @@ export default {
                 path: '/tagged/:tagSlug/:childTagSlug?',
                 exact: false,
                 tagCloud: true,
+                articleSidebar: true,
                 redirect: (route, previousRoute) => !route.tagCloud || !previousRoute.tagCloud,
                 redirectPath: (options = {}) => `/users/${options.userSlug}/topics/${options.topicSlug}/tagged/${options.tagSlug}` + (options.childTagSlug ? `/${options.childTagSlug}` : ''),
                 component: () => ArticleIndex
@@ -151,6 +152,7 @@ export default {
             {
                 path: '/users/:userSlug/topics/:topicSlug/tagged/:tagSlug/:childTagSlug?',
                 exact: false,
+                articleSidebar: true,
                 component: () => ArticleIndex
             },
             // user: topics
@@ -162,6 +164,7 @@ export default {
             {
                 path: '/users/:userSlug/topics/:topicSlug',
                 exact: true,
+                articleSidebar: true,
                 component: () => ArticleIndex
             },
             // user : tags

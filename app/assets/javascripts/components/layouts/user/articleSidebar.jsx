@@ -13,7 +13,6 @@ export default @withStyles(styles)
 
 class ArticleSidebarLayout extends React.PureComponent {
     static propTypes = {
-        params: PropTypes.object.isRequired,
         // from styles
         classes: PropTypes.object
     };
@@ -27,10 +26,10 @@ class ArticleSidebarLayout extends React.PureComponent {
             <Drawer anchor="right"
                     variant="permanent"
                     classes={{
-                        paper: this.props.classes.drawerPaper
+                        paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperBorderless)
                     }}
                     open={true}>
-                <ArticleSidebar params={this.props.params}/>
+                <ArticleSidebar/>
             </Drawer>
         );
     }

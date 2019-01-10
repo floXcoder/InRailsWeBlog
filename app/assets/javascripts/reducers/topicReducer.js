@@ -16,7 +16,8 @@ import {
     toList,
     fetchReducer,
     mutationReducer,
-    findItemIndex, mutateArray
+    findItemIndex,
+    mutateArray
 } from './mutators';
 
 const initState = new Record({

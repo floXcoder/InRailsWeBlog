@@ -17,13 +17,13 @@ module Articles
                       .with_adapted_visibility(@current_user, @current_admin)
                       .order_by(filter_articles(params))
                       .filter_by(params, @current_user)
-                      .paginate_or_limit(params)
+                      .paginate_or_limit(params, @current_user)
                   else
                     @relation
                       .include_collection
                       .everyone
                       .order_by(filter_articles(params))
-                      .paginate_or_limit(params)
+                      .paginate_or_limit(params, @current_user)
                   end
 
 
@@ -149,8 +149,14 @@ module Articles
         return records
       end
 
-      def paginate_or_limit(params)
-        params[:limit].present? ? self.limit(params[:limit]) : self.paginate(page: params[:page], per_page: Setting.per_page)
+      def paginate_or_limit(params, current_user)
+        if params[:limit].present?
+          self.limit(params[:limit])
+        elsif current_user&.articles_loader == 'all'
+          self.all
+        else
+          self.paginate(page: params[:page], per_page: Setting.per_page)
+        end
       end
     end
 

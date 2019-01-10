@@ -4,14 +4,87 @@ import {
     createSelector
 } from 'reselect';
 
+import {
+    getSortedTopicTags
+} from './tagSelectors';
+
+export const getArticleMetaTags = createSelector(
+    (state) => state.articleState.metaTags,
+    (metaTags) => metaTags.toJS()
+);
+
 export const getArticles = createSelector(
     (state) => state.articleState.articles,
     (articles) => articles.toArray()
 );
 
-export const getArticleMetaTags = createSelector(
-    (state) => state.articleState.metaTags,
-    (metaTags) => metaTags.toJS()
+export const getArticlesCount = createSelector(
+    (state) => state.articleState.articles,
+    (articles) => articles.size
+);
+
+export const getOrderedArticles = createSelector(
+    (state) => state.articleState.articles,
+    (state) => state.uiState.articleOrderMode,
+    (state) => getSortedTopicTags(state),
+    (_, props) => props.parentTag,
+    (articles, articleOrderMode, sortedTags, parentTag) => {
+        const isSortedByTag = articleOrderMode === 'tag_asc' || articleOrderMode === 'tag_desc';
+
+        if (isSortedByTag) {
+            let orderedArticles = {};
+
+            if (!parentTag) {
+                sortedTags.forEach((tag) => {
+                    orderedArticles[tag.name] = []
+                });
+            }
+
+            articles.forEach((article) => {
+                const parentTagNames = sortedTags.map((tag) => tag.name);
+
+                if (parentTag) {
+                    // Tag articles view
+                    let firstArticleTag = article.tags.filter((tag) => !parentTagNames.includes(tag.name)).map((tag) => tag.name).sort().first();
+                    firstArticleTag = firstArticleTag || 'undefined';
+                    orderedArticles[firstArticleTag] = orderedArticles[firstArticleTag] ? orderedArticles[firstArticleTag].concat(article) : [article];
+                } else {
+                    // Topic or user articles view
+                    const firstArticleTag = article.tags.filter((tag) => parentTagNames.includes(tag.name)).map((tag) => tag.name).sort().first();
+                    orderedArticles[firstArticleTag].push(article);
+                }
+            });
+
+            return orderedArticles;
+        } else {
+            return articles.toArray();
+        }
+    }
+);
+
+export const getCategorizedArticles = createSelector(
+    (state) => state.articleState.articles,
+    (state) => state.uiState.articleOrderMode,
+    (articles, articleOrderMode) => {
+        let categorizedArticles = {};
+
+        if (articleOrderMode === 'updated_desc' || articleOrderMode === 'updated_asc') {
+            articles.forEach((article) => {
+                categorizedArticles[article.date] = categorizedArticles[article.date] ? categorizedArticles[article.date].concat(article) : [article];
+            });
+        } else if (articleOrderMode === 'tag_asc' || articleOrderMode === 'tag_desc') {
+            articles.forEach((article) => {
+                categorizedArticles[article.date] = categorizedArticles[article.date] ? categorizedArticles[article.date].concat(article) : [article];
+            });
+        } else {
+            categorizedArticles['all_articles'] = [];
+            articles.forEach((article) => {
+                categorizedArticles['all_articles'].push(article);
+            });
+        }
+
+        return categorizedArticles;
+    }
 );
 
 export const getArticlePagination = createSelector(

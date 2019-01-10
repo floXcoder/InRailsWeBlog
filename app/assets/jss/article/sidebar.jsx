@@ -1,45 +1,34 @@
 'use strict';
 
-import {
-    appendixWidth
-} from '../theme';
-
 const styles = (theme) => ({
-    appendix: {
-        position: 'relative',
-        margin: '.4rem .3rem 2rem',
-        overflow: 'visible',
-        width: appendixWidth,
-        marginLeft: 50,
-        marginTop: -35
-    },
-    fabButton: {
-        marginTop: 15,
-        backgroundColor: theme.palette.grey[100],
-        boxShadow: theme.shadows[5],
-    },
-    header: {
-        paddingTop: 12,
-        paddingBottom: 4,
-        textAlign: 'center'
-    },
     title: {
         fontSize: '1.1rem',
-        fontWeight: 500
+        fontWeight: 500,
+        lineHeight: '2rem',
+        marginBottom: '.6rem'
     },
     order: {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         width: '100%'
+    },
+    timeline: {
+        marginTop: '.5rem'
+    },
+    moreArticles: {
+        padding: '5px 12px',
+        fontStyle: 'italic',
+        fontSize: '.9rem',
+        textAlign: 'center'
     },
     articleLink: {
         color: theme.palette.primary.dark,
         fontSize: '.9rem'
     },
     currentLink: {
-        fontSize: '1.1rem',
-        fontWeight: 600,
-    },
+        fontSize: '1rem',
+        fontWeight: 600
+    }
 });
 
 export default styles;

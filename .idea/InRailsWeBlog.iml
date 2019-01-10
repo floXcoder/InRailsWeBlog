@@ -91,6 +91,8 @@
       <excludeFolder url="file://$MODULE_DIR$/public/system" />
       <excludeFolder url="file://$MODULE_DIR$/public/uploads" />
       <excludeFolder url="file://$MODULE_DIR$/public/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/spec/javascripts/components/articles/__snapshots__" />
+      <excludeFolder url="file://$MODULE_DIR$/spec/javascripts/home/__snapshots__" />
       <excludeFolder url="file://$MODULE_DIR$/spec/javascripts/translations" />
       <excludeFolder url="file://$MODULE_DIR$/static_analysis" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />

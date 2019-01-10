@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Suspense
+} from 'react';
+
+import {
     Switch,
     Route,
     Link
@@ -10,6 +14,8 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
+
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import UserManager from '../../layouts/managers/user';
 
@@ -93,14 +99,17 @@ class MainLayoutUser extends React.Component {
                                                        </ErrorBoundary>
                                                    </Hidden>
 
-                                                   <Hidden smDown={true}>
-                                                       <ErrorBoundary errorType="text"
-                                                                      errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                                                           <div className={this.props.classes.sidebar}>
-                                                               <ArticleSidebarLayout params={router.match.params}/>
-                                                           </div>
-                                                       </ErrorBoundary>
-                                                   </Hidden>
+                                                   {
+                                                       route.articleSidebar &&
+                                                       <Hidden smDown={true}>
+                                                           <ErrorBoundary errorType="text"
+                                                                          errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
+                                                               <div className={this.props.classes.sidebar}>
+                                                                   <ArticleSidebarLayout/>
+                                                               </div>
+                                                           </ErrorBoundary>
+                                                       </Hidden>
+                                                   }
 
                                                    <main className={this.props.classes.content}>
                                                        {
@@ -115,20 +124,22 @@ class MainLayoutUser extends React.Component {
                                                            </ErrorBoundary>
                                                        }
 
-                                                       <div className={this.props.classes.component}>
-                                                           {
-                                                               this._renderPermanentRoutes(this.props.permanentRoutes)
-                                                           }
+                                                       <Suspense fallback={<div/>}>
+                                                           <div className={this.props.classes.component}>
+                                                               {
+                                                                   this._renderPermanentRoutes(this.props.permanentRoutes)
+                                                               }
 
-                                                           <Component params={router.match.params}
-                                                                      queryString={router.location.search}
-                                                                      history={router.history}
-                                                                      initialData={router.location.state}/>
-                                                       </div>
+                                                               <Component params={router.match.params}
+                                                                          queryString={router.location.search}
+                                                                          history={router.history}
+                                                                          initialData={router.location.state}/>
+                                                           </div>
+                                                       </Suspense>
 
                                                        {
                                                            (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
-                                                           <Link className="article-quick-add"
+                                                           <Link className={this.props.classes.quickAdd}
                                                                  to={{
                                                                      hash: '#new-article',
                                                                      state: {
@@ -137,9 +148,8 @@ class MainLayoutUser extends React.Component {
                                                                          childTagSlug: router.match.params.childTagSlug
                                                                      }
                                                                  }}>
-                                                           <span className="material-icons"
-                                                                 data-icon="add_circle_outline"
-                                                                 aria-hidden="true"/>
+                                                               <AddCircleOutlineIcon
+                                                                   className={this.props.classes.quickAddIcon}/>
                                                            </Link>
                                                        }
                                                    </main>

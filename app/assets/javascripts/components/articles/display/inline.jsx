@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    withRouter,
     Link
 } from 'react-router-dom';
 
@@ -27,8 +26,7 @@ import ArticleLinkIcon from '../icons/link';
 
 import styles from '../../../../jss/article/inline';
 
-export default @withRouter
-@highlight()
+export default @highlight()
 @withStyles(styles)
 class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
@@ -44,8 +42,6 @@ class ArticleInlineDisplay extends React.PureComponent {
         onExit: PropTypes.func,
         // from highlight
         onShow: PropTypes.func,
-        // from withRouter
-        history: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };

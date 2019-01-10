@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    withRouter,
     Link,
     Prompt
 } from 'react-router-dom';
@@ -23,8 +22,7 @@ import Editor, {EditorMode} from '../../editor/editor';
 
 import styles from '../../../../jss/article/inline';
 
-export default @withRouter
-@connect(null, {
+export default @connect(null, {
     inlineEditArticle,
     updateArticle,
     deleteArticle
@@ -37,8 +35,6 @@ class ArticleInlineEditionDisplay extends React.Component {
         inlineEditArticle: PropTypes.func,
         updateArticle: PropTypes.func,
         deleteArticle: PropTypes.func,
-        // from withRouter
-        history: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };

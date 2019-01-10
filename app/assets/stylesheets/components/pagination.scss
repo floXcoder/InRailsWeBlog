@@ -1,0 +1,42 @@
+@import 'base/variables';
+
+.pagination {
+  list-style-type: none;
+  padding-left: 0;
+
+  .pagination-page,
+  .previous,
+  .next {
+    list-style-type: none;
+    display: inline-block;
+    border-radius: 2px;
+    text-align: center;
+    vertical-align: top;
+    height: 30px;
+
+    &.active {
+      background-color: $primary-color-light;
+
+      a {
+        color: #fff;
+      }
+    }
+
+    &:hover {
+      background-color: lighten($primary-color-light, 40%);
+    }
+
+    a {
+      display: inline-block;
+      color: $text-color;
+      font-size: 1.2rem;
+      padding: 0 10px;
+      line-height: 30px;
+      cursor: pointer;
+    }
+  }
+
+  .pagination-icon {
+    font-size: 2rem;
+  }
+}

@@ -29,7 +29,9 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         hasColumnButtons: PropTypes.bool,
         hasExposedMode: PropTypes.bool,
         componentsToExposed: PropTypes.array,
-        topOffset: PropTypes.number
+        topOffset: PropTypes.number,
+        onComponentEnter: PropTypes.func,
+        onComponentExit: PropTypes.func
     };
 
     static defaultProps = {
@@ -139,11 +141,15 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                             <ComponentExposed isMasonry={true}
                                               {...componentExposedProps}
                                               {...elementType}
+                                              onEnter={this.props.onComponentEnter}
+                                              onExit={this.props.onComponentExit}
                                               onClick={this._handleComponentClick.bind(this, element.id)}/>
                             :
                             <ComponentCard isMasonry={true}
                                            {...componentCardProps}
                                            {...elementType}
+                                           onEnter={this.props.onComponentEnter}
+                                           onExit={this.props.onComponentExit}
                                            onClick={this._handleComponentClick.bind(this, element.id)}/>
                     }
                 </div>

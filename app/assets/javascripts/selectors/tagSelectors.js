@@ -141,9 +141,9 @@ export const getCurrentTagSlugs = createSelector(
     (tags) => tags.toArray().compact()
 );
 
-export const getTagIsOwner = (state, tag) => (
-    tag && tag.user ? state.userState.currentId === tag.user.id : false
-);
+// export const getTagIsOwner = (state, tag) => (
+//     tag && tag.user ? state.userState.currentId === tag.user.id : false
+// );
 
 export const getTagErrors = createSelector(
     (state) => state.tagState.errors,
