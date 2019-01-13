@@ -221,22 +221,28 @@ fr:
         user_current_topic: "Thème en cours"
       model:
         name: "Nom"
+        mode: "Type"
+        description: "Détails"
         visibility: "Visibilité"
       enums:
         visibility:
           everyone: "Public"
           only_me: "Privé"
-        visibility_order:
-          - everyone
-          - only_me
+        mode:
+          default: "Défaut"
+          stories: "Histoire"
       new:
         title: "Ajouter un thème"
-        input: "Nom du thème"
+        name: "Nom du thème"
+        mode: "Type"
+        description: "Détails du thème"
         cancel: "Annuler"
         submit: "Ajouter"
       edit:
         title: "Modifier le thème"
-        input: "Nom du thème"
+        name: "Nom du thème"
+        mode: "Type"
+        description: "Détails du thème"
         delete: "Supprimer"
         submit: "Mettre à jour"
     tag:
@@ -282,9 +288,6 @@ fr:
         visibility:
           everyone: "Public"
           only_me: "Privé"
-        visibility_order:
-          - everyone
-          - only_me
       index:
         titles:
           topic: "Labels associés au thème : %{topic}"
@@ -331,7 +334,8 @@ fr:
           loading: "Chargement des articles ..."
         placeholders:
           title:
-            story: "Titre de votre article"
+            note: "Titre de votre article"
+            story: "Titre de votre story"
           reference:
             note: "Lien vers la source d'origine"
             story: "Lien vers la source d'origine"
@@ -390,9 +394,6 @@ fr:
         visibility:
           everyone: "Public"
           only_me: "Privé"
-        visibility_order:
-          - everyone
-          - only_me
         mode:
           story: "Article"
           note: "Note"
@@ -432,7 +433,9 @@ fr:
       vote:
         added: "Votre vote a été pris en compte"
       show:
-        new_tags: "Ajouter des synonymes ou description aux nouveaux labels ajoutés :"
+        stories:
+          previous: "Story précédente"
+          next: "Story suivante"
       new:
         meta:
           title: "Nouvel article - %{topic} - InRailsWeBlog"

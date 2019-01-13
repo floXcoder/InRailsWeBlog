@@ -32,6 +32,7 @@ RSpec.describe Topic, type: :model, basic: true do
   before do
     @topic = Topic.create(
       user:        @user,
+      mode:        :default,
       name:        'Topic',
       description: 'Topic description',
       languages:   ['fr'],
@@ -52,6 +53,7 @@ RSpec.describe Topic, type: :model, basic: true do
   context 'Attributes' do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:description) }
+    it { is_expected.to respond_to(:mode) }
     it { is_expected.to respond_to(:languages) }
     it { is_expected.to respond_to(:color) }
     it { is_expected.to respond_to(:priority) }
@@ -62,6 +64,7 @@ RSpec.describe Topic, type: :model, basic: true do
     it { is_expected.to respond_to(:bookmarks_count) }
 
     it { expect(@topic.name).to eq('Topic') }
+    it { expect(@topic.mode).to eq('default') }
     it { expect(@topic.description).to eq('Topic description') }
     it { expect(@topic.languages).to eq(['fr']) }
     it { expect(@topic.color).to eq('#000000') }
@@ -80,6 +83,7 @@ RSpec.describe Topic, type: :model, basic: true do
         )
       end
 
+      it { expect(@topic.mode).to eq('default') }
       it { expect(@topic.priority).to eq(0) }
       it { expect(@topic.visibility).to eq('everyone') }
       it { expect(@topic.archived).to be false }

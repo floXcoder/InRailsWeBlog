@@ -72,7 +72,7 @@ export const getCategorizedArticles = createSelector(
             articles.forEach((article) => {
                 categorizedArticles[article.date] = categorizedArticles[article.date] ? categorizedArticles[article.date].concat(article) : [article];
             });
-        } else if (articleOrderMode === 'tag_asc' || articleOrderMode === 'tag_desc') {
+        } else if (articleOrderMode === 'tag_asc' || articleOrderMode === 'tag_desc') {
             articles.forEach((article) => {
                 categorizedArticles[article.date] = categorizedArticles[article.date] ? categorizedArticles[article.date].concat(article) : [article];
             });
@@ -90,6 +90,37 @@ export const getCategorizedArticles = createSelector(
 export const getArticlePagination = createSelector(
     (state) => state.articleState.pagination,
     (pagination) => pagination.toJS()
+);
+
+export const getArticleStories = createSelector(
+    (state) => state.articleState.articleStories,
+    (articles) => articles && articles.toArray()
+);
+
+export const getArticleSiblingStories = createSelector(
+    (state) => state.articleState.articleStories,
+    (state) => state.articleState.article,
+    (articles, article) => {
+        if (articles && article) {
+            const currentIndex = articles.findIndex((item) => item.id === article.id);
+            if (currentIndex === 0) {
+                return [
+                    articles.get(1)
+                ];
+            } else if (currentIndex === articles.size - 1) {
+                return [
+                    articles.get(currentIndex - 1)
+                ];
+            } else {
+                return [
+                    articles.get(currentIndex - 1),
+                    articles.get(currentIndex + 1)
+                ];
+            }
+        } else {
+            return null;
+        }
+    }
 );
 
 export const getHomeArticles = createSelector(

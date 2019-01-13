@@ -3,11 +3,13 @@
 module EnumsConcern
   extend ActiveSupport::Concern
 
-  VISIBILITY    = [:everyone, :only_me].freeze
+  VISIBILITY = [:everyone, :only_me].freeze
 
-  ARTICLE_MODE  = [:story, :note, :link].freeze
+  TOPIC_MODE = [:default, :stories].freeze
 
-  ERROR_ORIGIN  = [:server, :client, :communication].freeze
+  ARTICLE_MODE = [:note, :story, :link].freeze
+
+  ERROR_ORIGIN = [:server, :client, :communication].freeze
 
   included do
     def self.enums_to_tr(klass, enums)

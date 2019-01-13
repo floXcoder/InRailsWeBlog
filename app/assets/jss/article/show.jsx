@@ -2,6 +2,7 @@
 
 import {
     articleWidth,
+    storiesWidth,
     h1Size,
     h1Weight,
     h1LineHeight,
@@ -88,12 +89,25 @@ const styles = (theme) => ({
         // display: 'inline-flex',
         marginLeft: 'auto',
         [theme.breakpoints.up('sm')]: {
-            marginRight: -2,
-        },
+            marginRight: -2
+        }
     },
     actionItem: {
         display: 'inline-block',
         margin: theme.spacing.unit
+    },
+    storiesContainer: {
+        maxWidth: storiesWidth,
+        margin: '0 auto 2rem'
+    },
+    storiesTitle: {
+        textAlign: 'center'
+    },
+    storiesArticle: {
+        width: '420px',
+        [theme.breakpoints.down('md')]: {
+            width: '280px'
+        }
     }
 });
 

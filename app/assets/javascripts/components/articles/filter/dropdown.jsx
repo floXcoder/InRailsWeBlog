@@ -62,7 +62,7 @@ class ArticleFilterMenu extends React.Component {
         return (
             <>
                 <Button className={this.props.classes.button}
-                        variant="outlined"
+                        variant="text"
                         onClick={this._handleClickListItem}>
                     {I18n.t('js.article.filter.title')}
                 </Button>

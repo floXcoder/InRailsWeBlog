@@ -12,6 +12,9 @@ const styles = (theme) => ({
         justifyContent: 'space-evenly',
         width: '100%'
     },
+    button: {
+        color: theme.palette.primary.main
+    },
     timeline: {
         marginTop: '.5rem'
     },

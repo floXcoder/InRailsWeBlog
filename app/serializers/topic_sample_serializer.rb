@@ -7,6 +7,7 @@ class TopicSampleSerializer < ActiveModel::Serializer
 
   attributes :id,
              :user_id,
+             :mode,
              :name,
              :description,
              :priority,

@@ -172,6 +172,20 @@ en:
       visibility:
         everyone: "Public"
         only_me: "Private"
+  topic:
+    default_name: "Default"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Private"
+      mode:
+        default: "Default"
+        stories: "Stories"
+  tag:
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Private"
   article:
     enums:
       visibility:
@@ -181,17 +195,6 @@ en:
         story: "Story"
         note: "Note"
         link: "Link"
-  tag:
-    enums:
-      visibility:
-        everyone: "Public"
-        only_me: "Private"
-  topic:
-    default_name: "Default"
-    enums:
-      visibility:
-        everyone: "Public"
-        only_me: "Private"
   admin:
     dashboard:
       title: "Admin"

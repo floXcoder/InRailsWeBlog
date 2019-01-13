@@ -164,16 +164,17 @@ class TagIndex extends React.Component {
     };
 
     render() {
+        if (this.props.isFetching) {
+            return (
+                <div className="center margin-top-20">
+                    <Loader size="big"/>
+                </div>
+            );
+        }
+
         return (
             <div className={this.props.classes.root}>
                 <HeadLayout metaTags={this.props.metaTags}/>
-
-                {
-                    this.props.isFetching &&
-                    <div className="center margin-top-20">
-                        <Loader size="big"/>
-                    </div>
-                }
 
                 <div className="margin-bottom-20">
                     <Typography className={this.props.classes.title}

@@ -12,7 +12,7 @@ const styles = (theme) => ({
         padding: theme.spacing.unit * 4,
     },
     input: {
-        margin: '1rem .1rem'
+        margin: '1.1rem .1rem'
     }
 });
 

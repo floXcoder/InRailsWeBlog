@@ -87,7 +87,6 @@ export default class HeaderArticleMenu extends React.Component {
                               to={{
                                   pathname: `/users/${this.props.userSlug}/topics/${this.props.topicSlug}/article-new`,
                                   state: {
-                                      mode: 'story',
                                       parentTagSlug: parentTagSlug,
                                       childTagSlug: childTagSlug
                                   }
@@ -109,7 +108,6 @@ export default class HeaderArticleMenu extends React.Component {
                               to={{
                                   pathname: `/users/${this.props.userSlug}/topics/${this.props.topicSlug}/article-new`,
                                   state: {
-                                      mode: 'link',
                                       parentTagSlug: parentTagSlug,
                                       childTagSlug: childTagSlug
                                   }

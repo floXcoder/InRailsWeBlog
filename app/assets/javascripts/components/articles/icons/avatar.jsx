@@ -17,7 +17,8 @@ import {
 const ArticleAvatarIcon = ({classes, user, articleDate}) => (
     <div itemScope={true}
          itemType="https://schema.org/Person">
-        <ListItem className={classes.avatarContainer}>
+        <ListItem component="div"
+                  className={classes.avatarContainer}>
             <Avatar alt={user.pseudo}
                     className={classes.avatar}>
                 <AccountCircleIcon className={classes.avatarIcon}/>

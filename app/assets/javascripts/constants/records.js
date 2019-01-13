@@ -61,6 +61,7 @@ export const PictureRecord = new Record({
 export class TopicRecord extends Record({
     id: undefined,
     userId: undefined,
+    mode: undefined,
     name: undefined,
     description: undefined,
     date: undefined,

@@ -221,22 +221,27 @@ en:
         user_current_topic: "Current topic"
       model:
         name: "Name"
+        mode: "Type"
+        description: "Description"
         visibility: "Visibility"
       enums:
         visibility:
           everyone: "Public"
           only_me: "Private"
-        visibility_order:
-          - everyone
-          - only_me
+        mode:
+          default: "Default"
+          stories: "Stories"
       new:
         title: "Add a topic"
-        input: "Topic name"
+        name: "Topic name"
+        mode: "Type"
+        description: "Topic description"
         cancel: "Cancel"
         submit: "Add topic"
       edit:
         title: "Update topic"
-        input: "Theme name"
+        mode: "Type"
+        description: "Topic description"
         delete: "Delete"
         submit: "Update"
     tag:
@@ -282,9 +287,6 @@ en:
         visibility:
           everyone: "Public"
           only_me: "Private"
-        visibility_order:
-          - everyone
-          - only_me
       index:
         titles:
           topic: "Tags for the current topic: %{topic}"
@@ -331,6 +333,7 @@ en:
           loading: "Loading articles"
         placeholders:
           title:
+            note: "Article title"
             story: "Article title"
           reference:
             note: "URL reference"
@@ -390,9 +393,6 @@ en:
         visibility:
           everyone: "Public"
           only_me: "Private"
-        visibility_order:
-          - everyone
-          - only_me
         mode:
           story: "Story"
           note: "Note"
@@ -432,7 +432,9 @@ en:
       vote:
         added: "Vote added"
       show:
-        new_tags: "Add synonyms or description to new tags:"
+        stories:
+          previous: "Previous story"
+          next: "Next story"
       new:
         meta:
           title: "New article - %{topic} - InRailsWeBlog"

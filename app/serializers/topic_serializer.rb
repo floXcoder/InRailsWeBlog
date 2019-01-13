@@ -21,6 +21,7 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  settings                 :jsonb            not null
+#  mode                     :integer          default("default"), not null
 #
 
 class TopicSerializer < ActiveModel::Serializer
@@ -28,6 +29,7 @@ class TopicSerializer < ActiveModel::Serializer
 
   attributes :id,
              :user_id,
+             :mode,
              :name,
              :description,
              :priority,

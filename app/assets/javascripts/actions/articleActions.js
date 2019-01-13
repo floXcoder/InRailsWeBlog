@@ -60,6 +60,17 @@ export const deleteArticle = (articleId, options = {}) => ({
     }
 });
 
+// Article stories
+const receiveArticleStories = (stories) => ({
+    type: ActionTypes.ARTICLE_STORIES,
+    stories
+});
+export const fetchArticleStories = (articleId) => (dispatch) => (
+    api.get(`/api/v1/articles/${articleId}/stories`)
+        .promise
+        .then((response) => dispatch(receiveArticleStories(response.stories)))
+);
+
 // Article history
 const receiveArticleVersions = (versions, meta) => ({
     type: ActionTypes.ARTICLE_HISTORY,

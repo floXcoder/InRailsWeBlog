@@ -20,11 +20,11 @@
 
 module Api::V1
   class ArticlesController < ApiController
-    skip_before_action :authenticate_user!, only: [:index, :show]
+    skip_before_action :authenticate_user!, only: [:index, :stories, :show]
 
     before_action :honeypot_protection, only: [:create, :update]
 
-    after_action :verify_authorized, except: [:index]
+    after_action :verify_authorized, except: [:index, :stories]
 
     include TrackerConcern
     include CommentConcern
@@ -60,6 +60,20 @@ module Api::V1
                    with_outdated:   true,
                    meta:            meta_attributes(pagination: articles)
           end
+        end
+      end
+    end
+
+    def stories
+      article = Article.include_element.friendly.find(params[:id])
+
+      articles = ::Articles::FindQueries.new(current_user, current_admin).stories(topic_id: article.topic_id)
+
+      respond_to do |format|
+        format.json do
+          render json:            articles,
+                 root:            'stories',
+                 each_serializer: ArticleSampleSerializer
         end
       end
     end

@@ -26,6 +26,23 @@ module Articles
                       .paginate_or_limit(params, @current_user)
                   end
 
+      return @relation
+    end
+
+    def stories(params = {})
+      @relation = if @current_user
+                    @relation
+                      .with_adapted_visibility(@current_user, @current_admin)
+                      .filter_by(params, @current_user)
+                      .order_by(filter_articles(params))
+                      .paginate_or_limit(params, @current_user)
+                  else
+                    @relation
+                      .everyone
+                      .filter_by(params, @current_user)
+                      .order_by(filter_articles(params))
+                      .paginate_or_limit(params, @current_user)
+                  end
 
       return @relation
     end

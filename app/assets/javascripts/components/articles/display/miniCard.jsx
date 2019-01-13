@@ -30,13 +30,14 @@ export default @highlight()
 class ArticleMiniCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        // from highlight
-        // onShow: PropTypes.func,
+        hasTags: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
 
-    static defaultProps = {};
+    static defaultProps = {
+        hasTags: true
+    };
 
     constructor(props) {
         super(props);
@@ -59,7 +60,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                     </h1>
                                 </Link>
                             }
-                            subheader={
+                            subheader={this.props.hasTags && (
                                 <div className={this.props.classes.articleTags}>
                                     {
                                         this.props.article.tags.map((tag) => (
@@ -75,7 +76,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                         ))
                                     }
                                 </div>
-                            }
+                            )}
                 />
 
                 <CardContent classes={{

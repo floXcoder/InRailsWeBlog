@@ -31,11 +31,14 @@ import Pagination from '../theme/pagination';
 
 import HeadLayout from '../layouts/head';
 
+import SummaryStoriesTopic from '../topics/stories/summary';
+
 import ArticleNoneDisplay from './display/none';
 
 const ArticleListMode = lazy(() => import(/* webpackChunkName: "article-index-list" */ './display/modes/list'));
 const ArticleInfiniteMode = lazy(() => import(/* webpackChunkName: "article-index-infinite" */ './display/modes/infinite'));
 const ArticleMasonryMode = lazy(() => import(/* webpackChunkName: "article-index-masonry" */ './display/modes/masonry'));
+const ArticleTimelineMode = lazy(() => import(/* webpackChunkName: "article-index-timeline" */ './display/modes/timeline'));
 
 import styles from '../../../jss/article/index';
 
@@ -45,7 +48,7 @@ export default @hot(module)
     metaTags: getArticleMetaTags(state),
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
-    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopic: state.topicState.currentTopic,
     isFetching: state.articleState.isFetching,
     articlesCount: getArticlesCount(state),
     articlePagination: getArticlePagination(state),
@@ -68,7 +71,7 @@ class ArticleIndex extends React.Component {
         metaTags: PropTypes.object,
         userId: PropTypes.number,
         userSlug: PropTypes.string,
-        currentUserTopicId: PropTypes.number,
+        currentUserTopic: PropTypes.object,
         isFetching: PropTypes.bool,
         articlesCount: PropTypes.number,
         articlePagination: PropTypes.object,
@@ -117,7 +120,7 @@ class ArticleIndex extends React.Component {
             if (this.props.params.tagSlug) {
                 this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}]);
             }
-        } else if (this.props.articleDisplayMode !== prevProps.articleDisplayMode || this.props.articlesLoaderMode !== prevProps.articlesLoaderMode) {
+        } else if (this.props.articleDisplayMode !== prevProps.articleDisplayMode || this.props.articlesLoaderMode !== prevProps.articlesLoaderMode) {
             // Reload articles to fit with new loader or display mode
             this._fetchArticles(this.props.params);
         }
@@ -156,7 +159,6 @@ class ArticleIndex extends React.Component {
 
             this._request = this.props.fetchArticles({
                 userId: this.props.userId,
-                topicId: this.props.currentUserTopicId,
                 ...queryParams
             }, options, {infinite: !params.selected});
 
@@ -179,6 +181,18 @@ class ArticleIndex extends React.Component {
     render() {
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
 
+        const isStoriesMode = this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories';
+
+        if (this.props.userId && !this.props.currentUserTopic) {
+            return (
+                <div className={this.props.classes.root}>
+                    <div className="center">
+                        <Loader size="big"/>
+                    </div>
+                </div>
+            );
+        }
+
         if (this.props.articlesCount === 0 && !this.props.isFetching) {
             return (
                 <div className="blog-article-box">
@@ -193,7 +207,12 @@ class ArticleIndex extends React.Component {
         }
 
         let ArticleNodes;
-        if (this.props.articleDisplayMode === 'grid') {
+        if (isStoriesMode) {
+            ArticleNodes = (
+                <ArticleTimelineMode onEnter={this._handleArticleEnter}
+                                     onExit={this._handleArticleExit}/>
+            );
+        } else if (this.props.articleDisplayMode === 'grid') {
             ArticleNodes = (
                 <ArticleMasonryMode onEnter={this._handleArticleEnter}
                                     onExit={this._handleArticleExit}/>
@@ -210,43 +229,51 @@ class ArticleIndex extends React.Component {
         }
 
         return (
-            <div className={classNames(this.props.classes.root, {
-                [this.props.classes.grid]: this.props.articleDisplayMode === 'grid'
-            })}>
-                <HeadLayout metaTags={this.props.metaTags}/>
-
+            <div>
                 {
-                    this.props.isFetching &&
-                    <div className={this.props.classes.root}>
-                        <div className="center">
-                            <Loader size="big"/>
+                    (this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories') &&
+                    <SummaryStoriesTopic topic={this.props.currentUserTopic}/>
+                }
+
+                <div className={classNames(this.props.classes.root, {
+                    [this.props.classes.largeContainer]: this.props.articleDisplayMode === 'grid' || isStoriesMode,
+                    [this.props.classes.fullContainer]: isStoriesMode
+                })}>
+                    <HeadLayout metaTags={this.props.metaTags}/>
+
+                    {
+                        this.props.isFetching &&
+                        <div className={this.props.classes.root}>
+                            <div className="center">
+                                <Loader size="big"/>
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
 
-                {
-                    this.props.articlesCount > 0 &&
-                    <Suspense fallback={<div/>}>
-                        {
-                            this.props.articlesLoaderMode === 'infinite'
-                                ?
-                                <ArticleInfiniteMode classes={this.props.classes}
-                                                     articlesCount={this.props.articlesCount}
-                                                     hasMoreArticles={hasMoreArticles}
-                                                     fetchArticles={this._fetchNextArticles}>
-                                    {ArticleNodes}
-                                </ArticleInfiniteMode>
-                                :
-                                ArticleNodes
-                        }
-                    </Suspense>
-                }
+                    {
+                        this.props.articlesCount > 0 &&
+                        <Suspense fallback={<div/>}>
+                            {
+                                this.props.articlesLoaderMode === 'infinite'
+                                    ?
+                                    <ArticleInfiniteMode classes={this.props.classes}
+                                                         articlesCount={this.props.articlesCount}
+                                                         hasMoreArticles={hasMoreArticles}
+                                                         fetchArticles={this._fetchNextArticles}>
+                                        {ArticleNodes}
+                                    </ArticleInfiniteMode>
+                                    :
+                                    ArticleNodes
+                            }
+                        </Suspense>
+                    }
 
-                {
-                    this.props.articlesLoaderMode === 'pagination' &&
-                    <Pagination totalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
-                                onPaginationClick={this._fetchNextArticles}/>
-                }
+                    {
+                        this.props.articlesLoaderMode === 'pagination' &&
+                        <Pagination totalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
+                                    onPaginationClick={this._fetchNextArticles}/>
+                    }
+                </div>
             </div>
         );
     }

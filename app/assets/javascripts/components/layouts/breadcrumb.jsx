@@ -103,8 +103,6 @@ class BreadcrumbLayout extends React.Component {
     render() {
         // this.props.currentTopic && this.props.currentTopic.name
 
-        w(this.state.recents)
-
         return (
             <div className={this.props.classes.breadcrumb}>
                 {

@@ -12,8 +12,11 @@ const styles = (theme) => ({
         overflow: 'visible',
         maxWidth: articleAppendixWidth
     },
-    grid: {
+    largeContainer: {
         maxWidth: gridWidth
+    },
+    fullContainer: {
+        width: '100%'
     },
     tagTitle: {
         fontSize: '1.2rem',

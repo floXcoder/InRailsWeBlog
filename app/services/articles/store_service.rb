@@ -16,6 +16,10 @@ module Articles
         @article.topic_id = @params[:topic_id] || @current_user&.current_topic_id
       end
 
+      if @article.topic&.stories?
+        @article.mode = :story
+      end
+
       # Language
       if @article.languages.empty? || @params[:language].present?
         new_language       = (@params.delete(:language) || @current_user&.locale || I18n.locale).to_s

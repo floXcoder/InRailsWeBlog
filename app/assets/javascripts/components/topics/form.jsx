@@ -10,12 +10,14 @@ export default class FormTopic extends React.Component {
         onCancel: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
+        defaultMode: PropTypes.string,
         defaultVisibility: PropTypes.string,
         topic: PropTypes.object,
         isEditing: PropTypes.bool
     };
 
     static defaultProps = {
+        defaultMode: 'default',
         defaultVisibility: 'only_me',
         topic: {},
         isEditing: false
@@ -27,12 +29,26 @@ export default class FormTopic extends React.Component {
 
     state = {
         name: this.props.isEditing ? this.props.topic.name : '',
+        mode: this.props.isEditing ? this.props.topic.mode : this.props.defaultMode,
+        description: this.props.isEditing ? this.props.topic.description : '',
         visibility: this.props.isEditing ? this.props.topic.visibility : this.props.defaultVisibility
     };
 
     _handleNameChange = (event) => {
         this.setState({
             name: event.target.value
+        });
+    };
+
+    _handleModeChange = (event) => {
+        this.setState({
+            mode: event.target.value
+        });
+    };
+
+    _handleDescriptionChange = (event) => {
+        this.setState({
+            description: event.target.value
         });
     };
 
@@ -45,7 +61,7 @@ export default class FormTopic extends React.Component {
     _handleTopicSubmit = (event) => {
         event.preventDefault();
 
-        this.props.onSubmit(this.state.name, this.state.visibility);
+        this.props.onSubmit(this.state.name, this.state.mode, this.state.description, this.state.visibility);
     };
 
     _handleTopicDelete = (event) => {
@@ -64,12 +80,47 @@ export default class FormTopic extends React.Component {
                            autoFocus={true}
                            label={this.props.isEditing
                                ?
-                               I18n.t('js.topic.edit.input')
+                               I18n.t('js.topic.edit.name')
                                :
-                               I18n.t('js.topic.new.input')}
+                               I18n.t('js.topic.new.name')}
                            variant="outlined"
                            value={this.state.name}
                            onChange={this._handleNameChange}/>
+
+                {
+                    !this.props.topic.id &&
+                    <TextField select={true}
+                               className={this.props.classes.input}
+                               fullWidth={true}
+                               label={I18n.t('js.topic.model.mode')}
+                               value={this.state.mode}
+                               onChange={this._handleModeChange}
+                               variant="outlined">
+                        {
+                            Object.keys(I18n.t('js.topic.enums.mode')).map((key) => (
+                                <MenuItem key={key}
+                                          value={key}>
+                                    {I18n.t('js.topic.enums.mode')[key]}
+                                </MenuItem>
+                            ))
+                        }
+                    </TextField>
+                }
+
+                {
+                    this.state.mode === 'stories' &&
+                    <TextField className={this.props.classes.input}
+                               fullWidth={true}
+                               multiline={true}
+                               label={this.props.isEditing
+                                   ?
+                                   I18n.t('js.topic.edit.description')
+                                   :
+                                   I18n.t('js.topic.new.description')}
+                               variant="outlined"
+                               value={this.state.description}
+                               onChange={this._handleDescriptionChange}/>
+                }
 
                 <TextField select={true}
                            className={this.props.classes.input}

@@ -11,7 +11,7 @@ const mainWidth = 1200;
 const articleWidth = 740;
 const articleAppendixWidth = 924;
 const gridWidth = 1110;
-const appendixWidth = 300;
+const storiesWidth = 920;
 
 // zIndex
 const mainZIndex = 1;
@@ -22,6 +22,7 @@ const drawerZIndex = 1200;
 const modalZIndex = 1300;
 const snackbarZIndex = 1400;
 const tooltipZIndex = 1500;
+// const dropdownIndex = 1600;
 
 // Headers font
 const h1Size = '3rem';
@@ -106,7 +107,7 @@ export {
     articleWidth,
     gridWidth,
     articleAppendixWidth,
-    appendixWidth,
+    storiesWidth,
 
     mainZIndex,
     topicZIndex,

@@ -65,6 +65,9 @@ class TopicModule extends React.Component {
     };
 
     render() {
+        const privateTopics = this.props.topics.filter((topic) => topic.visibility === 'only_me');
+        const publicTopics = this.props.topics.filter((topic) => topic.visibility !== 'only_me');
+
         return (
             <div className={this.props.classes.module}>
                 <div className={this.props.classes.title}>
@@ -81,7 +84,43 @@ class TopicModule extends React.Component {
                 </div>
 
                 {
-                    this.props.topics.map((topic) => (
+                    privateTopics.map((topic) => (
+                        <div key={topic.id}
+                             className={this.props.classes.list}
+                             onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
+                             onMouseLeave={this._handleOverEdit.bind(this, null)}>
+                            <Link to={`/users/${this.props.userSlug}/topics/${topic.slug}`}
+                                  onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
+                                    <span className={this.props.classes.item}>
+                                        <span className={classNames(
+                                            this.props.classes.itemContent, {
+                                                [this.props.classes.currentItem]: topic.id === this.props.currentUserTopicId
+                                            })}>
+                                            {topic.name}
+                                        </span>
+                                    </span>
+                            </Link>
+
+                            {
+                                this.state.overTopicId === topic.id &&
+                                <Link className={this.props.classes.edition}
+                                      to={{
+                                          hash: '#new-topic',
+                                          state: {
+                                              topicId: topic.id
+                                          }
+                                      }}>
+                                    <EditIcon/>
+                                </Link>
+                            }
+                        </div>
+                    ))
+                }
+
+                <hr/>
+
+                {
+                    publicTopics.map((topic) => (
                         <div key={topic.id}
                              className={this.props.classes.list}
                              onMouseEnter={this._handleOverEdit.bind(this, topic.id)}

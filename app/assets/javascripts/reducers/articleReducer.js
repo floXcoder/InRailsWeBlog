@@ -31,6 +31,9 @@ const initState = new Record({
 
     article: undefined,
     articleEditionId: undefined,
+
+    articleStories: undefined,
+
     articleVersions: undefined
 });
 
@@ -80,6 +83,12 @@ export default function articleReducer(state = new initState(), action) {
                     article: payload.article && (new Records.ArticleRecord(payload.article)),
                     articles: mutateArray(state.articles, payload.article && (new Records.ArticleRecord(payload.article)), action.removedId)
                 }) /*, ['article']*/);
+
+        // Topic stories
+        case ActionTypes.ARTICLE_STORIES:
+            return state.merge({
+                articleStories: toList(action.stories, Records.ArticleRecord)
+            });
 
         // History and restoration
         case ActionTypes.ARTICLE_HISTORY:

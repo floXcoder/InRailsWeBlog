@@ -89,7 +89,7 @@ class ArticleEdit extends React.Component {
     }
 
     render() {
-        if (!this.props.article) {
+        if (!this.props.article || !this.props.currentUser || !this.props.currentTopic) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>

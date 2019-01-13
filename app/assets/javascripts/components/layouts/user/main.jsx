@@ -143,7 +143,6 @@ class MainLayoutUser extends React.Component {
                                                                  to={{
                                                                      hash: '#new-article',
                                                                      state: {
-                                                                         // mode: 'note',
                                                                          parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
                                                                          childTagSlug: router.match.params.childTagSlug
                                                                      }

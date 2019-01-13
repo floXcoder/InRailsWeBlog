@@ -76,8 +76,8 @@ class ArticleFormDisplay extends React.Component {
 
     static defaultProps = {
         isEditing: false,
-        children: {},
-        currentMode: 'story'
+        currentMode: 'note',
+        children: {}
     };
 
     constructor(props) {
@@ -86,7 +86,6 @@ class ArticleFormDisplay extends React.Component {
 
     state = {
         isLink: false,
-        currentMode: this.props.children.mode || this.props.currentMode,
         tabIndex: 0,
         prevStepError: this.props.errorStep
     };
@@ -134,15 +133,9 @@ class ArticleFormDisplay extends React.Component {
         this.setState({tabIndex: index});
     };
 
-    // _handleModeClick = (mode, event) => {
-    //     event.preventDefault();
-    //
-    //     this.setState({
-    //         currentMode: mode
-    //     })
-    // };
-
     render() {
+        const currentMode = this.props.children.mode || this.props.currentMode;
+
         return (
             <form onSubmit={this.props.handleSubmit}>
                 <EnsureValidity/>
@@ -151,12 +144,6 @@ class ArticleFormDisplay extends React.Component {
                         message={this._onUnsavedExit}/>
 
                 <div>
-                    {
-                        // this.props.hasModeSelection &&
-                        // <ArticleModeField currentMode={this.state.currentMode}
-                        //                   onModeClick={this._handleModeClick}/>
-                    }
-
                     <Sticky enabled={true}
                             top="header">
                         <ArticleFormStepper tabIndex={this.state.tabIndex}
@@ -170,7 +157,7 @@ class ArticleFormDisplay extends React.Component {
                         }
 
                         <Collapse in={this.state.tabIndex === 0}>
-                            <ArticleCommonField currentMode={this.state.currentMode}
+                            <ArticleCommonField currentMode={currentMode}
                                                 article={this.props.children}
                                                 change={this.props.change}
                                                 onSubmit={this.props.handleSubmit}/>
@@ -201,7 +188,7 @@ class ArticleFormDisplay extends React.Component {
                         </Collapse>
 
                         <Collapse in={this.state.tabIndex === 2}>
-                            <ArticleAdvancedField currentMode={this.state.currentMode}
+                            <ArticleAdvancedField currentMode={currentMode}
                                                   inheritVisibility={this.props.inheritVisibility}/>
 
                             <div className="row">

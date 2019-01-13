@@ -131,6 +131,7 @@ module Api::V1
 
     def topic_params
       params.require(:topic).permit(:name,
+                                    :mode,
                                     :description,
                                     :priority,
                                     :visibility,

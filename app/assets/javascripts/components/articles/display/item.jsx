@@ -29,6 +29,7 @@ class ArticleItemDisplay extends React.Component {
         article: PropTypes.object.isRequired,
         articleDisplayMode: PropTypes.string.isRequired,
         articleEditionId: PropTypes.number,
+        hasCardActions: PropTypes.bool,
         isMinimized: PropTypes.bool,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
@@ -39,6 +40,7 @@ class ArticleItemDisplay extends React.Component {
     };
 
     static defaultProps = {
+        hasCardActions: true,
         isMinimized: false
     };
 
@@ -79,6 +81,7 @@ class ArticleItemDisplay extends React.Component {
             return (
                 <ArticleCardDisplay article={this.props.article}
                                     isOwner={this.props.isOwner}
+                                    hasActions={this.props.hasCardActions}
                                     isMinimized={this.props.isMinimized}
                                     onInlineEdit={this._handleInlineEditClick}
                                     onEnter={this.props.onEnter}

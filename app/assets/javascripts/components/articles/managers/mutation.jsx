@@ -266,8 +266,11 @@ export default function articleMutationManager(mode, formId) {
             };
 
             render() {
-                const currentMode = this.props.initialData && this.props.initialData.mode;
-                const isInline = this.props.initialData && this.props.initialData.mode === 'note';
+                let currentMode = (this.props.initialData && this.props.initialData.mode) || 'note';
+                if(this.props.currentTopic && this.props.currentTopic.mode === 'stories') {
+                    currentMode = 'story';
+                }
+
                 const isDraft = this.props.initialData ? this.props.initialData.isDraft : false;
 
                 // Ensure current article is correct (do not use previous edited article)
@@ -284,7 +287,6 @@ export default function articleMutationManager(mode, formId) {
                     onSubmit: this._handleSubmit,
                     article: article,
                     currentMode: currentMode,
-                    isInline: isInline,
                     isDraft: isDraft,
                     articleErrors: this.props.articleErrors
                 };

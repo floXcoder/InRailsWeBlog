@@ -66,10 +66,6 @@ class TopicModal extends React.Component {
         open: true
     };
 
-    // _handleOpen = () => {
-    //     this.setState({open: true});
-    // };
-
     _handleClose = () => {
         this.setState({open: false});
 
@@ -78,11 +74,13 @@ class TopicModal extends React.Component {
         });
     };
 
-    _handleTopicSubmit = (topicName, topicVisibility) => {
+    _handleTopicSubmit = (topicName, topicMode, topicDescription, topicVisibility) => {
         if (this.props.editingTopic) {
             this.props.updateTopic(this.props.userId, {
                 id: this.props.editingTopic.id,
                 name: topicName,
+                mode: topicMode,
+                description: topicDescription,
                 visibility: topicVisibility
             })
                 .then((response) => {
@@ -94,6 +92,8 @@ class TopicModal extends React.Component {
         } else {
             this.props.addTopic(this.props.userId, {
                 name: topicName,
+                mode: topicMode,
+                description: topicDescription,
                 visibility: topicVisibility
             })
                 .then((response) => {
@@ -129,6 +129,7 @@ class TopicModal extends React.Component {
                     <FormTopic classes={this.props.classes}
                                topic={this.props.editingTopic}
                                isEditing={!!this.props.editingTopic}
+                               defaultMode={this.props.initialData.mode}
                                defaultVisibility={this.props.initialData.visibility}
                                onCancel={this._handleClose}
                                onSubmit={this._handleTopicSubmit}

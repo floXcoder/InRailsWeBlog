@@ -84,7 +84,7 @@ class ArticleCardDisplay extends React.Component {
         return null;
     }
 
-    _handleViewportChange = event => {
+    _handleViewportChange = (event) => {
         if (event.isIntersecting) {
             spyTrackView('article', this.props.article.id);
 

@@ -69,6 +69,7 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to respond_to(:summary) }
     it { is_expected.to respond_to(:content) }
     it { is_expected.to respond_to(:reference) }
+    it { is_expected.to respond_to(:mode) }
     it { is_expected.to respond_to(:draft) }
     it { is_expected.to respond_to(:languages) }
     it { is_expected.to respond_to(:allow_comment) }

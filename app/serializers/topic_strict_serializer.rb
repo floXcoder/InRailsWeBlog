@@ -8,6 +8,7 @@ class TopicStrictSerializer < ActiveModel::Serializer
   # Methods with attributes must be defined to work with searchkick results
   attributes :id,
              :user_id,
+             :mode,
              :name,
              :date,
              :visibility,

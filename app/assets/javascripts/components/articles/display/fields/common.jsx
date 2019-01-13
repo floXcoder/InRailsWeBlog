@@ -79,35 +79,33 @@ class ArticleCommonField extends React.Component {
         return (
             <div className={classNames(this.props.classes.root, 'row')}>
                 {
-                    this.props.currentMode === 'story' &&
-                    <div className="col s12">
-                        <Field name="title"
-                               component={TextFieldForm}
-                               className={this.props.classes.title}
-                               id="article_title"
-                               label={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
-                               autoFocus={true}
-                               required={true}
-                               color="primary"
-                               onBlur={this._handleTitleBlur}
-                               onKeyPress={this._handleTitleKeyPress}/>
-                    </div>
-                }
-
-                {
-                    this.props.currentMode === 'link' &&
-                    <div className="col s12">
-                        <div className="form-editor-title">
-                            {I18n.t('js.article.model.reference')}
+                    this.props.currentMode === 'link'
+                        ?
+                        <div className="col s12">
+                            <div className="form-editor-title">
+                                {I18n.t('js.article.model.reference')}
+                            </div>
+                            <Field name="reference"
+                                   id="article_reference"
+                                   icon="link"
+                                   label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
+                                   characterCount={window.settings.article_title_max_length}
+                                   onBlur={this._handleTitleBlur}
+                                   component={TextFieldForm}/>
                         </div>
-                        <Field name="reference"
-                               id="article_reference"
-                               icon="link"
-                               label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
-                               characterCount={window.settings.article_title_max_length}
-                               onBlur={this._handleTitleBlur}
-                               component={TextFieldForm}/>
-                    </div>
+                        :
+                        <div className="col s12">
+                            <Field name="title"
+                                   component={TextFieldForm}
+                                   className={this.props.classes.title}
+                                   id="article_title"
+                                   label={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
+                                   autoFocus={true}
+                                   required={true}
+                                   color="primary"
+                                   onBlur={this._handleTitleBlur}
+                                   onKeyPress={this._handleTitleKeyPress}/>
+                        </div>
                 }
 
                 <div className="col s12">

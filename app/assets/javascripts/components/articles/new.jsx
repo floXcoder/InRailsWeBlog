@@ -43,7 +43,6 @@ class ArticleNew extends React.Component {
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         article: PropTypes.object,
-        isInline: PropTypes.bool,
         currentMode: PropTypes.string,
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
@@ -66,7 +65,7 @@ class ArticleNew extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.props.articleErrors !== nextProps.articleErrors || this.props.inheritVisibility !== nextProps.inheritVisibility;
+        return this.props.articleErrors !== nextProps.articleErrors || this.props.inheritVisibility !== nextProps.inheritVisibility || this.props.currentMode !== nextProps.currentMode;
     }
 
     render() {
@@ -108,7 +107,6 @@ class ArticleNew extends React.Component {
                                     initialValues={initialValues}
                                     currentMode={this.props.currentMode}
                                     errorStep={errorStep}
-                                    isInline={this.props.isInline}
                                     isDraft={this.props.isDraft}
                                     articleErrors={this.props.articleErrors}
                                     onCancelClick={this.props.onCancelClick}

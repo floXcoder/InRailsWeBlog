@@ -82,7 +82,7 @@ class TagEdit extends React.Component {
     };
 
     render() {
-        if (!this.props.tag) {
+        if (!this.props.tag || !this.props.currentUser) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>

@@ -59,15 +59,16 @@ class TagSort extends React.Component {
     };
 
     render() {
+        if (this.props.isFetching && this.props.tags.length === 0) {
+            return (
+                <div className="center margin-top-20">
+                    <Loader size="big"/>
+                </div>
+            );
+        }
+
         return (
             <div className="tag-sort">
-                {
-                    (this.props.isFetching && this.props.tags.length === 0) &&
-                    <div className="center margin-top-20">
-                        <Loader size="big"/>
-                    </div>
-                }
-
                 {
                     this.props.tags.length > 0 &&
                     <TagSorter key={Utils.uuid()}

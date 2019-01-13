@@ -12,7 +12,7 @@ ruby '2.5.1'
 gem 'rails',                    '5.2.2'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.1.3'
+gem 'pg',                       '1.1.4'
 
 # HTTP Response
 gem 'responders',               '2.4.0'
@@ -46,7 +46,7 @@ gem 'auto_strip_attributes',    '2.5.0'
 gem 'sanitize',                 '5.0.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '5.2.3'
+gem 'sidekiq',                  '5.2.5'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '1.0.4'
 gem 'sidekiq-status',           '1.1.1'
@@ -137,7 +137,7 @@ group :development do
   gem 'guard',                  '2.15.0'
   gem 'guard-rails',            '0.8.1'
   gem 'guard-annotate',         '2.3'
-  gem 'guard-bundler',          '2.1.0'
+  gem 'guard-bundler',          '2.2.0'
   gem 'guard-migrate',          '2.0.0'
   gem 'guard-rake',             '1.0.0'
   gem 'guard-rspec',            '4.7.3',  require: false
@@ -191,7 +191,7 @@ end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',   '2.7.4'
+  gem 'sentry-raven',   '2.8.0'
 
   # Improve log outputs
   gem 'lograge',        '0.10.0'

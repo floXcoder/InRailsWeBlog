@@ -107,7 +107,9 @@ class UserHome extends React.Component {
                                           lg={4}>
                                         <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}`}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={this.props.classes.theme}
+                                            <Paper className={classNames(this.props.classes.theme, {
+                                                [this.props.classes.storyTheme]: topic.mode === 'stories'
+                                            })}
                                                    elevation={1}>
                                                 <Typography className={this.props.classes.themeTitle}
                                                             variant="h5"
@@ -115,9 +117,9 @@ class UserHome extends React.Component {
                                                     {topic.name}
                                                 </Typography>
 
-                                                <Typography component="p">
-                                                    {topic.description}
-                                                </Typography>
+                                                {/*<Typography component="p">*/}
+                                                    {/*{topic.description}*/}
+                                                {/*</Typography>*/}
                                             </Paper>
                                         </Link>
                                     </Grid>
@@ -131,6 +133,7 @@ class UserHome extends React.Component {
                                 <Link to={{
                                     hash: '#new-topic',
                                     state: {
+                                        mode: 'default',
                                         visibility: 'only_me'
                                     }
                                 }}>
@@ -198,6 +201,7 @@ class UserHome extends React.Component {
                                 <Link to={{
                                     hash: '#new-topic',
                                     state: {
+                                        mode: 'default',
                                         visibility: 'everyone'
                                     }
                                 }}>

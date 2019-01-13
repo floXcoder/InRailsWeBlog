@@ -110,6 +110,8 @@ Rails.application.routes.draw do
         end
 
         member do
+          get      :stories,   to: 'articles#stories'
+
           get      :history,   to: 'articles#history'
           get      :restore,   to: 'articles#restore'
 

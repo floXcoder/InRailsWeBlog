@@ -21,14 +21,16 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  settings                 :jsonb            not null
+#  mode                     :integer          default("default"), not null
 #
 
 class Topic < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
+  enum mode: TOPIC_MODE
   enum visibility: VISIBILITY
-  enums_to_tr('topic', [:visibility])
+  enums_to_tr('topic', [:mode, :visibility])
 
   include TranslationConcern
   # Add current_language to model
@@ -132,11 +134,11 @@ class Topic < ApplicationRecord
             presence: true
 
   validates :name,
-            length:     { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length }
+            length: { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length }
   validates_uniqueness_of :name,
-                          scope: :user_id,
+                          scope:      :user_id,
                           conditions: -> { with_deleted },
-                          message:        I18n.t('activerecord.errors.models.topic.already_exist')
+                          message:    I18n.t('activerecord.errors.models.topic.already_exist')
 
   validates :description,
             length:    { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length },
@@ -144,7 +146,7 @@ class Topic < ApplicationRecord
 
   validates :languages,
             presence: true,
-            if:     -> { description.present? }
+            if:       -> { description.present? }
 
   validates :visibility,
             presence: true
@@ -221,20 +223,26 @@ class Topic < ApplicationRecord
     ]
   end
 
+  def mode_translated
+    mode_to_tr
+  end
+
   def search_data
     {
-      id:          id,
-      user_id:     user_id,
-      name:        name,
-      description: description,
-      languages:   languages,
-      priority:    priority,
-      visibility:  visibility,
-      archived:    archived,
-      accepted:    accepted,
-      created_at:  created_at,
-      updated_at:  updated_at,
-      slug:        slug
+      id:              id,
+      user_id:         user_id,
+      mode:            mode,
+      mode_translated: mode_translated,
+      name:            name,
+      description:     description,
+      languages:       languages,
+      priority:        priority,
+      visibility:      visibility,
+      archived:        archived,
+      accepted:        accepted,
+      created_at:      created_at,
+      updated_at:      updated_at,
+      slug:            slug
     }
   end
 
