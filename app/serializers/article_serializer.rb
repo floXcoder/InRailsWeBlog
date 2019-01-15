@@ -27,6 +27,7 @@
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  contributor_id          :bigint(8)
 #
 
 class ArticleSerializer < ActiveModel::Serializer

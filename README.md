@@ -43,6 +43,10 @@ Two categories of tags: parent or child. The association to an article define th
 
 Search is performed by default in the current topic and look for content in all articles and tags.
 
+### Share
+
+Public topics can shared with other users (contributors). Contributors can add or edit articles inside the topic. 
+
 ### Group
 
 Groups are a set of users. Every user can subscribe to a group and share specific articles to the group (To be done).

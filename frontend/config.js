@@ -110,6 +110,7 @@ module.exports = {
             watchPath: [
                 'app/controllers/**/*',
                 'app/queries/**/*',
+                'app/policies/**/*',
                 'app/serializers/**/*',
                 'app/views/**/*'
             ]

@@ -20,9 +20,11 @@ const styles = (theme) => ({
         paddingTop: 8,
         paddingBottom: 8
     },
-    content: {
+    gridTheme: {
+        position: 'relative'
     },
     theme: {
+        position: 'relative',
         height: '6rem',
         backgroundColor: theme.palette.primary.light,
         ...theme.mixins.gutters(),
@@ -47,6 +49,13 @@ const styles = (theme) => ({
         [theme.breakpoints.down('md')]: {
             paddingTop: '12%'
         }
+    },
+    shareButton: {
+        position: 'absolute',
+        top: -2,
+        right: -4,
+        margin: theme.spacing.unit,
+        backgroundColor: theme.palette.primary.light
     }
 });
 

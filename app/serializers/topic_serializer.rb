@@ -43,6 +43,8 @@ class TopicSerializer < ActiveModel::Serializer
     Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')
   end
 
+  has_many :contributors, serializer: UserStrictSerializer
+
   def visibility_translated
     object.visibility_to_tr
   end

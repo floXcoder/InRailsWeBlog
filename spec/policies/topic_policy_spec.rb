@@ -22,6 +22,7 @@ describe TopicPolicy, basic: true do
       it { should_not grant(:show) }
       it { should_not grant(:create) }
       it { should_not grant(:update) }
+      it { should_not grant(:share) }
       it { should_not grant(:destroy) }
     end
 
@@ -33,6 +34,7 @@ describe TopicPolicy, basic: true do
       it { should_not grant(:switch) }
       it { should_not grant(:show) }
       it { should_not grant(:update) }
+      it { should_not grant(:share) }
       it { should_not grant(:destroy) }
     end
 
@@ -43,6 +45,7 @@ describe TopicPolicy, basic: true do
       it { should grant(:show) }
       it { should grant(:create) }
       it { should grant(:update) }
+      it { should grant(:share) }
       it { should grant(:destroy) }
     end
   end
@@ -57,6 +60,7 @@ describe TopicPolicy, basic: true do
       it { should_not grant(:show) }
       it { should_not grant(:create) }
       it { should_not grant(:update) }
+      it { should_not grant(:share) }
       it { should_not grant(:destroy) }
     end
 
@@ -68,6 +72,7 @@ describe TopicPolicy, basic: true do
       it { should_not grant(:switch) }
       it { should_not grant(:show) }
       it { should_not grant(:update) }
+      it { should_not grant(:share) }
       it { should_not grant(:destroy) }
     end
 
@@ -78,6 +83,7 @@ describe TopicPolicy, basic: true do
       it { should grant(:show) }
       it { should grant(:create) }
       it { should grant(:update) }
+      it { should grant(:share) }
       it { should grant(:destroy) }
     end
   end

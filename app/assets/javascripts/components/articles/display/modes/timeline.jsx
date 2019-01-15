@@ -12,12 +12,11 @@ import {
 
 import ArticleSummaryDisplay from '../summary';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     articles: getArticles(state),
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
+@hot(module)
 class ArticleTimelineMode extends React.Component {
     static propTypes = {
         isMinimized: PropTypes.bool,

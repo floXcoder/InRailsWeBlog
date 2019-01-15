@@ -13,7 +13,7 @@ class ArticlePolicy
   end
 
   def history?
-    owner?
+    owner? || contributor?
   end
 
   def create?
@@ -21,15 +21,15 @@ class ArticlePolicy
   end
 
   def edit?
-    owner?
+    owner? || contributor?
   end
 
   def update?
-    owner?
+    owner? || contributor?
   end
 
   def restore?
-    owner?
+    owner? || contributor?
   end
 
   def destroy?
@@ -68,10 +68,14 @@ class ArticlePolicy
   private
 
   def correct_user?
-    @article.everyone? || (@article.only_me? && owner?)
+    @article.everyone? || (@article.only_me? && owner?) || contributor?
   end
 
   def owner?
     @current_user && @article.user?(@current_user)
+  end
+
+  def contributor?
+    @current_user && @current_user.contributed_topic_ids.include?(@article.topic_id)
   end
 end

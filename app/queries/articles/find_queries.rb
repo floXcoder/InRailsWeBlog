@@ -132,16 +132,19 @@ module Articles
         if filter[:bookmarked] && current_user
           records = records.bookmarked_by_user(current_user.id)
         else
-          if filter[:user_id]
-            records = records.from_user_id(filter[:user_id], current_user&.id)
-          elsif filter[:user_slug]
-            records = records.from_user(filter[:user_slug], current_user&.id)
-          end
+          user_filter = {id: filter[:user_id], slug: filter[:user_slug]}.compact
+          topic_filter = {id: filter[:topic_id], slug: filter[:topic_slug]}.compact
 
-          if filter[:topic_id]
-            records = records.from_topic_id(filter[:topic_id])
-          elsif filter[:topic_slug]
-            records = records.from_topic(filter[:topic_slug])
+          if user_filter.present?
+            user = User.find_by(user_filter)
+
+            if user && topic_filter.present?
+              topic = filter[:shared_topic] ? user.contributed_topics.find_by(topic_filter): user.topics.find_by(topic_filter)
+
+              records = records.from_topic_id(topic&.id)
+            else
+              records = records.from_user_id(user&.id, current_user&.id)
+            end
           end
         end
 
@@ -190,8 +193,8 @@ module Articles
       elsif @current_user
         topic_order = nil
         if params[:topic_slug].present?
-          topic       = @current_user.topics.friendly.find(params[:topic_slug])
-          topic_order = topic.article_order
+          topic       = @current_user.topics.friendly.find_by(slug: params[:topic_slug]) || @current_user.contributed_topics.friendly.find_by(slug: params[:topic_slug])
+          topic_order = topic&.article_order
         end
         topic_order || @current_user.article_order
       else

@@ -9,11 +9,22 @@ module Articles
     end
 
     def perform
-      current_language = new_language = @current_user&.locale || I18n.locale
+      current_language = new_language = @current_user.locale || I18n.locale
 
-      # Topic: Add current topic to article
-      if !@article.topic_id || @params[:topic_id].present?
-        @article.topic_id = @params[:topic_id] || @current_user&.current_topic_id
+      # Use topic owner in case of shared topics
+      shared_topic = @article.user_id != @current_user.id || @current_user.current_topic.user_id != @current_user.id
+      owner_id     = shared_topic ? @current_user.current_topic.user_id : @current_user.id
+      unless @article.user_id
+        @article.user_id = owner_id
+      end
+
+      if shared_topic
+        @article.contributor_id = @current_user.id
+      end
+
+      # Topic: Set current topic to article (only for new articles)
+      unless @article.topic_id
+        @article.topic_id = @params[:topic_id] || @current_user.current_topic_id
       end
 
       if @article.topic&.stories?
@@ -22,7 +33,7 @@ module Articles
 
       # Language
       if @article.languages.empty? || @params[:language].present?
-        new_language       = (@params.delete(:language) || @current_user&.locale || I18n.locale).to_s
+        new_language       = (@params.delete(:language) || @current_user.locale || I18n.locale).to_s
         @article.languages |= [new_language]
       end
 
@@ -89,14 +100,14 @@ module Articles
             @params[:parent_tags].include?(child)
           end
 
-          parent_tags = Tag.parse_tags(@params.delete(:parent_tags), @current_user&.id)
+          parent_tags = Tag.parse_tags(@params.delete(:parent_tags), owner_id)
           parent_tags.map do |tag|
             tagged_article_attributes << {
               tag: tag, user_id: @article.user_id, topic_id: @article.topic_id, parent: true
             }
           end
 
-          child_tags = Tag.parse_tags(@params.delete(:child_tags), @current_user&.id)
+          child_tags = Tag.parse_tags(@params.delete(:child_tags), owner_id)
           child_tags.map do |tag|
             tagged_article_attributes << {
               tag: tag, user_id: @article.user_id, topic_id: @article.topic_id, child: true
@@ -112,7 +123,7 @@ module Articles
           end.flatten
         else
           tags = [@params.delete(:parent_tags), @params.delete(:child_tags), @params.delete(:tags)].compact.flatten
-          Tag.parse_tags(tags, @current_user&.id).map do |tag|
+          Tag.parse_tags(tags, owner_id).map do |tag|
             tagged_article_attributes << {
               tag: tag, user_id: @article.user_id, topic_id: @article.topic_id
             }

@@ -39,9 +39,7 @@ import HeadLayout from '../layouts/head';
 
 import styles from '../../../jss/tag/index';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     metaTags: getTagMetaTags(state),
     isUserConnected: state.userState.isConnected,
     currentUser: state.userState.user,
@@ -52,6 +50,7 @@ export default @hot(module)
 }), {
     fetchTags
 })
+@hot(module)
 @withStyles(styles)
 class TagIndex extends React.Component {
     static propTypes = {

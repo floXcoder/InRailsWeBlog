@@ -237,8 +237,9 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(_resource)
-    previous_path = request.referer && URI.parse(request.referer).path
-    previous_path || root_path
+    # previous_path = request.referer && URI.parse(request.referer).path
+    # previous_path || root_path
+    root_path
   end
 
   def admin_or_authorize(model = nil, method = nil)

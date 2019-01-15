@@ -38,9 +38,7 @@ import CommentForm from '../comments/form';
 
 import styles from '../../../jss/comment/box';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     isSuperUserConnected: getIsPrimaryUser(state),
@@ -53,7 +51,7 @@ export default @hot(module)
     updateComment,
     deleteComment
 })
-
+@hot(module)
 @withStyles(styles)
 class CommentBox extends React.Component {
     static propTypes = {

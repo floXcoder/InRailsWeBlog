@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
-export default class FormTopic extends React.Component {
+export default class PersistenceFormTopic extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         onCancel: PropTypes.func.isRequired,
@@ -72,8 +72,7 @@ export default class FormTopic extends React.Component {
 
     render() {
         return (
-            <form id="topic-edit"
-                  className="topic-form"
+            <form id="topic-persistence"
                   onSubmit={this._handleTopicSubmit}>
                 <TextField className={this.props.classes.input}
                            fullWidth={true}

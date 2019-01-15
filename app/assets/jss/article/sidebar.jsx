@@ -7,6 +7,11 @@ const styles = (theme) => ({
         lineHeight: '2rem',
         marginBottom: '.6rem'
     },
+    none: {
+        fontSize: '0.9rem',
+        lineHeight: '1.5rem',
+        fontStyle: 'italic'
+    },
     order: {
         display: 'flex',
         justifyContent: 'space-evenly',

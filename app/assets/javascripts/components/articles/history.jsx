@@ -33,9 +33,7 @@ import ArticleVersionsDisplay from './display/versions';
 
 import styles from '../../../jss/article/history';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     metaTags: getArticleMetaTags(state),
     currentUser: getCurrentUser(state),
     currentTopic: getCurrentUserTopic(state),
@@ -46,6 +44,7 @@ export default @hot(module)
     fetchArticleHistory,
     restoreArticle
 })
+@hot(module)
 @highlight(true)
 @withStyles(styles)
 class ArticleHistory extends React.Component {

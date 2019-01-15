@@ -59,9 +59,7 @@ import ArticleMiniCardDisplay from './display/miniCard';
 
 import styles from '../../../jss/article/show';
 
-export default @hot(module)
-
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     metaTags: getArticleMetaTags(state),
     currentUser: getCurrentUser(state),
     currentTopic: getCurrentUserTopic(state),
@@ -81,6 +79,7 @@ export default @hot(module)
     setCurrentTags
 })
 
+@hot(module)
 @highlight(false)
 @withStyles(styles)
 class ArticleShow extends React.Component {
@@ -191,7 +190,7 @@ class ArticleShow extends React.Component {
             )
         }
 
-        if ((this.props.isUserConnected && (!this.props.currentUser || !this.props.currentTopic)) || !this.props.article) {
+        if ((this.props.isUserConnected && (!this.props.currentUser || !this.props.currentTopic)) || !this.props.article) {
             return (
                 <div className={this.props.classes.root}>
                     <div className="center">

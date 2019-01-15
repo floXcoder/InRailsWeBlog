@@ -24,6 +24,10 @@ class TopicPolicy
     owner?
   end
 
+  def share?
+    owner?
+  end
+
   def destroy?
     owner?
   end

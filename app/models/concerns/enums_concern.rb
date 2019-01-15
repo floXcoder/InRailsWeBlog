@@ -9,6 +9,8 @@ module EnumsConcern
 
   ARTICLE_MODE = [:note, :story, :link].freeze
 
+  SHARE_MODE = [:complete].freeze
+
   ERROR_ORIGIN = [:server, :client, :communication].freeze
 
   included do

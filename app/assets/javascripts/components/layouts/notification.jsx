@@ -19,6 +19,7 @@ import styles from '../../../jss/notification';
 import {
     notificationDuration
 } from '../modules/constants';
+import MenuItem from "../material-ui/form/select";
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -90,6 +91,16 @@ class Notification extends React.Component {
     };
 
     _handleAdd = (level, message, actionButton, actionCallback) => {
+        if (Array.isArray(message)) {
+            message = message.join(I18n.t('js.helpers.and'));
+        } else if (Utils.is().isObject(message)) {
+            let messageText = '';
+            Object.keys(message).map((key) => (
+                messageText += Array.isArray(message[key]) ? key + ' ' + message[key].join(I18n.t('js.helpers.and')) : key + ' ' + message[key]
+            ));
+            message = messageText;
+        }
+
         this._queue.push({
             key: Utils.uuid(),
             level,

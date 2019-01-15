@@ -53,6 +53,13 @@ export const updateTopic = (userId, topic, options = {}) => ({
     })
 });
 
+export const shareTopic = (topicId, userLogin) => ({
+    actionType: ActionTypes.TOPIC,
+    mutationAPI: () => api.update(`/api/v1/topics/${topicId}/share`, {
+        login: userLogin
+    })
+});
+
 export const deleteTopic = (userId, topicId, options = {}) => ({
     actionType: ActionTypes.TOPIC,
     mutationAPI: () => api.delete(`/api/v1/topics/${topicId}`, {

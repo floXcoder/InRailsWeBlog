@@ -120,14 +120,21 @@ en:
         error_edition: "Cannot update the comment"
         successful_deletion: "Comment removed"
         error_deletion: "Cannot remove the comment"
+    search:
+      index:
+        title: "Search: %{query}"
+    share:
+      success:
+        message: "Topic shared with: %{user}"
+      errors:
+        user_not_found: "User not found"
+        already_shared: "Already shared with this user"
+        creation: "Cannot share this element"
     admin:
       login:
         title: "Log in (Admin)"
       dashboard:
         title: "Admin"
-    search:
-      index:
-        title: "Search: %{query}"
     errors:
       flash:
         successful_deletion: "Error removed"
@@ -264,6 +271,8 @@ en:
           already_tagged: "This tag already exists for the article"
           incorrect_tag_affiliation: "Cannot used a tag from another topic"
           incorrect_topic_affiliation: "Cannot used a tag from another topic"
+        share:
+          already_shared: "Element already shared with this user"
         bookmark:
           already_bookmarked: "Already added in bookmarks"
           model_unknown: "Cannot add to bookmark"

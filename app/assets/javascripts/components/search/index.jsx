@@ -46,9 +46,7 @@ import SearchArticleIndex from './index/article';
 
 import styles from '../../../jss/search/index';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     metaTags: getSearchMetaTags(state),
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
@@ -67,6 +65,7 @@ export default @hot(module)
     fetchSearch,
     filterSearch
 })
+@hot(module)
 @withStyles(styles)
 class SearchIndex extends React.Component {
     static propTypes = {

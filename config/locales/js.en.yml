@@ -101,6 +101,9 @@ en:
         public:
           title: "Your public topics"
           subtitle: "Write your shared articles here (with public tags)"
+        shared:
+          title: "YOur shared topics"
+          subtitle: "Shared topics with by other users"
         add_topic: "Add a topic"
       index:
         link_to_user: "User details"
@@ -244,6 +247,15 @@ en:
         description: "Topic description"
         delete: "Delete"
         submit: "Update"
+      share:
+        title: "Share this theme"
+        form:
+          user_name: "User pseudo or e-mail"
+          submit: "Share"
+        cancel: "Cancel"
+        errors:
+          user_empty: "Please fill in pseudo or email"
+          unknown: "User not found"
     tag:
       common:
         list: "Tags"
@@ -472,6 +484,7 @@ en:
         no_articles: "No articles to display"
       toc:
         title: "Table of content"
+        no_articles: "No articles yet"
       clipboard: "A draft article has been created with the data"
       errors:
         default: "Cannot create article! Please try again."

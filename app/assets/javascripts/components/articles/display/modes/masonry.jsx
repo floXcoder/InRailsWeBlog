@@ -14,10 +14,10 @@ import ArticleItemDisplay from '../item';
 
 const ArticleMasonry = MasonryWrapper(ArticleItemDisplay, {articleDisplayMode: 'grid'}, ArticleItemDisplay, {articleDisplayMode: 'card'});
 
-export default @hot(module)
-@connect((state) => ({
+export default @connect((state) => ({
     articles: getArticles(state)
 }))
+@hot(module)
 class ArticleMasonryMode extends React.Component {
     static propTypes = {
         onEnter: PropTypes.func,

@@ -97,6 +97,8 @@ Rails.application.routes.draw do
         end
 
         member do
+          put :share,         to: 'topics#share'
+
           concerns :tracker,  module: :tags
         end
       end

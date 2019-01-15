@@ -30,6 +30,7 @@ const initState = new Record({
     pagination: new Map(),
 
     userTopics: new List(),
+    contributedTopics: new List(),
 
     currentUserTopicId: undefined,
     currentUserTopicSlug: undefined,
@@ -82,7 +83,8 @@ export default function topicReducer(state = new initState(), action) {
                     currentUserTopicSlug: action.user.currentTopic.slug,
                     currentUserTopicId: action.user.currentTopic.id,
                     currentTopic: new Records.TopicRecord(action.user.currentTopic),
-                    userTopics: toList(action.user.topics, Records.TopicRecord)
+                    userTopics: toList(action.user.topics, Records.TopicRecord),
+                    contributedTopics: toList(action.user.contributedTopics, Records.TopicRecord)
                 });
             } else {
                 return state;

@@ -101,6 +101,9 @@ fr:
         public:
           title: "Vos thèmes publiques"
           subtitle: "Les articles seront partagés pour tout le mondes (avec les labels communs)"
+        shared:
+          title: "Vos thèmes partagés"
+          subtitle: "Les thèmes partagés avec vous par d'autres utilisateurs"
         add_topic: "Ajouter un thème"
       index:
         link_to_user: "Détails de l'utilisateur"
@@ -245,6 +248,15 @@ fr:
         description: "Détails du thème"
         delete: "Supprimer"
         submit: "Mettre à jour"
+      share:
+        title: "Partager le thème"
+        form:
+          user_name: "Pseudo ou email utilisateur"
+          submit: "Partager"
+        cancel: "Annuler"
+        errors:
+          user_empty: "Merci de renseigner le pseudo ou email"
+          unknown: "Utilisateur non trouvé"
     tag:
       common:
         list: "Labels"
@@ -473,6 +485,7 @@ fr:
         no_articles: "Pas d'articles à afficher"
       toc:
         title: "Table des matières"
+        no_articles: "Pas encore d'articles"
       clipboard: "Article temporaire créé avec les données copiées"
       errors:
         default: "Impossible de créer l'article ! Merci de réessayer."

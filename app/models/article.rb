@@ -27,6 +27,7 @@
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  contributor_id          :bigint(8)
 #
 
 class Article < ApplicationRecord
@@ -61,7 +62,7 @@ class Article < ApplicationRecord
   acts_as_voteable
 
   # Versioning
-  has_paper_trail only: [:title_translations, :summary_translations, :content_translations, :reference]
+  has_paper_trail only: [:contributor, :title_translations, :summary_translations, :content_translations, :reference]
 
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
@@ -94,8 +95,11 @@ class Article < ApplicationRecord
 
   # == Relationships ========================================================
   belongs_to :user,
-             class_name:    'User',
              counter_cache: true
+
+  belongs_to :contributor,
+             class_name: 'User',
+             optional:   true
 
   belongs_to :topic,
              counter_cache: true
@@ -155,6 +159,16 @@ class Article < ApplicationRecord
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
            source:  :user
+
+  has_many :shares,
+           as:          :shareable,
+           class_name:  'Share',
+           foreign_key: 'shareable_id',
+           dependent:   :destroy
+
+  has_many :contributors,
+           through: :shares,
+           source:  :contributor
 
   # has_many :activities,
   #          as:         :trackable,
@@ -231,9 +245,8 @@ class Article < ApplicationRecord
                                   current_user_id: current_user_id)
   }
 
-  scope :from_topic, -> (topic_slug) {
-    where(topic_id: Topic.find_by(slug: topic_slug).id)
-    # includes(:topic).where(topics: { slug: topic_slug }) # Slower ??
+  scope :from_topic, -> (topic_slug, user_id) {
+    where(topic_id: Topic.find_by(slug: topic_slug, user_id: user_id)&.id)
   }
   scope :from_topic_id, -> (topic_id = nil) {
     where(topic_id: topic_id)

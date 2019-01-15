@@ -151,6 +151,31 @@ class User < ApplicationRecord
            source:      :bookmarked,
            source_type: 'Article'
 
+  has_many :shares,
+           source:    :user,
+           dependent: :destroy
+  has_many :shared_topics,
+           through:     :shares,
+           source:      :shareable,
+           source_type: 'Topic'
+  has_many :shared_articles,
+           through:     :shares,
+           source:      :shareable,
+           source_type: 'Article'
+
+  has_many :contributions,
+           class_name:  'Share',
+           foreign_key: :contributor_id,
+           dependent:   :destroy
+  has_many :contributed_topics,
+           through:     :contributions,
+           source:      :shareable,
+           source_type: 'Topic'
+  has_many :contributed_articles,
+           through:     :contributions,
+           source:      :shareable,
+           source_type: 'Article'
+
   has_many :followers,
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
@@ -258,6 +283,10 @@ class User < ApplicationRecord
 
   def self.login?(login)
     User.pseudo?(login) || User.email?(login)
+  end
+
+  def self.find_by_login(login)
+    User.where('email = :email OR pseudo = :pseudo', email: login, pseudo: login).first
   end
 
   def self.find_for_database_authentication(warden_conditions)
@@ -399,6 +428,7 @@ class User < ApplicationRecord
 
   def create_default_topic
     default_topic = self.topics.create(name: I18n.t('topic.default_name'), languages: [self.locale], visibility: :only_me)
+
     update_column(:current_topic_id, default_topic.id)
   end
 

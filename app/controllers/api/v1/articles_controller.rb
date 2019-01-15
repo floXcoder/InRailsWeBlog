@@ -124,7 +124,7 @@ module Api::V1
     end
 
     def create
-      article = current_user.articles.build
+      article = Article.new
       admin_or_authorize article
 
       stored_article = ::Articles::StoreService.new(article, article_params.merge(current_user: current_user)).perform
@@ -307,6 +307,7 @@ module Api::V1
                                        :user_slug,
                                        :topic_id,
                                        :topic_slug,
+                                       :shared_topic,
                                        :tag_id,
                                        :tag_slug,
                                        :parent_tag_slug,

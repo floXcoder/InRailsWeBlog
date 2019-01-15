@@ -25,6 +25,11 @@ export const getUserTopics = createSelector(
     (topics) => topics.toArray()
 );
 
+export const getContributedTopics = createSelector(
+    (state) => state.topicState.contributedTopics,
+    (topics) => topics.toArray()
+);
+
 export const getPublicTopics = createSelector(
     (state) => state.topicState.userTopics,
     (topics) => topics.filter((topic) => topic.visibility === 'everyone').toArray()
@@ -42,6 +47,12 @@ export const getTopic = createSelector(
 );
 
 export const getEditingTopic = createSelector(
+    (state) => state.topicState.userTopics,
+    (_, routerState) => routerState && routerState.topicId,
+    (topics, topicId) => topics.find((topic) => topic.id === topicId)
+);
+
+export const getSharingTopic = createSelector(
     (state) => state.topicState.userTopics,
     (_, routerState) => routerState && routerState.topicId,
     (topics, topicId) => topics.find((topic) => topic.id === topicId)

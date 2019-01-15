@@ -21,13 +21,11 @@ import {
     getEditingTopic
 } from '../../selectors';
 
-import FormTopic from './form';
+import PersistenceFormTopic from './persistence/form';
 
-import styles from '../../../jss/topic/form';
+import styles from '../../../jss/topic/persistence';
 
-export default @hot(module)
-
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
     editingTopic: getEditingTopic(state, props.initialData)
@@ -37,8 +35,10 @@ export default @hot(module)
     deleteTopic,
     showTopicPopup
 })
+
+@hot(module)
 @withStyles(styles)
-class TopicModal extends React.Component {
+class TopicPersistence extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         initialData: PropTypes.object,
@@ -63,11 +63,13 @@ class TopicModal extends React.Component {
     }
 
     state = {
-        open: true
+        isOpen: true
     };
 
     _handleClose = () => {
-        this.setState({open: false});
+        this.setState({
+            isOpen: false
+        });
 
         this.props.history.push({
             hash: undefined
@@ -108,12 +110,14 @@ class TopicModal extends React.Component {
     _handleTopicDelete = (topicId) => {
         this.props.deleteTopic(this.props.userId, topicId)
             .then(() => this.props.showTopicPopup())
-            .then(() => this.setState({open: false}));
+            .then(() => this.setState({
+                isOpen: false
+            }));
     };
 
     render() {
         return (
-            <Modal open={this.state.open}
+            <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
                 <div className={this.props.classes.modal}>
                     <Typography variant="h6">
@@ -126,14 +130,14 @@ class TopicModal extends React.Component {
                         }
                     </Typography>
 
-                    <FormTopic classes={this.props.classes}
-                               topic={this.props.editingTopic}
-                               isEditing={!!this.props.editingTopic}
-                               defaultMode={this.props.initialData.mode}
-                               defaultVisibility={this.props.initialData.visibility}
-                               onCancel={this._handleClose}
-                               onSubmit={this._handleTopicSubmit}
-                               onDelete={this._handleTopicDelete}/>
+                    <PersistenceFormTopic classes={this.props.classes}
+                                          topic={this.props.editingTopic}
+                                          isEditing={!!this.props.editingTopic}
+                                          defaultMode={this.props.initialData.mode}
+                                          defaultVisibility={this.props.initialData.visibility}
+                                          onCancel={this._handleClose}
+                                          onSubmit={this._handleTopicSubmit}
+                                          onDelete={this._handleTopicDelete}/>
                 </div>
             </Modal>
         );

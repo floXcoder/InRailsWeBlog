@@ -18,7 +18,10 @@ const CheckBoxForm = ({input, label, meta: {touched, error}, componentContent, .
 CheckBoxForm.propTypes = {
     input: PropTypes.object.isRequired,
     meta: PropTypes.object.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]).isRequired,
     custom: PropTypes.object,
     componentContent: PropTypes.bool
 };

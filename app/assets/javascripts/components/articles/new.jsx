@@ -26,15 +26,14 @@ import ArticleFormDisplay from './display/form';
 
 import styles from '../../../jss/article/form';
 
-export default @hot(module)
-
-@articleMutationManager('new', `article-${Utils.uuid()}`)
+export default @articleMutationManager('new', `article-${Utils.uuid()}`)
 @connect((state) => ({
     userSlug: state.userState.currentSlug,
     inheritVisibility: getCurrentUserTopicVisibility(state)
 }), {
     switchTagSidebar
 })
+@hot(module)
 @withStyles(styles)
 class ArticleNew extends React.Component {
     static propTypes = {

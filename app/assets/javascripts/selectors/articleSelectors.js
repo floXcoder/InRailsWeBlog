@@ -138,9 +138,21 @@ export const getArticle = createSelector(
     (article) => article
 );
 
-export const getArticleIsOwner = (state, article) => (
-    article && article.user ? state.userState.currentId === article.user.id : false
-);
+export const getArticleIsOwner = (state, article) => {
+    if (article) {
+        if (state.topicState.contributedTopics.find((topic) => topic.id === article.topicId)) {
+            return true;
+        }
+
+        if (article.user) {
+            return state.userState.currentId === article.user.id;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+};
 
 export const getArticleParentTags = createSelector(
     (article) => article,

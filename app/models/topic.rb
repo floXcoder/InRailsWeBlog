@@ -68,7 +68,7 @@ class Topic < ApplicationRecord
   include PublicActivity::Model
   tracked owner: :user
 
-  include NiceUrlConcern
+  include FriendlyId
   friendly_id :slug_candidates, scope: :user, use: [:slugged, :scoped]
 
   # Search
@@ -129,6 +129,16 @@ class Topic < ApplicationRecord
            through: :bookmarks,
            source:  :user
 
+  has_many :shares,
+           as:          :shareable,
+           class_name:  'Share',
+           foreign_key: 'shareable_id',
+           dependent:   :destroy
+
+  has_many :contributors,
+           through: :shares,
+           source:  :contributor
+
   # == Validations ==========================================================
   validates :user,
             presence: true
@@ -150,6 +160,11 @@ class Topic < ApplicationRecord
 
   validates :visibility,
             presence: true
+
+  validates :slug,
+            presence:   true,
+            uniqueness: { scope:          :user,
+                          case_sensitive: false }
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
@@ -219,7 +234,7 @@ class Topic < ApplicationRecord
 
   def slug_candidates
     [
-      [:name]
+      :name
     ]
   end
 
@@ -253,7 +268,7 @@ class Topic < ApplicationRecord
 
   private
 
-  def add_visit_activity(user_id = nil, parent_id = nil)
+  def add_visit_activity(user_id = nil, _parent_id = nil)
     return unless user_id
 
     user = User.find_by(id: user_id)

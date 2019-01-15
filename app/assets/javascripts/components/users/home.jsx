@@ -16,7 +16,10 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Fab from '@material-ui/core/Fab';
 import Typography from '@material-ui/core/Typography';
+
+import ShareIcon from '@material-ui/icons/Share';
 
 import {
     spyTrackClick
@@ -25,7 +28,8 @@ import {
 import {
     getUser,
     getPublicTopics,
-    getPrivateTopics
+    getPrivateTopics,
+    getContributedTopics
 } from '../../selectors';
 
 import Loader from '../theme/loader';
@@ -34,14 +38,15 @@ import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/user/home';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     isFetching: state.userState.isFetching,
     user: getUser(state),
     publicTopics: getPublicTopics(state),
-    privateTopics: getPrivateTopics(state)
+    privateTopics: getPrivateTopics(state),
+    contributedTopics: getContributedTopics(state)
 }))
+
+@hot(module)
 @withStyles(styles)
 class UserHome extends React.Component {
     static propTypes = {
@@ -50,6 +55,7 @@ class UserHome extends React.Component {
         user: PropTypes.object,
         publicTopics: PropTypes.array,
         privateTopics: PropTypes.array,
+        contributedTopics: PropTypes.array,
         // from styles
         classes: PropTypes.object
     };
@@ -60,6 +66,10 @@ class UserHome extends React.Component {
 
     _handleTopicClick = (topic) => {
         spyTrackClick('topic', topic.id, topic.slug)
+    };
+
+    _handleShareTopicClick = (topicId) => {
+
     };
 
     render() {
@@ -90,9 +100,7 @@ class UserHome extends React.Component {
                                 title={I18n.t('js.user.home.private.title')}
                                 subheader={I18n.t('js.user.home.private.subtitle')}/>
 
-                    <CardContent classes={{
-                        root: this.props.classes.content
-                    }}>
+                    <CardContent>
                         <Grid container={true}
                               spacing={32}
                               direction="row"
@@ -101,6 +109,7 @@ class UserHome extends React.Component {
                             {
                                 this.props.privateTopics.map((topic) => (
                                     <Grid key={topic.id}
+                                          className={this.props.classes.gridTheme}
                                           item={true}
                                           xs={12}
                                           sm={6}
@@ -116,10 +125,6 @@ class UserHome extends React.Component {
                                                             component="h2">
                                                     {topic.name}
                                                 </Typography>
-
-                                                {/*<Typography component="p">*/}
-                                                    {/*{topic.description}*/}
-                                                {/*</Typography>*/}
                                             </Paper>
                                         </Link>
                                     </Grid>
@@ -160,9 +165,7 @@ class UserHome extends React.Component {
                                 title={I18n.t('js.user.home.public.title')}
                                 subheader={I18n.t('js.user.home.public.subtitle')}/>
 
-                    <CardContent classes={{
-                        root: this.props.classes.content
-                    }}>
+                    <CardContent>
                         <Grid container={true}
                               spacing={32}
                               direction="row"
@@ -171,6 +174,7 @@ class UserHome extends React.Component {
                             {
                                 this.props.publicTopics.map((topic) => (
                                     <Grid key={topic.id}
+                                          className={this.props.classes.gridTheme}
                                           item={true}
                                           xs={12}
                                           sm={6}
@@ -184,11 +188,23 @@ class UserHome extends React.Component {
                                                             component="h2">
                                                     {topic.name}
                                                 </Typography>
-
-                                                <Typography component="p">
-                                                    {topic.description}
-                                                </Typography>
                                             </Paper>
+                                        </Link>
+
+                                        <Link to={{
+                                            hash: '#share-topic',
+                                            state: {
+                                                topicId: topic.id
+                                            }
+                                        }}>
+                                            <Fab className={this.props.classes.shareButton}
+                                                 variant="extended"
+                                                 size="small"
+                                                 color="primary"
+                                                 aria-label="Share"
+                                                 onClick={this._handleShareTopicClick.bind(this, topic.id)}>
+                                                <ShareIcon/>
+                                            </Fab>
                                         </Link>
                                     </Grid>
                                 ))
@@ -218,6 +234,54 @@ class UserHome extends React.Component {
                         </Grid>
                     </CardContent>
                 </Card>
+
+                {
+                    this.props.contributedTopics.length > 0 &&
+                    <>
+                        <hr/>
+
+                        <Card component="section"
+                              className={this.props.classes.card}
+                              elevation={5}>
+                            <CardHeader classes={{
+                                root: this.props.classes.header
+                            }}
+                                        title={I18n.t('js.user.home.shared.title')}
+                                        subheader={I18n.t('js.user.home.shared.subtitle')}/>
+
+                            <CardContent>
+                                <Grid container={true}
+                                      spacing={32}
+                                      direction="row"
+                                      justify="flex-start"
+                                      alignItems="center">
+                                    {
+                                        this.props.contributedTopics.map((topic) => (
+                                            <Grid key={topic.id}
+                                                  className={this.props.classes.gridTheme}
+                                                  item={true}
+                                                  xs={12}
+                                                  sm={6}
+                                                  lg={4}>
+                                                <Link to={`/users/${this.props.user.slug}/shared-topics/${topic.slug}`}
+                                                      onClick={this._handleTopicClick.bind(this, topic)}>
+                                                    <Paper className={this.props.classes.theme}
+                                                           elevation={1}>
+                                                        <Typography className={this.props.classes.themeTitle}
+                                                                    variant="h5"
+                                                                    component="h2">
+                                                            {topic.name}
+                                                        </Typography>
+                                                    </Paper>
+                                                </Link>
+                                            </Grid>
+                                        ))
+                                    }
+                                </Grid>
+                            </CardContent>
+                        </Card>
+                    </>
+                }
             </div>
         );
     }

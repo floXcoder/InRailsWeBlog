@@ -15,12 +15,11 @@ import {
 
 import ArticleItemDisplay from '../item';
 
-export default @hot(module)
-
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     orderedArticles: getOrderedArticles(state, props),
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
+@hot(module)
 class ArticleListMode extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,

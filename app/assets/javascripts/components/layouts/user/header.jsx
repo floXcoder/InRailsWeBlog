@@ -62,7 +62,7 @@ import TagSidebar from '../../tags/sidebar';
 
 import ArticleSidebar from '../../articles/sidebar';
 
-import HomeSearchHeader from '../header/search';
+const HomeSearchHeader = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../header/search'));
 import HomeBookmarkHeader from '../header/bookmark';
 import HomeArticleHeader from '../header/article';
 import HomeUserHeader from '../header/user';
@@ -412,9 +412,11 @@ class HeaderLayoutUser extends React.PureComponent {
 
                         <div className={this.props.classes.grow}/>
 
-                        <HomeSearchHeader isSearchActive={isSearchActive}
-                                          onFocus={this._handleSearchOpen}
-                                          onClose={this._handleSearchClose}/>
+                        <Suspense fallback={<div/>}>
+                            <HomeSearchHeader isSearchActive={isSearchActive}
+                                              onFocus={this._handleSearchOpen}
+                                              onClose={this._handleSearchClose}/>
+                        </Suspense>
 
                         <div className={this.props.classes.grow}/>
 
@@ -426,7 +428,9 @@ class HeaderLayoutUser extends React.PureComponent {
                     })}>
                         {
                             isSearchActive &&
-                            this._renderPermanentRoutes(this.props.permanentRoutes)
+                            <Suspense fallback={<div/>}>
+                                {this._renderPermanentRoutes(this.props.permanentRoutes)}
+                            </Suspense>
                         }
                     </div>
                 </AppBar>

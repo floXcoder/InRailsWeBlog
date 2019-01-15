@@ -15,6 +15,7 @@ import {
 
 import {
     getArticleMetaTags,
+    getArticleIsOwner,
     getCurrentUserTopicVisibility,
     getCurrentLocale
 } from '../../selectors';
@@ -31,17 +32,17 @@ import NotAuthorized from '../layouts/notAuthorized';
 
 import styles from '../../../jss/article/form';
 
-export default @hot(module)
-
-@articleMutationManager('edit', `article-${Utils.uuid()}`)
-@connect((state) => ({
+export default @articleMutationManager('edit', `article-${Utils.uuid()}`)
+@connect((state, props) => ({
     metaTags: getArticleMetaTags(state),
     userSlug: state.userState.currentSlug,
+    isOwner: getArticleIsOwner(state, props.article),
     inheritVisibility: getCurrentUserTopicVisibility(state)
 }), {
     setCurrentTags,
     switchTagSidebar
 })
+@hot(module)
 @withStyles(styles)
 class ArticleEdit extends React.Component {
     static propTypes = {
@@ -54,11 +55,10 @@ class ArticleEdit extends React.Component {
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
         onSubmit: PropTypes.func,
-        // isInline: PropTypes.bool,
-        // currentMode: PropTypes.string,
         // from connect
         metaTags: PropTypes.object,
         userSlug: PropTypes.string,
+        isOwner: PropTypes.bool,
         inheritVisibility: PropTypes.string,
         setCurrentTags: PropTypes.func,
         switchTagSidebar: PropTypes.func,
@@ -97,7 +97,7 @@ class ArticleEdit extends React.Component {
             );
         }
 
-        if (!this.props.currentUser || this.props.currentUser.id !== this.props.article.user.id) {
+        if (!this.props.isOwner) {
             return (
                 <div className="center margin-top-20">
                     <NotAuthorized/>

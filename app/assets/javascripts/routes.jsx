@@ -6,7 +6,8 @@ import {
 
 const HomeHome = lazy(() => import(/* webpackChunkName: "home-index" */ './components/home/home'));
 
-const TopicModal = lazy(() => import(/* webpackChunkName: "topic-new" */ './components/topics/modal'));
+const TopicPersistence = lazy(() => import(/* webpackChunkName: "topic-persistence" */ './components/topics/persistence'));
+const TopicShare = lazy(() => import(/* webpackChunkName: "topic-share" */ './components/topics/share'));
 
 const ArticleIndex = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "article-index" */ './components/articles/index'));
 
@@ -150,7 +151,7 @@ export default {
                 component: () => ArticleIndex
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug/tagged/:tagSlug/:childTagSlug?',
+                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug/tagged/:tagSlug/:childTagSlug?',
                 exact: false,
                 articleSidebar: true,
                 component: () => ArticleIndex
@@ -162,7 +163,7 @@ export default {
                 component: () => UserHome
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug',
+                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug',
                 exact: true,
                 articleSidebar: true,
                 component: () => ArticleIndex
@@ -180,7 +181,7 @@ export default {
                 component: () => ArticleSort
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug/article-new',
+                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug/article-new',
                 exact: true,
                 component: () => ArticleNew
             },
@@ -227,7 +228,11 @@ export default {
             },
             {
                 path: 'new-topic',
-                component: () => TopicModal
+                component: () => TopicPersistence
+            },
+            {
+                path: 'share-topic',
+                component: () => TopicShare
             }
         ]
     }

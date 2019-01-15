@@ -28,9 +28,7 @@ import NotAuthorized from '../layouts/notAuthorized';
 
 import styles from '../../../jss/tag/edit';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     metaTags: getTagMetaTags(state),
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
@@ -39,6 +37,7 @@ export default @hot(module)
     fetchTag,
     updateTag
 })
+@hot(module)
 @withStyles(styles)
 class TagEdit extends React.Component {
     static propTypes = {

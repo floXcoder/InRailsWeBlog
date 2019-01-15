@@ -32,15 +32,14 @@ import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/tag/show';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     metaTags: getTagMetaTags(state),
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag
 }), {
     fetchTag
 })
+@hot(module)
 @withStyles(styles)
 class TagShow extends React.Component {
     static propTypes = {

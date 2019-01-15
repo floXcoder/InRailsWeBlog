@@ -42,9 +42,7 @@ const ArticleTimelineMode = lazy(() => import(/* webpackChunkName: "article-inde
 
 import styles from '../../../jss/article/index';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     metaTags: getArticleMetaTags(state),
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
@@ -62,6 +60,7 @@ export default @hot(module)
     setCurrentArticles,
     setCurrentTags
 })
+@hot(module)
 @withStyles(styles)
 class ArticleIndex extends React.Component {
     static propTypes = {
@@ -141,6 +140,11 @@ class ArticleIndex extends React.Component {
         if (params.childTagSlug) {
             params.parentTagSlug = params.tagSlug;
             delete params.tagSlug;
+        }
+
+        if (params['0'] === 'shared-topics') {
+            params.sharedTopic = true;
+            delete params['0'];
         }
 
         this._request = this.props.fetchArticles({
