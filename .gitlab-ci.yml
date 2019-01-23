@@ -31,13 +31,6 @@ before_script:
 after_script:
   - date
 
-check_code:
-  stage: build
-  script:
-    - bundle exec rails InRailsWeBlog:check_code
-  only:
-    - develop
-
 build:
   stage: build
   cache:
@@ -46,6 +39,14 @@ build:
     - gem install bundler --no-ri --no-rdoc
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
     - yarn install --frozen-lockfile --cache-folder .yarn-cache
+  only:
+    - develop
+
+check_code:
+  stage: test
+  <<: *pull-cache
+  script:
+    - bundle exec rails InRailsWeBlog:check_code
   only:
     - develop
 
