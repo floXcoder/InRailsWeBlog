@@ -151,7 +151,7 @@ const api = {
     get: (url, params) => {
         const headers = getHeaders();
         const parameters = stringify(params, {arrayFormat: 'brackets'});
-        const urlParams = parameters !== '' ? `${url}.json?${parameters}` : url;
+        const urlParams = `${url}.json${parameters !== '' ? '?' + parameters : ''}`;
 
         const controller = new AbortController();
         const signal = controller.signal;

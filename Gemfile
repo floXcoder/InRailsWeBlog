@@ -15,19 +15,19 @@ gem 'rails',                    '5.2.2'
 gem 'pg',                       '1.1.4'
 
 # HTTP Response
-gem 'responders',               '2.4.0'
+gem 'responders',               '2.4.1'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.0.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.8'
-gem 'oj',                       '3.7.7'
+gem 'oj',                       '3.7.8'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.2.0'
+gem 'i18n-js',                  '3.2.1'
 gem 'geocoder',                 '1.5.0'
 gem 'maxminddb',                '0.1.22'
 
@@ -94,7 +94,7 @@ gem 'browser',                  '2.5.3'
 
 # SEO
 gem 'friendly_id',              '5.2.5'
-gem 'meta-tags',                '2.11.0'
+gem 'meta-tags',                '2.11.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '4.11.1',   require: false
@@ -178,7 +178,7 @@ end
 
 group :development, :test do
   # Check errors
-  gem 'rubocop',                '0.63.0',  require: false
+  gem 'rubocop',                '0.63.1',  require: false
   gem 'rubocop-rspec',          '1.31.0',  require: false
 
   # Speed up boot
@@ -187,11 +187,14 @@ end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',   '2.8.0'
+  gem 'sentry-raven',     '2.9.0'
 
   # Improve log outputs
-  gem 'lograge',        '0.10.0'
+  gem 'lograge',          '0.10.0'
 
   # Website analysis
-  gem 'newrelic_rpm',   '5.7.0.350'
+  gem 'newrelic_rpm',     '5.7.0.350'
+
+  # Prerender html pages for SEO
+  gem 'prerender_rails',  '1.6.0'
 end

@@ -83,6 +83,7 @@
     "node-sass": "4.11.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "postcss-loader": "3.0.0",
+    "prerender": "5.4.5",
     "prop-types": "15.6.2",
     "qs": "6.6.0",
     "react": "16.7.0",
