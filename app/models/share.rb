@@ -17,8 +17,12 @@ class Share < ApplicationRecord
   # == Attributes ===========================================================
   include EnumsConcern
   enum mode: SHARE_MODE
+  enums_to_tr('share', [:mode])
 
   # == Extensions ===========================================================
+  # Follow public activities
+  include PublicActivity::Model
+  tracked owner: :user, recipient: :contributor, parameters: :shareable
 
   # == Relationships ========================================================
   belongs_to :user
@@ -37,6 +41,9 @@ class Share < ApplicationRecord
             presence: true
 
   validates :contributor,
+            presence: true
+
+  validates :mode,
             presence: true
 
   validates_uniqueness_of :user_id,

@@ -71,7 +71,7 @@ FactoryBot.define do
     mobile_number         { '0300000000' }
     phone_number          { '0600000000' }
     pictures_count        { 0 }
-    settings              { {} }
+    # settings              { {} }
     # external              false
     visibility            { 'everyone' }
 

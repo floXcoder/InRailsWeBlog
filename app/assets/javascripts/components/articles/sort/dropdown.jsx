@@ -20,7 +20,7 @@ const sortOptions = [
     'updated_asc'
 ];
 
-// Managed by article index
+// Managed by article index to update current user preference
 export default @withStyles(styles)
 
 class ArticleSortMenu extends React.Component {

@@ -25,7 +25,7 @@ module Api::V1
 
     def switch
       user  = User.friendly.find(params[:user_id])
-      topic = user.topics.friendly.find(params[:new_topic])
+      topic = user.topics.friendly.find_by(id: params[:new_topic]) || user.contributed_topics.friendly.find_by(id: params[:new_topic])
       authorize topic
 
       respond_to do |format|
@@ -110,7 +110,7 @@ module Api::V1
           if shared_topic.success?
             render json:       shared_topic.result,
                    serializer: TopicSerializer,
-                   status:     :created
+                   status:     :ok
           else
             flash.now[:error] = shared_topic.message
             render json:   { errors: shared_topic.errors },

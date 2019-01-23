@@ -47,7 +47,7 @@ module Api::V1
           set_meta_tags title: titleize(I18n.t('views.tag.index.title.user', user: User.find_by(slug: filter_params[:user_slug]).pseudo))
         elsif filter_params[:topic_slug].present?
           set_meta_tags title: titleize(I18n.t('views.tag.index.title.topic', topic: Topic.friendly.find(filter_params[:topic_slug]).name))
-        else
+        elsif filter_params[:user_id].blank?
           set_meta_tags title: titleize(I18n.t('views.tag.index.title.default'))
         end
 

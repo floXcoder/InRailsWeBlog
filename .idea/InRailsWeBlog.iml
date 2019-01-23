@@ -91,6 +91,7 @@
       <excludeFolder url="file://$MODULE_DIR$/public/system" />
       <excludeFolder url="file://$MODULE_DIR$/public/uploads" />
       <excludeFolder url="file://$MODULE_DIR$/public/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/spec/.validation" />
       <excludeFolder url="file://$MODULE_DIR$/spec/javascripts/components/articles/__snapshots__" />
       <excludeFolder url="file://$MODULE_DIR$/spec/javascripts/home/__snapshots__" />
       <excludeFolder url="file://$MODULE_DIR$/spec/javascripts/translations" />
@@ -118,7 +119,7 @@
     <orderEntry type="library" scope="PROVIDED" name="activestorage (v5.2.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activesupport (v5.2.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="acts_as_commentable_with_threading (v2.0.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="addressable (v2.5.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="addressable (v2.6.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="airbrussh (v1.3.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="annotate (v2.7.4, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="archive-zip (v0.11.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -133,7 +134,7 @@
     <orderEntry type="library" scope="PROVIDED" name="better_errors (v2.5.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="binding_of_caller (v0.8.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bootsnap (v1.3.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="brakeman (v4.3.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="brakeman (v4.4.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="browser (v2.5.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bullet (v5.9.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -165,7 +166,6 @@
     <orderEntry type="library" scope="PROVIDED" name="connection_pool (v2.2.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.4, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner (v1.7.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="date_validator (v0.9.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="db-query-matchers (v0.9.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug_inspector (v0.0.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="descendants_tracker (v0.0.4, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -179,7 +179,7 @@
     <orderEntry type="library" scope="PROVIDED" name="equalizer (v0.0.11, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.8.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.1.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.1.7, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ethon (v0.12.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot (v4.11.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v4.11.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -189,19 +189,17 @@
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.10.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="formatador (v0.2.5, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="friendly_id (v5.2.5, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="fugit (v1.1.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fugit (v1.1.8, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fuubar (v2.3.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="geocoder (v1.5.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard (v2.15.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-annotate (v2.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="guard-bundler (v2.2.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="guard-bundler (v2.2.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-compat (v1.2.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-migrate (v2.0.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-process (v1.2.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-rails (v0.8.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="guard-rake (v1.0.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="guard-rspec (v4.7.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-sidekiq (v0.1.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hashie (v3.6.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="health_check (v3.0.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -210,7 +208,7 @@
     <orderEntry type="library" scope="PROVIDED" name="html_validation (v1.1.5, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="http-cookie (v1.0.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="http_accept_language (v2.1.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="i18n (v1.5.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="i18n (v1.5.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n-js (v3.2.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n-tasks (v0.9.28, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ice_nine (v0.11.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -244,19 +242,18 @@
     <orderEntry type="library" scope="PROVIDED" name="net-scp (v1.2.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-ssh (v5.1.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="netrc (v0.11.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="newrelic_rpm (v5.6.0.349, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="newrelic_rpm (v5.7.0.350, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.3.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.10.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.10.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogumbo (v2.0.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="notiffany (v0.1.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="numerizer (v0.1.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="oj (v3.7.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="oj_mimic_json (v1.0.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="oj (v3.7.7, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="paper_trail (v10.1.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="parallel (v1.12.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="parallel (v1.13.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="paranoia (v2.4.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="parser (v2.5.3.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="parser (v2.6.0.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v1.1.4, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="powerpack (v0.1.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry (v0.12.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -264,7 +261,7 @@
     <orderEntry type="library" scope="PROVIDED" name="public_activity (v1.6.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v3.0.3, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="puma (v3.12.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="pundit (v2.0.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pundit (v2.0.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="raabro (v1.1.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.0.6, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-attack (v5.4.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -297,9 +294,9 @@
     <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.8.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.8.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.8.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v3.8.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v3.8.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.8.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubocop (v0.62.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubocop (v0.63.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rspec (v1.31.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-jmeter (v3.1.08, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.10.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
@@ -319,7 +316,7 @@
     <orderEntry type="library" scope="PROVIDED" name="shoulda-matchers (v3.1.2, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sidekiq (v5.2.5, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sidekiq-benchmark (v0.6.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sidekiq-cron (v1.0.4, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sidekiq-cron (v1.1.0, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sidekiq-statistic (v1.3.0@ab8525, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sidekiq-status (v1.1.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simpleconfig (v2.0.1, RVM: ruby-2.5.1 [InRailsWeBlog]) [gem]" level="application" />

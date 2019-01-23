@@ -18,8 +18,6 @@ export default class ArticleOrderDisplay extends React.Component {
         articleOrderMode: PropTypes.string
     };
 
-    static defaultProps = {};
-
     constructor(props) {
         super(props);
     }

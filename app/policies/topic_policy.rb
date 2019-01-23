@@ -9,7 +9,7 @@ class TopicPolicy
   end
 
   def switch?
-    owner?
+    owner? || contributor?
   end
 
   def show?
@@ -40,5 +40,9 @@ class TopicPolicy
 
   def owner?
     @current_user && @topic.user?(@current_user)
+  end
+
+  def contributor?
+    @current_user && @current_user.contributed_topic_ids.include?(@topic.id) && @topic.everyone?
   end
 end

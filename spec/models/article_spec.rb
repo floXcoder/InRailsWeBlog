@@ -156,6 +156,11 @@ RSpec.describe Article, type: :model, basic: true do
       it { is_expected.to validate_inclusion_of(:notation).in_range(CONFIG.notation_min..CONFIG.notation_max) }
     end
 
+    describe '#mode' do
+      it { is_expected.to have_enum(:mode) }
+      it { is_expected.to validate_presence_of(:mode) }
+    end
+
     describe '#visibility' do
       it { is_expected.to have_enum(:visibility) }
       it { is_expected.to validate_presence_of(:visibility) }
@@ -218,6 +223,8 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to have_db_index([:user_id, :visibility]) }
 
+    it { is_expected.to belong_to(:contributor) }
+
     it { is_expected.to belong_to(:topic) }
     it { is_expected.to have_db_index([:topic_id, :visibility]) }
 
@@ -231,11 +238,18 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to have_many(:marked_as_outdated) }
 
     it { is_expected.to have_many(:parent_relationships) }
+    it { is_expected.to have_many(:children) }
     it { is_expected.to have_many(:child_relationships) }
+    it { is_expected.to have_many(:parents) }
 
     it { is_expected.to have_many(:bookmarks) }
     it { is_expected.to have_many(:user_bookmarks) }
     it { is_expected.to have_many(:followers) }
+
+    it { is_expected.to have_many(:shares) }
+    it { is_expected.to have_many(:contributors) }
+
+    it { is_expected.to have_many(:user_activities) }
 
     it { is_expected.to have_many(:pictures) }
     it { is_expected.to accept_nested_attributes_for(:pictures) }
@@ -348,8 +362,8 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '::from_topic' do
       it { is_expected.to respond_to(:from_topic) }
-      it { expect(Article.from_topic(@topic.slug)).to include(@article) }
-      it { expect(Article.from_topic(other_topic.slug)).not_to include(@article) }
+      it { expect(Article.from_topic(@topic.slug, @user.id)).to include(@article) }
+      it { expect(Article.from_topic(other_topic.slug, @user.id)).not_to include(@article) }
     end
 
     describe '::from_topic_id' do

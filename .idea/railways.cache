@@ -1,3 +1,154 @@
-do /home/flo/.rvm/rubies/ruby-2.5.1/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace 
-Ruby enVironment Manager 1.29.3 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
+do bundle exec /home/flo/.rvm/rubies/ruby-2.5.1/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace 
+Ruby enVironment Manager 1.29.4 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
+                   Prefix Verb     URI Pattern                                     Controller#Action
+                     root GET      /                                               single_pages#home
+                          GET      /users/*id(.:format)                            single_pages#home
+                   search GET      /search(.:format)                               single_pages#home
+                          GET      /search/*id(.:format)                           single_pages#home
+                          GET      /topics/*id(.:format)                           single_pages#home
+                     tags GET      /tags(.:format)                                 single_pages#home
+                          GET      /tags/*ids(.:format)                            single_pages#home
+                          GET      /tagged/*id(.:format)                           single_pages#home
+                          GET      /articles/*id(.:format)                         single_pages#home
+                   signup GET      /api/v1/signup(.:format)                        api/v1/users/registrations#new
+                          POST     /api/v1/signup(.:format)                        api/v1/users/registrations#create
+                    login GET      /api/v1/login(.:format)                         api/v1/users/sessions#new
+                          POST     /api/v1/login(.:format)                         api/v1/users/sessions#create
+                   logout DELETE   /api/v1/logout(.:format)                        api/v1/users/sessions#destroy
+         new_user_session GET      /api/v1/users/sign_in(.:format)                 users/sessions#new
+             user_session POST     /api/v1/users/sign_in(.:format)                 users/sessions#create
+     destroy_user_session DELETE   /api/v1/users/sign_out(.:format)                users/sessions#destroy
+        new_user_password GET      /api/v1/users/password/new(.:format)            users/passwords#new
+       edit_user_password GET      /api/v1/users/password/edit(.:format)           users/passwords#edit
+            user_password PATCH    /api/v1/users/password(.:format)                users/passwords#update
+                          PUT      /api/v1/users/password(.:format)                users/passwords#update
+                          POST     /api/v1/users/password(.:format)                users/passwords#create
+ cancel_user_registration GET      /api/v1/users/cancel(.:format)                  users/registrations#cancel
+    new_user_registration GET      /api/v1/users/sign_up(.:format)                 users/registrations#new
+   edit_user_registration GET      /api/v1/users/edit(.:format)                    users/registrations#edit
+        user_registration PATCH    /api/v1/users(.:format)                         users/registrations#update
+                          PUT      /api/v1/users(.:format)                         users/registrations#update
+                          DELETE   /api/v1/users(.:format)                         users/registrations#destroy
+                          POST     /api/v1/users(.:format)                         users/registrations#create
+    new_user_confirmation GET      /api/v1/users/confirmation/new(.:format)        api/v1/confirmations#new
+        user_confirmation GET      /api/v1/users/confirmation(.:format)            api/v1/confirmations#show
+                          POST     /api/v1/users/confirmation(.:format)            api/v1/confirmations#create
+          new_user_unlock GET      /api/v1/users/unlock/new(.:format)              api/v1/unlocks#new
+              user_unlock GET      /api/v1/users/unlock(.:format)                  api/v1/unlocks#show
+                          POST     /api/v1/users/unlock(.:format)                  api/v1/unlocks#create
+         validation_users GET      /api/v1/users/validation(.:format)              api/v1/users#validation
+            clicked_users POST     /api/v1/users/clicked(.:format)                 api/v1/users#clicked
+             viewed_users POST     /api/v1/users/viewed(.:format)                  api/v1/users#viewed
+                root_user GET      /api/v1/users/:id(.:format)                     api/v1/users#show
+             profile_user GET      /api/v1/users/:id/profile(.:format)             api/v1/users#profile
+            comments_user GET      /api/v1/users/:id/comments(.:format)            api/v1/users#comments
+             recents_user GET      /api/v1/users/:id/recents(.:format)             api/v1/users#recents
+                          POST     /api/v1/users/:id/recents(.:format)             api/v1/users#update_recents
+          activities_user GET      /api/v1/users/:id/activities(.:format)          api/v1/users#activities
+             clicked_user POST     /api/v1/users/:id/clicked(.:format)             api/v1/users#clicked
+              viewed_user POST     /api/v1/users/:id/viewed(.:format)              api/v1/users#viewed
+           user_bookmarks GET      /api/v1/users/:user_id/bookmarks(.:format)      api/v1/users/bookmarks#index
+                          POST     /api/v1/users/:user_id/bookmarks(.:format)      api/v1/users/bookmarks#create
+            user_bookmark DELETE   /api/v1/users/:user_id/bookmarks/:id(.:format)  api/v1/users/bookmarks#destroy
+            user_settings POST     /api/v1/users/:user_id/settings(.:format)       api/v1/users/settings#update
+                          GET      /api/v1/users/:user_id/settings(.:format)       api/v1/users/settings#index
+                    users GET      /api/v1/users(.:format)                         api/v1/users#index
+                edit_user GET      /api/v1/users/:id/edit(.:format)                api/v1/users#edit
+                     user GET      /api/v1/users/:id(.:format)                     api/v1/users#show
+                          PATCH    /api/v1/users/:id(.:format)                     api/v1/users#update
+                          PUT      /api/v1/users/:id(.:format)                     api/v1/users#update
+               activities GET      /api/v1/activities(.:format)                    api/v1/activities#index
+            switch_topics GET      /api/v1/topics/switch(.:format)                 api/v1/topics#switch
+           clicked_topics POST     /api/v1/topics/clicked(.:format)                api/v1/topics#clicked
+            viewed_topics POST     /api/v1/topics/viewed(.:format)                 api/v1/topics#viewed
+              share_topic PUT      /api/v1/topics/:id/share(.:format)              api/v1/topics#share
+            clicked_topic POST     /api/v1/topics/:id/clicked(.:format)            api/v1/tags#clicked
+             viewed_topic POST     /api/v1/topics/:id/viewed(.:format)             api/v1/tags#viewed
+                   topics GET      /api/v1/topics(.:format)                        api/v1/topics#index
+                          POST     /api/v1/topics(.:format)                        api/v1/topics#create
+                new_topic GET      /api/v1/topics/new(.:format)                    api/v1/topics#new
+               edit_topic GET      /api/v1/topics/:id/edit(.:format)               api/v1/topics#edit
+                    topic GET      /api/v1/topics/:id(.:format)                    api/v1/topics#show
+                          PATCH    /api/v1/topics/:id(.:format)                    api/v1/topics#update
+                          PUT      /api/v1/topics/:id(.:format)                    api/v1/topics#update
+                          DELETE   /api/v1/topics/:id(.:format)                    api/v1/topics#destroy
+        priority_articles PUT      /api/v1/articles/priority(.:format)             api/v1/articles#update_priority
+         clicked_articles POST     /api/v1/articles/clicked(.:format)              api/v1/articles#clicked
+          viewed_articles POST     /api/v1/articles/viewed(.:format)               api/v1/articles#viewed
+          stories_article GET      /api/v1/articles/:id/stories(.:format)          api/v1/articles#stories
+          history_article GET      /api/v1/articles/:id/history(.:format)          api/v1/articles#history
+          restore_article GET      /api/v1/articles/:id/restore(.:format)          api/v1/articles#restore
+          clicked_article POST     /api/v1/articles/:id/clicked(.:format)          api/v1/articles#clicked
+           viewed_article POST     /api/v1/articles/:id/viewed(.:format)           api/v1/articles#viewed
+         comments_article GET      /api/v1/articles/:id/comments(.:format)         api/v1/articles#comments
+                          POST     /api/v1/articles/:id/comments(.:format)         api/v1/articles#add_comment
+                          PUT      /api/v1/articles/:id/comments(.:format)         api/v1/articles#update_comment
+                          DELETE   /api/v1/articles/:id/comments(.:format)         api/v1/articles#remove_comment
+         article_outdated DELETE   /api/v1/articles/:article_id/outdated(.:format) api/v1/articles/outdated#destroy
+                          POST     /api/v1/articles/:article_id/outdated(.:format) api/v1/articles/outdated#create
+            article_votes DELETE   /api/v1/articles/:article_id/votes(.:format)    api/v1/articles/votes#destroy
+                          POST     /api/v1/articles/:article_id/votes(.:format)    api/v1/articles/votes#create
+                 articles GET      /api/v1/articles(.:format)                      api/v1/articles#index
+                          POST     /api/v1/articles(.:format)                      api/v1/articles#create
+              new_article GET      /api/v1/articles/new(.:format)                  api/v1/articles#new
+             edit_article GET      /api/v1/articles/:id/edit(.:format)             api/v1/articles#edit
+                  article GET      /api/v1/articles/:id(.:format)                  api/v1/articles#show
+                          PATCH    /api/v1/articles/:id(.:format)                  api/v1/articles#update
+                          PUT      /api/v1/articles/:id(.:format)                  api/v1/articles#update
+                          DELETE   /api/v1/articles/:id(.:format)                  api/v1/articles#destroy
+            priority_tags PUT      /api/v1/tags/priority(.:format)                 api/v1/tags#update_priority
+             clicked_tags POST     /api/v1/tags/clicked(.:format)                  api/v1/tags#clicked
+              viewed_tags POST     /api/v1/tags/viewed(.:format)                   api/v1/tags#viewed
+              clicked_tag POST     /api/v1/tags/:id/clicked(.:format)              api/v1/tags#clicked
+               viewed_tag POST     /api/v1/tags/:id/viewed(.:format)               api/v1/tags#viewed
+             comments_tag GET      /api/v1/tags/:id/comments(.:format)             api/v1/tags#comments
+                          POST     /api/v1/tags/:id/comments(.:format)             api/v1/tags#add_comment
+                          PUT      /api/v1/tags/:id/comments(.:format)             api/v1/tags#update_comment
+                          DELETE   /api/v1/tags/:id/comments(.:format)             api/v1/tags#remove_comment
+                          GET      /api/v1/tags(.:format)                          api/v1/tags#index
+                 edit_tag GET      /api/v1/tags/:id/edit(.:format)                 api/v1/tags#edit
+                      tag GET      /api/v1/tags/:id(.:format)                      api/v1/tags#show
+                          PATCH    /api/v1/tags/:id(.:format)                      api/v1/tags#update
+                          PUT      /api/v1/tags/:id(.:format)                      api/v1/tags#update
+                          DELETE   /api/v1/tags/:id(.:format)                      api/v1/tags#destroy
+autocomplete_search_index GET      /api/v1/search/autocomplete(.:format)           api/v1/search#autocomplete
+             search_index GET      /api/v1/search(.:format)                        api/v1/search#index
+                 comments GET      /api/v1/comments(.:format)                      api/v1/comments#index
+                  uploads POST     /api/v1/uploads(.:format)                       api/v1/uploads#create
+                   upload PATCH    /api/v1/uploads/:id(.:format)                   api/v1/uploads#update
+                          PUT      /api/v1/uploads/:id(.:format)                   api/v1/uploads#update
+                          DELETE   /api/v1/uploads/:id(.:format)                   api/v1/uploads#destroy
+                          GET      /robots.:format                                 single_pages#robots
+                          GET      /404(.:format)                                  errors#show {:code=>"404"}
+                          GET      /422(.:format)                                  errors#show {:code=>"422"}
+                          GET      /500(.:format)                                  errors#show {:code=>"500"}
+        delete_all_errors POST     /errors/delete_all(.:format)                    errors#destroy_all
+                   errors GET      /errors(.:format)                               errors#index
+                          POST     /errors(.:format)                               errors#create
+                    error GET      /errors/:id(.:format)                           errors#show
+                          DELETE   /errors/:id(.:format)                           errors#destroy
+              login_admin GET      /admin/login(.:format)                          users/sessions#new
+              admin_login POST     /admin/login(.:format)                          users/sessions#create
+             logout_admin DELETE   /admin/logout(.:format)                         users/sessions#destroy
+        new_admin_session GET      /admins/sign_in(.:format)                       users/sessions#new
+            admin_session POST     /admins/sign_in(.:format)                       users/sessions#create
+    destroy_admin_session DELETE   /admins/sign_out(.:format)                      users/sessions#destroy
+       new_admin_password GET      /admins/password/new(.:format)                  users/passwords#new
+      edit_admin_password GET      /admins/password/edit(.:format)                 users/passwords#edit
+           admin_password PATCH    /admins/password(.:format)                      users/passwords#update
+                          PUT      /admins/password(.:format)                      users/passwords#update
+                          POST     /admins/password(.:format)                      users/passwords#create
+cancel_admin_registration GET      /admins/cancel(.:format)                        devise/registrations#cancel
+   new_admin_registration GET      /admins/sign_up(.:format)                       devise/registrations#new
+  edit_admin_registration GET      /admins/edit(.:format)                          devise/registrations#edit
+       admin_registration PATCH    /admins(.:format)                               devise/registrations#update
+                          PUT      /admins(.:format)                               devise/registrations#update
+                          DELETE   /admins(.:format)                               devise/registrations#destroy
+                          POST     /admins(.:format)                               devise/registrations#create
+         new_admin_unlock GET      /admins/unlock/new(.:format)                    devise/unlocks#new
+             admin_unlock GET      /admins/unlock(.:format)                        devise/unlocks#show
+                          POST     /admins/unlock(.:format)                        devise/unlocks#create
+              sidekiq_web          /admin/sidekiq                                  Sidekiq::Web
+                    admin GET      /admin(.:format)                                admins#index
+                          GET|POST /health_check(/:checks)(.:format)               health_check/health_check#index {:format=>"txt"}

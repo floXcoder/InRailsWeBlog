@@ -74,7 +74,7 @@ class TagSidebar extends React.Component {
         super(props);
     }
 
-    _handleTagClick = (tag, event) => {
+    _handleTagClick = (tag) => {
         spyTrackClick('tag', tag.id, tag.slug, tag.name);
     };
 

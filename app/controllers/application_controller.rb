@@ -185,13 +185,13 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) do |user_params|
-      user_params.permit(:pseudo, :email, :password, :password_confirmation, :professional, :professional_type)
+      user_params.permit(:pseudo, :email, :password, :password_confirmation)
     end
     devise_parameter_sanitizer.permit(:sign_in) do |user_params|
       user_params.permit(:login, :pseudo, :email, :password, :remember_me)
     end
     devise_parameter_sanitizer.permit(:account_update) do |user_params|
-      user_params.permit(:pseudo, :email, :password, :password_confirmation, :current_password)
+      user_params.permit(:pseudo, :email, :password)
     end
   end
 

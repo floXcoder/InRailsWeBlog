@@ -24,9 +24,11 @@ describe('Users actions', () => {
             mock(`/api/v1/users`, 200, () => ({
                     users,
                     meta: {
-                        currentPage: 1,
-                        totalPages: 1,
-                        totalCount: 3
+                        pagination: {
+                            currentPage: 1,
+                            totalPages: 1,
+                            totalCount: 3
+                        }
                     }
                 })
             );
@@ -146,9 +148,11 @@ describe('Users actions', () => {
 
             dispatch(store, UserActions.fetchUser(user.id));
 
-            return dispatch(store, UserActions.updateUserSettings(user.id))
+            return dispatch(store, UserActions.updateUserSettings(user.id, {
+                articleDisplay: 'grid'
+            }))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('card');
+                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('grid');
                 });
         });
     });

@@ -36,14 +36,14 @@ FactoryBot.define do
     # user
     # topic
 
-    mode            { 'story' }
+    mode            { 'note' }
     title           { Faker::Lorem.sentence } # title_translations
     summary         { Faker::Lorem.paragraph(1, false) } # summary_translations
     content         { Faker::Lorem.paragraph(1..20) } # content_translations
     languages       { ['fr'] }
     reference       { Faker::Internet.url }
-    notation        { 0 }
-    priority        { 0 }
+    notation        { Random.rand(1..5) }
+    priority        { Random.rand(0..100) }
     visibility      { 'everyone' }
     allow_comment   { true }
     draft           { false }

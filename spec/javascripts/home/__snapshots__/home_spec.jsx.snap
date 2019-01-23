@@ -49,6 +49,10 @@ Array [
                     "component": [Function],
                     "path": "new-topic",
                   },
+                  Object {
+                    "component": [Function],
+                    "path": "share-topic",
+                  },
                 ]
               }
               routes={
@@ -60,7 +64,7 @@ Array [
                   },
                   Object {
                     "component": [Function],
-                    "hasBreadcrumb": false,
+                    "noBreadcrumb": false,
                     "path": "/search",
                   },
                   Object {
@@ -111,7 +115,7 @@ Array [
             errorTitle="Impossible d'afficher le bas de page"
             errorType="text"
           >
-            <withRouter(WithStyles(FooterLayoutHome)) />
+            <withRouter(FooterLayoutHome) />
           </ErrorBoundary>
         </withRouter(ScrollBackManager)>
       </withRouter(PasteManager)>

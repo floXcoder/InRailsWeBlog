@@ -52,7 +52,7 @@ class Article < ApplicationRecord
   # Strip whitespaces
   auto_strip_attributes :reference
 
-  delegate :popularity,
+  delegate :popularity, :popularity=,
            :rank, :rank=,
            :home_page, :home_page=,
            to: :tracker, allow_nil: true
@@ -170,9 +170,6 @@ class Article < ApplicationRecord
            through: :shares,
            source:  :contributor
 
-  # has_many :activities,
-  #          as:         :trackable,
-  #          class_name: 'PublicActivity::Activity'
   has_many :user_activities,
            as:         :recipient,
            class_name: 'PublicActivity::Activity'
@@ -212,6 +209,9 @@ class Article < ApplicationRecord
 
   validates :notation,
             inclusion: CONFIG.notation_min..CONFIG.notation_max
+
+  validates :mode,
+            presence: true
 
   validates :visibility,
             presence: true
@@ -269,9 +269,9 @@ class Article < ApplicationRecord
     article.visibility = 'only_me' if article.draft?
   end
 
-  # Comments: doesn't allow for private or article other than story
+  # Comments: doesn't allow for private
   before_save do |article|
-    article.allow_comment = false if article.visibility == 'only_me' || article.mode != 'story'
+    article.allow_comment = false if article.visibility == 'only_me'
   end
 
   # after_commit :update_search_index

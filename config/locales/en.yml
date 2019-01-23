@@ -128,6 +128,7 @@ en:
         message: "Topic shared with: %{user}"
       errors:
         user_not_found: "User not found"
+        private_shareable: "A private element cannot be shared"
         already_shared: "Already shared with this user"
         creation: "Cannot share this element"
     admin:
@@ -202,6 +203,10 @@ en:
         story: "Story"
         note: "Note"
         link: "Link"
+  share:
+    enums:
+      mode:
+        complete: "Complete authorization"
   admin:
     dashboard:
       title: "Admin"

@@ -24,9 +24,11 @@ describe('Comments actions', () => {
             mock('/api/v1/comments', 200, () => ({
                     comments: comments,
                     meta: {
-                        currentPage: 1,
-                        totalPages: 3,
-                        totalCount: 26
+                        pagination: {
+                            currentPage: 1,
+                            totalPages: 3,
+                            totalCount: 26
+                        }
                     }
                 })
             );

@@ -16,7 +16,7 @@ class BaseService
   end
 
   def error(message, errors = nil)
-    ResponseService.new(false, nil, message.to_s, errors)
+    ResponseService.new(false, nil, message.to_s, errors || message.to_s)
   end
 
 end

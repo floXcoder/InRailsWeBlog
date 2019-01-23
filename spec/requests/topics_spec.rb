@@ -9,10 +9,12 @@ describe 'Topic API', type: :request, basic: true do
     @other_user = create(:user)
     @admin      = create(:admin)
 
-    @first_topic  = create(:topic, user: @user, visibility: 'everyone')
-    @second_topic = create(:topic, user: @user, visibility: 'only_me')
+    @topic_name    = 'Public'
+    @public_topic  = create(:topic, user: @user, name: @topic_name, visibility: 'everyone')
+    @private_topic = create(:topic, user: @user, visibility: 'only_me')
 
-    @other_topic = create(:topic, user: @other_user)
+    @other_topic_name = 'existing_topic'
+    @other_topic      = create(:topic, user: @other_user, name: @other_topic_name)
   end
 
   let(:topic_attributes) {
@@ -112,7 +114,7 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @first_topic.id }, as: :json
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @public_topic.id }, as: :json
 
         expect(response).to be_unauthorized
       end
@@ -124,13 +126,40 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns the new topic' do
-        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @first_topic.id }, as: :json
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @public_topic.id }, as: :json
 
         expect(response).to be_json_response
 
         topic = JSON.parse(response.body)
         expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['name']).to eq(@first_topic.name)
+        expect(topic['topic']['name']).to eq(@public_topic.name)
+      end
+
+      it 'returns an error if not topic owner' do
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @other_topic.id }, as: :json
+
+        expect(response).to be_json_response(403)
+
+        topic = JSON.parse(response.body)
+        expect(topic['errors']).not_to be_empty
+      end
+    end
+
+    context 'when contributor is connected' do
+      before do
+        @contributed_user = create(:user)
+        ::Shares::StoreService.new(@public_topic, @contributed_user.email, current_user: @user).perform
+        login_as(@contributed_user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns the shared topic' do
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @public_topic.id }, as: :json
+
+        expect(response).to be_json_response
+
+        topic = JSON.parse(response.body)
+        expect(topic['topic']).not_to be_empty
+        expect(topic['topic']['name']).to eq(@public_topic.name)
       end
     end
   end
@@ -138,7 +167,7 @@ describe 'Topic API', type: :request, basic: true do
   describe '/api/v1/topics/:id' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        get "/api/v1/topics/#{@first_topic.id}", params: { user_id: @user.id }, as: :json
+        get "/api/v1/topics/#{@public_topic.id}", params: { user_id: @user.id }, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -150,7 +179,7 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        get "/api/v1/topics/#{@first_topic.id}", params: { user_id: @user.id }, as: :json
+        get "/api/v1/topics/#{@public_topic.id}", params: { user_id: @user.id }, as: :json
 
         expect(response).to be_unauthorized
       end
@@ -162,13 +191,13 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns the new topic' do
-        get "/api/v1/topics/#{@first_topic.id}", params: { user_id: @user.id }, as: :json
+        get "/api/v1/topics/#{@public_topic.id}", params: { user_id: @user.id }, as: :json
 
         expect(response).to be_json_response
 
         topic = JSON.parse(response.body)
         expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['name']).to eq(@first_topic.name)
+        expect(topic['topic']['name']).to eq(@public_topic.name)
       end
     end
   end
@@ -203,6 +232,36 @@ describe 'Topic API', type: :request, basic: true do
       end
     end
 
+    context 'when creating another topic' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns a new topic even if the name is used by another user' do
+        expect {
+          post '/api/v1/topics', params: { user_id: @user.id, name: @other_topic_name }, as: :json
+
+          expect(response).to be_json_response(201)
+
+          topic = JSON.parse(response.body)
+          expect(topic['topic']).not_to be_empty
+          expect(topic['topic']['userId']).to eq(@user.id)
+          expect(topic['topic']['name']).to eq(@other_topic_name)
+        }.to change(Topic, :count).by(1)
+      end
+
+      it 'returns an error if topic name is already used' do
+        expect {
+          post '/api/v1/topics', params: { user_id: @user.id, name: @topic_name }, as: :json
+
+          expect(response).to be_json_response(422)
+
+          article = JSON.parse(response.body)
+          expect(article['errors']['name'].first).to eq(I18n.t('activerecord.errors.models.topic.already_exist'))
+        }.not_to change(Topic, :count)
+      end
+    end
+
     context 'when creating a topic with errors' do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
@@ -228,7 +287,7 @@ describe 'Topic API', type: :request, basic: true do
   describe '/api/v1/topics (PUT)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        put "/api/v1/topics/#{@first_topic.id}", params: updated_topic_attributes.merge(user_id: @user.id), as: :json
+        put "/api/v1/topics/#{@public_topic.id}", params: updated_topic_attributes.merge(user_id: @user.id), as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -241,7 +300,7 @@ describe 'Topic API', type: :request, basic: true do
 
       it 'returns the updated topic' do
         expect {
-          put "/api/v1/topics/#{@first_topic.id}", params: updated_topic_attributes.merge(user_id: @user.id), as: :json
+          put "/api/v1/topics/#{@public_topic.id}", params: updated_topic_attributes.merge(user_id: @user.id), as: :json
 
           expect(response).to be_json_response
 
@@ -259,7 +318,7 @@ describe 'Topic API', type: :request, basic: true do
 
         it 'returns the errors' do
           expect {
-            put "/api/v1/topics/#{@first_topic.id}", params: topic_error_attributes.merge(user_id: @user.id), as: :json
+            put "/api/v1/topics/#{@public_topic.id}", params: topic_error_attributes.merge(user_id: @user.id), as: :json
 
             expect(response).to be_json_response(422)
 
@@ -271,10 +330,77 @@ describe 'Topic API', type: :request, basic: true do
     end
   end
 
+  describe '/api/v1/topics/:id/share' do
+    before do
+      @contributed_user = create(:user)
+    end
+
+    context 'when user is not connected' do
+      it 'returns an error message' do
+        put "/api/v1/topics/#{@public_topic.id}/share", params: { login: @contributed_user.pseudo }, as: :json
+
+        expect(response).to be_unauthenticated
+      end
+    end
+
+    context 'when user is connected' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns the shared topic' do
+        expect {
+          put "/api/v1/topics/#{@public_topic.id}/share", params: { login: @contributed_user.pseudo }, as: :json
+
+          expect(response).to be_json_response
+
+          topic = JSON.parse(response.body)
+          expect(topic['topic']).not_to be_empty
+          expect(topic['topic']['contributors'].size).to eq(1)
+          expect(topic['topic']['contributors'][0]['id']).to eq(@contributed_user.id)
+        }.to change(Share, :count).by(1)
+
+        expect(@public_topic.contributors).to match_array([@contributed_user])
+        expect(@user.shared_topics).to match_array([@public_topic])
+        expect(@contributed_user.contributed_topics).to match_array([@public_topic])
+      end
+
+      context 'when sharing a topic already shared' do
+        before do
+          ::Shares::StoreService.new(@public_topic, @contributed_user.email, current_user: @user).perform
+        end
+
+        it 'returns the errors' do
+          expect {
+            put "/api/v1/topics/#{@public_topic.id}/share", params: { login: @contributed_user.pseudo }, as: :json
+
+            expect(response).to be_json_response(422)
+
+            topic = JSON.parse(response.body)
+            expect(topic['errors']).to eq(I18n.t('views.share.errors.already_shared'))
+          }.to change(Share, :count).by(0)
+        end
+      end
+
+      context 'when sharing a private topic' do
+        it 'returns the errors' do
+          expect {
+            put "/api/v1/topics/#{@private_topic.id}/share", params: { login: @contributed_user.pseudo }, as: :json
+
+            expect(response).to be_json_response(422)
+
+            topic = JSON.parse(response.body)
+            expect(topic['errors']).to eq(I18n.t('views.share.errors.private_shareable'))
+          }.to change(Share, :count).by(0)
+        end
+      end
+    end
+  end
+
   describe '/api/v1/topics/:id (DELETE)' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        delete "/api/v1/topics/#{@first_topic.id}", as: :json, params: { user_id: @user.id }
+        delete "/api/v1/topics/#{@public_topic.id}", as: :json, params: { user_id: @user.id }
 
         expect(response).to be_unauthenticated
       end
@@ -284,18 +410,18 @@ describe 'Topic API', type: :request, basic: true do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
 
-        create_list(:article, 5, user: @user, topic: @first_topic)
+        create_list(:article, 5, user: @user, topic: @public_topic)
       end
 
       it 'returns the soft deleted topic id' do
         expect {
-          delete "/api/v1/topics/#{@first_topic.id}", as: :json, params: { user_id: @user.id }
+          delete "/api/v1/topics/#{@public_topic.id}", as: :json, params: { user_id: @user.id }
 
           expect(response).to be_json_response
 
           topic = JSON.parse(response.body)
           expect(topic['topic']).not_to be_empty
-        }.to change(Topic, :count).by(-1).and change(Article, :count).by(-@first_topic.articles.count).and change(TaggedArticle, :count).by(-@first_topic.tags.count).and change(TagRelationship, :count).by(0)
+        }.to change(Topic, :count).by(-1).and change(Article, :count).by(-@public_topic.articles.count).and change(TaggedArticle, :count).by(-@public_topic.tags.count).and change(TagRelationship, :count).by(0)
       end
     end
   end
@@ -303,7 +429,7 @@ describe 'Topic API', type: :request, basic: true do
   context 'tracker' do
     describe '/api/v1/tags/:id/clicked' do
       it 'counts a new click on tags' do
-        post "/api/v1/tags/#{@first_topic.id}/clicked", params: { user_id: @user.id }, as: :json
+        post "/api/v1/tags/#{@public_topic.id}/clicked", params: { user_id: @user.id }, as: :json
 
         expect(response).to be_json_response(204)
       end
@@ -311,7 +437,7 @@ describe 'Topic API', type: :request, basic: true do
 
     describe '/api/v1/tags/:id/viewed' do
       it 'counts a new view on tags' do
-        post "/api/v1/tags/#{@second_topic.id}/viewed", as: :json
+        post "/api/v1/tags/#{@private_topic.id}/viewed", as: :json
 
         expect(response).to be_json_response(204)
       end

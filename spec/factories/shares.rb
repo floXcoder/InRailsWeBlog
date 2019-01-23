@@ -14,6 +14,10 @@
 
 FactoryBot.define do
   factory :share do
-    
+    # user
+
+    # shareable
+
+    # contributor
   end
 end

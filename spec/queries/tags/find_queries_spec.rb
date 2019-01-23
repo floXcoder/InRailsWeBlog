@@ -54,7 +54,7 @@ describe Tags::FindQueries, type: :query, basic: true do
     end
 
     context 'with filter params' do
-      before(:all) do
+      before do
         @topic = create(:topic, user: @user)
         @article = create(:article, user: @user, topic: @topic)
 

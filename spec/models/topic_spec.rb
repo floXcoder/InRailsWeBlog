@@ -13,7 +13,7 @@
 #  visibility      :integer          default("everyone"), not null
 #  accepted        :boolean          default(TRUE), not null
 #  archived        :boolean          default(FALSE), not null
-#  pictures_count  :integer          default(0)
+#  pictures_count  :integer          default(0)E
 #  articles_count  :integer          default(0)
 #  bookmarks_count :integer          default(0)
 #  slug            :string
@@ -102,6 +102,11 @@ RSpec.describe Topic, type: :model, basic: true do
       it { is_expected.to validate_length_of(:description).is_at_most(CONFIG.topic_description_max_length) }
     end
 
+    describe '#mode' do
+      it { is_expected.to have_enum(:mode) }
+      it { is_expected.to validate_presence_of(:mode) }
+    end
+
     describe '#visibility' do
       it { is_expected.to have_enum(:visibility) }
       it { is_expected.to validate_presence_of(:visibility) }
@@ -125,10 +130,16 @@ RSpec.describe Topic, type: :model, basic: true do
 
     it { is_expected.to have_many(:tagged_articles) }
     it { is_expected.to have_many(:tag_relationships) }
+    it { is_expected.to have_many(:tags) }
 
     it { is_expected.to have_many(:bookmarks) }
     it { is_expected.to have_many(:user_bookmarks) }
     it { is_expected.to have_many(:follower) }
+
+    it { is_expected.to have_many(:user_activities) }
+
+    it { is_expected.to have_many(:shares) }
+    it { is_expected.to have_many(:contributors) }
 
     it { is_expected.to have_one(:icon) }
     it { is_expected.to accept_nested_attributes_for(:icon) }
@@ -137,7 +148,8 @@ RSpec.describe Topic, type: :model, basic: true do
   context 'Properties' do
     it { is_expected.to callback(:set_default_color).before(:create) }
 
-    it { is_expected.to have_friendly_id(:slug) }
+    it { is_expected.to respond_to(:slug) }
+    it { is_expected.to respond_to(:slug_candidates) }
 
     it { is_expected.to have_activity }
 

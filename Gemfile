@@ -21,8 +21,7 @@ gem 'secure_headers',           '6.0.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.8'
-gem 'oj',                       '3.7.6'
-gem 'oj_mimic_json',            '1.0.1'
+gem 'oj',                       '3.7.7'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -48,7 +47,7 @@ gem 'sanitize',                 '5.0.0'
 # Run asynschronous process
 gem 'sidekiq',                  '5.2.5'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
-gem 'sidekiq-cron',             '1.0.4'
+gem 'sidekiq-cron',             '1.1.0'
 gem 'sidekiq-status',           '1.1.1'
 gem 'attentive_sidekiq',        '0.3.3'
 gem 'sidekiq-benchmark',        '0.6.0'
@@ -61,9 +60,6 @@ gem 'readthis',                 '2.2.0'
 gem 'hiredis',                  '0.6.3'
 gem 'redis-rack-cache',         '2.0.2'
 
-# Database fields validator
-gem 'date_validator',           '0.9.0'
-
 # Global and model settings
 gem 'simpleconfig',             '2.0.1'
 gem 'rails-settings-cached',    '0.7.2'
@@ -73,7 +69,7 @@ gem 'storext',                  '2.2.2'
 gem 'devise',                   '4.5.0'
 
 # Authorization mechanism
-gem 'pundit',                   '2.0.0'
+gem 'pundit',                   '2.0.1'
 
 # Upload pictures
 gem 'carrierwave',              '1.3.1'
@@ -137,27 +133,27 @@ group :development do
   gem 'guard',                  '2.15.0'
   gem 'guard-rails',            '0.8.1'
   gem 'guard-annotate',         '2.3'
-  gem 'guard-bundler',          '2.2.0'
+  gem 'guard-bundler',          '2.2.1'
   gem 'guard-migrate',          '2.0.0'
-  gem 'guard-rake',             '1.0.0'
-  gem 'guard-rspec',            '4.7.3',  require: false
+  # gem 'guard-rake',             '1.0.0'
+  # gem 'guard-rspec',            '4.7.3',  require: false
   gem 'guard-sidekiq',          '0.1.0'
   gem 'guard-process',          '1.2.1'
 
   # Find index to add
-  gem 'lol_dba',                '2.1.5'
-  gem 'unique_validation_inspector', '0.3.0'
+  gem 'lol_dba',                '2.1.5', require: false
+  gem 'unique_validation_inspector', '0.3.0', require: false
 
   # Faster ruby code
-  gem 'fasterer',               '0.4.1'
+  gem 'fasterer',               '0.4.1', require: false
 
   # Load tests
-  gem 'ruby-jmeter',            '3.1.08',  require: false
+  gem 'ruby-jmeter',            '3.1.08', require: false
 end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',            '3.8.1'
+  gem 'rspec-rails',            '3.8.2'
   gem 'shoulda-matchers',       '3.1.2',    require: false
   gem 'shoulda-callback-matchers', '1.1.4', require: false
   gem 'simplecov',              '0.16.1',   require: false
@@ -176,13 +172,13 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',   '1.19.4',   require: false
-  gem 'brakeman',               '4.3.1',    require: false
+  gem 'brakeman',               '4.4.0',    require: false
   gem 'i18n-tasks',             '0.9.28',   require: false
 end
 
 group :development, :test do
   # Check errors
-  gem 'rubocop',                '0.62.0',  require: false
+  gem 'rubocop',                '0.63.0',  require: false
   gem 'rubocop-rspec',          '1.31.0',  require: false
 
   # Speed up boot
@@ -197,5 +193,5 @@ group :production do
   gem 'lograge',        '0.10.0'
 
   # Website analysis
-  gem 'newrelic_rpm',   '5.6.0.349'
+  gem 'newrelic_rpm',   '5.7.0.350'
 end

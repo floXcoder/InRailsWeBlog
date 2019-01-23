@@ -128,6 +128,7 @@ fr:
         message: "Thème partagé avec : %{user}"
       errors:
         user_not_found: "Utilisateur inconnu"
+        private_shareable: "Un élément privé ne peut être partagé"
         already_shared: "Déjà partagé avec cet utilisateur"
         creation: "Impossible d'ajouter ce partage"
     admin:
@@ -202,6 +203,10 @@ fr:
         story: "Article"
         note: "Note"
         link: "Lien"
+  share:
+    enums:
+      mode:
+        complete: "Autorisation totale"
   admin:
     dashboard:
       title: "Admin"

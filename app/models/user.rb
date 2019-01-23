@@ -74,7 +74,7 @@ class User < ApplicationRecord
   store_attributes :settings do
     articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
     article_display String, default: 'card' # Display articles: inline / card (with inline edit) / grid
-    article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
+    article_order String, default: 'priority_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
 
     tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default
     tag_sidebar_with_child Boolean, default: false # Display child only tags in sidebar
@@ -150,6 +150,25 @@ class User < ApplicationRecord
            through:     :bookmarks,
            source:      :bookmarked,
            source_type: 'Article'
+  has_many :followers,
+           -> { where(bookmarks: { follow: true }) },
+           through: :bookmarks,
+           source:  :user
+  has_many :following_users,
+           -> { where(bookmarks: { follow: true }) },
+           through:     :bookmarks,
+           source:      :bookmarked,
+           source_type: 'User'
+  has_many :following_articles,
+           -> { where(bookmarks: { follow: true }) },
+           through:     :bookmarks,
+           source:      :bookmarked,
+           source_type: 'Article'
+  has_many :following_tags,
+           -> { where(bookmarks: { follow: true }) },
+           through:     :bookmarks,
+           source:      :bookmarked,
+           source_type: 'Tag'
 
   has_many :shares,
            source:    :user,
@@ -175,26 +194,6 @@ class User < ApplicationRecord
            through:     :contributions,
            source:      :shareable,
            source_type: 'Article'
-
-  has_many :followers,
-           -> { where(bookmarks: { follow: true }) },
-           through: :bookmarks,
-           source:  :user
-  has_many :following_users,
-           -> { where(bookmarks: { follow: true }) },
-           through:     :bookmarks,
-           source:      :bookmarked,
-           source_type: 'User'
-  has_many :following_articles,
-           -> { where(bookmarks: { follow: true }) },
-           through:     :bookmarks,
-           source:      :bookmarked,
-           source_type: 'Article'
-  has_many :following_tags,
-           -> { where(bookmarks: { follow: true }) },
-           through:     :bookmarks,
-           source:      :bookmarked,
-           source_type: 'Tag'
 
   has_many :comments,
            dependent: :destroy

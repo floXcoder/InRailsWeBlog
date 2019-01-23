@@ -51,7 +51,7 @@ feature 'Tag show for users', advanced: true, js: true do
     end
 
     scenario 'users can see the topic sidebar' do
-      is_expected.to have_css("ul[class*='TagSidebar-root-']")
+      is_expected.to have_css("div[class*='TagSidebar-list-']")
     end
   end
 

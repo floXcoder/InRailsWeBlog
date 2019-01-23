@@ -34,6 +34,7 @@ FactoryBot.define do
     languages               { ['fr'] }
     priority                { 0 }
     visibility              { 'everyone' }
+    # settings                { {} }
   end
 
 end

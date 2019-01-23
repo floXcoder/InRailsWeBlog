@@ -24,9 +24,11 @@ describe('Articles actions', () => {
             mock('/api/v1/articles', 200, () => ({
                     articles: articles,
                     meta: {
-                        currentPage: 1,
-                        totalPages: 3,
-                        totalCount: 26
+                        pagination: {
+                            currentPage: 1,
+                            totalPages: 3,
+                            totalCount: 26
+                        }
                     }
                 })
             );

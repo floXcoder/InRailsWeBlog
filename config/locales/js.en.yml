@@ -243,6 +243,7 @@ en:
         submit: "Add topic"
       edit:
         title: "Update topic"
+        name: "Topic name"
         mode: "Type"
         description: "Topic description"
         delete: "Delete"

@@ -45,11 +45,12 @@ feature 'Topic show for users', advanced: true, js: true do
       is_expected.to have_content(@articles.first.title)
     end
 
-    scenario 'users can change display' do
-      is_expected.to have_css("button[class*='ArticleAppendixDisplay-fabButton-']")
+    scenario 'users can see article sidebar' do
+      is_expected.to have_css("h2[class*='ArticleSidebar-title-']")
+      is_expected.to have_css("div[class*='ArticleSidebar-timeline-']")
     end
 
-    scenario 'users can see the topic sidebar' do
+    scenario 'users can see tag sidebar' do
       is_expected.to have_css("ul[class*='TagSidebar-root-']")
     end
   end

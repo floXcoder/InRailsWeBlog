@@ -101,10 +101,8 @@ class Topic < ApplicationRecord
 
   has_many :tagged_articles,
            dependent: :destroy
-
   has_many :tag_relationships,
            dependent: :destroy
-
   has_many :tags,
            through: :tagged_articles
 
@@ -116,25 +114,20 @@ class Topic < ApplicationRecord
   has_many :user_bookmarks,
            through: :bookmarks,
            source:  :user
-
-  # has_many :activities,
-  #          as:         :trackable,
-  #          class_name: 'PublicActivity::Activity'
-  has_many :user_activities,
-           as:         :recipient,
-           class_name: 'PublicActivity::Activity'
-
   has_many :follower,
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
            source:  :user
+
+  has_many :user_activities,
+           as:         :recipient,
+           class_name: 'PublicActivity::Activity'
 
   has_many :shares,
            as:          :shareable,
            class_name:  'Share',
            foreign_key: 'shareable_id',
            dependent:   :destroy
-
   has_many :contributors,
            through: :shares,
            source:  :contributor
@@ -157,6 +150,9 @@ class Topic < ApplicationRecord
   validates :languages,
             presence: true,
             if:       -> { description.present? }
+
+  validates :mode,
+            presence: true
 
   validates :visibility,
             presence: true
