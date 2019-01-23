@@ -21,7 +21,7 @@ describe('Comments actions', () => {
         it('should fetch all comments', () => {
             const comments = FactoryGenerator.create('comments', {number: 3});
 
-            mock('/api/v1/comments', 200, () => ({
+            mock('/api/v1/comments.json', 200, () => ({
                     comments: comments,
                     meta: {
                         pagination: {

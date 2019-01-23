@@ -62,7 +62,7 @@ describe('Topics actions', () => {
         it('should switch of topic', () => {
             const topic = FactoryGenerator.create('topics');
 
-            mock('/api/v1/topics/switch', 200, () => ({
+            mock('/api/v1/topics/switch.json', 200, () => ({
                     topic
                 })
             );

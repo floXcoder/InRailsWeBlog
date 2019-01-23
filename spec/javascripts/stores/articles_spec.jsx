@@ -21,7 +21,7 @@ describe('Articles actions', () => {
         it('should fetch all articles', () => {
             const articles = FactoryGenerator.create('articles', {number: 3});
 
-            mock('/api/v1/articles', 200, () => ({
+            mock('/api/v1/articles.json', 200, () => ({
                     articles: articles,
                     meta: {
                         pagination: {
@@ -47,7 +47,7 @@ describe('Articles actions', () => {
         it('should fetch one article', () => {
             const article = FactoryGenerator.create('articles');
 
-            mock(`/api/v1/articles/${article.id}`, 200, () => ({
+            mock(`/api/v1/articles/${article.id}.json`, 200, () => ({
                     article: article
                 })
             );
@@ -159,7 +159,7 @@ describe('Articles actions', () => {
             const article = FactoryGenerator.create('articles');
             const histories = FactoryGenerator.create('history', {number: 2});
 
-            mock(`/api/v1/articles/${article.id}/history`, 200, () => ({
+            mock(`/api/v1/articles/${article.id}/history.json`, 200, () => ({
                     history: histories
                 })
             );
@@ -177,7 +177,7 @@ describe('Articles actions', () => {
         it('should restore an article', () => {
             const articleRestored = FactoryGenerator.create('articles');
 
-            mock(`/api/v1/articles/${articleRestored.id}/restore`, 200, () => ({
+            mock(`/api/v1/articles/${articleRestored.id}/restore.json`, 200, () => ({
                     article: articleRestored
                 })
             );

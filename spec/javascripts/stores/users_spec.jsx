@@ -21,7 +21,7 @@ describe('Users actions', () => {
         it('should fetch users', () => {
             const users = FactoryGenerator.create('users', {number: 3});
 
-            mock(`/api/v1/users`, 200, () => ({
+            mock(`/api/v1/users.json`, 200, () => ({
                     users,
                     meta: {
                         pagination: {
@@ -47,7 +47,7 @@ describe('Users actions', () => {
         it('should fetch a user', () => {
             const user = FactoryGenerator.create('users');
 
-            mock(`/api/v1/users/${user.id}`, 200, () => ({
+            mock(`/api/v1/users/${user.id}.json`, 200, () => ({
                     user: user
                 })
             );
@@ -134,7 +134,7 @@ describe('Users actions', () => {
         it('should update user settings', () => {
             const user = FactoryGenerator.create('users');
 
-            mock(`/api/v1/users/${user.id}`, 200, () => ({
+            mock(`/api/v1/users/${user.id}.json`, 200, () => ({
                     user: user
                 })
             );
@@ -164,7 +164,7 @@ describe('Users actions', () => {
             const tags = FactoryGenerator.create('tags', {number: 2});
             const topics = FactoryGenerator.create('topics', {number: 2});
 
-            mock(`/api/v1/users/${user.id}/recents`, 200, () => ({
+            mock(`/api/v1/users/${user.id}/recents.json`, 200, () => ({
                     articles,
                     tags,
                     topics
