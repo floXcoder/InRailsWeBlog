@@ -4,6 +4,8 @@ const webpack = require('webpack');
 
 const autoprefixer = require('autoprefixer');
 
+const HappyPack = require('happypack');
+
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
@@ -99,6 +101,7 @@ webPackConfig.module = {
 };
 
 webPackConfig.plugins = [
+    new HappyPack(config.happyPack),
     new webpack.ProvidePlugin(config.plugins),
     new CleanWebpackPlugin(config.clean.pathsToClean, {
         root: path.resolve(config.output.path)

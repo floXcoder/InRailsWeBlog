@@ -30,14 +30,14 @@ module.exports = {
             includes: [
                 'node_modules'
             ],
-            // noParse: /jquery/ // Must not contains any imports mechanism
+            // noParse: // // Must not contains any imports mechanism
         },
         rules: {
             javascript: {
                 exclude: /node_modules/,
                 options: {
                     babelrc: true,
-                    cacheDirectory: true // Useless for production
+                    cacheDirectory: true
                 }
             },
             stylesheet: {
@@ -67,7 +67,7 @@ module.exports = {
             },
             font: {
                 options: {
-                    name: '[name].[ext]'
+                    name: '[name].[hash].[ext]'
                 }
             }
         },

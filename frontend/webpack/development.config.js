@@ -3,8 +3,6 @@ const path = require('path');
 const webpack = require('webpack');
 const sane = require('sane');
 
-const HappyPack = require('happypack');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -125,7 +123,6 @@ webPackConfig.plugins.push(
             'ASSET_PATH': JSON.stringify(config.development.assetPath)
         }
     }),
-    new HappyPack(config.happyPack),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
         debug: true
