@@ -35,4 +35,4 @@ ArticleVotes.propTypes = {
     articleVotesDown: PropTypes.number
 };
 
-export default React.memo(ArticleVotes);
+export default ArticleVotes;

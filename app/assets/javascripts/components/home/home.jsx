@@ -26,9 +26,7 @@ import TagChipDisplay from '../tags/display/chip';
 
 import styles from '../../../jss/home/index';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     homeArticles: getHomeArticles(state),
     popularArticles: getPopularArticles(state),
     popularTags: getPopularTags(state)
@@ -36,6 +34,8 @@ export default @hot(module)
     fetchArticles,
     fetchTags
 })
+
+@hot(module)
 @withStyles(styles)
 class HomeHome extends React.Component {
     static propTypes = {

@@ -33,9 +33,6 @@ class ApplicationController < ActionController::Base
   # Set flash to headers if ajax request
   after_action :flash_to_headers
 
-  # Set meta to headers
-  after_action :meta_to_headers
-
   def set_locale
     I18n.locale =
       if params[:locale].present?
@@ -136,6 +133,7 @@ class ApplicationController < ActionController::Base
   def titleize(page_title)
     base_title = page_title
     base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
+    base_title += " - #{ENV['WEBSITE_NAME']}"
 
     base_title.html_safe
   end
@@ -143,6 +141,7 @@ class ApplicationController < ActionController::Base
   def titleize_admin(page_title)
     base_title = "(ADMIN) | #{page_title}"
     base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
+    base_title += " - #{ENV['WEBSITE_NAME']}"
 
     base_title.html_safe
   end
@@ -186,13 +185,13 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) do |user_params|
-      user_params.permit(:pseudo, :email, :password, :password_confirmation, :professional, :professional_type)
+      user_params.permit(:pseudo, :email, :password, :password_confirmation)
     end
     devise_parameter_sanitizer.permit(:sign_in) do |user_params|
       user_params.permit(:login, :pseudo, :email, :password, :remember_me)
     end
     devise_parameter_sanitizer.permit(:account_update) do |user_params|
-      user_params.permit(:pseudo, :email, :password, :password_confirmation, :current_password)
+      user_params.permit(:pseudo, :email, :password)
     end
   end
 
@@ -238,8 +237,9 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(_resource)
-    previous_path = request.referer && URI.parse(request.referer).path
-    previous_path || root_path
+    # previous_path = request.referer && URI.parse(request.referer).path
+    # previous_path || root_path
+    root_path
   end
 
   def admin_or_authorize(model = nil, method = nil)
@@ -259,13 +259,23 @@ class ApplicationController < ActionController::Base
     Geocoder::Calculations.bounding_box(ip_coordinates, distance) if ip_coordinates != [0, 0]
   end
 
-  # Add pagination for active model serializer
-  def meta_pagination_attributes(resource, extra_meta = {})
-    {
-      current_page: resource.current_page,
-      total_pages:  resource.total_pages,
-      total_count:  resource.total_count
-    }.merge(extra_meta)
+  # Format meta data for active model serializer
+  def meta_attributes(attributes = {})
+    meta_data = {}
+
+    if attributes[:pagination]
+      meta_data.merge!(pagination: {
+        current_page: attributes[:pagination].current_page,
+        total_pages:  attributes[:pagination].total_pages,
+        total_count:  attributes[:pagination].total_count
+      })
+    end
+
+    if meta_tags&.meta_tags.present?
+      meta_data.merge!(metaTags: meta_tags.meta_tags)
+    end
+
+    return meta_data
   end
 
   def honeypot_protection
@@ -376,26 +386,6 @@ class ApplicationController < ActionController::Base
 
       Raven.extra_context(params: params.to_unsafe_h, url: request.url)
     end
-  end
-
-  def meta_to_headers
-    return if !json_request? || meta_tags.meta_tags.blank? || response.status == 302
-
-    # Convert to simple hash
-    head_tags = {}
-    meta_tags.meta_tags.map do |key, tag|
-      if tag.is_a?(Hash)
-        tag.map do |subkey, subtag|
-          head_tags["#{key}_#{subkey}"] = subtag
-        end
-      else
-        head_tags[key] = tag
-      end
-    end
-
-    # avoiding XSS injections
-    meta_json                       = Hash[head_tags.map { |k, v| [k, ERB::Util.h(v)] }].to_json
-    response.headers['X-Meta-Tags'] = meta_json
   end
 
   def flash_to_headers

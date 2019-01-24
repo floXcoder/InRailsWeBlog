@@ -34,7 +34,7 @@ class Login extends React.PureComponent {
         this.props.loginUser(values.toJS())
             .then((response) => {
                 if (response && response.errors) {
-                    Notification.error(response.errors, 10);
+                    Notification.error(response.errors);
                 } else {
                     if (sessionStorage) {
                         sessionStorage.setItem('user-connection', 'true');

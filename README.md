@@ -11,7 +11,11 @@ Each user start with a default private topic, named "Default".
 ### Topics
 
 All articles are created inside a topic.
-A user can create any topics he wants. All articles will be associated to the current topic.
+A user can create any topics he wants. New articles will be associated to the current topic.
+
+There are two types of topics:
+* Default topics: collection of note articles
+* Stories topics: collection of story articles, display as a timeline
 
 ### Articles
 
@@ -24,9 +28,9 @@ An article cannot mix public and private tags.
 An article from a private topic can be shared with other users or groups. Or publicly with a dedicated link.
 
 Articles types:
-* Article: default mode
+* Note: default mode 
+* Story: articles of a stories topic 
 * Link: link as title (title is still used for link name)
-* Note: not used for now 
 
 ### Tags
 
@@ -38,6 +42,10 @@ Two categories of tags: parent or child. The association to an article define th
 ### Search
 
 Search is performed by default in the current topic and look for content in all articles and tags.
+
+### Share
+
+Public topics can shared with other users (contributors). Contributors can add or edit articles inside the topic. 
 
 ### Group
 

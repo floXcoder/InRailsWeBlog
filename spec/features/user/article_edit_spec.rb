@@ -26,7 +26,7 @@ feature 'Article Edit page for users', advanced: true, js: true do
       let(:content) {
         {
           current_page: edit_article_page,
-          title:        t('views.article.edit.title', title: @article.title),
+          title:        t('views.article.edit.title', title: @article.title, topic: @topic.name),
           asset_name:   'assets/user',
           common_js:    ['assets/runtime', 'assets/user'],
           connected:    true

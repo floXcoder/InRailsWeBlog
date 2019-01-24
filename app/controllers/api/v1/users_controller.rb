@@ -56,12 +56,13 @@ module Api::V1
           expires_in CONFIG.cache_time, public: true
           set_meta_tags title:       titleize(I18n.t('views.user.index.title')),
                         description: I18n.t('views.user.index.description')
+
           render :index, locals: { users: users }
         end
         format.json do
           render json:            users,
                  each_serializer: UserSampleSerializer,
-                 meta:            meta_pagination_attributes(users)
+                 meta:            meta_attributes(pagination: users)
         end
       end
     end
@@ -109,7 +110,8 @@ module Api::V1
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
             User.track_views(user.id)
             render json:       user,
-                   serializer: UserCompleteSerializer
+                   serializer: UserCompleteSerializer,
+                   meta:       meta_attributes
           elsif params[:profile] && current_user&.id == user.id
             topic_slug = if params[:topic_slug].present?
                            params[:topic_slug]
@@ -118,8 +120,8 @@ module Api::V1
                          end
 
             if topic_slug && current_user.current_topic.slug != topic_slug
-              topic = Topic.friendly.find(topic_slug)
-              user.switch_topic(topic) && user.save if topic.user_id == user.id
+              topic = Topic.friendly.find_by(slug: topic_slug)
+              user.switch_topic(topic) && user.save if topic && topic.user_id == user.id
             end
 
             render json:       user,
@@ -127,7 +129,8 @@ module Api::V1
           else
             User.track_views(user.id)
             render json:       user,
-                   serializer: UserSerializer
+                   serializer: UserSerializer,
+                   meta:       meta_attributes
           end
         end
       end
@@ -144,7 +147,7 @@ module Api::V1
         format.json do
           render json:            user_comments,
                  each_serializer: CommentFullSerializer,
-                 meta:            meta_pagination_attributes(user_comments)
+                 meta:            meta_attributes(pagination: user_comments)
         end
       end
     end
@@ -209,7 +212,7 @@ module Api::V1
           render json:            user_activities,
                  each_serializer: PublicActivitiesSerializer,
                  root:            'activities',
-                 meta:            meta_pagination_attributes(user_activities)
+                 meta:            meta_attributes(pagination: user_activities)
         end
       end
     end

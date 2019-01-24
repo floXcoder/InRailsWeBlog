@@ -27,6 +27,8 @@ const AutocompleteRecord = new Record({
 
     query: undefined,
 
+    metaTags: new Map(),
+
     actionKey: undefined,
     highlightedTagIndex: undefined,
 
@@ -85,6 +87,8 @@ const SearchRecord = new Record({
     articleActiveFilters: new Map(),
 
     query: undefined,
+
+    metaTags: new Map(),
 
     selectedTags: new List(),
 
@@ -162,6 +166,10 @@ const _parseSearchResults = (searchState, action) => {
     }
     if (action.articleFilters) {
         newState.articleActiveFilters = searchState.articleActiveFilters.concat(action.articleFilters);
+    }
+
+    if (action.meta && action.meta.metaTags) {
+        newState.metaTags = action.meta.metaTags;
     }
 
     return searchState.merge(newState);

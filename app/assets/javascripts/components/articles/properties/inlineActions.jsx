@@ -36,7 +36,7 @@ const ArticleInlineActions = ({classes, onSaveClick, onCancelClick, onDeleteClic
 );
 
 ArticleInlineActions.propTypes = {
-    classes: PropTypes.string.isRequired,
+    classes: PropTypes.object.isRequired,
     onSaveClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
@@ -49,4 +49,4 @@ ArticleInlineActions.defaultProps = {
     color: 'action'
 };
 
-export default React.memo(ArticleInlineActions);
+export default ArticleInlineActions;

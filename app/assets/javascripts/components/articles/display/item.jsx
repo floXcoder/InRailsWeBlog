@@ -1,6 +1,11 @@
 'use strict';
 
 import {
+    lazy,
+    Suspense
+} from 'react';
+
+import {
     inlineEditArticle
 } from '../../../actions';
 
@@ -11,18 +16,20 @@ import {
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
 import ArticleGridDisplay from './grid';
-import ArticleInlineEditionDisplay from './inlineEdition';
+const ArticleInlineEditionDisplay = lazy(() => import(/* webpackChunkName: "article-item-edition" */ './inlineEdition'));
 
 export default @connect((state, props) => ({
     isOwner: getArticleIsOwner(state, props.article)
 }), {
     inlineEditArticle
 })
+
 class ArticleItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         articleDisplayMode: PropTypes.string.isRequired,
         articleEditionId: PropTypes.number,
+        hasCardActions: PropTypes.bool,
         isMinimized: PropTypes.bool,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
@@ -33,6 +40,7 @@ class ArticleItemDisplay extends React.Component {
     };
 
     static defaultProps = {
+        hasCardActions: true,
         isMinimized: false
     };
 
@@ -51,8 +59,10 @@ class ArticleItemDisplay extends React.Component {
     render() {
         if (this.props.articleDisplayMode === 'edit' || this.props.articleEditionId === this.props.article.id) {
             return (
-                <ArticleInlineEditionDisplay article={this.props.article}
-                                             isOwner={this.props.isOwner}/>
+                <Suspense fallback={<div/>}>
+                    <ArticleInlineEditionDisplay article={this.props.article}
+                                                 isOwner={this.props.isOwner}/>
+                </Suspense>
             );
         } else if (this.props.articleDisplayMode === 'inline') {
             return (
@@ -71,6 +81,7 @@ class ArticleItemDisplay extends React.Component {
             return (
                 <ArticleCardDisplay article={this.props.article}
                                     isOwner={this.props.isOwner}
+                                    hasActions={this.props.hasCardActions}
                                     isMinimized={this.props.isMinimized}
                                     onInlineEdit={this._handleInlineEditClick}
                                     onEnter={this.props.onEnter}

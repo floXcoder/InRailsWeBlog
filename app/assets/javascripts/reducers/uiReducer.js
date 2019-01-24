@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    Record
+    Record,
+    List
 } from 'immutable';
 
 import * as ActionTypes from '../constants/actionTypes';
@@ -19,11 +20,15 @@ const initState = new Record({
     articleDisplayMode: 'card',
     articleOrderMode: undefined,
 
+    areArticlesMinimized: false,
+    currentArticles: new List(),
+
     tagOrderMode: undefined
 });
 
 export default function uiReducer(state = new initState(), action) {
     switch (action.type) {
+        // UI states
         case ActionTypes.UI_SWITCH_USER_SIGNUP:
             return state.merge({
                 isUserSignupOpen: !state.isUserSignupOpen
@@ -51,6 +56,20 @@ export default function uiReducer(state = new initState(), action) {
             return state.merge({
                 articleOrderMode: action.order
             });
+        case ActionTypes.UI_SWITCH_ARTICLE_MINIMIZED:
+            return state.merge({
+                areArticlesMinimized: !state.areArticlesMinimized
+            });
+        case ActionTypes.UI_CHANGE_CURRENT_ARTICLES:
+            if(action.action === 'add') {
+                return state.merge({
+                    currentArticles: state.currentArticles.concat(action.articleId)
+                });
+            } else {
+                return state.merge({
+                    currentArticles: state.currentArticles.filter((articleId) => articleId !== action.articleId)
+                });
+            }
 
         case ActionTypes.UI_CHANGE_TAG_ORDER:
             return state.merge({
@@ -92,6 +111,7 @@ export default function uiReducer(state = new initState(), action) {
         case ActionTypes.TOPIC_FETCH_SUCCESS:
             if (action.isSwitching && action.topic && action.topic.settings) {
                 return state.merge({
+                    isTopicPopupOpen: false,
                     isTagSidebarOpen: !action.topic.settings.tagSidebarPin
                 })
             } else {

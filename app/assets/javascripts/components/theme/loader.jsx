@@ -13,5 +13,5 @@ Loader.propTypes = {
     className: PropTypes.string
 };
 
-export default React.memo(Loader);
+export default Loader;
 

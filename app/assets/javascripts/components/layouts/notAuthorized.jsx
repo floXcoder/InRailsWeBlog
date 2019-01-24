@@ -8,4 +8,4 @@ const NotAuthorized = ({}) => (
     </div>
 );
 
-export default React.memo(NotAuthorized);
+export default NotAuthorized;

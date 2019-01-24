@@ -13,12 +13,19 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
     <ul className={classes.actionButtons}>
         {
             !isInline &&
-            <li className={classes.actionItem}>
+            <li className={classes.actionItem}
+                style={{marginRight: 30}}>
                 <ArticleDeleteIcon onDeleteClick={onDeleteClick}
                                    size={size}
                                    color={color}/>
             </li>
         }
+
+        <li className={classes.actionItem}>
+            <ArticleBookmarkIcon articleId={articleId}
+                                 size={size}
+                                 color={color}/>
+        </li>
 
         {
             !isInline &&
@@ -31,6 +38,14 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
             </li>
         }
 
+        <li className={classes.actionItem}>
+            <ArticleVisibilityIcon articleId={articleId}
+                                   articleVisibility={articleVisibility}
+                                   onVisibilityClick={onVisibilityClick}
+                                   size={size}
+                                   color={color}/>
+        </li>
+
         {
             (!isInline && userSlug) &&
             <li className={classes.actionItem}>
@@ -40,20 +55,6 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
                                     color={color}/>
             </li>
         }
-
-        <li className={classes.actionItem}>
-            <ArticleVisibilityIcon articleId={articleId}
-                                   articleVisibility={articleVisibility}
-                                   onVisibilityClick={onVisibilityClick}
-                                   size={size}
-                                   color={color}/>
-        </li>
-
-        <li className={classes.actionItem}>
-            <ArticleBookmarkIcon articleId={articleId}
-                                 size={size}
-                                 color={color}/>
-        </li>
 
         {
             userSlug &&
@@ -104,4 +105,4 @@ ArticleActions.defaultProps = {
     color: 'action'
 };
 
-export default React.memo(ArticleActions);
+export default ArticleActions;

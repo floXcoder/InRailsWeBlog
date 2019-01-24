@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Suspense
+} from 'react';
+
+import {
     Switch,
     Route
 } from 'react-router-dom';
@@ -58,16 +62,18 @@ class MainLayoutHome extends React.Component {
 
                                    return (
                                        <main className={classNames(this.props.classes.content)}>
-                                           <div className={this.props.classes.layout}>
-                                               {
-                                                   this._renderPermanentRoutes(this.props.permanentRoutes)
-                                               }
+                                           <Suspense fallback={<div/>}>
+                                               <div className={this.props.classes.layout}>
+                                                   {
+                                                       this._renderPermanentRoutes(this.props.permanentRoutes)
+                                                   }
 
-                                               <Component params={router.match.params}
-                                                          queryString={router.location.search}
-                                                          history={router.history}
-                                                          initialData={router.location.state}/>
-                                           </div>
+                                                   <Component params={router.match.params}
+                                                              queryString={router.location.search}
+                                                              history={router.history}
+                                                              initialData={router.location.state}/>
+                                               </div>
+                                           </Suspense>
                                        </main>
                                    )
                                }}/>

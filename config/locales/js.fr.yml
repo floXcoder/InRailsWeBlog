@@ -101,6 +101,9 @@ fr:
         public:
           title: "Vos thèmes publiques"
           subtitle: "Les articles seront partagés pour tout le mondes (avec les labels communs)"
+        shared:
+          title: "Vos thèmes partagés"
+          subtitle: "Les thèmes partagés avec vous par d'autres utilisateurs"
         add_topic: "Ajouter un thème"
       index:
         link_to_user: "Détails de l'utilisateur"
@@ -221,24 +224,39 @@ fr:
         user_current_topic: "Thème en cours"
       model:
         name: "Nom"
+        mode: "Type"
+        description: "Détails"
         visibility: "Visibilité"
       enums:
         visibility:
           everyone: "Public"
           only_me: "Privé"
-        visibility_order:
-          - everyone
-          - only_me
+        mode:
+          default: "Défaut"
+          stories: "Histoire"
       new:
         title: "Ajouter un thème"
-        input: "Nom du thème"
+        name: "Nom du thème"
+        mode: "Type"
+        description: "Détails du thème"
         cancel: "Annuler"
         submit: "Ajouter"
       edit:
         title: "Modifier le thème"
-        input: "Nom du thème"
+        name: "Nom du thème"
+        mode: "Type"
+        description: "Détails du thème"
         delete: "Supprimer"
         submit: "Mettre à jour"
+      share:
+        title: "Partager le thème"
+        form:
+          user_name: "Pseudo ou email utilisateur"
+          submit: "Partager"
+        cancel: "Annuler"
+        errors:
+          user_empty: "Merci de renseigner le pseudo ou email"
+          unknown: "Utilisateur non trouvé"
     tag:
       common:
         list: "Labels"
@@ -282,9 +300,6 @@ fr:
         visibility:
           everyone: "Public"
           only_me: "Privé"
-        visibility_order:
-          - everyone
-          - only_me
       index:
         titles:
           topic: "Labels associés au thème : %{topic}"
@@ -331,7 +346,8 @@ fr:
           loading: "Chargement des articles ..."
         placeholders:
           title:
-            story: "Titre de votre article"
+            note: "Titre de votre article"
+            story: "Titre de votre story"
           reference:
             note: "Lien vers la source d'origine"
             story: "Lien vers la source d'origine"
@@ -355,7 +371,10 @@ fr:
           content_too_short: "Le contenu est trop court"
         no_results:
           topic:
-            title: "Pas d'articles associés à ce thème"
+            title:
+              default: "Pas d'articles associés à ce thème"
+              tag: "Pas d'articles associés à ce thème pour ce label"
+              child_tag: "Pas d'articles associés à ce thème pour ce sous-label"
             content: "Ajouter de nouveau article en cliquant que le bouton ci-dessous"
             button: "Ajouter nouvel article"
           search:
@@ -387,9 +406,6 @@ fr:
         visibility:
           everyone: "Public"
           only_me: "Privé"
-        visibility_order:
-          - everyone
-          - only_me
         mode:
           story: "Article"
           note: "Note"
@@ -429,8 +445,13 @@ fr:
       vote:
         added: "Votre vote a été pris en compte"
       show:
-        new_tags: "Ajouter des synonymes ou description aux nouveaux labels ajoutés :"
+        stories:
+          previous: "Story précédente"
+          next: "Story suivante"
       new:
+        meta:
+          title: "Nouvel article - %{topic} - InRailsWeBlog"
+          description: "Ajout d'un article - InRailsWeBlog"
         title: "Créer un nouvel article"
         tags:
           title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
@@ -445,10 +466,10 @@ fr:
       sort:
         title: "Tirer par"
         order:
-          priority: "Priorité"
-          tag: "Label"
-          date_desc: "Plus récent"
-          date_asc: "Plus ancien"
+          priority_desc: "Priorité"
+          tag_asc: "Label"
+          updated_desc: "Plus récent"
+          updated_asc: "Plus ancien"
         link_title: "Changer ordre"
         link: "Changer la priorité"
       filter:
@@ -464,6 +485,7 @@ fr:
         no_articles: "Pas d'articles à afficher"
       toc:
         title: "Table des matières"
+        no_articles: "Pas encore d'articles"
       clipboard: "Article temporaire créé avec les données copiées"
       errors:
         default: "Impossible de créer l'article ! Merci de réessayer."

@@ -25,6 +25,7 @@ import {
 } from '../../actions';
 
 import {
+    getSearchMetaTags,
     getSelectedTags,
     getArticleSuggestions,
     getTagSuggestions,
@@ -32,20 +33,21 @@ import {
     getSearchArticles
 } from '../../selectors';
 
+import HeadLayout from '../layouts/head';
+
+import EnsureValidity from '../modules/ensureValidity';
+
+import ArticleBreadcrumbDisplay from '../articles/display/breadcrumb';
+
 import SearchSuggestionIndex from './index/suggestion';
 import SearchSelectedIndex from './index/selected';
 import SearchTagIndex from './index/tag';
 import SearchArticleIndex from './index/article';
 
-import ArticleBreadcrumbDisplay from '../articles/display/breadcrumb';
-
-import EnsureValidity from '../modules/ensureValidity';
-
 import styles from '../../../jss/search/index';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
+    metaTags: getSearchMetaTags(state),
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
     currentUserTopicId: state.topicState.currentUserTopicId,
@@ -63,11 +65,13 @@ export default @hot(module)
     fetchSearch,
     filterSearch
 })
+@hot(module)
 @withStyles(styles)
 class SearchIndex extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // from connect
+        metaTags: PropTypes.object,
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
         currentUserTopicId: PropTypes.number,
@@ -183,6 +187,8 @@ class SearchIndex extends React.Component {
     render() {
         return (
             <div className={this.props.classes.root}>
+                <HeadLayout metaTags={this.props.metaTags}/>
+
                 {
                     (this.props.currentUser && this.props.currentTopic) &&
                     <div className={this.props.classes.breadcrumb}>

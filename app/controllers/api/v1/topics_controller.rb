@@ -25,7 +25,7 @@ module Api::V1
 
     def switch
       user  = User.friendly.find(params[:user_id])
-      topic = user.topics.friendly.find(params[:new_topic])
+      topic = user.topics.friendly.find_by(id: params[:new_topic]) || user.contributed_topics.friendly.find_by(id: params[:new_topic])
       authorize topic
 
       respond_to do |format|
@@ -98,6 +98,28 @@ module Api::V1
       end
     end
 
+    def share
+      topic = Topic.find(params[:id])
+      authorize topic
+
+      shared_topic = ::Shares::StoreService.new(topic, params[:login], current_user: current_user).perform
+
+      respond_to do |format|
+        format.json do
+          flash.now[:success] = shared_topic.message
+          if shared_topic.success?
+            render json:       shared_topic.result,
+                   serializer: TopicSerializer,
+                   status:     :ok
+          else
+            flash.now[:error] = shared_topic.message
+            render json:   { errors: shared_topic.errors },
+                   status: :unprocessable_entity
+          end
+        end
+      end
+    end
+
     def destroy
       user  = User.find(params[:user_id])
       topic = Topic.find(params[:id])
@@ -131,6 +153,7 @@ module Api::V1
 
     def topic_params
       params.require(:topic).permit(:name,
+                                    :mode,
                                     :description,
                                     :priority,
                                     :visibility,

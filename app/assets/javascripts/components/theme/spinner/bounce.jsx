@@ -14,4 +14,4 @@ BounceSpinner.propTypes = {
     className: PropTypes.string
 };
 
-export default React.memo(BounceSpinner);
+export default BounceSpinner;

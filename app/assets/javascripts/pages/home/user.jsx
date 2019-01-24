@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/home/user.scss';
+
 import {
     AppContainer
 } from 'react-hot-loader';

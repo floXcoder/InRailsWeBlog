@@ -72,7 +72,10 @@ fr:
         successful_deletion: "L'article a été supprimé"
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
       index:
-        title: "Labels de l'utilisateur : %{user}"
+        title:
+          default: "Liste des labels"
+          user: "Labels de l'utilisateur : %{user}"
+          topic: "Labels du thème : %{topic}"
       show:
         title: "Label : %{name}"
       edit:
@@ -96,10 +99,13 @@ fr:
           tagged: "Articles pour %{tag}"
           topic: "Articles de %{topic}"
       show:
-        title: "%{title}"
+        title: "%{title} - %{topic}"
       edit:
-        title: "Modification de l'article : %{title}"
-        description: "Modification de l'article : %{title}"
+        title: "Modification de %{title} - %{topic}"
+        description: "Modification de l'article : %{title} - %{topic}"
+      history:
+        title: "Historique de %{title} - %{topic}"
+        description: "Historique de l'article : %{title} - %{topic}"
     picture:
       flash:
         successful_deletion: "L'image a bien été supprimée"
@@ -114,14 +120,22 @@ fr:
         error_edition: "Problème lors de la mise à jour du commentaire"
         successful_deletion: "Commentaire supprimé"
         error_deletion: "Problème lors de la suppression du commentaire"
+    search:
+      index:
+        title: "Recherche : %{query}"
+    share:
+      success:
+        message: "Thème partagé avec : %{user}"
+      errors:
+        user_not_found: "Utilisateur inconnu"
+        private_shareable: "Un élément privé ne peut être partagé"
+        already_shared: "Déjà partagé avec cet utilisateur"
+        creation: "Impossible d'ajouter ce partage"
     admin:
       login:
         title: "Se connecter (Admin)"
       dashboard:
         title: "Admin"
-    search:
-      index:
-        title: "Votre recherche : %{query}"
     errors:
       flash:
         successful_deletion: "L'erreur a bien été supprimée"
@@ -166,6 +180,20 @@ fr:
       visibility:
         everyone: "Public"
         only_me: "Privé"
+  topic:
+    default_name: "Défaut"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
+      mode:
+        default: "Défaut"
+        stories: "Histoire"
+  tag:
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
   article:
     enums:
       visibility:
@@ -175,17 +203,10 @@ fr:
         story: "Article"
         note: "Note"
         link: "Lien"
-  tag:
+  share:
     enums:
-      visibility:
-        everyone: "Public"
-        only_me: "Privé"
-  topic:
-    default_name: "Défaut"
-    enums:
-      visibility:
-        everyone: "Public"
-        only_me: "Privé"
+      mode:
+        complete: "Autorisation totale"
   admin:
     dashboard:
       title: "Admin"
@@ -255,6 +276,8 @@ fr:
           already_tagged: "Ce label existe déjà pour cet article"
           incorrect_tag_affiliation: "Ce label ne peut être appliqué à l'article car il n'appartient pas au même thème"
           incorrect_topic_affiliation: "Ce label ne peut être appliqué à l'article car l'article n'est pas associé au thème courant"
+        share:
+          already_shared: "Élément déjà partagé avec cet utilisateur"
         bookmark:
           already_bookmarked: "Élément déjà ajouté aux favoris !"
           model_unknown: "Impossible d'ajouter ou de supprimer cet élément dans les favoris"

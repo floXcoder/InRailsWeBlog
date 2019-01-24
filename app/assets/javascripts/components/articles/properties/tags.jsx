@@ -78,15 +78,18 @@ class ArticleTags extends React.PureComponent {
                               className={this.props.classes.parent}>
                                 <Chip component={Link}
                                       id={`article-${this.props.articleId}-tags-${tag.id}`}
+                                      classes={{
+                                          label: this.props.classes.tag
+                                      }}
                                       to={`/tagged/${tag.slug}`}
+                                      label={tag.name}
+                                      variant="outlined"
+                                      color="primary"
+                                      icon={<LabelIcon/>}
+                                      clickable={true}
                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
                                       onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
-                                      onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}
-                                      icon={<LabelIcon/>}
-                                      label={tag.name}
-                                      clickable={true}
-                                      variant="outlined"
-                                      color="primary"/>
+                                      onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}/>
 
                             {
                                 this.props.hasTooltip &&
@@ -104,15 +107,18 @@ class ArticleTags extends React.PureComponent {
                               className={this.props.classes.child}>
                             <Chip component={Link}
                                   id={`article-${this.props.articleId}-tags-${tag.id}`}
+                                  classes={{
+                                      label: this.props.classes.tag
+                                  }}
                                   to={`/tagged/${tag.slug}`}
+                                  label={tag.name}
+                                  variant="outlined"
+                                  color="default"
+                                  icon={<LabelIcon/>}
+                                  clickable={true}
                                   onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
                                   onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
-                                  onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}
-                                  icon={<LabelIcon/>}
-                                  label={tag.name}
-                                  clickable={true}
-                                  variant="outlined"
-                                  color="default"/>
+                                  onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}/>
 
                             {
                                 this.props.hasTooltip &&

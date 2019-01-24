@@ -77,7 +77,8 @@ const styles = (theme) => ({
         color: 'inherit'
     },
     articleContent: {
-        paddingTop: 4
+        paddingTop: 4,
+        paddingBottom: '4px !important'
     },
     articleTags: {
         marginTop: theme.spacing.unit,

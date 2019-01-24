@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: articles
@@ -7,7 +6,7 @@
 #  id                      :bigint(8)        not null, primary key
 #  user_id                 :bigint(8)
 #  topic_id                :bigint(8)
-#  mode                    :integer          default("story"), not null
+#  mode                    :integer          default("note"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
 #  content_translations    :jsonb            not null
@@ -28,6 +27,7 @@
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  contributor_id          :bigint(8)
 #
 
 FactoryBot.define do
@@ -36,14 +36,14 @@ FactoryBot.define do
     # user
     # topic
 
-    mode            { 'story' }
+    mode            { 'note' }
     title           { Faker::Lorem.sentence } # title_translations
     summary         { Faker::Lorem.paragraph(1, false) } # summary_translations
     content         { Faker::Lorem.paragraph(1..20) } # content_translations
     languages       { ['fr'] }
     reference       { Faker::Internet.url }
-    notation        { 0 }
-    priority        { 0 }
+    notation        { Random.rand(1..5) }
+    priority        { Random.rand(0..100) }
     visibility      { 'everyone' }
     allow_comment   { true }
     draft           { false }

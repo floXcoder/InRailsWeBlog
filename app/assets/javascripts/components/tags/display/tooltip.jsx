@@ -3,11 +3,9 @@
 import ToolTip from 'react-portal-tooltip';
 
 import {
-    Link
-} from 'react-router-dom';
-
-import { withStyles } from '@material-ui/core/styles';
-import { withTheme } from '@material-ui/core/styles';
+    withStyles,
+    withTheme
+} from '@material-ui/core/styles';
 
 import {
     spyTrackClick
@@ -16,8 +14,8 @@ import {
 import styles from '../../../../jss/article/tooltip';
 
 export default @withTheme()
-@withStyles(styles)
 
+@withStyles(styles)
 class TooltipTag extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
@@ -55,10 +53,10 @@ class TooltipTag extends React.PureComponent {
                         </p>
 
                         <div className="margin-top-10">
-                            <Link to={`/tags/${tag.slug}`}
-                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
+                            <a href={`/tags/${tag.slug}`}
+                               onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                 {I18n.t('js.tag.common.link')}
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -26,21 +26,26 @@ class ArticleFilterMenu extends React.Component {
         selectedIndex: 1,
     };
 
-    handleClickListItem = event => {
-        this.setState({anchorEl: event.currentTarget});
+    _handleClickListItem = event => {
+        this.setState({
+            anchorEl: event.currentTarget
+        });
     };
 
-    handleMenuItemClick = (event, index) => {
-        this.setState({selectedIndex: index, anchorEl: null});
+    _handleMenuItemClick = (event, index) => {
+        this.setState({
+            selectedIndex: index,
+            anchorEl: null
+        });
     };
 
-    handleClose = () => {
-        this.setState({anchorEl: null});
+    _handleClose = () => {
+        this.setState({
+            anchorEl: null
+        });
     };
 
     render() {
-        const {anchorEl} = this.state;
-
         let options = [
             <Link key={1}
                   className={this.props.classes.buttonLink}
@@ -57,19 +62,19 @@ class ArticleFilterMenu extends React.Component {
         return (
             <>
                 <Button className={this.props.classes.button}
-                        variant="outlined"
-                        onClick={this.handleClickListItem}>
+                        variant="text"
+                        onClick={this._handleClickListItem}>
                     {I18n.t('js.article.filter.title')}
                 </Button>
 
-                <Menu anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={this.handleClose}>
+                <Menu anchorEl={this.state.anchorEl}
+                      open={Boolean(this.state.anchorEl)}
+                      onClose={this._handleClose}>
                     {
                         options.map((option, index) => (
                             <MenuItem key={index}
                                       selected={index === this.state.selectedIndex}
-                                      onClick={event => this.handleMenuItemClick(event, index)}>
+                                      onClick={event => this._handleMenuItemClick(event, index)}>
                                 {option}
                             </MenuItem>
                         ))

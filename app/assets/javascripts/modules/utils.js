@@ -92,7 +92,6 @@ Array.prototype.remove = function (item) {
     }
 };
 
-// Not used
 Array.prototype.addOrRemove = function (item) {
     if (this && item) {
         return this.includes(item) ? this.remove(item) : this.concat(item);

@@ -14,8 +14,10 @@ import {
 } from '../../actions';
 
 import {
+    getArticleMetaTags,
+    getArticleIsOwner,
     getCurrentUserTopicVisibility,
-    getCurrentLocale,
+    getCurrentLocale
 } from '../../selectors';
 
 import articleMutationManager from './managers/mutation';
@@ -25,20 +27,22 @@ import ArticleFormDisplay from './display/form';
 
 import Loader from '../theme/loader';
 
+import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
 import styles from '../../../jss/article/form';
 
-export default @hot(module)
-
-@articleMutationManager('edit', `article-${Utils.uuid()}`)
-@connect((state) => ({
+export default @articleMutationManager('edit', `article-${Utils.uuid()}`)
+@connect((state, props) => ({
+    metaTags: getArticleMetaTags(state),
     userSlug: state.userState.currentSlug,
+    isOwner: getArticleIsOwner(state, props.article),
     inheritVisibility: getCurrentUserTopicVisibility(state)
 }), {
     setCurrentTags,
     switchTagSidebar
 })
+@hot(module)
 @withStyles(styles)
 class ArticleEdit extends React.Component {
     static propTypes = {
@@ -51,10 +55,10 @@ class ArticleEdit extends React.Component {
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
         onSubmit: PropTypes.func,
-        // isInline: PropTypes.bool,
-        // currentMode: PropTypes.string,
         // from connect
+        metaTags: PropTypes.object,
         userSlug: PropTypes.string,
+        isOwner: PropTypes.bool,
         inheritVisibility: PropTypes.string,
         setCurrentTags: PropTypes.func,
         switchTagSidebar: PropTypes.func,
@@ -85,7 +89,7 @@ class ArticleEdit extends React.Component {
     }
 
     render() {
-        if (!this.props.article) {
+        if (!this.props.article || !this.props.currentUser || !this.props.currentTopic) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -93,7 +97,7 @@ class ArticleEdit extends React.Component {
             );
         }
 
-        if (!this.props.currentUser || this.props.currentUser.id !== this.props.article.user.id) {
+        if (!this.props.isOwner) {
             return (
                 <div className="center margin-top-20">
                     <NotAuthorized/>
@@ -115,6 +119,8 @@ class ArticleEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
+                <HeadLayout metaTags={this.props.metaTags}/>
+
                 <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&

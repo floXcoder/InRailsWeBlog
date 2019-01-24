@@ -23,8 +23,7 @@ import ArticleSorter from './sort/sorter';
 
 import styles from '../../../jss/article/sort';
 
-export default @hot(module)
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
@@ -34,6 +33,7 @@ export default @hot(module)
     fetchArticles,
     updateArticlePriority
 })
+@hot(module)
 @withStyles(styles)
 class ArticleSort extends React.Component {
     static propTypes = {

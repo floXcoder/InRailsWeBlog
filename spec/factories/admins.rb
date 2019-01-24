@@ -34,9 +34,9 @@ FactoryBot.define do
     sequence(:email)      { |n| "admin_#{n + 1}@example.com" }
     additional_info       { 'Personal information' }
     locale                { 'fr' }
-    settings              { {} }
     password              { 'password' }
     password_confirmation { 'password' }
+    # settings              { {} }
 
     # after(:build) { |admin| admin.class.skip_callback(:create, :after, :create_blog_environment, raise: false) }
 

@@ -32,4 +32,4 @@ SearchBar.propTypes = {
     children: PropTypes.string
 };
 
-export default React.memo(SearchBar);
+export default SearchBar;

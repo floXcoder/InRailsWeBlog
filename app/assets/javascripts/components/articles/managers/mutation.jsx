@@ -37,9 +37,11 @@ import {
     getDisplayName
 } from '../../modules/common';
 
-const waitTimeBeforeSaving = 10000;
-const temporaryDataName = 'article-temporary';
-const unsavedDataName = 'article-unsaved';
+import {
+    articleWaitTimeBeforeSaving,
+    articleTemporaryDataName,
+    articleUnsavedDataName
+} from '../../modules/constants';
 
 export default function articleMutationManager(mode, formId) {
     return function articleMutation(WrappedComponent) {
@@ -90,7 +92,7 @@ export default function articleMutationManager(mode, formId) {
                 super(props);
 
                 // Check fo unsaved article before connection
-                const unsavedArticle = getLocalData(unsavedDataName, true);
+                const unsavedArticle = getLocalData(articleUnsavedDataName, true);
 
                 if (props.params.articleSlug) {
                     props.fetchArticle(props.params.articleSlug, {edit: true});
@@ -108,7 +110,7 @@ export default function articleMutationManager(mode, formId) {
                     }
 
                     if (props.initialData.temporary) {
-                        const temporaryArticle = getLocalData(temporaryDataName, true);
+                        const temporaryArticle = getLocalData(articleTemporaryDataName, true);
                         if (temporaryArticle && temporaryArticle.length > 0) {
                             this.state.article = temporaryArticle.first().article;
                         }
@@ -166,9 +168,20 @@ export default function articleMutationManager(mode, formId) {
                 window.onbeforeunload = isUnsaved ? (() => leaveMessage) : null;
             };
 
+            _handleCancel = () => {
+                if (this.state.article && this.state.article.id) {
+                    return;
+                }
+
+                const temporaryArticle = getLocalData(articletemporaryDataName);
+                if (temporaryArticle && temporaryArticle.length > 0) {
+                    removeLocalData(articletemporaryDataName);
+                }
+            };
+
             _handleChange = _.debounce((values) => {
                 this._handleSubmit(values, true);
-            }, waitTimeBeforeSaving);
+            }, articleWaitTimeBeforeSaving);
 
             _handleSubmit = (values, autoSave = false) => {
                 if (!values) {
@@ -177,6 +190,7 @@ export default function articleMutationManager(mode, formId) {
 
                 let formData = values.toJS();
 
+                // If article exists update the current article
                 if (this.state.article && this.state.article.id) {
                     formData.id = this.props.article.id;
 
@@ -194,6 +208,7 @@ export default function articleMutationManager(mode, formId) {
                                 });
                             }
                         });
+                    // For new articles, save it locally only
                 } else {
                     let tagParams = {};
                     if (this.state.article) {
@@ -219,13 +234,13 @@ export default function articleMutationManager(mode, formId) {
                     }
 
                     if (autoSave === true) {
-                        saveLocalData(temporaryDataName, {
+                        saveLocalData(articleTemporaryDataName, {
                             article: formData
                         }, false);
                     } else {
                         if (!this.props.isUserConnected) {
                             // Save article in local storage to get it back after reload
-                            saveLocalData(unsavedDataName, {
+                            saveLocalData(articleUnsavedDataName, {
                                 article: formData
                             }, false);
 
@@ -233,8 +248,8 @@ export default function articleMutationManager(mode, formId) {
 
                             this.props.showUserLogin();
                         } else {
-                            removeLocalData(temporaryDataName);
-                            removeLocalData(unsavedDataName);
+                            removeLocalData(articleTemporaryDataName);
+                            removeLocalData(articleUnsavedDataName);
 
                             this.props.addArticle(formData)
                                 .then((response) => {
@@ -251,13 +266,16 @@ export default function articleMutationManager(mode, formId) {
             };
 
             render() {
-                const currentMode = this.props.initialData && this.props.initialData.mode;
-                const isInline = this.props.initialData && this.props.initialData.mode === 'note';
+                let currentMode = (this.props.initialData && this.props.initialData.mode) || 'note';
+                if(this.props.currentTopic && this.props.currentTopic.mode === 'stories') {
+                    currentMode = 'story';
+                }
+
                 const isDraft = this.props.initialData ? this.props.initialData.isDraft : false;
 
-                // Ensure article is correct (do not use previous one)
+                // Ensure current article is correct (do not use previous edited article)
                 let article = this.state.article;
-                if (mode === 'edit' && this.state.article && this.state.article.slug !== this.props.params.articleSlug) {
+                if (mode === 'edit' && this.state.article && this.state.article.id !== this.props.article.id) {
                     article = undefined;
                 }
 
@@ -265,10 +283,10 @@ export default function articleMutationManager(mode, formId) {
                     currentUser: this.props.currentUser,
                     currentTopic: this.props.currentTopic,
                     formId: formId,
+                    onCancelClick: this._handleCancel,
                     onSubmit: this._handleSubmit,
                     article: article,
                     currentMode: currentMode,
-                    isInline: isInline,
                     isDraft: isDraft,
                     articleErrors: this.props.articleErrors
                 };

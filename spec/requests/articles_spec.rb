@@ -107,12 +107,12 @@ describe 'Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns articles for topic' do
-        get '/api/v1/articles', params: { filter: { topic_id: @topic.id } }, as: :json
+      it 'returns articles for user topic' do
+        get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(6)
 
-        get '/api/v1/articles', params: { filter: { topic_id: @second_topic.id } }, as: :json
+        get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @second_topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles'].size).to eq(1)
       end
@@ -202,7 +202,7 @@ describe 'Article API', type: :request, basic: true do
     context 'when fetching articles in database' do
       it 'limits the number of database queries' do
         expect {
-          get '/api/v1/articles', params: { filter: { topic_id: @topic.id }, limit: 20 }, as: :json
+          get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @topic.id }, limit: 20 }, as: :json
         }.to make_database_queries(count: 5..10)
       end
     end
@@ -212,7 +212,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns all articles in less than 1 second' do
         expect {
-          get '/api/v1/articles', params: { filter: { topic_id: @topic.id }, limit: 1_000 }, as: :json
+          get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @topic.id }, limit: 1_000 }, as: :json
         }.to take_less_than(1).seconds
       end
     end
@@ -227,7 +227,7 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(6)
+        expect(json_articles['articles'].size).to eq(7)
       end
     end
   end
@@ -322,7 +322,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a new article associated to a specific topic if user owns the topic' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { topic_id: @second_topic.id }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { user_id: @user.id, topic_id: @second_topic.id }), as: :json
 
           expect(response).to be_json_response(201)
 
@@ -523,7 +523,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns a error if topic do not belong to current user' do
         expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { topic_id: @other_topic.id }), as: :json
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { user_id: @other_user.id, topic_id: @other_topic.id }), as: :json
 
           expect(response).to be_json_response(422)
 
@@ -563,7 +563,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns updated article with new relationships' do
         expect {
-          ::Articles::StoreService.new(@article, content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.").perform
+          ::Articles::StoreService.new(@article, content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.", current_user: @user).perform
           @article.save!
           relationships = @article.child_relationships
           expect(relationships.count).to eq(1)
@@ -595,12 +595,12 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['article']).not_to be_empty
           expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['tags'].map { |t| t['name'] }).to include('New tag 1', 'New tag 2')
+          expect(article['article']['tags'].map { |t| t['name'] }).to include('new tag 1', 'new tag 2')
           expect(article['article']['parentTagIds']).to be_empty
           expect(article['article']['childTagIds']).to be_empty
 
-          expect(TaggedArticle.where(article_id: article['article']['id']).first.tag.name).to eq('New tag 1')
-          expect(TaggedArticle.where(article_id: article['article']['id']).second.tag.name).to eq('New tag 2')
+          expect(TaggedArticle.where(article_id: article['article']['id']).first.tag.name).to eq('new tag 1')
+          expect(TaggedArticle.where(article_id: article['article']['id']).second.tag.name).to eq('new tag 2')
         }.to change(Article, :count).by(0).and change(Tag, :count).by(2).and change(TaggedArticle, :count).by(-1)
       end
 
@@ -631,7 +631,6 @@ describe 'Article API', type: :request, basic: true do
 
             article = JSON.parse(response.body)
             expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
-            expect(article['errors']['content'].first).to eq(I18n.t('errors.messages.blank'))
           }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
         end
       end
@@ -685,7 +684,7 @@ describe 'Article API', type: :request, basic: true do
   end
 
   context 'comments' do
-    before(:all) do
+    before do
       @comments = create_list(:comment, 5, user: @other_user, commentable: @relation_tags_article_2)
     end
 

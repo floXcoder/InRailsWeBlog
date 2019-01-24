@@ -25,8 +25,10 @@ module Topics
         @topic.name      = sanitized_name
       end
 
-      unless @params[:description].nil?
+      if !@params[:description].nil?
         @topic.description = Sanitize.fragment(@params.delete(:description))
+      else
+        @params.delete(:description)
       end
 
       unless @params[:icon].nil?

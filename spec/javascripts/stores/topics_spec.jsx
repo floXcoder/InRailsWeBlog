@@ -24,9 +24,11 @@ describe('Topics actions', () => {
             mock('/api/v1/topics.json?userId=1', 200, () => ({
                     topics,
                     meta: {
-                        currentPage: 1,
-                        totalPages: 3,
-                        totalCount: 26
+                        pagination: {
+                            currentPage: 1,
+                            totalPages: 3,
+                            totalCount: 26
+                        }
                     }
                 })
             );
@@ -60,7 +62,7 @@ describe('Topics actions', () => {
         it('should switch of topic', () => {
             const topic = FactoryGenerator.create('topics');
 
-            mock('/api/v1/topics/switch', 200, () => ({
+            mock('/api/v1/topics/switch.json', 200, () => ({
                     topic
                 })
             );

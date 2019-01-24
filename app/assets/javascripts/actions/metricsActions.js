@@ -14,25 +14,26 @@ import {
     getLocalData
 } from '../middlewares/localStorage';
 
-export const spyHeartbeat = (value) => {
-    if (window._paq) {
-        window._paq.push(['enableHeartBeatTimer', value]);
-    }
-};
-
-export const spyWaypoint = (eventName, positionName) => {
-    if (window._paq) {
-        window._paq.push(['trackEvent', eventName, positionName]);
-    }
-};
-
-export const spySearchForm = (type) => () => {
-    setTimeout(() => {
-        if (window._paq) {
-            window._paq.push(['trackEvent', 'Search form', type]);
-        }
-    }, 50);
-};
+// Unused for now
+// export const spyHeartbeat = (value) => {
+//     if (window._paq) {
+//         window._paq.push(['enableHeartBeatTimer', value]);
+//     }
+// };
+//
+// export const spyWaypoint = (eventName, positionName) => {
+//     if (window._paq) {
+//         window._paq.push(['trackEvent', eventName, positionName]);
+//     }
+// };
+//
+// export const spySearchForm = (type) => () => {
+//     setTimeout(() => {
+//         if (window._paq) {
+//             window._paq.push(['trackEvent', 'Search form', type]);
+//         }
+//     }, 50);
+// };
 
 export const spySearchResults = (searchParams, response) => {
     if (window._paq) {

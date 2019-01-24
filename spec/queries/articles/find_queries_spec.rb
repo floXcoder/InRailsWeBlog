@@ -6,89 +6,387 @@ describe Articles::FindQueries, type: :query, basic: true do
   subject { described_class.new }
 
   before(:all) do
-    @admin      = create(:admin)
+    @admin = create(:admin)
 
-    @user       = create(:user)
+    @user             = create(:user)
+    @public_topic     = create(:topic, user: @user, visibility: :everyone)
+    @public_articles  = create_list(:article, 5, user: @user, topic: @public_topic)
+    @private_topic    = create(:topic, user: @user)
+    @private_articles = create_list(:article, 5, user: @user, topic: @private_topic, visibility: :only_me)
 
-    @topic = create(:topic, user: @user)
+    @contributor_user             = create(:user)
+    @contributor_topic            = create(:topic, user: @contributor_user, visibility: :everyone)
+    @contributor_public_articles  = create_list(:article, 5, user: @contributor_user, topic: @contributor_topic, visibility: :everyone)
+    @contributor_private_articles = create_list(:article, 5, user: @contributor_user, topic: @contributor_topic, visibility: :only_me)
+    @share                        = create(:share, user: @user, shareable: @public_topic, contributor: @contributor_user)
 
-    @article = create(:article, user: @user, topic: @topic)
-
-    @articles       = create_list(:article, 5, user: @user, topic: @topic)
-    @second_article = create(:article, user: @user, topic: @topic)
-
-    @second_topic    = create(:topic, user: @user)
-    @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me')
-
-    @other_user = create(:user)
-    @other_topic = create(:topic, user: @other_user)
-    @other_articles = create_list(:article, 3, user: @other_user, topic: @other_topic)
+    @other_user             = create(:user)
+    @other_topic            = create(:topic, user: @other_user, visibility: :everyone)
+    @other_public_articles  = create_list(:article, 3, user: @other_user, topic: @other_topic, visibility: :everyone)
+    @other_private_articles = create_list(:article, 3, user: @other_user, topic: @other_topic, visibility: :only_me)
   end
 
   describe '#all' do
-    context 'without params' do
+    context 'without user' do
       it 'returns all public articles' do
-        articles = ::Articles::FindQueries.new.all
+        articles = ::Articles::FindQueries.new.all(limit: 100)
 
         expect(articles.count).to eq(Article.everyone.count)
+        expect(articles.count).to eq(@public_articles.count + @contributor_public_articles.count + @other_public_articles.count)
+      end
+
+      it 'returns all public articles limited to the pagination' do
+        articles = ::Articles::FindQueries.new.all
+
+        expect(articles.count).to eq(Setting.per_page)
+      end
+
+      context 'when filtering by user' do
+        it 'returns all user public articles (with id)' do
+          articles = ::Articles::FindQueries.new.all(user_id: @user.id)
+
+          expect(articles).to match_array(@public_articles)
+        end
+
+        it 'returns all user public articles (with slug)' do
+          articles = ::Articles::FindQueries.new.all(user_slug: @user.slug)
+
+          expect(articles).to match_array(@public_articles)
+        end
+      end
+
+      context 'when filtering by topic only' do
+        it 'returns no articles for public topic (with id)' do
+          articles = ::Articles::FindQueries.new.all(topic_id: @public_topic.id)
+
+          expect(articles).to match_array([])
+        end
+
+        it 'returns no articles for public topic (with slug)' do
+          articles = ::Articles::FindQueries.new.all(topic_slug: @public_topic.slug)
+
+          expect(articles).to match_array([])
+        end
+
+        it 'returns no articles for private topic (with id)' do
+          articles = ::Articles::FindQueries.new.all(topic_id: @private_topic.id)
+
+          expect(articles).to match_array([])
+        end
+
+        it 'returns no articles for private topic (with slug)' do
+          articles = ::Articles::FindQueries.new.all(topic_slug: @private_topic.slug)
+
+          expect(articles).to match_array([])
+        end
+      end
+
+      context 'when filtering by user and topic' do
+        it 'returns all public articles for public topic (with id)' do
+          articles = ::Articles::FindQueries.new.all(user_id: @user.id, topic_id: @public_topic.id)
+
+          expect(articles).to match_array(@public_articles)
+        end
+
+        it 'returns all public articles for public topic (with slug)' do
+          articles = ::Articles::FindQueries.new.all(user_slug: @user.slug, topic_slug: @public_topic.slug)
+
+          expect(articles).to match_array(@public_articles)
+        end
+
+        it 'returns no articles for private topic (with id)' do
+          articles = ::Articles::FindQueries.new.all(user_id: @user.id, topic_id: @private_topic.id)
+
+          expect(articles).to match_array([])
+        end
+
+        it 'returns no articles for private topic (with slug)' do
+          articles = ::Articles::FindQueries.new.all(user_slug: @user.slug, topic_slug: @private_topic.slug)
+
+          expect(articles).to match_array([])
+        end
+      end
+
+      context 'when filtering by tags' do
+        before do
+          @tags              = create_list(:tag, 3, user: @user)
+          @article_with_tags = create(:article, user: @user, topic: @public_topic, tags: [@tags[0]])
+          @article           = create(:article, user: @user, topic: @public_topic, parent_tags: [@tags[0], @tags[1]], child_tags: [@tags[2]])
+        end
+
+        it { expect(::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)).to include(@article) }
+
+        it { expect(::Articles::FindQueries.new(@user).all(parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[2].slug)).to contain_exactly(@article) }
+
+        it { expect(::Articles::FindQueries.new(@user).all(parent_tag_slug: @tags[1].slug)).to contain_exactly(@article) }
+
+        it { expect(::Articles::FindQueries.new(@user).all(child_tag_slug: @tags[2].slug)).to contain_exactly(@article) }
+
+        describe 'display parent article only' do
+          before do
+            @user.settings['tag_parent_and_child'] = false
+            @user.save
+          end
+
+          it { expect(::Articles::FindQueries.new(@user).all({ tag_slug: @tags[0].slug })).to contain_exactly(@article_with_tags) }
+        end
+
+        describe 'display all article for a tag' do
+          before do
+            @user.settings['tag_parent_and_child'] = true
+            @user.save
+          end
+
+          it { expect(::Articles::FindQueries.new(@user).all({ tag_slug: @tags[0].slug })).to contain_exactly(@article_with_tags, @article) }
+        end
       end
     end
 
-    context 'when user is connected' do
-      before do
-        login_as(@user, scope: :user, run_callbacks: false)
+    context 'when owner is set' do
+      it 'returns all public and user articles by default' do
+        articles = ::Articles::FindQueries.new(@user).all(limit: 100)
+
+        expect(articles).to match_array(Article.everyone_and_user(@user.id))
       end
 
-      it 'returns all public articles and user articles' do
-        articles = ::Articles::FindQueries.new(@user).all({})
+      context 'when filtering by user' do
+        it 'returns all user public articles (with id)' do
+          articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id)
 
-        expect(articles.count).to eq(Article.everyone_and_user(@user.id).count)
+          expect(articles).to match_array(@public_articles + @private_articles)
+        end
+
+        it 'returns all user public articles (with slug)' do
+          articles = ::Articles::FindQueries.new(@user).all(user_slug: @user.slug)
+
+          expect(articles).to match_array(@public_articles + @private_articles)
+        end
+      end
+
+      context 'when filtering by topic only' do
+        it 'returns no articles for public topic (with id)' do
+          articles = ::Articles::FindQueries.new(@user).all(topic_id: @public_topic.id)
+
+          expect(articles).to match_array([])
+        end
+
+        it 'returns no articles for public topic (with slug)' do
+          articles = ::Articles::FindQueries.new(@user).all(topic_slug: @public_topic.slug)
+
+          expect(articles).to match_array([])
+        end
+
+        it 'returns no articles for private topic (with id)' do
+          articles = ::Articles::FindQueries.new(@user).all(topic_id: @private_topic.id)
+
+          expect(articles).to match_array([])
+        end
+
+        it 'returns no articles for private topic (with slug)' do
+          articles = ::Articles::FindQueries.new(@user).all(topic_slug: @private_topic.slug)
+
+          expect(articles).to match_array([])
+        end
+      end
+
+      context 'when filtering by user and topic' do
+        it 'returns all public articles for public topic (with id)' do
+          articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)
+
+          expect(articles).to match_array(@public_articles)
+        end
+
+        it 'returns all public articles for public topic (with slug)' do
+          articles = ::Articles::FindQueries.new(@user).all(user_slug: @user.slug, topic_slug: @public_topic.slug)
+
+          expect(articles).to match_array(@public_articles)
+        end
+
+        it 'returns no articles for private topic (with id)' do
+          articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @private_topic.id)
+
+          expect(articles).to match_array(@private_articles)
+        end
+
+        it 'returns no articles for private topic (with slug)' do
+          articles = ::Articles::FindQueries.new(@user).all(user_slug: @user.slug, topic_slug: @private_topic.slug)
+
+          expect(articles).to match_array(@private_articles)
+        end
+      end
+
+      context 'when sorting articles' do
+        it 'returns articles by descendant priority by default' do
+          articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)
+
+          expect(articles).to match_array(@public_articles)
+          expect(articles.first).to eq(@public_articles.sort_by(&:priority).reverse.first)
+        end
+
+        it 'returns articles by ascendant date' do
+          articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id, order: 'created_asc')
+
+          expect(articles).to match_array(@public_articles)
+          expect(articles.first).to eq(@public_articles.sort_by(&:created_at).first)
+        end
+
+        it 'returns articles by user priority setting' do
+          @user.update(article_order: 'created_asc')
+
+          articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)
+
+          expect(articles).to match_array(@public_articles)
+          expect(articles.first).to eq(@public_articles.sort_by(&:created_at).first)
+        end
+
+        it 'returns articles by topic priority setting' do
+          @public_topic.update(article_order: 'created_desc')
+
+          articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)
+
+          expect(articles).to match_array(@public_articles)
+          expect(articles.first).to eq(@public_articles.sort_by(&:created_at).reverse.first)
+        end
+      end
+
+      context 'when filtering by tags' do
+        before do
+          @tags              = create_list(:tag, 3, user: @user)
+          @article_with_tags = create(:article, user: @user, topic: @public_topic, tags: [@tags[0]])
+          @article           = create(:article, user: @user, topic: @public_topic, parent_tags: [@tags[0], @tags[1]], child_tags: [@tags[2]])
+        end
+
+        it { expect(::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)).to include(@article) }
+
+        it { expect(::Articles::FindQueries.new(@user).all(parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[2].slug)).to contain_exactly(@article) }
+
+        it { expect(::Articles::FindQueries.new(@user).all(parent_tag_slug: @tags[1].slug)).to contain_exactly(@article) }
+
+        it { expect(::Articles::FindQueries.new(@user).all(child_tag_slug: @tags[2].slug)).to contain_exactly(@article) }
+
+        describe 'display parent article only' do
+          before do
+            @user.settings['tag_parent_and_child'] = false
+            @user.save
+          end
+
+          it { expect(::Articles::FindQueries.new(@user).all({ tag_slug: @tags[0].slug })).to contain_exactly(@article_with_tags) }
+        end
+
+        describe 'display all article for a tag' do
+          before do
+            @user.settings['tag_parent_and_child'] = true
+            @user.save
+          end
+
+          it { expect(::Articles::FindQueries.new(@user).all({ tag_slug: @tags[0].slug })).to contain_exactly(@article_with_tags, @article) }
+        end
       end
     end
 
-    context 'when admin is connected' do
-      before do
-        login_as(@user, scope: :user, run_callbacks: false)
-      end
+    context 'when contributor is set' do
+      context 'when filtering by user and shared topic' do
+        it 'returns all public articles for shared topic (with id)' do
+          articles = ::Articles::FindQueries.new(@contributor_user).all(user_id: @user.id, topic_id: @public_topic.id)
 
+          expect(articles).to match_array(@public_articles)
+        end
+
+        it 'returns all public articles for shared topic (with slug)' do
+          articles = ::Articles::FindQueries.new(@contributor_user).all(user_slug: @user.slug, topic_slug: @public_topic.slug)
+
+          expect(articles).to match_array(@public_articles)
+        end
+
+        it 'returns no articles for private topic (with id)' do
+          articles = ::Articles::FindQueries.new(@contributor_user).all(user_id: @user.id, topic_id: @private_topic.id)
+
+          expect(articles).to match_array([])
+        end
+
+        it 'returns no articles for private topic (with slug)' do
+          articles = ::Articles::FindQueries.new(@contributor_user).all(user_slug: @user.slug, topic_slug: @private_topic.slug)
+
+          expect(articles).to match_array([])
+        end
+      end
+    end
+
+    context 'when admin is set' do
       it 'returns all public articles and user articles' do
-        articles = ::Articles::FindQueries.new(@user, @admin).all({})
+        articles = ::Articles::FindQueries.new(@user, @admin).all(limit: 100)
 
         expect(articles.count).to eq(Article.all.count)
       end
     end
+  end
 
-    context 'with filter params' do
-      before(:all) do
-        @tags                       = create_list(:tag, 3, user: @user)
-        @article_with_tags          = create(:article, user: @user, topic: @topic, tags: [@tags[0]])
-        @article = create(:article, user: @user, topic: @topic, parent_tags: [@tags[0], @tags[1]], child_tags: [@tags[2]])
+  describe '#stories' do
+    context 'without params' do
+      it 'returns no articles' do
+        articles = ::Articles::FindQueries.new.stories
+
+        expect(articles).to match_array([])
+      end
+    end
+
+    context 'when filtering by topic only' do
+      it 'returns all articles for public topic (with id)' do
+        articles = ::Articles::FindQueries.new.stories(topic_id: @public_topic.id)
+
+        expect(articles).to match_array(@public_articles)
       end
 
-      it { expect(::Articles::FindQueries.new(@user).all(topic_id: @topic.id)).to include(@article) }
+      it 'returns no articles for public topic (with slug)' do
+        articles = ::Articles::FindQueries.new.stories(topic_slug: @public_topic.slug)
 
-      it { expect(::Articles::FindQueries.new(@user).all(parent_tag_slug: @tags[1].slug, child_tag_slug: @tags[2].slug)).to contain_exactly(@article) }
-
-      it { expect(::Articles::FindQueries.new(@user).all(parent_tag_slug: @tags[1].slug)).to contain_exactly(@article) }
-
-      it { expect(::Articles::FindQueries.new(@user).all(child_tag_slug: @tags[2].slug)).to contain_exactly(@article) }
-
-      describe 'display parent article only' do
-        before do
-          @user.settings['tag_parent_and_child'] = false
-          @user.save
-        end
-
-        it { expect(::Articles::FindQueries.new(@user).all({ tag_slug: @tags[0].slug })).to contain_exactly(@article_with_tags) }
+        expect(articles).to match_array(@public_articles)
       end
+    end
+  end
 
-      describe 'display all article for a tag' do
-        before do
-          @user.settings['tag_parent_and_child'] = true
-          @user.save
-        end
+  describe '#home' do
+    before do
+      @other_public_articles.map do |article|
+        article.tracker.home_page = true
+        article.tracker.save
+      end
+      @other_private_articles.map do |article|
+        article.tracker.home_page = true
+        article.tracker.save
+      end
+    end
 
-        it { expect(::Articles::FindQueries.new(@user).all({ tag_slug: @tags[0].slug })).to contain_exactly(@article_with_tags, @article) }
+    context 'without params' do
+      it 'returns public articles marked for home' do
+        articles = ::Articles::FindQueries.new.home
+
+        expect(articles).to match_array(@other_public_articles)
+      end
+    end
+  end
+
+  describe '#populars' do
+    before do
+      popularity = 10
+      @other_public_articles.map do |article|
+        article.tracker.popularity = popularity
+        article.tracker.save
+        popularity += 1
+      end
+      @other_private_articles.map do |article|
+        article.tracker.popularity = popularity
+        article.tracker.save
+        popularity += 1
+      end
+    end
+
+    context 'without params' do
+      it 'returns public articles marked for home' do
+        articles = ::Articles::FindQueries.new.populars(limit: @other_public_articles.count)
+
+        expect(articles).to match_array(@other_public_articles)
+        expect(articles.first.id).to eq(@other_public_articles.last.id)
       end
     end
   end

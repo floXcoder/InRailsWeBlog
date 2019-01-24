@@ -76,7 +76,7 @@ export default class CommentItem extends React.Component {
     _handleDeleteClick = (event) => {
         event.preventDefault();
 
-        Notification.alert(I18n.t('js.comment.delete.confirmation_message'), 10, I18n.t('js.comment.delete.confirmation_button'), this.props.onDelete.bind(this, this.props.comment.id));
+        Notification.alert(I18n.t('js.comment.delete.confirmation_message'), I18n.t('js.comment.delete.confirmation_button'), this.props.onDelete.bind(this, this.props.comment.id));
     };
 
     _handleAskForDeletionClick = (event) => {

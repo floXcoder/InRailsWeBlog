@@ -17,12 +17,16 @@ module Api::V1
         respond_to do |format|
           set_meta_tags title: titleize(I18n.t('views.search.index.title', query: search_params[:query]))
 
-          format.json { render json: search_results.result }
+          format.json do
+            render json: search_results.result.merge(meta: meta_attributes)
+          end
         end
       else
         respond_to do |format|
-          format.json { render json: [],
-                               root: 'search' }
+          format.json do
+            render json: [],
+                   root: 'search'
+          end
         end
       end
     end

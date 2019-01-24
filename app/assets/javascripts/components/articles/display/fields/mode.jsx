@@ -50,4 +50,4 @@ ArticleModeField.propTypes = {
     onModeClick: PropTypes.func.isRequired
 };
 
-export default React.memo(ArticleModeField);
+export default ArticleModeField;

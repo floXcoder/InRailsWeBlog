@@ -20,11 +20,11 @@
 
 module Api::V1
   class ArticlesController < ApiController
-    skip_before_action :authenticate_user!, only: [:index, :show]
+    skip_before_action :authenticate_user!, only: [:index, :stories, :show]
 
     before_action :honeypot_protection, only: [:create, :update]
 
-    after_action :verify_authorized, except: [:index]
+    after_action :verify_authorized, except: [:index, :stories]
 
     include TrackerConcern
     include CommentConcern
@@ -43,7 +43,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if filter_params[:parent_tag_slug].present? || filter_params[:tag_slug].present?
-            set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence).name))
+            set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name))
           elsif filter_params[:topic_slug].present?
             set_meta_tags title: titleize(I18n.t('views.article.index.title.topic', topic: Topic.find_by(slug: filter_params[:topic_slug]).name))
           else
@@ -53,13 +53,27 @@ module Api::V1
           if params[:summary]
             render json:            articles,
                    each_serializer: ArticleSampleSerializer,
-                   meta:            meta_pagination_attributes(articles)
+                   meta:            meta_attributes(pagination: articles)
           else
             render json:            articles,
                    each_serializer: ArticleSerializer,
                    with_outdated:   true,
-                   meta:            meta_pagination_attributes(articles)
+                   meta:            meta_attributes(pagination: articles)
           end
+        end
+      end
+    end
+
+    def stories
+      article = Article.include_element.friendly.find(params[:id])
+
+      articles = ::Articles::FindQueries.new(current_user, current_admin).stories(topic_id: article.topic_id)
+
+      respond_to do |format|
+        format.json do
+          render json:            articles,
+                 root:            'stories',
+                 each_serializer: ArticleSampleSerializer
         end
       end
     end
@@ -70,7 +84,7 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title)),
+          set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title, topic: article.topic.name)),
                         description: article.meta_description,
                         author:      article.user.pseudo
           # canonical:   alternate_urls(article.slug)['fr'],
@@ -84,7 +98,8 @@ module Api::V1
           render json:          article,
                  serializer:    ArticleSerializer,
                  with_vote:     true,
-                 with_outdated: true
+                 with_outdated: true,
+                 meta:          meta_attributes
         end
       end
     end
@@ -93,19 +108,23 @@ module Api::V1
       article = Article.friendly.find(params[:id])
       admin_or_authorize article
 
-      article_versions = article.versions.where(event: 'update').reverse.drop(1)
+      article_versions = article.versions.where(event: 'update').map.with_index { |h, i| h.object_changes.present? || i == 0 ? h : nil }.compact.reverse
 
       respond_to do |format|
         format.json do
+          set_meta_tags title:       titleize(I18n.t('views.article.history.title', title: article.title, topic: article.topic.name)),
+                        description: I18n.t('views.article.history.description', title: article.title, topic: article.topic.name)
+
           render json:            article_versions,
                  root:            'history',
-                 each_serializer: HistorySerializer
+                 each_serializer: HistorySerializer,
+                 meta:            meta_attributes
         end
       end
     end
 
     def create
-      article = current_user.articles.build
+      article = Article.new
       admin_or_authorize article
 
       stored_article = ::Articles::StoreService.new(article, article_params.merge(current_user: current_user)).perform
@@ -132,11 +151,12 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.edit.title', title: article.title)),
-                        description: I18n.t('views.article.edit.description', title: article.title)
+          set_meta_tags title:       titleize(I18n.t('views.article.edit.title', title: article.title, topic: article.topic.name)),
+                        description: I18n.t('views.article.edit.description', title: article.title, topic: article.topic.name)
 
           render json:       article,
-                 serializer: ArticleSerializer
+                 serializer: ArticleSerializer,
+                 meta:       meta_attributes
         end
       end
     end
@@ -287,6 +307,7 @@ module Api::V1
                                        :user_slug,
                                        :topic_id,
                                        :topic_slug,
+                                       :shared_topic,
                                        :tag_id,
                                        :tag_slug,
                                        :parent_tag_slug,

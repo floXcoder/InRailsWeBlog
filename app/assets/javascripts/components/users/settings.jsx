@@ -93,7 +93,7 @@ class UserSettings extends React.Component {
                 <Tabs value={this.state.tabIndex}
                       onChange={this._handleTabChange}
                       indicatorColor="primary"
-                      fullWidth={true}>
+                      variant="fullWidth">
                     <Tab label={I18n.t('js.user.settings.article.title')}
                          disableRipple={true}/>
 

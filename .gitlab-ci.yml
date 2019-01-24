@@ -42,6 +42,14 @@ build:
   only:
     - develop
 
+check_code:
+  stage: test
+  <<: *pull-cache
+  script:
+    - bundle exec rails InRailsWeBlog:check_code
+  only:
+    - develop
+
 audit:
   stage: test
   <<: *pull-cache
@@ -75,18 +83,20 @@ test:rails:
   only:
     - develop
 
-#test:browser:
-#  stage: test
-#  variables:
-#    RAILS_ENV: "test"
-#    DATABASE_TEST_NAME: "inrailsweblog_test"
-#    DATABASE_TEST_USERNAME: "inrailsweblog_test"
-#    DATABASE_TEST_PASSWORD: "inrailsweblog"
-#  <<: *pull-cache
-#  script:
-#    - bundle exec rspec --tag advanced spec/
-#  only:
-#    - develop
+test:browser:
+  stage: test
+  variables:
+    RAILS_ENV: "test"
+    DATABASE_TEST_NAME: "inrailsweblog_test"
+    DATABASE_TEST_USERNAME: "inrailsweblog_test"
+    DATABASE_TEST_PASSWORD: "inrailsweblog"
+  <<: *pull-cache
+  script:
+    - bundle exec rspec --tag advanced spec/
+  # Unstable tests
+  allow_failure: true
+  only:
+    - develop
 
 test:npm:
   stage: test

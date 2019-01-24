@@ -19,6 +19,11 @@ export const getUsers = createSelector(
     (users) => users.toArray()
 );
 
+export const getUserMetaTags = createSelector(
+    (state) => state.userState.metaTags,
+    (metaTags) => metaTags.toJS()
+);
+
 export const getUserPagination = createSelector(
     (state) => state.userState.pagination,
     (pagination) => pagination.toJS()

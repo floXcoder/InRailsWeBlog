@@ -56,4 +56,8 @@ class ArticleStrictSerializer < ActiveModel::Serializer
   def slug
     object.slug
   end
+
+  def user_slug
+    object.user.slug
+  end
 end

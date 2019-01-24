@@ -97,6 +97,8 @@ Rails.application.routes.draw do
         end
 
         member do
+          put :share,         to: 'topics#share'
+
           concerns :tracker,  module: :tags
         end
       end
@@ -110,6 +112,8 @@ Rails.application.routes.draw do
         end
 
         member do
+          get      :stories,   to: 'articles#stories'
+
           get      :history,   to: 'articles#history'
           get      :restore,   to: 'articles#restore'
 

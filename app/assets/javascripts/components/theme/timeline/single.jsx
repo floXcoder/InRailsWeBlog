@@ -1,9 +1,11 @@
 'use strict';
 
+import '../../../../stylesheets/components/single-timeline.scss';
+
 const SingleTimeline = ({children}) => (
-    <div className="single-timeline">
+    <ul className="single-timeline">
         {children}
-    </div>
+    </ul>
 );
 
 SingleTimeline.propTypes = {

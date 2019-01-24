@@ -28,14 +28,16 @@ const SanitizePaste = (function () {
             html = html.replace(/<h5/gi, '<h4');
             html = html.replace(/<\/h5>/gi, '</h4>');
 
-            html = html.replace(/<h3/gi, '<h4');
-            html = html.replace(/<\/h3>/gi, '</h4>');
+            if (html.search(/<h1(.*?)>(.*?)<\/h1>/i) === 0) {
+                html = html.replace(/<h3/gi, '<h4');
+                html = html.replace(/<\/h3>/gi, '</h4>');
 
-            html = html.replace(/<h2/gi, '<h3');
-            html = html.replace(/<\/h2>/gi, '</h3>');
+                html = html.replace(/<h2/gi, '<h3');
+                html = html.replace(/<\/h2>/gi, '</h3>');
 
-            html = html.replace(/<h1/gi, '<h2');
-            html = html.replace(/<\/h1>/gi, '</h2>');
+                html = html.replace(/<h1/gi, '<h2');
+                html = html.replace(/<\/h1>/gi, '</h2>');
+            }
 
             return html;
         },

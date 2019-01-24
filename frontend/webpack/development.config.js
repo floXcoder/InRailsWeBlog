@@ -5,7 +5,6 @@ const sane = require('sane');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = require('../config').webpack;
@@ -24,13 +23,14 @@ webPackConfig.module.rules[1].use.unshift({
 webPackConfig = _.merge(webPackConfig, {
     output: {
         publicPath: config.development.assetPath,
-        pathinfo: true,
+        pathinfo: false, // Increase garbage collection used
         chunkFilename: config.development.chunkFilename + '.js'
     },
 
     cache: true,
 
-    devtool: 'cheap-module-source-map',
+    // devtool: 'cheap-module-source-map',
+    devtool: 'eval',
 
     stats: {
         colors: true,

@@ -83,7 +83,8 @@ export default class Dropdown extends React.Component {
             window.addEventListener('scroll', this._handleScroll, false)
         }
 
-        this._setPopupStyle();
+        // Ensure child is mounted
+        setTimeout(() => this._setPopupStyle(), 300);
     }
 
     componentWillUnmount() {

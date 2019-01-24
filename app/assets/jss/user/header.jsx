@@ -18,6 +18,7 @@ const styles = (theme) => ({
     },
     toolbar: {
         width: '100%',
+        height: 64,
         borderBottom: `1px solid ${theme.palette.grey[100]}`,
     },
     grow: {
@@ -25,10 +26,18 @@ const styles = (theme) => ({
     },
     title: {
         display: 'none',
-        fontSize: '2.2rem',
         margin: '5px 15px',
+        fontSize: '1.6rem',
         [theme.breakpoints.up('sm')]: {
-            display: 'block'
+            display: 'block',
+            fontSize: '2.2rem'
+        }
+    },
+    websiteTitle: {
+        fontSize: '1.6rem',
+        margin: '.5rem',
+        [theme.breakpoints.up('md')]: {
+            fontSize: '2.2rem'
         }
     },
     menuButton: {
@@ -70,7 +79,9 @@ const styles = (theme) => ({
     },
     mobileToolbar: {
         ...theme.mixins.toolbar,
-        marginTop: 15
+        minHeight: 36,
+        marginTop: 15,
+        paddingLeft: 12
     },
     nestedMenu: {
         paddingLeft: theme.spacing.unit * 4

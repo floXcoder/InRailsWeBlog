@@ -1,6 +1,11 @@
 'use strict';
 
 import {
+    lazy,
+    Suspense
+} from 'react';
+
+import {
     withRouter,
     Route,
     Link
@@ -39,8 +44,6 @@ import {
 } from '../../../middlewares/localStorage';
 
 import {
-    showUserSignup,
-    showUserLogin,
     showUserPreference,
     showTopicPopup
 } from '../../../actions';
@@ -49,9 +52,7 @@ import {
     getCurrentTagSlugs
 } from '../../../selectors';
 
-import Login from '../../users/login';
-import Signup from '../../users/signup';
-import Preference from '../../users/preference';
+const Preference = lazy(() => import(/* webpackChunkName: "user-preference" */ '../../users/preference'));
 
 import TopicModule from '../../topics/module';
 
@@ -59,7 +60,9 @@ import BookmarkList from '../../bookmark/list';
 
 import TagSidebar from '../../tags/sidebar';
 
-import HomeSearchHeader from '../header/search';
+import ArticleSidebar from '../../articles/sidebar';
+
+const HomeSearchHeader = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../header/search'));
 import HomeBookmarkHeader from '../header/bookmark';
 import HomeArticleHeader from '../header/article';
 import HomeUserHeader from '../header/user';
@@ -69,11 +72,13 @@ import HeaderArticleMenu from '../header/menus/article';
 
 import styles from '../../../../jss/user/header';
 
+import {
+    articleTemporaryDataName
+} from '../../modules/constants';
+
 export default @withRouter
 
 @connect((state) => ({
-    isUserSignupOpen: state.uiState.isUserSignupOpen,
-    isUserLoginOpen: state.uiState.isUserLoginOpen,
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
     isUserConnected: state.userState.isConnected,
@@ -84,8 +89,6 @@ export default @withRouter
     currentTopic: state.topicState.currentTopic,
     currentTagSlugs: getCurrentTagSlugs(state)
 }), {
-    showUserSignup,
-    showUserLogin,
     showUserPreference,
     showTopicPopup
 })
@@ -99,8 +102,6 @@ class HeaderLayoutUser extends React.PureComponent {
         match: PropTypes.object,
         history: PropTypes.object,
         // from connect
-        isUserSignupOpen: PropTypes.bool,
-        isUserLoginOpen: PropTypes.bool,
         isUserPreferenceOpen: PropTypes.bool,
         isTopicPopupOpen: PropTypes.bool,
         isUserConnected: PropTypes.bool,
@@ -110,8 +111,6 @@ class HeaderLayoutUser extends React.PureComponent {
         topicSlug: PropTypes.string,
         currentTopic: PropTypes.object,
         currentTagSlugs: PropTypes.array,
-        showUserSignup: PropTypes.func,
-        showUserLogin: PropTypes.func,
         showUserPreference: PropTypes.func,
         showTopicPopup: PropTypes.func,
         // from styles
@@ -124,14 +123,15 @@ class HeaderLayoutUser extends React.PureComponent {
         this._anchorEl = null;
 
         // Check if temporary article in local storage
-        const temporaryArticle = getLocalData('article-temporary');
+        const temporaryArticle = getLocalData(articleTemporaryDataName);
         if (temporaryArticle && temporaryArticle.length > 0) {
             this.state.hasTemporaryArticle = true;
         }
     }
 
     state = {
-        isMobileOpen: false,
+        isMobileTagSidebarOpen: false,
+        isMobileArticleSidebarOpen: false,
         isMobileBookmarkOpen: false,
         isMobileArticleOpen: false,
         isMobileUserOpen: false,
@@ -162,8 +162,12 @@ class HeaderLayoutUser extends React.PureComponent {
         }
     };
 
-    _handleDrawerToggle = () => {
-        this.setState(state => ({isMobileOpen: !state.isMobileOpen}));
+    _handleTagDrawerToggle = () => {
+        this.setState(state => ({isMobileTagSidebarOpen: !state.isMobileTagSidebarOpen}));
+    };
+
+    _handleArticleDrawerToggle = () => {
+        this.setState(state => ({isMobileArticleSidebarOpen: !state.isMobileArticleSidebarOpen}));
     };
 
     _handleMobileBookmarkClick = () => {
@@ -228,7 +232,7 @@ class HeaderLayoutUser extends React.PureComponent {
         );
     };
 
-    _renderMobileDrawer = () => {
+    _renderMobileTagDrawer = () => {
         return (
             <Hidden mdUp={true}>
                 <SwipeableDrawer variant="temporary"
@@ -239,9 +243,9 @@ class HeaderLayoutUser extends React.PureComponent {
                                  ModalProps={{
                                      keepMounted: true
                                  }}
-                                 open={this.state.isMobileOpen}
-                                 onClose={this._handleDrawerToggle}
-                                 onOpen={this._handleDrawerToggle}>
+                                 open={this.state.isMobileTagSidebarOpen}
+                                 onClose={this._handleTagDrawerToggle}
+                                 onOpen={this._handleTagDrawerToggle}>
                     <div>
                         <div className={this.props.classes.mobileToolbar}>
                             <Link to="/">
@@ -316,6 +320,26 @@ class HeaderLayoutUser extends React.PureComponent {
         );
     };
 
+    _renderMobileArticleDrawer = () => {
+        return (
+            <Hidden mdUp={true}>
+                <SwipeableDrawer variant="temporary"
+                                 anchor="right"
+                                 classes={{
+                                     paper: this.props.classes.mobileDrawerPaper
+                                 }}
+                                 ModalProps={{
+                                     keepMounted: true
+                                 }}
+                                 open={this.state.isMobileArticleSidebarOpen}
+                                 onClose={this._handleArticleDrawerToggle}
+                                 onOpen={this._handleArticleDrawerToggle}>
+                    <ArticleSidebar/>
+                </SwipeableDrawer>
+            </Hidden>
+        );
+    };
+
     render() {
         const isSearchActive = this.props.location.hash === '#search';
 
@@ -337,7 +361,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
                             <Link className={this.props.classes.title}
                                   to="/">
-                                <h1>
+                                <h1 className={this.props.classes.websiteTitle}>
                                     InR
                                 </h1>
                             </Link>
@@ -362,7 +386,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
                                 <Popover open={this.props.isTopicPopupOpen}
                                          anchorEl={this._anchorEl}
-                                         // anchorPosition={{top: 200, left: 400}}
+                                    // anchorPosition={{top: 200, left: 400}}
                                          elevation={6}
                                          onClose={this._handleTopicClose}
                                          anchorOrigin={{
@@ -388,9 +412,11 @@ class HeaderLayoutUser extends React.PureComponent {
 
                         <div className={this.props.classes.grow}/>
 
-                        <HomeSearchHeader isSearchActive={isSearchActive}
-                                          onFocus={this._handleSearchOpen}
-                                          onClose={this._handleSearchClose}/>
+                        <Suspense fallback={<div/>}>
+                            <HomeSearchHeader isSearchActive={isSearchActive}
+                                              onFocus={this._handleSearchOpen}
+                                              onClose={this._handleSearchClose}/>
+                        </Suspense>
 
                         <div className={this.props.classes.grow}/>
 
@@ -402,12 +428,16 @@ class HeaderLayoutUser extends React.PureComponent {
                     })}>
                         {
                             isSearchActive &&
-                            this._renderPermanentRoutes(this.props.permanentRoutes)
+                            <Suspense fallback={<div/>}>
+                                {this._renderPermanentRoutes(this.props.permanentRoutes)}
+                            </Suspense>
                         }
                     </div>
                 </AppBar>
 
-                {this._renderMobileDrawer()}
+                {this._renderMobileTagDrawer()}
+
+                {this._renderMobileArticleDrawer()}
 
                 <div id="clipboard-area"
                      className="hidden">
@@ -415,14 +445,10 @@ class HeaderLayoutUser extends React.PureComponent {
                               title="clipboard"/>
                 </div>
 
-                <Signup isOpen={this.props.isUserSignupOpen}
-                        onModalChange={this.props.showUserSignup}/>
-
-                <Login isOpen={this.props.isUserLoginOpen}
-                       onModalChange={this.props.showUserLogin}/>
-
-                <Preference isOpen={this.props.isUserPreferenceOpen}
-                            onModalChange={this.props.showUserPreference}/>
+                <Suspense fallback={<div/>}>
+                    <Preference isOpen={this.props.isUserPreferenceOpen}
+                                onModalChange={this.props.showUserPreference}/>
+                </Suspense>
             </>
         );
     }

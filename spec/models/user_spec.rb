@@ -127,7 +127,7 @@ RSpec.describe User, type: :model, basic: true do
     it { expect(@user.state).to eq('state') }
     it { expect(@user.allow_comment).to be true }
     it { expect(@user.visibility).to eq('everyone') }
-    it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_display' => 'card', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
+    it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'card', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
     it { expect(@user.pictures_count).to eq(0) }
     it { expect(@user.topics_count).to eq(1) }
     it { expect(@user.articles_count).to eq(0) }
@@ -151,7 +151,7 @@ RSpec.describe User, type: :model, basic: true do
       it { expect(@user.locale).to eq('fr') }
       it { expect(@user.allow_comment).to be true }
       it { expect(@user.visibility).to eq('everyone') }
-      it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_display' => 'card', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
+      it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'card', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
       it { expect(@user.pictures_count).to eq(0) }
       it { expect(@user.topics_count).to eq(0) }
       it { expect(@user.articles_count).to eq(0) }
@@ -237,10 +237,19 @@ RSpec.describe User, type: :model, basic: true do
     it { is_expected.to have_many(:tag_relationships) }
 
     it { is_expected.to have_many(:bookmarks) }
+    it { is_expected.to have_many(:bookmarked_articles) }
     it { is_expected.to have_many(:followers) }
     it { is_expected.to have_many(:following_users) }
     it { is_expected.to have_many(:following_articles) }
     it { is_expected.to have_many(:following_tags) }
+
+    it { is_expected.to have_many(:shares) }
+    it { is_expected.to have_many(:shared_topics) }
+    it { is_expected.to have_many(:shared_articles) }
+
+    it { is_expected.to have_many(:contributions) }
+    it { is_expected.to have_many(:contributed_topics) }
+    it { is_expected.to have_many(:contributed_articles) }
 
     it { is_expected.to have_many(:comments) }
 
@@ -248,6 +257,11 @@ RSpec.describe User, type: :model, basic: true do
 
     it { is_expected.to have_one(:picture) }
     it { is_expected.to accept_nested_attributes_for(:picture) }
+
+    it { is_expected.to have_many(:uploads) }
+
+    it { is_expected.to have_many(:performed_activities) }
+    it { is_expected.to have_many(:recent_activities) }
   end
 
   context 'Properties' do

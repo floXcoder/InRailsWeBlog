@@ -1,27 +1,33 @@
 'use strict';
 
-import HomeHome from './components/loaders/homeHome';
+import {
+    lazy
+} from 'react';
 
-import TopicModal from './components/loaders/topicModal';
+const HomeHome = lazy(() => import(/* webpackChunkName: "home-index" */ './components/home/home'));
 
-import ArticleIndex from './components/loaders/articleIndex';
-import ArticleShow from './components/loaders/articleShow';
-import ArticleNew from './components/loaders/articleNew';
-import ArticleEdit from './components/loaders/articleEdit';
-import ArticleHistory from './components/loaders/articleHistory';
-import ArticleSort from './components/loaders/articleSort';
+const TopicPersistence = lazy(() => import(/* webpackChunkName: "topic-persistence" */ './components/topics/persistence'));
+const TopicShare = lazy(() => import(/* webpackChunkName: "topic-share" */ './components/topics/share'));
 
-import TagIndex from './components/loaders/tagIndex';
-import TagShow from './components/loaders/tagShow';
-import TagEdit from './components/loaders/tagEdit';
-import TagSort from './components/loaders/tagSort';
+const ArticleIndex = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "article-index" */ './components/articles/index'));
 
-import UserHome from './components/loaders/userHome';
-// import UserShow from './components/loaders/userShow';
-// import UserEdit from './components/loaders/userEdit';
+const ArticleShow = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "article-show" */ './components/articles/show'));
+const ArticleNew = lazy(() => import(/* webpackChunkName: "article-new" */ './components/articles/new'));
+const ArticleEdit = lazy(() => import(/* webpackChunkName: "article-edit" */ './components/articles/edit'));
+const ArticleHistory = lazy(() => import(/* webpackChunkName: "article-history" */ './components/articles/history'));
+const ArticleSort = lazy(() => import(/* webpackChunkName: "article-sort" */ './components/articles/sort'));
 
-import SearchModule from './components/loaders/searchModule';
-import SearchIndex from './components/loaders/searchIndex';
+const TagIndex = lazy(() => import(/* webpackChunkName: "tag-index" */ './components/tags/index'));
+const TagShow = lazy(() => import(/* webpackChunkName: "tag-show" */ './components/tags/show'));
+const TagEdit = lazy(() => import(/* webpackChunkName: "tag-edit" */ './components/tags/edit'));
+const TagSort = lazy(() => import(/* webpackChunkName: "tag-sort" */ './components/tags/sort'));
+
+const UserHome = lazy(() => import(/* webpackChunkName: "user-home" */ './components/users/home'));
+// const UserShow = lazy(() => import(/* webpackChunkName: "user-show" */ './components/users/show'));
+// const UserEdit = lazy(() => import(/* webpackChunkName: "user-edit" */ './components/users/edit'));
+
+const SearchModule = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-module" */ './components/search/module'));
+const SearchIndex = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-index" */ './components/search/index'));
 
 import NotFound from './components/layouts/notFound';
 
@@ -47,7 +53,7 @@ export default {
             },
             {
                 path: '/search',
-                hasBreadcrumb: false,
+                noBreadcrumb: false,
                 component: () => SearchIndex
             },
             // tag
@@ -106,28 +112,32 @@ export default {
             // search
             {
                 path: '/search',
-                hasBreadcrumb: false,
+                noBreadcrumb: true,
                 component: () => SearchIndex
             },
             // tag
             {
                 path: '/tags/:tagSlug/edit',
                 exact: true,
+                tagCloud: true,
                 component: () => TagEdit
             },
             {
                 path: '/tags/:userSlug/sort',
                 exact: true,
+                tagCloud: true,
                 component: () => TagSort
             },
             {
                 path: '/tags/:tagSlug',
                 exact: true,
+                tagCloud: true,
                 component: () => TagShow
             },
             {
                 path: '/tags',
                 exact: true,
+                tagCloud: true,
                 component: () => TagIndex
             },
             // tagged
@@ -135,14 +145,15 @@ export default {
                 path: '/tagged/:tagSlug/:childTagSlug?',
                 exact: false,
                 tagCloud: true,
-                // redirect: true,
-                // redirectCondition: 'tagSlug',
-                // redirectPath: (options = {}) => `/users/${options.userSlug}/topics/${options.topicSlug}/tagged/${options.tagSlug}` + (options.childTagSlug ? `/${options.childTagSlug}` : ''),
+                articleSidebar: true,
+                redirect: (route, previousRoute) => !route.tagCloud || !previousRoute.tagCloud,
+                redirectPath: (options = {}) => `/users/${options.userSlug}/topics/${options.topicSlug}/tagged/${options.tagSlug}` + (options.childTagSlug ? `/${options.childTagSlug}` : ''),
                 component: () => ArticleIndex
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug/tagged/:tagSlug/:childTagSlug?',
+                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug/tagged/:tagSlug/:childTagSlug?',
                 exact: false,
+                articleSidebar: true,
                 component: () => ArticleIndex
             },
             // user: topics
@@ -152,8 +163,9 @@ export default {
                 component: () => UserHome
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug',
+                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug',
                 exact: true,
+                articleSidebar: true,
                 component: () => ArticleIndex
             },
             // user : tags
@@ -169,7 +181,7 @@ export default {
                 component: () => ArticleSort
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug/article-new',
+                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug/article-new',
                 exact: true,
                 component: () => ArticleNew
             },
@@ -216,7 +228,11 @@ export default {
             },
             {
                 path: 'new-topic',
-                component: () => TopicModal
+                component: () => TopicPersistence
+            },
+            {
+                path: 'share-topic',
+                component: () => TopicShare
             }
         ]
     }

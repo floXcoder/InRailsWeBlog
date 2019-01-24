@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_07_195941) do
+ActiveRecord::Schema.define(version: 2019_01_15_171900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,8 @@ ActiveRecord::Schema.define(version: 2018_11_07_195941) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "contributor_id"
+    t.index ["contributor_id"], name: "index_articles_on_contributor_id"
     t.index ["deleted_at"], name: "index_articles_on_deleted_at"
     t.index ["slug"], name: "index_articles_on_slug", unique: true, where: "(deleted_at IS NULL)"
     t.index ["topic_id", "visibility"], name: "index_articles_on_topic_id_and_visibility", where: "(deleted_at IS NULL)"
@@ -202,6 +204,20 @@ ActiveRecord::Schema.define(version: 2018_11_07_195941) do
     t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
   end
 
+  create_table "shares", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "shareable_type", null: false
+    t.bigint "shareable_id", null: false
+    t.bigint "contributor_id", null: false
+    t.integer "mode", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contributor_id"], name: "index_shares_on_contributor_id"
+    t.index ["shareable_id", "shareable_type"], name: "index_shares_on_shareable_id_and_shareable_type"
+    t.index ["user_id", "shareable_id", "shareable_type"], name: "index_user_and_shares_uniqueness", unique: true
+    t.index ["user_id"], name: "index_shares_on_user_id"
+  end
+
   create_table "tag_relationships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "topic_id", null: false
@@ -277,9 +293,10 @@ ActiveRecord::Schema.define(version: 2018_11_07_195941) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}, null: false
+    t.integer "mode", default: 0, null: false
     t.index ["deleted_at"], name: "index_topics_on_deleted_at"
     t.index ["name", "user_id"], name: "index_topics_on_name_and_user_id", unique: true
-    t.index ["slug"], name: "index_topics_on_slug", unique: true, where: "(deleted_at IS NULL)"
+    t.index ["slug", "user_id"], name: "index_topics_on_slug_and_user_id", unique: true, where: "(deleted_at IS NULL)"
     t.index ["user_id"], name: "index_topics_on_user_id", where: "(deleted_at IS NULL)"
   end
 
@@ -388,6 +405,7 @@ ActiveRecord::Schema.define(version: 2018_11_07_195941) do
   add_foreign_key "outdated_articles", "articles"
   add_foreign_key "outdated_articles", "users"
   add_foreign_key "pictures", "users"
+  add_foreign_key "shares", "users"
   add_foreign_key "tag_relationships", "articles"
   add_foreign_key "tag_relationships", "tags", column: "child_id"
   add_foreign_key "tag_relationships", "tags", column: "parent_id"

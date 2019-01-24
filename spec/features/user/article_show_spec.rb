@@ -26,7 +26,7 @@ feature 'Article Show page for users', advanced: true, js: true do
       let(:content) {
         {
           current_page: article_page,
-          title:        t('views.article.show.title', title: @article.title),
+          title:        t('views.article.show.title', title: @article.title, topic: @topic.name),
           asset_name:   'assets/user',
           common_js:    ['assets/runtime', 'assets/user'],
           connected:    true
@@ -41,7 +41,7 @@ feature 'Article Show page for users', advanced: true, js: true do
 
   feature 'Article Show content for owner' do
     scenario 'owner can see the breadcrumb' do
-      is_expected.to have_css('.article-breadcrumb')
+      is_expected.to have_css("ul[class*='breadcrumb-']")
       is_expected.to have_link(@article.user.pseudo, href: "/users/#{@article.user.slug}")
     end
 

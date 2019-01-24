@@ -2,7 +2,8 @@
 
 const styles = (theme) => ({
     tag: {
-        margin: theme.spacing.unit,
+        fontSize: '.9rem',
+        margin: theme.spacing.unit / 3
     },
     parent: {
         margin: theme.spacing.unit

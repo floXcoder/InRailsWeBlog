@@ -21,14 +21,16 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  settings                 :jsonb            not null
+#  mode                     :integer          default("default"), not null
 #
 
 class Topic < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
+  enum mode: TOPIC_MODE
   enum visibility: VISIBILITY
-  enums_to_tr('topic', [:visibility])
+  enums_to_tr('topic', [:mode, :visibility])
 
   include TranslationConcern
   # Add current_language to model
@@ -66,7 +68,7 @@ class Topic < ApplicationRecord
   include PublicActivity::Model
   tracked owner: :user
 
-  include NiceUrlConcern
+  include FriendlyId
   friendly_id :slug_candidates, scope: :user, use: [:slugged, :scoped]
 
   # Search
@@ -99,10 +101,8 @@ class Topic < ApplicationRecord
 
   has_many :tagged_articles,
            dependent: :destroy
-
   has_many :tag_relationships,
            dependent: :destroy
-
   has_many :tags,
            through: :tagged_articles
 
@@ -114,29 +114,34 @@ class Topic < ApplicationRecord
   has_many :user_bookmarks,
            through: :bookmarks,
            source:  :user
-
-  # has_many :activities,
-  #          as:         :trackable,
-  #          class_name: 'PublicActivity::Activity'
-  has_many :user_activities,
-           as:         :recipient,
-           class_name: 'PublicActivity::Activity'
-
   has_many :follower,
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
            source:  :user
+
+  has_many :user_activities,
+           as:         :recipient,
+           class_name: 'PublicActivity::Activity'
+
+  has_many :shares,
+           as:          :shareable,
+           class_name:  'Share',
+           foreign_key: 'shareable_id',
+           dependent:   :destroy
+  has_many :contributors,
+           through: :shares,
+           source:  :contributor
 
   # == Validations ==========================================================
   validates :user,
             presence: true
 
   validates :name,
-            length:     { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length }
+            length: { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length }
   validates_uniqueness_of :name,
-                          scope: :user_id,
+                          scope:      :user_id,
                           conditions: -> { with_deleted },
-                          message:        I18n.t('activerecord.errors.models.topic.already_exist')
+                          message:    I18n.t('activerecord.errors.models.topic.already_exist')
 
   validates :description,
             length:    { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length },
@@ -144,10 +149,18 @@ class Topic < ApplicationRecord
 
   validates :languages,
             presence: true,
-            if:     -> { description.present? }
+            if:       -> { description.present? }
+
+  validates :mode,
+            presence: true
 
   validates :visibility,
             presence: true
+
+  validates :slug,
+            presence:   true,
+            uniqueness: { scope:          :user,
+                          case_sensitive: false }
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
@@ -217,24 +230,30 @@ class Topic < ApplicationRecord
 
   def slug_candidates
     [
-      [:name]
+      :name
     ]
+  end
+
+  def mode_translated
+    mode_to_tr
   end
 
   def search_data
     {
-      id:          id,
-      user_id:     user_id,
-      name:        name,
-      description: description,
-      languages:   languages,
-      priority:    priority,
-      visibility:  visibility,
-      archived:    archived,
-      accepted:    accepted,
-      created_at:  created_at,
-      updated_at:  updated_at,
-      slug:        slug
+      id:              id,
+      user_id:         user_id,
+      mode:            mode,
+      mode_translated: mode_translated,
+      name:            name,
+      description:     description,
+      languages:       languages,
+      priority:        priority,
+      visibility:      visibility,
+      archived:        archived,
+      accepted:        accepted,
+      created_at:      created_at,
+      updated_at:      updated_at,
+      slug:            slug
     }
   end
 
@@ -245,7 +264,7 @@ class Topic < ApplicationRecord
 
   private
 
-  def add_visit_activity(user_id = nil, parent_id = nil)
+  def add_visit_activity(user_id = nil, _parent_id = nil)
     return unless user_id
 
     user = User.find_by(id: user_id)

@@ -9,7 +9,7 @@ const styles = (theme) => ({
         margin: theme.spacing.unit,
         padding: theme.spacing.unit / 4,
         fontSize: '.6rem',
-        color: '#000'
+        color: theme.palette.primary.main
     },
     leftIcon: {
         marginRight: theme.spacing.unit,

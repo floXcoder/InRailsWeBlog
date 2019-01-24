@@ -10,6 +10,11 @@ export const getTopics = createSelector(
     (topics) => topics.toArray()
 );
 
+export const getTopicMetaTags = createSelector(
+    (state) => state.topicState.metaTags,
+    (metaTags) => metaTags.toJS()
+);
+
 export const getTopicPagination = createSelector(
     (state) => state.topicState.pagination,
     (pagination) => pagination.toJS()
@@ -17,6 +22,11 @@ export const getTopicPagination = createSelector(
 
 export const getUserTopics = createSelector(
     (state) => state.topicState.userTopics,
+    (topics) => topics.toArray()
+);
+
+export const getContributedTopics = createSelector(
+    (state) => state.topicState.contributedTopics,
     (topics) => topics.toArray()
 );
 
@@ -37,6 +47,12 @@ export const getTopic = createSelector(
 );
 
 export const getEditingTopic = createSelector(
+    (state) => state.topicState.userTopics,
+    (_, routerState) => routerState && routerState.topicId,
+    (topics, topicId) => topics.find((topic) => topic.id === topicId)
+);
+
+export const getSharingTopic = createSelector(
     (state) => state.topicState.userTopics,
     (_, routerState) => routerState && routerState.topicId,
     (topics, topicId) => topics.find((topic) => topic.id === topicId)

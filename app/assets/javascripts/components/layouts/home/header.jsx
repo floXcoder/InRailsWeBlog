@@ -1,6 +1,11 @@
 'use strict';
 
 import {
+    lazy,
+    Suspense
+} from 'react';
+
+import {
     withRouter,
     Route,
     Link
@@ -34,10 +39,10 @@ import {
     showUserLogin
 } from '../../../actions';
 
-import Login from '../../users/login';
-import Signup from '../../users/signup';
+const Signup = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "user-signup" */ '../../users/signup'));
+const Login = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "user-login" */ '../../users/login'));
 
-import HomeSearchHeader from '../header/search';
+const HomeSearchHeader = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../header/search'));
 
 import styles from '../../../../jss/home/header';
 
@@ -239,9 +244,11 @@ class HeaderLayoutHome extends React.Component {
 
                         <div className={this.props.classes.grow}/>
 
-                        <HomeSearchHeader isSearchActive={isSearchActive}
-                                          onFocus={this._handleSearchOpen}
-                                          onClose={this._handleSearchClose}/>
+                        <Suspense fallback={<div/>}>
+                            <HomeSearchHeader isSearchActive={isSearchActive}
+                                              onFocus={this._handleSearchOpen}
+                                              onClose={this._handleSearchClose}/>
+                        </Suspense>
 
                         <div className={this.props.classes.grow}/>
 
@@ -253,7 +260,9 @@ class HeaderLayoutHome extends React.Component {
                     })}>
                         {
                             isSearchActive &&
-                            this._renderPermanentRoutes(this.props.permanentRoutes)
+                            <Suspense fallback={<div/>}>
+                                {this._renderPermanentRoutes(this.props.permanentRoutes)}
+                            </Suspense>
                         }
                     </div>
                 </AppBar>
@@ -266,11 +275,13 @@ class HeaderLayoutHome extends React.Component {
                               title="clipboard"/>
                 </div>
 
-                <Signup isOpen={this.props.isUserSignupOpen}
-                        onModalChange={this.props.showUserSignup}/>
+                <Suspense fallback={<div/>}>
+                    <Signup isOpen={this.props.isUserSignupOpen}
+                            onModalChange={this.props.showUserSignup}/>
 
-                <Login isOpen={this.props.isUserLoginOpen}
-                       onModalChange={this.props.showUserLogin}/>
+                    <Login isOpen={this.props.isUserLoginOpen}
+                           onModalChange={this.props.showUserLogin}/>
+                </Suspense>
             </>
         );
     }

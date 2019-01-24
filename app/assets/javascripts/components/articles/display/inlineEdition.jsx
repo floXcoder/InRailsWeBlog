@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    withRouter,
     Link,
     Prompt
 } from 'react-router-dom';
@@ -23,8 +22,7 @@ import Editor, {EditorMode} from '../../editor/editor';
 
 import styles from '../../../../jss/article/inline';
 
-export default @withRouter
-@connect(null, {
+export default @connect(null, {
     inlineEditArticle,
     updateArticle,
     deleteArticle
@@ -37,8 +35,6 @@ class ArticleInlineEditionDisplay extends React.Component {
         inlineEditArticle: PropTypes.func,
         updateArticle: PropTypes.func,
         deleteArticle: PropTypes.func,
-        // from withRouter
-        history: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };
@@ -46,7 +42,6 @@ class ArticleInlineEditionDisplay extends React.Component {
     constructor(props) {
         super(props);
 
-        this._headerRed = null;
         this._editor = null;
     }
 
@@ -55,19 +50,19 @@ class ArticleInlineEditionDisplay extends React.Component {
     };
 
     _handleTitleClick = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
 
         spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
 
-        const position = ReactDOM.findDOMNode(this._headerRed).getBoundingClientRect();
-
-        this.props.history.push({
-            pathname: `/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`,
-            state: {
-                position: {x: position.x, y: position.y},
-                title: this.props.article.title
-            }
-        });
+        // const position = ReactDOM.findDOMNode(this._headerRed).getBoundingClientRect();
+        //
+        // this.props.history.push({
+        //     pathname: `/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`,
+        //     state: {
+        //         position: {x: position.x, y: position.y},
+        //         title: this.props.article.title
+        //     }
+        // });
     };
 
     _handleDeleteClick = () => {
@@ -105,8 +100,7 @@ class ArticleInlineEditionDisplay extends React.Component {
 
                 {
                     this.props.article.title &&
-                    <Link innerRef={(ref) => this._headerRed = ref}
-                          to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                    <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
                           onClick={this._handleTitleClick}>
                         <h1 className={this.props.classes.title}>
                             {this.props.article.title}

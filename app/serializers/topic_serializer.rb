@@ -21,6 +21,7 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  settings                 :jsonb            not null
+#  mode                     :integer          default("default"), not null
 #
 
 class TopicSerializer < ActiveModel::Serializer
@@ -28,6 +29,7 @@ class TopicSerializer < ActiveModel::Serializer
 
   attributes :id,
              :user_id,
+             :mode,
              :name,
              :description,
              :priority,
@@ -40,6 +42,8 @@ class TopicSerializer < ActiveModel::Serializer
   has_many :tags, if: -> { instance_options[:with_tags] }, serializer: TagSerializer do
     Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')
   end
+
+  has_many :contributors, serializer: UserStrictSerializer
 
   def visibility_translated
     object.visibility_to_tr

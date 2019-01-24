@@ -36,13 +36,16 @@ export class UserRecord extends Record({
     lastSignInAt: undefined,
     articlesCount: undefined,
     tracker: undefined,
-    settings: new SettingsRecord()
+    settings: new SettingsRecord(),
+    topics: List(),
+    contributedTopics: List()
 }) {
-    constructor({settings, topics, ...props} = {}) {
+    constructor({settings, topics, contributedTopics, ...props} = {}) {
         super({
             ...props,
             settings: new SettingsRecord(settings),
-            topics: List(topics).map(topic => new TopicRecord(topic))
+            topics: List(topics).map((topic) => new TopicRecord(topic)),
+            contributedTopics: List(contributedTopics).map((topic) => new TopicRecord(topic))
         })
     }
 }
@@ -61,6 +64,7 @@ export const PictureRecord = new Record({
 export class TopicRecord extends Record({
     id: undefined,
     userId: undefined,
+    mode: undefined,
     name: undefined,
     description: undefined,
     date: undefined,
@@ -72,13 +76,15 @@ export class TopicRecord extends Record({
     clicksCount: undefined,
     searchesCount: undefined,
     settings: new SettingsRecord(),
-    tags: List()
+    tags: List(),
+    contributors: List()
 }) {
-    constructor({settings, tags, ...props} = {}) {
+    constructor({settings, tags, contributors, ...props} = {}) {
         super({
             ...props,
             settings: new SettingsRecord(settings),
-            tags: List(tags).map(tag => new TagRecord(tag))
+            tags: List(tags).map((tag) => new TagRecord(tag)),
+            contributors: List(contributors).map((user) => new UserRecord(user))
         })
     }
 }
@@ -108,8 +114,8 @@ export class TagRecord extends Record({
         super({
             ...props,
             user: new UserRecord(user),
-            parents: List(parents).map(tag => new TagRecord(tag)),
-            children: List(children).map(tag => new TagRecord(tag))
+            parents: List(parents).map((tag) => new TagRecord(tag)),
+            children: List(children).map((tag) => new TagRecord(tag))
         })
     }
 }
@@ -154,7 +160,7 @@ export class ArticleRecord extends Record({
         super({
             ...props,
             user: new UserRecord(user),
-            tags: List(tags).map(tag => new TagRecord(tag))
+            tags: List(tags).map((tag) => new TagRecord(tag))
         })
     }
 }

@@ -5,64 +5,82 @@ import {
 } from 'react-hot-loader';
 
 import {
+    lazy,
+    Suspense
+} from 'react';
+
+import {
     withStyles
 } from '@material-ui/core/styles';
 
 import {
     fetchArticles,
-    updateArticleOrder,
+    updateArticleOrderDisplay,
+    setCurrentArticles,
     setCurrentTags
 } from '../../actions';
 
 import {
-    getArticlePagination,
-    getArticles
+    getArticleMetaTags,
+    getArticlesCount,
+    getArticlePagination
 } from '../../selectors';
 
 import Loader from '../theme/loader';
+import Pagination from '../theme/pagination';
 
-import ArticleListDisplay from './display/list';
-import ArticleNoneDisplay from '../articles/display/none';
-import ArticleAppendixDisplay from '../articles/display/appendix';
+import HeadLayout from '../layouts/head';
+
+import SummaryStoriesTopic from '../topics/stories/summary';
+
+import ArticleNoneDisplay from './display/none';
+
+const ArticleListMode = lazy(() => import(/* webpackChunkName: "article-index-list" */ './display/modes/list'));
+const ArticleInfiniteMode = lazy(() => import(/* webpackChunkName: "article-index-infinite" */ './display/modes/infinite'));
+const ArticleMasonryMode = lazy(() => import(/* webpackChunkName: "article-index-masonry" */ './display/modes/masonry'));
+const ArticleTimelineMode = lazy(() => import(/* webpackChunkName: "article-index-timeline" */ './display/modes/timeline'));
 
 import styles from '../../../jss/article/index';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
+    metaTags: getArticleMetaTags(state),
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
-    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopic: state.topicState.currentTopic,
     isFetching: state.articleState.isFetching,
-    articles: getArticles(state),
+    articlesCount: getArticlesCount(state),
     articlePagination: getArticlePagination(state),
     articlesLoaderMode: state.uiState.articlesLoaderMode,
     articleDisplayMode: state.uiState.articleDisplayMode,
-    articleOrderMode: state.uiState.articleOrderMode,
+    areArticlesMinimized: state.uiState.areArticlesMinimized,
     articleEditionId: state.articleState.articleEditionId
 }), {
     fetchArticles,
-    updateArticleOrder,
+    updateArticleOrderDisplay,
+    setCurrentArticles,
     setCurrentTags
 })
+@hot(module)
 @withStyles(styles)
 class ArticleIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         queryString: PropTypes.string,
         // from connect
+        metaTags: PropTypes.object,
         userId: PropTypes.number,
         userSlug: PropTypes.string,
-        currentUserTopicId: PropTypes.string,
+        currentUserTopic: PropTypes.object,
         isFetching: PropTypes.bool,
-        articles: PropTypes.array,
+        articlesCount: PropTypes.number,
         articlePagination: PropTypes.object,
         articleEditionId: PropTypes.number,
         articlesLoaderMode: PropTypes.string,
         articleDisplayMode: PropTypes.string,
-        articleOrderMode: PropTypes.string,
+        areArticlesMinimized: PropTypes.bool,
         fetchArticles: PropTypes.func,
-        updateArticleOrder: PropTypes.func,
+        updateArticleOrderDisplay: PropTypes.func,
+        setCurrentArticles: PropTypes.func,
         setCurrentTags: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -75,11 +93,6 @@ class ArticleIndex extends React.Component {
         this._request = null;
     }
 
-    state = {
-        isMinimized: false,
-        currentArticles: []
-    };
-
     componentDidMount() {
         this._fetchArticles(this.props.params);
 
@@ -89,13 +102,13 @@ class ArticleIndex extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        // Manage articles order or sort
+        // Manage articles order or sort display
         if (!Object.equals(this.props.params, prevProps.params) || this.props.queryString !== prevProps.queryString) {
             const nextParseQuery = Utils.parseUrlParameters(this.props.queryString) || {};
 
             if (this._parseQuery.order !== nextParseQuery.order) {
                 if (nextParseQuery.order) {
-                    this.props.updateArticleOrder(nextParseQuery.order);
+                    this.props.updateArticleOrderDisplay(nextParseQuery.order);
                 }
             }
 
@@ -106,6 +119,9 @@ class ArticleIndex extends React.Component {
             if (this.props.params.tagSlug) {
                 this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}]);
             }
+        } else if (this.props.articleDisplayMode !== prevProps.articleDisplayMode || this.props.articlesLoaderMode !== prevProps.articlesLoaderMode) {
+            // Reload articles to fit with new loader or display mode
+            this._fetchArticles(this.props.params);
         }
     }
 
@@ -126,6 +142,11 @@ class ArticleIndex extends React.Component {
             delete params.tagSlug;
         }
 
+        if (params['0'] === 'shared-topics') {
+            params.sharedTopic = true;
+            delete params['0'];
+        }
+
         this._request = this.props.fetchArticles({
             userId: this.props.userId,
             ...params,
@@ -142,92 +163,121 @@ class ArticleIndex extends React.Component {
 
             this._request = this.props.fetchArticles({
                 userId: this.props.userId,
-                topicId: this.props.currentUserTopicId,
                 ...queryParams
             }, options, {infinite: !params.selected});
 
             this._request.fetch.then(() => {
                 if (params.selected) {
-                    setTimeout(() => {
-                        $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 750);
-                    }, 300);
+                    $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 350);
                 }
             });
         }
     };
 
-    _handleMinimizeAll = (event) => {
-        event.preventDefault();
-
-        this.setState({
-            isMinimized: !this.state.isMinimized
-        })
-    };
-
     _handleArticleEnter = (article) => {
-        this.setState({
-            currentArticles: this.state.currentArticles.concat(article.id)
-        })
+        this.props.setCurrentArticles('add', article.id);
     };
 
     _handleArticleExit = (article) => {
-        this.setState({
-            currentArticles: this.state.currentArticles.remove(article.id)
-        })
+        this.props.setCurrentArticles('remove', article.id);
     };
 
     render() {
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
-        const isSortedByTag = this.props.articleOrderMode === 'tag_asc' || this.props.articleOrderMode === 'tag_desc';
 
-        if (this.props.articles.length === 0 && !this.props.isFetching) {
+        const isStoriesMode = this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories';
+
+        if (this.props.userId && !this.props.currentUserTopic) {
+            return (
+                <div className={this.props.classes.root}>
+                    <div className="center">
+                        <Loader size="big"/>
+                    </div>
+                </div>
+            );
+        }
+
+        if (this.props.articlesCount === 0 && !this.props.isFetching) {
             return (
                 <div className="blog-article-box">
                     <ArticleNoneDisplay userSlug={this.props.params.userSlug}
                                         topicSlug={this.props.params.topicSlug}
+                                        tagSlug={this.props.params.tagSlug}
+                                        childTagSlug={this.props.params.childTagSlug}
                                         isTopicPage={true}
                                         isSearchPage={false}/>
                 </div>
             );
         }
 
+        let ArticleNodes;
+        if (isStoriesMode) {
+            ArticleNodes = (
+                <ArticleTimelineMode onEnter={this._handleArticleEnter}
+                                     onExit={this._handleArticleExit}/>
+            );
+        } else if (this.props.articleDisplayMode === 'grid') {
+            ArticleNodes = (
+                <ArticleMasonryMode onEnter={this._handleArticleEnter}
+                                    onExit={this._handleArticleExit}/>
+            );
+        } else {
+            ArticleNodes = (
+                <ArticleListMode classes={this.props.classes}
+                                 parentTag={this.props.params.tagSlug}
+                                 isMinimized={this.props.areArticlesMinimized}
+                                 articleEditionId={this.props.articleEditionId}
+                                 onEnter={this._handleArticleEnter}
+                                 onExit={this._handleArticleExit}/>
+            );
+        }
+
         return (
-            <div className={classNames(this.props.classes.root, {
-                [this.props.classes.grid]: this.props.articleDisplayMode === 'grid'
-            })}>
+            <div>
                 {
-                    this.props.isFetching &&
-                    <div className={this.props.classes.root}>
-                        <div className="center">
-                            <Loader size="big"/>
-                        </div>
-                    </div>
+                    (this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories') &&
+                    <SummaryStoriesTopic topic={this.props.currentUserTopic}/>
                 }
 
-                {
-                    this.props.articles.length > 0 &&
-                    <div className="row">
-                        <div className="col s12 l10 offset-l1">
-                            <ArticleListDisplay articles={this.props.articles}
-                                                articlesLoaderMode={this.props.articlesLoaderMode}
-                                                articleDisplayMode={this.props.articleDisplayMode}
-                                                articleEditionId={this.props.articleEditionId}
-                                                hasMoreArticles={hasMoreArticles}
-                                                isSortedByTag={isSortedByTag}
-                                                isMinimized={this.state.isMinimized}
-                                                parentTag={this.props.params.tagSlug}
-                                                articleTotalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
-                                                onEnter={this._handleArticleEnter}
-                                                onExit={this._handleArticleExit}
-                                                fetchArticles={this._fetchNextArticles}/>
-                        </div>
+                <div className={classNames(this.props.classes.root, {
+                    [this.props.classes.largeContainer]: this.props.articleDisplayMode === 'grid' || isStoriesMode,
+                    [this.props.classes.fullContainer]: isStoriesMode
+                })}>
+                    <HeadLayout metaTags={this.props.metaTags}/>
 
-                        <div className="col s12 l1">
-                            <ArticleAppendixDisplay currentArticles={this.state.currentArticles}
-                                                    onMinimized={this._handleMinimizeAll}/>
+                    {
+                        this.props.isFetching &&
+                        <div className={this.props.classes.root}>
+                            <div className="center">
+                                <Loader size="big"/>
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+
+                    {
+                        this.props.articlesCount > 0 &&
+                        <Suspense fallback={<div/>}>
+                            {
+                                this.props.articlesLoaderMode === 'infinite'
+                                    ?
+                                    <ArticleInfiniteMode classes={this.props.classes}
+                                                         articlesCount={this.props.articlesCount}
+                                                         hasMoreArticles={hasMoreArticles}
+                                                         fetchArticles={this._fetchNextArticles}>
+                                        {ArticleNodes}
+                                    </ArticleInfiniteMode>
+                                    :
+                                    ArticleNodes
+                            }
+                        </Suspense>
+                    }
+
+                    {
+                        this.props.articlesLoaderMode === 'pagination' &&
+                        <Pagination totalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
+                                    onPaginationClick={this._fetchNextArticles}/>
+                    }
+                </div>
             </div>
         );
     }

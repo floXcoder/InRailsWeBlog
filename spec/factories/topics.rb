@@ -21,6 +21,7 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  settings                 :jsonb            not null
+#  mode                     :integer          default("default"), not null
 #
 
 FactoryBot.define do
@@ -33,6 +34,7 @@ FactoryBot.define do
     languages               { ['fr'] }
     priority                { 0 }
     visibility              { 'everyone' }
+    # settings                { {} }
   end
 
 end

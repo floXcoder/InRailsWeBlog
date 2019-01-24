@@ -11,7 +11,7 @@ const mainWidth = 1200;
 const articleWidth = 740;
 const articleAppendixWidth = 924;
 const gridWidth = 1110;
-const appendixWidth = 300;
+const storiesWidth = 920;
 
 // zIndex
 const mainZIndex = 1;
@@ -22,9 +22,10 @@ const drawerZIndex = 1200;
 const modalZIndex = 1300;
 const snackbarZIndex = 1400;
 const tooltipZIndex = 1500;
+// const dropdownIndex = 1600;
 
 // Headers font
-const h1Size = '2.5rem';
+const h1Size = '3rem';
 const h1Weight = 600;
 const h1LineHeight = '2.5rem';
 const h1Spacing = 3.5;
@@ -38,7 +39,7 @@ const h1SpacingExtract = 2.6;
 // It's optional.
 const theme = createMuiTheme({
     breakpoints: {
-        keys: ["xs", "sm", "md", "lg", "xl"],
+        keys: ['xs', 'sm', 'md', 'lg', 'xl'],
         values: {
             xs: 0,
             sm: 600,
@@ -59,10 +60,10 @@ const theme = createMuiTheme({
             paper: '#fff'
         },
         text: {
-            primary: "rgba(0, 0, 0, 0.87)",
-            secondary: "rgba(0, 0, 0, 0.54)",
-            disabled: "rgba(0, 0, 0, 0.38)",
-            hint: "rgba(0, 0, 0, 0.38)"
+            primary: 'rgba(0, 0, 0, 0.87)',
+            secondary: 'rgba(0, 0, 0, 0.54)',
+            disabled: 'rgba(0, 0, 0, 0.38)',
+            hint: 'rgba(0, 0, 0, 0.38)'
         },
         primary: {
             light: '#5b6e85',
@@ -73,7 +74,7 @@ const theme = createMuiTheme({
             light: '#ffc253',
             main: '#ffb328',
             dark: '#b27d1c'
-        },
+        }
     },
 
     zIndex: {
@@ -83,6 +84,18 @@ const theme = createMuiTheme({
         modal: modalZIndex,
         snackbar: snackbarZIndex,
         tooltip: tooltipZIndex
+    },
+
+    overrides: {
+        MuiSvgIcon: {
+            root: {
+                ['@media (max-width:960px)']: {
+                    width: 28,
+                    height: 28,
+                    fontSize: 28
+                }
+            }
+        }
     }
 });
 
@@ -94,7 +107,7 @@ export {
     articleWidth,
     gridWidth,
     articleAppendixWidth,
-    appendixWidth,
+    storiesWidth,
 
     mainZIndex,
     topicZIndex,

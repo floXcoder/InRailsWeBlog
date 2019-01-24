@@ -171,14 +171,14 @@ end
 # Improve logging messages
 ###
 module Kernel
-  def w msg
+  def w(message)
     return unless Rails.env.development? || Rails.env.test?
 
     ap "*** #{Time.zone.now} ***", color: { string: :green }
     # ap msg.class if msg.respond_to?(:class)
     src = caller.first.gsub(Rails.root.to_s + '/', '')
     ap src, color: { string: :purpleish }
-    msg.respond_to?(:to_unsafe_h) ? ap(msg.to_unsafe_h) : ap(msg)
+    message.respond_to?(:to_unsafe_h) ? ap(message.to_unsafe_h) : ap(message)
     ap '*** END ***', color: { string: :green }
   end
 end

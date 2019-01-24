@@ -21,12 +21,14 @@ describe('Users actions', () => {
         it('should fetch users', () => {
             const users = FactoryGenerator.create('users', {number: 3});
 
-            mock(`/api/v1/users`, 200, () => ({
+            mock(`/api/v1/users.json`, 200, () => ({
                     users,
                     meta: {
-                        currentPage: 1,
-                        totalPages: 1,
-                        totalCount: 3
+                        pagination: {
+                            currentPage: 1,
+                            totalPages: 1,
+                            totalCount: 3
+                        }
                     }
                 })
             );
@@ -45,7 +47,7 @@ describe('Users actions', () => {
         it('should fetch a user', () => {
             const user = FactoryGenerator.create('users');
 
-            mock(`/api/v1/users/${user.id}`, 200, () => ({
+            mock(`/api/v1/users/${user.id}.json`, 200, () => ({
                     user: user
                 })
             );
@@ -132,7 +134,7 @@ describe('Users actions', () => {
         it('should update user settings', () => {
             const user = FactoryGenerator.create('users');
 
-            mock(`/api/v1/users/${user.id}`, 200, () => ({
+            mock(`/api/v1/users/${user.id}.json`, 200, () => ({
                     user: user
                 })
             );
@@ -146,9 +148,11 @@ describe('Users actions', () => {
 
             dispatch(store, UserActions.fetchUser(user.id));
 
-            return dispatch(store, UserActions.updateUserSettings(user.id))
+            return dispatch(store, UserActions.updateUserSettings(user.id, {
+                articleDisplay: 'grid'
+            }))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('card');
+                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('grid');
                 });
         });
     });
@@ -160,7 +164,7 @@ describe('Users actions', () => {
             const tags = FactoryGenerator.create('tags', {number: 2});
             const topics = FactoryGenerator.create('topics', {number: 2});
 
-            mock(`/api/v1/users/${user.id}/recents`, 200, () => ({
+            mock(`/api/v1/users/${user.id}/recents.json`, 200, () => ({
                     articles,
                     tags,
                     topics

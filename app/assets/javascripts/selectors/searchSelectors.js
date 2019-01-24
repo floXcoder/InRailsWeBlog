@@ -62,6 +62,11 @@ export const getSearchTopics = createSelector(
     (topics) => topics.toArray()
 );
 
+export const getSearchMetaTags = createSelector(
+    (state) => state.searchState.metaTags,
+    (metaTags) => metaTags.toJS()
+);
+
 // Suggestions
 export const getArticleSuggestions = createSelector(
     (state) => state.searchState.articleSuggestions,

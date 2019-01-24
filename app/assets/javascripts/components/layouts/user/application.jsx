@@ -1,7 +1,5 @@
 'use strict';
 
-import '../../../../stylesheets/pages/home/user.scss';
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import {

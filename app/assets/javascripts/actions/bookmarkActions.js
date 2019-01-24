@@ -48,13 +48,13 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUser
         } else {
             if (hasLocalStorage) {
                 saveLocalData('bookmark', {bookmark});
-                Notification.alert(I18n.t('js.bookmark.notification.saved_later'), 10, I18n.t('js.bookmark.notification.connection'), () => {
+                Notification.alert(I18n.t('js.bookmark.notification.saved_later'), I18n.t('js.bookmark.notification.connection'), () => {
                     window.location = '/login';
                 });
 
                 return dispatch(receiveBookmark({bookmark}));
             } else {
-                Notification.alert(I18n.t('js.bookmark.notification.not_connected'), 10, I18n.t('js.bookmark.notification.connection'), () => {
+                Notification.alert(I18n.t('js.bookmark.notification.not_connected'), I18n.t('js.bookmark.notification.connection'), () => {
                     window.location = '/login';
                 });
             }
@@ -67,7 +67,7 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUser
                 .post(`/api/v1/users/${currentUserId}/bookmarks`, {bookmark})
                 .then((response) => {
                     if (!bookmarkData && !response.errors) {
-                        Notification.alert(I18n.t('js.bookmark.notification.text'), 10);
+                        Notification.alert(I18n.t('js.bookmark.notification.text'));
                     }
 
                     return dispatch(receiveBookmark(response));

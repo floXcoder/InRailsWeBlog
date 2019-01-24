@@ -23,6 +23,7 @@ const initState = new Record({
     errors: new Map(),
 
     articles: new List(),
+    metaTags: new Map(),
     pagination: new Map(),
 
     homeArticles: new List(),
@@ -30,6 +31,9 @@ const initState = new Record({
 
     article: undefined,
     articleEditionId: undefined,
+
+    articleStories: undefined,
+
     articleVersions: undefined
 });
 
@@ -80,10 +84,17 @@ export default function articleReducer(state = new initState(), action) {
                     articles: mutateArray(state.articles, payload.article && (new Records.ArticleRecord(payload.article)), action.removedId)
                 }) /*, ['article']*/);
 
+        // Topic stories
+        case ActionTypes.ARTICLE_STORIES:
+            return state.merge({
+                articleStories: toList(action.stories, Records.ArticleRecord)
+            });
+
         // History and restoration
         case ActionTypes.ARTICLE_HISTORY:
             return state.merge({
-                articleVersions: action.versions
+                articleVersions: action.versions,
+                metaTags: action.meta && action.meta.metaTags ? action.meta.metaTags : state.metaTags
             });
 
         case ActionTypes.ARTICLE_RESTORE:

@@ -41,4 +41,4 @@ ArticleVisibilityIcon.defaultProps = {
     color: 'primary'
 };
 
-export default React.memo(ArticleVisibilityIcon);
+export default ArticleVisibilityIcon;

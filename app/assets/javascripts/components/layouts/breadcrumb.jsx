@@ -88,11 +88,11 @@ class BreadcrumbLayout extends React.Component {
 
     _linkFromRecent = (recent) => {
         if (recent.type === 'article') {
-            return `/users/${recent.user.slug}/articles/${recent.slug}`;
+            return `/users/${recent.userSlug}/articles/${recent.slug}`;
         } else if (recent.type === 'tag') {
             return `/tagged/${recent.slug}`;
         } else if (recent.type === 'topic') {
-            return `/users/${recent.user.slug}/topics/${recent.slug}`;
+            return `/users/${recent.userSlug}/topics/${recent.slug}`;
         } else if (recent.type === 'user') {
             return `/users/${recent.slug}`;
         } else {

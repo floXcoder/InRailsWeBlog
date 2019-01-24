@@ -7,25 +7,42 @@ module Articles
     def initialize(current_user = nil, current_admin = nil, relation = Article.all)
       super(current_user, current_admin)
 
-      @relation = relation.extending(Scopes)
+      @relation       = relation.extending(Scopes)
+      @user_articles  = nil
+      @topic_articles = nil
     end
 
     def all(params = {})
-      @relation = if @current_user
-                    @relation
-                      .include_collection
-                      .with_adapted_visibility(@current_user, @current_admin)
-                      .order_by(filter_articles(params))
-                      .filter_by(params, @current_user)
-                      .paginate_or_limit(params)
-                  else
-                    @relation
-                      .include_collection
-                      .everyone
-                      .order_by(filter_articles(params))
-                      .paginate_or_limit(params)
-                  end
+      user_filter     = { id: params[:user_id], slug: params[:user_slug] }.compact
+      topic_filter    = { id: params[:topic_id], slug: params[:topic_slug] }.compact
 
+      @user_articles  = User.find_by(user_filter) if user_filter.present?
+      @topic_articles = params[:shared_topic] ? @user_articles.contributed_topics.find_by(topic_filter) : @user_articles.topics.find_by(topic_filter) if @user_articles && topic_filter.present?
+
+      return @relation.none if (user_filter.present? && !@user_articles) || (topic_filter.present? && !@topic_articles)
+
+      @relation = @relation
+                    .include_collection
+                    .with_adapted_visibility(@current_user, @current_admin)
+                    .order_by(article_order(params))
+                    .filter_by(params, @current_user, @user_articles, @topic_articles)
+                    .paginate_or_limit(params, @current_user)
+
+      return @relation
+    end
+
+    def stories(params = {})
+      topic_filter    = { id: params[:topic_id], slug: params[:topic_slug] }.compact
+      @topic_articles = Topic.find_by(topic_filter) if topic_filter.present?
+
+      return @relation.none unless @topic_articles
+
+      @relation = @relation
+                    .include_collection
+                    .with_adapted_visibility(@current_user, @current_admin)
+                    .order_by(article_order(params))
+                    .filter_by(params, @current_user, @user_articles, @topic_articles)
+                    .paginate_or_limit(params, @current_user)
 
       return @relation
     end
@@ -102,7 +119,7 @@ module Articles
         end
       end
 
-      def filter_by(filter, current_user = nil)
+      def filter_by(filter, current_user = nil, user_articles = nil, topic_articles = nil)
         return self unless filter.present?
 
         records = self
@@ -114,18 +131,10 @@ module Articles
 
         if filter[:bookmarked] && current_user
           records = records.bookmarked_by_user(current_user.id)
-        else
-          if filter[:user_id]
-            records = records.from_user_id(filter[:user_id], current_user&.id)
-          elsif filter[:user_slug]
-            records = records.from_user(filter[:user_slug], current_user&.id)
-          end
-
-          if filter[:topic_id]
-            records = records.from_topic_id(filter[:topic_id])
-          elsif filter[:topic_slug]
-            records = records.from_topic(filter[:topic_slug])
-          end
+        elsif topic_articles
+          records = records.from_topic_id(topic_articles.id)
+        elsif user_articles
+          records = records.from_user_id(user_articles.id, current_user&.id)
         end
 
         records = if filter[:parent_tag_slug] && filter[:child_tag_slug]
@@ -137,7 +146,7 @@ module Articles
                   elsif filter[:child_tag_slug]
                     records.with_child_tags(filter[:child_tag_slug])
                   elsif filter[:tag_slug]
-                    current_user&.settings['tag_parent_and_child'] ? records.with_tags(filter[:tag_slug]) : records.with_no_parent_tags(filter[:tag_slug])
+                    current_user && current_user.settings['tag_parent_and_child'] ? records.with_tags(filter[:tag_slug]) : records.with_no_parent_tags(filter[:tag_slug])
                   else
                     records
                   end
@@ -149,28 +158,28 @@ module Articles
         return records
       end
 
-      def paginate_or_limit(params)
-        params[:limit].present? ? self.limit(params[:limit]) : self.paginate(page: params[:page], per_page: Setting.per_page)
+      def paginate_or_limit(params, current_user)
+        if params[:limit].present?
+          self.limit(params[:limit])
+        elsif current_user&.articles_loader == 'all'
+          self.all
+        else
+          self.paginate(page: params[:page], per_page: Setting.per_page)
+        end
       end
     end
 
     private
 
-    def filter_articles(params)
+    def article_order(params)
       if params[:order].present?
-        if @current_user && @current_user.article_order != params[:order]
-          @current_user.settings['article_order'] = params[:order]
-          @current_user.save
-        end
-
         params[:order]
       elsif @current_user
-        topic_order = nil
-        if params[:topic_slug].present?
-          topic       = @current_user.topics.friendly.find(params[:topic_slug])
-          topic_order = topic.article_order
+        if @user_articles == @current_user && @topic_articles
+          @topic_articles&.article_order || @current_user.article_order
+        else
+          @current_user.article_order
         end
-        topic_order || @current_user.article_order
       else
         'priority_desc'
       end

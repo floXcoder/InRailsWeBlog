@@ -22,4 +22,4 @@ ArticleBookmarkIcon.defaultProps = {
     color: 'primary'
 };
 
-export default React.memo(ArticleBookmarkIcon);
+export default ArticleBookmarkIcon;

@@ -74,7 +74,7 @@ class User < ApplicationRecord
   store_attributes :settings do
     articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
     article_display String, default: 'card' # Display articles: inline / card (with inline edit) / grid
-    article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
+    article_order String, default: 'priority_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
 
     tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default
     tag_sidebar_with_child Boolean, default: false # Display child only tags in sidebar
@@ -150,7 +150,6 @@ class User < ApplicationRecord
            through:     :bookmarks,
            source:      :bookmarked,
            source_type: 'Article'
-
   has_many :followers,
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
@@ -170,6 +169,31 @@ class User < ApplicationRecord
            through:     :bookmarks,
            source:      :bookmarked,
            source_type: 'Tag'
+
+  has_many :shares,
+           source:    :user,
+           dependent: :destroy
+  has_many :shared_topics,
+           through:     :shares,
+           source:      :shareable,
+           source_type: 'Topic'
+  has_many :shared_articles,
+           through:     :shares,
+           source:      :shareable,
+           source_type: 'Article'
+
+  has_many :contributions,
+           class_name:  'Share',
+           foreign_key: :contributor_id,
+           dependent:   :destroy
+  has_many :contributed_topics,
+           through:     :contributions,
+           source:      :shareable,
+           source_type: 'Topic'
+  has_many :contributed_articles,
+           through:     :contributions,
+           source:      :shareable,
+           source_type: 'Article'
 
   has_many :comments,
            dependent: :destroy
@@ -258,6 +282,10 @@ class User < ApplicationRecord
 
   def self.login?(login)
     User.pseudo?(login) || User.email?(login)
+  end
+
+  def self.find_by_login(login)
+    User.where('email = :email OR pseudo = :pseudo', email: login, pseudo: login).first
   end
 
   def self.find_for_database_authentication(warden_conditions)
@@ -399,6 +427,7 @@ class User < ApplicationRecord
 
   def create_default_topic
     default_topic = self.topics.create(name: I18n.t('topic.default_name'), languages: [self.locale], visibility: :only_me)
+
     update_column(:current_topic_id, default_topic.id)
   end
 

@@ -74,15 +74,13 @@ const validate = (values) => {
 
 const asyncValidate = (values /*, dispatch */) => {
     if (values.get('pseudo')) {
-        return (
-            validateUser(values.get('pseudo')).then((response) => {
-                if (response.success) {
-                    throw {
-                        pseudo: I18n.t('js.user.errors.pseudo.already_taken')
-                    };
-                }
-            })
-        );
+        return validateUser(values.get('pseudo')).then((response) => {
+            if (response.success) {
+                throw {
+                    pseudo: I18n.t('js.user.errors.pseudo.already_taken')
+                };
+            }
+        });
     } else {
         return Promise.resolve();
     }
@@ -230,7 +228,7 @@ class SignupForm extends React.Component {
                                id="user_terms_signup"
                                label={
                                    <span>
-                                   {I18n.t('js.user.signup.terms_of_use', {website: window.settings.website_name}) + ' '}
+                                        {I18n.t('js.user.signup.terms_of_use', {website: window.settings.website_name}) + ' '}
                                        <a href="/terms">
                                             {I18n.t('js.user.signup.terms_of_use_name')}
                                        </a>

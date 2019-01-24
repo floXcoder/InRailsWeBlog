@@ -51,6 +51,11 @@ const styles = (theme) => ({
         visibility: 'visible',
         opacity: 1
     },
+    expandIcon: {
+        width: '25%',
+        height: 30,
+        padding: '2px 8px 2px 8px'
+    },
     label: {
         fontSize: '1.2rem',
         color: theme.palette.text.primary

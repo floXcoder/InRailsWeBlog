@@ -23,6 +23,7 @@ const initState = new Record({
     errors: new Map(),
 
     tags: new List(),
+    metaTags: new Map(),
     pagination: new Map(),
 
     popularTags: new List(),

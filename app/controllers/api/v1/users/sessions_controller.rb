@@ -72,7 +72,7 @@ module Api::V1
       return if params[:user].blank?
 
       if params[:user][:login].present?
-        user = User.where('email = :email OR pseudo = :pseudo', email: params[:user][:login], pseudo: params[:user][:login]).first
+        user = User.find_by_login(params[:user][:login])
         if user && !user.confirmed?
           error_msg = I18n.t('devise.failure.unconfirmed')
           redirect_after_failure(error_msg)

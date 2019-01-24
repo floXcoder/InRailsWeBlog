@@ -13,6 +13,8 @@ module TrackerConcern
     skip_before_action :set_locale, only: [:clicked, :viewed]
     # For pundit, skip authorization
     skip_after_action :verify_authorized, only: [:clicked, :viewed]
+    # For Rails, skip token verification
+    skip_before_action :verify_authenticity_token, only: [:clicked, :viewed]
   end
 
   # Tracker action method to get views from clients

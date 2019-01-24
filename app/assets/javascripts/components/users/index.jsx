@@ -11,7 +11,7 @@ import SearchBar from '../theme/searchBar';
 
 // import Filtering from '../../modules/filter';
 
-import Pagination from '../materialize/pagination';
+import Pagination from '../theme/pagination';
 
 export default class UserIndex extends React.Component {
     static propTypes = {

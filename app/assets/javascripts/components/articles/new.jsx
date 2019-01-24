@@ -17,22 +17,23 @@ import {
     getCurrentLocale
 } from '../../selectors';
 
+import articleMutationManager from './managers/mutation';
+
+import HeadLayout from '../layouts/head';
+
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
-import articleMutationManager from './managers/mutation';
-
 import styles from '../../../jss/article/form';
 
-export default @hot(module)
-
-@articleMutationManager('new', `article-${Utils.uuid()}`)
+export default @articleMutationManager('new', `article-${Utils.uuid()}`)
 @connect((state) => ({
     userSlug: state.userState.currentSlug,
     inheritVisibility: getCurrentUserTopicVisibility(state)
 }), {
     switchTagSidebar
 })
+@hot(module)
 @withStyles(styles)
 class ArticleNew extends React.Component {
     static propTypes = {
@@ -41,10 +42,10 @@ class ArticleNew extends React.Component {
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         article: PropTypes.object,
-        isInline: PropTypes.bool,
         currentMode: PropTypes.string,
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
+        onCancelClick: PropTypes.func,
         onSubmit: PropTypes.func,
         // from connect
         userSlug: PropTypes.string,
@@ -63,7 +64,7 @@ class ArticleNew extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.props.articleErrors !== nextProps.articleErrors || this.props.inheritVisibility !== nextProps.inheritVisibility;
+        return this.props.articleErrors !== nextProps.articleErrors || this.props.inheritVisibility !== nextProps.inheritVisibility || this.props.currentMode !== nextProps.currentMode;
     }
 
     render() {
@@ -76,7 +77,7 @@ class ArticleNew extends React.Component {
         };
 
         let errorStep = null;
-        if(this.props.articleErrors.length > 0) {
+        if (this.props.articleErrors.length > 0) {
             if (this.props.articleErrors.some((error) => error.includes('Tags') || error.includes('Labels'))) {
                 errorStep = 'tag';
             } else {
@@ -86,6 +87,11 @@ class ArticleNew extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
+                <HeadLayout metaTags={{
+                    title: I18n.t('js.article.new.meta.title', {topic: this.props.currentTopic ? this.props.currentTopic.name : null}),
+                    description: I18n.t('js.article.new.meta.description')
+                }}/>
+
                 <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&
@@ -100,9 +106,9 @@ class ArticleNew extends React.Component {
                                     initialValues={initialValues}
                                     currentMode={this.props.currentMode}
                                     errorStep={errorStep}
-                                    isInline={this.props.isInline}
                                     isDraft={this.props.isDraft}
                                     articleErrors={this.props.articleErrors}
+                                    onCancelClick={this.props.onCancelClick}
                                     onSubmit={this.props.onSubmit}>
                     {this.props.article}
                 </ArticleFormDisplay>

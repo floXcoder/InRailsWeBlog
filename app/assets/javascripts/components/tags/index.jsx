@@ -28,17 +28,19 @@ import {
 } from '../../actions';
 
 import {
+    getTagMetaTags,
     getPublicTags,
     getPrivateTags
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
+import HeadLayout from '../layouts/head';
+
 import styles from '../../../jss/tag/index';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
+    metaTags: getTagMetaTags(state),
     isUserConnected: state.userState.isConnected,
     currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
@@ -48,11 +50,13 @@ export default @hot(module)
 }), {
     fetchTags
 })
+@hot(module)
 @withStyles(styles)
 class TagIndex extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         // from connect
+        metaTags: PropTypes.object,
         isUserConnected: PropTypes.bool,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
@@ -159,14 +163,17 @@ class TagIndex extends React.Component {
     };
 
     render() {
+        if (this.props.isFetching) {
+            return (
+                <div className="center margin-top-20">
+                    <Loader size="big"/>
+                </div>
+            );
+        }
+
         return (
             <div className={this.props.classes.root}>
-                {
-                    this.props.isFetching &&
-                    <div className="center margin-top-20">
-                        <Loader size="big"/>
-                    </div>
-                }
+                <HeadLayout metaTags={this.props.metaTags}/>
 
                 <div className="margin-bottom-20">
                     <Typography className={this.props.classes.title}

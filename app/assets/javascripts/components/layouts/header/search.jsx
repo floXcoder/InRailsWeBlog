@@ -51,19 +51,9 @@ class HomeSearchHeader extends React.Component {
         query: this.props.query || ''
     };
 
-    // static getDerivedStateFromProps(nextProps) {
-    //     if (nextProps.query === '') {
-    //         return {
-    //             value: ''
-    //         };
-    //     }
-    //
-    //     return null;
-    // }
-
     componentDidUpdate(prevProps) {
         // On clear input (tag click, ...), set focus to continue searching
-        if ((prevProps.hasSearch !== this.props.isSearchActive && this.props.isSearchActive) || prevProps.query === '') {
+        if ((prevProps.isSearchActive !== this.props.isSearchActive && this.props.isSearchActive) || prevProps.query === '') {
             this._searchInput.focus();
         }
     }

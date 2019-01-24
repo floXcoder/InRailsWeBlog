@@ -26,7 +26,7 @@ feature 'Tag index for users', advanced: true, js: true do
       let(:content) {
         {
           current_page: tags_page,
-          title:        I18n.t('views.tag.index.title', user: @user.pseudo),
+          title:        I18n.t('views.tag.index.title.user', user: @user.pseudo),
           asset_name:   'assets/user',
           common_js:    ['assets/runtime', 'assets/user'],
           connected:    true

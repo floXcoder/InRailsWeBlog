@@ -4,6 +4,8 @@ const webpack = require('webpack');
 
 const autoprefixer = require('autoprefixer');
 
+const HappyPack = require('happypack');
+
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
@@ -38,7 +40,8 @@ webPackConfig.resolve = {
     // by default, webpack will search in `web_modules` and `node_modules`. Because we're using
     // vendor, we want it to look in there too
     modules: config.modules.includes,
-    alias: {}
+    alias: {},
+    symlinks: false // No use of yarn link
 };
 
 _.forEach(config.alias, (value, key) => {
@@ -51,7 +54,7 @@ webPackConfig.module = {
         {
             test: /\.(js|jsx)$/,
             exclude: config.rules.javascript.exclude,
-            loader: 'babel-loader',
+            loader: 'happypack/loader',
             options: config.rules.javascript.options
         },
         {
@@ -82,19 +85,23 @@ webPackConfig.module = {
                 {
                     loader: 'image-webpack-loader',
                     options: config.rules.file.options
-                },
-            ],
+                }
+            ]
         },
         {
             test: /\.(woff|woff2|eot|ttf|otf)$/,
             use: [
-                'file-loader'
+                {
+                    loader: 'file-loader',
+                    options: config.rules.font.options
+                }
             ]
         }
     ]
 };
 
 webPackConfig.plugins = [
+    new HappyPack(config.happyPack),
     new webpack.ProvidePlugin(config.plugins),
     new CleanWebpackPlugin(config.clean.pathsToClean, {
         root: path.resolve(config.output.path)

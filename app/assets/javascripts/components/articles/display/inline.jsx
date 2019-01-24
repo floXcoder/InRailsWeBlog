@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    withRouter,
     Link
 } from 'react-router-dom';
 
@@ -27,8 +26,7 @@ import ArticleLinkIcon from '../icons/link';
 
 import styles from '../../../../jss/article/inline';
 
-export default @withRouter
-@highlight()
+export default @highlight()
 @withStyles(styles)
 class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
@@ -44,8 +42,6 @@ class ArticleInlineDisplay extends React.PureComponent {
         onExit: PropTypes.func,
         // from highlight
         onShow: PropTypes.func,
-        // from withRouter
-        history: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };
@@ -57,8 +53,6 @@ class ArticleInlineDisplay extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
-        this._headerRed = null;
     }
 
     state = {
@@ -102,19 +96,19 @@ class ArticleInlineDisplay extends React.PureComponent {
     };
 
     _handleTitleClick = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
 
         spyTrackClick('article', this.props.id, this.props.slug, this.props.title);
 
-        const position = ReactDOM.findDOMNode(this._headerRed).getBoundingClientRect();
-
-        this.props.history.push({
-            pathname: `/users/${this.props.userSlug}/articles/${this.props.slug}`,
-            state: {
-                position: {x: position.x, y: position.y},
-                title: this.props.title
-            }
-        });
+        // const position = ReactDOM.findDOMNode(this._headerRed).getBoundingClientRect();
+        //
+        // this.props.history.push({
+        //     pathname: `/users/${this.props.userSlug}/articles/${this.props.slug}`,
+        //     state: {
+        //         position: {x: position.x, y: position.y},
+        //         title: this.props.title
+        //     }
+        // });
     };
 
     _handleFoldClick = (event) => {
@@ -148,8 +142,7 @@ class ArticleInlineDisplay extends React.PureComponent {
 
                     {
                         this.props.title &&
-                        <Link innerRef={(ref) => this._headerRed = ref}
-                              to={`/users/${this.props.userSlug}/articles/${this.props.slug}`}
+                        <Link to={`/users/${this.props.userSlug}/articles/${this.props.slug}`}
                               onClick={this._handleTitleClick}>
                             <h1 className={this.props.classes.title}>
                                 {this.props.title}

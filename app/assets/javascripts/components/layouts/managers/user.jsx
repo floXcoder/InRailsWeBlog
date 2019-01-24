@@ -145,15 +145,6 @@ class UserManager extends React.Component {
         if (newTopicSlug && currentUserTopicSlug !== newTopicSlug) {
             this.props.switchTopic(userId, newTopicSlug);
         }
-
-        //                this.props.switchTopic(this.props.userId, newTopicId)
-        //                 .fetch
-        //                 .then((response) => {
-        //                     if (response.topic) {
-        //                         return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
-        //                     }
-        //                 })
-        //                 .then(() => this.props.showTopicPopup());
     };
 
     render() {

@@ -14,6 +14,7 @@ import {
 } from '../../actions';
 
 import {
+    getTagMetaTags,
     getCurrentUser,
     getTagErrors
 } from '../../selectors';
@@ -22,13 +23,13 @@ import Loader from '../theme/loader';
 
 import TagFormDisplay from './display/form';
 
+import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
 import styles from '../../../jss/tag/edit';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
+    metaTags: getTagMetaTags(state),
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
     tagErrors: getTagErrors(state)
@@ -36,12 +37,14 @@ export default @hot(module)
     fetchTag,
     updateTag
 })
+@hot(module)
 @withStyles(styles)
 class TagEdit extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
         // from connect
+        metaTags: PropTypes.object,
         tag: PropTypes.object,
         currentUser: PropTypes.object,
         tagErrors: PropTypes.array,
@@ -78,7 +81,7 @@ class TagEdit extends React.Component {
     };
 
     render() {
-        if (!this.props.tag) {
+        if (!this.props.tag || !this.props.currentUser) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -98,6 +101,8 @@ class TagEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
+                <HeadLayout metaTags={this.props.metaTags}/>
+
                 <TagFormDisplay initialValues={initialValues}
                                 id={`tag-edit-${this.props.tag.id}`}
                                 tagId={this.props.tag.id}

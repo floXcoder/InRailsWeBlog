@@ -13,7 +13,7 @@
 #  visibility      :integer          default("everyone"), not null
 #  accepted        :boolean          default(TRUE), not null
 #  archived        :boolean          default(FALSE), not null
-#  pictures_count  :integer          default(0)
+#  pictures_count  :integer          default(0)E
 #  articles_count  :integer          default(0)
 #  bookmarks_count :integer          default(0)
 #  slug            :string
@@ -32,6 +32,7 @@ RSpec.describe Topic, type: :model, basic: true do
   before do
     @topic = Topic.create(
       user:        @user,
+      mode:        :default,
       name:        'Topic',
       description: 'Topic description',
       languages:   ['fr'],
@@ -52,6 +53,7 @@ RSpec.describe Topic, type: :model, basic: true do
   context 'Attributes' do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:description) }
+    it { is_expected.to respond_to(:mode) }
     it { is_expected.to respond_to(:languages) }
     it { is_expected.to respond_to(:color) }
     it { is_expected.to respond_to(:priority) }
@@ -62,6 +64,7 @@ RSpec.describe Topic, type: :model, basic: true do
     it { is_expected.to respond_to(:bookmarks_count) }
 
     it { expect(@topic.name).to eq('Topic') }
+    it { expect(@topic.mode).to eq('default') }
     it { expect(@topic.description).to eq('Topic description') }
     it { expect(@topic.languages).to eq(['fr']) }
     it { expect(@topic.color).to eq('#000000') }
@@ -80,6 +83,7 @@ RSpec.describe Topic, type: :model, basic: true do
         )
       end
 
+      it { expect(@topic.mode).to eq('default') }
       it { expect(@topic.priority).to eq(0) }
       it { expect(@topic.visibility).to eq('everyone') }
       it { expect(@topic.archived).to be false }
@@ -96,6 +100,11 @@ RSpec.describe Topic, type: :model, basic: true do
     describe '#description' do
       it { is_expected.to validate_length_of(:description).is_at_least(CONFIG.topic_description_min_length) }
       it { is_expected.to validate_length_of(:description).is_at_most(CONFIG.topic_description_max_length) }
+    end
+
+    describe '#mode' do
+      it { is_expected.to have_enum(:mode) }
+      it { is_expected.to validate_presence_of(:mode) }
     end
 
     describe '#visibility' do
@@ -121,10 +130,16 @@ RSpec.describe Topic, type: :model, basic: true do
 
     it { is_expected.to have_many(:tagged_articles) }
     it { is_expected.to have_many(:tag_relationships) }
+    it { is_expected.to have_many(:tags) }
 
     it { is_expected.to have_many(:bookmarks) }
     it { is_expected.to have_many(:user_bookmarks) }
     it { is_expected.to have_many(:follower) }
+
+    it { is_expected.to have_many(:user_activities) }
+
+    it { is_expected.to have_many(:shares) }
+    it { is_expected.to have_many(:contributors) }
 
     it { is_expected.to have_one(:icon) }
     it { is_expected.to accept_nested_attributes_for(:icon) }
@@ -133,7 +148,8 @@ RSpec.describe Topic, type: :model, basic: true do
   context 'Properties' do
     it { is_expected.to callback(:set_default_color).before(:create) }
 
-    it { is_expected.to have_friendly_id(:slug) }
+    it { is_expected.to respond_to(:slug) }
+    it { is_expected.to respond_to(:slug_candidates) }
 
     it { is_expected.to have_activity }
 

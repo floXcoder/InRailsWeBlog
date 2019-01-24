@@ -115,6 +115,7 @@ const receiveSearch = (searchParams, json, options = {}) => ({
     topics: json.topics || [],
     tags: json.tags || [],
     articles: json.articles || [],
+    meta: json.meta,
     topicFilters: options.filterType === 'topic' && options.filters,
     tagFilters: options.filterType === 'tag' && options.filters,
     articleFilters: options.filterType === 'article' && options.filters
@@ -126,7 +127,7 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
     return api
         .get('/api/v1/search', {search: searchParams})
         .promise
-        .then(json => {
+        .then((json) => {
             if (json.errors) {
                 return dispatch(failSearch(json));
             } else {

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: articles
@@ -7,7 +6,7 @@
 #  id                      :bigint(8)        not null, primary key
 #  user_id                 :bigint(8)
 #  topic_id                :bigint(8)
-#  mode                    :integer          default("story"), not null
+#  mode                    :integer          default("note"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
 #  content_translations    :jsonb            not null
@@ -28,6 +27,7 @@
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  contributor_id          :bigint(8)
 #
 
 class Article < ApplicationRecord
@@ -52,7 +52,7 @@ class Article < ApplicationRecord
   # Strip whitespaces
   auto_strip_attributes :reference
 
-  delegate :popularity,
+  delegate :popularity, :popularity=,
            :rank, :rank=,
            :home_page, :home_page=,
            to: :tracker, allow_nil: true
@@ -62,7 +62,7 @@ class Article < ApplicationRecord
   acts_as_voteable
 
   # Versioning
-  has_paper_trail only: [:title_translations, :summary_translations, :content_translations, :reference]
+  has_paper_trail only: [:contributor, :title_translations, :summary_translations, :content_translations, :reference]
 
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
@@ -95,8 +95,11 @@ class Article < ApplicationRecord
 
   # == Relationships ========================================================
   belongs_to :user,
-             class_name:    'User',
              counter_cache: true
+
+  belongs_to :contributor,
+             class_name: 'User',
+             optional:   true
 
   belongs_to :topic,
              counter_cache: true
@@ -157,9 +160,16 @@ class Article < ApplicationRecord
            through: :bookmarks,
            source:  :user
 
-  # has_many :activities,
-  #          as:         :trackable,
-  #          class_name: 'PublicActivity::Activity'
+  has_many :shares,
+           as:          :shareable,
+           class_name:  'Share',
+           foreign_key: 'shareable_id',
+           dependent:   :destroy
+
+  has_many :contributors,
+           through: :shares,
+           source:  :contributor
+
   has_many :user_activities,
            as:         :recipient,
            class_name: 'PublicActivity::Activity'
@@ -200,6 +210,9 @@ class Article < ApplicationRecord
   validates :notation,
             inclusion: CONFIG.notation_min..CONFIG.notation_max
 
+  validates :mode,
+            presence: true
+
   validates :visibility,
             presence: true
 
@@ -232,9 +245,8 @@ class Article < ApplicationRecord
                                   current_user_id: current_user_id)
   }
 
-  scope :from_topic, -> (topic_slug) {
-    where(topic_id: Topic.find_by(slug: topic_slug).id)
-    # includes(:topic).where(topics: { slug: topic_slug }) # Slower ??
+  scope :from_topic, -> (topic_slug, user_id) {
+    where(topic_id: Topic.find_by(slug: topic_slug, user_id: user_id)&.id)
   }
   scope :from_topic_id, -> (topic_id = nil) {
     where(topic_id: topic_id)
@@ -257,9 +269,9 @@ class Article < ApplicationRecord
     article.visibility = 'only_me' if article.draft?
   end
 
-  # Comments: doesn't allow for private or article other than story
+  # Comments: doesn't allow for private
   before_save do |article|
-    article.allow_comment = false if article.visibility == 'only_me' || article.mode != 'story'
+    article.allow_comment = false if article.visibility == 'only_me'
   end
 
   # after_commit :update_search_index

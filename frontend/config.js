@@ -22,7 +22,6 @@ module.exports = {
             // 'admin/users/show': ['./javascripts/pages/admin/managers/show.jsx'],
             // 'admin/errors': ['./javascripts/pages/admin/managers/errors.jsx']
         },
-
         output: {
             path: './public/assets',
             publicPath: '/assets/'
@@ -31,10 +30,11 @@ module.exports = {
             includes: [
                 'node_modules'
             ],
-            // noParse: []
+            // noParse: // // Must not contains any imports mechanism
         },
         rules: {
             javascript: {
+                exclude: /node_modules/,
                 options: {
                     babelrc: true,
                     cacheDirectory: true
@@ -64,6 +64,11 @@ module.exports = {
                         speed: 4
                     }
                 }
+            },
+            font: {
+                options: {
+                    name: '[name].[hash].[ext]'
+                }
             }
         },
         alias: {
@@ -87,6 +92,10 @@ module.exports = {
         ignorePlugins: [
             /^codemirror$/
         ],
+        happyPack: {
+            loaders: ['babel-loader'],
+            threads: 4
+        },
         translations: 'javascripts/translations',
         images: [
             {
@@ -101,6 +110,7 @@ module.exports = {
             watchPath: [
                 'app/controllers/**/*',
                 'app/queries/**/*',
+                'app/policies/**/*',
                 'app/serializers/**/*',
                 'app/views/**/*'
             ]

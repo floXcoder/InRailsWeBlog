@@ -13,6 +13,11 @@ export const getTags = createSelector(
     (tags) => tags.toArray()
 );
 
+export const getTagMetaTags = createSelector(
+    (state) => state.tagState.metaTags,
+    (metaTags) => metaTags.toJS()
+);
+
 export const getTopicTags = createSelector(
     (state) => state.tagState.topicTags,
     (tags) => tags.toArray()
@@ -136,9 +141,9 @@ export const getCurrentTagSlugs = createSelector(
     (tags) => tags.toArray().compact()
 );
 
-export const getTagIsOwner = (state, tag) => (
-    tag && tag.user ? state.userState.currentId === tag.user.id : false
-);
+// export const getTagIsOwner = (state, tag) => (
+//     tag && tag.user ? state.userState.currentId === tag.user.id : false
+// );
 
 export const getTagErrors = createSelector(
     (state) => state.tagState.errors,

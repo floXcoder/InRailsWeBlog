@@ -6,7 +6,7 @@ import {
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
-const ArticleNoneDisplay = ({userSlug, topicSlug, isTopicPage, isSearchPage}) => (
+const ArticleNoneDisplay = ({userSlug, topicSlug, tagSlug, childTagSlug, isTopicPage, isSearchPage}) => (
     <div className="row margin-top-30">
         <div className="col s6 offset-s3">
             <Paper style={{
@@ -23,8 +23,19 @@ const ArticleNoneDisplay = ({userSlug, topicSlug, isTopicPage, isSearchPage}) =>
                     }
 
                     {
-                        isTopicPage &&
-                        I18n.t('js.article.common.no_results.topic.title')
+                        isTopicPage && (
+                            childTagSlug
+                                ?
+                                I18n.t('js.article.common.no_results.topic.title.child_tag')
+                                :
+                                (
+                                    tagSlug
+                                        ?
+                                        I18n.t('js.article.common.no_results.topic.title.tag')
+                                        :
+                                        I18n.t('js.article.common.no_results.topic.title.default')
+                                )
+                        )
                     }
                 </h2>
 
@@ -57,6 +68,8 @@ const ArticleNoneDisplay = ({userSlug, topicSlug, isTopicPage, isSearchPage}) =>
 ArticleNoneDisplay.propTypes = {
     userSlug: PropTypes.string,
     topicSlug: PropTypes.string,
+    tagSlug: PropTypes.string,
+    childTagSlug: PropTypes.string,
     isSearchPage: PropTypes.bool,
     isTopicPage: PropTypes.bool
 };
@@ -66,4 +79,4 @@ ArticleNoneDisplay.defaultProps = {
     isTopicPage: false
 };
 
-export default React.memo(ArticleNoneDisplay);
+export default ArticleNoneDisplay;

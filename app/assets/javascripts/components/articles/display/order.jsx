@@ -18,8 +18,6 @@ export default class ArticleOrderDisplay extends React.Component {
         articleOrderMode: PropTypes.string
     };
 
-    static defaultProps = {};
-
     constructor(props) {
         super(props);
     }
@@ -39,7 +37,7 @@ export default class ArticleOrderDisplay extends React.Component {
 
                 <IconButton aria-label="Minimize all"
                             onClick={this.props.onMinimized}>
-                    <VerticalAlignBottomIcon/>
+                    <VerticalAlignBottomIcon className={this.props.classes.button}/>
                 </IconButton>
             </div>
         );

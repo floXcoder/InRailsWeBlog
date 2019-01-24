@@ -16,37 +16,39 @@ import Button from '@material-ui/core/Button';
 
 import {
     fetchTag,
-    deleteTag,
     spyTrackClick
 } from '../../actions';
+
+import {
+    getTagMetaTags
+} from '../../selectors';
 
 import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
 
+import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/tag/show';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
+    metaTags: getTagMetaTags(state),
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag
 }), {
-    fetchTag,
-    deleteTag
+    fetchTag
 })
+@hot(module)
 @withStyles(styles)
 class TagShow extends React.Component {
     static propTypes = {
         params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
         // from connect
+        metaTags: PropTypes.object,
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
         fetchTag: PropTypes.func,
-        deleteTag: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -64,18 +66,6 @@ class TagShow extends React.Component {
             this.props.fetchTag(this.props.params.tagSlug);
         }
     }
-
-    _handleDeleteClick = (event) => {
-        event.preventDefault();
-
-        this.props.deleteTag(this.props.tag.id)
-            .then(() => this.props.history.push({
-                    pathname: `/`,
-                    state: {reloadTags: true}
-                })
-            );
-
-    };
 
     render() {
         if (!this.props.tag) {
@@ -96,6 +86,8 @@ class TagShow extends React.Component {
 
         return (
             <article className={this.props.classes.root}>
+                <HeadLayout metaTags={this.props.metaTags}/>
+
                 <Typography className={this.props.classes.title}
                             component="h1"
                             variant="h1">

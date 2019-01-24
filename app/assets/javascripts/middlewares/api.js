@@ -54,22 +54,22 @@ const manageError = (origin, error, url) => {
 
     if (error.statusText) {
         if (error.statusText === 'Forbidden') {
-            Notification.error(I18n.t('js.helpers.errors.not_authorized'), 10);
+            Notification.error(I18n.t('js.helpers.errors.not_authorized'));
             // if (document.referrer === '') {
             //     window.location = '/';
             // } else {
             //     history.back();
             // }
         } else if (error.statusText === 'Not found') {
-            // Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
+            // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
         } else if (error.statusText === 'Unprocessable Entity') {
-            Notification.error(I18n.t('js.helpers.errors.unprocessable'), 10);
+            Notification.error(I18n.t('js.helpers.errors.unprocessable'));
         } else {
             if (error.statusText === 'Internal Server Error') {
                 if (window.railsEnv === 'development') {
                     error.text().then((text) => log.now(text.split("\n").slice(0, 6)));
                 } else {
-                    Notification.error(I18n.t('js.helpers.errors.server'), 10);
+                    Notification.error(I18n.t('js.helpers.errors.server'));
                 }
             }
 
@@ -107,17 +107,6 @@ const handleParseErrors = (error, url) => {
     return {
         errors: error.message
     };
-};
-
-const handleMetaTags = (response) => {
-    let metaTags = response.headers.get('X-Meta-Tags');
-
-    if (metaTags) {
-        metaTags = JSON.parse(decodeURIComponent(escape(metaTags)));
-        Head.define(metaTags);
-    }
-
-    return response;
 };
 
 const handleFlashMessage = (response) => {
@@ -162,7 +151,7 @@ const api = {
     get: (url, params) => {
         const headers = getHeaders();
         const parameters = stringify(params, {arrayFormat: 'brackets'});
-        const urlParams = parameters !== '' ? `${url}.json?${parameters}` : url;
+        const urlParams = `${url}.json${parameters !== '' ? '?' + parameters : ''}`;
 
         const controller = new AbortController();
         const signal = controller.signal;
@@ -173,7 +162,6 @@ const api = {
             signal
         })
             .then((response) => handleResponseErrors(response, urlParams))
-            .then((response) => handleMetaTags(response))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
             .then(

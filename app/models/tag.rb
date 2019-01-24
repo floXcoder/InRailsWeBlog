@@ -222,7 +222,7 @@ class Tag < ApplicationRecord
 
       visibility           ||= 'everyone'
       attributes           = {
-        name:       Sanitize.fragment(name).mb_chars.capitalize.to_s,
+        name:       Sanitize.fragment(name),
         visibility: Tag.visibilities[visibility]
       }.compact
       attributes[:user_id] = current_user_id if visibility != 'everyone'

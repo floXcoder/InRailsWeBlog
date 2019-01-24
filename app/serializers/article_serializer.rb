@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: articles
@@ -7,7 +6,7 @@
 #  id                      :bigint(8)        not null, primary key
 #  user_id                 :bigint(8)
 #  topic_id                :bigint(8)
-#  mode                    :integer          default("story"), not null
+#  mode                    :integer          default("note"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
 #  content_translations    :jsonb            not null
@@ -28,6 +27,7 @@
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  contributor_id          :bigint(8)
 #
 
 class ArticleSerializer < ActiveModel::Serializer

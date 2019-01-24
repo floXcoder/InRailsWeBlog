@@ -30,7 +30,7 @@ import {
     getCommentPagination
 } from '../../selectors';
 
-import Pagination from '../materialize/pagination';
+import Pagination from '../theme/pagination';
 import CircleSpinner from '../theme/spinner/circle';
 
 import CommentList from '../comments/list';
@@ -38,9 +38,7 @@ import CommentForm from '../comments/form';
 
 import styles from '../../../jss/comment/box';
 
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     isSuperUserConnected: getIsPrimaryUser(state),
@@ -53,7 +51,7 @@ export default @hot(module)
     updateComment,
     deleteComment
 })
-
+@hot(module)
 @withStyles(styles)
 class CommentBox extends React.Component {
     static propTypes = {
@@ -171,6 +169,8 @@ class CommentBox extends React.Component {
         return (
             <div id={this.props.id}
                  className={classNames('comments', this.props.classes.root)}>
+                <hr className={this.props.classes.separation}/>
+
                 <h2 className={this.props.classes.title}>
                     {I18n.t('js.comment.common.title')}
                 </h2>

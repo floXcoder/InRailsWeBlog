@@ -13,7 +13,7 @@
   position: absolute;
   transition: max-height 600ms ease-in;
   will-change: width, height;
-  z-index: 999;
+  z-index: 1600;
 
   &.dropdown-slider-open {
     max-height: 650px;

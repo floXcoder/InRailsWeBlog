@@ -62,7 +62,7 @@ class Editor extends React.Component {
 
             const defaultOptions = {
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
-                styleTags: ['p', 'pre', 'h2', 'h3', 'h4'],
+                styleTags: ['p', 'h2', 'h3', 'h4'],
                 placeholder: this.props.placeholder,
                 popatmouse: false,
                 callbacks: {
@@ -184,7 +184,8 @@ class Editor extends React.Component {
                     ...defaultOptions,
                     toolbar: toolbar,
                     followingToolbar: true,
-                    otherStaticBarHeight: this.props.width === 'xs' ? 111 : 136
+                    // otherStaticBar: '#article-edit-stepper',
+                    otherStaticBarHeight: this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 136)
                 });
 
                 if (this.props.isCodeView) {

@@ -19,7 +19,7 @@ const styles = (theme) => ({
         '&:before': {
             left: '25%',
             width: '50%'
-        },
+        }
     },
     select: {
         width: '90%'

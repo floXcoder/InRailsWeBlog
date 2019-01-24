@@ -31,7 +31,8 @@ class ArticleFormStepper extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.root}>
+            <div id="article-edit-stepper"
+                 className={this.props.classes.root}>
                 <AppBar className={this.props.classes.appBar}
                         position="static"
                         color="inherit">
@@ -40,7 +41,7 @@ class ArticleFormStepper extends React.Component {
                           onChange={this.props.onTabChange}
                           indicatorColor="secondary"
                           textColor="primary"
-                          fullWidth={true}>
+                          variant="fullWidth">
                         <Tab classes={{
                             labelIcon: this.props.classes.tab
                         }}

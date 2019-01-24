@@ -29,7 +29,9 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         hasColumnButtons: PropTypes.bool,
         hasExposedMode: PropTypes.bool,
         componentsToExposed: PropTypes.array,
-        topOffset: PropTypes.number
+        topOffset: PropTypes.number,
+        onComponentEnter: PropTypes.func,
+        onComponentExit: PropTypes.func
     };
 
     static defaultProps = {
@@ -139,11 +141,15 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                             <ComponentExposed isMasonry={true}
                                               {...componentExposedProps}
                                               {...elementType}
+                                              onEnter={this.props.onComponentEnter}
+                                              onExit={this.props.onComponentExit}
                                               onClick={this._handleComponentClick.bind(this, element.id)}/>
                             :
                             <ComponentCard isMasonry={true}
                                            {...componentCardProps}
                                            {...elementType}
+                                           onEnter={this.props.onComponentEnter}
+                                           onExit={this.props.onComponentExit}
                                            onClick={this._handleComponentClick.bind(this, element.id)}/>
                     }
                 </div>
@@ -155,7 +161,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 {
                     this.props.hasColumnButtons &&
                     <div className="masonry-buttons">
-                        <Tooltip title={I18n.t('js.article.masonry.add_column')}>
+                        <Tooltip title={I18n.t('js.article.masonry.remove_column')}>
                             <IconButton aria-label="Delete"
                                         className="masonry-button"
                                         onClick={this._handleColumnChange.bind(this, -1)}>
@@ -163,7 +169,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title={I18n.t('js.article.masonry.remove_column')}>
+                        <Tooltip title={I18n.t('js.article.masonry.add_column')}>
                             <IconButton aria-label="Delete"
                                         className="masonry-button"
                                         onClick={this._handleColumnChange.bind(this, 1)}>
