@@ -125,8 +125,8 @@ describe 'Topic API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns the new topic' do
-        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @public_topic.id }, as: :json
+      it 'returns the new topic for slug' do
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @public_topic.slug }, as: :json
 
         expect(response).to be_json_response
 
@@ -136,7 +136,7 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns an error if not topic owner' do
-        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @other_topic.id }, as: :json
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @other_topic.slug }, as: :json
 
         expect(response).to be_json_response(403)
 
