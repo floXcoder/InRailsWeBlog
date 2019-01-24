@@ -25,7 +25,7 @@ module Api::V1
 
     def switch
       user  = User.friendly.find(params[:user_id])
-      topic = user.topics.friendly.find_by(id: params[:new_topic]) || user.contributed_topics.friendly.find_by(id: params[:new_topic])
+      topic = user.topics.find_by(slug: params[:new_topic]) || user.contributed_topics.find_by(slug: params[:new_topic])
       authorize topic
 
       respond_to do |format|
