@@ -21,14 +21,14 @@ import ArticleTimelineDisplay from './display/timeline';
 
 import styles from '../../../jss/article/sidebar';
 
-export default @connect((state) => ({
+export default @connect((state, props) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     articleOrderMode: state.uiState.articleOrderMode,
     articlesCount: getArticlesCount(state),
-    categorizedArticles: getCategorizedArticles(state),
+    categorizedArticles: getCategorizedArticles(state, props),
     articlePagination: getArticlePagination(state),
     currentArticles: getCurrentArticles(state)
 }), {

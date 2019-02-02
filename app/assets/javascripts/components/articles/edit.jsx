@@ -72,7 +72,7 @@ class ArticleEdit extends React.Component {
 
     componentDidMount() {
         if (this.props.article) {
-            this.props.setCurrentTags(this.props.article.tags);
+            this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
         }
 
         this.props.switchTagSidebar(false);
@@ -84,7 +84,7 @@ class ArticleEdit extends React.Component {
 
     componentDidUpdate() {
         if (this.props.article) {
-            this.props.setCurrentTags(this.props.article.tags);
+            this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
         }
     }
 

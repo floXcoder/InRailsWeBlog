@@ -19,23 +19,21 @@ module Searches
                       elsif !@current_admin
                         { visibility: 'everyone' }
                       end
-      where_options.merge(visibility)
+      where_options.merge!(visibility)
 
       if search_type('article', @params[:selected_types])
-        where_options.merge(
-          mode:   @params[:mode],
-          draft:  @params[:draft],
-          tags:   @params[:tags] ? @params[:tags].first.split(',') : nil,
-          topics: @params[:topics] ? @params[:topics].first.split(',') : nil
-        )
         articles_autocomplete = Articles::AutocompleteService.new(
           @query,
           defer:  true,
           format: 'strict',
           limit:  @params[:limit] || Setting.per_page,
           where:  where_options.merge(
-            topic_id:  @params[:topic_id]
-          )
+            topic_id: @params[:topic_id],
+            mode:     @params[:mode],
+            draft:    @params[:draft],
+            tags:     @params[:tags].present? ? @params[:tags].first.split(',') : nil,
+            topics:   @params[:topics].present? ? @params[:topics].first.split(',') : nil
+          ).compact
         )
       end
 
@@ -46,8 +44,8 @@ module Searches
           format: 'strict',
           limit:  @params[:limit] || Setting.per_page,
           where:  where_options.merge(
-            topic_ids: [@params[:topic_id]]
-          )
+            topic_ids: @params[:topic_id].present? ? [@params[:topic_id]] : nil
+          ).compact
         )
       end
 

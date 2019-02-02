@@ -11,12 +11,12 @@ describe 'Article API', type: :request, basic: true do
 
     @topic = create(:topic, user: @user)
 
-    @public_tags             = create_list(:tag, 5, user: @user, visibility: 'everyone')
+    @public_tags             = create_list(:tag, 5, user: @user, visibility: :everyone)
     @article                 = create(:article, user: @user, topic: @topic, tags: [@public_tags[0], @public_tags[1], @public_tags[2]])
     @relation_tags_article   = create(:article, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[2]], child_tags: [@public_tags[3]])
     @relation_tags_article_2 = create(:article, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[3]], child_tags: [@public_tags[2], @public_tags[4]])
 
-    @private_tags              = create_list(:tag, 2, user: @user, visibility: 'only_me')
+    @private_tags              = create_list(:tag, 2, user: @user, visibility: :only_me)
     @article_with_private_tags = create(:article, user: @user, topic: @topic, tags: [@private_tags[0], @private_tags[1]])
 
     @second_article = create(:article, user: @user, topic: @topic, tags: [@public_tags[4]])
@@ -24,10 +24,10 @@ describe 'Article API', type: :request, basic: true do
     @article_with_mixed_tags = create(:article, user: @user, topic: @topic, title: 'mixed_tags', parent_tags: [@public_tags[0], @private_tags[0]], child_tags: [@public_tags[1], @private_tags[1]])
 
     @second_topic    = create(:topic, user: @user)
-    @private_article = create(:article, user: @user, topic: @second_topic, visibility: 'only_me', draft: true)
+    @private_article = create(:article, user: @user, topic: @second_topic, visibility: :only_me, draft: true)
 
     @other_topic      = create(:topic, user: @other_user)
-    @other_public_tag = create(:tag, user: @other_user, visibility: 'everyone')
+    @other_public_tag = create(:tag, user: @other_user, visibility: :everyone)
   end
 
   let(:article_attributes) {

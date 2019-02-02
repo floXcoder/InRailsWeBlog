@@ -112,7 +112,8 @@ export default function uiReducer(state = new initState(), action) {
             if (action.isSwitching && action.topic && action.topic.settings) {
                 return state.merge({
                     isTopicPopupOpen: false,
-                    isTagSidebarOpen: !action.topic.settings.tagSidebarPin
+                    isTagSidebarOpen: !action.topic.settings.tagSidebarPin,
+                    articleOrderMode: action.topic.settings.articleOrder
                 })
             } else {
                 return state;

@@ -13,6 +13,7 @@ export default @withStyles(styles)
 
 class ArticleSidebarLayout extends React.PureComponent {
     static propTypes = {
+        parentTag: PropTypes.string,
         // from styles
         classes: PropTypes.object
     };
@@ -29,7 +30,7 @@ class ArticleSidebarLayout extends React.PureComponent {
                         paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperBorderless)
                     }}
                     open={true}>
-                <ArticleSidebar/>
+                <ArticleSidebar parentTag={this.props.parentTag}/>
             </Drawer>
         );
     }

@@ -16,7 +16,7 @@
 class SettingSerializer < ActiveModel::Serializer
   include NullAttributesRemover
 
-  cache key: 'settings', expires_in: CONFIG.cache_time
+  # cache key: 'settings', expires_in: CONFIG.cache_time
 
   attributes :articles_loader,
              :article_display,

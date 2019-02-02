@@ -140,7 +140,7 @@ class ArticleFormDisplay extends React.Component {
             <form onSubmit={this.props.handleSubmit}>
                 <EnsureValidity/>
 
-                <Prompt when={this.props.dirty && !this.props.submitSucceeded}
+                <Prompt when={this.props.dirty && !(this.props.submitSucceeded || this.props.submitting)}
                         message={this._onUnsavedExit}/>
 
                 <div>

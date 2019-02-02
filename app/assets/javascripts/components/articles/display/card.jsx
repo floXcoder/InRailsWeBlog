@@ -44,6 +44,8 @@ export default @highlight()
 class ArticleCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
+        currentUserSlug: PropTypes.string,
+        currentUserTopicSlug: PropTypes.string,
         isOwner: PropTypes.bool,
         // isOutdated: PropTypes.bool,
         isMinimized: PropTypes.bool,
@@ -221,6 +223,8 @@ class ArticleCardDisplay extends React.Component {
                                     this.props.article.tags.size > 0 &&
                                     <ArticleTags articleId={this.props.article.id}
                                                  tags={this.props.article.tags}
+                                                 currentUserSlug={this.props.currentUserSlug}
+                                                 currentUserTopicSlug={this.props.currentUserTopicSlug}
                                                  parentTagIds={this.props.article.parentTagIds}
                                                  childTagIds={this.props.article.childTagIds}/>
                                 }

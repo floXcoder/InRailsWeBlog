@@ -21,7 +21,8 @@ const styles = (theme) => ({
         color: theme.palette.primary.main
     },
     timeline: {
-        marginTop: '.5rem'
+        marginTop: '.5rem',
+        marginBottom: '4rem'
     },
     moreArticles: {
         padding: '5px 12px',

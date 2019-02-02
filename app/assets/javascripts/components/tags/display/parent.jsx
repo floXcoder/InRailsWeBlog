@@ -35,6 +35,7 @@ class ParentTag extends React.Component {
     static propTypes = {
         tag: PropTypes.object.isRequired,
         currentTagSlug: PropTypes.string,
+        currentChildTagSlug: PropTypes.string,
         isFiltering: PropTypes.bool,
         // from connect
         currentTagSlugs: PropTypes.array,
@@ -94,7 +95,7 @@ class ParentTag extends React.Component {
                           onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
                     <ListItemText classes={{
                         primary: classNames({
-                            [this.props.classes.selectedLabel]: this.props.currentTagSlug === this.props.tag.slug || this.props.currentTagSlugs.includes(this.props.tag.slug)
+                            [this.props.classes.selectedLabel]: this.props.currentTagSlug ? this.props.currentTagSlug === this.props.tag.slug : this.props.currentTagSlugs.includes(this.props.tag.slug)
                         })
                     }}>
                         {this.props.tag.name}
@@ -127,6 +128,7 @@ class ParentTag extends React.Component {
                                               tag={tag}
                                               parentTagSlug={this.props.tag.slug}
                                               isExpanded={this.state.isExpanded}
+                                              currentChildTagSlug={this.props.currentChildTagSlug}
                                               currentTagSlugs={this.props.currentTagSlugs}
                                               classes={this.props.classes}
                                               onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.slug, false)}/>

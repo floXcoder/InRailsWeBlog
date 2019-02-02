@@ -32,7 +32,7 @@ module Api::V1
           elsif pref_value == 'false'
             pref_value = false
           end
-          if topic
+          if topic && topic.settings[pref_type.to_s.downcase].present?
             topic.settings[pref_type.to_s.downcase] = pref_value
           else
             user.settings[pref_type.to_s.downcase] = pref_value

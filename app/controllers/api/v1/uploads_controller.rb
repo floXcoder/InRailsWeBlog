@@ -71,10 +71,10 @@ module Api::V1
       respond_to do |format|
         format.json do
           if upload.destroy
-            # flash.now[:success] = t('views.upload.flash.successful_deletion')
+            # Remove image if needed (article and image use paranoid)
+            # upload.remove_image!
             head :no_content, content_type: 'application/json'
           else
-            # flash.now[:error] = t('views.upload.flash.error_deletion')
             render json:   { errors: upload.errors.full_messages },
                    status: :unprocessable_entity
           end

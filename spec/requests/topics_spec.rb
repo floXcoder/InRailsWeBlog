@@ -153,7 +153,7 @@ describe 'Topic API', type: :request, basic: true do
       end
 
       it 'returns the shared topic' do
-        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @public_topic.id }, as: :json
+        get '/api/v1/topics/switch', params: { user_id: @user.id, new_topic: @public_topic.slug }, as: :json
 
         expect(response).to be_json_response
 

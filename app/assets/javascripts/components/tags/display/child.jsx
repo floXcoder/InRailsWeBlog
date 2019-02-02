@@ -7,7 +7,7 @@ import {
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const ChildTag = ({tag, parentTagSlug, isExpanded, currentTagSlugs, onTagClick, classes}) => (
+const ChildTag = ({tag, parentTagSlug, isExpanded, currentChildTagSlug, currentTagSlugs, onTagClick, classes}) => (
     <ListItem button={true}
               component={Link}
               className={classes.nestedLabel}
@@ -15,7 +15,7 @@ const ChildTag = ({tag, parentTagSlug, isExpanded, currentTagSlugs, onTagClick, 
               onClick={onTagClick}>
         <ListItemText classes={{
             primary: classNames({
-                [classes.selectedLabel]: currentTagSlugs.includes(tag.slug)
+                [classes.selectedLabel]: currentChildTagSlug ? currentChildTagSlug === tag.slug : currentTagSlugs.includes(tag.slug)
             })
         }}
                       inset={true}>
@@ -30,7 +30,8 @@ ChildTag.propTypes = {
     isExpanded: PropTypes.bool.isRequired,
     currentTagSlugs: PropTypes.array.isRequired,
     onTagClick: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    currentChildTagSlug: PropTypes.string
 };
 
 export default ChildTag;

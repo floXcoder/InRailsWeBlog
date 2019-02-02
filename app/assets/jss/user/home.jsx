@@ -54,6 +54,9 @@ const styles = (theme) => ({
         position: 'absolute',
         top: -2,
         right: -4,
+        height: '44px !important',
+        width: '44px !important',
+        borderRadius: '25px !important',
         margin: theme.spacing.unit,
         backgroundColor: theme.palette.primary.light
     }

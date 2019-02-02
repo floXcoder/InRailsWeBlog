@@ -4,7 +4,7 @@
 const notificationDuration = 6000;
 
 // Articles
-const articleWaitTimeBeforeSaving = 10000;
+const articleWaitTimeBeforeSaving = 15000;
 const articleTemporaryDataName = 'article-temporary';
 const articleUnsavedDataName = 'article-unsaved';
 

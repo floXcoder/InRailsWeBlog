@@ -94,11 +94,7 @@ class ArticleIndex extends React.Component {
     }
 
     componentDidMount() {
-        this._fetchArticles(this.props.params);
-
-        if (this.props.params.tagSlug) {
-            this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}])
-        }
+        this._fetchArticles();
     }
 
     componentDidUpdate(prevProps) {
@@ -114,14 +110,10 @@ class ArticleIndex extends React.Component {
 
             this._parseQuery = nextParseQuery;
 
-            this._fetchArticles(this.props.params);
-
-            if (this.props.params.tagSlug) {
-                this.props.setCurrentTags([{slug: this.props.params.tagSlug}, {slug: this.props.params.childTagSlug}]);
-            }
+            this._fetchArticles();
         } else if (this.props.articleDisplayMode !== prevProps.articleDisplayMode || this.props.articlesLoaderMode !== prevProps.articlesLoaderMode) {
             // Reload articles to fit with new loader or display mode
-            this._fetchArticles(this.props.params);
+            this._fetchArticles();
         }
     }
 
@@ -131,27 +123,44 @@ class ArticleIndex extends React.Component {
         }
     }
 
-    _fetchArticles = (params) => {
+    _formatParams = () => {
+        let queryParams = {};
+
+        if (this.props.params.userSlug) {
+            queryParams.userSlug = this.props.params.userSlug;
+        }
+
+        if (this.props.params.topicSlug) {
+            queryParams.topicSlug = this.props.params.topicSlug;
+        }
+
+        if (this.props.params.childTagSlug) {
+            queryParams.parentTagSlug = this.props.params.tagSlug;
+            queryParams.childTagSlug = this.props.params.childTagSlug;
+        } else if (this.props.params.tagSlug) {
+            queryParams.tagSlug = this.props.params.tagSlug;
+        }
+
+        if (this.props.params['0'] === 'shared-topics') {
+            queryParams.sharedTopic = true;
+        }
+
+        return queryParams;
+    };
+
+    _fetchArticles = () => {
         let options = {};
         if (this.props.articlesLoaderMode === 'all') {
             options.limit = 1000;
         }
 
-        if (params.childTagSlug) {
-            params.parentTagSlug = params.tagSlug;
-            delete params.tagSlug;
-        }
-
-        if (params['0'] === 'shared-topics') {
-            params.sharedTopic = true;
-            delete params['0'];
-        }
-
         this._request = this.props.fetchArticles({
             userId: this.props.userId,
-            ...params,
+            ...this._formatParams(),
             ...this._parseQuery
         }, options);
+
+        this._request.fetch.then(() => this.props.params.tagSlug && this.props.setCurrentTags([this.props.params.tagSlug, this.props.params.childTagSlug]));
     };
 
     _fetchNextArticles = (params = {}) => {
@@ -163,6 +172,7 @@ class ArticleIndex extends React.Component {
 
             this._request = this.props.fetchArticles({
                 userId: this.props.userId,
+                ...this._formatParams(),
                 ...queryParams
             }, options, {infinite: !params.selected});
 

@@ -16,9 +16,12 @@ import {
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
 import ArticleGridDisplay from './grid';
+
 const ArticleInlineEditionDisplay = lazy(() => import(/* webpackChunkName: "article-item-edition" */ './inlineEdition'));
 
 export default @connect((state, props) => ({
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     isOwner: getArticleIsOwner(state, props.article)
 }), {
     inlineEditArticle
@@ -34,6 +37,8 @@ class ArticleItemDisplay extends React.Component {
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
         // from connect
+        currentUserSlug: PropTypes.string,
+        currentUserTopicSlug: PropTypes.string,
         isOwner: PropTypes.bool,
         inlineEditArticle: PropTypes.func,
         onClick: PropTypes.func
@@ -80,6 +85,8 @@ class ArticleItemDisplay extends React.Component {
         } else if (this.props.articleDisplayMode === 'card') {
             return (
                 <ArticleCardDisplay article={this.props.article}
+                                    currentUserSlug={this.props.currentUserSlug}
+                                    currentUserTopicSlug={this.props.currentUserTopicSlug}
                                     isOwner={this.props.isOwner}
                                     hasActions={this.props.hasCardActions}
                                     isMinimized={this.props.isMinimized}
@@ -91,6 +98,8 @@ class ArticleItemDisplay extends React.Component {
         } else if (this.props.articleDisplayMode === 'grid') {
             return (
                 <ArticleGridDisplay article={this.props.article}
+                                    currentUserSlug={this.props.currentUserSlug}
+                                    currentUserTopicSlug={this.props.currentUserTopicSlug}
                                     isOwner={this.props.isOwner}
                                     isMinimized={this.props.isMinimized}
                                     onEnter={this.props.onEnter}

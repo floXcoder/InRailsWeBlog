@@ -1,7 +1,9 @@
+@import 'base/variables';
+
 .single-timeline {
   box-sizing: border-box;
   min-height: 40px;
-  padding: 0px 0 8px 42px;
+  padding: 0 0 8px 42px;
   position: relative;
   list-style: none;
 
@@ -22,7 +24,7 @@
     left: -54px;
     padding: 3px 0;
     width: auto;
-    background: #334a67;
+    background: $primary-color;
     text-align: center;
     border: 4px solid #fff;
     color: #fff;
@@ -41,7 +43,7 @@
       height: 44px;
       width: 44px;
       border-radius: 50%;
-      background: #334a67;
+      background: $primary-color;
       text-align: center;
       border: 4px solid #fff;
 
@@ -59,7 +61,7 @@
       height: 18px;
       width: 18px;
       border-radius: 50%;
-      background: #334a67;
+      background: $primary-color;
       text-align: center;
       border: 4px solid #fff;
 

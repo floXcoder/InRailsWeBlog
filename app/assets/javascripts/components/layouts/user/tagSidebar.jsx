@@ -133,6 +133,7 @@ class TagSidebarLayout extends React.PureComponent {
                 </div>
 
                 <TagSidebar currentTagSlug={this.props.params.tagSlug}
+                            currentChildTagSlug={this.props.params.childTagSlug}
                             isOpen={this.state.isExpanded}
                             isCloud={this.props.isCloud}/>
             </Drawer>

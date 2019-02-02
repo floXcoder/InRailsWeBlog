@@ -81,7 +81,7 @@ export default function tagReducer(state = new initState(), action) {
 
         case ActionTypes.TAG_SET_CURRENT_TAGS:
             return state.merge({
-                currentTagSlugs: action.tags ? new List(action.tags.map((tag) => tag.slug)) : new List()
+                currentTagSlugs: new List(action.tags)
             });
 
         default:

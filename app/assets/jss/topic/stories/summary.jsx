@@ -13,7 +13,8 @@ const styles = (theme) => ({
         backgroundColor: theme.palette.grey[100]
     },
     root: {
-        padding: '.9rem'
+        padding: '1rem',
+        paddingBottom: '1.5rem'
     },
     topicTitle: {
         textAlign: 'center',

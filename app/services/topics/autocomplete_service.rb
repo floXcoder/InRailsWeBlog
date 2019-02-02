@@ -17,7 +17,7 @@ module Topics
       fields = %w[name^3 description]
 
       # Where options only for ElasticSearch
-      where_options ||= {}
+      where_options = where_search(@params[:where])
 
       # Order search
       order = order_search(@params[:order])

@@ -19,3 +19,7 @@ export const uploadImages = (images, params) => {
 
     return uploads;
 };
+
+export const deleteImage = (imageId, options = {}) => {
+    return api.delete(`/api/v1/uploads/${imageId}`, {...options});
+};

@@ -43,7 +43,11 @@ module Api::V1
       respond_to do |format|
         format.json do
           if filter_params[:parent_tag_slug].present? || filter_params[:tag_slug].present?
-            set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name))
+            if filter_params[:topic_slug].present?
+              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged_topic', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name, topic: Topic.find_by(slug: filter_params[:topic_slug]).name))
+            else
+              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name))
+            end
           elsif filter_params[:topic_slug].present?
             set_meta_tags title: titleize(I18n.t('views.article.index.title.topic', topic: Topic.find_by(slug: filter_params[:topic_slug]).name))
           else
