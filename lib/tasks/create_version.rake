@@ -7,6 +7,9 @@ namespace :InRailsWeBlog do
   ## rails InRailsWeBlog:create_version COMMENT='Comment for this version'
   desc 'Create new version using Gitflow'
   task :create_version do |_task, _args|
+    # Push dev first for CI
+    %x(git push -u origin develop)
+
     # Fetch tags
     %x(git fetch --tags)
     # Get last tag of master
@@ -25,9 +28,8 @@ namespace :InRailsWeBlog do
     finish_tag = ENV['COMMENT'] ? "#{new_master_tag} : #{ENV['COMMENT']}" : new_master_tag
     %x(git flow release finish -m '#{finish_tag}' #{new_master_tag})
 
-    # Push branches and tags
+    # Push master and tags (automatic deploy on tag change)
     %x(git push -u origin master)
-    %x(git push -u origin develop)
     %x(git push --tags)
   end
 

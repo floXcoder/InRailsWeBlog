@@ -39,7 +39,7 @@ set :log_level, :debug
 set :linked_files, %w[config/application.yml config/sidekiq.yml]
 
 # dirs we want symlinking to shared
-set :linked_dirs, %w[db/dump log public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle]
+set :linked_dirs, %w[db/dump log public/prerender_cache public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle]
 
 # what specs should be run before deployment is allowed to
 # continue, see lib/capistrano/tasks/run_tests.cap
