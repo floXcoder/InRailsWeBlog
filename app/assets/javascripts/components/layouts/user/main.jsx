@@ -104,7 +104,8 @@ class MainLayoutUser extends React.Component {
                                                        <ErrorBoundary errorType="text"
                                                                       errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                                                            <div className={this.props.classes.sidebar}>
-                                                               <ArticleSidebarLayout/>
+                                                               <ArticleSidebarLayout
+                                                                   parentTag={router.match.params.tagSlug}/>
                                                            </div>
                                                        </ErrorBoundary>
                                                    </Hidden>

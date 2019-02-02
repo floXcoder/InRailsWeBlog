@@ -732,7 +732,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 .note-modal-content {
   position: relative;
   width: auto;
-  margin: 30px 20px;
+  margin: 60px 20px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   outline: 0;
@@ -804,7 +804,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 @media(min-width: 768px) {
   .note-modal-content {
     width: 600px;
-    margin: 30px auto
+    margin: 80px auto
   }
 }
 

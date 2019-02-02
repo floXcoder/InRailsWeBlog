@@ -3303,7 +3303,7 @@
      * @param {String} url
      * @return {Promise} - then: $image
      */
-    function createImage(url) {
+    function createImage(url, param, imageId) {
         return $$1.Deferred(function (deferred) {
             var $img = $$1('<img>');
             $img.one('load', function () {
@@ -3314,7 +3314,7 @@
                 deferred.reject($img);
             }).css({
                 display: 'none'
-            }).appendTo(document.body).attr('src', url);
+            }).appendTo(document.body).attr('src', url).attr('data-id', imageId);
         }).promise();
     }
 
@@ -3328,9 +3328,10 @@
      * @param {Object} srcset
      * @return {Promise} - then: $image
      */
-    function createPicture(url, param, srcsets) {
+    function createPicture(url, param, imageId, srcsets) {
         return $$1.Deferred(function (deferred) {
             var $picture = $$1('<picture>');
+            $picture.attr('data-id', imageId);
             for (var srcsetIndex = 0; srcsetIndex < srcsets.length; srcsetIndex++) {
                 if (srcsets[srcsetIndex].maxWidth) {
                     $picture.append($$1('<source>').attr('media', '(max-width: ' + srcsets[srcsetIndex].maxWidth + 'px)').attr('data-srcset', srcsets[srcsetIndex].url));
@@ -3338,7 +3339,7 @@
                     $picture.append($$1('<source>').attr('data-srcset', srcsets[srcsetIndex].url));
                 }
             }
-            var $img = $$1('<img>').addClass('lazyload').attr('data-src', url);
+            var $img = $$1('<img>').addClass('lazyload').attr('data-src', url).attr('data-id', imageId);
             $picture.append($img);
             deferred.resolve($picture);
         }).promise();
@@ -5032,6 +5033,7 @@
                 this.afterCommand();
             };
         };
+        // ### : Add option when adding image
         /**
          * insert image
          *
@@ -5039,10 +5041,10 @@
          * @param {String|Function} param
          * @return {Promise}
          */
-        Editor.prototype.insertImage = function (src, param, srcsets) {
+        Editor.prototype.insertImage = function (src, param, imageId, srcsets) {
             var _this = this;
             // ### : Add picture type
-            var imagePromise = srcsets ? createPicture(src, param, srcsets) : createImage(src, param);
+            var imagePromise = srcsets ? createPicture(src, param, imageId, srcsets) : createImage(src, param, imageId);
             return imagePromise.then(function ($image) {
                 _this.beforeCommand();
                 if (typeof param === 'function') {

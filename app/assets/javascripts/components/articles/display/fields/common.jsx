@@ -37,10 +37,6 @@ class ArticleCommonField extends React.Component {
         this._pictureIds = null;
     }
 
-    state = {
-        isEditorCodeView: false
-    };
-
     _handleEditorLoaded = (editor) => {
         this._editor = editor;
     };
@@ -67,12 +63,6 @@ class ArticleCommonField extends React.Component {
         }
 
         return event;
-    };
-
-    _handleBlurEditor = () => {
-        this.setState({
-            isEditorCodeView: !this.state.isEditorCodeView
-        })
     };
 
     render() {
@@ -115,9 +105,7 @@ class ArticleCommonField extends React.Component {
                            modelName="article"
                            placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
                            onLoaded={this._handleEditorLoaded}
-                           isCodeView={this.state.isEditorCodeView}
                            onImageUpload={this._handleImageUploaded}
-                           onBlur={this._handleBlurEditor}
                            onSubmit={this.props.onSubmit}
                            component={EditorField}
                            componentContent={this.props.article.content}/>

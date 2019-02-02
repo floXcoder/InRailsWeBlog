@@ -1,18 +1,18 @@
 html {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: normal;
   color: $text-color;
   box-sizing: border-box;
 
-  @media only screen and (min-width: $medium-screen) {
-    font-size: 14.5px;
-  }
-
-  @media only screen and (min-width: $large-screen) {
-    font-size: 16px;
-  }
+  //@media only screen and (min-width: $medium-screen) {
+  //  font-size: 16px;
+  //}
+  //
+  //@media only screen and (min-width: $large-screen) {
+  //  font-size: 16px;
+  //}
 }
 
 *,

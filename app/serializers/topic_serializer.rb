@@ -25,7 +25,7 @@
 #
 
 class TopicSerializer < ActiveModel::Serializer
-  cache key: 'topic', expires_in: CONFIG.cache_time
+  # cache key: 'topic', expires_in: CONFIG.cache_time
 
   attributes :id,
              :user_id,

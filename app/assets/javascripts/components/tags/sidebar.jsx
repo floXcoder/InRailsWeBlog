@@ -52,6 +52,7 @@ export default @connect((state, props) => ({
 class TagSidebar extends React.Component {
     static propTypes = {
         currentTagSlug: PropTypes.string,
+        currentChildTagSlug: PropTypes.string,
         isCloud: PropTypes.bool,
         isOpen: PropTypes.bool,
         hasChildInMainList: PropTypes.bool,
@@ -100,7 +101,6 @@ class TagSidebar extends React.Component {
                                   className={classNames(this.props.classes.tagList, {
                                       [this.props.classes.selectedLabel]: this.props.currentTagSlug === tag.slug
                                   })}
-                                  icon={<LabelIcon/>}
                                   label={tag.name}
                                   color="primary"
                                   variant="outlined"
@@ -172,6 +172,7 @@ class TagSidebar extends React.Component {
                             <TagRelationshipDisplay tags={this.props.tags}
                                                     hasChildInMainList={this.props.hasChildInMainList}
                                                     currentTagSlug={this.props.currentTagSlug}
+                                                    currentChildTagSlug={this.props.currentChildTagSlug}
                                                     isFiltering={isFiltering}/>
                         </div>
                     }

@@ -92,7 +92,6 @@ export default @withRouter
     showUserPreference,
     showTopicPopup
 })
-
 @withStyles(styles)
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {

@@ -6,11 +6,12 @@ const styles = (theme) => ({
     },
     list: {
         display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
+        flexWrap: 'wrap'
     },
     tagList: {
-        margin: theme.spacing.unit
+        margin: 5,
+        fontSize: '1rem',
+        fontWeight: 500
     },
     iconLabels: {
         marginLeft: 8,

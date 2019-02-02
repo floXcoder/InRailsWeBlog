@@ -31,6 +31,7 @@ import ArticleTags from '../properties/tags';
 import ArticleActions from '../properties/actions';
 
 import styles from '../../../../jss/article/card';
+import ArticleCardDisplay from "./item";
 
 export default @highlight()
 
@@ -38,6 +39,8 @@ export default @highlight()
 class ArticleGridDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
+        currentUserSlug: PropTypes.string,
+        currentUserTopicSlug: PropTypes.string,
         isOwner: PropTypes.bool,
         isMinimized: PropTypes.bool,
         onEnter: PropTypes.func,
@@ -163,6 +166,8 @@ class ArticleGridDisplay extends React.Component {
                                 this.props.article.tags.size > 0 &&
                                 <ArticleTags articleId={this.props.article.id}
                                              tags={this.props.article.tags}
+                                             currentUserSlug={this.props.currentUserSlug}
+                                             currentUserTopicSlug={this.props.currentUserTopicSlug}
                                              parentTagIds={this.props.article.parentTagIds}
                                              childTagIds={this.props.article.childTagIds}/>
                             }

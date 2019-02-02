@@ -96,8 +96,9 @@ fr:
       index:
         title:
           default: "Liste des articles"
-          tagged: "Articles pour %{tag}"
-          topic: "Articles de %{topic}"
+          tagged: "Articles du label %{tag}"
+          tagged_topic: "Articles du label %{tag} pour %{topic}"
+          topic: "Articles pour le thème %{topic}"
       show:
         title: "%{title} - %{topic}"
       edit:

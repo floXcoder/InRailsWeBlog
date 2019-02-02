@@ -15,7 +15,7 @@ const styles = (theme) => ({
     },
     header: {
         paddingTop: 8,
-        paddingBottom: 8
+        paddingBottom: 16
     },
     info: {
         color: '#999',

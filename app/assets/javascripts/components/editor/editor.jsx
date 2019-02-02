@@ -4,6 +4,7 @@ import withWidth from '@material-ui/core/withWidth';
 
 import {
     uploadImages,
+    deleteImage,
     loadAutocomplete
 } from '../../actions';
 
@@ -25,10 +26,9 @@ class Editor extends React.Component {
         placeholder: PropTypes.string,
         children: PropTypes.string,
         isDisabled: PropTypes.bool,
-        isCodeView: PropTypes.bool,
         onLoaded: PropTypes.func,
         onFocus: PropTypes.func,
-        onBlur: PropTypes.func,
+        // onBlur: PropTypes.func,
         onKeyUp: PropTypes.func,
         // onKeyDown: PropTypes.func,
         // onPaste: PropTypes.func,
@@ -44,7 +44,7 @@ class Editor extends React.Component {
         mode: EditorMode.EDIT,
         id: `summernote-${Utils.uuid()}`,
         isDisabled: false,
-        isCodeView: false
+        // isCodeView: false
     };
 
     constructor(props) {
@@ -68,7 +68,7 @@ class Editor extends React.Component {
                 callbacks: {
                     onChange: this.props.onChange,
                     onFocus: this.props.onFocus,
-                    onBlur: this.props.onBlur,
+                    // onBlur: this.props.onBlur,
                     onKeyup: this.props.onKeyUp,
                     onKeydown: this._onKeyDown,
                     onPaste: (event) => {
@@ -106,7 +106,8 @@ class Editor extends React.Component {
                             }
                         }
                     },
-                    onImageUpload: this.onImageUpload
+                    onImageUpload: this.onImageUpload,
+                    onMediaDelete: this.onImageDelete
                 },
                 hint: {
                     mentions: ['Type article name'],
@@ -188,9 +189,9 @@ class Editor extends React.Component {
                     otherStaticBarHeight: this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 136)
                 });
 
-                if (this.props.isCodeView) {
-                    this._editor.summernote('codeview.activate');
-                }
+                // if (this.props.isCodeView) {
+                //     this._editor.summernote('codeview.activate');
+                // }
             }
 
             const $container = this._editor.parent();
@@ -207,30 +208,28 @@ class Editor extends React.Component {
         });
     }
 
-    shouldComponentUpdate() {
-        // Do not update
-        return false;
+    shouldComponentUpdate(nextProps) {
+        return this.props.modelId !== nextProps.modelId || this.props.isDisabled !== nextProps.isDisabled || this.props.placeholder !== nextProps.placeholder;
     }
 
     componentDidUpdate(prevProps) {
         if (this._editor) {
-            const isCodeView = prevProps.isCodeView;
-            const codeViewCommand = isCodeView ? 'codeview.activate' : 'codeview.deactivate';
-
-            if (this.props.children !== prevProps.children) {
-                this.replace(prevProps.children);
+            if (prevProps.children !== this.props.children) {
+                this.replace(this.props.children);
             }
 
-            if (this.props.isDisabled !== prevProps.isDisabled) {
-                this.toggleState(prevProps.isDisabled);
+            if (prevProps.isDisabled !== this.props.isDisabled) {
+                this.toggleState(this.props.isDisabled);
             }
 
-            if (isCodeView !== this.props.isCodeView) {
-                this._editor.summernote(codeViewCommand);
-            }
+            // const isCodeView = prevProps.isCodeView;
+            // const codeViewCommand = isCodeView ? 'codeview.activate' : 'codeview.deactivate';
+            // if (isCodeView !== this.props.isCodeView) {
+            //     this._editor.summernote(codeViewCommand);
+            // }
 
-            if (this.props.placeholder !== prevProps.placeholder) {
-                this._notePlaceholder.html(prevProps.placeholder);
+            if (prevProps.placeholder !== this.props.placeholder) {
+                this._notePlaceholder.html(this.props.placeholder);
             }
         }
     }
@@ -263,7 +262,7 @@ class Editor extends React.Component {
         })).map((upload) => {
             upload.then((response) => {
                 if (response.upload) {
-                    this.insertImage(response.upload.url, response.upload.filename, [
+                    this.insertImage(response.upload.url, response.upload.filename, response.upload.id, [
                         {
                             maxWidth: '600',
                             url: response.upload.miniUrl
@@ -283,6 +282,12 @@ class Editor extends React.Component {
                 }
             })
         });
+    };
+
+    onImageDelete = (target) => {
+        if (target[0] && target[0].dataset.id) {
+            deleteImage(target[0].dataset.id);
+        }
     };
 
     focus = () => {
@@ -364,22 +369,22 @@ class Editor extends React.Component {
         }
     };
 
-    insertLink = () => {
-        if (this._editor) {
-            this._editor.summernote('code', '');
-            this._editor.summernote('createLink', {
-                text: text.trim(),
-                url: text.trim(),
-                isNewWindow: true
-            });
-        }
-    };
-
-    contentLength = () => {
-        if (this._editor) {
-            return this._editor.summernote('code').replace(/<(?:.|\n)*?>/gm, '').length;
-        }
-    };
+    // insertLink = () => {
+    //     if (this._editor) {
+    //         this._editor.summernote('code', '');
+    //         this._editor.summernote('createLink', {
+    //             text: text.trim(),
+    //             url: text.trim(),
+    //             isNewWindow: true
+    //         });
+    //     }
+    // };
+    //
+    // contentLength = () => {
+    //     if (this._editor) {
+    //         return this._editor.summernote('code').replace(/<(?:.|\n)*?>/gm, '').length;
+    //     }
+    // };
 
     render() {
         const containerClassName = 'editor-reset';

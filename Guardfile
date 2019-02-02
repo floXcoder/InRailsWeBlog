@@ -30,7 +30,7 @@ guard :rails, server: :puma, port: 3000, timeout: 60 do
   # watch(%r{^app/workers/.+\.rb})
   watch(%r{^config/.+(?<!locales)/.*})
   watch(%r{^config/*/[^.][^/]+\.(rb|yml)(?<!i18n-js\.yml)})
-  watch(%r{^lib/.*})
+  watch(%r{^lib/.+(?<!tasks)/.*})
 end
 
 guard :sidekiq, environment: 'development' do

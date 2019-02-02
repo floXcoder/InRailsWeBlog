@@ -8,6 +8,7 @@ export default class TagRelationshipDisplay extends React.Component {
     static propTypes = {
         tags: PropTypes.array.isRequired,
         currentTagSlug: PropTypes.string,
+        currentChildTagSlug: PropTypes.string,
         isFiltering: PropTypes.bool
     };
 
@@ -27,6 +28,7 @@ export default class TagRelationshipDisplay extends React.Component {
                         <ParentTag key={i}
                                    tag={tag}
                                    currentTagSlug={this.props.currentTagSlug}
+                                   currentChildTagSlug={this.props.currentChildTagSlug}
                                    isFiltering={this.props.isFiltering}/>
                     ))
                 }

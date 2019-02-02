@@ -36,17 +36,17 @@ FactoryBot.define do
     # user
     # topic
 
-    mode            { 'note' }
-    title           { Faker::Lorem.sentence } # title_translations
-    summary         { Faker::Lorem.paragraph(1, false) } # summary_translations
-    content         { Faker::Lorem.paragraph(1..20) } # content_translations
-    languages       { ['fr'] }
-    reference       { Faker::Internet.url }
-    notation        { Random.rand(1..5) }
-    priority        { Random.rand(0..100) }
-    visibility      { 'everyone' }
-    allow_comment   { true }
-    draft           { false }
+    mode { 'note' }
+    title { Faker::Lorem.sentence } # title_translations
+    summary { Faker::Lorem.paragraph(1, false) } # summary_translations
+    content { Faker::Lorem.paragraph(1..20) } # content_translations
+    languages { ['fr'] }
+    reference { Faker::Internet.url }
+    notation { Random.rand(1..5) }
+    priority { Random.rand(0..100) }
+    visibility { 'everyone' }
+    allow_comment { true }
+    draft { false }
 
     transient do
       tags { [] }
@@ -69,12 +69,12 @@ FactoryBot.define do
             article.tag_relationships << TagRelationship.find_or_initialize_by(parent: parent_tag, child: child_tag, user: article.user, topic: article.topic)
           end
         end
-      elsif evaluator.tags.empty?
-           article.tagged_articles << build(:tagged_article, tag: Tag.create(name: SecureRandom.uuid, user: article.user, visibility: article.visibility), user: article.user, topic: article.topic) unless article.draft?
-      else
+      elsif evaluator.tags.present?
         evaluator.tags.map do |tag|
           article.tagged_articles << build(:tagged_article, tag: tag, user: article.user, topic: article.topic)
         end
+      else
+        article.tagged_articles << build(:tagged_article, tag: Tag.create(name: SecureRandom.uuid, user: article.user, visibility: article.visibility), user: article.user, topic: article.topic) unless article.draft?
       end
     end
   end

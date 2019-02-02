@@ -25,6 +25,8 @@ class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
         tags: PropTypes.object.isRequired,
+        currentUserSlug: PropTypes.string,
+        currentUserTopicSlug: PropTypes.string,
         parentTagIds: PropTypes.array,
         childTagIds: PropTypes.array,
         hasTooltip: PropTypes.bool,
@@ -81,7 +83,7 @@ class ArticleTags extends React.PureComponent {
                                       classes={{
                                           label: this.props.classes.tag
                                       }}
-                                      to={`/tagged/${tag.slug}`}
+                                      to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? `/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tagged/${tag.slug}` : `/tagged/${tag.slug}`}
                                       label={tag.name}
                                       variant="outlined"
                                       color="primary"
@@ -110,7 +112,7 @@ class ArticleTags extends React.PureComponent {
                                   classes={{
                                       label: this.props.classes.tag
                                   }}
-                                  to={`/tagged/${tag.slug}`}
+                                  to={this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags ? `/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tagged/${parentTags.first().slug}/${tag.slug}` : `/tagged/${tag.slug}`}
                                   label={tag.name}
                                   variant="outlined"
                                   color="default"

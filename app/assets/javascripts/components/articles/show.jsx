@@ -124,7 +124,7 @@ class ArticleShow extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.article) {
-            this.props.setCurrentTags(this.props.article.tags);
+            this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
 
             // Highlight code
             this.props.onShow(this.props.article.id, true);

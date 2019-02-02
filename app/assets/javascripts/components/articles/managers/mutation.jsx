@@ -199,7 +199,7 @@ export default function articleMutationManager(mode, formId) {
                         childTagIds: this.props.article.childTagIds
                     });
 
-                    this.props.updateArticle(formData, {autoSave})
+                    return this.props.updateArticle(formData, {autoSave})
                         .then((response) => {
                             if (response.article && autoSave !== true) {
                                 this.props.history.push({
@@ -251,7 +251,7 @@ export default function articleMutationManager(mode, formId) {
                             removeLocalData(articleTemporaryDataName);
                             removeLocalData(articleUnsavedDataName);
 
-                            this.props.addArticle(formData)
+                            return this.props.addArticle(formData)
                                 .then((response) => {
                                     if (response.article) {
                                         this.props.history.push({
@@ -267,7 +267,7 @@ export default function articleMutationManager(mode, formId) {
 
             render() {
                 let currentMode = (this.props.initialData && this.props.initialData.mode) || 'note';
-                if(this.props.currentTopic && this.props.currentTopic.mode === 'stories') {
+                if (this.props.currentTopic && this.props.currentTopic.mode === 'stories') {
                     currentMode = 'story';
                 }
 
