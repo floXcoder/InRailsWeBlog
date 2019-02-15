@@ -10,7 +10,6 @@ import {
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 
 import {
     getBookmarks
@@ -35,11 +34,6 @@ class BookmarkList extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        // Loaded by user manager
-        // this.props.fetchBookmarks();
-    }
-
     render() {
         return (
             <div className={this.props.classes.root}>
@@ -57,21 +51,13 @@ class BookmarkList extends React.Component {
                                         <React.Fragment key={i}>
                                             <ListItem button={true}
                                                       component={Link}
-                                                      className={this.props.classes.link}
                                                       to={`/users/${bookmark.parentSlug}/articles/${bookmark.slug}`}>
-                                                {/*<ListItemIcon>*/}
-                                                {/*<InboxIcon />*/}
-                                                {/*</ListItemIcon>*/}
-
-                                                <ListItemText>
+                                                <ListItemText classes={{
+                                                    primary: this.props.classes.link
+                                                }}>
                                                     {bookmark.name || bookmark.slug}
                                                 </ListItemText>
                                             </ListItem>
-
-                                            {
-                                                (this.props.bookmarks.length > 1 && i < this.props.bookmarks.length - 1) &&
-                                                <Divider/>
-                                            }
                                         </React.Fragment>
                                     ))
                                 }

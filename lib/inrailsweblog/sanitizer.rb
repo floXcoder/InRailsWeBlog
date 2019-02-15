@@ -31,7 +31,7 @@ class Sanitizer
     end
 
     # Simplify code tags
-    html = html.gsub(/(<code(.*?)>){2,}/i, '<code>')
+    html = html.gsub(/(<code( *)>){2,}/i, '<code>')
     html = html.gsub(/(<\/code>){2,}/i, '</code>')
     html = html.gsub(/<code><br><\/code>/i, '')
 

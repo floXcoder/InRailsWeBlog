@@ -67,6 +67,7 @@ module.exports = {
             },
             font: {
                 options: {
+                    // outputPath: 'fonts/',
                     name: '[name].[hash].[ext]'
                 }
             }
@@ -96,6 +97,7 @@ module.exports = {
             loaders: ['babel-loader'],
             threads: 4
         },
+        fonts: 'fonts',
         translations: 'javascripts/translations',
         images: [
             {

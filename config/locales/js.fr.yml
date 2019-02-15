@@ -329,6 +329,7 @@ fr:
     article:
       common:
         draft: "Note temporaire ?"
+        external_source: "Référence externe ?"
         link: "Est un lien ?"
         allow_comment:
          title: "Autoriser les commentaires ?"
@@ -533,7 +534,7 @@ fr:
         route: "commentaires"
         title: "Commentaires"
         empty: "Soyez le premier à mettre votre commentaire !"
-        no_opinion: "Soyez le premier à mettre un commentaire ..."
+        no_opinion: "Pas encore de commentaires pour votre article"
         actions: "Actions"
         loading: "Chargement des commentaires ..."
         no_data: "Pas de commentaires à afficher pour cette sélection"

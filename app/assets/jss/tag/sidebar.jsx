@@ -11,7 +11,8 @@ const styles = (theme) => ({
     tagList: {
         margin: 5,
         fontSize: '1rem',
-        fontWeight: 500
+        fontWeight: 500,
+        borderRadius: 4
     },
     iconLabels: {
         marginLeft: 8,

@@ -320,18 +320,6 @@ describe 'Article API', type: :request, basic: true do
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
       end
 
-      it 'returns a new article associated to a specific topic if user owns the topic' do
-        expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { user_id: @user.id, topic_id: @second_topic.id }), as: :json
-
-          expect(response).to be_json_response(201)
-
-          article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['topicId']).to eq(@second_topic.id)
-        }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
-      end
-
       it 'returns a new article with reference url formatted' do
         expect {
           post '/api/v1/articles', params: article_attributes.deep_merge(article: { reference: 'test.com' }), as: :json
@@ -451,7 +439,7 @@ describe 'Article API', type: :request, basic: true do
           expect(article['article']['tags'].size).to eq(2)
 
           parent_tag = Tag.find_by(name: 'Parent tag public')
-          child_tag = Tag.find_by(name: 'Child tag public')
+          child_tag  = Tag.find_by(name: 'Child tag public')
           expect(parent_tag.children.last).to eq(child_tag)
           expect(child_tag.parents.last).to eq(parent_tag)
           expect(parent_tag.visibility).to eq('everyone')
@@ -501,6 +489,24 @@ describe 'Article API', type: :request, basic: true do
 
           expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(1)
+      end
+    end
+
+    context 'when user is connected with another current topic' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns a new article associated to a specific topic if user owns the topic' do
+        expect {
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { user_id: @user.id, topic_id: @second_topic.id }), as: :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['topicId']).to eq(@second_topic.id)
+        }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
       end
     end
 
@@ -633,6 +639,23 @@ describe 'Article API', type: :request, basic: true do
             expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
           }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
         end
+      end
+    end
+
+    context 'when user is connected with another current topic' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns updated article but keeping previous topic' do
+        put "/api/v1/articles/#{@article.id}", params: article_attributes.deep_merge(article: { topic_id: @second_topic.id }), as: :json
+
+        expect(response).to be_json_response
+
+        article = JSON.parse(response.body)
+        expect(article['article']).not_to be_empty
+        expect(article['article']['topicId']).to eq(@article.topic_id)
+        expect(article['article']['topicId']).not_to eq(@second_topic.id)
       end
     end
   end

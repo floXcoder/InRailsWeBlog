@@ -11,6 +11,8 @@ module Articles
     def perform
       current_language = new_language = @current_user.locale || I18n.locale
 
+      new_article = @article.new_record?
+
       # Use topic owner in case of shared topics
       shared_topic = @article.user_id != @current_user.id || @current_user.current_topic.user_id != @current_user.id
       owner_id     = shared_topic ? @current_user.current_topic.user_id : @current_user.id
@@ -23,8 +25,10 @@ module Articles
       end
 
       # Topic: Set current topic to article (only for new articles)
-      unless @article.topic_id
-        @article.topic_id = @params[:topic_id] || @current_user.current_topic_id
+      if new_article
+        @article.topic_id = @params[:topic_id].present? ? @params.delete(:topic_id) : @current_user.current_topic_id
+      else
+        @params.delete(:topic_id)
       end
 
       if @article.topic&.stories?
@@ -161,16 +165,15 @@ module Articles
 
       @article.assign_attributes(@params)
 
-      new_record = @article.new_record?
       if @article.save
-        message = new_record ? I18n.t('views.article.flash.successful_creation') : I18n.t('views.article.flash.successful_edition')
+        message = new_article ? I18n.t('views.article.flash.successful_creation') : I18n.t('views.article.flash.successful_edition')
         @article.pictures.each do |picture|
           picture.imageable = @article
           picture.save(validate: false)
         end
         success(@article.reload, message)
       else
-        message = new_record ? I18n.t('views.article.flash.error_creation') : I18n.t('views.article.flash.error_edition')
+        message = new_article ? I18n.t('views.article.flash.error_creation') : I18n.t('views.article.flash.error_edition')
         error(message, @article.errors)
       end
     ensure

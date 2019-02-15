@@ -13,7 +13,7 @@ const SanitizePaste = (function () {
 
         _replaceDivs: function (html) {
             html = html.replace(/<div><br\s?\/?><\/div>/gi, '');
-            html = html.replace(/<div(.*?)>([\w\W]*?)<\/div>/gi, '$2');
+            html = html.replace(/<div(.*?)>([\w\W]*?)<\/div>/gi, '<p>$2</p>');
 
             html = html.replace(/<div(.*?[^>])>/gi, '');
             html = html.replace(/<\/div>/gi, '');
@@ -223,7 +223,7 @@ const SanitizePaste = (function () {
             return html;
         },
 
-        parse: function (html, type = 'html') {
+        parse: function (html, type = 'html', $context = null) {
             html = $.trim(html);
 
             html = html.replace(/\$/g, '&#36;');
@@ -240,6 +240,8 @@ const SanitizePaste = (function () {
             html = html.replace(/’/g, '\'');
 
             if (type === 'html') {
+                html = html.replace(/(?:\r\n|\r|\n)/g, '');
+
                 // // Replace line-break by para
                 // // html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '<p>$1</p>');
                 // html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '$1<br/>');
@@ -249,6 +251,8 @@ const SanitizePaste = (function () {
                 // }
                 // html = html.replace(/(.*?)(?:\r\n|\r|\n)/gm, '$1');
                 // html = html.replace(/BREAKLINE/gm, '\n');
+            } else {
+                html = html.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             }
 
             // Sanitize
@@ -273,6 +277,12 @@ const SanitizePaste = (function () {
 
             // Remove br after tags
             html = html.replace(/(<\/(?:h1|h2|h3|h4|h5|p)>)<br\s?\/?>/g, '$1');
+
+            if($context) {
+                if ($context.prop('tagName') !== 'UL' && html.startsWith('<li') && html.endsWith('</li>')) {
+                    html = '<ul>' + html + '</ul>';
+                }
+            }
 
             return html;
         }

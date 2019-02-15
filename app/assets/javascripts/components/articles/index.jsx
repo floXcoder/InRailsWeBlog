@@ -268,16 +268,18 @@ class ArticleIndex extends React.Component {
                         this.props.articlesCount > 0 &&
                         <Suspense fallback={<div/>}>
                             {
-                                this.props.articlesLoaderMode === 'infinite'
-                                    ?
-                                    <ArticleInfiniteMode classes={this.props.classes}
-                                                         articlesCount={this.props.articlesCount}
-                                                         hasMoreArticles={hasMoreArticles}
-                                                         fetchArticles={this._fetchNextArticles}>
-                                        {ArticleNodes}
-                                    </ArticleInfiniteMode>
-                                    :
-                                    ArticleNodes
+                                !this.props.isFetching && (
+                                    this.props.articlesLoaderMode === 'infinite'
+                                        ?
+                                        <ArticleInfiniteMode classes={this.props.classes}
+                                                             articlesCount={this.props.articlesCount}
+                                                             hasMoreArticles={hasMoreArticles}
+                                                             fetchArticles={this._fetchNextArticles}>
+                                            {ArticleNodes}
+                                        </ArticleInfiniteMode>
+                                        :
+                                        ArticleNodes
+                                )
                             }
                         </Suspense>
                     }

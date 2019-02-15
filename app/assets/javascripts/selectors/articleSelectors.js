@@ -32,7 +32,10 @@ const articlesByTag = (articles, sortedTags, parentTag) => {
         } else {
             // Topic or user articles view
             const firstArticleTag = article.tags.filter((tag) => parentTagNames.includes(tag.name)).map((tag) => tag.name).sort().first();
-            orderedArticles[firstArticleTag].push(article);
+            // In case of previous articles are still in memory
+            if(orderedArticles[firstArticleTag]) {
+                orderedArticles[firstArticleTag].push(article);
+            }
         }
     });
 

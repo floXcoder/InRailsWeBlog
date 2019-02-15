@@ -184,14 +184,14 @@ class CommentBox extends React.Component {
                     {
                         (this.props.comments && this.props.comments.length === 0 && !this.state.isShowingCommentForm) &&
                         (
-                            !this.props.isUserOwner
+                            this.props.isUserOwner
                                 ?
                                 <div>
-                                    {I18n.t('js.comment.common.empty')}
+                                    {I18n.t('js.comment.common.no_opinion')}
                                 </div>
                                 :
                                 <div>
-                                    {I18n.t('js.comment.common.no_opinion')}
+                                    {I18n.t('js.comment.common.empty')}
                                 </div>
                         )
                     }

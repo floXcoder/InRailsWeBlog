@@ -96,13 +96,15 @@ class Editor extends React.Component {
                             }
                         }
 
+                        const $context = $(event.target).parent();
+
                         if (text) {
                             if (msIE || firefox) {
                                 setTimeout(() => {
-                                    document.execCommand('insertHTML', false, SanitizePaste.parse(text, type));
+                                    document.execCommand('insertHTML', false, SanitizePaste.parse(text, type, $context));
                                 }, 10);
                             } else {
-                                document.execCommand('insertHTML', false, SanitizePaste.parse(text, type));
+                                document.execCommand('insertHTML', false, SanitizePaste.parse(text, type, $context));
                             }
                         }
                     },

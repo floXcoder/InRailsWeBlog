@@ -9,10 +9,9 @@ const styles = (theme) => ({
         margin: 5
     },
     link: {
-        fontSize: '1rem',
-        verticalAlign: 'middle',
+        fontSize: '.9rem',
         color: theme.palette.primary.dark,
-        lineHeight: '1.2rem',
+        lineHeight: '1.2rem'
     },
     none: {
         fontStyle: 'italic',

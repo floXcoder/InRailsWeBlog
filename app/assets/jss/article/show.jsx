@@ -55,6 +55,9 @@ const styles = (theme) => ({
     avatarDate: {
         fontSize: '.9rem'
     },
+    editIcon: {
+        textAlign: 'right'
+    },
     commentCount: {
         fontSize: '1rem',
         color: 'inherit'

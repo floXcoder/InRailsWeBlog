@@ -199,15 +199,17 @@ export default function articleMutationManager(mode, formId) {
                         childTagIds: this.props.article.childTagIds
                     });
 
-                    return this.props.updateArticle(formData, {autoSave})
-                        .then((response) => {
-                            if (response.article && autoSave !== true) {
-                                this.props.history.push({
-                                    pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
-                                    state: {reloadTags: true}
-                                });
-                            }
+                    const updatePromise = this.props.updateArticle(formData, {autoSave});
+                    if (autoSave === true) {
+                        return updatePromise;
+                    } else {
+                        return updatePromise.then((response) => {
+                            this.props.history.push({
+                                pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
+                                state: {reloadTags: true}
+                            });
                         });
+                    }
                     // For new articles, save it locally only
                 } else {
                     let tagParams = {};

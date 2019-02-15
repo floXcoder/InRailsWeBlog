@@ -329,6 +329,7 @@ en:
     article:
       common:
         draft: "Draft?"
+        external_source: "External reference?"
         link: "Link?"
         allow_comment:
          title: "Allow comments?"
@@ -533,7 +534,7 @@ en:
         route: "comments"
         title: "Comments"
         empty: "Be the first to post your comment!"
-        no_opinion: "Be the first to write a response..."
+        no_opinion: "No comments yet"
         actions: "Actions"
         loading: "Loading comments..."
         no_data: "No comments to display"
