@@ -78,8 +78,9 @@ class Article < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
 
   # Search
+  # Only filterable can be used in where options!
   searchkick searchable:  [:title, :content, :reference],
-             filterable:  [:mode, :visibility],
+             filterable:  [:mode, :visibility, :draft, :languages, :notation, :accepted, :home_page, :user_id, :topic_id, :tag_ids, :tag_slugs],
              word_middle: [:title, :content],
              suggest:     [:title],
              highlight:   [:title, :content, :reference],
@@ -409,7 +410,12 @@ class Article < ApplicationRecord
     adapted_content(current_user_id).summary(size)
   end
 
+  def tag_names
+    self.tags.map(&:name)
+  end
+
   def search_data
+    # Only filterable can be used in where options!
     {
       id:               id,
       user_id:          user_id,
@@ -417,24 +423,26 @@ class Article < ApplicationRecord
       topic_name:       topic&.name,
       topic_slug:       topic&.slug,
       tag_ids:          tags.ids,
+      tag_names:        tags.map(&:name),
+      tag_slugs:        tags.map(&:slug),
       mode:             mode,
       mode_translated:  mode_translated,
       current_language: current_language,
-      title:            title || '', # Title cannot be nil for suggest
-      content:    formatted_content,
-      reference:  reference,
-      languages:  languages,
-      draft:      draft,
-      notation:   notation,
-      priority:   priority,
-      visibility: visibility,
-      archived:   archived,
-      accepted:   accepted,
-      created_at: created_at,
-      updated_at: updated_at,
-      rank:       rank,
-      popularity: popularity,
-      slug:       slug
+      title:            title,
+      content:          formatted_content,
+      reference:        reference,
+      languages:        languages,
+      draft:            draft,
+      notation:         notation,
+      priority:         priority,
+      visibility:       visibility,
+      archived:         archived,
+      accepted:         accepted,
+      created_at:       created_at,
+      updated_at:       updated_at,
+      rank:             rank,
+      popularity:       popularity,
+      slug:             slug
       # summary:          summary,
       # private_content:   strip_content, # Do not expose secret content
     }

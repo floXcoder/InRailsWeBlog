@@ -8,6 +8,7 @@ module.exports = (props = {}) => ({
     tagSidebarPin: true,
     tagSidebarWithChild: false,
     tagOrder: undefined,
+    searchDisplay: 'card',
     searchHighlight: true,
     searchOperator: 'or',
     searchExact: false

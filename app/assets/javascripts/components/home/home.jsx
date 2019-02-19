@@ -21,6 +21,11 @@ import {
     getPopularTags
 } from '../../selectors';
 
+import {
+    homeHomeLimit,
+    homePopularsLimit,
+} from '../modules/constants';
+
 import ArticleMiniCardDisplay from '../articles/display/miniCard';
 import TagChipDisplay from '../tags/display/chip';
 
@@ -57,7 +62,7 @@ class HomeHome extends React.Component {
         this.props.fetchArticles({}, {
             home: true,
             summary: true,
-            limit: 2
+            limit: homeHomeLimit
         }, {
             home: true
         });
@@ -65,13 +70,13 @@ class HomeHome extends React.Component {
         this.props.fetchArticles({}, {
             populars: true,
             summary: true,
-            limit: 10
+            limit: homePopularsLimit
         }, {
             populars: true
         });
 
         this.props.fetchTags({}, {
-            limit: 10
+            limit: homePopularsLimit
         }, {
             populars: true
         });

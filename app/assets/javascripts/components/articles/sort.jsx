@@ -17,6 +17,10 @@ import {
     getArticles
 } from '../../selectors';
 
+import {
+    sortItemLimit
+} from '../modules/constants';
+
 import Loader from '../theme/loader';
 
 import ArticleSorter from './sort/sorter';
@@ -63,7 +67,7 @@ class ArticleSort extends React.Component {
             ...this.props.params
         }, {
             summary: true,
-            limit: 1000
+            limit: sortItemLimit
         });
     }
 

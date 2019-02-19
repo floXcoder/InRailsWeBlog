@@ -19,7 +19,6 @@ import styles from '../../../jss/notification';
 import {
     notificationDuration
 } from '../modules/constants';
-import MenuItem from "../material-ui/form/select";
 
 const variantIcon = {
     success: CheckCircleIcon,

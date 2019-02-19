@@ -29,13 +29,13 @@ const styles = (theme) => ({
     },
     inputRoot: {
         color: '#000',
-        width: '100%'
+        width: '100%',
+        paddingLeft: theme.spacing.unit * 8
     },
     inputInput: {
         paddingTop: theme.spacing.unit,
         paddingRight: theme.spacing.unit,
         paddingBottom: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 10,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -51,9 +51,17 @@ const styles = (theme) => ({
         paddingTop: theme.spacing.unit,
         paddingRight: theme.spacing.unit,
         paddingBottom: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 10,
         width: '40vw'
     },
+    selectedTagsChip: {
+        margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 2}px`,
+        fontWeight: 400,
+        fontSize: '.9rem',
+        borderRadius: 4,
+        cursor: 'pointer',
+        color: theme.palette.text.secondary,
+        borderColor: theme.palette.text.secondary
+    }
 });
 
 export default styles;

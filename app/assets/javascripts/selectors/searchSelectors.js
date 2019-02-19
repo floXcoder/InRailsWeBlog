@@ -41,8 +41,8 @@ export const getAutocompleteResults = createSelector(
     }
 );
 
-export const getSelectedTags = createSelector(
-    (state) => state.searchState.selectedTags,
+export const getAutocompleteSelectedTags = createSelector(
+    (state) => state.autocompleteState.selectedTags,
     (tags) => tags.toArray()
 );
 
@@ -65,6 +65,11 @@ export const getSearchTopics = createSelector(
 export const getSearchMetaTags = createSelector(
     (state) => state.searchState.metaTags,
     (metaTags) => metaTags.toJS()
+);
+
+export const getSelectedTags = createSelector(
+    (state) => state.searchState.selectedTags,
+    (tags) => tags.toArray()
 );
 
 // Suggestions

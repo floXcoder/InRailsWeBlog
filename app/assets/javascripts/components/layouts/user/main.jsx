@@ -113,7 +113,7 @@ class MainLayoutUser extends React.Component {
 
                                                <main className={this.props.classes.content}>
                                                    {
-                                                       route.noBreadcrumb &&
+                                                       route.hasBreadcrumb &&
                                                        <ErrorBoundary errorType="text"
                                                                       errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                                                            <div className={this.props.classes.breadcrumb}>

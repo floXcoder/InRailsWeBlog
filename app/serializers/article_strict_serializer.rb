@@ -5,8 +5,9 @@ class ArticleStrictSerializer < ActiveModel::Serializer
 
   cache key: 'article_strict', expires_in: CONFIG.cache_time
 
-  # Methods with attributes must be defined to work with searchkick results
+  # Methods with attributes must be overrided to work with searchkick results
   attributes :id,
+             :topic_id,
              :mode,
              :mode_translated,
              :title,
@@ -15,10 +16,15 @@ class ArticleStrictSerializer < ActiveModel::Serializer
              :date,
              :visibility,
              :current_language,
-             :slug
+             :slug,
+             :tag_names
 
   def id
     object.id
+  end
+
+  def topic_id
+    object.topic_id
   end
 
   def mode
@@ -59,5 +65,9 @@ class ArticleStrictSerializer < ActiveModel::Serializer
 
   def user_slug
     object.user.slug
+  end
+
+  def tag_names
+    object.tag_names
   end
 end

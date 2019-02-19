@@ -503,10 +503,12 @@ fr:
           default: "Impossible d'ajouter aux favoris ! Essayer de vous reconnecter."
           bookmark: "%{message}"
     search:
-      filters:
+      display:
+        card: "Liste"
+        grid: "Grille"
+      orders:
         priority: "Priorité"
         date: "Date"
-        all_topics: "Pour tous les thèmes"
       module:
         placeholder: "Recherche"
         button: "Rechercher"
@@ -516,6 +518,9 @@ fr:
         articles:
           title: "Articles"
           recents: "(Articles récents)"
+        helpers:
+          select_tag: "Sélectionner un label avec les flèches puis tab"
+          tagged_articles: "Recherche d'articles avec labels : %{tags}"
       index:
         placeholder: "Recherche"
         button: "Trouver"
@@ -525,10 +530,9 @@ fr:
         suggestions:
           tags: "Essayer les tags suivants :"
           articles: "Essayer avec l'orthographe :"
-        filters:
-          button: "Filtrer par"
         articles:
           title: "Articles"
+        no_results: "Aucun résultat trouvé"
     comment:
       common:
         route: "commentaires"

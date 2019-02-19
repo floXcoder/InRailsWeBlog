@@ -19,6 +19,15 @@ export const loadAutocomplete = (autocompleteParams) => (
     }).promise
 );
 
+const autocompleteQuery = (query) => ({
+    type: ActionTypes.SEARCH_AUTOCOMPLETE_QUERY,
+    query
+});
+export const setAutocompleteQuery = (query) => (dispatch) => {
+    return dispatch(autocompleteQuery(query));
+};
+
+
 export const fetchAutocomplete = (autocompleteParams) => ({
     actionType: ActionTypes.SEARCH_AUTOCOMPLETE,
     fetchAPI: () => api.get('/api/v1/search/autocomplete', {
@@ -38,6 +47,14 @@ export const setAutocompleteAction = (keyCode) => (dispatch) => {
     dispatch(receiveAutocompleteAction());
 
     return dispatch(receiveAutocompleteAction(keyCode));
+};
+
+const autocompleteTagSelection = (tag) => ({
+    type: ActionTypes.SEARCH_AUTOCOMPLETE_TAG_SELECTED,
+    tag
+});
+export const setAutocompleteSelectedTag = (tag) => (dispatch) => {
+    return dispatch(autocompleteTagSelection(tag));
 };
 
 const tagSelection = (tag) => ({
@@ -108,6 +125,7 @@ const receiveSearch = (searchParams, json, options = {}) => ({
     isSearching: false,
     searchParams: searchParams,
     query: searchParams.query,
+    selectedTags: json.selectedTags,
     aggregations: json.aggregations || {},
     suggestions: json.suggestions || {},
     totalCount: json.totalCount || {},
@@ -129,6 +147,8 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
         .promise
         .then((json) => {
             if (json.errors) {
+                Notification.error(json.errors);
+
                 return dispatch(failSearch(json));
             } else {
                 spySearchResults(searchParams, json);
@@ -151,10 +171,10 @@ export const fetchSearch = (searchData, saveHistory = true) => (dispatch, getSta
         _saveHistory(getState().searchState, searchParams);
     }
 
-    // Set default search parameters
-    if (!searchParams.selectedTypes) {
-        searchParams.selectedTypes = ['article', 'tag'];
-    }
+    // // Set default search parameters
+    // if (!searchParams.selectedTypes) {
+    //     searchParams.selectedTypes = ['article', 'tag'];
+    // }
 
     return dispatch(performSearch(searchParams));
 };
@@ -166,24 +186,3 @@ export const filterSearch = (filters, filterOptions) => (dispatch, getState) => 
 
     return dispatch(performSearch(searchParams, {filters, ...filterOptions}));
 };
-
-// Meta search
-// Not used for now
-// const receiveMetaSearch = (query, json) => ({
-//     type: ActionTypes.SEARCH_META_SUCCESS,
-//     isSearching: false,
-//     query,
-//     metaResults: json
-// });
-//
-// export const fetchMetaSearch = (query) => (dispatch) => {
-//     dispatch(initSearch());
-//
-//     return api
-//         .get(`/api/v1/search/meta`, {
-//             search: {
-//                 query
-//             }
-//         })
-//         .then(json => dispatch(receiveMetaSearch(query, json)));
-// };

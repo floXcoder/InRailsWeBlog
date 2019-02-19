@@ -9,10 +9,10 @@ html {
   //@media only screen and (min-width: $medium-screen) {
   //  font-size: 16px;
   //}
-  //
-  //@media only screen and (min-width: $large-screen) {
-  //  font-size: 16px;
-  //}
+
+  @media only screen and (min-width: $large-screen) {
+    font-size: 18px;
+  }
 }
 
 *,

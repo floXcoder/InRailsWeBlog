@@ -1,5 +1,7 @@
 'use strict';
 
+import Chip from '@material-ui/core/Chip';
+
 export default class SearchSelectedModule extends React.Component {
     static propTypes = {
         selectedTags: PropTypes.array.isRequired,
@@ -16,20 +18,11 @@ export default class SearchSelectedModule extends React.Component {
                 <div className="tag-selected-list">
                     {
                         this.props.selectedTags.map((tag) => (
-                            <span key={tag.id}
-                                  className="tag"
-                                  onClick={this.props.onTagClick.bind(null, tag)}>
-                                <span className="material-icons tag-icon"
-                                      data-icon="label"
-                                      aria-hidden="true"/>
-                                {tag.name}
-
-                                <a>
-                                    <span className="material-icons"
-                                          data-icon="close"
-                                          aria-hidden="true"/>
-                                </a>
-                            </span>
+                            <Chip key={tag.id}
+                                  label={tag.name}
+                                  color="primary"
+                                  variant="outlined"
+                                  onClick={this.props.onTagClick.bind(null, tag)}/>
                         ))
                     }
                 </div>

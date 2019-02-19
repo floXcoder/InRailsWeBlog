@@ -23,7 +23,7 @@ export default @connect((state) => ({
     tagSidebarPin: state.userState.user && state.userState.user.settings.tagSidebarPin,
     tagSidebarWithChild: state.userState.user && state.userState.user.settings.tagSidebarWithChild,
     tagOrder: state.userState.user && state.userState.user.settings.tagOrder,
-    searchHighlight: state.userState.user && state.userState.user.searchHighlight,
+    searchHighlight: state.userState.user && state.userState.user.settings.searchHighlight,
     searchOperator: state.userState.user && state.userState.user.settings.searchOperator,
     searchExact: state.userState.user && state.userState.user.settings.searchExact
 }), {

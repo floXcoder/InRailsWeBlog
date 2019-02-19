@@ -14,6 +14,7 @@ export const SettingsRecord = new Record({
     tagSidebarPin: false,
     tagSidebarWithChild: false,
     tagOrder: undefined,
+    searchDisplay: 'card',
     searchHighlight: true,
     searchOperator: 'or',
     searchExact: false
@@ -108,6 +109,8 @@ export class TagRecord extends Record({
     viewsCount: undefined,
     clicksCount: undefined,
     searchesCount: undefined,
+    topicIds: undefined,
+    userId: undefined,
     user: new UserRecord()
 }) {
     constructor({user, parents, children, ...props} = {}) {
@@ -152,6 +155,7 @@ export class ArticleRecord extends Record({
     outdatedCount: undefined,
     user: new UserRecord(),
     tags: List(),
+    tagNames: List(),
     parentTagIds: List(),
     childTagIds: List(),
     newTagIds: List()

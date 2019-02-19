@@ -24,8 +24,8 @@ module Api::V1
       else
         respond_to do |format|
           format.json do
-            render json: [],
-                   root: 'search'
+            render json:   { errors: search_results.message },
+                   status: :unprocessable_entity
           end
         end
       end
@@ -40,8 +40,10 @@ module Api::V1
         end
       else
         respond_to do |format|
-          format.json { render json: [],
-                               root: 'search' }
+          format.json do
+            render json:   { errors: autocomplete_results.message },
+                   status: :unprocessable_entity
+          end
         end
       end
     end
@@ -73,7 +75,9 @@ module Api::V1
                                        :selected_types,
                                        selected_types: [],
                                        tag_ids:        [],
-                                       order:          []
+                                       tags:           [],
+                                       topic_ids:      [],
+                                       topics:         []
         ).reject { |_, v| v.blank? }
       else
         {}

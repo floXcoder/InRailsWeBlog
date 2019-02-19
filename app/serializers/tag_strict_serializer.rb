@@ -5,9 +5,10 @@ class TagStrictSerializer < ActiveModel::Serializer
 
   cache key: 'tag_strict', expires_in: CONFIG.cache_time
 
-  # Methods with attributes must be defined to work with searchkick results
+  # Methods with attributes must be overrided to work with searchkick results
   attributes :id,
              :user_id,
+             :topic_ids,
              :name,
              :synonyms,
              :date,
@@ -20,6 +21,10 @@ class TagStrictSerializer < ActiveModel::Serializer
 
   def user_id
     object.user_id
+  end
+
+  def topic_ids
+    object.topic_ids&.uniq
   end
 
   def name

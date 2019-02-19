@@ -36,8 +36,10 @@ import Divider from '@material-ui/core/Divider';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import MenuIcon from '@material-ui/icons/Menu';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ClassIcon from '@material-ui/icons/Class';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import AddIcon from '@material-ui/icons/Add';
 
 import {
     getLocalData
@@ -258,7 +260,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <ListItem button={true}
                                       onClick={this._handleMobileArticleClick}>
                                 <ListItemIcon>
-                                    <InboxIcon/>
+                                    <AddIcon/>
                                 </ListItemIcon>
                                 <ListItemText inset={true}
                                               primary="Articles"/>
@@ -279,7 +281,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <ListItem button={true}
                                       onClick={this._handleMobileBookmarkClick}>
                                 <ListItemIcon>
-                                    <InboxIcon/>
+                                    <FavoriteIcon/>
                                 </ListItemIcon>
                                 <ListItemText inset={true}
                                               primary="Favoris"/>
@@ -294,7 +296,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <ListItem button={true}
                                       onClick={this._handleMobileUserClick}>
                                 <ListItemIcon>
-                                    <InboxIcon/>
+                                    <AccountCircleIcon/>
                                 </ListItemIcon>
                                 <ListItemText inset={true}
                                               primary="Votre compte"/>

@@ -5,7 +5,7 @@ module Tags
     def initialize(query, *args)
       super(query, *args)
 
-      @params[:model] = Tag
+      @params[:model]  = Tag
       @params[:format] = @params[:format] || 'strict'
     end
 
@@ -32,6 +32,7 @@ module Tags
                              misspellings: false,
                              load:         false,
                              where:        where_options,
+                             boost_where:  @params[:boost_where],
                              order:        order,
                              limit:        limit,
                              execute:      !@params[:defer])
@@ -42,7 +43,7 @@ module Tags
           success(format_search(results))
         end
       rescue StandardError => error
-        error(error)
+        error(I18n.t('search.errors.tag'), error)
       end
     end
   end

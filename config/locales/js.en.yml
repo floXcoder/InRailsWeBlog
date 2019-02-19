@@ -503,10 +503,12 @@ en:
           default: "Cannot add to bookmarks! Try to reload the page."
           bookmark: "%{message}"
     search:
-      filters:
+      display:
+        card: "List"
+        grid: "Grid"
+      orders:
         priority: "Priority"
         date: "Date"
-        all_topics: "For all topics"
       module:
         placeholder: "Search"
         button: "Search"
@@ -516,6 +518,9 @@ en:
         articles:
           title: "Articles"
           recents: "(Recent articles)"
+        helpers:
+          select_tag: "Select a label with arrows then tab"
+          tagged_articles: "Search for articles with tags : %{tags}"
       index:
         placeholder: "Search"
         button: "Trouver"
@@ -525,10 +530,9 @@ en:
         suggestions:
           tags: "Try with the following tags:"
           articles: "Try with the spelling:"
-        filters:
-          button: "Filter by"
         articles:
           title: "Articles"
+        no_results: "No results found"
     comment:
       common:
         route: "comments"

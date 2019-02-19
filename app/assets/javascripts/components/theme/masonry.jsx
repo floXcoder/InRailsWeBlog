@@ -27,6 +27,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         isActive: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
         hasColumnButtons: PropTypes.bool,
+        columnCount: PropTypes.number,
         hasExposedMode: PropTypes.bool,
         componentsToExposed: PropTypes.array,
         topOffset: PropTypes.number,
@@ -36,6 +37,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
 
     static defaultProps = {
         hasColumnButtons: false,
+        columnCount: 2,
         hasExposedMode: false
     };
 
@@ -60,7 +62,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             itemSelector: '.masonry-grid-item',
             percentPosition: true
         },
-        columnPosition: 2,
+        columnPosition: this.props.columnCount,
         exposedComponents: {}
     };
 
@@ -119,8 +121,8 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             const itemClasses = classNames(
                 'col s12',
                 {
-                    'l4': !this.props.hasColumnButtons,
-                    [`m${columns[this.state.columnPosition]}`]: this.props.hasColumnButtons
+                    'l4': !this.props.columnCount,
+                    [`m${columns[this.state.columnPosition]}`]: this.props.columnCount
                 },
                 'masonry-grid-item',
                 {

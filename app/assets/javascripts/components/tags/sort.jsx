@@ -13,6 +13,10 @@ import {
     getTags
 } from '../../selectors';
 
+import {
+    sortItemLimit
+} from '../modules/constants';
+
 import Loader from '../theme/loader';
 
 import TagSorter from './sort/sorter';
@@ -49,7 +53,7 @@ class TagSort extends React.Component {
             order: 'priority_desc',
             ...this.props.params
         }, {
-            limit: 1000
+            limit: sortItemLimit
         });
     }
 
