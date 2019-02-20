@@ -1,11 +1,5 @@
 'use strict';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
-
-import {
-    MuiThemeProvider
-} from '@material-ui/core/styles';
-
 import {
     Provider
 } from 'react-redux';
@@ -13,6 +7,11 @@ import {
 import {
     BrowserRouter
 } from 'react-router-dom';
+
+import {
+    MuiThemeProvider
+} from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import {
     configureStore

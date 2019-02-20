@@ -101,7 +101,7 @@ RSpec.describe Picture, type: :model, basic: true do
 
   context 'Associations' do
     it { is_expected.to belong_to(:user) }
-    it { is_expected.to belong_to(:imageable) }
+    it { is_expected.to belong_to(:imageable).optional }
   end
 
   context 'Properties' do

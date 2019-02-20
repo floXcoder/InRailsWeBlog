@@ -1,8 +1,7 @@
 'use strict';
 
 import {
-    withRouter,
-    Link
+    withRouter
 } from 'react-router-dom';
 
 import {
@@ -20,9 +19,7 @@ import HeaderArticleMenu from './menus/article';
 import styles from '../../../../jss/user/header';
 
 export default @withRouter
-
 @withStyles(styles)
-
 class HomeArticleHeader extends React.Component {
     static propTypes = {
         userSlug: PropTypes.string.isRequired,

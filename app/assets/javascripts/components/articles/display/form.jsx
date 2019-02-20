@@ -43,9 +43,9 @@ export default @reduxForm({
     validateArticle,
     enableReinitialize: true,
 })
-
 @connect((state, props) => ({
-    availableTags: getCategorizedTags(state, props.inheritVisibility),
+    availableParentTags: getCategorizedTags(state, props.inheritVisibility),
+    availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
     parentTags: getArticleParentTags(props.children),
     childTags: getArticleChildTags(props.children)
 }), {
@@ -68,7 +68,8 @@ class ArticleFormDisplay extends React.Component {
         submitSucceeded: PropTypes.bool,
         dirty: PropTypes.bool,
         // from connect
-        availableTags: PropTypes.array,
+        availableParentTags: PropTypes.array,
+        availableChildTags: PropTypes.array,
         parentTags: PropTypes.array,
         childTags: PropTypes.array,
         fetchTags: PropTypes.func
@@ -111,7 +112,7 @@ class ArticleFormDisplay extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.availableTags.length === 0) {
+        if (this.props.availableParentTags.length === 0) {
             this.props.fetchTags({availableTags: true});
         }
     }
@@ -173,7 +174,8 @@ class ArticleFormDisplay extends React.Component {
 
                         <Collapse in={this.state.tabIndex === 1}>
                             <ArticleTagsField article={this.props.children}
-                                              availableTags={this.props.availableTags}
+                                              availableParentTags={this.props.availableParentTags}
+                                              availableChildTags={this.props.availableChildTags}
                                               parentTags={this.props.parentTags}
                                               childTags={this.props.childTags}
                                               onSubmit={this.props.handleSubmit}/>

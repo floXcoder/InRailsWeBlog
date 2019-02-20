@@ -39,8 +39,6 @@ module Searches
         end
       end.to_h
 
-      where_options[:tag_ids] = { all: options[:tag_ids] } if options[:tag_ids]
-
       return where_options
     end
 

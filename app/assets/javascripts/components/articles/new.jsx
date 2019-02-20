@@ -69,6 +69,7 @@ class ArticleNew extends React.Component {
 
     render() {
         const initialValues = {
+            topicId: this.props.currentTopic.id,
             picture_ids: '',
             draft: this.props.isDraft,
             visibility: this.props.inheritVisibility,

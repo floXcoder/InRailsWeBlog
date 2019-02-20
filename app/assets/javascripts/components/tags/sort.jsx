@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    hot
-} from 'react-hot-loader';
-
-import {
     fetchTags,
     updateTagPriority
 } from '../../actions';
@@ -12,6 +8,10 @@ import {
 import {
     getTags
 } from '../../selectors';
+
+import {
+    sortItemLimit
+} from '../modules/constants';
 
 import Loader from '../theme/loader';
 
@@ -49,7 +49,7 @@ class TagSort extends React.Component {
             order: 'priority_desc',
             ...this.props.params
         }, {
-            limit: 1000
+            limit: sortItemLimit
         });
     }
 

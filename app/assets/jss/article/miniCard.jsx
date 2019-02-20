@@ -86,12 +86,14 @@ const styles = (theme) => ({
         marginLeft: -theme.spacing.unit
     },
     articleTag: {
-        border: 0,
-        marginLeft: theme.spacing.unit / 2,
-        marginRight: theme.spacing.unit / 2
-    },
-
-
+        margin: theme.spacing.unit / 2,
+        fontWeight: 400,
+        fontSize: '.9rem',
+        borderRadius: 4,
+        cursor: 'pointer',
+        color: theme.palette.text.secondary,
+        borderColor: theme.palette.text.secondary
+    }
 });
 
 export default styles;

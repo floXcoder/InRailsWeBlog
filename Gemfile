@@ -20,8 +20,8 @@ gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.0.0'
 
 # JSON
-gem 'active_model_serializers', '0.10.8'
-gem 'oj',                       '3.7.8'
+gem 'active_model_serializers', '0.10.9'
+gem 'oj',                       '3.7.9'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -32,7 +32,7 @@ gem 'geocoder',                 '1.5.1'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '10.1.0'
+gem 'paper_trail',              '10.2.0'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.1'
@@ -66,7 +66,7 @@ gem 'rails-settings-cached',    '0.7.2'
 gem 'storext',                  '2.2.2'
 
 # Authentification
-gem 'devise',                   '4.5.0'
+gem 'devise',                   '4.6.1'
 
 # Authorization mechanism
 gem 'pundit',                   '2.0.1'
@@ -97,11 +97,11 @@ gem 'friendly_id',              '5.2.5'
 gem 'meta-tags',                '2.11.1'
 
 # HTTP request
-gem 'http'
+gem 'http',                     '4.0.5'
 
 # Dummy data
-gem 'factory_bot_rails',        '4.11.1',   require: false
-gem 'faker',                    '1.9.1',   require: false
+gem 'factory_bot_rails',        '5.0.1',   require: false
+gem 'faker',                    '1.9.3',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.0'
@@ -123,7 +123,7 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.5.0'
+  gem 'better_errors',          '2.5.1'
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
@@ -148,7 +148,7 @@ group :development do
   gem 'unique_validation_inspector', '0.3.0', require: false
 
   # Faster ruby code
-  gem 'fasterer',               '0.4.1', require: false
+  gem 'fasterer',               '0.4.2', require: false
 
   # Load tests
   gem 'ruby-jmeter',            '3.1.08', require: false
@@ -157,7 +157,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',            '3.8.2'
-  gem 'shoulda-matchers',       '3.1.3',    require: false
+  gem 'shoulda-matchers',       '4.0.0',    require: false
   gem 'shoulda-callback-matchers', '1.1.4', require: false
   gem 'simplecov',              '0.16.1',   require: false
   gem 'fuubar',                 '2.3.2'
@@ -181,11 +181,11 @@ end
 
 group :development, :test do
   # Check errors
-  gem 'rubocop',                '0.63.1',  require: false
+  gem 'rubocop',                '0.65.0',  require: false
   gem 'rubocop-rspec',          '1.32.0',  require: false
 
   # Speed up boot
-  gem 'bootsnap',               '1.3.2',   require: false
+  gem 'bootsnap',               '1.4.0',   require: false
 end
 
 group :production do

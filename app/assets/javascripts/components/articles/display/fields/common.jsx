@@ -15,7 +15,6 @@ import TextFieldForm from '../../../material-ui/form/text';
 import styles from '../../../../../jss/article/form/common';
 
 export default @withStyles(styles)
-
 class ArticleCommonField extends React.Component {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,

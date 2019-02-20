@@ -47,7 +47,6 @@ export default @connect((state, props) => ({
 }), {
     filterTags
 })
-
 @withStyles(styles)
 class TagSidebar extends React.Component {
     static propTypes = {

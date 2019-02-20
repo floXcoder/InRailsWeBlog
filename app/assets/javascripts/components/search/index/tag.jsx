@@ -16,7 +16,8 @@ export default class SearchTagIndex extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         tags: PropTypes.array.isRequired,
-        onTagClick: PropTypes.func.isRequired
+        onTagClick: PropTypes.func.isRequired,
+        highlightedTagId: PropTypes.number
     };
 
     constructor(props) {
@@ -24,6 +25,8 @@ export default class SearchTagIndex extends React.PureComponent {
     }
 
     _handleTagClick = (tag, event) => {
+        event.preventDefault();
+
         spyTrackClick('tag', tag.id, tag.slug, tag.name);
 
         this.props.onTagClick(tag);
@@ -32,29 +35,21 @@ export default class SearchTagIndex extends React.PureComponent {
     render() {
         return (
             <div className={this.props.classes.category}>
-                <h2 className={this.props.classes.categoryName}>
-                    {I18n.t('js.search.module.tags.title')}
-
-                    <span className={this.props.classes.categoryCount}>
-                        {`(${I18n.t('js.search.index.results', {count: this.props.tags.length})})`}
-                    </span>
-                </h2>
-
-                <div>
-                    {
-                        this.props.tags.map((tag) => (
-                            <Chip key={tag.id}
-                                  className={this.props.classes.tag}
-                                  icon={<LabelIcon/>}
-                                  label={tag.name}
-                                  color="primary"
-                                  variant="outlined"
-                                  component={Link}
-                                  to={`/tagged/${tag.slug}`}
-                                  onClick={this._handleTagClick.bind(this, tag)}/>
-                        ))
-                    }
-                </div>
+                {
+                    this.props.tags.map((tag) => (
+                        <Chip key={tag.id}
+                              className={classNames(this.props.classes.articleTag, {
+                                  [this.props.classes.tagHighlighted]: this.props.highlightedTagId === tag.id
+                              })}
+                              icon={<LabelIcon/>}
+                              label={tag.name}
+                              color="primary"
+                              variant="outlined"
+                              component={Link}
+                              to={`/tagged/${tag.slug}`}
+                              onClick={this._handleTagClick.bind(this, tag)}/>
+                    ))
+                }
             </div>
         );
     }

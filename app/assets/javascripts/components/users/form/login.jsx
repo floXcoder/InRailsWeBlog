@@ -48,7 +48,6 @@ export default @reduxForm({
     asyncValidate,
     asyncBlurFields: ['login']
 })
-
 @withStyles(styles)
 class LoginForm extends React.Component {
     static propTypes = {

@@ -17,44 +17,44 @@ import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
 
 import {
-    setSelectedTag
+    setAutocompleteSelectedTag
 } from '../../actions';
 
 import {
     getUserRecentTags,
     getUserRecentArticles,
-    getSelectedTags,
+    getAutocompleteSelectedTags,
     getAutocompleteTags,
     getAutocompleteArticles
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
-// import SearchSelectedModule from './module/selected';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
 import styles from '../../../jss/search/module';
-
-export default @hot(module)
-
-@connect((state) => ({
+export default @connect((state) => ({
+    currentTopicId: state.topicState.currentUserTopicId,
     recentTags: getUserRecentTags(state),
     recentArticles: getUserRecentArticles(state),
     isSearching: state.autocompleteState.isFetching,
     query: state.autocompleteState.query,
     actionKey: state.autocompleteState.actionKey,
+    highlightedTagId: state.autocompleteState.highlightedTagId,
     tags: getAutocompleteTags(state),
-    selectedTags: getSelectedTags(state),
+    selectedTags: getAutocompleteSelectedTags(state),
     articles: getAutocompleteArticles(state)
 }), {
-    setSelectedTag
+    setAutocompleteSelectedTag
 })
+@hot(module)
 @withStyles(styles)
 class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // from connect
+        currentTopicId: PropTypes.number,
         recentTags: PropTypes.array,
         recentArticles: PropTypes.array,
         tags: PropTypes.array,
@@ -63,7 +63,8 @@ class SearchModule extends React.Component {
         isSearching: PropTypes.bool,
         query: PropTypes.string,
         actionKey: PropTypes.string,
-        setSelectedTag: PropTypes.func,
+        highlightedTagId: PropTypes.number,
+        setAutocompleteSelectedTag: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -74,18 +75,12 @@ class SearchModule extends React.Component {
         this._request = null;
     }
 
-    state = {
-        highlightedTagIndex: undefined
-    };
-
     componentDidUpdate(prevProps) {
-        if (this.props.query !== prevProps.query) {
-            this._resetTagSelection();
-        }
-
-        if (this.props.actionKey && this.props.actionKey !== ' ') {
-            if (this._handleKeyAction()[this.props.actionKey]) {
-                this._handleKeyAction()[this.props.actionKey].call(this, this.props.actionKey);
+        if (prevProps.actionKey !== this.props.actionKey) {
+            if (this.props.actionKey === 'Enter') {
+                this._performSearch();
+            } else if (this.props.actionKey === 'Escape') {
+                this._handleSearchClose();
             }
         }
     }
@@ -96,60 +91,8 @@ class SearchModule extends React.Component {
         }
     }
 
-    _handleKeyAction = () => {
-        return {
-            ArrowDown() {
-                const {highlightedTagIndex} = this.state;
-                const index =
-                    (highlightedTagIndex === undefined || highlightedTagIndex === this.props.tags.length - 1)
-                        ? 0
-                        : highlightedTagIndex + 1;
-
-                this.setState({
-                    highlightedTagIndex: index
-                });
-            },
-
-            ArrowUp() {
-                const {highlightedTagIndex} = this.state;
-                const index =
-                    (highlightedTagIndex === undefined || highlightedTagIndex === 0)
-                        ? this.props.tags.length - 1
-                        : highlightedTagIndex - 1;
-
-                this.setState({
-                    highlightedTagIndex: index
-                });
-            },
-
-            Enter() {
-                if (this.state.highlightedTagIndex !== undefined) {
-                    this._handleTagSelection(this.props.tags[this.state.highlightedTagIndex]);
-                } else {
-                    this._performSearch();
-                }
-            },
-
-            Tab() {
-                this._handleTagSelection(this.props.tags[0]);
-            },
-
-            Escape() {
-                this._resetTagSelection();
-
-                this._handleSearchClose();
-            }
-        }
-    };
-
     _handleTagSelection = (tag) => {
-        this.props.setSelectedTag(tag);
-    };
-
-    _resetTagSelection = () => {
-        this.setState({
-            highlightedTagIndex: undefined
-        });
+        this.props.setAutocompleteSelectedTag(tag);
     };
 
     _performSearch = () => {
@@ -157,7 +100,7 @@ class SearchModule extends React.Component {
             pathname: '/search',
             search: $.param(Utils.compact({
                 query: this.props.query,
-                tagIds: this.props.selectedTags.map((tag) => tag.id)
+                tags: this.props.selectedTags.map((tag) => tag.slug)
             }))
         });
     };
@@ -169,8 +112,9 @@ class SearchModule extends React.Component {
     };
 
     render() {
-        const tags = this.props.query && this.props.query.length > 0 ? this.props.tags : _.uniqBy(this.props.recentTags, (tag) => tag.name);
-        const articles = this.props.query && this.props.query.length > 0 ? this.props.articles : _.uniqBy(this.props.recentArticles, (article) => article.title);
+        const hasQuery = (this.props.query && this.props.query !== '') || this.props.selectedTags.length > 0;
+        const tags = hasQuery ? this.props.tags : _.uniqBy(this.props.recentTags, (tag) => tag.name);
+        const articles = hasQuery ? this.props.articles : _.uniqBy(this.props.recentArticles, (article) => article.title);
 
         return (
             <Paper className="search-module-results"
@@ -194,10 +138,10 @@ class SearchModule extends React.Component {
 
                 <div className={this.props.classes.container}>
                     {
-                        // this.props.selectedTags.length > 0 &&
-                        // <SearchSelectedModule classes={this.props.classes}
-                        //                       selectedTags={this.props.selectedTags}
-                        //                       onTagClick={this._handleTagSelection}/>
+                        (this.props.query !== '' && this.props.selectedTags.length === 0) &&
+                        <div className={classNames(this.props.classes.helpMessage, 'center-align')}>
+                            {I18n.t('js.search.module.helpers.select_tag')}
+                        </div>
                     }
 
                     <Grid container={true}
@@ -210,10 +154,11 @@ class SearchModule extends React.Component {
                               sm={6}
                               lg={3}>
                             <SearchTagModule classes={this.props.classes}
+                                             currentTopicId={this.props.currentTopicId}
+                                             hasQuery={hasQuery}
                                              tags={tags}
-                                             hasQuery={!this.props.query}
                                              selectedTags={this.props.selectedTags}
-                                             highlightedTagIndex={this.state.highlightedTagIndex}
+                                             highlightedTagId={this.props.highlightedTagId}
                                              onTagClick={this._handleTagSelection}/>
                         </Grid>
 
@@ -222,8 +167,10 @@ class SearchModule extends React.Component {
                               sm={6}
                               lg={9}>
                             <SearchArticleModule classes={this.props.classes}
-                                                 articles={articles}
-                                                 hasQuery={!this.props.query}/>
+                                                 currentTopicId={this.props.currentTopicId}
+                                                 hasQuery={hasQuery}
+                                                 selectedTags={this.props.selectedTags}
+                                                 articles={articles}/>
                         </Grid>
                     </Grid>
 

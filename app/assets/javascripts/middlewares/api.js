@@ -62,8 +62,15 @@ const manageError = (origin, error, url) => {
             // }
         } else if (error.statusText === 'Not found') {
             // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
-        } else if (error.statusText === 'Unprocessable Entity') {
-            Notification.error(I18n.t('js.helpers.errors.unprocessable'));
+        // } else if (error.statusText === 'Unprocessable Entity') {
+            // Managed by handleResponse
+            // if (!error.bodyUsed) {
+            //     return error.json().then((status) => (
+            //         Notification.error(status.error || status.errors || error.statusText)
+            //     ));
+            // } else {
+            //     Notification.error(I18n.t('js.helpers.errors.unprocessable'));
+            // }
         } else {
             if (error.statusText === 'Internal Server Error') {
                 if (window.railsEnv === 'development') {

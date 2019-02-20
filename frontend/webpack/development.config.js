@@ -29,8 +29,8 @@ webPackConfig = _.merge(webPackConfig, {
 
     cache: true,
 
-    // devtool: 'cheap-module-source-map',
-    devtool: 'eval',
+    devtool: 'cheap-module-source-map',
+    // devtool: 'eval',
 
     stats: {
         colors: true,

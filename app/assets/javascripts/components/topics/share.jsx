@@ -30,7 +30,6 @@ export default @connect((state, props) => ({
 }), {
     shareTopic
 })
-
 @hot(module)
 @withStyles(styles)
 class TopicModal extends React.Component {

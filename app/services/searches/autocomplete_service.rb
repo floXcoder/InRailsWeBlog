@@ -24,28 +24,29 @@ module Searches
       if search_type('article', @params[:selected_types])
         articles_autocomplete = Articles::AutocompleteService.new(
           @query,
-          defer:  true,
-          format: 'strict',
-          limit:  @params[:limit] || Setting.per_page,
-          where:  where_options.merge(
-            topic_id: @params[:topic_id],
-            mode:     @params[:mode],
-            draft:    @params[:draft],
-            tags:     @params[:tags].present? ? @params[:tags].first.split(',') : nil,
-            topics:   @params[:topics].present? ? @params[:topics].first.split(',') : nil
-          ).compact
+          defer:       true,
+          format:      'strict',
+          limit:       @params[:limit] || Setting.per_page,
+          where:       where_options.merge(
+            mode:      @params[:mode],
+            draft:     @params[:draft],
+            tag_ids:   @params[:tag_ids].presence,
+            topic_ids: @params[:topic_ids].presence
+          ).compact,
+          boost_where: { topic_id: @params[:topic_id] }
         )
       end
 
       if search_type('tag', @params[:selected_types])
         tags_autocomplete = Tags::AutocompleteService.new(
           @query,
-          defer:  true,
-          format: 'strict',
-          limit:  @params[:limit] || Setting.per_page,
-          where:  where_options.merge(
-            topic_ids: @params[:topic_id].present? ? [@params[:topic_id]] : nil
-          ).compact
+          defer:       true,
+          format:      'strict',
+          limit:       @params[:limit] || Setting.per_page,
+          where:       where_options.merge(
+            topic_ids: @params[:topic_ids].presence
+          ).compact,
+          boost_where: { topic_ids: [@params[:topic_id]] }.compact
         )
       end
 
@@ -83,7 +84,7 @@ module Searches
 
         success(autocomplete_results)
       rescue StandardError => error
-        error(error)
+        error(I18n.t('search.errors.autocomplete'), error)
       end
     end
   end

@@ -23,8 +23,21 @@ const styles = (theme) => ({
         fontWeight: 300,
         marginLeft: '.6rem'
     },
+    categoryDivider: {
+        margin: theme.spacing.unit * 2
+    },
+    helpMessage: {
+        color: theme.palette.grey[600],
+        fontStyle: 'italic'
+    },
     tag: {
-        margin: theme.spacing.unit / 2
+        margin: theme.spacing.unit / 2,
+        fontWeight: 400,
+        fontSize: '.9rem',
+        borderRadius: 4,
+        cursor: 'pointer',
+        color: theme.palette.text.secondary,
+        borderColor: theme.palette.text.secondary
     },
     tagSelected: {
         backgroundColor: theme.palette.primary.main
@@ -32,9 +45,22 @@ const styles = (theme) => ({
     tagHighlighted: {
         backgroundColor: theme.palette.secondary.main
     },
-    articleTitle: {
-        fontSize: '1.6rem',
-        color: theme.palette.text.primary
+    mainResult: {
+        fontSize: '1.1rem',
+        color: theme.palette.text.primary,
+        marginRight: 10
+    },
+    secondaryResult: {
+        color: theme.palette.grey[600]
+    },
+    articleTag: {
+        margin: 4,
+        padding: 0,
+        fontWeight: 400,
+        fontSize: '.8rem',
+        borderRadius: 4,
+        color: theme.palette.text.secondary,
+        borderColor: theme.palette.grey[300]
     },
     articleEdit: {
         fontSize: '1rem',

@@ -28,8 +28,8 @@ export default class HeaderArticleMenu extends React.Component {
     };
 
     render() {
-        const parentTagSlug = this.props.match.params.parentTagSlug || this.props.match.params.tagSlug || this.props.currentTagSlugs.first();
-        const childTagSlug = this.props.match.params.childTagSlug;
+        const parentTagSlug = this.props.match.params.parentTagSlug || this.props.match.params.tagSlug || this.props.currentTagSlugs[0];
+        const childTagSlug = this.props.match.params.childTagSlug || this.props.currentTagSlugs[1];
 
         return (
             <List className={classNames({

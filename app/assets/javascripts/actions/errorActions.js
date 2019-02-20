@@ -4,23 +4,29 @@ import * as ActionTypes from '../constants/actionTypes';
 
 import api from '../middlewares/api';
 
-export const pushError = (error) => {
-    if (!error && !error.message) {
+export const pushError = (error, errorInfo = null) => {
+    if (!error) {
         return;
     }
 
-    return api
-        .post(`/errors`, {
-            error: {
-                message: error.message,
-                className: error.url,
-                trace: error.trace,
-                origin: error.origin,
-                targetUrl: error.url,
-                lineNumber: error.lineNumber,
-                columnNumber: error.columnNumber
-            }
+    if (window.Raven) {
+        Raven.captureException(error, {
+            extra: errorInfo
         });
+    }
+
+    // return api
+    //     .post(`/errors`, {
+    //         error: {
+    //             message: error.message,
+    //             className: error.url,
+    //             trace: error.trace,
+    //             origin: error.origin,
+    //             targetUrl: error.url,
+    //             lineNumber: error.lineNumber,
+    //             columnNumber: error.columnNumber
+    //         }
+    //     });
 };
 
 // Error

@@ -100,7 +100,8 @@ export const getSortedTopicTags = createSelector(
 export const getCategorizedTags = createSelector(
     (state) => state.tagState.topicTags,
     (_, inheritVisibility) => inheritVisibility,
-    (tags, inheritVisibility) => {
+    (_, _visibility, childOnly) => childOnly,
+    (tags, inheritVisibility, childOnly = false) => {
         let categorizedTags = [];
 
         if (tags) {
@@ -115,7 +116,7 @@ export const getCategorizedTags = createSelector(
             }
 
             tags.forEach((tag) => {
-                if (tag.visibility === inheritVisibility) {
+                if (tag.visibility === inheritVisibility && tag.childOnly === childOnly) {
                     if (!tagsByVisibility[tag.visibility]) {
                         tagsByVisibility[tag.visibility] = [tag.name];
                     } else {

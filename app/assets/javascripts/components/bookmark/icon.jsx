@@ -16,7 +16,6 @@ export default @connect((state, props) => ({
 }), {
     bookmark
 })
-
 class BookmarkIcon extends React.PureComponent {
     static propTypes = {
         bookmarkedType: PropTypes.string.isRequired,

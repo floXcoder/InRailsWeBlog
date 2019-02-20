@@ -10,7 +10,6 @@ import ArticleSidebar from '../../articles/sidebar';
 import styles from '../../../../jss/user/sidebar';
 
 export default @withStyles(styles)
-
 class ArticleSidebarLayout extends React.PureComponent {
     static propTypes = {
         parentTag: PropTypes.string,

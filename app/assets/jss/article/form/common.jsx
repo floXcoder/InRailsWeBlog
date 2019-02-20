@@ -16,11 +16,21 @@ const styles = (theme) => ({
         display: 'block',
         background: 'none',
         color: theme.palette.text.primary,
-        fontSize: '1.3333333333333333rem',
+        fontSize: '1.33rem',
         lineHeight: '1.1875em'
     },
     select: {
         width: '90%'
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest
+        })
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)'
     }
 });
 

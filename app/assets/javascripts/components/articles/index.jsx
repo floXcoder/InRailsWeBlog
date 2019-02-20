@@ -91,6 +91,7 @@ class ArticleIndex extends React.Component {
 
         this._parseQuery = Utils.parseUrlParameters(props.queryString) || {};
         this._request = null;
+        this._isFetchingNext = false;
     }
 
     componentDidMount() {
@@ -170,6 +171,8 @@ class ArticleIndex extends React.Component {
                 page: (params.selected || this.props.articlePagination.currentPage) + 1
             };
 
+            this._isFetchingNext = true;
+
             this._request = this.props.fetchArticles({
                 userId: this.props.userId,
                 ...this._formatParams(),
@@ -177,6 +180,8 @@ class ArticleIndex extends React.Component {
             }, options, {infinite: !params.selected});
 
             this._request.fetch.then(() => {
+                this._isFetchingNext = false;
+
                 if (params.selected) {
                     $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 350);
                 }
@@ -193,10 +198,6 @@ class ArticleIndex extends React.Component {
     };
 
     render() {
-        const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
-
-        const isStoriesMode = this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories';
-
         if (this.props.userId && !this.props.currentUserTopic) {
             return (
                 <div className={this.props.classes.root}>
@@ -219,6 +220,10 @@ class ArticleIndex extends React.Component {
                 </div>
             );
         }
+
+        const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
+
+        const isStoriesMode = this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories';
 
         let ArticleNodes;
         if (isStoriesMode) {
@@ -265,19 +270,21 @@ class ArticleIndex extends React.Component {
                     }
 
                     {
-                        this.props.articlesCount > 0 &&
+                        // this.props.articlesCount > 0 &&
                         <Suspense fallback={<div/>}>
                             {
-                                this.props.articlesLoaderMode === 'infinite'
-                                    ?
-                                    <ArticleInfiniteMode classes={this.props.classes}
-                                                         articlesCount={this.props.articlesCount}
-                                                         hasMoreArticles={hasMoreArticles}
-                                                         fetchArticles={this._fetchNextArticles}>
-                                        {ArticleNodes}
-                                    </ArticleInfiniteMode>
-                                    :
-                                    ArticleNodes
+                                (!this.props.isFetching || this._isFetchingNext) && (
+                                    this.props.articlesLoaderMode === 'infinite'
+                                        ?
+                                        <ArticleInfiniteMode classes={this.props.classes}
+                                                             articlesCount={this.props.articlesCount}
+                                                             hasMoreArticles={hasMoreArticles}
+                                                             fetchArticles={this._fetchNextArticles}>
+                                            {ArticleNodes}
+                                        </ArticleInfiniteMode>
+                                        :
+                                        ArticleNodes
+                                )
                             }
                         </Suspense>
                     }

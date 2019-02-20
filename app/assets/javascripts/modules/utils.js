@@ -616,7 +616,7 @@ export const defer = Promise.resolve();
 export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));
 
 export const NAVIGATION_KEYMAP = {
-    //8: 'backspace',
+    8: 'backspace',
     9: 'tab',
     13: 'enter',
     16: 'shift',

@@ -20,7 +20,6 @@ import TooltipTag from '../../tags/display/tooltip';
 import styles from '../../../../jss/tag/chip';
 
 export default @withStyles(styles)
-
 class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
@@ -81,7 +80,8 @@ class ArticleTags extends React.PureComponent {
                                 <Chip component={Link}
                                       id={`article-${this.props.articleId}-tags-${tag.id}`}
                                       classes={{
-                                          label: this.props.classes.tag
+                                          root: this.props.classes.tagChip,
+                                          label: this.props.classes.tagLabel
                                       }}
                                       to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? `/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tagged/${tag.slug}` : `/tagged/${tag.slug}`}
                                       label={tag.name}
@@ -110,7 +110,8 @@ class ArticleTags extends React.PureComponent {
                             <Chip component={Link}
                                   id={`article-${this.props.articleId}-tags-${tag.id}`}
                                   classes={{
-                                      label: this.props.classes.tag
+                                      root: this.props.classes.tagChip,
+                                      label: this.props.classes.tagLabel
                                   }}
                                   to={this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags ? `/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tagged/${parentTags.first().slug}/${tag.slug}` : `/tagged/${tag.slug}`}
                                   label={tag.name}

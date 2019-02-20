@@ -2,6 +2,7 @@
 
 import {
     h1Size,
+    h1SizeMobile,
     h1Weight,
     h1LineHeight,
     h1Spacing
@@ -11,7 +12,11 @@ const styles = (theme) => ({
     card: {
         position: 'relative',
         margin: '.4rem .3rem 2rem',
-        overflow: 'visible'
+        overflow: 'visible',
+        [theme.breakpoints.down('md')]: {
+            marginTop: '.8rem',
+            marginBottom: '2.8rem'
+        }
     },
     header: {
         paddingTop: 8,
@@ -34,18 +39,21 @@ const styles = (theme) => ({
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
         letterSpacing: h1Spacing,
-        margin: 'inherit'
+        margin: 'inherit',
+        [theme.breakpoints.down('md')]: {
+            fontSize: h1SizeMobile
+        }
     },
     expand: {
         transform: 'rotate(0deg)',
         transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
+            duration: theme.transitions.duration.shortest
         }),
         marginTop: 8,
         marginLeft: 'auto',
         [theme.breakpoints.up('sm')]: {
-            marginRight: -2,
-        },
+            marginRight: -2
+        }
     },
     expandOpen: {
         transform: 'rotate(180deg)',
@@ -105,8 +113,8 @@ const styles = (theme) => ({
         // display: 'inline-flex',
         marginLeft: 'auto',
         [theme.breakpoints.up('sm')]: {
-            marginRight: -2,
-        },
+            marginRight: -2
+        }
     },
     actionItem: {
         display: 'inline-block',

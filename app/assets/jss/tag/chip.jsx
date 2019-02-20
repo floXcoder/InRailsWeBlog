@@ -1,7 +1,16 @@
 'use strict';
 
 const styles = (theme) => ({
-    tag: {
+    tagChip: {
+        margin: theme.spacing.unit / 2,
+        fontWeight: 400,
+        fontSize: '.9rem',
+        borderRadius: 4,
+        cursor: 'pointer',
+        // color: theme.palette.text.secondary,
+        borderColor: theme.palette.text.secondary
+    },
+    tagLabel: {
         fontSize: '.9rem',
         margin: theme.spacing.unit / 3
     },

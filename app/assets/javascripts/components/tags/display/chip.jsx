@@ -25,15 +25,13 @@ class TagChipDisplay extends React.Component {
         classes: PropTypes.object
     };
 
-    static defaultProps = {};
-
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <Chip className={this.props.classes.tag}
+            <Chip className={this.props.classes.tagChip}
                   icon={<LabelIcon/>}
                   label={this.props.tag.name}
                   color="primary"

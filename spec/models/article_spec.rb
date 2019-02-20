@@ -223,7 +223,7 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to have_db_index([:user_id, :visibility]) }
 
-    it { is_expected.to belong_to(:contributor) }
+    it { is_expected.to belong_to(:contributor).optional }
 
     it { is_expected.to belong_to(:topic) }
     it { is_expected.to have_db_index([:topic_id, :visibility]) }

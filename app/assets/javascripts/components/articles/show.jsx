@@ -51,6 +51,7 @@ import SummaryStoriesTopic from '../topics/stories/summary';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleAvatarIcon from './icons/avatar';
+import ArticleEditIcon from './icons/edit';
 import ArticleTags from './properties/tags';
 import ArticleFloatingIcons from './properties/floatingIcons';
 import ArticleActions from './properties/actions';
@@ -78,7 +79,6 @@ export default @connect((state, props) => ({
     deleteArticle,
     setCurrentTags
 })
-
 @hot(module)
 @highlight(false)
 @withStyles(styles)
@@ -234,7 +234,8 @@ class ArticleShow extends React.Component {
                                 this.props.isCurrentTopicOwner &&
                                 <div className={this.props.classes.breadcrumb}>
                                     <ArticleBreadcrumbDisplay user={this.props.currentUser}
-                                                              topic={this.props.currentTopic}/>
+                                                              topic={this.props.currentTopic}
+                                                              tags={this.props.article.tags}/>
                                 </div>
                             }
 
@@ -290,16 +291,27 @@ class ArticleShow extends React.Component {
                                                                    articleDate={this.props.article.date}/>
                                             </Grid>
 
-                                            {
-                                                (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
-                                                <Grid className="hide-on-small"
-                                                      item={true}>
+                                            <Grid className="hide-on-small"
+                                                  item={true}>
+                                                {
+                                                    this.props.isOwner &&
+                                                    <p className={this.props.classes.editIcon}>
+                                                        <ArticleEditIcon userSlug={this.props.article.user.slug}
+                                                                         articleSlug={this.props.article.slug}
+                                                                         size="large"
+                                                                         color="action"/>
+                                                    </p>
+                                                }
+
+                                                {
+                                                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
+
                                                     <CommentCountIcon className={this.props.classes.commentCount}
                                                                       commentLink={`#article-comments-${this.props.article.id}`}
                                                                       commentsCount={this.props.article.commentsCount}
                                                                       hasIcon={false}/>
-                                                </Grid>
-                                            }
+                                                }
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>

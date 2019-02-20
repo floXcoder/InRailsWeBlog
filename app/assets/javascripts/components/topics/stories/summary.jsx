@@ -9,15 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import styles from '../../../../jss/topic/stories/summary';
 
 export default @withStyles(styles)
-
 class SummaryStoriesTopic extends React.Component {
     static propTypes = {
         topic: PropTypes.object.isRequired,
         // from styles
         classes: PropTypes.object
     };
-
-    static defaultProps = {};
 
     constructor(props) {
         super(props);

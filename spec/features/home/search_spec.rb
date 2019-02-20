@@ -3,11 +3,11 @@
 feature 'Search for visitors', advanced: true, js: true, search: true do
 
   background(:all) do
-    @user       = create(:user)
+    @user = create(:user)
 
     @topic = create(:topic, visibility: 'everyone', user: @user)
 
-    @tags    = create_list(:tag, 2, visibility: 'everyone', user: @user)
+    @tags     = create_list(:tag, 2, visibility: 'everyone', user: @user)
     @articles = create_list(:article, 3, visibility: 'everyone', user: @user, topic: @topic, tags: [@tags[0], @tags[1]])
 
     @query = '*'
@@ -54,7 +54,7 @@ feature 'Search for visitors', advanced: true, js: true, search: true do
 
     scenario 'visitor can see the results' do
       is_expected.to have_content(I18n.t('js.search.index.results', count: @articles.count))
-      is_expected.to have_content(I18n.t('js.search.index.results', count: @tags.count))
+      is_expected.to have_content(I18n.t('js.search.index.results', count: @articles.count))
       is_expected.to have_css('article', count: @articles.count)
     end
   end

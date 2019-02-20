@@ -5,7 +5,7 @@ class TopicStrictSerializer < ActiveModel::Serializer
 
   cache key: 'topic_strict', expires_in: CONFIG.cache_time
 
-  # Methods with attributes must be defined to work with searchkick results
+  # Methods with attributes must be overrided to work with searchkick results
   attributes :id,
              :user_id,
              :mode,

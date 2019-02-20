@@ -33,6 +33,10 @@ import {
     getPrivateTags
 } from '../../selectors';
 
+import {
+    tagSidebarLimit
+} from '../modules/constants';
+
 import Loader from '../theme/loader';
 
 import HeadLayout from '../layouts/head';
@@ -77,19 +81,19 @@ class TagIndex extends React.Component {
             this.props.fetchTags({
                 userSlug: this.props.params.userSlug
             }, {
-                limit: 1000
+                limit: tagSidebarLimit
             });
         } else if (this.props.params.topicSlug) {
             this.props.fetchTags({
                 topicSlug: this.props.params.topicSlug
             }, {
-                limit: 1000
+                limit: tagSidebarLimit
             });
         } else {
             this.props.fetchTags({
                 visibility: 'everyone'
             }, {
-                limit: 1000
+                limit: tagSidebarLimit
             });
         }
     }

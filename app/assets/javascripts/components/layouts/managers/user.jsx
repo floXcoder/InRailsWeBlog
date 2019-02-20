@@ -32,7 +32,6 @@ export default @connect((state) => ({
     synchronizeBookmarks,
     setCurrentTags
 })
-
 class UserManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,

@@ -59,6 +59,18 @@ describe Searches::AutocompleteService, type: :service, basic: true do
         end
       end
     end
+
+    context 'when tag ids is set' do
+      it 'returns articles for selected tags only' do
+        results = Searches::AutocompleteService.new('*', current_user: @user, tag_ids: [@tags[1].id]).perform
+
+        expect(results.success?).to be true
+
+        expect(results.result[:articles].size).to eq(Article.with_tags(@tags[1].slug).count)
+        expect(results.result[:tags].size).to eq(Tag.everyone_and_user(@user.id).count)
+        expect(results.result[:topics].size).to eq(Topic.everyone_and_user(@user.id).count)
+      end
+    end
   end
 
 end

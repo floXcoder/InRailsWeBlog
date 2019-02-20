@@ -5,7 +5,7 @@ module Articles
     def initialize(query, *args)
       super(query, *args)
 
-      @params[:model] = Article
+      @params[:model]  = Article
       @params[:format] = @params[:format] || 'strict'
     end
 
@@ -32,6 +32,7 @@ module Articles
                                  misspellings: false,
                                  load:         false,
                                  where:        where_options,
+                                 boost_where:  @params[:boost_where],
                                  order:        order,
                                  limit:        limit,
                                  execute:      !@params[:defer])
@@ -42,7 +43,7 @@ module Articles
           success(format_search(results))
         end
       rescue StandardError => error
-        error(error)
+        error(I18n.t('search.errors.article'), error)
       end
     end
   end

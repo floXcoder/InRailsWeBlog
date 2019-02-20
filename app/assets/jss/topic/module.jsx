@@ -50,19 +50,23 @@ const styles = (theme) => ({
         boxSizing: 'border-box',
         cursor: 'pointer',
         display: 'block',
+        position: 'relative',
+        textAlign: 'left',
         height: '3rem',
         lineHeight: '3rem',
         margin: '.6rem 0',
         padding: '0 0 0 .8rem',
-        position: 'relative',
         width: '100%'
     },
     itemContent: {
+        position: 'relative',
+        display: 'block',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
         background: theme.palette.primary.light,
         color: '#fff',
-        display: 'block',
         padding: '0 .8rem',
-        position: 'relative',
         transition: '.25s all ease',
         '&:hover': {
             paddingLeft: '1.4rem'

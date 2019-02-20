@@ -4,14 +4,14 @@ import {
     withRouter
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-
-import styles from '../../../../jss/user/footer';
+// import {
+//     withStyles
+// } from '@material-ui/core/styles';
+//
+// import styles from '../../../../jss/user/footer';
 
 export default @withRouter
-@withStyles(styles)
+// @withStyles(styles)
 class FooterLayoutUser extends React.Component {
     static propTypes = {
         // from router

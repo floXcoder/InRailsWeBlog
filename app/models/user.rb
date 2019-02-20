@@ -81,6 +81,7 @@ class User < ApplicationRecord
     tag_order String, default: 'name' # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
     tag_parent_and_child Boolean, default: true # Display child articles for parent tag
 
+    search_display Boolean, default: 'card' # Display view for search results: card / grid
     search_highlight Boolean, default: true # Highlight terms in search results
     search_operator String, default: 'and' # Search mode for multi-terms: and / or
     search_exact Boolean, default: true # Search for exact terms
@@ -361,7 +362,7 @@ class User < ApplicationRecord
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
       tags:     Tag.joins(:user_activities).merge(last_visits).select('id', 'user_id', 'name', 'synonyms', 'visibility', 'slug', 'activities.created_at', 'updated_at').distinct,
-      articles: Article.joins(:user_activities).merge(last_visits).select('id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'updated_at', 'activities.created_at').distinct
+      articles: Article.includes(:tagged_articles, :tags).joins(:user_activities).merge(last_visits).select('id', 'topic_id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'updated_at', 'activities.created_at').distinct
     }
   end
 

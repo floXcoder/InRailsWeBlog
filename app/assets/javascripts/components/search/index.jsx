@@ -12,8 +12,10 @@ import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Chip from '@material-ui/core/Chip';
 
 import SearchIcon from '@material-ui/icons/Search';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 import {
     getSearchContext,
@@ -21,7 +23,7 @@ import {
     setSelectedTag,
     fetchSearch,
     filterSearch,
-    spyTrackClick
+    updateUserSettings
 } from '../../actions';
 
 import {
@@ -37,56 +39,55 @@ import HeadLayout from '../layouts/head';
 
 import EnsureValidity from '../modules/ensureValidity';
 
-import ArticleBreadcrumbDisplay from '../articles/display/breadcrumb';
+import Loader from '../theme/loader';
 
 import SearchSuggestionIndex from './index/suggestion';
-import SearchSelectedIndex from './index/selected';
 import SearchTagIndex from './index/tag';
 import SearchArticleIndex from './index/article';
 
 import styles from '../../../jss/search/index';
-
 export default @connect((state) => ({
     metaTags: getSearchMetaTags(state),
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    currentTopic: state.topicState.currentTopic,
+    searchDisplay: state.userState.user && state.userState.user.settings.searchDisplay,
     query: state.searchState.query,
     selectedTags: getSelectedTags(state),
-    tagSuggestions: getTagSuggestions(state),
-    articleSuggestions: getArticleSuggestions(state),
+    hasResults: state.searchState.hasResults,
     tags: getSearchTags(state),
-    articles: getSearchArticles(state)
+    tagSuggestions: getTagSuggestions(state),
+    articles: getSearchArticles(state),
+    articleSuggestions: getArticleSuggestions(state),
 }), {
     getSearchContext,
     searchOnHistoryChange,
     setSelectedTag,
     fetchSearch,
-    filterSearch
+    filterSearch,
+    updateUserSettings
 })
 @hot(module)
 @withStyles(styles)
 class SearchIndex extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
         // from connect
         metaTags: PropTypes.object,
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
-        currentUserTopicId: PropTypes.number,
-        currentTopic: PropTypes.object,
+        searchDisplay: PropTypes.string,
         query: PropTypes.string,
         selectedTags: PropTypes.array,
-        tagSuggestions: PropTypes.array,
-        articleSuggestions: PropTypes.array,
+        hasResults: PropTypes.bool,
         tags: PropTypes.array,
+        tagSuggestions: PropTypes.array,
         articles: PropTypes.array,
+        articleSuggestions: PropTypes.array,
         getSearchContext: PropTypes.func,
         searchOnHistoryChange: PropTypes.func,
         setSelectedTag: PropTypes.func,
         fetchSearch: PropTypes.func,
         filterSearch: PropTypes.func,
+        updateUserSettings: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -98,15 +99,16 @@ class SearchIndex extends React.Component {
     }
 
     state = {
-        previousQuery: undefined,
-        value: this.props.query || ''
+        previousQuery: null,
+        query: this.props.query || '',
+        highlightedTagId: null
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.previousQuery !== nextProps.query) {
             return {
-                previousQuery: nextProps.query,
-                value: nextProps.query
+                previousQuery: nextProps.query || '',
+                query: nextProps.query || ''
             };
         }
 
@@ -121,23 +123,68 @@ class SearchIndex extends React.Component {
         this.props.searchOnHistoryChange();
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.selectedTags.length !== this.props.selectedTags.length) {
-            this._performSearch(this.props.query);
-        }
-    }
-
     componentWillUnmount() {
         if (this._request && this._request.signal) {
             this._request.signal.abort();
         }
     }
 
+    _handleKeyDown = (event) => {
+        if (event.key && Utils.NAVIGATION_KEYMAP[event.which]) {
+            if (this.state.query.length > 0) {
+                if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
+                    this._handleSubmit(event);
+                } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'tab') {
+                    event.preventDefault();
+
+                    if (this.props.tags.length > 0) {
+                        const tagIndex = this.state.highlightedTagId ? this.props.tags.findIndex((tag) => tag.id === this.state.highlightedTagId) : 0;
+
+                        this.props.setSelectedTag(this.props.tags[tagIndex]);
+
+                        this.setState({
+                            highlightedTagId: null,
+                            query: ''
+                        });
+                    }
+                } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'up') {
+                    let newTagId;
+                    if (!this.state.highlightedTagId || this.state.highlightedTagId === this.props.tags.first().id) {
+                        newTagId = this.props.tags[this.props.tags.length - 1].id;
+                    } else {
+                        newTagId = this.props.tags[this.props.tags.findIndex((tag) => tag.id === this.state.highlightedTagId) - 1].id;
+                    }
+
+                    this.setState({
+                        highlightedTagId: newTagId
+                    });
+                } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'down') {
+                    let newTagId;
+                    if (!this.state.highlightedTagId || this.state.highlightedTagId === this.props.tags[this.props.tags.length - 1].id) {
+                        newTagId = this.props.tags[0].id;
+                    } else {
+                        newTagId = this.props.tags[this.props.tags.findIndex((tag) => tag.id === this.state.highlightedTagId) + 1].id;
+                    }
+
+                    this.setState({
+                        highlightedTagId: newTagId
+                    });
+                }
+            } else if (this.state.query.length === 0 && this.props.selectedTags.length > 0) {
+                if (Utils.NAVIGATION_KEYMAP[event.which] === 'backspace') {
+                    event.preventDefault();
+
+                    this.props.setSelectedTag(this.props.selectedTags[this.props.selectedTags.length - 1]);
+                }
+            }
+        }
+    };
+
     _handleChange = (event) => {
-        const value = event.target.value;
+        const query = event.target.value;
 
         this.setState({
-            value
+            query
         });
     };
 
@@ -147,55 +194,61 @@ class SearchIndex extends React.Component {
 
     _handleTagSelection = (tag) => {
         this.props.setSelectedTag(tag);
-    };
 
-    _handleArticleClick = (article) => {
-        spyTrackClick('article', article.id, article.slug, article.title);
-
-        this.props.history.push(`/users/${article.user.slug}/articles/${article.slug}`);
+        this.setState({
+            query: ''
+        });
     };
 
     _handleSubmit = (event) => {
         event.preventDefault();
 
-        this._performSearch(this.state.value);
+        this._performSearch(this.state.query);
     };
 
-    _handleFilter = (filter) => {
-        let filters = {};
+    _handleOrderChange = (order) => {
+        let orders = {};
 
-        if (filter === 'priority') {
-            filters.order = 'priority_desc';
-        } else if (filter === 'date') {
-            filters.order = 'updated_desc';
-        } else if (filter === 'all_topics') {
-            filters.topicId = undefined;
+        if (order === 'priority') {
+            orders.order = 'priority_desc';
+        } else if (order === 'date') {
+            orders.order = 'updated_desc';
         }
 
-        this.props.filterSearch(filters);
+        this.props.filterSearch(orders);
+    };
+
+    _handleDisplayChange = (display) => {
+        if (this.props.currentUserId) {
+            this.props.updateUserSettings(this.props.currentUserId, {
+                searchDisplay: display
+            });
+        }
     };
 
     _performSearch = (query) => {
         this._request = this.props.fetchSearch({
             query: query,
-            userId: this.props.currentUserId,
-            topicId: this.props.currentUserTopicId,
-            tagIds: this.props.selectedTags.map((tag) => tag.id)
+            tags: this.props.selectedTags.map((tag) => tag.slug)
         });
     };
 
     render() {
+        if (this.props.currentUserId && !this.props.currentUser) {
+            return (
+                <div className={this.props.classes.root}>
+                    <div className="center">
+                        <Loader size="big"/>
+                    </div>
+                </div>
+            );
+        }
+
+        const hasNoResults = (this.props.query && this.props.query.length > 0) && !this.props.hasResults;
+
         return (
             <div className={this.props.classes.root}>
                 <HeadLayout metaTags={this.props.metaTags}/>
-
-                {
-                    (this.props.currentUser && this.props.currentTopic) &&
-                    <div className={this.props.classes.breadcrumb}>
-                        <ArticleBreadcrumbDisplay user={this.props.currentUser}
-                                                  topic={this.props.currentTopic}/>
-                    </div>
-                }
 
                 <form onSubmit={this._handleSubmit}>
                     <EnsureValidity/>
@@ -210,21 +263,39 @@ class SearchIndex extends React.Component {
                             <FormControl classes={{
                                 root: this.props.classes.inputForm
                             }}>
-                                <Input classes={{
-                                    input: this.props.classes.inputInput
-                                }}
+                                <div className={this.props.classes.searchIcon}>
+                                    <SearchIcon fontSize="large"/>
+                                </div>
+
+                                <Input name="search"
                                        type="search"
+                                       classes={{
+                                           root: this.props.classes.inputRoot,
+                                           input: this.props.classes.inputSearch
+                                       }}
                                        autoFocus={true}
                                        placeholder={I18n.t('js.search.index.placeholder')}
-                                       value={this.state.value}
-                                       onChange={this._handleChange}
-                                       onSubmit={this._handleSubmit}
+                                       value={this.state.query}
                                        startAdornment={
                                            <InputAdornment position="start">
-                                               <SearchIcon/>
+                                               {
+                                                   this.props.selectedTags.map((tag) => (
+                                                       <Chip key={tag.id}
+                                                             className={this.props.classes.inputTag}
+                                                             tabIndex={-1}
+                                                             label={tag.name}
+                                                             color="primary"
+                                                             variant="outlined"
+                                                             deleteIcon={<CancelIcon/>}
+                                                             onClick={this._handleTagSelection.bind(this, tag)}
+                                                             onDelete={this._handleTagSelection.bind(this, tag)}/>
+                                                   ))
+                                               }
                                            </InputAdornment>
                                        }
-                                />
+                                       onKeyDown={this._handleKeyDown}
+                                       onChange={this._handleChange}
+                                       onSubmit={this._handleSubmit}/>
                             </FormControl>
                         </Grid>
 
@@ -238,48 +309,34 @@ class SearchIndex extends React.Component {
                     </Grid>
                 </form>
 
-                {
-                    !Utils.isEmpty(this.props.selectedTags) &&
-                    <SearchSelectedIndex selectedTags={this.props.selectedTags}
-                                         className="article-category"
-                                         onTagClick={this._handleTagSelection}/>
-                }
-
                 <SearchSuggestionIndex classes={this.props.classes}
                                        articleSuggestions={this.props.articleSuggestions}
                                        tagSuggestions={this.props.tagSuggestions}
                                        onSuggestionClick={this._handleSuggestionClick}/>
 
-                <Grid container={true}
-                      spacing={32}
-                      direction="row-reverse"
-                      justify="space-between"
-                      alignItems="flex-start">
-                    {
-                        !Utils.isEmpty(this.props.tags) &&
-                        <Grid item={true}
-                              xs={12}
-                              sm={Utils.isEmpty(this.props.articles) ? 12 : 6}
-                              lg={Utils.isEmpty(this.props.articles) ? 12 : 3}>
-                            <SearchTagIndex classes={this.props.classes}
-                                            tags={this.props.tags}
-                                            onTagClick={this._handleTagSelection}/>
-                        </Grid>
-                    }
+                {
+                    hasNoResults &&
+                    <div className={classNames(this.props.classes.helpMessage)}>
+                        {I18n.t('js.search.index.no_results')}
+                    </div>
+                }
 
-                    {
-                        !Utils.isEmpty(this.props.articles) &&
-                        <Grid item={true}
-                              xs={12}
-                              sm={Utils.isEmpty(this.props.tags) ? 12 : 6}
-                              lg={Utils.isEmpty(this.props.tags) ? 12 : 9}>
-                            <SearchArticleIndex classes={this.props.classes}
-                                                articles={this.props.articles}
-                                                onFilter={this._handleFilter}
-                                                onArticleClick={this._handleArticleClick}/>
-                        </Grid>
-                    }
-                </Grid>
+                {
+                    this.props.tags.length > 0 &&
+                    <SearchTagIndex classes={this.props.classes}
+                                    tags={this.props.tags}
+                                    highlightedTagId={this.state.highlightedTagId}
+                                    onTagClick={this._handleTagSelection}/>
+                }
+
+                {
+                    this.props.articles.length > 0 &&
+                    <SearchArticleIndex classes={this.props.classes}
+                                        articles={this.props.articles}
+                                        searchDisplay={this.props.searchDisplay}
+                                        onOrderChange={this._handleOrderChange}
+                                        onDisplayChange={this._handleDisplayChange}/>
+                }
             </div>
         );
     }

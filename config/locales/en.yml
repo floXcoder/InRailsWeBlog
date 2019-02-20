@@ -208,6 +208,14 @@ en:
     enums:
       mode:
         complete: "Complete authorization"
+  search:
+    errors:
+      search: "Error when searching, please try another term"
+      autocomplete: "Error when searching, please try another term"
+      article: "Cannot search for articles"
+      tag: "Cannot search for tags"
+      topic: "Cannot search for topics"
+      user: "Cannot search for users"
   admin:
     dashboard:
       title: "Admin"

@@ -24,7 +24,6 @@ import ArticleAvatarIcon from '../icons/avatar';
 import styles from '../../../../jss/article/summary';
 
 export default @highlight()
-
 @withStyles(styles)
 class ArticleSummaryDisplay extends React.Component {
     static propTypes = {

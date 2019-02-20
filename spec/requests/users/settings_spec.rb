@@ -44,6 +44,7 @@ describe 'User Settings API', type: :request, basic: true do
         expect(settings['settings']['articlesLoader']).to eq('infinite')
         expect(settings['settings']['articleDisplay']).to eq('card')
         expect(settings['settings']['tagSidebarWithChild']).to be false
+        expect(settings['settings']['searchDisplay']).to eq('card')
         expect(settings['settings']['searchHighlight']).to be true
       end
     end

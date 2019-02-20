@@ -15,7 +15,7 @@ module Tags
     def initialize(query, *args)
       super(query, *args)
 
-      @params[:model] = Tag
+      @params[:model]  = Tag
       @params[:format] = @params[:format] || 'sample'
     end
 
@@ -43,7 +43,7 @@ module Tags
       aggregations = nil
 
       # Boost user tags first
-      boost_where = @params[:current_user_id] ? { user_id: @params[:current_user_id] } : nil
+      boost_where = @params[:boost_where]
 
       # Page parameters
       page     = @params[:page] || 1
@@ -65,7 +65,6 @@ module Tags
         results = Tag.search(query_string,
                              fields:       fields,
                              highlight:    highlight,
-                             boost_where:  boost_where,
                              match:        :word_middle,
                              misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
                              suggest:      true,
@@ -73,6 +72,7 @@ module Tags
                              per_page:     per_page,
                              operator:     operator,
                              where:        where_options,
+                             boost_where:  @params[:boost_where],
                              order:        order,
                              aggs:         aggregations,
                              includes:     includes,
@@ -84,7 +84,7 @@ module Tags
           success(parsed_search(results))
         end
       rescue StandardError => error
-        error(error)
+        error(I18n.t('search.errors.tag'), error)
       end
     end
   end

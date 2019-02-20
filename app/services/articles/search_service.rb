@@ -5,8 +5,6 @@ module Articles
     # Article Search
     # +query+ parameter: string to query
     # +params+ parameter:
-    #  current_user_id (current user id)
-    #  current_topic_id (current topic id for current user)
     #  page (page number for pagination)
     #  per_page (number of articles per page for pagination)
     #  exact (exact search or include misspellings, default: 2)
@@ -17,7 +15,7 @@ module Articles
     def initialize(query, *args)
       super(query, *args)
 
-      @params[:model] = Article
+      @params[:model]  = Article
       @params[:format] = @params[:format] || 'sample'
     end
 
@@ -50,9 +48,7 @@ module Articles
       } if @params[:format] != 'strict'
 
       # Boost user articles first
-      boost_where            = {}
-      boost_where[:user_id]  = @params[:current_user_id] if @params[:current_user_id]
-      boost_where[:topic_id] = @params[:current_topic_id] if @params[:current_topic_id]
+      boost_where = @params[:boost_where]
 
       # Page parameters
       page     = @params[:page] || 1
@@ -74,7 +70,6 @@ module Articles
         results = Article.search(query_string,
                                  fields:       fields,
                                  highlight:    highlight,
-                                 boost_where:  boost_where,
                                  match:        :word_middle,
                                  misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
                                  suggest:      true,
@@ -82,6 +77,7 @@ module Articles
                                  per_page:     per_page,
                                  operator:     operator,
                                  where:        where_options,
+                                 boost_where:  boost_where,
                                  order:        order,
                                  aggs:         aggregations,
                                  includes:     includes,
@@ -95,7 +91,7 @@ module Articles
           success(parsed_search(results))
         end
       rescue StandardError => error
-        error(error)
+        error(I18n.t('search.errors.article'), error)
       end
     end
   end

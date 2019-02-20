@@ -1,145 +1,171 @@
 'use strict';
 
 import {
-    Link
-} from 'react-router-dom';
+    lazy,
+    Suspense
+} from 'react';
 
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import Chip from '@material-ui/core/Chip';
 
-import FilterListIcon from '@material-ui/icons/FilterList';
-import LabelIcon from '@material-ui/icons/Label';
-
-import {
-    spyTrackClick
-} from '../../../actions';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import SortIcon from '@material-ui/icons/Sort';
 
 import Dropdown from '../../theme/dropdown';
+
+import ArticleItemDisplay from './articles/item';
+
+const ArticleGridMode = lazy(() => import(/* webpackChunkName: "article-search-masonry" */ './display/grid'));
 
 export default class SearchArticleIndex extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         articles: PropTypes.array.isRequired,
-        onFilter: PropTypes.func.isRequired,
-        onArticleClick: PropTypes.func.isRequired
+        onOrderChange: PropTypes.func.isRequired,
+        onDisplayChange: PropTypes.func.isRequired,
+        searchDisplay: PropTypes.string
     };
 
     constructor(props) {
         super(props);
     }
 
-    _handleFilter = (filter, event) => {
-        event.preventDefault();
-
-        this.props.onFilter(filter);
+    state = {
+        display: this.props.searchDisplay || 'card',
+        order: 'priority'
     };
 
-    _handleArticleClick = (article, event) => {
+    _handleDisplay = (display, event) => {
         event.preventDefault();
 
-        this.props.onArticleClick(article);
+        this.setState({
+            display
+        });
+
+        this.props.onDisplayChange(display);
+    };
+
+    _handleOrder = (order, event) => {
+        event.preventDefault();
+
+        this.setState({
+            order
+        });
+
+        this.props.onOrderChange(order);
     };
 
     render() {
         return (
             <div className={this.props.classes.category}>
-                <h2 className={this.props.classes.categoryName}>
-                    {I18n.t('js.search.index.articles.title')}
+                <Grid className={this.props.classes.categoryHeader}
+                      container={true}
+                      spacing={32}
+                      direction="row"
+                      justify="space-between"
+                      alignItems="flex-end">
+                    <Grid item={true}
+                          className={this.props.classes.categoryItem}>
+                        <h2 className={this.props.classes.categoryTitle}>
+                            {I18n.t('js.search.index.articles.title')}
+                        </h2>
 
-                    <span className={this.props.classes.categoryCount}>
-                        {`(${I18n.t('js.search.index.results', {count: this.props.articles.length})})`}
-                    </span>
+                        <span className={this.props.classes.categoryCount}>
+                            {`(${I18n.t('js.search.index.results', {count: this.props.articles.length})})`}
+                        </span>
+                    </Grid>
 
-                    <div className={this.props.classes.categoryFilter}>
-                        <Dropdown isClosingOnInsideClick={true}
-                                  hasArrow={true}
-                                  position="bottom right"
-                                  button={
-                                      <Button className={this.props.classes.categoryFilterButton}
-                                      >
-                                          {I18n.t('js.search.index.filters.button')}
-                                          <FilterListIcon/>
-                                      </Button>
-                                  }>
-                            <ul>
-                                <li>
-                                    <a onClick={this._handleFilter.bind(this, 'priority')}>
-                                        {I18n.t('js.search.filters.priority')}
-                                    </a>
-                                </li>
+                    <Grid item={true}>
+                        <Grid container={true}
+                              spacing={16}
+                              direction="row"
+                              justify="flex-end"
+                              alignItems="flex-end">
+                            <Grid item={true}
+                                  className={this.props.classes.categoryItem}>
+                                <Dropdown position="bottom right"
+                                          isClosingOnInsideClick={true}
+                                          hasArrow={true}
+                                          button={
+                                              <Button className={this.props.classes.categoryFilterButton}>
+                                                  <DashboardIcon/>
+                                              </Button>
+                                          }>
+                                    <ul className={this.props.classes.categoryFilterList}>
+                                        <li className={classNames({
+                                            [this.props.classes.categoryFilterSelected]: this.props.searchDisplay === 'card'
+                                        })}>
+                                            <a onClick={this._handleDisplay.bind(this, 'card')}>
+                                                {I18n.t('js.search.display.card')}
+                                            </a>
+                                        </li>
 
-                                <li className="dropdown-divider">
-                                    &nbsp;
-                                </li>
+                                        <li className="dropdown-divider">
+                                            &nbsp;
+                                        </li>
 
-                                <li>
-                                    <a onClick={this._handleFilter.bind(this, 'date')}>
-                                        {I18n.t('js.search.filters.date')}
-                                    </a>
-                                </li>
+                                        <li className={classNames({
+                                            [this.props.classes.categoryFilterSelected]: this.props.searchDisplay === 'grid'
+                                        })}>
+                                            <a onClick={this._handleDisplay.bind(this, 'grid')}>
+                                                {I18n.t('js.search.display.grid')}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </Dropdown>
+                            </Grid>
 
-                                <li className="dropdown-divider">
-                                    &nbsp;
-                                </li>
+                            <Grid item={true}
+                                  className={this.props.classes.categoryItem}>
+                                <Dropdown position="bottom right"
+                                          isClosingOnInsideClick={true}
+                                          hasArrow={true}
+                                          button={
+                                              <Button className={this.props.classes.categoryFilterButton}>
+                                                  <SortIcon/>
+                                              </Button>
+                                          }>
+                                    <ul className={this.props.classes.categoryFilterList}>
+                                        <li className={classNames({
+                                            [this.props.classes.categoryFilterSelected]: this.state.order === 'priority'
+                                        })}>
+                                            <a onClick={this._handleOrder.bind(this, 'priority')}>
+                                                {I18n.t('js.search.orders.priority')}
+                                            </a>
+                                        </li>
 
-                                <li>
-                                    <a onClick={this._handleFilter.bind(this, 'all_topics')}>
-                                        {I18n.t('js.search.filters.all_topics')}
-                                    </a>
-                                </li>
-                            </ul>
-                        </Dropdown>
-                    </div>
-                </h2>
+                                        <li className="dropdown-divider">
+                                            &nbsp;
+                                        </li>
+
+                                        <li className={classNames({
+                                            [this.props.classes.categoryFilterSelected]: this.state.order === 'date'
+                                        })}>
+                                            <a onClick={this._handleOrder.bind(this, 'date')}>
+                                                {I18n.t('js.search.orders.date')}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </Dropdown>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
 
                 <div>
                     {
-                        this.props.articles.map((article) => (
-                            <Card key={article.id}
-                                  className={this.props.classes.articleCard}
-                                  component="article">
-                                <CardHeader title={
-                                    <Link className={this.props.classes.articleTitle}
-                                          to={`/users/${article.user.slug}/articles/${article.slug}`}
-                                          onClick={this._handleArticleClick.bind(this, article)}>
-                                        <span className="title"
-                                              dangerouslySetInnerHTML={{__html: article.title}}/>
-                                    </Link>
-                                }
-                                            subheader={
-                                                <span className={this.props.classes.articleSubtitle}>
-                                                    {`(${article.date} - ${article.user.pseudo})`}
-                                                </span>
-                                            }
-                                />
-
-                                <CardContent classes={{
-                                    root: this.props.classes.articleContent
-                                }}>
-                                    <div className="normalized-content"
-                                         dangerouslySetInnerHTML={{__html: article.content}}/>
-
-                                    <div className={this.props.classes.articleTags}>
-                                        {
-                                            article.tags.map((tag) => (
-                                                <Chip key={tag.id}
-                                                      className={this.props.classes.articleTag}
-                                                      component={Link}
-                                                      to={`/tagged/${tag.slug}`}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
-                                                      icon={<LabelIcon/>}
-                                                      label={tag.name}
-                                                      clickable={true}
-                                                      variant="outlined"/>
-                                            ))
-                                        }
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))
+                        this.state.display === 'grid'
+                            ?
+                            <Suspense fallback={<div/>}>
+                                <ArticleGridMode>
+                                    {this.props.articles}
+                                </ArticleGridMode>
+                            </Suspense>
+                            :
+                            this.props.articles.map((article) => (
+                                <ArticleItemDisplay key={article.id}
+                                                    article={article}/>
+                            ))
                     }
                 </div>
             </div>

@@ -29,7 +29,6 @@ import styles from '../../../../jss/tag/sidebar';
 export default @connect((state) => ({
     currentTagSlugs: getCurrentTagSlugs(state)
 }))
-
 @withStyles(styles)
 class ParentTag extends React.Component {
     static propTypes = {

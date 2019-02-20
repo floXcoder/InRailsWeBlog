@@ -19,15 +19,10 @@ export default @connect((state) => ({
 @hot(module)
 class ArticleTimelineMode extends React.Component {
     static propTypes = {
-        isMinimized: PropTypes.bool,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
         // from connect
         articles: PropTypes.array,
-    };
-
-    static defaultProps = {
-        isMinimized: false
     };
 
     constructor(props) {

@@ -12,11 +12,11 @@ import CategorizedField from '../../../materialize/form/categorized';
 import styles from '../../../../../jss/article/form/common';
 
 export default @withStyles(styles)
-
 class ArticleTagField extends React.Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
-        availableTags: PropTypes.array,
+        availableParentTags: PropTypes.array,
+        availableChildTags: PropTypes.array,
         parentTags: PropTypes.array,
         childTags: PropTypes.array,
         // from styles
@@ -26,7 +26,8 @@ class ArticleTagField extends React.Component {
     static defaultProps = {
         parentTags: [],
         childTags: [],
-        availableTags: []
+        availableParentTags: [],
+        availableChildTags: []
     };
 
     constructor(props) {
@@ -62,7 +63,7 @@ class ArticleTagField extends React.Component {
                            addNewText={I18n.t('js.article.common.tags.add')}
                            isSortingCategoriesByAlpha={false}
                            labelClass={this.props.classes.tagLabel}
-                           categorizedTags={this.props.availableTags}
+                           categorizedTags={this.props.availableParentTags}
                            transformInitialTags={this._normalizeTags}
                            onTabPress={this._handleSwitchTag}
                            onSubmit={this.props.onSubmit}
@@ -80,7 +81,7 @@ class ArticleTagField extends React.Component {
                            hasChildTagFocus={this.state.hasChildTagFocus}
                            isSortingCategoriesByAlpha={false}
                            labelClass={this.props.classes.tagLabel}
-                           categorizedTags={this.props.availableTags}
+                           categorizedTags={this.props.availableChildTags}
                            transformInitialTags={this._normalizeTags}
                            onSubmit={this.props.onSubmit}
                            component={CategorizedField}

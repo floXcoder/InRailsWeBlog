@@ -25,6 +25,7 @@ class SettingSerializer < ActiveModel::Serializer
              :tag_sidebar_pin,
              :tag_sidebar_with_child,
              :tag_order,
+             :search_display,
              :search_highlight,
              :search_operator,
              :search_exact
@@ -55,6 +56,10 @@ class SettingSerializer < ActiveModel::Serializer
 
   def tag_order
     object.respond_to?(:tag_order) ? object.tag_order : nil
+  end
+
+  def search_display
+    object.respond_to?(:search_display) ? object.search_display : nil
   end
 
   def search_highlight

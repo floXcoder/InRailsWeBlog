@@ -8,9 +8,9 @@
 // 'seoRefreshSlug'
 
 
-import * as ActionTypes from '../constants/actionTypes';
+// import * as ActionTypes from '../constants/actionTypes';
 
-import api from '../middlewares/api';
+// import api from '../middlewares/api';
 
 // // Settings
 // const receiveSetting = (json) => ({

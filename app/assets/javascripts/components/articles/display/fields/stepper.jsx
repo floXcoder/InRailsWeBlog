@@ -14,7 +14,6 @@ import SendIcon from '@material-ui/icons/Send';
 import styles from '../../../../../jss/article/form/stepper';
 
 export default @withStyles(styles)
-
 class ArticleFormStepper extends React.Component {
     static propTypes = {
         tabIndex: PropTypes.number.isRequired,
@@ -22,8 +21,6 @@ class ArticleFormStepper extends React.Component {
         // from styles
         classes: PropTypes.object
     };
-
-    static defaultProps = {};
 
     constructor(props) {
         super(props);

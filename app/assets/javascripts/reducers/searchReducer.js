@@ -14,6 +14,7 @@ import * as Records from '../constants/records';
 import {
     toList,
     fetchReducer,
+    findItemIndex,
     addOrRemoveArray,
     mutateArray
 } from './mutators';
@@ -25,12 +26,14 @@ const AutocompleteRecord = new Record({
     pagination: new Map(),
     errors: new Map(),
 
-    query: undefined,
+    query: '',
 
     metaTags: new Map(),
 
     actionKey: undefined,
-    highlightedTagIndex: undefined,
+    highlightedTagId: undefined,
+
+    selectedTags: new List(),
 
     topics: new List(),
     tags: new List(),
@@ -39,30 +42,103 @@ const AutocompleteRecord = new Record({
 
 export function autocompleteReducer(state = new AutocompleteRecord(), action) {
     switch (action.type) {
+        case ActionTypes.SEARCH_AUTOCOMPLETE_QUERY:
+            return state.merge({
+                query: action.query
+            });
+
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_INIT:
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_SUCCESS:
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_ERROR:
             return fetchReducer(state, action, (payload) => ({
-                query: payload.query,
+                // query: payload.query,
+                highlightedTagId: undefined,
                 topics: toList(payload.topics, Records.TopicRecord),
                 tags: toList(payload.tags, Records.TagRecord),
                 articles: toList(payload.articles, Records.ArticleRecord)
             }));
 
         case ActionTypes.SEARCH_AUTOCOMPLETE_ACTION:
-            return state.merge({
-                actionKey: action.keyCode
-            });
+            let newTagId;
+            let newState = {};
 
-        case ActionTypes.SEARCH_TAG_SELECTED:
+            if (action.keyCode === 'ArrowDown') {
+                if (!state.highlightedTagId || state.highlightedTagId === state.tags.last().id) {
+                    newTagId = state.tags.first().id;
+                } else {
+                    newTagId = state.tags.get(findItemIndex(state.tags, state.highlightedTagId) + 1).id;
+                }
+
+                newState = {
+                    actionKey: action.keyCode,
+                    highlightedTagId: newTagId
+                };
+            } else if(action.keyCode === 'ArrowUp') {
+                if (!state.highlightedTagId || state.highlightedTagId === state.tags.first().id) {
+                    newTagId = state.tags.last().id;
+                } else {
+                    newTagId = state.tags.get(findItemIndex(state.tags, state.highlightedTagId) - 1).id;
+                }
+
+                newState = {
+                    actionKey: action.keyCode,
+                    highlightedTagId: newTagId
+                };
+            } else if(action.keyCode === 'Tab') {
+                newState = {
+                    query: '',
+                    actionKey: action.keyCode,
+                    highlightedTagId: undefined,
+                    selectedTags: addOrRemoveArray(state.selectedTags, state.tags.get(findItemIndex(state.tags, state.highlightedTagId || state.tags.first().id))),
+                    topics: new List(),
+                    tags: new List(),
+                    articles: new List()
+                };
+            } else if(action.keyCode === 'Enter') {
+                if(state.highlightedTagId) {
+                    newState = {
+                        actionKey: action.keyCode,
+                        highlightedTagId: undefined,
+                        selectedTags: addOrRemoveArray(state.selectedTags, state.tags.get(findItemIndex(state.tags, state.highlightedTagId))),
+                        topics: new List(),
+                        tags: new List(),
+                        articles: new List()
+                    };
+                } else {
+                    newState = {
+                        actionKey: action.keyCode,
+                    };
+                }
+            } else if(action.keyCode === 'Escape') {
+                newState = {
+                    actionKey: action.keyCode,
+                    highlightedTagId: undefined
+                };
+            } else if(action.keyCode === 'Backspace') {
+                newState = {
+                    actionKey: action.keyCode,
+                    highlightedTagId: undefined,
+                    selectedTags: state.tags.count() > 0 ? addOrRemoveArray(state.selectedTags, state.tags.last()) : state.tags,
+                    topics: new List(),
+                    tags: new List(),
+                    articles: new List()
+                };
+            }
+
+            return state.merge(newState);
+
+        case ActionTypes.SEARCH_AUTOCOMPLETE_TAG_SELECTED:
             return state.merge({
-                query: '',
-                actionKey: undefined
+                selectedTags: addOrRemoveArray(state.selectedTags, action.tag),
+                topics: new List(),
+                tags: new List(),
+                articles: new List()
             });
 
         case ActionTypes.SEARCH_FETCH_SUCCESS:
             return state.merge({
-                actionKey: undefined
+                actionKey: undefined,
+                highlightedTagId: undefined
             });
 
         default:
@@ -166,6 +242,10 @@ const _parseSearchResults = (searchState, action) => {
     }
     if (action.articleFilters) {
         newState.articleActiveFilters = searchState.articleActiveFilters.concat(action.articleFilters);
+    }
+
+    if (action.selectedTags) {
+        newState.selectedTags = toList(action.selectedTags, Records.TagRecord);
     }
 
     if (action.meta && action.meta.metaTags) {

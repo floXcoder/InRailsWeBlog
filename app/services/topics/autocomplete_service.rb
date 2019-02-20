@@ -42,7 +42,7 @@ module Topics
           success(format_search(results))
         end
       rescue StandardError => error
-        error(error)
+        error(I18n.t('search.errors.topic'), error)
       end
     end
   end

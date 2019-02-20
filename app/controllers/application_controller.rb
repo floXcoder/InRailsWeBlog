@@ -294,31 +294,31 @@ class ApplicationController < ActionController::Base
     model.public_activity_on
   end
 
-  def handle_error(exception)
-    # Add into database
-    error_params = {
-      class_name:  exception.class.to_s,
-      message:     exception.to_s,
-      trace:       exception.backtrace.join("\n"),
-      target_url:  request.url,
-      referer_url: request.referer,
-      params:      request.params.inspect,
-      user_agent:  request.user_agent,
-      doc_root:    request.env['DOCUMENT_ROOT'],
-      app_name:    Rails.application.class.parent_name,
-      created_at:  Time.zone.now,
-      origin:      ErrorMessage.origins[:server]
-    }
-    error        = ErrorMessage.new_error(error_params, request, current_user)
-    error.save
-
-    # Display in logger
-    Rails.logger.fatal(exception.class.to_s + ' : ' + exception.to_s)
-    Rails.logger.fatal(exception.backtrace.join("\n"))
-  end
+  # def handle_error(exception)
+  #   # Add into database
+  #   error_params = {
+  #     class_name:  exception.class.to_s,
+  #     message:     exception.to_s,
+  #     trace:       exception.backtrace.join("\n"),
+  #     target_url:  request.url,
+  #     referer_url: request.referer,
+  #     params:      request.params.inspect,
+  #     user_agent:  request.user_agent,
+  #     doc_root:    request.env['DOCUMENT_ROOT'],
+  #     app_name:    Rails.application.class.parent_name,
+  #     created_at:  Time.zone.now,
+  #     origin:      ErrorMessage.origins[:server]
+  #   }
+  #   error        = ErrorMessage.new_error(error_params, request, current_user)
+  #   error.save
+  #
+  #   # Display in logger
+  #   Rails.logger.fatal(exception.class.to_s + ' : ' + exception.to_s)
+  #   Rails.logger.fatal(exception.backtrace.join("\n"))
+  # end
 
   def user_not_authorized(exception)
-    handle_error(exception)
+    # handle_error(exception)
 
     # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
     self.response_body = nil
@@ -340,11 +340,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def not_found_error(exception)
-    # handle_error(exception)
-
-    # Raven.capture_exception(exception) if Rails.env.production?
-
+  def not_found_error(_exception)
     raise if Rails.env.development?
 
     respond_to do |format|
@@ -355,7 +351,7 @@ class ApplicationController < ActionController::Base
   end
 
   def server_error(exception)
-    handle_error(exception)
+    # handle_error(exception)
 
     Raven.capture_exception(exception) if Rails.env.production?
 
@@ -377,6 +373,7 @@ class ApplicationController < ActionController::Base
         email:      current_user&.email,
         first_name: current_user&.first_name,
         last_name:  current_user&.last_name,
+        topic_id:   current_user&.current_topic_id,
         ip_address: request.ip
       )
 

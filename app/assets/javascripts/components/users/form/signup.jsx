@@ -92,7 +92,6 @@ export default @reduxForm({
     asyncValidate,
     asyncBlurFields: ['pseudo']
 })
-
 @withStyles(styles)
 class SignupForm extends React.Component {
     static propTypes = {

@@ -208,6 +208,14 @@ fr:
     enums:
       mode:
         complete: "Autorisation totale"
+  search:
+    errors:
+      search: "Erreur lors de la recherche, merci d'essayer avec un autre terme"
+      autocomplete: "Erreur lors de la recherche, merci d'essayer avec un autre terme"
+      article: "Recherche : impossible de rechercher les articles"
+      tag: "Recherche : impossible de rechercher les labels"
+      topic: "Recherche : impossible de rechercher les thèmes"
+      user: "Recherche : impossible de rechercher les utilisateurs"
   admin:
     dashboard:
       title: "Admin"

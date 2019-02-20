@@ -53,7 +53,6 @@ export default {
             },
             {
                 path: '/search',
-                noBreadcrumb: false,
                 component: () => SearchIndex
             },
             // tag
@@ -112,7 +111,6 @@ export default {
             // search
             {
                 path: '/search',
-                noBreadcrumb: true,
                 component: () => SearchIndex
             },
             // tag

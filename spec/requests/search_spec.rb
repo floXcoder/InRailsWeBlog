@@ -32,15 +32,15 @@ describe 'Search API', type: :request, basic: true do
 
   describe '/api/v1/search', search: true do
     context 'when no parameters' do
-      it 'returns all results' do
+      it 'returns all visible results' do
         get '/api/v1/search', as: :json
 
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
         expect(results).not_to be_empty
-        expect(results['articles'].size).to be >= 5
-        expect(results['tags'].size).to be >= 5
+        expect(results['articles'].size).to eq(Article.everyone.count)
+        expect(results['tags'].size).to eq(Tag.everyone.count)
       end
     end
 
@@ -54,6 +54,42 @@ describe 'Search API', type: :request, basic: true do
         expect(results['articles'].size).to eq(6)
         expect(results['totalCount']['articles']).to eq(6)
         expect(results['totalPages']['articles']).to eq(1)
+      end
+    end
+
+    context 'when tag is selected' do
+      it 'returns results with for tag id' do
+        get '/api/v1/search', params: { search: { query: '*', tag_ids: [@other_tag.id] } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+        expect(results['articles'].size).to eq(1)
+        expect(results['totalCount']['articles']).to eq(1)
+        expect(results['totalPages']['articles']).to eq(1)
+      end
+
+      it 'returns results with for tag slug' do
+        get '/api/v1/search', params: { search: { query: '*', tags: [@tags[0].slug] } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+        expect(results['articles'].size).to eq(5)
+        expect(results['totalCount']['articles']).to eq(5)
+        expect(results['totalPages']['articles']).to eq(1)
+      end
+    end
+
+    context 'when order is defined' do
+      it 'returns results by date' do
+        get '/api/v1/search', params: { search: { query: '*', order: 'created_desc' } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+        expect(results['articles'].size).to eq(6)
+        expect(results['articles'].first['id']).to eq(@other_public_article.id)
       end
     end
 
@@ -76,8 +112,8 @@ describe 'Search API', type: :request, basic: true do
 
         results = JSON.parse(response.body)
 
-        expect(results['articles'].size).to eq(5)
-        expect(results['totalCount']['articles']).to eq(5)
+        expect(results['articles'].size).to eq(6)
+        expect(results['totalCount']['articles']).to eq(6)
       end
 
       it 'returns all articles only when connected' do
@@ -89,8 +125,8 @@ describe 'Search API', type: :request, basic: true do
 
         results = JSON.parse(response.body)
 
-        expect(results['articles'].size).to eq(8)
-        expect(results['totalCount']['articles']).to eq(8)
+        expect(results['articles'].size).to eq(7)
+        expect(results['totalCount']['articles']).to eq(7)
       end
     end
   end
@@ -126,6 +162,18 @@ describe 'Search API', type: :request, basic: true do
         results = JSON.parse(response.body)
         expect(results['tags']).not_to be_empty
         expect(results['tags'].size).to be > 1
+      end
+    end
+
+    context 'when tag ids is set' do
+      it 'returns articles for selected tags only' do
+        get '/api/v1/search/autocomplete', params: { search: { query: 'art', tag_ids: [@tags[0].id] } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+        expect(results['articles']).not_to be_empty
+        expect(results['articles'].size).to eq(Article.everyone.with_tags(@tags[0].slug).count)
       end
     end
 

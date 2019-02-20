@@ -35,11 +35,7 @@ export default class ErrorBoundary extends React.Component {
             hasError: true
         });
 
-        pushError({
-            ...error,
-            trace: error.stack,
-            origin: 'client'
-        });
+        pushError(error, info);
     }
 
     render() {

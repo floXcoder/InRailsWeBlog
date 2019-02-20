@@ -25,4 +25,4 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = favicon_link_tag AssetManifest.image_path('logos/apple-touch-icon-180x180.png'), rel: 'apple-touch-icon', type: 'image/png', sizes: '180x180'
 
   - unless Rails.env.test?
-    link rel="preload" href="#{AssetManifest.asset_path('/assets/Roboto-Regular.woff2')}" as="font"
+    link rel="preload" href="#{AssetManifest.asset_path('/assets/fonts/Roboto-Regular.woff2')}" as="font"
