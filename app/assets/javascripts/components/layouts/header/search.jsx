@@ -40,7 +40,6 @@ export default @connect((state) => ({
     setAutocompleteAction,
     setAutocompleteSelectedTag
 })
-
 @withStyles(styles)
 class HomeSearchHeader extends React.Component {
     static propTypes = {

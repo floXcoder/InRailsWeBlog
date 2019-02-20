@@ -79,7 +79,6 @@ import {
 } from '../../modules/constants';
 
 export default @withRouter
-
 @connect((state) => ({
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,

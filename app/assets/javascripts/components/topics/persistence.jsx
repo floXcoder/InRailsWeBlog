@@ -35,7 +35,6 @@ export default @connect((state, props) => ({
     deleteTopic,
     showTopicPopup
 })
-
 @hot(module)
 @withStyles(styles)
 class TopicPersistence extends React.Component {

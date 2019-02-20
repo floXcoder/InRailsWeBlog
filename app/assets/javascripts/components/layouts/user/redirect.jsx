@@ -8,7 +8,6 @@ export default @connect((state) => ({
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug
 }))
-
 class RedirectLayoutUser extends React.Component {
     static propTypes = {
         redirectPath: PropTypes.func.isRequired,

@@ -47,7 +47,6 @@ const HomeSearchHeader = lazy(() => import(/* webpackPrefetch: true, webpackChun
 import styles from '../../../../jss/home/header';
 
 export default @withRouter
-
 @connect((state) => ({
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen

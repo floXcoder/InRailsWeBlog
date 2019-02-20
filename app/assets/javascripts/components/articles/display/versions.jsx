@@ -21,7 +21,6 @@ import Diff from '../../theme/diff';
 import styles from '../../../../jss/article/history';
 
 export default @withStyles(styles)
-
 class ArticleVersionsDisplay extends React.Component {
     static propTypes = {
         currentArticle: PropTypes.object.isRequired,

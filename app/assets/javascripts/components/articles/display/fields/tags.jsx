@@ -12,7 +12,6 @@ import CategorizedField from '../../../materialize/form/categorized';
 import styles from '../../../../../jss/article/form/common';
 
 export default @withStyles(styles)
-
 class ArticleTagField extends React.Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,

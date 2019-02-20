@@ -39,7 +39,6 @@ export default @connect((state) => ({
     fetchArticles,
     fetchTags
 })
-
 @hot(module)
 @withStyles(styles)
 class HomeHome extends React.Component {

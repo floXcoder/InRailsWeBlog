@@ -22,7 +22,6 @@ const sortOptions = [
 
 // Managed by article index to update current user preference
 export default @withStyles(styles)
-
 class ArticleSortMenu extends React.Component {
     static propTypes = {
         onOrderChange: PropTypes.func.isRequired,

@@ -79,7 +79,6 @@ export default @connect((state, props) => ({
     deleteArticle,
     setCurrentTags
 })
-
 @hot(module)
 @highlight(false)
 @withStyles(styles)

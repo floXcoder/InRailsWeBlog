@@ -16,7 +16,6 @@ import {
 import styles from '../../../../jss/home/main';
 
 export default @withStyles(styles)
-
 class MainLayoutHome extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
@@ -27,6 +26,10 @@ class MainLayoutHome extends React.Component {
 
     constructor(props) {
         super(props);
+    }
+
+    shouldComponentUpdate() {
+        return false;
     }
 
     _renderPermanentRoutes = (routes) => {
@@ -50,6 +53,10 @@ class MainLayoutHome extends React.Component {
     };
 
     render() {
+        // In development environment with hot reload:
+        // React Suspense or Memo use context that cause a re-render without calling shouldComponentUpdate
+        // So some route (like ArticleIndex) are called 4 times!
+
         return (
             <Switch>
                 {

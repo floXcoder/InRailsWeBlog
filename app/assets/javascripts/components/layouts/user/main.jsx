@@ -29,7 +29,6 @@ import BreadcrumbLayout from '../breadcrumb';
 import styles from '../../../../jss/user/main';
 
 export default @withStyles(styles)
-
 class MainLayoutUser extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
@@ -42,6 +41,10 @@ class MainLayoutUser extends React.Component {
         super(props);
 
         this._previousRoute = {};
+    }
+
+    shouldComponentUpdate() {
+        return false;
     }
 
     _renderPermanentRoutes = (routes) => {
@@ -65,6 +68,10 @@ class MainLayoutUser extends React.Component {
     };
 
     render() {
+        // In development environment with hot reload:
+        // React Suspense or Memo use context that cause a re-render without calling shouldComponentUpdate
+        // So some route (like ArticleIndex) are called 4 times!
+
         return (
             <Switch>
                 {
@@ -138,18 +145,18 @@ class MainLayoutUser extends React.Component {
                                                    </Suspense>
 
                                                    {
-                                                       (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
-                                                       <Link className={this.props.classes.quickAdd}
-                                                             to={{
-                                                                 hash: '#new-article',
-                                                                 state: {
-                                                                     parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
-                                                                     childTagSlug: router.match.params.childTagSlug
-                                                                 }
-                                                             }}>
-                                                           <AddCircleOutlineIcon
-                                                               className={this.props.classes.quickAddIcon}/>
-                                                       </Link>
+                                                       // (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
+                                                       // <Link className={this.props.classes.quickAdd}
+                                                       //       to={{
+                                                       //           hash: '#new-article',
+                                                       //           state: {
+                                                       //               parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
+                                                       //               childTagSlug: router.match.params.childTagSlug
+                                                       //           }
+                                                       //       }}>
+                                                       //     <AddCircleOutlineIcon
+                                                       //         className={this.props.classes.quickAddIcon}/>
+                                                       // </Link>
                                                    }
                                                </main>
                                            </div>

@@ -4,7 +4,7 @@ import '../../test_helper';
 
 import reducers from '../../../../app/assets/javascripts/reducers';
 
-import ArticleIndex from '../../../../app/assets/javascripts/components/articles';
+// import ArticleIndex from '../../../../app/assets/javascripts/components/articles';
 
 describe('<ArticleIndex />', () => {
     let store;

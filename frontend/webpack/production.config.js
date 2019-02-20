@@ -42,7 +42,7 @@ webPackConfig = _.merge(webPackConfig, {
 
     bail: true,
 
-    devtool: false
+    devtool: 'cheap-module-source-map'
 });
 
 // Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json#L1285
@@ -83,7 +83,7 @@ webPackConfig.optimization = {
     minimizer: [
         new TerserPlugin({
             parallel: true,
-            sourceMap: false,
+            sourceMap: true,
             cache: true,
             terserOptions: {
                 ecma: 5,

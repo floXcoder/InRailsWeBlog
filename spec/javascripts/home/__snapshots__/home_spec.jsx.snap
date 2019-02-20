@@ -64,7 +64,6 @@ Array [
                   },
                   Object {
                     "component": [Function],
-                    "noBreadcrumb": false,
                     "path": "/search",
                   },
                   Object {

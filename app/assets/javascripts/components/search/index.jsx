@@ -46,7 +46,6 @@ import SearchTagIndex from './index/tag';
 import SearchArticleIndex from './index/article';
 
 import styles from '../../../jss/search/index';
-
 export default @connect((state) => ({
     metaTags: getSearchMetaTags(state),
     currentUserId: state.userState.currentId,

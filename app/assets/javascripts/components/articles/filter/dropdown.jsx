@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import styles from '../../../../jss/article/filter';
 
 export default @withStyles(styles)
-
 class ArticleFilterMenu extends React.Component {
     static propTypes = {
         // from styles

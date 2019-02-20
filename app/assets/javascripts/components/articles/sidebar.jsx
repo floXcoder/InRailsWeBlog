@@ -35,7 +35,6 @@ export default @connect((state, props) => ({
     switchArticleMinimized,
     updateUserSettings
 })
-
 @withStyles(styles)
 class ArticleSidebar extends React.Component {
     static propTypes = {

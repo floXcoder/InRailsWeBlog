@@ -14,7 +14,6 @@ import {
 import styles from '../../../../jss/article/tooltip';
 
 export default @withTheme()
-
 @withStyles(styles)
 class TooltipTag extends React.PureComponent {
     static propTypes = {

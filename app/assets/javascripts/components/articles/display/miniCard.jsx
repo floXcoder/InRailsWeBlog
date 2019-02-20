@@ -25,7 +25,6 @@ import highlight from '../../modules/highlight';
 import styles from '../../../../jss/article/miniCard';
 
 export default @highlight()
-
 @withStyles(styles)
 class ArticleMiniCardDisplay extends React.Component {
     static propTypes = {

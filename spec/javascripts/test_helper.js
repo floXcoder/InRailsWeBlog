@@ -3,8 +3,6 @@
 // File called to set up environment before all tests
 
 // Global variables from Webpack config
-import * as ArticleActions from "../../app/assets/javascripts/actions/articleActions";
-
 global.$ = global.jQuery = global.jquery = require('jquery');
 global.log = require('loglevel');
 global.React = require('react');

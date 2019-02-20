@@ -4,6 +4,7 @@ import {
     articleWidth,
     storiesWidth,
     h1Size,
+    h1SizeMobile,
     h1Weight,
     h1LineHeight,
     h1Spacing
@@ -26,14 +27,17 @@ const styles = (theme) => ({
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
         letterSpacing: h1Spacing,
+        [theme.breakpoints.down('md')]: {
+            fontSize: h1SizeMobile
+        }
     },
     media: {
         height: 0,
-        paddingTop: '56.25%', // 16:9
+        paddingTop: '56.25%' // 16:9
     },
     content: {
         marginTop: '.5rem',
-        marginBottom: '1.5rem',
+        marginBottom: '1.5rem'
     },
     actions: {
         display: 'flex',

@@ -20,7 +20,6 @@ import TooltipTag from '../../tags/display/tooltip';
 import styles from '../../../../jss/tag/chip';
 
 export default @withStyles(styles)
-
 class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,

@@ -23,7 +23,6 @@ import Typography from '@material-ui/core/Typography';
 import styles from '../../../../../jss/article/form/common';
 
 export default @withStyles(styles)
-
 class ArticleAdvancedField extends React.PureComponent {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,

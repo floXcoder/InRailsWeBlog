@@ -27,7 +27,6 @@ export default @connect((state, props) => ({
 }), {
     updateUserSettings
 })
-
 @withStyles(styles)
 class TagSidebarLayout extends React.PureComponent {
     static propTypes = {

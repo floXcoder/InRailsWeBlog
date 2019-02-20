@@ -43,7 +43,6 @@ export default @reduxForm({
     validateArticle,
     enableReinitialize: true,
 })
-
 @connect((state, props) => ({
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
     availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),

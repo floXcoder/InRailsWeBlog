@@ -34,7 +34,6 @@ export default @reduxForm({
     validateTag,
     enableReinitialize: true,
 })
-
 @withStyles(styles)
 class TagFormDisplay extends React.Component {
     static propTypes = {

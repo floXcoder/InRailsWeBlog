@@ -34,7 +34,6 @@ import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
 import styles from '../../../jss/search/module';
-
 export default @connect((state) => ({
     currentTopicId: state.topicState.currentUserTopicId,
     recentTags: getUserRecentTags(state),

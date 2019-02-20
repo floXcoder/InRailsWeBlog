@@ -27,7 +27,6 @@ import styles from '../../../jss/user/breadcrumb';
 export default @connect((state, props) => ({
     recents: getUserRecents(state, props.recentsLimit)
 }))
-
 @withStyles(styles)
 class BreadcrumbLayout extends React.Component {
     static propTypes = {

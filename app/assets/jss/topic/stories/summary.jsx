@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    gridWidth,
-} from '../../theme';
-
 const styles = (theme) => ({
     container: {
         position: 'relative',

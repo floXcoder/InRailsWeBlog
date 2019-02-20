@@ -45,7 +45,6 @@ export default @connect((state) => ({
     privateTopics: getPrivateTopics(state),
     contributedTopics: getContributedTopics(state)
 }))
-
 @hot(module)
 @withStyles(styles)
 class UserHome extends React.Component {

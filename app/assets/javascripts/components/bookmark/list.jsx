@@ -20,7 +20,6 @@ import styles from '../../../jss/user/bookmark';
 export default @connect((state) => ({
     bookmarks: getBookmarks(state)
 }))
-
 @withStyles(styles)
 class BookmarkList extends React.Component {
     static propTypes = {

@@ -26,7 +26,6 @@ export default @connect((state, props) => ({
 }), {
     inlineEditArticle
 })
-
 class ArticleItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,

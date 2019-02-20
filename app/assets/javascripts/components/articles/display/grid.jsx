@@ -33,7 +33,6 @@ import ArticleActions from '../properties/actions';
 import styles from '../../../../jss/article/card';
 
 export default @highlight()
-
 @withStyles(styles)
 class ArticleGridDisplay extends React.Component {
     static propTypes = {
