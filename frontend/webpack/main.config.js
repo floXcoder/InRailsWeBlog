@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 
 const HappyPack = require('happypack');
+const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -54,7 +55,7 @@ webPackConfig.module = {
         {
             test: /\.(js|jsx)$/,
             exclude: config.rules.javascript.exclude,
-            loader: 'happypack/loader',
+            loader: 'happypack/loader?id=jsx',
             options: config.rules.javascript.options
         },
         {
