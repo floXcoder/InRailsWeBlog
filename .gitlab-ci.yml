@@ -38,7 +38,7 @@ build:
   script:
     - gem install bundler --no-ri --no-rdoc
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
-    - yarn install --frozen-lockfile --cache-folder .yarn-cache
+    - yarn install --production --frozen-lockfile --cache-folder .yarn-cache
   only:
     - develop
 
