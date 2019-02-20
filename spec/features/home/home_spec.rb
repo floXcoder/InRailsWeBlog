@@ -47,7 +47,7 @@ feature 'Home page for visitors', advanced: true, js: true do
 
     scenario 'visitor can see populars tags' do
       is_expected.to have_content(I18n.t('js.views.home.tags.title'))
-      is_expected.to have_css("a[class*='TagChipDisplay-tag-']", count: 2)
+      is_expected.to have_css("a[class*='TagChipDisplay-tagChip-']", count: 2)
       is_expected.to have_content(@tags.first.name)
     end
 
