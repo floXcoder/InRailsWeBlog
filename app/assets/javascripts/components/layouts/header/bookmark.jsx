@@ -25,4 +25,4 @@ const HomeBookmarkHeader = () => {
     );
 };
 
-export default HomeBookmarkHeader;
+export default React.memo(HomeBookmarkHeader);

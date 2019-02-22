@@ -1,12 +1,10 @@
 'use strict';
 
 import {
-    lazy,
     Suspense
 } from 'react';
 
 import {
-    withRouter,
     Route,
     Link
 } from 'react-router-dom';
@@ -18,11 +16,11 @@ import {
 import {
     withStyles
 } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Hidden from '@material-ui/core/Hidden';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -42,6 +40,11 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddIcon from '@material-ui/icons/Add';
 
 import {
+    HomeHeaderSearch,
+    UserPreference
+} from '../../loaders/components';
+
+import {
     getLocalData
 } from '../../../middlewares/localStorage';
 
@@ -51,10 +54,10 @@ import {
 } from '../../../actions';
 
 import {
+    getRouteParams,
+    getRouteLocation,
     getCurrentTagSlugs
 } from '../../../selectors';
-
-const Preference = lazy(() => import(/* webpackChunkName: "user-preference" */ '../../users/preference'));
 
 import TopicModule from '../../topics/module';
 
@@ -64,7 +67,6 @@ import TagSidebar from '../../tags/sidebar';
 
 import ArticleSidebar from '../../articles/sidebar';
 
-const HomeSearchHeader = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../header/search'));
 import HomeBookmarkHeader from '../header/bookmark';
 import HomeArticleHeader from '../header/article';
 import HomeUserHeader from '../header/user';
@@ -78,8 +80,9 @@ import {
     articleTemporaryDataName
 } from '../../modules/constants';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
+    routeParams: getRouteParams(state),
+    routeLocation: getRouteLocation(state),
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
     isUserConnected: state.userState.isConnected,
@@ -93,15 +96,14 @@ export default @withRouter
     showUserPreference,
     showTopicPopup
 })
+@withWidth()
 @withStyles(styles)
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
-        permanentRoutes: PropTypes.array.isRequired,
-        // from router
-        location: PropTypes.object,
-        match: PropTypes.object,
-        history: PropTypes.object,
+        hashRoutes: PropTypes.object.isRequired,
         // from connect
+        routeParams: PropTypes.object,
+        routeLocation: PropTypes.object,
         isUserPreferenceOpen: PropTypes.bool,
         isTopicPopupOpen: PropTypes.bool,
         isUserConnected: PropTypes.bool,
@@ -113,6 +115,8 @@ class HeaderLayoutUser extends React.PureComponent {
         currentTagSlugs: PropTypes.array,
         showUserPreference: PropTypes.func,
         showTopicPopup: PropTypes.func,
+        // from withWidth
+        width: PropTypes.string,
         // from styles
         classes: PropTypes.object
     };
@@ -136,30 +140,6 @@ class HeaderLayoutUser extends React.PureComponent {
         isMobileArticleOpen: false,
         isMobileUserOpen: false,
         hasTemporaryArticle: false
-    };
-
-    componentDidMount() {
-        $(document).keyup((event) => {
-            if (Utils.NAVIGATION_KEYMAP[event.which] === 'escape') {
-                this._handleSearchClose();
-            }
-        });
-    }
-
-    _handleSearchOpen = () => {
-        if (this.props.location.hash !== '#search') {
-            this.props.history.push({
-                hash: 'search'
-            });
-        }
-    };
-
-    _handleSearchClose = () => {
-        if (this.props.location.hash === '#search') {
-            this.props.history.push({
-                hash: undefined
-            });
-        }
     };
 
     _handleTagDrawerToggle = () => {
@@ -194,30 +174,11 @@ class HeaderLayoutUser extends React.PureComponent {
         this.props.showUserPreference();
     };
 
-    _renderPermanentRoutes = (routes) => {
-        return routes.map((route, index) => (
-            <Route key={index}
-                   children={({match, location, history}) => {
-                       const Component = route.component();
-
-                       return (
-                           <div>
-                               {
-                                   location.hash === `#${route.path}` &&
-                                   <Component params={match.params}
-                                              history={history}
-                                              initialData={location.state}/>
-                               }
-                           </div>
-                       );
-                   }}/>
-        ));
-    };
-
     _renderDesktopMenu = () => {
         return (
             <div className={this.props.classes.sectionDesktop}>
-                <HomeArticleHeader userSlug={this.props.userSlug}
+                <HomeArticleHeader routeParams={this.props.routeParams}
+                                   userSlug={this.props.userSlug}
                                    topicSlug={this.props.topicSlug}
                                    currentTagSlugs={this.props.currentTagSlugs}
                                    hasTemporaryArticle={this.state.hasTemporaryArticle}/>
@@ -233,115 +194,138 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _renderMobileTagDrawer = () => {
+        if (this.props.width !== 'xs' && this.props.width !== 'sm') {
+            return null
+        }
+
         return (
-            <Hidden mdUp={true}>
-                <SwipeableDrawer variant="temporary"
-                                 anchor="left"
-                                 classes={{
-                                     paper: this.props.classes.mobileDrawerPaper
-                                 }}
-                                 ModalProps={{
-                                     keepMounted: true
-                                 }}
-                                 open={this.state.isMobileTagSidebarOpen}
-                                 onClose={this._handleTagDrawerToggle}
-                                 onOpen={this._handleTagDrawerToggle}>
-                    <div>
-                        <div className={this.props.classes.mobileToolbar}>
-                            <Link to="/">
-                                <Typography variant="h5">
-                                    {I18n.t('js.views.header.title')}
-                                </Typography>
-                            </Link>
-                        </div>
-
-                        <List>
-                            <ListItem button={true}
-                                      onClick={this._handleMobileArticleClick}>
-                                <ListItemIcon>
-                                    <AddIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset={true}
-                                              primary="Articles"/>
-                                {this.state.isMobileArticleOpen ? <ExpandLess/> : <ExpandMore/>}
-                            </ListItem>
-                            <Collapse in={this.state.isMobileArticleOpen}
-                                      timeout="auto"
-                                      unmountOnExit={true}>
-                                <HeaderArticleMenu classes={this.props.classes}
-                                                   isNested={true}
-                                                   match={this.props.match}
-                                                   userSlug={this.props.userSlug}
-                                                   currentTagSlugs={this.props.currentTagSlugs}
-                                                   topicSlug={this.props.topicSlug}
-                                                   hasTemporaryArticle={this.state.hasTemporaryArticle}/>
-                            </Collapse>
-
-                            <ListItem button={true}
-                                      onClick={this._handleMobileBookmarkClick}>
-                                <ListItemIcon>
-                                    <FavoriteIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset={true}
-                                              primary="Favoris"/>
-                                {this.state.isMobileBookmarkOpen ? <ExpandLess/> : <ExpandMore/>}
-                            </ListItem>
-                            <Collapse in={this.state.isMobileBookmarkOpen}
-                                      timeout="auto"
-                                      unmountOnExit={true}>
-                                <BookmarkList/>
-                            </Collapse>
-
-                            <ListItem button={true}
-                                      onClick={this._handleMobileUserClick}>
-                                <ListItemIcon>
-                                    <AccountCircleIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset={true}
-                                              primary="Votre compte"/>
-                                {this.state.isMobileUserOpen ? <ExpandLess/> : <ExpandMore/>}
-                            </ListItem>
-                            <Collapse in={this.state.isMobileUserOpen}
-                                      timeout="auto"
-                                      unmountOnExit={true}>
-                                <HeaderUserMenu classes={this.props.classes}
-                                                isNested={true}
-                                                userSlug={this.props.userSlug}
-                                                onPreferenceClick={this._handlePreferenceClick}/>
-                            </Collapse>
-                        </List>
-
-                        <Divider/>
-
-                        <TagSidebar isOpen={true}/>
+            <SwipeableDrawer variant="temporary"
+                             anchor="left"
+                             classes={{
+                                 paper: this.props.classes.mobileDrawerPaper
+                             }}
+                             ModalProps={{
+                                 keepMounted: true
+                             }}
+                             open={this.state.isMobileTagSidebarOpen}
+                             onClose={this._handleTagDrawerToggle}
+                             onOpen={this._handleTagDrawerToggle}>
+                <>
+                    <div className={this.props.classes.mobileToolbar}>
+                        <Link to="/">
+                            <Typography variant="h5">
+                                {I18n.t('js.views.header.title')}
+                            </Typography>
+                        </Link>
                     </div>
-                </SwipeableDrawer>
-            </Hidden>
+
+                    <List>
+                        <ListItem button={true}
+                                  onClick={this._handleMobileArticleClick}>
+                            <ListItemIcon>
+                                <AddIcon/>
+                            </ListItemIcon>
+                            <ListItemText inset={true}
+                                          primary="Articles"/>
+                            {this.state.isMobileArticleOpen ? <ExpandLess/> : <ExpandMore/>}
+                        </ListItem>
+                        <Collapse in={this.state.isMobileArticleOpen}
+                                  timeout="auto"
+                                  unmountOnExit={true}>
+                            <HeaderArticleMenu classes={this.props.classes}
+                                               isNested={true}
+                                               routeParams={this.props.routeParams}
+                                               userSlug={this.props.userSlug}
+                                               currentTagSlugs={this.props.currentTagSlugs}
+                                               topicSlug={this.props.topicSlug}
+                                               hasTemporaryArticle={this.state.hasTemporaryArticle}/>
+                        </Collapse>
+
+                        <ListItem button={true}
+                                  onClick={this._handleMobileBookmarkClick}>
+                            <ListItemIcon>
+                                <FavoriteIcon/>
+                            </ListItemIcon>
+                            <ListItemText inset={true}
+                                          primary="Favoris"/>
+                            {this.state.isMobileBookmarkOpen ? <ExpandLess/> : <ExpandMore/>}
+                        </ListItem>
+                        <Collapse in={this.state.isMobileBookmarkOpen}
+                                  timeout="auto"
+                                  unmountOnExit={true}>
+                            <BookmarkList/>
+                        </Collapse>
+
+                        <ListItem button={true}
+                                  onClick={this._handleMobileUserClick}>
+                            <ListItemIcon>
+                                <AccountCircleIcon/>
+                            </ListItemIcon>
+                            <ListItemText inset={true}
+                                          primary="Votre compte"/>
+                            {this.state.isMobileUserOpen ? <ExpandLess/> : <ExpandMore/>}
+                        </ListItem>
+                        <Collapse in={this.state.isMobileUserOpen}
+                                  timeout="auto"
+                                  unmountOnExit={true}>
+                            <HeaderUserMenu classes={this.props.classes}
+                                            isNested={true}
+                                            userSlug={this.props.userSlug}
+                                            onPreferenceClick={this._handlePreferenceClick}/>
+                        </Collapse>
+                    </List>
+
+                    <Divider/>
+
+                    <TagSidebar isOpen={true}/>
+                </>
+            </SwipeableDrawer>
         );
     };
 
     _renderMobileArticleDrawer = () => {
+        if (this.props.width !== 'xs' && this.props.width !== 'sm') {
+            return null
+        }
+
         return (
-            <Hidden mdUp={true}>
-                <SwipeableDrawer variant="temporary"
-                                 anchor="right"
-                                 classes={{
-                                     paper: this.props.classes.mobileDrawerPaper
-                                 }}
-                                 ModalProps={{
-                                     keepMounted: true
-                                 }}
-                                 open={this.state.isMobileArticleSidebarOpen}
-                                 onClose={this._handleArticleDrawerToggle}
-                                 onOpen={this._handleArticleDrawerToggle}>
-                    <ArticleSidebar/>
-                </SwipeableDrawer>
-            </Hidden>
+            <SwipeableDrawer variant="temporary"
+                             anchor="right"
+                             classes={{
+                                 paper: this.props.classes.mobileDrawerPaper
+                             }}
+                             ModalProps={{
+                                 keepMounted: true
+                             }}
+                             open={this.state.isMobileArticleSidebarOpen}
+                             onClose={this._handleArticleDrawerToggle}
+                             onOpen={this._handleArticleDrawerToggle}>
+                <ArticleSidebar/>
+            </SwipeableDrawer>
         );
     };
 
+    _renderHashRoutes = (routes) => {
+        return routes.map((route, index) => (
+            <Route key={index}
+                   children={({match, location}) => {
+                       const Component = route.component();
+
+                       return (
+                           <div>
+                               {
+                                   location.hash === `#${route.path}` &&
+                                   <Component routeParams={match.params}
+                                              routeState={location.state}/>
+                               }
+                           </div>
+                       );
+                   }}/>
+        ));
+    };
+
     render() {
-        const isSearchActive = this.props.location.hash === '#search';
+        const isSearchActive = this.props.routeLocation.hash === '#search';
 
         return (
             <>
@@ -413,9 +397,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <div className={this.props.classes.grow}/>
 
                         <Suspense fallback={<div/>}>
-                            <HomeSearchHeader isSearchActive={isSearchActive}
-                                              onFocus={this._handleSearchOpen}
-                                              onClose={this._handleSearchClose}/>
+                            <HomeHeaderSearch isSearchActive={isSearchActive}/>
                         </Suspense>
 
                         <div className={this.props.classes.grow}/>
@@ -429,7 +411,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         {
                             isSearchActive &&
                             <Suspense fallback={<div/>}>
-                                {this._renderPermanentRoutes(this.props.permanentRoutes)}
+                                {this._renderHashRoutes(this.props.hashRoutes.search)}
                             </Suspense>
                         }
                     </div>
@@ -439,6 +421,10 @@ class HeaderLayoutUser extends React.PureComponent {
 
                 {this._renderMobileArticleDrawer()}
 
+                <Suspense fallback={<div/>}>
+                    {this._renderHashRoutes(this.props.hashRoutes.topic)}
+                </Suspense>
+
                 <div id="clipboard-area"
                      className="hidden">
                     <textarea id="clipboard"
@@ -446,7 +432,7 @@ class HeaderLayoutUser extends React.PureComponent {
                 </div>
 
                 <Suspense fallback={<div/>}>
-                    <Preference isOpen={this.props.isUserPreferenceOpen}
+                    <UserPreference isOpen={this.props.isUserPreferenceOpen}
                                 onModalChange={this.props.showUserPreference}/>
                 </Suspense>
             </>

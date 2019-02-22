@@ -2,7 +2,11 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
+
+import {
+    withRouter
+} from 'react-router-dom';
 
 import {
     StickyContainer,
@@ -15,6 +19,11 @@ import {
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
+
+import {
+    ArticleIndex,
+    ArticleEdit
+} from '../loaders/components';
 
 import {
     fetchArticle,
@@ -60,11 +69,12 @@ import ArticleMiniCardDisplay from './display/miniCard';
 
 import styles from '../../../jss/article/show';
 
-export default @connect((state, props) => ({
+export default @withRouter
+@connect((state, props) => ({
     metaTags: getArticleMetaTags(state),
     currentUser: getCurrentUser(state),
     currentTopic: getCurrentUserTopic(state),
-    isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.params),
+    isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
@@ -79,14 +89,15 @@ export default @connect((state, props) => ({
     deleteArticle,
     setCurrentTags
 })
-@hot(module)
+@hot
 @highlight(false)
 @withStyles(styles)
 class ArticleShow extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-        initialData: PropTypes.object,
+        routeParams: PropTypes.object.isRequired,
+        routeState: PropTypes.object,
+        // from router
+        history: PropTypes.object,
         // from connect
         metaTags: PropTypes.object,
         currentUser: PropTypes.object,
@@ -117,9 +128,12 @@ class ArticleShow extends React.Component {
     }
 
     componentDidMount() {
-        this._request = this.props.fetchArticle(this.props.params.articleSlug);
+        this._request = this.props.fetchArticle(this.props.routeParams.articleSlug);
 
         this._fetchStories();
+
+        setTimeout(() => ArticleIndex.preload(), 5000);
+        setTimeout(() => ArticleEdit.preload(), 10000);
     }
 
     componentDidUpdate(prevProps) {
@@ -130,8 +144,8 @@ class ArticleShow extends React.Component {
             this.props.onShow(this.props.article.id, true);
         }
 
-        if (!Object.equals(this.props.params, prevProps.params)) {
-            this._request = this.props.fetchArticle(this.props.params.articleSlug);
+        if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
+            this._request = this.props.fetchArticle(this.props.routeParams.articleSlug);
         }
 
         this._fetchStories();
@@ -206,15 +220,15 @@ class ArticleShow extends React.Component {
             <div>
                 <StickyContainer>
                     {
-                        (this.props.initialData && this.props.initialData.position && this.props.isFetching) &&
+                        (this.props.routeState && this.props.routeState.position && this.props.isFetching) &&
                         <div className="center margin-top-20">
                             <div className="parent">
                             <span className="transition"
                                   style={{
-                                      top: this.props.initialData.position.y,
-                                      left: this.props.initialData.position.x
+                                      top: this.props.routeState.position.y,
+                                      left: this.props.routeState.position.x
                                   }}>
-                                {this.props.initialData.title}
+                                {this.props.routeState.title}
                             </span>
                             </div>
                         </div>

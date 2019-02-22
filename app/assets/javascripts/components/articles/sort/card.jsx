@@ -50,4 +50,4 @@ ArticleCardSort.propTypes = {
     article: PropTypes.object.isRequired
 };
 
-export default ArticleCardSort;
+export default React.memo(ArticleCardSort);

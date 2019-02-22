@@ -12,4 +12,4 @@ SingleTimeline.propTypes = {
     children: PropTypes.array.isRequired
 };
 
-export default SingleTimeline;
+export default React.memo(SingleTimeline);

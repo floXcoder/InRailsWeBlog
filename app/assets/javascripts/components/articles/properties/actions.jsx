@@ -105,4 +105,4 @@ ArticleActions.defaultProps = {
     color: 'action'
 };
 
-export default ArticleActions;
+export default React.memo(ArticleActions);

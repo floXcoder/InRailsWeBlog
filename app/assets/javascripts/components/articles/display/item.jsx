@@ -1,9 +1,12 @@
 'use strict';
 
 import {
-    lazy,
     Suspense
 } from 'react';
+
+import {
+    ArticleInlineEditionDisplay
+} from '../../loaders/components';
 
 import {
     inlineEditArticle
@@ -16,8 +19,6 @@ import {
 import ArticleCardDisplay from './card';
 import ArticleInlineDisplay from './inline';
 import ArticleGridDisplay from './grid';
-
-const ArticleInlineEditionDisplay = lazy(() => import(/* webpackChunkName: "article-item-edition" */ './inlineEdition'));
 
 export default @connect((state, props) => ({
     currentUserSlug: state.userState.currentSlug,

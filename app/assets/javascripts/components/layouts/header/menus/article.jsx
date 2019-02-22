@@ -15,7 +15,7 @@ import LinkIcon from '@material-ui/icons/Link';
 export default class HeaderArticleMenu extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        match: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         currentTagSlugs: PropTypes.array.isRequired,
         hasTemporaryArticle: PropTypes.bool.isRequired,
@@ -28,8 +28,8 @@ export default class HeaderArticleMenu extends React.Component {
     };
 
     render() {
-        const parentTagSlug = this.props.match.params.parentTagSlug || this.props.match.params.tagSlug || this.props.currentTagSlugs[0];
-        const childTagSlug = this.props.match.params.childTagSlug || this.props.currentTagSlugs[1];
+        const parentTagSlug = this.props.routeParams.parentTagSlug || this.props.routeParams.tagSlug || this.props.currentTagSlugs[0];
+        const childTagSlug = this.props.routeParams.childTagSlug || this.props.currentTagSlugs[1];
 
         return (
             <List className={classNames({
@@ -45,7 +45,7 @@ export default class HeaderArticleMenu extends React.Component {
                                       component={Link}
                                       className={this.props.classes.link}
                                       to={{
-                                          hash: '#new-article',
+                                          pathname: `/users/${this.props.userSlug}/topics/${this.props.topicSlug}/article-new`,
                                           state: {
                                               temporary: true
                                           }
@@ -62,24 +62,6 @@ export default class HeaderArticleMenu extends React.Component {
                             <Divider/>
                         </>
                     }
-
-                    {/*<ListItem button={true}>*/}
-                    {/*<ListItemText>*/}
-                    {/*<Link className={this.props.classes.link}*/}
-                    {/*to={{*/}
-                    {/*hash: '#new-article',*/}
-                    {/*state: {*/}
-                    {/*mode: 'note',*/}
-                    {/*parentTagSlug: parentTagSlug,*/}
-                    {/*childTagSlug: childTagSlug*/}
-                    {/*}*/}
-                    {/*}}>*/}
-                    {/*{I18n.t('js.views.header.article.menu.add_note')}*/}
-                    {/*</Link>*/}
-                    {/*</ListItemText>*/}
-                    {/*</ListItem>*/}
-
-                    {/*<Divider/>*/}
 
                     <ListItem button={true}
                               component={Link}

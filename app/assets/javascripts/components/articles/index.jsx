@@ -2,16 +2,23 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
-    lazy,
     Suspense
 } from 'react';
 
 import {
     withStyles
 } from '@material-ui/core/styles';
+
+import {
+    ArticleShow,
+    ArticleListMode,
+    ArticleInfiniteMode,
+    ArticleMasonryMode,
+    ArticleTimelineMode
+} from '../loaders/components';
 
 import {
     fetchArticles,
@@ -35,11 +42,6 @@ import SummaryStoriesTopic from '../topics/stories/summary';
 
 import ArticleNoneDisplay from './display/none';
 
-const ArticleListMode = lazy(() => import(/* webpackChunkName: "article-index-list" */ './display/modes/list'));
-const ArticleInfiniteMode = lazy(() => import(/* webpackChunkName: "article-index-infinite" */ './display/modes/infinite'));
-const ArticleMasonryMode = lazy(() => import(/* webpackChunkName: "article-index-masonry" */ './display/modes/masonry'));
-const ArticleTimelineMode = lazy(() => import(/* webpackChunkName: "article-index-timeline" */ './display/modes/timeline'));
-
 import styles from '../../../jss/article/index';
 
 export default @connect((state) => ({
@@ -60,12 +62,12 @@ export default @connect((state) => ({
     setCurrentArticles,
     setCurrentTags
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class ArticleIndex extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
-        queryString: PropTypes.string,
+        routeParams: PropTypes.object.isRequired,
+        routeHash: PropTypes.string,
         // from connect
         metaTags: PropTypes.object,
         userId: PropTypes.number,
@@ -89,19 +91,21 @@ class ArticleIndex extends React.Component {
     constructor(props) {
         super(props);
 
-        this._parseQuery = Utils.parseUrlParameters(props.queryString) || {};
+        this._parseQuery = Utils.parseUrlParameters(props.routeHash) || {};
         this._request = null;
         this._isFetchingNext = false;
     }
 
     componentDidMount() {
         this._fetchArticles();
+
+        setTimeout(() => ArticleShow.preload(), 5000);
     }
 
     componentDidUpdate(prevProps) {
         // Manage articles order or sort display
-        if (!Object.equals(this.props.params, prevProps.params) || this.props.queryString !== prevProps.queryString) {
-            const nextParseQuery = Utils.parseUrlParameters(this.props.queryString) || {};
+        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.routeHash !== prevProps.routeHash) {
+            const nextParseQuery = Utils.parseUrlParameters(this.props.routeHash) || {};
 
             if (this._parseQuery.order !== nextParseQuery.order) {
                 if (nextParseQuery.order) {
@@ -127,22 +131,22 @@ class ArticleIndex extends React.Component {
     _formatParams = () => {
         let queryParams = {};
 
-        if (this.props.params.userSlug) {
-            queryParams.userSlug = this.props.params.userSlug;
+        if (this.props.routeParams.userSlug) {
+            queryParams.userSlug = this.props.routeParams.userSlug;
         }
 
-        if (this.props.params.topicSlug) {
-            queryParams.topicSlug = this.props.params.topicSlug;
+        if (this.props.routeParams.topicSlug) {
+            queryParams.topicSlug = this.props.routeParams.topicSlug;
         }
 
-        if (this.props.params.childTagSlug) {
-            queryParams.parentTagSlug = this.props.params.tagSlug;
-            queryParams.childTagSlug = this.props.params.childTagSlug;
-        } else if (this.props.params.tagSlug) {
-            queryParams.tagSlug = this.props.params.tagSlug;
+        if (this.props.routeParams.childTagSlug) {
+            queryParams.parentTagSlug = this.props.routeParams.tagSlug;
+            queryParams.childTagSlug = this.props.routeParams.childTagSlug;
+        } else if (this.props.routeParams.tagSlug) {
+            queryParams.tagSlug = this.props.routeParams.tagSlug;
         }
 
-        if (this.props.params['0'] === 'shared-topics') {
+        if (this.props.routeParams.sharedTopic) {
             queryParams.sharedTopic = true;
         }
 
@@ -161,12 +165,12 @@ class ArticleIndex extends React.Component {
             ...this._parseQuery
         }, options);
 
-        this._request.fetch.then(() => this.props.params.tagSlug && this.props.setCurrentTags([this.props.params.tagSlug, this.props.params.childTagSlug]));
+        this._request.fetch.then(() => this.props.routeParams.tagSlug && this.props.setCurrentTags([this.props.routeParams.tagSlug, this.props.routeParams.childTagSlug]));
     };
 
     _fetchNextArticles = (params = {}) => {
         if (this.props.articlePagination && this.props.articlePagination.currentPage <= this.props.articlePagination.totalPages) {
-            const queryParams = Utils.parseUrlParameters(this.props.queryString);
+            const queryParams = Utils.parseUrlParameters(this.props.routeHash);
             const options = {
                 page: (params.selected || this.props.articlePagination.currentPage) + 1
             };
@@ -211,10 +215,10 @@ class ArticleIndex extends React.Component {
         if (this.props.articlesCount === 0 && !this.props.isFetching) {
             return (
                 <div className="blog-article-box">
-                    <ArticleNoneDisplay userSlug={this.props.params.userSlug}
-                                        topicSlug={this.props.params.topicSlug}
-                                        tagSlug={this.props.params.tagSlug}
-                                        childTagSlug={this.props.params.childTagSlug}
+                    <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
+                                        topicSlug={this.props.routeParams.topicSlug}
+                                        tagSlug={this.props.routeParams.tagSlug}
+                                        childTagSlug={this.props.routeParams.childTagSlug}
                                         isTopicPage={true}
                                         isSearchPage={false}/>
                 </div>
@@ -239,7 +243,7 @@ class ArticleIndex extends React.Component {
         } else {
             ArticleNodes = (
                 <ArticleListMode classes={this.props.classes}
-                                 parentTag={this.props.params.tagSlug}
+                                 parentTag={this.props.routeParams.tagSlug}
                                  isMinimized={this.props.areArticlesMinimized}
                                  articleEditionId={this.props.articleEditionId}
                                  onEnter={this._handleArticleEnter}
@@ -270,7 +274,7 @@ class ArticleIndex extends React.Component {
                     }
 
                     {
-                        // this.props.articlesCount > 0 &&
+                        this.props.articlesCount > 0 &&
                         <Suspense fallback={<div/>}>
                             {
                                 (!this.props.isFetching || this._isFetchingNext) && (

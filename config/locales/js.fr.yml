@@ -169,8 +169,8 @@ fr:
           display:
             title: "Affichage d'un article"
             mode:
-              inline: "Un seul article global"
               card: "Cartes indépendantes"
+              inline: "Un seul article global"
               grid: "En grille"
         tag:
           title: "Labels"

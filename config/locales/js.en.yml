@@ -169,8 +169,8 @@ en:
           display:
             title: "Articles"
             mode:
-              inline: "On global article"
               card: "Independent cards"
+              inline: "On global article"
               grid: "In grid"
         tag:
           title: "Tags"

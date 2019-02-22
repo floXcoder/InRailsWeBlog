@@ -35,4 +35,4 @@ ArticleLinkIcon.defaultProps = {
     color: 'primary'
 };
 
-export default ArticleLinkIcon;
+export default React.memo(ArticleLinkIcon);

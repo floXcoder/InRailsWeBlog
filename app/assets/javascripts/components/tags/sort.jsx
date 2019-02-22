@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    withRouter
+} from 'react-router-dom';
+
+import {
     fetchTags,
     updateTagPriority
 } from '../../actions';
@@ -17,7 +21,8 @@ import Loader from '../theme/loader';
 
 import TagSorter from './sort/sorter';
 
-export default @connect((state) => ({
+export default @withRouter
+@connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     isFetching: state.tagState.isFetching,
@@ -28,8 +33,9 @@ export default @connect((state) => ({
 })
 class TagSort extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
+        // from router
+        history: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
@@ -45,9 +51,9 @@ class TagSort extends React.Component {
 
     componentDidMount() {
         this.props.fetchTags({
-            userId: this.props.params.currentUserId || this.props.currentUserId,
+            userId: this.props.routeParams.currentUserId || this.props.currentUserId,
             order: 'priority_desc',
-            ...this.props.params
+            ...this.props.routeParams
         }, {
             limit: sortItemLimit
         });

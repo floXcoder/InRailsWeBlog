@@ -39,4 +39,4 @@ UserCardDisplay.propTypes = {
     onUserClick: PropTypes.func
 };
 
-export default UserCardDisplay;
+export default React.memo(UserCardDisplay);

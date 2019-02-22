@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     Link
@@ -54,11 +54,11 @@ export default @connect((state) => ({
 }), {
     fetchTags
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class TagIndex extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
         // from connect
         metaTags: PropTypes.object,
         isUserConnected: PropTypes.bool,
@@ -77,15 +77,15 @@ class TagIndex extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.params.userSlug) {
+        if (this.props.routeParams.userSlug) {
             this.props.fetchTags({
-                userSlug: this.props.params.userSlug
+                userSlug: this.props.routeParams.userSlug
             }, {
                 limit: tagSidebarLimit
             });
-        } else if (this.props.params.topicSlug) {
+        } else if (this.props.routeParams.topicSlug) {
             this.props.fetchTags({
-                topicSlug: this.props.params.topicSlug
+                topicSlug: this.props.routeParams.topicSlug
             }, {
                 limit: tagSidebarLimit
             });
@@ -99,9 +99,9 @@ class TagIndex extends React.Component {
     }
 
     _renderTitle = () => {
-        if (this.props.params.userSlug) {
+        if (this.props.routeParams.userSlug) {
             return I18n.t('js.tag.index.titles.user');
-        } else if (this.props.params.topicSlug && this.props.currentTopic) {
+        } else if (this.props.routeParams.topicSlug && this.props.currentTopic) {
             return I18n.t('js.tag.index.titles.topic', {topic: this.props.currentTopic.name});
         } else {
             return I18n.t('js.tag.index.titles.all');
@@ -187,7 +187,7 @@ class TagIndex extends React.Component {
                     </Typography>
 
                     {
-                        (!Utils.isEmpty(this.props.params) && this.props.currentUser) &&
+                        (!Utils.isEmpty(this.props.routeParams) && this.props.currentUser) &&
                         <div className="center-align margin-top-20">
                             <Button color="default"
                                     variant="outlined"
@@ -227,7 +227,7 @@ class TagIndex extends React.Component {
 
                     <div className="col s12 m6">
                         {
-                            (!Utils.isEmpty(this.props.params)) &&
+                            (!Utils.isEmpty(this.props.routeParams)) &&
                             <div className="margin-bottom-20">
                                 <Typography className={this.props.classes.subtitle}
                                             component="h2"

@@ -25,7 +25,7 @@ class PasteManager extends React.Component {
     }
 
     _onPaste = (content) => {
-        if (content && this.props.location.pathname !== '/article/new' && this.props.location.hash !== '#new-article') {
+        if (content && this.props.location.pathname !== '/articles/new' && this.props.location.hash !== '#new-article') {
             const isURL = Utils.isURL(content.trim());
 
             let articleData = {
@@ -38,8 +38,8 @@ class PasteManager extends React.Component {
                 articleData.content = SanitizePaste.parse(content);
             }
 
-            this.props.history.replace({
-                hash: '#new-article',
+            this.props.history.push({
+                pathname: '/articles/new',
                 state: {
                     ...articleData
                 }

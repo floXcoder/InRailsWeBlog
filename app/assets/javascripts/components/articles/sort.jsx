@@ -2,7 +2,11 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
+
+import {
+    withRouter
+} from 'react-router-dom';
 
 import {
     withStyles
@@ -27,7 +31,8 @@ import ArticleSorter from './sort/sorter';
 
 import styles from '../../../jss/article/sort';
 
-export default @connect((state) => ({
+export default @withRouter
+@connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
@@ -37,12 +42,13 @@ export default @connect((state) => ({
     fetchArticles,
     updateArticlePriority
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class ArticleSort extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
+        // from router
+        history: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         currentUserTopicId: PropTypes.number,
@@ -61,10 +67,10 @@ class ArticleSort extends React.Component {
 
     componentDidMount() {
         this.props.fetchArticles({
-            userId: this.props.params.currentUserId || this.props.currentUserId,
-            topicId: this.props.params.currentUserTopicId || this.props.currentUserTopicId,
+            userId: this.props.routeParams.currentUserId || this.props.currentUserId,
+            topicId: this.props.routeParams.currentUserTopicId || this.props.currentUserTopicId,
             order: 'priority_desc',
-            ...this.props.params
+            ...this.props.routeParams
         }, {
             summary: true,
             limit: sortItemLimit

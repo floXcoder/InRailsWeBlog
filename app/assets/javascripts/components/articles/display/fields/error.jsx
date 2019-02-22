@@ -17,4 +17,4 @@ ArticleErrorField.propTypes = {
     errors: PropTypes.array.isRequired
 };
 
-export default ArticleErrorField;
+export default React.memo(ArticleErrorField);

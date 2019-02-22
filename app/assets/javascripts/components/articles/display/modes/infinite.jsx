@@ -2,11 +2,11 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-export default @hot(module)
+export default @hot
 class ArticleInfiniteMode extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,

@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    Provider
+    Provider,
+    ReactReduxContext
 } from 'react-redux';
 
 import {
@@ -40,19 +41,19 @@ export default class ApplicationLayoutHome extends React.Component {
             <MuiThemeProvider theme={theme}>
                 <CssBaseline/>
 
-                <Provider store={configureStore}>
+                <Provider store={configureStore}
+                          context={ReactReduxContext}>
                     <BrowserRouter>
                         <PasteManager>
                             <ScrollBackManager>
                                 <>
                                     <ErrorBoundary errorType="text"
                                                    errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                        <HeaderLayoutHome permanentRoutes={routes.permanents.header}/>
+                                        <HeaderLayoutHome permanentRoutes={routes.hashes}/>
                                     </ErrorBoundary>
 
                                     <ErrorBoundary errorType="card">
-                                        <MainLayoutHome routes={routes.static.home}
-                                                        permanentRoutes={routes.permanents.main}/>
+                                        <MainLayoutHome routes={routes.static.home}/>
                                     </ErrorBoundary>
 
                                     <ErrorBoundary errorType="text"

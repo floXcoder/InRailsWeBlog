@@ -79,4 +79,4 @@ ArticleNoneDisplay.defaultProps = {
     isTopicPage: false
 };
 
-export default ArticleNoneDisplay;
+export default React.memo(ArticleNoneDisplay);

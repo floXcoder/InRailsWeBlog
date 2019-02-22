@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     withStyles
@@ -66,7 +66,7 @@ export default @connect((state) => ({
     filterSearch,
     updateUserSettings
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class SearchIndex extends React.Component {
     static propTypes = {

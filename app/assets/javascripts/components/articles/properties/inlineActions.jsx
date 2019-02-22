@@ -49,4 +49,4 @@ ArticleInlineActions.defaultProps = {
     color: 'action'
 };
 
-export default ArticleInlineActions;
+export default React.memo(ArticleInlineActions);

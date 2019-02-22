@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     TransitionGroup,
@@ -19,7 +19,7 @@ export default @connect((state, props) => ({
     orderedArticles: getOrderedArticles(state, props),
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
-@hot(module)
+@hot
 class ArticleListMode extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,

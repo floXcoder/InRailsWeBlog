@@ -19,4 +19,4 @@ ProcessingButton.defaultProps = {
     isButton: true
 };
 
-export default ProcessingButton;
+export default React.memo(ProcessingButton);

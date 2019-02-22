@@ -611,10 +611,6 @@ export const is = () => {
     return exports;
 };
 
-export const defer = Promise.resolve();
-
-export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));
-
 export const NAVIGATION_KEYMAP = {
     8: 'backspace',
     9: 'tab',
@@ -640,3 +636,6 @@ export const NAVIGATION_KEYMAP = {
     224: 'meta'
 };
 
+export const defer = Promise.resolve();
+
+export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));

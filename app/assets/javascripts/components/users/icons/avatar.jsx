@@ -54,4 +54,4 @@ UserAvatarIcon.propTypes = {
     secondary: PropTypes.element
 };
 
-export default UserAvatarIcon;
+export default React.memo(UserAvatarIcon);

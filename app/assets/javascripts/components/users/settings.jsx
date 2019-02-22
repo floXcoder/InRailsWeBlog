@@ -107,28 +107,6 @@ class UserSettings extends React.Component {
                 {
                     this.state.tabIndex === 0 &&
                     <div className="row margin-top-15">
-                        <div className="col s12">
-                            <FormControl className="margin-top-20"
-                                         component="fieldset">
-                                <FormLabel component="legend">
-                                    {I18n.t('js.user.settings.article.loader.title')}
-                                </FormLabel>
-                                <RadioGroup aria-label="Loader"
-                                            name="loader"
-                                            value={this.state.articlesLoader}
-                                            onChange={this._onSettingRadioChange.bind(this, 'articlesLoader')}>
-                                    {
-                                        Object.keys(I18n.t('js.user.settings.article.loader.mode')).map((key) => (
-                                            <FormControlLabel key={key}
-                                                              value={key}
-                                                              control={<Radio/>}
-                                                              label={I18n.t('js.user.settings.article.loader.mode')[key]}/>
-                                        ))
-                                    }
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
-
                         <div className="col s12 margin-top-15">
                             <FormControl className="margin-top-20"
                                          component="fieldset">
@@ -145,6 +123,28 @@ class UserSettings extends React.Component {
                                                               value={key}
                                                               control={<Radio/>}
                                                               label={I18n.t('js.user.settings.article.display.mode')[key]}/>
+                                        ))
+                                    }
+                                </RadioGroup>
+                            </FormControl>
+                        </div>
+
+                        <div className="col s12">
+                            <FormControl className="margin-top-20"
+                                         component="fieldset">
+                                <FormLabel component="legend">
+                                    {I18n.t('js.user.settings.article.loader.title')}
+                                </FormLabel>
+                                <RadioGroup aria-label="Loader"
+                                            name="loader"
+                                            value={this.state.articlesLoader}
+                                            onChange={this._onSettingRadioChange.bind(this, 'articlesLoader')}>
+                                    {
+                                        Object.keys(I18n.t('js.user.settings.article.loader.mode')).map((key) => (
+                                            <FormControlLabel key={key}
+                                                              value={key}
+                                                              control={<Radio/>}
+                                                              label={I18n.t('js.user.settings.article.loader.mode')[key]}/>
                                         ))
                                     }
                                 </RadioGroup>

@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    lazy,
     Suspense
 } from 'react';
 
@@ -11,11 +10,13 @@ import Button from '@material-ui/core/Button';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SortIcon from '@material-ui/icons/Sort';
 
+import {
+    ArticleGridModeSearch
+} from '../../loaders/components';
+
 import Dropdown from '../../theme/dropdown';
 
 import ArticleItemDisplay from './articles/item';
-
-const ArticleGridMode = lazy(() => import(/* webpackChunkName: "article-search-masonry" */ './display/grid'));
 
 export default class SearchArticleIndex extends React.PureComponent {
     static propTypes = {
@@ -157,9 +158,9 @@ export default class SearchArticleIndex extends React.PureComponent {
                         this.state.display === 'grid'
                             ?
                             <Suspense fallback={<div/>}>
-                                <ArticleGridMode>
+                                <ArticleGridModeSearch>
                                     {this.props.articles}
-                                </ArticleGridMode>
+                                </ArticleGridModeSearch>
                             </Suspense>
                             :
                             this.props.articles.map((article) => (

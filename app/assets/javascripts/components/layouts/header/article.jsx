@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,16 +14,14 @@ import HeaderArticleMenu from './menus/article';
 
 import styles from '../../../../jss/user/header';
 
-export default @withRouter
-@withStyles(styles)
+export default @withStyles(styles)
 class HomeArticleHeader extends React.Component {
     static propTypes = {
+        routeParams: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         currentTagSlugs: PropTypes.array.isRequired,
         topicSlug: PropTypes.string,
         hasTemporaryArticle: PropTypes.bool,
-        // from withRouter
-        match: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };
@@ -58,7 +52,7 @@ class HomeArticleHeader extends React.Component {
                       hasWavesEffect={false}
                       hasArrow={true}>
                 <HeaderArticleMenu classes={this.props.classes}
-                                   match={this.props.match}
+                                   routeParams={this.props.routeParams}
                                    userSlug={this.props.userSlug}
                                    currentTagSlugs={this.props.currentTagSlugs}
                                    topicSlug={this.props.topicSlug}

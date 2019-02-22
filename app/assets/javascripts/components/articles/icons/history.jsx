@@ -28,4 +28,4 @@ ArticleHistoryIcon.defaultProps = {
     color: 'primary'
 };
 
-export default ArticleHistoryIcon;
+export default React.memo(ArticleHistoryIcon);

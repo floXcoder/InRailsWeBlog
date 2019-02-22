@@ -36,37 +36,35 @@ class BookmarkList extends React.Component {
     render() {
         return (
             <div className={this.props.classes.root}>
-                <div>
-                    <h3 className={this.props.classes.title}>
-                        {I18n.t('js.bookmark.list.title')}
-                    </h3>
+                <h3 className={this.props.classes.title}>
+                    {I18n.t('js.bookmark.list.title')}
+                </h3>
 
-                    {
-                        this.props.bookmarks.length > 0
-                            ?
-                            <List component="div">
-                                {
-                                    this.props.bookmarks.map((bookmark, i) => (
-                                        <React.Fragment key={i}>
-                                            <ListItem button={true}
-                                                      component={Link}
-                                                      to={`/users/${bookmark.parentSlug}/articles/${bookmark.slug}`}>
-                                                <ListItemText classes={{
-                                                    primary: this.props.classes.link
-                                                }}>
-                                                    {bookmark.name || bookmark.slug}
-                                                </ListItemText>
-                                            </ListItem>
-                                        </React.Fragment>
-                                    ))
-                                }
-                            </List>
-                            :
-                            <div className={this.props.classes.none}>
-                                {I18n.t('js.bookmark.list.none')}
-                            </div>
-                    }
-                </div>
+                {
+                    this.props.bookmarks.length > 0
+                        ?
+                        <List component="div">
+                            {
+                                this.props.bookmarks.map((bookmark, i) => (
+                                    <React.Fragment key={i}>
+                                        <ListItem button={true}
+                                                  component={Link}
+                                                  to={`/users/${bookmark.parentSlug}/articles/${bookmark.slug}`}>
+                                            <ListItemText classes={{
+                                                primary: this.props.classes.link
+                                            }}>
+                                                {bookmark.name || bookmark.slug}
+                                            </ListItemText>
+                                        </ListItem>
+                                    </React.Fragment>
+                                ))
+                            }
+                        </List>
+                        :
+                        <div className={this.props.classes.none}>
+                            {I18n.t('js.bookmark.list.none')}
+                        </div>
+                }
             </div>
         );
     }

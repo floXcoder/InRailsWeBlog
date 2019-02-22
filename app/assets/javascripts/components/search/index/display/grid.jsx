@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import MasonryWrapper from '../../../theme/masonry';
 
@@ -10,7 +10,7 @@ import ArticleGridDisplay from '../articles/grid';
 
 const ArticleMasonry = MasonryWrapper(ArticleGridDisplay);
 
-export default @hot(module)
+export default @hot
 class ArticleGridMode extends React.Component {
     static propTypes = {
         children: PropTypes.array.isRequired

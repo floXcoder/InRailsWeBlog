@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     withStyles
@@ -17,10 +17,11 @@ import {
     getCurrentLocale
 } from '../../selectors';
 
-import articleMutationManager from './managers/mutation';
+import Loader from '../theme/loader';
 
 import HeadLayout from '../layouts/head';
 
+import articleMutationManager from './managers/mutation';
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
@@ -33,7 +34,7 @@ export default @articleMutationManager('new', `article-${Utils.uuid()}`)
 }), {
     switchTagSidebar
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class ArticleNew extends React.Component {
     static propTypes = {
@@ -68,6 +69,16 @@ class ArticleNew extends React.Component {
     }
 
     render() {
+        if (!this.props.currentUser || !this.props.currentTopic) {
+            return (
+                <div className={this.props.classes.root}>
+                    <div className="center">
+                        <Loader size="big"/>
+                    </div>
+                </div>
+            );
+        }
+
         const initialValues = {
             topicId: this.props.currentTopic.id,
             picture_ids: '',

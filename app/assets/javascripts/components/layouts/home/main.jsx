@@ -13,13 +13,14 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 
+import RouteManager from '../../layouts/managers/route';
+
 import styles from '../../../../jss/home/main';
 
 export default @withStyles(styles)
 class MainLayoutHome extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
-        permanentRoutes: PropTypes.array.isRequired,
         // from styles
         classes: PropTypes.object
     };
@@ -31,26 +32,6 @@ class MainLayoutHome extends React.Component {
     shouldComponentUpdate() {
         return false;
     }
-
-    _renderPermanentRoutes = (routes) => {
-        return routes.map((route, index) => (
-            <Route key={index}
-                   children={({match, location, history}) => {
-                       const Component = route.component();
-
-                       return (
-                           <div>
-                               {
-                                   location.hash === `#${route.path}` &&
-                                   <Component params={match.params}
-                                              history={history}
-                                              initialData={location.state}/>
-                               }
-                           </div>
-                       );
-                   }}/>
-        ));
-    };
 
     render() {
         // In development environment with hot reload:
@@ -65,23 +46,23 @@ class MainLayoutHome extends React.Component {
                                path={route.path}
                                exact={route.exact}
                                render={(router) => {
-                                   const Component = route.component();
+                                   const {component, ...routeProperties} = route;
+                                   const Component = component();
 
                                    return (
-                                       <main className={classNames(this.props.classes.content)}>
-                                           <Suspense fallback={<div/>}>
-                                               <div className={this.props.classes.layout}>
-                                                   {
-                                                       this._renderPermanentRoutes(this.props.permanentRoutes)
-                                                   }
-
-                                                   <Component params={router.match.params}
-                                                              queryString={router.location.search}
-                                                              history={router.history}
-                                                              initialData={router.location.state}/>
-                                               </div>
-                                           </Suspense>
-                                       </main>
+                                       <RouteManager currentRoute={routeProperties}
+                                                     params={router.match.params}
+                                                     location={router.location}>
+                                           <main className={classNames(this.props.classes.content)}>
+                                               <Suspense fallback={<div/>}>
+                                                   <div className={this.props.classes.layout}>
+                                                       <Component routeParams={router.match.params}
+                                                                  routeHash={router.location.search}
+                                                                  routeState={router.location.state}/>
+                                                   </div>
+                                               </Suspense>
+                                           </main>
+                                       </RouteManager>
                                    )
                                }}/>
                     ))

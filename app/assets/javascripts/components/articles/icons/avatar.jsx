@@ -48,4 +48,4 @@ ArticleAvatarIcon.propTypes = {
     articleDate: PropTypes.string.isRequired
 };
 
-export default ArticleAvatarIcon;
+export default React.memo(ArticleAvatarIcon);
