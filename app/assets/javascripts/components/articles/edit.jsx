@@ -2,11 +2,15 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     withStyles
 } from '@material-ui/core/styles';
+
+import {
+    ArticleShow
+} from '../loaders/components';
 
 import {
     setCurrentTags,
@@ -20,15 +24,15 @@ import {
     getCurrentLocale
 } from '../../selectors';
 
-import articleMutationManager from './managers/mutation';
-
-import ArticleBreadcrumbDisplay from './display/breadcrumb';
-import ArticleFormDisplay from './display/form';
-
 import Loader from '../theme/loader';
 
 import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
+
+import articleMutationManager from './managers/mutation';
+
+import ArticleBreadcrumbDisplay from './display/breadcrumb';
+import ArticleFormDisplay from './display/form';
 
 import styles from '../../../jss/article/form';
 
@@ -42,7 +46,7 @@ export default @articleMutationManager('edit', `article-${Utils.uuid()}`)
     setCurrentTags,
     switchTagSidebar
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class ArticleEdit extends React.Component {
     static propTypes = {
@@ -76,6 +80,8 @@ class ArticleEdit extends React.Component {
         }
 
         this.props.switchTagSidebar(false);
+
+        setTimeout(() => ArticleShow.preload(), 5000);
     }
 
     shouldComponentUpdate(nextProps) {

@@ -4,7 +4,11 @@ import _ from 'lodash';
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
+
+import {
+    withRouter
+} from 'react-router-dom';
 
 import {
     withStyles
@@ -15,6 +19,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 
 import CloseIcon from '@material-ui/icons/Close';
+
+import {
+    SearchIndex
+} from '../loaders/components';
 
 import {
     setAutocompleteSelectedTag
@@ -34,7 +42,9 @@ import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
 import styles from '../../../jss/search/module';
-export default @connect((state) => ({
+
+export default @withRouter
+@connect((state) => ({
     currentTopicId: state.topicState.currentUserTopicId,
     recentTags: getUserRecentTags(state),
     recentArticles: getUserRecentArticles(state),
@@ -48,11 +58,12 @@ export default @connect((state) => ({
 }), {
     setAutocompleteSelectedTag
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class SearchModule extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        history: PropTypes.object,
         // from connect
         currentTopicId: PropTypes.number,
         recentTags: PropTypes.array,
@@ -73,6 +84,10 @@ class SearchModule extends React.Component {
         super(props);
 
         this._request = null;
+    }
+
+    componentDidMount() {
+        setTimeout(() => SearchIndex.preload(), 5000);
     }
 
     componentDidUpdate(prevProps) {

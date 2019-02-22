@@ -6,25 +6,17 @@ import {
 
 import {
     Switch,
-    Route,
-    Link
+    Route
 } from 'react-router-dom';
 
 import {
     withStyles
 } from '@material-ui/core/styles';
-import Hidden from '@material-ui/core/Hidden';
 
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-
+import RouteManager from '../../layouts/managers/route';
 import UserManager from '../../layouts/managers/user';
 
-import ErrorBoundary from '../../errors/boundary';
-
 import RedirectLayout from './redirect';
-import TagSidebarLayout from './tagSidebar';
-import ArticleSidebarLayout from './articleSidebar';
-import BreadcrumbLayout from '../breadcrumb';
 
 import styles from '../../../../jss/user/main';
 
@@ -32,40 +24,17 @@ export default @withStyles(styles)
 class MainLayoutUser extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
-        permanentRoutes: PropTypes.array.isRequired,
         // from styles
         classes: PropTypes.object
     };
 
     constructor(props) {
         super(props);
-
-        this._previousRoute = {};
     }
 
     shouldComponentUpdate() {
         return false;
     }
-
-    _renderPermanentRoutes = (routes) => {
-        return routes.map((route, index) => (
-            <Route key={index}
-                   children={({match, location, history}) => {
-                       const Component = route.component();
-
-                       return (
-                           <div>
-                               {
-                                   location.hash === `#${route.path}` &&
-                                   <Component params={match.params}
-                                              history={history}
-                                              initialData={location.state}/>
-                               }
-                           </div>
-                       );
-                   }}/>
-        ));
-    };
 
     render() {
         // In development environment with hot reload:
@@ -80,87 +49,36 @@ class MainLayoutUser extends React.Component {
                                path={route.path}
                                exact={route.exact}
                                render={(router) => {
-                                   if (route.redirect && route.redirect(route, this._previousRoute)) {
+                                   if (route.redirect) {
                                        return (
                                            <RedirectLayout redirectPath={route.redirectPath}
+                                                           routeState={router.location.state}
                                                            {...router.match.params}/>
                                        );
                                    }
 
-                                   this._previousRoute = route;
-
-                                   const Component = route.component();
+                                   const {component, ...routeProperties} = route;
+                                   const Component = component();
 
                                    return (
-                                       <UserManager params={router.match.params}
-                                                    initialData={router.location.state}>
-                                           <div className={this.props.classes.root}>
-                                               <Hidden smDown={true}>
-                                                   <ErrorBoundary errorType="text"
-                                                                  errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                                                       <div className={this.props.classes.sidebar}>
-                                                           <TagSidebarLayout params={router.match.params}
-                                                                             isCloud={route.tagCloud}/>
-                                                       </div>
-                                                   </ErrorBoundary>
-                                               </Hidden>
-
-                                               {
-                                                   route.articleSidebar &&
-                                                   <Hidden smDown={true}>
-                                                       <ErrorBoundary errorType="text"
-                                                                      errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                                                           <div className={this.props.classes.sidebar}>
-                                                               <ArticleSidebarLayout
-                                                                   parentTag={router.match.params.tagSlug}/>
+                                       <RouteManager currentRoute={routeProperties}
+                                                     params={router.match.params}
+                                                     location={router.location}>
+                                           <UserManager routeParams={router.match.params}
+                                                        routeState={router.location.state}>
+                                               <div className={this.props.classes.root}>
+                                                   <main className={this.props.classes.content}>
+                                                       <Suspense fallback={<div/>}>
+                                                           <div className={this.props.classes.component}>
+                                                               <Component routeParams={router.match.params}
+                                                                          routeHash={router.location.search}
+                                                                          routeState={router.location.state}/>
                                                            </div>
-                                                       </ErrorBoundary>
-                                                   </Hidden>
-                                               }
-
-                                               <main className={this.props.classes.content}>
-                                                   {
-                                                       route.hasBreadcrumb &&
-                                                       <ErrorBoundary errorType="text"
-                                                                      errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                                                           <div className={this.props.classes.breadcrumb}>
-                                                               <BreadcrumbLayout
-                                                                   currentPath={router.location.pathname}
-                                                                   recentsLimit={8}/>
-                                                           </div>
-                                                       </ErrorBoundary>
-                                                   }
-
-                                                   <Suspense fallback={<div/>}>
-                                                       <div className={this.props.classes.component}>
-                                                           {
-                                                               this._renderPermanentRoutes(this.props.permanentRoutes)
-                                                           }
-
-                                                           <Component params={router.match.params}
-                                                                      queryString={router.location.search}
-                                                                      history={router.history}
-                                                                      initialData={router.location.state}/>
-                                                       </div>
-                                                   </Suspense>
-
-                                                   {
-                                                       // (router.match.params.tagSlug || router.match.params.parentTagSlug || router.match.params.childTagSlug) &&
-                                                       // <Link className={this.props.classes.quickAdd}
-                                                       //       to={{
-                                                       //           hash: '#new-article',
-                                                       //           state: {
-                                                       //               parentTagSlug: router.match.params.parentTagSlug || router.match.params.tagSlug,
-                                                       //               childTagSlug: router.match.params.childTagSlug
-                                                       //           }
-                                                       //       }}>
-                                                       //     <AddCircleOutlineIcon
-                                                       //         className={this.props.classes.quickAddIcon}/>
-                                                       // </Link>
-                                                   }
-                                               </main>
-                                           </div>
-                                       </UserManager>
+                                                       </Suspense>
+                                                   </main>
+                                               </div>
+                                           </UserManager>
+                                       </RouteManager>
                                    );
                                }}/>
                     ))

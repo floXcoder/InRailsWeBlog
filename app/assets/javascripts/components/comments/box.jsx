@@ -4,7 +4,7 @@ import '../../../stylesheets/components/comment.scss';
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     CSSTransition
@@ -51,7 +51,7 @@ export default @connect((state) => ({
     updateComment,
     deleteComment
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class CommentBox extends React.Component {
     static propTypes = {

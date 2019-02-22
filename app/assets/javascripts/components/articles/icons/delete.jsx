@@ -25,4 +25,4 @@ ArticleDeleteIcon.defaultProps = {
     color: 'primary'
 };
 
-export default ArticleDeleteIcon;
+export default React.memo(ArticleDeleteIcon);

@@ -34,4 +34,4 @@ ArticleOutdatedIcon.defaultProps = {
     color: 'primary'
 };
 
-export default ArticleOutdatedIcon;
+export default React.memo(ArticleOutdatedIcon);

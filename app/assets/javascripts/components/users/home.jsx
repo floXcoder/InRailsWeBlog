@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     Link
@@ -45,7 +45,7 @@ export default @connect((state) => ({
     privateTopics: getPrivateTopics(state),
     contributedTopics: getContributedTopics(state)
 }))
-@hot(module)
+@hot
 @withStyles(styles)
 class UserHome extends React.Component {
     static propTypes = {

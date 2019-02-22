@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     Link
@@ -39,11 +39,11 @@ export default @connect((state) => ({
 }), {
     fetchTag
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class TagShow extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
         // from connect
         metaTags: PropTypes.object,
         isFetching: PropTypes.bool,
@@ -58,12 +58,12 @@ class TagShow extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTag(this.props.params.tagSlug);
+        this.props.fetchTag(this.props.routeParams.tagSlug);
     }
 
     componentDidUpdate(prevProps) {
-        if (!Object.equals(this.props.params, prevProps.params)) {
-            this.props.fetchTag(this.props.params.tagSlug);
+        if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
+            this.props.fetchTag(this.props.routeParams.tagSlug);
         }
     }
 

@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    withRouter
+} from 'react-router-dom';
+
+import {
     withStyles
 } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -29,7 +33,8 @@ import EnsureValidity from '../../modules/ensureValidity';
 
 import styles from '../../../../jss/home/search';
 
-export default @connect((state) => ({
+export default @withRouter
+@connect((state) => ({
     query: state.autocompleteState.query,
     currentUserId: state.userState.currentId,
     currentUserTopicId: state.topicState.currentUserTopicId,
@@ -44,8 +49,9 @@ export default @connect((state) => ({
 class HomeSearchHeader extends React.Component {
     static propTypes = {
         isSearchActive: PropTypes.bool.isRequired,
-        onFocus: PropTypes.func.isRequired,
-        // onClose: PropTypes.func.isRequired,
+        // from router
+        location: PropTypes.object,
+        history: PropTypes.object,
         // Fom connect
         query: PropTypes.string,
         currentUserId: PropTypes.number,
@@ -62,6 +68,30 @@ class HomeSearchHeader extends React.Component {
     constructor(props) {
         super(props);
     }
+
+    componentDidMount() {
+        $(document).keyup((event) => {
+            if (Utils.NAVIGATION_KEYMAP[event.which] === 'escape') {
+                this._handleSearchClose();
+            }
+        });
+    }
+
+    _handleSearchOpen = () => {
+        if (this.props.location.hash !== '#search') {
+            this.props.history.push({
+                hash: 'search'
+            });
+        }
+    };
+
+    _handleSearchClose = () => {
+        if (this.props.location.hash === '#search') {
+            this.props.history.push({
+                hash: undefined
+            });
+        }
+    };
 
     _handleChange = (event) => {
         const query = event.target.value;
@@ -148,7 +178,7 @@ class HomeSearchHeader extends React.Component {
                                        }
                                    </InputAdornment>
                                }
-                               onFocus={this.props.onFocus}
+                               onFocus={this._handleSearchOpen}
                                onKeyDown={this._handleKeyDown}
                                onChange={this._handleChange}/>
                     </div>

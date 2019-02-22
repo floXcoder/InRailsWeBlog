@@ -67,8 +67,8 @@ module.exports = {
             },
             font: {
                 options: {
-                    // outputPath: 'fonts/',
-                    name: '[name].[hash].[ext]'
+                    name: '[name].[hash].[ext]',
+                    outputPath: 'fonts/'
                 }
             }
         },

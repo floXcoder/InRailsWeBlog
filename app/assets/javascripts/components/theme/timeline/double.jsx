@@ -10,4 +10,4 @@ DoubleTimeline.propTypes = {
     children: PropTypes.array.isRequired
 };
 
-export default DoubleTimeline;
+export default React.memo(DoubleTimeline);

@@ -14,7 +14,7 @@ import {
 import fetchMiddleware from '../middlewares/fetch';
 import mutationMiddleware from '../middlewares/mutation';
 
-import reducers from '../reducers';
+import createRootReducer from '../reducers';
 
 const finalCreateStore = applyMiddleware(
     fetchMiddleware,
@@ -25,6 +25,6 @@ const finalCreateStore = applyMiddleware(
     })
 )(createStore);
 
-export const configureStore = finalCreateStore(reducers);
+export const configureStore = finalCreateStore(createRootReducer);
 
 export default configureStore;

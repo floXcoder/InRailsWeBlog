@@ -2,7 +2,11 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
+
+import {
+    withRouter
+} from 'react-router-dom';
 
 import {
     withStyles
@@ -25,22 +29,24 @@ import PersistenceFormTopic from './persistence/form';
 
 import styles from '../../../jss/topic/persistence';
 
-export default @connect((state, props) => ({
+export default @withRouter
+@connect((state, props) => ({
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
-    editingTopic: getEditingTopic(state, props.initialData)
+    editingTopic: getEditingTopic(state, props.routeState)
 }), {
     addTopic,
     updateTopic,
     deleteTopic,
     showTopicPopup
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class TopicPersistence extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
-        initialData: PropTypes.object,
+        routeState: PropTypes.object,
+        // from router
+        history: PropTypes.object,
         // from connect
         userId: PropTypes.number,
         userSlug: PropTypes.string,
@@ -54,7 +60,7 @@ class TopicPersistence extends React.Component {
     };
 
     static defaultProps = {
-        initialData: {}
+        routeState: {}
     };
 
     constructor(props) {
@@ -132,8 +138,8 @@ class TopicPersistence extends React.Component {
                     <PersistenceFormTopic classes={this.props.classes}
                                           topic={this.props.editingTopic}
                                           isEditing={!!this.props.editingTopic}
-                                          defaultMode={this.props.initialData.mode}
-                                          defaultVisibility={this.props.initialData.visibility}
+                                          defaultMode={this.props.routeState.mode}
+                                          defaultVisibility={this.props.routeState.visibility}
                                           onCancel={this._handleClose}
                                           onSubmit={this._handleTopicSubmit}
                                           onDelete={this._handleTopicDelete}/>

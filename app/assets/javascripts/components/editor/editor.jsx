@@ -389,14 +389,12 @@ class Editor extends React.Component {
     // };
 
     render() {
-        const containerClassName = 'editor-reset';
-
         const editorClassName = classNames({
             'blog-article-content': this.props.mode === EditorMode.INLINE_EDIT
         });
 
         return (
-            <div className={containerClassName}>
+            <div className="editor-reset">
                 <div ref={(editor) => this._editorRef = editor}
                      id={this.props.id}
                      className={editorClassName}

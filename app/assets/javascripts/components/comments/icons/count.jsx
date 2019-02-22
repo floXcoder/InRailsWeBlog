@@ -27,4 +27,4 @@ CommentCountIcon.defaultProps = {
     hasIcon: true
 };
 
-export default CommentCountIcon;
+export default React.memo(CommentCountIcon);

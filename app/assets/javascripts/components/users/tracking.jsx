@@ -22,4 +22,4 @@ UserTracking.propTypes = {
     tracking: PropTypes.object.isRequired
 };
 
-export default UserTracking;
+export default React.memo(UserTracking);

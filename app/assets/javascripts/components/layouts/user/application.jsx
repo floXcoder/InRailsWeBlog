@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    Provider
+    Provider,
+    ReactReduxContext
 } from 'react-redux';
 
 import {
@@ -27,6 +28,7 @@ import ErrorBoundary from '../../errors/boundary';
 import HotkeyManager from '../../layouts/managers/hotkey';
 
 import HeaderLayoutUser from '../../layouts/user/header';
+import SidebarLayoutUser from '../../layouts/user/sidebar';
 import MainLayoutUser from '../../layouts/user/main';
 import FooterLayoutUser from '../../layouts/user/footer';
 
@@ -42,7 +44,8 @@ export default class ApplicationLayoutUser extends React.Component {
             <MuiThemeProvider theme={theme}>
                 <CssBaseline/>
 
-                <Provider store={configureStore}>
+                <Provider store={configureStore}
+                          context={ReactReduxContext}>
                     <BrowserRouter>
                         <PasteManager>
                             <ScrollBackManager>
@@ -50,12 +53,15 @@ export default class ApplicationLayoutUser extends React.Component {
                                     <>
                                         <ErrorBoundary errorType="text"
                                                        errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                            <HeaderLayoutUser permanentRoutes={routes.permanents.header}/>
+                                            <HeaderLayoutUser hashRoutes={routes.hashes}/>
                                         </ErrorBoundary>
 
                                         <ErrorBoundary errorType="card">
-                                            <MainLayoutUser routes={routes.static.user}
-                                                            permanentRoutes={routes.permanents.main}/>
+                                            <MainLayoutUser routes={routes.static.user}/>
+                                        </ErrorBoundary>
+
+                                        <ErrorBoundary errorType="card">
+                                            <SidebarLayoutUser/>
                                         </ErrorBoundary>
 
                                         <ErrorBoundary errorType="text"

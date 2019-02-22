@@ -11,6 +11,7 @@ export default @connect((state) => ({
 class RedirectLayoutUser extends React.Component {
     static propTypes = {
         redirectPath: PropTypes.func.isRequired,
+        routeState: PropTypes.object,
         // from connect
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string
@@ -21,14 +22,18 @@ class RedirectLayoutUser extends React.Component {
     }
 
     render() {
-        const {redirectPath, ...params} = this.props;
+        const {redirectPath, routeState, ...params} = this.props;
 
         return (
-            <Redirect to={redirectPath({
-                userSlug: this.props.currentUserSlug,
-                topicSlug: this.props.currentUserTopicSlug,
-                ...params
-            })}/>
+            <Redirect to={{
+                pathname: redirectPath({
+                    userSlug: this.props.currentUserSlug,
+                    topicSlug: this.props.currentUserTopicSlug,
+                    ...params
+                }),
+                state: routeState
+            }}
+            />
         );
     }
 }

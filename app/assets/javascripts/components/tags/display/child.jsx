@@ -34,4 +34,4 @@ ChildTag.propTypes = {
     currentChildTagSlug: PropTypes.string
 };
 
-export default ChildTag;
+export default React.memo(ChildTag);

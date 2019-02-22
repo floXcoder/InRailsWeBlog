@@ -20,7 +20,7 @@ export default @connect((state) => ({
 @withStyles(styles)
 class UserShow extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
         // from connect
         user: PropTypes.object,
         // from styles
@@ -39,7 +39,7 @@ class UserShow extends React.Component {
             <div>
                 {
                     this.props.user &&
-                    <UserComplete userId={this.props.user.id || this.props.params.userPseudo}/>
+                    <UserComplete userId={this.props.user.id || this.props.routeParams.userPseudo}/>
                 }
             </div>
         );

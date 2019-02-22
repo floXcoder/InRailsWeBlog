@@ -16,6 +16,7 @@ import {
     loadingBarReducer
 } from 'react-redux-loading-bar';
 
+import routerReducer from './routerReducer';
 import uiReducer from './uiReducer';
 import userReducer from './userReducer';
 import adminReducer from './adminReducer';
@@ -31,6 +32,7 @@ import commentReducer from './commentReducer';
 import errorReducer from './errorReducer';
 
 const ReducerRecord = Record({
+    routerState: undefined,
     uiState: undefined,
     userState: undefined,
     bookmarkState: undefined,
@@ -47,6 +49,7 @@ const ReducerRecord = Record({
 });
 
 const rootReducer = combineReducers({
+    routerState: routerReducer,
     uiState: uiReducer,
     userState: userReducer,
     bookmarkState: bookmarkReducer,

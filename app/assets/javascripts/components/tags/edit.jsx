@@ -2,7 +2,11 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
+
+import {
+    withRouter
+} from 'react-router-dom';
 
 import {
     withStyles
@@ -28,7 +32,8 @@ import NotAuthorized from '../layouts/notAuthorized';
 
 import styles from '../../../jss/tag/edit';
 
-export default @connect((state) => ({
+export default @withRouter
+@connect((state) => ({
     metaTags: getTagMetaTags(state),
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
@@ -37,12 +42,13 @@ export default @connect((state) => ({
     fetchTag,
     updateTag
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class TagEdit extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
+        // from router
+        history: PropTypes.object,
         // from connect
         metaTags: PropTypes.object,
         tag: PropTypes.object,
@@ -59,7 +65,7 @@ class TagEdit extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTag(this.props.params.tagSlug, {edit: true});
+        this.props.fetchTag(this.props.routeParams.tagSlug, {edit: true});
     }
 
     _handleSubmit = (values) => {

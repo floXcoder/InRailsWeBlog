@@ -42,4 +42,4 @@ SingleTimelineItem.propTypes = {
 SingleTimelineItem.defaultProps = {
 };
 
-export default SingleTimelineItem;
+export default React.memo(SingleTimelineItem);

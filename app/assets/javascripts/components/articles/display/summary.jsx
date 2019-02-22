@@ -114,15 +114,13 @@ class ArticleSummaryDisplay extends React.Component {
                              dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                     </div>
 
-                    <div>
-                        {
-                            this.props.article.tags.size > 0 &&
-                            <ArticleTags articleId={this.props.article.id}
-                                         tags={this.props.article.tags}
-                                         parentTagIds={this.props.article.parentTagIds}
-                                         childTagIds={this.props.article.childTagIds}/>
-                        }
-                    </div>
+                    {
+                        this.props.article.tags.size > 0 &&
+                        <ArticleTags articleId={this.props.article.id}
+                                     tags={this.props.article.tags}
+                                     parentTagIds={this.props.article.parentTagIds}
+                                     childTagIds={this.props.article.childTagIds}/>
+                    }
                 </div>
             </Observer>
         );

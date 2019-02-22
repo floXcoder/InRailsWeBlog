@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    lazy,
     Suspense
 } from 'react';
 
@@ -18,11 +17,11 @@ import {
 import {
     withStyles
 } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Hidden from '@material-ui/core/Hidden';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -35,37 +34,46 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import {
+    HomeHeaderSearch,
+    UserSignup,
+    UserLogin
+} from '../../loaders/components';
+
+import {
     showUserSignup,
     showUserLogin
 } from '../../../actions';
 
-const Signup = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "user-signup" */ '../../users/signup'));
-const Login = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "user-login" */ '../../users/login'));
-
-const HomeSearchHeader = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../header/search'));
+import {
+    getRouteLocation
+} from '../../../selectors';
 
 import styles from '../../../../jss/home/header';
 
 export default @withRouter
 @connect((state) => ({
+    routeLocation: getRouteLocation(state),
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen
 }), {
     showUserSignup,
     showUserLogin
 })
+@withWidth()
 @withStyles(styles)
 class HeaderLayoutHome extends React.Component {
     static propTypes = {
-        permanentRoutes: PropTypes.array.isRequired,
+        permanentRoutes: PropTypes.object.isRequired,
         // from router
-        location: PropTypes.object,
         history: PropTypes.object,
         // from connect
+        routeLocation: PropTypes.object,
         isUserSignupOpen: PropTypes.bool,
         isUserLoginOpen: PropTypes.bool,
         showUserSignup: PropTypes.func,
         showUserLogin: PropTypes.func,
+        // from withWidth
+        width: PropTypes.string,
         // from styles
         classes: PropTypes.object
     };
@@ -87,7 +95,7 @@ class HeaderLayoutHome extends React.Component {
     }
 
     _handleSearchOpen = () => {
-        if (this.props.location.hash !== '#search') {
+        if (this.props.routeLocation.hash !== '#search') {
             this.props.history.push({
                 hash: 'search'
             });
@@ -95,7 +103,7 @@ class HeaderLayoutHome extends React.Component {
     };
 
     _handleSearchClose = () => {
-        if (this.props.location.hash === '#search') {
+        if (this.props.routeLocation.hash === '#search') {
             this.props.history.push({
                 hash: undefined
             });
@@ -125,16 +133,15 @@ class HeaderLayoutHome extends React.Component {
     _renderPermanentRoutes = (routes) => {
         return routes.map((route, index) => (
             <Route key={index}
-                   children={({match, location, history}) => {
+                   children={({match, location}) => {
                        const Component = route.component();
 
                        return (
                            <div>
                                {
                                    location.hash === `#${route.path}` &&
-                                   <Component params={match.params}
-                                              history={history}
-                                              initialData={location.state}/>
+                                   <Component routeParams={match.params}
+                                              routeState={location.state}/>
                                }
                            </div>
                        );
@@ -159,53 +166,55 @@ class HeaderLayoutHome extends React.Component {
     };
 
     _renderMobileDrawer = () => {
+        if (this.props.width !== 'xs' && this.props.width !== 'sm') {
+            return null
+        }
+
         return (
-            <Hidden mdUp={true}>
-                <SwipeableDrawer variant="temporary"
-                                 anchor="left"
-                                 classes={{
-                                     paper: this.props.classes.mobileDrawerPaper
-                                 }}
-                                 ModalProps={{
-                                     keepMounted: true
-                                 }}
-                                 open={this.state.isMobileOpen}
-                                 onClose={this._handleDrawerToggle}
-                                 onOpen={this._handleDrawerToggle}>
-                    <div>
-                        <div className={this.props.classes.mobileToolbar}>
-                            <Link to="/">
-                                <Typography variant="h5">
-                                    {I18n.t('js.views.header.title')}
-                                </Typography>
-                            </Link>
-                        </div>
-
-                        <List>
-                            <ListItem button={true}
-                                      onClick={this._handleSignupClick}>
-                                <ListItemIcon>
-                                    <PersonAddIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary={I18n.t('js.views.header.user.sign_up')}/>
-                            </ListItem>
-
-                            <ListItem button={true}
-                                      onClick={this._handleLoginClick}>
-                                <ListItemIcon>
-                                    <AccountCircleIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary={I18n.t('js.views.header.user.log_in')}/>
-                            </ListItem>
-                        </List>
+            <SwipeableDrawer variant="temporary"
+                             anchor="left"
+                             classes={{
+                                 paper: this.props.classes.mobileDrawerPaper
+                             }}
+                             ModalProps={{
+                                 keepMounted: true
+                             }}
+                             open={this.state.isMobileOpen}
+                             onClose={this._handleDrawerToggle}
+                             onOpen={this._handleDrawerToggle}>
+                <>
+                    <div className={this.props.classes.mobileToolbar}>
+                        <Link to="/">
+                            <Typography variant="h5">
+                                {I18n.t('js.views.header.title')}
+                            </Typography>
+                        </Link>
                     </div>
-                </SwipeableDrawer>
-            </Hidden>
+
+                    <List>
+                        <ListItem button={true}
+                                  onClick={this._handleSignupClick}>
+                            <ListItemIcon>
+                                <PersonAddIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary={I18n.t('js.views.header.user.sign_up')}/>
+                        </ListItem>
+
+                        <ListItem button={true}
+                                  onClick={this._handleLoginClick}>
+                            <ListItemIcon>
+                                <AccountCircleIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary={I18n.t('js.views.header.user.log_in')}/>
+                        </ListItem>
+                    </List>
+                </>
+            </SwipeableDrawer>
         );
     };
 
     render() {
-        const isSearchActive = this.props.location.hash === '#search';
+        const isSearchActive = this.props.routeLocation.hash === '#search';
 
         return (
             <>
@@ -244,7 +253,7 @@ class HeaderLayoutHome extends React.Component {
                         <div className={this.props.classes.grow}/>
 
                         <Suspense fallback={<div/>}>
-                            <HomeSearchHeader isSearchActive={isSearchActive}
+                            <HomeHeaderSearch isSearchActive={isSearchActive}
                                               onFocus={this._handleSearchOpen}
                                               onClose={this._handleSearchClose}/>
                         </Suspense>
@@ -275,11 +284,11 @@ class HeaderLayoutHome extends React.Component {
                 </div>
 
                 <Suspense fallback={<div/>}>
-                    <Signup isOpen={this.props.isUserSignupOpen}
-                            onModalChange={this.props.showUserSignup}/>
+                    <UserSignup isOpen={this.props.isUserSignupOpen}
+                                onModalChange={this.props.showUserSignup}/>
 
-                    <Login isOpen={this.props.isUserLoginOpen}
-                           onModalChange={this.props.showUserLogin}/>
+                    <UserLogin isOpen={this.props.isUserLoginOpen}
+                               onModalChange={this.props.showUserLogin}/>
                 </Suspense>
             </>
         );

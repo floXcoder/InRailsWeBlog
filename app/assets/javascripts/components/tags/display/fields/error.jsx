@@ -17,4 +17,4 @@ TagErrorField.propTypes = {
     errors: PropTypes.array.isRequired
 };
 
-export default TagErrorField;
+export default React.memo(TagErrorField);

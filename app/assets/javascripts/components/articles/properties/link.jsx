@@ -35,4 +35,4 @@ ArticleLink.propTypes = {
     onArticleClick: PropTypes.func
 };
 
-export default ArticleLink;
+export default React.memo(ArticleLink);

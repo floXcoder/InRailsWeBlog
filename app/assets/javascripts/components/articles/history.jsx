@@ -2,7 +2,11 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
+
+import {
+    withRouter
+} from 'react-router-dom';
 
 import {
     withStyles
@@ -33,7 +37,8 @@ import ArticleVersionsDisplay from './display/versions';
 
 import styles from '../../../jss/article/history';
 
-export default @connect((state) => ({
+export default @withRouter
+@connect((state) => ({
     metaTags: getArticleMetaTags(state),
     currentUser: getCurrentUser(state),
     currentTopic: getCurrentUserTopic(state),
@@ -44,13 +49,14 @@ export default @connect((state) => ({
     fetchArticleHistory,
     restoreArticle
 })
-@hot(module)
+@hot
 @highlight(true)
 @withStyles(styles)
 class ArticleHistory extends React.Component {
     static propTypes = {
-        params: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
+        // from router
+        history: PropTypes.object,
         // from connect
         metaTags: PropTypes.object,
         currentUser: PropTypes.object,
@@ -71,9 +77,9 @@ class ArticleHistory extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchArticle(this.props.params.articleSlug)
+        this.props.fetchArticle(this.props.routeParams.articleSlug)
             .fetch
-            .then(() => this.props.fetchArticleHistory(this.props.params.articleSlug));
+            .then(() => this.props.fetchArticleHistory(this.props.routeParams.articleSlug));
     }
 
     componentDidUpdate(prevProps) {

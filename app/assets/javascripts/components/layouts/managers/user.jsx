@@ -35,8 +35,8 @@ export default @connect((state) => ({
 class UserManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
-        params: PropTypes.object.isRequired,
-        initialData: PropTypes.object,
+        routeParams: PropTypes.object.isRequired,
+        routeState: PropTypes.object,
         // from connect
         userId: PropTypes.number,
         currentUser: PropTypes.object,
@@ -53,7 +53,7 @@ class UserManager extends React.Component {
     };
 
     static defaultProps = {
-        initialData: {}
+        routeState: {}
     };
 
     constructor(props) {
@@ -66,12 +66,12 @@ class UserManager extends React.Component {
         if (!this.props.currentUser) {
             this.props.initUser(this.props.userId, {
                 profile: true,
-                topicSlug: this.props.params.topicSlug,
-                articleSlug: this.props.params.articleSlug
+                topicSlug: this.props.routeParams.topicSlug,
+                articleSlug: this.props.routeParams.articleSlug
             })
                 .fetch.then((response) => {
                 if (response && response.user) {
-                    this._fetchTags(response.user.id, (this.props.params.topicSlug || this.props.params.articleSlug) ? response.user.currentTopic.slug : null);
+                    this._fetchTags(response.user.id, (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) ? response.user.currentTopic.slug : null);
 
                     // Send local recent clicks otherwise fetch them
                     const userJustSign = sessionStorage && sessionStorage.getItem('user-connection');
@@ -95,11 +95,11 @@ class UserManager extends React.Component {
                 }
             });
         } else {
-            let newTopicSlug = this.props.params.topicSlug;
+            let newTopicSlug = this.props.routeParams.topicSlug;
 
             // Extract topicSlug from article if any
-            if (this.props.params.articleSlug) {
-                newTopicSlug = this.props.params.articleSlug.match(/@.*?$/).first().substr(1);
+            if (this.props.routeParams.articleSlug) {
+                newTopicSlug = this.props.routeParams.articleSlug.match(/@.*?$/).first().substr(1);
             }
 
             this._fetchTags(this.props.userId, newTopicSlug);
@@ -109,7 +109,7 @@ class UserManager extends React.Component {
 
     _fetchTags = (userId, topicSlug = null) => {
         // Load tags according to the current route
-        if (this.props.initialData.reloadTags) {
+        if (this.props.routeState.reloadTags) {
             this.props.fetchTags({
                     topicId: this.props.currentUserTopicId
                 },

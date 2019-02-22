@@ -11,5 +11,5 @@ const EnsureValidity = () => (
     </div>
 );
 
-export default EnsureValidity;
+export default React.memo(EnsureValidity);
 

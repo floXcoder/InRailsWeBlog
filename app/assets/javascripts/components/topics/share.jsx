@@ -2,7 +2,11 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
+
+import {
+    withRouter
+} from 'react-router-dom';
 
 import {
     withStyles
@@ -23,18 +27,20 @@ import ShareFormTopic from './share/form';
 
 import styles from '../../../jss/topic/share';
 
-export default @connect((state, props) => ({
+export default @withRouter
+@connect((state, props) => ({
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
-    sharingTopic: getSharingTopic(state, props.initialData)
+    sharingTopic: getSharingTopic(state, props.routeState)
 }), {
     shareTopic
 })
-@hot(module)
+@hot
 @withStyles(styles)
 class TopicModal extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        history: PropTypes.object,
         // from connect
         sharingTopic: PropTypes.object,
         shareTopic: PropTypes.func,

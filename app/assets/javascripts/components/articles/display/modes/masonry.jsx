@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import {
     getArticles
@@ -17,7 +17,7 @@ const ArticleMasonry = MasonryWrapper(ArticleItemDisplay, {articleDisplayMode: '
 export default @connect((state) => ({
     articles: getArticles(state)
 }))
-@hot(module)
+@hot
 class ArticleMasonryMode extends React.Component {
     static propTypes = {
         onEnter: PropTypes.func,

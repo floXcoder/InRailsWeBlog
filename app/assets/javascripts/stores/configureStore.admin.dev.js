@@ -18,7 +18,7 @@ import {
 import fetchMiddleware from '../middlewares/fetch';
 import mutationMiddleware from '../middlewares/mutation';
 
-import adminReducers from '../reducers/admin';
+import createRootReducer from '../reducers/admin';
 
 const finalCreateStore = composeWithDevTools(
     applyMiddleware(
@@ -31,14 +31,6 @@ const finalCreateStore = composeWithDevTools(
     )
 )(createStore);
 
-export const configureStore = finalCreateStore(adminReducers);
-
-if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
-        const nextRootReducer = require('../reducers').default;
-        configureStore.replaceReducer(nextRootReducer);
-    })
-}
+export const configureStore = finalCreateStore(createRootReducer);
 
 export default configureStore;

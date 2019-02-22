@@ -2,7 +2,7 @@
 
 import {
     hot
-} from 'react-hot-loader';
+} from 'react-hot-loader/root';
 
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
@@ -16,7 +16,7 @@ export default @connect((state) => ({
     articles: getArticles(state),
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
-@hot(module)
+@hot
 class ArticleTimelineMode extends React.Component {
     static propTypes = {
         onEnter: PropTypes.func,

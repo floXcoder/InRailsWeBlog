@@ -3,6 +3,10 @@
 import _ from 'lodash';
 
 import {
+    withRouter
+} from 'react-router-dom';
+
+import {
     isDirty,
     isValid,
     isSubmitting,
@@ -45,6 +49,7 @@ import {
 
 export default function articleMutationManager(mode, formId) {
     return function articleMutation(WrappedComponent) {
+        @withRouter
         @connect((state) => ({
             isUserConnected: state.userState.isConnected,
             currentUser: getCurrentUser(state),
@@ -67,9 +72,10 @@ export default function articleMutationManager(mode, formId) {
             static displayName = `ArticleMutationManager(${getDisplayName(WrappedComponent)})`;
 
             static propTypes = {
-                params: PropTypes.object.isRequired,
-                history: PropTypes.object.isRequired,
-                initialData: PropTypes.object,
+                routeParams: PropTypes.object.isRequired,
+                routeState: PropTypes.object,
+                // from router
+                history: PropTypes.object,
                 // from connect
                 isUserConnected: PropTypes.bool,
                 currentUser: PropTypes.object,
@@ -94,29 +100,29 @@ export default function articleMutationManager(mode, formId) {
                 // Check fo unsaved article before connection
                 const unsavedArticle = getLocalData(articleUnsavedDataName, true);
 
-                if (props.params.articleSlug) {
-                    props.fetchArticle(props.params.articleSlug, {edit: true});
-                } else if (props.initialData) {
-                    this.state.article = props.initialData;
+                if (props.routeParams.articleSlug) {
+                    props.fetchArticle(props.routeParams.articleSlug, {edit: true});
+                } else if (props.routeState) {
+                    this.state.article = props.routeState;
 
-                    if (props.initialData.parentTagSlug) {
+                    if (props.routeState.parentTagSlug) {
                         this.state.article = this.state.article || {};
 
-                        this.state.article.tags = props.tags.filter((tag) => tag.slug === props.initialData.parentTagSlug || tag.slug === props.initialData.childTagSlug);
-                        this.state.article.parentTagSlugs = [props.initialData.parentTagSlug];
-                        if (props.initialData.childTagSlug) {
-                            this.state.article.childTagSlugs = [props.initialData.childTagSlug];
+                        this.state.article.tags = props.tags.filter((tag) => tag.slug === props.routeState.parentTagSlug || tag.slug === props.routeState.childTagSlug);
+                        this.state.article.parentTagSlugs = [props.routeState.parentTagSlug];
+                        if (props.routeState.childTagSlug) {
+                            this.state.article.childTagSlugs = [props.routeState.childTagSlug];
                         }
                     }
 
-                    if (props.initialData.temporary) {
+                    if (props.routeState.temporary) {
                         const temporaryArticle = getLocalData(articleTemporaryDataName, true);
                         if (temporaryArticle && temporaryArticle.length > 0) {
                             this.state.article = temporaryArticle.first().article;
                         }
                     }
 
-                    if (props.initialData.content) {
+                    if (props.routeState.content) {
                         Notification.success(I18n.t('js.article.clipboard'));
                     }
                 } else if (unsavedArticle && unsavedArticle.length > 0) {
@@ -268,12 +274,12 @@ export default function articleMutationManager(mode, formId) {
             };
 
             render() {
-                let currentMode = (this.props.initialData && this.props.initialData.mode) || 'note';
+                let currentMode = (this.props.routeState && this.props.routeState.mode) || 'note';
                 if (this.props.currentTopic && this.props.currentTopic.mode === 'stories') {
                     currentMode = 'story';
                 }
 
-                const isDraft = this.props.initialData ? this.props.initialData.isDraft : false;
+                const isDraft = this.props.routeState ? this.props.routeState.isDraft : false;
 
                 // Ensure current article is correct (do not use previous edited article)
                 let article = this.state.article;

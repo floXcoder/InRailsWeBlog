@@ -1,5 +1,6 @@
 'use strict';
 
+export * from './routerActions';
 export * from './uiActions';
 export * from './metricsActions';
 export * from './userActions';

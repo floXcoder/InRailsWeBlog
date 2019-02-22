@@ -5,7 +5,6 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 
 const HappyPack = require('happypack');
-const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -41,6 +40,7 @@ webPackConfig.resolve = {
     // by default, webpack will search in `web_modules` and `node_modules`. Because we're using
     // vendor, we want it to look in there too
     modules: config.modules.includes,
+    // Initialize aliases
     alias: {},
     symlinks: false // No use of yarn link
 };
@@ -55,7 +55,7 @@ webPackConfig.module = {
         {
             test: /\.(js|jsx)$/,
             exclude: config.rules.javascript.exclude,
-            loader: 'happypack/loader?id=jsx',
+            loader: 'happypack/loader',
             options: config.rules.javascript.options
         },
         {
@@ -90,13 +90,11 @@ webPackConfig.module = {
             ]
         },
         {
-            test: /\.(woff|woff2|eot|ttf|otf)$/,
-            use: [
-                {
-                    loader: 'file-loader',
-                    options: config.rules.font.options
-                }
-            ]
+            test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+            use: [{
+                loader: 'file-loader',
+                options: config.rules.font.options
+            }]
         }
     ]
 };

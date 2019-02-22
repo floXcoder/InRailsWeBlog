@@ -129,11 +129,6 @@ webPackConfig.plugins.push(
         debug: false
     }),
     new CopyWebpackPlugin([{
-        from: config.fonts,
-        to: 'fonts/' + config.production.filename + '.[ext]',
-        toType: 'template'
-    }]),
-    new CopyWebpackPlugin([{
         from: config.translations,
         to: 'translations/' + config.production.filename + '.[ext]',
         toType: 'template'

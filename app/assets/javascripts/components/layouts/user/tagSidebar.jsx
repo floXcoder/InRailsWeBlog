@@ -30,7 +30,7 @@ export default @connect((state, props) => ({
 @withStyles(styles)
 class TagSidebarLayout extends React.PureComponent {
     static propTypes = {
-        params: PropTypes.object.isRequired,
+        routeParams: PropTypes.object.isRequired,
         isCloud: PropTypes.bool,
         // from connect
         isTagSidebarOpen: PropTypes.bool,
@@ -66,10 +66,10 @@ class TagSidebarLayout extends React.PureComponent {
     }
 
     _handleExpandSwitch = () => {
-        let currentUserTopicSlug = this.props.params.topicSlug;
+        let currentUserTopicSlug = this.props.routeParams.topicSlug;
         // Extract topicSlug from article if any
-        if (this.props.params.articleSlug) {
-            currentUserTopicSlug = this.props.params.articleSlug.match(/@.*?$/).first().substr(1);
+        if (this.props.routeParams.articleSlug) {
+            currentUserTopicSlug = this.props.routeParams.articleSlug.match(/@.*?$/).first().substr(1);
         }
 
         if (this.props.currentUserId) {
@@ -131,8 +131,8 @@ class TagSidebarLayout extends React.PureComponent {
                     </IconButton>
                 </div>
 
-                <TagSidebar currentTagSlug={this.props.params.tagSlug}
-                            currentChildTagSlug={this.props.params.childTagSlug}
+                <TagSidebar currentTagSlug={this.props.routeParams.tagSlug}
+                            currentChildTagSlug={this.props.routeParams.childTagSlug}
                             isOpen={this.state.isExpanded}
                             isCloud={this.props.isCloud}/>
             </Drawer>

@@ -37,4 +37,4 @@ DoubleTimelineItem.propTypes = {
     title: PropTypes.string
 };
 
-export default DoubleTimelineItem;
+export default React.memo(DoubleTimelineItem);

@@ -83,7 +83,7 @@ class ArticleTags extends React.PureComponent {
                                           root: this.props.classes.tagChip,
                                           label: this.props.classes.tagLabel
                                       }}
-                                      to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? `/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tagged/${tag.slug}` : `/tagged/${tag.slug}`}
+                                      to={`/tagged/${tag.slug}`}
                                       label={tag.name}
                                       variant="outlined"
                                       color="primary"

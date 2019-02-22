@@ -2,22 +2,11 @@
 
 import '../../../stylesheets/pages/home/user.scss';
 
-import {
-    AppContainer
-} from 'react-hot-loader';
-
 import '../common';
 
 import ApplicationLayoutUser from '../../components/layouts/user/application';
 
 ReactDOM.render(
-    <AppContainer>
-        <ApplicationLayoutUser/>
-    </AppContainer>,
+    <ApplicationLayoutUser/>,
     document.getElementById('user-component')
 );
-
-// webpack Hot Module Replacement API
-if(module.hot) {
-    module.hot.accept();
-}
