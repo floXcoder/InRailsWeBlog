@@ -68,7 +68,7 @@ class ArticleSidebar extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={this.props.classes.root}>
                 <h2 className={this.props.classes.title}>
                     {I18n.t('js.article.toc.title')}
                 </h2>

@@ -46,6 +46,7 @@ import SearchTagIndex from './index/tag';
 import SearchArticleIndex from './index/article';
 
 import styles from '../../../jss/search/index';
+
 export default @connect((state) => ({
     metaTags: getSearchMetaTags(state),
     currentUserId: state.userState.currentId,
@@ -246,6 +247,8 @@ class SearchIndex extends React.Component {
 
         const hasNoResults = (this.props.query && this.props.query.length > 0) && !this.props.hasResults;
 
+        const isDesktop = window.innerWidth > 1024;
+
         return (
             <div className={this.props.classes.root}>
                 <HeadLayout metaTags={this.props.metaTags}/>
@@ -273,7 +276,7 @@ class SearchIndex extends React.Component {
                                            root: this.props.classes.inputRoot,
                                            input: this.props.classes.inputSearch
                                        }}
-                                       autoFocus={true}
+                                       autoFocus={isDesktop}
                                        placeholder={I18n.t('js.search.index.placeholder')}
                                        value={this.state.query}
                                        startAdornment={

@@ -79,9 +79,12 @@ const styles = (theme) => ({
     },
     mobileToolbar: {
         ...theme.mixins.toolbar,
-        minHeight: 36,
+        minHeight: '36px !important',
         marginTop: 15,
         paddingLeft: 12
+    },
+    mobileDivider: {
+      margin: '.5rem 0'
     },
     nestedMenu: {
         paddingLeft: theme.spacing.unit * 4

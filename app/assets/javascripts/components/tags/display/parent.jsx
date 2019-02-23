@@ -15,10 +15,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import {
-    spyTrackClick
-} from '../../../actions';
-
-import {
     getCurrentTagSlugs
 } from '../../../selectors';
 
@@ -33,6 +29,7 @@ export default @connect((state) => ({
 class ParentTag extends React.Component {
     static propTypes = {
         tag: PropTypes.object.isRequired,
+        onTagClick: PropTypes.func.isRequired,
         currentTagSlug: PropTypes.string,
         currentChildTagSlug: PropTypes.string,
         isFiltering: PropTypes.bool,
@@ -63,7 +60,7 @@ class ParentTag extends React.Component {
     }
 
     _handleTagClick = (tagId, tagName, tagSlug, parent) => {
-        spyTrackClick('tag', tagId, tagSlug, tagName);
+        this.props.onTagClick('tag', tagId, tagSlug, tagName);
 
         if (parent) {
             if (!this.state.isExpanded) {

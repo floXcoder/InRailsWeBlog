@@ -37,7 +37,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ClassIcon from '@material-ui/icons/Class';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import AddIcon from '@material-ui/icons/Add';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import {
     HomeHeaderSearch,
@@ -56,7 +56,7 @@ import {
 import {
     getRouteParams,
     getRouteLocation,
-    getCurrentTagSlugs
+    getCurrentTagSlugs, getRouteProperties
 } from '../../../selectors';
 
 import TopicModule from '../../topics/module';
@@ -81,6 +81,7 @@ import {
 } from '../../modules/constants';
 
 export default @connect((state) => ({
+    routeProperties: getRouteProperties(state),
     routeParams: getRouteParams(state),
     routeLocation: getRouteLocation(state),
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
@@ -102,6 +103,7 @@ class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
         hashRoutes: PropTypes.object.isRequired,
         // from connect
+        routeProperties: PropTypes.object,
         routeParams: PropTypes.object,
         routeLocation: PropTypes.object,
         isUserPreferenceOpen: PropTypes.bool,
@@ -143,11 +145,11 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _handleTagDrawerToggle = () => {
-        this.setState(state => ({isMobileTagSidebarOpen: !state.isMobileTagSidebarOpen}));
+        this.setState((state) => ({isMobileTagSidebarOpen: !state.isMobileTagSidebarOpen}));
     };
 
     _handleArticleDrawerToggle = () => {
-        this.setState(state => ({isMobileArticleSidebarOpen: !state.isMobileArticleSidebarOpen}));
+        this.setState((state) => ({isMobileArticleSidebarOpen: !state.isMobileArticleSidebarOpen}));
     };
 
     _handleMobileBookmarkClick = () => {
@@ -223,7 +225,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <ListItem button={true}
                                   onClick={this._handleMobileArticleClick}>
                             <ListItemIcon>
-                                <AddIcon/>
+                                <AssignmentIcon/>
                             </ListItemIcon>
                             <ListItemText inset={true}
                                           primary="Articles"/>
@@ -275,9 +277,13 @@ class HeaderLayoutUser extends React.PureComponent {
                         </Collapse>
                     </List>
 
-                    <Divider/>
+                    <Divider className={this.props.classes.mobileDivider}/>
 
-                    <TagSidebar isOpen={true}/>
+                    <TagSidebar currentTagSlug={this.props.routeParams.tagSlug}
+                                currentChildTagSlug={this.props.routeParams.childTagSlug}
+                                isCloud={this.props.routeProperties.tagCloud}
+                                isOpen={true}
+                                onTagClick={this._handleTagDrawerToggle}/>
                 </>
             </SwipeableDrawer>
         );
@@ -339,7 +345,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <IconButton className={this.props.classes.menuButton}
                                         color="primary"
                                         aria-label="Open drawer"
-                                        onClick={this._handleDrawerToggle}>
+                                        onClick={this._handleTagDrawerToggle}>
                                 <MenuIcon/>
                             </IconButton>
 

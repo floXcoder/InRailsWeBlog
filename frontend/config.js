@@ -41,6 +41,7 @@ module.exports = {
                 }
             },
             stylesheet: {
+                exclude: /node_modules/,
                 options: {
                     includePaths: [
                         assetDir + '/stylesheets',
@@ -50,6 +51,7 @@ module.exports = {
                 }
             },
             file: {
+                exclude: /node_modules/,
                 options: {
                     bypassOnDebug: false,
                     outputPath: 'images/',
@@ -66,6 +68,7 @@ module.exports = {
                 }
             },
             font: {
+                exclude: /node_modules/,
                 options: {
                     name: '[name].[hash].[ext]',
                     outputPath: 'fonts/'

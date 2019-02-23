@@ -55,6 +55,7 @@ class TagSidebar extends React.Component {
         isCloud: PropTypes.bool,
         isOpen: PropTypes.bool,
         hasChildInMainList: PropTypes.bool,
+        onTagClick: PropTypes.func,
         // from connect
         isLoading: PropTypes.bool,
         filterText: PropTypes.string,
@@ -74,8 +75,12 @@ class TagSidebar extends React.Component {
         super(props);
     }
 
-    _handleTagClick = (tag) => {
-        spyTrackClick('tag', tag.id, tag.slug, tag.name);
+    _handleTagClick = (tagId, tagName, tagSlug, parent = null) => {
+        spyTrackClick('tag', tagId, tagSlug, tagName);
+
+        if(this.props.onTagClick) {
+            this.props.onTagClick();
+        }
     };
 
     _handleSearchInput = (value) => {
@@ -105,7 +110,7 @@ class TagSidebar extends React.Component {
                                   variant="outlined"
                                   component={Link}
                                   to={`/tagged/${tag.slug}`}
-                                  onClick={this._handleTagClick.bind(this, tag)}/>
+                                  onClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.slug)}/>
                         ))
                     }
                 </div>
@@ -172,7 +177,8 @@ class TagSidebar extends React.Component {
                                                     hasChildInMainList={this.props.hasChildInMainList}
                                                     currentTagSlug={this.props.currentTagSlug}
                                                     currentChildTagSlug={this.props.currentChildTagSlug}
-                                                    isFiltering={isFiltering}/>
+                                                    isFiltering={isFiltering}
+                                                    onTagClick={this._handleTagClick}/>
                         </div>
                     }
 

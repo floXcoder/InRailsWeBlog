@@ -32,7 +32,8 @@ class RouteManager extends React.Component {
 
     shouldComponentUpdate(nextProps) {
         // Update only if route, params or query string (ignore hash parameters) has changed
-        const updateRouter = !_.isEqual(this.props.currentRoute, nextProps.currentRoute) || !_.isEqual(this.props.params, nextProps.params) || (!_.isEqual(this.props.location.state, nextProps.location.state) && !nextProps.location.state.startsWith('#'));
+        const isHashQuery = typeof nextProps.location.state === 'string' ? nextProps.location.state.startsWith('#') : false;
+        const updateRouter = !_.isEqual(this.props.currentRoute, nextProps.currentRoute) || !_.isEqual(this.props.params, nextProps.params) || (!_.isEqual(this.props.location.state, nextProps.location.state) && !isHashQuery);
 
         if(!updateRouter) {
             this.props.routeChange(nextProps.currentRoute, nextProps.params, nextProps.location);

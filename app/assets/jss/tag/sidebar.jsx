@@ -6,7 +6,10 @@ const styles = (theme) => ({
     },
     list: {
         display: 'flex',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        [theme.breakpoints.down('md')]: {
+            margin: '.4rem .6rem'
+        }
     },
     tagList: {
         margin: 5,
