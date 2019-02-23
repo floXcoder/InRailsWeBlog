@@ -79,7 +79,7 @@ const styles = (theme) => ({
     },
     mobileToolbar: {
         ...theme.mixins.toolbar,
-        minHeight: '36px !important',
+        minHeight: '48px !important',
         marginTop: 15,
         paddingLeft: 12
     },

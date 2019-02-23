@@ -60,7 +60,7 @@ class ParentTag extends React.Component {
     }
 
     _handleTagClick = (tagId, tagName, tagSlug, parent) => {
-        this.props.onTagClick('tag', tagId, tagSlug, tagName);
+        this.props.onTagClick(tagId, tagSlug, tagName);
 
         if (parent) {
             if (!this.state.isExpanded) {

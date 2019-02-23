@@ -90,7 +90,9 @@ class UserManager extends React.Component {
                         //     this.props.synchronizeBookmarks();
                         // }
 
-                        this.props.fetchBookmarks(this.props.userId, {topicId: this.props.currentUserTopicId});
+                        // this.props.fetchBookmarks(this.props.userId, {topicId: this.props.currentUserTopicId});
+
+                        this.props.fetchBookmarks(this.props.userId);
                     });
                 }
             });

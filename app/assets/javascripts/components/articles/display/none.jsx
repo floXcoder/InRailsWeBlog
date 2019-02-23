@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 
 const ArticleNoneDisplay = ({userSlug, topicSlug, tagSlug, childTagSlug, isTopicPage, isSearchPage}) => (
     <div className="row margin-top-30">
-        <div className="col s6 offset-s3">
+        <div className="col m6 offset-m3 s10 offset-s1">
             <Paper style={{
                 padding: '.6rem'
             }}

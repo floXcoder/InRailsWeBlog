@@ -67,10 +67,6 @@ class UserHome extends React.Component {
         spyTrackClick('topic', topic.id, topic.slug)
     };
 
-    _handleShareTopicClick = (topicId) => {
-
-    };
-
     render() {
         if (!this.props.user) {
             if (this.props.isFetching) {
@@ -200,8 +196,7 @@ class UserHome extends React.Component {
                                                  variant="extended"
                                                  size="small"
                                                  color="primary"
-                                                 aria-label="Share"
-                                                 onClick={this._handleShareTopicClick.bind(this, topic.id)}>
+                                                 aria-label="Share">
                                                 <ShareIcon/>
                                             </Fab>
                                         </Link>
