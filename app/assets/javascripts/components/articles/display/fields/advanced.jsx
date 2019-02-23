@@ -36,7 +36,7 @@ class ArticleAdvancedField extends React.PureComponent {
     };
 
     handleExpandClick = () => {
-        this.setState(state => ({
+        this.setState((state) => ({
             isSourceExpanded: !state.isSourceExpanded
         }));
     };

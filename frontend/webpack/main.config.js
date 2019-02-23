@@ -60,6 +60,7 @@ webPackConfig.module = {
         },
         {
             test: /\.s?[ac]ss$/,
+            exclude: config.rules.stylesheet.exclude,
             use: [
                 {
                     loader: MiniCssExtractPlugin.loader,
@@ -81,6 +82,7 @@ webPackConfig.module = {
         },
         {
             test: /\.(gif|png|jpe?g|svg)$/i,
+            exclude: config.rules.file.exclude,
             use: [
                 'file-loader',
                 {
@@ -91,6 +93,7 @@ webPackConfig.module = {
         },
         {
             test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+            exclude: config.rules.font.exclude,
             use: [{
                 loader: 'file-loader',
                 options: config.rules.font.options

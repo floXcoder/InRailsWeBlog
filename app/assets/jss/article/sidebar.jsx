@@ -1,11 +1,15 @@
 'use strict';
 
 const styles = (theme) => ({
+    root: {
+      margin: '.4rem .6rem'
+    },
     title: {
         fontSize: '1.1rem',
         fontWeight: 500,
         lineHeight: '2rem',
-        marginBottom: '.6rem'
+        marginTop: '.3rem',
+        marginBottom: '.3rem'
     },
     none: {
         fontSize: '0.9rem',

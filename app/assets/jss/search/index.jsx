@@ -9,7 +9,10 @@ const styles = (theme) => ({
         position: 'relative',
         margin: '1rem auto 4rem',
         overflow: 'visible',
-        maxWidth: gridWidth
+        maxWidth: gridWidth,
+        [theme.breakpoints.down('md')]: {
+            margin: '1rem .8rem'
+        }
     },
     inputItem: {
         margin: theme.spacing.unit,
@@ -45,8 +48,7 @@ const styles = (theme) => ({
         borderColor: theme.palette.text.secondary
     },
     category: {
-        marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit
+        margin: theme.spacing.unit * 1.5
     },
     categoryHeader: {
         borderBottom: `1px solid ${theme.palette.grey[300]}`,

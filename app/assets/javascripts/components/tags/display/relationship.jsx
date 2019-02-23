@@ -7,9 +7,10 @@ import ParentTag from './parent';
 export default class TagRelationshipDisplay extends React.Component {
     static propTypes = {
         tags: PropTypes.array.isRequired,
+        onTagClick: PropTypes.func.isRequired,
         currentTagSlug: PropTypes.string,
         currentChildTagSlug: PropTypes.string,
-        isFiltering: PropTypes.bool
+        isFiltering: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -29,7 +30,8 @@ export default class TagRelationshipDisplay extends React.Component {
                                    tag={tag}
                                    currentTagSlug={this.props.currentTagSlug}
                                    currentChildTagSlug={this.props.currentChildTagSlug}
-                                   isFiltering={this.props.isFiltering}/>
+                                   isFiltering={this.props.isFiltering}
+                                   onTagClick={this.props.onTagClick}/>
                     ))
                 }
             </List>

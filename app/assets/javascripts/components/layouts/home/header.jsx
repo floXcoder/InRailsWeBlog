@@ -127,7 +127,7 @@ class HeaderLayoutHome extends React.Component {
     };
 
     _handleDrawerToggle = () => {
-        this.setState(state => ({isMobileOpen: !state.isMobileOpen}));
+        this.setState((state) => ({isMobileOpen: !state.isMobileOpen}));
     };
 
     _renderPermanentRoutes = (routes) => {
@@ -247,7 +247,6 @@ class HeaderLayoutHome extends React.Component {
                                     InR
                                 </Typography>
                             </Link>
-
                         </div>
 
                         <div className={this.props.classes.grow}/>
