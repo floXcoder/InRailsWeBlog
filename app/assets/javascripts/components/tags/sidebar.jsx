@@ -75,12 +75,12 @@ class TagSidebar extends React.Component {
         super(props);
     }
 
-    _handleTagClick = (tagId, tagName, tagSlug, parent = null) => {
-        spyTrackClick('tag', tagId, tagSlug, tagName);
-
+    _handleTagClick = (tagId, tagName, tagSlug) => {
         if(this.props.onTagClick) {
             this.props.onTagClick();
         }
+
+        spyTrackClick('tag', tagId, tagSlug, tagName);
     };
 
     _handleSearchInput = (value) => {

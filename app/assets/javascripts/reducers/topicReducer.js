@@ -32,8 +32,8 @@ const initState = new Record({
     userTopics: new List(),
     contributedTopics: new List(),
 
-    currentUserTopicId: undefined,
-    currentUserTopicSlug: undefined,
+    currentUserTopicId: window.currentTopicId ? parseInt(window.currentTopicId, 10) : undefined,
+    currentUserTopicSlug: window.currentTopicSlug,
     currentTopic: undefined,
 
     topic: undefined
