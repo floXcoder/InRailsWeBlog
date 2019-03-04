@@ -49,7 +49,7 @@ export default class ApplicationLayoutHome extends React.Component {
                                 <>
                                     <ErrorBoundary errorType="text"
                                                    errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                        <HeaderLayoutHome permanentRoutes={routes.hashes}/>
+                                        <HeaderLayoutHome hashRoutes={routes.hashes}/>
                                     </ErrorBoundary>
 
                                     <ErrorBoundary errorType="card">

@@ -15,4 +15,6 @@ SecureHeaders::Configuration.default do |config|
     style_src:        ['localhost:8080', "'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET']],
     form_action:      ["'self'"]
   }
+
+  config.x_frame_options = "ALLOW-FROM https://#{ENV['SENTRY_ADDRESS']}"
 end

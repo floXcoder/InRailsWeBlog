@@ -105,9 +105,7 @@ webPackConfig.module = {
 webPackConfig.plugins = [
     new HappyPack(config.happyPack),
     new webpack.ProvidePlugin(config.plugins),
-    new CleanWebpackPlugin(config.clean.pathsToClean, {
-        root: path.resolve(config.output.path)
-    }),
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin([{
         from: 'images/favicon.ico',
         to: 'favicon.ico'

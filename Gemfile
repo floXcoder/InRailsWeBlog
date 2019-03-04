@@ -17,7 +17,7 @@ gem 'pg',                       '1.1.4'
 # HTTP Response
 gem 'responders',               '2.4.1'
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '6.0.0'
+gem 'secure_headers',           '6.1.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.9'
@@ -74,7 +74,7 @@ gem 'pundit',                   '2.0.1'
 # Upload pictures
 gem 'carrierwave',              '1.3.1'
 gem 'carrierwave-imageoptimizer', '1.4.0'
-gem 'mini_magick',              '4.9.2'
+gem 'mini_magick',              '4.9.3'
 
 # Search in database
 gem 'searchkick',               '3.1.2'
@@ -157,7 +157,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',            '3.8.2'
-  gem 'shoulda-matchers',       '4.0.0',    require: false
+  gem 'shoulda-matchers',       '4.0.1',    require: false
   gem 'shoulda-callback-matchers', '1.1.4', require: false
   gem 'simplecov',              '0.16.1',   require: false
   gem 'fuubar',                 '2.3.2'
@@ -165,7 +165,7 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.13.2'
+  gem 'capybara',               '3.14.0'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.22'
   gem 'selenium-webdriver',     '3.141.0'
@@ -185,7 +185,7 @@ group :development, :test do
   gem 'rubocop-rspec',          '1.32.0',  require: false
 
   # Speed up boot
-  gem 'bootsnap',               '1.4.0',   require: false
+  gem 'bootsnap',               '1.4.1',   require: false
 end
 
 group :production do
@@ -196,7 +196,7 @@ group :production do
   gem 'lograge',          '0.10.0'
 
   # Website analysis
-  gem 'newrelic_rpm',     '6.0.0.351'
+  gem 'newrelic_rpm',     '6.1.0.352'
 
   # Prerender html pages for SEO
   gem 'prerender_rails',  '1.6.0'

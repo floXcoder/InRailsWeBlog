@@ -56,7 +56,8 @@ import {
 import {
     getRouteParams,
     getRouteLocation,
-    getCurrentTagSlugs, getRouteProperties
+    getCurrentTagSlugs,
+    getRouteProperties
 } from '../../../selectors';
 
 import TopicModule from '../../topics/module';
@@ -439,7 +440,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
                 <Suspense fallback={<div/>}>
                     <UserPreference isOpen={this.props.isUserPreferenceOpen}
-                                onModalChange={this.props.showUserPreference}/>
+                                    onModalChange={this.props.showUserPreference}/>
                 </Suspense>
             </>
         );

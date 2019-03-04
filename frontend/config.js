@@ -130,11 +130,6 @@ module.exports = {
             filename: '[name].[hash]',
             chunkFilename: '[name].[hash].[id]',
             manifestFilename: 'rev-manifest.json'
-        },
-        clean: {
-            pathsToClean: [
-                '../assets/*'
-            ]
         }
     },
     production: {
