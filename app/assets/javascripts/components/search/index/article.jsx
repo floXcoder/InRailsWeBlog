@@ -7,6 +7,7 @@ import {
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
+import SettingsIcon from '@material-ui/icons/Settings';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SortIcon from '@material-ui/icons/Sort';
 
@@ -22,6 +23,7 @@ export default class SearchArticleIndex extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         articles: PropTypes.array.isRequired,
+        onSettingsClick: PropTypes.func.isRequired,
         onOrderChange: PropTypes.func.isRequired,
         onDisplayChange: PropTypes.func.isRequired,
         searchDisplay: PropTypes.string
@@ -82,6 +84,14 @@ export default class SearchArticleIndex extends React.PureComponent {
                               direction="row"
                               justify="flex-end"
                               alignItems="flex-end">
+                            <Grid item={true}
+                                  className={this.props.classes.categoryItem}>
+                                <Button className={this.props.classes.categoryFilterButton}
+                                        onClick={this.props.onSettingsClick}>
+                                    <SettingsIcon/>
+                                </Button>
+                            </Grid>
+
                             <Grid item={true}
                                   className={this.props.classes.categoryItem}>
                                 <Dropdown position="bottom right"

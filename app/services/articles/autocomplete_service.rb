@@ -29,7 +29,7 @@ module Articles
         results = Article.search(query_string,
                                  fields:       fields,
                                  match:        :word_middle,
-                                 misspellings: false,
+                                 misspellings: { below: 2, edit_distance: 2 },
                                  load:         false,
                                  where:        where_options,
                                  boost_where:  @params[:boost_where],

@@ -28,9 +28,12 @@ module Topics
       # Fields with boost
       fields = %w[name^10 description]
 
-      # Misspelling: use exact search if query has less than 7 characters and perform another using misspellings search if less than 3 results
-      misspellings_distance = @params[:exact] || query_string.length < 7 ? 0 : 2
-      misspellings_retry    = 3
+      # Search for entire word if exact
+      word_match = @params[:exact] ? :word : :word_middle
+      # Search for exact word if exact otherwise authorize 2 misspelling characters
+      misspellings_distance = @params[:exact] ? 1 : 2
+      # Search again if two few results using misspelling this time
+      misspellings_retry = @params[:exact] ? 0 : 3
 
       # Operator type: 'and' or 'or'
       operator = @params[:operator] || 'and'
@@ -68,7 +71,7 @@ module Topics
                                fields:       fields,
                                highlight:    highlight,
                                boost_where:  boost_where,
-                               match:        :word_middle,
+                               match:        word_match,
                                misspellings: { below: misspellings_retry, edit_distance: misspellings_distance },
                                suggest:      true,
                                page:         page,

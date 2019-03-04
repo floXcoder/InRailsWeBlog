@@ -23,7 +23,8 @@ import {
     setSelectedTag,
     fetchSearch,
     filterSearch,
-    updateUserSettings
+    updateUserSettings,
+    showUserPreference
 } from '../../actions';
 
 import {
@@ -65,7 +66,8 @@ export default @connect((state) => ({
     setSelectedTag,
     fetchSearch,
     filterSearch,
-    updateUserSettings
+    updateUserSettings,
+    showUserPreference
 })
 @hot
 @withStyles(styles)
@@ -89,6 +91,7 @@ class SearchIndex extends React.Component {
         fetchSearch: PropTypes.func,
         filterSearch: PropTypes.func,
         updateUserSettings: PropTypes.func,
+        showUserPreference: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -205,6 +208,10 @@ class SearchIndex extends React.Component {
         event.preventDefault();
 
         this._performSearch(this.state.query);
+    };
+
+    _handleSettingsClick = () => {
+        this.props.showUserPreference();
     };
 
     _handleOrderChange = (order) => {
@@ -337,6 +344,7 @@ class SearchIndex extends React.Component {
                     <SearchArticleIndex classes={this.props.classes}
                                         articles={this.props.articles}
                                         searchDisplay={this.props.searchDisplay}
+                                        onSettingsClick={this._handleSettingsClick}
                                         onOrderChange={this._handleOrderChange}
                                         onDisplayChange={this._handleDisplayChange}/>
                 }

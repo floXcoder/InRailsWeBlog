@@ -63,7 +63,7 @@ export default @withRouter
 @withStyles(styles)
 class HeaderLayoutHome extends React.Component {
     static propTypes = {
-        permanentRoutes: PropTypes.object.isRequired,
+        hashRoutes: PropTypes.object.isRequired,
         // from router
         history: PropTypes.object,
         // from connect
@@ -130,7 +130,7 @@ class HeaderLayoutHome extends React.Component {
         this.setState((state) => ({isMobileOpen: !state.isMobileOpen}));
     };
 
-    _renderPermanentRoutes = (routes) => {
+    _renderHashRoutes = (routes) => {
         return routes.map((route, index) => (
             <Route key={index}
                    children={({match, location}) => {
@@ -268,7 +268,7 @@ class HeaderLayoutHome extends React.Component {
                         {
                             isSearchActive &&
                             <Suspense fallback={<div/>}>
-                                {this._renderPermanentRoutes(this.props.permanentRoutes)}
+                                {this._renderHashRoutes(this.props.hashRoutes.search)}
                             </Suspense>
                         }
                     </div>
