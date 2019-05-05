@@ -53,8 +53,8 @@ module Popen
       # We are not using stdin so we should close it, in case the command we
       # are running waits for input.
       stdin.close
-      @cmd_output << stdout.read
-      @cmd_output << stderr.read
+      @cmd_output += stdout.read
+      @cmd_output += stderr.read
       @cmd_status = wait_thr.value.exitstatus
     end
 

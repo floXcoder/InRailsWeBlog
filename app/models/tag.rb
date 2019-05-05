@@ -4,8 +4,8 @@
 #
 # Table name: tags
 #
-#  id                       :bigint(8)        not null, primary key
-#  user_id                  :bigint(8)
+#  id                       :bigint           not null, primary key
+#  user_id                  :bigint
 #  name                     :string           not null
 #  description_translations :jsonb
 #  languages                :string           default([]), is an Array
@@ -149,14 +149,14 @@ class Tag < ApplicationRecord
 
   validates :name,
             presence: true,
-            length:   { minimum: CONFIG.tag_name_min_length, maximum: CONFIG.tag_name_max_length }
+            length:   { minimum: InRailsWeBlog.config.tag_name_min_length, maximum: InRailsWeBlog.config.tag_name_max_length }
   validate :name_visibility
   validate :public_name_immutable,
            on: :update
 
   validates :description,
             allow_nil: true,
-            length:    { minimum: CONFIG.tag_description_min_length, maximum: CONFIG.tag_description_max_length }
+            length:    { minimum: InRailsWeBlog.config.tag_description_min_length, maximum: InRailsWeBlog.config.tag_description_max_length }
 
   validates :languages,
             presence: true,
@@ -389,7 +389,7 @@ class Tag < ApplicationRecord
   end
 
   def set_default_color
-    self.color = Setting.tag_color unless self.color
+    self.color = InRailsWeBlog.config.tag_color unless self.color
   end
 
   def invalidate_tag_cache

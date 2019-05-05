@@ -49,11 +49,11 @@ module Api::V1
 
     def index
       users = User.include_collection.all.order('users.id ASC')
-      users = users.paginate(page: params[:page], per_page: Setting.per_page)
+      users = users.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
 
       respond_to do |format|
         format.html do
-          expires_in CONFIG.cache_time, public: true
+          expires_in InRailsWeBlog.config.cache_time, public: true
           set_meta_tags title:       titleize(I18n.t('views.user.index.title')),
                         description: I18n.t('views.user.index.description')
 
@@ -92,7 +92,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           #  Add meta tags (and expiration ?) to react
-          #   expires_in CONFIG.cache_time, public: true
+          #   expires_in InRailsWeBlog.config.cache_time, public: true
           #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
           #                 description: I18n.t('views.user.show.description')
           # set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
@@ -141,7 +141,7 @@ module Api::V1
       authorize user
 
       user_comments = user.comments.order('comments.created_at DESC')
-      user_comments = user_comments.paginate(page: params[:page], per_page: Setting.per_page) if params[:page]
+      user_comments = user_comments.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page) if params[:page]
 
       respond_to do |format|
         format.json do
@@ -205,7 +205,7 @@ module Api::V1
       authorize user
 
       user_activities = user.performed_activities.order('activities.created_at DESC')
-      user_activities = user_activities.paginate(page: params[:page], per_page: Setting.per_page) if params[:page]
+      user_activities = user_activities.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page) if params[:page]
 
       respond_to do |format|
         format.json do

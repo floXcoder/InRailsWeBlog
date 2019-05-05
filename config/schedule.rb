@@ -12,3 +12,8 @@ end
 every :month, at: '8pm', roles: [:production] do
   rake 'InRailsWeBlog:update_geolite'
 end
+
+# noinspection RubyArgCount
+every :day, at: '11pm', roles: [:production] do
+  rake 'InRailsWeBlog:populate_seo_cache'
+end

@@ -4,18 +4,18 @@
 #
 # Table name: bookmarks
 #
-#  id              :bigint(8)        not null, primary key
-#  user_id         :bigint(8)        not null
+#  id              :bigint           not null, primary key
+#  user_id         :bigint           not null
 #  bookmarked_type :string           not null
-#  bookmarked_id   :bigint(8)        not null
+#  bookmarked_id   :bigint           not null
 #  follow          :boolean          default(FALSE)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  topic_id        :bigint(8)
+#  topic_id        :bigint
 #
 
 class BookmarkSerializer < ActiveModel::Serializer
-  cache key: 'bookmark', expires_in: CONFIG.cache_time
+  cache key: 'bookmark', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :user_id,

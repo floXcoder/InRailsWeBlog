@@ -50,7 +50,7 @@ export default class Selecter extends React.Component {
                 label: element,
                 value: element
             } : null
-        )).compact())(),
+        )).compact())()
     };
 
     _handleInputChange = (inputValue) => {
@@ -186,7 +186,7 @@ export default class Selecter extends React.Component {
         };
 
         const components = {
-            DropdownIndicator: null,
+            DropdownIndicator: null
         };
 
         return (
@@ -209,9 +209,7 @@ export default class Selecter extends React.Component {
                             ?
                             <Creatable {...selectDefaultProps}
                                        promptTextCreator={this._handleCreateOption}
-                                       menuIsOpen={false}
-                                       components={components}
-                            />
+                                       components={components}/>
                             :
                             <Select {...selectDefaultProps}/>
                     }

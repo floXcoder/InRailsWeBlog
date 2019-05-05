@@ -35,7 +35,7 @@ module Api::V1
                             filter_params[:topic_id].to_i
                           end
 
-               Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: CONFIG.cache_time) do
+               Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: InRailsWeBlog.config.cache_time) do
                  ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
                end
              else

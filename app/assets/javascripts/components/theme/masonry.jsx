@@ -186,7 +186,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                     <this.state.Masonry className="masonry-grid"
                                         elementType="div"
                                         options={this.state.masonryOptions}
-                                        ref={(c) => this._masonry = c && c.masonry}>
+                                        ref={(ref) => this._masonry = ref && ref.masonry}>
                         {ComponentNodes}
                     </this.state.Masonry>
                 }

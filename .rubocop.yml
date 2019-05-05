@@ -2,7 +2,9 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # http://rubocop.readthedocs.io/en/latest
 
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-performance
 
 Documentation:
   Enabled: false

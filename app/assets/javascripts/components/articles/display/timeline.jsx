@@ -18,8 +18,8 @@ const ArticleTimelineDisplay = ({classes, categorizedArticles, articlePagination
                             }
 
                             {
-                                categorizedArticles[category].map((article) => (
-                                    <SingleTimelineItem key={article.id}
+                                categorizedArticles[category].map((article, j) => (
+                                    <SingleTimelineItem key={i + '-' + j}
                                                         title={
                                                             <a href={'#' + article.id}
                                                                className={classNames(classes.articleLink, {

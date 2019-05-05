@@ -94,6 +94,7 @@ class ArticleIndex extends React.Component {
         this._parseQuery = Utils.parseUrlParameters(props.routeHash) || {};
         this._request = null;
         this._isFetchingNext = false;
+        this._articles = React.createRef();
     }
 
     componentDidMount() {
@@ -187,7 +188,7 @@ class ArticleIndex extends React.Component {
                 this._isFetchingNext = false;
 
                 if (params.selected) {
-                    $('html, body').animate({scrollTop: ReactDOM.findDOMNode(this).getBoundingClientRect().top - 64}, 350);
+                    $('html, body').animate({scrollTop: this._articles.current.getBoundingClientRect().top - 64}, 350);
                 }
             });
         }
@@ -252,7 +253,7 @@ class ArticleIndex extends React.Component {
         }
 
         return (
-            <div>
+            <div ref={this._articles}>
                 {
                     (this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories') &&
                     <SummaryStoriesTopic topic={this.props.currentUserTopic}/>

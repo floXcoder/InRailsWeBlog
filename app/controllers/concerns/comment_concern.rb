@@ -12,7 +12,7 @@ module CommentConcern
     class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
     record      = class_model.find(params[:id] || params[:commentable_id])
 
-    comments, comments_tree = record.comments_tree(params[:page], params[:per_page] || Setting.comment_per_page)
+    comments, comments_tree = record.comments_tree(params[:page], params[:per_page] || InRailsWeBlog.config.comment_per_page)
 
     respond_to do |format|
       format.json do

@@ -4,22 +4,25 @@
 #
 # Table name: topics
 #
-#  id              :integer          not null, primary key
-#  user_id         :integer
-#  name            :string           not null
-#  description     :text
-#  color           :string
-#  priority        :integer          default(0), not null
-#  visibility      :integer          default("everyone"), not null
-#  accepted        :boolean          default(TRUE), not null
-#  archived        :boolean          default(FALSE), not null
-#  pictures_count  :integer          default(0)E
-#  articles_count  :integer          default(0)
-#  bookmarks_count :integer          default(0)
-#  slug            :string
-#  deleted_at      :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                       :bigint           not null, primary key
+#  user_id                  :bigint
+#  name                     :string           not null
+#  description_translations :jsonb
+#  languages                :string           default([]), is an Array
+#  color                    :string
+#  priority                 :integer          default(0), not null
+#  visibility               :integer          default("everyone"), not null
+#  accepted                 :boolean          default(TRUE), not null
+#  archived                 :boolean          default(FALSE), not null
+#  pictures_count           :integer          default(0)
+#  articles_count           :integer          default(0)
+#  bookmarks_count          :integer          default(0)
+#  slug                     :string
+#  deleted_at               :datetime
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  settings                 :jsonb            not null
+#  mode                     :integer          default("default"), not null
 #
 require 'rails_helper'
 
@@ -93,13 +96,13 @@ RSpec.describe Topic, type: :model, basic: true do
     end
 
     describe '#name' do
-      it { is_expected.to validate_length_of(:name).is_at_least(CONFIG.topic_name_min_length) }
-      it { is_expected.to validate_length_of(:name).is_at_most(CONFIG.topic_name_max_length) }
+      it { is_expected.to validate_length_of(:name).is_at_least(InRailsWeBlog.config.topic_name_min_length) }
+      it { is_expected.to validate_length_of(:name).is_at_most(InRailsWeBlog.config.topic_name_max_length) }
     end
 
     describe '#description' do
-      it { is_expected.to validate_length_of(:description).is_at_least(CONFIG.topic_description_min_length) }
-      it { is_expected.to validate_length_of(:description).is_at_most(CONFIG.topic_description_max_length) }
+      it { is_expected.to validate_length_of(:description).is_at_least(InRailsWeBlog.config.topic_description_min_length) }
+      it { is_expected.to validate_length_of(:description).is_at_most(InRailsWeBlog.config.topic_description_max_length) }
     end
 
     describe '#mode' do

@@ -52,7 +52,7 @@ module Topics
 
       # Page parameters
       page     = @params[:page] || 1
-      per_page = @params[:per_page] || Setting.search_per_page
+      per_page = @params[:per_page] || InRailsWeBlog.config.search_per_page
 
       # Order search
       order = order_search(@params[:order])

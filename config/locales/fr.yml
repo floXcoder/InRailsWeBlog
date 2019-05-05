@@ -238,7 +238,7 @@ fr:
       welcome:
         subject: "Bienvenue sur InRailsWeBlog"
         hello: "Hello,"
-        thanks: "Merci de vous être inscrit sur InRailsWeBlog."
+        thanks: "Merci de vous être inscrit sur InRailsWeBlog.config."
         bye: "Bonne visite sur notre site :)"
     confirmation:
       instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte"

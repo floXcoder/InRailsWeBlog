@@ -4,7 +4,7 @@
 #
 # Table name: settings
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  var        :string           not null
 #  value      :text
 #  thing_id   :integer
@@ -16,7 +16,7 @@
 class SettingSerializer < ActiveModel::Serializer
   include NullAttributesRemover
 
-  # cache key: 'settings', expires_in: CONFIG.cache_time
+  # cache key: 'settings', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :articles_loader,
              :article_display,

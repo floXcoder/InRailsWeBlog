@@ -1,7 +1,5 @@
 'use strict';
 
-import '../../../stylesheets/components/show-more.scss';
-
 export default class ShowMore extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
@@ -18,18 +16,23 @@ export default class ShowMore extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this._showMoreText = null;
+        this._showMoreText = React.createRef();
     }
 
+    state = {
+        className: undefined,
+        isShowingLabel: false
+    };
+
     componentDidMount() {
-        let $textContent = $(ReactDOM.findDOMNode(this._showMoreText));
-        let currentHeight = $textContent.height();
+        const boundingElement = this._showMoreText.current.getBoundingClientRect();
+        const currentHeight = boundingElement.height;
 
         if (currentHeight > this.props.maxHeight) {
-            $textContent.addClass('read-more-target');
-            $(`#read-more-${this.props.id}`).find('label').show();
-        } else {
-            $(`#read-more-${this.props.id}`).find('label').hide();
+            this.setState({
+                className: 'read-more-target',
+                isShowingLabel: true
+            });
         }
     }
 
@@ -47,15 +50,35 @@ export default class ShowMore extends React.PureComponent {
                        className="read-more-state"/>
 
                 <div className="read-more-wrap">
-                    <div ref={(showMoreText) => this._showMoreText = showMoreText}
-                         className="read-more-content"
+                    <div ref={this._showMoreText}
+                         className={classNames('read-more-content', this.state.className)}
                          itemProp="description"
                          dangerouslySetInnerHTML={{__html: content}}/>
                 </div>
 
-                <label htmlFor={this.props.id}
-                       className="read-more-trigger"/>
+                {
+                    this.state.isShowingLabel &&
+                    <label className="read-more-trigger"
+                           htmlFor={this.props.id}/>
+                }
             </div>
         );
     }
 }
+
+
+// <div>
+//     <input id={`show-more-${this.props.ride.id}`}
+//            type="checkbox"
+//            className="read-more-state"/>
+//
+//     <ul className="read-more-wrap">
+//         <li>lorem</li>
+//         <li>lorem 2</li>
+//         <li className="read-more-target">lorem 3</li>
+//         <li className="read-more-target">lorem 4</li>
+//     </ul>
+//
+//     <label htmlFor={`show-more-${this.props.ride.id}`}
+//            className="read-more-trigger"/>
+// </div>

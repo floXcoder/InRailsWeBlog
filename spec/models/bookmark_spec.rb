@@ -4,13 +4,14 @@
 #
 # Table name: bookmarks
 #
-#  id              :integer          not null, primary key
-#  user_id         :integer          not null
+#  id              :bigint           not null, primary key
+#  user_id         :bigint           not null
 #  bookmarked_type :string           not null
-#  bookmarked_id   :integer          not null
+#  bookmarked_id   :bigint           not null
 #  follow          :boolean          default(FALSE)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  topic_id        :bigint
 #
 require 'rails_helper'
 

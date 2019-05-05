@@ -4,10 +4,10 @@
 #
 # Table name: article_relationships
 #
-#  id         :integer          not null, primary key
-#  user_id    :integer          not null
-#  parent_id  :integer          not null
-#  child_id   :integer          not null
+#  id         :bigint           not null, primary key
+#  user_id    :bigint           not null
+#  parent_id  :bigint           not null
+#  child_id   :bigint           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

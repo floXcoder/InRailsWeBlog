@@ -4,7 +4,7 @@
 #
 # Table name: users
 #
-#  id                     :bigint(8)        not null, primary key
+#  id                     :bigint           not null, primary key
 #  pseudo                 :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
@@ -52,7 +52,7 @@
 #
 
 class UserSerializer < ActiveModel::Serializer
-  cache key: 'user', expires_in: CONFIG.cache_time
+  cache key: 'user', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :pseudo,

@@ -4,7 +4,7 @@
 #
 # Table name: users
 #
-#  id                     :integer          not null, primary key
+#  id                     :bigint           not null, primary key
 #  pseudo                 :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
@@ -161,16 +161,16 @@ RSpec.describe User, type: :model, basic: true do
 
     describe '#pseudo' do
       it { is_expected.to validate_presence_of(:pseudo) }
-      it { is_expected.to validate_length_of(:pseudo).is_at_least(CONFIG.user_pseudo_min_length) }
-      it { is_expected.to validate_length_of(:pseudo).is_at_most(CONFIG.user_pseudo_max_length) }
+      it { is_expected.to validate_length_of(:pseudo).is_at_least(InRailsWeBlog.config.user_pseudo_min_length) }
+      it { is_expected.to validate_length_of(:pseudo).is_at_most(InRailsWeBlog.config.user_pseudo_max_length) }
       it { is_expected.to validate_uniqueness_of(:pseudo).case_insensitive }
       it { is_expected.to have_db_index(:pseudo) }
     end
 
     describe '#email' do
       it { is_expected.to validate_presence_of(:email) }
-      it { is_expected.to validate_length_of(:email).is_at_least(CONFIG.user_email_min_length) }
-      it { is_expected.to validate_length_of(:email).is_at_most(CONFIG.user_email_max_length) }
+      it { is_expected.to validate_length_of(:email).is_at_least(InRailsWeBlog.config.user_email_min_length) }
+      it { is_expected.to validate_length_of(:email).is_at_most(InRailsWeBlog.config.user_email_max_length) }
       it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
 
       it 'should accept valid addresses' do
@@ -193,8 +193,8 @@ RSpec.describe User, type: :model, basic: true do
     describe '#password' do
       it { is_expected.to respond_to(:password) }
       it { is_expected.to validate_presence_of(:password) }
-      it { is_expected.to validate_length_of(:password).is_at_least(CONFIG.user_password_min_length) }
-      it { is_expected.to validate_length_of(:password).is_at_most(CONFIG.user_password_max_length) }
+      it { is_expected.to validate_length_of(:password).is_at_least(InRailsWeBlog.config.user_password_min_length) }
+      it { is_expected.to validate_length_of(:password).is_at_most(InRailsWeBlog.config.user_password_max_length) }
 
       describe 'when password does not match confirmation' do
         before do

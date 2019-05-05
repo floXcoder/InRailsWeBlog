@@ -4,8 +4,8 @@
 #
 # Table name: tags
 #
-#  id                       :bigint(8)        not null, primary key
-#  user_id                  :bigint(8)
+#  id                       :bigint           not null, primary key
+#  user_id                  :bigint
 #  name                     :string           not null
 #  description_translations :jsonb
 #  languages                :string           default([]), is an Array

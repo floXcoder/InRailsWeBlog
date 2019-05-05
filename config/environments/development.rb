@@ -84,7 +84,4 @@ Rails.application.configure do
     Bullet.add_footer           = false
     Bullet.counter_cache_enable = true
   end
-
-  # Custom configurations
-  config.x.cron_jobs_active = false
 end

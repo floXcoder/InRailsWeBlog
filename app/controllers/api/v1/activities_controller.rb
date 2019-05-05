@@ -17,7 +17,7 @@ module Api::V1
 
       activities = activities.order('created_at desc')
 
-      activities = params[:limit] ? activities.limit(params[:limit]) : activities.paginate(page: params[:page], per_page: Setting.per_page)
+      activities = params[:limit] ? activities.limit(params[:limit]) : activities.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
 
       respond_to do |format|
         format.json do

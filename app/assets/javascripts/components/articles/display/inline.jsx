@@ -96,19 +96,9 @@ class ArticleInlineDisplay extends React.PureComponent {
     };
 
     _handleTitleClick = (event) => {
-        // event.preventDefault();
+        event.preventDefault();
 
         spyTrackClick('article', this.props.id, this.props.slug, this.props.title);
-
-        // const position = ReactDOM.findDOMNode(this._headerRed).getBoundingClientRect();
-        //
-        // this.props.history.push({
-        //     pathname: `/users/${this.props.userSlug}/articles/${this.props.slug}`,
-        //     state: {
-        //         position: {x: position.x, y: position.y},
-        //         title: this.props.title
-        //     }
-        // });
     };
 
     _handleFoldClick = (event) => {

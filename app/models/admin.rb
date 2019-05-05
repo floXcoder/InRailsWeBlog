@@ -4,7 +4,7 @@
 #
 # Table name: admins
 #
-#  id                     :bigint(8)        not null, primary key
+#  id                     :bigint           not null, primary key
 #  pseudo                 :string           default(""), not null
 #  additional_info        :string
 #  locale                 :string           default("fr")
@@ -55,9 +55,9 @@ class Admin < ApplicationRecord
   validates :pseudo,
             presence:   true,
             uniqueness: { case_sensitive: false },
-            length:     { minimum: CONFIG.user_pseudo_min_length, maximum: CONFIG.user_pseudo_max_length }
+            length:     { minimum: InRailsWeBlog.config.user_pseudo_min_length, maximum: InRailsWeBlog.config.user_pseudo_max_length }
   validates :email,
-            length: { minimum: CONFIG.user_email_min_length, maximum: CONFIG.user_email_max_length }
+            length: { minimum: InRailsWeBlog.config.user_email_min_length, maximum: InRailsWeBlog.config.user_email_max_length }
 
   # == Scopes ===============================================================
 

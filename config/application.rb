@@ -34,24 +34,24 @@ module InRailsWeBlog
 
     config.generators do |generator|
       generator.test_framework :rspec,
-                               fixtures: true,
-                               view_specs: false,
-                               helper_specs: false,
-                               routing_specs: false,
+                               fixtures:         true,
+                               view_specs:       false,
+                               helper_specs:     false,
+                               routing_specs:    false,
                                controller_specs: true,
-                               request_specs: true
+                               request_specs:    true
       generator.fixture_replacement :factory_bot, dir: 'spec/factories'
       generator.assets false
     end
 
     # Load files from lib directory
     config.enable_dependency_loading = true
-    config.autoload_paths += Dir["#{config.root}/app/services/**/"]
-    config.autoload_paths += Dir["#{config.root}/lib/inrailsweblog/**/"]
-    config.autoload_paths += Dir["#{config.root}/lib/populate/**/"]
+    config.autoload_paths            += Dir["#{config.root}/app/services/**/"]
+    config.autoload_paths            += Dir["#{config.root}/lib/inrailsweblog/**/"]
+    config.autoload_paths            += Dir["#{config.root}/lib/populate/**/"]
 
     # Database time zone
-    config.time_zone = 'Paris'
+    config.time_zone                      = 'Paris'
     config.active_record.default_timezone = :local
 
     # Include the authenticity token in remote forms.
@@ -61,9 +61,9 @@ module InRailsWeBlog
     config.log_level = :info
 
     # I18n configuration
-    config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{ rb , yml }').to_s]
+    config.i18n.load_path      += Dir[Rails.root.join('config', 'locales', '*.{ yml }').to_s]
     config.i18n.default_locale = :fr
-    config.i18n.fallbacks = [I18n.default_locale]
+    config.i18n.fallbacks      = [I18n.default_locale]
 
     # Enable per-form CSRF tokens. Previous versions had false.
     config.action_controller.per_form_csrf_tokens = false
@@ -101,14 +101,18 @@ module InRailsWeBlog
     # Cache with Redis
     config.cache_store = :readthis_store, {
       expires_in: 2.weeks.to_i,
-      redis: { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis },
-      namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache"
+      redis:      { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis },
+      namespace:  "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache"
     }
 
     # Errors handling
     config.exceptions_app = self.routes
 
-    # Custom configuration
-    config.x.cron_jobs_active = true
+    # App-specific configuration
+    config.x = OpenStruct.new(config_for(:app))
+  end
+
+  def self.config
+    @config ||= Rails.configuration.x
   end
 end

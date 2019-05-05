@@ -9,7 +9,7 @@ end
 ruby '2.5.1'
 
 # Rails version
-gem 'rails',                    '5.2.2'
+gem 'rails',                    '5.2.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.1.4'
@@ -21,7 +21,7 @@ gem 'secure_headers',           '6.1.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.9'
-gem 'oj',                       '3.7.9'
+gem 'oj',                       '3.7.12'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -32,10 +32,10 @@ gem 'geocoder',                 '1.5.1'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '10.2.0'
+gem 'paper_trail',              '10.3.0'
 
 # Marked as deleted
-gem 'paranoia',                 '2.4.1'
+gem 'paranoia',                 '2.4.2'
 
 # User activities
 gem 'public_activity',          '1.6.3'
@@ -45,28 +45,25 @@ gem 'auto_strip_attributes',    '2.5.0'
 gem 'sanitize',                 '5.0.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '5.2.5'
+gem 'sidekiq',                  '5.2.7'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '1.1.0'
-gem 'sidekiq-status',           '1.1.1'
+gem 'sidekiq-status',           '1.1.2'
 gem 'attentive_sidekiq',        '0.3.3'
 gem 'sidekiq-benchmark',        '0.6.0'
-gem 'whenever',                 '0.10.0', require: false
+gem 'whenever',                 '0.11.0', require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.6.0'
 gem 'redis-session-store',      '0.11.0'
 gem 'readthis',                 '2.2.0'
 gem 'hiredis',                  '0.6.3'
-gem 'redis-rack-cache',         '2.0.2'
 
 # Global and model settings
-gem 'simpleconfig',             '2.0.1'
-gem 'rails-settings-cached',    '0.7.2'
-gem 'storext',                  '2.2.2'
+gem 'storext',                  '3.0.0'
 
 # Authentification
-gem 'devise',                   '4.6.1'
+gem 'devise',                   '4.6.2'
 
 # Authorization mechanism
 gem 'pundit',                   '2.0.1'
@@ -77,7 +74,7 @@ gem 'carrierwave-imageoptimizer', '1.4.0'
 gem 'mini_magick',              '4.9.3'
 
 # Search in database
-gem 'searchkick',               '3.1.2'
+gem 'searchkick',               '4.0.0'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
@@ -87,7 +84,7 @@ gem 'thumbs_up',                '0.6.9'
 gem 'acts_as_commentable_with_threading', '2.0.1'
 
 # Prevent DDOS attacks
-gem 'rack-attack',              '5.4.2'
+gem 'rack-attack',              '6.0.0'
 
 # Manage errors
 gem 'browser',                  '2.5.3'
@@ -97,10 +94,10 @@ gem 'friendly_id',              '5.2.5'
 gem 'meta-tags',                '2.11.1'
 
 # HTTP request
-gem 'http',                     '4.0.5'
+gem 'http',                     '4.1.1'
 
 # Dummy data
-gem 'factory_bot_rails',        '5.0.1',   require: false
+gem 'factory_bot_rails',        '5.0.2',   require: false
 gem 'faker',                    '1.9.3',   require: false
 
 # Deployment
@@ -116,7 +113,7 @@ gem 'health_check',             '3.0.0'
 
 group :development do
   # server
-  gem 'puma',                   '3.12.0'
+  gem 'puma',                   '3.12.1'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.9'
@@ -127,7 +124,7 @@ group :development do
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
-  gem 'bullet',                 '5.9.0'
+  gem 'bullet',                 '6.0.0'
 
   # Scss lint
   gem 'scss-lint',              '0.38.0', require: false
@@ -144,11 +141,11 @@ group :development do
   gem 'guard-process',          '1.2.1'
 
   # Find index to add
-  gem 'lol_dba',                '2.1.5', require: false
+  gem 'lol_dba',                '2.1.8', require: false
   gem 'unique_validation_inspector', '0.3.0', require: false
 
   # Faster ruby code
-  gem 'fasterer',               '0.4.2', require: false
+  gem 'fasterer',               '0.5.1', require: false
 
   # Load tests
   gem 'ruby-jmeter',            '3.1.08', require: false
@@ -165,27 +162,28 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.14.0'
+  gem 'capybara',               '3.18.0'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.22'
-  gem 'selenium-webdriver',     '3.141.0'
-  gem 'chromedriver-helper',    '2.1.0'
+  gem 'selenium-webdriver',     '3.142.0'
+  gem 'webdrivers',             '3.8.0'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'
 
   # static analyzer
   gem 'rails_best_practices',   '1.19.4',   require: false
-  gem 'brakeman',               '4.4.0',    require: false
-  gem 'i18n-tasks',             '0.9.28',   require: false
+  gem 'brakeman',               '4.5.0',    require: false
+  gem 'i18n-tasks',             '0.9.29',   require: false
 end
 
 group :development, :test do
   # Check errors
-  gem 'rubocop',                '0.65.0',  require: false
+  gem 'rubocop',                '0.68.1',  require: false
   gem 'rubocop-rspec',          '1.32.0',  require: false
+  gem 'rubocop-performance',    '1.1.0',  require: false
 
   # Speed up boot
-  gem 'bootsnap',               '1.4.1',   require: false
+  gem 'bootsnap',               '1.4.4',   require: false
 end
 
 group :production do
@@ -193,11 +191,11 @@ group :production do
   gem 'sentry-raven',     '2.9.0'
 
   # Improve log outputs
-  gem 'lograge',          '0.10.0'
+  gem 'lograge',          '0.11.0'
 
   # Website analysis
-  gem 'newrelic_rpm',     '6.1.0.352'
+  gem 'newrelic_rpm',     '6.3.0.355'
 
   # Prerender html pages for SEO
-  gem 'prerender_rails',  '1.6.0'
+  gem 'seo_cache',        '0.4.0'
 end

@@ -58,7 +58,4 @@ Rails.application.configure do
   #   config.logger = Logger.new(nil)
   #   config.log_level = :error
   # end
-
-  # Custom configurations
-  config.x.cron_jobs_active = false
 end

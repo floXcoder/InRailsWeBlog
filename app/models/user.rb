@@ -4,7 +4,7 @@
 #
 # Table name: users
 #
-#  id                     :bigint(8)        not null, primary key
+#  id                     :bigint           not null, primary key
 #  pseudo                 :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
@@ -231,10 +231,10 @@ class User < ApplicationRecord
   validates :pseudo,
             presence:   true,
             uniqueness: { case_sensitive: false },
-            length:     { minimum: CONFIG.user_pseudo_min_length, maximum: CONFIG.user_pseudo_max_length }
+            length:     { minimum: InRailsWeBlog.config.user_pseudo_min_length, maximum: InRailsWeBlog.config.user_pseudo_max_length }
   validates :email,
             presence: true,
-            length:   { minimum: CONFIG.user_email_min_length, maximum: CONFIG.user_email_max_length }
+            length:   { minimum: InRailsWeBlog.config.user_email_min_length, maximum: InRailsWeBlog.config.user_email_max_length }
 
   # == Scopes ===============================================================
   scope :bookmarked_by_user,

@@ -4,9 +4,9 @@
 #
 # Table name: outdated_articles
 #
-#  id         :integer          not null, primary key
-#  user_id    :integer          not null
-#  article_id :integer          not null
+#  id         :bigint           not null, primary key
+#  user_id    :bigint           not null
+#  article_id :bigint           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

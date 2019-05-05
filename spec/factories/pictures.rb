@@ -4,8 +4,8 @@
 #
 # Table name: pictures
 #
-#  id                 :bigint(8)        not null, primary key
-#  user_id            :bigint(8)        not null
+#  id                 :bigint           not null, primary key
+#  user_id            :bigint           not null
 #  imageable_id       :integer
 #  imageable_type     :string           not null
 #  image              :string

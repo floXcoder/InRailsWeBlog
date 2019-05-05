@@ -50,7 +50,7 @@ class Editor extends React.Component {
     constructor(props) {
         super(props);
 
-        this._editorRef = null;
+        this._editorRef = React.createRef();
         this._editor = null;
         this._noteEditable = null;
         this._notePlaceholder = null;
@@ -58,7 +58,7 @@ class Editor extends React.Component {
 
     componentDidMount() {
         EditorLoader(() => {
-            const $editor = $(ReactDOM.findDOMNode(this._editorRef));
+            const $editor = $(this._editorRef.current);
 
             const defaultOptions = {
                 lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
@@ -395,7 +395,7 @@ class Editor extends React.Component {
 
         return (
             <div className="editor-reset">
-                <div ref={(editor) => this._editorRef = editor}
+                <div ref={this._editorRef}
                      id={this.props.id}
                      className={editorClassName}
                      dangerouslySetInnerHTML={{__html: this._formatContent(this.props.children)}}/>

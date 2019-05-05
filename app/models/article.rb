@@ -3,9 +3,9 @@
 #
 # Table name: articles
 #
-#  id                      :bigint(8)        not null, primary key
-#  user_id                 :bigint(8)
-#  topic_id                :bigint(8)
+#  id                      :bigint           not null, primary key
+#  user_id                 :bigint
+#  topic_id                :bigint
 #  mode                    :integer          default("note"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
@@ -27,7 +27,7 @@
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  contributor_id          :bigint(8)
+#  contributor_id          :bigint
 #
 
 class Article < ApplicationRecord
@@ -191,25 +191,25 @@ class Article < ApplicationRecord
             presence: true
 
   validates :title,
-            length: { minimum: CONFIG.article_title_min_length, maximum: CONFIG.article_title_max_length }
+            length: { minimum: InRailsWeBlog.config.article_title_min_length, maximum: InRailsWeBlog.config.article_title_max_length }
   validates :topic,
             presence: true,
             unless:   -> { draft? }
 
   validates :summary,
-            length: { minimum: CONFIG.article_summary_min_length, maximum: CONFIG.article_summary_max_length },
+            length: { minimum: InRailsWeBlog.config.article_summary_min_length, maximum: InRailsWeBlog.config.article_summary_max_length },
             if:     -> { summary.present? }
 
   validates :content,
             presence: true,
-            length:   { minimum: CONFIG.article_content_min_length, maximum: CONFIG.article_content_max_length },
+            length:   { minimum: InRailsWeBlog.config.article_content_min_length, maximum: InRailsWeBlog.config.article_content_max_length },
             unless:   -> { reference.present? }
 
   validates :languages,
             presence: true
 
   validates :notation,
-            inclusion: CONFIG.notation_min..CONFIG.notation_max
+            inclusion: InRailsWeBlog.config.notation_min..InRailsWeBlog.config.notation_max
 
   validates :mode,
             presence: true

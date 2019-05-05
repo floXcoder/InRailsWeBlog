@@ -8,7 +8,7 @@ class SinglePagesController < ApplicationController
   def home
     respond_to do |format|
       format.html do
-        expires_in CONFIG.cache_time, public: true
+        expires_in InRailsWeBlog.config.cache_time, public: true
 
         if current_user
           set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: current_user.pseudo)),
