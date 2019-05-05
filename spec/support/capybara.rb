@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Selenium::WebDriver::Chrome.path = ENV['CI_TEST'] ? '/usr/bin/chromium' : '/usr/bin/chromium-browser'
+Selenium::WebDriver::Chrome.path = ENV['CI'] ? '/usr/bin/chromium' : '/usr/bin/chromium-browser'
 
 Capybara.run_server = true
 
