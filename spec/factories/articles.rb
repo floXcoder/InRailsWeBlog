@@ -3,9 +3,9 @@
 #
 # Table name: articles
 #
-#  id                      :bigint(8)        not null, primary key
-#  user_id                 :bigint(8)
-#  topic_id                :bigint(8)
+#  id                      :bigint           not null, primary key
+#  user_id                 :bigint
+#  topic_id                :bigint
 #  mode                    :integer          default("note"), not null
 #  title_translations      :jsonb
 #  summary_translations    :jsonb
@@ -27,7 +27,7 @@
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  contributor_id          :bigint(8)
+#  contributor_id          :bigint
 #
 
 FactoryBot.define do

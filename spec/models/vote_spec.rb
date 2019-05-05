@@ -4,11 +4,11 @@
 #
 # Table name: votes
 #
-#  id            :integer          not null, primary key
+#  id            :bigint           not null, primary key
 #  voteable_type :string           not null
-#  voteable_id   :integer          not null
+#  voteable_id   :bigint           not null
 #  voter_type    :string
-#  voter_id      :integer
+#  voter_id      :bigint
 #  vote          :boolean          default(FALSE), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

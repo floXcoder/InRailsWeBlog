@@ -4,13 +4,13 @@
 #
 # Table name: comments
 #
-#  id               :bigint(8)        not null, primary key
-#  user_id          :bigint(8)        not null
+#  id               :bigint           not null, primary key
+#  user_id          :bigint           not null
 #  commentable_type :string           not null
-#  commentable_id   :bigint(8)        not null
+#  commentable_id   :bigint           not null
 #  title            :string
-#  body             :text
 #  subject          :string
+#  body             :text
 #  rating           :integer          default(0)
 #  positive_reviews :integer          default(0)
 #  negative_reviews :integer          default(0)
@@ -56,11 +56,11 @@ class Comment < ApplicationRecord
             presence: true
 
   validates :title,
-            length: { minimum: CONFIG.comment_title_min_length, maximum: CONFIG.comment_title_max_length },
+            length: { minimum: InRailsWeBlog.config.comment_title_min_length, maximum: InRailsWeBlog.config.comment_title_max_length },
             if:     -> { title.present? }
   validates :body,
             presence: true,
-            length:   { minimum: CONFIG.comment_body_min_length, maximum: CONFIG.comment_body_max_length }
+            length:   { minimum: InRailsWeBlog.config.comment_body_min_length, maximum: InRailsWeBlog.config.comment_body_max_length }
 
   # == Scopes ===============================================================
   # Helper class method to lookup all comments assigned

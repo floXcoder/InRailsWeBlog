@@ -1,7 +1,8 @@
-# Global dynamic variables
-# Static variables are defined in: config/settings/application.rb
-# These variables can be changed in application
-defaults: &defaults
+shared: &shared
+  # Global
+  website_name: <%= ENV['WEBSITE_NAME'] %>
+  website_email: <%= ENV['WEBSITE_EMAIL'] %>
+
   # Default per page
   per_page: 12
 
@@ -12,10 +13,10 @@ defaults: &defaults
   image_size: <%= 8.megabytes %>
 
   # Default for Topics
-  topic_color: "#e5e5e5"
+  topic_color: '#e5e5e5'
 
   # Default for Tags
-  tag_color: "#e5e5e5"
+  tag_color: '#e5e5e5'
 
   # Screen size
   small_screen: 600
@@ -25,11 +26,55 @@ defaults: &defaults
   large_screen: 1200
   large_screen_up: 1201
 
+  # Cache time
+  cache_time: <%= 12.hours %>
+
+  # User validation parameters
+  user_pseudo_min_length: 3
+  user_pseudo_max_length: 60
+  user_email_min_length: 5
+  user_email_max_length: 128
+  user_password_min_length: 8
+  user_password_max_length: 128
+
+  # Topic validation parameters
+  topic_name_min_length: 1
+  topic_name_max_length: 128
+  topic_description_min_length: 3
+  topic_description_max_length: 3_000
+
+  # Article validation parameters
+  article_title_min_length: 1
+  article_title_max_length: 128
+  article_summary_min_length: 3
+  article_summary_max_length: 256
+  article_content_min_length: 3
+  article_content_max_length: 8_000_000
+
+  # Tag validation parameters
+  tag_name_min_length: 1
+  tag_name_max_length: 52
+  tag_description_min_length: 3
+  tag_description_max_length: 3_000
+
+  # Comment validation parameters
+  comment_title_min_length: 1
+  comment_title_max_length: 256
+  comment_body_min_length: 1
+  comment_body_max_length: 1_024
+
+  # Notation validation parameters
+  notation_min: 0
+  notation_max: 5
+
 development:
-  <<: *defaults
+  <<: *shared
+  cron_jobs_active: false
 
 test:
-  <<: *defaults
+  <<: *shared
+  cron_jobs_active: false
 
 production:
-  <<: *defaults
+  <<: *shared
+  cron_jobs_active: true

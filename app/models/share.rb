@@ -2,11 +2,11 @@
 #
 # Table name: shares
 #
-#  id             :bigint(8)        not null, primary key
-#  user_id        :bigint(8)        not null
+#  id             :bigint           not null, primary key
+#  user_id        :bigint           not null
 #  shareable_type :string           not null
-#  shareable_id   :bigint(8)        not null
-#  contributor_id :bigint(8)        not null
+#  shareable_id   :bigint           not null
+#  contributor_id :bigint           not null
 #  mode           :integer          default("complete"), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

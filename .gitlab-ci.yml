@@ -9,7 +9,7 @@ stages:
   paths:
     - .bundle
     - vendor/bundle
-    - .yarn-cache/
+    - .yarn-cache
     - node_modules
 
 .push-cache: &push-cache
@@ -25,8 +25,6 @@ stages:
 before_script:
   - date
   - rvm gemset use InRailsWeBlog
-  - bundle --version
-  - ruby -v
 
 after_script:
   - date
@@ -36,6 +34,10 @@ build:
   cache:
     <<: *default-cache
   script:
+    - ruby -v
+    - node -v
+    - yarn --version
+    - which ruby
     - gem install bundler --no-ri --no-rdoc
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
     - yarn install --frozen-lockfile --cache-folder .yarn-cache

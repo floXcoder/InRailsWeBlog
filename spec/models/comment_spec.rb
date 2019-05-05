@@ -4,13 +4,13 @@
 #
 # Table name: comments
 #
-#  id               :integer          not null, primary key
+#  id               :bigint           not null, primary key
+#  user_id          :bigint           not null
 #  commentable_type :string           not null
-#  commentable_id   :integer          not null
-#  user_id          :integer          not null
+#  commentable_id   :bigint           not null
 #  title            :string
-#  body             :text
 #  subject          :string
+#  body             :text
 #  rating           :integer          default(0)
 #  positive_reviews :integer          default(0)
 #  negative_reviews :integer          default(0)
@@ -92,14 +92,14 @@ RSpec.describe Comment, type: :model, basic: true do
     end
 
     describe '#title' do
-      # it { is_expected.to validate_length_of(:title).is_at_least(CONFIG.comment_title_min_length) }
-      it { is_expected.to validate_length_of(:title).is_at_most(CONFIG.comment_title_max_length) }
+      # it { is_expected.to validate_length_of(:title).is_at_least(InRailsWeBlog.config.comment_title_min_length) }
+      it { is_expected.to validate_length_of(:title).is_at_most(InRailsWeBlog.config.comment_title_max_length) }
     end
 
     describe '#body' do
       it { is_expected.to validate_presence_of(:body) }
-      it { is_expected.to validate_length_of(:body).is_at_least(CONFIG.comment_body_min_length) }
-      it { is_expected.to validate_length_of(:body).is_at_most(CONFIG.comment_body_max_length) }
+      it { is_expected.to validate_length_of(:body).is_at_least(InRailsWeBlog.config.comment_body_min_length) }
+      it { is_expected.to validate_length_of(:body).is_at_most(InRailsWeBlog.config.comment_body_max_length) }
     end
 
     describe 'Default Attributes' do

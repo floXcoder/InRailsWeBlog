@@ -3,7 +3,7 @@
 .row.left-align
   / Pseudo
   .col.s12.l6
-    = signup_form.input :pseudo, label: t('user.model.pseudo'), required: true, icon: 'account_circle', input_html: { data: { :'parsley-remote' => '/users/validation', :'parsley-remote-reverse' => true, :'parsley-remote-message' => I18n.t('js.user.errors.pseudo.already_taken'), :'parsley-minlength' => CONFIG.user_pseudo_min_length, :'parsley-maxlength' => CONFIG.user_pseudo_max_length, :'parsley-minlength-message' => I18n.t('js.user.errors.pseudo.size', min: CONFIG.user_pseudo_min_length, max: CONFIG.user_pseudo_max_length) } }
+    = signup_form.input :pseudo, label: t('user.model.pseudo'), required: true, icon: 'account_circle', input_html: { data: { :'parsley-remote' => '/users/validation', :'parsley-remote-reverse' => true, :'parsley-remote-message' => I18n.t('js.user.errors.pseudo.already_taken'), :'parsley-minlength' => InRailsWeBlog.config.user_pseudo_min_length, :'parsley-maxlength' => InRailsWeBlog.config.user_pseudo_max_length, :'parsley-minlength-message' => I18n.t('js.user.errors.pseudo.size', min: InRailsWeBlog.config.user_pseudo_min_length, max: InRailsWeBlog.config.user_pseudo_max_length) } }
 
   / Email
   .col.s12.l6
@@ -12,7 +12,7 @@
 .row.left-align
   / Password
   .col.s12.l6
-    = signup_form.input :password, label: t('user.model.password'), required: true, icon: 'lock', input_html: { data: { :'parsley-minlength' => CONFIG.user_password_min_length, :'parsley-maxlength' => CONFIG.user_password_max_length, :'parsley-minlength-message' => I18n.t('js.user.errors.password.size', min: CONFIG.user_pseudo_min_length, max: CONFIG.user_pseudo_max_length) } }
+    = signup_form.input :password, label: t('user.model.password'), required: true, icon: 'lock', input_html: { data: { :'parsley-minlength' => InRailsWeBlog.config.user_password_min_length, :'parsley-maxlength' => InRailsWeBlog.config.user_password_max_length, :'parsley-minlength-message' => I18n.t('js.user.errors.password.size', min: InRailsWeBlog.config.user_pseudo_min_length, max: InRailsWeBlog.config.user_pseudo_max_length) } }
 
   / Confirm password
   .col.s12.l6

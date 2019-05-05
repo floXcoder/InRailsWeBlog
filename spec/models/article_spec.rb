@@ -4,21 +4,22 @@
 #
 # Table name: articles
 #
-#  id                      :integer          not null, primary key
-#  user_id                 :integer
-#  topic_id                :integer
-#  title                   :string
-#  summary                 :text
-#  content                 :text             not null
+#  id                      :bigint           not null, primary key
+#  user_id                 :bigint
+#  topic_id                :bigint
+#  mode                    :integer          default("note"), not null
+#  title_translations      :jsonb
+#  summary_translations    :jsonb
+#  content_translations    :jsonb            not null
+#  languages               :string           default([]), not null, is an Array
 #  reference               :text
 #  draft                   :boolean          default(FALSE), not null
-#  language                :string
-#  allow_comment           :boolean          default(TRUE), not null
 #  notation                :integer          default(0)
 #  priority                :integer          default(0)
 #  visibility              :integer          default("everyone"), not null
 #  accepted                :boolean          default(TRUE), not null
 #  archived                :boolean          default(FALSE), not null
+#  allow_comment           :boolean          default(TRUE), not null
 #  pictures_count          :integer          default(0)
 #  outdated_articles_count :integer          default(0)
 #  bookmarks_count         :integer          default(0)
@@ -27,6 +28,7 @@
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  contributor_id          :bigint
 #
 require 'rails_helper'
 
@@ -129,19 +131,19 @@ RSpec.describe Article, type: :model, basic: true do
     end
 
     describe '#title' do
-      it { is_expected.to validate_length_of(:title).is_at_least(CONFIG.article_title_min_length) }
-      it { is_expected.to validate_length_of(:title).is_at_most(CONFIG.article_title_max_length) }
+      it { is_expected.to validate_length_of(:title).is_at_least(InRailsWeBlog.config.article_title_min_length) }
+      it { is_expected.to validate_length_of(:title).is_at_most(InRailsWeBlog.config.article_title_max_length) }
     end
 
     describe '#summary' do
-      it { is_expected.to validate_length_of(:summary).is_at_least(CONFIG.article_summary_min_length) }
-      it { is_expected.to validate_length_of(:summary).is_at_most(CONFIG.article_summary_max_length) }
+      it { is_expected.to validate_length_of(:summary).is_at_least(InRailsWeBlog.config.article_summary_min_length) }
+      it { is_expected.to validate_length_of(:summary).is_at_most(InRailsWeBlog.config.article_summary_max_length) }
     end
 
     describe '#content' do
-      it { is_expected.to validate_length_of(:content).is_at_least(CONFIG.article_content_min_length) }
+      it { is_expected.to validate_length_of(:content).is_at_least(InRailsWeBlog.config.article_content_min_length) }
       # Endless test
-      # it { is_expected.to validate_length_of(:content).is_at_most(CONFIG.article_content_max_length) }
+      # it { is_expected.to validate_length_of(:content).is_at_most(InRailsWeBlog.config.article_content_max_length) }
 
       it 'validates presence of content if no reference' do
         @article.update!(reference: nil)
@@ -153,7 +155,7 @@ RSpec.describe Article, type: :model, basic: true do
     end
 
     describe '#notation' do
-      it { is_expected.to validate_inclusion_of(:notation).in_range(CONFIG.notation_min..CONFIG.notation_max) }
+      it { is_expected.to validate_inclusion_of(:notation).in_range(InRailsWeBlog.config.notation_min..InRailsWeBlog.config.notation_max) }
     end
 
     describe '#mode' do

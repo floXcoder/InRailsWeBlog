@@ -11,7 +11,7 @@ module Api::V1
     respond_to :json
 
     def index
-      topics = Rails.cache.fetch("user_topics:#{params[:user_id] || current_user&.id}", expires_in: CONFIG.cache_time) do
+      topics = Rails.cache.fetch("user_topics:#{params[:user_id] || current_user&.id}", expires_in: InRailsWeBlog.config.cache_time) do
         ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
       end
 

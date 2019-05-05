@@ -113,19 +113,9 @@ class ArticleCardDisplay extends React.Component {
     };
 
     _handleTitleClick = (event) => {
-        // event.preventDefault();
+        event.preventDefault();
 
         spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
-
-        // const position = ReactDOM.findDOMNode(this._headerRef).getBoundingClientRect();
-        //
-        // this.props.history.push({
-        //     pathname: `/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`,
-        //     state: {
-        //         position: {x: position.x, y: position.y},
-        //         title: this.props.article.title
-        //     }
-        // });
     };
 
     render() {

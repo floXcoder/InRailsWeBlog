@@ -26,7 +26,7 @@ module Searches
           @query,
           defer:       true,
           format:      'strict',
-          limit:       @params[:limit] || Setting.per_page,
+          limit:       @params[:limit] || InRailsWeBlog.config.per_page,
           where:       where_options.merge(
             mode:      @params[:mode],
             draft:     @params[:draft],
@@ -42,7 +42,7 @@ module Searches
           @query,
           defer:       true,
           format:      'strict',
-          limit:       @params[:limit] || Setting.per_page,
+          limit:       @params[:limit] || InRailsWeBlog.config.per_page,
           where:       where_options.merge(
             topic_ids: @params[:topic_ids].presence
           ).compact,
@@ -55,7 +55,7 @@ module Searches
           @query,
           defer:  true,
           format: 'strict',
-          limit:  @params[:limit] || Setting.per_page,
+          limit:  @params[:limit] || InRailsWeBlog.config.per_page,
           where:  where_options
         )
       end

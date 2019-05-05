@@ -33,7 +33,7 @@ describe 'Users API', type: :request, basic: true do
 
         users = JSON.parse(response.body)
         expect(users['users']).not_to be_empty
-        expect(users['users'].size).to be <= Setting.per_page
+        expect(users['users'].size).to be <= InRailsWeBlog.config.per_page
       end
     end
   end

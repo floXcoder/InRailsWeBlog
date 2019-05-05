@@ -3,8 +3,8 @@
 #
 # Table name: topics
 #
-#  id                       :bigint(8)        not null, primary key
-#  user_id                  :bigint(8)
+#  id                       :bigint           not null, primary key
+#  user_id                  :bigint
 #  name                     :string           not null
 #  description_translations :jsonb
 #  languages                :string           default([]), is an Array
@@ -140,14 +140,14 @@ class Topic < ApplicationRecord
             presence: true
 
   validates :name,
-            length: { minimum: CONFIG.topic_name_min_length, maximum: CONFIG.topic_name_max_length }
+            length: { minimum: InRailsWeBlog.config.topic_name_min_length, maximum: InRailsWeBlog.config.topic_name_max_length }
   validates_uniqueness_of :name,
                           scope:      :user_id,
                           conditions: -> { with_deleted },
                           message:    I18n.t('activerecord.errors.models.topic.already_exist')
 
   validates :description,
-            length:    { minimum: CONFIG.topic_description_min_length, maximum: CONFIG.topic_description_max_length },
+            length:    { minimum: InRailsWeBlog.config.topic_description_min_length, maximum: InRailsWeBlog.config.topic_description_max_length },
             allow_nil: true
 
   validates :languages,
@@ -277,7 +277,7 @@ class Topic < ApplicationRecord
   end
 
   def set_default_color
-    self.color = Setting.topic_color unless self.color
+    self.color = InRailsWeBlog.config.topic_color unless self.color
   end
 
   def regenerate_article_slug

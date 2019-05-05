@@ -4,9 +4,9 @@
 #
 # Table name: trackers
 #
-#  id             :bigint(8)        not null, primary key
+#  id             :bigint           not null, primary key
 #  tracked_type   :string           not null
-#  tracked_id     :bigint(8)        not null
+#  tracked_id     :bigint           not null
 #  views_count    :integer          default(0), not null
 #  queries_count  :integer          default(0), not null
 #  searches_count :integer          default(0), not null
@@ -19,7 +19,7 @@
 #
 
 class TrackerSerializer < ActiveModel::Serializer
-  cache key: 'tracker', expires_in: CONFIG.cache_time
+  cache key: 'tracker', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :views_count,
              :queries_count,

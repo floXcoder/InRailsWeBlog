@@ -38,7 +38,7 @@ describe Articles::FindQueries, type: :query, basic: true do
       it 'returns all public articles limited to the pagination' do
         articles = ::Articles::FindQueries.new.all
 
-        expect(articles.count).to eq(Setting.per_page)
+        expect(articles.count).to eq(InRailsWeBlog.config.per_page)
       end
 
       context 'when filtering by user' do

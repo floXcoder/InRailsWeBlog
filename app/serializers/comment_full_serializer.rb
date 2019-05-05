@@ -3,7 +3,7 @@
 class CommentFullSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  cache key: 'comment_full', expires_in: CONFIG.cache_time
+  cache key: 'comment_full', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :title,

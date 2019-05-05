@@ -81,7 +81,7 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to be <= Setting.per_page
+        expect(json_articles['articles'].size).to be <= InRailsWeBlog.config.per_page
       end
     end
 
@@ -522,7 +522,7 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(422)
 
           article = JSON.parse(response.body)
-          expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
+          expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.article_title_max_length))
           expect(article['errors']['content'].first).to eq(I18n.t('errors.messages.blank'))
         }.to_not change(Article, :count)
       end
@@ -636,7 +636,7 @@ describe 'Article API', type: :request, basic: true do
             expect(response).to be_json_response(422)
 
             article = JSON.parse(response.body)
-            expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: CONFIG.article_title_max_length))
+            expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.article_title_max_length))
           }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
         end
       end
@@ -773,7 +773,7 @@ describe 'Article API', type: :request, basic: true do
 
             json_comment = JSON.parse(response.body)
             expect(json_comment['errors']['body'].first).to eq(I18n.t('errors.messages.blank'))
-            expect(json_comment['errors']['body'].second).to eq(I18n.t('errors.messages.too_short.one', count: CONFIG.comment_title_min_length))
+            expect(json_comment['errors']['body'].second).to eq(I18n.t('errors.messages.too_short.one', count: InRailsWeBlog.config.comment_title_min_length))
           }.to_not change(Comment, :count)
         end
       end

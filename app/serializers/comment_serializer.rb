@@ -4,13 +4,13 @@
 #
 # Table name: comments
 #
-#  id               :bigint(8)        not null, primary key
-#  user_id          :bigint(8)        not null
+#  id               :bigint           not null, primary key
+#  user_id          :bigint           not null
 #  commentable_type :string           not null
-#  commentable_id   :bigint(8)        not null
+#  commentable_id   :bigint           not null
 #  title            :string
-#  body             :text
 #  subject          :string
+#  body             :text
 #  rating           :integer          default(0)
 #  positive_reviews :integer          default(0)
 #  negative_reviews :integer          default(0)
@@ -25,7 +25,7 @@
 #
 
 class CommentSerializer < ActiveModel::Serializer
-  cache key: 'comment', expires_in: CONFIG.cache_time
+  cache key: 'comment', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :title,

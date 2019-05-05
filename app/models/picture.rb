@@ -4,8 +4,8 @@
 #
 # Table name: pictures
 #
-#  id                 :bigint(8)        not null, primary key
-#  user_id            :bigint(8)        not null
+#  id                 :bigint           not null, primary key
+#  user_id            :bigint           not null
 #  imageable_id       :integer
 #  imageable_type     :string           not null
 #  image              :string
@@ -88,7 +88,7 @@ class Picture < ApplicationRecord
   private
 
   def image_size
-    if image.size > Setting.image_size
+    if image.size > InRailsWeBlog.config.image_size
       errors.add(:image, I18n.t('activerecord.errors.models.picture.image_size'))
     end
   end
