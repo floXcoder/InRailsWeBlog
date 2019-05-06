@@ -13,6 +13,7 @@ gem 'rails',                    '5.2.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.1.4'
+gem 'active_record_extended',   '1.1.0'
 
 # HTTP Response
 gem 'responders',               '2.4.1'
@@ -180,7 +181,7 @@ group :development, :test do
   # Check errors
   gem 'rubocop',                '0.68.1',  require: false
   gem 'rubocop-rspec',          '1.32.0',  require: false
-  gem 'rubocop-performance',    '1.1.0',  require: false
+  gem 'rubocop-performance',    '1.2.0',  require: false
 
   # Speed up boot
   gem 'bootsnap',               '1.4.4',   require: false
