@@ -111,6 +111,7 @@ test:npm:
 
 deploy:
   stage: deploy
+  # Variables defined in Gitlab configuration (settings/ci_cd)
   variables:
     RAILS_ENV: "production"
     DEPLOY_SERVER: "$DEPLOY_SERVER"
