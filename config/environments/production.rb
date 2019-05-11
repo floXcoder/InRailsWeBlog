@@ -109,6 +109,6 @@ Rails.application.configure do
   }
 
   # Add timeout for ElasticSearch
-  Searchkick.timeout        = 3
-  Searchkick.search_timeout = 3
+  Searchkick.timeout        = 10
+  Searchkick.search_timeout = 10
 end
