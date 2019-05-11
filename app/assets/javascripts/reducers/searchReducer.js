@@ -30,7 +30,6 @@ const AutocompleteRecord = new Record({
 
     metaTags: new Map(),
 
-    actionKey: undefined,
     highlightedTagId: undefined,
 
     selectedTags: new List(),
@@ -70,7 +69,6 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
                 }
 
                 newState = {
-                    actionKey: action.keyCode,
                     highlightedTagId: newTagId
                 };
             } else if(action.keyCode === 'ArrowUp') {
@@ -81,13 +79,11 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
                 }
 
                 newState = {
-                    actionKey: action.keyCode,
                     highlightedTagId: newTagId
                 };
             } else if(action.keyCode === 'Tab') {
                 newState = {
                     query: '',
-                    actionKey: action.keyCode,
                     highlightedTagId: undefined,
                     selectedTags: addOrRemoveArray(state.selectedTags, state.tags.get(findItemIndex(state.tags, state.highlightedTagId || state.tags.first().id))),
                     topics: new List(),
@@ -97,7 +93,7 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
             } else if(action.keyCode === 'Enter') {
                 if(state.highlightedTagId) {
                     newState = {
-                        actionKey: action.keyCode,
+                        query: '',
                         highlightedTagId: undefined,
                         selectedTags: addOrRemoveArray(state.selectedTags, state.tags.get(findItemIndex(state.tags, state.highlightedTagId))),
                         topics: new List(),
@@ -106,17 +102,14 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
                     };
                 } else {
                     newState = {
-                        actionKey: action.keyCode,
                     };
                 }
             } else if(action.keyCode === 'Escape') {
                 newState = {
-                    actionKey: action.keyCode,
                     highlightedTagId: undefined
                 };
             } else if(action.keyCode === 'Backspace') {
                 newState = {
-                    actionKey: action.keyCode,
                     highlightedTagId: undefined,
                     selectedTags: state.tags.count() > 0 ? addOrRemoveArray(state.selectedTags, state.tags.last()) : state.tags,
                     topics: new List(),
@@ -129,7 +122,7 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
 
         case ActionTypes.SEARCH_AUTOCOMPLETE_TAG_SELECTED:
             return state.merge({
-                selectedTags: addOrRemoveArray(state.selectedTags, action.tag),
+                selectedTags: action.tag ? addOrRemoveArray(state.selectedTags, action.tag) : new List(),
                 topics: new List(),
                 tags: new List(),
                 articles: new List()
@@ -137,7 +130,6 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
 
         case ActionTypes.SEARCH_FETCH_SUCCESS:
             return state.merge({
-                actionKey: undefined,
                 highlightedTagId: undefined
             });
 
@@ -162,7 +154,7 @@ const SearchRecord = new Record({
     articleFilters: new Map(),
     articleActiveFilters: new Map(),
 
-    query: undefined,
+    query: '',
 
     metaTags: new Map(),
 
@@ -191,9 +183,7 @@ const SearchRecord = new Record({
 
     relatedTopics: new List(),
     relatedTags: new List(),
-    relatedArticles: new List(),
-
-    metaResults: new Map()
+    relatedArticles: new List()
 });
 
 const _parseSearchResults = (searchState, action) => {
@@ -257,6 +247,11 @@ const _parseSearchResults = (searchState, action) => {
 
 export function searchReducer(state = new SearchRecord(), action) {
     switch (action.type) {
+        case ActionTypes.SEARCH_SEARCH_QUERY:
+            return state.merge({
+                query: action.query
+            });
+
         case ActionTypes.SEARCH_FETCH_INIT:
             return state.set('isSearching', action.isSearching);
         case ActionTypes.SEARCH_FETCH_ERROR:
@@ -270,13 +265,6 @@ export function searchReducer(state = new SearchRecord(), action) {
         case ActionTypes.SEARCH_TAG_SELECTED:
             return state.merge({
                 selectedTags: addOrRemoveArray(state.selectedTags, action.tag)
-            });
-
-        case ActionTypes.SEARCH_META_SUCCESS:
-            return state.merge({
-                isSearching: action.isSearching,
-                query: action.query,
-                metaResults: fromJS(action.metaResults)
             });
 
         // TOPIC

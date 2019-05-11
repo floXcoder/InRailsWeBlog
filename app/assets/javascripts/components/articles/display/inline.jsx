@@ -95,9 +95,7 @@ class ArticleInlineDisplay extends React.PureComponent {
         }
     };
 
-    _handleTitleClick = (event) => {
-        event.preventDefault();
-
+    _handleTitleClick = () => {
         spyTrackClick('article', this.props.id, this.props.slug, this.props.title);
     };
 

@@ -41,7 +41,7 @@ import styles from '../../../../jss/article/card';
 
 export default @highlight()
 @withStyles(styles)
-class ArticleCardDisplay extends React.Component {
+class ArticleCardDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
         currentUserSlug: PropTypes.string,
@@ -112,9 +112,7 @@ class ArticleCardDisplay extends React.Component {
         });
     };
 
-    _handleTitleClick = (event) => {
-        event.preventDefault();
-
+    _handleTitleClick = () => {
         spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
     };
 

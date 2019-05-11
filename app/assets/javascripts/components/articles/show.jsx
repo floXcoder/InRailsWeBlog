@@ -44,6 +44,11 @@ import {
     getArticleIsOwner
 } from '../../selectors';
 
+import {
+    articlePreloadIndex,
+    articlePreloadEdit
+} from '../modules/constants';
+
 import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
@@ -132,8 +137,8 @@ class ArticleShow extends React.Component {
 
         this._fetchStories();
 
-        setTimeout(() => ArticleIndex.preload(), 5000);
-        setTimeout(() => ArticleEdit.preload(), 10000);
+        setTimeout(() => ArticleIndex.preload(), articlePreloadIndex);
+        setTimeout(() => this.props.currentUser && ArticleEdit.preload(), articlePreloadEdit);
     }
 
     componentDidUpdate(prevProps) {
@@ -222,14 +227,14 @@ class ArticleShow extends React.Component {
                     {
                         (this.props.routeState && this.props.routeState.position && this.props.isFetching) &&
                         <div className="center margin-top-20">
-                            <div className="parent">
-                            <span className="transition"
-                                  style={{
-                                      top: this.props.routeState.position.y,
-                                      left: this.props.routeState.position.x
-                                  }}>
-                                {this.props.routeState.title}
-                            </span>
+                            <div>
+                                <span className="transition"
+                                      style={{
+                                          top: this.props.routeState.position.y,
+                                          left: this.props.routeState.position.x
+                                      }}>
+                                    {this.props.routeState.title}
+                                </span>
                             </div>
                         </div>
                     }

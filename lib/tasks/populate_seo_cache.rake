@@ -13,6 +13,6 @@ namespace :InRailsWeBlog do
 
     paths = GenerateCacheUrls.new.all_urls
 
-    SeoCache::PopulateCache.new(Rails.env.beta? ? 'https://www.inrailsweblog.com' : 'http://localhost:3000', paths).new.perform
+    SeoCache::PopulateCache.new(Rails.env.beta? ? 'https://www.inrailsweblog.com' : 'http://localhost:3000', paths).perform
   end
 end

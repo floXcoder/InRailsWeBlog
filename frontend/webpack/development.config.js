@@ -12,6 +12,10 @@ let webPackConfig = module.exports = require('./main.config.js');
 
 webPackConfig.mode = 'development';
 
+webPackConfig.resolve.alias = {
+    'react-dom': '@hot-loader/react-dom'
+};
+
 webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.development.filename + '.js'
 });
@@ -53,6 +57,7 @@ webPackConfig = _.merge(webPackConfig, {
     devServer: {
         contentBase: path.resolve('./public/assets'),
         publicPath: config.development.assetPath,
+        port: 8080,
         https: false,
         headers: {
             'Access-Control-Allow-Origin': '*'

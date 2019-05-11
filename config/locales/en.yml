@@ -96,8 +96,8 @@ en:
       index:
         title:
           default: "Articles list"
-          tagged: "Articles of %{tag} label"
-          tagged_topic: "Articles of %{tag} label for %{topic}"
+          tagged: "List of articles for %{tag}"
+          tagged_topic: "List of articles for %{tag} in %{topic}"
           topic: "Articles for %{topic} topic"
       show:
         title: "%{title} - %{topic}"
@@ -256,7 +256,7 @@ en:
       not_authorized:
         user: "Your account must be filled with name, first name and city"
     user_policy:
-      show?: "Cannot access to other user account"
+      show: "Cannot access to other user account"
   activerecord:
     errors:
       messages:

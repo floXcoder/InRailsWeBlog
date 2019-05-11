@@ -1,4 +1,3 @@
-const publicDir = './public';
 const assetDir = './app/assets';
 const frontendDir = './node_modules';
 
@@ -70,8 +69,8 @@ module.exports = {
             font: {
                 exclude: /node_modules/,
                 options: {
-                    name: '[name].[hash].[ext]',
-                    outputPath: 'fonts/'
+                    outputPath: 'fonts/',
+                    name: '[name].[hash].[ext]'
                 }
             }
         },
@@ -129,11 +128,7 @@ module.exports = {
             assetPath: 'https://assets.inrailsweblog.com/assets/',
             filename: '[name].[hash]',
             chunkFilename: '[name].[hash].[id]',
-            manifestFilename: 'rev-manifest.json'
+            manifestFilename: 'manifest.json'
         }
-    },
-    production: {
-        manifestFilename: 'rev-manifest.json',
-        dest: publicDir + '/assets'
-    },
+    }
 };

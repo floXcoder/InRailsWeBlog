@@ -37,8 +37,7 @@ module Articles
       operator = @params[:operator] || 'and'
 
       # Highlight results and select a fragment
-      # highlight = @params[:highlight] ? { fields: { content: { fragment_size: 10 } }, tag: '<span class="search-highlight">' } : false
-      highlight = @params[:highlight] ? { tag: '<span class="search-highlight">' } : false
+      highlight = @params[:highlight] ? { tag: '<span class="search-highlight">', fragment_size: InRailsWeBlog.config.search_fragment_size } : false
 
       # Where options only for ElasticSearch
       where_options = where_search(@params[:where])

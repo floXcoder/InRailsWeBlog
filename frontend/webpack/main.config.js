@@ -92,12 +92,14 @@ webPackConfig.module = {
             ]
         },
         {
-            test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+            test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/i,
             exclude: config.rules.font.exclude,
-            use: [{
-                loader: 'file-loader',
-                options: config.rules.font.options
-            }]
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: config.rules.font.options
+                }
+            ]
         }
     ]
 };

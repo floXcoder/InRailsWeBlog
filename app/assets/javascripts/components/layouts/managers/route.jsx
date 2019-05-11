@@ -31,6 +31,8 @@ class RouteManager extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
+        // Called only when hash route change (search module, topic module, ...)
+
         // Update only if route, params or query string (ignore hash parameters) has changed
         const isHashQuery = typeof nextProps.location.state === 'string' ? nextProps.location.state.startsWith('#') : false;
         const updateRouter = !_.isEqual(this.props.currentRoute, nextProps.currentRoute) || !_.isEqual(this.props.params, nextProps.params) || (!_.isEqual(this.props.location.state, nextProps.location.state) && !isHashQuery);

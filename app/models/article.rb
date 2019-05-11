@@ -83,7 +83,7 @@ class Article < ApplicationRecord
              filterable:  [:mode, :visibility, :draft, :languages, :notation, :accepted, :home_page, :user_id, :topic_id, :tag_ids, :tag_slugs],
              word_middle: [:title, :content],
              suggest:     [:title],
-             highlight:   [:title, :content, :reference],
+             highlight:   [:title, :content],
              language:    -> { I18n.locale == :fr ? 'french' : 'english' }
   # index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
 
@@ -422,7 +422,7 @@ class Article < ApplicationRecord
       topic_id:         topic_id,
       topic_name:       topic&.name,
       topic_slug:       topic&.slug,
-      tag_ids:          tags.ids,
+      tag_ids:          tag_ids,
       tag_names:        tags.map(&:name),
       tag_slugs:        tags.map(&:slug),
       mode:             mode,

@@ -34,7 +34,7 @@ import styles from '../../../../jss/article/card';
 
 export default @highlight()
 @withStyles(styles)
-class ArticleGridDisplay extends React.Component {
+class ArticleGridDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
         currentUserSlug: PropTypes.string,

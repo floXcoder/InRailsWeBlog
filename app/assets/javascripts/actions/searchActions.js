@@ -27,7 +27,6 @@ export const setAutocompleteQuery = (query) => (dispatch) => {
     return dispatch(autocompleteQuery(query));
 };
 
-
 export const fetchAutocomplete = (autocompleteParams) => ({
     actionType: ActionTypes.SEARCH_AUTOCOMPLETE,
     fetchAPI: () => api.get('/api/v1/search/autocomplete', {
@@ -112,6 +111,14 @@ const _saveHistory = (searchState, searchData) => {
 };
 
 // Search
+const searchQuery = (query) => ({
+    type: ActionTypes.SEARCH_SEARCH_QUERY,
+    query
+});
+export const setSearchQuery = (query) => (dispatch) => {
+    return dispatch(searchQuery(query));
+};
+
 const initSearch = () => ({
     type: ActionTypes.SEARCH_FETCH_INIT,
     isSearching: true
@@ -124,7 +131,7 @@ const receiveSearch = (searchParams, json, options = {}) => ({
     type: ActionTypes.SEARCH_FETCH_SUCCESS,
     isSearching: false,
     searchParams: searchParams,
-    query: searchParams.query,
+    query: searchParams.query || '',
     selectedTags: json.selectedTags,
     aggregations: json.aggregations || {},
     suggestions: json.suggestions || {},

@@ -144,6 +144,11 @@ webPackConfig.plugins.push(
         map: (file) => {
             // Remove hash in manifest key
             file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
+            // Correct incorrect font path
+            const fontFile = file.path.match(/^\/assets\/fonts\/(.*?)\.\w+\.(.*?)$/);
+            if (fontFile) {
+                file.name = fontFile[1] + '.' + fontFile[2];
+            }
             return file;
         }
     }),

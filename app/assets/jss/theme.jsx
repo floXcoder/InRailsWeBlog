@@ -28,7 +28,7 @@ const tooltipZIndex = 1500;
 const h1Size = '3rem';
 const h1SizeMobile = '2.4rem';
 const h1Weight = 600;
-const h1LineHeight = '2.5rem';
+const h1LineHeight = '3rem';
 const h1Spacing = 3.5;
 
 const h1SizeExtract = '2rem';

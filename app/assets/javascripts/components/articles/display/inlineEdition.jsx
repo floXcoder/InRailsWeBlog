@@ -49,9 +49,7 @@ class ArticleInlineEditionDisplay extends React.Component {
         isModified: false
     };
 
-    _handleTitleClick = (event) => {
-        event.preventDefault();
-
+    _handleTitleClick = () => {
         spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
     };
 

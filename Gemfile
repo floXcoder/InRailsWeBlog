@@ -13,6 +13,7 @@ gem 'rails',                    '5.2.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.1.4'
+gem 'active_record_extended',   '1.1.0'
 
 # HTTP Response
 gem 'responders',               '2.4.1'
@@ -27,7 +28,7 @@ gem 'oj',                       '3.7.12'
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.2.1'
+gem 'i18n-js',                  '3.2.2'
 gem 'geocoder',                 '1.5.1'
 gem 'maxminddb',                '0.1.22'
 
@@ -162,11 +163,11 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.18.0'
+  gem 'capybara',               '3.19.0'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.22'
-  gem 'selenium-webdriver',     '3.142.0'
-  gem 'webdrivers',             '3.8.0'
+  gem 'selenium-webdriver',     '3.142.2'
+  gem 'webdrivers',             '3.9.1'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'
 
@@ -180,7 +181,7 @@ group :development, :test do
   # Check errors
   gem 'rubocop',                '0.68.1',  require: false
   gem 'rubocop-rspec',          '1.32.0',  require: false
-  gem 'rubocop-performance',    '1.1.0',  require: false
+  gem 'rubocop-performance',    '1.2.0',  require: false
 
   # Speed up boot
   gem 'bootsnap',               '1.4.4',   require: false

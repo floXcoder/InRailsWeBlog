@@ -50,7 +50,6 @@ export default @withRouter
     recentArticles: getUserRecentArticles(state),
     isSearching: state.autocompleteState.isFetching,
     query: state.autocompleteState.query,
-    actionKey: state.autocompleteState.actionKey,
     highlightedTagId: state.autocompleteState.highlightedTagId,
     tags: getAutocompleteTags(state),
     selectedTags: getAutocompleteSelectedTags(state),
@@ -73,7 +72,6 @@ class SearchModule extends React.Component {
         articles: PropTypes.array,
         isSearching: PropTypes.bool,
         query: PropTypes.string,
-        actionKey: PropTypes.string,
         highlightedTagId: PropTypes.number,
         setAutocompleteSelectedTag: PropTypes.func,
         // from styles
@@ -88,16 +86,6 @@ class SearchModule extends React.Component {
 
     componentDidMount() {
         setTimeout(() => SearchIndex.preload(), 5000);
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.actionKey !== this.props.actionKey) {
-            if (this.props.actionKey === 'Enter') {
-                this._performSearch();
-            } else if (this.props.actionKey === 'Escape') {
-                this._handleSearchClose();
-            }
-        }
     }
 
     componentWillUnmount() {

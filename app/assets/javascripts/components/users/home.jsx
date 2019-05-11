@@ -109,7 +109,12 @@ class UserHome extends React.Component {
                                           xs={12}
                                           sm={6}
                                           lg={4}>
-                                        <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}`}
+                                        <Link to={{
+                                            pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`,
+                                            state: {
+                                                reloadTags: true
+                                            }
+                                        }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
                                             <Paper className={classNames(this.props.classes.theme, {
                                                 [this.props.classes.storyTheme]: topic.mode === 'stories'
@@ -174,7 +179,12 @@ class UserHome extends React.Component {
                                           xs={12}
                                           sm={6}
                                           lg={4}>
-                                        <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}`}
+                                        <Link to={{
+                                            pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`,
+                                            state: {
+                                                reloadTags: true
+                                            }
+                                        }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
                                             <Paper className={this.props.classes.theme}
                                                    elevation={1}>
@@ -257,7 +267,12 @@ class UserHome extends React.Component {
                                                   xs={12}
                                                   sm={6}
                                                   lg={4}>
-                                                <Link to={`/users/${this.props.user.slug}/shared-topics/${topic.slug}`}
+                                                <Link to={{
+                                                    pathname: `/users/${this.props.user.slug}/shared-topics/${topic.slug}`,
+                                                    state: {
+                                                        reloadTags: true
+                                                    }
+                                                }}
                                                       onClick={this._handleTopicClick.bind(this, topic)}>
                                                     <Paper className={this.props.classes.theme}
                                                            elevation={1}>

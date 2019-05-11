@@ -27,7 +27,7 @@ module Searches
     def where_search(options)
       options ||= {}
 
-      where_options           = options.compact.select { |_k, v| v.present? }.map do |key, value|
+      where_options = options.compact.select { |_k, v| v.present? }.map do |key, value|
         case key
         when :notation
           [
@@ -73,24 +73,25 @@ module Searches
       end
     end
 
-    def format_search(results)
-      serializer_options                = case @params[:format]
-                                          when 'strict'
-                                            {
-                                              root:   @params[:model].model_name.plural,
-                                              strict: true
-                                            }
-                                          when 'complete'
-                                            {
-                                              complete: true
-                                            }
-                                          else
-                                            {
-                                              sample: true
-                                            }
-                                          end
+    def format_search(results, highlight_results = nil)
+      serializer_options = case @params[:format]
+                           when 'strict'
+                             {
+                               root:   @params[:model].model_name.plural,
+                               strict: true
+                             }
+                           when 'complete'
+                             {
+                               complete: true
+                             }
+                           else
+                             {
+                               sample: true
+                             }
+                           end
 
-      serializer_options[:current_user] = @current_user if @current_user
+      serializer_options[:highlight_results] = highlight_results if highlight_results
+      serializer_options[:current_user]      = @current_user if @current_user
 
       @params[:model].as_json(results, serializer_options)
     end
@@ -105,7 +106,13 @@ module Searches
       @params[:model].track_searches(results.map(&:id))
 
       # Format results into JSON
-      formatted_results = format_search(results)
+      highlight_results = {}
+      results.with_highlights.each do |item, highlights|
+        highlight_results[item.id] = {}
+        highlight_results[item.id][:title] = highlights[:'title.analyzed']
+        highlight_results[item.id][:content] = highlights[:'content.analyzed']
+      end
+      formatted_results = format_search(results, highlight_results)
 
       {
         suggestions:  results.suggestions,

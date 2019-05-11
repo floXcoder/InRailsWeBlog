@@ -96,8 +96,8 @@ fr:
       index:
         title:
           default: "Liste des articles"
-          tagged: "Articles du label %{tag}"
-          tagged_topic: "Articles du label %{tag} pour %{topic}"
+          tagged: "Liste des articles pour %{tag}"
+          tagged_topic: "Liste des articles pour %{tag} dans %{topic}"
           topic: "Articles pour le thème %{topic}"
       show:
         title: "%{title} - %{topic}"
@@ -256,7 +256,7 @@ fr:
       not_authorized:
         user: "Votre compte doit être complété avant (nom, prénom et ville)"
     user_policy:
-      show?: "Vous ne pouvez pas voir le compte d'autres utilisateurs"
+      show: "Vous ne pouvez pas voir le compte d'autres utilisateurs"
   activerecord:
     errors:
       messages:

@@ -22,6 +22,7 @@ import ArticleItemDisplay from './articles/item';
 export default class SearchArticleIndex extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
+        selectedTagIds: PropTypes.array.isRequired,
         articles: PropTypes.array.isRequired,
         onSettingsClick: PropTypes.func.isRequired,
         onOrderChange: PropTypes.func.isRequired,
@@ -175,6 +176,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                             :
                             this.props.articles.map((article) => (
                                 <ArticleItemDisplay key={article.id}
+                                                    highlightTagIds={this.props.selectedTagIds}
                                                     article={article}/>
                             ))
                     }

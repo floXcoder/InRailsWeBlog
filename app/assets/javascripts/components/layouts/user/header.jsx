@@ -40,7 +40,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import {
-    HomeHeaderSearch,
+    HomeSearchHeader,
     UserPreference
 } from '../../loaders/components';
 
@@ -403,9 +403,12 @@ class HeaderLayoutUser extends React.PureComponent {
 
                         <div className={this.props.classes.grow}/>
 
-                        <Suspense fallback={<div/>}>
-                            <HomeHeaderSearch isSearchActive={isSearchActive}/>
-                        </Suspense>
+                        {
+                            !this.props.routeProperties.noHeaderSearch &&
+                            <Suspense fallback={<div/>}>
+                                <HomeSearchHeader isSearchActive={isSearchActive}/>
+                            </Suspense>
+                        }
 
                         <div className={this.props.classes.grow}/>
 

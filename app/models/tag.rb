@@ -69,7 +69,6 @@ class Tag < ApplicationRecord
   searchkick searchable:  [:name, :description, :synonyms],
              word_middle: [:name, :description],
              suggest:     [:name],
-             highlight:   [:name, :description],
              language:    -> { I18n.locale == :fr ? 'french' : 'english' }
 
   # Comments
@@ -332,6 +331,8 @@ class Tag < ApplicationRecord
       id:                    id,
       user_id:               user_id,
       topic_ids:             topics.ids,
+      child_ids:             child_ids,
+      parent_ids:            parent_ids,
       name:                  name,
       description:           description,
       languages:             languages,

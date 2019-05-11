@@ -2,7 +2,7 @@
 
 class AssetManifest
   def self.manifest
-    asset_file = Rails.root.join('public', 'assets', 'rev-manifest.json')
+    asset_file = Rails.root.join('public', 'assets', 'manifest.json')
     if File.exist?(asset_file)
       @manifest ||= JSON.parse(File.read(asset_file))
     end
