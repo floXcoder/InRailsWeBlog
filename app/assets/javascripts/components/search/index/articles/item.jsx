@@ -22,8 +22,13 @@ export default @withStyles(styles)
 class ArticleItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
+        highlightTagIds: PropTypes.array,
         // from styles
         classes: PropTypes.object
+    };
+
+    static defaultProps = {
+        highlightTags: []
     };
 
     constructor(props) {
@@ -62,7 +67,12 @@ class ArticleItemDisplay extends React.Component {
                         {
                             this.props.article.tags.map((tag) => (
                                 <Chip key={tag.id}
-                                      className={this.props.classes.articleTag}
+                                      className={classNames(
+                                          this.props.classes.articleTag,
+                                          {
+                                              [this.props.classes.articleHighlightedTag]: this.props.highlightTagIds.includes(tag.id)
+                                          }
+                                      )}
                                       component={Link}
                                       to={`/tagged/${tag.slug}`}
                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}

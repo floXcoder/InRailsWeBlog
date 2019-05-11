@@ -21,6 +21,9 @@ import {
     getSearchContext,
     searchOnHistoryChange,
     setSelectedTag,
+    setSearchQuery,
+    fetchAutocomplete,
+    setAutocompleteSelectedTag,
     fetchSearch,
     filterSearch,
     updateUserSettings,
@@ -32,9 +35,14 @@ import {
     getSelectedTags,
     getArticleSuggestions,
     getTagSuggestions,
+    getAutocompleteTags,
     getSearchTags,
     getSearchArticles
 } from '../../selectors';
+
+import {
+    autocompleteLimit
+} from '../modules/constants';
 
 import HeadLayout from '../layouts/head';
 
@@ -52,18 +60,23 @@ export default @connect((state) => ({
     metaTags: getSearchMetaTags(state),
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
+    currentUserTopicId: state.topicState.currentUserTopicId,
     searchDisplay: state.userState.user && state.userState.user.settings.searchDisplay,
     query: state.searchState.query,
     selectedTags: getSelectedTags(state),
     hasResults: state.searchState.hasResults,
     tags: getSearchTags(state),
     tagSuggestions: getTagSuggestions(state),
+    autocompleteTags: getAutocompleteTags(state),
     articles: getSearchArticles(state),
     articleSuggestions: getArticleSuggestions(state),
 }), {
     getSearchContext,
     searchOnHistoryChange,
     setSelectedTag,
+    setSearchQuery,
+    fetchAutocomplete,
+    setAutocompleteSelectedTag,
     fetchSearch,
     filterSearch,
     updateUserSettings,
@@ -77,17 +90,22 @@ class SearchIndex extends React.Component {
         metaTags: PropTypes.object,
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
+        currentUserTopicId: PropTypes.number,
         searchDisplay: PropTypes.string,
         query: PropTypes.string,
         selectedTags: PropTypes.array,
         hasResults: PropTypes.bool,
         tags: PropTypes.array,
         tagSuggestions: PropTypes.array,
+        autocompleteTags: PropTypes.array,
         articles: PropTypes.array,
         articleSuggestions: PropTypes.array,
         getSearchContext: PropTypes.func,
         searchOnHistoryChange: PropTypes.func,
         setSelectedTag: PropTypes.func,
+        setSearchQuery: PropTypes.func,
+        fetchAutocomplete: PropTypes.func,
+        setAutocompleteSelectedTag: PropTypes.func,
         fetchSearch: PropTypes.func,
         filterSearch: PropTypes.func,
         updateUserSettings: PropTypes.func,
@@ -103,21 +121,8 @@ class SearchIndex extends React.Component {
     }
 
     state = {
-        previousQuery: null,
-        query: this.props.query || '',
         highlightedTagId: null
     };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.previousQuery !== nextProps.query) {
-            return {
-                previousQuery: nextProps.query || '',
-                query: nextProps.query || ''
-            };
-        }
-
-        return null;
-    }
 
     componentDidMount() {
         // Retrieve search from url or history
@@ -135,7 +140,7 @@ class SearchIndex extends React.Component {
 
     _handleKeyDown = (event) => {
         if (event.key && Utils.NAVIGATION_KEYMAP[event.which]) {
-            if (this.state.query.length > 0) {
+            if (this.props.query.length > 0) {
                 if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
                     this._handleSubmit(event);
                 } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'tab') {
@@ -146,10 +151,23 @@ class SearchIndex extends React.Component {
 
                         this.props.setSelectedTag(this.props.tags[tagIndex]);
 
+                        this.props.setSearchQuery('');
+
                         this.setState({
-                            highlightedTagId: null,
-                            query: ''
+                            highlightedTagId: null
                         });
+                    } else if (this.props.autocompleteTags.length > 0) {
+                        const tagIndex = this.state.highlightedTagId ? this.props.autocompleteTags.findIndex((tag) => tag.id === this.state.highlightedTagId) : 0;
+
+                        this.props.setSelectedTag(this.props.autocompleteTags[tagIndex]);
+
+                        this.props.setSearchQuery('');
+
+                        this.setState({
+                            highlightedTagId: null
+                        });
+
+                        this.props.setAutocompleteSelectedTag(this.props.autocompleteTags[tagIndex]);
                     }
                 } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'up') {
                     let newTagId;
@@ -174,7 +192,7 @@ class SearchIndex extends React.Component {
                         highlightedTagId: newTagId
                     });
                 }
-            } else if (this.state.query.length === 0 && this.props.selectedTags.length > 0) {
+            } else if (this.props.query.length === 0 && this.props.selectedTags.length > 0) {
                 if (Utils.NAVIGATION_KEYMAP[event.which] === 'backspace') {
                     event.preventDefault();
 
@@ -187,8 +205,16 @@ class SearchIndex extends React.Component {
     _handleChange = (event) => {
         const query = event.target.value;
 
-        this.setState({
-            query
+        this.props.setSearchQuery(query);
+
+        // Autocomplete tags only
+        this.props.fetchAutocomplete({
+            selectedTypes: ['tag'],
+            query: query,
+            userId: this.props.currentUserId,
+            topicId: this.props.currentUserTopicId,
+            tagIds: this.props.selectedTags.map((tag) => tag.id),
+            limit: autocompleteLimit
         });
     };
 
@@ -199,15 +225,13 @@ class SearchIndex extends React.Component {
     _handleTagSelection = (tag) => {
         this.props.setSelectedTag(tag);
 
-        this.setState({
-            query: ''
-        });
+        this.props.setSearchQuery('');
     };
 
     _handleSubmit = (event) => {
         event.preventDefault();
 
-        this._performSearch(this.state.query);
+        this._performSearch(this.props.query);
     };
 
     _handleSettingsClick = () => {
@@ -235,8 +259,10 @@ class SearchIndex extends React.Component {
     };
 
     _performSearch = (query) => {
+        this.props.setAutocompleteSelectedTag();
+
         this._request = this.props.fetchSearch({
-            query: query,
+            query,
             tags: this.props.selectedTags.map((tag) => tag.slug)
         });
     };
@@ -285,7 +311,7 @@ class SearchIndex extends React.Component {
                                        }}
                                        autoFocus={isDesktop}
                                        placeholder={I18n.t('js.search.index.placeholder')}
-                                       value={this.state.query}
+                                       value={this.props.query}
                                        startAdornment={
                                            <InputAdornment position="start">
                                                {
@@ -325,6 +351,14 @@ class SearchIndex extends React.Component {
                                        onSuggestionClick={this._handleSuggestionClick}/>
 
                 {
+                    this.props.autocompleteTags.length > 0 &&
+                    <SearchTagIndex classes={this.props.classes}
+                                    tags={this.props.autocompleteTags}
+                                    highlightedTagId={this.state.highlightedTagId}
+                                    onTagClick={this._handleTagSelection}/>
+                }
+
+                {
                     hasNoResults &&
                     <div className={classNames(this.props.classes.helpMessage)}>
                         {I18n.t('js.search.index.no_results')}
@@ -342,6 +376,7 @@ class SearchIndex extends React.Component {
                 {
                     this.props.articles.length > 0 &&
                     <SearchArticleIndex classes={this.props.classes}
+                                        selectedTagIds={this.props.selectedTags.map((tag) => tag.id)}
                                         articles={this.props.articles}
                                         searchDisplay={this.props.searchDisplay}
                                         onSettingsClick={this._handleSettingsClick}

@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
     end
 
     # Set user location
-    @user_latitude  = (request.respond_to?(:location) ? request.location.latitude : 0) rescue 0
+    @user_latitude = (request.respond_to?(:location) ? request.location.latitude : 0) rescue 0
     @user_longitude = (request.respond_to?(:location) ? request.location.longitude : 0) rescue 0
   end
 
@@ -93,6 +93,11 @@ class ApplicationController < ActionController::Base
     else
       self.response_body = nil
       respond_to do |format|
+        format.json do
+          flash.now[:alert] = I18n.t('devise.failure.unauthenticated')
+          render json:   { errors: I18n.t('devise.failure.unauthenticated') }.to_json,
+                 status: :forbidden
+        end
         format.js do
           flash[:alert] = I18n.t('devise.failure.unauthenticated')
           js_redirect_to(login_path)
@@ -100,11 +105,6 @@ class ApplicationController < ActionController::Base
         format.html do
           store_current_location
           redirect_to login_path, notice: I18n.t('devise.failure.unauthenticated')
-        end
-        format.json do
-          flash.now[:alert] = I18n.t('devise.failure.unauthenticated')
-          render json:   { errors: I18n.t('devise.failure.unauthenticated') }.to_json,
-                 status: :forbidden
         end
       end
     end
@@ -115,8 +115,8 @@ class ApplicationController < ActionController::Base
       super(options)
     else
       respond_to do |format|
-        format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
         format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
+        format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
         format.all { render body: nil, status: :not_found }
       end
     end
@@ -281,9 +281,9 @@ class ApplicationController < ActionController::Base
   def honeypot_protection
     if (params[:ensure] && !params[:ensure][:validity].blank?) || !params[:ensure_validity].blank?
       respond_to do |format|
-        format.html { head(200) }
-        format.js { js_redirect_to(root_path) }
         format.json { render json: { success: true }.to_json, status: :ok }
+        format.js { js_redirect_to(root_path) }
+        format.html { head(200) }
       end
     end
   end
@@ -324,19 +324,22 @@ class ApplicationController < ActionController::Base
     self.response_body = nil
     @_response_body    = nil
 
-    if exception.respond_to?(:policy) && exception.respond_to?(:query)
-      policy_name = exception.policy.class.to_s.underscore
-      policy_type = exception.query
+    error_message = if exception.respond_to?(:policy) && exception.respond_to?(:query)
+                      policy_name = exception.policy.class.to_s.underscore
+                      policy_type = exception.query
 
-      flash[:error] = t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
-    else
-      flash[:error] = t('pundit.default')
-    end
+                      t("#{policy_name}.#{policy_type}", scope: 'pundit', default: :default)
+                    else
+                      t('pundit.default')
+                    end
 
     respond_to do |format|
+      format.json { render json: { errors: error_message }.to_json, status: :forbidden }
       format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
-      format.html { redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
-      format.json { render json: { errors: I18n.t('pundit.default') }.to_json, status: :forbidden }
+      format.html do
+        flash[:error] = error_message
+        redirect_to(ERB::Util.html_escape(request.referer) || root_path)
+      end
     end
   end
 
@@ -344,8 +347,8 @@ class ApplicationController < ActionController::Base
     raise if Rails.env.development?
 
     respond_to do |format|
-      format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
       format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
+      format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
       format.all { render body: nil, status: :not_found }
     end
   end
@@ -358,8 +361,8 @@ class ApplicationController < ActionController::Base
     raise if Rails.env.development?
 
     respond_to do |format|
-      format.html { render 'errors/show', locals: { status: 500 }, status: :internal_server_error }
       format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }
+      format.html { render 'errors/show', locals: { status: 500 }, status: :internal_server_error }
       format.all { render body: nil, status: :internal_server_error }
     end
   end

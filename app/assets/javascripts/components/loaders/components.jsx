@@ -37,5 +37,5 @@ export const UserPreference = lazyWithPreload(() => import(/* webpackChunkName: 
 
 export const SearchModule = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-module" */ '../search/module'));
 export const SearchIndex = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-index" */ '../search/index'));
-export const HomeHeaderSearch = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../layouts/header/search'));
+export const HomeSearchHeader = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../layouts/header/search'));
 export const ArticleGridModeSearch = lazyWithPreload(() => import(/* webpackChunkName: "article-search-masonry" */ '../search/index/display/grid'));

@@ -50,7 +50,7 @@
     "babel-plugin-lodash": "3.3.4",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "classnames": "2.2.6",
-    "clean-webpack-plugin": "2.0.1",
+    "clean-webpack-plugin": "2.0.2",
     "copy-webpack-plugin": "5.0.3",
     "core-js": "3.0.1",
     "css-loader": "2.1.1",
@@ -117,6 +117,7 @@
     "webpack-manifest-plugin": "2.0.4"
   },
   "devDependencies": {
+    "@hot-loader/react-dom": "16.8.6",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.8.0",
     "babel-plugin-dynamic-import-node": "2.2.0",

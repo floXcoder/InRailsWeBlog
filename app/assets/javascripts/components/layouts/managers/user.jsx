@@ -62,7 +62,8 @@ class UserManager extends React.Component {
 
     componentDidMount() {
         // Load user environment:
-        // Get current user details with all topics (called only once by session)
+        // Get current user details with all topics (called each time route has changed)
+        // currentUser is defined only when route changed
         if (!this.props.currentUser) {
             this.props.initUser(this.props.userId, {
                 profile: true,
@@ -71,7 +72,20 @@ class UserManager extends React.Component {
             })
                 .fetch.then((response) => {
                 if (response && response.user) {
-                    this._fetchTags(response.user.id, (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) ? response.user.currentTopic.slug : null);
+                    const currentTopicSlug = (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) ? response.user.currentTopic.slug : null;
+                    if (currentTopicSlug) {
+                        this.props.fetchTags({
+                                topicSlug: currentTopicSlug
+                            },
+                            {},
+                            {
+                                topicTags: true
+                            });
+                    } else if (response.user.id) {
+                        this.props.fetchTags({
+                            userId: response.user.id
+                        });
+                    }
 
                     // Send local recent clicks otherwise fetch them
                     const userJustSign = sessionStorage && sessionStorage.getItem('user-connection');
@@ -97,20 +111,35 @@ class UserManager extends React.Component {
                 }
             });
         } else {
-            let newTopicSlug = this.props.routeParams.topicSlug;
+            // Called when route changed
+            this._checkState();
 
-            // Extract topicSlug from article if any
-            if (this.props.routeParams.articleSlug) {
-                newTopicSlug = this.props.routeParams.articleSlug.match(/@.*?$/).first().substr(1);
-            }
-
-            this._fetchTags(this.props.userId, newTopicSlug);
-            this._checkTopic(this.props.userId, this.props.currentUserTopicSlug, newTopicSlug)
+            // Reset current tags
+            this.props.setCurrentTags();
         }
     }
 
-    _fetchTags = (userId, topicSlug = null) => {
+    componentDidUpdate() {
+        // Called when hash route change (topic module, ...)
+        this._checkState();
+    }
+
+    _checkState = () => {
+        let topicSlug = this.props.routeParams.topicSlug;
+
+        // Extract topicSlug from article if any
+        if (this.props.routeParams.articleSlug) {
+            topicSlug = this.props.routeParams.articleSlug.match(/@.*?$/).first().substr(1);
+        }
+
+        this._checkTopic(topicSlug);
+
+        this._fetchTags(topicSlug);
+    };
+
+    _fetchTags = (topicSlug) => {
         // Load tags according to the current route
+        // Fetch tags only if different topic
         if (this.props.routeState.reloadTags) {
             this.props.fetchTags({
                     topicId: this.props.currentUserTopicId
@@ -119,7 +148,11 @@ class UserManager extends React.Component {
                 {
                     topicTags: true
                 });
-        } else if (topicSlug) {
+        } else if (!topicSlug) {
+            this.props.fetchTags({
+                userId: this.props.userId
+            });
+        } else if (this.props.currentUserTopicSlug !== topicSlug) {
             this.props.fetchTags({
                     topicSlug: topicSlug
                 },
@@ -127,24 +160,17 @@ class UserManager extends React.Component {
                 {
                     topicTags: true
                 });
-        } else {
-            this.props.fetchTags({
-                userId: userId
-            });
         }
-
-        // Reset current tags
-        this.props.setCurrentTags();
     };
 
-    _checkTopic = (userId, currentUserTopicSlug, newTopicSlug) => {
+    _checkTopic = (topicSlug) => {
         // Switch topic only if new topic belongs to current user
-        if (!this.props.userTopics.some((topic) => topic.slug === newTopicSlug)) {
+        if (!this.props.userTopics.some((topic) => topic.slug === topicSlug)) {
             return;
         }
 
-        if (newTopicSlug && currentUserTopicSlug !== newTopicSlug) {
-            this.props.switchTopic(userId, newTopicSlug);
+        if (this.props.currentUserTopicSlug !== topicSlug) {
+            this.props.switchTopic(this.props.userId, topicSlug);
         }
     };
 

@@ -84,6 +84,8 @@ export default {
             // search
             {
                 path: '/search',
+                noTagSidebar: true,
+                noHeaderSearch: true,
                 component: () => RouteComponents.SearchIndex
             },
             // tag

@@ -69,30 +69,6 @@ class HomeSearchHeader extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        $(document).keyup((event) => {
-            if (Utils.NAVIGATION_KEYMAP[event.which] === 'escape') {
-                this._handleSearchClose();
-            }
-        });
-    }
-
-    _handleSearchOpen = () => {
-        if (this.props.location.hash !== '#search') {
-            this.props.history.push({
-                hash: 'search'
-            });
-        }
-    };
-
-    _handleSearchClose = () => {
-        if (this.props.location.hash === '#search') {
-            this.props.history.push({
-                hash: undefined
-            });
-        }
-    };
-
     _handleChange = (event) => {
         const query = event.target.value;
 
@@ -103,40 +79,77 @@ class HomeSearchHeader extends React.Component {
             query: query,
             userId: this.props.currentUserId,
             topicId: this.props.currentUserTopicId,
-            tags: this.props.selectedTags.map((tag) => tag.slug),
+            tagIds: this.props.selectedTags.map((tag) => tag.id),
             limit: autocompleteLimit
         });
     };
 
     _handleKeyDown = (event) => {
         if (event.key && Utils.NAVIGATION_KEYMAP[event.which]) {
-            if (this.props.query.length > 0 &&
-                Utils.NAVIGATION_KEYMAP[event.which] === 'tab'
-                || Utils.NAVIGATION_KEYMAP[event.which] === 'enter'
-                || Utils.NAVIGATION_KEYMAP[event.which] === 'shift'
-                || Utils.NAVIGATION_KEYMAP[event.which] === 'escape'
-                || Utils.NAVIGATION_KEYMAP[event.which] === 'up'
-                || Utils.NAVIGATION_KEYMAP[event.which] === 'down'
-                || Utils.NAVIGATION_KEYMAP[event.which] === 'meta') {
-                event.preventDefault();
+            if (this.props.query.length > 0) {
+                if (Utils.NAVIGATION_KEYMAP[event.which] === 'tab'
+                    || Utils.NAVIGATION_KEYMAP[event.which] === 'enter'
+                    || Utils.NAVIGATION_KEYMAP[event.which] === 'escape'
+                    || Utils.NAVIGATION_KEYMAP[event.which] === 'shift'
+                    || Utils.NAVIGATION_KEYMAP[event.which] === 'up'
+                    || Utils.NAVIGATION_KEYMAP[event.which] === 'down'
+                    || Utils.NAVIGATION_KEYMAP[event.which] === 'meta') {
+                    event.preventDefault();
 
-                // // Key code 229 is used for selecting items from character selectors (Pinyin, Kana, etc)
-                // if (event.keyCode !== 13) {
-                //     return;
-                // }
+                    // // Key code 229 is used for selecting items from character selectors (Pinyin, Kana, etc)
+                    // if (event.keyCode !== 13) {
+                    //     return;
+                    // }
 
-                this.props.setAutocompleteAction(event.key);
-            } else if (this.props.query.length === 0 && this.props.selectedTags.length > 0 &&
-                Utils.NAVIGATION_KEYMAP[event.which] === 'backspace') {
-                event.preventDefault();
+                    this.props.setAutocompleteAction(event.key);
 
-                this.props.setAutocompleteAction(event.key);
+                    if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
+                        this._performSearch();
+                    } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'escape') {
+                        this._handleSearchClose();
+                    }
+                }
+            } else if (this.props.query.length === 0) {
+                if (this.props.selectedTags.length > 0 &&
+                    Utils.NAVIGATION_KEYMAP[event.which] === 'backspace') {
+                    event.preventDefault();
+
+                    this.props.setAutocompleteAction(event.key);
+                }
             }
         }
     };
 
     _handleTagSelection = (tag) => {
         this.props.setAutocompleteSelectedTag(tag);
+    };
+
+    _handleSearchOpen = () => {
+        if (this.props.location.hash !== '#search') {
+            this.props.history.push({
+                hash: 'search'
+            });
+        }
+    };
+
+    _performSearch = () => {
+        this.props.setAutocompleteSelectedTag();
+
+        this.props.history.push({
+            pathname: '/search',
+            search: $.param(Utils.compact({
+                query: this.props.query,
+                tags: this.props.selectedTags.map((tag) => tag.slug)
+            }))
+        });
+    };
+
+    _handleSearchClose = () => {
+        if (this.props.location.hash === '#search') {
+            this.props.history.push({
+                hash: undefined
+            });
+        }
     };
 
     render() {

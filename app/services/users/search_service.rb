@@ -39,7 +39,6 @@ module Users
       operator = @params[:operator] || 'and'
 
       # Highlight results and select a fragment
-      # highlight = options[:highlight] ? {fields: {content: {fragment_size: 200}}, tag: '<span class="search-highlight">'} : false
       highlight = false
 
       # Include tag in search, all tags: options[:tags] ; at least one tag: {all: options[:tags]}

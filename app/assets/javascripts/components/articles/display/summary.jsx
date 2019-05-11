@@ -69,7 +69,7 @@ class ArticleSummaryDisplay extends React.Component {
         }
     };
 
-    _handleTitleClick = (event) => {
+    _handleTitleClick = () => {
         spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
     };
 

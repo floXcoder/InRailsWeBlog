@@ -44,7 +44,8 @@ module Searches
           format:      'strict',
           limit:       @params[:limit] || InRailsWeBlog.config.per_page,
           where:       where_options.merge(
-            topic_ids: @params[:topic_ids].presence
+            topic_ids:  @params[:topic_ids].presence,
+            parent_ids: @params[:tag_ids].presence
           ).compact,
           boost_where: { topic_ids: [@params[:topic_id]] }.compact
         )

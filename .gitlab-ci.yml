@@ -75,6 +75,7 @@ test:rails:
   stage: test
   variables:
     RAILS_ENV: "test"
+    BASIC_TEST: "true"
     DATABASE_TEST_NAME: "inrailsweblog_test"
     DATABASE_TEST_USERNAME: "inrailsweblog_test"
     DATABASE_TEST_PASSWORD: "inrailsweblog"
@@ -117,6 +118,7 @@ deploy:
     GIT_REPO_ADDRESS: "$GIT_REPO_ADDRESS"
     GIT_REPO_USER: "$GIT_REPO_USER"
     GIT_REPO_PORT: "$GIT_REPO_PORT"
+    DEPLOY_GEMSET: "$DEPLOY_GEMSET"
   environment:
     name: production
     url: https://www.inrailsweblog.com

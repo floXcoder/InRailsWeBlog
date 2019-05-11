@@ -78,7 +78,6 @@ class Topic < ApplicationRecord
   searchkick searchable:  [:name, :description],
              word_middle: [:name, :description],
              suggest:     [:name],
-             highlight:   [:name, :description],
              language:    -> { I18n.locale == :fr ? 'french' : 'english' }
 
   # Marked as deleted

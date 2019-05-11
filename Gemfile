@@ -166,7 +166,7 @@ group :test do
   gem 'capybara',               '3.18.0'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.22'
-  gem 'selenium-webdriver',     '3.142.0'
+  gem 'selenium-webdriver',     '3.142.1'
   gem 'webdrivers',             '3.8.0'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'

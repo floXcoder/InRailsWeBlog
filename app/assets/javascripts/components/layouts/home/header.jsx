@@ -34,7 +34,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import {
-    HomeHeaderSearch,
+    HomeSearchHeader,
     UserSignup,
     UserLogin
 } from '../../loaders/components';
@@ -45,6 +45,7 @@ import {
 } from '../../../actions';
 
 import {
+    getRouteProperties,
     getRouteLocation
 } from '../../../selectors';
 
@@ -52,6 +53,7 @@ import styles from '../../../../jss/home/header';
 
 export default @withRouter
 @connect((state) => ({
+    routeProperties: getRouteProperties(state),
     routeLocation: getRouteLocation(state),
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen
@@ -67,6 +69,7 @@ class HeaderLayoutHome extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
+        routeProperties: PropTypes.object,
         routeLocation: PropTypes.object,
         isUserSignupOpen: PropTypes.bool,
         isUserLoginOpen: PropTypes.bool,
@@ -251,11 +254,14 @@ class HeaderLayoutHome extends React.Component {
 
                         <div className={this.props.classes.grow}/>
 
-                        <Suspense fallback={<div/>}>
-                            <HomeHeaderSearch isSearchActive={isSearchActive}
-                                              onFocus={this._handleSearchOpen}
-                                              onClose={this._handleSearchClose}/>
-                        </Suspense>
+                        {
+                            !this.props.routeProperties.noHeaderSearch &&
+                            <Suspense fallback={<div/>}>
+                                <HomeSearchHeader isSearchActive={isSearchActive}
+                                                  onFocus={this._handleSearchOpen}
+                                                  onClose={this._handleSearchClose}/>
+                            </Suspense>
+                        }
 
                         <div className={this.props.classes.grow}/>
 

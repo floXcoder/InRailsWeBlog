@@ -63,9 +63,10 @@ module Searches
           operator:     @current_user ? @current_user.search_operator : nil,
           order:        @params[:order],
           where:        {
-                          user_id:   @params[:user_id],
-                          accepted:  @params[:accepted],
-                          home_page: @params[:home_page]
+                          user_id:    @params[:user_id],
+                          accepted:   @params[:accepted],
+                          home_page:  @params[:home_page],
+                          parent_ids: @params[:tag_ids].presence
                         }.merge(visibility).compact,
           boost_where:  { topic_ids: @params[:topic_id] || @current_user&.current_topic_id }.compact
         )
@@ -97,7 +98,7 @@ module Searches
         searches.map do |search|
           case search.model_name.human
           when 'Article'
-            article_results = article_search&.parsed_search(search)
+            article_results = article_search&.parsed_search(search.execute)
 
             next if article_results[:articles].empty?
             search_results[:articles]                = article_results[:articles]
@@ -106,7 +107,7 @@ module Searches
             search_results[:totalCount][:articles]   = article_results[:total_count]
             search_results[:totalPages][:articles]   = article_results[:total_pages]
           when 'Tag'
-            tag_results = tag_search&.parsed_search(search)
+            tag_results = tag_search&.parsed_search(search.execute)
 
             next if tag_results[:tags].empty?
             search_results[:tags]               = tag_results[:tags]

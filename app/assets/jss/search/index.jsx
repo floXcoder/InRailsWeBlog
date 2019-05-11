@@ -116,6 +116,9 @@ const styles = (theme) => ({
         color: theme.palette.text.secondary,
         borderColor: theme.palette.text.secondary
     },
+    articleHighlightedTag: {
+        backgroundColor: theme.palette.secondary.light
+    },
     articleTitle: {
         fontSize: '2rem',
         color: theme.palette.text.primary

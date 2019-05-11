@@ -43,7 +43,7 @@ class SidebarLayoutUser extends React.Component {
         return (
             <>
                 {
-                    (this.props.width !== 'xs' && this.props.width !== 'sm') &&
+                    (!this.props.routeProperties.noTagSidebar && (this.props.width !== 'xs' && this.props.width !== 'sm')) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className={this.props.classes.sidebar}>

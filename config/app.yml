@@ -8,6 +8,8 @@ shared: &shared
 
   # Search results per page
   search_per_page: 20
+  # Length of the highlighted search result
+  search_fragment_size: 220
 
   # Maximum upload image size
   image_size: <%= 8.megabytes %>

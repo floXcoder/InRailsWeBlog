@@ -31,15 +31,15 @@ class ArticleSampleSerializer < ActiveModel::Serializer
   end
 
   def title
-    object.try(:search_highlights) && object.try(:search_highlights)[:title] ? object.search_highlights[:title] : object.title
+    instance_options.dig(:highlight_results, object.id, :title).presence || object.title
   end
 
   def summary
-    object.try(:search_highlights) && object.try(:search_highlights)[:summary] ? object.search_highlights[:summary] : object.summary
+    object.summary
   end
 
   def content
-    object.try(:search_highlights) && object.try(:search_highlights)[:content] ? object.search_highlights[:content] : object.summary_content
+    instance_options.dig(:highlight_results, object.id, :content).presence || object.summary_content
   end
 
   def date
