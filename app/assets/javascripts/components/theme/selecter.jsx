@@ -162,7 +162,7 @@ export default class Selecter extends React.Component {
             }
         }).compact();
 
-        const noResults = (
+        const noResults = () => (
             <div className="no-results-found">
                 {I18n.t('js.selecter.no_results')}
             </div>

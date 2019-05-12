@@ -88,16 +88,33 @@ Rails.application.routes.draw do
       # Users (activities)
       resources :activities, only: [:index]
 
+      # Tags
+      resources :tags, except: [:new, :create] do
+        collection do
+          put      :priority,  to: 'tags#update_priority'
+
+          concerns :tracker,   module: :tags
+        end
+
+        member do
+          concerns :tracker,   module: :tags
+
+          concerns :comments,  module: :tags
+        end
+      end
+
       # Topics
       resources :topics do
         collection do
-          get :switch,        to: 'topics#switch'
+          get      :switch,   to: 'topics#switch'
+
+          put      :priority, to: 'topics#update_priority'
 
           concerns :tracker,  module: :topics
         end
 
         member do
-          put :share,         to: 'topics#share'
+          put      :share,    to: 'topics#share'
 
           concerns :tracker,  module: :tags
         end
@@ -125,21 +142,6 @@ Rails.application.routes.draw do
         concerns :outdated,    module: :articles
 
         concerns :votes,       module: :articles
-      end
-
-      # Tags
-      resources :tags, except: [:new, :create] do
-        collection do
-          put      :priority,  to: 'tags#update_priority'
-
-          concerns :tracker,   module: :tags
-        end
-
-        member do
-          concerns :tracker,   module: :tags
-
-          concerns :comments,  module: :tags
-        end
       end
 
       # Global search

@@ -12,15 +12,19 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 
+import LabelIcon from '@material-ui/icons/Label';
+import ShareIcon from '@material-ui/icons/Share';
+
 import {
-    fetchTag,
+    fetchTopic,
     spyTrackClick
 } from '../../actions';
 
 import {
-    getTagMetaTags
+    getTopicMetaTags
 } from '../../selectors';
 
 import UserAvatarIcon from '../users/icons/avatar';
@@ -30,25 +34,25 @@ import Loader from '../theme/loader';
 import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
-import styles from '../../../jss/tag/show';
+import styles from '../../../jss/topic/show';
 
 export default @connect((state) => ({
-    metaTags: getTagMetaTags(state),
-    isFetching: state.tagState.isFetching,
-    tag: state.tagState.tag
+    metaTags: getTopicMetaTags(state),
+    isFetching: state.topicState.isFetching,
+    topic: state.topicState.topic
 }), {
-    fetchTag
+    fetchTopic
 })
 @hot
 @withStyles(styles)
-class TagShow extends React.Component {
+class TopicShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
         metaTags: PropTypes.object,
         isFetching: PropTypes.bool,
-        tag: PropTypes.object,
-        fetchTag: PropTypes.func,
+        topic: PropTypes.object,
+        fetchTopic: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -58,17 +62,21 @@ class TagShow extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTag(this.props.routeParams.tagSlug);
+        this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug);
     }
 
     componentDidUpdate(prevProps) {
         if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
-            this.props.fetchTag(this.props.routeParams.tagSlug);
+            this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug);
         }
     }
 
+    _handleTagClick = (tag) => {
+        spyTrackClick('tag', tag.id, tag.slug, tag.name);
+    };
+
     render() {
-        if (!this.props.tag) {
+        if (!this.props.topic) {
             if (this.props.isFetching) {
                 return (
                     <div className="center margin-top-20">
@@ -91,7 +99,7 @@ class TagShow extends React.Component {
                 <Typography className={this.props.classes.title}
                             component="h1"
                             variant="h1">
-                    {this.props.tag.name}
+                    {this.props.topic.name}
                 </Typography>
 
 
@@ -101,70 +109,36 @@ class TagShow extends React.Component {
                             <Typography className={this.props.classes.subtitle}
                                         component="h2"
                                         variant="h2">
-                                {I18n.t('js.tag.model.description')}
+                                {I18n.t('js.topic.model.description')}
                             </Typography>
 
                             {
-                                this.props.tag.description ||
+                                this.props.topic.description ||
                                 <p className="">
-                                    {I18n.t('js.tag.common.no_description')}
+                                    {I18n.t('js.topic.common.no_description')}
                                 </p>
                             }
                         </div>
 
-                        <div className="margin-bottom-20">
+                        <div>
                             <Typography className={this.props.classes.subtitle}
                                         component="h2"
                                         variant="h2">
-                                {I18n.t('js.tag.model.parents')}
+                                {I18n.t('js.topic.model.tags')}
                             </Typography>
 
                             {
-                                this.props.tag.parents.size > 0
-                                    ?
-                                    <div className="tag-parents">
-                                        {
-                                            this.props.tag.parents.map((tag) => (
-                                                <Link key={tag.id}
-                                                      to={`/tags/${tag.slug}`}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                                    {tag.name}
-                                                </Link>
-                                            ))
-                                        }
-                                    </div>
-                                    :
-                                    <p className="">
-                                        {I18n.t('js.tag.common.no_parents')}
-                                    </p>
-                            }
-                        </div>
-
-                        <div className="margin-bottom-20">
-                            <Typography className={this.props.classes.subtitle}
-                                        component="h2"
-                                        variant="h2">
-                                {I18n.t('js.tag.model.children')}
-                            </Typography>
-
-                            {
-                                this.props.tag.children.size > 0
-                                    ?
-                                    <div>
-                                        {
-                                            this.props.tag.children.map((tag) => (
-                                                <Link key={tag.id}
-                                                      to={`/tags/${tag.slug}`}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                                    {tag.name}
-                                                </Link>
-                                            ))
-                                        }
-                                    </div>
-                                    :
-                                    <span>
-                                        {I18n.t('js.tag.common.no_children')}
-                                    </span>
+                                this.props.topic.tags.map((tag) => (
+                                    <Chip key={tag.id}
+                                          className={this.props.classes.topicTag}
+                                          icon={<LabelIcon/>}
+                                          label={tag.name}
+                                          color="primary"
+                                          variant="outlined"
+                                          component={Link}
+                                          to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/tagged/${tag.slug}`}
+                                          onClick={this._handleTagClick.bind(this, tag)}/>
+                                ))
                             }
                         </div>
                     </div>
@@ -174,76 +148,86 @@ class TagShow extends React.Component {
                             <Typography className={this.props.classes.subtitle2}
                                         component="h3"
                                         variant="h3">
-                                {I18n.t('js.tag.model.owner')}
+                                {I18n.t('js.topic.model.owner')}
                             </Typography>
 
                             <UserAvatarIcon className={this.props.classes.avatar}
-                                            user={this.props.tag.user}/>
+                                            user={this.props.topic.user}/>
                         </div>
 
                         <div>
                             <Typography className={this.props.classes.subtitle2}
                                         component="h3"
                                         variant="h3">
-                                {I18n.t('js.tag.model.articles_count')}
-                            </Typography>
-
-                            <p>
-                                {this.props.tag.taggedArticlesCount}
-                            </p>
-                        </div>
-
-                        <div>
-                            <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
-                                {I18n.t('js.tag.model.visibility')}
-                            </Typography>
-
-                            <p>
-                                {this.props.tag.visibilityTranslated}
-                            </p>
-                        </div>
-
-                        <div>
-                            <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
-                                {I18n.t('js.tag.model.synonyms')}
+                                {I18n.t('js.topic.model.contributors')}
                             </Typography>
 
                             {
-                                !Utils.isEmpty(this.props.tag.synonyms)
-                                    ?
-                                    <p>
-                                        {this.props.tag.synonyms.join(', ')}
-                                    </p>
-                                    :
-                                    <p>
-                                        {I18n.t('js.tag.common.no_synonyms')}
-                                    </p>
+                                this.props.topic.contributors.map((contributor) => (
+                                    <UserAvatarIcon key={contributor.id}
+                                                    className={this.props.classes.avatar}
+                                                    user={contributor}/>
+                                ))
                             }
 
+                            <Button className={this.props.classes.shareButton}
+                                    color="default"
+                                    variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={{
+                                        hash: '#share-topic',
+                                        state: {
+                                            topicId: this.props.topic.id
+                                        }
+                                    }}>
+                                Partager ce topic
+                                <ShareIcon className={this.props.classes.shareButtonIcon}/>
+                            </Button>
                         </div>
 
                         <div>
                             <Typography className={this.props.classes.subtitle2}
                                         component="h3"
                                         variant="h3">
-                                {I18n.t('js.tag.common.stats.title')}
+                                {I18n.t('js.topic.model.articles_count')}
                             </Typography>
 
                             <p>
-                                {I18n.t('js.tag.common.stats.views')}
-                                {this.props.tag.viewsCount}
+                                {this.props.topic.articlesCount}
+                            </p>
+                        </div>
+
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        component="h3"
+                                        variant="h3">
+                                {I18n.t('js.topic.model.visibility')}
+                            </Typography>
+
+                            <p>
+                                {this.props.topic.visibilityTranslated}
+                            </p>
+                        </div>
+
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        component="h3"
+                                        variant="h3">
+                                {I18n.t('js.topic.common.stats.title')}
+                            </Typography>
+
+                            <p>
+                                {I18n.t('js.topic.common.stats.views')}
+                                {this.props.topic.viewsCount}
                             </p>
                             <p>
-                                {I18n.t('js.tag.common.stats.clicks')}
-                                {this.props.tag.clicksCount}
+                                {I18n.t('js.topic.common.stats.clicks')}
+                                {this.props.topic.clicksCount}
                             </p>
                             <p>
-                                {I18n.t('js.tag.common.stats.searches')}
-                                {this.props.tag.searchesCount}
+                                {I18n.t('js.topic.common.stats.searches')}
+                                {this.props.topic.searchesCount}
                             </p>
                         </div>
                     </div>
@@ -257,7 +241,7 @@ class TagShow extends React.Component {
                                     size="small"
                                     component={Link}
                                     to={'/'}>
-                                {I18n.t('js.tag.show.back_button')}
+                                {I18n.t('js.topic.show.back_button')}
                             </Button>
                         </div>
 
@@ -266,8 +250,8 @@ class TagShow extends React.Component {
                                     variant="outlined"
                                     size="small"
                                     component={Link}
-                                    to={`/tags/${this.props.tag.slug}/edit`}>
-                                {I18n.t('js.tag.show.edit_link')}
+                                    to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/edit`}>
+                                {I18n.t('js.topic.show.edit_link')}
                             </Button>
                         </div>
                     </div>

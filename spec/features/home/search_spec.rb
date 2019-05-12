@@ -34,10 +34,11 @@ feature 'Search for visitors', advanced: true, js: true, search: true do
     it_behaves_like 'a valid page' do
       let(:content) {
         {
-          current_page: search_page,
-          title:        I18n.t('views.search.index.title', query: @query),
-          asset_name:   'assets/home',
-          common_js:    ['assets/runtime', 'assets/home']
+          current_page:     search_page,
+          title:            I18n.t('views.search.index.title', query: @query),
+          no_search_header: true,
+          asset_name:       'assets/home',
+          common_js:        ['assets/runtime', 'assets/home']
         }
       }
     end
@@ -49,7 +50,7 @@ feature 'Search for visitors', advanced: true, js: true, search: true do
 
   feature 'Home page content' do
     scenario 'visitor can see search form' do
-      is_expected.to have_css('input[type="search"]', count: 2)
+      is_expected.to have_css('input[type="search"]', count: 1)
     end
 
     scenario 'visitor can see the results' do

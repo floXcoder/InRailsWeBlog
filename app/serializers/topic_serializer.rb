@@ -35,17 +35,34 @@ class TopicSerializer < ActiveModel::Serializer
              :priority,
              :visibility,
              :visibility_translated,
-             :updated_at,
              :settings,
-             :slug
+             :slug,
+             :articles_count,
+             :views_count,
+             :clicks_count,
+             :searches_count
 
-  has_many :tags, if: -> { instance_options[:with_tags] }, serializer: TagSerializer do
-    Tag.includes(:parents, :children).for_topic(object.id).order('tags.priority', 'tags.name')
+  belongs_to :user, if: -> { instance_options[:complete] }, serializer: UserSampleSerializer
+
+  has_many :tags, if: -> { instance_options[:complete] }, serializer: TagSerializer do
+    Tag.includes(:parents, :children).for_topic_id(object.id).order('tags.priority', 'tags.name')
   end
 
   has_many :contributors, serializer: UserStrictSerializer
 
   def visibility_translated
     object.visibility_to_tr
+  end
+
+  def views_count
+    object.tracker.views_count
+  end
+
+  def clicks_count
+    object.tracker.clicks_count
+  end
+
+  def searches_count
+    object.tracker.searches_count
   end
 end

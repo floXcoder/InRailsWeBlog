@@ -60,6 +60,8 @@ fr:
         successful_edition: "Thème mis à jour"
         error_edition: "Problème lors de la mise à jour du thème !"
         successful_deletion: "Le thème a été supprimé"
+        successful_priority_update: "L'ordre des thèmes a été changé"
+        error_priority_update: "Problème lors du changement de priorité des thèmes"
         error_deletion: "Problème lors de la suppression du thème : %{errors}"
     tag:
       flash:

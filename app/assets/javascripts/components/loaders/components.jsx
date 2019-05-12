@@ -8,8 +8,11 @@ export const lazyWithPreload = (factory) => {
 
 export const HomeHome = lazyWithPreload(() => import(/* webpackChunkName: "home-index" */ '../home/home'));
 
+export const TopicShow = lazyWithPreload(() => import(/* webpackChunkName: "topic-show" */ '../topics/show'));
+export const TopicEdit = lazyWithPreload(() => import(/* webpackChunkName: "topic-edit" */ '../topics/edit'));
 export const TopicPersistence = lazyWithPreload(() => import(/* webpackChunkName: "topic-persistence" */ '../topics/persistence'));
 export const TopicShare = lazyWithPreload(() => import(/* webpackChunkName: "topic-share" */ '../topics/share'));
+export const TopicSort = lazyWithPreload(() => import(/* webpackChunkName: "topic-sort" */ '../topics/sort'));
 
 export const ArticleIndex = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "article-index" */ '../articles/index'));
 export const ArticleShow = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "article-show" */ '../articles/show'));

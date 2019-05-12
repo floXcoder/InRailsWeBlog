@@ -13,49 +13,49 @@ import {
 } from '@material-ui/core/styles';
 
 import {
-    fetchTag,
-    updateTag
+    fetchTopic,
+    updateTopic
 } from '../../actions';
 
 import {
-    getTagMetaTags,
+    getTopicMetaTags,
     getCurrentUser,
-    getTagErrors
+    getTopicErrors
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
-import TagFormDisplay from './display/form';
+import TopicFormDisplay from './display/form';
 
 import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
-import styles from '../../../jss/tag/edit';
+import styles from '../../../jss/topic/edit';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: getTagMetaTags(state),
-    tag: state.tagState.tag,
+    metaTags: getTopicMetaTags(state),
+    topic: state.topicState.topic,
     currentUser: getCurrentUser(state),
-    tagErrors: getTagErrors(state)
+    topicErrors: getTopicErrors(state)
 }), {
-    fetchTag,
-    updateTag
+    fetchTopic,
+    updateTopic
 })
 @hot
 @withStyles(styles)
-class TagEdit extends React.Component {
+class TopicEdit extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from router
         history: PropTypes.object,
         // from connect
         metaTags: PropTypes.object,
-        tag: PropTypes.object,
+        topic: PropTypes.object,
         currentUser: PropTypes.object,
-        tagErrors: PropTypes.array,
-        fetchTag: PropTypes.func,
-        updateTag: PropTypes.func,
+        topicErrors: PropTypes.array,
+        fetchTopic: PropTypes.func,
+        updateTopic: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -65,20 +65,19 @@ class TagEdit extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTag(this.props.routeParams.tagSlug, {edit: true});
+        this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {edit: true});
     }
 
     _handleSubmit = (values) => {
         let formData = values.toJS();
 
-        formData.id = this.props.tag.id;
+        formData.id = this.props.topic.id;
 
-        this.props.updateTag(formData)
+        this.props.updateTopic(this.props.topic.user.id, formData)
             .then((response) => {
-                if (response.tag) {
+                if (response.topic) {
                     this.props.history.push({
-                        pathname: `/tags/${response.tag.slug}`,
-                        state: {reloadTags: true}
+                        pathname: `/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/show`
                     });
                 }
             });
@@ -87,7 +86,7 @@ class TagEdit extends React.Component {
     };
 
     render() {
-        if (!this.props.tag || !this.props.currentUser) {
+        if (!this.props.topic || !this.props.currentUser) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -95,7 +94,7 @@ class TagEdit extends React.Component {
             );
         }
 
-        if (!this.props.currentUser || this.props.currentUser.id !== this.props.tag.user.id) {
+        if (!this.props.currentUser || this.props.currentUser.id !== this.props.topic.user.id) {
             return (
                 <div className="center margin-top-20">
                     <NotAuthorized/>
@@ -103,20 +102,20 @@ class TagEdit extends React.Component {
             )
         }
 
-        const {name, description, visibility, synonyms, ...otherProps} = this.props.tag;
+        const {name, description, ...otherProps} = this.props.topic;
 
         return (
             <div className={this.props.classes.root}>
                 <HeadLayout metaTags={this.props.metaTags}/>
 
-                <TagFormDisplay initialValues={{name, description, visibility, synonyms}}
-                                id={`tag-edit-${this.props.tag.id}`}
-                                tagId={this.props.tag.id}
-                                isEditing={true}
-                                tagErrors={this.props.tagErrors}
-                                onSubmit={this._handleSubmit}>
-                    {this.props.tag}
-                </TagFormDisplay>
+                <TopicFormDisplay initialValues={{name, description}}
+                                  id={`topic-edit-${this.props.topic.id}`}
+                                  topicId={this.props.topic.id}
+                                  isEditing={true}
+                                  topicErrors={this.props.topicErrors}
+                                  onSubmit={this._handleSubmit}>
+                    {this.props.topic}
+                </TopicFormDisplay>
             </div>
         );
     }

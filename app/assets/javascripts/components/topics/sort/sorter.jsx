@@ -13,35 +13,34 @@ import {
     SortableElement
 } from 'react-sortable-hoc';
 
-import ArticleCardSort from './card';
+import TopicCardSort from './card';
 
-const SortableItem = SortableElement(({classes, article}) => (
-        <ArticleCardSort classes={classes}
-                         article={article}/>
+const SortableItem = SortableElement(({classes, topic}) => (
+        <TopicCardSort classes={classes}
+                       topic={topic}/>
     )
 );
 
-const SortableList = SortableContainer(({classes, articles}) => (
+const SortableList = SortableContainer(({classes, topics}) => (
         <div className={classes.sortingItems}>
             {
-                articles.map((article, i) => (
+                topics.map((topic, i) => (
                     <SortableItem key={i}
                                   index={i}
                                   classes={classes}
-                                  article={article}/>
+                                  topic={topic}/>
                 ))
             }
         </div>
     )
 );
 
-export default class ArticleSorter extends React.Component {
+export default class TopicSorter extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        // Articles must already be sorted by priority
-        articles: PropTypes.array.isRequired,
-        topicSlug: PropTypes.string.isRequired,
-        updateArticlePriority: PropTypes.func.isRequired
+        // Topics must already be sorted by priority
+        topics: PropTypes.array.isRequired,
+        updateTopicPriority: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -49,31 +48,36 @@ export default class ArticleSorter extends React.Component {
     }
 
     state = {
-        articles: this.props.articles
+        topics: this.props.topics
     };
 
     _handleSortEndProduct = ({oldIndex, newIndex}) => {
         this.setState({
-            articles: arrayMove(this.state.articles, oldIndex, newIndex)
+            topics: arrayMove(this.state.topics, oldIndex, newIndex)
         });
     };
 
     _handleSavePriority = (event) => {
         event.preventDefault();
 
-        this.props.updateArticlePriority(this.state.articles.map((article) => article['id']));
+        this.props.updateTopicPriority(this.state.topics.map((topic) => topic['id']));
     };
 
     render() {
         return (
             <div className={this.props.classes.sorting}>
+                <SortableList classes={this.props.classes}
+                              topics={this.state.topics}
+                              useWindowAsScrollContainer={true}
+                              onSortEnd={this._handleSortEndProduct}/>
+
                 <div className="row">
                     <div className="col s12 m6 center-align">
                         <Button color="default"
                                 variant="outlined"
                                 size="small"
                                 component={Link}
-                                to={`/users/${this.props.topicSlug}`}>
+                                to={'/'}>
                             {I18n.t('js.helpers.buttons.cancel')}
                         </Button>
                     </div>
@@ -86,11 +90,6 @@ export default class ArticleSorter extends React.Component {
                         </Button>
                     </div>
                 </div>
-
-                <SortableList classes={this.props.classes}
-                              articles={this.state.articles}
-                              useWindowAsScrollContainer={true}
-                              onSortEnd={this._handleSortEndProduct}/>
             </div>
         );
     }

@@ -50,7 +50,7 @@ const styles = (theme) => ({
             paddingTop: '12%'
         }
     },
-    shareButton: {
+    topicLink: {
         position: 'absolute',
         top: -2,
         right: -4,
@@ -59,6 +59,9 @@ const styles = (theme) => ({
         borderRadius: '25px !important',
         margin: theme.spacing.unit,
         backgroundColor: theme.palette.primary.light
+    },
+    storyTopicLink: {
+        backgroundColor: theme.palette.secondary.dark
     }
 });
 

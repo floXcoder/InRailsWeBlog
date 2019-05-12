@@ -4,10 +4,11 @@ import {
     Link
 } from 'react-router-dom';
 
+import arrayMove from 'array-move';
+
 import {
     SortableContainer,
-    SortableElement,
-    arrayMove
+    SortableElement
 } from 'react-sortable-hoc';
 
 const SortableItem = SortableElement(({tag}) => (
@@ -26,11 +27,10 @@ const SortableList = SortableContainer(({tags}) => (
         <div className="tag-sorting-items">
             {
                 tags.map((tag, i) => (
-                        <SortableItem key={`tag-sort-${tag.id}`}
-                                      index={i}
-                                      tag={tag}/>
-                    )
-                )
+                    <SortableItem key={i}
+                                  index={i}
+                                  tag={tag}/>
+                ))
             }
         </div>
     )

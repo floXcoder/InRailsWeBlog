@@ -53,6 +53,17 @@ export const updateTopic = (userId, topic, options = {}) => ({
     })
 });
 
+export const updateTopicPriority = (userId, topicIdsByPriority) => ({
+    actionType: ActionTypes.TOPIC,
+    mutationAPI: () => api.update('/api/v1/topics/priority', {
+        userId,
+        topicIds: topicIdsByPriority
+    }),
+    payload: {
+        priority: true
+    }
+});
+
 export const shareTopic = (topicId, userLogin) => ({
     actionType: ActionTypes.TOPIC,
     mutationAPI: () => api.update(`/api/v1/topics/${topicId}/share`, {

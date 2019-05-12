@@ -187,8 +187,6 @@ class Topic < ApplicationRecord
 
   after_update :regenerate_article_slug
 
-  after_commit :invalidate_topic_cache
-
   # == Class Methods ========================================================
   def self.as_json(topics, options = {})
     return nil unless topics
@@ -288,10 +286,6 @@ class Topic < ApplicationRecord
         end
       end
     end
-  end
-
-  def invalidate_topic_cache
-    Rails.cache.delete("user_topics:#{self.user_id}")
   end
 
 end
