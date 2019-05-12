@@ -113,7 +113,6 @@ module InRailsWeBlog
   end
 
   def self.config(reload = false)
-    # reload ? @config = Setting.all_settings : @config ||= Setting.all_settings
-    @config ||= OpenStruct.new(Rails.configuration.x)
+    reload ? @config = Setting.all_settings : @config ||= Setting.all_settings
   end
 end
