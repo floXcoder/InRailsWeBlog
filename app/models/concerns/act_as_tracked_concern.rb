@@ -83,7 +83,7 @@ module ActAsTrackedConcern
       self.tracker_metrics   = trackers
       self.tracker_callbacks = options[:callbacks]
 
-      tracker_cron_job if Rails.configuration.x.cron_jobs_active
+      tracker_cron_job if InRailsWeBlog.config.cron_jobs_active
 
       track_queries
     end

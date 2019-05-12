@@ -109,10 +109,10 @@ module InRailsWeBlog
     config.exceptions_app = self.routes
 
     # App-specific configuration
-    config.x = OpenStruct.new(config_for(:app))
+    config.x = config_for(:settings)
   end
 
-  def self.config
-    @config ||= Rails.configuration.x
+  def self.config(reload = false)
+    reload ? @config = Setting.all_settings : @config ||= Setting.all_settings
   end
 end

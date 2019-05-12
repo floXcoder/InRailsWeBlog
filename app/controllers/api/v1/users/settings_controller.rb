@@ -14,7 +14,7 @@ module Api::V1
         format.json do
           render json:       user,
                  root:       'settings',
-                 serializer: SettingSerializer
+                 serializer: UserSettingSerializer
         end
       end
     end
@@ -46,7 +46,7 @@ module Api::V1
           render json:       (topic || user),
                  root:       'settings',
                  meta:       { topic: !!topic },
-                 serializer: SettingSerializer
+                 serializer: UserSettingSerializer
         end
       end
     end

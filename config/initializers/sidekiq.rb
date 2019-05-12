@@ -11,7 +11,7 @@ Sidekiq.configure_server do |config|
   Sidekiq::Status.configure_server_middleware config, expiration: 60 * 60 * 24 * 30 # 30 days
   Sidekiq::Status.configure_client_middleware config, expiration: 60 * 60 * 24 * 30 # 30 days
 
-  if Rails.configuration.x.cron_jobs_active
+  if InRailsWeBlog.config.cron_jobs_active
     schedule_file = 'config/sidekiq_schedule.yml'
     if File.exist?(schedule_file) && Sidekiq.server?
       Sidekiq::Cron::Job.load_from_hash! YAML.load_file(schedule_file)
