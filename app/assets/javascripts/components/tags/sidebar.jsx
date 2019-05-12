@@ -137,8 +137,7 @@ class TagSidebar extends React.Component {
                         }}>
                             {I18n.t('js.tag.common.list')}
 
-                            <Link className="tags-link"
-                                  to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tags`}>
+                            <Link to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tags`}>
                                 <OpenInNewIcon className={this.props.classes.iconLabels}/>
                             </Link>
                         </ListItemText>

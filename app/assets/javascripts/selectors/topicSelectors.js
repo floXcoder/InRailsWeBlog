@@ -32,12 +32,12 @@ export const getContributedTopics = createSelector(
 
 export const getPublicTopics = createSelector(
     (state) => state.topicState.userTopics,
-    (topics) => topics.filter((topic) => topic.visibility === 'everyone').toArray()
+    (topics) => topics.filter((topic) => topic.visibility === 'everyone').sort((a, b) => b.priority - a.priority).toArray()
 );
 
 export const getPrivateTopics = createSelector(
     (state) => state.topicState.userTopics,
-    (topics) => topics.filter((topic) => topic.visibility === 'only_me').toArray()
+    (topics) => topics.filter((topic) => topic.visibility === 'only_me').sort((a, b) => b.priority - a.priority).toArray()
 );
 
 // Topic

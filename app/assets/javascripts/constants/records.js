@@ -73,16 +73,19 @@ export class TopicRecord extends Record({
     visibility: undefined,
     visibilityTranslated: undefined,
     slug: undefined,
+    articlesCount: undefined,
     viewsCount: undefined,
     clicksCount: undefined,
     searchesCount: undefined,
+    user: new UserRecord(),
     settings: new SettingsRecord(),
     tags: List(),
     contributors: List()
 }) {
-    constructor({settings, tags, contributors, ...props} = {}) {
+    constructor({user, settings, tags, contributors, ...props} = {}) {
         super({
             ...props,
+            user: new UserRecord(user),
             settings: new SettingsRecord(settings),
             tags: List(tags).map((tag) => new TagRecord(tag)),
             contributors: List(contributors).map((user) => new UserRecord(user))

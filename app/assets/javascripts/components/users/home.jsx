@@ -18,8 +18,10 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 
-import ShareIcon from '@material-ui/icons/Share';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 import {
     spyTrackClick
@@ -93,7 +95,18 @@ class UserHome extends React.Component {
                         root: this.props.classes.header
                     }}
                                 title={I18n.t('js.user.home.private.title')}
-                                subheader={I18n.t('js.user.home.private.subtitle')}/>
+                                subheader={I18n.t('js.user.home.private.subtitle')}
+                                action={
+                                    <IconButton component={Link}
+                                                to={{
+                                                    hash: '#sort-topic',
+                                                    state: {
+                                                        visibility: 'only_me'
+                                                    }
+                                                }}>
+                                        <CompareArrowsIcon/>
+                                    </IconButton>
+                                }/>
 
                     <CardContent>
                         <Grid container={true}
@@ -126,6 +139,18 @@ class UserHome extends React.Component {
                                                     {topic.name}
                                                 </Typography>
                                             </Paper>
+                                        </Link>
+
+                                        <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                            <Fab className={classNames(this.props.classes.topicLink, {
+                                                [this.props.classes.storyTopicLink]: topic.mode === 'stories'
+                                            })}
+                                                 variant="extended"
+                                                 size="small"
+                                                 color="primary"
+                                                 aria-label="Share">
+                                                <OpenInNewIcon/>
+                                            </Fab>
                                         </Link>
                                     </Grid>
                                 ))
@@ -163,7 +188,18 @@ class UserHome extends React.Component {
                         root: this.props.classes.header
                     }}
                                 title={I18n.t('js.user.home.public.title')}
-                                subheader={I18n.t('js.user.home.public.subtitle')}/>
+                                subheader={I18n.t('js.user.home.public.subtitle')}
+                                action={
+                                    <IconButton component={Link}
+                                                to={{
+                                                    hash: '#sort-topic',
+                                                    state: {
+                                                        visibility: 'everyone'
+                                                    }
+                                                }}>
+                                        <CompareArrowsIcon/>
+                                    </IconButton>
+                                }/>
 
                     <CardContent>
                         <Grid container={true}
@@ -196,18 +232,13 @@ class UserHome extends React.Component {
                                             </Paper>
                                         </Link>
 
-                                        <Link to={{
-                                            hash: '#share-topic',
-                                            state: {
-                                                topicId: topic.id
-                                            }
-                                        }}>
-                                            <Fab className={this.props.classes.shareButton}
+                                        <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                            <Fab className={this.props.classes.topicLink}
                                                  variant="extended"
                                                  size="small"
                                                  color="primary"
                                                  aria-label="Share">
-                                                <ShareIcon/>
+                                                <OpenInNewIcon/>
                                             </Fab>
                                         </Link>
                                     </Grid>
@@ -282,6 +313,16 @@ class UserHome extends React.Component {
                                                             {topic.name}
                                                         </Typography>
                                                     </Paper>
+                                                </Link>
+
+                                                <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                                    <Fab className={this.props.classes.topicLink}
+                                                         variant="extended"
+                                                         size="small"
+                                                         color="primary"
+                                                         aria-label="Share">
+                                                        <OpenInNewIcon/>
+                                                    </Fab>
                                                 </Link>
                                             </Grid>
                                         ))

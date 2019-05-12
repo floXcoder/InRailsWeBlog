@@ -26,17 +26,21 @@ export default {
             },
             {
                 path: '/search',
+                noTagSidebar: true,
+                noHeaderSearch: true,
                 component: () => RouteComponents.SearchIndex
             },
             // tag
             {
                 path: '/tags/:tagSlug',
                 exact: true,
+                noTagSidebar: true,
                 component: () => RouteComponents.TagShow
             },
             {
                 path: '/tags',
                 exact: true,
+                noTagSidebar: true,
                 component: () => RouteComponents.TagIndex
             },
             // tagged
@@ -137,6 +141,16 @@ export default {
                 component: () => RouteComponents.UserHome
             },
             {
+                path: '/users/:userSlug/topics/:topicSlug/show',
+                exact: true,
+                component: () => RouteComponents.TopicShow
+            },
+            {
+                path: '/users/:userSlug/topics/:topicSlug/edit',
+                exact: true,
+                component: () => RouteComponents.TopicEdit
+            },
+            {
                 path: '/users/:userSlug/(topics|shared-topics)/:topicSlug',
                 exact: true,
                 articleSidebar: true,
@@ -211,6 +225,10 @@ export default {
             {
                 path: 'share-topic',
                 component: () => RouteComponents.TopicShare
+            },
+            {
+                path: 'sort-topic',
+                component: () => RouteComponents.TopicSort
             }
         ]
     }

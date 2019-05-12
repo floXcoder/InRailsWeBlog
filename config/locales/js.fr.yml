@@ -220,13 +220,29 @@ fr:
     topic:
       common:
         visibility: "Choisissez la visibilité"
+        no_description: "Pas de description associée à ce thème"
         user_topics: "Mes thèmes"
         user_current_topic: "Thème en cours"
+        placeholders:
+          name: "Nom du thème"
+          description: "Description du thème"
+        stats:
+          title: "Statistiques"
+          views: "Vues : "
+          clicks: "clic : "
+          searches: "Recherches : "
+      form:
+        unsaved: "Quitter sans sauvegarder le thème ?"
       model:
+        owner: "Créateur"
+        contributors: "Contributeurs"
         name: "Nom"
         mode: "Type"
         description: "Détails"
         visibility: "Visibilité"
+        articles_count: "Nombre d'articles"
+        tags: "Labels associés"
+        tags_count: "Nombre de labels"
       enums:
         visibility:
           everyone: "Public"
@@ -234,6 +250,9 @@ fr:
         mode:
           default: "Défaut"
           stories: "Histoire"
+      show:
+        back_button: "Annuler"
+        edit_link: "Modifier ce label"
       new:
         title: "Ajouter un thème"
         name: "Nom du thème"
@@ -247,7 +266,8 @@ fr:
         mode: "Type"
         description: "Détails du thème"
         delete: "Supprimer"
-        submit: "Mettre à jour"
+        back_button: "Annuler"
+        submit: "Mettre à jour le thème"
       share:
         title: "Partager le thème"
         form:
@@ -257,6 +277,15 @@ fr:
         errors:
           user_empty: "Merci de renseigner le pseudo ou email"
           unknown: "Utilisateur non trouvé"
+      sort:
+        title: "Modifier l'ordre des thèmes"
+      errors:
+        default: "Impossible de créer le thème ! Merci de réessayer."
+        not_authorized: "Vous n'avez pas la permission d'accéder à ce thème !"
+        name:
+          size: "Le nom du label doit être compris entre %{min} et %{max} caractères"
+        description:
+          size: "La description du label doit être compris entre %{min} et %{max} caractères"
     tag:
       common:
         list: "Labels"
@@ -332,9 +361,9 @@ fr:
         external_source: "Référence externe ?"
         link: "Est un lien ?"
         allow_comment:
-         title: "Autoriser les commentaires ?"
-         truthy: "Oui"
-         falsy: "Non"
+          title: "Autoriser les commentaires ?"
+          truthy: "Oui"
+          falsy: "Non"
         visibility: "Choisissez la visibilité"
         url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
@@ -643,9 +672,9 @@ fr:
         update: "Label mis à jour"
         destroy: "Label supprimé"
       tagged_article:
-         create: "Article labellisé"
-         update: "Label de l'article mis à jour"
-         destroy: "Label de l'article supprimé"
+        create: "Article labellisé"
+        update: "Label de l'article mis à jour"
+        destroy: "Label de l'article supprimé"
       bookmarked_article:
         create: "Article ajouté aux favoris"
         destroy: "Article supprimé des favoris"

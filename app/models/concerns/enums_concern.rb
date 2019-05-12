@@ -11,6 +11,8 @@ module EnumsConcern
 
   SHARE_MODE = [:complete].freeze
 
+  SETTING_VALUE_TYPE = [:string_type, :integer_type, :boolean_type, :array_type, :hash_type].freeze
+
   ERROR_ORIGIN = [:server, :client, :communication].freeze
 
   included do

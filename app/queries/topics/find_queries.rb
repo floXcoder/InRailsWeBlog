@@ -12,10 +12,10 @@ module Topics
 
     def all(params = {})
       @relation = @relation
-                    .order('topics.name ASC')
-                    .distinct
                     .with_adapted_visibility(@current_user, @current_admin)
                     .filter_by(params, @current_user)
+                    .order_by(params[:order] || 'name')
+                    .distinct
 
       return @relation
     end
@@ -33,18 +33,32 @@ module Topics
 
       def order_by(order)
         case order
+        when 'name'
+          order('topics.name ASC')
+        when 'priority_asc'
+          order('topics.priority ASC')
+        when 'priority_desc'
+          order('topics.priority DESC')
         when 'id_asc'
-          order('id ASC')
+          order('topics.id ASC')
         when 'id_desc'
-          order('id DESC')
+          order('topics.id DESC')
         when 'created_asc'
-          order('created_at ASC')
+          order('topics.created_at ASC')
         when 'created_desc'
-          order('created_at DESC')
+          order('topics.created_at DESC')
         when 'updated_asc'
-          order('updated_at ASC')
+          order('topics.updated_at ASC')
         when 'updated_desc'
-          order('updated_at DESC')
+          order('topics.updated_at DESC')
+        when 'rank_asc'
+          joins(:tracker).order('trackers.rank ASC')
+        when 'rank_desc'
+          joins(:tracker).order('trackers.rank DESC')
+        when 'popularity_asc'
+          joins(:tracker).order('trackers.popularity ASC')
+        when 'popularity_desc'
+          joins(:tracker).order('trackers.popularity DESC')
         else
           all
         end

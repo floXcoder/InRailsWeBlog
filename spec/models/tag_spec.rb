@@ -259,6 +259,12 @@ RSpec.describe Tag, type: :model, basic: true do
       it { expect(Tag.from_user(@user.slug, @user.id)).not_to include(other_tag) }
     end
 
+    describe '::for_topic_id' do
+      it { is_expected.to respond_to(:for_topic_id) }
+      it { expect(Tag.for_topic_id(topic.id)).to include(@tag, other_public_tag) }
+      it { expect(Tag.for_topic_id(topic.id)).not_to include(private_tag, other_tag) }
+    end
+
     describe '::for_topic' do
       it { is_expected.to respond_to(:for_topic) }
       it { expect(Tag.for_topic(topic.slug)).to include(@tag, other_public_tag) }

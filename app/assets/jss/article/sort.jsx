@@ -40,7 +40,7 @@ const styles = (theme) => ({
     commentCount: {
         fontSize: '1rem',
         color: 'inherit'
-    },
+    }
 });
 
 export default styles;

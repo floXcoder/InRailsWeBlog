@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_15_171900) do
+ActiveRecord::Schema.define(version: 2019_05_12_082308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,13 +195,12 @@ ActiveRecord::Schema.define(version: 2019_01_15_171900) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.string "var", null: false
+    t.string "name", null: false
     t.text "value"
-    t.integer "thing_id"
-    t.string "thing_type", limit: 30
+    t.integer "value_type", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
+    t.index ["name", "value"], name: "index_settings_on_name_and_value", unique: true
   end
 
   create_table "shares", force: :cascade do |t|

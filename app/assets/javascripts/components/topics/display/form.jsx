@@ -16,10 +16,10 @@ import {
 import Button from '@material-ui/core/Button';
 
 import {
-    validateTag
-} from '../../../forms/tag';
+    validateTopic
+} from '../../../forms/topic';
 
-import TagErrorField from './fields/error';
+import TopicErrorField from './fields/error';
 
 import SelecterField from '../../theme/form/selecter';
 import EditorField from '../../editor/form/editor';
@@ -27,21 +27,21 @@ import EditorField from '../../editor/form/editor';
 import TextFieldForm from '../../material-ui/form/text';
 import SelectFieldForm from '../../material-ui/form/select';
 
-import styles from '../../../../jss/tag/form';
+import styles from '../../../../jss/topic/form';
 
 export default @reduxForm({
-    form: 'tag',
-    validateTag,
+    form: 'topic',
+    validateTopic,
     enableReinitialize: true,
 })
 @withStyles(styles)
-class TagFormDisplay extends React.Component {
+class TopicFormDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
-        tagId: PropTypes.number.isRequired,
+        topicId: PropTypes.number.isRequired,
         isEditing: PropTypes.bool,
         children: PropTypes.object,
-        tagErrors: PropTypes.array,
+        topicErrors: PropTypes.array,
         // from reduxForm
         handleSubmit: PropTypes.func,
         submitting: PropTypes.bool,
@@ -61,7 +61,7 @@ class TagFormDisplay extends React.Component {
     }
 
     _onUnsavedExit = (location) => {
-        return I18n.t('js.tag.form.unsaved', {location: location.pathname});
+        return I18n.t('js.topic.form.unsaved', {location: location.pathname});
     };
 
     render() {
@@ -74,9 +74,9 @@ class TagFormDisplay extends React.Component {
                 <div>
                     <div className="row">
                         {
-                            this.props.tagErrors &&
+                            this.props.topicErrors &&
                             <div className="col s12">
-                                <TagErrorField errors={this.props.tagErrors}/>
+                                <TopicErrorField errors={this.props.topicErrors}/>
                             </div>
                         }
 
@@ -94,63 +94,25 @@ class TagFormDisplay extends React.Component {
                                            underline: !this.props.children.name && this.props.classes.nameUnderline
                                        }
                                    }}
-                                   id="tag_name"
-                                   label={I18n.t('js.tag.common.placeholders.name')}
+                                   id="topic_name"
+                                   label={I18n.t('js.topic.common.placeholders.name')}
                                    autoFocus={true}
                                    required={true}
-                                   color="primary"
-                                   disabled={this.props.children.visibility === 'everyone'}/>
-
-                            {
-                                this.props.children.visibility === 'everyone' &&
-                                <p className="tag-advice">
-                                    {I18n.t('js.tag.common.visibility_immutable')}
-                                </p>
-                            }
+                                   color="primary"/>
                         </div>
 
                         <div className="col s12">
                             <div className={this.props.classes.categoryTitle}>
-                                {I18n.t('js.tag.model.description')}
+                                {I18n.t('js.topic.model.description')}
                             </div>
                             <Field name="description"
-                                   id="tag_description"
-                                   modelName="tag"
-                                   modelId={this.props.tagId}
-                                   placeholder={I18n.t('js.tag.common.placeholders.description')}
+                                   id="topic_description"
+                                   modelName="topic"
+                                   modelId={this.props.topicId}
+                                   placeholder={I18n.t('js.topic.common.placeholders.description')}
                                    onSubmit={this.props.handleSubmit}
                                    component={EditorField}
                                    componentContent={this.props.children.description}/>
-
-                            <div className="row">
-                                <div className="col s12 m6">
-                                    <div className={this.props.classes.categoryTitle}>
-                                        {I18n.t('js.tag.model.visibility')}
-                                    </div>
-
-                                    <Field name="visibility"
-                                           id="tag_visibility"
-                                           className={this.props.classes.select}
-                                           label={I18n.t('js.article.model.visibility')}
-                                           options={I18n.t('js.tag.enums.visibility')}
-                                           component={SelectFieldForm}/>
-                                </div>
-
-                                <div className="col s12 m6">
-                                    <div className={this.props.classes.categoryTitle}>
-                                        {I18n.t('js.tag.model.synonyms')}
-                                    </div>
-
-                                    <Field name="synonyms"
-                                           id="tag_synonyms"
-                                           elements={[]}
-                                           placeholder={I18n.t('js.tag.common.synonyms')}
-                                           isEditing={true}
-                                           isMultiple={true}
-                                           component={SelecterField}
-                                           componentContent={this.props.children.synonyms}/>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -163,8 +125,8 @@ class TagFormDisplay extends React.Component {
                                     variant="outlined"
                                     size="small"
                                     component={Link}
-                                    to={this.props.isEditing ? `/tags/${this.props.children.slug}` : '/'}>
-                                {I18n.t('js.tag.edit.back_button')}
+                                    to={this.props.isEditing ? `/topics/${this.props.children.slug}` : '/'}>
+                                {I18n.t('js.topic.edit.back_button')}
                             </Button>
                         </div>
 
@@ -177,9 +139,9 @@ class TagFormDisplay extends React.Component {
                                 {
                                     this.props.isEditing
                                         ?
-                                        I18n.t('js.tag.edit.submit')
+                                        I18n.t('js.topic.edit.submit')
                                         :
-                                        I18n.t('js.tag.new.submit')
+                                        I18n.t('js.topic.new.submit')
                                 }
                             </Button>
                         </div>

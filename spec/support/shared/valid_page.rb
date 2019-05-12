@@ -41,7 +41,7 @@ shared_examples 'a valid page' do
     within content[:current_page].header do
       is_expected.to have_link(ENV['WEBSITE_NAME'], href: root_path)
 
-      is_expected.to have_selector('form.blog-search-header')
+      is_expected.to have_selector('form.blog-search-header') unless content[:no_search_header]
 
       if content[:connected]
         is_expected.to have_css(".header-button", count: 3)

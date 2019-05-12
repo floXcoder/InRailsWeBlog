@@ -37,7 +37,7 @@ export default @withRouter
 })
 @hot
 @withStyles(styles)
-class TopicModal extends React.Component {
+class ShareTopicModal extends React.Component {
     static propTypes = {
         // from router
         history: PropTypes.object,

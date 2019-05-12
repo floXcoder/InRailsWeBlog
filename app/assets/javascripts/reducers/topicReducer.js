@@ -62,19 +62,27 @@ export default function topicReducer(state = new initState(), action) {
                             topics: toList(payload.topics, Records.TopicRecord)
                         };
                     }
-                }
-                , ['isSwitching']);
+                }, ['isSwitching', 'topic']);
 
         case ActionTypes.TOPIC_CHANGE_INIT:
         case ActionTypes.TOPIC_CHANGE_SUCCESS:
         case ActionTypes.TOPIC_CHANGE_ERROR:
-            return mutationReducer(state, action, (payload) => ({
-                topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined,
-                userTopics: mutateArray(state.userTopics, payload.topic && (new Records.TagRecord(payload.topic)), action.removedId),
-                currentUserTopicId: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? (payload.topic && payload.topic.id) : state.currentUserTopicId,
-                currentUserTopicSlug: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? (payload.topic && payload.topic.slug) : state.currentUserTopicSlug,
-                currentTopic: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? new Records.TopicRecord(payload.topic) : state.currentTopic
-            }));
+            return mutationReducer(state, action, (payload) => {
+                if (payload.priority) {
+                    // User topics are returned after priority changed
+                    return ({
+                        userTopics: toList(action.topics, Records.TopicRecord)
+                    });
+                } else {
+                    return ({
+                        topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined,
+                        userTopics: mutateArray(state.userTopics, payload.topic && (new Records.TagRecord(payload.topic)), action.removedId),
+                        currentUserTopicId: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? (payload.topic && payload.topic.id) : state.currentUserTopicId,
+                        currentUserTopicSlug: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? (payload.topic && payload.topic.slug) : state.currentUserTopicSlug,
+                        currentTopic: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? new Records.TopicRecord(payload.topic) : state.currentTopic
+                    });
+                }
+            }, ['priority']);
 
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:

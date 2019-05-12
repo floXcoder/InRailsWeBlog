@@ -11,9 +11,7 @@ module Api::V1
     respond_to :json
 
     def index
-      topics = Rails.cache.fetch("user_topics:#{params[:user_id] || current_user&.id}", expires_in: InRailsWeBlog.config.cache_time) do
-        ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
-      end
+      topics = ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
 
       respond_to do |format|
         format.json do
@@ -50,7 +48,7 @@ module Api::V1
         format.json do
           render json:       topic,
                  serializer: TopicSerializer,
-                 with_tags:  true
+                 complete:   true
         end
       end
     end
@@ -120,6 +118,32 @@ module Api::V1
       end
     end
 
+    def update_priority
+      user = User.find(params[:user_id])
+
+      topics = []
+      priority_params[:topic_ids].reverse.each_with_index do |id, i|
+        topic = Topic.find(id)
+        admin_or_authorize topic, :update?
+        topics << topic if topic.update_columns(priority: i + 1)
+      end
+
+      respond_to do |format|
+        format.json do
+          if topics.present?
+            flash.now[:success] = t('views.topic.flash.successful_priority_update')
+            render json:            user.topics,
+                   each_serializer: TopicSampleSerializer,
+                   status:          :ok
+          else
+            flash.now[:error] = t('views.topic.flash.error_priority_update')
+            render json:   { errors: t('views.topic.flash.error_priority_update') },
+                   status: :unprocessable_entity
+          end
+        end
+      end
+    end
+
     def destroy
       user  = User.find(params[:user_id])
       topic = Topic.find(params[:id])
@@ -171,7 +195,16 @@ module Api::V1
                                        :user_id,
                                        :accepted,
                                        :bookmarked,
+                                       :order,
                                        user_ids: []).reject { |_, v| v.blank? }
+      else
+        {}
+      end
+    end
+
+    def priority_params
+      if params[:topic_ids]
+        params.permit(topic_ids: [])
       else
         {}
       end

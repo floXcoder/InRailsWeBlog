@@ -20,9 +20,10 @@ const mobileStepperZIndex = 1000;
 const appBarZIndex = 1100;
 const drawerZIndex = 1200;
 const modalZIndex = 1300;
-const snackbarZIndex = 1400;
-const tooltipZIndex = 1500;
-// const dropdownIndex = 1600;
+const sortZIndex = 1400;
+const snackbarZIndex = 1500;
+const tooltipZIndex = 1600;
+// const dropdownIndex = 1700;
 
 // Headers font
 const h1Size = '3rem';
@@ -116,6 +117,7 @@ export {
     appBarZIndex,
     drawerZIndex,
     modalZIndex,
+    sortZIndex,
     snackbarZIndex,
     tooltipZIndex,
 
