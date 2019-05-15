@@ -207,8 +207,9 @@ ActiveRecord::Schema.define(version: 2019_05_12_082308) do
     t.bigint "user_id", null: false
     t.string "shareable_type", null: false
     t.bigint "shareable_id", null: false
-    t.bigint "contributor_id", null: false
+    t.bigint "contributor_id"
     t.integer "mode", default: 0, null: false
+    t.string "public_link"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contributor_id"], name: "index_shares_on_contributor_id"

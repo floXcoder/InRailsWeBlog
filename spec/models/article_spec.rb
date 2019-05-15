@@ -248,8 +248,10 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to have_many(:user_bookmarks) }
     it { is_expected.to have_many(:followers) }
 
+    it { is_expected.to have_one(:share) }
+
     it { is_expected.to have_many(:shares) }
-    it { is_expected.to have_many(:contributors) }
+    # it { is_expected.to have_many(:contributors) }
 
     it { is_expected.to have_many(:user_activities) }
 
@@ -552,6 +554,11 @@ RSpec.describe Article, type: :model, basic: true do
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
       it { expect(@article.search_data).to be_a(Hash) }
+    end
+
+    describe '.public_share_link' do
+      it { is_expected.to respond_to(:public_share_link) }
+      it { expect(@article.public_share_link).to be_nil }
     end
 
     describe '.meta_description' do

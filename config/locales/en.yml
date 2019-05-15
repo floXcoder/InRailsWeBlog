@@ -128,11 +128,14 @@ en:
         title: "Search: %{query}"
     share:
       success:
-        message: "Topic shared with: %{user}"
+        link_message: "Shared article created"
+        user_message: "Topic shared with: %{user}"
       errors:
         user_not_found: "User not found"
+        useless_shareable: "A public element is useless to share"
         private_shareable: "A private element cannot be shared"
-        already_shared: "Already shared with this user"
+        link_already_shared: "Already shared by a link"
+        user_already_shared: "Already shared with this user"
         creation: "Cannot share this element"
     admin:
       login:
@@ -288,7 +291,8 @@ en:
           incorrect_tag_affiliation: "Cannot used a tag from another topic"
           incorrect_topic_affiliation: "Cannot used a tag from another topic"
         share:
-          already_shared: "Element already shared with this user"
+          link_already_shared: "Element already shared by a link"
+          user_already_shared: "Element already shared with this user"
         bookmark:
           already_bookmarked: "Already added in bookmarks"
           model_unknown: "Cannot add to bookmark"

@@ -3,7 +3,7 @@
 import VisibilityIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOffOutlined';
 
-const ArticleVisibilityIcon = ({articleId, articleVisibility, onVisibilityClick, size, color}) => {
+const ArticleVisibilityIcon = ({articleVisibility, onVisibilityClick, size, color}) => {
     const isVisible = articleVisibility === 'everyone';
 
     const visibilityName = I18n.t(`js.article.enums.visibility.${articleVisibility}`);
@@ -29,7 +29,6 @@ const ArticleVisibilityIcon = ({articleId, articleVisibility, onVisibilityClick,
 };
 
 ArticleVisibilityIcon.propTypes = {
-    articleId: PropTypes.number.isRequired,
     articleVisibility: PropTypes.string.isRequired,
     onVisibilityClick: PropTypes.func,
     size: PropTypes.oneOf(['small', 'default', 'large']),

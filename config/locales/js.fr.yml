@@ -217,75 +217,6 @@ fr:
       list:
         title: "Vos favoris"
         none: "Aucun favoris"
-    topic:
-      common:
-        visibility: "Choisissez la visibilité"
-        no_description: "Pas de description associée à ce thème"
-        user_topics: "Mes thèmes"
-        user_current_topic: "Thème en cours"
-        placeholders:
-          name: "Nom du thème"
-          description: "Description du thème"
-        stats:
-          title: "Statistiques"
-          views: "Vues : "
-          clicks: "clic : "
-          searches: "Recherches : "
-      form:
-        unsaved: "Quitter sans sauvegarder le thème ?"
-      model:
-        owner: "Créateur"
-        contributors: "Contributeurs"
-        name: "Nom"
-        mode: "Type"
-        description: "Détails"
-        visibility: "Visibilité"
-        articles_count: "Nombre d'articles"
-        tags: "Labels associés"
-        tags_count: "Nombre de labels"
-      enums:
-        visibility:
-          everyone: "Public"
-          only_me: "Privé"
-        mode:
-          default: "Défaut"
-          stories: "Histoire"
-      show:
-        back_button: "Annuler"
-        edit_link: "Modifier ce label"
-      new:
-        title: "Ajouter un thème"
-        name: "Nom du thème"
-        mode: "Type"
-        description: "Détails du thème"
-        cancel: "Annuler"
-        submit: "Ajouter"
-      edit:
-        title: "Modifier le thème"
-        name: "Nom du thème"
-        mode: "Type"
-        description: "Détails du thème"
-        delete: "Supprimer"
-        back_button: "Annuler"
-        submit: "Mettre à jour le thème"
-      share:
-        title: "Partager le thème"
-        form:
-          user_name: "Pseudo ou email utilisateur"
-          submit: "Partager"
-        cancel: "Annuler"
-        errors:
-          user_empty: "Merci de renseigner le pseudo ou email"
-          unknown: "Utilisateur non trouvé"
-      sort:
-        title: "Modifier l'ordre des thèmes"
-      errors:
-        default: "Impossible de créer le thème ! Merci de réessayer."
-        not_authorized: "Vous n'avez pas la permission d'accéder à ce thème !"
-        name:
-          size: "Le nom du label doit être compris entre %{min} et %{max} caractères"
-        description:
-          size: "La description du label doit être compris entre %{min} et %{max} caractères"
     tag:
       common:
         list: "Labels"
@@ -351,6 +282,75 @@ fr:
       errors:
         default: "Impossible de créer le label ! Merci de réessayer."
         not_authorized: "Vous n'avez pas la permission d'accéder à ce label !"
+        name:
+          size: "Le nom du label doit être compris entre %{min} et %{max} caractères"
+        description:
+          size: "La description du label doit être compris entre %{min} et %{max} caractères"
+    topic:
+      common:
+        visibility: "Choisissez la visibilité"
+        no_description: "Pas de description associée à ce thème"
+        user_topics: "Mes thèmes"
+        user_current_topic: "Thème en cours"
+        placeholders:
+          name: "Nom du thème"
+          description: "Description du thème"
+        stats:
+          title: "Statistiques"
+          views: "Vues : "
+          clicks: "clic : "
+          searches: "Recherches : "
+      form:
+        unsaved: "Quitter sans sauvegarder le thème ?"
+      model:
+        owner: "Créateur"
+        contributors: "Contributeurs"
+        name: "Nom"
+        mode: "Type"
+        description: "Détails"
+        visibility: "Visibilité"
+        articles_count: "Nombre d'articles"
+        tags: "Labels associés"
+        tags_count: "Nombre de labels"
+      enums:
+        visibility:
+          everyone: "Public"
+          only_me: "Privé"
+        mode:
+          default: "Défaut"
+          stories: "Histoire"
+      show:
+        back_button: "Annuler"
+        edit_link: "Modifier ce label"
+      new:
+        title: "Ajouter un thème"
+        name: "Nom du thème"
+        mode: "Type"
+        description: "Détails du thème"
+        cancel: "Annuler"
+        submit: "Ajouter"
+      edit:
+        title: "Modifier le thème"
+        name: "Nom du thème"
+        mode: "Type"
+        description: "Détails du thème"
+        delete: "Supprimer"
+        back_button: "Annuler"
+        submit: "Mettre à jour le thème"
+      share:
+        title: "Partager le thème"
+        form:
+          user_name: "Pseudo ou email utilisateur"
+          submit: "Partager"
+        cancel: "Annuler"
+        errors:
+          user_empty: "Merci de renseigner le pseudo ou email"
+          unknown: "Utilisateur non trouvé"
+      sort:
+        title: "Modifier l'ordre des thèmes"
+      errors:
+        default: "Impossible de créer le thème ! Merci de réessayer."
+        not_authorized: "Vous n'avez pas la permission d'accéder à ce thème !"
         name:
           size: "Le nom du label doit être compris entre %{min} et %{max} caractères"
         description:
@@ -456,6 +456,7 @@ fr:
         link_to: "Aller vers l'article"
         cancel: "Annuler"
         update: "Mettre à jour"
+        share: "Partager cet article"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
       masonry:
@@ -493,6 +494,11 @@ fr:
         form_title: "Modification de : %{title}"
         submit: "Mettre à jour"
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
+      share:
+        title: "Partager cet article"
+        content: "Copier le lien suivant pour partager l'article :"
+        button: "Partager par un lien"
+        cancel: "Annuler"
       sort:
         title: "Tirer par"
         order:

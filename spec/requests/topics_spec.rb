@@ -10,8 +10,8 @@ describe 'Topic API', type: :request, basic: true do
     @admin      = create(:admin)
 
     @topic_name    = 'Public'
-    @public_topic  = create(:topic, user: @user, name: @topic_name, visibility: 'everyone')
-    @private_topic = create(:topic, user: @user, visibility: 'only_me')
+    @public_topic  = create(:topic, user: @user, name: @topic_name, visibility: :everyone)
+    @private_topic = create(:topic, user: @user, visibility: :only_me)
 
     @other_topic_name = 'existing_topic'
     @other_topic      = create(:topic, user: @other_user, name: @other_topic_name)
@@ -148,7 +148,7 @@ describe 'Topic API', type: :request, basic: true do
     context 'when contributor is connected' do
       before do
         @contributed_user = create(:user)
-        ::Shares::StoreService.new(@public_topic, @contributed_user.email, current_user: @user).perform
+        ::Shares::StoreService.new(@public_topic, login: @contributed_user.email, current_user: @user).perform
         login_as(@contributed_user, scope: :user, run_callbacks: false)
       end
 
@@ -325,73 +325,6 @@ describe 'Topic API', type: :request, basic: true do
             topic = JSON.parse(response.body)
             expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.topic_name_max_length))
           }.to change(Topic, :count).by(0)
-        end
-      end
-    end
-  end
-
-  describe '/api/v1/topics/:id/share' do
-    before do
-      @contributed_user = create(:user)
-    end
-
-    context 'when user is not connected' do
-      it 'returns an error message' do
-        put "/api/v1/topics/#{@public_topic.id}/share", params: { login: @contributed_user.pseudo }, as: :json
-
-        expect(response).to be_unauthenticated
-      end
-    end
-
-    context 'when user is connected' do
-      before do
-        login_as(@user, scope: :user, run_callbacks: false)
-      end
-
-      it 'returns the shared topic' do
-        expect {
-          put "/api/v1/topics/#{@public_topic.id}/share", params: { login: @contributed_user.pseudo }, as: :json
-
-          expect(response).to be_json_response
-
-          topic = JSON.parse(response.body)
-          expect(topic['topic']).not_to be_empty
-          expect(topic['topic']['contributors'].size).to eq(1)
-          expect(topic['topic']['contributors'][0]['id']).to eq(@contributed_user.id)
-        }.to change(Share, :count).by(1)
-
-        expect(@public_topic.contributors).to match_array([@contributed_user])
-        expect(@user.shared_topics).to match_array([@public_topic])
-        expect(@contributed_user.contributed_topics).to match_array([@public_topic])
-      end
-
-      context 'when sharing a topic already shared' do
-        before do
-          ::Shares::StoreService.new(@public_topic, @contributed_user.email, current_user: @user).perform
-        end
-
-        it 'returns the errors' do
-          expect {
-            put "/api/v1/topics/#{@public_topic.id}/share", params: { login: @contributed_user.pseudo }, as: :json
-
-            expect(response).to be_json_response(422)
-
-            topic = JSON.parse(response.body)
-            expect(topic['errors']).to eq(I18n.t('views.share.errors.already_shared'))
-          }.to change(Share, :count).by(0)
-        end
-      end
-
-      context 'when sharing a private topic' do
-        it 'returns the errors' do
-          expect {
-            put "/api/v1/topics/#{@private_topic.id}/share", params: { login: @contributed_user.pseudo }, as: :json
-
-            expect(response).to be_json_response(422)
-
-            topic = JSON.parse(response.body)
-            expect(topic['errors']).to eq(I18n.t('views.share.errors.private_shareable'))
-          }.to change(Share, :count).by(0)
         end
       end
     end

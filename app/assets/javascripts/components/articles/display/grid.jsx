@@ -178,8 +178,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                                 articleSlug={this.props.article.slug}
                                                 articleTitle={this.props.article.title}
                                                 articleVisibility={this.props.article.visibility}
-                                                isOutdated={this.props.article.outdated}
-                                                isBookmarked={this.props.article.bookmarked}/>
+                                                isOutdated={this.props.article.outdated}/>
                             }
                         </CardActions>
                     </Collapse>

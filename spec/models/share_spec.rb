@@ -9,9 +9,10 @@
 #  shareable_type :string           not null
 #  shareable_id   :bigint           not null
 #  contributor_id :bigint           not null
-#  mode           :integer          default("complete"), not null
+#  mode           :integer          default("link"), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  shared_link    :string
 #
 
 require 'rails_helper'
@@ -33,6 +34,7 @@ RSpec.describe Share, type: :model, basic: true do
 
   before do
     @share = Share.create(
+      mode:        :with_user,
       user:        @user,
       shareable:   @topic,
       contributor: @contributed_user
@@ -52,7 +54,7 @@ RSpec.describe Share, type: :model, basic: true do
     it { is_expected.to respond_to(:mode) }
 
     describe 'Default Attributes' do
-      it { expect(@share.mode).to eq('complete') }
+      it { expect(@share.mode).to eq('with_user') }
     end
 
     describe '#mode' do
@@ -66,13 +68,13 @@ RSpec.describe Share, type: :model, basic: true do
 
     it { is_expected.to belong_to(:shareable) }
 
-    it { is_expected.to belong_to(:contributor) }
+    # it { is_expected.to belong_to(:contributor).optional }
 
     it { is_expected.to validate_presence_of(:user) }
 
     it { is_expected.to validate_presence_of(:shareable) }
 
-    it { is_expected.to validate_presence_of(:contributor) }
+    # it { is_expected.to validate_presence_of(:contributor) }
 
     # it { is_expected.to validate_uniqueness_of(:user_id).scoped_to([:shareable_id, :shareable_type, :contributor_id]).with_message(I18n.t('activerecord.errors.models.share.already_shared')) }
   end

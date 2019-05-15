@@ -20,7 +20,7 @@
 
 module Api::V1
   class ArticlesController < ApiController
-    skip_before_action :authenticate_user!, only: [:index, :stories, :show]
+    skip_before_action :authenticate_user!, only: [:index, :show, :shared, :stories]
 
     before_action :honeypot_protection, only: [:create, :update]
 
@@ -68,20 +68,6 @@ module Api::V1
       end
     end
 
-    def stories
-      article = Article.include_element.friendly.find(params[:id])
-
-      articles = ::Articles::FindQueries.new(current_user, current_admin).stories(topic_id: article.topic_id)
-
-      respond_to do |format|
-        format.json do
-          render json:            articles,
-                 root:            'stories',
-                 each_serializer: ArticleSampleSerializer
-        end
-      end
-    end
-
     def show
       article = Article.include_element.friendly.find(params[:id])
       admin_or_authorize article
@@ -101,9 +87,49 @@ module Api::V1
 
           render json:          article,
                  serializer:    ArticleSerializer,
+                 with_share:    true,
                  with_vote:     true,
                  with_outdated: true,
                  meta:          meta_attributes
+        end
+      end
+    end
+
+    def shared
+      article = Article.include_element.friendly.find(params[:id])
+      article.shared_link = params[:public_link]
+      admin_or_authorize article
+
+      respond_to do |format|
+        format.json do
+          set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title, topic: article.topic.name)),
+                        description: article.meta_description,
+                        author:      article.user.pseudo
+          # canonical:   alternate_urls(article.slug)['fr'],
+          # alternate:   alternate_urls('articles', article.slug),
+          # og: {
+          #       type:  "#{ENV['WEBSITE_NAME']}:article",
+          #       url:   article_url(article),
+          #       image: article.default_picture ? (root_url + article.default_picture) : nil
+          #     }.compact
+
+          render json:          article,
+                 serializer:    ArticleSerializer,
+                 meta:          meta_attributes
+        end
+      end
+    end
+
+    def stories
+      article = Article.include_element.friendly.find(params[:id])
+
+      articles = ::Articles::FindQueries.new(current_user, current_admin).stories(topic_id: article.topic_id)
+
+      respond_to do |format|
+        format.json do
+          render json:            articles,
+                 root:            'stories',
+                 each_serializer: ArticleSampleSerializer
         end
       end
     end
@@ -177,6 +203,7 @@ module Api::V1
             flash.now[:success] = stored_article.message unless params[:auto_save]
             render json:          stored_article.result,
                    serializer:    ArticleSerializer,
+                   with_share:    true,
                    with_vote:     true,
                    with_outdated: true,
                    status:        :ok

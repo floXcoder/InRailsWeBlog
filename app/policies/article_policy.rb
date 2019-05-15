@@ -12,6 +12,10 @@ class ArticlePolicy
     correct_user?
   end
 
+  def shared?
+    owner? || public_link?
+  end
+
   def history?
     owner? || contributor?
   end
@@ -26,6 +30,10 @@ class ArticlePolicy
 
   def update?
     owner? || contributor?
+  end
+
+  def share?
+    owner?
   end
 
   def restore?
@@ -73,6 +81,10 @@ class ArticlePolicy
 
   def owner?
     @current_user && @article.user?(@current_user)
+  end
+
+  def public_link?
+    @article.only_me? && @article.public_share_link == @article.shared_link
   end
 
   def contributor?

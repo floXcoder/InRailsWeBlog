@@ -17,7 +17,7 @@ describe 'Article API', type: :request, basic: true do
     @relation_tags_article_2 = create(:article, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[3]], child_tags: [@public_tags[2], @public_tags[4]])
 
     @private_tags              = create_list(:tag, 2, user: @user, visibility: :only_me)
-    @article_with_private_tags = create(:article, user: @user, topic: @topic, tags: [@private_tags[0], @private_tags[1]])
+    @private_tags_article = create(:article, user: @user, topic: @topic, tags: [@private_tags[0], @private_tags[1]], visibility: :only_me)
 
     @second_article = create(:article, user: @user, topic: @topic, tags: [@public_tags[4]])
 
@@ -60,7 +60,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(6)
+        expect(json_articles['articles'].size).to eq(Article.everyone.count)
       end
 
       it 'returns articles in summary format' do
@@ -71,7 +71,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
 
         expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(6)
+        expect(json_articles['articles'].size).to eq(Article.everyone.count)
       end
 
       it 'limits the number of articles' do
@@ -288,6 +288,48 @@ describe 'Article API', type: :request, basic: true do
         article = JSON.parse(response.body)
         expect(article['article']).not_to be_empty
         expect(article['article']['tags'].map { |tag| tag['name'] }.sort).to eq([@public_tags[0].name, @public_tags[1].name].sort)
+      end
+    end
+  end
+
+  describe '/api/v1/articles/:id/shared/:public_link' do
+    before do
+      @shared_link = create(:share, mode: :link, user: @user, shareable: @private_tags_article)
+    end
+
+    context 'when user is not connected and incorrect shared link' do
+      it 'returns an error message' do
+        get "/api/v1/articles/#{@private_tags_article.id}/shared/#{SecureRandom.uuid}", as: :json
+
+        expect(response).to be_unauthorized
+      end
+    end
+
+    context 'when user is not connected and correct public link' do
+      it 'returns the shared article' do
+        get "/api/v1/articles/#{@private_tags_article.id}/shared/#{@shared_link.public_link}", as: :json
+
+        expect(response).to be_json_response
+
+        article = JSON.parse(response.body)
+        expect(article['article']).not_to be_empty
+        expect(article['article']['title']).to eq(@private_tags_article.title)
+      end
+    end
+
+    context 'when user is connected' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns the article anyway' do
+        get "/api/v1/articles/#{@private_tags_article.id}/shared/nil", as: :json
+
+        expect(response).to be_json_response
+
+        article = JSON.parse(response.body)
+        expect(article['article']).not_to be_empty
+        expect(article['article']['title']).to eq(@private_tags_article.title)
       end
     end
   end

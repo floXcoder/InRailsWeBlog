@@ -114,8 +114,6 @@ Rails.application.routes.draw do
         end
 
         member do
-          put      :share,    to: 'topics#share'
-
           concerns :tracker,  module: :tags
         end
       end
@@ -129,6 +127,8 @@ Rails.application.routes.draw do
         end
 
         member do
+          get      'shared/:public_link', to: 'articles#shared'
+
           get      :stories,   to: 'articles#stories'
 
           get      :history,   to: 'articles#history'
@@ -144,7 +144,15 @@ Rails.application.routes.draw do
         concerns :votes,       module: :articles
       end
 
-      # Global search
+      # shares
+      resources :shares, only: [:index] do
+        collection do
+          post :topic,          to: 'shares#topic'
+          post :article,        to: 'shares#article'
+        end
+      end
+
+      # Search
       resources :search, only: [:index] do
         collection do
           get :autocomplete,   to: 'search#autocomplete'

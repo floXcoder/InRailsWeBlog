@@ -9,7 +9,7 @@ module EnumsConcern
 
   ARTICLE_MODE = [:note, :story, :link].freeze
 
-  SHARE_MODE = [:complete].freeze
+  SHARE_MODE = [:link, :with_user, :with_group].freeze
 
   SETTING_VALUE_TYPE = [:string_type, :integer_type, :boolean_type, :array_type, :hash_type].freeze
 

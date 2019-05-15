@@ -374,7 +374,6 @@ class ArticleShow extends React.Component {
                                                         articleTitle={this.props.article.title}
                                                         articleVisibility={this.props.article.visibility}
                                                         isOutdated={this.props.article.outdated}
-                                                        isBookmarked={this.props.article.bookmarked}
                                                         onOutdatedClick={this._handleOutdatedClick}
                                                         onVisibilityClick={this._handleVisibilityClick}
                                                         onDeleteClick={this._handleDeleteClick}/>

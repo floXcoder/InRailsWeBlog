@@ -16,7 +16,14 @@ export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
 
 export const fetchArticle = (articleId, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
-    fetchAPI: () => api.get(options.edit ? `/api/v1/articles/${articleId}/edit`: `/api/v1/articles/${articleId}`, {
+    fetchAPI: () => api.get(options.edit ? `/api/v1/articles/${articleId}/edit` : `/api/v1/articles/${articleId}`, {
+        ...options
+    })
+});
+
+export const fetchSharedArticle = (articleId, publicLink, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    fetchAPI: () => api.get(`/api/v1/articles/${articleId}/shared/${publicLink}`, {
         ...options
     })
 });

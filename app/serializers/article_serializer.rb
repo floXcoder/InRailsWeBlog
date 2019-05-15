@@ -51,6 +51,7 @@ class ArticleSerializer < ActiveModel::Serializer
              :outdated,
              :default_picture,
              :slug,
+             :public_share_link,
              :votes_up,
              :votes_down,
              :pictures_count,
@@ -94,6 +95,10 @@ class ArticleSerializer < ActiveModel::Serializer
     else
       false
     end
+  end
+
+  def public_share_link
+    "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}" if instance_options[:with_share]
   end
 
   def votes_up

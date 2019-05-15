@@ -155,36 +155,39 @@ class TopicShow extends React.Component {
                                             user={this.props.topic.user}/>
                         </div>
 
-                        <div>
-                            <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
-                                {I18n.t('js.topic.model.contributors')}
-                            </Typography>
+                        {
+                            this.props.topic.visibility !== 'only_me' &&
+                            <div>
+                                <Typography className={this.props.classes.subtitle2}
+                                            component="h3"
+                                            variant="h3">
+                                    {I18n.t('js.topic.model.contributors')}
+                                </Typography>
 
-                            {
-                                this.props.topic.contributors.map((contributor) => (
-                                    <UserAvatarIcon key={contributor.id}
-                                                    className={this.props.classes.avatar}
-                                                    user={contributor}/>
-                                ))
-                            }
+                                {
+                                    this.props.topic.contributors.map((contributor) => (
+                                        <UserAvatarIcon key={contributor.id}
+                                                        className={this.props.classes.avatar}
+                                                        user={contributor}/>
+                                    ))
+                                }
 
-                            <Button className={this.props.classes.shareButton}
-                                    color="default"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={{
-                                        hash: '#share-topic',
-                                        state: {
-                                            topicId: this.props.topic.id
-                                        }
-                                    }}>
-                                Partager ce topic
-                                <ShareIcon className={this.props.classes.shareButtonIcon}/>
-                            </Button>
-                        </div>
+                                <Button className={this.props.classes.shareButton}
+                                        color="default"
+                                        variant="outlined"
+                                        size="small"
+                                        component={Link}
+                                        to={{
+                                            hash: '#share-topic',
+                                            state: {
+                                                topicId: this.props.topic.id
+                                            }
+                                        }}>
+                                    Partager ce topic
+                                    <ShareIcon className={this.props.classes.shareButtonIcon}/>
+                                </Button>
+                            </div>
+                        }
 
                         <div>
                             <Typography className={this.props.classes.subtitle2}

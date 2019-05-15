@@ -5,9 +5,11 @@ class CreateShares < ActiveRecord::Migration[5.2]
 
       t.references  :shareable, polymorphic: true, null: false, index: false
 
-      t.belongs_to  :contributor,       null: false, index: false
+      t.belongs_to  :contributor,       index: false
 
       t.integer     :mode,              null: false, default: 0
+
+      t.string      :public_link
 
       t.timestamps
     end

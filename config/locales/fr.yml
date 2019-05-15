@@ -128,12 +128,15 @@ fr:
         title: "Recherche : %{query}"
     share:
       success:
-        message: "Thème partagé avec : %{user}"
+        link_message: "Partage de l'article créé"
+        user_message: "Thème partagé avec : %{user}"
       errors:
         user_not_found: "Utilisateur inconnu"
+        useless_shareable: "Un élément public est inutile à partager"
         private_shareable: "Un élément privé ne peut être partagé"
-        already_shared: "Déjà partagé avec cet utilisateur"
-        creation: "Impossible d'ajouter ce partage"
+        link_already_shared: "Déjà partagé par un lien"
+        user_already_shared: "Déjà partagé avec cet utilisateur"
+        creation: "Impossible de partager cet élément"
     admin:
       login:
         title: "Se connecter (Admin)"
@@ -288,7 +291,8 @@ fr:
           incorrect_tag_affiliation: "Ce label ne peut être appliqué à l'article car il n'appartient pas au même thème"
           incorrect_topic_affiliation: "Ce label ne peut être appliqué à l'article car l'article n'est pas associé au thème courant"
         share:
-          already_shared: "Élément déjà partagé avec cet utilisateur"
+          link_already_shared: "Élément déjà partagé par un lien"
+          user_already_shared: "Élément déjà partagé avec cet utilisateur"
         bookmark:
           already_bookmarked: "Élément déjà ajouté aux favoris !"
           model_unknown: "Impossible d'ajouter ou de supprimer cet élément dans les favoris"

@@ -2,11 +2,12 @@
 
 const styles = (theme) => ({
     modal: {
-        top: '45%',
+        top: '40%',
         left: '50%',
         transform: 'translate(-50%, -45%)',
         position: 'absolute',
-        width: theme.spacing.unit * 50,
+        width: 650,
+        maxWidth: '90vw',
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
         padding: theme.spacing.unit * 4
@@ -16,9 +17,6 @@ const styles = (theme) => ({
         marginBottom: theme.spacing.unit * 3,
         fontSize: '2rem',
         textAlign: 'center'
-    },
-    input: {
-        margin: '1.1rem .1rem'
     }
 });
 

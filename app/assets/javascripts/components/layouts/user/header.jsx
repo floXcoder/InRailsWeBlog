@@ -435,6 +435,10 @@ class HeaderLayoutUser extends React.PureComponent {
                     {this._renderHashRoutes(this.props.hashRoutes.topic)}
                 </Suspense>
 
+                <Suspense fallback={<div/>}>
+                    {this._renderHashRoutes(this.props.hashRoutes.article)}
+                </Suspense>
+
                 <div id="clipboard-area"
                      className="hidden">
                     <textarea id="clipboard"
