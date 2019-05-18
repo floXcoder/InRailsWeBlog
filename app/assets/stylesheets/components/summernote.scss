@@ -17,12 +17,12 @@
   }
 
   h1, h2 {
-    margin-top: 1.6rem;
+    margin-top: 1.7rem;
     margin-bottom: .5rem;
   }
 
   h3, h4 {
-    margin-top: 1.1rem;
+    margin-top: 1.5rem;
     margin-bottom: .5rem;
   }
 
@@ -240,8 +240,8 @@
 //  font-family: "summernote";
 //  font-style: normal;
 //  font-weight: normal;
-//  src: url("./font/summernote.eot?4c7e83314b68cfa6a0d18a8b4690044b");
-//  src: url("./font/summernote.eot?4c7e83314b68cfa6a0d18a8b4690044b#iefix") format("embedded-opentype"), url("./font/summernote.woff?4c7e83314b68cfa6a0d18a8b4690044b") format("woff"), url("./font/summernote.ttf?4c7e83314b68cfa6a0d18a8b4690044b") format("truetype")
+//  src: url("./font/summernote.eot?1d9aeaaff0a8939558a45be6cd52cd4c");
+//  src: url("./font/summernote.eot?1d9aeaaff0a8939558a45be6cd52cd4c#iefix") format("embedded-opentype"), url("./font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c") format("woff"), url("./font/summernote.ttf?1d9aeaaff0a8939558a45be6cd52cd4c") format("truetype")
 //}
 //
 //[class^="note-icon-"]:before, [class*=" note-icon-"]:before {
@@ -257,7 +257,7 @@
 //  -moz-osx-font-smoothing: grayscale
 //}
 //
-//.note-icon-align-center:before, .note-icon-align-indent:before, .note-icon-align-justify:before, .note-icon-align-left:before, .note-icon-align-outdent:before, .note-icon-align-right:before, .note-icon-align:before, .note-icon-arrow-circle-down:before, .note-icon-arrow-circle-left:before, .note-icon-arrow-circle-right:before, .note-icon-arrow-circle-up:before, .note-icon-arrows-alt:before, .note-icon-arrows-h:before, .note-icon-arrows-v:before, .note-icon-bold:before, .note-icon-caret:before, .note-icon-chain-broken:before, .note-icon-circle:before, .note-icon-close:before, .note-icon-code:before, .note-icon-col-after:before, .note-icon-col-before:before, .note-icon-col-remove:before, .note-icon-eraser:before, .note-icon-font:before, .note-icon-frame:before, .note-icon-italic:before, .note-icon-link:before, .note-icon-magic:before, .note-icon-menu-check:before, .note-icon-minus:before, .note-icon-orderedlist:before, .note-icon-pencil:before, .note-icon-picture:before, .note-icon-question:before, .note-icon-redo:before, .note-icon-row-above:before, .note-icon-row-below:before, .note-icon-row-remove:before, .note-icon-special-character:before, .note-icon-square:before, .note-icon-strikethrough:before, .note-icon-subscript:before, .note-icon-summernote:before, .note-icon-superscript:before, .note-icon-table:before, .note-icon-text-height:before, .note-icon-trash:before, .note-icon-underline:before, .note-icon-undo:before, .note-icon-unorderedlist:before, .note-icon-video:before {
+//.note-icon-align-center:before, .note-icon-align-indent:before, .note-icon-align-justify:before, .note-icon-align-left:before, .note-icon-align-outdent:before, .note-icon-align-right:before, .note-icon-align:before, .note-icon-arrow-circle-down:before, .note-icon-arrow-circle-left:before, .note-icon-arrow-circle-right:before, .note-icon-arrow-circle-up:before, .note-icon-arrows-alt:before, .note-icon-arrows-h:before, .note-icon-arrows-v:before, .note-icon-bold:before, .note-icon-caret:before, .note-icon-chain-broken:before, .note-icon-circle:before, .note-icon-close:before, .note-icon-code:before, .note-icon-col-after:before, .note-icon-col-before:before, .note-icon-col-remove:before, .note-icon-eraser:before, .note-icon-float-left:before, .note-icon-float-none:before, .note-icon-float-right:before, .note-icon-font:before, .note-icon-frame:before, .note-icon-italic:before, .note-icon-link:before, .note-icon-magic:before, .note-icon-menu-check:before, .note-icon-minus:before, .note-icon-orderedlist:before, .note-icon-pencil:before, .note-icon-picture:before, .note-icon-question:before, .note-icon-redo:before, .note-icon-rollback:before, .note-icon-row-above:before, .note-icon-row-below:before, .note-icon-row-remove:before, .note-icon-special-character:before, .note-icon-square:before, .note-icon-strikethrough:before, .note-icon-subscript:before, .note-icon-summernote:before, .note-icon-superscript:before, .note-icon-table:before, .note-icon-text-height:before, .note-icon-trash:before, .note-icon-underline:before, .note-icon-undo:before, .note-icon-unorderedlist:before, .note-icon-video:before {
 //  display: inline-block;
 //  font-family: "summernote";
 //  font-style: normal;
@@ -361,135 +361,136 @@
 //  content: "\f118"
 //}
 //
-//.note-icon-font:before {
+//.note-icon-float-left:before {
 //  content: "\f119"
 //}
 //
-//.note-icon-frame:before {
+//.note-icon-float-none:before {
 //  content: "\f11a"
 //}
 //
-//.note-icon-italic:before {
+//.note-icon-float-right:before {
 //  content: "\f11b"
 //}
 //
-//.note-icon-link:before {
+//.note-icon-font:before {
 //  content: "\f11c"
 //}
 //
-//.note-icon-magic:before {
+//.note-icon-frame:before {
 //  content: "\f11d"
 //}
 //
-//.note-icon-menu-check:before {
+//.note-icon-italic:before {
 //  content: "\f11e"
 //}
 //
-//.note-icon-minus:before {
+//.note-icon-link:before {
 //  content: "\f11f"
 //}
 //
-//.note-icon-orderedlist:before {
+//.note-icon-magic:before {
 //  content: "\f120"
 //}
 //
-//.note-icon-pencil:before {
+//.note-icon-menu-check:before {
 //  content: "\f121"
 //}
 //
-//.note-icon-picture:before {
+//.note-icon-minus:before {
 //  content: "\f122"
 //}
 //
-//.note-icon-question:before {
+//.note-icon-orderedlist:before {
 //  content: "\f123"
 //}
 //
-//.note-icon-redo:before {
+//.note-icon-pencil:before {
 //  content: "\f124"
 //}
 //
-//.note-icon-row-above:before {
+//.note-icon-picture:before {
 //  content: "\f125"
 //}
 //
-//.note-icon-row-below:before {
+//.note-icon-question:before {
 //  content: "\f126"
 //}
 //
-//.note-icon-row-remove:before {
+//.note-icon-redo:before {
 //  content: "\f127"
 //}
 //
-//.note-icon-special-character:before {
+//.note-icon-rollback:before {
 //  content: "\f128"
 //}
 //
-//.note-icon-square:before {
+//.note-icon-row-above:before {
 //  content: "\f129"
 //}
 //
-//.note-icon-strikethrough:before {
+//.note-icon-row-below:before {
 //  content: "\f12a"
 //}
 //
-//.note-icon-subscript:before {
+//.note-icon-row-remove:before {
 //  content: "\f12b"
 //}
 //
-//.note-icon-summernote:before {
+//.note-icon-special-character:before {
 //  content: "\f12c"
 //}
 //
-//.note-icon-superscript:before {
+//.note-icon-square:before {
 //  content: "\f12d"
 //}
 //
-//.note-icon-table:before {
+//.note-icon-strikethrough:before {
 //  content: "\f12e"
 //}
 //
-//.note-icon-text-height:before {
+//.note-icon-subscript:before {
 //  content: "\f12f"
 //}
 //
-//.note-icon-trash:before {
+//.note-icon-summernote:before {
 //  content: "\f130"
 //}
 //
-//.note-icon-underline:before {
+//.note-icon-superscript:before {
 //  content: "\f131"
 //}
 //
-//.note-icon-undo:before {
+//.note-icon-table:before {
 //  content: "\f132"
 //}
 //
-//.note-icon-unorderedlist:before {
+//.note-icon-text-height:before {
 //  content: "\f133"
 //}
 //
-//.note-icon-video:before {
+//.note-icon-trash:before {
 //  content: "\f134"
+//}
+//
+//.note-icon-underline:before {
+//  content: "\f135"
+//}
+//
+//.note-icon-undo:before {
+//  content: "\f136"
+//}
+//
+//.note-icon-unorderedlist:before {
+//  content: "\f137"
+//}
+//
+//.note-icon-video:before {
+//  content: "\f138"
 //}
 
 .note-frame * {
   color: #000;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box
-}
-
-p {
-  margin: 0 0 10px
-}
-
-kbd {
-  padding: 3px 5px;
-  font-weight: 700;
-  color: #fff;
-  background-color: #000;
-  border-radius: 2px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -715,7 +716,8 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1050;
+  // ### : Change modal zIndex
+  z-index: 1300;
   display: none;
   overflow: hidden;
   -webkit-opacity: 1;
@@ -733,6 +735,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 .note-modal-content {
   position: relative;
   width: auto;
+  // ### : Change modal props
   margin: 60px 20px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -752,6 +755,18 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 .note-modal-body {
   position: relative;
   padding: 20px 30px
+}
+
+.note-modal-body kbd {
+  padding: 3px 5px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #000;
+  border-radius: 2px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box
 }
 
 .note-modal-footer {
@@ -787,7 +802,8 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  // ### : Change modal zIndex
+  z-index: 1250;
   display: none;
   background: #000;
   -webkit-opacity: .5;
@@ -805,6 +821,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 @media(min-width: 768px) {
   .note-modal-content {
     width: 600px;
+    // ### : Change modal props
     margin: 80px auto
   }
 }
@@ -1090,9 +1107,9 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   z-index: 100;
   display: none;
   color: #87cefa;
+  pointer-events: none;
   background-color: #fff;
-  opacity: .95;
-  pointer-event: none
+  opacity: .95
 }
 
 .note-editor .note-dropzone .note-dropzone-message {
@@ -1200,6 +1217,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
+  outline: 0;
   box-shadow: none;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1302,7 +1320,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 }
 
 .note-editor.note-frame .note-statusbar {
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-top: 1px solid #ddd;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px
@@ -1316,9 +1334,9 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 }
 
 .note-editor.note-frame .note-statusbar .note-resizebar .note-icon-bar {
-  width: 23px;
+  width: 20px;
   margin: 1px auto;
-  border-top: 2px solid #a9a9a9
+  border-top: 1px solid #a9a9a9
 }
 
 .note-editor.note-frame .note-statusbar.locked .note-resizebar {
@@ -1411,6 +1429,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 .note-popover .note-popover-content .note-color .note-dropdown-menu, .note-toolbar .note-color .note-dropdown-menu {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
+  -ms-box-sizing: content-box;
   box-sizing: content-box
 }
 

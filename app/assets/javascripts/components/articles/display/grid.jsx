@@ -122,7 +122,7 @@ class ArticleGridDisplay extends React.PureComponent {
                         title={
                             <Grid container={true}
                                   classes={{
-                                      container: this.props.classes.info
+                                      container: this.props.classes.articleInfo
                                   }}
                                   spacing={16}
                                   direction="row"

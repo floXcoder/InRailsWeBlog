@@ -122,7 +122,7 @@ class ArticleCardDisplay extends React.PureComponent {
                 <Observer onChange={this._handleViewportChange}>
                     <Card component="article"
                           id={this.props.article.id}
-                          className={classNames(this.props.classes.card, {
+                          className={classNames(this.props.classes.articleCard, {
                               [this.props.classes.outdated]: this.props.article.outdated
                           })}>
                         {
@@ -163,7 +163,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                     title={
                                         <Grid container={true}
                                               classes={{
-                                                  container: this.props.classes.info
+                                                  container: this.props.classes.articleInfo
                                               }}
                                               spacing={16}
                                               direction="row"

@@ -108,21 +108,6 @@ fr:
       index:
         link_to_user: "Détails de l'utilisateur"
         search: "Chercher utilisateur"
-      show:
-        more_actions: "Actions"
-        articles: "Articles"
-        tag: "Tags"
-        comments: "Commentaires"
-        about: "A propos"
-        activities: "Activités"
-        tracking: "Popularité"
-        contact: "Informations de contact"
-        properties: "Propriétés"
-        edit: "Modifier"
-        admin: "Administrateur"
-        administrator: "Administrateur"
-        is_admin: "Est admin"
-        not_admin: "Non admin"
       edit:
         page_title: "Éditer mon profil"
         title: "Éditer mon profil"
@@ -210,7 +195,6 @@ fr:
           article: "L'article a été enlevé des favoris"
       notification:
         text: "Favoris ajouté"
-        link: "Mes favoris"
         saved_later: "Vous n'êtes pas connecté. Le favoris sera associé à votre compte une fois connecté."
         connection: "Se connecter"
         not_connected: "Vous devez vous connecté pour ajouter ou supprimer des favoris"
@@ -295,11 +279,6 @@ fr:
         placeholders:
           name: "Nom du thème"
           description: "Description du thème"
-        stats:
-          title: "Statistiques"
-          views: "Vues : "
-          clicks: "clic : "
-          searches: "Recherches : "
       form:
         unsaved: "Quitter sans sauvegarder le thème ?"
       model:
@@ -360,15 +339,7 @@ fr:
         draft: "Note temporaire ?"
         external_source: "Référence externe ?"
         link: "Est un lien ?"
-        allow_comment:
-          title: "Autoriser les commentaires ?"
-          truthy: "Oui"
-          falsy: "Non"
-        visibility: "Choisissez la visibilité"
-        url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
-        advanced: "Options avancées"
-        user: "Posté par"
         actions: "Actions"
         not_connected:
           message: "Merci de vous connecter avant de poster l'article"
@@ -405,7 +376,6 @@ fr:
               default: "Pas d'articles associés à ce thème"
               tag: "Pas d'articles associés à ce thème pour ce label"
               child_tag: "Pas d'articles associés à ce thème pour ce sous-label"
-            content: "Ajouter de nouveau article en cliquant que le bouton ci-dessous"
             button: "Ajouter nouvel article"
           search:
             title: "Pas d'articles trouvés"
@@ -588,35 +558,6 @@ fr:
       timeline:
         link: "Commentaire associée à :"
         no_comments: "Pas de commentaires à afficher"
-      table:
-        helper: "Pour éditer les commentaires directement depuis la liste, double cliquer sur le texte. Sinon dans Actions, cliquer sur édition."
-        filter:
-          order:
-            title: "Trier par"
-            select:
-              default: "Sélectionner la colonne"
-              values:
-                id_asc: "Id (premier)"
-                id_desc: "Id (dernier)"
-                updated_asc: "Mise à jour (premier)"
-                updated_desc: "Mise à jour (dernier)"
-              order:
-                - id_asc
-                - id_desc
-                - updated_asc
-                - updated_desc
-          not_accepted: "Non validé seulement"
-          ask_for_deletion: "Demande de suppression"
-          button: "Filter"
-        actions:
-          button: "Actions"
-          show: "Voir le commentaire"
-          accepted: "Valider le commentaire"
-          delete: "Supprimer ce commentaire"
-          delete_permanently: "Supprimer DÉFINITIVEMENT ce commentaire"
-        confirmation:
-          delete: "Supprimer le commentaire '%{comment}'"
-          delete_permanently: "Supprimer DÉFINITIVEMENT le commentaire '%{comment}' ?"
       form:
         title:
           default: "Ajouter un commentaire"
@@ -694,35 +635,6 @@ fr:
       queries_count: "Requêtes"
       clicks_count: "Clics"
       searches_count: "Searches"
-    admin:
-      menu:
-        dashboard: "Dashboard"
-        articles: "Articles"
-        tags: "Labels"
-        comments: "Commentaires"
-        users: "Utilisateurs"
-        benchmark: "Benchmark"
-        seo: "Référencement"
-        competitor: "Concurrents"
-        expense: "Dépenses"
-        media: "Communication"
-        logs: "Logs"
-        errors: "Erreurs"
-        server: "Serveur"
-        sidekiq: "Sidekiq"
-        back_home: "Retour au site"
-      managers:
-        errors:
-          title: "Gestion des erreurs"
-          delete:
-            button: "Supprimer cette erreur"
-          clear:
-            button: "Supprimer toutes les erreurs"
-      users:
-        index:
-          title: "Liste des utilisateurs"
-        show:
-          title: "Détails de l'utilisateur"
     form:
       errors:
         text: "Ce champ est requis"
@@ -730,10 +642,6 @@ fr:
         select: "Choisissez une des options proposées"
         date: "Indiquer une date valide"
         datetime: "Indiquer une date et une heure valide"
-        phone_number: "Numéro de téléphone fixe invalide"
-        mobile_number: "Numéro de téléphone mobile invalide"
-        postcode: "Code postal invalide"
-        siret: "Numéro SIRET invalide"
         stripped_text_size: "La longueur du champ doit être comprise entre %{minCount} et %{maxCount}"
         picture:
           title: "Image trop grande"
@@ -745,125 +653,15 @@ fr:
         add: "Ajouter"
         already_exists: "Le label existe déjà"
         too_long: "Le nom de l'élément est trop long"
-    drop_zone:
-      default_message: "Cliquer ou faites glisser les fichiers à ajouter ici"
-      copyright_message: "Ajouter un copyright"
-      cancel: "Annuler"
-      confirm_cancel: "Confirmer suppression"
-      remove: "Supprimer fichier"
-      server:
-        previous_files: "Fichiers importés"
-        remove: "Supprimer"
-      error:
-        special_characters: "Le fichier (%{name}) contient des caractères spéciaux. Merci de les enlever et réajouter le fichier."
-        unsupported_browser: "Votre navigateur n'a pas supporté pour uploader des photos"
-        extension: "L'extension n'est pas autorisée"
-        size: "La taille du fichier (%{filesize}Mo) dépasse la limite autorisée %{maxFileSize}Mo"
-        server: "Erreur serveur lors de l'import"
     cookies:
       message: "Bienvenue sur InRailsWeBlog ! En poursuivant votre navigation, vous acceptez l'utilisation de cookies. "
       link: "En savoir plus"
       validation: "D'accord"
     rating:
       clear: "Effacer"
-    checkbox:
-      truthy: "Oui"
-      falsy: "Non"
     languages:
       fr: "Français"
       en: "English"
-    time:
-      abbr_hour: "h"
-      abbr_minute: "m"
-    date:
-      formats:
-        default: "DD/MM/YYYY"
-        display: "D MMMM"
-        editable: "Le dd MM à hh:ii"
-        editable_date: "Le dd MM"
-        date: "dd-mm-yyyy"
-      buttons:
-        apply: "Valider"
-        cancel: "Annuler"
-        clear: "Effacer"
-        close: "Valider"
-      separator: " à "
-      label:
-        from: "De"
-        to: "au"
-      ranges:
-        today: "Aujourd'hui"
-        today_short: "Auj."
-        tomorrow: "Demain"
-        next_week: "7 prochains jours"
-        previous_month: "Mois précédent"
-        this_month: "Ce mois-ci"
-        next_month: "Mois prochain"
-        custom_range: "Personnalisé"
-        select_month: "Sélectionner un mois"
-        select_year: "Sélectionner une année"
-      day_names:
-        - "dimanche"
-        - "lundi"
-        - "mardi"
-        - "mercredi"
-        - "jeudi"
-        - "vendredi"
-        - "samedi"
-      abbr_day_names:
-        - "Di"
-        - "Lu"
-        - "Ma"
-        - "Me"
-        - "Je"
-        - "Ve"
-        - "Sa"
-      letter_day_names:
-        - "D"
-        - "L"
-        - "M"
-        - "M"
-        - "J"
-        - "V"
-        - "S"
-      month_names:
-        - "Janvier"
-        - "Février"
-        - "Mars"
-        - "Avril"
-        - "Mai"
-        - "Juin"
-        - "Juillet"
-        - "Août"
-        - "Septembre"
-        - "Octobre"
-        - "Novembre"
-        - "Décembre"
-      abbr_month_names:
-        - "Jan"
-        - "Fev"
-        - "Mar"
-        - "Avr"
-        - "Mai"
-        - "Juin"
-        - "Juil"
-        - "Août"
-        - "Sep"
-        - "Oct"
-        - "Nov"
-        - "Dec"
-    error_message:
-      url: "URL"
-      message: "Message"
-      trace: "Trace"
-      parameters: "Paramètres"
-      details:
-        user_id: "Id utilisateur"
-        user_name: "Utilisateur"
-        user_locale: "Langue"
-        user_ip: "IP"
-        browser: "Navigateur"
-        system: "OS"
     editor:
       buttons:
         code: "Code simple"

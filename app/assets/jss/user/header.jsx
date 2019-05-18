@@ -30,14 +30,14 @@ const styles = (theme) => ({
         fontSize: '1.6rem',
         [theme.breakpoints.up('sm')]: {
             display: 'block',
-            fontSize: '2.2rem'
+            fontSize: '2rem'
         }
     },
     websiteTitle: {
         fontSize: '1.6rem',
         margin: '.5rem',
         [theme.breakpoints.up('md')]: {
-            fontSize: '2.2rem'
+            fontSize: '2rem'
         }
     },
     menuButton: {
@@ -48,6 +48,7 @@ const styles = (theme) => ({
         }
     },
     topicButton: {
+        fontSize: '1rem',
         [theme.breakpoints.down('md')]: {
             margin: 6
         }

@@ -8,19 +8,19 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
+// import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
-import Grow from '@material-ui/core/Grow';
+// import Grow from '@material-ui/core/Grow';
 import Zoom from '@material-ui/core/Zoom';
 
-import LabelIcon from '@material-ui/icons/Label';
-import SearchIcon from '@material-ui/icons/Search';
+// import LabelIcon from '@material-ui/icons/Label';
+// import SearchIcon from '@material-ui/icons/Search';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 import {
-    filterTags,
+    // filterTags,
     spyTrackClick
 } from '../../actions';
 
@@ -33,7 +33,7 @@ import {
 
 import TagRelationshipDisplay from './display/relationship';
 
-import SearchBar from '../theme/searchBar';
+// import SearchBar from '../theme/searchBar';
 import Loader from '../theme/loader';
 
 import styles from '../../../jss/tag/sidebar';
@@ -45,7 +45,7 @@ export default @connect((state, props) => ({
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     tags: props.isCloud ? getTags(state) : getSortedTopicTags(state)
 }), {
-    filterTags
+    // filterTags
 })
 @withStyles(styles)
 class TagSidebar extends React.Component {
@@ -62,7 +62,7 @@ class TagSidebar extends React.Component {
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
         tags: PropTypes.array,
-        filterTags: PropTypes.func,
+        // filterTags: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -76,16 +76,16 @@ class TagSidebar extends React.Component {
     }
 
     _handleTagClick = (tagId, tagName, tagSlug) => {
-        if(this.props.onTagClick) {
+        if (this.props.onTagClick) {
             this.props.onTagClick();
         }
 
         spyTrackClick('tag', tagId, tagSlug, tagName);
     };
 
-    _handleSearchInput = (value) => {
-        this.props.filterTags(value);
-    };
+    // _handleSearchInput = (value) => {
+    //     this.props.filterTags(value);
+    // };
 
     render() {
         if (this.props.isLoading) {
@@ -120,52 +120,60 @@ class TagSidebar extends React.Component {
 
             return (
                 <List className={this.props.classes.root}>
-                    <ListItem classes={{
-                        root: this.props.classes.listItem
-                    }}>
-                        <Zoom in={!this.props.isOpen}
-                              timeout={350}>
-                            <ListItemIcon>
-                                <LabelIcon/>
-                            </ListItemIcon>
-                        </Zoom>
+                    <Zoom in={this.props.isOpen}
+                          timeout={350}>
+                        <Link className={this.props.classes.allLabels}
+                              to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tags`}>
+                            <OpenInNewIcon className={this.props.classes.iconLabels}/>
+                        </Link>
+                    </Zoom>
 
-                        <ListItemText classes={{
-                            root: classNames(this.props.classes.item, this.props.classes.title, {
-                                [this.props.classes.itemOpen]: this.props.isOpen
-                            })
-                        }}>
-                            {I18n.t('js.tag.common.list')}
+                    {/*<ListItem classes={{*/}
+                    {/*    root: this.props.classes.listItem*/}
+                    {/*}}>*/}
+                    {/*    <Zoom in={!this.props.isOpen}*/}
+                    {/*          timeout={350}>*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <LabelIcon/>*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*    </Zoom>*/}
 
-                            <Link to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tags`}>
-                                <OpenInNewIcon className={this.props.classes.iconLabels}/>
-                            </Link>
-                        </ListItemText>
-                    </ListItem>
+                    {/*    <ListItemText classes={{*/}
+                    {/*        root: classNames(this.props.classes.item, this.props.classes.title, {*/}
+                    {/*            [this.props.classes.itemOpen]: this.props.isOpen*/}
+                    {/*        })*/}
+                    {/*    }}>*/}
+                    {/*        {I18n.t('js.tag.common.list')}*/}
 
-                    <ListItem classes={{
-                        root: this.props.classes.searchItem
-                    }}>
-                        <Grow in={!this.props.isOpen}
-                              timeout={350}
-                              style={{transformOrigin: '0 0 0'}}>
-                            <ListItemIcon>
-                                <SearchIcon/>
-                            </ListItemIcon>
-                        </Grow>
+                    {/*        <Link to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tags`}>*/}
+                    {/*            <OpenInNewIcon className={this.props.classes.iconLabels}/>*/}
+                    {/*        </Link>*/}
+                    {/*    </ListItemText>*/}
+                    {/*</ListItem>*/}
 
-                        <div className={
-                            classNames(this.props.classes.item, {
-                                [this.props.classes.itemOpen]: this.props.isOpen
-                            })
-                        }>
-                            <SearchBar classes={this.props.classes.input}
-                                       label={I18n.t('js.tag.common.filter')}
-                                       onSearchInput={this._handleSearchInput}>
-                                {this.props.filterText}
-                            </SearchBar>
-                        </div>
-                    </ListItem>
+                    {/*<ListItem classes={{*/}
+                    {/*    root: this.props.classes.searchItem*/}
+                    {/*}}>*/}
+                    {/*    <Grow in={!this.props.isOpen}*/}
+                    {/*          timeout={350}*/}
+                    {/*          style={{transformOrigin: '0 0 0'}}>*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <SearchIcon/>*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*    </Grow>*/}
+
+                    {/*    <div className={*/}
+                    {/*        classNames(this.props.classes.item, {*/}
+                    {/*            [this.props.classes.itemOpen]: this.props.isOpen*/}
+                    {/*        })*/}
+                    {/*    }>*/}
+                    {/*        <SearchBar classes={this.props.classes.input}*/}
+                    {/*                   label={I18n.t('js.tag.common.filter')}*/}
+                    {/*                   onSearchInput={this._handleSearchInput}>*/}
+                    {/*            {this.props.filterText}*/}
+                    {/*        </SearchBar>*/}
+                    {/*    </div>*/}
+                    {/*</ListItem>*/}
 
                     {
                         !Utils.isEmpty(this.props.tags) &&

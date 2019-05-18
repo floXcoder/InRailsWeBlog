@@ -21,7 +21,7 @@ const styles = (theme) => ({
         }
     },
     title: {
-        marginTop: '1rem',
+        marginTop: '1.3rem',
         marginBottom: '1.8rem',
         fontSize: h1Size,
         fontWeight: h1Weight,
@@ -70,13 +70,13 @@ const styles = (theme) => ({
         backgroundColor: theme.palette.grey[100],
         padding: 9
     },
-    info: {
+    articleInfo: {
         color: theme.palette.grey[600],
         fontSize: '.9rem',
         marginTop: 10,
         marginBottom: 0,
         [theme.breakpoints.down('md')]: {
-            margin: 0
+            display: 'none'
         }
     },
     floatingButtons: {
@@ -101,7 +101,7 @@ const styles = (theme) => ({
     },
     actionItem: {
         display: 'inline-block',
-        margin: theme.spacing.unit
+        margin: theme.spacing.unit * 1.5
     },
     storiesContainer: {
         maxWidth: storiesWidth,

@@ -2,6 +2,7 @@
 
 const styles = (theme) => ({
     root: {
+        position: 'relative',
         padding: 0
     },
     list: {
@@ -12,10 +13,21 @@ const styles = (theme) => ({
         }
     },
     tagList: {
-        margin: 5,
+        margin: theme.spacing.unit / 2,
         fontSize: '1rem',
-        fontWeight: 500,
-        borderRadius: 4
+        fontWeight: 400,
+        borderRadius: 4,
+        cursor: 'pointer',
+        color: theme.palette.primary.main,
+        borderColor: theme.palette.text.secondary
+    },
+    allLabels: {
+        position: 'absolute',
+        top: -32,
+        right: 12,
+        [theme.breakpoints.down('md')]: {
+            display: 'none'
+        }
     },
     iconLabels: {
         marginLeft: 8,
@@ -50,6 +62,7 @@ const styles = (theme) => ({
     tags: {
         visibility: 'hidden',
         opacity: 0,
+        marginTop: '1rem',
         transition: 'visibility .35s, opacity .35s ease-in-out'
     },
     tagsOpen: {

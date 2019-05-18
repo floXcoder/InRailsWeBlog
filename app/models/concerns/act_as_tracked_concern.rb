@@ -143,7 +143,7 @@ module ActAsTrackedConcern
 
       unless Sidekiq::Cron::Job.find(name: cron_job_name)
         Sidekiq::Cron::Job.create(name:  cron_job_name,
-                                  cron:  '*/5 * * * *',
+                                  cron:  "*/#{InRailsWeBlog.config.tracker_cron} * * * *",
                                   class: 'UpdateTrackerWorker',
                                   args:  { tracked_class: formatted_name },
                                   queue: 'default')

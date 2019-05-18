@@ -96,7 +96,7 @@ class TagShow extends React.Component {
 
 
                 <div className="row">
-                    <div className="col s12 l7">
+                    <div className="col s12 l8">
                         <div>
                             <Typography className={this.props.classes.subtitle}
                                         component="h2"
@@ -169,7 +169,7 @@ class TagShow extends React.Component {
                         </div>
                     </div>
 
-                    <div className="col s12 l5">
+                    <div className="col s12 l4">
                         <div>
                             <Typography className={this.props.classes.subtitle2}
                                         component="h3"
@@ -249,28 +249,14 @@ class TagShow extends React.Component {
                     </div>
                 </div>
 
-                <div className="margin-top-40 margin-bottom-20">
-                    <div className="row">
-                        <div className="col s6 center-align">
-                            <Button color="default"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={'/'}>
-                                {I18n.t('js.tag.show.back_button')}
-                            </Button>
-                        </div>
-
-                        <div className="col s6 center-align">
-                            <Button color="default"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={`/tags/${this.props.tag.slug}/edit`}>
-                                {I18n.t('js.tag.show.edit_link')}
-                            </Button>
-                        </div>
-                    </div>
+                <div className="center-align margin-top-60 margin-bottom-20">
+                    <Button color="default"
+                            variant="outlined"
+                            size="small"
+                            component={Link}
+                            to={`/tags/${this.props.tag.slug}/edit`}>
+                        {I18n.t('js.tag.show.edit_link')}
+                    </Button>
                 </div>
             </article>
         );

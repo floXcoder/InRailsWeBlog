@@ -18,13 +18,17 @@ const styles = (theme) => ({
     },
     subtitle: {
         fontSize: '2.4rem',
+        fontWeight: 500,
         marginTop: 40,
         marginBottom: 15
     },
     subtitle2: {
-        fontSize: '1.8rem',
+        fontSize: '1.6rem',
+        fontWeight: 400,
         marginTop: 30,
-        marginBottom: 10
+        marginBottom: 10,
+        paddingBottom: 8,
+        borderBottom: '1px solid rgba(0, 0, 0, 0.2)'
     },
     avatar: {
         color: theme.palette.text.primary

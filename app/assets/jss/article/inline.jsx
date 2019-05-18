@@ -52,7 +52,7 @@ const styles = (theme) => ({
         boxShadow: `0 0 3px ${theme.palette.primary.main}`,
         height: 'auto',
         margin: '1rem 2px',
-        padding: '.3rem',
+        padding: '1rem',
         position: 'relative'
     },
     actions: {
@@ -72,7 +72,7 @@ const styles = (theme) => ({
     },
     actionItem: {
         display: 'inline-block',
-        margin: theme.spacing.unit * 2
+        margin: theme.spacing.unit * 1.5
     }
 });
 

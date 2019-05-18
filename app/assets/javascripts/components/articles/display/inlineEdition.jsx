@@ -41,12 +41,10 @@ class ArticleInlineEditionDisplay extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this._editor = null;
     }
 
     state = {
-        isModified: false
+        modifiedContent: undefined
     };
 
     _handleTitleClick = () => {
@@ -61,20 +59,16 @@ class ArticleInlineEditionDisplay extends React.Component {
         this.props.inlineEditArticle(null);
     };
 
-    _handleEditorChange = () => {
-        if (!this.state.isModified) {
-            this.setState({
-                isModified: true
-            });
-        }
+    _handleEditorChange = (content) => {
+        this.setState({
+            modifiedContent: content
+        });
     };
 
     _handleSaveClick = () => {
-        const content = this._editor.getContent();
-
         this.props.updateArticle({
             id: this.props.article.id,
-            content: content
+            content: this.state.modifiedContent
         })
             .then(() => this.props.inlineEditArticle(null));
     };
@@ -82,9 +76,8 @@ class ArticleInlineEditionDisplay extends React.Component {
     render() {
         return (
             <div className={this.props.classes.root}>
-                <Prompt
-                    when={this.state.isModified}
-                    message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
+                <Prompt when={!!this.state.modifiedContent}
+                        message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
 
                 {
                     this.props.article.title &&
@@ -97,8 +90,7 @@ class ArticleInlineEditionDisplay extends React.Component {
                 }
 
                 <div className={this.props.classes.inlineEditor}>
-                    <Editor ref={(editor) => this._editor = editor}
-                            modelName="article"
+                    <Editor modelName="article"
                             modelId={this.props.article.id}
                             mode={EditorMode.INLINE_EDIT}
                             onChange={this._handleEditorChange}

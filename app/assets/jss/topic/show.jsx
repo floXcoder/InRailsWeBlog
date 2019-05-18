@@ -14,17 +14,22 @@ const styles = (theme) => ({
     title: {
         fontSize: '2.8rem',
         fontWeight: 500,
-        marginTop: 30
+        marginTop: 60,
+        marginBottom: 60
     },
     subtitle: {
         fontSize: '2.4rem',
+        fontWeight: 500,
         marginTop: 40,
         marginBottom: 15
     },
     subtitle2: {
-        fontSize: '1.8rem',
+        fontSize: '1.6rem',
+        fontWeight: 400,
         marginTop: 30,
-        marginBottom: 10
+        marginBottom: 10,
+        paddingBottom: 8,
+        borderBottom: '1px solid rgba(0, 0, 0, 0.2)'
     },
     avatar: {
         color: theme.palette.text.primary
@@ -43,7 +48,7 @@ const styles = (theme) => ({
         fontSize: '.9rem',
         borderRadius: 4,
         cursor: 'pointer',
-        color: theme.palette.text.secondary,
+        color: theme.palette.primary.main,
         borderColor: theme.palette.text.secondary
     }
 });

@@ -1,6 +1,5 @@
 'use strict';
 
-import ArticleVisibilityIcon from '../icons/visibility';
 import ArticleShareIcon from '../icons/share';
 import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleHistoryIcon from '../icons/history';
@@ -10,7 +9,7 @@ import ArticleLinkIcon from '../icons/link';
 
 import ArticleOutdatedIcon from '../icons/outdated';
 
-const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, onVisibilityClick, onOutdatedClick, onDeleteClick, size, color}) => (
+const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, onOutdatedClick, onDeleteClick, size, color}) => (
     <ul className={classes.actionButtons}>
         {
             !isInline &&
@@ -47,13 +46,6 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
                                      color={color}/>
             </li>
         }
-
-        <li className={classes.actionItem}>
-            <ArticleVisibilityIcon articleVisibility={articleVisibility}
-                                   onVisibilityClick={onVisibilityClick}
-                                   size={size}
-                                   color={color}/>
-        </li>
 
         {
             (!isInline && userSlug) &&
@@ -96,7 +88,6 @@ ArticleActions.propTypes = {
     articleVisibility: PropTypes.string.isRequired,
     userSlug: PropTypes.string,
     articleTitle: PropTypes.string,
-    onVisibilityClick: PropTypes.func,
     onOutdatedClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
     isInline: PropTypes.bool,

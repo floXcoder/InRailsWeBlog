@@ -53,16 +53,6 @@ fr:
       bookmarks:
         title: "%{pseudo} : Mes favoris"
         description: "%{pseudo} : Mes favoris"
-    topic:
-      flash:
-        successful_creation: "Thème ajouté"
-        error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Thème mis à jour"
-        error_edition: "Problème lors de la mise à jour du thème !"
-        successful_deletion: "Le thème a été supprimé"
-        successful_priority_update: "L'ordre des thèmes a été changé"
-        error_priority_update: "Problème lors du changement de priorité des thèmes"
-        error_deletion: "Problème lors de la suppression du thème : %{errors}"
     tag:
       flash:
         successful_creation: "Label ajouté"
@@ -82,13 +72,25 @@ fr:
         title: "Label : %{name}"
       edit:
         title: "Modification du Label : %{name}"
+    topic:
+      show:
+        title: "%{name} : détails du thème"
+      flash:
+        successful_creation: "Thème ajouté"
+        error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Thème mis à jour"
+        error_edition: "Problème lors de la mise à jour du thème !"
+        successful_deletion: "Le thème a été supprimé"
+        successful_priority_update: "L'ordre des thèmes a été changé"
+        error_priority_update: "Problème lors du changement de priorité des thèmes"
+        error_deletion: "Problème lors de la suppression du thème : %{errors}"
     article:
       flash:
         not_found: "L'article n'a pas été trouvé"
         undelete_link: "Annuler la suppression."
-        successful_creation: "Article ajouté"
+        successful_creation: "Article ajouté : %{title}"
         error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Article mis à jour"
+        successful_edition: "Article mis à jour : %{title}"
         error_edition: "Problème lors de la mise à jour de l'article !"
         successful_priority_update: "L'ordre des articles a été changé"
         error_priority_update: "Problème lors du changement de priorité des articles"

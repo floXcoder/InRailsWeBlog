@@ -108,21 +108,6 @@ en:
       index:
         link_to_user: "User details"
         search: "Find user"
-      show:
-        more_actions: "Actions"
-        articles: "Articles"
-        tag: "Tags"
-        comments: "Comments"
-        about: "About"
-        activities: "Activities"
-        tracking: "Tracking"
-        contact: "Contact Info"
-        properties: "Properties"
-        edit: "Edit"
-        admin: "Administrator"
-        administrator: "Administrator"
-        is_admin: "Is admin"
-        not_admin: "Not admin"
       edit:
         page_title: "Edit my profile"
         title: "Edit my profile"
@@ -210,7 +195,6 @@ en:
           article: "Article removed from bookmarks"
       notification:
         text: "Bookmark added ajouté"
-        link: "My bookmarks"
         saved_later: "You are not connected. Bookmarks will be added after connection."
         connection: "Log in"
         not_connected: "You must be connected to add or remove bookmarks"
@@ -295,11 +279,6 @@ en:
         placeholders:
           name: "Topic name"
           description: "Topic description"
-        stats:
-          title: "Statistics"
-          views: "Views: "
-          clicks: "Clicks: "
-          searches: "Searches: "
       form:
         unsaved: "Leave without saving topic?"
       model:
@@ -360,15 +339,7 @@ en:
         draft: "Draft?"
         external_source: "External reference?"
         link: "Link?"
-        allow_comment:
-          title: "Allow comments?"
-          truthy: "Yes"
-          falsy: "No"
-        visibility: "Choose visibility"
-        url: "Articles list"
         outdated: "Article marked as outdated"
-        advanced: "Advanced options"
-        user: "Posted by"
         actions: "Actions"
         not_connected:
           message: "Please log in, before posting article"
@@ -405,7 +376,6 @@ en:
               default: "No articles for this topic"
               tag: "No articles for this topic with this tag"
               child_tag: "No articles for this topic with this sub-tag"
-            content: "You can add a new article in this topic"
             button: "Add an article"
           search:
             title: "No articles found"
@@ -588,35 +558,6 @@ en:
       timeline:
         link: "Comment associated to:"
         no_comments: "No comments to display"
-      table:
-        helper: "To edit comments from list, double click on text. Or click in Actions and edit button."
-        filter:
-          order:
-            title: "Sort by"
-            select:
-              default: "Select column"
-              values:
-                id_asc: "Id (first)"
-                id_desc: "Id (last)"
-                updated_asc: "Updated (first)"
-                updated_desc: "Updated (last)"
-              order:
-                - id_asc
-                - id_desc
-                - updated_asc
-                - updated_desc
-          not_accepted: "Not accepted only"
-          ask_for_deletion: "Ask for deletion"
-          button: "Filter"
-        actions:
-          button: "Actions"
-          show: "See comment"
-          accepted: "Apply"
-          delete: "Remove this comment"
-          delete_permanently: "Remove PERMANENTLY this comment"
-        confirmation:
-          delete: "Remove comment '%{comment}'"
-          delete_permanently: "Remove PERMANENTLY this comment '%{comment}'?"
       form:
         title:
           default: "Add a comment"
@@ -694,35 +635,6 @@ en:
       queries_count: "Queries"
       clicks_count: "Clicks"
       searches_count: "Searches"
-    admin:
-      menu:
-        dashboard: "Dashboard"
-        articles: "Articles"
-        tags: "Tags"
-        comments: "Comments"
-        users: "Users"
-        benchmark: "Benchmark"
-        seo: "SEO"
-        competitor: "Competitors"
-        expense: "Expenses"
-        media: "Media"
-        logs: "Logs"
-        errors: "Errors"
-        server: "Server"
-        sidekiq: "Sidekiq"
-        back_home: "Back to home page"
-      managers:
-        errors:
-          title: "Errors management"
-          delete:
-            button: "Remove this error"
-          clear:
-            button: "Remove all errors"
-      users:
-        index:
-          title: "Users list"
-        show:
-          title: "User details"
     form:
       errors:
         text: "This field is required"
@@ -730,10 +642,6 @@ en:
         select: "Select one option"
         date: "Set a valid date"
         datetime: "Set a valid date and time"
-        phone_number: "Invalid phone number"
-        mobile_number: "Invalid mobile number"
-        postcode: "Invalid postcode"
-        siret: "Invalid company registered number"
         stripped_text_size: "Length field must be between %{minCount} and %{maxCount}"
         picture:
           title: "File too large"
@@ -745,125 +653,15 @@ en:
         add: "Add"
         already_exists: "Tag already exist"
         too_long: "Name too long"
-    drop_zone:
-      default_message: "click or drag&drop to add pictures"
-      copyright_message: "Add a copyright"
-      cancel: "Cancel"
-      confirm_cancel: "Confirm deletion"
-      remove: "Remove file"
-      server:
-        previous_files: "Imported files"
-        remove: "Remove"
-      error:
-        special_characters: "The file (%{name}) has special characters. Please remove these characters and add it again."
-        unsupported_browser: "Your browser doesn't support picture upload"
-        extension: "Extension not authorized"
-        size: "File size (%{filesize}MB) exceed the limit %{maxFileSize}MB"
-        server: "Server error when importing"
     cookies:
       message: "Welcome to InRailsWeBlog! This website uses cookies to ensure you get the best experience on our website. "
       link: "More info"
       validation: "Got it!"
     rating:
       clear: "Clear"
-    checkbox:
-      truthy: "Yes"
-      falsy: "No"
     languages:
       fr: "Français"
       en: "English"
-    time:
-      abbr_hour: "h"
-      abbr_minute: "m"
-    date:
-      formats:
-        default: "MM/DD/YYYY"
-        display: "MMMM D"
-        editable: "The dd MM at hh:ii"
-        editable_date: "The dd MM"
-        date: "yyyy-mm-dd"
-      buttons:
-        apply: "Apply"
-        cancel: "Cancel"
-        clear: "Clear"
-        close: "Fermer"
-      separator: " to "
-      label:
-        from: "From"
-        to: "To"
-      ranges:
-        today: "Today"
-        today_short: "Today"
-        tomorrow: "Tomorrow"
-        next_week: "Next 7 days"
-        previous_month: "Prev. month"
-        this_month: "This Month"
-        next_month: "Next Month"
-        custom_range: "Custom range"
-        select_month: "Select month"
-        select_year: "Select year"
-      day_names:
-        - "Sunday"
-        - "Monday"
-        - "Tuesday"
-        - "Wednesday"
-        - "Thursday"
-        - "Friday"
-        - "Saturday"
-      abbr_day_names:
-        - "Su"
-        - "Mo"
-        - "Tu"
-        - "We"
-        - "Th"
-        - "Fr"
-        - "Sa"
-      letter_day_names:
-        - "S"
-        - "M"
-        - "T"
-        - "W"
-        - "T"
-        - "F"
-        - "S"
-      month_names:
-        - "January"
-        - "February"
-        - "March"
-        - "April"
-        - "May"
-        - "June"
-        - "July"
-        - "August"
-        - "September"
-        - "October"
-        - "November"
-        - "December"
-      abbr_month_names:
-        - "Jan"
-        - "Feb"
-        - "Mar"
-        - "Apr"
-        - "May"
-        - "Jun"
-        - "Jul"
-        - "Aug"
-        - "Sep"
-        - "Oct"
-        - "Nov"
-        - "Dec"
-    error_message:
-      url: "URL"
-      message: "Message"
-      trace: "Trace"
-      parameters: "Parameters"
-      details:
-        user_id: "User id"
-        user_name: "User"
-        user_locale: "Language"
-        user_ip: "IP"
-        browser: "Browser"
-        system: "System"
     editor:
       buttons:
         code: "Simple code"

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/tags/*ids',     to: 'single_pages#home'
   get '/tagged/*id',    to: 'single_pages#home'
   get '/articles/*id',  to: 'single_pages#home'
+  get '/404',           to: 'single_pages#home'
 
   # Concerns
   concern :tracker do |options|
@@ -167,20 +168,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # SEO
-  get '/robots.:format' => 'single_pages#robots'
-
-  # Errors
-  %w[404 422 500].each do |code|
-    get code, to: 'errors#show', code: code
-  end
-
-  resources :errors, only: [:index, :show, :create, :destroy] do
-    collection do
-      post 'delete_all',     to: 'errors#destroy_all'
-    end
-  end
-
   # Admins
   devise_scope :admin do
     get     '/admin/login',  to: 'users/sessions#new',      as: :login_admin
@@ -216,5 +203,9 @@ Rails.application.routes.draw do
     # end
   end
 
+  # SEO
+  get '/robots.:format' => 'single_pages#robots'
+
+  match '*path' => redirect('/404'), via: :get
 
 end

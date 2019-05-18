@@ -27,7 +27,6 @@ import {
 
 import {
     fetchArticle,
-    updateArticle,
     fetchArticleStories,
     markArticleOutdated,
     unmarkArticleOutdated,
@@ -87,7 +86,6 @@ export default @withRouter
     articleSiblingStories: getArticleSiblingStories(state)
 }), {
     fetchArticle,
-    updateArticle,
     fetchArticleStories,
     markArticleOutdated,
     unmarkArticleOutdated,
@@ -114,7 +112,6 @@ class ArticleShow extends React.Component {
         isUserConnected: PropTypes.bool,
         articleSiblingStories: PropTypes.array,
         fetchArticle: PropTypes.func,
-        updateArticle: PropTypes.func,
         fetchArticleStories: PropTypes.func,
         markArticleOutdated: PropTypes.func,
         unmarkArticleOutdated: PropTypes.func,
@@ -178,15 +175,6 @@ class ArticleShow extends React.Component {
             this.props.markArticleOutdated(this.props.article.id)
                 .then((response) => response && response.errors && Notification.error(response.errors));
         }
-    };
-
-    _handleVisibilityClick = (event) => {
-        event.preventDefault();
-
-        this.props.updateArticle({
-            id: this.props.article.id,
-            visibility: this.props.article.visibility === 'everyone' ? 'only_me' : 'everyone'
-        });
     };
 
     _handleDeleteClick = (event) => {
@@ -298,7 +286,7 @@ class ArticleShow extends React.Component {
                                           xs={12}>
                                         <Grid container={true}
                                               classes={{
-                                                  container: this.props.classes.info
+                                                  container: this.props.classes.articleInfo
                                               }}
                                               spacing={8}
                                               direction="row"
@@ -314,12 +302,12 @@ class ArticleShow extends React.Component {
                                                   item={true}>
                                                 {
                                                     this.props.isOwner &&
-                                                    <p className={this.props.classes.editIcon}>
+                                                    <div className={this.props.classes.editIcon}>
                                                         <ArticleEditIcon userSlug={this.props.article.user.slug}
                                                                          articleSlug={this.props.article.slug}
                                                                          size="large"
                                                                          color="action"/>
-                                                    </p>
+                                                    </div>
                                                 }
 
                                                 {
@@ -375,7 +363,6 @@ class ArticleShow extends React.Component {
                                                         articleVisibility={this.props.article.visibility}
                                                         isOutdated={this.props.article.outdated}
                                                         onOutdatedClick={this._handleOutdatedClick}
-                                                        onVisibilityClick={this._handleVisibilityClick}
                                                         onDeleteClick={this._handleDeleteClick}/>
                                     }
                                 </div>

@@ -259,7 +259,7 @@ class Topic < ApplicationRecord
 
   # SEO
   def meta_description
-    [self.name, self.description.summary(60)].join(I18n.t('helpers.colon'))
+    [self.name, self.description&.summary(60)].join(I18n.t('helpers.colon'))
   end
 
   private

@@ -55,6 +55,7 @@ webPackConfig = _.merge(webPackConfig, {
     },
 
     devServer: {
+        clientLogLevel: 'info',
         contentBase: path.resolve('./public/assets'),
         publicPath: config.development.assetPath,
         port: 8080,
