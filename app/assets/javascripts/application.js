@@ -1,7 +1,5 @@
 'use strict';
 
-__webpack_public_path__ = process.env.ASSET_PATH;
-
 // Auto polyfill
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -14,6 +12,8 @@ import 'intersection-observer';
 
 // jQuery
 import 'jquery-ujs';
+
+import 'first-input-delay/dist/first-input-delay.min';
 
 // Expose global variables
 import * as utils from './modules/utils';
@@ -58,3 +58,9 @@ log.trace = data => {
 log.table = data => {
     console.table(data);
 };
+
+perfMetrics.onFirstInputDelay(function (delay, event) {
+    if (window._paq) {
+        window._paq.push(['trackEvent', 'First Input Delay', event.type, Math.round(delay)]);
+    }
+});

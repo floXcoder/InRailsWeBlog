@@ -59,14 +59,15 @@ class ArticleGridDisplay extends React.PureComponent {
     }
 
     state = {
-        isMinimized: this.props.isMinimized,
+        wasGlobalMinimized: this.props.isMinimized,
         isFolded: false
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.isMinimized !== nextProps.isMinimized) {
+        if (prevState.wasGlobalMinimized !== nextProps.isMinimized) {
             return {
                 ...prevState,
+                wasGlobalMinimized: nextProps.isMinimized,
                 isFolded: nextProps.isMinimized
             };
         }

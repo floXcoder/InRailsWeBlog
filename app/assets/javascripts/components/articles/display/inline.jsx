@@ -56,16 +56,16 @@ class ArticleInlineDisplay extends React.PureComponent {
     }
 
     state = {
-        isMinimized: this.props.isMinimized,
+        wasGlobalMinimized: this.props.isMinimized,
         isFolded: false,
         isOver: false
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.isMinimized !== nextProps.isMinimized) {
+        if (prevState.wasGlobalMinimized !== nextProps.isMinimized) {
             return {
                 ...prevState,
-                isMinimized: nextProps.isMinimized,
+                wasGlobalMinimized: nextProps.isMinimized,
                 isFolded: nextProps.isMinimized
             };
         }
