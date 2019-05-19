@@ -65,6 +65,7 @@ class SitePage
     # Ignore warnings and mapbox errors
     javascript_logs = javascript_logs.reject { |log| log.message =~ /Warning:/ }
     javascript_logs = javascript_logs.reject { |log| log.message =~ /WebSocket/ }
+    javascript_logs = javascript_logs.reject { |log| log.message =~ /React-Hot-Loader/ }
 
     if !javascript_logs.empty?
       ap javascript_logs.map(&:message)

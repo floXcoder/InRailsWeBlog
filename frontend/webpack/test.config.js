@@ -1,7 +1,5 @@
 const _ = require('lodash');
-const path = require('path');
 const webpack = require('webpack');
-const sane = require('sane');
 
 const HappyPack = require('happypack');
 
@@ -36,7 +34,7 @@ webPackConfig.optimization = {
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
         'process.env': {
-            'NODE_ENV': JSON.stringify('development'),
+            'NODE_ENV': JSON.stringify('test'),
             'ASSET_PATH': JSON.stringify(config.test.assetPath)
         }
     }),

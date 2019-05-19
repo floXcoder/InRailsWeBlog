@@ -339,6 +339,12 @@ fr:
         draft: "Note temporaire ?"
         external_source: "Référence externe ?"
         link: "Est un lien ?"
+        allow_comment:
+          title: "Autoriser les commentaires ?"
+          truthy: "Oui"
+          falsy: "Non"
+        visibility: "Choisissez la visibilité"
+        url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
         actions: "Actions"
         not_connected:

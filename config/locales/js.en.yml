@@ -339,6 +339,12 @@ en:
         draft: "Draft?"
         external_source: "External reference?"
         link: "Link?"
+        allow_comment:
+          title: "Allow comments?"
+          truthy: "Yes"
+          falsy: "No"
+        visibility: "Choose visibility"
+        url: "Articles list"
         outdated: "Article marked as outdated"
         actions: "Actions"
         not_connected:
