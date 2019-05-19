@@ -53,16 +53,6 @@ en:
       bookmarks:
         title: "%{pseudo}: My bookmarks"
         description: "%{pseudo}: My bookmarks"
-    topic:
-      flash:
-        successful_creation: "Topic added"
-        error_creation: "Cannot create the topic, please correct the errors"
-        successful_edition: "Topic updated"
-        error_edition: "Cannot update the topic!"
-        successful_priority_update: "Topics order changed"
-        error_priority_update: "Cannot change topics order"
-        successful_deletion: "Topic deleted"
-        error_deletion: "Problem during topic deletion: %{errors}"
     tag:
       flash:
         successful_creation: "Tag added"
@@ -82,13 +72,25 @@ en:
         title: "Tag: %{name}"
       edit:
         title: "Tag edition: %{name}"
+    topic:
+      show:
+        title: "%{name} : topic details"
+      flash:
+        successful_creation: "Topic added"
+        error_creation: "Cannot create the topic, please correct the errors"
+        successful_edition: "Topic updated"
+        error_edition: "Cannot update the topic!"
+        successful_priority_update: "Topics order changed"
+        error_priority_update: "Cannot change topics order"
+        successful_deletion: "Topic deleted"
+        error_deletion: "Problem during topic deletion: %{errors}"
     article:
       flash:
         not_found: "Article not found"
         undelete_link: "Cancel deletion."
-        successful_creation: "Article added"
+        successful_creation: "Article added: %{title}"
         error_creation: "Cannot create the article, please correct the errors"
-        successful_edition: "Article updated"
+        successful_edition: "Article updated: %{title}"
         error_edition: "Cannot update the article!"
         successful_priority_update: "Articles order changed"
         error_priority_update: "Cannot change articles order"
@@ -128,11 +130,14 @@ en:
         title: "Search: %{query}"
     share:
       success:
-        message: "Topic shared with: %{user}"
+        link_message: "Shared article created"
+        user_message: "Topic shared with: %{user}"
       errors:
         user_not_found: "User not found"
+        useless_shareable: "A public element is useless to share"
         private_shareable: "A private element cannot be shared"
-        already_shared: "Already shared with this user"
+        link_already_shared: "Already shared by a link"
+        user_already_shared: "Already shared with this user"
         creation: "Cannot share this element"
     admin:
       login:
@@ -288,7 +293,8 @@ en:
           incorrect_tag_affiliation: "Cannot used a tag from another topic"
           incorrect_topic_affiliation: "Cannot used a tag from another topic"
         share:
-          already_shared: "Element already shared with this user"
+          link_already_shared: "Element already shared by a link"
+          user_already_shared: "Element already shared with this user"
         bookmark:
           already_bookmarked: "Already added in bookmarks"
           model_unknown: "Cannot add to bookmark"

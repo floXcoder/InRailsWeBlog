@@ -148,6 +148,7 @@ export class ArticleRecord extends Record({
     defaultPicture: undefined,
     slug: undefined,
     picture_ids: undefined,
+    publicShareLink: undefined,
     bookmarked: false,
     outdated: false,
     votesUp: undefined,

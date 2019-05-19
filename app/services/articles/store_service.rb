@@ -166,7 +166,7 @@ module Articles
       @article.assign_attributes(@params)
 
       if @article.save
-        message = new_article ? I18n.t('views.article.flash.successful_creation') : I18n.t('views.article.flash.successful_edition')
+        message = new_article ? I18n.t('views.article.flash.successful_creation', title: @article.title) : I18n.t('views.article.flash.successful_edition', title: @article.title)
         @article.pictures.each do |picture|
           picture.imageable = @article
           picture.save(validate: false)

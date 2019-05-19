@@ -20,6 +20,7 @@ export default class SearchArticleModule extends React.PureComponent {
         articles: PropTypes.array.isRequired,
         hasQuery: PropTypes.bool.isRequired,
         selectedTags: PropTypes.array,
+        highlightedArticleId: PropTypes.number,
         currentTopicId: PropTypes.number
     };
 
@@ -60,8 +61,9 @@ export default class SearchArticleModule extends React.PureComponent {
                       justify="flex-start"
                       alignItems="center">
                     <Grid item={true}>
-                        <Link className={classNames(this.props.classes.mainResult, {
-                            [this.props.classes.secondaryResult]: !primary
+                        <Link className={classNames(this.props.classes.articleMainResult, {
+                            [this.props.classes.articleSecondaryResult]: !primary,
+                            [this.props.classes.articleHighlighted]: this.props.highlightedArticleId === article.id
                         })}
                               to={`/users/${article.user.slug}/articles/${article.slug}`}
                               onClick={this._handleArticleClick.bind(this, article)}>
@@ -80,9 +82,9 @@ export default class SearchArticleModule extends React.PureComponent {
                     </Grid>
 
                     {/*<Grid item={true}>*/}
-                        {/*<Link to={`/users/${article.user.slug}/articles/${article.slug}/edit`}>*/}
-                            {/*<EditIcon className={this.props.classes.articleEdit}/>*/}
-                        {/*</Link>*/}
+                    {/*<Link to={`/users/${article.user.slug}/articles/${article.slug}/edit`}>*/}
+                    {/*<EditIcon className={this.props.classes.articleEdit}/>*/}
+                    {/*</Link>*/}
                     {/*</Grid>*/}
                 </Grid>
             </section>

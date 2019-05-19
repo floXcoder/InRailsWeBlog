@@ -9,9 +9,9 @@ import {
 } from '../theme';
 
 const styles = (theme) => ({
-    card: {
+    articleCard: {
         position: 'relative',
-        margin: '.4rem .3rem 2rem',
+        margin: '.4rem 1rem 2rem',
         overflow: 'visible',
         [theme.breakpoints.down('md')]: {
             marginTop: '.8rem',
@@ -22,7 +22,7 @@ const styles = (theme) => ({
         paddingTop: 8,
         paddingBottom: 16
     },
-    info: {
+    articleInfo: {
         color: '#999',
         marginBottom: 3,
         marginTop: 0
@@ -118,7 +118,7 @@ const styles = (theme) => ({
     },
     actionItem: {
         display: 'inline-block',
-        margin: theme.spacing.unit
+        margin: theme.spacing.unit * 1.5
     }
 });
 

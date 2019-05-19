@@ -11,8 +11,8 @@ import {
 import {
     withStyles
 } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
+import Typography from '@material-ui/core/Typography';
 
 import {
     validateUser,
@@ -82,17 +82,17 @@ class ShareTopicModal extends React.Component {
     };
 
     _handleShareSubmit = (userLogin) => {
-        if(Utils.isEmpty(userLogin)) {
+        if (Utils.isEmpty(userLogin)) {
             this.setState({
                 errorText: I18n.t('js.topic.share.errors.user_empty')
             });
         } else {
             this.props.shareTopic(this.props.sharingTopic.id, userLogin)
-            .then((response) => {
-                if (!response.errors) {
-                    this._handleClose();
-                }
-            });
+                .then((response) => {
+                    if (!response.errors) {
+                        this._handleClose();
+                    }
+                });
         }
     };
 
@@ -101,7 +101,8 @@ class ShareTopicModal extends React.Component {
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
                 <div className={this.props.classes.modal}>
-                    <Typography variant="h6">
+                    <Typography className={this.props.classes.title}
+                                variant="h6">
                         {I18n.t('js.topic.share.title')}
                     </Typography>
 

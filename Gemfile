@@ -163,25 +163,25 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.19.0'
+  gem 'capybara',               '3.20.1'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.22'
-  gem 'selenium-webdriver',     '3.142.2'
-  gem 'webdrivers',             '3.9.1'
+  gem 'selenium-webdriver',     '3.141.0'
+  gem 'webdrivers',             '3.9.3'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'
 
   # static analyzer
   gem 'rails_best_practices',   '1.19.4',   require: false
-  gem 'brakeman',               '4.5.0',    require: false
+  gem 'brakeman',               '4.5.1',    require: false
   gem 'i18n-tasks',             '0.9.29',   require: false
 end
 
 group :development, :test do
   # Check errors
-  gem 'rubocop',                '0.68.1',  require: false
-  gem 'rubocop-rspec',          '1.32.0',  require: false
-  gem 'rubocop-performance',    '1.2.0',  require: false
+  gem 'rubocop',                '0.69.0',  require: false
+  gem 'rubocop-rspec',          '1.33.0',  require: false
+  gem 'rubocop-performance',    '1.3.0',  require: false
 
   # Speed up boot
   gem 'bootsnap',               '1.4.4',   require: false
@@ -192,11 +192,11 @@ group :production do
   gem 'sentry-raven',     '2.9.0'
 
   # Improve log outputs
-  gem 'lograge',          '0.11.0'
+  gem 'lograge',          '0.11.1'
 
   # Website analysis
   gem 'newrelic_rpm',     '6.3.0.355'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.4.0'
+  gem 'seo_cache',        '0.5.0'
 end

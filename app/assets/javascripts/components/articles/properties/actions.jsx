@@ -1,6 +1,6 @@
 'use strict';
 
-import ArticleVisibilityIcon from '../icons/visibility';
+import ArticleShareIcon from '../icons/share';
 import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleHistoryIcon from '../icons/history';
 import ArticleDeleteIcon from '../icons/delete';
@@ -9,15 +9,24 @@ import ArticleLinkIcon from '../icons/link';
 
 import ArticleOutdatedIcon from '../icons/outdated';
 
-const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, isBookmarked, onVisibilityClick, onOutdatedClick, onDeleteClick, size, color}) => (
+const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, onOutdatedClick, onDeleteClick, size, color}) => (
     <ul className={classes.actionButtons}>
         {
             !isInline &&
             <li className={classes.actionItem}
                 style={{marginRight: 30}}>
-                <ArticleDeleteIcon onDeleteClick={onDeleteClick}
-                                   size={size}
-                                   color={color}/>
+                <ArticleDeleteIcon size={size}
+                                   color={color}
+                                   onDeleteClick={onDeleteClick}/>
+            </li>
+        }
+
+        {
+            articleVisibility !== 'everyone' &&
+            <li className={classes.actionItem}>
+                <ArticleShareIcon articleId={articleId}
+                                  size={size}
+                                  color={color}/>
             </li>
         }
 
@@ -37,14 +46,6 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
                                      color={color}/>
             </li>
         }
-
-        <li className={classes.actionItem}>
-            <ArticleVisibilityIcon articleId={articleId}
-                                   articleVisibility={articleVisibility}
-                                   onVisibilityClick={onVisibilityClick}
-                                   size={size}
-                                   color={color}/>
-        </li>
 
         {
             (!isInline && userSlug) &&
@@ -87,12 +88,10 @@ ArticleActions.propTypes = {
     articleVisibility: PropTypes.string.isRequired,
     userSlug: PropTypes.string,
     articleTitle: PropTypes.string,
-    onVisibilityClick: PropTypes.func,
     onOutdatedClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
     isInline: PropTypes.bool,
     isOutdated: PropTypes.bool,
-    isBookmarked: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'default', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action'])
 };
@@ -100,7 +99,6 @@ ArticleActions.propTypes = {
 ArticleActions.defaultProps = {
     isInline: false,
     isOutdated: false,
-    isBookmarked: false,
     size: 'default',
     color: 'action'
 };

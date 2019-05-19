@@ -33,7 +33,8 @@ const styles = (theme) => ({
         marginLeft: 0,
         marginRight: 10,
         [theme.breakpoints.up('sm')]: {
-            display: 'block'
+            display: 'block',
+            fontSize: '2rem'
         }
     },
     menuButton: {

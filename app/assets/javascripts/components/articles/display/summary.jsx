@@ -84,7 +84,7 @@ class ArticleSummaryDisplay extends React.Component {
                     <div className={this.props.classes.heading}>
                         <Grid container={true}
                               classes={{
-                                  container: this.props.classes.info
+                                  container: this.props.classes.articleInfo
                               }}
                               spacing={16}
                               direction="row"

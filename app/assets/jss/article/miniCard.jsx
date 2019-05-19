@@ -32,7 +32,7 @@ const styles = (theme) => ({
         letterSpacing: h1SpacingExtract,
         textAlign: 'left'
     },
-    info: {
+    articleInfo: {
         color: '#999',
         marginBottom: 3,
         marginTop: 0

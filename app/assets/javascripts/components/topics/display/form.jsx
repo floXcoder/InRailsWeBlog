@@ -125,7 +125,7 @@ class TopicFormDisplay extends React.Component {
                                     variant="outlined"
                                     size="small"
                                     component={Link}
-                                    to={this.props.isEditing ? `/topics/${this.props.children.slug}` : '/'}>
+                                    to={this.props.isEditing ? `/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/show` : '/'}>
                                 {I18n.t('js.topic.edit.back_button')}
                             </Button>
                         </div>

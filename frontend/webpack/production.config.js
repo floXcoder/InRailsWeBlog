@@ -18,6 +18,7 @@ webPackConfig.output = _.merge(webPackConfig.output, {
 
 webPackConfig = _.merge(webPackConfig, {
     output: {
+        publicPath: config.production.assetPath, // Used this url for fetching chunks or prefetch
         pathinfo: false,
         chunkFilename: config.production.chunkFilename + '.js'
     },

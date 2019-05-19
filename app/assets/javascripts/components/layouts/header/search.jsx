@@ -38,7 +38,9 @@ export default @withRouter
     query: state.autocompleteState.query,
     currentUserId: state.userState.currentId,
     currentUserTopicId: state.topicState.currentUserTopicId,
-    selectedTags: getAutocompleteSelectedTags(state)
+    selectedTags: getAutocompleteSelectedTags(state),
+    highlightedTag: state.autocompleteState.highlightedTag,
+    highlightedArticle: state.autocompleteState.highlightedArticle
 }), {
     setAutocompleteQuery,
     fetchAutocomplete,
@@ -57,6 +59,8 @@ class HomeSearchHeader extends React.Component {
         currentUserId: PropTypes.number,
         currentUserTopicId: PropTypes.number,
         selectedTags: PropTypes.array,
+        highlightedTag: PropTypes.object,
+        highlightedArticle: PropTypes.object,
         setAutocompleteQuery: PropTypes.func,
         fetchAutocomplete: PropTypes.func,
         setAutocompleteAction: PropTypes.func,
@@ -104,7 +108,13 @@ class HomeSearchHeader extends React.Component {
                     this.props.setAutocompleteAction(event.key);
 
                     if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
-                        this._performSearch();
+                        if(this.props.highlightedTag) {
+                            this._goToTag(this.props.highlightedTag);
+                        } else if(this.props.highlightedArticle) {
+                            this._goToArticle(this.props.highlightedArticle);
+                        } else {
+                            this._performSearch();
+                        }
                     } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'escape') {
                         this._handleSearchClose();
                     }
@@ -130,6 +140,20 @@ class HomeSearchHeader extends React.Component {
                 hash: 'search'
             });
         }
+    };
+
+    _goToTag = (tag) => {
+        this.props.history.push({
+            pathname: `/tagged/${tag.slug}`,
+            hash: 'search'
+        });
+    };
+
+    _goToArticle = (article) => {
+        this.props.history.push({
+            pathname: `/users/${article.user.slug}/articles/${article.slug}`,
+            hash: undefined
+        });
     };
 
     _performSearch = () => {

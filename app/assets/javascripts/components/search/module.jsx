@@ -50,7 +50,8 @@ export default @withRouter
     recentArticles: getUserRecentArticles(state),
     isSearching: state.autocompleteState.isFetching,
     query: state.autocompleteState.query,
-    highlightedTagId: state.autocompleteState.highlightedTagId,
+    highlightedTag: state.autocompleteState.highlightedTag,
+    highlightedArticle: state.autocompleteState.highlightedArticle,
     tags: getAutocompleteTags(state),
     selectedTags: getAutocompleteSelectedTags(state),
     articles: getAutocompleteArticles(state)
@@ -72,7 +73,8 @@ class SearchModule extends React.Component {
         articles: PropTypes.array,
         isSearching: PropTypes.bool,
         query: PropTypes.string,
-        highlightedTagId: PropTypes.number,
+        highlightedTag: PropTypes.object,
+        highlightedArticle: PropTypes.object,
         setAutocompleteSelectedTag: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -161,7 +163,7 @@ class SearchModule extends React.Component {
                                              hasQuery={hasQuery}
                                              tags={tags}
                                              selectedTags={this.props.selectedTags}
-                                             highlightedTagId={this.props.highlightedTagId}
+                                             highlightedTagId={this.props.highlightedTag && this.props.highlightedTag.id}
                                              onTagClick={this._handleTagSelection}/>
                         </Grid>
 
@@ -173,15 +175,15 @@ class SearchModule extends React.Component {
                                                  currentTopicId={this.props.currentTopicId}
                                                  hasQuery={hasQuery}
                                                  selectedTags={this.props.selectedTags}
+                                                 highlightedArticleId={this.props.highlightedArticle && this.props.highlightedArticle.id}
                                                  articles={articles}/>
                         </Grid>
                     </Grid>
 
                     <div className="center-align">
-                        <Button
-                            color="primary"
-                            variant="outlined"
-                            onClick={this._performSearch}>
+                        <Button color="primary"
+                                variant="outlined"
+                                onClick={this._performSearch}>
                             {I18n.t('js.search.module.button')}
                         </Button>
                     </div>

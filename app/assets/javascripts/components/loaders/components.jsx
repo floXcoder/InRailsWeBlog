@@ -19,6 +19,8 @@ export const ArticleShow = lazyWithPreload(() => import(/* webpackPrefetch: true
 export const ArticleNew = lazyWithPreload(() => import(/* webpackChunkName: "article-new" */ '../articles/new'));
 export const ArticleEdit = lazyWithPreload(() => import(/* webpackChunkName: "article-edit" */ '../articles/edit'));
 export const ArticleHistory = lazyWithPreload(() => import(/* webpackChunkName: "article-history" */ '../articles/history'));
+export const ArticleShare = lazyWithPreload(() => import(/* webpackChunkName: "article-share" */ '../articles/share'));
+export const ArticleShared = lazyWithPreload(() => import(/* webpackChunkName: "article-share" */ '../articles/shared'));
 export const ArticleSort = lazyWithPreload(() => import(/* webpackChunkName: "article-sort" */ '../articles/sort'));
 export const ArticleListMode = lazyWithPreload(() => import(/* webpackChunkName: "article-index-list" */ '../articles/display/modes/list'));
 export const ArticleInfiniteMode = lazyWithPreload(() => import(/* webpackChunkName: "article-index-infinite" */ '../articles/display/modes/infinite'));
@@ -34,11 +36,11 @@ export const TagSort = lazyWithPreload(() => import(/* webpackChunkName: "tag-so
 export const UserHome = lazyWithPreload(() => import(/* webpackChunkName: "user-home" */ '../users/home'));
 // export const UserShow = lazyWithPreload(() => import(/* webpackChunkName: "user-show" */ '../users/show'));
 // export const UserEdit = lazyWithPreload(() => import(/* webpackChunkName: "user-edit" */ '../users/edit'));
-export const UserSignup = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "user-signup" */ '../users/signup'));
-export const UserLogin = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "user-login" */ '../users/login'));
+export const UserSignup = lazyWithPreload(() => import(/* webpackChunkName: "user-signup" */ '../users/signup'));
+export const UserLogin = lazyWithPreload(() => import(/* webpackChunkName: "user-login" */ '../users/login'));
 export const UserPreference = lazyWithPreload(() => import(/* webpackChunkName: "user-preference" */ '../users/preference'));
 
-export const SearchModule = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-module" */ '../search/module'));
-export const SearchIndex = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-index" */ '../search/index'));
 export const HomeSearchHeader = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../layouts/header/search'));
+export const SearchModule = lazyWithPreload(() => import(/* webpackChunkName: "search-module" */ '../search/module'));
+export const SearchIndex = lazyWithPreload(() => import(/* webpackChunkName: "search-index" */ '../search/index'));
 export const ArticleGridModeSearch = lazyWithPreload(() => import(/* webpackChunkName: "article-search-masonry" */ '../search/index/display/grid'));

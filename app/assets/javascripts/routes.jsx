@@ -72,6 +72,12 @@ export default {
                 exact: true,
                 component: () => RouteComponents.ArticleShow
             },
+            // articles: shared
+            {
+                path: '/articles/shared/:articleSlug/:publicLink',
+                exact: true,
+                component: () => RouteComponents.ArticleShared
+            },
             // Miscellaneous
             {
                 path: '/404',
@@ -188,11 +194,6 @@ export default {
                 exact: true,
                 component: () => RouteComponents.ArticleShow
             },
-            {
-                path: '/users/:userSlug',
-                exact: true,
-                component: () => RouteComponents.UserHome
-            },
             // Redirection
             {
                 path: '/articles/new',
@@ -229,6 +230,12 @@ export default {
             {
                 path: 'sort-topic',
                 component: () => RouteComponents.TopicSort
+            }
+        ],
+        article: [
+            {
+                path: 'share-article',
+                component: () => RouteComponents.ArticleShare
             }
         ]
     }

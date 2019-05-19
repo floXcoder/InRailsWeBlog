@@ -59,14 +59,15 @@ class ArticleGridDisplay extends React.PureComponent {
     }
 
     state = {
-        isMinimized: this.props.isMinimized,
+        wasGlobalMinimized: this.props.isMinimized,
         isFolded: false
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.isMinimized !== nextProps.isMinimized) {
+        if (prevState.wasGlobalMinimized !== nextProps.isMinimized) {
             return {
                 ...prevState,
+                wasGlobalMinimized: nextProps.isMinimized,
                 isFolded: nextProps.isMinimized
             };
         }
@@ -122,7 +123,7 @@ class ArticleGridDisplay extends React.PureComponent {
                         title={
                             <Grid container={true}
                                   classes={{
-                                      container: this.props.classes.info
+                                      container: this.props.classes.articleInfo
                                   }}
                                   spacing={16}
                                   direction="row"
@@ -178,8 +179,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                                 articleSlug={this.props.article.slug}
                                                 articleTitle={this.props.article.title}
                                                 articleVisibility={this.props.article.visibility}
-                                                isOutdated={this.props.article.outdated}
-                                                isBookmarked={this.props.article.bookmarked}/>
+                                                isOutdated={this.props.article.outdated}/>
                             }
                         </CardActions>
                     </Collapse>

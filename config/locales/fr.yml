@@ -53,16 +53,6 @@ fr:
       bookmarks:
         title: "%{pseudo} : Mes favoris"
         description: "%{pseudo} : Mes favoris"
-    topic:
-      flash:
-        successful_creation: "Thème ajouté"
-        error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Thème mis à jour"
-        error_edition: "Problème lors de la mise à jour du thème !"
-        successful_deletion: "Le thème a été supprimé"
-        successful_priority_update: "L'ordre des thèmes a été changé"
-        error_priority_update: "Problème lors du changement de priorité des thèmes"
-        error_deletion: "Problème lors de la suppression du thème : %{errors}"
     tag:
       flash:
         successful_creation: "Label ajouté"
@@ -82,13 +72,25 @@ fr:
         title: "Label : %{name}"
       edit:
         title: "Modification du Label : %{name}"
+    topic:
+      show:
+        title: "%{name} : détails du thème"
+      flash:
+        successful_creation: "Thème ajouté"
+        error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Thème mis à jour"
+        error_edition: "Problème lors de la mise à jour du thème !"
+        successful_deletion: "Le thème a été supprimé"
+        successful_priority_update: "L'ordre des thèmes a été changé"
+        error_priority_update: "Problème lors du changement de priorité des thèmes"
+        error_deletion: "Problème lors de la suppression du thème : %{errors}"
     article:
       flash:
         not_found: "L'article n'a pas été trouvé"
         undelete_link: "Annuler la suppression."
-        successful_creation: "Article ajouté"
+        successful_creation: "Article ajouté : %{title}"
         error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Article mis à jour"
+        successful_edition: "Article mis à jour : %{title}"
         error_edition: "Problème lors de la mise à jour de l'article !"
         successful_priority_update: "L'ordre des articles a été changé"
         error_priority_update: "Problème lors du changement de priorité des articles"
@@ -128,12 +130,15 @@ fr:
         title: "Recherche : %{query}"
     share:
       success:
-        message: "Thème partagé avec : %{user}"
+        link_message: "Partage de l'article créé"
+        user_message: "Thème partagé avec : %{user}"
       errors:
         user_not_found: "Utilisateur inconnu"
+        useless_shareable: "Un élément public est inutile à partager"
         private_shareable: "Un élément privé ne peut être partagé"
-        already_shared: "Déjà partagé avec cet utilisateur"
-        creation: "Impossible d'ajouter ce partage"
+        link_already_shared: "Déjà partagé par un lien"
+        user_already_shared: "Déjà partagé avec cet utilisateur"
+        creation: "Impossible de partager cet élément"
     admin:
       login:
         title: "Se connecter (Admin)"
@@ -288,7 +293,8 @@ fr:
           incorrect_tag_affiliation: "Ce label ne peut être appliqué à l'article car il n'appartient pas au même thème"
           incorrect_topic_affiliation: "Ce label ne peut être appliqué à l'article car l'article n'est pas associé au thème courant"
         share:
-          already_shared: "Élément déjà partagé avec cet utilisateur"
+          link_already_shared: "Élément déjà partagé par un lien"
+          user_already_shared: "Élément déjà partagé avec cet utilisateur"
         bookmark:
           already_bookmarked: "Élément déjà ajouté aux favoris !"
           model_unknown: "Impossible d'ajouter ou de supprimer cet élément dans les favoris"

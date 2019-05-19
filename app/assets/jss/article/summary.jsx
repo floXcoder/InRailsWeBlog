@@ -7,7 +7,7 @@ import {
 } from '../theme';
 
 const styles = (theme) => ({
-    info: {
+    articleInfo: {
         color: '#999',
         marginBottom: 3,
         marginTop: 0

@@ -70,15 +70,15 @@ class ArticleCardDisplay extends React.PureComponent {
     }
 
     state = {
-        isMinimized: this.props.isMinimized,
+        wasGlobalMinimized: this.props.isMinimized,
         isFolded: false
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.isMinimized !== nextProps.isMinimized) {
+        if (prevState.wasGlobalMinimized !== nextProps.isMinimized) {
             return {
                 ...prevState,
-                isMinimized: nextProps.isMinimized,
+                wasGlobalMinimized: nextProps.isMinimized,
                 isFolded: nextProps.isMinimized
             };
         }
@@ -122,7 +122,7 @@ class ArticleCardDisplay extends React.PureComponent {
                 <Observer onChange={this._handleViewportChange}>
                     <Card component="article"
                           id={this.props.article.id}
-                          className={classNames(this.props.classes.card, {
+                          className={classNames(this.props.classes.articleCard, {
                               [this.props.classes.outdated]: this.props.article.outdated
                           })}>
                         {
@@ -163,7 +163,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                     title={
                                         <Grid container={true}
                                               classes={{
-                                                  container: this.props.classes.info
+                                                  container: this.props.classes.articleInfo
                                               }}
                                               spacing={16}
                                               direction="row"
@@ -226,8 +226,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                                     articleSlug={this.props.article.slug}
                                                     articleTitle={this.props.article.title}
                                                     articleVisibility={this.props.article.visibility}
-                                                    isOutdated={this.props.article.outdated}
-                                                    isBookmarked={this.props.article.bookmarked}/>
+                                                    isOutdated={this.props.article.outdated}/>
                                 }
                             </CardActions>
                         </Collapse>

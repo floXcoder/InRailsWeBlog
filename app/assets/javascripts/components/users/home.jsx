@@ -97,7 +97,8 @@ class UserHome extends React.Component {
                                 title={I18n.t('js.user.home.private.title')}
                                 subheader={I18n.t('js.user.home.private.subtitle')}
                                 action={
-                                    <IconButton component={Link}
+                                    <IconButton className={this.props.classes.sortIcon}
+                                                component={Link}
                                                 to={{
                                                     hash: '#sort-topic',
                                                     state: {
@@ -190,7 +191,8 @@ class UserHome extends React.Component {
                                 title={I18n.t('js.user.home.public.title')}
                                 subheader={I18n.t('js.user.home.public.subtitle')}
                                 action={
-                                    <IconButton component={Link}
+                                    <IconButton className={this.props.classes.sortIcon}
+                                                component={Link}
                                                 to={{
                                                     hash: '#sort-topic',
                                                     state: {

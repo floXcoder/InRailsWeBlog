@@ -30,7 +30,8 @@ const AutocompleteRecord = new Record({
 
     metaTags: new Map(),
 
-    highlightedTagId: undefined,
+    highlightedTag: undefined,
+    highlightedArticle: undefined,
 
     selectedTags: new List(),
 
@@ -51,66 +52,104 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_ERROR:
             return fetchReducer(state, action, (payload) => ({
                 // query: payload.query,
-                highlightedTagId: undefined,
+                highlightedTag: undefined,
+                highlightedArticle: undefined,
                 topics: toList(payload.topics, Records.TopicRecord),
                 tags: toList(payload.tags, Records.TagRecord),
                 articles: toList(payload.articles, Records.ArticleRecord)
             }));
 
         case ActionTypes.SEARCH_AUTOCOMPLETE_ACTION:
-            let newTagId;
+            let newTag;
+            let newArticle;
             let newState = {};
 
-            if (action.keyCode === 'ArrowDown') {
-                if (!state.highlightedTagId || state.highlightedTagId === state.tags.last().id) {
-                    newTagId = state.tags.first().id;
-                } else {
-                    newTagId = state.tags.get(findItemIndex(state.tags, state.highlightedTagId) + 1).id;
+            if (action.keyCode === 'ArrowUp') {
+                if (!state.highlightedTag && !state.highlightedArticle) {
+                    if (state.articles.last()) {
+                        newArticle = state.articles.last();
+                    } else if (state.tags.first()) {
+                        newTag = state.tags.last();
+                    }
+                } else if (state.tags.first() && state.highlightedTag && state.highlightedTag.id === state.tags.first().id) {
+                    newTag = undefined;
+                    newArticle = state.articles.last();
+                } else if (state.highlightedTag) {
+                    newTag = state.tags.get(findItemIndex(state.tags, state.highlightedTag.id) - 1);
+                } else if (state.highlightedArticle && state.highlightedArticle.id === state.articles.first().id) {
+                    newTag = undefined;
+                    newArticle = state.articles.first();
+                } else if (state.highlightedArticle) {
+                    newArticle = state.articles.get(findItemIndex(state.articles, state.highlightedArticle.id) - 1);
                 }
 
                 newState = {
-                    highlightedTagId: newTagId
+                    highlightedTag: newTag,
+                    highlightedArticle: newArticle
                 };
-            } else if(action.keyCode === 'ArrowUp') {
-                if (!state.highlightedTagId || state.highlightedTagId === state.tags.first().id) {
-                    newTagId = state.tags.last().id;
-                } else {
-                    newTagId = state.tags.get(findItemIndex(state.tags, state.highlightedTagId) - 1).id;
+            } else if (action.keyCode === 'ArrowDown') {
+                if (!state.highlightedTag && !state.highlightedArticle) {
+                    if (state.tags.first()) {
+                        newTag = state.tags.first();
+                    } else if (state.articles.first()) {
+                        newArticle = state.articles.first();
+                    }
+                } else if (state.tags.last() && state.highlightedTag && state.highlightedTag.id === state.tags.last().id) {
+                    newTag = undefined;
+                    newArticle = state.articles.first();
+                } else if (state.highlightedTag) {
+                    newTag = state.tags.get(findItemIndex(state.tags, state.highlightedTag.id) + 1);
+                } else if (state.articles.last() && state.highlightedArticle && state.highlightedArticle.id === state.articles.last().id) {
+                    newTag = state.tags.first();
+                    newArticle = undefined;
+                } else if (state.highlightedArticle) {
+                    newArticle = state.articles.get(findItemIndex(state.articles, state.highlightedArticle.id) + 1);
                 }
 
                 newState = {
-                    highlightedTagId: newTagId
+                    highlightedTag: newTag,
+                    highlightedArticle: newArticle
                 };
-            } else if(action.keyCode === 'Tab') {
+            } else if (action.keyCode === 'Tab') {
                 newState = {
                     query: '',
-                    highlightedTagId: undefined,
-                    selectedTags: addOrRemoveArray(state.selectedTags, state.tags.get(findItemIndex(state.tags, state.highlightedTagId || state.tags.first().id))),
+                    highlightedTag: undefined,
+                    highlightedArticle: undefined,
+                    selectedTags: addOrRemoveArray(state.selectedTags, state.tags.get(findItemIndex(state.tags, state.highlightedTag ? state.highlightedTag.id : state.tags.first().id))),
                     topics: new List(),
                     tags: new List(),
                     articles: new List()
                 };
-            } else if(action.keyCode === 'Enter') {
-                if(state.highlightedTagId) {
+            } else if (action.keyCode === 'Enter') {
+                if (state.highlightedTag) {
                     newState = {
                         query: '',
-                        highlightedTagId: undefined,
-                        selectedTags: addOrRemoveArray(state.selectedTags, state.tags.get(findItemIndex(state.tags, state.highlightedTagId))),
+                        highlightedTag: undefined,
+                        highlightedArticle: undefined,
+                        selectedTags: addOrRemoveArray(state.selectedTags, state.tags.get(findItemIndex(state.tags, state.highlightedTag.id))),
                         topics: new List(),
                         tags: new List(),
                         articles: new List()
                     };
-                } else {
+                } else if (state.highlightedArticle) {
                     newState = {
+                        query: '',
+                        highlightedTag: undefined,
+                        highlightedArticle: undefined,
+                        topics: new List(),
+                        tags: new List(),
+                        articles: new List()
                     };
                 }
-            } else if(action.keyCode === 'Escape') {
+            } else if (action.keyCode === 'Escape') {
                 newState = {
-                    highlightedTagId: undefined
+                    highlightedTag: undefined,
+                    highlightedArticle: undefined
                 };
-            } else if(action.keyCode === 'Backspace') {
+            } else if (action.keyCode === 'Backspace') {
                 newState = {
-                    highlightedTagId: undefined,
+                    highlightedTag: undefined,
+                    highlightedArticle: undefined,
                     selectedTags: state.tags.count() > 0 ? addOrRemoveArray(state.selectedTags, state.tags.last()) : state.tags,
                     topics: new List(),
                     tags: new List(),
@@ -130,7 +169,8 @@ export function autocompleteReducer(state = new AutocompleteRecord(), action) {
 
         case ActionTypes.SEARCH_FETCH_SUCCESS:
             return state.merge({
-                highlightedTagId: undefined
+                highlightedTag: undefined,
+                highlightedArticle: undefined
             });
 
         default:

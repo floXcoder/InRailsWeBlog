@@ -83,7 +83,7 @@ class ArticleMiniCardDisplay extends React.Component {
                 }}>
                     <Grid container={true}
                           classes={{
-                              container: this.props.classes.info
+                              container: this.props.classes.articleInfo
                           }}
                           spacing={16}
                           direction="row"
@@ -99,9 +99,9 @@ class ArticleMiniCardDisplay extends React.Component {
 
                         {
                             this.props.article.defaultPicture &&
-                            <Grid item={true}
-                                  xs={4}
-                                  className={this.props.classes.headerItem}>
+                            <Grid className={this.props.classes.headerItem}
+                                  item={true}
+                                  xs={4}>
                                 <CardMedia className={this.props.classes.media}
                                            image={this.props.article.defaultPicture}
                                            title={this.props.article.name}/>
@@ -112,7 +112,7 @@ class ArticleMiniCardDisplay extends React.Component {
 
                     <Grid container={true}
                           classes={{
-                              container: this.props.classes.info
+                              container: this.props.classes.articleInfo
                           }}
                           spacing={16}
                           direction="row"

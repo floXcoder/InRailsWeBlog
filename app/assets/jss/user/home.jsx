@@ -20,6 +20,11 @@ const styles = (theme) => ({
         paddingTop: 8,
         paddingBottom: 8
     },
+    sortIcon: {
+        [theme.breakpoints.down('md')]: {
+            display: 'none'
+        }
+    },
     gridTheme: {
         position: 'relative'
     },
@@ -58,7 +63,10 @@ const styles = (theme) => ({
         width: '44px !important',
         borderRadius: '25px !important',
         margin: theme.spacing.unit,
-        backgroundColor: theme.palette.primary.light
+        backgroundColor: theme.palette.primary.light,
+        [theme.breakpoints.down('md')]: {
+            display: 'none'
+        }
     },
     storyTopicLink: {
         backgroundColor: theme.palette.secondary.dark

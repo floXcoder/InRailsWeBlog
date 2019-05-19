@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/tags/*ids',     to: 'single_pages#home'
   get '/tagged/*id',    to: 'single_pages#home'
   get '/articles/*id',  to: 'single_pages#home'
+  get '/404',           to: 'single_pages#home'
 
   # Concerns
   concern :tracker do |options|
@@ -114,8 +115,6 @@ Rails.application.routes.draw do
         end
 
         member do
-          put      :share,    to: 'topics#share'
-
           concerns :tracker,  module: :tags
         end
       end
@@ -129,6 +128,8 @@ Rails.application.routes.draw do
         end
 
         member do
+          get      'shared/:public_link', to: 'articles#shared'
+
           get      :stories,   to: 'articles#stories'
 
           get      :history,   to: 'articles#history'
@@ -144,7 +145,15 @@ Rails.application.routes.draw do
         concerns :votes,       module: :articles
       end
 
-      # Global search
+      # shares
+      resources :shares, only: [:index] do
+        collection do
+          post :topic,          to: 'shares#topic'
+          post :article,        to: 'shares#article'
+        end
+      end
+
+      # Search
       resources :search, only: [:index] do
         collection do
           get :autocomplete,   to: 'search#autocomplete'
@@ -156,20 +165,6 @@ Rails.application.routes.draw do
       # Uploads data
       resources :uploads,  only: [:create, :update, :destroy]
 
-    end
-  end
-
-  # SEO
-  get '/robots.:format' => 'single_pages#robots'
-
-  # Errors
-  %w[404 422 500].each do |code|
-    get code, to: 'errors#show', code: code
-  end
-
-  resources :errors, only: [:index, :show, :create, :destroy] do
-    collection do
-      post 'delete_all',     to: 'errors#destroy_all'
     end
   end
 
@@ -208,5 +203,9 @@ Rails.application.routes.draw do
     # end
   end
 
+  # SEO
+  get '/robots.:format' => 'single_pages#robots'
+
+  match '*path' => redirect('/404'), via: :get
 
 end

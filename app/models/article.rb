@@ -57,6 +57,9 @@ class Article < ApplicationRecord
            :home_page, :home_page=,
            to: :tracker, allow_nil: true
 
+  # External provided shared link
+  attr_accessor :shared_link
+
   # == Extensions ===========================================================
   # Voteable model
   acts_as_voteable
@@ -161,15 +164,20 @@ class Article < ApplicationRecord
            through: :bookmarks,
            source:  :user
 
+  has_one :share,
+          -> { where(shares: { mode: :link }) },
+          as:          :shareable,
+          class_name:  'Share',
+          foreign_key: 'shareable_id',
+          dependent:   :destroy
   has_many :shares,
            as:          :shareable,
            class_name:  'Share',
            foreign_key: 'shareable_id',
            dependent:   :destroy
-
-  has_many :contributors,
-           through: :shares,
-           source:  :contributor
+  #   has_many :contributors,
+  #            through: :shares,
+  #            source:  :contributor
 
   has_many :user_activities,
            as:         :recipient,
@@ -455,6 +463,10 @@ class Article < ApplicationRecord
   #   # Needed?
   #   # Article.search_index.promote("#{self.class.name.tableize}-#{self.class.current_language || I18n.locale}")
   # end
+
+  def public_share_link
+    self.share&.public_link
+  end
 
   # SEO
   def meta_description

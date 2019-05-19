@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_12_082308) do
+ActiveRecord::Schema.define(version: 2019_05_15_195916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,31 +139,6 @@ ActiveRecord::Schema.define(version: 2019_05_12_082308) do
     t.index ["user_id"], name: "index_comments_on_user_id", where: "(deleted_at IS NULL)"
   end
 
-  create_table "error_messages", force: :cascade do |t|
-    t.integer "origin", default: 0, null: false
-    t.text "class_name"
-    t.text "message"
-    t.text "trace"
-    t.text "line_number"
-    t.text "column_number"
-    t.text "params"
-    t.text "target_url"
-    t.text "referer_url"
-    t.text "user_agent"
-    t.string "request_format"
-    t.string "app_name"
-    t.string "app_version"
-    t.string "doc_root"
-    t.string "user_id"
-    t.string "user_pseudo"
-    t.string "user_locale"
-    t.string "user_ip"
-    t.string "bot_agent"
-    t.string "os_agent"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "outdated_articles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "article_id", null: false
@@ -207,8 +182,9 @@ ActiveRecord::Schema.define(version: 2019_05_12_082308) do
     t.bigint "user_id", null: false
     t.string "shareable_type", null: false
     t.bigint "shareable_id", null: false
-    t.bigint "contributor_id", null: false
+    t.bigint "contributor_id"
     t.integer "mode", default: 0, null: false
+    t.string "public_link"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contributor_id"], name: "index_shares_on_contributor_id"

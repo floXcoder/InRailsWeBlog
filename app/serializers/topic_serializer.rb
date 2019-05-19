@@ -37,10 +37,7 @@ class TopicSerializer < ActiveModel::Serializer
              :visibility_translated,
              :settings,
              :slug,
-             :articles_count,
-             :views_count,
-             :clicks_count,
-             :searches_count
+             :articles_count
 
   belongs_to :user, if: -> { instance_options[:complete] }, serializer: UserSampleSerializer
 
@@ -52,17 +49,5 @@ class TopicSerializer < ActiveModel::Serializer
 
   def visibility_translated
     object.visibility_to_tr
-  end
-
-  def views_count
-    object.tracker.views_count
-  end
-
-  def clicks_count
-    object.tracker.clicks_count
-  end
-
-  def searches_count
-    object.tracker.searches_count
   end
 end

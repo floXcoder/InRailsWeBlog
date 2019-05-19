@@ -6,20 +6,7 @@ module.exports = {
         context: './app/assets',
         entries: {
             home: ['./javascripts/pages/home/home.jsx'],
-            user: ['./javascripts/pages/home/user.jsx'],
-            'errors/error': ['./javascripts/pages/errors/error.jsx'],
-            // 'users/show': ['./javascripts/pages/users/show.jsx'],
-            // 'users/edit': ['./javascripts/pages/users/edit.jsx'],
-            // 'users/login': ['./javascripts/pages/users/login.jsx'],
-            // 'users/signup': ['./javascripts/pages/users/signup.jsx'],
-            // 'users/password': ['./javascripts/pages/users/password.jsx'],
-            // 'articles/show': ['./javascripts/pages/articles/show.jsx'],
-            // 'articles/edit': ['./javascripts/pages/articles/edit.jsx'],
-            // 'tags/show': ['./javascripts/pages/tags/show.jsx'],
-            // 'admin/dashboard': ['./javascripts/pages/admin/dashboard.jsx'],
-            // 'admin/users/index': ['./javascripts/pages/admin/managers/index.jsx'],
-            // 'admin/users/show': ['./javascripts/pages/admin/managers/show.jsx'],
-            // 'admin/errors': ['./javascripts/pages/admin/managers/errors.jsx']
+            user: ['./javascripts/pages/home/user.jsx']
         },
         output: {
             path: './public/assets',

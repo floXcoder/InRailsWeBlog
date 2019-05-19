@@ -28,10 +28,13 @@ const styles = (theme) => ({
     },
     helpMessage: {
         color: theme.palette.grey[600],
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+        [theme.breakpoints.down('md')]: {
+            display: 'none'
+        }
     },
     tag: {
-        margin: theme.spacing.unit / 2,
+        margin: `${theme.spacing.unit}px ${theme.spacing.unit * 1.5}px`,
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,
@@ -45,13 +48,17 @@ const styles = (theme) => ({
     tagHighlighted: {
         backgroundColor: theme.palette.secondary.main
     },
-    mainResult: {
+    articleMainResult: {
         fontSize: '1.1rem',
         color: theme.palette.text.primary,
         marginRight: 10
     },
-    secondaryResult: {
+    articleSecondaryResult: {
         color: theme.palette.grey[600]
+    },
+    articleHighlighted: {
+        border: `1px solid ${theme.palette.secondary.main}`,
+        padding: 5
     },
     articleTag: {
         margin: 4,

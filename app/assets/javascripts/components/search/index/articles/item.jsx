@@ -28,7 +28,7 @@ class ArticleItemDisplay extends React.Component {
     };
 
     static defaultProps = {
-        highlightTags: []
+        highlightTagIds: []
     };
 
     constructor(props) {
