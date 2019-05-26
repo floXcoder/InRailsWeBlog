@@ -48,7 +48,7 @@ class AssetManifest
     return unless url
 
     if AssetManifest.manifest
-      AssetManifest.manifest[url] || url
+      AssetManifest.root_url + (AssetManifest.manifest[url] || url)
     else
       AssetManifest.root_url + url
     end
