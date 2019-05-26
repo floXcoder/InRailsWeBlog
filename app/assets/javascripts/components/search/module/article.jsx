@@ -56,7 +56,7 @@ export default class SearchArticleModule extends React.PureComponent {
         return (
             <section key={article.id}>
                 <Grid container={true}
-                      spacing={16}
+                      spacing={2}
                       direction="row"
                       justify="flex-start"
                       alignItems="center">
@@ -82,9 +82,9 @@ export default class SearchArticleModule extends React.PureComponent {
                     </Grid>
 
                     {/*<Grid item={true}>*/}
-                    {/*<Link to={`/users/${article.user.slug}/articles/${article.slug}/edit`}>*/}
-                    {/*<EditIcon className={this.props.classes.articleEdit}/>*/}
-                    {/*</Link>*/}
+                    {/*    <Link to={`/users/${article.user.slug}/articles/${article.slug}/edit`}>*/}
+                    {/*        <EditIcon className={this.props.classes.articleEdit}/>*/}
+                    {/*    </Link>*/}
                     {/*</Grid>*/}
                 </Grid>
             </section>

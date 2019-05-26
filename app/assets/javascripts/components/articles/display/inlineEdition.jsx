@@ -31,6 +31,7 @@ export default @connect(null, {
 class ArticleInlineEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
+        currentTopicId: PropTypes.number.isRequired,
         // from connect
         inlineEditArticle: PropTypes.func,
         updateArticle: PropTypes.func,
@@ -92,6 +93,7 @@ class ArticleInlineEditionDisplay extends React.Component {
                 <div className={this.props.classes.inlineEditor}>
                     <Editor modelName="article"
                             modelId={this.props.article.id}
+                            currentTopicId={this.props.currentTopicId}
                             mode={EditorMode.INLINE_EDIT}
                             onChange={this._handleEditorChange}
                             onSubmit={this._handleSaveClick}

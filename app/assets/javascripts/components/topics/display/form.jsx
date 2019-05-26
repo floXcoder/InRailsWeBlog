@@ -21,18 +21,16 @@ import {
 
 import TopicErrorField from './fields/error';
 
-import SelecterField from '../../theme/form/selecter';
 import EditorField from '../../editor/form/editor';
 
 import TextFieldForm from '../../material-ui/form/text';
-import SelectFieldForm from '../../material-ui/form/select';
 
 import styles from '../../../../jss/topic/form';
 
 export default @reduxForm({
     form: 'topic',
     validateTopic,
-    enableReinitialize: true,
+    enableReinitialize: true
 })
 @withStyles(styles)
 class TopicFormDisplay extends React.Component {

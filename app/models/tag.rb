@@ -370,9 +370,9 @@ class Tag < ApplicationRecord
   def name_visibility
     return unless self.name.present? && name_changed?
 
-    if Tag.where('visibility = 1 AND user_id = :user_id AND lower(name) = :name', user_id: self.user_id, name: self.name.mb_chars.downcase.to_s).exists?
+    if self.only_me? && Tag.where('visibility = 1 AND user_id = :user_id AND lower(name) = :name', user_id: self.user_id, name: self.name.mb_chars.downcase.to_s).exists?
       errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist'))
-    elsif Tag.where('visibility = 0 AND lower(name) = :name', name: self.name.mb_chars.downcase.to_s).exists?
+    elsif self.everyone? && Tag.where('visibility = 0 AND lower(name) = :name', name: self.name.mb_chars.downcase.to_s).exists?
       errors.add(:name, I18n.t('activerecord.errors.models.tag.already_exist_in_public'))
     end
   end

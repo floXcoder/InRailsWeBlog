@@ -8,9 +8,9 @@ import {
 const styles = (theme) => ({
     layout: {
         width: 'auto',
-        marginLeft: theme.spacing.unit / 2,
-        marginRight: theme.spacing.unit / 2,
-        [theme.breakpoints.up(mainWidth + theme.spacing.unit * 3 * 2)]: {
+        marginLeft: theme.spacing(1) / 2,
+        marginRight: theme.spacing(1) / 2,
+        [theme.breakpoints.up(mainWidth + theme.spacing(6))]: {
             width: mainWidth,
             marginLeft: 'auto',
             marginRight: 'auto'
@@ -20,15 +20,15 @@ const styles = (theme) => ({
         marginTop: headerHeight,
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: theme.spacing.unit,
-        [theme.breakpoints.up(mainWidth + theme.spacing.unit * 3 * 2)]: {
-            padding: theme.spacing.unit * 3
+        padding: theme.spacing(1),
+        [theme.breakpoints.up(mainWidth + theme.spacing(6))]: {
+            padding: theme.spacing(3)
         }
     },
     footer: {
         backgroundColor: theme.palette.background.paper,
-        marginTop: theme.spacing.unit * 8,
-        padding: `${theme.spacing.unit * 6}px 0`
+        marginTop: theme.spacing(8),
+        padding: `${theme.spacing(6)}px 0`
     },
 });
 

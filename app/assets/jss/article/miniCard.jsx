@@ -81,12 +81,12 @@ const styles = (theme) => ({
         paddingBottom: '4px !important'
     },
     articleTags: {
-        marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
-        marginLeft: -theme.spacing.unit
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        marginLeft: -theme.spacing(1)
     },
     articleTag: {
-        margin: theme.spacing.unit / 2,
+        margin: theme.spacing(1) / 2,
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,

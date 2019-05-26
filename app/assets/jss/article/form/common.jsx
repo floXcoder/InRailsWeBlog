@@ -22,14 +22,21 @@ const styles = (theme) => ({
     select: {
         width: '90%'
     },
-    expand: {
+    advancedDivider: {
+      margin: '2rem 2rem'
+    },
+    externalReferenceButton: {
+        color: theme.palette.text.primary,
+        outline: 'none'
+    },
+    externalReferenceExpand: {
         transform: 'rotate(0deg)',
         marginLeft: 'auto',
         transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest
         })
     },
-    expandOpen: {
+    externalReferenceExpandOpen: {
         transform: 'rotate(180deg)'
     }
 });

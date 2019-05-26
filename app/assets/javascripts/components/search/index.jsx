@@ -290,7 +290,7 @@ class SearchIndex extends React.Component {
                     <EnsureValidity/>
 
                     <Grid container={true}
-                          spacing={32}
+                          spacing={4}
                           direction="row"
                           justify="center"
                           alignItems="center">

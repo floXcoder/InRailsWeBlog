@@ -165,7 +165,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                               classes={{
                                                   container: this.props.classes.articleInfo
                                               }}
-                                              spacing={16}
+                                              spacing={2}
                                               direction="row"
                                               justify="space-between"
                                               alignItems="center">
@@ -206,7 +206,7 @@ class ArticleCardDisplay extends React.PureComponent {
                             </CardContent>
 
                             <CardActions className={this.props.classes.actions}
-                                         disableActionSpacing={true}>
+                                         disableSpacing={true}>
                                 {
                                     this.props.article.tags.size > 0 &&
                                     <ArticleTags articleId={this.props.article.id}

@@ -228,11 +228,10 @@ class HeaderLayoutHome extends React.Component {
 
                     <Toolbar className={classNames(this.props.classes.toolbar)}>
                         <div className={this.props.classes.sectionDesktop}>
-                            <Link className={this.props.classes.title}
-                                  to="/">
-                                <Typography variant="h5">
+                            <Link to="/">
+                                <h1 className={this.props.classes.title}>
                                     {I18n.t('js.views.header.title')}
-                                </Typography>
+                                </h1>
                             </Link>
                         </div>
 

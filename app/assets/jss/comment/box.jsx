@@ -27,7 +27,7 @@ const styles = (theme) => ({
         display: 'flex'
     },
     leftIcon: {
-        marginRight: theme.spacing.unit
+        marginRight: theme.spacing(1)
     },
 });
 

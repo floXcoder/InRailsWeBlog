@@ -30,8 +30,9 @@ const styles = (theme) => ({
     },
     title: {
         display: 'none',
-        marginLeft: 0,
-        marginRight: 10,
+        margin: '5px 15px',
+        fontSize: '1.6rem',
+        color: theme.palette.text.primary,
         [theme.breakpoints.up('sm')]: {
             display: 'block',
             fontSize: '2rem'
@@ -66,7 +67,7 @@ const styles = (theme) => ({
         paddingLeft: 12
     },
     nestedMenu: {
-        paddingLeft: theme.spacing.unit * 4
+        paddingLeft: theme.spacing(4)
     }
 });
 

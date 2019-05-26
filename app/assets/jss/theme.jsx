@@ -52,7 +52,6 @@ const theme = createMuiTheme({
     },
 
     typography: {
-        useNextVariants: true,
         htmlFontSize: 12
     },
 
@@ -91,11 +90,15 @@ const theme = createMuiTheme({
     overrides: {
         MuiSvgIcon: {
             root: {
+                fontSize: '1.4rem',
                 ['@media (max-width:960px)']: {
                     width: 28,
                     height: 28,
                     fontSize: 28
                 }
+            },
+            fontSizeLarge: {
+                fontSize: '2.3rem'
             }
         }
     }

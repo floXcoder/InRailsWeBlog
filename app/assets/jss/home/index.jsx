@@ -16,7 +16,7 @@ const styles = (theme) => ({
         maxWidth: gridWidth
     },
     tag: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(1),
     },
     category: {
         marginBottom: 32,

@@ -15,7 +15,7 @@ const styles = (theme) => ({
         }
     },
     inputItem: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(1),
         width: '80%'
     },
     searchIcon: {
@@ -33,13 +33,13 @@ const styles = (theme) => ({
     inputRoot: {
         color: '#000',
         width: '100%',
-        paddingLeft: theme.spacing.unit * 5
+        paddingLeft: theme.spacing(5)
     },
     inputSearch: {
         fontSize: '2rem'
     },
     inputTag: {
-        margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 2}px`,
+        margin: `${theme.spacing(1) / 2}px ${theme.spacing(1) / 2}px`,
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,
@@ -48,7 +48,7 @@ const styles = (theme) => ({
         borderColor: theme.palette.text.secondary
     },
     category: {
-        margin: theme.spacing.unit * 1.5
+        margin: theme.spacing(1.5)
     },
     categoryHeader: {
         borderBottom: `1px solid ${theme.palette.grey[300]}`,
@@ -91,7 +91,7 @@ const styles = (theme) => ({
         fontStyle: 'italic'
     },
     tag: {
-        margin: theme.spacing.unit
+        margin: theme.spacing(1)
     },
     tagHighlighted: {
         backgroundColor: theme.palette.secondary.main
@@ -104,11 +104,11 @@ const styles = (theme) => ({
         paddingTop: 4
     },
     articleTags: {
-        marginTop: theme.spacing.unit * 4,
+        marginTop: theme.spacing(4),
         marginBottom: 0
     },
     articleTag: {
-        margin: theme.spacing.unit / 2,
+        margin: theme.spacing(1) / 2,
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,

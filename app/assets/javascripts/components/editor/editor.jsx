@@ -21,6 +21,7 @@ class Editor extends React.Component {
     static propTypes = {
         modelName: PropTypes.string.isRequired,
         modelId: PropTypes.number,
+        currentTopicId: PropTypes.number,
         mode: PropTypes.number,
         id: PropTypes.string,
         placeholder: PropTypes.string,
@@ -117,6 +118,7 @@ class Editor extends React.Component {
                     search: (keyword, callback) => {
                         loadAutocomplete({
                             selectedTypes: 'article',
+                            topicId: this.props.currentTopicId,
                             query: keyword,
                             limit: 5
                         }).then((results) => results.articles ? callback(results.articles.map((article) => [article.id, article.slug, article.title]).compact()) : [])

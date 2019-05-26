@@ -6,7 +6,7 @@ const styles = (theme) => ({
         position: 'relative'
     },
     chip: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(1),
     },
     currentChip: {
         backgroundColor: theme.palette.background.default,

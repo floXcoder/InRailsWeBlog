@@ -18,6 +18,7 @@ export default @withStyles(styles)
 class ArticleCommonField extends React.Component {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,
+        currentTopicId: PropTypes.number.isRequired,
         change: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         article: PropTypes.object,
@@ -74,6 +75,7 @@ class ArticleCommonField extends React.Component {
                             <div className="form-editor-title">
                                 {I18n.t('js.article.model.reference')}
                             </div>
+
                             <Field name="reference"
                                    id="article_reference"
                                    icon="link"
@@ -100,8 +102,9 @@ class ArticleCommonField extends React.Component {
                 <div className="col s12">
                     <Field name="content"
                            id="article_content"
-                           modelId={this.props.article.id}
                            modelName="article"
+                           modelId={this.props.article.id}
+                           currentTopicId={this.props.currentTopicId}
                            placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
                            onLoaded={this._handleEditorLoaded}
                            onImageUpload={this._handleImageUploaded}

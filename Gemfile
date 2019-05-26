@@ -28,7 +28,7 @@ gem 'oj',                       '3.7.12'
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.2.2'
+gem 'i18n-js',                  '3.2.3'
 gem 'geocoder',                 '1.5.1'
 gem 'maxminddb',                '0.1.22'
 
@@ -49,7 +49,7 @@ gem 'sanitize',                 '5.0.0'
 gem 'sidekiq',                  '5.2.7'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '1.1.0'
-gem 'sidekiq-status',           '1.1.2'
+gem 'sidekiq-status',           '1.1.3'
 gem 'attentive_sidekiq',        '0.3.3'
 gem 'sidekiq-benchmark',        '0.6.0'
 gem 'whenever',                 '0.11.0', require: false
@@ -163,11 +163,11 @@ group :test do
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.20.1'
+  gem 'capybara',               '3.21.0'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.22'
   gem 'selenium-webdriver',     '3.141.0'
-  gem 'webdrivers',             '3.9.3'
+  gem 'webdrivers',             '3.9.4'
   gem 'html_validation',        '1.1.5'
   gem 'launchy',                '2.4.3'
 
@@ -178,13 +178,13 @@ group :test do
 end
 
 group :development, :test do
-  # Check errors
-  gem 'rubocop',                '0.69.0',  require: false
-  gem 'rubocop-rspec',          '1.33.0',  require: false
-  gem 'rubocop-performance',    '1.3.0',  require: false
-
   # Speed up boot
   gem 'bootsnap',               '1.4.4',   require: false
+
+  # Check errors
+  gem 'rubocop',                '0.70.0',  require: false
+  gem 'rubocop-rspec',          '1.33.0',  require: false
+  gem 'rubocop-performance',    '1.3.0',   require: false
 end
 
 group :production do

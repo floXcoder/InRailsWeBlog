@@ -40,10 +40,10 @@ const styles = (theme) => ({
         fontSize: '.8rem'
     },
     shareButtonIcon: {
-        marginLeft: theme.spacing.unit
+        marginLeft: theme.spacing(1)
     },
     topicTag: {
-        margin: theme.spacing.unit / 2,
+        margin: theme.spacing(1) / 2,
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,

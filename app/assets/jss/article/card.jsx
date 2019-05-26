@@ -118,7 +118,7 @@ const styles = (theme) => ({
     },
     actionItem: {
         display: 'inline-block',
-        margin: theme.spacing.unit * 1.5
+        margin: theme.spacing(1.5)
     }
 });
 

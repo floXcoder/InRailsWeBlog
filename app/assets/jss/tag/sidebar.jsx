@@ -13,7 +13,7 @@ const styles = (theme) => ({
         }
     },
     tagList: {
-        margin: theme.spacing.unit / 2,
+        margin: theme.spacing(1) / 2,
         fontSize: '1rem',
         fontWeight: 400,
         borderRadius: 4,

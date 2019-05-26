@@ -33,8 +33,8 @@ const styles = (theme) => ({
         height: '6rem',
         backgroundColor: theme.palette.primary.light,
         ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2)
     },
     storyTheme: {
         backgroundColor: theme.palette.secondary.dark
@@ -62,7 +62,7 @@ const styles = (theme) => ({
         height: '44px !important',
         width: '44px !important',
         borderRadius: '25px !important',
-        margin: theme.spacing.unit,
+        margin: theme.spacing(1),
         backgroundColor: theme.palette.primary.light,
         [theme.breakpoints.down('md')]: {
             display: 'none'

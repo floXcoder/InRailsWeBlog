@@ -37,13 +37,13 @@ const styles = (theme) => ({
         fontSize: '1rem',
         borderRadius: '50%',
         backgroundColor: theme.palette.grey[300],
-        margin: theme.spacing.unit * 2,
+        margin: theme.spacing(2),
         paddingLeft: 6,
         paddingRight: 6
     },
     tagButton: {
         color: theme.palette.text.primary,
-        margin: theme.spacing.unit / 2,
+        margin: theme.spacing(1) / 2,
     },
     actions: {
         display: 'flex'

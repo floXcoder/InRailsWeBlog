@@ -15,7 +15,7 @@ export default class ArticleFloatingIcons extends React.PureComponent {
         articleSlug: PropTypes.string.isRequired,
         articleTitle: PropTypes.string,
         display: PropTypes.oneOf(['list', 'item']),
-        size: PropTypes.oneOf(['small', 'default', 'large']),
+        size: PropTypes.oneOf(['small', 'medium', 'large']),
         color: PropTypes.oneOf(['primary', 'secondary', 'action']),
         isOwner: PropTypes.bool
     };

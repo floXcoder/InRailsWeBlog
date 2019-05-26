@@ -114,7 +114,7 @@ class ArticleVersionsDisplay extends React.Component {
                                     </CardContent>
 
                                     <CardActions className={this.props.classes.actions}
-                                                 disableActionSpacing={true}>
+                                                 disableSpacing={true}>
                                         <Button color="primary"
                                                 onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>
                                             {I18n.t('js.article.history.restore')}

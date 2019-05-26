@@ -288,7 +288,7 @@ class ArticleShow extends React.Component {
                                               classes={{
                                                   container: this.props.classes.articleInfo
                                               }}
-                                              spacing={8}
+                                              spacing={1}
                                               direction="row"
                                               justify="space-between"
                                               alignItems="center">

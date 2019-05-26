@@ -14,7 +14,7 @@ const styles = (theme) => ({
         maxWidth: '90vw',
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4
+        padding: theme.spacing(4)
     },
     title: {
         marginTop: 0,
@@ -28,8 +28,8 @@ const styles = (theme) => ({
     sortingItems: {
         position: 'relative',
         maxHeight: '90vh',
-        marginTop: theme.spacing.unit * 2,
-        marginBottom: theme.spacing.unit * 3,
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(3),
         overflow: 'auto',
         outline: 'none'
     },

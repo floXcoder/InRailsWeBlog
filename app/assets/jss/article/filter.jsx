@@ -6,19 +6,19 @@ const styles = (theme) => ({
         display: 'inline-block'
     },
     button: {
-        margin: theme.spacing.unit,
-        padding: theme.spacing.unit / 4,
+        margin: theme.spacing(1),
+        padding: theme.spacing(1) / 4,
         fontSize: '.6rem',
         color: theme.palette.primary.main
     },
     leftIcon: {
-        marginRight: theme.spacing.unit,
+        marginRight: theme.spacing(1),
     },
     rightIcon: {
-        marginLeft: theme.spacing.unit,
+        marginLeft: theme.spacing(1),
     },
     buttonLink: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(1),
         fontSize: '1rem',
         color: '#000'
     },
