@@ -5,13 +5,11 @@
       {
         "modules": false,
         "useBuiltIns": "entry",
-        "corejs": 3,
         "forceAllTransforms": true,
         "targets": {
           "browsers": [
             "> 1%",
-            "ie 11",
-            "safari 9"
+            "ie 11"
           ]
         }
       }

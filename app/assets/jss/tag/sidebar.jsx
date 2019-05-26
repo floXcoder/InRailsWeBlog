@@ -1,27 +1,34 @@
 'use strict';
 
 const styles = (theme) => ({
-    root: {
-        position: 'relative',
-        padding: 0
-    },
-    list: {
+    cloudList: {
         display: 'flex',
         flexWrap: 'wrap',
         [theme.breakpoints.down('md')]: {
             margin: '.4rem .6rem'
         }
     },
-    tagList: {
-        margin: theme.spacing(1) / 2,
+    cloudTopic: {
+        margin: '1.3rem .4rem .3rem',
         fontSize: '1rem',
+        fontWeight: 600,
+        borderBottom: `1px solid ${theme.palette.grey[200]}`,
+    },
+    cloudTag: {
+        margin: theme.spacing(1) / 2,
         fontWeight: 400,
+        fontSize: '.9rem',
         borderRadius: 4,
         cursor: 'pointer',
-        color: theme.palette.primary.main,
+        color: theme.palette.text.secondary,
         borderColor: theme.palette.text.secondary
     },
-    allLabels: {
+    tagList: {
+        position: 'relative',
+        padding: 0,
+        whiteSpace: 'nowrap'
+    },
+    labelsLink: {
         position: 'absolute',
         top: -32,
         right: 12,
@@ -29,7 +36,7 @@ const styles = (theme) => ({
             display: 'none'
         }
     },
-    iconLabels: {
+    labelsIcon: {
         marginLeft: 8,
         height: '.8em',
         color: theme.palette.text.primary

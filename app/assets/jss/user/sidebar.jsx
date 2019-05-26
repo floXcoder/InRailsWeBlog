@@ -8,7 +8,6 @@ import {
 const styles = (theme) => ({
     drawerPaper: {
         position: 'fixed',
-        whiteSpace: 'nowrap',
         width: drawerWidth,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,

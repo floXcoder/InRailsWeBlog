@@ -1,23 +1,9 @@
 'use strict';
 
 import {
-    Link
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemText from '@material-ui/core/ListItemText';
-import Chip from '@material-ui/core/Chip';
-// import Grow from '@material-ui/core/Grow';
-import Zoom from '@material-ui/core/Zoom';
-
-// import LabelIcon from '@material-ui/icons/Label';
-// import SearchIcon from '@material-ui/icons/Search';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 import {
     // filterTags,
@@ -26,15 +12,17 @@ import {
 
 import {
     getTags,
-    getSortedTopicTags
+    getSortedTopicTags,
+    getUserTopics
 } from '../../selectors';
+
+import Loader from '../theme/loader';
+// import SearchBar from '../theme/searchBar';
 
 // import AssociatedTagBox from '../tags/associated/box';
 
-import TagRelationshipDisplay from './display/relationship';
-
-// import SearchBar from '../theme/searchBar';
-import Loader from '../theme/loader';
+import TagSidebarCloud from './sidebar/cloud';
+import TagSidebarList from './sidebar/list';
 
 import styles from '../../../jss/tag/sidebar';
 
@@ -43,6 +31,7 @@ export default @connect((state, props) => ({
     filterText: state.tagState.filterText,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    currentUserTopics: props.isCloud ? getUserTopics(state) : undefined,
     tags: props.isCloud ? getTags(state) : getSortedTopicTags(state)
 }), {
     // filterTags
@@ -61,6 +50,7 @@ class TagSidebar extends React.Component {
         filterText: PropTypes.string,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
+        currentUserTopics: PropTypes.array,
         tags: PropTypes.array,
         // filterTags: PropTypes.func,
         // from styles
@@ -98,110 +88,24 @@ class TagSidebar extends React.Component {
             )
         } else if (this.props.isCloud) {
             return (
-                <div className={this.props.classes.list}>
-                    {
-                        this.props.tags.map((tag) => (
-                            <Chip key={tag.id}
-                                  className={classNames(this.props.classes.tagList, {
-                                      [this.props.classes.selectedLabel]: this.props.currentTagSlug === tag.slug
-                                  })}
-                                  label={tag.name}
-                                  color="primary"
-                                  variant="outlined"
-                                  component={Link}
-                                  to={`/tagged/${tag.slug}`}
-                                  onClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.slug)}/>
-                        ))
-                    }
-                </div>
+                <TagSidebarCloud classes={this.props.classes}
+                                 currentTagSlug={this.props.currentTagSlug}
+                                 currentUserTopics={this.props.currentUserTopics}
+                                 tags={this.props.tags}
+                                 onTagClick={this._handleTagClick}/>
             );
         } else {
-            const isFiltering = !Utils.isEmpty(this.props.filterText);
-
             return (
-                <List className={this.props.classes.root}>
-                    <Zoom in={this.props.isOpen}
-                          timeout={350}>
-                        <Link className={this.props.classes.allLabels}
-                              to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tags`}>
-                            <OpenInNewIcon className={this.props.classes.iconLabels}/>
-                        </Link>
-                    </Zoom>
-
-                    {/*<ListItem classes={{*/}
-                    {/*    root: this.props.classes.listItem*/}
-                    {/*}}>*/}
-                    {/*    <Zoom in={!this.props.isOpen}*/}
-                    {/*          timeout={350}>*/}
-                    {/*        <ListItemIcon>*/}
-                    {/*            <LabelIcon/>*/}
-                    {/*        </ListItemIcon>*/}
-                    {/*    </Zoom>*/}
-
-                    {/*    <ListItemText classes={{*/}
-                    {/*        root: classNames(this.props.classes.item, this.props.classes.title, {*/}
-                    {/*            [this.props.classes.itemOpen]: this.props.isOpen*/}
-                    {/*        })*/}
-                    {/*    }}>*/}
-                    {/*        {I18n.t('js.tag.common.list')}*/}
-
-                    {/*        <Link to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tags`}>*/}
-                    {/*            <OpenInNewIcon className={this.props.classes.iconLabels}/>*/}
-                    {/*        </Link>*/}
-                    {/*    </ListItemText>*/}
-                    {/*</ListItem>*/}
-
-                    {/*<ListItem classes={{*/}
-                    {/*    root: this.props.classes.searchItem*/}
-                    {/*}}>*/}
-                    {/*    <Grow in={!this.props.isOpen}*/}
-                    {/*          timeout={350}*/}
-                    {/*          style={{transformOrigin: '0 0 0'}}>*/}
-                    {/*        <ListItemIcon>*/}
-                    {/*            <SearchIcon/>*/}
-                    {/*        </ListItemIcon>*/}
-                    {/*    </Grow>*/}
-
-                    {/*    <div className={*/}
-                    {/*        classNames(this.props.classes.item, {*/}
-                    {/*            [this.props.classes.itemOpen]: this.props.isOpen*/}
-                    {/*        })*/}
-                    {/*    }>*/}
-                    {/*        <SearchBar classes={this.props.classes.input}*/}
-                    {/*                   label={I18n.t('js.tag.common.filter')}*/}
-                    {/*                   onSearchInput={this._handleSearchInput}>*/}
-                    {/*            {this.props.filterText}*/}
-                    {/*        </SearchBar>*/}
-                    {/*    </div>*/}
-                    {/*</ListItem>*/}
-
-                    {
-                        !Utils.isEmpty(this.props.tags) &&
-                        <div className={classNames(this.props.classes.tags,
-                            {[this.props.classes.tagsOpen]: this.props.isOpen})
-                        }>
-                            <TagRelationshipDisplay tags={this.props.tags}
-                                                    hasChildInMainList={this.props.hasChildInMainList}
-                                                    currentTagSlug={this.props.currentTagSlug}
-                                                    currentChildTagSlug={this.props.currentChildTagSlug}
-                                                    isFiltering={isFiltering}
-                                                    onTagClick={this._handleTagClick}/>
-                        </div>
-                    }
-
-                    {
-                        this.props.isOpen && Utils.isEmpty(this.props.tags) &&
-                        <div>
-                            {
-                                this.props.filterText
-                                    ?
-                                    I18n.t('js.tag.common.no_results') + ' ' + this.props.filterText
-                                    :
-                                    I18n.t('js.tag.common.no_tags')
-                            }
-                        </div>
-                    }
-                </List>
+                <TagSidebarList classes={this.props.classes}
+                                currentUserSlug={this.props.currentUserSlug}
+                                currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                filterText={this.props.filterText}
+                                currentTagSlug={this.props.currentTagSlug}
+                                currentChildTagSlug={this.props.currentChildTagSlug}
+                                hasChildInMainList={this.props.hasChildInMainList}
+                                isOpen={this.props.isOpen}
+                                tags={this.props.tags}
+                                onTagClick={this._handleTagClick}/>
             );
         }
     }

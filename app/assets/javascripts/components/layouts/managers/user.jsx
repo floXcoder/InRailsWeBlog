@@ -119,9 +119,12 @@ class UserManager extends React.Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         // Called when hash route change (topic module, ...)
-        this._checkState();
+        // Check state only if previous current user defined (otherwise it means initialization)
+        if(prevProps.currentUser) {
+            this._checkState();
+        }
     }
 
     _checkState = () => {
