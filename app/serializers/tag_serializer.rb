@@ -41,7 +41,8 @@ class TagSerializer < ActiveModel::Serializer
              :slug,
              :child_only,
              :parent_ids,
-             :child_ids
+             :child_ids,
+             :topic_ids
 
   def visibility_translated
     object.visibility_to_tr
@@ -57,5 +58,9 @@ class TagSerializer < ActiveModel::Serializer
 
   def child_ids
     object.parent_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:child_id).uniq if instance_options[:current_topic_id]
+  end
+
+  def topic_ids
+    object.topic_ids&.uniq
   end
 end

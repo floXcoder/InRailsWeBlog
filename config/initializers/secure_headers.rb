@@ -13,7 +13,8 @@ SecureHeaders::Configuration.default do |config|
     media_src:        ['localhost:8080', "'self'", ENV['WEBSITE_ASSET']],
     object_src:       ['localhost:8080', "'self'", ENV['WEBSITE_ASSET']],
     style_src:        ['localhost:8080', "'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET']],
-    form_action:      ["'self'"]
+    form_action:      ["'self'"],
+    report_uri:       [ENV['SENTRY_REPORT_URI']]
   }
 
   config.x_frame_options = "ALLOW-FROM https://#{ENV['SENTRY_ADDRESS']}"

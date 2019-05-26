@@ -1,8 +1,7 @@
 'use strict';
 
 // Auto polyfill
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import '@babel/polyfill';
 
 // Polyfill promise
 require('es6-promise').polyfill();
@@ -11,7 +10,7 @@ require('es6-promise').polyfill();
 import 'intersection-observer';
 
 // jQuery
-import 'jquery-ujs';
+import 'jquery';
 
 import 'first-input-delay/dist/first-input-delay.min';
 
