@@ -8,17 +8,17 @@ const styles = (theme) => ({
         // '&:hover': {
         //     backgroundColor: fade(theme.palette.common.black, 0.25)
         // },
-        marginRight: theme.spacing.unit * 2,
+        marginRight: theme.spacing(2),
         marginLeft: '0 !important',
         width: '100%',
         border: '1px solid #eee',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit * 3,
+            marginLeft: theme.spacing(3),
             width: 'auto'
         }
     },
     searchIcon: {
-        width: theme.spacing.unit * 9,
+        width: theme.spacing(9),
         color: '#000',
         height: '100%',
         position: 'absolute',
@@ -30,12 +30,12 @@ const styles = (theme) => ({
     inputRoot: {
         color: '#000',
         width: '100%',
-        paddingLeft: theme.spacing.unit * 8
+        paddingLeft: theme.spacing(8)
     },
     inputInput: {
-        paddingTop: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
+        paddingTop: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -48,13 +48,13 @@ const styles = (theme) => ({
         }
     },
     inputInputFocus: {
-        paddingTop: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
+        paddingTop: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
         width: '30vw'
     },
     selectedTagsChip: {
-        margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 2}px`,
+        margin: `${theme.spacing(1) / 2}px ${theme.spacing(1) / 2}px`,
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,

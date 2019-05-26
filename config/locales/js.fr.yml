@@ -407,7 +407,9 @@ fr:
           true: "Activé"
           false: "Désactivé"
         topic: "Thème"
-        tagged_articles: "Labels de l'article"
+        tagged_articles:
+          tag:
+            name: "Labels de l'article"
       enums:
         visibility:
           everyone: "Public"

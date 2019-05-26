@@ -13,8 +13,6 @@ module EnumsConcern
 
   SETTING_VALUE_TYPE = [:string_type, :integer_type, :boolean_type, :array_type, :hash_type].freeze
 
-  ERROR_ORIGIN = [:server, :client, :communication].freeze
-
   included do
     def self.enums_to_tr(klass, enums)
       enums.each do |enum|

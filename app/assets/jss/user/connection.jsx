@@ -3,7 +3,7 @@
 const styles = (theme) => ({
     fieldItem: {
         width: '90%',
-        margin: theme.spacing.unit,
+        margin: theme.spacing(1),
         marginLeft: 'auto',
         marginRight: 'auto',
         [theme.breakpoints.down('md')]: {

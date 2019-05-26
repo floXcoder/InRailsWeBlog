@@ -4,7 +4,7 @@ const styles = (theme) => ({
     style: {
         background: theme.palette.background.default,
         color: theme.palette.primary.main,
-        padding: theme.spacing.unit * 2,
+        padding: theme.spacing(2),
         boxShadow: theme.shadows[0],
         borderRadius: theme.shape.borderRadius,
         border: `1px solid ${theme.palette.primary.main}`
@@ -17,8 +17,8 @@ const styles = (theme) => ({
         borderBottom: `1px solid ${theme.palette.primary.main}`,
         color: theme.palette.primary.main,
         fontWeight: 'bold',
-        marginBottom: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
+        marginBottom: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
         display: 'block'
     },
     description: {

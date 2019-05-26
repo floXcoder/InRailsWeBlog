@@ -18,7 +18,7 @@ const UserAvatarIcon = ({className, user, secondary}) => (
           to={`/users/${user.slug}`}
           onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}>
         <Grid container={true}
-              spacing={8}
+              spacing={1}
               direction="row"
               justify="flex-start"
               alignItems="center">

@@ -150,7 +150,7 @@ class SearchModule extends React.Component {
                     }
 
                     <Grid container={true}
-                          spacing={32}
+                          spacing={4}
                           direction="row-reverse"
                           justify="space-between"
                           alignItems="flex-start">

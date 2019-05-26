@@ -64,7 +64,7 @@ export default class UserIndex extends React.Component {
         // UserActions.loadUsers({page: paginate.selected + 1});
 
         setTimeout(() => {
-            $('html, body').animate({scrollTop: $('.blog-user-list').offset().top - 64}, 750);
+            window.scroll({ top: $('.blog-user-list').offset().top - 64, behavior: 'smooth' });
         }, 300);
     };
 

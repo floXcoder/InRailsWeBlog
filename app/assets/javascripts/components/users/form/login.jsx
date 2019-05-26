@@ -96,7 +96,7 @@ class LoginForm extends React.Component {
 
                 <Grid classes={{container: this.props.classes.fieldItem}}
                       container={true}
-                      spacing={16}
+                      spacing={2}
                       direction="column"
                       justify="space-between"
                       alignItems="center">
@@ -150,7 +150,7 @@ class LoginForm extends React.Component {
 
                 <Grid className="center-align margin-top-15"
                       container={true}
-                      spacing={16}
+                      spacing={2}
                       direction="row-reverse"
                       justify="space-between"
                       alignItems="center">

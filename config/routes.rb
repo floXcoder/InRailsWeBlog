@@ -176,32 +176,32 @@ Rails.application.routes.draw do
   end
   devise_for :admins, controllers: { sessions:  'users/sessions', passwords: 'users/passwords' }
 
-  # Admin interface
-  authenticate :admin do
-    # Sidekiq interface
-    mount Sidekiq::Web => '/admin/sidekiq'
-  end
-
-  # resources :admins
-  get :admin,             to: 'admins#index'
-
-  namespace :admin do
-    # resources :managers, only: [] do
-    #   collection do
-    #     get     :pending_validation,        to: 'managers#pending_validation'
-    #     get     :pending_comment_deletion,  to: 'managers#pending_comment_deletion'
-    #
-    #     get     :users,           to: 'managers#users'
-    #     get     ':show_user/:user_id', to: 'managers#show_user'
-    #
-    #     get     :logs,            to: 'managers#logs'
-    #
-    #     get     :server,          to: 'managers#server'
-    #
-    #     get     :errors,          to: 'managers#errors'
-    #   end
-    # end
-  end
+  # # Admin interface
+  # authenticate :admin do
+  #   # Sidekiq interface
+  #   mount Sidekiq::Web => '/admin/sidekiq'
+  # end
+  #
+  # # resources :admins
+  # get :admin,             to: 'admins#index'
+  #
+  # namespace :admin do
+  #   # resources :managers, only: [] do
+  #   #   collection do
+  #   #     get     :pending_validation,        to: 'managers#pending_validation'
+  #   #     get     :pending_comment_deletion,  to: 'managers#pending_comment_deletion'
+  #   #
+  #   #     get     :users,           to: 'managers#users'
+  #   #     get     ':show_user/:user_id', to: 'managers#show_user'
+  #   #
+  #   #     get     :logs,            to: 'managers#logs'
+  #   #
+  #   #     get     :server,          to: 'managers#server'
+  #   #
+  #   #     get     :errors,          to: 'managers#errors'
+  #   #   end
+  #   # end
+  # end
 
   # SEO
   get '/robots.:format' => 'single_pages#robots'

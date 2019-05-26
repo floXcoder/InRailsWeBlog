@@ -116,14 +116,12 @@ export default class Rating extends React.PureComponent {
                         </a>
                     </div>
 
-                    {/*<meta itemProp="ratingValue"*/
-                        /*content={this.props.initialRating}/>*/}
+                    {/*<meta itemProp="ratingValue"*/}
+                    {/*      content={this.props.initialRating}/>*/}
 
-                    {
-                        /*this.props.ratingCount &&*/
-                        /*<meta itemProp="reviewCount"*/
-                        /*content={this.props.ratingCount}/>*/
-                    }
+                    {/*this.props.ratingCount &&*/}
+                    {/*<meta itemProp="reviewCount"*/}
+                    {/*      content={this.props.ratingCount}/>*/}
 
                     {
                         [...Array(this.props.starNumber)].map((number, i) => {

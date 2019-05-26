@@ -28,9 +28,9 @@ const styles = (theme) => ({
     },
     component: {
         width: 'auto',
-        marginLeft: theme.spacing.unit / 2,
-        marginRight: theme.spacing.unit / 2,
-        [theme.breakpoints.up(mainWidth + theme.spacing.unit * 3 * 2)]: {
+        marginLeft: theme.spacing(1) / 2,
+        marginRight: theme.spacing(1) / 2,
+        [theme.breakpoints.up(mainWidth + theme.spacing(6))]: {
             width: mainWidth,
             marginLeft: 'auto',
             marginRight: 'auto'
@@ -57,8 +57,8 @@ const styles = (theme) => ({
     },
     footer: {
         backgroundColor: theme.palette.background.paper,
-        marginTop: theme.spacing.unit * 8,
-        padding: `${theme.spacing.unit * 6}px 0`
+        marginTop: theme.spacing(8),
+        padding: `${theme.spacing(6)}px 0`
     },
 });
 

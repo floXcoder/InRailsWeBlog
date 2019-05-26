@@ -85,7 +85,7 @@ class HomeHome extends React.Component {
         return (
             <div className={this.props.classes.root}>
                 <Grid container={true}
-                      spacing={32}
+                      spacing={4}
                       direction="row"
                       justify="space-between"
                       alignItems="flex-start">
@@ -104,7 +104,7 @@ class HomeHome extends React.Component {
                 </Grid>
 
                 <Grid container={true}
-                      spacing={32}
+                      spacing={4}
                       direction="row-reverse"
                       justify="space-between"
                       alignItems="flex-start">

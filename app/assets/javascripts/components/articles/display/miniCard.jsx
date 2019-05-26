@@ -85,7 +85,7 @@ class ArticleMiniCardDisplay extends React.Component {
                           classes={{
                               container: this.props.classes.articleInfo
                           }}
-                          spacing={16}
+                          spacing={2}
                           direction="row"
                           justify="flex-start"
                           alignItems="center">
@@ -114,7 +114,7 @@ class ArticleMiniCardDisplay extends React.Component {
                           classes={{
                               container: this.props.classes.articleInfo
                           }}
-                          spacing={16}
+                          spacing={2}
                           direction="row"
                           justify="flex-start"
                           alignItems="center">

@@ -41,9 +41,10 @@ import EnsureValidity from '../../modules/ensureValidity';
 
 export default @reduxForm({
     validateArticle,
-    enableReinitialize: true,
+    enableReinitialize: true
 })
 @connect((state, props) => ({
+    currentUserTopicId: state.topicState.currentUserTopicId,
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
     availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
     parentTags: getArticleParentTags(props.children),
@@ -68,6 +69,7 @@ class ArticleFormDisplay extends React.Component {
         submitSucceeded: PropTypes.bool,
         dirty: PropTypes.bool,
         // from connect
+        currentUserTopicId: PropTypes.number,
         availableParentTags: PropTypes.array,
         availableChildTags: PropTypes.array,
         parentTags: PropTypes.array,
@@ -159,6 +161,7 @@ class ArticleFormDisplay extends React.Component {
 
                         <Collapse in={this.state.tabIndex === 0}>
                             <ArticleCommonField currentMode={currentMode}
+                                                currentTopicId={this.props.currentUserTopicId}
                                                 article={this.props.children}
                                                 change={this.props.change}
                                                 onSubmit={this.props.handleSubmit}/>

@@ -407,7 +407,9 @@ en:
           true: "Enabled"
           false: "Disabled"
         topic: "Topic"
-        tagged_articles: "Article tag"
+        tagged_articles:
+          tag:
+            name: "Article tag"
       enums:
         visibility:
           everyone: "Public"

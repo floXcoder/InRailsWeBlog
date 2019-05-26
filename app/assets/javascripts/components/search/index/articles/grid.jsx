@@ -65,7 +65,7 @@ class ArticleItemDisplay extends React.Component {
                 {
                     this.props.article.tags.size > 0 &&
                     <CardActions className={this.props.classes.actions}
-                                 disableActionSpacing={true}>
+                                 disableSpacing={true}>
                         <div className={this.props.classes.articleTags}>
                             {
                                 this.props.article.tags.map((tag) => (

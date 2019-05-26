@@ -142,6 +142,11 @@ export default {
             },
             // user: topics
             {
+                path: '/users/:userSlug',
+                exact: true,
+                component: () => RouteComponents.UserHome
+            },
+            {
                 path: '/users/:userSlug/topics',
                 exact: true,
                 component: () => RouteComponents.UserHome

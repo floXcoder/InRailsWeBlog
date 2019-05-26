@@ -111,7 +111,7 @@ class UserHome extends React.Component {
 
                     <CardContent>
                         <Grid container={true}
-                              spacing={32}
+                              spacing={4}
                               direction="row"
                               justify="flex-start"
                               alignItems="center">
@@ -205,7 +205,7 @@ class UserHome extends React.Component {
 
                     <CardContent>
                         <Grid container={true}
-                              spacing={32}
+                              spacing={4}
                               direction="row"
                               justify="flex-start"
                               alignItems="center">
@@ -288,7 +288,7 @@ class UserHome extends React.Component {
 
                             <CardContent>
                                 <Grid container={true}
-                                      spacing={32}
+                                      spacing={4}
                                       direction="row"
                                       justify="flex-start"
                                       alignItems="center">

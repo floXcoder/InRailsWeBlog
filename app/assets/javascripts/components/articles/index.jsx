@@ -188,7 +188,7 @@ class ArticleIndex extends React.Component {
                 this._isFetchingNext = false;
 
                 if (params.selected) {
-                    $('html, body').animate({scrollTop: this._articles.current.getBoundingClientRect().top - 64}, 350);
+                    window.scroll({ top: this._articles.current.getBoundingClientRect().top - 64, behavior: 'smooth' });
                 }
             });
         }

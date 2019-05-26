@@ -106,7 +106,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             setTimeout(() => {
                 const {pageYOffset} = window;
                 const elementTop = pageYOffset + ReactDOM.findDOMNode(this.refs[elementId]).getBoundingClientRect().top - (this.props.topOffset || 0);
-                $('html, body').animate({scrollTop: elementTop}, 600);
+                window.scroll({ top: elementTop, behavior: 'smooth' });
             }, transitionDuration);
         }
         this.setState({

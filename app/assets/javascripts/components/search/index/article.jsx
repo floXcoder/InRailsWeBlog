@@ -64,7 +64,7 @@ export default class SearchArticleIndex extends React.PureComponent {
             <div className={this.props.classes.category}>
                 <Grid className={this.props.classes.categoryHeader}
                       container={true}
-                      spacing={32}
+                      spacing={4}
                       direction="row"
                       justify="space-between"
                       alignItems="flex-end">
@@ -81,7 +81,7 @@ export default class SearchArticleIndex extends React.PureComponent {
 
                     <Grid item={true}>
                         <Grid container={true}
-                              spacing={16}
+                              spacing={2}
                               direction="row"
                               justify="flex-end"
                               alignItems="flex-end">

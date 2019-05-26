@@ -143,7 +143,7 @@ class TagIndex extends React.Component {
                     }
 
                     <CardActions className={this.props.classes.actions}
-                                 disableActionSpacing={true}>
+                                 disableSpacing={true}>
                         <div className={this.props.classes.buttonsRight}>
                             <IconButton aria-label="Edit"
                                         component={Link}

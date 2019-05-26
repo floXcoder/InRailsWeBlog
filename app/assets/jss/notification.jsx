@@ -21,10 +21,10 @@ const styles = (theme) => ({
     },
     iconVariant: {
         opacity: 0.9,
-        marginRight: theme.spacing.unit,
+        marginRight: theme.spacing(1),
     },
     close: {
-        padding: theme.spacing.unit / 2,
+        padding: theme.spacing(1) / 2,
     },
     message: {
         display: 'flex',
