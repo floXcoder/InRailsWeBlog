@@ -1,21 +1,21 @@
 'use strict';
 
 // Clipboard event
-const ClipboardManager = (function ($) {
+const ClipboardManager = (function () {
     const _model = {
-        $clipboardInput: null,
+        clipboardInput: null,
         callback: null
     };
 
     const _focusHiddenArea = function () {
-        _model.$clipboardInput.val('');
-        _model.$clipboardInput.focus().select();
+        _model.clipboardInput.value = '';
+        _model.clipboardInput.focus();
     };
 
     const _pasteByEvent = function (event) {
         event.preventDefault();
 
-        const clipboardData = event.originalEvent.clipboardData;
+        const clipboardData = event.clipboardData;
 
         if (_model.callback) {
             _model.callback(clipboardData.getData('text/html') || clipboardData.getData('text/plain'));
@@ -23,15 +23,15 @@ const ClipboardManager = (function ($) {
     };
 
     const initialize = function (callback) {
-        _model.$clipboardInput = $('#clipboard');
+        _model.clipboardInput = document.getElementById('clipboard');
         _model.callback = callback;
 
-        $(document).keydown(function (event) {
+        document.addEventListener('keydown', (event) => {
             if (!event.ctrlKey) {
                 return;
             }
 
-            if ($(event.target).is('input:visible,textarea:visible') || $(event.target).hasClass('note-editable')) {
+            if(event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.className.includes('note-editable')) {
                 return;
             }
 
@@ -48,14 +48,14 @@ const ClipboardManager = (function ($) {
             }
         });
 
-        $(document).keyup(function (event) {
-            if ($(event.target).is('#clipboard')) {
-                return $('#clipboard').val('');
-            }
-        });
+        // document.addEventListener('keyup', (event) => {
+        //     if ($(event.target).is('#clipboard')) {
+        //         return $('#clipboard').val('');
+        //     }
+        // });
 
-        if (_model.$clipboardInput.length) {
-            _model.$clipboardInput.on('paste', _pasteByEvent);
+        if (_model.clipboardInput) {
+            _model.clipboardInput.addEventListener('paste', _pasteByEvent);
         }
 
         //['cut', 'copy', 'paste'].forEach(function (event) {
@@ -70,6 +70,6 @@ const ClipboardManager = (function ($) {
     return {
         initialize: initialize
     };
-})($);
+})();
 
 export default ClipboardManager;

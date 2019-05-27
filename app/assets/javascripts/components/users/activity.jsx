@@ -68,7 +68,6 @@ const UserActivity = ({activities, pagination, loadActivities}) => {
 
 const _handlePaginationClick = (paginate, loadActivities) => {
     loadActivities({page: paginate.selected + 1});
-    window.scroll({ top: $('.user-activity').offset().top - 64, behavior: 'smooth' });
 };
 
 UserActivity.propTypes = {

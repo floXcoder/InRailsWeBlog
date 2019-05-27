@@ -215,7 +215,8 @@ class HeaderLayoutUser extends React.PureComponent {
                              onOpen={this._handleTagDrawerToggle}>
                 <>
                     <div className={this.props.classes.mobileToolbar}>
-                        <Link to="/">
+                        <Link className={this.props.classes.mobileTitle}
+                              to="/">
                             <Typography variant="h5">
                                 {I18n.t('js.views.header.title')}
                             </Typography>
@@ -228,8 +229,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
-                            <ListItemText inset={true}
-                                          primary="Articles"/>
+                            <ListItemText primary={I18n.t('js.views.header.user.articles')}/>
                             {this.state.isMobileArticleOpen ? <ExpandLess/> : <ExpandMore/>}
                         </ListItem>
                         <Collapse in={this.state.isMobileArticleOpen}
@@ -249,8 +249,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <ListItemIcon>
                                 <FavoriteIcon/>
                             </ListItemIcon>
-                            <ListItemText inset={true}
-                                          primary="Favoris"/>
+                            <ListItemText primary={I18n.t('js.views.header.user.bookmarks')}/>
                             {this.state.isMobileBookmarkOpen ? <ExpandLess/> : <ExpandMore/>}
                         </ListItem>
                         <Collapse in={this.state.isMobileBookmarkOpen}
@@ -264,8 +263,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <ListItemIcon>
                                 <AccountCircleIcon/>
                             </ListItemIcon>
-                            <ListItemText inset={true}
-                                          primary="Votre compte"/>
+                            <ListItemText primary={I18n.t('js.views.header.user.profile')}/>
                             {this.state.isMobileUserOpen ? <ExpandLess/> : <ExpandMore/>}
                         </ListItem>
                         <Collapse in={this.state.isMobileUserOpen}

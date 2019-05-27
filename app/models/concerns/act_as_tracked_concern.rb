@@ -41,6 +41,10 @@ module ActAsTrackedConcern
   def update_popularity
     return if self.destroyed? || (self.has_attribute?(:deleted_at) && self.deleted_at) || !self.tracker || self.tracker.popularity_changed?
 
+    self.tracker.popularity = compute_popularity
+  end
+
+  def compute_popularity
     popularity    = 0
     tracker_count = 0
 
@@ -61,11 +65,11 @@ module ActAsTrackedConcern
       tracker_count += 1
     end
 
-    if defined? self.custom_popularity
+    if defined?(self.custom_popularity)
       popularity, tracker_count = self.custom_popularity(popularity, tracker_count)
     end
 
-    self.tracker.popularity = popularity / tracker_count
+    return popularity / tracker_count
   end
 
   # Method called after object creation

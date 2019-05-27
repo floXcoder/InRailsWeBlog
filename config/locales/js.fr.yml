@@ -25,6 +25,8 @@ fr:
         settings:
           button: "Préférences"
         user:
+          articles: "Articles"
+          bookmarks: "Favoris"
           settings: "Mes paramètres"
           sign_up: "S'inscrire"
           log_in: "Se connecter"

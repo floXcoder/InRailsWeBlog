@@ -9,9 +9,6 @@ require('es6-promise').polyfill();
 // Polyfill observer
 import 'intersection-observer';
 
-// jQuery
-import 'jquery';
-
 import 'first-input-delay/dist/first-input-delay.min';
 
 // Expose global variables

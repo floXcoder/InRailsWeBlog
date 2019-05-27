@@ -1,5 +1,7 @@
 'use strict';
 
+import $ from 'jquery';
+
 import withWidth from '@material-ui/core/withWidth';
 
 import {

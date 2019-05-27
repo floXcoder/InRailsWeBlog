@@ -89,14 +89,6 @@ class HeaderLayoutHome extends React.Component {
         isMobileOpen: false
     };
 
-    componentDidMount() {
-        $(document).keyup((event) => {
-            if (Utils.NAVIGATION_KEYMAP[event.which] === 'escape') {
-                this._handleSearchClose();
-            }
-        });
-    }
-
     _handleSearchOpen = () => {
         if (this.props.routeLocation.hash !== '#search') {
             this.props.history.push({
@@ -187,7 +179,8 @@ class HeaderLayoutHome extends React.Component {
                              onOpen={this._handleDrawerToggle}>
                 <>
                     <div className={this.props.classes.mobileToolbar}>
-                        <Link to="/">
+                        <Link className={this.props.classes.mobileTitle}
+                              to="/">
                             <Typography variant="h5">
                                 {I18n.t('js.views.header.title')}
                             </Typography>
