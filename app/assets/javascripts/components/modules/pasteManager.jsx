@@ -21,7 +21,7 @@ class PasteManager extends React.Component {
     }
 
     componentDidMount() {
-        ClipboardManager.initialize(this._onPaste);
+        setTimeout(() => ClipboardManager.initialize(this._onPaste), 500);
     }
 
     _onPaste = (content) => {

@@ -21,6 +21,8 @@ export default class UserIndex extends React.Component {
     constructor(props) {
         super(props);
 
+        this._users = React.createRef();
+
         // UserActions.loadUsers({page: 1});
 
         // if (typeof(userData.users) !== 'undefined') {
@@ -64,7 +66,7 @@ export default class UserIndex extends React.Component {
         // UserActions.loadUsers({page: paginate.selected + 1});
 
         setTimeout(() => {
-            window.scroll({ top: $('.blog-user-list').offset().top - 64, behavior: 'smooth' });
+            window.scroll({ top: this._users.current.getBoundingClientRect().top - 64, behavior: 'smooth' });
         }, 300);
     };
 
@@ -84,7 +86,8 @@ export default class UserIndex extends React.Component {
                     </div>
                 </div>
 
-                <div className="blog-user-list">
+                <div ref={this._users}
+                     className="blog-user-list">
                     <TransitionGroup component="div"
                                      className="row">
                         {

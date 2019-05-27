@@ -20,15 +20,14 @@ class UpdateTrackerWorker
       metrics_used.each do |metric|
         $redis.keys("#{tracked_class}:#{metric}:*").map do |tracked_element|
           _element_type, _element_metric, element_id = tracked_element.split(':')
-          element_value = $redis.get(tracked_element)
+          element_value                              = $redis.get(tracked_element)
 
           if (element = class_model.find_by(id: element_id))
             return unless element.tracker
 
             # Warning: Increment do not trigger callbacks
             element.tracker.increment!("#{metric}_count", element_value.to_i)
-            element.update_popularity
-            element.save
+            element.tracker.update_column(:popularity, compute_popularity)
           end
 
           $redis.del(tracked_element)

@@ -66,6 +66,12 @@ const styles = (theme) => ({
         marginTop: 15,
         paddingLeft: 12
     },
+    mobileTitle: {
+        margin: '5px 15px',
+        color: theme.palette.text.primary,
+        display: 'block',
+        fontSize: '2rem'
+    },
     nestedMenu: {
         paddingLeft: theme.spacing(4)
     }
