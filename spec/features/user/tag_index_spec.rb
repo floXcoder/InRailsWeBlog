@@ -26,7 +26,7 @@ feature 'Tag index for users', advanced: true, js: true do
       let(:content) {
         {
           current_page: tags_page,
-          title:        I18n.t('views.tag.index.title.user', user: @user.pseudo),
+          title:        I18n.t('views.tag.index.title.topic', topic: @topic.name),
           asset_name:   'assets/user',
           common_js:    ['assets/runtime', 'assets/user'],
           connected:    true
@@ -51,7 +51,7 @@ feature 'Tag index for users', advanced: true, js: true do
     end
 
     scenario 'users can see the topic sidebar' do
-      is_expected.to have_css("ul[class*='TagSidebar-root-']")
+      is_expected.to have_css("ul[class*='TagSidebar-tagList-']")
     end
   end
 

@@ -30,8 +30,6 @@ const styles = (theme) => ({
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing(9)
         }
-    },
-    expandButton: {
     }
 });
 

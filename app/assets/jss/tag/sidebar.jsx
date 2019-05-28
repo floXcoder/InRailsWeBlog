@@ -4,6 +4,7 @@ const styles = (theme) => ({
     cloudList: {
         display: 'flex',
         flexWrap: 'wrap',
+        paddingBottom: 80,
         [theme.breakpoints.down('md')]: {
             margin: '.4rem .6rem'
         }
@@ -15,7 +16,7 @@ const styles = (theme) => ({
         borderBottom: `1px solid ${theme.palette.grey[200]}`,
     },
     cloudTag: {
-        margin: theme.spacing(1) / 2,
+        margin: theme.spacing(0.5),
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,
@@ -25,7 +26,7 @@ const styles = (theme) => ({
     },
     tagList: {
         position: 'relative',
-        padding: 0,
+        padding: '0 0 80px',
         whiteSpace: 'nowrap'
     },
     labelsLink: {

@@ -24,7 +24,7 @@ const styles = (theme) => ({
         marginRight: theme.spacing(1),
     },
     close: {
-        padding: theme.spacing(1) / 2,
+        padding: theme.spacing(0.5),
     },
     message: {
         display: 'flex',

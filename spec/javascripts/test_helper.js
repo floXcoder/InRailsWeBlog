@@ -14,8 +14,8 @@ global.classNames = require('classnames');
 // Polyfill promise
 require('es6-promise').polyfill();
 
-// jQuery Rails (require is required to find jQuery)
-require('jquery-ujs');
+// jQuery
+require('jquery');
 
 // Expose global variables
 import * as utils from '../../app/assets/javascripts/modules/utils';

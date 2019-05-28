@@ -6,7 +6,10 @@ const styles = (theme) => ({
         minWidth: 220
     },
     title: {
-        margin: 5
+        margin: 5,
+        [theme.breakpoints.down('md')]: {
+            display: 'none'
+        }
     },
     link: {
         fontSize: '.9rem',

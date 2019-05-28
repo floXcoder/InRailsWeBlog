@@ -2,7 +2,7 @@
 
 const styles = (theme) => ({
     tagChip: {
-        margin: theme.spacing(1) / 2,
+        margin: theme.spacing(0.5),
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,
@@ -12,7 +12,7 @@ const styles = (theme) => ({
     },
     tagLabel: {
         fontSize: '.9rem',
-        margin: theme.spacing(1) / 3
+        margin: theme.spacing(0.3)
     },
     parent: {
         margin: theme.spacing(1)

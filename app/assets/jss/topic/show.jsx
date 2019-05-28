@@ -43,7 +43,7 @@ const styles = (theme) => ({
         marginLeft: theme.spacing(1)
     },
     topicTag: {
-        margin: theme.spacing(1) / 2,
+        margin: theme.spacing(0.5),
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,

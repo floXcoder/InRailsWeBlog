@@ -10,7 +10,7 @@ module Api::V1
       user = User.find(params[:user_id])
       admin_or_authorize user, :bookmarks?
 
-      bookmarks = user.bookmarks.includes(:bookmarked)
+      bookmarks = user.bookmarks.includes(bookmarked: [:user])
 
       bookmarks = bookmarks.where(topic_id: params[:topic_id]) if params[:topic_id].present?
 

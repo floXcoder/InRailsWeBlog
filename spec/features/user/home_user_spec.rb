@@ -54,8 +54,8 @@ feature 'Home User page for users', advanced: true, js: true do
     end
 
     scenario 'users can see the sidebar' do
-      is_expected.to have_css("div[class*='TagSidebar-list-']")
-      is_expected.to have_css("a[class*='TagSidebar-tagList-']", count: 2)
+      is_expected.to have_css("div[class*='TagSidebar-cloudList-']")
+      is_expected.to have_css("a[class*='TagSidebar-cloudTag-']", count: 2)
     end
   end
 

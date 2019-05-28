@@ -45,7 +45,7 @@ feature 'Tag edit for users', advanced: true, js: true do
     end
 
     scenario 'users can see the topic sidebar' do
-      is_expected.to have_css("div[class*='TagSidebar-list-']")
+      is_expected.to have_css("div[class*='TagSidebar-cloudList-']")
     end
   end
 

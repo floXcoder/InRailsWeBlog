@@ -42,7 +42,7 @@ class TopicSerializer < ActiveModel::Serializer
   belongs_to :user, if: -> { instance_options[:complete] }, serializer: UserSampleSerializer
 
   has_many :tags, if: -> { instance_options[:complete] }, serializer: TagSerializer do
-    Tag.includes(:parents, :children).for_topic_id(object.id).order('tags.priority', 'tags.name')
+    Tag.includes(:parents, :children, :tagged_articles, :child_relationships).for_topic_id(object.id).order('tags.priority', 'tags.name')
   end
 
   has_many :contributors, serializer: UserStrictSerializer

@@ -89,6 +89,7 @@ class TagSidebar extends React.Component {
         } else if (this.props.isCloud) {
             return (
                 <TagSidebarCloud classes={this.props.classes}
+                                 currentUserSlug={this.props.currentUserSlug}
                                  currentTagSlug={this.props.currentTagSlug}
                                  currentUserTopics={this.props.currentUserTopics}
                                  tags={this.props.tags}

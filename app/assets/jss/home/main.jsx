@@ -8,8 +8,8 @@ import {
 const styles = (theme) => ({
     layout: {
         width: 'auto',
-        marginLeft: theme.spacing(1) / 2,
-        marginRight: theme.spacing(1) / 2,
+        marginLeft: theme.spacing(0.5),
+        marginRight: theme.spacing(0.5),
         [theme.breakpoints.up(mainWidth + theme.spacing(6))]: {
             width: mainWidth,
             marginLeft: 'auto',

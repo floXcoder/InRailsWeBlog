@@ -54,7 +54,7 @@ const styles = (theme) => ({
         width: '30vw'
     },
     selectedTagsChip: {
-        margin: `${theme.spacing(1) / 2}px ${theme.spacing(1) / 2}px`,
+        margin: `${theme.spacing(0.5)}px ${theme.spacing(0.5)}px`,
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,
