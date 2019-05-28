@@ -39,7 +39,7 @@ const styles = (theme) => ({
         fontSize: '2rem'
     },
     inputTag: {
-        margin: `${theme.spacing(1) / 2}px ${theme.spacing(1) / 2}px`,
+        margin: `${theme.spacing(0.5)}px ${theme.spacing(0.5)}px`,
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,
@@ -108,7 +108,7 @@ const styles = (theme) => ({
         marginBottom: 0
     },
     articleTag: {
-        margin: theme.spacing(1) / 2,
+        margin: theme.spacing(0.5),
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,

@@ -9,6 +9,7 @@ import Chip from '@material-ui/core/Chip';
 export default class TagSidebarCloud extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
+        currentUserSlug: PropTypes.string.isRequired,
         currentUserTopics: PropTypes.array.isRequired,
         tags: PropTypes.array.isRequired,
         onTagClick: PropTypes.func.isRequired,
@@ -39,7 +40,7 @@ export default class TagSidebarCloud extends React.Component {
                                           color="primary"
                                           variant="outlined"
                                           component={Link}
-                                          to={`/tagged/${tag.slug}`}
+                                          to={`/users/${this.props.currentUserSlug}/topics/${topic.slug}/tagged/${tag.slug}`}
                                           onClick={this.props.onTagClick.bind(this, tag.id, tag.name, tag.slug)}/>
                                 ))
                             }

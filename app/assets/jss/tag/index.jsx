@@ -43,7 +43,7 @@ const styles = (theme) => ({
     },
     tagButton: {
         color: theme.palette.text.primary,
-        margin: theme.spacing(1) / 2,
+        margin: theme.spacing(0.5),
     },
     actions: {
         display: 'flex'

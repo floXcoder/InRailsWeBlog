@@ -7,7 +7,7 @@ const styles = (theme) => ({
     },
     button: {
         margin: theme.spacing(1),
-        padding: theme.spacing(1) / 4,
+        padding: theme.spacing(0.25),
         fontSize: '.6rem',
         color: theme.palette.primary.main
     },

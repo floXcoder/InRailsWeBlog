@@ -61,6 +61,6 @@ class TagSerializer < ActiveModel::Serializer
   end
 
   def topic_ids
-    object.topic_ids&.uniq
+    object.tagged_articles.map(&:topic_id).uniq
   end
 end

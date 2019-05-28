@@ -9,7 +9,10 @@ import {
 } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import {
     getBookmarks
@@ -43,13 +46,18 @@ class BookmarkList extends React.Component {
                 {
                     this.props.bookmarks.length > 0
                         ?
-                        <List component="div">
+                        <List component="div"
+                              dense={true}>
                             {
                                 this.props.bookmarks.map((bookmark, i) => (
                                     <React.Fragment key={i}>
                                         <ListItem button={true}
                                                   component={Link}
                                                   to={`/users/${bookmark.parentSlug}/articles/${bookmark.slug}`}>
+                                            <ListItemIcon>
+                                                <AssignmentIcon/>
+                                            </ListItemIcon>
+
                                             <ListItemText classes={{
                                                 primary: this.props.classes.link
                                             }}>
