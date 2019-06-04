@@ -75,7 +75,7 @@ gem 'carrierwave-imageoptimizer', '1.4.0'
 gem 'mini_magick',              '4.9.3'
 
 # Search in database
-gem 'searchkick',               '4.0.0'
+gem 'searchkick',               '4.0.1'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
@@ -158,12 +158,12 @@ group :test do
   gem 'shoulda-matchers',       '4.0.1',    require: false
   gem 'shoulda-callback-matchers', '1.1.4', require: false
   gem 'simplecov',              '0.16.1',   require: false
-  gem 'fuubar',                 '2.3.2'
+  gem 'fuubar',                 '2.4.0'
   gem 'database_cleaner',       '1.7.0'
   gem 'db-query-matchers',      '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.21.0'
+  gem 'capybara',               '3.22.0'
   gem 'capybara-email',         '3.0.1'
   gem 'capybara-screenshot',    '1.0.22'
   gem 'selenium-webdriver',     '3.141.0'
@@ -182,7 +182,7 @@ group :development, :test do
   gem 'bootsnap',               '1.4.4',   require: false
 
   # Check errors
-  gem 'rubocop',                '0.70.0',  require: false
+  gem 'rubocop',                '0.71.0',  require: false
   gem 'rubocop-rspec',          '1.33.0',  require: false
   gem 'rubocop-performance',    '1.3.0',   require: false
 end
@@ -195,7 +195,7 @@ group :production do
   gem 'lograge',          '0.11.1'
 
   # Website analysis
-  gem 'newrelic_rpm',     '6.3.0.355'
+  gem 'newrelic_rpm',     '6.4.0.356'
 
   # Prerender html pages for SEO
   gem 'seo_cache',        '0.5.0'

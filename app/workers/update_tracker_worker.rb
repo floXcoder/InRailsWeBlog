@@ -27,7 +27,7 @@ class UpdateTrackerWorker
 
             # Warning: Increment do not trigger callbacks
             element.tracker.increment!("#{metric}_count", element_value.to_i)
-            element.tracker.update_column(:popularity, compute_popularity)
+            element.tracker.update_column(:popularity, element.compute_popularity)
           end
 
           $redis.del(tracked_element)
