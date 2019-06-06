@@ -35,9 +35,7 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
 
         scope.setUser({
             id: window.currentUserId,
-            username: window.currentUserSlug,
-            topic_id: window.currentTopicId,
-            topic_slug: window.currentTopicSlug
+            username: window.currentUserSlug
         });
 
         scope.setTag('locale', window.locale);

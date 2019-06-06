@@ -91,9 +91,9 @@ export default function uiReducer(state = new initState(), action) {
                 return state.merge(Utils.compact({
                     articlesLoaderMode: action.settings.articlesLoader,
                     articleDisplayMode: action.settings.articleDisplay,
-                    articleOrderMode: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleOrder === 'string' ? !action.user.currentTopic.settings.articleOrder : action.user.settings.articleOrder,
-                    tagOrderMode: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagOrder === 'string' ? !action.user.currentTopic.settings.tagOrder : action.user && action.user.settings.tagOrder,
-                    isTagSidebarOpen: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagSidebarPin === 'boolean' ? !action.user.currentTopic.settings.tagSidebarPin : !action.user.settings.tagSidebarPin
+                    articleOrderMode: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleOrder === 'string' ? !action.user.currentTopic.settings.articleOrder : action.settings.articleOrder,
+                    tagOrderMode: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagOrder === 'string' ? !action.user.currentTopic.settings.tagOrder : action.settings.tagOrder,
+                    isTagSidebarOpen: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagSidebarPin === 'boolean' ? !action.user.currentTopic.settings.tagSidebarPin : !action.settings.tagSidebarPin
                 }));
             } else if (action.settings && action.meta && action.meta.topic) {
                 return state.merge(Utils.compact({
