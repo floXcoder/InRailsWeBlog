@@ -1,5 +1,10 @@
 'use strict';
 
+import {
+    withScope as SentryWithScope,
+    captureException as SentryCaptureException
+} from '@sentry/browser';
+
 import * as ActionTypes from '../constants/actionTypes';
 
 import api from '../middlewares/api';
@@ -9,9 +14,10 @@ export const pushError = (error, errorInfo = null) => {
         return;
     }
 
-    if (window.Raven) {
-        Raven.captureException(error, {
-            extra: errorInfo
+    if (window.SENTRY_JAVASCRIPT_KEY) {
+        SentryWithScope((scope) => {
+            scope.setExtras(errorInfo);
+            SentryCaptureException(error);
         });
     }
 

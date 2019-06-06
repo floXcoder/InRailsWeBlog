@@ -1,7 +1,8 @@
 'use strict';
 
 // Auto polyfill
-import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 // Polyfill promise
 require('es6-promise').polyfill();
@@ -10,6 +11,38 @@ require('es6-promise').polyfill();
 import 'intersection-observer';
 
 import 'first-input-delay/dist/first-input-delay.min';
+
+import {
+    init as SentryInit,
+    configureScope as SentryConfigureScope,
+    showReportDialog as SentryShowReportDialog,
+} from '@sentry/browser';
+
+if (window.SENTRY_JAVASCRIPT_KEY) {
+    SentryInit({
+        dsn: window.SENTRY_JAVASCRIPT_KEY,
+        beforeSend(event, hint) {
+            // Check if it is an exception, and if so, show the report dialog
+            if (event.exception) {
+                SentryShowReportDialog({eventId: event.event_id});
+            }
+            return event;
+        }
+    });
+
+    SentryConfigureScope((scope) => {
+        scope.setLevel('warning');
+
+        scope.setUser({
+            id: window.currentUserId,
+            username: window.currentUserSlug,
+            topic_id: window.currentTopicId,
+            topic_slug: window.currentTopicSlug
+        });
+
+        scope.setTag('locale', window.locale);
+    });
+}
 
 // Expose global variables
 import * as utils from './modules/utils';
@@ -55,8 +88,8 @@ log.table = data => {
     console.table(data);
 };
 
-perfMetrics.onFirstInputDelay(function (delay, event) {
-    if (window._paq) {
+if (window._paq) {
+    perfMetrics.onFirstInputDelay(function (delay, event) {
         window._paq.push(['trackEvent', 'First Input Delay', event.type, Math.round(delay)]);
-    }
-});
+    });
+}

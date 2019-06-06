@@ -1,6 +1,8 @@
 'use strict';
 
-import {Link} from 'react-router-dom';
+import {
+    Link
+} from 'react-router-dom';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -17,6 +19,7 @@ export default class HeaderUserMenu extends React.Component {
         classes: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         onPreferenceClick: PropTypes.func.isRequired,
+        onLogoutClick: PropTypes.func.isRequired,
         isNested: PropTypes.bool,
         isAdminConnected: PropTypes.bool
     };
@@ -74,9 +77,7 @@ export default class HeaderUserMenu extends React.Component {
                 </ListItem>
 
                 <ListItem button={true}
-                          component="a"
-                          href="/api/v1/logout"
-                          data-method="delete"
+                          onClick={this.props.onLogoutClick}
                           rel="nofollow">
                     <ListItemIcon>
                         <CancelIcon/>

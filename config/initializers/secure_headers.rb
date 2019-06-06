@@ -1,21 +1,40 @@
 # frozen_string_literal: true
 
-SecureHeaders::Configuration.default do |config|
-  config.csp = {
-    preserve_schemes: true,
-    base_uri:         ["'self'"],
-    default_src:      ['localhost:8080', "'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], 'www.youtube.com', 'vimeo.com', 'vine.com', 'www.instagram.com', 'www.dailymotion.com', 'v.youku.com'],
-    connect_src:      ['localhost:8080', "'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], ENV['SENTRY_ADDRESS']],
-    worker_src:       ["'self'"],
-    script_src:       ['localhost:8080', "'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_RAVEN_ADDRESS'], ENV['NEWRELIC_ADDRESS'], ENV['NEWRELIC_SECOND_ADDRESS']],
-    img_src:          ['*', 'data:'],
-    font_src:         ['localhost:8080', "'self'", 'data:', ENV['WEBSITE_ASSET']],
-    media_src:        ['localhost:8080', "'self'", ENV['WEBSITE_ASSET']],
-    object_src:       ['localhost:8080', "'self'", ENV['WEBSITE_ASSET']],
-    style_src:        ['localhost:8080', "'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET']],
-    form_action:      ["'self'"],
-    report_uri:       [ENV['SENTRY_REPORT_URI']]
-  }
+if Rails.env.development?
+  SecureHeaders::Configuration.default do |config|
+    config.csp = {
+      preserve_schemes: true,
+      base_uri:         ["'self'"],
+      default_src:      ['localhost:8080', "'self'", 'ws:', 'wss:', 'www.youtube.com', 'vimeo.com', 'vine.com', 'www.instagram.com', 'www.dailymotion.com', 'v.youku.com'],
+      connect_src:      ['localhost:8080', "'self'", 'ws:', 'wss:'],
+      worker_src:       ["'self'"],
+      script_src:       ['localhost:8080', "'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:'],
+      img_src:          ['*', 'data:'],
+      font_src:         ['localhost:8080', "'self'", 'data:'],
+      media_src:        ['localhost:8080', "'self'"],
+      object_src:       ['localhost:8080', "'self'"],
+      style_src:        ['localhost:8080', "'self'", "'unsafe-inline'"],
+      form_action:      ["'self'"]
+    }
+  end
+else
+  SecureHeaders::Configuration.default do |config|
+    config.csp = {
+      preserve_schemes: true,
+      base_uri:         ["'self'"],
+      default_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], 'www.youtube.com', 'vimeo.com', 'vine.com', 'www.instagram.com', 'www.dailymotion.com', 'v.youku.com'].compact,
+      connect_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], ENV['SENTRY_ADDRESS']].compact,
+      worker_src:       ["'self'"],
+      script_src:       ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['NEWRELIC_ADDRESS'], ENV['NEWRELIC_SECOND_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
+      img_src:          ['*', 'data:'],
+      font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET']].compact,
+      media_src:        ["'self'", ENV['WEBSITE_ASSET']].compact,
+      object_src:       ["'self'", ENV['WEBSITE_ASSET']].compact,
+      style_src:        ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET']].compact,
+      form_action:      ["'self'"],
+      report_uri:       [ENV['SENTRY_REPORT_URI']].compact
+    }
 
-  config.x_frame_options = "ALLOW-FROM https://#{ENV['SENTRY_ADDRESS']}"
+    # config.x_frame_options = "ALLOW-FROM https://#{ENV['SENTRY_ADDRESS']}"
+  end
 end

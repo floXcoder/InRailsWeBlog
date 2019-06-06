@@ -2,19 +2,17 @@ javascript:
     window.railsEnv = "#{Rails.env}";
     window.settings = JSON.parse('#{raw InRailsWeBlog.config.to_h.to_json}');
 
-    window.userLatitude = "#{@user_latitude}";
-    window.userLongitutde = "#{@user_longitude}";
-    window.userJustSign = "#{session[:user_just_sign]}";
-
     window.I18n = {};
     window.defaultLocale = "#{I18n.default_locale}";
     window.locale = "#{I18n.locale}";
 
-    window.revision = "#{REVISION}";
+- if Rails.env.production?
+  javascript:
+      window.revision = "#{REVISION}";
 
-    var _paq = _paq || [];
+      window.SENTRY_JAVASCRIPT_KEY = "#{ENV['SENTRY_JAVASCRIPT_KEY']}";
 
-- session[:user_just_sign] = false if session[:user_just_sign]
+      var _paq = _paq || [];
 
 - if current_user
   javascript:
@@ -27,7 +25,5 @@ javascript:
   javascript:
       window.currentAdminId = "#{current_admin.id}";
       window.currentAdminPseudo = "#{current_admin.pseudo}";
-
-= render 'layouts/error_reporting'
 
 = yield(:javascript)
