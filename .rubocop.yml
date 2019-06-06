@@ -3,6 +3,7 @@
 # http://rubocop.readthedocs.io/en/latest
 
 require:
+  - rubocop-rails
   - rubocop-rspec
   - rubocop-performance
 

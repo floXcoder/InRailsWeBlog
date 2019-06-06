@@ -41,6 +41,10 @@ export const validateUser = (login) => (
     }).promise
 );
 
+export const logoutUser = () => (
+    api.delete('/api/v1/logout')
+);
+
 // User mutations
 export const signupUser = (user, options = {}) => ({
     actionType: ActionTypes.USER,

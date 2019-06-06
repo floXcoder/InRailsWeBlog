@@ -63,6 +63,7 @@ module.exports = {
         },
         alias: {
             react: 'node_modules/react',
+            'react-dom': 'node_modules/react-dom',
             jquery: 'node_modules/jquery/dist/jquery',
             lodash: 'node_modules/lodash'
         },

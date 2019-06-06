@@ -16,15 +16,11 @@ import styles from '../../../../jss/user/header';
 export default @withStyles(styles)
 class HomeUserHeader extends React.Component {
     static propTypes = {
-        onPreferenceClick: PropTypes.func,
-        // isAdminConnected: PropTypes.bool,
-        userSlug: PropTypes.string,
+        userSlug: PropTypes.string.isRequired,
+        onLogoutClick: PropTypes.func.isRequired,
+        onPreferenceClick: PropTypes.func.isRequired,
         // from styles
         classes: PropTypes.object
-    };
-
-    static defaultProps = {
-        // isAdminConnected: false
     };
 
     render() {
@@ -41,7 +37,8 @@ class HomeUserHeader extends React.Component {
                       hasArrow={true}>
                 <HeaderUserMenu classes={this.props.classes}
                                 userSlug={this.props.userSlug}
-                                onPreferenceClick={this.props.onPreferenceClick}/>
+                                onPreferenceClick={this.props.onPreferenceClick}
+                                onLogoutClick={this.props.onLogoutClick}/>
             </Dropdown>
         );
     }

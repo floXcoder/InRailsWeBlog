@@ -2,9 +2,8 @@
 
 import '../../../stylesheets/components/selecter.scss';
 
-import Select, {
-    Creatable
-} from 'react-select';
+import Select from 'react-select';
+import Creatable from 'react-select/creatable';
 
 export default class Selecter extends React.Component {
     static propTypes = {

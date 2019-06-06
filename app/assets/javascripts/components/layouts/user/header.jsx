@@ -50,7 +50,8 @@ import {
 
 import {
     showUserPreference,
-    showTopicPopup
+    showTopicPopup,
+    logoutUser
 } from '../../../actions';
 
 import {
@@ -177,6 +178,10 @@ class HeaderLayoutUser extends React.PureComponent {
         this.props.showUserPreference();
     };
 
+    _handleLogoutClick = () => {
+        logoutUser().then(() => window.location = '/');
+    };
+
     _renderDesktopMenu = () => {
         return (
             <div className={this.props.classes.sectionDesktop}>
@@ -191,6 +196,7 @@ class HeaderLayoutUser extends React.PureComponent {
                 <HomeUserHeader isUserConnected={this.props.isUserConnected}
                                 isAdminConnected={this.props.isAdminConnected}
                                 onPreferenceClick={this._handlePreferenceClick}
+                                onLogoutClick={this._handleLogoutClick}
                                 userSlug={this.props.userSlug}/>
             </div>
         );
@@ -272,7 +278,8 @@ class HeaderLayoutUser extends React.PureComponent {
                             <HeaderUserMenu classes={this.props.classes}
                                             isNested={true}
                                             userSlug={this.props.userSlug}
-                                            onPreferenceClick={this._handlePreferenceClick}/>
+                                            onPreferenceClick={this._handlePreferenceClick}
+                                            onLogoutClick={this._handleLogoutClick}/>
                         </Collapse>
                     </List>
 

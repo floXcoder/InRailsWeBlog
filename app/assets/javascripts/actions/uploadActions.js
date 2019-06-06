@@ -21,5 +21,5 @@ export const uploadImages = (images, params) => {
 };
 
 export const deleteImage = (imageId, options = {}) => {
-    return api.delete(`/api/v1/uploads/${imageId}`, {...options});
+    return api.delete(`/api/v1/uploads/${imageId}`, options);
 };

@@ -19,7 +19,7 @@ import * as ActionTypes from '../constants/actionTypes';
 export default function fetchMiddleware({dispatch, getState}) {
     // const initialState = getState();
 
-    return (next) => action => {
+    return (next) => (action) => {
         const {
             actionType,
             fetchAPI,

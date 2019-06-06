@@ -3,8 +3,13 @@
     [
       "@babel/preset-env",
       {
-        "modules": false,
         "forceAllTransforms": true,
+        "useBuiltIns": "entry",
+        "corejs": 3,
+        "modules": false,
+        "exclude": [
+          "transform-typeof-symbol"
+        ],
         "targets": {
           "browsers": [
             "> 1%",
@@ -18,10 +23,17 @@
   "plugins": [
     "lodash",
     "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-export-namespace-from",
     [
       "@babel/plugin-proposal-decorators",
       {
         "legacy": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-object-rest-spread",
+      {
+        "useBuiltIns": true
       }
     ],
     [
@@ -30,7 +42,20 @@
         "loose": true
       }
     ],
-    "@babel/plugin-proposal-export-namespace-from"
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "helpers": false,
+        "regenerator": true,
+        "corejs": false
+      }
+    ],
+    [
+      "@babel/plugin-transform-regenerator",
+      {
+        "async": false
+      }
+    ]
   ],
   "env": {
     "development": {
@@ -48,7 +73,12 @@
       "plugins": [
         "@babel/plugin-transform-react-constant-elements",
         "@babel/plugin-transform-react-inline-elements",
-        "transform-react-remove-prop-types"
+        [
+          "transform-react-remove-prop-types",
+          {
+            "removeImport": true
+          }
+        ]
       ]
     }
   }

@@ -28,7 +28,7 @@ gem 'oj',                       '3.7.12'
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.2.3'
+gem 'i18n-js',                  '3.3.0'
 gem 'geocoder',                 '1.5.1'
 gem 'maxminddb',                '0.1.22'
 
@@ -75,7 +75,7 @@ gem 'carrierwave-imageoptimizer', '1.4.0'
 gem 'mini_magick',              '4.9.3'
 
 # Search in database
-gem 'searchkick',               '4.0.1'
+gem 'searchkick',               '4.0.2'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
@@ -183,6 +183,7 @@ group :development, :test do
 
   # Check errors
   gem 'rubocop',                '0.71.0',  require: false
+  gem 'rubocop-rails',          '2.0.0',   require: false
   gem 'rubocop-rspec',          '1.33.0',  require: false
   gem 'rubocop-performance',    '1.3.0',   require: false
 end

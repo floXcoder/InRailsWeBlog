@@ -70,31 +70,7 @@ class LoginForm extends React.Component {
                   onSubmit={this.props.handleSubmit}>
                 <EnsureValidity/>
 
-                <div className="row connection-externals margin-bottom-0">
-                    <div className="col s12 l6">
-                        <div className="connection-google">
-                            <a className="connection-google-button"
-                               href="/users/auth/google_oauth2">
-                                {I18n.t('js.user.login.externals.google')}
-                            </a>
-                        </div>
-                    </div>
-
-                    <div className="col s12 l6">
-                        <div className="connection-facebook">
-                            <a className="connection-facebook-button"
-                               href="/users/auth/facebook">
-                                {I18n.t('js.user.login.externals.facebook')}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="connection-or-separator hr-around-text">
-                    {I18n.t('js.helpers.or')}
-                </div>
-
-                <Grid classes={{container: this.props.classes.fieldItem}}
+                <Grid classes={{container: this.props.classes.container}}
                       container={true}
                       spacing={2}
                       direction="column"
@@ -148,7 +124,7 @@ class LoginForm extends React.Component {
                     </Grid>
                 </Grid>
 
-                <Grid className="center-align margin-top-15"
+                <Grid className="center-align margin-top-15 margin-bottom-25"
                       container={true}
                       spacing={2}
                       direction="row-reverse"
@@ -170,6 +146,30 @@ class LoginForm extends React.Component {
                         </Button>
                     </Grid>
                 </Grid>
+
+                <div className="connection-or-separator hr-around-text">
+                    {I18n.t('js.helpers.or')}
+                </div>
+
+                <div className="row connection-externals margin-top-20 margin-bottom-5">
+                    <div className="col s12 l6">
+                        <div className="connection-google">
+                            <a className="connection-google-button"
+                               href="/users/auth/google_oauth2">
+                                {I18n.t('js.user.login.externals.google')}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="col s12 l6">
+                        <div className="connection-facebook">
+                            <a className="connection-facebook-button"
+                               href="/users/auth/facebook">
+                                {I18n.t('js.user.login.externals.facebook')}
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </form>
         );
     }
