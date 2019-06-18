@@ -84,6 +84,10 @@ en:
         error_priority_update: "Cannot change topics order"
         successful_deletion: "Topic deleted"
         error_deletion: "Problem during topic deletion: %{errors}"
+    inventory_field:
+      flash:
+        successful_edition: "Custom fields updated. You can ue these fields for your articles."
+        error_edition: "Cannot update the custom fields!"
     article:
       flash:
         not_found: "Article not found"
@@ -197,6 +201,7 @@ en:
       mode:
         default: "Default"
         stories: "Stories"
+        inventories: "Inventory"
   tag:
     enums:
       visibility:
@@ -208,8 +213,9 @@ en:
         everyone: "Public"
         only_me: "Private"
       mode:
-        story: "Story"
         note: "Note"
+        story: "Story"
+        inventory: "Inventory"
         link: "Link"
   share:
     enums:
@@ -276,6 +282,7 @@ en:
           pertinent_tags: "Tags must be the same type than the topic (either public or private)"
           bad_topic_owner: "The topic is not the same than the user"
           prevent_revert_to_draft: "A public article cannot be a draft"
+          required_inventory_field: "%{field} is required"
         article_relationship:
           already_linked: "Both articles are already linked"
         outdated_article:
@@ -304,6 +311,8 @@ en:
           already_selected: "Topic already selected"
           already_exist: "Cannot have two topics with the same name"
           not_owner: "You don't own this topic"
+        inventory_field:
+          already_exist: "A field with the same already exist"
         vote:
           already_voted: "Already voted"
         picture:

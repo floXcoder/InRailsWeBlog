@@ -63,10 +63,10 @@ webPackConfig.module = {
             exclude: config.rules.stylesheet.exclude,
             use: [
                 {
-                    loader: MiniCssExtractPlugin.loader,
+                    loader: MiniCssExtractPlugin.loader
                 },
                 {
-                    loader: 'css-loader', // translates CSS into CommonJS
+                    loader: 'css-loader' // translates CSS into CommonJS
                 },
                 {
                     loader: 'postcss-loader',

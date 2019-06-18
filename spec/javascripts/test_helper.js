@@ -11,9 +11,6 @@ global.PropTypes = require('prop-types');
 global.connect = require('react-redux').connect;
 global.classNames = require('classnames');
 
-// Polyfill promise
-require('es6-promise').polyfill();
-
 // jQuery
 require('jquery');
 

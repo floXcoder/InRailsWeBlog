@@ -53,6 +53,11 @@ export const updateTopic = (userId, topic, options = {}) => ({
     })
 });
 
+export const updateTopicInventories = (topicId, inventoryFields) => ({
+    actionType: ActionTypes.TOPIC,
+    mutationAPI: () => api.post(`/api/v1/topics/${topicId}/inventory_fields`, inventoryFields, true)
+});
+
 export const updateTopicPriority = (userId, topicIdsByPriority) => ({
     actionType: ActionTypes.TOPIC,
     mutationAPI: () => api.update('/api/v1/topics/priority', {

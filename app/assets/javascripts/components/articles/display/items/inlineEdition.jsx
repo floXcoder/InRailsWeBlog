@@ -14,13 +14,13 @@ import {
     updateArticle,
     deleteArticle,
     spyTrackClick
-} from '../../../actions';
+} from '../../../../actions';
 
-import ArticleInlineActions from '../properties/inlineActions';
+import ArticleInlineActions from '../../properties/inlineActions';
 
-import Editor, {EditorMode} from '../../editor/editor';
+import Editor, {EditorMode} from '../../../editor/editor';
 
-import styles from '../../../../jss/article/inline';
+import styles from '../../../../../jss/article/inline';
 
 export default @connect(null, {
     inlineEditArticle,

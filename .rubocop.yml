@@ -22,10 +22,16 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Layout/AlignHash:
+  Enabled: false
+
 Layout/AlignParameters:
   Enabled: false
 
 Layout/CaseIndentation:
+  Enabled: false
+
+Layout/CommentIndentation:
   Enabled: false
 
 Layout/EmptyLinesAroundClassBody:
@@ -35,10 +41,13 @@ Layout/ExtraSpacing:
   Enabled: false
   AllowForAlignment: true
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Enabled: false
 
-Layout/IndentHash:
+Layout/IndentFirstArrayElement:
+  Enabled: false
+
+Layout/IndentFirstHashElement:
   Enabled: false
 
 Layout/LeadingCommentSpace:
@@ -95,22 +104,22 @@ Metrics/PerceivedComplexity:
 Rails/OutputSafety:
   Enabled: false
 
-Rspec/ExampleLength:
-  Max: 15
-
-Rspec/InstanceVariable:
+Rails/SkipsModelValidations:
   Enabled: false
 
-Rspec/MultipleExpectations:
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/MultipleExpectations:
   Max: 10
 
-Rspec/NestedGroups:
+RSpec/NestedGroups:
   Max: 4
 
 Style/AsciiComments:
-  Enabled: false
-
-Style/AlignParameters:
   Enabled: false
 
 Style/ClassAndModuleChildren:
@@ -122,29 +131,10 @@ Style/ColonMethodCall:
 Style/CommandLiteral:
   Enabled: false
 
-Style/ExtraSpacing:
-  Enabled: false
-  AllowForAlignment: true
-
-Style/FirstParameterIndentation:
-  Enabled: false
-
-Style/IndentHash:
-  Enabled: false
-
 Style/Lambda:
   Enabled: false
 
-Style/LeadingCommentSpace:
-  Enabled: false
-
-Style/MultilineBlockLayout:
-  Enabled: false
-
 Style/MultilineIfModifier:
-  Enabled: false
-
-Style/MultilineOperationIndentation:
   Enabled: false
 
 Style/NumericPredicate:
@@ -161,9 +151,6 @@ Style/RegexpLiteral:
   Enabled: false
 
 Style/RescueModifier:
-  Enabled: false
-
-Style/SpaceInLambdaLiteral:
   Enabled: false
 
 Style/SymbolArray:

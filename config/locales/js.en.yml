@@ -13,13 +13,14 @@ en:
           button: "Articles"
           menu:
             temporary: "Article en cours"
-            add_note: "Take a note"
-            add_article: "Write a story"
-            add_link: "Add a link"
             user: "My articles"
             new: "New article"
             bookmark: "Bookmarked articles"
             draft: "Drafts"
+            add:
+              default: "Add an article"
+              stories: "Write a story"
+              inventories: "Add an inventory"
         tags:
           button: "Tags"
         settings:
@@ -42,7 +43,7 @@ en:
       footer:
         title: "In Rails We Blog"
         description: "A blog for developer"
-        copyright: "Copyright 2018 - InRailsWeBlog (%{version}). All rights reserved."
+        copyright: "Copyright 2019 - InRailsWeBlog (%{version}). All rights reserved."
         links:
           title: "Links"
           contact: "Contact us by email"
@@ -262,7 +263,7 @@ en:
         title: "Tag creation"
         submit: "Create"
       edit:
-        title: "Tag edition: %{name}"
+        title: "Tag edition: %{tag}"
         back_button: "Cancel"
         submit: "Update"
       errors:
@@ -278,6 +279,9 @@ en:
         no_description: "No topic description"
         user_topics: "My topic"
         user_current_topic: "Current topic"
+        modes:
+          stories: "List of chronicles to tell a story"
+          inventories: "Set of articles with custom fields"
         placeholders:
           name: "Topic name"
           description: "Topic description"
@@ -293,6 +297,8 @@ en:
         articles_count: "Articles count"
         tags: "Associated tags"
         tags_count: "Tags count"
+        inventory_fields:
+          name: "Field name"
       enums:
         visibility:
           everyone: "Public"
@@ -300,9 +306,11 @@ en:
         mode:
           default: "Default"
           stories: "Stories"
+          inventories: "Inventories"
       show:
+        share: "Share this topic"
         back_button: "Cancel"
-        edit_link: "Edit"
+        edit_link: "Edit this topic"
       new:
         title: "Add a topic"
         name: "Topic name"
@@ -311,13 +319,20 @@ en:
         cancel: "Cancel"
         submit: "Add topic"
       edit:
-        title: "Update topic"
+        title: "Update topic: %{topic}"
         name: "Topic name"
         mode: "Type"
         description: "Topic description"
-        delete: "Delete"
+        update_inventories: "Update custom fields"
         back_button: "Cancel"
         submit: "Update"
+        delete: "Delete"
+      edit_inventories:
+        title: "Custom fields for the topic : %{topic}"
+        mandatory_field: "Mandatory field for search"
+        add_field: "Add new field"
+        field_props: "Field properties"
+        remove_field: "Remove field"
       share:
         title: "Share this theme"
         form:
@@ -336,6 +351,20 @@ en:
           size: "Tag name must be between %{min} and %{max} characters"
         description:
           size: "Tag description must be between %{min} and %{max} characters"
+    inventory_fields:
+      model:
+        name: "Field name"
+        value_type: "Field type"
+        required: "Required field?"
+        searchable: "Include in search?"
+        filterable: "Filter search field?"
+      enums:
+        value_type:
+          string_type: "String"
+          text_type: "Text"
+          number_type: "Number"
+          date_type: "Date"
+          boolean_type: "True/False"
     article:
       common:
         draft: "Draft?"
@@ -357,6 +386,7 @@ en:
           title:
             note: "Article title"
             story: "Article title"
+            inventory: "Inventory title"
           reference:
             note: "URL reference"
             story: "URL reference"
@@ -391,6 +421,11 @@ en:
         validation_error:
           common: "Please correct errors before submitting"
       form:
+        no_inventories: "You have no custom fields yet."
+        inventory_button: "Add or update custom fields"
+        inventories:
+          searchable: "Ce champ est inclus dans la recherche"
+          filterable: "Ce champ est inclus dans la recherche"
         unsaved: "Leave without saving article?"
         next: "Next"
       model:
@@ -405,11 +440,12 @@ en:
         tags: "Tags"
         parent_tags: "Main tags"
         child_tags: "Secondary tags"
+        topic: "Topic"
+        tagged_articles: "Article tags"
+        inventories: "Custom field"
         comment:
           true: "Enabled"
           false: "Disabled"
-        topic: "Topic"
-        tagged_articles: "Article tags"
       enums:
         visibility:
           everyone: "Public"
@@ -537,6 +573,9 @@ en:
       index:
         placeholder: "Search"
         button: "Trouver"
+        topic:
+          current: "Current topic"
+          others: "Other topics"
         results:
           one: "1 result"
           other: "%{count} results"

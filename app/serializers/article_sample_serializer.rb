@@ -6,11 +6,13 @@ class ArticleSampleSerializer < ActiveModel::Serializer
   cache key: 'article_sample', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
+             :topic_id,
              :mode,
              :mode_translated,
              :title,
              :summary,
              :content,
+             :inventories,
              :draft,
              :visibility,
              :current_language,
@@ -40,6 +42,23 @@ class ArticleSampleSerializer < ActiveModel::Serializer
 
   def content
     instance_options.dig(:highlight_results, object.id, :content).presence || object.summary_content
+  end
+
+  def inventories
+    if object.inventory?
+      object.topic.inventory_fields.map do |inventory_field|
+        inventory_value = object.inventories[inventory_field.field_name]
+
+        {
+          fieldName: inventory_field.field_name,
+          name:      inventory_field.name,
+          value:     inventory_value,
+          type:      inventory_field.value_type
+        }
+      end
+    else
+      nil
+    end
   end
 
   def date

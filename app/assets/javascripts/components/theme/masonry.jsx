@@ -8,6 +8,12 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
+import {
+    hasLocalStorage,
+    saveLocalData,
+    getLocalData
+} from '../../middlewares/localStorage';
+
 import MasonryLoader from '../../loaders/masonry';
 
 const transitionDuration = 600;
@@ -53,6 +59,11 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 });
             });
         }
+
+        const localMasonry = getLocalData('masonry');
+        if(localMasonry && localMasonry.columnCount) {
+            this.state.columnCount = localMasonry.columnCount
+        }
     }
 
     state = {
@@ -62,7 +73,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             itemSelector: '.masonry-grid-item',
             percentPosition: true
         },
-        columnPosition: this.props.columnCount,
+        columnCount: this.props.columnCount,
         exposedComponents: {}
     };
 
@@ -81,14 +92,19 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     _handleColumnChange = (value, event) => {
         event.preventDefault();
 
-        let newValue = this.state.columnPosition + value;
-        if (newValue > 5) {
-            newValue = 5;
-        } else if (newValue < 1) {
-            newValue = 1;
+        let nbColumns = this.state.columnCount + value;
+        if (nbColumns > 5) {
+            nbColumns = 5;
+        } else if (nbColumns < 1) {
+            nbColumns = 1;
         }
+
+        if (hasLocalStorage) {
+            saveLocalData('masonry', {columnCount: nbColumns});
+        }
+
         this.setState({
-            columnPosition: newValue
+            columnCount: nbColumns
         });
     };
 
@@ -122,7 +138,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 'col s12',
                 {
                     'l4': !this.props.columnCount,
-                    [`m${columns[this.state.columnPosition]}`]: this.props.columnCount
+                    [`m${columns[this.state.columnCount]}`]: this.props.columnCount
                 },
                 'masonry-grid-item',
                 {
@@ -163,19 +179,19 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 {
                     this.props.hasColumnButtons &&
                     <div className="masonry-buttons">
-                        <Tooltip title={I18n.t('js.article.masonry.remove_column')}>
-                            <IconButton aria-label="Delete"
-                                        className="masonry-button"
-                                        onClick={this._handleColumnChange.bind(this, -1)}>
-                                <RemoveIcon/>
-                            </IconButton>
-                        </Tooltip>
-
                         <Tooltip title={I18n.t('js.article.masonry.add_column')}>
                             <IconButton aria-label="Delete"
                                         className="masonry-button"
                                         onClick={this._handleColumnChange.bind(this, 1)}>
                                 <AddIcon/>
+                            </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title={I18n.t('js.article.masonry.remove_column')}>
+                            <IconButton aria-label="Delete"
+                                        className="masonry-button"
+                                        onClick={this._handleColumnChange.bind(this, -1)}>
+                                <RemoveIcon/>
                             </IconButton>
                         </Tooltip>
                     </div>

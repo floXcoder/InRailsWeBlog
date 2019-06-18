@@ -14,14 +14,14 @@ import Grid from '@material-ui/core/Grid';
 import {
     spyTrackClick,
     spyTrackView
-} from '../../../actions';
+} from '../../../../actions';
 
-import highlight from '../../modules/highlight';
+import highlight from '../../../modules/highlight';
 
-import ArticleTags from '../properties/tags';
-import ArticleAvatarIcon from '../icons/avatar';
+import ArticleTags from '../../properties/tags';
+import ArticleAvatarIcon from '../../icons/avatar';
 
-import styles from '../../../../jss/article/summary';
+import styles from '../../../../../jss/article/summary';
 
 export default @highlight()
 @withStyles(styles)
@@ -63,7 +63,7 @@ class ArticleSummaryDisplay extends React.Component {
                 this.props.onEnter(this.props.article);
             }
         } else {
-            if (this.props.onExit) {
+            if (this.props.onExit && document.documentElement.scrollTop !== 0) {
                 this.props.onExit(this.props.article);
             }
         }
@@ -109,8 +109,8 @@ class ArticleSummaryDisplay extends React.Component {
                         </Link>
                     </div>
 
-                    <div className={this.props.classes.content}>
-                        <div className="normalized-content"
+                    <div className={this.props.classes.summaryContent}>
+                        <div className="normalized-content normalized-content-extract"
                              dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                     </div>
 

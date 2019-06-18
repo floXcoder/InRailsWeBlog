@@ -62,14 +62,14 @@ import NotFound from '../layouts/notFound';
 
 import SummaryStoriesTopic from '../topics/stories/summary';
 
-import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleAvatarIcon from './icons/avatar';
 import ArticleEditIcon from './icons/edit';
 import ArticleTags from './properties/tags';
 import ArticleFloatingIcons from './properties/floatingIcons';
 import ArticleActions from './properties/actions';
-
-import ArticleMiniCardDisplay from './display/miniCard';
+import ArticleBreadcrumbDisplay from './display/breadcrumb';
+import ArticleInventoryDisplay from './display/items/inventory';
+import ArticleMiniCardDisplay from './display/items/miniCard';
 
 import styles from '../../../jss/article/show';
 
@@ -328,8 +328,14 @@ class ArticleShow extends React.Component {
                                     {this.props.article.title}
                                 </Typography>
 
-                                <div className={classNames('normalized-content', this.props.classes.content)}
-                                     dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                {
+                                    this.props.article.mode === 'inventory'
+                                    ?
+                                        <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
+                                        :
+                                        <div className={classNames('normalized-content')}
+                                             dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                }
 
                                 {
                                     this.props.article.reference &&

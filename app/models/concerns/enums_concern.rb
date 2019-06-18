@@ -5,13 +5,13 @@ module EnumsConcern
 
   VISIBILITY = [:everyone, :only_me].freeze
 
-  TOPIC_MODE = [:default, :stories].freeze
+  TOPIC_MODE = [:default, :stories, :inventories].freeze
 
-  ARTICLE_MODE = [:note, :story, :link].freeze
+  ARTICLE_MODE = [:note, :story, :inventory, :link].freeze
 
   SHARE_MODE = [:link, :with_user, :with_group].freeze
 
-  SETTING_VALUE_TYPE = [:string_type, :integer_type, :boolean_type, :array_type, :hash_type].freeze
+  VALUE_TYPE = [:string_type, :text_type, :number_type, :integer_type, :float_type, :boolean_type, :date_type, :array_type, :hash_type].freeze
 
   included do
     def self.enums_to_tr(klass, enums)

@@ -18,11 +18,11 @@ import LabelIcon from '@material-ui/icons/Label';
 
 import {
     spyTrackClick
-} from '../../../actions';
+} from '../../../../actions';
 
-import highlight from '../../modules/highlight';
+import highlight from '../../../modules/highlight';
 
-import styles from '../../../../jss/article/miniCard';
+import styles from '../../../../../jss/article/miniCard';
 
 export default @highlight()
 @withStyles(styles)
@@ -44,17 +44,16 @@ class ArticleMiniCardDisplay extends React.Component {
 
     render() {
         return (
-            <Card key={this.props.article.id}
-                  className={this.props.classes.card}
+            <Card className={this.props.classes.card}
                   component="article">
                 <CardHeader classes={{
                     root: this.props.classes.header,
-                    subheader: this.props.classes.articleSubtitle,
+                    subheader: this.props.classes.articleSubtitle
                 }}
                             title={
                                 <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
                                       onClick={spyTrackClick.bind(null, 'tag', this.props.article.id, this.props.article.slug, this.props.article.title)}>
-                                    <h1 className={this.props.classes.title}>
+                                    <h1 className={this.props.classes.extractTitle}>
                                         {this.props.article.title}
                                     </h1>
                                 </Link>

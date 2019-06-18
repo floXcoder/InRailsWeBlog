@@ -61,6 +61,7 @@ export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
     currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicMode: state.topicState.currentTopic && state.topicState.currentTopic.mode,
     searchDisplay: state.userState.user && state.userState.user.settings.searchDisplay,
     query: state.searchState.query,
     selectedTags: getSelectedTags(state),
@@ -91,6 +92,7 @@ class SearchIndex extends React.Component {
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
         currentUserTopicId: PropTypes.number,
+        currentUserTopicMode: PropTypes.string,
         searchDisplay: PropTypes.string,
         query: PropTypes.string,
         selectedTags: PropTypes.array,
@@ -121,7 +123,8 @@ class SearchIndex extends React.Component {
     }
 
     state = {
-        highlightedTagId: null
+        highlightedTagId: null,
+        forceDisplay: undefined
     };
 
     componentDidMount() {
@@ -234,10 +237,6 @@ class SearchIndex extends React.Component {
         this._performSearch(this.props.query);
     };
 
-    _handleSettingsClick = () => {
-        this.props.showUserPreference();
-    };
-
     _handleOrderChange = (order) => {
         let orders = {};
 
@@ -256,6 +255,10 @@ class SearchIndex extends React.Component {
                 searchDisplay: display
             });
         }
+
+        this.setState({
+            forceDisplay: display
+        });
     };
 
     _performSearch = (query) => {
@@ -281,6 +284,8 @@ class SearchIndex extends React.Component {
         const hasNoResults = (this.props.query && this.props.query.length > 0) && !this.props.hasResults;
 
         const isDesktop = window.innerWidth > 1024;
+
+        const searchDisplay = this.state.forceDisplay || (this.props.currentUserTopicMode === 'inventories' ? 'grid' : this.props.searchDisplay);
 
         return (
             <div className={this.props.classes.root}>
@@ -376,10 +381,11 @@ class SearchIndex extends React.Component {
                 {
                     this.props.articles.length > 0 &&
                     <SearchArticleIndex classes={this.props.classes}
+                                        currentUserTopicId={this.props.currentUserTopicId}
                                         selectedTagIds={this.props.selectedTags.map((tag) => tag.id)}
                                         articles={this.props.articles}
-                                        searchDisplay={this.props.searchDisplay}
-                                        onSettingsClick={this._handleSettingsClick}
+                                        searchDisplay={searchDisplay}
+                                        onSettingsClick={this.props.showUserPreference}
                                         onOrderChange={this._handleOrderChange}
                                         onDisplayChange={this._handleDisplayChange}/>
                 }

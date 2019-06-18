@@ -27,27 +27,28 @@ module Searches
       if search_type('article', @params[:selected_types])
         article_search = Articles::SearchService.new(
           @query,
-          defer:        true,
-          format:       results_format,
-          current_user: current_user,
-          page:         @params[:article_page] || @params[:page],
-          per_page:     @params[:article_per_page] || @params[:per_page] || InRailsWeBlog.config.search_per_page,
-          highlight:    @current_user ? @current_user.search_highlight : true,
-          exact:        @current_user ? @current_user.search_exact : nil,
-          operator:     @current_user ? @current_user.search_operator : nil,
-          order:        @params[:order],
-          where:        {
-                          mode:      @params[:mode],
-                          draft:     @params[:draft],
-                          languages: @params[:language],
-                          notation:  @params[:notation],
-                          accepted:  @params[:accepted],
-                          home_page: @params[:home_page],
-                          user_id:   @params[:user_id].presence || @current_user&.id,
-                          tag_ids:   @params[:tag_ids].presence,
-                          tag_slugs: @params[:tags].presence
-                        }.merge(visibility).compact,
-          boost_where:  { topic_id: @params[:topic_id] || @current_user&.current_topic_id }
+          defer:         true,
+          format:        results_format,
+          current_user:  current_user,
+          current_topic: current_user&.current_topic,
+          page:          @params[:article_page] || @params[:page],
+          per_page:      @params[:article_per_page] || @params[:per_page] || InRailsWeBlog.config.search_per_page,
+          highlight:     @current_user ? @current_user.search_highlight : true,
+          exact:         @current_user ? @current_user.search_exact : nil,
+          operator:      @current_user ? @current_user.search_operator : nil,
+          order:         @params[:order],
+          where:         {
+                           mode:      @params[:mode],
+                           draft:     @params[:draft],
+                           languages: @params[:language],
+                           notation:  @params[:notation],
+                           accepted:  @params[:accepted],
+                           home_page: @params[:home_page],
+                           user_id:   @params[:user_id].presence || @current_user&.id,
+                           tag_ids:   @params[:tag_ids].presence,
+                           tag_slugs: @params[:tags].presence
+                         }.merge(@params[:filters] || {}).merge(visibility).compact,
+          boost_where:   { topic_id: @params[:topic_id] || @current_user&.current_topic_id }
         )
       end
 

@@ -107,15 +107,17 @@ class ArticleNew extends React.Component {
                 <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&
-                        <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                        <ArticleBreadcrumbDisplay isForm={true}
+                                                  user={this.props.currentUser}
                                                   topic={this.props.currentTopic}/>
                     }
                 </div>
 
                 <ArticleFormDisplay form={this.props.formId}
+                                    initialValues={initialValues}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}
-                                    initialValues={initialValues}
+                                    currentTopic={this.props.currentTopic}
                                     currentMode={this.props.currentMode}
                                     errorStep={errorStep}
                                     isDraft={this.props.isDraft}

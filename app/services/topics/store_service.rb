@@ -37,6 +37,11 @@ module Topics
 
       @topic.assign_attributes(@params)
 
+      # Adapt topic settings according to mode
+      if @topic.inventories?
+        @topic.article_display = 'grid'
+      end
+
       new_record = @topic.new_record?
       if @topic.save
         message = new_record ? I18n.t('views.topic.flash.successful_creation') : I18n.t('views.topic.flash.successful_edition')

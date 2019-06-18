@@ -1,5 +1,6 @@
 'use strict';
 
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
@@ -74,7 +75,8 @@ export default class PersistenceFormTopic extends React.Component {
         return (
             <form id="topic-persistence"
                   onSubmit={this._handleTopicSubmit}>
-                <TextField className={this.props.classes.input}
+                <TextField className={this.props.classes.topicField}
+                           variant="outlined"
                            fullWidth={true}
                            autoFocus={true}
                            label={this.props.isEditing
@@ -82,19 +84,18 @@ export default class PersistenceFormTopic extends React.Component {
                                I18n.t('js.topic.edit.name')
                                :
                                I18n.t('js.topic.new.name')}
-                           variant="outlined"
                            value={this.state.name}
                            onChange={this._handleNameChange}/>
 
                 {
                     !this.props.topic.id &&
-                    <TextField select={true}
-                               className={this.props.classes.input}
+                    <TextField className={this.props.classes.topicField}
+                               select={true}
+                               variant="outlined"
                                fullWidth={true}
                                label={I18n.t('js.topic.model.mode')}
                                value={this.state.mode}
-                               onChange={this._handleModeChange}
-                               variant="outlined">
+                               onChange={this._handleModeChange}>
                         {
                             Object.keys(I18n.t('js.topic.enums.mode')).map((key) => (
                                 <MenuItem key={key}
@@ -107,8 +108,17 @@ export default class PersistenceFormTopic extends React.Component {
                 }
 
                 {
+                    this.state.mode !== 'default' &&
+                    <Typography className={this.props.classes.topicModeHelper}
+                                variant="subtitle2"
+                                gutterBottom={true}>
+                        {I18n.t(`js.topic.common.modes.${this.state.mode}`)}
+                    </Typography>
+                }
+
+                {
                     this.state.mode === 'stories' &&
-                    <TextField className={this.props.classes.input}
+                    <TextField className={this.props.classes.topicField}
                                fullWidth={true}
                                multiline={true}
                                label={this.props.isEditing
@@ -121,13 +131,13 @@ export default class PersistenceFormTopic extends React.Component {
                                onChange={this._handleDescriptionChange}/>
                 }
 
-                <TextField select={true}
-                           className={this.props.classes.input}
+                <TextField className={this.props.classes.topicField}
+                           select={true}
+                           variant="outlined"
                            fullWidth={true}
                            label={I18n.t('js.topic.model.visibility')}
                            value={this.state.visibility}
-                           onChange={this._handleVisibilityChange}
-                           variant="outlined">
+                           onChange={this._handleVisibilityChange}>
                     {
                         Object.keys(I18n.t('js.topic.enums.visibility')).map((key) => (
                             <MenuItem key={key}

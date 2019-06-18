@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Fragment
+} from 'react';
+
+import {
     Link
 } from 'react-router-dom';
 
@@ -50,7 +54,7 @@ class BookmarkList extends React.Component {
                               dense={true}>
                             {
                                 this.props.bookmarks.map((bookmark, i) => (
-                                    <React.Fragment key={i}>
+                                    <Fragment key={i}>
                                         <ListItem button={true}
                                                   component={Link}
                                                   to={`/users/${bookmark.parentSlug}/articles/${bookmark.slug}`}>
@@ -64,7 +68,7 @@ class BookmarkList extends React.Component {
                                                 {bookmark.name || bookmark.slug}
                                             </ListItemText>
                                         </ListItem>
-                                    </React.Fragment>
+                                    </Fragment>
                                 ))
                             }
                         </List>

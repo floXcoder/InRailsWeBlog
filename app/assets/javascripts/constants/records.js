@@ -77,6 +77,7 @@ export class TopicRecord extends Record({
     viewsCount: undefined,
     clicksCount: undefined,
     searchesCount: undefined,
+    inventoryFields: List(),
     user: new UserRecord(),
     settings: new SettingsRecord(),
     tags: List(),
@@ -136,6 +137,7 @@ export class ArticleRecord extends Record({
     content: undefined,
     highlightContent: undefined,
     reference: undefined,
+    inventories: Map(),
     date: undefined,
     dateShort: undefined,
     allowComment: undefined,
@@ -169,20 +171,6 @@ export class ArticleRecord extends Record({
             ...props,
             user: new UserRecord(user),
             tags: List(tags).map((tag) => new TagRecord(tag))
-        })
-    }
-}
-
-export class HistoryRecord extends Record({
-    id: undefined,
-    changedAt: undefined,
-    article: undefined,
-    changeset: undefined
-}) {
-    constructor({article, ...props} = {}) {
-        super({
-            ...props,
-            article: new ArticleRecord(article)
         })
     }
 }

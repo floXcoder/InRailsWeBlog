@@ -10,9 +10,9 @@ import {
 
 import EditorField from '../../../editor/form/editor';
 
-import TextFieldForm from '../../../material-ui/form/text';
+import TextFormField from '../../../material-ui/form/text';
 
-import styles from '../../../../../jss/article/form/common';
+import styles from '../../../../../jss/article/form/shared';
 
 export default @withStyles(styles)
 class ArticleCommonField extends React.Component {
@@ -27,7 +27,7 @@ class ArticleCommonField extends React.Component {
     };
 
     static defaultProps = {
-        article: {},
+        article: {}
     };
 
     constructor(props) {
@@ -67,7 +67,7 @@ class ArticleCommonField extends React.Component {
 
     render() {
         return (
-            <div className={classNames(this.props.classes.root, 'row')}>
+            <div className={classNames('row', this.props.classes.root)}>
                 {
                     this.props.currentMode === 'link'
                         ?
@@ -77,18 +77,18 @@ class ArticleCommonField extends React.Component {
                             </div>
 
                             <Field name="reference"
+                                   component={TextFormField}
                                    id="article_reference"
                                    icon="link"
                                    label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
                                    characterCount={window.settings.article_title_max_length}
-                                   onBlur={this._handleTitleBlur}
-                                   component={TextFieldForm}/>
+                                   onBlur={this._handleTitleBlur}/>
                         </div>
                         :
                         <div className="col s12">
                             <Field name="title"
-                                   component={TextFieldForm}
-                                   className={this.props.classes.title}
+                                   component={TextFormField}
+                                   className={this.props.classes.titleField}
                                    id="article_title"
                                    label={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
                                    autoFocus={true}
@@ -101,6 +101,7 @@ class ArticleCommonField extends React.Component {
 
                 <div className="col s12">
                     <Field name="content"
+                           component={EditorField}
                            id="article_content"
                            modelName="article"
                            modelId={this.props.article.id}
@@ -108,9 +109,7 @@ class ArticleCommonField extends React.Component {
                            placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
                            onLoaded={this._handleEditorLoaded}
                            onImageUpload={this._handleImageUploaded}
-                           onSubmit={this.props.onSubmit}
-                           component={EditorField}
-                           componentContent={this.props.article.content}/>
+                           onSubmit={this.props.onSubmit}/>
                 </div>
             </div>
         );

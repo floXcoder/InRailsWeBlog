@@ -25,7 +25,7 @@
 #
 
 class TopicSerializer < ActiveModel::Serializer
-  # cache key: 'topic', expires_in: InRailsWeBlog.config.cache_time
+  cache key: 'topic', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :user_id,
@@ -40,6 +40,8 @@ class TopicSerializer < ActiveModel::Serializer
              :articles_count
 
   belongs_to :user, if: -> { instance_options[:complete] }, serializer: UserSampleSerializer
+
+  has_many :inventory_fields, serializer: Topic::InventoryFieldSerializer
 
   has_many :tags, if: -> { instance_options[:complete] }, serializer: TagSerializer do
     Tag.includes(:parents, :children, :tagged_articles, :child_relationships).for_topic_id(object.id).order('tags.priority', 'tags.name')

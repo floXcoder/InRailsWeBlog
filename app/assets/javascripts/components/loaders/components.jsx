@@ -10,6 +10,7 @@ export const HomeHome = lazyWithPreload(() => import(/* webpackChunkName: "home-
 
 export const TopicShow = lazyWithPreload(() => import(/* webpackChunkName: "topic-show" */ '../topics/show'));
 export const TopicEdit = lazyWithPreload(() => import(/* webpackChunkName: "topic-edit" */ '../topics/edit'));
+export const TopicEditInventories = lazyWithPreload(() => import(/* webpackChunkName: "topic-edit-inventories" */ '../topics/editInventories'));
 export const TopicPersistence = lazyWithPreload(() => import(/* webpackChunkName: "topic-persistence" */ '../topics/persistence'));
 export const TopicShare = lazyWithPreload(() => import(/* webpackChunkName: "topic-share" */ '../topics/share'));
 export const TopicSort = lazyWithPreload(() => import(/* webpackChunkName: "topic-sort" */ '../topics/sort'));
@@ -26,7 +27,7 @@ export const ArticleListMode = lazyWithPreload(() => import(/* webpackChunkName:
 export const ArticleInfiniteMode = lazyWithPreload(() => import(/* webpackChunkName: "article-index-infinite" */ '../articles/display/modes/infinite'));
 export const ArticleMasonryMode = lazyWithPreload(() => import(/* webpackChunkName: "article-index-masonry" */ '../articles/display/modes/masonry'));
 export const ArticleTimelineMode = lazyWithPreload(() => import(/* webpackChunkName: "article-index-timeline" */ '../articles/display/modes/timeline'));
-export const ArticleInlineEditionDisplay = lazyWithPreload(() => import(/* webpackChunkName: "article-item-edition" */ '../articles/display/inlineEdition'));
+export const ArticleInlineEditionDisplay = lazyWithPreload(() => import(/* webpackChunkName: "article-item-edition" */ '../articles/display/items/inlineEdition'));
 
 export const TagIndex = lazyWithPreload(() => import(/* webpackChunkName: "tag-index" */ '../tags/index'));
 export const TagShow = lazyWithPreload(() => import(/* webpackChunkName: "tag-show" */ '../tags/show'));

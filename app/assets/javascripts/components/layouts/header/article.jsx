@@ -15,11 +15,12 @@ import HeaderArticleMenu from './menus/article';
 import styles from '../../../../jss/user/header';
 
 export default @withStyles(styles)
-class HomeArticleHeader extends React.Component {
+class HomeArticleHeader extends React.PureComponent {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         currentTagSlugs: PropTypes.array.isRequired,
+        currentTopicMode: PropTypes.string,
         topicSlug: PropTypes.string,
         hasTemporaryArticle: PropTypes.bool,
         // from styles
@@ -47,13 +48,14 @@ class HomeArticleHeader extends React.Component {
                 </IconButton>
             }
                       position="bottom right"
-                      buttonClassName="header-button"
+                      buttonClassName={this.props.classes.headerButton}
                       isFixed={true}
                       hasWavesEffect={false}
                       hasArrow={true}>
                 <HeaderArticleMenu classes={this.props.classes}
                                    routeParams={this.props.routeParams}
                                    userSlug={this.props.userSlug}
+                                   currentTopicMode={this.props.currentTopicMode}
                                    currentTagSlugs={this.props.currentTagSlugs}
                                    topicSlug={this.props.topicSlug}
                                    hasTemporaryArticle={this.props.hasTemporaryArticle}/>

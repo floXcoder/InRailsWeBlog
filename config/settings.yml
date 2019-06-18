@@ -44,6 +44,8 @@ shared: &shared
   topic_name_max_length: 128
   topic_description_min_length: 3
   topic_description_max_length: 3_000
+  topic_inventory_field_name_min_length: 1
+  topic_inventory_field_name_max_length: 128
 
   # Article validation parameters
   article_title_min_length: 1

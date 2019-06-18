@@ -84,6 +84,10 @@ fr:
         successful_priority_update: "L'ordre des thèmes a été changé"
         error_priority_update: "Problème lors du changement de priorité des thèmes"
         error_deletion: "Problème lors de la suppression du thème : %{errors}"
+    inventory_field:
+      flash:
+        successful_edition: "Champs personnalisés mis à jour. Vous pouvez utiliser ces champs pour vos articles."
+        error_edition: "Problème lors de la mise à jour des champs personnalisés !"
     article:
       flash:
         not_found: "L'article n'a pas été trouvé"
@@ -197,6 +201,7 @@ fr:
       mode:
         default: "Défaut"
         stories: "Histoire"
+        inventories: "Inventaire"
   tag:
     enums:
       visibility:
@@ -208,8 +213,9 @@ fr:
         everyone: "Public"
         only_me: "Privé"
       mode:
-        story: "Article"
         note: "Note"
+        story: "Article"
+        inventory: "Inventaire"
         link: "Lien"
   share:
     enums:
@@ -276,6 +282,7 @@ fr:
           pertinent_tags: "Les labels doivent être du même type que le thème (soit public soit privé)"
           bad_topic_owner: "Le thème n'appartient pas au créateur de l'article"
           prevent_revert_to_draft: "Un article public ne peut pas être un brouillon"
+          required_inventory_field: "%{field} est obligatoire"
         article_relationship:
           already_linked: "Ces deux articles sont déjà liés entre eux"
         outdated_article:
@@ -304,6 +311,8 @@ fr:
           already_selected: "Le nouveau thème est déjà celui utilisé"
           already_exist: "Un thème avec le même nom existe déjà"
           not_owner: "Vous devez être le propriétaire du thème pour l'utiliser"
+        inventory_field:
+          already_exist: "Un champ avec le même nom existe déjà"
         vote:
           already_voted: "Vous ne pouvez pas voter une seconde fois"
         picture:

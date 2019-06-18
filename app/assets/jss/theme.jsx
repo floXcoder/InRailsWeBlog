@@ -10,7 +10,7 @@ const drawerWidth = 280;
 const mainWidth = 1200;
 const articleWidth = 740;
 const articleAppendixWidth = 924;
-const gridWidth = 1110;
+const gridWidth = 1180;
 const storiesWidth = 920;
 
 // zIndex
@@ -32,13 +32,16 @@ const h1Weight = 600;
 const h1LineHeight = '3rem';
 const h1Spacing = 3.5;
 
+const h1SizeGrid = '1.4rem';
+const h1WeightGrid = 500;
+const h1LineHeightGrid = '1.4rem';
+const h1SpacingGrid = 1.8;
+
 const h1SizeExtract = '2rem';
 const h1WeightExtract = 600;
 const h1LineHeightExtract = '2rem';
 const h1SpacingExtract = 2.6;
 
-// A theme with custom primary and secondary color.
-// It's optional.
 const theme = createMuiTheme({
     breakpoints: {
         keys: ['xs', 'sm', 'md', 'lg', 'xl'],
@@ -100,6 +103,11 @@ const theme = createMuiTheme({
             fontSizeLarge: {
                 fontSize: '2.3rem'
             }
+        },
+        MuiButton: {
+            sizeSmall: {
+                fontSize: '0.95rem'
+            }
         }
     }
 });
@@ -129,6 +137,11 @@ export {
     h1Weight,
     h1LineHeight,
     h1Spacing,
+
+    h1SizeGrid,
+    h1WeightGrid,
+    h1LineHeightGrid,
+    h1SpacingGrid,
 
     h1SizeExtract,
     h1WeightExtract,

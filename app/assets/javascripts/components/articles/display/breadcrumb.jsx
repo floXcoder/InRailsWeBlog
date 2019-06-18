@@ -20,9 +20,14 @@ class ArticleBreadcrumbDisplay extends React.Component {
         topic: PropTypes.object.isRequired,
         article: PropTypes.object,
         tags: PropTypes.object,
+        // isForm: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
+
+    // static defaultProps = {
+    //     isForm: false
+    // };
 
     render() {
         return (
@@ -63,6 +68,10 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           itemScope={true}>
                         <span itemProp="name">
                             {this.props.topic.name}
+                            {
+                                this.props.topic.mode !== 'default' &&
+                                ` (${I18n.t(`js.topic.enums.mode.${this.props.topic.mode}`)})`
+                            }
                         </span>
                     </Link>
                     <meta itemProp="position"

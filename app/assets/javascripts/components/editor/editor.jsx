@@ -26,6 +26,7 @@ class Editor extends React.Component {
         currentTopicId: PropTypes.number,
         mode: PropTypes.number,
         id: PropTypes.string,
+        className: PropTypes.string,
         placeholder: PropTypes.string,
         children: PropTypes.string,
         isDisabled: PropTypes.bool,
@@ -192,7 +193,7 @@ class Editor extends React.Component {
                     toolbar: toolbar,
                     followingToolbar: true,
                     // otherStaticBar: '#article-edit-stepper',
-                    otherStaticBarHeight: this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 136)
+                    otherStaticBarHeight: this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 142)
                 });
 
                 // if (this.props.isCodeView) {
@@ -393,15 +394,13 @@ class Editor extends React.Component {
     // };
 
     render() {
-        const editorClassName = classNames({
-            'blog-article-content': this.props.mode === EditorMode.INLINE_EDIT
-        });
-
         return (
-            <div className="editor-reset">
+            <div className={classNames('editor-reset', this.props.className)}>
                 <div ref={this._editorRef}
                      id={this.props.id}
-                     className={editorClassName}
+                     className={classNames({
+                         'blog-article-content': this.props.mode === EditorMode.INLINE_EDIT
+                     })}
                      dangerouslySetInnerHTML={{__html: this._formatContent(this.props.children)}}/>
             </div>
         );

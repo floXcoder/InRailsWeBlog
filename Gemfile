@@ -49,10 +49,10 @@ gem 'sanitize',                 '5.0.0'
 gem 'sidekiq',                  '5.2.7'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '1.1.0'
-gem 'sidekiq-status',           '1.1.3'
+gem 'sidekiq-status',           '1.1.4'
 gem 'attentive_sidekiq',        '0.3.3'
 gem 'sidekiq-benchmark',        '0.6.0'
-gem 'whenever',                 '0.11.0', require: false
+gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.6.0'
@@ -154,38 +154,38 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',            '3.8.2'
-  gem 'shoulda-matchers',       '4.0.1',    require: false
-  gem 'shoulda-callback-matchers', '1.1.4', require: false
-  gem 'simplecov',              '0.16.1',   require: false
-  gem 'fuubar',                 '2.4.0'
-  gem 'database_cleaner',       '1.7.0'
-  gem 'db-query-matchers',      '0.9.0'
+  gem 'rspec-rails',                '3.8.2'
+  gem 'shoulda-matchers',           '4.1.0',    require: false
+  gem 'shoulda-callback-matchers',  '1.1.4', require: false
+  gem 'simplecov',                  '0.16.1',   require: false
+  gem 'fuubar',                     '2.4.0'
+  gem 'database_cleaner',           '1.7.0'
+  gem 'db-query-matchers',          '0.9.0'
 
   # Browser tests
-  gem 'capybara',               '3.22.0'
-  gem 'capybara-email',         '3.0.1'
-  gem 'capybara-screenshot',    '1.0.22'
-  gem 'selenium-webdriver',     '3.141.0'
-  gem 'webdrivers',             '3.9.4'
-  gem 'html_validation',        '1.1.5'
-  gem 'launchy',                '2.4.3'
+  gem 'capybara',                   '3.24.0'
+  gem 'capybara-email',             '3.0.1'
+  gem 'capybara-screenshot',        '1.0.23'
+  gem 'selenium-webdriver',         '3.141.0'
+  gem 'webdrivers',                 '4.0.1'
+  gem 'html_validation',            '1.1.5'
+  gem 'launchy',                    '2.4.3'
 
   # static analyzer
-  gem 'rails_best_practices',   '1.19.4',   require: false
-  gem 'brakeman',               '4.5.1',    require: false
-  gem 'i18n-tasks',             '0.9.29',   require: false
+  gem 'rails_best_practices',       '1.19.4',   require: false
+  gem 'brakeman',                   '4.5.1',    require: false
+  gem 'i18n-tasks',                 '0.9.29',   require: false
 end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',               '1.4.4',   require: false
+  gem 'bootsnap',                   '1.4.4',   require: false
 
   # Check errors
-  gem 'rubocop',                '0.71.0',  require: false
-  gem 'rubocop-rails',          '2.0.0',   require: false
-  gem 'rubocop-rspec',          '1.33.0',  require: false
-  gem 'rubocop-performance',    '1.3.0',   require: false
+  gem 'rubocop',                    '0.71.0',  require: false
+  gem 'rubocop-rails',              '2.0.1',   require: false
+  gem 'rubocop-rspec',              '1.33.0',  require: false
+  gem 'rubocop-performance',        '1.3.0',   require: false
 end
 
 group :production do
@@ -193,11 +193,11 @@ group :production do
   gem 'sentry-raven',     '2.9.0'
 
   # Improve log outputs
-  gem 'lograge',          '0.11.1'
+  gem 'lograge',          '0.11.2'
 
   # Website analysis
   gem 'newrelic_rpm',     '6.4.0.356'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.5.0'
+  gem 'seo_cache',        '0.8.0'
 end

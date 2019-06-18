@@ -3,11 +3,11 @@
 const styles = (theme) => ({
     root: {
         margin: '.5rem auto 4rem',
-        overflow: 'visible',
+        overflow: 'visible'
     },
-    title: {
+    titleField: {
         width: '100%',
-        margin: '0 0 2.5rem',
+        margin: '0 0 2.5rem'
     },
     tagLabel: {
         width: '100%',
@@ -23,7 +23,7 @@ const styles = (theme) => ({
         width: '90%'
     },
     advancedDivider: {
-      margin: '2rem 2rem'
+        margin: '2rem 2rem'
     },
     externalReferenceButton: {
         color: theme.palette.text.primary,
@@ -38,6 +38,12 @@ const styles = (theme) => ({
     },
     externalReferenceExpandOpen: {
         transform: 'rotate(180deg)'
+    },
+    inventoryFields: {
+        margin: theme.spacing(0)
+    },
+    inventoryField: {
+        margin: theme.spacing(3, 0)
     }
 });
 

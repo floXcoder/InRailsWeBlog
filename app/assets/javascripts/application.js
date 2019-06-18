@@ -4,9 +4,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-// Polyfill promise
-require('es6-promise').polyfill();
-
 // Polyfill observer
 import 'intersection-observer';
 

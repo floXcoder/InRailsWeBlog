@@ -16,7 +16,7 @@ class Setting < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
-  enum value_type: SETTING_VALUE_TYPE
+  enum value_type: VALUE_TYPE
 
   # == Extensions ===========================================================
 
@@ -57,8 +57,10 @@ class Setting < ApplicationRecord
     case type.to_s
     when 'integer_type'
       value.to_i
+    when 'float_type' || 'number_type'
+      value.to_f
     when 'boolean_type'
-      value == "true" || value == "1" || value == 1 || value == true
+      value == 'true' || value == '1' || value == 1 || value == true
     when 'array_type'
       value.split(/[\s,]/).reject(&:empty?)
     when 'hash_type'

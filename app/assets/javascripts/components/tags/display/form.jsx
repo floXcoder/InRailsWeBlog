@@ -21,11 +21,11 @@ import {
 
 import TagErrorField from './fields/error';
 
-import SelecterField from '../../theme/form/selecter';
 import EditorField from '../../editor/form/editor';
 
-import TextFieldForm from '../../material-ui/form/text';
-import SelectFieldForm from '../../material-ui/form/select';
+import TextFormField from '../../material-ui/form/text';
+import SelectFormField from '../../material-ui/form/select';
+import AutocompleteFormField from '../../material-ui/form/autocomplete';
 
 import styles from '../../../../jss/tag/form';
 
@@ -74,6 +74,15 @@ class TagFormDisplay extends React.Component {
                 <div>
                     <div className="row">
                         {
+                            this.props.children.name &&
+                            <div className="col s12">
+                                <h1>
+                                    {I18n.t('js.tag.edit.title', {tag: this.props.children.name})}
+                                </h1>
+                            </div>
+                        }
+
+                        {
                             this.props.tagErrors &&
                             <div className="col s12">
                                 <TagErrorField errors={this.props.tagErrors}/>
@@ -82,7 +91,7 @@ class TagFormDisplay extends React.Component {
 
                         <div className="col s12">
                             <Field name="name"
-                                   component={TextFieldForm}
+                                   component={TextFormField}
                                    className={this.props.classes.name}
                                    InputLabelProps={{
                                        classes: {
@@ -123,7 +132,7 @@ class TagFormDisplay extends React.Component {
                                    componentContent={this.props.children.description}/>
 
                             <div className="row">
-                                <div className="col s12 m6">
+                                <div className="col s12 m6 center-align">
                                     <div className={this.props.classes.categoryTitle}>
                                         {I18n.t('js.tag.model.visibility')}
                                     </div>
@@ -131,9 +140,9 @@ class TagFormDisplay extends React.Component {
                                     <Field name="visibility"
                                            id="tag_visibility"
                                            className={this.props.classes.select}
-                                           label={I18n.t('js.article.model.visibility')}
+                                           label=""
                                            options={I18n.t('js.tag.enums.visibility')}
-                                           component={SelectFieldForm}/>
+                                           component={SelectFormField}/>
                                 </div>
 
                                 <div className="col s12 m6">
@@ -142,13 +151,15 @@ class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <Field name="synonyms"
-                                           id="tag_synonyms"
-                                           elements={[]}
-                                           placeholder={I18n.t('js.tag.common.synonyms')}
-                                           isEditing={true}
+                                           type="select-multi"
+                                           component={AutocompleteFormField}
+                                           label={I18n.t('js.tag.common.synonyms')}
+                                           inputVariant="standard"
                                            isMultiple={true}
-                                           component={SelecterField}
-                                           componentContent={this.props.children.synonyms}/>
+                                           isTagged={true}
+                                           required={true}
+                                           fullWidth={true}
+                                           filterValues={true}/>
                                 </div>
                             </div>
                         </div>

@@ -64,7 +64,7 @@ describe 'Share API', type: :request, basic: true do
 
             topic = JSON.parse(response.body)
             expect(topic['errors']).to eq(I18n.t('views.share.errors.user_already_shared'))
-          }.to change(Share, :count).by(0)
+          }.to_not change(Share, :count)
         end
       end
 
@@ -77,7 +77,7 @@ describe 'Share API', type: :request, basic: true do
 
             topic = JSON.parse(response.body)
             expect(topic['errors']).to eq(I18n.t('views.share.errors.private_shareable'))
-          }.to change(Share, :count).by(0)
+          }.to_not change(Share, :count)
         end
       end
     end
@@ -124,7 +124,7 @@ describe 'Share API', type: :request, basic: true do
 
             article = JSON.parse(response.body)
             expect(article['errors']).to eq(I18n.t('views.share.errors.link_already_shared'))
-          }.to change(Share, :count).by(0)
+          }.to_not change(Share, :count)
         end
       end
 
@@ -137,7 +137,7 @@ describe 'Share API', type: :request, basic: true do
 
             article = JSON.parse(response.body)
             expect(article['errors']).to eq(I18n.t('views.share.errors.useless_shareable'))
-          }.to change(Share, :count).by(0)
+          }.to_not change(Share, :count)
         end
       end
     end

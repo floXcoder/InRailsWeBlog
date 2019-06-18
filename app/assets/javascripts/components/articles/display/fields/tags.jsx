@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core/styles';
 import CategorizedField from '../../../materialize/form/categorized';
 
-import styles from '../../../../../jss/article/form/common';
+import styles from '../../../../../jss/article/form/shared';
 
 export default @withStyles(styles)
 class ArticleTagField extends React.Component {

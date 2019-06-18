@@ -15,7 +15,7 @@ const styles = (theme) => ({
         minHeight: 400,
         overflow: 'auto',
         padding: '.4rem',
-        width: 280,
+        width: 340,
         zIndex: topicZIndex,
         [theme.breakpoints.down('md')]: {
             fontSize: '1.3rem',

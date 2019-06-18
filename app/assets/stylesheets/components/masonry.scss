@@ -19,6 +19,8 @@
 
 .masonry-grid {
   .masonry-grid-item {
+    padding: 5px !important;
+
     &.exposed {
       width: 100% !important;
     }

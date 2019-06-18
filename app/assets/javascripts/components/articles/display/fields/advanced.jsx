@@ -16,12 +16,12 @@ import Divider from '@material-ui/core/Divider';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import SelectFieldForm from '../../../material-ui/form/select';
-import TextFieldForm from '../../../material-ui/form/text';
+import SelectFormField from '../../../material-ui/form/select';
+import TextFormField from '../../../material-ui/form/text';
 import CheckBoxFieldForm from '../../../material-ui/form/checkbox';
 import SwitchFormField from '../../../material-ui/form/switch';
 
-import styles from '../../../../../jss/article/form/common';
+import styles from '../../../../../jss/article/form/shared';
 
 export default @withStyles(styles)
 class ArticleAdvancedField extends React.PureComponent {
@@ -36,7 +36,9 @@ class ArticleAdvancedField extends React.PureComponent {
         isSourceExpanded: false
     };
 
-    _handleExpandClick = () => {
+    _handleExpandClick = (event) => {
+        event.preventDefault();
+
         this.setState((state) => ({
             isSourceExpanded: !state.isSourceExpanded
         }));
@@ -53,7 +55,7 @@ class ArticleAdvancedField extends React.PureComponent {
                                className={this.props.classes.select}
                                label={I18n.t('js.article.model.visibility')}
                                options={I18n.t('js.article.enums.visibility')}
-                               component={SelectFieldForm}/>
+                               component={SelectFormField}/>
                     </div>
                 }
 
@@ -83,7 +85,7 @@ class ArticleAdvancedField extends React.PureComponent {
                 {/*           className={this.props.classes.select}*/}
                 {/*           label={I18n.t('js.article.model.language')}*/}
                 {/*           options={I18n.t('js.languages')}*/}
-                {/*           component={SelectFieldForm}/>*/}
+                {/*           component={SelectFormField}/>*/}
                 {/*</div>*/}
 
                 {
@@ -125,7 +127,7 @@ class ArticleAdvancedField extends React.PureComponent {
                                        </InputAdornment>
                                    )
                                }}
-                               component={TextFieldForm}/>
+                               component={TextFormField}/>
                     </Collapse>
                 </div>
             </div>

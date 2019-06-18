@@ -96,7 +96,7 @@ module Api::V1
     end
 
     def shared
-      article = Article.include_element.friendly.find(params[:id])
+      article             = Article.include_element.friendly.find(params[:id])
       article.shared_link = params[:public_link]
       admin_or_authorize article
 
@@ -113,9 +113,9 @@ module Api::V1
           #       image: article.default_picture ? (root_url + article.default_picture) : nil
           #     }.compact
 
-          render json:          article,
-                 serializer:    ArticleSerializer,
-                 meta:          meta_attributes
+          render json:       article,
+                 serializer: ArticleSerializer,
+                 meta:       meta_attributes
         end
       end
     end
@@ -311,6 +311,7 @@ module Api::V1
                                       :topic_id,
                                       :language,
                                       :picture_ids,
+                                      inventories: {},
                                       tags:        [
                                                      :name,
                                                      :visibility,

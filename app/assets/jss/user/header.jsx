@@ -48,6 +48,11 @@ const styles = (theme) => ({
             marginRight: 12
         }
     },
+    headerButton: {
+        display: 'block',
+        margin: '0 12px',
+        width: 48,
+    },
     topicButton: {
         fontSize: '1rem',
         [theme.breakpoints.down('md')]: {
@@ -92,7 +97,7 @@ const styles = (theme) => ({
         fontSize: '2rem'
     },
     mobileDivider: {
-      margin: '.5rem 0'
+        margin: '.5rem 0'
     },
     nestedMenu: {
         paddingLeft: theme.spacing(4)

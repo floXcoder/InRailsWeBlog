@@ -216,7 +216,7 @@ describe 'Tag API', type: :request, basic: true do
           expect(tag['tag']).not_to be_empty
           expect(tag['tag']['name']).to eq(updated_tag_attributes[:tag][:name])
           expect(tag['tag']['description']).to eq(updated_tag_attributes[:tag][:description])
-        }.to change(Tag, :count).by(0)
+        }.to_not change(Tag, :count)
       end
 
       context 'when updating a tag with errors' do
@@ -233,7 +233,7 @@ describe 'Tag API', type: :request, basic: true do
             tag = JSON.parse(response.body)
             expect(tag['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.tag_name_max_length))
             expect(tag['errors']['name'].second).to eq(I18n.t('activerecord.errors.models.tag.public_name_immutable'))
-          }.to change(Tag, :count).by(0)
+          }.to_not change(Tag, :count)
         end
       end
     end

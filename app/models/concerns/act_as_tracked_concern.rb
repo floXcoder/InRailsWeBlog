@@ -18,7 +18,8 @@ module ActAsTrackedConcern
             as:         :tracked,
             autosave:   true,
             dependent:  :destroy
-    accepts_nested_attributes_for :tracker, allow_destroy: true
+    accepts_nested_attributes_for :tracker,
+                                  allow_destroy: true
 
     # Add the tracker to the new object
     after_create :create_tracker

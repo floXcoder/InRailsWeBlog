@@ -32,7 +32,7 @@ import Loader from '../theme/loader';
 import HeadLayout from '../layouts/head';
 
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
-import ArticleCardDisplay from './display/card';
+import ArticleCardDisplay from './display/items/card';
 import ArticleVersionsDisplay from './display/versions';
 
 import styles from '../../../jss/article/history';

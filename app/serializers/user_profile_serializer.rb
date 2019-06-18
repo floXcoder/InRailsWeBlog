@@ -15,7 +15,7 @@ class UserProfileSerializer < ActiveModel::Serializer
              :draft_count,
              :settings
 
-  has_one :current_topic
+  has_one :current_topic, serializer: TopicSerializer
 
   has_many :topics, serializer: TopicSampleSerializer
 

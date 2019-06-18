@@ -16,9 +16,9 @@ import {
     getArticleIsOwner
 } from '../../../selectors';
 
-import ArticleCardDisplay from './card';
-import ArticleInlineDisplay from './inline';
-import ArticleGridDisplay from './grid';
+import ArticleCardDisplay from './items/card';
+import ArticleInlineDisplay from './items/inline';
+import ArticleGridDisplay from './items/grid';
 
 export default @connect((state, props) => ({
     currentUserSlug: state.userState.currentSlug,
@@ -28,7 +28,7 @@ export default @connect((state, props) => ({
 }), {
     inlineEditArticle
 })
-class ArticleItemDisplay extends React.Component {
+class ArticleItemsDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         articleDisplayMode: PropTypes.string.isRequired,
@@ -75,8 +75,10 @@ class ArticleItemDisplay extends React.Component {
         } else if (this.props.articleDisplayMode === 'inline') {
             return (
                 <ArticleInlineDisplay id={this.props.article.id}
+                                      mode={this.props.article.content}
                                       title={this.props.article.title}
                                       content={this.props.article.content}
+                                      inventories={this.props.article.inventories}
                                       slug={this.props.article.slug}
                                       userSlug={this.props.article.user.slug}
                                       isMinimized={this.props.isMinimized}

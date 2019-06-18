@@ -1,14 +1,23 @@
 @import '~highlight.js/styles/zenburn.css';
 @import 'shared/animation/article';
 
-.header-button {
-  display: block;
-  margin: 0 12px;
-  width: 48px;
-}
-
 .article-errors {
   color: $error-color;
+}
+
+.article-list-tag-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-style: italic;
+  border-bottom: 1px solid #ddd;
+  margin-top: 2rem;
+}
+
+.article-infinite-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 // Article form

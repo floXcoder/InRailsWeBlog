@@ -16,21 +16,23 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {
     spyTrackClick,
     spyTrackView
-} from '../../../actions';
+} from '../../../../actions';
 
-import highlight from '../../modules/highlight';
+import highlight from '../../../modules/highlight';
 
-import ArticleAvatarIcon from '../icons/avatar';
-import ArticleTags from '../properties/tags';
-import ArticleActions from '../properties/actions';
+import ArticleInventoryDisplay from './inventory';
+import ArticleTags from '../../properties/tags';
+import ArticleActions from '../../properties/actions';
+import ArticleAvatarIcon from '../../icons/avatar';
 
-import styles from '../../../../jss/article/card';
+import styles from '../../../../../jss/article/card';
 
 export default @highlight()
 @withStyles(styles)
@@ -87,7 +89,7 @@ class ArticleGridDisplay extends React.PureComponent {
                 this.props.onEnter(this.props.article);
             }
         } else {
-            if (this.props.onExit) {
+            if (this.props.onExit && document.documentElement.scrollTop !== 0) {
                 this.props.onExit(this.props.article);
             }
         }
@@ -102,52 +104,66 @@ class ArticleGridDisplay extends React.PureComponent {
     };
 
     render() {
+        const isInventoryMode = this.props.article.mode === 'inventory';
+
         return (
             <Observer onChange={this._handleViewportChange}>
                 <Card component="article"
                       className={this.props.classes.card}>
-                    <CardHeader
-                        className={classNames({
+                    <CardHeader classes={{
+                        root: classNames({
                             [this.props.classes.outdated]: this.props.article.outdated
-                        })}
-                        action={
-                            <IconButton className={classNames(this.props.classes.expand, {
-                                [this.props.classes.expandOpen]: this.state.isFolded
-                            })}
-                                        aria-expanded={this.state.isFolded}
-                                        aria-label="Show more"
-                                        onClick={this._handleFoldClick}>
-                                <ExpandMoreIcon/>
-                            </IconButton>
-                        }
-                        title={
-                            <Grid container={true}
-                                  classes={{
-                                      container: this.props.classes.articleInfo
-                                  }}
-                                  spacing={2}
-                                  direction="row"
-                                  justify="space-between"
-                                  alignItems="center">
-                                <Grid classes={{
-                                    item: this.props.classes.infoItem
-                                }}
-                                      item={true}>
-                                    <ArticleAvatarIcon classes={this.props.classes}
-                                                       user={this.props.article.user}
-                                                       articleDate={this.props.article.date}/>
-                                </Grid>
-                            </Grid>
-                        }
-                        subheader={
-                            <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
-                                  onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
-                                <h1 className={this.props.classes.title}>
-                                    {this.props.article.title}
-                                </h1>
-                            </Link>
-                        }
-                    />
+                        }),
+                        content: this.props.classes.cardHeader
+                    }}
+                                action={
+                                    !isInventoryMode
+                                        ?
+                                        <IconButton className={classNames(this.props.classes.expand, {
+                                            [this.props.classes.expandOpen]: this.state.isFolded
+                                        })}
+                                                    aria-expanded={this.state.isFolded}
+                                                    aria-label="Show more"
+                                                    onClick={this._handleFoldClick}>
+                                            <ExpandMoreIcon/>
+                                        </IconButton>
+                                        :
+                                        null
+                                }
+                                title={
+                                    !isInventoryMode
+                                        ?
+                                        <Grid container={true}
+                                              classes={{
+                                                  container: this.props.classes.articleInfo
+                                              }}
+                                              spacing={2}
+                                              direction="row"
+                                              justify="space-between"
+                                              alignItems="center">
+                                            <Grid classes={{
+                                                item: this.props.classes.infoItem
+                                            }}
+                                                  item={true}>
+                                                <ArticleAvatarIcon classes={this.props.classes}
+                                                                   user={this.props.article.user}
+                                                                   articleDate={this.props.article.date}/>
+                                            </Grid>
+                                        </Grid>
+                                        :
+                                        null
+                                }
+                                subheader={
+                                    <Link
+                                        to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                        onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
+                                        <Typography component="h1"
+                                                    className={this.props.classes.gridTitle}
+                                                    noWrap={true}>
+                                            {this.props.article.title}
+                                        </Typography>
+                                    </Link>
+                                }/>
 
                     <Collapse in={!this.state.isFolded}
                               timeout="auto"
@@ -155,8 +171,15 @@ class ArticleGridDisplay extends React.PureComponent {
                         <CardContent classes={{
                             root: this.props.classes.content
                         }}>
-                            <div className="normalized-content"
-                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                            {
+                                isInventoryMode
+                                    ?
+                                    <ArticleInventoryDisplay isList={true}
+                                                             inventories={this.props.article.inventories}/>
+                                    :
+                                    <div className="normalized-content"
+                                         dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                            }
                         </CardContent>
 
                         <CardActions className={this.props.classes.actions}
@@ -175,6 +198,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                 this.props.isOwner &&
                                 <ArticleActions classes={this.props.classes}
                                                 isInline={true}
+                                                userSlug={this.props.currentUserSlug}
                                                 articleId={this.props.article.id}
                                                 articleSlug={this.props.article.slug}
                                                 articleTitle={this.props.article.title}

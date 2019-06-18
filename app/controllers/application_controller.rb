@@ -247,6 +247,7 @@ class ApplicationController < ActionController::Base
       skip_authorization
     else
       raise Pundit::NotAuthorizedError unless model
+
       authorize(model, method)
     end
   end

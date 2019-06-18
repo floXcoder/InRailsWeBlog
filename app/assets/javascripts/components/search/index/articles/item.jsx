@@ -16,10 +16,12 @@ import {
     spyTrackClick
 } from '../../../../actions';
 
+import ArticleInventoryDisplay from '../../../articles/display/items/inventory';
+
 import styles from '../../../../../jss/search/index';
 
 export default @withStyles(styles)
-class ArticleItemDisplay extends React.Component {
+class ArticleSearchItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         highlightTagIds: PropTypes.array,
@@ -47,8 +49,7 @@ class ArticleItemDisplay extends React.Component {
                     <Link className={this.props.classes.articleTitle}
                           to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
                           onClick={this._handleArticleClick}>
-                        <span className="title"
-                              dangerouslySetInnerHTML={{__html: this.props.article.title}}/>
+                        <span dangerouslySetInnerHTML={{__html: this.props.article.title}}/>
                     </Link>
                 }
                             subheader={
@@ -60,8 +61,14 @@ class ArticleItemDisplay extends React.Component {
                 <CardContent classes={{
                     root: this.props.classes.articleContent
                 }}>
-                    <div className="normalized-content"
-                         dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                    {
+                        this.props.article.mode === 'inventory'
+                            ?
+                            <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
+                            :
+                            <div className="normalized-content"
+                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                    }
 
                     <div className={this.props.classes.articleTags}>
                         {

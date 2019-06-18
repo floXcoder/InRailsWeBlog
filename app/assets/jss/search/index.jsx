@@ -100,8 +100,11 @@ const styles = (theme) => ({
         marginTop: 16,
         marginBottom: 16
     },
+    articleCardHeader: {
+        width: '100%'
+    },
     articleContent: {
-        paddingTop: 4
+        padding: theme.spacing(2)
     },
     articleTags: {
         marginTop: theme.spacing(4),
@@ -121,6 +124,10 @@ const styles = (theme) => ({
     },
     articleTitle: {
         fontSize: '2rem',
+        color: theme.palette.text.primary
+    },
+    articleGridTitle: {
+        fontSize: '1.5rem',
         color: theme.palette.text.primary
     },
     articleSubtitle: {

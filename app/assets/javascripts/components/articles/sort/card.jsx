@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
+import ArticleInventoryDisplay from '../display/items/inventory';
 import ArticleTags from '../properties/tags';
 
 import CommentCountIcon from '../../comments/icons/count';
@@ -38,8 +39,15 @@ const ArticleCardSort = ({classes, article}) => (
                                       hasIcon={false}/>
                 }
 
-                <div className="normalized-content"
-                     dangerouslySetInnerHTML={{__html: article.content}}/>
+                {
+                    article.mode === 'inventory'
+                        ?
+                        <ArticleInventoryDisplay isList={true}
+                                                 inventories={article.inventories}/>
+                        :
+                        <div className="normalized-content"
+                             dangerouslySetInnerHTML={{__html: article.content}}/>
+                }
             </CardContent>
         </Card>
     </div>

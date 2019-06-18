@@ -22,7 +22,7 @@ module Articles
       return @relation.none if (user_filter.present? && !@user_articles) || (topic_filter.present? && !@topic_articles)
 
       @relation = @relation
-                    .include_collection
+                    .include_collection(@topic_articles&.inventories?)
                     .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(article_order(params))
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
@@ -66,8 +66,8 @@ module Articles
     end
 
     module Scopes
-      def include_collection
-        includes(:tags, :tagged_articles, user: [:picture])
+      def include_collection(inventory_mode = false)
+        inventory_mode ? includes(:topic, :tags, :tagged_articles, user: [:picture]) : includes(:tags, :tagged_articles, user: [:picture])
       end
 
       def include_element

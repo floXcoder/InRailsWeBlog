@@ -26,7 +26,7 @@ import {
     homePopularsLimit,
 } from '../modules/constants';
 
-import ArticleMiniCardDisplay from '../articles/display/miniCard';
+import ArticleMiniCardDisplay from '../articles/display/items/miniCard';
 import TagChipDisplay from '../tags/display/chip';
 
 import styles from '../../../jss/home/index';

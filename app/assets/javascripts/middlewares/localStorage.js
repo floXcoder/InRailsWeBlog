@@ -6,7 +6,15 @@ const localDataPrefix = 'INR-';
 
 export const hasLocalStorage = !!window.localStorage;
 
-export const saveLocalData = (dataName, dataParams, concat = true) => {
+export const saveLocalData = (dataName, dataParams) => {
+    if (hasLocalStorage) {
+        const currentItem = `${localDataPrefix}${dataName}`;
+
+        localStorage.setItem(currentItem, JSON.stringify(dataParams));
+    }
+};
+
+export const saveLocalArray = (dataName, dataParams, concat = true) => {
     if (hasLocalStorage) {
         const currentItem = `${localDataPrefix}${dataName}`;
         const previousData = localStorage.getItem(currentItem);

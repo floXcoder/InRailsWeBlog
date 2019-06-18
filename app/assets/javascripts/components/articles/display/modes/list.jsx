@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Fragment
+} from 'react';
+
+import {
     hot
 } from 'react-hot-loader/root';
 
@@ -13,7 +17,7 @@ import {
     getOrderedArticles
 } from '../../../../selectors';
 
-import ArticleItemDisplay from '../item';
+import ArticleItemsDisplay from '../items';
 
 export default @connect((state, props) => ({
     orderedArticles: getOrderedArticles(state, props),
@@ -22,7 +26,6 @@ export default @connect((state, props) => ({
 @hot
 class ArticleListMode extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         isMinimized: PropTypes.bool,
         articleEditionId: PropTypes.number,
         onEnter: PropTypes.func,
@@ -48,7 +51,7 @@ class ArticleListMode extends React.Component {
             <CSSTransition key={article.id}
                            timeout={150}
                            classNames="article">
-                <ArticleItemDisplay article={article}
+                <ArticleItemsDisplay article={article}
                                     articleDisplayMode={this.props.articleDisplayMode}
                                     articleEditionId={this.props.articleEditionId}
                                     isMinimized={this.props.isMinimized}
@@ -72,8 +75,8 @@ class ArticleListMode extends React.Component {
                 <TransitionGroup component="div">
                     {
                         Object.keys(this.props.orderedArticles).map((key) => (
-                            <React.Fragment key={key}>
-                                <h2 className={this.props.classes.tagTitle}>
+                            <Fragment key={key}>
+                                <h2 className="article-list-tag-title">
                                     {
                                         key === 'undefined' ? I18n.t('js.article.common.tags.none') : key
                                     }
@@ -82,7 +85,7 @@ class ArticleListMode extends React.Component {
                                 {
                                     this.props.orderedArticles[key].map(this._renderArticle)
                                 }
-                            </React.Fragment>
+                            </Fragment>
                         ))
                     }
                 </TransitionGroup>

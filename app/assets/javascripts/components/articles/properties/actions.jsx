@@ -22,7 +22,7 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
         }
 
         {
-            articleVisibility !== 'everyone' &&
+            (!isInline && articleVisibility !== 'everyone') &&
             <li className={classes.actionItem}>
                 <ArticleShareIcon articleId={articleId}
                                   size={size}

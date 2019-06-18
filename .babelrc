@@ -12,8 +12,7 @@
         ],
         "targets": {
           "browsers": [
-            "> 1%",
-            "ie 11"
+            "> 1%"
           ]
         }
       }
@@ -23,7 +22,6 @@
   "plugins": [
     "lodash",
     "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-proposal-export-namespace-from",
     [
       "@babel/plugin-proposal-decorators",
       {
@@ -65,8 +63,7 @@
     },
     "test": {
       "plugins": [
-        "@babel/plugin-transform-modules-commonjs",
-        "babel-plugin-dynamic-import-node"
+        "@babel/plugin-transform-modules-commonjs"
       ]
     },
     "production": {

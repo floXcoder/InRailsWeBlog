@@ -41,7 +41,7 @@ RSpec.describe Topic, type: :model, basic: true do
       languages:   ['fr'],
       color:       '#000000',
       priority:    1,
-      visibility:  'everyone',
+      visibility:  :everyone,
       archived:    false,
       accepted:    true
     )
@@ -129,6 +129,12 @@ RSpec.describe Topic, type: :model, basic: true do
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to have_db_index(:user_id) }
 
+    it { is_expected.to have_one(:icon) }
+    it { is_expected.to accept_nested_attributes_for(:icon) }
+
+    it { is_expected.to have_many(:inventory_fields) }
+    it { is_expected.to accept_nested_attributes_for(:inventory_fields) }
+
     it { is_expected.to have_many(:articles) }
 
     it { is_expected.to have_many(:tagged_articles) }
@@ -143,9 +149,6 @@ RSpec.describe Topic, type: :model, basic: true do
 
     it { is_expected.to have_many(:shares) }
     it { is_expected.to have_many(:contributors) }
-
-    it { is_expected.to have_one(:icon) }
-    it { is_expected.to accept_nested_attributes_for(:icon) }
   end
 
   context 'Properties' do

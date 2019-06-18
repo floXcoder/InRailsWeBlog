@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_15_195916) do
+ActiveRecord::Schema.define(version: 2019_06_08_155638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 2019_05_15_195916) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contributor_id"
+    t.jsonb "inventories", default: {}, null: false
     t.index ["contributor_id"], name: "index_articles_on_contributor_id"
     t.index ["deleted_at"], name: "index_articles_on_deleted_at"
     t.index ["slug"], name: "index_articles_on_slug", unique: true, where: "(deleted_at IS NULL)"
@@ -250,6 +251,25 @@ ActiveRecord::Schema.define(version: 2019_05_15_195916) do
     t.index ["user_id", "visibility"], name: "index_tags_on_user_id_and_visibility", where: "(deleted_at IS NULL)"
   end
 
+  create_table "topic_inventory_fields", force: :cascade do |t|
+    t.bigint "topic_id"
+    t.string "name", null: false
+    t.string "field_name", null: false
+    t.integer "value_type", default: 0, null: false
+    t.string "parent_category"
+    t.boolean "required", default: false, null: false
+    t.boolean "searchable", default: false, null: false
+    t.boolean "filterable", default: false, null: false
+    t.integer "priority", default: 0, null: false
+    t.integer "visibility", default: 0, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_topic_inventory_fields_on_deleted_at"
+    t.index ["name", "topic_id"], name: "index_topic_inventory_fields_on_name_and_topic_id", unique: true
+    t.index ["topic_id"], name: "index_topic_inventory_fields_on_topic_id", where: "(deleted_at IS NULL)"
+  end
+
   create_table "topics", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name", null: false
@@ -391,5 +411,6 @@ ActiveRecord::Schema.define(version: 2019_05_15_195916) do
   add_foreign_key "tagged_articles", "topics"
   add_foreign_key "tagged_articles", "users"
   add_foreign_key "tags", "users"
+  add_foreign_key "topic_inventory_fields", "topics"
   add_foreign_key "topics", "users"
 end

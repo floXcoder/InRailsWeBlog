@@ -42,17 +42,15 @@ class Topic < ApplicationRecord
   include Storext.model
   # Settings are inherited from user
   store_attributes :settings do
-    # Not used for now
-    # articles_loader String, default: nil # Load articles by: all / paginate / infinite
-    # article_display String, default: nil # Display articles: inline / card (with inline edit) / grid
+    articles_loader String, default: nil # Load articles by: all / paginate / infinite
+    article_display String, default: nil # Display articles: inline / card (with inline edit) / grid
+    article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
 
+    tag_sidebar_pin Boolean, default: nil # Tag sidebar pinned by default
+    # Not used for now
     # tag_sidebar_with_child Boolean, default: nil # Display child only tags in sidebar
     # tag_order String, default: 'name' # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
     # tag_parent_and_child Boolean, default: nil # Display child articles for parent tag
-
-    tag_sidebar_pin Boolean, default: nil # Tag sidebar pinned by default
-
-    article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
   end
 
   # Strip whitespaces
@@ -97,6 +95,14 @@ class Topic < ApplicationRecord
                                 reject_if:     lambda {
                                   |picture| picture['picture'].blank? && picture['image_tmp'].blank?
                                 }
+
+  has_many :inventory_fields,
+           -> { order(:priority) },
+           class_name: 'Topic::InventoryField',
+           autosave:   true,
+           dependent:  :destroy
+  accepts_nested_attributes_for :inventory_fields,
+                                allow_destroy: true
 
   has_many :articles,
            dependent: :destroy

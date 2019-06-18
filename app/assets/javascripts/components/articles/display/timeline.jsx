@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    Fragment
+} from 'react';
+
 import SingleTimeline from '../../theme/timeline/single';
 import SingleTimelineItem from '../../theme/timeline/singleItem';
 
@@ -9,7 +13,7 @@ const ArticleTimelineDisplay = ({classes, categorizedArticles, articlePagination
             <SingleTimeline>
                 {
                     Object.keys(categorizedArticles).map((category, i) => (
-                        <React.Fragment key={i}>
+                        <Fragment key={i}>
                             {
                                 category !== 'all_articles' &&
                                 <li className="timeline-separator">
@@ -30,7 +34,7 @@ const ArticleTimelineDisplay = ({classes, categorizedArticles, articlePagination
                                                         }/>
                                 ))
                             }
-                        </React.Fragment>
+                        </Fragment>
                     ))
                 }
 

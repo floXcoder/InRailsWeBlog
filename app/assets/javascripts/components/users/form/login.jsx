@@ -21,8 +21,8 @@ import {
 
 import EnsureValidity from '../../modules/ensureValidity';
 
-import TextFieldForm from '../../material-ui/form/text';
-import CheckBoxForm from '../../material-ui/form/checkbox';
+import TextFormField from '../../material-ui/form/text';
+import CheckBoxFormField from '../../material-ui/form/checkbox';
 
 import styles from '../../../../jss/user/connection';
 
@@ -79,7 +79,7 @@ class LoginForm extends React.Component {
                     <Grid classes={{item: this.props.classes.fieldItem}}
                           item={true}>
                         <Field name="login"
-                               component={TextFieldForm}
+                               component={TextFormField}
                                id="user_login_login"
                                className={this.props.classes.textField}
                                label={I18n.t('js.user.login.login')}
@@ -98,7 +98,7 @@ class LoginForm extends React.Component {
                     <Grid classes={{item: this.props.classes.fieldItem}}
                           item={true}>
                         <Field name="password"
-                               component={TextFieldForm}
+                               component={TextFormField}
                                id="user_password_login"
                                className={this.props.classes.textField}
                                label={I18n.t('js.user.login.password')}
@@ -117,7 +117,8 @@ class LoginForm extends React.Component {
 
                     <Grid item={true}>
                         <Field name="remember_me"
-                               component={CheckBoxForm}
+                               type="checkbox"
+                               component={CheckBoxFormField}
                                id="user_remember_me"
                                label={I18n.t('js.user.login.remember_me')}
                                color="primary"/>

@@ -18,24 +18,27 @@ import EditIcon from '@material-ui/icons/EditOutlined';
 import {
     spyTrackClick,
     spyTrackView
-} from '../../../actions';
+} from '../../../../actions';
 
-import highlight from '../../modules/highlight';
+import highlight from '../../../modules/highlight';
 
-import ArticleLinkIcon from '../icons/link';
+import ArticleInventoryDisplay from './inventory';
+import ArticleLinkIcon from '../../icons/link';
 
-import styles from '../../../../jss/article/inline';
+import styles from '../../../../../jss/article/inline';
 
 export default @highlight()
 @withStyles(styles)
 class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
         id: PropTypes.number.isRequired,
+        mode: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired,
         userSlug: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired,
         onInlineEdit: PropTypes.func.isRequired,
         title: PropTypes.string,
+        inventories: PropTypes.string,
         isMinimized: PropTypes.bool,
         isOwner: PropTypes.bool,
         onEnter: PropTypes.func,
@@ -87,7 +90,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                 });
             }
         } else {
-            if (this.props.onExit) {
+            if (this.props.onExit && document.documentElement.scrollTop !== 0) {
                 this.props.onExit({
                     id: this.props.id
                 });
@@ -141,8 +144,14 @@ class ArticleInlineDisplay extends React.PureComponent {
                     <Collapse in={!this.state.isFolded}
                               timeout="auto"
                               unmountOnExit={true}>
-                        <div className="normalized-content"
-                             dangerouslySetInnerHTML={{__html: this.props.content}}/>
+                        {
+                            this.props.mode === 'inventory'
+                                ?
+                                <ArticleInventoryDisplay inventories={this.props.inventories}/>
+                                :
+                                <div className="normalized-content"
+                                     dangerouslySetInnerHTML={{__html: this.props.content}}/>
+                        }
                     </Collapse>
 
                     {

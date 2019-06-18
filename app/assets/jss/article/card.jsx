@@ -5,7 +5,12 @@ import {
     h1SizeMobile,
     h1Weight,
     h1LineHeight,
-    h1Spacing
+    h1Spacing,
+
+    h1SizeGrid,
+    h1WeightGrid,
+    h1LineHeightGrid,
+    h1SpacingGrid
 } from '../theme';
 
 const styles = (theme) => ({
@@ -18,9 +23,8 @@ const styles = (theme) => ({
             marginBottom: '2.8rem'
         }
     },
-    header: {
-        paddingTop: 8,
-        paddingBottom: 16
+    cardHeader: {
+        width: '100%'
     },
     articleInfo: {
         color: '#999',
@@ -39,6 +43,19 @@ const styles = (theme) => ({
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
         letterSpacing: h1Spacing,
+        margin: 'inherit',
+        [theme.breakpoints.down('md')]: {
+            fontSize: h1SizeMobile
+        }
+    },
+    gridTitle: {
+        marginTop: '.6rem',
+        marginBottom: '0',
+        color: theme.palette.text.dark,
+        fontSize: h1SizeGrid,
+        fontWeight: h1WeightGrid,
+        lineHeight: h1LineHeightGrid,
+        letterSpacing: h1SpacingGrid,
         margin: 'inherit',
         [theme.breakpoints.down('md')]: {
             fontSize: h1SizeMobile

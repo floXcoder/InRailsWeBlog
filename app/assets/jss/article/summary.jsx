@@ -47,7 +47,7 @@ const styles = (theme) => ({
     avatarDate: {
         fontSize: '.9rem'
     },
-    content: {
+    summaryContent: {
         maxHeight: 200,
         fontWeight: 'lighter',
         content: "''",

@@ -23,7 +23,7 @@ import TopicErrorField from './fields/error';
 
 import EditorField from '../../editor/form/editor';
 
-import TextFieldForm from '../../material-ui/form/text';
+import TextFormField from '../../material-ui/form/text';
 
 import styles from '../../../../jss/topic/form';
 
@@ -69,58 +69,71 @@ class TopicFormDisplay extends React.Component {
                 <Prompt when={this.props.dirty && !this.props.submitSucceeded}
                         message={this._onUnsavedExit}/>
 
-                <div>
-                    <div className="row">
-                        {
-                            this.props.topicErrors &&
-                            <div className="col s12">
-                                <TopicErrorField errors={this.props.topicErrors}/>
-                            </div>
-                        }
-
+                <div className="row">
+                    {
+                        this.props.children.name &&
                         <div className="col s12">
-                            <Field name="name"
-                                   component={TextFieldForm}
-                                   className={this.props.classes.name}
-                                   InputLabelProps={{
-                                       classes: {
-                                           root: this.props.classes.nameLabel
-                                       }
-                                   }}
-                                   InputProps={{
-                                       classes: {
-                                           underline: !this.props.children.name && this.props.classes.nameUnderline
-                                       }
-                                   }}
-                                   id="topic_name"
-                                   label={I18n.t('js.topic.common.placeholders.name')}
-                                   autoFocus={true}
-                                   required={true}
-                                   color="primary"/>
+                            <h1>
+                                {I18n.t('js.topic.edit.title', {topic: this.props.children.name})}
+                            </h1>
                         </div>
+                    }
 
+                    {
+                        this.props.topicErrors &&
                         <div className="col s12">
-                            <div className={this.props.classes.categoryTitle}>
-                                {I18n.t('js.topic.model.description')}
-                            </div>
-                            <Field name="description"
-                                   id="topic_description"
-                                   modelName="topic"
-                                   modelId={this.props.topicId}
-                                   placeholder={I18n.t('js.topic.common.placeholders.description')}
-                                   onSubmit={this.props.handleSubmit}
-                                   component={EditorField}
-                                   componentContent={this.props.children.description}/>
+                            <TopicErrorField errors={this.props.topicErrors}/>
                         </div>
+                    }
+
+                    <div className="col s12">
+                        <Field name="name"
+                               component={TextFormField}
+                               className={this.props.classes.name}
+                               InputLabelProps={{
+                                   classes: {
+                                       root: this.props.classes.nameLabel
+                                   }
+                               }}
+                               InputProps={{
+                                   classes: {
+                                       underline: !this.props.children.name && this.props.classes.nameUnderline
+                                   }
+                               }}
+                               id="topic_name"
+                               label={I18n.t('js.topic.common.placeholders.name')}
+                               autoFocus={true}
+                               required={true}
+                               color="primary"/>
+                    </div>
+
+                    <div className="col s12 margin-top-25">
+                        <Field name="description"
+                               id="topic_description"
+                               modelName="topic"
+                               modelId={this.props.topicId}
+                               placeholder={I18n.t('js.topic.common.placeholders.description')}
+                               onSubmit={this.props.handleSubmit}
+                               component={EditorField}
+                               componentContent={this.props.children.description}/>
+                    </div>
+
+                    <div className="col s12 center-align margin-top-35">
+                        <Button color="primary"
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={`/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/edit-inventories`}>
+                            {I18n.t('js.topic.edit.update_inventories')}
+                        </Button>
                     </div>
                 </div>
 
-
-                <div className="margin-top-40 margin-bottom-20">
+                <div className="margin-top-50 margin-bottom-20">
                     <div className="row">
                         <div className="col s6 center-align">
                             <Button color="default"
-                                    variant="outlined"
+                                    variant="text"
                                     size="small"
                                     component={Link}
                                     to={this.props.isEditing ? `/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/show` : '/'}>
@@ -130,7 +143,7 @@ class TopicFormDisplay extends React.Component {
 
                         <div className="col s6 center-align">
                             <Button color="primary"
-                                    variant="outlined"
+                                    variant="contained"
                                     size="small"
                                     disabled={this.props.submitting}
                                     onClick={this.props.handleSubmit}>

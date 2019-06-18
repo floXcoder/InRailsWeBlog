@@ -6,7 +6,7 @@ import api from '../middlewares/api';
 
 import {
     hasLocalStorage,
-    saveLocalData,
+    saveLocalArray,
     getAllData
 } from '../middlewares/localStorage';
 
@@ -47,7 +47,7 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUser
             Notification.alert(I18n.t('js.bookmark.notification.not_connected'));
         } else {
             if (hasLocalStorage) {
-                saveLocalData('bookmark', {bookmark});
+                saveLocalArray('bookmark', {bookmark});
                 Notification.alert(I18n.t('js.bookmark.notification.saved_later'), I18n.t('js.bookmark.notification.connection'), () => {
                     window.location = '/login';
                 });

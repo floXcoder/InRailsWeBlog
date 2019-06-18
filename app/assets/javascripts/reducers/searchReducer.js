@@ -185,14 +185,9 @@ const SearchRecord = new Record({
     hasSearched: false,
 
     searchParams: new Map(),
+    searchFilters: new Map(),
     selectedTypes: new List(['article']), // initial query
-    isShowingFilters: false,
-    topicFilters: new Map(),
-    topicActiveFilters: new Map(),
-    tagFilters: new Map(),
-    tagActiveFilters: new Map(),
-    articleFilters: new Map(),
-    articleActiveFilters: new Map(),
+    articleAvailableFilters: new List(),
 
     query: '',
 
@@ -259,19 +254,11 @@ const _parseSearchResults = (searchState, action) => {
     }
 
     if (action.aggregations) {
-        newState.topicFilters = new Map(action.aggregations.topics);
-        newState.tagFilters = new Map(action.aggregations.tags);
-        newState.articleFilters = new Map(action.aggregations.articles);
+        newState.articleAvailableFilters = new List(action.aggregations.articles);
     }
 
-    if (action.topicFilters) {
-        newState.topicActiveFilters = searchState.topicActiveFilters.concat(action.topicFilters);
-    }
-    if (action.tagFilters) {
-        newState.tagActiveFilters = searchState.tagActiveFilters.concat(action.tagFilters);
-    }
-    if (action.articleFilters) {
-        newState.articleActiveFilters = searchState.articleActiveFilters.concat(action.articleFilters);
+    if(action.searchFilters) {
+        newState.searchFilters = new Map(action.searchFilters);
     }
 
     if (action.selectedTags) {

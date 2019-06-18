@@ -28,7 +28,7 @@
 #
 
 class TagSerializer < ActiveModel::Serializer
-  # cache key: 'tag', expires_in: InRailsWeBlog.config.cache_time
+  cache key: 'tag', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :name,
