@@ -27,9 +27,6 @@ class UserShow extends React.Component {
         // classes: PropTypes.object
     };
 
-    static defaultProps = {
-    };
-
     constructor(props) {
         super(props);
     }

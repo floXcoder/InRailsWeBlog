@@ -111,8 +111,10 @@ class ArticleEdit extends React.Component {
             )
         }
 
-        const inventoryData = {};
-        this.props.article.inventories.map((field) => inventoryData[field.fieldName] = field.value);
+        let inventoryData = {};
+        if(this.props.article.mode === 'inventory') {
+            this.props.article.inventories.map((field) => inventoryData[field.fieldName] = field.value);
+        }
 
         const initialValues = {
             mode: this.props.article.mode,

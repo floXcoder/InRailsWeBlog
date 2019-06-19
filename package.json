@@ -90,6 +90,7 @@
     "react-lazyload": "2.6.1",
     "react-masonry-component": "6.2.1",
     "react-paginate": "6.3.0",
+    "react-piwik": "1.6.0",
     "react-portal-tooltip": "2.4.7",
     "react-redux": "7.1.0",
     "react-redux-loading-bar": "4.3.0",

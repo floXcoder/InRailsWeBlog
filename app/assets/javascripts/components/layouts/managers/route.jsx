@@ -19,9 +19,6 @@ class RouteManager extends React.Component {
         routeChange: PropTypes.func
     };
 
-    static defaultProps = {
-    };
-
     constructor(props) {
         super(props);
     }

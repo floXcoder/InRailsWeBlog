@@ -6,7 +6,7 @@ import {
 } from 'react-redux';
 
 import {
-    BrowserRouter
+    Router
 } from 'react-router-dom';
 
 import {
@@ -20,6 +20,7 @@ import {
 
 import routes from '../../../routes';
 
+import browserHistory from '../../modules/browserHistory';
 import PasteManager from '../../modules/pasteManager';
 import ScrollBackManager from '../../modules/scrollBackManager';
 
@@ -43,7 +44,7 @@ export default class ApplicationLayoutHome extends React.Component {
 
                 <Provider store={configureStore}
                           context={ReactReduxContext}>
-                    <BrowserRouter>
+                    <Router history={browserHistory}>
                         <PasteManager>
                             <ScrollBackManager>
                                 <>
@@ -63,7 +64,7 @@ export default class ApplicationLayoutHome extends React.Component {
                                 </>
                             </ScrollBackManager>
                         </PasteManager>
-                    </BrowserRouter>
+                    </Router>
                 </Provider>
             </MuiThemeProvider>
         );

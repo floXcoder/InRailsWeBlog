@@ -85,6 +85,6 @@ log.table = data => {
 
 if (window._paq) {
     perfMetrics.onFirstInputDelay(function (delay, event) {
-        window._paq.push(['trackEvent', 'First Input Delay', event.type, Math.round(delay)]);
+        window._paq.push(['trackEvent', 'First Input Delay', event.type, event.type, Math.round(delay)]);
     });
 }

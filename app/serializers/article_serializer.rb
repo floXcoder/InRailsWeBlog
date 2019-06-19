@@ -92,7 +92,7 @@ class ArticleSerializer < ActiveModel::Serializer
         }
       end
     else
-      nil
+      []
     end
   end
 

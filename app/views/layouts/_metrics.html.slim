@@ -1,4 +1,4 @@
-/! Piwik
+/! Metrics
 javascript:
   _paq.push([function () {
     var self = this;
@@ -15,26 +15,6 @@ javascript:
 
     this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
   }]);
-
-- if current_user
-  javascript:
-    _paq.push(['setUserId', "#{current_user.pseudo}"]);
-
-javascript:
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  _paq.push(['trackAllContentImpressions']);
-  (function () {
-    var u = "//" + "#{ENV['METRICS_ADDRESS']}" + "/";
-    _paq.push(['setTrackerUrl', u + "#{ENV['METRICS_FILENAME']}" + '.php']);
-    _paq.push(['setSiteId', parseInt("#{ENV['METRICS_SITE_NUMBER']}", 10)]);
-    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-    g.type = 'text/javascript';
-    g.async = true;
-    g.defer = true;
-    g.src = u + "#{ENV['METRICS_FILENAME']}" + '.js';
-    s.parentNode.insertBefore(g, s);
-  })();
 
 noscript
   p
