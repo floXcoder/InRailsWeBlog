@@ -27,7 +27,10 @@ export default @withStyles(styles)
 class ArticleAdvancedField extends React.PureComponent {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,
+        change: PropTypes.func.isRequired,
         inheritVisibility: PropTypes.string,
+        currentVisibility: PropTypes.string,
+        currentDraft: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
@@ -44,6 +47,12 @@ class ArticleAdvancedField extends React.PureComponent {
         }));
     };
 
+    _handleDraftChange = (event) => {
+        if (event.target.checked) {
+            this.props.change('visibility', 'only_me');
+        }
+    };
+
     render() {
         return (
             <div className="row margin-top-20 margin-bottom-50">
@@ -51,31 +60,33 @@ class ArticleAdvancedField extends React.PureComponent {
                     this.props.inheritVisibility !== 'only_me' &&
                     <div className="col s12 m6 center-align">
                         <Field name="visibility"
+                               component={SelectFormField}
                                id="article_visibility"
                                className={this.props.classes.select}
                                label={I18n.t('js.article.model.visibility')}
-                               options={I18n.t('js.article.enums.visibility')}
-                               component={SelectFormField}/>
+                               options={I18n.t('js.article.enums.visibility')}/>
                     </div>
                 }
 
                 <div className="col s12 m6 center-align">
                     <Field name="draft"
+                           type="checkbox"
+                           onChange={this._handleDraftChange}
+                           component={CheckBoxFieldForm}
                            id="article_draft"
-                           label={I18n.t('js.article.common.draft')}
-                           component={CheckBoxFieldForm}/>
+                           label={I18n.t('js.article.common.draft')}/>
                 </div>
 
                 {
-                    this.props.inheritVisibility !== 'only_me' &&
+                    (this.props.inheritVisibility !== 'only_me' && this.props.currentVisibility !== 'only_me' && this.props.currentDraft !== true) &&
                     <div className="col s12 center-align">
                         <Divider className={this.props.classes.advancedDivider}/>
 
                         <Field name="allowComment"
+                               component={SwitchFormField}
                                id="article_allow_comment"
                                label={I18n.t('js.article.common.allow_comment.title')}
-                               values={I18n.t('js.article.common.allow_comment')}
-                               component={SwitchFormField}/>
+                               values={I18n.t('js.article.common.allow_comment')}/>
                     </div>
                 }
 
@@ -116,6 +127,7 @@ class ArticleAdvancedField extends React.PureComponent {
                               timeout="auto"
                               unmountOnExit={true}>
                         <Field name="reference"
+                               component={TextFormField}
                                id="article_reference"
                                className={this.props.classes.select}
                                icon="open_in_new"
@@ -126,8 +138,7 @@ class ArticleAdvancedField extends React.PureComponent {
                                            <OpenInNewIcon/>
                                        </InputAdornment>
                                    )
-                               }}
-                               component={TextFormField}/>
+                               }}/>
                     </Collapse>
                 </div>
             </div>

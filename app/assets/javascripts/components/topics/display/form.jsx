@@ -109,12 +109,12 @@ class TopicFormDisplay extends React.Component {
 
                     <div className="col s12 margin-top-25">
                         <Field name="description"
+                               component={EditorField}
                                id="topic_description"
                                modelName="topic"
                                modelId={this.props.topicId}
                                placeholder={I18n.t('js.topic.common.placeholders.description')}
                                onSubmit={this.props.handleSubmit}
-                               component={EditorField}
                                componentContent={this.props.children.description}/>
                     </div>
 

@@ -123,12 +123,12 @@ class TagFormDisplay extends React.Component {
                                 {I18n.t('js.tag.model.description')}
                             </div>
                             <Field name="description"
+                                   component={EditorField}
                                    id="tag_description"
                                    modelName="tag"
                                    modelId={this.props.tagId}
                                    placeholder={I18n.t('js.tag.common.placeholders.description')}
                                    onSubmit={this.props.handleSubmit}
-                                   component={EditorField}
                                    componentContent={this.props.children.description}/>
 
                             <div className="row">
@@ -138,11 +138,11 @@ class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <Field name="visibility"
+                                           component={SelectFormField}
                                            id="tag_visibility"
                                            className={this.props.classes.select}
                                            label=""
-                                           options={I18n.t('js.tag.enums.visibility')}
-                                           component={SelectFormField}/>
+                                           options={I18n.t('js.tag.enums.visibility')}/>
                                 </div>
 
                                 <div className="col s12 m6">

@@ -56,6 +56,7 @@ class ArticleTagField extends React.Component {
             <div className={this.props.classes.tags}>
                 <div className={classNames('categorized-parent-tag', this.props.classes.tagBox)}>
                     <Field name="parent_tags"
+                           component={CategorizedField}
                            id="article_parent_tags"
                            title={I18n.t('js.article.model.parent_tags')}
                            placeholder={I18n.t('js.article.common.tags.parent')}
@@ -67,12 +68,12 @@ class ArticleTagField extends React.Component {
                            transformInitialTags={this._normalizeTags}
                            onTabPress={this._handleSwitchTag}
                            onSubmit={this.props.onSubmit}
-                           component={CategorizedField}
                            componentContent={this.props.parentTags}/>
                 </div>
 
                 <div className={classNames('categorized-child-tag margin-top-40', this.props.classes.tagBox)}>
                     <Field name="child_tags"
+                           component={CategorizedField}
                            id="article_child_tags"
                            title={I18n.t('js.article.model.child_tags')}
                            placeholder={I18n.t('js.article.common.tags.child')}
@@ -84,7 +85,6 @@ class ArticleTagField extends React.Component {
                            categorizedTags={this.props.availableChildTags}
                            transformInitialTags={this._normalizeTags}
                            onSubmit={this.props.onSubmit}
-                           component={CategorizedField}
                            componentContent={this.props.childTags}/>
                 </div>
             </div>

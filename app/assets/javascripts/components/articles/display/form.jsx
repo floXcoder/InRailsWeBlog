@@ -8,7 +8,8 @@ import {
 } from 'react-router-dom';
 
 import {
-    reduxForm
+    reduxForm,
+    getFormValues
 } from 'redux-form/immutable';
 
 import Collapse from '@material-ui/core/Collapse';
@@ -53,7 +54,8 @@ export default @reduxForm({
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
     availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
     parentTags: getArticleParentTags(props.children),
-    childTags: getArticleChildTags(props.children)
+    childTags: getArticleChildTags(props.children),
+    currentValues: getFormValues(props.form)(state)
 }), {
     fetchTags
 })
@@ -80,6 +82,7 @@ class ArticleFormDisplay extends React.Component {
         availableChildTags: PropTypes.array,
         parentTags: PropTypes.array,
         childTags: PropTypes.array,
+        currentValues: PropTypes.object,
         fetchTags: PropTypes.func
     };
 
@@ -269,7 +272,10 @@ class ArticleFormDisplay extends React.Component {
 
                         <Collapse in={this.state.tabIndex === 2}>
                             <ArticleAdvancedField currentMode={currentMode}
-                                                  inheritVisibility={this.props.inheritVisibility}/>
+                                                  inheritVisibility={this.props.inheritVisibility}
+                                                  currentVisibility={this.props.currentValues.get('visibility')}
+                                                  currentDraft={this.props.currentValues.get('draft')}
+                                                  change={this.props.change}/>
 
                             <div className="row">
                                 <div className="col s6 left-align">
