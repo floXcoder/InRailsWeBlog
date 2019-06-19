@@ -26,6 +26,7 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :child_tag_ids
 
   belongs_to :user, serializer: UserSampleSerializer
+
   has_many :tags, serializer: TagSampleSerializer
 
   def mode_translated
@@ -34,10 +35,6 @@ class ArticleSampleSerializer < ActiveModel::Serializer
 
   def title
     instance_options.dig(:highlight_results, object.id, :title).presence || object.title
-  end
-
-  def summary
-    object.summary
   end
 
   def content
@@ -67,14 +64,6 @@ class ArticleSampleSerializer < ActiveModel::Serializer
 
   def date_short
     I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
-  end
-
-  def outdated_articles_count
-    object.outdated_articles_count
-  end
-
-  def comments_count
-    object.comments_count
   end
 
   def parent_tag_ids

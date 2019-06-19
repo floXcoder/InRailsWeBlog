@@ -154,7 +154,7 @@ module Articles
         @article.tagged_articles = [] if tagged_article_attributes.present?
         tagged_article_attributes&.each do |tagged_article_attribute|
           if @article.id
-            if tagged_article_attribute[:tag].id && (tagged_article = @article.tagged_articles.find { |tagged_article| tagged_article.tag_id == tagged_article_attribute[:tag].id })
+            if tagged_article_attribute[:tag].id && (tagged_article = @article.tagged_articles.find { |ta| ta.tag_id == tagged_article_attribute[:tag].id })
               tagged_article.assign_attributes(tagged_article_attribute)
             else
               @article.tagged_articles.build(tagged_article_attribute)
@@ -166,11 +166,11 @@ module Articles
 
         @article.tag_relationships = [] if tag_relationships_attributes.present?
         tag_relationships_attributes&.each do |tag_relationships_attribute|
-          if (tag_relationship = @article.tag_relationships.find { |tag_relationship|
-            tag_relationship.parent == tag_relationships_attributes[:parent] &&
-              tag_relationship.child == tag_relationships_attributes[:child] &&
-              tag_relationship.user_id == tag_relationships_attributes[:user_id] &&
-              tag_relationship.topic_id == tag_relationships_attributes[:topic_id] })
+          if (tag_relationship = @article.tag_relationships.find do |tr|
+            tr.parent == tag_relationships_attributes[:parent] &&
+              tr.child == tag_relationships_attributes[:child] &&
+              tr.user_id == tag_relationships_attributes[:user_id] &&
+              tr.topic_id == tag_relationships_attributes[:topic_id] end)
             tag_relationship.assign_attributes(tag_relationships_attribute)
           else
             @article.tag_relationships.build(tag_relationships_attribute)

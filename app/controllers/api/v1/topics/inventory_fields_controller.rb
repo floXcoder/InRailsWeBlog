@@ -35,17 +35,18 @@ module Api::V1
 
     def inventory_field_params
       if params[:inventory_field].present?
-        params.require(:inventory_field).permit(fields: [
-                                                          :field_name,
-                                                          :name,
-                                                          :value_type,
-                                                          :parent_category,
-                                                          :required,
-                                                          :searchable,
-                                                          :filterable,
-                                                          :priority,
-                                                          :visibility
-                                                        ]
+        params.require(:inventory_field).permit(
+          fields: [
+                    :field_name,
+                    :name,
+                    :value_type,
+                    :parent_category,
+                    :required,
+                    :searchable,
+                    :filterable,
+                    :priority,
+                    :visibility
+                  ]
         )
       else
         {}

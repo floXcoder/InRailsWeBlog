@@ -152,18 +152,18 @@ export default class Autocomplete extends React.Component {
                       selectedItem
                   }) => (
                     <div>
-                        <TextField className="field-input"
-                                   variant={this.props.inputVariant}
+                        <TextField variant={this.props.inputVariant}
                                    margin="normal"
                                    fullWidth={this.props.fullWidth}
-                                   error={this.props.error}
-                                   helperText={this.props.helperText}
                                    name={this.props.name}
                                    label={this.props.label}
-                                   required={this.props.required}
+                                   helperText={this.props.helperText}
+                                   error={this.props.error}
+                                   required={!this.props.isMultiple && this.props.required}
                                    value={this.props.value}
                                    InputProps={{
                                        ...getInputProps({
+                                           style: this.props.isMultiple ? {flexWrap: 'wrap'} : undefined,
                                            startAdornment: this.props.isMultiple ? this.props.value.map((key) => (
                                                <Chip key={key}
                                                      style={{
@@ -181,7 +181,14 @@ export default class Autocomplete extends React.Component {
                             {
                                 isOpen
                                     ?
-                                    <Paper square={true}>
+                                    <Paper style={{
+                                        position: 'absolute',
+                                        zIndex: 1,
+                                        marginTop: 3,
+                                        left: 0,
+                                        right: 0
+                                    }}
+                                           square={true}>
                                         {
                                             this._getSuggestions(inputValue).map((suggestion, index) => {
                                                 const isHighlighted = highlightedIndex === index;

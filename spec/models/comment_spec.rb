@@ -171,16 +171,16 @@ RSpec.describe Comment, type: :model, basic: true do
   end
 
   context 'Instance Methods' do
-    describe '.has_children?' do
-      it { is_expected.to respond_to(:has_children?) }
+    describe '.children??' do
+      it { is_expected.to respond_to(:children?) }
 
       it 'has no children' do
-        expect(@comment.has_children?).to be false
+        expect(@comment.children?).to be false
       end
 
       # it 'has one child' do
       #   create(:comment, user: user, commentable: commentable, parent_id: @comment)
-      #   expect(@comment.has_children?).to be true
+      #   expect(@comment.children?).to be true
       # end
     end
 

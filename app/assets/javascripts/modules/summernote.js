@@ -103,9 +103,15 @@ $.extend(true, $.summernote.lang, {
     'en-US': {
         style: {
             style: 'Style',
-            p: 'Normal',
+            p: 'Text',
+            div: 'Text',
+            b: 'Bold',
+            i: 'Italic',
+            u: 'Underline',
+            li: 'List',
             blockquote: 'Quote',
             pre: 'Code',
+            code: 'Code',
             h2: 'Title',
             h3: 'Subtitle',
             h4: 'Interline'
@@ -117,9 +123,15 @@ $.extend(true, $.summernote.lang, {
     'fr-FR': {
         style: {
             style: 'Style',
-            p: 'Normal',
+            p: 'Texte',
+            div: 'Text',
+            b: 'Gras',
+            i: 'Italique',
+            u: 'Sous-ligné',
+            li: 'Liste',
             blockquote: 'Citation',
             pre: 'Code source',
+            code: 'Code source',
             h2: 'Titre',
             h3: 'Sous-titre',
             h4: 'Interligne'

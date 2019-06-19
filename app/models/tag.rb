@@ -124,6 +124,7 @@ class Tag < ApplicationRecord
   has_many :bookmarks,
            as:          :bookmarked,
            class_name:  'Bookmark',
+           inverse_of:  'bookmarked',
            foreign_key: 'bookmarked_id',
            dependent:   :destroy
   has_many :user_bookmarks,

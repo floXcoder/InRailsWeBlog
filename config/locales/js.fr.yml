@@ -710,6 +710,9 @@ fr:
       fr: "Français"
       en: "English"
     editor:
+      helper:
+        title: "Aide : "
+        article_hint: "pour lier article"
       buttons:
         code: "Code simple"
         pre: "Code multi-line (CTRL+E)"

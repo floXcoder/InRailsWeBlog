@@ -22,10 +22,12 @@ class ArticleRelationship < ApplicationRecord
   belongs_to :user
 
   belongs_to :parent,
-             class_name: 'Article',
+             class_name:  'Article',
+             inverse_of:  'article',
              foreign_key: 'parent_id'
   belongs_to :child,
-             class_name: 'Article',
+             class_name:  'Article',
+             inverse_of:  'article',
              foreign_key: 'child_id'
 
   # == Validations ==========================================================
@@ -34,15 +36,15 @@ class ArticleRelationship < ApplicationRecord
 
   validates :parent,
             presence: true,
-            on: :update
+            on:       :update
   validates :child,
             presence: true,
-            on: :update
+            on:       :update
 
   validates_uniqueness_of :parent_id,
-                          scope: [:user_id, :child_id],
+                          scope:     [:user_id, :child_id],
                           allow_nil: true,
-                          message: I18n.t('activerecord.errors.models.article_relationship.already_linked')
+                          message:   I18n.t('activerecord.errors.models.article_relationship.already_linked')
 
   # == Scopes ===============================================================
 

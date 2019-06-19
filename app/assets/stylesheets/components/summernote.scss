@@ -175,7 +175,7 @@
 
 .note-toolbar,
 .note-air-popover {
-  z-index: 1000;
+  z-index: 1300;
 
   .note-btn {
     background-color: inherit;
@@ -231,6 +231,30 @@
 .note-modal .btn.note-btn {
   text-transform: none;
   float: none;
+}
+
+.note-editor.note-frame .note-status-output {
+  display: block;
+  padding: 6px 12px 0;
+  color: #707070 !important;
+  border-top: 1px solid #e5e5e5 !important;
+  height: 30px !important;
+
+  .note-status-element {
+    float: left;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 16px;
+    margin-top: 2px;
+  }
+
+  .note-status-helper {
+    float: right;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 16px;
+    margin-top: 2px;
+  }
 }
 
 /*********/

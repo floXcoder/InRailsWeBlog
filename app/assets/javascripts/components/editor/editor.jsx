@@ -12,6 +12,7 @@ import {
 
 import EditorLoader from '../../loaders/editor';
 import SanitizePaste from '../../modules/sanitizePaste';
+import * as ActionTypes from "../../constants/actionTypes";
 
 export const EditorMode = {
     EDIT: 1,
@@ -58,6 +59,8 @@ class Editor extends React.Component {
         this._editor = null;
         this._noteEditable = null;
         this._notePlaceholder = null;
+        this._noteStatusElement = null;
+        this._noteStatusHelper = null;
     }
 
     componentDidMount() {
@@ -70,48 +73,13 @@ class Editor extends React.Component {
                 placeholder: this.props.placeholder,
                 popatmouse: false,
                 callbacks: {
-                    onChange: this.props.onChange,
                     onFocus: this.props.onFocus,
+                    onMousedown: this._handleMouseDown,
                     // onBlur: this.props.onBlur,
                     onKeyup: this.props.onKeyUp,
                     onKeydown: this._onKeyDown,
-                    onPaste: (event) => {
-                        event.preventDefault();
-
-                        const userAgent = window.navigator.userAgent;
-                        let msIE = userAgent.indexOf('MSIE ');
-                        msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
-                        const firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-                        let text;
-                        let type = 'plain';
-                        if (msIE) {
-                            text = window.clipboardData.getData('Text');
-                        } else {
-                            if (event.originalEvent.clipboardData.types.includes('text/html')) {
-                                text = event.originalEvent.clipboardData.getData('text/html');
-
-                                if (text) {
-                                    type = 'html';
-                                } else {
-                                    text = event.originalEvent.clipboardData.getData('text/plain');
-                                }
-                            } else {
-                                text = event.originalEvent.clipboardData.getData('text/plain');
-                            }
-                        }
-
-                        const $context = $(event.target).parent();
-
-                        if (text) {
-                            if (msIE || firefox) {
-                                setTimeout(() => {
-                                    document.execCommand('insertHTML', false, SanitizePaste.parse(text, type, $context));
-                                }, 10);
-                            } else {
-                                document.execCommand('insertHTML', false, SanitizePaste.parse(text, type, $context));
-                            }
-                        }
-                    },
+                    onChange: this._onChange,
+                    onPaste: this._onPaste,
                     onImageUpload: this.onImageUpload,
                     onMediaDelete: this.onImageDelete
                 },
@@ -205,6 +173,16 @@ class Editor extends React.Component {
             this._noteEditable = $container.find('.note-editable');
             this._notePlaceholder = $container.find('.note-placeholder');
 
+            const $statusBar = $container.find('.note-status-output');
+            $statusBar.html(
+                '<div class="note-status-element">' + '</div>' + '<div class="note-status-helper">' + '</div>'
+            );
+
+            this._noteStatusElement = $container.find('.note-status-element');
+            this._noteStatusHelper = $container.find('.note-status-helper');
+
+            this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
+
             if (typeof this.props.isDisabled === 'boolean') {
                 this.toggleState(this.props.isDisabled);
             }
@@ -248,7 +226,15 @@ class Editor extends React.Component {
         }
     }
 
+    _handleMouseDown = (event) => {
+        this._displayCurrentElement();
+
+        return event;
+    };
+
     _onKeyDown = (event) => {
+        this._displayCurrentElement();
+
         if (this.props.onSubmit) {
             if (event.keyCode === 13 && event.ctrlKey) {
                 event.preventDefault();
@@ -258,8 +244,71 @@ class Editor extends React.Component {
         }
     };
 
+    _onChange = (content) => {
+        this.props.onChange(content);
+    };
+
+    _onPaste = (event) => {
+        event.preventDefault();
+
+        const userAgent = window.navigator.userAgent;
+        let msIE = userAgent.indexOf('MSIE ');
+        msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
+        const firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+        let text;
+        let type = 'plain';
+        if (msIE) {
+            text = window.clipboardData.getData('Text');
+        } else {
+            if (event.originalEvent.clipboardData.types.includes('text/html')) {
+                text = event.originalEvent.clipboardData.getData('text/html');
+
+                if (text) {
+                    type = 'html';
+                } else {
+                    text = event.originalEvent.clipboardData.getData('text/plain');
+                }
+            } else {
+                text = event.originalEvent.clipboardData.getData('text/plain');
+            }
+        }
+
+        const $context = $(event.target).parent();
+
+        if (text) {
+            if (msIE || firefox) {
+                setTimeout(() => {
+                    document.execCommand('insertHTML', false, SanitizePaste.parse(text, type, $context));
+                }, 10);
+            } else {
+                document.execCommand('insertHTML', false, SanitizePaste.parse(text, type, $context));
+            }
+        }
+    };
+
     _formatContent = (content) => {
         return content && content.replace(/ data-src=/g, ' src=');
+    };
+
+    _displayCurrentElement = () => {
+        let currentNode = document.getSelection().anchorNode;
+
+        // const range = this._editor.summernote('createRange')
+
+        if (currentNode.nodeName === '#text') {
+            currentNode = currentNode.parentNode;
+        }
+
+        const nodeName = currentNode.nodeName.toLocaleLowerCase();
+        let displayNodeName = $.summernote.lang[I18n.locale + '-' + I18n.locale.toUpperCase()].style[nodeName];
+
+        if (displayNodeName) {
+            this._setStatusBarElement(displayNodeName);
+        }
+    };
+
+    _setStatusBarElement = (content) => {
+        this._noteStatusElement.text(content);
     };
 
     onImageUpload = (images) => {

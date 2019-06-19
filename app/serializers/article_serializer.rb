@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -148,4 +149,3 @@ class ArticleSerializer < ActiveModel::Serializer
     instance_options[:new_tags].map(&:id) if instance_options[:new_tags].present?
   end
 end
-

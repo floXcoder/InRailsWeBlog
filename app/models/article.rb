@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -84,9 +85,9 @@ class Article < ApplicationRecord
   # Search
   # Only filterable can be used in where options!
   searchkick word_middle: [:title, :content], # To improve speed for autocomplete
-             suggest:     [:title],
-             highlight:   [:title, :content],
-             language:    -> { I18n.locale == :fr ? 'french' : 'english' }
+             suggest:   [:title],
+             highlight: [:title, :content],
+             language:  -> { I18n.locale == :fr ? 'french' : 'english' }
   # Cannot search in inventory fields if these options are used:
   # searchable:  [:title, :content, :reference],
   # filterable:  [:mode, :visibility, :draft, :languages, :notation, :accepted, :home_page, :user_id, :topic_id, :tag_ids, :tag_slugs],
@@ -138,6 +139,7 @@ class Article < ApplicationRecord
   has_many :parent_relationships,
            autosave:    true,
            class_name:  'ArticleRelationship',
+           inverse_of:  'parent',
            foreign_key: 'parent_id',
            dependent:   :destroy
   has_many :children,
@@ -147,6 +149,7 @@ class Article < ApplicationRecord
   has_many :child_relationships,
            autosave:    true,
            class_name:  'ArticleRelationship',
+           inverse_of:  'child',
            foreign_key: 'child_id',
            dependent:   :destroy
   has_many :parents,
@@ -156,7 +159,8 @@ class Article < ApplicationRecord
   has_many :bookmarks,
            as:          :bookmarked,
            class_name:  'Bookmark',
-           foreign_key: 'bookmarked_id',
+           inverse_of:  'topic',
+           foreign_key: 'bookmarked',
            dependent:   :destroy
   has_many :user_bookmarks,
            through: :bookmarks,
@@ -171,11 +175,13 @@ class Article < ApplicationRecord
           -> { where(shares: { mode: :link }) },
           as:          :shareable,
           class_name:  'Share',
+          inverse_of:  'shareable',
           foreign_key: 'shareable_id',
           dependent:   :destroy
   has_many :shares,
            as:          :shareable,
            class_name:  'Share',
+           inverse_of:  'shareable',
            foreign_key: 'shareable_id',
            dependent:   :destroy
   #   has_many :contributors,
@@ -188,9 +194,10 @@ class Article < ApplicationRecord
 
   has_many :pictures,
            -> { order 'created_at ASC' },
-           as:        :imageable,
-           autosave:  true,
-           dependent: :destroy
+           as:         :imageable,
+           inverse_of: 'imageable',
+           autosave:   true,
+           dependent:  :destroy
   accepts_nested_attributes_for :pictures,
                                 allow_destroy: true,
                                 reject_if:     lambda {

@@ -43,7 +43,7 @@ FactoryBot.define do
     after(:build) do |topic, evaluator|
       if evaluator.inventory_fields.present?
         evaluator.inventory_fields.flatten.map do |inventory_field|
-          topic.inventory_fields.build(inventory_field.merge(topic: topic))
+          topic.inventory_fields.build(inventory_field)
         end
       end
     end

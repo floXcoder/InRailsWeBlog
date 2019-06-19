@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: topics
@@ -99,6 +100,7 @@ class Topic < ApplicationRecord
   has_many :inventory_fields,
            -> { order(:priority) },
            class_name: 'Topic::InventoryField',
+           inverse_of: 'topic',
            autosave:   true,
            dependent:  :destroy
   accepts_nested_attributes_for :inventory_fields,

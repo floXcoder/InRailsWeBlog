@@ -185,6 +185,7 @@ class User < ApplicationRecord
 
   has_many :contributions,
            class_name:  'Share',
+           inverse_of:  'contributor',
            foreign_key: :contributor_id,
            dependent:   :destroy
   has_many :contributed_topics,

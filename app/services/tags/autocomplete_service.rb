@@ -11,7 +11,7 @@ module Tags
 
     def perform
       # If query not defined or blank, search for everything
-      query_string = @query.blank? ? nil : @query
+      query_string = @query.presence
 
       # Fields with boost
       fields = %w[name^3 description]

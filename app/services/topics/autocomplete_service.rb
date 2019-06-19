@@ -11,7 +11,7 @@ module Topics
 
     def perform
       # If query not defined or blank, do not search
-      query_string = @query.blank? ? nil : @query
+      query_string = @query.presence
 
       # Fields with boost
       fields = %w[name^3 description]

@@ -32,10 +32,12 @@ class TagRelationship < ApplicationRecord
 
   belongs_to :parent,
              class_name:  'Tag',
+             inverse_of:  'tag',
              foreign_key: 'parent_id',
              touch:       true
   belongs_to :child,
              class_name:  'Tag',
+             inverse_of:  'tag',
              foreign_key: 'child_id',
              touch:       true
 

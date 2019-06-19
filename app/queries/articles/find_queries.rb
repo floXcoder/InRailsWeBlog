@@ -120,7 +120,7 @@ module Articles
       end
 
       def filter_by(filter, current_user = nil, user_articles = nil, topic_articles = nil)
-        return self unless filter.present?
+        return self if filter.blank?
 
         records = self
 
