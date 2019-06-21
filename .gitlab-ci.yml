@@ -38,7 +38,7 @@ build:
     - node -v
     - yarn --version
     - which ruby
-    - gem install bundler --no-ri --no-rdoc
+    - gem install bundler
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
     - yarn install --frozen-lockfile --cache-folder .yarn-cache
   only:
