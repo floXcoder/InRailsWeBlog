@@ -23,7 +23,7 @@ describe 'Share API', type: :request, basic: true do
 
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/api/v1/shares/topic", params: { share: { topic_id: @public_topic.id, login: @contributed_user.pseudo } }, as: :json
+        post '/api/v1/shares/topic', params: { share: { topic_id: @public_topic.id, login: @contributed_user.pseudo } }, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -36,7 +36,7 @@ describe 'Share API', type: :request, basic: true do
 
       it 'returns the shared topic' do
         expect {
-          post "/api/v1/shares/topic", params: { share: { topic_id: @public_topic.id, login: @contributed_user.pseudo } }, as: :json
+          post '/api/v1/shares/topic', params: { share: { topic_id: @public_topic.id, login: @contributed_user.pseudo } }, as: :json
 
           expect(response).to be_json_response
 
@@ -58,26 +58,26 @@ describe 'Share API', type: :request, basic: true do
 
         it 'returns the errors' do
           expect {
-            post "/api/v1/shares/topic", params: { share: { topic_id: @public_topic.id, login: @contributed_user.pseudo } }, as: :json
+            post '/api/v1/shares/topic', params: { share: { topic_id: @public_topic.id, login: @contributed_user.pseudo } }, as: :json
 
             expect(response).to be_json_response(422)
 
             topic = JSON.parse(response.body)
             expect(topic['errors']).to eq(I18n.t('views.share.errors.user_already_shared'))
-          }.to change(Share, :count).by(0)
+          }.not_to change(Share, :count)
         end
       end
 
       context 'when sharing a private topic' do
         it 'returns the errors' do
           expect {
-            post "/api/v1/shares/topic", params: { share: { topic_id: @private_topic.id, login: @contributed_user.pseudo } }, as: :json
+            post '/api/v1/shares/topic', params: { share: { topic_id: @private_topic.id, login: @contributed_user.pseudo } }, as: :json
 
             expect(response).to be_json_response(422)
 
             topic = JSON.parse(response.body)
             expect(topic['errors']).to eq(I18n.t('views.share.errors.private_shareable'))
-          }.to change(Share, :count).by(0)
+          }.not_to change(Share, :count)
         end
       end
     end
@@ -86,7 +86,7 @@ describe 'Share API', type: :request, basic: true do
   describe '/api/v1/shares/article' do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post "/api/v1/shares/article", params: { share: { article_id: @private_article.id } }, as: :json
+        post '/api/v1/shares/article', params: { share: { article_id: @private_article.id } }, as: :json
 
         expect(response).to be_unauthenticated
       end
@@ -99,7 +99,7 @@ describe 'Share API', type: :request, basic: true do
 
       it 'returns the shared topic' do
         expect {
-          post "/api/v1/shares/article", params: { share: { article_id: @private_article.id } }, as: :json
+          post '/api/v1/shares/article', params: { share: { article_id: @private_article.id } }, as: :json
 
           expect(response).to be_json_response
 
@@ -118,26 +118,26 @@ describe 'Share API', type: :request, basic: true do
 
         it 'returns the errors' do
           expect {
-            post "/api/v1/shares/article", params: { share: { article_id: @private_article.id } }, as: :json
+            post '/api/v1/shares/article', params: { share: { article_id: @private_article.id } }, as: :json
 
             expect(response).to be_json_response(422)
 
             article = JSON.parse(response.body)
             expect(article['errors']).to eq(I18n.t('views.share.errors.link_already_shared'))
-          }.to change(Share, :count).by(0)
+          }.not_to change(Share, :count)
         end
       end
 
       context 'when sharing a public article' do
         it 'returns the errors' do
           expect {
-            post "/api/v1/shares/article", params: { share: { article_id: @public_article.id } }, as: :json
+            post '/api/v1/shares/article', params: { share: { article_id: @public_article.id } }, as: :json
 
             expect(response).to be_json_response(422)
 
             article = JSON.parse(response.body)
             expect(article['errors']).to eq(I18n.t('views.share.errors.useless_shareable'))
-          }.to change(Share, :count).by(0)
+          }.not_to change(Share, :count)
         end
       end
     end

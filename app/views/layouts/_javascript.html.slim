@@ -1,3 +1,5 @@
+#dropdown-component
+
 javascript:
     window.railsEnv = "#{Rails.env}";
     window.settings = JSON.parse('#{raw InRailsWeBlog.config.to_h.to_json}');
@@ -11,6 +13,10 @@ javascript:
       window.revision = "#{REVISION}";
 
       window.SENTRY_JAVASCRIPT_KEY = "#{ENV['SENTRY_JAVASCRIPT_KEY']}";
+      
+      window.METRICS_ADDRESS = "#{ENV['METRICS_ADDRESS']}";
+      window.METRICS_SITE_NUMBER = "#{ENV['METRICS_SITE_NUMBER']}";
+      window.METRICS_FILENAME = "#{ENV['METRICS_FILENAME']}";
 
       var _paq = _paq || [];
 

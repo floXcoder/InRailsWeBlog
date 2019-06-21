@@ -11,9 +11,9 @@ import ArticleGridDisplay from '../articles/grid';
 const ArticleMasonry = MasonryWrapper(ArticleGridDisplay);
 
 export default @hot
-class ArticleGridMode extends React.Component {
+class ArticleGridModeSearch extends React.Component {
     static propTypes = {
-        children: PropTypes.array.isRequired
+        articles: PropTypes.array.isRequired
     };
 
     constructor(props) {
@@ -23,10 +23,10 @@ class ArticleGridMode extends React.Component {
     render() {
         return (
             <ArticleMasonry type="article"
-                            elements={this.props.children}
+                            elements={this.props.articles}
                             topOffset={40}
                             hasColumnButtons={false}
-                            columnCount={2}
+                            columnCount={3}
                             hasExposedMode={false}
                             isActive={true}
                             isPaginated={false}/>

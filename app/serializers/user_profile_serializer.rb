@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UserProfileSerializer < ActiveModel::Serializer
-  # cache key: 'user_profile', expires_in: InRailsWeBlog.config.cache_time
+  cache key: 'user_profile', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :pseudo,
@@ -15,7 +15,7 @@ class UserProfileSerializer < ActiveModel::Serializer
              :draft_count,
              :settings
 
-  has_one :current_topic
+  has_one :current_topic, serializer: TopicSerializer
 
   has_many :topics, serializer: TopicSampleSerializer
 

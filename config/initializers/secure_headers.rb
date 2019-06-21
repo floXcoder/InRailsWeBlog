@@ -34,7 +34,5 @@ else
       form_action:      ["'self'"],
       report_uri:       [ENV['SENTRY_REPORT_URI']].compact
     }
-
-    # config.x_frame_options = "ALLOW-FROM https://#{ENV['SENTRY_ADDRESS']}"
   end
 end

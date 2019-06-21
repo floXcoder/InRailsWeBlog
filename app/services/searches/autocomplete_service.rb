@@ -69,16 +69,17 @@ module Searches
           when 'Article'
             article_results = articles_autocomplete&.format_search(search.results)
             next if article_results[:articles].empty?
+
             autocomplete_results[:articles] = article_results[:articles]
           when 'Tag'
             tag_results = tags_autocomplete&.format_search(search)
-
             next if tag_results[:tags].empty?
+
             autocomplete_results[:tags] = tag_results[:tags]
           when 'Topic'
             topic_results = topics_autocomplete&.format_search(search)
-
             next if topic_results[:topics].empty?
+
             autocomplete_results[:topics] = topic_results[:topics]
           end
         end

@@ -117,6 +117,8 @@ Rails.application.routes.draw do
         member do
           concerns :tracker,  module: :tags
         end
+
+        resources :inventory_fields, controller: 'topics/inventory_fields', only: [:create]
       end
 
       # Articles

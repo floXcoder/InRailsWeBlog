@@ -3,19 +3,17 @@
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-const CheckBoxForm = ({input, label, meta: {touched, error}, componentContent, ...custom}) => (
-    <FormControlLabel
-        control={
-            <Checkbox label={label}
-                      checked={!!input.value}
-                      onChange={input.onChange}
-                      {...custom}/>
-        }
-        label={label}
-    />
+const CheckBoxFormField = ({input, label, meta: {touched, error}, componentContent, ...custom}) => (
+    <FormControlLabel label={label}
+                      labelPlacement="end"
+                      control={
+                          <Checkbox checked={!!input.value}
+                                    onChange={input.onChange}
+                                    {...custom}/>
+                      }/>
 );
 
-CheckBoxForm.propTypes = {
+CheckBoxFormField.propTypes = {
     input: PropTypes.object.isRequired,
     meta: PropTypes.object.isRequired,
     label: PropTypes.oneOfType([
@@ -26,4 +24,4 @@ CheckBoxForm.propTypes = {
     componentContent: PropTypes.bool
 };
 
-export default CheckBoxForm;
+export default CheckBoxFormField;

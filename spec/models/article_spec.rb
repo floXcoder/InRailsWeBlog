@@ -84,6 +84,7 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to respond_to(:outdated_articles_count) }
     it { is_expected.to respond_to(:bookmarks_count) }
     it { is_expected.to respond_to(:comments_count) }
+    it { is_expected.to respond_to(:inventories) }
 
     it { expect(@article.title).to eq('My title') }
     it { expect(@article.summary).to eq('Summary of my article') }
@@ -97,10 +98,11 @@ RSpec.describe Article, type: :model, basic: true do
     it { expect(@article.allow_comment).to be false }
     it { expect(@article.archived).to be false }
     it { expect(@article.accepted).to be true }
-    it { expect(@article.bookmarks_count).to eq(0) }
+    it { expect(@article.pictures_count).to eq(0) }
     it { expect(@article.outdated_articles_count).to eq(0) }
     it { expect(@article.bookmarks_count).to eq(0) }
     it { expect(@article.comments_count).to eq(0) }
+    it { expect(@article.inventories).to eq({}) }
 
     describe 'Default Attributes' do
       before do
@@ -124,15 +126,31 @@ RSpec.describe Article, type: :model, basic: true do
       it { expect(@article.allow_comment).to be true }
       it { expect(@article.archived).to be false }
       it { expect(@article.accepted).to be true }
-      it { expect(@article.bookmarks_count).to eq(0) }
+      it { expect(@article.pictures_count).to eq(0) }
       it { expect(@article.outdated_articles_count).to eq(0) }
       it { expect(@article.bookmarks_count).to eq(0) }
       it { expect(@article.comments_count).to eq(0) }
+      it { expect(@article.inventories).to eq({}) }
+    end
+
+    describe '#mode' do
+      it { is_expected.to have_enum(:mode) }
+      it { is_expected.to validate_presence_of(:mode) }
     end
 
     describe '#title' do
       it { is_expected.to validate_length_of(:title).is_at_least(InRailsWeBlog.config.article_title_min_length) }
       it { is_expected.to validate_length_of(:title).is_at_most(InRailsWeBlog.config.article_title_max_length) }
+
+      it 'validates presence of title only if not a draft' do
+        @article.update!(draft: false, mode: :note)
+        expect(@article).to validate_presence_of(:title)
+
+        @article.update!(draft: true, visibility: :only_me, mode: :note)
+        expect(@article).not_to validate_presence_of(:title)
+      ensure
+        @article.update!(title: 'My title', draft: false, mode: :note)
+      end
     end
 
     describe '#summary' do
@@ -142,25 +160,24 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '#content' do
       it { is_expected.to validate_length_of(:content).is_at_least(InRailsWeBlog.config.article_content_min_length) }
-      # Endless test
-      # it { is_expected.to validate_length_of(:content).is_at_most(InRailsWeBlog.config.article_content_max_length) }
+      it { is_expected.to validate_length_of(:content).is_at_most(InRailsWeBlog.config.article_content_max_length) }
 
-      it 'validates presence of content if no reference' do
+      it 'validates presence of content only if no reference or not an inventory' do
         @article.update!(reference: nil)
         expect(@article).to validate_presence_of(:content)
 
-        @article.update!(reference: 'htt://link.com')
+        @article.update!(mode: :inventory, inventories: {test: 'test'})
         expect(@article).not_to validate_presence_of(:content)
+
+        @article.update!(reference: 'https://www.link.com')
+        expect(@article).not_to validate_presence_of(:content)
+      ensure
+        @article.update!(content: 'Content of my article', mode: :note, reference: nil, inventories: {})
       end
     end
 
     describe '#notation' do
       it { is_expected.to validate_inclusion_of(:notation).in_range(InRailsWeBlog.config.notation_min..InRailsWeBlog.config.notation_max) }
-    end
-
-    describe '#mode' do
-      it { is_expected.to have_enum(:mode) }
-      it { is_expected.to validate_presence_of(:mode) }
     end
 
     describe '#visibility' do

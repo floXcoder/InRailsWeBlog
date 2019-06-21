@@ -14,7 +14,7 @@ import HeaderUserMenu from './menus/user';
 import styles from '../../../../jss/user/header';
 
 export default @withStyles(styles)
-class HomeUserHeader extends React.Component {
+class HomeUserHeader extends React.PureComponent {
     static propTypes = {
         userSlug: PropTypes.string.isRequired,
         onLogoutClick: PropTypes.func.isRequired,
@@ -31,7 +31,7 @@ class HomeUserHeader extends React.Component {
                 </IconButton>
             }
                       position="bottom right"
-                      buttonClassName="header-button"
+                      buttonClassName={this.props.classes.headerButton}
                       isFixed={true}
                       hasWavesEffect={false}
                       hasArrow={true}>

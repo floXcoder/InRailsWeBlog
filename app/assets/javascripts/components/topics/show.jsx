@@ -20,6 +20,7 @@ import ShareIcon from '@material-ui/icons/Share';
 
 import {
     fetchTopic,
+    deleteTopic,
     spyTrackClick
 } from '../../actions';
 
@@ -38,10 +39,12 @@ import styles from '../../../jss/topic/show';
 
 export default @connect((state) => ({
     metaTags: getTopicMetaTags(state),
+    userId: state.userState.currentId,
     isFetching: state.topicState.isFetching,
     topic: state.topicState.topic
 }), {
-    fetchTopic
+    fetchTopic,
+    deleteTopic
 })
 @hot
 @withStyles(styles)
@@ -50,9 +53,11 @@ class TopicShow extends React.Component {
         routeParams: PropTypes.object.isRequired,
         // from connect
         metaTags: PropTypes.object,
+        userId: PropTypes.number,
         isFetching: PropTypes.bool,
         topic: PropTypes.object,
         fetchTopic: PropTypes.func,
+        deleteTopic: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -73,6 +78,13 @@ class TopicShow extends React.Component {
 
     _handleTagClick = (tag) => {
         spyTrackClick('tag', tag.id, tag.slug, tag.name);
+    };
+
+    _handleTopicDelete = (event) => {
+        event.preventDefault();
+
+        this.props.deleteTopic(this.props.userId, this.props.topic.id)
+            .then(() => window.location = '/');
     };
 
     render() {
@@ -183,7 +195,7 @@ class TopicShow extends React.Component {
                                                 topicId: this.props.topic.id
                                             }
                                         }}>
-                                    Partager ce topic
+                                    {I18n.t('js.topic.show.share')}
                                     <ShareIcon className={this.props.classes.shareButtonIcon}/>
                                 </Button>
                             </div>
@@ -222,6 +234,16 @@ class TopicShow extends React.Component {
                             component={Link}
                             to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/edit`}>
                         {I18n.t('js.topic.show.edit_link')}
+                    </Button>
+                </div>
+
+                <div className="center-align margin-top-20">
+                    <Button className={this.props.classes.shareButton}
+                            color="default"
+                            variant="text"
+                            size="small"
+                            onClick={this._handleTopicDelete}>
+                        {I18n.t('js.topic.edit.delete')}
                     </Button>
                 </div>
             </article>

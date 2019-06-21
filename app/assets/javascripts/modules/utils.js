@@ -53,7 +53,7 @@ Object.equals = function (x, y) {
         if (x[p] === y[p]) continue;
         // if they have the same strict value or identity then they are equal
 
-        if (typeof(x[p]) !== "object") return false;
+        if (typeof (x[p]) !== "object") return false;
         // Numbers, Strings, Functions, Booleans must be strictly equal
 
         if (!Object.equals(x[p], y[p])) return false;
@@ -87,13 +87,27 @@ Array.prototype.limit = function (limit) {
 // };
 
 Array.prototype.remove = function (item) {
-    if (this && item) {
+    if (this) {
         return this.filter(value => value !== item);
     }
 };
 
+Array.prototype.removeIndex = function (index) {
+    if (this) {
+        if (index < 0 || index > this.length) {
+            return this;
+        } else if (index === 0) {
+            return this.slice(1, this.length);
+        } else if (index === this.length - 1) {
+            return this.slice(0, this.length - 1);
+        } else {
+            return this.slice(0, index).concat(this.slice(index + 1, this.length));
+        }
+    }
+};
+
 Array.prototype.addOrRemove = function (item) {
-    if (this && item) {
+    if (this) {
         return this.includes(item) ? this.remove(item) : this.concat(item);
     }
 };
@@ -122,8 +136,7 @@ Array.prototype.equals = function (array) {
             // recurse into the nested arrays
             if (!this[i].equals(array[i]))
                 return false;
-        }
-        else if (this[i] !== array[i]) {
+        } else if (this[i] !== array[i]) {
             // Warning - two different object instances will never be equal: {x:20} != {x:20}
             return false;
         }
@@ -305,54 +318,6 @@ export const getUrlAnchor = () => (document.URL.split('#').length > 1) ? documen
 //         }
 //     }
 // };
-
-export const parseUrlParameters = (query) => {
-    if (!query) {
-        return;
-    }
-
-    if (query.startsWith('?')) {
-        query = query.substr(1);
-    }
-
-    let hash = {};
-    const vars = query.split("&");
-    for (let i = 0; i < vars.length; i++) {
-        const pair = vars[i].split("=");
-        const k = decodeURIComponent(pair[0]);
-        const v = decodeURIComponent(pair[1]);
-
-        // If it is the first entry with this name
-        if (typeof hash[k.substr(0, k.length - 2)] !== "undefined") {
-            hash[k.substr(0, k.length - 2)].push(v);
-        } else if (typeof hash[k] === "undefined") {
-            // not end with []. cannot use negative index as IE doesn't understand it
-            if (k.substr(k.length - 2) !== '[]') {
-                hash[k] = v;
-            }
-            else {
-                hash[k.substr(0, k.length - 2)] = [v];
-            }
-        } else if (typeof hash[k] === "string") {
-            // If subsequent entry with this name and not array
-            hash[k] = v;  // replace it
-        } else {
-            // If subsequent entry with this name and is array
-            hash[k.substr(0, k.length - 2)].push(v);
-        }
-    }
-
-    return hash;
-};
-
-export const getUrlParameters = () => {
-    const query = window.location.search.substring(1);
-    if (query === '') {
-        return undefined;
-    }
-
-    return parseUrlParameters(query);
-};
 
 export const decodeObject = (object) => {
     if (!object) {

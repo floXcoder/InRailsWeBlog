@@ -82,3 +82,14 @@ export const getTagSuggestions = createSelector(
     (state) => state.searchState.tagSuggestions,
     (tagSuggestions) => tagSuggestions && tagSuggestions.toJS()
 );
+
+// Filters / Aggregations
+export const getSearchFilters = createSelector(
+    (state) => state.searchState.searchFilters,
+    (searchFilters) => searchFilters && searchFilters.toJS()
+);
+
+export const getArticleAvailableFilters = createSelector(
+    (state) => state.searchState.articleAvailableFilters,
+    (articleAvailableFilters) => articleAvailableFilters && articleAvailableFilters.toJS()
+);

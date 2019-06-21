@@ -15,7 +15,7 @@ const styles = (theme) => ({
         minHeight: 400,
         overflow: 'auto',
         padding: '.4rem',
-        width: 280,
+        width: 340,
         zIndex: topicZIndex,
         [theme.breakpoints.down('md')]: {
             fontSize: '1.3rem',
@@ -56,7 +56,10 @@ const styles = (theme) => ({
         lineHeight: '3rem',
         margin: '.6rem 0',
         padding: '0 0 0 .8rem',
-        width: '100%'
+        width: '100%',
+        [theme.breakpoints.down('md')]: {
+            margin: '1rem 0'
+        }
     },
     itemContent: {
         position: 'relative',

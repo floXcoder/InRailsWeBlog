@@ -75,7 +75,7 @@ class SitePage
     end
   end
 
-  def has_language?(language, lg)
-    has_selector?("#language-dropdown a[href='/?locale=#{lg}']", text: t("views.header.language.#{language}"), visible: false)
+  def has_language?(language, lang)
+    has_selector?("#language-dropdown a[href='/?locale=#{lang}']", text: t("views.header.language.#{language}"), visible: false)
   end
 end

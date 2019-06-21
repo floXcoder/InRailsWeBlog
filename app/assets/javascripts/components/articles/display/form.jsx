@@ -8,13 +8,18 @@ import {
 } from 'react-router-dom';
 
 import {
-    reduxForm
+    reduxForm,
+    getFormValues
 } from 'redux-form/immutable';
 
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
-import Sticky from 'react-stickynode';
+import {
+    StickyContainer,
+    Sticky
+} from 'react-sticky';
 
 import {
     fetchTags
@@ -34,6 +39,7 @@ import {
 import ArticleFormStepper from './fields/stepper';
 import ArticleTagsField from './fields/tags';
 import ArticleCommonField from './fields/common';
+import ArticleInventoriesField from './fields/inventories';
 import ArticleAdvancedField from './fields/advanced';
 import ArticleErrorField from './fields/error';
 
@@ -48,7 +54,8 @@ export default @reduxForm({
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
     availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
     parentTags: getArticleParentTags(props.children),
-    childTags: getArticleChildTags(props.children)
+    childTags: getArticleChildTags(props.children),
+    currentValues: getFormValues(props.form)(state)
 }), {
     fetchTags
 })
@@ -57,11 +64,12 @@ class ArticleFormDisplay extends React.Component {
         userSlug: PropTypes.string.isRequired,
         inheritVisibility: PropTypes.string,
         isEditing: PropTypes.bool,
-        children: PropTypes.object,
+        currentTopic: PropTypes.object,
         currentMode: PropTypes.string,
         errorStep: PropTypes.string,
         articleErrors: PropTypes.array,
         onCancelClick: PropTypes.func,
+        children: PropTypes.object,
         // from reduxForm
         change: PropTypes.func,
         handleSubmit: PropTypes.func,
@@ -74,6 +82,7 @@ class ArticleFormDisplay extends React.Component {
         availableChildTags: PropTypes.array,
         parentTags: PropTypes.array,
         childTags: PropTypes.array,
+        currentValues: PropTypes.object,
         fetchTags: PropTypes.func
     };
 
@@ -139,6 +148,8 @@ class ArticleFormDisplay extends React.Component {
     render() {
         const currentMode = this.props.children.mode || this.props.currentMode;
 
+        const isNextDisabled = this.props.submitting || (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length === 0);
+
         return (
             <form onSubmit={this.props.handleSubmit}>
                 <EnsureValidity/>
@@ -146,11 +157,21 @@ class ArticleFormDisplay extends React.Component {
                 <Prompt when={this.props.dirty && !(this.props.submitSucceeded || this.props.submitting)}
                         message={this._onUnsavedExit}/>
 
-                <div>
-                    <Sticky enabled={true}
-                            top="header">
-                        <ArticleFormStepper tabIndex={this.state.tabIndex}
-                                            onTabChange={this._handleTabChange}/>
+                <StickyContainer>
+                    <Sticky topOffset={-64}>
+                        {({style}) => (
+                            <div style={{
+                                position: style.position,
+                                transform: style.transform,
+                                top: style.top || 64,
+                                zIndex: 1100,
+                                maxWidth: 740,
+                                width: '100%'
+                            }}>
+                                <ArticleFormStepper tabIndex={this.state.tabIndex}
+                                                    onTabChange={this._handleTabChange}/>
+                            </div>
+                        )}
                     </Sticky>
 
                     <div className="margin-bottom-30">
@@ -160,18 +181,74 @@ class ArticleFormDisplay extends React.Component {
                         }
 
                         <Collapse in={this.state.tabIndex === 0}>
-                            <ArticleCommonField currentMode={currentMode}
-                                                currentTopicId={this.props.currentUserTopicId}
-                                                article={this.props.children}
-                                                change={this.props.change}
-                                                onSubmit={this.props.handleSubmit}/>
+                            {
+                                this.props.currentTopic.mode === 'inventories'
+                                    ?
+                                    <ArticleInventoriesField currentTopicId={this.props.currentUserTopicId}
+                                                             inventoryFields={this.props.currentTopic.inventoryFields}
+                                                             article={this.props.children}
+                                                             change={this.props.change}/>
+                                    :
+                                    <ArticleCommonField currentMode={currentMode}
+                                                        currentTopicId={this.props.currentUserTopicId}
+                                                        article={this.props.children}
+                                                        change={this.props.change}
+                                                        onSubmit={this.props.handleSubmit}/>
+                            }
+
+                            {
+                                (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length === 0) &&
+                                <div className="center-align margin-bottom-75">
+                                    <Typography variant="h5"
+                                                gutterBottom={true}>
+                                        {I18n.t('js.article.form.no_inventories')}
+                                    </Typography>
+
+                                    <Button className="margin-top-25"
+                                            color="primary"
+                                            variant="contained"
+                                            component={Link}
+                                            to={`/users/${this.props.currentTopic.user.slug}/topics/${this.props.currentTopic.slug}/edit-inventories`}>
+                                        {I18n.t('js.article.form.inventory_button')}
+                                    </Button>
+                                </div>
+                            }
 
                             <div className="center-align margin-top-20">
-                                <Button color="primary"
-                                        variant="outlined"
-                                        onClick={this._handleButtonChange.bind(this, 1)}>
-                                    {I18n.t('js.article.form.next')}
-                                </Button>
+                                <div className="row">
+                                    <div className="col s12 margin-bottom-25">
+                                        <Button color="primary"
+                                                variant="outlined"
+                                                disabled={isNextDisabled}
+                                                onClick={this._handleButtonChange.bind(this, 1)}>
+                                            {I18n.t('js.article.form.next')}
+                                        </Button>
+                                    </div>
+
+                                    {
+                                        (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length > 0) &&
+                                        <div className="col s12 margin-top-25 margin-bottom-25">
+                                            <Button style={{
+                                                color: '#aaa'
+                                            }}
+                                                    variant="text"
+                                                    size="small"
+                                                    component={Link}
+                                                    to={`/users/${this.props.currentTopic.user.slug}/topics/${this.props.currentTopic.slug}/edit-inventories`}>
+                                                {I18n.t('js.article.form.inventory_button')}
+                                            </Button>
+                                        </div>
+                                    }
+
+                                    <div className="col s12 margin-top-25">
+                                        <Button size="small"
+                                                component={Link}
+                                                to={this.props.isEditing ? `/users/${this.props.userSlug}/articles/${this.props.children.slug}` : `/users/${this.props.userSlug}`}
+                                                onClick={this.props.onCancelClick}>
+                                            {I18n.t('js.helpers.buttons.cancel')}
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
                         </Collapse>
 
@@ -186,6 +263,7 @@ class ArticleFormDisplay extends React.Component {
                             <div className="center-align margin-top-30">
                                 <Button color="primary"
                                         variant="outlined"
+                                        disabled={isNextDisabled}
                                         onClick={this._handleButtonChange.bind(this, 2)}>
                                     {I18n.t('js.article.form.next')}
                                 </Button>
@@ -194,7 +272,10 @@ class ArticleFormDisplay extends React.Component {
 
                         <Collapse in={this.state.tabIndex === 2}>
                             <ArticleAdvancedField currentMode={currentMode}
-                                                  inheritVisibility={this.props.inheritVisibility}/>
+                                                  inheritVisibility={this.props.inheritVisibility}
+                                                  currentVisibility={this.props.currentValues.get('visibility')}
+                                                  currentDraft={this.props.currentValues.get('draft')}
+                                                  change={this.props.change}/>
 
                             <div className="row">
                                 <div className="col s6 left-align">
@@ -202,7 +283,7 @@ class ArticleFormDisplay extends React.Component {
                                             size="small"
                                             component={Link}
                                             to={this.props.isEditing ? `/users/${this.props.userSlug}/articles/${this.props.children.slug}` : `/users/${this.props.userSlug}`}
-                                    onClick={this.props.onCancelClick}>
+                                            onClick={this.props.onCancelClick}>
                                         {I18n.t('js.helpers.buttons.cancel')}
                                     </Button>
                                 </div>
@@ -224,7 +305,7 @@ class ArticleFormDisplay extends React.Component {
                             </div>
                         </Collapse>
                     </div>
-                </div>
+                </StickyContainer>
             </form>
         );
     }

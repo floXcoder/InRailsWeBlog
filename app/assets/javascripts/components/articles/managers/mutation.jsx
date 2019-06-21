@@ -117,8 +117,8 @@ export default function articleMutationManager(mode, formId) {
 
                     if (props.routeState.temporary) {
                         const temporaryArticle = getLocalData(articleTemporaryDataName, true);
-                        if (temporaryArticle && temporaryArticle.length > 0) {
-                            this.state.article = temporaryArticle.first().article;
+                        if (temporaryArticle && temporaryArticle.article) {
+                            this.state.article = temporaryArticle.article;
                         }
                     }
 
@@ -210,6 +210,10 @@ export default function articleMutationManager(mode, formId) {
                         return updatePromise;
                     } else {
                         return updatePromise.then((response) => {
+                            if (response.errors) {
+                                return;
+                            }
+
                             this.props.history.push({
                                 pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
                                 state: {reloadTags: true}

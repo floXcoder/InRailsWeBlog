@@ -10,7 +10,6 @@ import Divider from '@material-ui/core/Divider';
 
 import EditIcon from '@material-ui/icons/Edit';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import LinkIcon from '@material-ui/icons/Link';
 
 export default class HeaderArticleMenu extends React.Component {
     static propTypes = {
@@ -19,6 +18,7 @@ export default class HeaderArticleMenu extends React.Component {
         userSlug: PropTypes.string.isRequired,
         currentTagSlugs: PropTypes.array.isRequired,
         hasTemporaryArticle: PropTypes.bool.isRequired,
+        currentTopicMode: PropTypes.string,
         topicSlug: PropTypes.string,
         isNested: PropTypes.bool
     };
@@ -78,28 +78,7 @@ export default class HeaderArticleMenu extends React.Component {
                         </ListItemIcon>
 
                         <ListItemText classes={{primary: this.props.classes.link}}>
-                            {I18n.t('js.views.header.article.menu.add_article')}
-                        </ListItemText>
-                    </ListItem>
-
-                    <Divider/>
-
-                    <ListItem button={true}
-                              component={Link}
-                              className={this.props.classes.link}
-                              to={{
-                                  pathname: `/users/${this.props.userSlug}/topics/${this.props.topicSlug}/article-new`,
-                                  state: {
-                                      parentTagSlug: parentTagSlug,
-                                      childTagSlug: childTagSlug
-                                  }
-                              }}>
-                        <ListItemIcon>
-                            <LinkIcon/>
-                        </ListItemIcon>
-
-                        <ListItemText classes={{primary: this.props.classes.link}}>
-                            {I18n.t('js.views.header.article.menu.add_link')}
+                            {I18n.t(`js.views.header.article.menu.add.${this.props.currentTopicMode}`)}
                         </ListItemText>
                     </ListItem>
                 </List>

@@ -11,9 +11,9 @@ describe 'Users Session API', type: :request, basic: true do
   describe '/api/v1/login' do
     context 'when connecting with valid credentials' do
       it 'returns the user' do
-        post "/api/v1/login", params: { user: { login: @user.pseudo, password: 'password' } }, as: :json
+        post '/api/v1/login', params: { user: { login: @user.pseudo, password: 'password' } }, as: :json
 
-        expect(response).to be_json_response(201)
+        expect(response).to be_json_response(200)
 
         user = JSON.parse(response.body)
         expect(user['user']).not_to be_empty
@@ -23,7 +23,7 @@ describe 'Users Session API', type: :request, basic: true do
 
     context 'when connecting with invalid credentials' do
       it 'returns an error for unknown user' do
-        post "/api/v1/login", params: { user: { login: @user.pseudo, password: 'bad password' } }, as: :json
+        post '/api/v1/login', params: { user: { login: @user.pseudo, password: 'bad password' } }, as: :json
 
         expect(response).to be_json_response(401)
 
@@ -32,7 +32,7 @@ describe 'Users Session API', type: :request, basic: true do
       end
 
       it 'returns an error for incorrect password' do
-        post "/api/v1/login", params: { user: { login: 'bad_user', password: 'bad password' } }, as: :json
+        post '/api/v1/login', params: { user: { login: 'bad_user', password: 'bad password' } }, as: :json
 
         expect(response).to be_json_response(401)
 

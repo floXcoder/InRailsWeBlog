@@ -188,6 +188,7 @@ class HeaderLayoutUser extends React.PureComponent {
                 <HomeArticleHeader routeParams={this.props.routeParams}
                                    userSlug={this.props.userSlug}
                                    topicSlug={this.props.topicSlug}
+                                   currentTopicMode={this.props.currentTopic && this.props.currentTopic.mode}
                                    currentTagSlugs={this.props.currentTagSlugs}
                                    hasTemporaryArticle={this.state.hasTemporaryArticle}/>
 
@@ -203,7 +204,7 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _renderMobileTagDrawer = () => {
-        if (this.props.width !== 'xs' && this.props.width !== 'sm') {
+        if (this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md') {
             return null
         }
 
@@ -245,8 +246,9 @@ class HeaderLayoutUser extends React.PureComponent {
                                                isNested={true}
                                                routeParams={this.props.routeParams}
                                                userSlug={this.props.userSlug}
-                                               currentTagSlugs={this.props.currentTagSlugs}
                                                topicSlug={this.props.topicSlug}
+                                               currentTopicMode={this.props.currentTopic && this.props.currentTopic.mode}
+                                               currentTagSlugs={this.props.currentTagSlugs}
                                                hasTemporaryArticle={this.state.hasTemporaryArticle}/>
                         </Collapse>
 
@@ -285,10 +287,10 @@ class HeaderLayoutUser extends React.PureComponent {
 
                     <Divider className={this.props.classes.mobileDivider}/>
 
-                    <TagSidebar currentTagSlug={this.props.routeParams.tagSlug}
-                                currentChildTagSlug={this.props.routeParams.childTagSlug}
+                    <TagSidebar isOpen={true}
                                 isCloud={this.props.routeProperties.tagCloud}
-                                isOpen={true}
+                                currentTagSlug={this.props.routeParams.tagSlug}
+                                currentChildTagSlug={this.props.routeParams.childTagSlug}
                                 onTagClick={this._handleTagDrawerToggle}/>
                 </>
             </SwipeableDrawer>

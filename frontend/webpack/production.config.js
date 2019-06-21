@@ -110,8 +110,7 @@ webPackConfig.optimization = {
                     removeAll: true
                 }
             },
-            canPrint: true,
-            discardComments: true
+            canPrint: true
         })
     ]
 };

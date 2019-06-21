@@ -65,19 +65,11 @@ class Picture < ApplicationRecord
 
   def format_attributes(attributes = {})
     # Imageable
-    if attributes[:model_id].present?
-      self.imageable_id = attributes.delete(:model_id).to_i
-    end
-    if attributes[:model].present?
-      self.imageable_type = attributes.delete(:model).strip.classify
-    end
+    self.imageable_id = attributes.delete(:model_id).to_i if attributes[:model_id].present?
+    self.imageable_type = attributes.delete(:model).strip.classify if attributes[:model].present?
 
-    unless attributes[:description].nil?
-      self.description = Sanitize.fragment(attributes.delete(:description))
-    end
-    unless attributes[:copyright].nil?
-      self.copyright = Sanitize.fragment(attributes.delete(:copyright))
-    end
+    self.description = Sanitize.fragment(attributes.delete(:description)) unless attributes[:description].nil?
+    self.copyright = Sanitize.fragment(attributes.delete(:copyright)) unless attributes[:copyright].nil?
 
     # Pictures
     self.image = attributes.delete(:file) if attributes[:file].present?
@@ -88,9 +80,7 @@ class Picture < ApplicationRecord
   private
 
   def image_size
-    if image.size > InRailsWeBlog.config.image_size
-      errors.add(:image, I18n.t('activerecord.errors.models.picture.image_size'))
-    end
+    errors.add(:image, I18n.t('activerecord.errors.models.picture.image_size')) if image.size > InRailsWeBlog.config.image_size
   end
 
 end

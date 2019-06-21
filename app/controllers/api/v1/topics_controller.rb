@@ -70,6 +70,7 @@ module Api::V1
           if stored_topic.success? && user.switch_topic(topic) && user.save
             render json:       stored_topic.result,
                    serializer: TopicSerializer,
+                   complete:   true,
                    status:     :created
           else
             flash.now[:error] = stored_topic.message
@@ -89,8 +90,10 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_topic.success?
+            flash.now[:success] = stored_topic.message
             render json:       stored_topic.result,
                    serializer: TopicSerializer,
+                   complete:   true,
                    status:     :ok
           else
             flash.now[:error] = stored_topic.message

@@ -14,15 +14,11 @@ module Articles
       new_article = @article.new_record?
 
       # Use topic owner in case of shared topics
-      shared_topic = @article.user_id != @current_user.id || @current_user.current_topic.user_id != @current_user.id
-      owner_id     = shared_topic ? @current_user.current_topic.user_id : @current_user.id
-      unless @article.user_id
-        @article.user_id = owner_id
-      end
+      shared_topic            = @article.user_id != @current_user.id || @current_user.current_topic.user_id != @current_user.id
+      owner_id                = shared_topic ? @current_user.current_topic.user_id : @current_user.id
+      @article.user_id        = owner_id unless @article.user_id
 
-      if shared_topic
-        @article.contributor_id = @current_user.id
-      end
+      @article.contributor_id = @current_user.id if shared_topic
 
       # Topic: Set current topic to article (only for new articles)
       if new_article
@@ -33,6 +29,8 @@ module Articles
 
       if @article.topic&.stories?
         @article.mode = :story
+      elsif @article.topic&.inventories?
+        @article.mode = :inventory
       end
 
       # Language
@@ -81,6 +79,8 @@ module Articles
         @article.reference = reference_url
       end
 
+      @article.inventories = @params.delete(:inventories) unless @params[:inventories].nil?
+
       # Pictures
       if @params[:picture_ids].present?
         @params.delete(:picture_ids).split(',').each do |picture_id|
@@ -107,21 +107,30 @@ module Articles
           parent_tags = Tag.parse_tags(@params.delete(:parent_tags), owner_id)
           parent_tags.map do |tag|
             tagged_article_attributes << {
-              tag: tag, user_id: @article.user_id, topic_id: @article.topic_id, parent: true
+              tag:      tag,
+              user_id:  @article.user_id,
+              topic_id: @article.topic_id,
+              parent:   true
             }
           end
 
           child_tags = Tag.parse_tags(@params.delete(:child_tags), owner_id)
           child_tags.map do |tag|
             tagged_article_attributes << {
-              tag: tag, user_id: @article.user_id, topic_id: @article.topic_id, child: true
+              tag:      tag,
+              user_id:  @article.user_id,
+              topic_id: @article.topic_id,
+              child:    true
             }
           end
 
           tag_relationships_attributes = parent_tags.map do |parent_tag|
             child_tags.map do |child_tag|
               {
-                parent: parent_tag, child: child_tag, user_id: @article.user_id, topic_id: @article.topic_id
+                parent:   parent_tag,
+                child:    child_tag,
+                user_id:  @article.user_id,
+                topic_id: @article.topic_id
               }
             end
           end.flatten
@@ -129,17 +138,18 @@ module Articles
           tags = [@params.delete(:parent_tags), @params.delete(:child_tags), @params.delete(:tags)].compact.flatten
           Tag.parse_tags(tags, owner_id).map do |tag|
             tagged_article_attributes << {
-              tag: tag, user_id: @article.user_id, topic_id: @article.topic_id
+              tag:      tag,
+              user_id:  @article.user_id,
+              topic_id: @article.topic_id
             }
           end
         end
 
         @article.tagged_articles = [] if tagged_article_attributes.present?
-        tagged_article_attributes.map do |tagged_article_attribute|
+        tagged_article_attributes&.each do |tagged_article_attribute|
           if @article.id
-            if (tagged_article = @article.tagged_articles.where(tag_id: tagged_article_attribute[:tag].id).first)
+            if tagged_article_attribute[:tag].id && (tagged_article = @article.tagged_articles.find { |ta| ta.tag_id == tagged_article_attribute[:tag].id })
               tagged_article.assign_attributes(tagged_article_attribute)
-              tagged_article
             else
               @article.tagged_articles.build(tagged_article_attribute)
             end
@@ -149,10 +159,13 @@ module Articles
         end
 
         @article.tag_relationships = [] if tag_relationships_attributes.present?
-        tag_relationships_attributes.map do |tag_relationships_attribute|
-          if (tag_relationship = @article.tag_relationships.where(tag_relationships_attribute).first)
+        tag_relationships_attributes&.each do |tag_relationships_attribute|
+          if (tag_relationship = @article.tag_relationships.find { |tr|
+            tr.parent == tag_relationships_attributes[:parent] &&
+              tr.child == tag_relationships_attributes[:child] &&
+              tr.user_id == tag_relationships_attributes[:user_id] &&
+              tr.topic_id == tag_relationships_attributes[:topic_id] })
             tag_relationship.assign_attributes(tag_relationships_attribute)
-            tag_relationship
           else
             @article.tag_relationships.build(tag_relationships_attribute)
           end

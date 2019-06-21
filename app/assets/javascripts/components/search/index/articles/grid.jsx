@@ -12,10 +12,13 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Chip from '@material-ui/core/Chip';
+import Typography from '@material-ui/core/Typography';
 
 import {
     spyTrackClick
 } from '../../../../actions';
+
+import ArticleInventoryDisplay from '../../../articles/display/items/inventory';
 
 import styles from '../../../../../jss/search/index';
 
@@ -36,16 +39,29 @@ class ArticleItemDisplay extends React.Component {
     };
 
     render() {
+        const isInventoryMode = this.props.article.mode === 'inventory';
+
         return (
             <Card className={this.props.classes.articleCard}
                   component="article">
                 <CardHeader
+                    classes={{
+                        content: this.props.classes.articleCardHeader
+                    }}
                     title={
-                        <Link className={this.props.classes.articleTitle}
+                        <Link className={this.props.classes.articleGridTitle}
                               to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
                               onClick={this._handleArticleClick}>
-                            <span className="title"
-                                  dangerouslySetInnerHTML={{__html: this.props.article.title}}/>
+                            {
+                                isInventoryMode
+                                    ?
+                                    <Typography component="div"
+                                                noWrap={true}>
+                                        <span dangerouslySetInnerHTML={{__html: this.props.article.title}}/>
+                                    </Typography>
+                                    :
+                                    <span dangerouslySetInnerHTML={{__html: this.props.article.title}}/>
+                            }
                         </Link>
                     }
                     subheader={
@@ -58,8 +74,15 @@ class ArticleItemDisplay extends React.Component {
                 <CardContent classes={{
                     root: this.props.classes.articleContent
                 }}>
-                    <div className="normalized-content"
-                         dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                    {
+                        this.props.article.mode === 'inventory'
+                            ?
+                            <ArticleInventoryDisplay isList={true}
+                                                     inventories={this.props.article.inventories}/>
+                            :
+                            <div className="normalized-content"
+                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                    }
                 </CardContent>
 
                 {

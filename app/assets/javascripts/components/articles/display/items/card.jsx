@@ -28,16 +28,17 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
     spyTrackClick,
     spyTrackView
-} from '../../../actions';
+} from '../../../../actions';
 
-import highlight from '../../modules/highlight';
+import highlight from '../../../modules/highlight';
 
-import ArticleTags from '../properties/tags';
-import ArticleAvatarIcon from '../icons/avatar';
-import ArticleFloatingIcons from '../properties/floatingIcons';
-import ArticleActions from '../properties/actions';
+import ArticleInventoryDisplay from './inventory';
+import ArticleTags from '../../properties/tags';
+import ArticleFloatingIcons from '../../properties/floatingIcons';
+import ArticleActions from '../../properties/actions';
+import ArticleAvatarIcon from '../../icons/avatar';
 
-import styles from '../../../../jss/article/card';
+import styles from '../../../../../jss/article/card';
 
 export default @highlight()
 @withStyles(styles)
@@ -98,7 +99,7 @@ class ArticleCardDisplay extends React.PureComponent {
                 this.props.onEnter(this.props.article);
             }
         } else {
-            if (this.props.onExit) {
+            if (this.props.onExit && document.documentElement.scrollTop !== 0) {
                 this.props.onExit(this.props.article);
             }
         }
@@ -121,7 +122,6 @@ class ArticleCardDisplay extends React.PureComponent {
             <StickyContainer>
                 <Observer onChange={this._handleViewportChange}>
                     <Card component="article"
-                          id={this.props.article.id}
                           className={classNames(this.props.classes.articleCard, {
                               [this.props.classes.outdated]: this.props.article.outdated
                           })}>
@@ -201,8 +201,14 @@ class ArticleCardDisplay extends React.PureComponent {
                             <CardContent classes={{
                                 root: this.props.classes.content
                             }}>
-                                <div className="normalized-content"
-                                     dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                {
+                                    this.props.article.mode === 'inventory'
+                                        ?
+                                        <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
+                                        :
+                                        <div className="normalized-content"
+                                             dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                }
                             </CardContent>
 
                             <CardActions className={this.props.classes.actions}

@@ -117,7 +117,7 @@ class Comment < ApplicationRecord
 
   # == Instance Methods =====================================================
   #helper method to check if a comment has children
-  def has_children?
+  def children?
     self.children.any?
   end
 

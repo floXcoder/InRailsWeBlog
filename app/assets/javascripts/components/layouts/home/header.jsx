@@ -161,7 +161,7 @@ class HeaderLayoutHome extends React.Component {
     };
 
     _renderMobileDrawer = () => {
-        if (this.props.width !== 'xs' && this.props.width !== 'sm') {
+        if (this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md') {
             return null
         }
 
@@ -189,19 +189,19 @@ class HeaderLayoutHome extends React.Component {
 
                     <List>
                         <ListItem button={true}
-                                  onClick={this._handleSignupClick}>
-                            <ListItemIcon>
-                                <PersonAddIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary={I18n.t('js.views.header.user.sign_up')}/>
-                        </ListItem>
-
-                        <ListItem button={true}
                                   onClick={this._handleLoginClick}>
                             <ListItemIcon>
                                 <AccountCircleIcon/>
                             </ListItemIcon>
                             <ListItemText primary={I18n.t('js.views.header.user.log_in')}/>
+                        </ListItem>
+
+                        <ListItem button={true}
+                                  onClick={this._handleSignupClick}>
+                            <ListItemIcon>
+                                <PersonAddIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary={I18n.t('js.views.header.user.sign_up')}/>
                         </ListItem>
                     </List>
                 </>

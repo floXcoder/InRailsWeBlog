@@ -14,13 +14,15 @@ import ErrorBoundary from '../../errors/boundary';
 
 import TagSidebarLayout from './tagSidebar';
 import ArticleSidebarLayout from './articleSidebar';
-import BreadcrumbLayout from '../breadcrumb';
+import SearchSidebarLayout from './searchSidebar';
+// import BreadcrumbLayout from '../breadcrumb';
 
 import styles from '../../../../jss/user/main';
 
 export default @connect((state) => ({
     routeProperties: getRouteProperties(state),
-    routeParams: getRouteParams(state)
+    routeParams: getRouteParams(state),
+    articleDisplayMode: state.uiState.articleDisplayMode
 }))
 @withWidth()
 @withStyles(styles)
@@ -29,6 +31,7 @@ class SidebarLayoutUser extends React.Component {
         // from connect
         routeProperties: PropTypes.object,
         routeParams: PropTypes.object,
+        articleDisplayMode: PropTypes.string,
         // from withWidth
         width: PropTypes.string,
         // from styles
@@ -40,10 +43,13 @@ class SidebarLayoutUser extends React.Component {
     }
 
     render() {
+        const isGridDisplay = this.props.articleDisplayMode === 'grid';
+        const isLargeEnough = this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md';
+
         return (
             <>
                 {
-                    (!this.props.routeProperties.noTagSidebar && (this.props.width !== 'xs' && this.props.width !== 'sm')) &&
+                    (!this.props.routeProperties.noTagSidebar && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className={this.props.classes.sidebar}>
@@ -54,7 +60,17 @@ class SidebarLayoutUser extends React.Component {
                 }
 
                 {
-                    (this.props.routeProperties.articleSidebar && (this.props.width !== 'xs' && this.props.width !== 'sm')) &&
+                    (this.props.routeProperties.searchSidebar && isLargeEnough) &&
+                    <ErrorBoundary errorType="text"
+                                   errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
+                        <div className={this.props.classes.sidebar}>
+                            <SearchSidebarLayout/>
+                        </div>
+                    </ErrorBoundary>
+                }
+
+                {
+                    (this.props.routeProperties.articleSidebar && !isGridDisplay && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className={this.props.classes.sidebar}>
@@ -64,14 +80,14 @@ class SidebarLayoutUser extends React.Component {
                 }
 
                 {
-                    this.props.routeProperties.hasBreadcrumb &&
-                    <ErrorBoundary errorType="text"
-                                   errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                        <div className={this.props.classes.breadcrumb}>
-                            <BreadcrumbLayout currentPath={router.location.pathname}
-                                              recentsLimit={8}/>
-                        </div>
-                    </ErrorBoundary>
+                    // this.props.routeProperties.hasBreadcrumb &&
+                    // <ErrorBoundary errorType="text"
+                    //                errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
+                    //     <div className={this.props.classes.breadcrumb}>
+                    //         <BreadcrumbLayout currentPath={this.props.routeLocation.pathname}
+                    //                           recentsLimit={8}/>
+                    //     </div>
+                    // </ErrorBoundary>
                 }
 
                 {

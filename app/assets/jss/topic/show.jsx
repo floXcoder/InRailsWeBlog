@@ -48,7 +48,7 @@ const styles = (theme) => ({
         fontSize: '.9rem',
         borderRadius: 4,
         cursor: 'pointer',
-        color: theme.palette.primary.main,
+        color: theme.palette.text.secondary,
         borderColor: theme.palette.text.secondary
     }
 });

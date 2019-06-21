@@ -4,11 +4,11 @@ import Editor from '../editor';
 import ErrorForm from '../../materialize/form/error';
 
 const EditorField = ({input, meta: {touched, error}, componentContent, ...custom}) => (
-    <div>
+    <>
         <Editor {...input}
                 hasError={touched && !!error}
                 {...custom}>
-            {componentContent}
+            {componentContent || input.value}
         </Editor>
 
         {
@@ -17,7 +17,7 @@ const EditorField = ({input, meta: {touched, error}, componentContent, ...custom
                 {error}
             </ErrorForm>
         }
-    </div>
+    </>
 );
 
 EditorField.propTypes = {

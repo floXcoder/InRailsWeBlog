@@ -5,7 +5,12 @@ import {
     h1SizeMobile,
     h1Weight,
     h1LineHeight,
-    h1Spacing
+    h1Spacing,
+
+    h1SizeGrid,
+    h1WeightGrid,
+    h1LineHeightGrid,
+    h1SpacingGrid
 } from '../theme';
 
 const styles = (theme) => ({
@@ -18,9 +23,8 @@ const styles = (theme) => ({
             marginBottom: '2.8rem'
         }
     },
-    header: {
-        paddingTop: 8,
-        paddingBottom: 16
+    cardHeader: {
+        width: '100%'
     },
     articleInfo: {
         color: '#999',
@@ -44,6 +48,16 @@ const styles = (theme) => ({
             fontSize: h1SizeMobile
         }
     },
+    gridTitle: {
+        marginTop: '.6rem',
+        marginBottom: '0',
+        color: theme.palette.text.dark,
+        fontSize: h1SizeGrid,
+        fontWeight: h1WeightGrid,
+        lineHeight: h1LineHeightGrid,
+        letterSpacing: h1SpacingGrid,
+        margin: 'inherit'
+    },
     expand: {
         transform: 'rotate(0deg)',
         transition: theme.transitions.create('transform', {
@@ -51,16 +65,17 @@ const styles = (theme) => ({
         }),
         marginTop: 8,
         marginLeft: 'auto',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
+            right: 15,
             marginRight: -2
         }
     },
     expandOpen: {
-        transform: 'rotate(180deg)',
+        transform: 'rotate(180deg)'
     },
     media: {
         height: 0,
-        paddingTop: '56.25%', // 16:9
+        paddingTop: '56.25%' // 16:9
     },
     content: {
         paddingTop: 6
@@ -72,7 +87,8 @@ const styles = (theme) => ({
         flexWrap: 'wrap'
     },
     avatarContainer: {
-        paddingTop: 4,
+        marginTop: 0,
+        paddingTop: 0,
         paddingBottom: 4
     },
     avatar: {

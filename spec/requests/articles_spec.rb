@@ -16,7 +16,7 @@ describe 'Article API', type: :request, basic: true do
     @relation_tags_article   = create(:article, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[2]], child_tags: [@public_tags[3]])
     @relation_tags_article_2 = create(:article, user: @user, topic: @topic, parent_tags: [@public_tags[1], @public_tags[3]], child_tags: [@public_tags[2], @public_tags[4]])
 
-    @private_tags              = create_list(:tag, 2, user: @user, visibility: :only_me)
+    @private_tags         = create_list(:tag, 2, user: @user, visibility: :only_me)
     @private_tags_article = create(:article, user: @user, topic: @topic, tags: [@private_tags[0], @private_tags[1]], visibility: :only_me)
 
     @second_article = create(:article, user: @user, topic: @topic, tags: [@public_tags[4]])
@@ -25,6 +25,18 @@ describe 'Article API', type: :request, basic: true do
 
     @second_topic    = create(:topic, user: @user)
     @private_article = create(:article, user: @user, topic: @second_topic, visibility: :only_me, draft: true)
+
+    @inventories_topic = create(:topic, user: @user, mode: :inventories, inventory_fields: [{
+                                                                                              field_name: 'string',
+                                                                                              name:       'String',
+                                                                                              value_type: 'string_type'
+                                                                                            },
+                                                                                            {
+                                                                                              field_name: 'text',
+                                                                                              name:       'Text',
+                                                                                              value_type: 'text_type'
+                                                                                            }
+    ])
 
     @other_topic      = create(:topic, user: @other_user)
     @other_public_tag = create(:tag, user: @other_user, visibility: :everyone)
@@ -532,6 +544,25 @@ describe 'Article API', type: :request, basic: true do
           expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(1)
       end
+
+      it 'returns a new article with inventory fields' do
+        @user.update_attribute(:current_topic_id, @inventories_topic.id)
+
+        begin
+          expect {
+            post '/api/v1/articles', params: article_attributes.deep_merge(article: { inventories: { string: 'My string', text: '<p>My text</p>' } }), as: :json
+
+            expect(response).to be_json_response(201)
+
+            article = JSON.parse(response.body)
+            expect(article['article']).not_to be_empty
+            expect(article['article']['mode']).to eq('inventory')
+            expect(article['article']['inventories'].size).to eq(2)
+          }.to change(Article, :count).by(1)
+        ensure
+          @user.update_attribute(:current_topic_id, @topic.id)
+        end
+      end
     end
 
     context 'when user is connected with another current topic' do
@@ -566,7 +597,7 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.article_title_max_length))
           expect(article['errors']['content'].first).to eq(I18n.t('errors.messages.blank'))
-        }.to_not change(Article, :count)
+        }.not_to change(Article, :count)
       end
 
       it 'returns a error if topic do not belong to current user' do
@@ -577,7 +608,7 @@ describe 'Article API', type: :request, basic: true do
 
           article = JSON.parse(response.body)
           expect(article['errors']['topic'].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
-        }.to_not change(Article, :count)
+        }.not_to change(Article, :count)
       end
     end
   end
@@ -816,7 +847,7 @@ describe 'Article API', type: :request, basic: true do
             json_comment = JSON.parse(response.body)
             expect(json_comment['errors']['body'].first).to eq(I18n.t('errors.messages.blank'))
             expect(json_comment['errors']['body'].second).to eq(I18n.t('errors.messages.too_short.one', count: InRailsWeBlog.config.comment_title_min_length))
-          }.to_not change(Comment, :count)
+          }.not_to change(Comment, :count)
         end
       end
     end

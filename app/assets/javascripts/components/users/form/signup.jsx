@@ -22,8 +22,8 @@ import {
 
 import EnsureValidity from '../../modules/ensureValidity';
 
-import TextFieldForm from '../../material-ui/form/text';
-import CheckBoxForm from '../../material-ui/form/checkbox';
+import TextFormField from '../../material-ui/form/text';
+import CheckBoxFormField from '../../material-ui/form/checkbox';
 
 import styles from '../../../../jss/user/connection';
 
@@ -123,7 +123,7 @@ class SignupForm extends React.Component {
                     <Grid classes={{item: this.props.classes.fieldItem}}
                           item={true}>
                         <Field name="pseudo"
-                               component={TextFieldForm}
+                               component={TextFormField}
                                id="user_pseudo_signup"
                                className={this.props.classes.textField}
                                label={I18n.t('js.user.signup.pseudo')}
@@ -142,7 +142,7 @@ class SignupForm extends React.Component {
                     <Grid classes={{item: this.props.classes.fieldItem}}
                           item={true}>
                         <Field name="email"
-                               component={TextFieldForm}
+                               component={TextFormField}
                                id="user_pseudo_email"
                                className={this.props.classes.textField}
                                label={I18n.t('js.user.signup.email')}
@@ -160,7 +160,7 @@ class SignupForm extends React.Component {
                     <Grid classes={{item: this.props.classes.fieldItem}}
                           item={true}>
                         <Field name="password"
-                               component={TextFieldForm}
+                               component={TextFormField}
                                id="user_password_signup"
                                className={this.props.classes.textField}
                                label={I18n.t('js.user.signup.password')}
@@ -180,7 +180,7 @@ class SignupForm extends React.Component {
                     <Grid classes={{item: this.props.classes.fieldItem}}
                           item={true}>
                         <Field name="password_confirmation"
-                               component={TextFieldForm}
+                               component={TextFormField}
                                id="user_password_confirmation_signup"
                                className={this.props.classes.textField}
                                label={I18n.t('js.user.signup.confirm_password')}
@@ -199,7 +199,8 @@ class SignupForm extends React.Component {
 
                     <Grid item={true}>
                         <Field name="terms"
-                               component={CheckBoxForm}
+                               type="checkbox"
+                               component={CheckBoxFormField}
                                id="user_terms_signup"
                                label={
                                    <span>

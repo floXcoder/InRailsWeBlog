@@ -10,7 +10,7 @@ import api from '../middlewares/api';
 
 import {
     hasLocalStorage,
-    saveLocalData,
+    saveLocalArray,
     getLocalData
 } from '../middlewares/localStorage';
 
@@ -72,7 +72,7 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
     const currentUserTopicId = configureStore.getState().topicState.currentUserTopicId;
 
     if (hasLocalStorage && elementSlug && elementTitle) {
-        saveLocalData('recents', {
+        saveLocalArray('recents', {
             type: elementName,
             elementId: elementId,
             title: elementTitle.replace(/<.*?>(.*)<\/.*?>/g, '$1'),

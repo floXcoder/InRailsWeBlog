@@ -9,6 +9,10 @@ import {
 } from 'react';
 
 import {
+    parse
+} from 'qs';
+
+import {
     withStyles
 } from '@material-ui/core/styles';
 
@@ -40,7 +44,7 @@ import HeadLayout from '../layouts/head';
 
 import SummaryStoriesTopic from '../topics/stories/summary';
 
-import ArticleNoneDisplay from './display/none';
+import ArticleNoneDisplay from './display/items/none';
 
 import styles from '../../../jss/article/index';
 
@@ -91,7 +95,7 @@ class ArticleIndex extends React.Component {
     constructor(props) {
         super(props);
 
-        this._parseQuery = Utils.parseUrlParameters(props.routeHash) || {};
+        this._parseQuery = parse(props.routeHash);
         this._request = null;
         this._isFetchingNext = false;
         this._articles = React.createRef();
@@ -106,7 +110,7 @@ class ArticleIndex extends React.Component {
     componentDidUpdate(prevProps) {
         // Manage articles order or sort display
         if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.routeHash !== prevProps.routeHash) {
-            const nextParseQuery = Utils.parseUrlParameters(this.props.routeHash) || {};
+            const nextParseQuery = parse(this.props.routeHash);
 
             if (this._parseQuery.order !== nextParseQuery.order) {
                 if (nextParseQuery.order) {
@@ -171,7 +175,7 @@ class ArticleIndex extends React.Component {
 
     _fetchNextArticles = (params = {}) => {
         if (this.props.articlePagination && this.props.articlePagination.currentPage <= this.props.articlePagination.totalPages) {
-            const queryParams = Utils.parseUrlParameters(this.props.routeHash);
+            const queryParams = parse(this.props.routeHash);
             const options = {
                 page: (params.selected || this.props.articlePagination.currentPage) + 1
             };
@@ -188,7 +192,7 @@ class ArticleIndex extends React.Component {
                 this._isFetchingNext = false;
 
                 if (params.selected) {
-                    window.scroll({ top: this._articles.current.getBoundingClientRect().top - 64, behavior: 'smooth' });
+                    window.scroll({top: this._articles.current.getBoundingClientRect().top - 64, behavior: 'smooth'});
                 }
             });
         }
@@ -229,6 +233,13 @@ class ArticleIndex extends React.Component {
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
 
         const isStoriesMode = this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories';
+        const isInventoriesMode = this.props.currentUserTopic && this.props.currentUserTopic.mode === 'inventories';
+
+        const isGridDisplay = this.props.articleDisplayMode === 'grid';
+        const isInfiniteDisplay = this.props.articlesLoaderMode === 'infinite';
+
+        const isLargeContainer = isGridDisplay || isStoriesMode;
+        const isFullContainer = isStoriesMode || isInventoriesMode;
 
         let ArticleNodes;
         if (isStoriesMode) {
@@ -236,15 +247,14 @@ class ArticleIndex extends React.Component {
                 <ArticleTimelineMode onEnter={this._handleArticleEnter}
                                      onExit={this._handleArticleExit}/>
             );
-        } else if (this.props.articleDisplayMode === 'grid') {
+        } else if (isGridDisplay) {
             ArticleNodes = (
                 <ArticleMasonryMode onEnter={this._handleArticleEnter}
                                     onExit={this._handleArticleExit}/>
             );
         } else {
             ArticleNodes = (
-                <ArticleListMode classes={this.props.classes}
-                                 parentTag={this.props.routeParams.tagSlug}
+                <ArticleListMode parentTag={this.props.routeParams.tagSlug}
                                  isMinimized={this.props.areArticlesMinimized}
                                  articleEditionId={this.props.articleEditionId}
                                  onEnter={this._handleArticleEnter}
@@ -255,19 +265,19 @@ class ArticleIndex extends React.Component {
         return (
             <div ref={this._articles}>
                 {
-                    (this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories') &&
+                    isStoriesMode &&
                     <SummaryStoriesTopic topic={this.props.currentUserTopic}/>
                 }
 
-                <div className={classNames(this.props.classes.root, {
-                    [this.props.classes.largeContainer]: this.props.articleDisplayMode === 'grid' || isStoriesMode,
-                    [this.props.classes.fullContainer]: isStoriesMode
+                <div className={classNames(this.props.classes.articleIndex, {
+                    [this.props.classes.largeContainer]: isLargeContainer,
+                    [this.props.classes.fullContainer]: isFullContainer
                 })}>
                     <HeadLayout metaTags={this.props.metaTags}/>
 
                     {
                         this.props.isFetching &&
-                        <div className={this.props.classes.root}>
+                        <div className={this.props.classes.articleIndex}>
                             <div className="center">
                                 <Loader size="big"/>
                             </div>
@@ -279,7 +289,7 @@ class ArticleIndex extends React.Component {
                         <Suspense fallback={<div/>}>
                             {
                                 (!this.props.isFetching || this._isFetchingNext) && (
-                                    this.props.articlesLoaderMode === 'infinite'
+                                    isInfiniteDisplay
                                         ?
                                         <ArticleInfiniteMode classes={this.props.classes}
                                                              articlesCount={this.props.articlesCount}

@@ -91,11 +91,16 @@ class TopicPersistence extends React.Component {
                 visibility: topicVisibility
             })
                 .then((response) => {
+                    this._handleClose();
+                    this.props.showTopicPopup();
+
+                    return response;
+                })
+                .then((response) => {
                     if (response.topic) {
                         return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
                     }
-                })
-                .then(() => this.props.showTopicPopup());
+                });
         } else {
             this.props.addTopic(this.props.userId, {
                 name: topicName,
@@ -104,11 +109,22 @@ class TopicPersistence extends React.Component {
                 visibility: topicVisibility
             })
                 .then((response) => {
-                    if (response.topic) {
-                        return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
-                    }
+                    this._handleClose();
+                    this.props.showTopicPopup();
+
+                    return response;
                 })
-                .then(() => this.props.showTopicPopup());
+                .then((response) => {
+                    if (response.topic) {
+                        if (response.topic.mode === 'inventories') {
+                            Notification.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
+
+                            return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}/edit-inventories`);
+                        } else {
+                            return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
+                        }
+                    }
+                });
         }
     };
 
@@ -117,7 +133,8 @@ class TopicPersistence extends React.Component {
             .then(() => this.props.showTopicPopup())
             .then(() => this.setState({
                 isOpen: false
-            }));
+            }))
+            .then(() => window.location = '/');
     };
 
     render() {
@@ -129,7 +146,7 @@ class TopicPersistence extends React.Component {
                         {
                             this.props.editingTopic
                                 ?
-                                I18n.t('js.topic.edit.title')
+                                I18n.t('js.topic.edit.title', {topic: this.props.editingTopic.name})
                                 :
                                 I18n.t('js.topic.new.title')
                         }

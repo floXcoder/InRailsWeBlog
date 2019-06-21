@@ -46,7 +46,7 @@ module Tags
       aggregations = nil
 
       # Boost user tags first
-      boost_where = @params[:boost_where]
+      # boost_where = @params[:boost_where]
 
       # Page parameters
       page     = @params[:page] || 1

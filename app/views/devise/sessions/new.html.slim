@@ -17,7 +17,7 @@
           = t('views.admin.login.title')
         - else
           = t('views.user.login.title')
-
+      
       // External connections
       /- unless resource.is_a?(Admin)
       /  .row.connection-externals
@@ -33,13 +33,13 @@
 
       / Log-in fields
       = render 'devise/sessions/login_fields', login_form: login_form
-
+      
       / Helper links
       .margin-bottom-20
-
+      
       p
         = render 'devise/shared/links'
-
+    
     .card-action
       / Login button
       .row

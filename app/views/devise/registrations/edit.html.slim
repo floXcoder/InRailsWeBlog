@@ -11,47 +11,47 @@
     .card-content
       h1.center-align.margin-bottom-50
         = t('devise.registrations.title')
-
+      
       / Error fields
       = user_form.error_notification
       = user_form.full_error :confirmation_token
-
+      
       h2.margin-bottom-20
         = t('devise.registrations.login_header')
-
+      
       .row.margin-bottom-40
         / Pseudo field
         .col.s6
           = user_form.input :pseudo, label: t('user.model.login'), icon: 'account_circle', required: true, autofocus: true
-
+        
         / Email field
         .col.s6
           = user_form.input :email, label: t('user.model.email'), icon: 'mail', required: true
-
+        
         - if devise_mapping.confirmable? && resource.pending_reconfirmation?
           p
             = t('devise.registrations.password_confirmation_waiting')
           = resource.unconfirmed_email
-
+      
       / Change password ?
       h2.margin-bottom-20
         = t('devise.registrations.password_header')
-
+      
       .row.margin-bottom-40
         .col.s6
           = user_form.input :password, label: t('user.model.password'), required: false, icon: 'lock', autocomplete: 'off', hint: t('devise.registrations.password_hint')
-
+        
         .col.s6
           = user_form.input :password_confirmation, label: t('views.user.signup.confirm_password'), icon: 'lock', required: false
-
+      
       / Current password confirmation
       h2.margin-bottom-20
         = t('devise.registrations.current_password_header')
-
+      
       .row
         .col.s12
           = user_form.input :current_password, label: t('devise.registrations.current_password_hint'), required: true
-
+    
     .card-action.center-align
       = user_form.button :submit, t('devise.registrations.submit')
 
@@ -61,10 +61,10 @@
       .col.s12
         h2.margin-bottom-20.center-align
           = t('devise.registrations.cancel.title')
-
+        
         p
           => t('devise.registrations.cancel.comment')
           => link_to t('devise.registrations.cancel.link_name'), registration_path(resource_name), data: { confirm: t('devise.registrations.cancel.link_confirmation') }, method: :delete
-
+  
   .card-action
     = link_to t('devise.registrations.cancel.back'), :back, class: 'btn'

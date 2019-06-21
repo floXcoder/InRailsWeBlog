@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -28,6 +29,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  contributor_id          :bigint
+#  inventories             :jsonb            not null
 #
 
 FactoryBot.define do
@@ -36,22 +38,23 @@ FactoryBot.define do
     # user
     # topic
 
-    mode { 'note' }
-    title { Faker::Lorem.sentence } # title_translations
-    summary { Faker::Lorem.paragraph(1, false) } # summary_translations
-    content { Faker::Lorem.paragraph(1..20) } # content_translations
-    languages { ['fr'] }
-    reference { Faker::Internet.url }
-    notation { Random.rand(1..5) }
-    priority { Random.rand(0..100) }
-    visibility { 'everyone' }
+    mode          { 'note' }
+    title         { Faker::Lorem.sentence } # title_translations
+    summary       { Faker::Lorem.paragraph(1, false) } # summary_translations
+    content       { Faker::Lorem.paragraph(1..20) } # content_translations
+    languages     { ['fr'] }
+    reference     { Faker::Internet.url }
+    inventories   { {} }
+    notation      { Random.rand(1..5) }
+    priority      { Random.rand(0..100) }
+    visibility    { 'everyone' }
     allow_comment { true }
-    draft { false }
+    draft         { false }
 
     transient do
-      tags { [] }
+      tags        { [] }
       parent_tags { [] }
-      child_tags { [] }
+      child_tags  { [] }
     end
 
     after(:build) do |article, evaluator|

@@ -1,10 +1,8 @@
 'use strict';
 
-import '../../../stylesheets/components/dropdown.scss';
+import Portal from '../modules/portal';
 
-import {
-    Portal
-} from 'react-portal';
+import '../../../stylesheets/components/dropdown.scss';
 
 export const POSITIONS = [
     'top left',
@@ -309,7 +307,7 @@ export default class Dropdown extends React.Component {
                     }
                 </div>
 
-                <Portal>
+                <Portal domNode="dropdown-component">
                     <div ref={(contentRef) => this._popupRef = contentRef}
                          style={this.state.style}
                          className={classNames(this.state.position, 'dropdown-slider', {

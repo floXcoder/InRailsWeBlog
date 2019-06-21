@@ -1,5 +1,7 @@
 'use strict';
 
+import Hidden from '@material-ui/core/Hidden';
+
 import ArticleShareIcon from '../icons/share';
 import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleHistoryIcon from '../icons/history';
@@ -22,12 +24,14 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
         }
 
         {
-            articleVisibility !== 'everyone' &&
-            <li className={classes.actionItem}>
-                <ArticleShareIcon articleId={articleId}
-                                  size={size}
-                                  color={color}/>
-            </li>
+            (!isInline && articleVisibility !== 'everyone') &&
+            <Hidden mdDown={true}>
+                <li className={classes.actionItem}>
+                    <ArticleShareIcon articleId={articleId}
+                                      size={size}
+                                      color={color}/>
+                </li>
+            </Hidden>
         }
 
         <li className={classes.actionItem}>
@@ -38,23 +42,27 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
 
         {
             !isInline &&
-            <li className={classes.actionItem}>
-                <ArticleOutdatedIcon articleId={articleId}
-                                     isOutdated={isOutdated}
-                                     onOutdatedClick={onOutdatedClick}
-                                     size={size}
-                                     color={color}/>
-            </li>
+            <Hidden mdDown={true}>
+                <li className={classes.actionItem}>
+                    <ArticleOutdatedIcon articleId={articleId}
+                                         isOutdated={isOutdated}
+                                         onOutdatedClick={onOutdatedClick}
+                                         size={size}
+                                         color={color}/>
+                </li>
+            </Hidden>
         }
 
         {
             (!isInline && userSlug) &&
-            <li className={classes.actionItem}>
-                <ArticleHistoryIcon userSlug={userSlug}
-                                    articleSlug={articleSlug}
-                                    size={size}
-                                    color={color}/>
-            </li>
+            <Hidden mdDown={true}>
+                <li className={classes.actionItem}>
+                    <ArticleHistoryIcon userSlug={userSlug}
+                                        articleSlug={articleSlug}
+                                        size={size}
+                                        color={color}/>
+                </li>
+            </Hidden>
         }
 
         {

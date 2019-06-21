@@ -53,9 +53,7 @@ class ApplicationController < ActionController::Base
         :fr
       end
 
-    if params[:new_lang] && current_user && current_user.locale.to_s != params[:new_lang]
-      current_user.update_columns(locale: params[:new_lang])
-    end
+    current_user.update_columns(locale: params[:new_lang]) if params[:new_lang] && current_user && current_user.locale.to_s != params[:new_lang]
 
     # Set user location
     @user_latitude = (request.respond_to?(:location) ? request.location.latitude : 0) rescue 0
@@ -247,39 +245,28 @@ class ApplicationController < ActionController::Base
       skip_authorization
     else
       raise Pundit::NotAuthorizedError unless model
+
       authorize(model, method)
     end
   end
 
-  def get_coordinates_from_ip
-    result         = request.location
-    distance       = 100
-    ip_coordinates = result.coordinates
-
-    Geocoder::Calculations.bounding_box(ip_coordinates, distance) if ip_coordinates != [0, 0]
-  end
-
   # Format meta data for active model serializer
   def meta_attributes(attributes = {})
-    meta_data = {}
+    meta_data              = {}
 
-    if attributes[:pagination]
-      meta_data.merge!(pagination: {
-        current_page: attributes[:pagination].current_page,
-        total_pages:  attributes[:pagination].total_pages,
-        total_count:  attributes[:pagination].total_count
-      })
-    end
+    meta_data[:pagination] = {
+      current_page: attributes[:pagination].current_page,
+      total_pages:  attributes[:pagination].total_pages,
+      total_count:  attributes[:pagination].total_count
+    } if attributes[:pagination]
 
-    if meta_tags&.meta_tags.present?
-      meta_data.merge!(metaTags: meta_tags.meta_tags)
-    end
+    meta_data[:metaTags] = meta_tags.meta_tags if meta_tags&.meta_tags.present?
 
     return meta_data
   end
 
   def honeypot_protection
-    if (params[:ensure] && !params[:ensure][:validity].blank?) || !params[:ensure_validity].blank?
+    if (params[:ensure] && params[:ensure][:validity].present?) || params[:ensure_validity].present?
       respond_to do |format|
         format.json { render json: { success: true }.to_json, status: :ok }
         format.js { js_redirect_to(root_path) }

@@ -119,7 +119,6 @@ describe 'Users API', type: :request, basic: true do
                               params:    { topic_id: @user.current_topic_id })
       end
 
-
       it 'returns user recents' do
         get "/api/v1/users/#{@user.id}/recents", as: :json
 

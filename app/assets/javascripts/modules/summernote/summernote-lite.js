@@ -2277,7 +2277,8 @@
             for (var i = 0, len = node.childNodes.length; i < len; i++) {
                 nodes.push(node.childNodes[i]);
             }
-            for (var i = 0, len = nodes.length; i < len; i++) {
+            //### ESLINT correction
+            for (i = 0, len = nodes.length; i < len; i++) {
                 parent.insertBefore(nodes[i], node);
             }
         }
@@ -4770,7 +4771,8 @@
             this.fontSize = this.wrapCommand(function (value) {
                 return _this.fontStyling('font-size', value + 'px');
             });
-            for (var idx = 1; idx <= 6; idx++) {
+            //### ESLINT correction
+            for (idx = 1; idx <= 6; idx++) {
                 this['formatH' + idx] = (function (idx) {
                     return function () {
                         _this.formatBlock('H' + idx);

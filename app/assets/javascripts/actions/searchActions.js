@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import api from '../middlewares/api';
 
 import History from '../modules/history';
@@ -68,9 +66,10 @@ export const setSelectedTag = (tag) => (dispatch) => {
 // Search history
 export const getSearchContext = (params = {}) => (dispatch) => {
     const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
+
     const searchData = {...previousSearchData, ...params};
 
-    if (!Utils.isEmpty(Utils.omit(searchData, ['locale', 'new_lang']))) {
+    if (!Utils.isEmpty(searchData)) {
         dispatch(fetchSearch(searchData, false));
     }
 };
@@ -94,19 +93,18 @@ const _saveHistory = (searchState, searchData) => {
         }
     }
 
-    const _URLParams = _.merge({
-            query: searchData.query
-        },
-        _.omit(_.merge({
-            // test: null
-        }, searchData), ['query'])
-    );
+    const urlParams = {
+        query: searchData.query,
+        ...searchData
+    };
 
     History.saveCurrentState(
         {
             globalSearchData: searchData
         },
-        _URLParams
+        urlParams,
+        false,
+        !Utils.isEmpty(urlParams.filters)
     );
 };
 
@@ -131,6 +129,7 @@ const receiveSearch = (searchParams, json, options = {}) => ({
     type: ActionTypes.SEARCH_FETCH_SUCCESS,
     isSearching: false,
     searchParams: searchParams,
+    searchFilters: searchParams.filters || {},
     query: searchParams.query || '',
     selectedTags: json.selectedTags,
     aggregations: json.aggregations || {},
@@ -140,10 +139,7 @@ const receiveSearch = (searchParams, json, options = {}) => ({
     topics: json.topics || [],
     tags: json.tags || [],
     articles: json.articles || [],
-    meta: json.meta,
-    topicFilters: options.filterType === 'topic' && options.filters,
-    tagFilters: options.filterType === 'tag' && options.filters,
-    articleFilters: options.filterType === 'article' && options.filters
+    meta: json.meta
 });
 
 const performSearch = (searchParams, options = {}) => (dispatch) => {
@@ -186,10 +182,10 @@ export const fetchSearch = (searchData, saveHistory = true) => (dispatch, getSta
     return dispatch(performSearch(searchParams));
 };
 
-export const filterSearch = (filters, filterOptions) => (dispatch, getState) => {
-    const searchParams = getState().searchState.searchParams.concat(filters).toJS();
+export const filterSearch = (filters) => (dispatch, getState) => {
+    const searchParams = getState().searchState.searchParams.concat({filters}).toJS();
 
     _saveHistory(getState().searchState, searchParams);
 
-    return dispatch(performSearch(searchParams, {filters, ...filterOptions}));
+    return dispatch(performSearch(searchParams, {filters}));
 };

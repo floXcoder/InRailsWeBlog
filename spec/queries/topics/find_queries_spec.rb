@@ -41,7 +41,7 @@ describe Topics::FindQueries, type: :query, basic: true do
       end
 
       it 'returns all user topics for a user id' do
-        topics = ::Topics::FindQueries.new(@user).all({ user_id: @user.id })
+        topics = ::Topics::FindQueries.new(@user).all(user_id: @user.id)
 
         expect(topics.count).to eq(Topic.from_user(@user.id, @user.id).count)
       end

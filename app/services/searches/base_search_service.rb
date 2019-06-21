@@ -28,14 +28,30 @@ module Searches
       options ||= {}
 
       where_options = options.compact.select { |_k, v| v.present? }.map do |key, value|
-        case key
-        when :notation
+        # By default all number inventory fields are range type
+        inventory_field = if @params[:current_topic]
+                            @params[:current_topic].inventory_fields.find { |inv| inv.field_name == key }
+                          end
+
+        if inventory_field && %w[number_type integer_type float_type date_type].include?(inventory_field.value_type)
+          min, max = value.is_a?(Array) ? value : value.split(',')
           [
             key,
-            value.to_i
+            {
+              gte: min.present? ? min.to_i : nil,
+              lte: max.present? ? max.to_i : nil
+            }
           ]
         else
-          [key, value]
+          case key
+          when :notation
+            [
+              key,
+              value.to_i
+            ]
+          else
+            [key, value]
+          end
         end
       end.to_h
 
@@ -74,21 +90,21 @@ module Searches
     end
 
     def format_search(results, highlight_results = nil)
-      serializer_options = case @params[:format]
-                           when 'strict'
-                             {
-                               root:   @params[:model].model_name.plural,
-                               strict: true
-                             }
-                           when 'complete'
-                             {
-                               complete: true
-                             }
-                           else
-                             {
-                               sample: true
-                             }
-                           end
+      serializer_options                     = case @params[:format]
+                                               when 'strict'
+                                                 {
+                                                   root:   @params[:model].model_name.plural,
+                                                   strict: true
+                                                 }
+                                               when 'complete'
+                                                 {
+                                                   complete: true
+                                                 }
+                                               else
+                                                 {
+                                                   sample: true
+                                                 }
+                                               end
 
       serializer_options[:highlight_results] = highlight_results if highlight_results
       serializer_options[:current_user]      = @current_user if @current_user
@@ -97,9 +113,28 @@ module Searches
     end
 
     def parsed_search(results)
-      formatted_aggregations = {}
+      formatted_aggregations = []
+
       results.aggs&.each do |key, value|
-        formatted_aggregations[key] = value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h if value['buckets'].any?
+        next if value['buckets'].blank?
+
+        if @params[:current_topic]
+          @params[:current_topic].inventory_fields.map do |inventory_field|
+            next unless inventory_field.field_name == key
+
+            formatted_aggregations << {
+              fieldName: key,
+              name:      inventory_field.name,
+              valueType: inventory_field.value_type,
+              aggs:      value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h
+            }
+          end
+        else
+          formatted_aggregations << {
+            fieldName: key,
+            aggs:      value['buckets'].map { |data| [data['key'], data['doc_count']] }.to_h
+          }
+        end
       end
 
       # Track search results
@@ -108,8 +143,8 @@ module Searches
       # Format results into JSON
       highlight_results = {}
       results.with_highlights.each do |item, highlights|
-        highlight_results[item.id] = {}
-        highlight_results[item.id][:title] = highlights[:'title.analyzed']
+        highlight_results[item.id]           = {}
+        highlight_results[item.id][:title]   = highlights[:'title.analyzed']
         highlight_results[item.id][:content] = highlights[:'content.analyzed']
       end
       formatted_results = format_search(results, highlight_results)

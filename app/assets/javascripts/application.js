@@ -4,9 +4,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-// Polyfill promise
-require('es6-promise').polyfill();
-
 // Polyfill observer
 import 'intersection-observer';
 
@@ -35,9 +32,7 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
 
         scope.setUser({
             id: window.currentUserId,
-            username: window.currentUserSlug,
-            topic_id: window.currentTopicId,
-            topic_slug: window.currentTopicSlug
+            username: window.currentUserSlug
         });
 
         scope.setTag('locale', window.locale);
@@ -90,6 +85,6 @@ log.table = data => {
 
 if (window._paq) {
     perfMetrics.onFirstInputDelay(function (delay, event) {
-        window._paq.push(['trackEvent', 'First Input Delay', event.type, Math.round(delay)]);
+        window._paq.push(['trackEvent', 'First Input Delay', event.type, event.type, Math.round(delay)]);
     });
 }

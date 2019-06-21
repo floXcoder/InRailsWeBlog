@@ -94,6 +94,7 @@ export default {
             // search
             {
                 path: '/search',
+                searchSidebar: true,
                 noTagSidebar: true,
                 noHeaderSearch: true,
                 component: () => RouteComponents.SearchIndex
@@ -102,13 +103,13 @@ export default {
             {
                 path: '/tags/:tagSlug/edit',
                 exact: true,
-                tagCloud: true,
+                noTagSidebar: true,
                 component: () => RouteComponents.TagEdit
             },
             {
                 path: '/tags/:userSlug/sort',
                 exact: true,
-                tagCloud: true,
+                noTagSidebar: true,
                 component: () => RouteComponents.TagSort
             },
             {
@@ -144,7 +145,8 @@ export default {
             {
                 path: '/users/:userSlug',
                 exact: true,
-                component: () => RouteComponents.UserHome
+                redirect: true,
+                redirectPath: () => '/'
             },
             {
                 path: '/users/:userSlug/topics',
@@ -159,7 +161,14 @@ export default {
             {
                 path: '/users/:userSlug/topics/:topicSlug/edit',
                 exact: true,
+                noTagSidebar: true,
                 component: () => RouteComponents.TopicEdit
+            },
+            {
+                path: '/users/:userSlug/topics/:topicSlug/edit-inventories',
+                exact: true,
+                noTagSidebar: true,
+                component: () => RouteComponents.TopicEditInventories
             },
             {
                 path: '/users/:userSlug/(topics|shared-topics)/:topicSlug',

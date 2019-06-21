@@ -1,6 +1,7 @@
 'use strict';
 
 import {
+    MuiThemeProvider,
     withStyles
 } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -14,6 +15,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import CloseIcon from '@material-ui/icons/Close';
 
+import theme from '../../../jss/theme';
 import styles from '../../../jss/notification';
 
 import {
@@ -151,17 +153,19 @@ class Notification extends React.Component {
 
     render() {
         return (
-            <Snackbar anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-            }}
-                      open={this.state.isOpen}
-                      autoHideDuration={notificationDuration}
-                      onClose={this._handleClose}
-                      onExited={this._handleExited}>
-                <NotificationContent messageInfo={this.state.messageInfo}
-                                     onClose={this._handleClose}/>
-            </Snackbar>
+            <MuiThemeProvider theme={theme}>
+                <Snackbar anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }}
+                          open={this.state.isOpen}
+                          autoHideDuration={notificationDuration}
+                          onClose={this._handleClose}
+                          onExited={this._handleExited}>
+                    <NotificationContent messageInfo={this.state.messageInfo}
+                                         onClose={this._handleClose}/>
+                </Snackbar>
+            </MuiThemeProvider>
         );
     }
 }

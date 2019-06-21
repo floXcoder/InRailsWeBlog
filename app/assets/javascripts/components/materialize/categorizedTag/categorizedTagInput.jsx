@@ -106,7 +106,7 @@ export default class CategorizedTagInput extends React.Component {
         if (this.props.isSortingCategoriesByAlpha) {
             tagCategories = tagCategories.sort((categoryA, categoryB) => {
                 return categoryA.title.localeCompare(categoryB.title);
-            })
+            }).slice();
         }
 
         let categoriesWithNewTags = tagCategories.map((category) => {

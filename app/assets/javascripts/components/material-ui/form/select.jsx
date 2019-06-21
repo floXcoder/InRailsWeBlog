@@ -3,7 +3,7 @@
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
-const SelectFieldForm = ({input, label, helperText, options, meta: {touched, error}, ...custom}) => (
+const SelectFormField = ({input, label, helperText, options, meta: {touched, error}, ...custom}) => (
     <TextField {...input}
                select={true}
                label={label}
@@ -31,7 +31,7 @@ const SelectFieldForm = ({input, label, helperText, options, meta: {touched, err
     </TextField>
 );
 
-SelectFieldForm.propTypes = {
+SelectFormField.propTypes = {
     input: PropTypes.object.isRequired,
     meta: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
@@ -43,4 +43,4 @@ SelectFieldForm.propTypes = {
     custom: PropTypes.object
 };
 
-export default SelectFieldForm;
+export default SelectFormField;

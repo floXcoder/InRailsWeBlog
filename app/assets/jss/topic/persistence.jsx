@@ -11,8 +11,13 @@ const styles = (theme) => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing(4),
     },
-    input: {
-        margin: '1rem 0'
+    topicField: {
+        margin: theme.spacing(1.5, .1)
+    },
+    topicModeHelper: {
+        margin: theme.spacing(.5, .1, 2),
+        border: '1px solid #ddd',
+        padding: theme.spacing(1, 2)
     }
 });
 

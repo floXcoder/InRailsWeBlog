@@ -21,7 +21,7 @@ module Api::V1
       respond_to do |format|
         format.html { redirect_to(@location) }
         format.js
-        format.json { respond_with resource, serializer: UserProfileSerializer }
+        format.json { render json: resource, serializer: UserProfileSerializer }
       end
     end
 

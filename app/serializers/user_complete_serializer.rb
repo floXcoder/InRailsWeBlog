@@ -21,10 +21,6 @@ class UserCompleteSerializer < ActiveModel::Serializer
 
   has_one :tracker
 
-  # has_many :activities, serializer: PublicActivitiesSerializer
-  # has_many :articles, serializer: ArticleSampleSerializer
-  # has_many :comments, serializer: CommentSerializer
-
   def created_at
     I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
   end

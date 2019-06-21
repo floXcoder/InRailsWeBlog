@@ -23,6 +23,7 @@ RSpec.describe DeviseMailer, type: :mailer do
 
   describe 'reset password instructions', advanced: true do
     before { @user.send_reset_password_instructions }
+
     let(:mail) { DeviseMailer.reset_password_instructions(@user, @user.reset_password_token) }
 
     it 'renders the headers' do
@@ -39,6 +40,7 @@ RSpec.describe DeviseMailer, type: :mailer do
 
   describe 'unlock instructions', advanced: true do
     before { @user.send_unlock_instructions }
+
     let(:mail) { DeviseMailer.unlock_instructions(@user, @user.unlock_token) }
 
     it 'renders the headers' do

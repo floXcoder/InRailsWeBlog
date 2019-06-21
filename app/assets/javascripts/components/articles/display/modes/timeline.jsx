@@ -10,7 +10,7 @@ import {
     getArticles
 } from '../../../../selectors';
 
-import ArticleSummaryDisplay from '../summary';
+import ArticleSummaryDisplay from '../items/summary';
 
 export default @connect((state) => ({
     articles: getArticles(state),

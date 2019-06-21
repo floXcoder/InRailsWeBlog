@@ -12,17 +12,15 @@ let webPackConfig = module.exports = require('./main.config.js');
 
 webPackConfig.mode = 'development';
 
-webPackConfig.resolve.alias = {
-    'react-dom': '@hot-loader/react-dom'
-};
+webPackConfig.resolve.alias['react-dom'] = path.resolve('node_modules/@hot-loader/react-dom');
 
 webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.development.filename + '.js'
 });
 
-webPackConfig.module.rules[1].use.unshift({
-    loader: 'css-hot-loader'
-});
+webPackConfig.module.rules[1].use[0].options = {
+    hmr: true
+};
 
 webPackConfig = _.merge(webPackConfig, {
     output: {

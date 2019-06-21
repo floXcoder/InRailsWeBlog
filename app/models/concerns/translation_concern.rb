@@ -121,7 +121,7 @@ module TranslationConcern
 
     def define_translated_field_writer(field)
       define_method(:"#{field}=") do |value|
-        write_attribute(field, value)
+        self[field] = value
       end
     end
   end

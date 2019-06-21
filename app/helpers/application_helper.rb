@@ -26,15 +26,6 @@ module ApplicationHelper
     end
   end
 
-
-  def controller?(*controller)
-    controller.include?(params[:controller])
-  end
-
-  def action?(*action)
-    action.include?(params[:action])
-  end
-
   def javascript(*files)
     files.each do |file|
       content_for(:javascript) { javascript_include_tag(file) }

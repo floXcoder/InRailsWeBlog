@@ -15,7 +15,7 @@ Bundler.require(*Rails.groups)
 
 # preload tokens in application.yml to local ENV unless variables are already defined (by Gitlab runner for instance)
 unless ENV['WEBSITE_NAME']
-  config = YAML.safe_load(File.read(File.expand_path('../application.yml', __FILE__)))
+  config = YAML.safe_load(File.read(File.expand_path('application.yml', __dir__)))
   config.merge! config.fetch(Rails.env, {})
   config.each do |key, value|
     ENV[key] = value.to_s unless value.is_a? Hash

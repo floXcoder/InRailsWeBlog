@@ -23,7 +23,7 @@ class UpdateTrackerWorker
           element_value                              = $redis.get(tracked_element)
 
           if (element = class_model.find_by(id: element_id))
-            return unless element.tracker
+            next unless element.tracker
 
             # Warning: Increment do not trigger callbacks
             element.tracker.increment!("#{metric}_count", element_value.to_i)

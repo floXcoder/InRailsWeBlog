@@ -88,6 +88,6 @@ class ArticlePolicy
   end
 
   def contributor?
-    @current_user && @current_user.contributed_topic_ids.include?(@article.topic_id)
+    @current_user&.contributed_topic_ids&.include?(@article.topic_id)
   end
 end

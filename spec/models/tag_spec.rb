@@ -112,7 +112,7 @@ RSpec.describe Tag, type: :model, basic: true do
       it 'can change name if private' do
         tag_private       = Tag.create(user: @user, name: 'tag 1', visibility: 'only_me')
         other_tag_private = Tag.create(user: @user, name: 'tag 2', visibility: 'only_me')
-        tag_public        = Tag.create(user: @user, name: 'tag 3', visibility: 'everyone')
+        Tag.create(user: @user, name: 'tag 3', visibility: 'everyone')
 
         tag_private.name = 'tag 1.1'
         expect(tag_private.save).to be true
@@ -283,7 +283,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     describe '::unused' do
       before do
-        private_tag.update_attributes(updated_at: 3.days.ago)
+        private_tag.update(updated_at: 3.days.ago)
       end
 
       it { is_expected.to respond_to(:unused) }

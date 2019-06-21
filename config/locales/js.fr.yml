@@ -13,13 +13,14 @@ fr:
           button: "Articles"
           menu:
             temporary: "Article en cours"
-            add_note: "Prendre une note"
-            add_article: "Écrire un article"
-            add_link: "Ajouter un lien"
             user: "Mes articles"
             new: "Nouvel article"
             bookmark: "Articles favoris"
             draft: "Temporaires"
+            add:
+              default: "Ajouter article"
+              stories: "Écrire storie"
+              inventories: "Ajouter inventaire"
         tags:
           button: "Labels"
         settings:
@@ -42,7 +43,7 @@ fr:
       footer:
         title: "In Rails We Blog"
         description: "Un blog pensé pour les développeurs"
-        copyright: "Copyright 2018 - InRailsWeBlog (%{version}). Tous droits réservés."
+        copyright: "Copyright 2019 - InRailsWeBlog (%{version}). Tous droits réservés."
         links:
           title: "Liens utiles"
           contact: "Me contacter par email"
@@ -262,7 +263,7 @@ fr:
         title: "Ajout d'un label"
         submit: "Créer le label"
       edit:
-        title: "Modification du label : %{name}"
+        title: "Modification du label : %{tag}"
         back_button: "Annuler"
         submit: "Mettre à jour le label"
       errors:
@@ -278,6 +279,9 @@ fr:
         no_description: "Pas de description associée à ce thème"
         user_topics: "Mes thèmes"
         user_current_topic: "Thème en cours"
+        modes:
+          stories: "Liste de chroniques sous forme de timeline"
+          inventories: "Liste d'articles dont les champs sont personnalisés"
         placeholders:
           name: "Nom du thème"
           description: "Description du thème"
@@ -293,6 +297,8 @@ fr:
         articles_count: "Nombre d'articles"
         tags: "Labels associés"
         tags_count: "Nombre de labels"
+        inventory_fields:
+          name: "Nom du champ"
       enums:
         visibility:
           everyone: "Public"
@@ -300,24 +306,33 @@ fr:
         mode:
           default: "Défaut"
           stories: "Histoire"
+          inventories: "Inventaire"
       show:
+        share: "Partager ce thème"
         back_button: "Annuler"
-        edit_link: "Modifier ce label"
+        edit_link: "Modifier ce thème"
       new:
         title: "Ajouter un thème"
         name: "Nom du thème"
         mode: "Type"
-        description: "Détails du thème"
+        description: "Description"
         cancel: "Annuler"
         submit: "Ajouter"
       edit:
-        title: "Modifier le thème"
+        title: "Modification du thème : %{topic}"
         name: "Nom du thème"
         mode: "Type"
-        description: "Détails du thème"
-        delete: "Supprimer"
+        description: "Description"
+        update_inventories: "Modifier les champs personnalisés"
         back_button: "Annuler"
         submit: "Mettre à jour le thème"
+        delete: "Supprimer"
+      edit_inventories:
+        title: "Champs personnalisés pour le thème : %{topic}"
+        mandatory_field: "Champ obligatoirement présent pour la recherche"
+        add_field: "Ajouter nouveau champ"
+        field_props: "Propriétés du champ"
+        remove_field: "Supprimer ce champ"
       share:
         title: "Partager le thème"
         form:
@@ -336,6 +351,20 @@ fr:
           size: "Le nom du label doit être compris entre %{min} et %{max} caractères"
         description:
           size: "La description du label doit être compris entre %{min} et %{max} caractères"
+    inventory_fields:
+      model:
+        name: "Nom du champ"
+        value_type: "Type de champ"
+        required: "Champ obligatoire ?"
+        searchable: "Inclure dans recherche ?"
+        filterable: "Filtre pour recherche ?"
+      enums:
+        value_type:
+          string_type: "Chaîne"
+          text_type: "Texte"
+          number_type: "Nombre"
+          date_type: "Date"
+          boolean_type: "Vrai/Faux"
     article:
       common:
         draft: "Note temporaire ?"
@@ -357,6 +386,7 @@ fr:
           title:
             note: "Titre de votre article"
             story: "Titre de votre story"
+            inventory: "Titre pour inventaire"
           reference:
             note: "Lien vers la source d'origine"
             story: "Lien vers la source d'origine"
@@ -391,6 +421,11 @@ fr:
         validation_error:
           common: "Merci de remplir l'article comme indiqué avant de continuer"
       form:
+        no_inventories: "Vous n'avez pas encore défini de champs personnalisé. Merci de les créer :"
+        inventory_button: "Ajouter ou modifier les champs personnalisés"
+        inventories:
+          searchable: "Ce champ est inclus dans la recherche"
+          filterable: "Ce champ est inclus dans la recherche"
         unsaved: "Quitter sans sauvegarder l'article ?"
         next: "Suivant"
       model:
@@ -405,11 +440,12 @@ fr:
         tags: "Labels"
         parent_tags: "Labels principaux"
         child_tags: "Labels secondaires"
+        topic: "Thème"
+        tagged_articles: "Labels de l'article"
+        inventories: "Champs personnalisé"
         comment:
           true: "Activé"
           false: "Désactivé"
-        topic: "Thème"
-        tagged_articles: "Labels de l'article"
       enums:
         visibility:
           everyone: "Public"
@@ -537,6 +573,9 @@ fr:
       index:
         placeholder: "Recherche"
         button: "Trouver"
+        topic:
+          current: "Thème courant"
+          others: "Autres thèmes"
         results:
           one: "1 résultat"
           other: "%{count} résultats"
@@ -671,6 +710,9 @@ fr:
       fr: "Français"
       en: "English"
     editor:
+      helper:
+        title: "Aide : "
+        article_hint: "pour lier article"
       buttons:
         code: "Code simple"
         pre: "Code multi-line (CTRL+E)"

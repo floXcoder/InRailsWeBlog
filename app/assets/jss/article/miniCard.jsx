@@ -13,7 +13,7 @@ const styles = (theme) => ({
         margin: '.4rem .3rem 1.2rem',
         overflow: 'visible',
         border: 0,
-        boxShadow: theme.shadows[0],
+        boxShadow: theme.shadows[0]
     },
     header: {
         paddingTop: 0,
@@ -23,7 +23,7 @@ const styles = (theme) => ({
         paddingTop: '0 !important',
         paddingBottom: '0 !important'
     },
-    title: {
+    extractTitle: {
         color: theme.palette.primary.main,
         margin: '1rem 0 .3rem',
         fontSize: h1SizeExtract,

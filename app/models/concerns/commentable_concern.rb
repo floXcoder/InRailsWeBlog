@@ -26,7 +26,7 @@ module CommentableConcern
   def update_comment(comment, new_comment_attributes)
     new_comment_attributes.delete(:rating) if new_comment_attributes[:rating].blank?
 
-    comment_updated = comment.update_attributes(new_comment_attributes)
+    comment_updated = comment.update(new_comment_attributes)
 
     self.update_notation
 
@@ -60,6 +60,7 @@ module CommentableConcern
     notation_count = 0
     self.comment_threads.each do |comment|
       next if !comment.rating || comment.rating.zero?
+
       notation_sum   += comment.rating
       notation_count += 1
     end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -28,6 +29,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  contributor_id          :bigint
+#  inventories             :jsonb            not null
 #
 
 class Article < ApplicationRecord
@@ -65,7 +67,7 @@ class Article < ApplicationRecord
   acts_as_voteable
 
   # Versioning
-  has_paper_trail only: [:contributor, :title_translations, :summary_translations, :content_translations, :reference]
+  has_paper_trail only: [:contributor, :title_translations, :summary_translations, :content_translations, :reference, :inventories]
 
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
@@ -82,12 +84,14 @@ class Article < ApplicationRecord
 
   # Search
   # Only filterable can be used in where options!
-  searchkick searchable:  [:title, :content, :reference],
-             filterable:  [:mode, :visibility, :draft, :languages, :notation, :accepted, :home_page, :user_id, :topic_id, :tag_ids, :tag_slugs],
-             word_middle: [:title, :content],
-             suggest:     [:title],
-             highlight:   [:title, :content],
-             language:    -> { I18n.locale == :fr ? 'french' : 'english' }
+  searchkick word_middle: [:title, :content], # To improve speed for autocomplete
+             suggest:   [:title],
+             highlight: [:title, :content],
+             language:  -> { I18n.locale == :fr ? 'french' : 'english' }
+  # Cannot search in inventory fields if these options are used:
+  # searchable:  [:title, :content, :reference],
+  # filterable:  [:mode, :visibility, :draft, :languages, :notation, :accepted, :home_page, :user_id, :topic_id, :tag_ids, :tag_slugs],
+  # For multi-languages search, use multi-indexes:
   # index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
 
   # Comments
@@ -188,9 +192,11 @@ class Article < ApplicationRecord
            as:        :imageable,
            autosave:  true,
            dependent: :destroy
-  accepts_nested_attributes_for :pictures, allow_destroy: true, reject_if: lambda {
-    |picture| picture['picture'].blank? && picture['image_tmp'].blank?
-  }
+  accepts_nested_attributes_for :pictures,
+                                allow_destroy: true,
+                                reject_if:     lambda {
+                                  |picture| picture['picture'].blank? && picture['image_tmp'].blank?
+                                }
 
   # == Validations ==========================================================
   validates :user,
@@ -198,10 +204,12 @@ class Article < ApplicationRecord
   validates :topic,
             presence: true
 
+  validates :mode,
+            presence: true
+
   validates :title,
-            length: { minimum: InRailsWeBlog.config.article_title_min_length, maximum: InRailsWeBlog.config.article_title_max_length }
-  validates :topic,
             presence: true,
+            length:   { minimum: InRailsWeBlog.config.article_title_min_length, maximum: InRailsWeBlog.config.article_title_max_length },
             unless:   -> { draft? }
 
   validates :summary,
@@ -211,7 +219,7 @@ class Article < ApplicationRecord
   validates :content,
             presence: true,
             length:   { minimum: InRailsWeBlog.config.article_content_min_length, maximum: InRailsWeBlog.config.article_content_max_length },
-            unless:   -> { reference.present? }
+            unless:   -> { reference.present? || inventory? }
 
   validates :languages,
             presence: true
@@ -219,17 +227,21 @@ class Article < ApplicationRecord
   validates :notation,
             inclusion: InRailsWeBlog.config.notation_min..InRailsWeBlog.config.notation_max
 
-  validates :mode,
-            presence: true
-
   validates :visibility,
             presence: true
-
-  validate :current_topic_belongs_to_user
 
   validates :tagged_articles,
             presence: true,
             unless:   -> { draft? }
+
+  validates :inventories,
+            presence: true,
+            if:       -> { inventory? }
+
+  validate :inventory_fields,
+           if: -> { inventory? }
+
+  validate :current_topic_belongs_to_user
 
   validate :pertinent_tags
 
@@ -415,7 +427,7 @@ class Article < ApplicationRecord
   end
 
   def summary_content(size = 90, current_user_id = nil)
-    adapted_content(current_user_id).summary(size)
+    adapted_content(current_user_id)&.summary(size)
   end
 
   def tag_names
@@ -427,6 +439,7 @@ class Article < ApplicationRecord
     {
       id:               id,
       user_id:          user_id,
+      user_slug:        user.slug,
       topic_id:         topic_id,
       topic_name:       topic&.name,
       topic_slug:       topic&.slug,
@@ -451,9 +464,7 @@ class Article < ApplicationRecord
       rank:             rank,
       popularity:       popularity,
       slug:             slug
-      # summary:          summary,
-      # private_content:   strip_content, # Do not expose secret content
-    }
+    }.merge(inventories)
   end
 
   # def update_search_index
@@ -482,6 +493,14 @@ class Article < ApplicationRecord
     return unless user
 
     user.create_activity(:visit, recipient: self, owner: user, params: { topic_id: parent_id })
+  end
+
+  def inventory_fields
+    return unless self.inventory?
+
+    self.topic.inventory_fields.each do |field|
+      errors.add(:inventories, I18n.t('activerecord.errors.models.article.required_inventory_field', field: field.name)) if field.required && self.inventories[field.field_name].blank?
+    end
   end
 
   def current_topic_belongs_to_user

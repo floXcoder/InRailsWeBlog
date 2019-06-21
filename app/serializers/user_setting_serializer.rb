@@ -3,7 +3,7 @@
 class UserSettingSerializer < ActiveModel::Serializer
   include NullAttributesRemover
 
-  # cache key: 'settings', expires_in: InRailsWeBlog.config.cache_time
+  cache key: 'settings', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :articles_loader,
              :article_display,

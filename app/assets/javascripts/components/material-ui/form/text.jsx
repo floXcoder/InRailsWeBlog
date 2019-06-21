@@ -2,7 +2,7 @@
 
 import TextField from '@material-ui/core/TextField';
 
-const TextFieldForm = ({input, label, helperText, meta: {touched, error}, ...custom}) => (
+const TextFormField = ({input, label, helperText, meta: {touched, error}, ...custom}) => (
     <TextField {...input}
                label={label}
                value={input.value}
@@ -11,7 +11,7 @@ const TextFieldForm = ({input, label, helperText, meta: {touched, error}, ...cus
                {...custom}/>
 );
 
-TextFieldForm.propTypes = {
+TextFormField.propTypes = {
     input: PropTypes.object.isRequired,
     meta: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
@@ -19,4 +19,4 @@ TextFieldForm.propTypes = {
     custom: PropTypes.object
 };
 
-export default TextFieldForm;
+export default TextFormField;

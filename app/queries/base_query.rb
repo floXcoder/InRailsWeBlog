@@ -8,6 +8,4 @@ class BaseQuery
     @current_admin = current_admin
   end
 
-  protected
-
 end

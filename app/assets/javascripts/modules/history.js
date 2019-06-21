@@ -2,11 +2,15 @@
 
 import _ from 'lodash';
 
+import {
+    parse
+} from 'qs';
+
 import urlParser from './urlParser';
 
 const omitEmptyParams = (params) => _.omitBy(params, (value, key) => (Utils.isEmpty(value) || value === '') || (Utils.isEmpty(key) || key === ''));
 
-const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly) => {
+const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false, reuseExistingParams = true) => {
     if (window.history && window.history.pushState) {
         paramsToSerialize = omitEmptyParams(paramsToSerialize);
 
@@ -15,7 +19,7 @@ const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly) => {
         paramsToUrl = omitEmptyParams(paramsToUrl);
         const currentUrlParams = omitEmptyParams(urlData.param.query);
 
-        const newParams = {...currentUrlParams, ...paramsToUrl};
+        const newParams = reuseExistingParams ? {...currentUrlParams, ...paramsToUrl} : paramsToUrl;
 
         if (!Utils.isEmpty($.param(paramsToUrl))) {
             newPath += '?' + $.param(newParams);
@@ -49,13 +53,13 @@ const getPreviousState = (dataName, options) => {
         let dataParams = params[dataName];
 
         if (options && options.useUrlParams) {
-            const urlParams = Utils.getUrlParameters();
+            const urlParams = parse(window.location.search.substring(1));
             dataParams = _.merge(urlParams, dataParams);
         }
 
         return dataParams;
     } else if (options && options.useUrlParams) {
-        return Utils.getUrlParameters();
+        return parse(window.location.search.substring(1));
     } else {
         return false;
     }

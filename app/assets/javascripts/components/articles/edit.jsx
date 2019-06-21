@@ -95,7 +95,7 @@ class ArticleEdit extends React.Component {
     }
 
     render() {
-        if (!this.props.article || !this.props.currentUser || !this.props.currentTopic) {
+        if (!this.props.article || !this.props.currentUser || !this.props.currentTopic || this.props.isFetching) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -111,11 +111,18 @@ class ArticleEdit extends React.Component {
             )
         }
 
+        let inventoryData = {};
+        if(this.props.article.mode === 'inventory') {
+            this.props.article.inventories.map((field) => inventoryData[field.fieldName] = field.value);
+        }
+
         const initialValues = {
             mode: this.props.article.mode,
             title: this.props.article.title,
             summary: this.props.article.summary,
             reference: this.props.article.reference,
+            content: this.props.article.content,
+            inventories: inventoryData,
             picture_ids: '',
             draft: this.props.isDraft || this.props.article.draft,
             visibility: this.props.article.visibility || this.props.inheritVisibility,
@@ -130,16 +137,18 @@ class ArticleEdit extends React.Component {
                 <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&
-                        <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                        <ArticleBreadcrumbDisplay isForm={true}
+                                                  user={this.props.currentUser}
                                                   topic={this.props.currentTopic}
                                                   article={this.props.article}/>
                     }
                 </div>
 
                 <ArticleFormDisplay form={this.props.formId}
+                                    initialValues={initialValues}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}
-                                    initialValues={initialValues}
+                                    currentTopic={this.props.currentTopic}
                                     currentMode={this.props.article.mode}
                                     isEditing={true}
                                     isDraft={this.props.article.isDraft}

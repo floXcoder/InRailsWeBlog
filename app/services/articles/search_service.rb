@@ -21,10 +21,14 @@ module Articles
 
     def perform
       # If query not defined or blank, search for everything
-      query_string = @query.blank? ? '*' : @query
+      query_string = @query.presence || '*'
 
       # Fields with boost
-      fields = %w[title^10 summary^5 content]
+      fields = if @params[:current_topic]&.inventories?
+                 %w[title^10 summary^5 content].concat(@params[:current_topic].inventory_fields.select(&:searchable).map(&:field_name))
+               else
+                 %w[title^10 summary^5 content]
+               end
 
       # Search for entire word if exact
       word_match = @params[:exact] ? :word : :word_middle
@@ -43,13 +47,6 @@ module Articles
       # Where options only for ElasticSearch
       where_options = where_search(@params[:where])
 
-      # Aggregations
-      aggregations  = {
-        notation: { where: { notation: { not: 0 } } },
-        mode:     {},
-        tags:     {}
-      } if @params[:format] != 'strict'
-
       # Boost user articles first
       boost_where = @params[:boost_where]
 
@@ -60,13 +57,18 @@ module Articles
       # Order search
       order = order_search(@params[:order] || 'priority_desc')
 
+      # Aggregations
+      aggregations = if @params[:format] != 'strict' && @params[:current_topic]
+                       Hash[@params[:current_topic].inventory_fields.select(&:filterable).map { |field| [field.field_name, {}] }]
+                     end
+
       # Includes to add when retrieving data from DB
       includes = if @params[:format] == 'strict'
                    [:tags, user: [:picture]]
                  elsif @params[:format] == 'complete'
-                   [:tags, user: [:picture]]
+                   [:topic, :tags, user: [:picture]]
                  else
-                   [:tags, user: [:picture]]
+                   [:topic, :tags, user: [:picture]]
                  end
 
       begin

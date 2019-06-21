@@ -16,18 +16,21 @@ import Divider from '@material-ui/core/Divider';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import SelectFieldForm from '../../../material-ui/form/select';
-import TextFieldForm from '../../../material-ui/form/text';
+import SelectFormField from '../../../material-ui/form/select';
+import TextFormField from '../../../material-ui/form/text';
 import CheckBoxFieldForm from '../../../material-ui/form/checkbox';
 import SwitchFormField from '../../../material-ui/form/switch';
 
-import styles from '../../../../../jss/article/form/common';
+import styles from '../../../../../jss/article/form/shared';
 
 export default @withStyles(styles)
 class ArticleAdvancedField extends React.PureComponent {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,
+        change: PropTypes.func.isRequired,
         inheritVisibility: PropTypes.string,
+        currentVisibility: PropTypes.string,
+        currentDraft: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
@@ -36,10 +39,18 @@ class ArticleAdvancedField extends React.PureComponent {
         isSourceExpanded: false
     };
 
-    _handleExpandClick = () => {
+    _handleExpandClick = (event) => {
+        event.preventDefault();
+
         this.setState((state) => ({
             isSourceExpanded: !state.isSourceExpanded
         }));
+    };
+
+    _handleDraftChange = (event) => {
+        if (event.target.checked) {
+            this.props.change('visibility', 'only_me');
+        }
     };
 
     render() {
@@ -49,31 +60,33 @@ class ArticleAdvancedField extends React.PureComponent {
                     this.props.inheritVisibility !== 'only_me' &&
                     <div className="col s12 m6 center-align">
                         <Field name="visibility"
+                               component={SelectFormField}
                                id="article_visibility"
                                className={this.props.classes.select}
                                label={I18n.t('js.article.model.visibility')}
-                               options={I18n.t('js.article.enums.visibility')}
-                               component={SelectFieldForm}/>
+                               options={I18n.t('js.article.enums.visibility')}/>
                     </div>
                 }
 
                 <div className="col s12 m6 center-align">
                     <Field name="draft"
+                           type="checkbox"
+                           onChange={this._handleDraftChange}
+                           component={CheckBoxFieldForm}
                            id="article_draft"
-                           label={I18n.t('js.article.common.draft')}
-                           component={CheckBoxFieldForm}/>
+                           label={I18n.t('js.article.common.draft')}/>
                 </div>
 
                 {
-                    this.props.inheritVisibility !== 'only_me' &&
+                    (this.props.inheritVisibility !== 'only_me' && this.props.currentVisibility !== 'only_me' && this.props.currentDraft !== true) &&
                     <div className="col s12 center-align">
                         <Divider className={this.props.classes.advancedDivider}/>
 
                         <Field name="allowComment"
+                               component={SwitchFormField}
                                id="article_allow_comment"
                                label={I18n.t('js.article.common.allow_comment.title')}
-                               values={I18n.t('js.article.common.allow_comment')}
-                               component={SwitchFormField}/>
+                               values={I18n.t('js.article.common.allow_comment')}/>
                     </div>
                 }
 
@@ -83,7 +96,7 @@ class ArticleAdvancedField extends React.PureComponent {
                 {/*           className={this.props.classes.select}*/}
                 {/*           label={I18n.t('js.article.model.language')}*/}
                 {/*           options={I18n.t('js.languages')}*/}
-                {/*           component={SelectFieldForm}/>*/}
+                {/*           component={SelectFormField}/>*/}
                 {/*</div>*/}
 
                 {
@@ -114,6 +127,7 @@ class ArticleAdvancedField extends React.PureComponent {
                               timeout="auto"
                               unmountOnExit={true}>
                         <Field name="reference"
+                               component={TextFormField}
                                id="article_reference"
                                className={this.props.classes.select}
                                icon="open_in_new"
@@ -124,8 +138,7 @@ class ArticleAdvancedField extends React.PureComponent {
                                            <OpenInNewIcon/>
                                        </InputAdornment>
                                    )
-                               }}
-                               component={TextFieldForm}/>
+                               }}/>
                     </Collapse>
                 </div>
             </div>

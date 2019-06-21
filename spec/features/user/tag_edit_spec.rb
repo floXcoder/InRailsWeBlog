@@ -44,9 +44,10 @@ feature 'Tag edit for users', advanced: true, js: true do
       is_expected.to have_css('.note-editor.note-frame')
     end
 
-    scenario 'users can see the topic sidebar' do
-      is_expected.to have_css("div[class*='TagSidebar-cloudList-']")
-    end
+    # No sidebar for tag edit
+    # scenario 'users can see the tag sidebar' do
+    #   is_expected.to have_css("div[class*='TagSidebar-cloudList-']")
+    # end
   end
 
 end

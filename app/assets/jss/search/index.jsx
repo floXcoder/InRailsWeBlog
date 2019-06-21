@@ -16,7 +16,10 @@ const styles = (theme) => ({
     },
     inputItem: {
         margin: theme.spacing(1),
-        width: '80%'
+        width: '80%',
+        [theme.breakpoints.down('md')]: {
+            width: '90%'
+        }
     },
     searchIcon: {
         color: '#000',
@@ -39,7 +42,7 @@ const styles = (theme) => ({
         fontSize: '2rem'
     },
     inputTag: {
-        margin: `${theme.spacing(0.5)}px ${theme.spacing(0.5)}px`,
+        margin: theme.spacing(0.5, 0.5),
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,
@@ -100,8 +103,11 @@ const styles = (theme) => ({
         marginTop: 16,
         marginBottom: 16
     },
+    articleCardHeader: {
+        width: '100%'
+    },
     articleContent: {
-        paddingTop: 4
+        padding: theme.spacing(2)
     },
     articleTags: {
         marginTop: theme.spacing(4),
@@ -121,6 +127,10 @@ const styles = (theme) => ({
     },
     articleTitle: {
         fontSize: '2rem',
+        color: theme.palette.text.primary
+    },
+    articleGridTitle: {
+        fontSize: '1.5rem',
         color: theme.palette.text.primary
     },
     articleSubtitle: {

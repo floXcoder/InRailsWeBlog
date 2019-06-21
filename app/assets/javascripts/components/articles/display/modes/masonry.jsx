@@ -10,9 +10,9 @@ import {
 
 import MasonryWrapper from '../../../theme/masonry';
 
-import ArticleItemDisplay from '../item';
+import ArticleItemsDisplay from '../items';
 
-const ArticleMasonry = MasonryWrapper(ArticleItemDisplay, {articleDisplayMode: 'grid'}, ArticleItemDisplay, {articleDisplayMode: 'card'});
+const ArticleMasonry = MasonryWrapper(ArticleItemsDisplay, {articleDisplayMode: 'grid'}, ArticleItemsDisplay, {articleDisplayMode: 'card'});
 
 export default @connect((state) => ({
     articles: getArticles(state)
@@ -35,6 +35,7 @@ class ArticleMasonryMode extends React.Component {
             <ArticleMasonry type="article"
                             elements={this.props.articles}
                             topOffset={40}
+                            columnCount={3}
                             hasColumnButtons={true}
                             hasExposedMode={true}
                             isActive={true}

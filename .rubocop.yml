@@ -14,12 +14,33 @@ LineLength:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   Exclude:
+    - 'Capfile'
+    - 'Gemfile'
+    - 'Guardfile'
+    - 'Rakefile'
+    - 'app/serializers/article_strict_serializer.rb'
+    - 'app/serializers/tag_strict_serializer.rb'
+    - 'app/serializers/topic_strict_serializer.rb'
+    - 'app/serializers/user_strict_serializer.rb'
+    - 'bin/**/*'
+    - 'config/boot.rb'
     - 'config/initializers/secure_headers.rb'
+    - 'db/**/*'
+    - 'frontend/**/*'
+    - 'log/**/*'
     - 'node_modules/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
 
 Bundler/OrderedGems:
+  Enabled: false
+
+Capybara/FeatureMethods:
+  Enabled: false
+
+Layout/AlignHash:
   Enabled: false
 
 Layout/AlignParameters:
@@ -28,17 +49,29 @@ Layout/AlignParameters:
 Layout/CaseIndentation:
   Enabled: false
 
+Layout/CommentIndentation:
+  Enabled: false
+
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+
 Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundModuleBody:
   Enabled: false
 
 Layout/ExtraSpacing:
   Enabled: false
   AllowForAlignment: true
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Enabled: false
 
-Layout/IndentHash:
+Layout/IndentFirstArrayElement:
+  Enabled: false
+
+Layout/IndentFirstHashElement:
   Enabled: false
 
 Layout/LeadingCommentSpace:
@@ -92,29 +125,65 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
+
+Rails/DynamicFindBy:
+  Enabled: false
+
+Rails/FindBy:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
 Rails/OutputSafety:
   Enabled: false
 
-Rspec/ExampleLength:
-  Max: 15
-
-Rspec/InstanceVariable:
+Rails/SkipsModelValidations:
   Enabled: false
 
-Rspec/MultipleExpectations:
+Rails/UnknownEnv:
+  Enabled: false
+
+Rails/Validation:
+  Enabled: false
+
+RSpec/BeforeAfterAll:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 20
+
+RSpec/ImplicitExpect:
+  Enabled: false
+
+RSpec/ImplicitSubject:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/MultipleExpectations:
   Max: 10
 
-Rspec/NestedGroups:
+RSpec/NestedGroups:
   Max: 4
 
 Style/AsciiComments:
   Enabled: false
 
-Style/AlignParameters:
+Style/BlockDelimiters:
   Enabled: false
 
 Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
+  Enabled: false
 
 Style/ColonMethodCall:
   Enabled: false
@@ -122,29 +191,16 @@ Style/ColonMethodCall:
 Style/CommandLiteral:
   Enabled: false
 
-Style/ExtraSpacing:
-  Enabled: false
-  AllowForAlignment: true
-
-Style/FirstParameterIndentation:
+Style/DoubleNegation:
   Enabled: false
 
-Style/IndentHash:
+Style/GlobalVars:
   Enabled: false
 
 Style/Lambda:
   Enabled: false
 
-Style/LeadingCommentSpace:
-  Enabled: false
-
-Style/MultilineBlockLayout:
-  Enabled: false
-
 Style/MultilineIfModifier:
-  Enabled: false
-
-Style/MultilineOperationIndentation:
   Enabled: false
 
 Style/NumericPredicate:
@@ -161,9 +217,6 @@ Style/RegexpLiteral:
   Enabled: false
 
 Style/RescueModifier:
-  Enabled: false
-
-Style/SpaceInLambdaLiteral:
   Enabled: false
 
 Style/SymbolArray:

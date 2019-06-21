@@ -43,6 +43,6 @@ class TopicPolicy
   end
 
   def contributor?
-    @current_user && @current_user.contributed_topic_ids.include?(@topic.id) && @topic.everyone?
+    @current_user&.contributed_topic_ids&.include?(@topic.id) && @topic.everyone?
   end
 end

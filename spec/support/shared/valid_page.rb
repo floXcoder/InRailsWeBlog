@@ -44,16 +44,16 @@ shared_examples 'a valid page' do
       is_expected.to have_selector('form.blog-search-header') unless content[:no_search_header]
 
       if content[:connected]
-        is_expected.to have_css(".header-button", count: 3)
+        is_expected.to have_css('button', count: 4)
       else
-        is_expected.to have_css("button", text: /#{t('js.views.header.user.sign_up')}/i)
-        is_expected.to have_selector("button", text: /#{t('js.views.header.user.log_in')}/i)
+        is_expected.to have_selector('button', text: /#{t('js.views.header.user.sign_up')}/i)
+        is_expected.to have_selector('button', text: /#{t('js.views.header.user.log_in')}/i)
       end
     end
 
     # Link in dropdown outside header
     if content[:connected]
-      is_expected.to have_selector("a[href=\"#{logout_path}\"]", visible: false)
+      # is_expected.to have_selector('div', /#{t('js.views.header.user.log_out')}/i, visible: false)
     end
 
     # Footer

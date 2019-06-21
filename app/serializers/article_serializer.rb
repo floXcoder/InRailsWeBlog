@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -28,19 +29,21 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  contributor_id          :bigint
+#  inventories             :jsonb            not null
 #
 
 class ArticleSerializer < ActiveModel::Serializer
-  # cache key: 'article', expires_in: InRailsWeBlog.config.cache_time
+  cache key: 'article', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
+             :topic_id,
              :mode,
              :mode_translated,
-             :topic_id,
              :title,
              :summary,
              :content,
              :reference,
+             :inventories,
              :date,
              :date_short,
              :visibility,
@@ -75,6 +78,23 @@ class ArticleSerializer < ActiveModel::Serializer
   def content
     current_user_id = defined?(current_user) && current_user&.id
     object.adapted_content(current_user_id)
+  end
+
+  def inventories
+    if object.inventory?
+      object.topic.inventory_fields.map do |inventory_field|
+        inventory_value = object.inventories[inventory_field.field_name]
+
+        {
+          fieldName: inventory_field.field_name,
+          name:      inventory_field.name,
+          value:     inventory_value,
+          type:      inventory_field.value_type
+        }
+      end
+    else
+      []
+    end
   end
 
   def date
@@ -129,4 +149,3 @@ class ArticleSerializer < ActiveModel::Serializer
     instance_options[:new_tags].map(&:id) if instance_options[:new_tags].present?
   end
 end
-
