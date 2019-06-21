@@ -171,7 +171,7 @@ RSpec.describe Comment, type: :model, basic: true do
   end
 
   context 'Instance Methods' do
-    describe '.children??' do
+    describe '.children?' do
       it { is_expected.to respond_to(:children?) }
 
       it 'has no children' do

@@ -286,12 +286,12 @@ class Topic < ApplicationRecord
   end
 
   def regenerate_article_slug
-    return unless name_previous_change
-
-    self.articles.find_in_batches(batch_size: 200) do |articles|
-      articles.each do |article|
-        article.slug = nil
-        article.save!
+    if name_previous_change
+      self.articles.find_in_batches(batch_size: 200) do |articles|
+        articles.each do |article|
+          article.slug = nil
+          article.save!
+        end
       end
     end
   end

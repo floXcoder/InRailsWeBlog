@@ -116,10 +116,10 @@ deploy:
     RAILS_ENV: "production"
     DEPLOY_SERVER: "$DEPLOY_SERVER"
     DEPLOY_USER: "$DEPLOY_USER"
+    DEPLOY_GEMSET: "$DEPLOY_GEMSET"
     GIT_REPO_ADDRESS: "$GIT_REPO_ADDRESS"
     GIT_REPO_USER: "$GIT_REPO_USER"
     GIT_REPO_PORT: "$GIT_REPO_PORT"
-    DEPLOY_GEMSET: "$DEPLOY_GEMSET"
   environment:
     name: production
     url: https://www.inrailsweblog.com
