@@ -378,15 +378,15 @@ class Tag < ApplicationRecord
   end
 
   def public_name_immutable
-    return unless self.everyone? || name_changed?
-
-    errors.add(:name, I18n.t('activerecord.errors.models.tag.public_name_immutable'))
+    if self.everyone? && name_changed?
+      errors.add(:name, I18n.t('activerecord.errors.models.tag.public_name_immutable'))
+    end
   end
 
   def public_visibility_immutable
-    return unless visibility_was == 'everyone' || visibility_changed?
-
-    errors.add(:visibility, I18n.t('activerecord.errors.models.tag.public_visibility_immutable'))
+    if visibility_was == 'everyone' && visibility_changed?
+      errors.add(:visibility, I18n.t('activerecord.errors.models.tag.public_visibility_immutable'))
+    end
   end
 
   def set_default_color

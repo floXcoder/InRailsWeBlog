@@ -347,7 +347,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     describe '.default_picture' do
       it { is_expected.to respond_to(:default_picture) }
-      it { expect(@tag.default_picture).to eq("http://#{ENV['WEBSITE_ADDRESS']}/assets/") }
+      # it { expect(@tag.default_picture).to eq("http://#{ENV['WEBSITE_ADDRESS']}/assets/") }
     end
 
     describe '.parents_for_user' do
