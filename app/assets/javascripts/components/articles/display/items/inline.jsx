@@ -38,7 +38,7 @@ class ArticleInlineDisplay extends React.PureComponent {
         slug: PropTypes.string.isRequired,
         onInlineEdit: PropTypes.func.isRequired,
         title: PropTypes.string,
-        inventories: PropTypes.string,
+        inventories: PropTypes.array,
         isMinimized: PropTypes.bool,
         isOwner: PropTypes.bool,
         onEnter: PropTypes.func,

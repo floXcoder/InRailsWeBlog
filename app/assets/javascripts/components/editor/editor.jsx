@@ -12,7 +12,6 @@ import {
 
 import EditorLoader from '../../loaders/editor';
 import SanitizePaste from '../../modules/sanitizePaste';
-import * as ActionTypes from "../../constants/actionTypes";
 
 export const EditorMode = {
     EDIT: 1,
@@ -181,7 +180,9 @@ class Editor extends React.Component {
             this._noteStatusElement = $container.find('.note-status-element');
             this._noteStatusHelper = $container.find('.note-status-helper');
 
-            this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
+            if (this.props.mode !== EditorMode.INLINE_EDIT) {
+                this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
+            }
 
             if (typeof this.props.isDisabled === 'boolean') {
                 this.toggleState(this.props.isDisabled);

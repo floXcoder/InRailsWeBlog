@@ -83,7 +83,7 @@ module Tags
 
       # When filtering by topic, private tags not assigned to an article are not returned
       def filter_by(filter, current_user = nil)
-        return self unless filter.present?
+        return self if filter.blank?
 
         records = self
 

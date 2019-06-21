@@ -11,7 +11,7 @@
     .card-content
       h1.adaptative-title.center-align
         = t('views.user.signup.title')
-
+      
       / External connections
       /.row.connection-externals
       /  .col.s12.l6
@@ -23,24 +23,24 @@
 
       .connection-or-separator.hr-around-text
         = t('helpers.or')
-
+      
       / Sign-up fields
       = render 'devise/registrations/signup_fields', signup_form: signup_form
-
+      
       / Terms of use
       p
         = check_box_tag('user_terms', 'false', false, required: true, data: { :'parsley-error-message' => I18n.t('js.user.errors.policy') })
         = label_tag 'user_terms' do
           = t('views.user.signup.terms_of_use', website: ENV['WEBSITE_NAME'])
           =< link_to(t('views.user.signup.terms_of_use_name') + '.', terms_path, class: 'blue-text text-darken-2')
-
+      
       / Helper links
       .margin-bottom-20
-
+      
       / Helper links
       p
         = render 'devise/shared/links'
-
+    
     .card-action
       / Signup button
       .row

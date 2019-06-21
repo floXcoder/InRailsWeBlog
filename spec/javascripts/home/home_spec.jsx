@@ -33,7 +33,7 @@ describe('<HomePage />', () => {
         // console.log(shallowWrapper.text())
 
         expect(shallowWrapper.find('ThemeProvider')).toHaveLength(1);
-        expect(shallowWrapper.find('BrowserRouter')).toHaveLength(1);
+        expect(shallowWrapper.find('Router')).toHaveLength(1);
         expect(shallowWrapper.find('Provider')).toHaveLength(1);
         // expect(shallowWrapper.find('HeaderLayoutHome')).toHaveLength(1);
         // expect(shallowWrapper.find('MainLayoutHome')).toHaveLength(1);

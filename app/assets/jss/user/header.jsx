@@ -37,14 +37,14 @@ const styles = (theme) => ({
     websiteTitle: {
         fontSize: '1.6rem',
         margin: '.5rem',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             fontSize: '2rem'
         }
     },
     menuButton: {
         marginLeft: -12,
         marginRight: 20,
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('lg')]: {
             marginRight: 12
         }
     },
@@ -55,7 +55,7 @@ const styles = (theme) => ({
     },
     topicButton: {
         fontSize: '1rem',
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('lg')]: {
             margin: 6
         }
     },
@@ -68,19 +68,19 @@ const styles = (theme) => ({
     sectionDesktop: {
         marginLeft: 5,
         display: 'none',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             display: 'flex'
         }
     },
     sectionMobile: {
         display: 'flex',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             display: 'none'
         }
     },
     mobileDrawerPaper: {
         width: drawerWidth,
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             position: 'relative'
         }
     },

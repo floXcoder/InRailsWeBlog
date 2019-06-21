@@ -12,7 +12,7 @@ describe 'Users Registration API', type: :request, basic: true do
     context 'when registering with valid credentials' do
       it 'returns the user' do
         expect {
-          post "/api/v1/signup", params: { user: { pseudo: 'pseudo', email: 'test@test.com', password: 'password', password_confirmation: 'password' } }, as: :json
+          post '/api/v1/signup', params: { user: { pseudo: 'pseudo', email: 'test@test.com', password: 'password', password_confirmation: 'password' } }, as: :json
 
           expect(response).to be_json_response(201)
 
@@ -33,7 +33,7 @@ describe 'Users Registration API', type: :request, basic: true do
     context 'when registering with invalid credentials' do
       it 'returns an error for missing parameters' do
         expect {
-          post "/api/v1/signup", params: { user: { email: 'test@test.com', password: 'password', password_confirmation: 'password' } }, as: :json
+          post '/api/v1/signup', params: { user: { email: 'test@test.com', password: 'password', password_confirmation: 'password' } }, as: :json
 
           expect(response).to be_json_response(422)
 

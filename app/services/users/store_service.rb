@@ -10,24 +10,16 @@ module Users
 
     def perform
       # Sanitization
-      unless @params[:first_name].nil?
-        @params[:first_name] = Sanitize.fragment(@params.delete(:first_name))
-      end
-      unless @params[:last_name].nil?
-        @params[:last_name] = Sanitize.fragment(@params.delete(:last_name))
-      end
-      unless @params[:city].nil?
-        @params[:city] = Sanitize.fragment(@params.delete(:city))
-      end
-      unless @params[:additional_info].nil?
-        @params[:additional_info] = Sanitize.fragment(@params.delete(:additional_info))
-      end
+      @params[:first_name]      = Sanitize.fragment(@params.delete(:first_name)) unless @params[:first_name].nil?
+      @params[:last_name]       = Sanitize.fragment(@params.delete(:last_name)) unless @params[:last_name].nil?
+      @params[:city]            = Sanitize.fragment(@params.delete(:city)) unless @params[:city].nil?
+      @params[:additional_info] = Sanitize.fragment(@params.delete(:additional_info)) unless @params[:additional_info].nil?
 
       # User picture: take uploaded picture otherwise remote url
       if @params[:picture_attributes] &&
         @params[:picture_attributes][:image] &&
         @params[:picture_attributes][:remote_image_url] &&
-        !@params[:picture_attributes][:remote_image_url].blank?
+        @params[:picture_attributes][:remote_image_url].present?
         @params[:picture_attributes].delete(:remote_image_url)
       end
 

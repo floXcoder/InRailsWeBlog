@@ -185,7 +185,6 @@ class User < ApplicationRecord
 
   has_many :contributions,
            class_name:  'Share',
-           inverse_of:  'contributor',
            foreign_key: :contributor_id,
            dependent:   :destroy
   has_many :contributed_topics,
@@ -308,7 +307,7 @@ class User < ApplicationRecord
     serializer_options.merge(
       scope:      options.delete(:current_user),
       scope_name: :current_user
-    ) if options.has_key?(:current_user)
+    ) if options.key?(:current_user)
 
     serializer_options[users.is_a?(User) ? :serializer : :each_serializer] = if options[:strict]
                                                                                UserStrictSerializer
@@ -363,7 +362,7 @@ class User < ApplicationRecord
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
       tags:     Tag.joins(:user_activities).merge(last_visits).select('id', 'user_id', 'name', 'synonyms', 'visibility', 'slug', 'activities.created_at', 'updated_at').distinct,
-      articles: Article.includes(:tagged_articles, :tags).joins(:user_activities).merge(last_visits).select('id', 'topic_id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'updated_at', 'activities.created_at').distinct
+      articles: Article.includes(:user, :tagged_articles, :tags).joins(:user_activities).merge(last_visits).select('id', 'topic_id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'updated_at', 'activities.created_at').distinct
     }
   end
 

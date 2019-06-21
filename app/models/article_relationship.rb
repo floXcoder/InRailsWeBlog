@@ -23,11 +23,9 @@ class ArticleRelationship < ApplicationRecord
 
   belongs_to :parent,
              class_name:  'Article',
-             inverse_of:  'article',
              foreign_key: 'parent_id'
   belongs_to :child,
              class_name:  'Article',
-             inverse_of:  'article',
              foreign_key: 'child_id'
 
   # == Validations ==========================================================

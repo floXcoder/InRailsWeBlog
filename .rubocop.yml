@@ -14,10 +14,25 @@ LineLength:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   Exclude:
+    - 'Capfile'
+    - 'Gemfile'
+    - 'Guardfile'
+    - 'Rakefile'
+    - 'app/serializers/article_strict_serializer.rb'
+    - 'app/serializers/tag_strict_serializer.rb'
+    - 'app/serializers/topic_strict_serializer.rb'
+    - 'app/serializers/user_strict_serializer.rb'
+    - 'bin/**/*'
+    - 'config/boot.rb'
     - 'config/initializers/secure_headers.rb'
+    - 'db/**/*'
+    - 'frontend/**/*'
+    - 'log/**/*'
     - 'node_modules/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
 
 Bundler/OrderedGems:
   Enabled: false
@@ -41,6 +56,9 @@ Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
 Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundModuleBody:
   Enabled: false
 
 Layout/ExtraSpacing:
@@ -113,6 +131,12 @@ Naming/RescuedExceptionsVariableName:
 Rails/DynamicFindBy:
   Enabled: false
 
+Rails/FindBy:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
 Rails/OutputSafety:
   Enabled: false
 
@@ -125,8 +149,14 @@ Rails/UnknownEnv:
 Rails/Validation:
   Enabled: false
 
+RSpec/BeforeAfterAll:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
 RSpec/ExampleLength:
-  Max: 15
+  Max: 20
 
 RSpec/ImplicitExpect:
   Enabled: false
@@ -135,6 +165,9 @@ RSpec/ImplicitSubject:
   Enabled: false
 
 RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/LeadingSubject:
   Enabled: false
 
 RSpec/MultipleExpectations:
@@ -146,13 +179,22 @@ RSpec/NestedGroups:
 Style/AsciiComments:
   Enabled: false
 
+Style/BlockDelimiters:
+  Enabled: false
+
 Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
+  Enabled: false
 
 Style/ColonMethodCall:
   Enabled: false
 
 Style/CommandLiteral:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/GlobalVars:
   Enabled: false
 
 Style/Lambda:

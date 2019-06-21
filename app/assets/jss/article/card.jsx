@@ -56,10 +56,7 @@ const styles = (theme) => ({
         fontWeight: h1WeightGrid,
         lineHeight: h1LineHeightGrid,
         letterSpacing: h1SpacingGrid,
-        margin: 'inherit',
-        [theme.breakpoints.down('md')]: {
-            fontSize: h1SizeMobile
-        }
+        margin: 'inherit'
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -68,16 +65,17 @@ const styles = (theme) => ({
         }),
         marginTop: 8,
         marginLeft: 'auto',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
+            right: 15,
             marginRight: -2
         }
     },
     expandOpen: {
-        transform: 'rotate(180deg)',
+        transform: 'rotate(180deg)'
     },
     media: {
         height: 0,
-        paddingTop: '56.25%', // 16:9
+        paddingTop: '56.25%' // 16:9
     },
     content: {
         paddingTop: 6
@@ -89,7 +87,8 @@ const styles = (theme) => ({
         flexWrap: 'wrap'
     },
     avatarContainer: {
-        paddingTop: 4,
+        marginTop: 0,
+        paddingTop: 0,
         paddingBottom: 4
     },
     avatar: {

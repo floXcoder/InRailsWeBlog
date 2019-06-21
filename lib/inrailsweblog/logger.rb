@@ -18,7 +18,7 @@ class Logger < ::Logger
   def self.read_latest(size = 4_000)
     path = Rails.root.join('log', file_name)
     self.build unless File.exist?(path)
-    tail_output, _ = Popen.popen(%W[tail -n #{size} #{path}])
+    tail_output, = Popen.popen(%W[tail -n #{size} #{path}])
     tail_output.split("\n")
   end
 
@@ -35,17 +35,13 @@ end
 
 module Popen
   def self.popen(cmd, path = nil)
-    unless cmd.is_a?(Array)
-      raise 'System commands must be given as an array of strings'
-    end
+    raise 'System commands must be given as an array of strings' unless cmd.is_a?(Array)
 
     path    ||= Dir.pwd
     vars    = { 'PWD' => path }
     options = { chdir: path }
 
-    unless File.directory?(path)
-      FileUtils.mkdir_p(path)
-    end
+    FileUtils.mkdir_p(path) unless File.directory?(path)
 
     @cmd_output = ''
     @cmd_status = 0

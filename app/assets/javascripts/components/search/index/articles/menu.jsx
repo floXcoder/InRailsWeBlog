@@ -2,6 +2,7 @@
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 
 import SettingsIcon from '@material-ui/icons/Settings';
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -45,23 +46,24 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
 
     render() {
         return (
-                <Grid className={this.props.classes.categoryHeader}
-                      container={true}
-                      spacing={4}
-                      direction="row"
-                      justify="space-between"
-                      alignItems="flex-end">
-                    <Grid item={true}
-                          className={this.props.classes.categoryItem}>
-                        <h2 className={this.props.classes.categoryTitle}>
-                            {I18n.t('js.search.index.articles.title')}
-                        </h2>
+            <Grid className={this.props.classes.categoryHeader}
+                  container={true}
+                  spacing={4}
+                  direction="row"
+                  justify="space-between"
+                  alignItems="flex-end">
+                <Grid item={true}
+                      className={this.props.classes.categoryItem}>
+                    <h2 className={this.props.classes.categoryTitle}>
+                        {I18n.t('js.search.index.articles.title')}
+                    </h2>
 
-                        <span className={this.props.classes.categoryCount}>
-                            {`(${I18n.t('js.search.index.results', {count: this.props.articlesCount})})`}
-                        </span>
-                    </Grid>
+                    <span className={this.props.classes.categoryCount}>
+                        {`(${I18n.t('js.search.index.results', {count: this.props.articlesCount})})`}
+                    </span>
+                </Grid>
 
+                <Hidden smDown={true}>
                     <Grid item={true}>
                         <Grid container={true}
                               spacing={2}
@@ -145,7 +147,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
+                </Hidden>
+            </Grid>
         );
     }
 }

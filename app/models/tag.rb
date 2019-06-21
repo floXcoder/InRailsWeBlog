@@ -124,7 +124,6 @@ class Tag < ApplicationRecord
   has_many :bookmarks,
            as:          :bookmarked,
            class_name:  'Bookmark',
-           inverse_of:  'bookmarked',
            foreign_key: 'bookmarked_id',
            dependent:   :destroy
   has_many :user_bookmarks,
@@ -247,7 +246,7 @@ class Tag < ApplicationRecord
     }
 
     serializer_options.merge(scope:      options.delete(:current_user),
-                             scope_name: :current_user) if options.has_key?(:current_user)
+                             scope_name: :current_user) if options.key?(:current_user)
 
     serializer_options[tags.is_a?(Tag) ? :serializer : :each_serializer] = if options[:strict]
                                                                              TagStrictSerializer
@@ -379,15 +378,15 @@ class Tag < ApplicationRecord
   end
 
   def public_name_immutable
-    if self.everyone? && name_changed?
-      errors.add(:name, I18n.t('activerecord.errors.models.tag.public_name_immutable'))
-    end
+    return unless self.everyone? || name_changed?
+
+    errors.add(:name, I18n.t('activerecord.errors.models.tag.public_name_immutable'))
   end
 
   def public_visibility_immutable
-    if visibility_was == 'everyone' && visibility_changed?
-      errors.add(:visibility, I18n.t('activerecord.errors.models.tag.public_visibility_immutable'))
-    end
+    return unless visibility_was == 'everyone' || visibility_changed?
+
+    errors.add(:visibility, I18n.t('activerecord.errors.models.tag.public_visibility_immutable'))
   end
 
   def set_default_color

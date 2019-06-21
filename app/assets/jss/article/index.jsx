@@ -17,6 +17,12 @@ const styles = (theme) => ({
     },
     fullContainer: {
         width: '100%'
+    },
+    infiniteText: {
+        fontSize: '1.5rem',
+        fontWeight: 500,
+        marginTop: '1rem',
+        textAlign: 'center'
     }
 });
 

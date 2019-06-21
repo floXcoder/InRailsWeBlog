@@ -21,7 +21,7 @@ const styles = (theme) => ({
         marginRight: 'auto',
         width: '70%',
         borderBottom: `1px solid ${theme.palette.grey[300]}`,
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('lg')]: {
             width: '100%'
         }
     },
@@ -44,19 +44,19 @@ const styles = (theme) => ({
     },
     sectionDesktop: {
         display: 'none',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             display: 'flex'
         }
     },
     sectionMobile: {
         display: 'flex',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             display: 'none'
         }
     },
     mobileDrawerPaper: {
         width: drawerWidth,
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             position: 'relative'
         }
     },

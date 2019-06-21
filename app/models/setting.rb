@@ -64,7 +64,7 @@ class Setting < ApplicationRecord
     when 'array_type'
       value.split(/[\s,]/).reject(&:empty?)
     when 'hash_type'
-      value = YAML.load(value).to_hash rescue {}
+      value = YAML.safe_load(value).to_hash rescue {}
       value.deep_stringify_keys!
       value
     else

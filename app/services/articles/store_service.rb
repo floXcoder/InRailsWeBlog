@@ -14,15 +14,11 @@ module Articles
       new_article = @article.new_record?
 
       # Use topic owner in case of shared topics
-      shared_topic = @article.user_id != @current_user.id || @current_user.current_topic.user_id != @current_user.id
-      owner_id     = shared_topic ? @current_user.current_topic.user_id : @current_user.id
-      unless @article.user_id
-        @article.user_id = owner_id
-      end
+      shared_topic            = @article.user_id != @current_user.id || @current_user.current_topic.user_id != @current_user.id
+      owner_id                = shared_topic ? @current_user.current_topic.user_id : @current_user.id
+      @article.user_id        = owner_id unless @article.user_id
 
-      if shared_topic
-        @article.contributor_id = @current_user.id
-      end
+      @article.contributor_id = @current_user.id if shared_topic
 
       # Topic: Set current topic to article (only for new articles)
       if new_article
@@ -83,9 +79,7 @@ module Articles
         @article.reference = reference_url
       end
 
-      unless @params[:inventories].nil?
-        @article.inventories = @params.delete(:inventories)
-      end
+      @article.inventories = @params.delete(:inventories) unless @params[:inventories].nil?
 
       # Pictures
       if @params[:picture_ids].present?
@@ -166,11 +160,11 @@ module Articles
 
         @article.tag_relationships = [] if tag_relationships_attributes.present?
         tag_relationships_attributes&.each do |tag_relationships_attribute|
-          if (tag_relationship = @article.tag_relationships.find do |tr|
+          if (tag_relationship = @article.tag_relationships.find { |tr|
             tr.parent == tag_relationships_attributes[:parent] &&
               tr.child == tag_relationships_attributes[:child] &&
               tr.user_id == tag_relationships_attributes[:user_id] &&
-              tr.topic_id == tag_relationships_attributes[:topic_id] end)
+              tr.topic_id == tag_relationships_attributes[:topic_id] })
             tag_relationship.assign_attributes(tag_relationships_attribute)
           else
             @article.tag_relationships.build(tag_relationships_attribute)

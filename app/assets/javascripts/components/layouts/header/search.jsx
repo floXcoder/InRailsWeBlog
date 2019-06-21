@@ -8,6 +8,7 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Chip from '@material-ui/core/Chip';
 
@@ -108,9 +109,9 @@ class HomeSearchHeader extends React.Component {
                     this.props.setAutocompleteAction(event.key);
 
                     if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
-                        if(this.props.highlightedTag) {
+                        if (this.props.highlightedTag) {
                             this._goToTag(this.props.highlightedTag);
-                        } else if(this.props.highlightedArticle) {
+                        } else if (this.props.highlightedArticle) {
                             this._goToArticle(this.props.highlightedArticle);
                         } else {
                             this._performSearch();
@@ -189,7 +190,13 @@ class HomeSearchHeader extends React.Component {
                             <SearchIcon/>
                         </div>
 
-                        <Input name="search"
+                        <InputLabel className={this.props.classes.inputLabel}
+                                    htmlFor="search-module">
+                            Search
+                        </InputLabel>
+
+                        <Input id="search-module"
+                               name="search"
                                type="search"
                                classes={{
                                    root: this.props.classes.inputRoot,

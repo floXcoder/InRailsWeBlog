@@ -3,6 +3,10 @@
 .masonry {
   .masonry-buttons {
    text-align: left;
+
+    @media #{$medium-and-down} {
+      display: none;
+    }
   }
 
   .masonry-button {
@@ -18,6 +22,10 @@
 }
 
 .masonry-grid {
+  @media #{$medium-and-down} {
+    margin: 0 .8rem;
+  }
+
   .masonry-grid-item {
     padding: 5px !important;
 

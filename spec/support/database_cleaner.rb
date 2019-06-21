@@ -28,7 +28,7 @@ RSpec.configure do |config|
   config.around(:each) do |example|
     expect {
       example.run
-    }.to_not raise_exception
+    }.not_to raise_exception
   end
 
   # config.before(:each, type: :feature) do

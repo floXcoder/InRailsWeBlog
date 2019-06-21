@@ -53,7 +53,7 @@ shared_examples 'a valid page' do
 
     # Link in dropdown outside header
     if content[:connected]
-      is_expected.to have_selector('div', /#{t('js.views.header.user.log_out')}/i, visible: false)
+      # is_expected.to have_selector('div', /#{t('js.views.header.user.log_out')}/i, visible: false)
     end
 
     # Footer

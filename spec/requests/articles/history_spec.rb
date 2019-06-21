@@ -27,8 +27,8 @@ describe 'History API', type: :request, basic: true do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
 
-        @article.update_attributes(title: 'title 2')
-        @article.update_attributes(title: 'title 3')
+        @article.update(title: 'title 2')
+        @article.update(title: 'title 3')
       end
 
       it 'returns the article history' do

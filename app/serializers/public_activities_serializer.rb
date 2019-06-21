@@ -36,8 +36,6 @@ class PublicActivitiesSerializer < ActiveModel::Serializer
         anchor: "comment-#{object.trackable_id}",
         only_path: true
       )
-    else
-      nil
     end
   end
 end

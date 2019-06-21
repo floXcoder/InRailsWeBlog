@@ -44,11 +44,12 @@ class SidebarLayoutUser extends React.Component {
 
     render() {
         const isGridDisplay = this.props.articleDisplayMode === 'grid';
+        const isLargeEnough = this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md';
 
         return (
             <>
                 {
-                    (!this.props.routeProperties.noTagSidebar && (this.props.width !== 'xs' && this.props.width !== 'sm')) &&
+                    (!this.props.routeProperties.noTagSidebar && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className={this.props.classes.sidebar}>
@@ -59,7 +60,7 @@ class SidebarLayoutUser extends React.Component {
                 }
 
                 {
-                    (this.props.routeProperties.searchSidebar && (this.props.width !== 'xs' && this.props.width !== 'sm')) &&
+                    (this.props.routeProperties.searchSidebar && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className={this.props.classes.sidebar}>
@@ -69,7 +70,7 @@ class SidebarLayoutUser extends React.Component {
                 }
 
                 {
-                    (this.props.routeProperties.articleSidebar && !isGridDisplay && (this.props.width !== 'xs' && this.props.width !== 'sm')) &&
+                    (this.props.routeProperties.articleSidebar && !isGridDisplay && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className={this.props.classes.sidebar}>

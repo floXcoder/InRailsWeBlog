@@ -597,7 +597,7 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['errors']['title'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.article_title_max_length))
           expect(article['errors']['content'].first).to eq(I18n.t('errors.messages.blank'))
-        }.to_not change(Article, :count)
+        }.not_to change(Article, :count)
       end
 
       it 'returns a error if topic do not belong to current user' do
@@ -608,7 +608,7 @@ describe 'Article API', type: :request, basic: true do
 
           article = JSON.parse(response.body)
           expect(article['errors']['topic'].first).to eq(I18n.t('activerecord.errors.models.article.bad_topic_owner'))
-        }.to_not change(Article, :count)
+        }.not_to change(Article, :count)
       end
     end
   end
@@ -847,7 +847,7 @@ describe 'Article API', type: :request, basic: true do
             json_comment = JSON.parse(response.body)
             expect(json_comment['errors']['body'].first).to eq(I18n.t('errors.messages.blank'))
             expect(json_comment['errors']['body'].second).to eq(I18n.t('errors.messages.too_short.one', count: InRailsWeBlog.config.comment_title_min_length))
-          }.to_not change(Comment, :count)
+          }.not_to change(Comment, :count)
         end
       end
     end

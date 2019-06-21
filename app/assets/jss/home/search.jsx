@@ -27,6 +27,10 @@ const styles = (theme) => ({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    inputLabel: {
+        visibility: 'hidden',
+        height: 0
+    },
     inputRoot: {
         color: '#000',
         width: '100%',
@@ -54,7 +58,7 @@ const styles = (theme) => ({
         width: '30vw'
     },
     selectedTagsChip: {
-        margin: `${theme.spacing(0.5)}px ${theme.spacing(0.5)}px`,
+        margin: theme.spacing(0.5, 0.5),
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,

@@ -91,7 +91,6 @@ RSpec.describe User, type: :model, basic: true do
     it { is_expected.to respond_to(:last_name) }
     it { is_expected.to respond_to(:city) }
     it { is_expected.to respond_to(:country) }
-    it { is_expected.to respond_to(:phone_number) }
     it { is_expected.to respond_to(:additional_info) }
     it { is_expected.to respond_to(:locale) }
     it { is_expected.to respond_to(:settings) }
@@ -100,7 +99,7 @@ RSpec.describe User, type: :model, basic: true do
     it { is_expected.to respond_to(:postcode) }
     it { is_expected.to respond_to(:state) }
     it { is_expected.to respond_to(:mobile_number) }
-    it { is_expected.to respond_to(:postcode) }
+    it { is_expected.to respond_to(:phone_number) }
     it { is_expected.to respond_to(:allow_comment) }
     it { is_expected.to respond_to(:visibility) }
     it { is_expected.to respond_to(:pictures_count) }
@@ -127,7 +126,7 @@ RSpec.describe User, type: :model, basic: true do
     it { expect(@user.state).to eq('state') }
     it { expect(@user.allow_comment).to be true }
     it { expect(@user.visibility).to eq('everyone') }
-    it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'card', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
+    it { expect(@user.settings).to eq('articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'card', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true) }
     it { expect(@user.pictures_count).to eq(0) }
     it { expect(@user.topics_count).to eq(1) }
     it { expect(@user.articles_count).to eq(0) }
@@ -151,7 +150,7 @@ RSpec.describe User, type: :model, basic: true do
       it { expect(@user.locale).to eq('fr') }
       it { expect(@user.allow_comment).to be true }
       it { expect(@user.visibility).to eq('everyone') }
-      it { expect(@user.settings).to eq({ 'articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'card', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true }) }
+      it { expect(@user.settings).to eq('articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'card', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true) }
       it { expect(@user.pictures_count).to eq(0) }
       it { expect(@user.topics_count).to eq(0) }
       it { expect(@user.articles_count).to eq(0) }
@@ -173,7 +172,7 @@ RSpec.describe User, type: :model, basic: true do
       it { is_expected.to validate_length_of(:email).is_at_most(InRailsWeBlog.config.user_email_max_length) }
       it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
 
-      it 'should accept valid addresses' do
+      it 'accepts valid addresses' do
         valid_addresses = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org first.last@foo.jp alice+bob@baz.cn]
         valid_addresses.each do |valid_address|
           @user.email = valid_address
@@ -181,7 +180,7 @@ RSpec.describe User, type: :model, basic: true do
         end
       end
 
-      it 'should reject invalid addresses' do
+      it 'rejects invalid addresses' do
         invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.]
         invalid_addresses.each do |invalid_address|
           @user.email = invalid_address

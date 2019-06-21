@@ -30,7 +30,7 @@ module Searches
       where_options = options.compact.select { |_k, v| v.present? }.map do |key, value|
         # By default all number inventory fields are range type
         inventory_field = if @params[:current_topic]
-                            @params[:current_topic].inventory_fields.find { |inventory_field| inventory_field.field_name == key }
+                            @params[:current_topic].inventory_fields.find { |inv| inv.field_name == key }
                           end
 
         if inventory_field && %w[number_type integer_type float_type date_type].include?(inventory_field.value_type)

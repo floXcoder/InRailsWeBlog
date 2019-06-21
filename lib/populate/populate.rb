@@ -187,8 +187,7 @@ class Populate
         article_relationships << FactoryBot.create(:article_relationship,
                                                    user:   user,
                                                    parent: article,
-                                                   child:  articles.sample
-        )
+                                                   child:  articles.sample)
       end
     end
 
@@ -298,5 +297,3 @@ class Populate
   end
 
 end
-
-

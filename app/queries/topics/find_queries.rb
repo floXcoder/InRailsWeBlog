@@ -65,7 +65,7 @@ module Topics
       end
 
       def filter_by(filter, current_user = nil)
-        return self unless filter.present?
+        return self if filter.blank?
 
         records = self
 

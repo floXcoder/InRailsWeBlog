@@ -14,7 +14,10 @@ const styles = (theme) => ({
     card: {
         position: 'relative',
         margin: '3rem .3rem 3rem',
-        overflow: 'visible'
+        overflow: 'visible',
+        [theme.breakpoints.down('md')]: {
+            marginTop: '2rem'
+        }
     },
     header: {
         paddingTop: 8,
@@ -34,7 +37,10 @@ const styles = (theme) => ({
         backgroundColor: theme.palette.primary.light,
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2)
+        paddingBottom: theme.spacing(2),
+        [theme.breakpoints.down('md')]: {
+            height: '5rem'
+        }
     },
     storyTheme: {
         backgroundColor: theme.palette.secondary.dark
@@ -45,14 +51,17 @@ const styles = (theme) => ({
     },
     themeNew: {
         height: '6rem',
-        backgroundColor: theme.palette.grey[300]
+        backgroundColor: theme.palette.grey[300],
+        [theme.breakpoints.down('md')]: {
+            height: '5rem'
+        }
     },
     themeNewTitle: {
         fontSize: '1.2rem',
         paddingTop: '15%',
         textAlign: 'center',
         [theme.breakpoints.down('md')]: {
-            paddingTop: '12%'
+            paddingTop: '9%'
         }
     },
     topicLink: {

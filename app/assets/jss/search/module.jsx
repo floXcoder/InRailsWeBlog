@@ -15,7 +15,10 @@ const styles = (theme) => ({
         marginTop: 10,
         borderBottom: `1px solid ${theme.palette.grey[300]}`,
         fontSize: '1.6rem',
-        fontWeight: 500
+        fontWeight: 500,
+        [theme.breakpoints.down('md')]: {
+            marginTop: 0
+        }
     },
     categoryCount: {
         color: theme.palette.grey[600],
@@ -34,7 +37,7 @@ const styles = (theme) => ({
         }
     },
     tag: {
-        margin: `${theme.spacing}px ${theme.spacing(1.5)}px`,
+        margin: theme.spacing(0.5, 1),
         fontWeight: 400,
         fontSize: '.9rem',
         borderRadius: 4,

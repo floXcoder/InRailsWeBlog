@@ -6,7 +6,6 @@ namespace :InRailsWeBlog do
 
   # rails InRailsWeBlog:static_analysis:best_pratices
   # rails InRailsWeBlog:static_analysis:rubocop
-  # rails InRailsWeBlog:static_analysis:metric_fu
   # rails InRailsWeBlog:static_analysis:eslint
   # rails InRailsWeBlog:static_analysis:rspec_basic_coverage
   # rails InRailsWeBlog:static_analysis:rspec_advanced_coverage
@@ -27,7 +26,7 @@ namespace :InRailsWeBlog do
       require 'rubocop'
       cli         = RuboCop::CLI.new
       output_file = Rails.root.join('static_analysis', 'rubocop.html')
-      cli.run(%W[--rails --format html -o #{output_file} --display-cop-names --extra-details --fail-level warning --except Style,Metrics])
+      cli.run(%W[--display-cop-names --extra-details --fail-level convention --except Metrics --format html -o #{output_file}])
     end
 
     desc 'Javascript ESLint'
@@ -47,7 +46,7 @@ namespace :InRailsWeBlog do
       RSpec::Core::RakeTask.new(:spec) do |t|
         t.pattern    = Dir.glob('spec/**/*_spec.rb')
         t.rspec_opts = '--options .rspec_coverage'
-        t.rspec_opts << ' --tag basic'
+        t.rspec_opts += ' --tag basic'
       end
 
       begin
@@ -70,7 +69,7 @@ namespace :InRailsWeBlog do
       RSpec::Core::RakeTask.new(:spec) do |t|
         t.pattern    = Dir.glob('spec/**/*_spec.rb')
         t.rspec_opts = '--options .rspec_coverage'
-        t.rspec_opts << ' --tag advanced'
+        t.rspec_opts += ' --tag advanced'
       end
 
       begin
@@ -92,6 +91,6 @@ namespace :InRailsWeBlog do
     # end
 
     desc 'Generate all reports'
-    task all: [:best_pratices, :rubocop, :metric_fu, :eslint, :rspec_basic_coverage, :rspec_advanced_coverage]
+    task all: [:best_pratices, :rubocop, :eslint, :rspec_basic_coverage, :rspec_advanced_coverage]
   end
 end

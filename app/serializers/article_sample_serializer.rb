@@ -53,8 +53,6 @@ class ArticleSampleSerializer < ActiveModel::Serializer
           type:      inventory_field.value_type
         }
       end
-    else
-      nil
     end
   end
 

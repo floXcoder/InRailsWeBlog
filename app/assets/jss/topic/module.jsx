@@ -56,7 +56,10 @@ const styles = (theme) => ({
         lineHeight: '3rem',
         margin: '.6rem 0',
         padding: '0 0 0 .8rem',
-        width: '100%'
+        width: '100%',
+        [theme.breakpoints.down('md')]: {
+            margin: '1rem 0'
+        }
     },
     itemContent: {
         position: 'relative',

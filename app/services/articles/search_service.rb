@@ -21,7 +21,7 @@ module Articles
 
     def perform
       # If query not defined or blank, search for everything
-      query_string = @query.blank? ? '*' : @query
+      query_string = @query.presence || '*'
 
       # Fields with boost
       fields = if @params[:current_topic]&.inventories?

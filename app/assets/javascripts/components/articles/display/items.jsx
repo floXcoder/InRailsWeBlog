@@ -68,7 +68,7 @@ class ArticleItemsDisplay extends React.Component {
             return (
                 <Suspense fallback={<div/>}>
                     <ArticleInlineEditionDisplay article={this.props.article}
-                                                 currentUserTopicId={this.props.currentUserTopicId}
+                                                 currentTopicId={this.props.currentUserTopicId}
                                                  isOwner={this.props.isOwner}/>
                 </Suspense>
             );

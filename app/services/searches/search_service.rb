@@ -100,8 +100,8 @@ module Searches
           case search.model_name.human
           when 'Article'
             article_results = article_search&.parsed_search(search.execute)
-
             next if article_results[:articles].empty?
+
             search_results[:articles]                = article_results[:articles]
             search_results[:suggestions][:articles]  = article_results[:suggestions]
             search_results[:aggregations][:articles] = article_results[:aggregations]
@@ -109,8 +109,8 @@ module Searches
             search_results[:totalPages][:articles]   = article_results[:total_pages]
           when 'Tag'
             tag_results = tag_search&.parsed_search(search.execute)
-
             next if tag_results[:tags].empty?
+
             search_results[:tags]               = tag_results[:tags]
             search_results[:suggestions][:tags] = tag_results[:suggestions]
             search_results[:totalCount][:tags]  = tag_results[:total_count]

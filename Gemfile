@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 # Specify exact Ruby version (mandatory)
-ruby '2.5.1'
+ruby '2.6.3'
 
 # Rails version
 gem 'rails',                    '5.2.3'

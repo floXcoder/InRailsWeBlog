@@ -159,7 +159,7 @@ module Api::V1
       user_recents = user.recent_visits(params[:limit])
       recents      = {
         tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
-        articles: Article.as_flat_json(user_recents[:articles], strict: true),
+        articles: Article.as_flat_json(user_recents[:articles], strict: true)
         # topics: Topic.as_flat_json(user_recents[:topics], strict: true)
         # users: User.as_flat_json(user_recents[:users], strict: true)
       }

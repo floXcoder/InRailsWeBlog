@@ -31,16 +31,12 @@ module Topics
         @params.delete(:description)
       end
 
-      unless @params[:icon].nil?
-        @topic.build_icon(image: @params.delete(:icon))
-      end
+      @topic.build_icon(image: @params.delete(:icon)) unless @params[:icon].nil?
 
       @topic.assign_attributes(@params)
 
       # Adapt topic settings according to mode
-      if @topic.inventories?
-        @topic.article_display = 'grid'
-      end
+      @topic.article_display = 'grid' if @topic.inventories?
 
       new_record = @topic.new_record?
       if @topic.save

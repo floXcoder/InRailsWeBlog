@@ -36,7 +36,6 @@ class Share < ApplicationRecord
   # Only for user share mode
   belongs_to :contributor,
              class_name: 'User',
-             inverse_of: 'user',
              optional:   true
 
   # == Validations ==========================================================

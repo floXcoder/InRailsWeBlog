@@ -76,7 +76,7 @@ describe Topics::StoreInventoryFieldsService, type: :service, basic: true do
         expect(inventory_fields_results.result).to be_kind_of(Topic)
         expect(inventory_fields_results.result.inventory_fields.first.name).not_to be_empty
         expect(inventory_fields_results.result.inventory_fields.last.name).not_to be_empty
-      }.to_not change(Topic::InventoryField, :count)
+      }.not_to change(Topic::InventoryField, :count)
     end
 
     it 'removes useless fields to topic inventories' do
@@ -107,7 +107,7 @@ describe Topics::StoreInventoryFieldsService, type: :service, basic: true do
         expect(inventory_fields_results.success?).to be true
         expect(inventory_fields_results.result).to be_kind_of(Topic)
         expect(inventory_fields_results.result.inventory_fields.last.name).to eq('String 2')
-      }.to_not change(Topic::InventoryField, :count)
+      }.not_to change(Topic::InventoryField, :count)
     end
 
     it 'raises an error if name or value_type are empty' do

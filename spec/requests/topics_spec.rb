@@ -279,7 +279,7 @@ describe 'Topic API', type: :request, basic: true do
           expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.topic_name_max_length))
 
           expect(@user.reload.current_topic_id).to eq(previous_topic_id)
-        }.to_not change(Topic, :count)
+        }.not_to change(Topic, :count)
       end
     end
   end
@@ -308,7 +308,7 @@ describe 'Topic API', type: :request, basic: true do
           expect(topic['topic']).not_to be_empty
           expect(topic['topic']['name']).to eq(updated_topic_attributes[:topic][:name])
           expect(topic['topic']['description']).to eq(updated_topic_attributes[:topic][:description])
-        }.to_not change(Topic, :count)
+        }.not_to change(Topic, :count)
       end
 
       context 'when updating a topic with errors' do
@@ -324,7 +324,7 @@ describe 'Topic API', type: :request, basic: true do
 
             topic = JSON.parse(response.body)
             expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.topic_name_max_length))
-          }.to_not change(Topic, :count)
+          }.not_to change(Topic, :count)
         end
       end
     end

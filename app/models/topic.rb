@@ -204,7 +204,7 @@ class Topic < ApplicationRecord
     }
 
     serializer_options.merge(scope:      options.delete(:current_user),
-                             scope_name: :current_user) if options.has_key?(:current_user)
+                             scope_name: :current_user) if options.key?(:current_user)
 
     serializer_options[topics.is_a?(Topic) ? :serializer : :each_serializer] = if options[:strict]
                                                                                  TopicStrictSerializer
@@ -286,12 +286,12 @@ class Topic < ApplicationRecord
   end
 
   def regenerate_article_slug
-    if name_previous_change
-      self.articles.find_in_batches(batch_size: 200) do |articles|
-        articles.each do |article|
-          article.slug = nil
-          article.save!
-        end
+    return unless name_previous_change
+
+    self.articles.find_in_batches(batch_size: 200) do |articles|
+      articles.each do |article|
+        article.slug = nil
+        article.save!
       end
     end
   end

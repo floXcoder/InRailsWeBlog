@@ -86,7 +86,7 @@ describe 'Topic Inventory Fields API', type: :request, basic: true do
           expect(topic['topic']).not_to be_empty
           expect(topic['topic']['inventoryFields']).not_to be_empty
           expect(topic['topic']['inventoryFields'].first['name']).to eq(updated_field_attributes.first[:name])
-        }.to_not change(Topic::InventoryField, :count)
+        }.not_to change(Topic::InventoryField, :count)
       end
     end
 
@@ -103,7 +103,7 @@ describe 'Topic Inventory Fields API', type: :request, basic: true do
 
           topic = JSON.parse(response.body)
           expect(topic['errors']['inventory_fields.field_name'].first).to eq(I18n.t('errors.messages.blank'))
-        }.to_not change(Topic::InventoryField, :count)
+        }.not_to change(Topic::InventoryField, :count)
       end
     end
   end

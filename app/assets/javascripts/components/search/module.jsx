@@ -157,6 +157,7 @@ class SearchModule extends React.Component {
                         <Grid item={true}
                               xs={12}
                               sm={6}
+                              md={3}
                               lg={3}>
                             <SearchTagModule classes={this.props.classes}
                                              currentTopicId={this.props.currentTopicId}
@@ -170,6 +171,7 @@ class SearchModule extends React.Component {
                         <Grid item={true}
                               xs={12}
                               sm={6}
+                              md={9}
                               lg={9}>
                             <SearchArticleModule classes={this.props.classes}
                                                  currentTopicId={this.props.currentTopicId}

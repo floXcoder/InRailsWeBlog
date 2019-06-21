@@ -98,7 +98,7 @@ RSpec.describe Article, type: :model, basic: true do
     it { expect(@article.allow_comment).to be false }
     it { expect(@article.archived).to be false }
     it { expect(@article.accepted).to be true }
-    it { expect(@article.bookmarks_count).to eq(0) }
+    it { expect(@article.pictures_count).to eq(0) }
     it { expect(@article.outdated_articles_count).to eq(0) }
     it { expect(@article.bookmarks_count).to eq(0) }
     it { expect(@article.comments_count).to eq(0) }
@@ -126,7 +126,7 @@ RSpec.describe Article, type: :model, basic: true do
       it { expect(@article.allow_comment).to be true }
       it { expect(@article.archived).to be false }
       it { expect(@article.accepted).to be true }
-      it { expect(@article.bookmarks_count).to eq(0) }
+      it { expect(@article.pictures_count).to eq(0) }
       it { expect(@article.outdated_articles_count).to eq(0) }
       it { expect(@article.bookmarks_count).to eq(0) }
       it { expect(@article.comments_count).to eq(0) }

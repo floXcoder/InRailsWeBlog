@@ -139,7 +139,6 @@ class Article < ApplicationRecord
   has_many :parent_relationships,
            autosave:    true,
            class_name:  'ArticleRelationship',
-           inverse_of:  'parent',
            foreign_key: 'parent_id',
            dependent:   :destroy
   has_many :children,
@@ -149,7 +148,6 @@ class Article < ApplicationRecord
   has_many :child_relationships,
            autosave:    true,
            class_name:  'ArticleRelationship',
-           inverse_of:  'child',
            foreign_key: 'child_id',
            dependent:   :destroy
   has_many :parents,
@@ -159,8 +157,7 @@ class Article < ApplicationRecord
   has_many :bookmarks,
            as:          :bookmarked,
            class_name:  'Bookmark',
-           inverse_of:  'topic',
-           foreign_key: 'bookmarked',
+           foreign_key: 'bookmarked_id',
            dependent:   :destroy
   has_many :user_bookmarks,
            through: :bookmarks,
@@ -175,13 +172,11 @@ class Article < ApplicationRecord
           -> { where(shares: { mode: :link }) },
           as:          :shareable,
           class_name:  'Share',
-          inverse_of:  'shareable',
           foreign_key: 'shareable_id',
           dependent:   :destroy
   has_many :shares,
            as:          :shareable,
            class_name:  'Share',
-           inverse_of:  'shareable',
            foreign_key: 'shareable_id',
            dependent:   :destroy
   #   has_many :contributors,
@@ -194,10 +189,9 @@ class Article < ApplicationRecord
 
   has_many :pictures,
            -> { order 'created_at ASC' },
-           as:         :imageable,
-           inverse_of: 'imageable',
-           autosave:   true,
-           dependent:  :destroy
+           as:        :imageable,
+           autosave:  true,
+           dependent: :destroy
   accepts_nested_attributes_for :pictures,
                                 allow_destroy: true,
                                 reject_if:     lambda {
@@ -445,6 +439,7 @@ class Article < ApplicationRecord
     {
       id:               id,
       user_id:          user_id,
+      user_slug:        user.slug,
       topic_id:         topic_id,
       topic_name:       topic&.name,
       topic_slug:       topic&.slug,
@@ -504,7 +499,7 @@ class Article < ApplicationRecord
     return unless self.inventory?
 
     self.topic.inventory_fields.each do |field|
-      errors.add(:inventories, I18n.t('activerecord.errors.models.article.required_inventory_field', field: field.name)) if field.required && !self.inventories[field.field_name].present?
+      errors.add(:inventories, I18n.t('activerecord.errors.models.article.required_inventory_field', field: field.name)) if field.required && self.inventories[field.field_name].blank?
     end
   end
 

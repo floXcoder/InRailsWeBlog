@@ -3,7 +3,7 @@
 const styles = (theme) => ({
     root: {
         margin: '.5rem 0',
-        padding: '1rem .5rem',
+        padding: '1.5rem .5rem',
         height: 'auto',
         position: 'relative',
         wordWrap: 'break-word'
@@ -25,8 +25,9 @@ const styles = (theme) => ({
         }),
         marginTop: 8,
         marginLeft: 'auto',
-        [theme.breakpoints.up('sm')]: {
-            marginRight: -2,
+        marginRight: -2,
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
         },
     },
     expandOpen: {

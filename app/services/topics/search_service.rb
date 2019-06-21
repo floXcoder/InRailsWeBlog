@@ -23,7 +23,7 @@ module Topics
 
     def perform
       # If query not defined or blank, search for everything
-      query_string = @query.blank? ? '*' : @query
+      query_string = @query.presence || '*'
 
       # Fields with boost
       fields = %w[name^10 description]
@@ -58,13 +58,14 @@ module Topics
       order = order_search(@params[:order])
 
       # Includes to add when retrieving data from DB
-      includes = if @params[:format] == 'strict'
-                   [:user]
-                 elsif @params[:format] == 'complete'
-                   [:user]
-                 else
-                   [:user]
-                 end
+      # includes = if @params[:format] == 'strict'
+      #              [:user]
+      #            elsif @params[:format] == 'complete'
+      #              [:user]
+      #            else
+      #              [:user]
+      #            end
+      includes = [:user]
 
       begin
         results = Topic.search(query_string,

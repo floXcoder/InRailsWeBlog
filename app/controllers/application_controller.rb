@@ -53,9 +53,7 @@ class ApplicationController < ActionController::Base
         :fr
       end
 
-    if params[:new_lang] && current_user && current_user.locale.to_s != params[:new_lang]
-      current_user.update_columns(locale: params[:new_lang])
-    end
+    current_user.update_columns(locale: params[:new_lang]) if params[:new_lang] && current_user && current_user.locale.to_s != params[:new_lang]
 
     # Set user location
     @user_latitude = (request.respond_to?(:location) ? request.location.latitude : 0) rescue 0

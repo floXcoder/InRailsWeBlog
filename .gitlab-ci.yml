@@ -5,7 +5,7 @@ stages:
   - check
 
 .default-cache: &default-cache
-  key: "ruby-2.5.1-debian-stretch-with-yarn"
+  key: "ruby-2.6.3-debian-stretch-with-yarn"
   paths:
     - .bundle
     - vendor/bundle

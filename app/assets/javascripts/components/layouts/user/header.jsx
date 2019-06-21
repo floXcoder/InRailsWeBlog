@@ -204,7 +204,7 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _renderMobileTagDrawer = () => {
-        if (this.props.width !== 'xs' && this.props.width !== 'sm') {
+        if (this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md') {
             return null
         }
 
