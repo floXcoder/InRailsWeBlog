@@ -292,20 +292,26 @@ class Editor extends React.Component {
     };
 
     _displayCurrentElement = () => {
-        // let currentNode = document.getSelection().anchorNode;
-        const range = this._editor.summernote('createRange');
-        let currentNode = range.ec;
+        let displayNodeName;
 
-        if(!currentNode) {
-            return;
+        // Accessing to nodeName raises a "Permission denied to access property "nodeName"" when content is blank
+        try {
+            // let currentNode = document.getSelection().anchorNode;
+            const range = this._editor.summernote('createRange');
+            let currentNode = range.ec;
+
+            if(!currentNode) {
+                return;
+            }
+
+            if (currentNode.nodeName === '#text') {
+                currentNode = currentNode.parentNode;
+            }
+
+            const nodeName = currentNode.nodeName.toLocaleLowerCase();
+            displayNodeName = $.summernote.lang[I18n.locale + '-' + I18n.locale.toUpperCase()].style[nodeName];
+        } catch(error) {
         }
-
-        if (currentNode.nodeName === '#text') {
-            currentNode = currentNode.parentNode;
-        }
-
-        const nodeName = currentNode.nodeName.toLocaleLowerCase();
-        let displayNodeName = $.summernote.lang[I18n.locale + '-' + I18n.locale.toUpperCase()].style[nodeName];
 
         if (displayNodeName) {
             this._setStatusBarElement(displayNodeName);

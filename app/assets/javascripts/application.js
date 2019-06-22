@@ -12,19 +12,19 @@ import 'first-input-delay/dist/first-input-delay.min';
 import {
     init as SentryInit,
     configureScope as SentryConfigureScope,
-    showReportDialog as SentryShowReportDialog,
+    // showReportDialog as SentryShowReportDialog
 } from '@sentry/browser';
 
 if (window.SENTRY_JAVASCRIPT_KEY) {
     SentryInit({
         dsn: window.SENTRY_JAVASCRIPT_KEY,
-        beforeSend(event, hint) {
-            // Check if it is an exception, and if so, show the report dialog
-            if (event.exception) {
-                SentryShowReportDialog({eventId: event.event_id});
-            }
-            return event;
-        }
+        // beforeSend(event, hint) {
+        //     // Check if it is an exception, and if so, show the report dialog
+        //     if (event.exception) {
+        //         SentryShowReportDialog({eventId: event.event_id});
+        //     }
+        //     return event;
+        // }
     });
 
     SentryConfigureScope((scope) => {
