@@ -27,6 +27,7 @@ export default @withStyles(styles)
 class ArticleAdvancedField extends React.PureComponent {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,
+        isEditing: PropTypes.bool.isRequired,
         change: PropTypes.func.isRequired,
         inheritVisibility: PropTypes.string,
         currentVisibility: PropTypes.string,
@@ -68,14 +69,17 @@ class ArticleAdvancedField extends React.PureComponent {
                     </div>
                 }
 
-                <div className="col s12 m6 center-align">
-                    <Field name="draft"
-                           type="checkbox"
-                           onChange={this._handleDraftChange}
-                           component={CheckBoxFieldForm}
-                           id="article_draft"
-                           label={I18n.t('js.article.common.draft')}/>
-                </div>
+                {
+                    !this.props.isEditing &&
+                    <div className="col s12 m6 center-align">
+                        <Field name="draft"
+                               type="checkbox"
+                               onChange={this._handleDraftChange}
+                               component={CheckBoxFieldForm}
+                               id="article_draft"
+                               label={I18n.t('js.article.common.draft')}/>
+                    </div>
+                }
 
                 {
                     (this.props.inheritVisibility !== 'only_me' && this.props.currentVisibility !== 'only_me' && this.props.currentDraft !== true) &&

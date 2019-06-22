@@ -287,6 +287,13 @@ class HeaderLayoutUser extends React.PureComponent {
 
                     <Divider className={this.props.classes.mobileDivider}/>
 
+                    <Typography className="center-align"
+                                variant="overline"
+                                display="block"
+                                gutterBottom={false}>
+                        {I18n.t('js.views.header.tags.button')}
+                    </Typography>
+
                     <TagSidebar isOpen={true}
                                 isCloud={this.props.routeProperties.tagCloud}
                                 currentTagSlug={this.props.routeParams.tagSlug}

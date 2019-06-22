@@ -14,6 +14,19 @@ describe Articles::StoreService, type: :service, basic: true do
     @private_topic = create(:topic, user: @user, visibility: :only_me)
     @private_tag   = create(:tag, user: @user, name: 'Tag for private article', visibility: :only_me)
 
+    @inventories_topic = create(:topic, user: @user, mode: :inventories, inventory_fields: [{
+                                                                                              field_name: 'string-required',
+                                                                                              name:       'String required',
+                                                                                              value_type: 'string_type',
+                                                                                              required:   true
+                                                                                            },
+                                                                                            {
+                                                                                              field_name: 'text',
+                                                                                              name:       'Text',
+                                                                                              value_type: 'text_type'
+                                                                                            }
+    ])
+
     @contributor_user = create(:user)
     @share            = create(:share, user: @user, shareable: @stories_topic, contributor: @contributor_user)
   end
@@ -51,6 +64,18 @@ describe Articles::StoreService, type: :service, basic: true do
         public_article_result = Articles::StoreService.new(public_article, topic_id: @public_topic.id, title: 'Article public', content: 'public content', visibility: 'everyone', tags: ["#{@public_tag.name},#{@public_tag.visibility}"], current_user: @user).perform
 
         expect(public_article_result.success?).to be true
+      end
+
+      it 'returns a new article with inventory fields' do
+        @user.update_attribute(:current_topic_id, @inventories_topic.id)
+
+        inventory_article    = @user.articles.build
+        article_results = Articles::StoreService.new(inventory_article, topic_id: @inventories_topic.id, title: 'Inventory article', inventories: { string_required: 'My string', text: '<p>My text</p>' }, visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
+
+        expect(article_results.success?).to be true
+        expect(article_results.result).to be_kind_of(Article)
+        expect(article_results.result.mode).to eq('inventory')
+        expect(article_results.result.inventories).not_to be_empty
       end
     end
 

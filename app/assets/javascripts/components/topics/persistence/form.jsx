@@ -112,7 +112,7 @@ export default class PersistenceFormTopic extends React.Component {
                     <Typography className={this.props.classes.topicModeHelper}
                                 variant="subtitle2"
                                 gutterBottom={true}>
-                        {I18n.t(`js.topic.common.modes.${this.state.mode}`)}
+                        {I18n.t(`js.topic.common.modes.${this.state.mode || 'default'}`)}
                     </Typography>
                 }
 

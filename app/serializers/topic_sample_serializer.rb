@@ -3,7 +3,7 @@
 class TopicSampleSerializer < ActiveModel::Serializer
   include NullAttributesRemover
 
-  cache key: 'topic_sample', expires_in: InRailsWeBlog.config.cache_time
+  # cache key: 'topic_sample', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :user_id,

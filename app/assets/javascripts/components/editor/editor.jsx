@@ -292,9 +292,13 @@ class Editor extends React.Component {
     };
 
     _displayCurrentElement = () => {
-        let currentNode = document.getSelection().anchorNode;
+        // let currentNode = document.getSelection().anchorNode;
+        const range = this._editor.summernote('createRange');
+        let currentNode = range.ec;
 
-        // const range = this._editor.summernote('createRange')
+        if(!currentNode) {
+            return;
+        }
 
         if (currentNode.nodeName === '#text') {
             currentNode = currentNode.parentNode;

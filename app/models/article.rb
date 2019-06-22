@@ -499,7 +499,7 @@ class Article < ApplicationRecord
     return unless self.inventory?
 
     self.topic.inventory_fields.each do |field|
-      errors.add(:inventories, I18n.t('activerecord.errors.models.article.required_inventory_field', field: field.name)) if field.required && self.inventories[field.field_name].blank?
+      errors.add(:inventories, I18n.t('activerecord.errors.models.article.required_inventory_field', field: field.name)) if field.required? && self.inventories[field.field_name.underscore].blank?
     end
   end
 

@@ -15,7 +15,7 @@
 #
 
 class BookmarkSerializer < ActiveModel::Serializer
-  cache key: 'bookmark', expires_in: InRailsWeBlog.config.cache_time
+  # cache key: 'bookmark', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :user_id,

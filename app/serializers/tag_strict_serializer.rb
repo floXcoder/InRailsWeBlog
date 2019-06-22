@@ -3,7 +3,7 @@
 class TagStrictSerializer < ActiveModel::Serializer
   include NullAttributesRemover
 
-  cache key: 'tag_strict', expires_in: InRailsWeBlog.config.cache_time
+  # cache key: 'tag_strict', expires_in: InRailsWeBlog.config.cache_time
 
   # Methods with attributes must be overrided to work with searchkick results
   attributes :id,

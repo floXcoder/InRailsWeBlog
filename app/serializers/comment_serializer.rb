@@ -25,7 +25,7 @@
 #
 
 class CommentSerializer < ActiveModel::Serializer
-  cache key: 'comment', expires_in: InRailsWeBlog.config.cache_time
+  # cache key: 'comment', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :title,

@@ -272,6 +272,7 @@ class ArticleFormDisplay extends React.Component {
 
                         <Collapse in={this.state.tabIndex === 2}>
                             <ArticleAdvancedField currentMode={currentMode}
+                                                  isEditing={this.props.isEditing}
                                                   inheritVisibility={this.props.inheritVisibility}
                                                   currentVisibility={this.props.currentValues.get('visibility')}
                                                   currentDraft={this.props.currentValues.get('draft')}

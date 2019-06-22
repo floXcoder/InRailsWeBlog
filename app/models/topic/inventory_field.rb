@@ -70,7 +70,7 @@ class Topic::InventoryField < ApplicationRecord
   def generate_field_name
     return unless self.name_changed?
 
-    self.field_name = self.name.to_s.parameterize
+    self.field_name = self.name.to_s.parameterize.underscore
   end
 
 end

@@ -390,6 +390,7 @@ fr:
           reference:
             note: "Lien vers la source d'origine"
             story: "Lien vers la source d'origine"
+            inventory: "Lien vers la source d'origine"
             link: "Lien à référencer"
           content:
             story: "Contenu de votre article"
