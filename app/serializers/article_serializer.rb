@@ -33,7 +33,7 @@
 #
 
 class ArticleSerializer < ActiveModel::Serializer
-  cache key: 'article', expires_in: InRailsWeBlog.config.cache_time
+  # cache key: 'article', expires_in: InRailsWeBlog.config.cache_time
 
   attributes :id,
              :topic_id,

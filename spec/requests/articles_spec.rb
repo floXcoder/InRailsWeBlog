@@ -548,20 +548,18 @@ describe 'Article API', type: :request, basic: true do
       it 'returns a new article with inventory fields' do
         @user.update_attribute(:current_topic_id, @inventories_topic.id)
 
-        begin
-          expect {
-            post '/api/v1/articles', params: article_attributes.deep_merge(article: { inventories: { string: 'My string', text: '<p>My text</p>' } }), as: :json
+        expect {
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: { inventories: { string: 'My string', text: '<p>My text</p>' } }), as: :json
 
-            expect(response).to be_json_response(201)
+          expect(response).to be_json_response(201)
 
-            article = JSON.parse(response.body)
-            expect(article['article']).not_to be_empty
-            expect(article['article']['mode']).to eq('inventory')
-            expect(article['article']['inventories'].size).to eq(2)
-          }.to change(Article, :count).by(1)
-        ensure
-          @user.update_attribute(:current_topic_id, @topic.id)
-        end
+          article = JSON.parse(response.body)
+          expect(article['article']).not_to be_empty
+          expect(article['article']['mode']).to eq('inventory')
+          expect(article['article']['inventories'].size).to eq(2)
+        }.to change(Article, :count).by(1)
+      ensure
+        @user.update_attribute(:current_topic_id, @topic.id)
       end
     end
 

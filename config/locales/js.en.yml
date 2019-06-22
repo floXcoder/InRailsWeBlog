@@ -390,6 +390,7 @@ en:
           reference:
             note: "URL reference"
             story: "URL reference"
+            inventory: "URL reference"
             link: "URL to reference"
           content:
             story: "Article content"

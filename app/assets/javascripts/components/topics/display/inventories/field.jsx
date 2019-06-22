@@ -29,7 +29,16 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
     }
 
     state = {
-        isSourceExpanded: false
+        isSourceExpanded: false,
+        required: this.props.field.required || false,
+        searchable: this.props.field.searchable || false,
+        filterable: this.props.field.filterable || false
+    };
+
+    _handleCheckboxChanged = (state, event) => {
+        this.setState({
+            [state]: event.target.checked
+        });
     };
 
     _handleExpandClick = (event) => {
@@ -136,12 +145,15 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                             <FormControlLabel className={this.props.classes.field}
                                               label={I18n.t('js.inventory_fields.model.required')}
                                               control={
-                                                  <Checkbox
-                                                      defaultChecked={this.props.field.required}
-                                                      value="true"
-                                                      color="primary"
-                                                      name="inventory_field[fields][][required]"/>
+                                                  <Checkbox checked={this.state.required}
+                                                            onChange={this._handleCheckboxChanged.bind(this, 'required')}
+                                                            value="true"
+                                                            color="primary"/>
                                               }/>
+
+                            <input name="inventory_field[fields][][required]"
+                                   value={this.state.required}
+                                   type="hidden"/>
                         </Grid>
 
                         <Grid item={true}
@@ -150,12 +162,15 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                             <FormControlLabel className={this.props.classes.field}
                                               label={I18n.t('js.inventory_fields.model.searchable')}
                                               control={
-                                                  <Checkbox
-                                                      defaultChecked={this.props.field.searchable}
-                                                      value="true"
-                                                      color="primary"
-                                                      name="inventory_field[fields][][searchable]"/>
+                                                  <Checkbox checked={this.state.searchable}
+                                                            onChange={this._handleCheckboxChanged.bind(this, 'searchable')}
+                                                            value="true"
+                                                            color="primary"/>
                                               }/>
+
+                            <input name="inventory_field[fields][][searchable]"
+                                   value={this.state.searchable}
+                                   type="hidden"/>
                         </Grid>
 
                         <Grid item={true}
@@ -164,12 +179,15 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                             <FormControlLabel className={this.props.classes.field}
                                               label={I18n.t('js.inventory_fields.model.filterable')}
                                               control={
-                                                  <Checkbox
-                                                      defaultChecked={this.props.field.filterable}
-                                                      value="true"
-                                                      color="primary"
-                                                      name="inventory_field[fields][][filterable]"/>
+                                                  <Checkbox checked={this.state.filterable}
+                                                            onChange={this._handleCheckboxChanged.bind(this, 'filterable')}
+                                                            value="true"
+                                                            color="primary"/>
                                               }/>
+
+                            <input name="inventory_field[fields][][filterable]"
+                                   value={this.state.filterable}
+                                   type="hidden"/>
                         </Grid>
 
                         <Grid className="center-align"
