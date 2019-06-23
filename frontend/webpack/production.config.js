@@ -43,7 +43,7 @@ webPackConfig = _.merge(webPackConfig, {
 
     bail: true,
 
-    devtool: 'cheap-module-source-map'
+    devtool: 'source-map'
 });
 
 // Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json#L1285

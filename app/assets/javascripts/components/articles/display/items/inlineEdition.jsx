@@ -76,7 +76,8 @@ class ArticleInlineEditionDisplay extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.root}>
+            <div id={`article-${this.props.article.id}`}
+                 className={this.props.classes.root}>
                 <Prompt when={!!this.state.modifiedContent}
                         message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
 

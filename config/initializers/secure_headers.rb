@@ -25,7 +25,7 @@ else
       default_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], 'www.youtube.com', 'vimeo.com', 'vine.com', 'www.instagram.com', 'www.dailymotion.com', 'v.youku.com'].compact,
       connect_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], ENV['SENTRY_ADDRESS']].compact,
       worker_src:       ["'self'"],
-      script_src:       ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['NEWRELIC_ADDRESS'], ENV['NEWRELIC_SECOND_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
+      script_src:       ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
       img_src:          ['*', 'data:'],
       font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET']].compact,
       media_src:        ["'self'", ENV['WEBSITE_ASSET']].compact,

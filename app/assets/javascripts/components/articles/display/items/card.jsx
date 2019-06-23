@@ -99,7 +99,7 @@ class ArticleCardDisplay extends React.PureComponent {
                 this.props.onEnter(this.props.article);
             }
         } else {
-            if (this.props.onExit && document.documentElement.scrollTop !== 0) {
+            if (this.props.onExit) {
                 this.props.onExit(this.props.article);
             }
         }
@@ -122,6 +122,7 @@ class ArticleCardDisplay extends React.PureComponent {
             <StickyContainer>
                 <Observer onChange={this._handleViewportChange}>
                     <Card component="article"
+                          id={`article-${this.props.article.id}`}
                           className={classNames(this.props.classes.articleCard, {
                               [this.props.classes.outdated]: this.props.article.outdated
                           })}>

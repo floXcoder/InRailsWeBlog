@@ -90,7 +90,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                 });
             }
         } else {
-            if (this.props.onExit && document.documentElement.scrollTop !== 0) {
+            if (this.props.onExit) {
                 this.props.onExit({
                     id: this.props.id
                 });
@@ -119,7 +119,7 @@ class ArticleInlineDisplay extends React.PureComponent {
     render() {
         return (
             <Observer onChange={this._handleViewportChange}>
-                <article id={this.props.id}
+                <article id={`article-${this.props.id}`}
                          className={classNames(
                     this.props.classes.root, {
                         [this.props.classes.over]: this.state.isOver

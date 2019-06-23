@@ -89,7 +89,7 @@ class ArticleGridDisplay extends React.PureComponent {
                 this.props.onEnter(this.props.article);
             }
         } else {
-            if (this.props.onExit && document.documentElement.scrollTop !== 0) {
+            if (this.props.onExit) {
                 this.props.onExit(this.props.article);
             }
         }
@@ -109,6 +109,7 @@ class ArticleGridDisplay extends React.PureComponent {
         return (
             <Observer onChange={this._handleViewportChange}>
                 <Card component="article"
+                      id={`article-${this.props.article.id}`}
                       className={this.props.classes.card}>
                     <CardHeader classes={{
                         root: classNames({
