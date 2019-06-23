@@ -2,7 +2,8 @@
 
 const styles = (theme) => ({
     root: {
-      margin: '.4rem .6rem'
+        margin: '.4rem .6rem 2rem',
+        paddingBottom: '1.5rem'
     },
     title: {
         fontSize: '1.1rem',

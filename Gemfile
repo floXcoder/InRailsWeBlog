@@ -195,9 +195,6 @@ group :production do
   # Improve log outputs
   gem 'lograge',          '0.11.2'
 
-  # Website analysis
-  gem 'newrelic_rpm',     '6.4.0.356'
-
   # Prerender html pages for SEO
   gem 'seo_cache',        '0.8.0'
 end

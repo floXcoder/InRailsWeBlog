@@ -224,7 +224,9 @@ class UserHome extends React.Component {
                                             }
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={this.props.classes.theme}
+                                            <Paper className={classNames(this.props.classes.theme, {
+                                                [this.props.classes.storyTheme]: topic.mode === 'stories'
+                                            })}
                                                    elevation={1}>
                                                 <Typography className={this.props.classes.themeTitle}
                                                             variant="h5"

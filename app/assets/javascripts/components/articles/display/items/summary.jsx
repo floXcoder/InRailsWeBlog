@@ -63,7 +63,7 @@ class ArticleSummaryDisplay extends React.Component {
                 this.props.onEnter(this.props.article);
             }
         } else {
-            if (this.props.onExit && document.documentElement.scrollTop !== 0) {
+            if (this.props.onExit) {
                 this.props.onExit(this.props.article);
             }
         }
@@ -76,7 +76,7 @@ class ArticleSummaryDisplay extends React.Component {
     render() {
         return (
             <Observer onChange={this._handleViewportChange}>
-                <div id={this.props.article.id}
+                <div id={`article-${this.props.article.id}`}
                      className={classNames(this.props.className, {
                          'is-hidden': !this.state.isVisible,
                          'bounce-in': this.state.isVisible
