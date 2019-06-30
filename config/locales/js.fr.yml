@@ -492,6 +492,7 @@ fr:
         added: "Votre vote a été pris en compte"
       show:
         stories:
+          show: "Lire la story"
           previous: "Story précédente"
           next: "Story suivante"
       new:

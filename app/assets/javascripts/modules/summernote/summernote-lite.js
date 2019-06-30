@@ -1281,7 +1281,8 @@
      * returns true if the value is present in the list.
      */
     function contains(array, item) {
-        if (array && array.length && item) {
+        // ### Check indexOf is a function
+        if (array && array.length && item && typeof array.indexOf === 'function') {
             return array.indexOf(item) !== -1;
         }
         return false;
@@ -4120,10 +4121,11 @@
                     return;
                 } else {
                     var blockquote = null;
+                    // ### Break blockquote or code block
                     if (this.options.blockquoteBreakingLevel === 1) {
-                        blockquote = dom.ancestor(splitRoot, dom.isBlockquote);
+                        blockquote = dom.ancestor(splitRoot, dom.isBlockquote) || dom.ancestor(splitRoot, dom.isPre);
                     } else if (this.options.blockquoteBreakingLevel === 2) {
-                        blockquote = dom.lastAncestor(splitRoot, dom.isBlockquote);
+                        blockquote = dom.lastAncestor(splitRoot, dom.isBlockquote) || dom.ancestor(splitRoot, dom.isPre);
                     }
                     if (blockquote) {
                         // We're inside a blockquote and options ask us to break it

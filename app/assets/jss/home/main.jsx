@@ -20,10 +20,7 @@ const styles = (theme) => ({
         marginTop: headerHeight,
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(1),
-        [theme.breakpoints.up(mainWidth + theme.spacing(6))]: {
-            padding: theme.spacing(3)
-        }
+        padding: theme.spacing(1)
     },
     footer: {
         backgroundColor: theme.palette.background.paper,

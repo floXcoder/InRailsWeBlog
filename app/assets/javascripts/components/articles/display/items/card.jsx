@@ -72,7 +72,7 @@ class ArticleCardDisplay extends React.PureComponent {
 
     state = {
         wasGlobalMinimized: this.props.isMinimized,
-        isFolded: false
+        isFolded: this.props.isMinimized
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -127,7 +127,7 @@ class ArticleCardDisplay extends React.PureComponent {
                               [this.props.classes.outdated]: this.props.article.outdated
                           })}>
                         {
-                            this.props.hasActions &&
+                            (this.props.hasActions && !this.state.isFolded) &&
                             <div className={this.props.classes.floatingButtons}>
                                 <Sticky topOffset={-80}
                                         bottomOffset={-260}>

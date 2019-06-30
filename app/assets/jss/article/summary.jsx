@@ -66,6 +66,12 @@ const styles = (theme) => ({
             top: 120,
             background: 'transparent linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .9), #fff)'
         }
+    },
+    summaryLinkContainer: {
+        textAlign: 'center'
+    },
+    summaryLink: {
+        margin: theme.spacing(1.5, 3)
     }
 });
 

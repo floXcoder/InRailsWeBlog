@@ -116,7 +116,7 @@ const styles = (theme) => ({
     },
     storiesArticle: {
         width: '420px',
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
             width: '280px'
         }
     }

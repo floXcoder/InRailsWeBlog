@@ -72,7 +72,7 @@ class UserManager extends React.Component {
             })
                 .fetch.then((response) => {
                 if (response && response.user) {
-                    const currentTopicSlug = (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) ? response.user.currentTopic.slug : null;
+                    const currentTopicSlug = (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) && response.user.currentTopic ? response.user.currentTopic.slug : null;
                     if (currentTopicSlug) {
                         this.props.fetchTags({
                                 topicSlug: currentTopicSlug

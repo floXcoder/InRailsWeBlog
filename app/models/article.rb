@@ -282,7 +282,7 @@ class Article < ApplicationRecord
 
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
-  scope :include_element, -> { includes(:user, :tagged_articles) }
+  scope :include_element, -> { includes(:user, :topic, :tagged_articles) }
 
   # == Callbacks ============================================================
   # Visibility: private for draft articles

@@ -58,6 +58,18 @@ export const getSharingTopic = createSelector(
     (topics, topicId) => topics.find((topic) => topic.id === topicId)
 );
 
+export const getStoryTopic = createSelector(
+    (state) => state.topicState.currentTopic,
+    (state) => state.articleState.articles,
+    (topic, articles) => {
+        if (topic) {
+            return topic;
+        } else if (articles && articles.size > 0) {
+            return articles.first().topic;
+        }
+    }
+);
+
 // Current topic of user
 export const getCurrentUserTopic = createSelector(
     (state) => state.topicState.currentTopic,

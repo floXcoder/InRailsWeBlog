@@ -276,13 +276,16 @@ class Editor extends React.Component {
 
         const $context = $(event.target).parent();
 
+        const parsedContent = SanitizePaste.parse(text, type, $context);
+        const insertType = type === 'html' ?  'insertHTML' : 'insertText';
+
         if (text) {
             if (msIE || firefox) {
                 setTimeout(() => {
-                    document.execCommand('insertHTML', false, SanitizePaste.parse(text, type, $context));
+                    document.execCommand(insertType, false, parsedContent);
                 }, 10);
             } else {
-                document.execCommand('insertHTML', false, SanitizePaste.parse(text, type, $context));
+                document.execCommand(insertType, false, parsedContent);
             }
         }
     };

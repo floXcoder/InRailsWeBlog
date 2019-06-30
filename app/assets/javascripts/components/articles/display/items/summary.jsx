@@ -10,6 +10,7 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import {
     spyTrackClick,
@@ -100,9 +101,8 @@ class ArticleSummaryDisplay extends React.Component {
                             </Grid>
                         </Grid>
 
-                        <Link
-                            to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
-                            onClick={this._handleTitleClick}>
+                        <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                              onClick={this._handleTitleClick}>
                             <h1 className={this.props.classes.title}>
                                 {this.props.article.title}
                             </h1>
@@ -121,6 +121,18 @@ class ArticleSummaryDisplay extends React.Component {
                                      parentTagIds={this.props.article.parentTagIds}
                                      childTagIds={this.props.article.childTagIds}/>
                     }
+
+                    <div className={this.props.classes.summaryLinkContainer}>
+                        <Button className={this.props.classes.summaryLink}
+                                color="primary"
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                onClick={this._handleTitleClick}>
+                            {I18n.t('js.article.show.stories.show')}
+                        </Button>
+                    </div>
                 </div>
             </Observer>
         );

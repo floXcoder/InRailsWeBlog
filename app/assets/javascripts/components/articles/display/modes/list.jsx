@@ -52,11 +52,11 @@ class ArticleListMode extends React.Component {
                            timeout={150}
                            classNames="article">
                 <ArticleItemsDisplay article={article}
-                                    articleDisplayMode={this.props.articleDisplayMode}
-                                    articleEditionId={this.props.articleEditionId}
-                                    isMinimized={this.props.isMinimized}
-                                    onEnter={this.props.onEnter}
-                                    onExit={this.props.onExit}/>
+                                     articleDisplayMode={this.props.articleDisplayMode}
+                                     articleEditionId={this.props.articleEditionId}
+                                     isMinimized={this.props.isMinimized}
+                                     onEnter={this.props.onEnter}
+                                     onExit={this.props.onExit}/>
             </CSSTransition>
         );
     };
@@ -78,7 +78,7 @@ class ArticleListMode extends React.Component {
                             <Fragment key={key}>
                                 <h2 className="article-list-tag-title">
                                     {
-                                        key === 'undefined' ? I18n.t('js.article.common.tags.none') : key
+                                        key === 'undefined' ? I18n.t('js.article.common.tags.none') : key
                                     }
                                 </h2>
 

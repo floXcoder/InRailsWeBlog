@@ -237,7 +237,9 @@ class UserHome extends React.Component {
                                         </Link>
 
                                         <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
-                                            <Fab className={this.props.classes.topicLink}
+                                            <Fab className={classNames(this.props.classes.topicLink, {
+                                                [this.props.classes.storyTopicLink]: topic.mode === 'stories'
+                                            })}
                                                  variant="extended"
                                                  size="small"
                                                  color="primary"

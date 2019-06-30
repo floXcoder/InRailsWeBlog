@@ -67,6 +67,8 @@ class ArticleSerializer < ActiveModel::Serializer
 
   belongs_to :user, serializer: UserSampleSerializer
 
+  belongs_to :topic, if: -> { object.story? }, serializer: TopicSampleSerializer
+
   has_many :tags, serializer: TagSampleSerializer do
     if scope.is_a?(User)
       object.tags

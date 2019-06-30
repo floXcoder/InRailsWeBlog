@@ -160,7 +160,7 @@ class ArticleShow extends React.Component {
     }
 
     _fetchStories = () => {
-        if (this.props.article && this.props.currentTopic && this.props.currentTopic.mode === 'stories' && !this.props.articleSiblingStories) {
+        if (this.props.article && this.props.article.mode === 'story' && !this.props.articleSiblingStories) {
             this.props.fetchArticleStories(this.props.article.id);
         }
     };
@@ -207,7 +207,7 @@ class ArticleShow extends React.Component {
             );
         }
 
-        const isStories = this.props.currentTopic && this.props.currentTopic.mode === 'stories';
+        const isStories = this.props.article.mode === 'story';
 
         return (
             <div>
@@ -229,7 +229,7 @@ class ArticleShow extends React.Component {
 
                     {
                         isStories &&
-                        <SummaryStoriesTopic topic={this.props.currentTopic}/>
+                        <SummaryStoriesTopic topic={this.props.article.topic}/>
                     }
 
                     {
