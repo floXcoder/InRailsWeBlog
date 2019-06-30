@@ -29,7 +29,6 @@ import {
     searchReducer
 } from './searchReducer';
 import commentReducer from './commentReducer';
-import errorReducer from './errorReducer';
 
 const ReducerRecord = Record({
     routerState: undefined,
@@ -42,7 +41,6 @@ const ReducerRecord = Record({
     autocompleteState: undefined,
     searchState: undefined,
     commentState: undefined,
-    errorState: undefined,
     adminState: undefined,
     form: undefined,
     loadingBar: undefined
@@ -59,7 +57,6 @@ const rootReducer = combineReducers({
     autocompleteState: autocompleteReducer,
     searchState: searchReducer,
     commentState: commentReducer,
-    errorState: errorReducer,
     adminState: adminReducer,
     form: formReducer,
     loadingBar: loadingBarReducer

@@ -27,7 +27,6 @@ import topicReducer from './topicReducer';
 import tagReducer from './tagReducer';
 import articleReducer from './articleReducer';
 import commentReducer from './commentReducer';
-import errorReducer from './errorReducer';
 
 const ReducerRecord = Record({
     uiState: undefined,
@@ -39,7 +38,6 @@ const ReducerRecord = Record({
     tagState: undefined,
     articleState: undefined,
     commentState: undefined,
-    errorState: undefined,
     form: undefined,
     loadingBar: undefined
 });
@@ -54,7 +52,6 @@ const rootAdminReducer = combineReducers({
     tagState: tagReducer,
     articleState: articleReducer,
     commentState: commentReducer,
-    errorState: errorReducer,
     form: formReducer,
     loadingBar: loadingBarReducer
 }, ReducerRecord);

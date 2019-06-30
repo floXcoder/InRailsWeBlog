@@ -47,9 +47,9 @@ const manageError = (origin, error, url) => {
         return;
     }
 
-    let errorContent = {
-        url,
-        origin
+    let errorInfo = {
+        origin,
+        url
     };
 
     if (error.statusText) {
@@ -80,15 +80,10 @@ const manageError = (origin, error, url) => {
                 }
             }
 
-            errorContent.message = error.statusText;
-
-            pushError(errorContent);
+            pushError(error, errorInfo);
         }
     } else {
-        errorContent.message = error.message;
-        errorContent.stack = error.stack;
-
-        pushError(errorContent);
+        pushError(error, errorInfo);
     }
 };
 

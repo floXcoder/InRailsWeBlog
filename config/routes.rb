@@ -199,8 +199,6 @@ Rails.application.routes.draw do
   #   #     get     :logs,            to: 'managers#logs'
   #   #
   #   #     get     :server,          to: 'managers#server'
-  #   #
-  #   #     get     :errors,          to: 'managers#errors'
   #   #   end
   #   # end
   # end
