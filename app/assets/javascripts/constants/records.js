@@ -160,16 +160,18 @@ export class ArticleRecord extends Record({
     commentsCount: undefined,
     outdatedCount: undefined,
     user: new UserRecord(),
+    topic: new TopicRecord(),
     tags: List(),
     tagNames: List(),
     parentTagIds: List(),
     childTagIds: List(),
     newTagIds: List()
 }) {
-    constructor({user, tags, ...props} = {}) {
+    constructor({user, topic, tags, ...props} = {}) {
         super({
             ...props,
             user: new UserRecord(user),
+            topic: new TopicRecord(topic),
             tags: List(tags).map((tag) => new TagRecord(tag))
         })
     }

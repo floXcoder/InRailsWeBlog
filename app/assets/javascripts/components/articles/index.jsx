@@ -33,8 +33,10 @@ import {
 
 import {
     getArticleMetaTags,
+    getArticlesCurrentMode,
     getArticlesCount,
-    getArticlePagination
+    getArticlePagination,
+    getStoryTopic
 } from '../../selectors';
 
 import Loader from '../theme/loader';
@@ -52,10 +54,11 @@ export default @connect((state) => ({
     metaTags: getArticleMetaTags(state),
     userId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
-    currentUserTopic: state.topicState.currentTopic,
+    storyTopic: getStoryTopic(state),
     isFetching: state.articleState.isFetching,
     articlesCount: getArticlesCount(state),
     articlePagination: getArticlePagination(state),
+    articleCurrentMode: getArticlesCurrentMode(state),
     articlesLoaderMode: state.uiState.articlesLoaderMode,
     articleDisplayMode: state.uiState.articleDisplayMode,
     areArticlesMinimized: state.uiState.areArticlesMinimized,
@@ -76,9 +79,10 @@ class ArticleIndex extends React.Component {
         metaTags: PropTypes.object,
         userId: PropTypes.number,
         userSlug: PropTypes.string,
-        currentUserTopic: PropTypes.object,
+        storyTopic: PropTypes.object,
         isFetching: PropTypes.bool,
         articlesCount: PropTypes.number,
+        articleCurrentMode: PropTypes.string,
         articlePagination: PropTypes.object,
         articleEditionId: PropTypes.number,
         articlesLoaderMode: PropTypes.string,
@@ -207,16 +211,6 @@ class ArticleIndex extends React.Component {
     };
 
     render() {
-        if (this.props.userId && !this.props.currentUserTopic) {
-            return (
-                <div className={this.props.classes.root}>
-                    <div className="center">
-                        <Loader size="big"/>
-                    </div>
-                </div>
-            );
-        }
-
         if (this.props.articlesCount === 0 && !this.props.isFetching) {
             return (
                 <div className="blog-article-box">
@@ -232,17 +226,14 @@ class ArticleIndex extends React.Component {
 
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
 
-        const isStoriesMode = this.props.currentUserTopic && this.props.currentUserTopic.mode === 'stories';
-        const isInventoriesMode = this.props.currentUserTopic && this.props.currentUserTopic.mode === 'inventories';
-
         const isGridDisplay = this.props.articleDisplayMode === 'grid';
         const isInfiniteDisplay = this.props.articlesLoaderMode === 'infinite';
 
-        const isLargeContainer = isGridDisplay || isStoriesMode;
-        const isFullContainer = isStoriesMode || isInventoriesMode;
+        const isLargeContainer = isGridDisplay || this.props.articleCurrentMode === 'stories';
+        const isFullContainer = this.props.articleCurrentMode === 'stories' || this.props.articleCurrentMode === 'inventories';
 
         let ArticleNodes;
-        if (isStoriesMode) {
+        if (this.props.articleCurrentMode === 'stories') {
             ArticleNodes = (
                 <ArticleTimelineMode onEnter={this._handleArticleEnter}
                                      onExit={this._handleArticleExit}/>
@@ -265,8 +256,8 @@ class ArticleIndex extends React.Component {
         return (
             <div ref={this._articles}>
                 {
-                    isStoriesMode &&
-                    <SummaryStoriesTopic topic={this.props.currentUserTopic}/>
+                    this.props.articleCurrentMode === 'stories' && this.props.storyTopic &&
+                    <SummaryStoriesTopic topic={this.props.storyTopic}/>
                 }
 
                 <div className={classNames(this.props.classes.articleIndex, {

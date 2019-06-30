@@ -17,7 +17,7 @@ const articlesByTag = (articles, sortedTags, parentTag) => {
         });
     }
 
-    if(Utils.isEmpty(orderedArticles)) {
+    if (Utils.isEmpty(orderedArticles)) {
         return orderedArticles;
     }
 
@@ -33,7 +33,7 @@ const articlesByTag = (articles, sortedTags, parentTag) => {
             // Topic or user articles view
             const firstArticleTag = article.tags.filter((tag) => parentTagNames.includes(tag.name)).map((tag) => tag.name).sort().first();
             // In case of previous articles are still in memory
-            if(orderedArticles[firstArticleTag]) {
+            if (orderedArticles[firstArticleTag]) {
                 orderedArticles[firstArticleTag].push(article);
             }
         }
@@ -50,6 +50,22 @@ export const getArticleMetaTags = createSelector(
 export const getArticles = createSelector(
     (state) => state.articleState.articles,
     (articles) => articles.toArray()
+);
+
+export const getArticlesCurrentMode = createSelector(
+    (state) => state.articleState.articles,
+    (state) => state.topicState.currentTopic,
+    (articles, currentTopic) => {
+        if (currentTopic) {
+            return currentTopic.mode;
+        } else if (articles && articles.size > 0) {
+            if (articles.every((article) => article.mode === 'story')) {
+                return 'stories';
+            } else if (articles.every((article) => article.mode === 'inventory')) {
+                return 'inventories';
+            }
+        }
+    }
 );
 
 export const getArticlesCount = createSelector(

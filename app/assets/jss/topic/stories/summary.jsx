@@ -3,7 +3,7 @@
 const styles = (theme) => ({
     container: {
         position: 'relative',
-        margin: '1rem auto 3rem',
+        margin: '1rem auto 1.5rem',
         overflow: 'visible',
         maxWidth: '100%',
         backgroundColor: theme.palette.grey[100]

@@ -16,9 +16,9 @@ gem 'pg',                       '1.1.4'
 gem 'active_record_extended',   '1.1.0'
 
 # HTTP Response
-gem 'responders',               '2.4.1'
+gem 'responders',               '3.0.0'
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '6.1.0'
+gem 'secure_headers',           '6.1.1'
 
 # JSON
 gem 'active_model_serializers', '0.10.9'
@@ -99,7 +99,7 @@ gem 'http',                     '4.1.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.0.2',   require: false
-gem 'faker',                    '1.9.3',   require: false
+gem 'faker',                    '1.9.4',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.0'
@@ -114,7 +114,7 @@ gem 'health_check',             '3.0.0'
 
 group :development do
   # server
-  gem 'puma',                   '3.12.1'
+  gem 'puma',                   '4.0.0'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.9'
@@ -125,7 +125,7 @@ group :development do
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
-  gem 'bullet',                 '6.0.0'
+  gem 'bullet',                 '6.0.1'
 
   # Scss lint
   gem 'scss-lint',              '0.38.0', require: false
@@ -163,7 +163,7 @@ group :test do
   gem 'db-query-matchers',          '0.9.0'
 
   # Browser tests
-  gem 'capybara',                   '3.24.0'
+  gem 'capybara',                   '3.25.0'
   gem 'capybara-email',             '3.0.1'
   gem 'capybara-screenshot',        '1.0.23'
   gem 'selenium-webdriver',         '3.141.0'
@@ -182,10 +182,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.4',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.71.0',  require: false
-  gem 'rubocop-rails',              '2.0.1',   require: false
+  gem 'rubocop',                    '0.72.0',  require: false
+  gem 'rubocop-rails',              '2.1.0',   require: false
   gem 'rubocop-rspec',              '1.33.0',  require: false
-  gem 'rubocop-performance',        '1.3.0',   require: false
+  gem 'rubocop-performance',        '1.4.0',   require: false
 end
 
 group :production do

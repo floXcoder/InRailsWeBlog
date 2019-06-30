@@ -2,7 +2,10 @@ html {
   font-size: 17px;
   line-height: 1.5;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: normal;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  font-weight: 400;
   color: $text-color;
   box-sizing: border-box;
 

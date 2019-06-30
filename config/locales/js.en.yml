@@ -492,6 +492,7 @@ en:
         added: "Vote added"
       show:
         stories:
+          show: "Read the story"
           previous: "Previous story"
           next: "Next story"
       new:

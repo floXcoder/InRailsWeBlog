@@ -60,7 +60,7 @@ class ArticleInlineDisplay extends React.PureComponent {
 
     state = {
         wasGlobalMinimized: this.props.isMinimized,
-        isFolded: false,
+        isFolded: this.props.isMinimized,
         isOver: false
     };
 
