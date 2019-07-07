@@ -492,9 +492,9 @@ fr:
         added: "Votre vote a été pris en compte"
       show:
         stories:
-          show: "Lire la story"
-          previous: "Story précédente"
-          next: "Story suivante"
+          show: "Lire la storie"
+          previous: "Storie précédente"
+          next: "Storie suivante"
       new:
         meta:
           title: "Nouvel article - %{topic} - InRailsWeBlog"
