@@ -99,13 +99,13 @@ gem 'http',                     '4.1.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.0.2',   require: false
-gem 'faker',                    '1.9.4',   require: false
+gem 'faker',                    '1.9.6',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.0'
 gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
-gem 'capistrano-bundler',       '1.5.0',   require: false
+gem 'capistrano-bundler',       '1.6.0',   require: false
 gem 'capistrano-rails-console', '2.3.0',   require: false
 gem 'capistrano-db-tasks',      '0.6',     require: false
 gem 'capistrano-sidekiq',       '1.0.2',   require: false
@@ -127,9 +127,6 @@ group :development do
   # N+1 database query
   gem 'bullet',                 '6.0.1'
 
-  # Scss lint
-  gem 'scss-lint',              '0.38.0', require: false
-
   # Guard and its minions
   gem 'guard',                  '2.15.0'
   gem 'guard-rails',            '0.8.1'
@@ -146,7 +143,7 @@ group :development do
   gem 'unique_validation_inspector', '0.3.0', require: false
 
   # Faster ruby code
-  gem 'fasterer',               '0.5.1', require: false
+  gem 'fasterer',               '0.6.0', require: false
 
   # Load tests
   gem 'ruby-jmeter',            '3.1.08', require: false
@@ -155,10 +152,10 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '3.8.2'
-  gem 'shoulda-matchers',           '4.1.0',    require: false
-  gem 'shoulda-callback-matchers',  '1.1.4', require: false
-  gem 'simplecov',                  '0.16.1',   require: false
-  gem 'fuubar',                     '2.4.0'
+  gem 'shoulda-matchers',           '4.1.0',  require: false
+  gem 'shoulda-callback-matchers',  '1.1.4',  require: false
+  gem 'simplecov',                  '0.17.0', require: false
+  gem 'fuubar',                     '2.4.1'
   gem 'database_cleaner',           '1.7.0'
   gem 'db-query-matchers',          '0.9.0'
 
@@ -167,7 +164,7 @@ group :test do
   gem 'capybara-email',             '3.0.1'
   gem 'capybara-screenshot',        '1.0.23'
   gem 'selenium-webdriver',         '3.141.0'
-  gem 'webdrivers',                 '4.0.1'
+  gem 'webdrivers',                 '4.1.0'
   gem 'html_validation',            '1.1.5'
   gem 'launchy',                    '2.4.3'
 
@@ -183,7 +180,7 @@ group :development, :test do
 
   # Check errors
   gem 'rubocop',                    '0.72.0',  require: false
-  gem 'rubocop-rails',              '2.1.0',   require: false
+  gem 'rubocop-rails',              '2.2.0',   require: false
   gem 'rubocop-rspec',              '1.33.0',  require: false
   gem 'rubocop-performance',        '1.4.0',   require: false
 end
