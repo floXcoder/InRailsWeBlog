@@ -242,7 +242,14 @@ const SanitizePaste = (function ($) {
             html = html.replace(/’/g, '\'');
 
             if (type === 'html') {
-                html = html.replace(/(?:\r\n|\r|\n)/g, '');
+                // Replace return to line by br inside code block
+                html = html.replace(/(?:\r\n|\r|\n)/g, '%BREAKLINE%');
+
+                html = html.replace(/<code>.*?(?:%BREAKLINE%)?.*?<\/code>/g, function(match) {
+                    return match.replace(/(?:%BREAKLINE%)/g, '<br/>');
+                });
+
+                html = html.replace(/(?:%BREAKLINE%)/g, '');
 
                 // // Replace line-break by para
                 // // html = html.replace(/(.*?)(?:\r\n|\r|\n)/g, '<p>$1</p>');
