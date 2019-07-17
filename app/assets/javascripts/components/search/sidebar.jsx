@@ -168,10 +168,14 @@ class SearchSidebar extends React.Component {
             );
         }
 
+        if(this.props.articleAvailableFilters.length === 0) {
+            return  null;
+        }
+
         return (
             <div className={this.props.classes.searchSidebar}>
                 <h2 className={this.props.classes.filterTitle}>
-                    Filtrer les résultats
+                    {I18n.t('js.search.sidebar.filter')}
                 </h2>
 
                 <div>

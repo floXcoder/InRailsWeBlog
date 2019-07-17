@@ -15,6 +15,7 @@ const ArticleNoneDisplay = ({userSlug, topicSlug, tagSlug, childTagSlug, isTopic
                    elevation={4}>
                 <h2 className="center-align"
                     style={{
+                        fontSize: '1.8rem',
                         marginTop: '1rem'
                     }}>
                     {

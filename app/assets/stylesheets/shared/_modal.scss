@@ -31,6 +31,15 @@
     }
   }
 
+  .responsive-modal-subtitle {
+    font-size: 1.7rem;
+    font-weight: 700;
+
+    @media #{$medium-and-down} {
+      font-size: 1.5rem;
+    }
+  }
+
   .responsive-modal-content {
     padding: 0;
 

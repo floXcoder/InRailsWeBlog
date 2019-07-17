@@ -93,6 +93,11 @@ const styles = (theme) => ({
     selectedLabel: {
         fontSize: '1.3rem !important',
         fontWeight: 600
+    },
+    noTags: {
+        whiteSpace: 'normal',
+        padding: '.5rem',
+        fontStyle: 'italic'
     }
 });
 

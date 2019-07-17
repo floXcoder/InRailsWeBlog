@@ -306,7 +306,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
     _renderMobileArticleDrawer = () => {
         if (this.props.width !== 'xs' && this.props.width !== 'sm') {
-            return null
+            return null;
         }
 
         return (
@@ -443,7 +443,10 @@ class HeaderLayoutUser extends React.PureComponent {
 
                 {this._renderMobileTagDrawer()}
 
-                {this._renderMobileArticleDrawer()}
+                {
+                    this.props.routeProperties.articleSidebar &&
+                    this._renderMobileArticleDrawer()
+                }
 
                 <Suspense fallback={<div/>}>
                     {this._renderHashRoutes(this.props.hashRoutes.topic)}

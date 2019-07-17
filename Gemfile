@@ -21,7 +21,7 @@ gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.1.1'
 
 # JSON
-gem 'active_model_serializers', '0.10.9'
+gem 'active_model_serializers', '0.10.10'
 gem 'oj',                       '3.7.12'
 
 # Use slim instead of erb
@@ -72,7 +72,7 @@ gem 'pundit',                   '2.0.1'
 # Upload pictures
 gem 'carrierwave',              '1.3.1'
 gem 'carrierwave-imageoptimizer', '1.4.0'
-gem 'mini_magick',              '4.9.3'
+gem 'mini_magick',              '4.9.4'
 
 # Search in database
 gem 'searchkick',               '4.0.2'
@@ -85,10 +85,10 @@ gem 'thumbs_up',                '0.6.9'
 gem 'acts_as_commentable_with_threading', '2.0.1'
 
 # Prevent DDOS attacks
-gem 'rack-attack',              '6.0.0'
+gem 'rack-attack',              '6.1.0'
 
 # Manage errors
-gem 'browser',                  '2.5.3'
+gem 'browser',                  '2.6.1'
 
 # SEO
 gem 'friendly_id',              '5.2.5'
@@ -114,7 +114,7 @@ gem 'health_check',             '3.0.0'
 
 group :development do
   # server
-  gem 'puma',                   '4.0.0'
+  gem 'puma',                   '4.0.1'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.9'
@@ -152,7 +152,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '3.8.2'
-  gem 'shoulda-matchers',           '4.1.0',  require: false
+  gem 'shoulda-matchers',           '4.1.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.17.0', require: false
   gem 'fuubar',                     '2.4.1'
@@ -160,7 +160,7 @@ group :test do
   gem 'db-query-matchers',          '0.9.0'
 
   # Browser tests
-  gem 'capybara',                   '3.25.0'
+  gem 'capybara',                   '3.26.0'
   gem 'capybara-email',             '3.0.1'
   gem 'capybara-screenshot',        '1.0.23'
   gem 'selenium-webdriver',         '3.141.0'
@@ -179,8 +179,8 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.4',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.72.0',  require: false
-  gem 'rubocop-rails',              '2.2.0',   require: false
+  gem 'rubocop',                    '0.73.0',  require: false
+  gem 'rubocop-rails',              '2.2.1',   require: false
   gem 'rubocop-rspec',              '1.33.0',  require: false
   gem 'rubocop-performance',        '1.4.0',   require: false
 end

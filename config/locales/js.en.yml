@@ -572,6 +572,8 @@ en:
         helpers:
           select_tag: "Select a label with arrows then tab"
           tagged_articles: "Search for articles with tags : %{tags}"
+      sidebar:
+        filter: "Filtrer les résultats"
       index:
         placeholder: "Search"
         button: "Trouver"

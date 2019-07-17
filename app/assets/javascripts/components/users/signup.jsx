@@ -84,7 +84,7 @@ class Signup extends React.Component {
                     {
                         this.props.isConnected &&
                         <div className="center-align">
-                            <h2>
+                            <h2 className="responsive-modal-subtitle">
                                 {I18n.t('js.user.signup.connected')}
                                 <BounceSpinner className="margin-bottom-10"/>
                             </h2>

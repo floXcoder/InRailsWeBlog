@@ -18,7 +18,8 @@ import {
     addTopic,
     updateTopic,
     deleteTopic,
-    showTopicPopup
+    showTopicPopup,
+    fetchTags
 } from '../../actions';
 
 import {
@@ -38,7 +39,8 @@ export default @withRouter
     addTopic,
     updateTopic,
     deleteTopic,
-    showTopicPopup
+    showTopicPopup,
+    fetchTags,
 })
 @hot
 @withStyles(styles)
@@ -55,6 +57,7 @@ class TopicPersistence extends React.Component {
         updateTopic: PropTypes.func,
         deleteTopic: PropTypes.func,
         showTopicPopup: PropTypes.func,
+        fetchTags: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -116,14 +119,24 @@ class TopicPersistence extends React.Component {
                 })
                 .then((response) => {
                     if (response.topic) {
+                        this.props.fetchTags({
+                                topicSlug: response.topic.slug
+                            },
+                            {},
+                            {
+                                topicTags: true
+                            });
+
                         if (response.topic.mode === 'inventories') {
                             Notification.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
 
-                            return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}/edit-inventories`);
+                            this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}/edit-inventories`);
                         } else {
-                            return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
+                            this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
                         }
                     }
+
+                    return response;
                 });
         }
     };

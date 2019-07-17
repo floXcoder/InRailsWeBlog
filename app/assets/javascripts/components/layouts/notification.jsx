@@ -110,12 +110,14 @@ class Notification extends React.Component {
             actionCallback
         });
 
-        if (this.state.isOpen) {
-            // immediately begin dismissing current message to start showing new one
-            this.setState({isOpen: false});
-        } else {
-            this._processQueue();
-        }
+        // if (this.state.isOpen) {
+        //     // immediately begin dismissing current message to start showing new one
+        //     this.setState({isOpen: false});
+        // } else {
+        //     this._processQueue();
+        // }
+
+        this._processQueue();
     };
 
     _processQueue = () => {

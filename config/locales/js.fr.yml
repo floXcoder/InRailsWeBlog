@@ -385,7 +385,7 @@ fr:
         placeholders:
           title:
             note: "Titre de votre article"
-            story: "Titre de votre story"
+            story: "Titre de votre storie"
             inventory: "Titre pour inventaire"
           reference:
             note: "Lien vers la source d'origine"
@@ -412,9 +412,9 @@ fr:
         no_results:
           topic:
             title:
-              default: "Pas d'articles associés à ce thème"
-              tag: "Pas d'articles associés à ce thème pour ce label"
-              child_tag: "Pas d'articles associés à ce thème pour ce sous-label"
+              default: "Pas encore d'articles associés à ce thème"
+              tag: "Pas encore d'articles associés à ce thème pour ce label"
+              child_tag: "Pas encore d'articles associés à ce thème pour ce sous-label"
             button: "Ajouter nouvel article"
           search:
             title: "Pas d'articles trouvés"
@@ -572,6 +572,8 @@ fr:
         helpers:
           select_tag: "Sélectionner un label avec les flèches puis tab"
           tagged_articles: "Recherche d'articles avec labels : %{tags}"
+      sidebar:
+        filter: "Filtrer les résultats"
       index:
         placeholder: "Recherche"
         button: "Trouver"

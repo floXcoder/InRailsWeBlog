@@ -35,9 +35,7 @@ export default class SearchArticleIndex extends React.PureComponent {
         let currentTopicArticles, otherTopicsArticles;
 
         currentTopicArticles = this.props.articles.filter((article) => article.topicId === this.props.currentUserTopicId);
-        if (currentTopicArticles.length > 0) {
-            otherTopicsArticles = this.props.articles.filter((article) => article.topicId !== this.props.currentUserTopicId);
-        }
+        otherTopicsArticles = this.props.articles.filter((article) => article.topicId !== this.props.currentUserTopicId);
 
         return (
             <div className={this.props.classes.category}>

@@ -261,7 +261,8 @@ const SanitizePaste = (function ($) {
                 // html = html.replace(/(.*?)(?:\r\n|\r|\n)/gm, '$1');
                 // html = html.replace(/BREAKLINE/gm, '\n');
             } else {
-                html = html.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+                // Do not replace as insertion type is text only
+                // html = html.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             }
 
             // Sanitize

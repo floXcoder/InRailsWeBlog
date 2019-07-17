@@ -105,7 +105,7 @@ export default class TagSidebarList extends React.Component {
 
                 {
                     this.props.isOpen && Utils.isEmpty(this.props.tags) &&
-                    <div>
+                    <p className={this.props.classes.noTags}>
                         {
                             this.props.filterText
                                 ?
@@ -113,7 +113,7 @@ export default class TagSidebarList extends React.Component {
                                 :
                                 I18n.t('js.tag.common.no_tags')
                         }
-                    </div>
+                    </p>
                 }
             </List>
         );

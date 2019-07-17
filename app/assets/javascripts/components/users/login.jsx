@@ -84,7 +84,7 @@ class Login extends React.PureComponent {
                     {
                         this.props.isConnected &&
                         <div className="center-align">
-                            <h2>
+                            <h2 className="responsive-modal-subtitle">
                                 {I18n.t('js.user.login.connected')}
                                 <BounceSpinner className="margin-bottom-10"/>
                             </h2>

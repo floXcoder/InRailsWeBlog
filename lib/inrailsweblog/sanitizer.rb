@@ -12,6 +12,9 @@ class Sanitizer
     # Remove empty blocks
     html = html.gsub(/<p><\/p>/, '')
 
+    # # Replace return to line by br tag
+    # html = html.gsub(/(?:\r\n|\r|\n)/, '<br/>')
+
     # Keep authorized tags
     html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img picture source iframe], attributes: %w[style class href name target src alt center align frameborder media data-src data-srcset data-article-relation-id])
 
