@@ -12,7 +12,8 @@ class TopicStrictSerializer < ActiveModel::Serializer
              :name,
              :date,
              :visibility,
-             :slug
+             :slug,
+             :user
 
   def id
     object.id
@@ -36,5 +37,11 @@ class TopicStrictSerializer < ActiveModel::Serializer
 
   def slug
     object.slug
+  end
+
+  def user
+    {
+      slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug
+    }
   end
 end

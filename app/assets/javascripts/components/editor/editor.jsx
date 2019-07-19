@@ -83,25 +83,49 @@ class Editor extends React.Component {
                     onMediaDelete: this.onImageDelete
                 },
                 hint: {
-                    mentions: ['Type article name'],
+                    mentions: [I18n.t('js.editor.hint.input')],
                     match: /\B#(\w*)$/,
                     search: (keyword, callback) => {
                         loadAutocomplete({
-                            selectedTypes: 'article',
+                            selectedTypes: ['article', 'topic'],
                             topicId: this.props.currentTopicId,
                             query: keyword,
                             limit: 5
-                        }).then((results) => results.articles ? callback(results.articles.map((article) => [article.id, article.slug, article.title]).compact()) : [])
+                        }).then((results) => {
+                            let autocompletes = [];
+
+                            if (results.articles) {
+                                autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.id, article.slug, article.user.slug]).compact());
+                            }
+                            if (results.topics) {
+                                autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.user.slug]).compact());
+                            }
+
+                            if(autocompletes.length > 0) {
+                                return callback(autocompletes);
+                            } else {
+                                return [];
+                            }
+                        })
                     },
-                    template: ([id, slug, title]) => {
-                        return title;
+                    template: ([type, title, id, slug, parentSlug]) => {
+                        if (type === 'topic') {
+                            return title + ' (' + I18n.t(`js.editor.hint.${type}`) + ')';
+                        } else {
+                            return title;
+                        }
                     },
-                    content: ([id, slug, title]) => {
+                    content: ([type, title, id, slug, parentSlug]) => {
                         let nodeItem = document.createElement('a');
-                        nodeItem.href = slug;
                         nodeItem.target = '_blank';
-                        nodeItem.setAttribute('data-article-relation-id', id);
-                        nodeItem.innerHTML = `#${title}`;
+                        if (type === 'topic') {
+                            nodeItem.href = `/users/${parentSlug}/topics/${slug}`;
+                            nodeItem.innerHTML = `#${title}`;
+                        } else {
+                            nodeItem.href = `/users/${parentSlug}/articles/${slug}`;
+                            nodeItem.setAttribute('data-article-relation-id', id);
+                            nodeItem.innerHTML = `#${title}`;
+                        }
                         return nodeItem;
                     }
                 }
@@ -277,7 +301,7 @@ class Editor extends React.Component {
         const $context = $(event.target).parent();
 
         const parsedContent = SanitizePaste.parse(text, type, $context);
-        const insertType = type === 'html' ?  'insertHTML' : 'insertText';
+        const insertType = type === 'html' ? 'insertHTML' : 'insertText';
 
         if (text) {
             if (msIE || firefox) {
@@ -303,7 +327,7 @@ class Editor extends React.Component {
             const range = this._editor.summernote('createRange');
             let currentNode = range.ec;
 
-            if(!currentNode) {
+            if (!currentNode) {
                 return;
             }
 
@@ -313,7 +337,7 @@ class Editor extends React.Component {
 
             const nodeName = currentNode.nodeName.toLocaleLowerCase();
             displayNodeName = $.summernote.lang[I18n.locale + '-' + I18n.locale.toUpperCase()].style[nodeName];
-        } catch(error) {
+        } catch (error) {
         }
 
         if (displayNodeName) {

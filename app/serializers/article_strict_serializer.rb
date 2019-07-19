@@ -17,8 +17,8 @@ class ArticleStrictSerializer < ActiveModel::Serializer
              :visibility,
              :current_language,
              :slug,
-             :user,
-             :tag_names
+             :tag_names,
+             :user
 
   def id
     object.id
@@ -64,13 +64,13 @@ class ArticleStrictSerializer < ActiveModel::Serializer
     object.slug
   end
 
+  def tag_names
+    object.tag_names
+  end
+
   def user
     {
       slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug
     }
-  end
-
-  def tag_names
-    object.tag_names
   end
 end

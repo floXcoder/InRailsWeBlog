@@ -723,6 +723,10 @@ en:
         advice: "Advice"
         secret: "Secret"
         cleaner: "Clean formatting"
+      hint:
+        input: "Type article or topic"
+        article: "article"
+        topic: "topic"
     helpers:
       home: "Home"
       colon: ": "

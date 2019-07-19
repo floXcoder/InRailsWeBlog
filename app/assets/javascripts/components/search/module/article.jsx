@@ -123,8 +123,11 @@ export default class SearchArticleModule extends React.PureComponent {
                     {
                         !Utils.isEmpty(otherArticles) &&
                         <>
-                            <Divider className={this.props.classes.categoryDivider}
-                                     variant="fullWidth"/>
+                            {
+                                !Utils.isEmpty(currentTopicArticles) &&
+                                <Divider className={this.props.classes.categoryDivider}
+                                         variant="fullWidth"/>
+                            }
 
                             {
                                 otherArticles.map(this._renderArticleItem.bind(this, false))
