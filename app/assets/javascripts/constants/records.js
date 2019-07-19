@@ -171,7 +171,7 @@ export class ArticleRecord extends Record({
         super({
             ...props,
             user: new UserRecord(user),
-            topic: new TopicRecord(topic),
+            topic: new TopicRecord({...topic, user: user}),
             tags: List(tags).map((tag) => new TagRecord(tag))
         })
     }

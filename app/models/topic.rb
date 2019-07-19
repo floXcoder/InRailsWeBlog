@@ -250,6 +250,7 @@ class Topic < ApplicationRecord
     {
       id:              id,
       user_id:         user_id,
+      user_slug:       user.slug,
       mode:            mode,
       mode_translated: mode_translated,
       name:            name,

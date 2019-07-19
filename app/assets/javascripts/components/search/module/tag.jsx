@@ -93,8 +93,11 @@ export default class SearchTagModule extends React.Component {
                     {
                         !Utils.isEmpty(otherTags) &&
                         <>
-                            <Divider className={this.props.classes.categoryDivider}
-                                     variant="fullWidth"/>
+                            {
+                                !Utils.isEmpty(currentTopicTags) &&
+                                <Divider className={this.props.classes.categoryDivider}
+                                         variant="fullWidth"/>
+                            }
 
                             {
                                 otherTags.map(this._renderTagItem.bind(this, false))

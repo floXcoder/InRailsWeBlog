@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Link
+} from 'react-router-dom';
+
+import {
     withStyles
 } from '@material-ui/core/styles';
 
@@ -24,11 +28,23 @@ class SummaryStoriesTopic extends React.Component {
         return (
             <div className={this.props.classes.container}>
                 <div className={this.props.classes.root}>
-                    <Typography className={this.props.classes.topicTitle}
-                                variant="h4"
-                                component="h2">
-                        {this.props.topic.name}
-                    </Typography>
+                    {
+                        this.props.topic.user.slug
+                            ?
+                            <Link to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}`}>
+                                <Typography className={this.props.classes.topicTitle}
+                                            variant="h4"
+                                            component="h2">
+                                    {this.props.topic.name}
+                                </Typography>
+                            </Link>
+                            :
+                            <Typography className={this.props.classes.topicTitle}
+                                        variant="h4"
+                                        component="h2">
+                                {this.props.topic.name}
+                            </Typography>
+                    }
 
                     <Typography component="p">
                         {this.props.topic.description}

@@ -723,6 +723,10 @@ fr:
         advice: "Conseil"
         secret: "Secret"
         cleaner: "Nettoyer formattage"
+      hint:
+        input: "Titre article ou thème"
+        article: "article"
+        topic: "thème"
     helpers:
       home: "Accueil"
       colon: " : "
