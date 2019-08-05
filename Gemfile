@@ -22,7 +22,7 @@ gem 'secure_headers',           '6.1.1'
 
 # JSON
 gem 'active_model_serializers', '0.10.10'
-gem 'oj',                       '3.7.12'
+gem 'oj',                       '3.8.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -33,7 +33,7 @@ gem 'geocoder',                 '1.5.1'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '10.3.0'
+gem 'paper_trail',              '10.3.1'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.2'
@@ -72,10 +72,10 @@ gem 'pundit',                   '2.0.1'
 # Upload pictures
 gem 'carrierwave',              '1.3.1'
 gem 'carrierwave-imageoptimizer', '1.4.0'
-gem 'mini_magick',              '4.9.4'
+gem 'mini_magick',              '4.9.5'
 
 # Search in database
-gem 'searchkick',               '4.0.2'
+gem 'searchkick',               '4.1.0'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
@@ -99,7 +99,7 @@ gem 'http',                     '4.1.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.0.2',   require: false
-gem 'faker',                    '1.9.6',   require: false
+gem 'faker',                    '2.1.0',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.0'
@@ -152,7 +152,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '3.8.2'
-  gem 'shoulda-matchers',           '4.1.1',  require: false
+  gem 'shoulda-matchers',           '4.1.2',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.17.0', require: false
   gem 'fuubar',                     '2.4.1'
@@ -160,17 +160,17 @@ group :test do
   gem 'db-query-matchers',          '0.9.0'
 
   # Browser tests
-  gem 'capybara',                   '3.26.0'
+  gem 'capybara',                   '3.28.0'
   gem 'capybara-email',             '3.0.1'
   gem 'capybara-screenshot',        '1.0.23'
   gem 'selenium-webdriver',         '3.141.0'
-  gem 'webdrivers',                 '4.1.0'
+  gem 'webdrivers',                 '4.1.2'
   gem 'html_validation',            '1.1.5'
   gem 'launchy',                    '2.4.3'
 
   # static analyzer
   gem 'rails_best_practices',       '1.19.4',   require: false
-  gem 'brakeman',                   '4.5.1',    require: false
+  gem 'brakeman',                   '4.6.1',    require: false
   gem 'i18n-tasks',                 '0.9.29',   require: false
 end
 
@@ -179,15 +179,15 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.4',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.73.0',  require: false
+  gem 'rubocop',                    '0.74.0',  require: false
   gem 'rubocop-rails',              '2.2.1',   require: false
-  gem 'rubocop-rspec',              '1.33.0',  require: false
-  gem 'rubocop-performance',        '1.4.0',   require: false
+  gem 'rubocop-rspec',              '1.35.0',  require: false
+  gem 'rubocop-performance',        '1.4.1',   require: false
 end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '2.9.0'
+  gem 'sentry-raven',     '2.11.0'
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'

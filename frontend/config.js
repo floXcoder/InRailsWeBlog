@@ -20,7 +20,7 @@ module.exports = {
         },
         rules: {
             javascript: {
-                exclude: /node_modules/,
+                include: './app/assets/javascript',
                 options: {
                     babelrc: true,
                     cacheDirectory: true

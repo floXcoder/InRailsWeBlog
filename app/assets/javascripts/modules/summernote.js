@@ -1,8 +1,7 @@
 'use strict';
 
-// Current version: 0.8.11
+// Current version: 0.8.12
 
-// import 'summernote/dist/summernote-lite';
 import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';
@@ -140,27 +139,27 @@ $.extend(true, $.summernote.lang, {
 });
 
 $.extend($.summernote.options.keyMap.pc, {
-    'CTRL+ENTER': 'Save',
-    'CTRL+P': 'Code',
-    'CTRL+L': 'Pre',
     'CTRL+NUM1': 'formatH2',
     'CTRL+NUM2': 'formatH3',
     'CTRL+NUM3': 'formatH4',
     'CTRL+NUM4': 'formatH4',
     'CTRL+NUM5': 'formatH4',
-    'CTRL+NUM6': 'formatH4'
+    'CTRL+NUM6': 'formatH4',
+    'CTRL+L': 'insertUnorderedList',
+    'CTRL+K': 'linkDialog.show',
+    'CTRL+ENTER': 'Save'
 });
 
 $.extend($.summernote.options.keyMap.mac, {
-    'CMD+ENTER': 'Save',
-    'CMD+P': 'Code',
-    'CMD+L': 'Pre',
     'CMD+NUM1': 'formatH2',
     'CMD+NUM2': 'formatH3',
     'CMD+NUM3': 'formatH4',
     'CMD+NUM4': 'formatH4',
     'CMD+NUM5': 'formatH4',
-    'CMD+NUM6': 'formatH4'
+    'CMD+NUM6': 'formatH4',
+    'CMD+L': 'insertUnorderedList',
+    'CMD+K': 'linkDialog.show',
+    'CMD+ENTER': 'Save'
 });
 
 const ui = $.summernote.ui;
@@ -389,6 +388,7 @@ $.extend($.summernote.plugins, {
 
         this.events = {
             'summernote.keyup': function (we, event) {
+                // CTRL+E for pre
                 if (event.keyCode === 69 && event.ctrlKey) {
                     event.preventDefault();
                     document.execCommand('FormatBlock', false, 'pre');

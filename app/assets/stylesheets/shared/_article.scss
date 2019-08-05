@@ -1,4 +1,4 @@
-@import '~highlight.js/styles/zenburn.css';
+@import '~highlight.js/styles/darcula.css';
 @import 'shared/animation/article';
 
 .article-errors {
@@ -221,7 +221,7 @@
     white-space: nowrap;
   }
 
-  h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, li, menu, figure, blockquote, p, pre, form, b, i, pre, code, th, td {
+  h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, li, menu, figure, blockquote, p, pre, form, b, i, th, td {
     color: $text-color;
     margin: 0;
     padding: 0;
@@ -343,6 +343,12 @@
     margin-left: -2rem;
     padding-bottom: 3px;
     padding-left: 2.5rem;
+  }
+
+  pre,
+  code {
+    margin: 0;
+    padding: 0;
   }
 
   pre {

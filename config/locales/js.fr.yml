@@ -563,9 +563,12 @@ fr:
       module:
         placeholder: "Recherche"
         button: "Rechercher"
+        topics:
+          title: "Thèmes"
         tags:
           title: "Labels"
           recents: "(Labels récents)"
+          no_tags: "Aucun label trouvé"
         articles:
           title: "Articles"
           recents: "(Articles récents)"
