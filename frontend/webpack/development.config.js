@@ -108,14 +108,16 @@ webPackConfig.optimization = {
     namedModules: true,
     noEmitOnErrors: false,
     concatenateModules: false,
+    removeAvailableModules: false,
+    removeEmptyChunks: false,
     runtimeChunk: {
         name: 'runtime'
     },
     splitChunks: {
-        // chunks: 'async', // 'all' : not working
+        chunks: 'async', // 'all' : not working
         name: true,
         minChunks: 2,
-        maxAsyncRequests: 8,
+        maxAsyncRequests: 12,
         maxInitialRequests: 5
     }
 };

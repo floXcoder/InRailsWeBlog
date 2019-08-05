@@ -112,7 +112,11 @@ export default function highlight(highlightOnShow = true) {
 
             componentDidMount() {
                 HighlightCode.configure({
-                    tabReplace: '  ' // 4 spaces
+                    tabReplace: '  ', // 4 spaces,
+                    useBR: true, // use <br/> instead of \n
+                    languages: [
+                        'apache', 'cpp', 'xml', 'bash', 'cmake', 'coffeescript', 'css', 'markdown', 'diff', 'django', 'dockerfile', 'ruby', 'erb', 'excel', 'haml', 'haskell', 'http', 'java', 'javascript', 'json', 'less', 'makefile', 'perl', 'nginx', 'objectivec', 'php', 'python', 'scss', 'shell', 'sql', 'swift', 'yaml', 'typescript'
+                    ]
                 });
 
                 if (highlightOnShow) {
@@ -131,7 +135,7 @@ export default function highlight(highlightOnShow = true) {
             }
 
             _handleShow = (elementId, force = false) => {
-                if (!this._highlightedElements.includes(elementId) || force) {
+                if (!this._highlightedElements.includes(elementId) || force) {
                     this._highlightedElements.push(elementId);
                     setTimeout(() => this._highlightCode(), 5);
                 }

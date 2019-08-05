@@ -60,12 +60,20 @@ export const mutationReducer = (state, action, payloadReducer, omitItems = []) =
                 ...Utils.omit(actionContent, omitItems)
             });
         case 'CHANGE_SUCCESS':
-            return state.merge({
-                isProcessing,
-                ...Utils.omit(actionContent, omitItems),
-                ...payloadReducer(actionContent),
-                errors: emptyErrors
-            });
+            try {
+                return state.merge({
+                    isProcessing,
+                    ...Utils.omit(actionContent, omitItems),
+                    ...payloadReducer(actionContent),
+                    errors: new Map()
+                });
+            } catch (error) {
+                log.error('Cannot update current state with :', {
+                    ...Utils.omit(actionContent, omitItems),
+                    ...payloadReducer(actionContent)
+                }, error);
+                return state;
+            }
         case 'CHANGE_ERROR':
             return state.merge({
                 isProcessing,

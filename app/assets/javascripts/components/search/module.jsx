@@ -32,12 +32,14 @@ import {
     getUserRecentTags,
     getUserRecentArticles,
     getAutocompleteSelectedTags,
+    getAutocompleteTopics,
     getAutocompleteTags,
     getAutocompleteArticles
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
+import SearchTopicModule from './module/topic';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
@@ -52,6 +54,7 @@ export default @withRouter
     query: state.autocompleteState.query,
     highlightedTag: state.autocompleteState.highlightedTag,
     highlightedArticle: state.autocompleteState.highlightedArticle,
+    topics: getAutocompleteTopics(state),
     tags: getAutocompleteTags(state),
     selectedTags: getAutocompleteSelectedTags(state),
     articles: getAutocompleteArticles(state)
@@ -68,6 +71,7 @@ class SearchModule extends React.Component {
         currentTopicId: PropTypes.number,
         recentTags: PropTypes.array,
         recentArticles: PropTypes.array,
+        topics: PropTypes.array,
         tags: PropTypes.array,
         selectedTags: PropTypes.array,
         articles: PropTypes.array,
@@ -166,6 +170,9 @@ class SearchModule extends React.Component {
                                              selectedTags={this.props.selectedTags}
                                              highlightedTagId={this.props.highlightedTag && this.props.highlightedTag.id}
                                              onTagClick={this._handleTagSelection}/>
+
+                            <SearchTopicModule classes={this.props.classes}
+                                               topics={this.props.topics}/>
                         </Grid>
 
                         <Grid item={true}

@@ -34,6 +34,7 @@ import styles from '../../../jss/article/sort';
 export default @withRouter
 @connect((state) => ({
     currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     isFetching: state.articleState.isFetching,
@@ -51,6 +52,7 @@ class ArticleSort extends React.Component {
         history: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
+        currentUserSlug: PropTypes.string,
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         isFetching: PropTypes.bool,
@@ -79,7 +81,7 @@ class ArticleSort extends React.Component {
 
     _handleUpdatePriority = (articleIds) => {
         this.props.updateArticlePriority(articleIds)
-            .then(() => this.props.history.push(`/users/${this.props.currentUserTopicSlug}`));
+            .then(() => this.props.history.push(`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}`));
     };
 
     render() {

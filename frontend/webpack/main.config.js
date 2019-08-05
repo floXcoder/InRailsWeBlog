@@ -54,7 +54,7 @@ webPackConfig.module = {
     rules: [
         {
             test: /\.(js|jsx)$/,
-            exclude: config.rules.javascript.exclude,
+            include: path.resolve(config.rules.javascript.include),
             loader: 'happypack/loader',
             options: config.rules.javascript.options
         },

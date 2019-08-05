@@ -199,6 +199,14 @@
 
 .note-editable {
   min-height: 250px;
+
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child {
+    margin-top: 0.25rem;
+    padding-top: 0;
+  }
 }
 
 .note-popover {

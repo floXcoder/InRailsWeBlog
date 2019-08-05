@@ -34,8 +34,10 @@ export default class SearchArticleIndex extends React.PureComponent {
 
         let currentTopicArticles, otherTopicsArticles;
 
-        currentTopicArticles = this.props.articles.filter((article) => article.topicId === this.props.currentUserTopicId);
-        otherTopicsArticles = this.props.articles.filter((article) => article.topicId !== this.props.currentUserTopicId);
+        if(this.props.currentUserTopicId) {
+            currentTopicArticles = this.props.articles.filter((article) => article.topicId === this.props.currentUserTopicId);
+            otherTopicsArticles = this.props.articles.filter((article) => article.topicId !== this.props.currentUserTopicId);
+        }
 
         return (
             <div className={this.props.classes.category}>
@@ -52,7 +54,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                             ?
                             <Suspense fallback={<div/>}>
                                 {
-                                    currentTopicArticles.length > 0 &&
+                                    currentTopicArticles && currentTopicArticles.length > 0 &&
                                     <>
                                         <Typography variant="subtitle2"
                                                     gutterBottom={true}>
@@ -81,7 +83,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                             :
                             <>
                                 {
-                                    currentTopicArticles.length > 0 &&
+                                    currentTopicArticles && currentTopicArticles.length > 0 &&
                                     <>
                                         <Typography variant="subtitle2"
                                                     gutterBottom={true}>
