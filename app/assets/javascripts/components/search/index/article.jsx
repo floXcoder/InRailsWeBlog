@@ -34,7 +34,7 @@ export default class SearchArticleIndex extends React.PureComponent {
 
         let currentTopicArticles, otherTopicsArticles;
 
-        if(this.props.currentUserTopicId) {
+        if (this.props.currentUserTopicId) {
             currentTopicArticles = this.props.articles.filter((article) => article.topicId === this.props.currentUserTopicId);
             otherTopicsArticles = this.props.articles.filter((article) => article.topicId !== this.props.currentUserTopicId);
         }
@@ -85,10 +85,10 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 {
                                     currentTopicArticles && currentTopicArticles.length > 0 &&
                                     <>
-                                        <Typography variant="subtitle2"
-                                                    gutterBottom={true}>
-                                            {I18n.t('js.search.index.topic.current')}
-                                        </Typography>
+                                        {/*<Typography variant="subtitle2"*/}
+                                        {/*            gutterBottom={true}>*/}
+                                        {/*    {I18n.t('js.search.index.topic.current')}*/}
+                                        {/*</Typography>*/}
 
                                         {
                                             currentTopicArticles.map((article) => (
@@ -103,7 +103,8 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 {
                                     (otherTopicsArticles && otherTopicsArticles.length > 0) &&
                                     <>
-                                        <Typography variant="subtitle2"
+                                        <Typography className={this.props.classes.articleOther}
+                                                    variant="subtitle2"
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.others')}
                                         </Typography>

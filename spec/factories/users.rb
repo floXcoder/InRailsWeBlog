@@ -66,7 +66,7 @@ FactoryBot.define do
     state                 { 'Gironde' }
     country               { 'France' }
     additional_info       { 'Personal information' }
-    birth_date            { Faker::Date.backward(365) }
+    birth_date            { Faker::Date.backward(days: 365) }
     locale                { 'fr' }
     mobile_number         { '0300000000' }
     phone_number          { '0600000000' }

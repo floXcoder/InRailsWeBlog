@@ -135,6 +135,11 @@ const styles = (theme) => ({
     },
     articleSubtitle: {
         fontSize: '.9rem'
+    },
+    articleOther: {
+        margin: '2rem 2rem 0',
+        fontSize: '1rem',
+        borderBottom: `1px solid ${theme.palette.grey[300]}`,
     }
 });
 

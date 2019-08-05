@@ -28,6 +28,7 @@ const styles = (theme) => ({
         lineHeight: h1LineHeight,
         letterSpacing: h1Spacing,
         [theme.breakpoints.down('md')]: {
+            marginTop: '2.5rem',
             fontSize: h1SizeMobile
         }
     },
