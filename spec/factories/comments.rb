@@ -31,8 +31,8 @@ FactoryBot.define do
     # commentable
 
     sequence(:title)  { |n| "Comment title #{n}" }
-    subject           { Faker::Hipster.sentence(3, true) }
-    body              { Faker::Hipster.paragraph(2, true, 3) }
+    subject           { Faker::Hipster.sentence(word_count: 3, supplemental: true) }
+    body              { Faker::Hipster.paragraph(sentence_count: 2, supplemental: true, random_sentences_to_add: 3) }
     rating            { Random.rand(1..5) }
     positive_reviews  { Random.rand(0..10) }
     negative_reviews  { Random.rand(0..10) }

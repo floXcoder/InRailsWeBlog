@@ -35,7 +35,7 @@ FactoryBot.define do
     sequence(:name)         { |n| "Tag #{n}" }
     sequence(:description)  { |n| "Tag description #{n}" } # description_translations
     languages               { ['fr'] }
-    synonyms                { Faker::Lorem.words(2) }
+    synonyms                { Faker::Lorem.words(number: 2) }
     priority                { 0 }
     visibility              { 'everyone' }
   end
