@@ -93,7 +93,7 @@ gem 'http',                     '4.1.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.0.2',   require: false
-gem 'faker',                    '2.3.0',   require: false
+gem 'faker',                    '2.4.0',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.1'
@@ -107,10 +107,10 @@ gem 'health_check',             '3.0.0'
 # SEO
 gem 'webdrivers',               '4.1.2'
 
-group :development do
-  # server
-  gem 'puma',                   '4.1.1'
+# Server
+gem 'puma',                     '4.1.1'
 
+group :development do
   # Debugging tool
   gem 'pry-rails',              '0.3.9'
   gem 'awesome_print',          '1.8.0'
