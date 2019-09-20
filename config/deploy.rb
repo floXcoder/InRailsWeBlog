@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lock '3.11.0'
+lock '3.11.1'
 
 set :application, 'InRailsWeBlog'
 set :repo_url, ENV['GIT_REPO_ADDRESS']
@@ -36,19 +36,17 @@ set :pty, false
 set :log_level, :debug
 
 # files we want symlinking to specific entries in shared.
-set :linked_files, %w[config/application.yml config/sidekiq.yml]
+set :linked_files, %w[config/application.yml config/sidekiq.yml config/puma.rb]
 
 # dirs we want symlinking to shared
 set :linked_dirs, %w[db/dump log public/prerender_cache public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle]
 
-# what specs should be run before deployment is allowed to
-# continue, see lib/capistrano/tasks/run_tests.cap
-# set :tests, []
-
 # Compile assets
 set :assets_roles, [:app]
 
-# Parallelize the installation of gems
+# Bundle properties: Parallelize the installation of gems
+set :bundle_binstubs, -> { shared_path.join('vendor/bundle/bin') }
+set :bundle_path, -> { shared_path.join('vendor/bundle') }
 set :bundle_jobs, 4
 
 # Passenger config
@@ -115,10 +113,27 @@ namespace :assets do
 end
 
 namespace :deploy do
-  desc 'Restart application'
-  task :restart do
+  desc 'Add version application file'
+  task :update_revision_file do
+    on roles(:production), in: :sequence, wait: 5 do
+      within release_path do
+        git_revision = `git describe --abbrev=0 --tags`.chomp
+        execute :echo, "REVISION='\"#{git_revision}\"' > config/initializers/revision.rb"
+      end
+    end
+  end
+
+  desc 'Restart web application'
+  task :restart_web do
     on roles(:web), in: :sequence, wait: 5 do
-      execute :sudo, 'service nginx reload'
+      execute :sudo, 'service inrailsweblog-puma restart'
+    end
+  end
+
+  desc 'Restart sidekiq application'
+  task :restart_sidekiq do
+    on roles(:web), in: :sequence, wait: 5 do
+      execute :sudo, 'service inrailsweblog-sidekiq restart'
     end
   end
 
@@ -128,17 +143,6 @@ namespace :deploy do
       within release_path do
         with rails_env: fetch(:rails_env) do
           execute :rake, 'searchkick:reindex:all'
-        end
-      end
-    end
-  end
-
-  desc 'Flush Redis keys'
-  task :flush_redis do
-    on roles(:app), in: :sequence, wait: 5 do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, 'InRailsWeBlog:flush_redis'
         end
       end
     end
@@ -155,18 +159,9 @@ namespace :deploy do
     end
   end
 
-  desc 'Add version application file'
-  task :update_revision_file do
-    on roles(:production), in: :sequence, wait: 5 do
-      within release_path do
-        git_revision = `git describe --abbrev=0 --tags`.chomp
-        execute :echo, "REVISION='\"#{git_revision}\"' > config/initializers/revision.rb"
-      end
-    end
-  end
-
-  after :publishing, :restart
-  after :publishing, :flush_redis
+  after :finishing, :update_revision_file
+  after :finishing, :restart_web
+  after :finishing, :restart_sidekiq
   after :publishing, :elastic_search
   after :publishing, :update_revision_file
   # after :publishing, :generate_sitemap

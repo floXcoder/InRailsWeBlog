@@ -58,7 +58,7 @@ Rails.application.routes.draw do
       }
 
       # Users
-      resources :users, except: [:new, :create, :destroy] do
+      resources :users, except: [:new, :create, :edit, :destroy] do
         collection do
           get :validation,         to: 'users#validation'
 

@@ -54,8 +54,8 @@ Rails.application.configure do
   config.action_view.raise_on_missing_translations = true
 
   # Logs
-  # unless ENV['RAILS_ENABLE_TEST_LOG']
-  #   config.logger = Logger.new(nil)
-  #   config.log_level = :error
-  # end
+  unless ENV['RAILS_ENABLE_TEST_LOG']
+    config.logger = Logger.new(nil)
+    config.log_level = :error
+  end
 end

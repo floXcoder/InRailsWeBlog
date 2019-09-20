@@ -27,3 +27,4 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   - if Rails.env.production?
     link rel="dns-prefetch" href="https://#{ENV['WEBSITE_ASSET']}"
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Regular.woff2')}" as="font" crossorigin="anonymous"
+    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Bold.woff2')}" as="font" crossorigin="anonymous"

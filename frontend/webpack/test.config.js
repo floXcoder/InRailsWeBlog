@@ -1,8 +1,6 @@
 const _ = require('lodash');
 const webpack = require('webpack');
 
-const HappyPack = require('happypack');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -38,7 +36,6 @@ webPackConfig.plugins.push(
             'ASSET_PATH': JSON.stringify(config.test.assetPath)
         }
     }),
-    new HappyPack(config.happyPack),
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),

@@ -8,7 +8,7 @@ import {
 const headerHeight = 64;
 const drawerWidth = 280;
 const mainWidth = 1200;
-const articleWidth = 740;
+const articleWidth = 780;
 const articleAppendixWidth = 924;
 const gridWidth = 1180;
 const storiesWidth = 920;

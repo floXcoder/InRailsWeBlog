@@ -43,7 +43,7 @@ class ArticleSortMenu extends React.Component {
         });
     };
 
-    _handleMenuItemClick = (event, index) => {
+    _handleMenuItemClick = (index, event) => {
         this.setState({
             selectedIndex: index,
             anchorEl: null
@@ -57,12 +57,12 @@ class ArticleSortMenu extends React.Component {
     };
 
     render() {
-        let options = sortOptions.map((option) => (
-            <Link key={option}
+        let options = sortOptions.map((orderOption) => (
+            <Link key={orderOption}
                   className={this.props.classes.buttonLink}
-                  to={{search: `order=${option}`}}
-                  onClick={this.props.onOrderChange.bind(this, option)}>
-                {I18n.t(`js.article.sort.order.${option}`)}
+                  to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/order/${orderOption}`}
+                  onClick={this.props.onOrderChange.bind(this, orderOption)}>
+                {I18n.t(`js.article.sort.order.${orderOption}`)}
             </Link>
         ));
 
@@ -81,6 +81,7 @@ class ArticleSortMenu extends React.Component {
                         variant="text"
                         onClick={this._handleClickListItem}>
                     {I18n.t('js.article.sort.title')}
+                    <span className={this.props.classes.buttonInfo}>({I18n.t(`js.article.sort.order.${this.props.currentOrder || 'priority'}`)})</span>
                 </Button>
 
                 <Menu anchorEl={this.state.anchorEl}
@@ -90,7 +91,7 @@ class ArticleSortMenu extends React.Component {
                         options.map((option, index) => (
                             <MenuItem key={index}
                                       selected={index === this.state.selectedIndex}
-                                      onClick={event => this._handleMenuItemClick(event, index)}>
+                                      onClick={this._handleMenuItemClick.bind(this, index)}>
                                 {option}
                             </MenuItem>
                         ))

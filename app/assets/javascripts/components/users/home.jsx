@@ -125,9 +125,6 @@ class UserHome extends React.Component {
                                           lg={4}>
                                         <Link to={{
                                             pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`,
-                                            state: {
-                                                reloadTags: true
-                                            }
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
                                             <Paper className={classNames(this.props.classes.theme, {
@@ -218,10 +215,7 @@ class UserHome extends React.Component {
                                           sm={6}
                                           lg={4}>
                                         <Link to={{
-                                            pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`,
-                                            state: {
-                                                reloadTags: true
-                                            }
+                                            pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
                                             <Paper className={classNames(this.props.classes.theme, {
@@ -306,9 +300,6 @@ class UserHome extends React.Component {
                                                   lg={4}>
                                                 <Link to={{
                                                     pathname: `/users/${this.props.user.slug}/shared-topics/${topic.slug}`,
-                                                    state: {
-                                                        reloadTags: true
-                                                    }
                                                 }}
                                                       onClick={this._handleTopicClick.bind(this, topic)}>
                                                     <Paper className={this.props.classes.theme}

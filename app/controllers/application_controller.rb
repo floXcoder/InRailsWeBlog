@@ -266,7 +266,7 @@ class ApplicationController < ActionController::Base
   end
 
   def honeypot_protection
-    if (params[:ensure] && params[:ensure][:validity].present?) || params[:ensure_validity].present?
+    if params.dig(:ensure, :validity).present? || params[:ensure_validity].present?
       respond_to do |format|
         format.json { render json: { success: true }.to_json, status: :ok }
         format.js { js_redirect_to(root_path) }
@@ -325,6 +325,11 @@ class ApplicationController < ActionController::Base
       format.html { render 'errors/show', locals: { status: 500 }, status: :internal_server_error }
       format.all { render body: nil, status: :internal_server_error }
     end
+  end
+
+  def append_info_to_payload(payload)
+    super
+    payload[:referer] = request.referer
   end
 
   private

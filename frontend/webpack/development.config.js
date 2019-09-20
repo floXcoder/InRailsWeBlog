@@ -114,11 +114,27 @@ webPackConfig.optimization = {
         name: 'runtime'
     },
     splitChunks: {
-        chunks: 'async', // 'all' : not working
-        name: true,
+        chunks: 'async',
+        minSize: 30000,
+        maxSize: 0,
         minChunks: 2,
-        maxAsyncRequests: 12,
-        maxInitialRequests: 5
+        maxAsyncRequests: 7,
+        maxInitialRequests: 4,
+        name: true,
+        cacheGroups: {
+            default: false,
+            commons: {
+                name: 'commons',
+                chunks: 'initial',
+                minChunks: 2,
+                reuseExistingChunk: true,
+                test: function (module) {
+                    if (module.resource) {
+                        return !module.resource.includes('/admin/');
+                    }
+                }
+            }
+        }
     }
 };
 

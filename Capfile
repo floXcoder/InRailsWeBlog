@@ -10,9 +10,7 @@ require 'capistrano/rvm'
 require 'capistrano/bundler'
 require 'capistrano/rails/migrations'
 require 'capistrano-db-tasks'
-require 'capistrano/sidekiq'
 require 'capistrano/rails/console'
-require 'capistrano/passenger'
 require 'whenever/capistrano'
 
 # SCM

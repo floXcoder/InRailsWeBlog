@@ -106,7 +106,7 @@ fr:
           default: "Liste des articles"
           tagged: "Liste des articles pour %{tag}"
           tagged_topic: "Liste des articles pour %{tag} dans %{topic}"
-          topic: "Articles pour le thème %{topic}"
+          topic: "Articles pour %{topic}"
       show:
         title: "%{title} - %{topic}"
       edit:

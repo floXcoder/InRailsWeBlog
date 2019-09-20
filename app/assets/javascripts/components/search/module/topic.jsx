@@ -24,7 +24,7 @@ export default class SearchTopicModule extends React.Component {
                   color="primary"
                   variant="outlined"
                   component={Link}
-                  to={`/tagged/${topic.slug}`}/>
+                  to={`/users/${topic.user.slug}/topics/${topic.slug}`}/>
         );
     };
 

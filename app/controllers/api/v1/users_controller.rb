@@ -217,21 +217,6 @@ module Api::V1
       end
     end
 
-    def edit
-      user = User.friendly.find(params[:id])
-      authorize user
-
-      user.build_picture unless user.picture
-
-      respond_to do |format|
-        format.html do
-          set_meta_tags title:     titleize(I18n.t('views.user.edit.title')),
-                        canonical: user_canonical_url("#{user.id}/edit")
-          render :edit, locals: { user: user }
-        end
-      end
-    end
-
     def update
       user = User.friendly.find(params[:id])
       authorize user
@@ -241,9 +226,6 @@ module Api::V1
       if stored_user.success?
         respond_to do |format|
           flash[:success] = stored_user.message
-          format.html do
-            redirect_to root_user_path(user)
-          end
           format.json do
             if params[:complete] && current_user
               authorize current_user, :admin?
@@ -259,9 +241,6 @@ module Api::V1
       else
         respond_to do |format|
           flash.now[:error] = stored_user.message
-          format.html do
-            render :edit, locals: { user: user }
-          end
           format.json do
             render json:   { errors: stored_user.errors },
                    status: :unprocessable_entity

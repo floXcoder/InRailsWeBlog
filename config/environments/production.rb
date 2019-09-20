@@ -47,10 +47,6 @@ Rails.application.configure do
   # when problems arise.
   config.log_level = :info
 
-  # Prepend all log lines with the following tags.
-  # config.log_tags = [ :subdomain, :uuid ]
-  config.log_tags = [:request_id]
-
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -67,15 +63,14 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
+  # Prepend all log lines with the following tags.
+  config.log_tags = [:host, :remote_ip, :uuid, lambda do |request|
+    bot = CRAWLER_USER_AGENTS.find { |crawler_user_agent| request.user_agent&.downcase&.include?(crawler_user_agent.downcase) }
+    bot.present? ? "bot:#{bot}" : nil
+  end]
+
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter          = ::Logger::Formatter.new
-  config.lograge.enabled        = true
-  config.lograge.custom_options = lambda do |event|
-    options          = event.payload.slice(:request_id, :user_id, :admin_id)
-    options[:params] = event.payload[:params].except('controller', 'action')
-    options[:search] = event.payload[:searchkick_runtime] if event.payload[:searchkick_runtime].to_f > 0
-    options
-  end
+  config.log_formatter = ::Logger::Formatter.new
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
@@ -83,11 +78,18 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  config.lograge.enabled        = true
+  config.lograge.custom_options = lambda do |event|
+    options           = event.payload.slice(:host, :subdomain, :request_id, :user_id, :admin_id, :referer)
+    options[:params]  = event.payload[:params].except('controller', 'action') if event.payload[:params]
+    options[:referer] = event.payload[:referer] if event.payload[:referer].present?
+    options[:view]    = event.payload[:view_runtime] if event.payload[:view_runtime].to_f > 0
+    options[:search]  = event.payload[:searchkick_runtime] if event.payload[:searchkick_runtime].to_f > 0
+    options
+  end
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  # Prevent attacks
-  config.middleware.use Rack::Attack
 
   # Mails
   config.action_mailer.default_url_options   = { host: ENV['WEBSITE_ADDRESS'] }

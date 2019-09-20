@@ -13,7 +13,7 @@ gem 'rails',                    '5.2.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.1.4'
-gem 'active_record_extended',   '1.1.0'
+gem 'active_record_extended',   '1.3.0'
 
 # HTTP Response
 gem 'responders',               '3.0.0'
@@ -22,7 +22,7 @@ gem 'secure_headers',           '6.1.1'
 
 # JSON
 gem 'active_model_serializers', '0.10.10'
-gem 'oj',                       '3.8.1'
+gem 'oj',                       '3.9.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -43,35 +43,32 @@ gem 'public_activity',          '1.6.3'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.5.0'
-gem 'sanitize',                 '5.0.0'
+gem 'sanitize',                 '5.1.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '5.2.7'
+gem 'sidekiq',                  '6.0.0'
 gem 'sidekiq-statistic',        github: 'davydovanton/sidekiq-statistic'
 gem 'sidekiq-cron',             '1.1.0'
-gem 'sidekiq-status',           '1.1.4'
 gem 'attentive_sidekiq',        '0.3.3'
-gem 'sidekiq-benchmark',        '0.6.0'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.6.0'
-gem 'redis-session-store',      '0.11.0'
+gem 'redis-session-store',      '0.11.1'
 gem 'readthis',                 '2.2.0'
 gem 'hiredis',                  '0.6.3'
 
 # Global and model settings
-gem 'storext',                  '3.0.0'
+gem 'storext',                  '3.1.0'
 
 # Authentification
-gem 'devise',                   '4.6.2'
+gem 'devise',                   '4.7.1'
 
 # Authorization mechanism
-gem 'pundit',                   '2.0.1'
+gem 'pundit',                   '2.1.0'
 
 # Upload pictures
-gem 'carrierwave',              '1.3.1'
-gem 'carrierwave-imageoptimizer', '1.4.0'
+gem 'carrierwave',              '2.0.1'
 gem 'mini_magick',              '4.9.5'
 
 # Search in database
@@ -79,42 +76,40 @@ gem 'searchkick',               '4.1.0'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
-gem 'thumbs_up',                '0.6.9'
+gem 'thumbs_up',                '0.6.10'
 
 # Comments
 gem 'acts_as_commentable_with_threading', '2.0.1'
-
-# Prevent DDOS attacks
-gem 'rack-attack',              '6.1.0'
 
 # Manage errors
 gem 'browser',                  '2.6.1'
 
 # SEO
 gem 'friendly_id',              '5.2.5'
-gem 'meta-tags',                '2.11.1'
+gem 'meta-tags',                '2.12.0'
 
 # HTTP request
 gem 'http',                     '4.1.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.0.2',   require: false
-gem 'faker',                    '2.1.0',   require: false
+gem 'faker',                    '2.3.0',   require: false
 
 # Deployment
-gem 'capistrano',               '3.11.0'
+gem 'capistrano',               '3.11.1'
 gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.6.0',   require: false
 gem 'capistrano-rails-console', '2.3.0',   require: false
 gem 'capistrano-db-tasks',      '0.6',     require: false
-gem 'capistrano-sidekiq',       '1.0.2',   require: false
-gem 'capistrano-passenger',     '0.2.0',   require: false
 gem 'health_check',             '3.0.0'
+
+# SEO
+gem 'webdrivers',               '4.1.2'
 
 group :development do
   # server
-  gem 'puma',                   '4.0.1'
+  gem 'puma',                   '4.1.1'
 
   # Debugging tool
   gem 'pry-rails',              '0.3.9'
@@ -125,10 +120,10 @@ group :development do
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
-  gem 'bullet',                 '6.0.1'
+  gem 'bullet',                 '6.0.2'
 
   # Guard and its minions
-  gem 'guard',                  '2.15.0'
+  gem 'guard',                  '2.15.1'
   gem 'guard-rails',            '0.8.1'
   gem 'guard-annotate',         '2.3'
   gem 'guard-bundler',          '2.2.1'
@@ -154,17 +149,16 @@ group :test do
   gem 'rspec-rails',                '3.8.2'
   gem 'shoulda-matchers',           '4.1.2',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.17.0', require: false
+  gem 'simplecov',                  '0.17.1', require: false
   gem 'fuubar',                     '2.4.1'
   gem 'database_cleaner',           '1.7.0'
   gem 'db-query-matchers',          '0.9.0'
 
   # Browser tests
-  gem 'capybara',                   '3.28.0'
+  gem 'capybara',                   '3.29.0'
   gem 'capybara-email',             '3.0.1'
   gem 'capybara-screenshot',        '1.0.23'
   gem 'selenium-webdriver',         '3.141.0'
-  gem 'webdrivers',                 '4.1.2'
   gem 'html_validation',            '1.1.5'
   gem 'launchy',                    '2.4.3'
 
@@ -176,18 +170,18 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.4.4',   require: false
+  gem 'bootsnap',                   '1.4.5',   require: false
 
   # Check errors
   gem 'rubocop',                    '0.74.0',  require: false
-  gem 'rubocop-rails',              '2.2.1',   require: false
+  gem 'rubocop-rails',              '2.3.2',   require: false
   gem 'rubocop-rspec',              '1.35.0',  require: false
   gem 'rubocop-performance',        '1.4.1',   require: false
 end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '2.11.0'
+  gem 'sentry-raven',     '2.11.2'
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'
