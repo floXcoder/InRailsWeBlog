@@ -51,6 +51,12 @@ const styles = (theme) => ({
     tagHighlighted: {
         backgroundColor: theme.palette.secondary.main
     },
+    topic: {
+        margin: theme.spacing(0.5, 1),
+        fontWeight: 400,
+        fontSize: '.9rem',
+        cursor: 'pointer'
+    },
     articleMainResult: {
         fontSize: '1.1rem',
         color: theme.palette.text.primary,

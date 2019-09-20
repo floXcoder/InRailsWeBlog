@@ -182,7 +182,7 @@ class ArticleShow extends React.Component {
 
         this.props.deleteArticle(this.props.article.id)
             .then(() => this.props.history.push({
-                    pathname: `/`,
+                    pathname: `/users/${this.props.currentUser.slug}/topics/${this.props.currentTopic.slug}`,
                     state: {reloadTags: true}
                 })
             );

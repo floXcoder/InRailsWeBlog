@@ -76,7 +76,9 @@ webPackConfig.module = {
                 },
                 {
                     loader: 'sass-loader', // compiles Sass to CSS
-                    options: config.rules.stylesheet.options
+                    options: {
+                        sassOptions: config.rules.stylesheet.options
+                    }
                 }
             ]
         },

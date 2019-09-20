@@ -5,14 +5,13 @@ import IconButton from '@material-ui/core/IconButton';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 
 import ArticleSortMenu from '../sort/dropdown';
-import ArticleFilterMenu from '../filter/dropdown';
+// import ArticleFilterMenu from '../filter/dropdown';
 
 export default class ArticleOrderDisplay extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         onMinimized: PropTypes.func.isRequired,
         onOrderChange: PropTypes.func.isRequired,
-        currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
         articleOrderMode: PropTypes.string
@@ -31,8 +30,8 @@ export default class ArticleOrderDisplay extends React.Component {
                                  onOrderChange={this.props.onOrderChange}/>
 
                 {
-                    this.props.currentUserId &&
-                    <ArticleFilterMenu/>
+                    // this.props.currentUserId &&
+                    // <ArticleFilterMenu/>
                 }
 
                 <IconButton aria-label="Minimize all"

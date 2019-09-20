@@ -48,7 +48,7 @@ module.exports = {
                         quality: 85
                     },
                     pngquant: {
-                        quality: '65-90',
+                        quality: [0.65, 0.90],
                         speed: 4
                     }
                 }
@@ -65,7 +65,8 @@ module.exports = {
             react: 'node_modules/react',
             'react-dom': 'node_modules/react-dom',
             jquery: 'node_modules/jquery/dist/jquery',
-            lodash: 'node_modules/lodash'
+            lodash: 'node_modules/lodash',
+            immutable: 'node_modules/immutable/dist/immutable'
         },
         plugins: {
             $: 'jquery',
@@ -115,6 +116,7 @@ module.exports = {
         production: {
             assetPath: 'https://assets.inrailsweblog.com/assets/',
             filename: '[name].[hash]',
+            filenameData: '[name].[hash]',
             chunkFilename: '[name].[hash].[id]',
             manifestFilename: 'manifest.json'
         }

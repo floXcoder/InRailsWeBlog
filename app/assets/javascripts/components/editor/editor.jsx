@@ -165,7 +165,7 @@ class Editor extends React.Component {
                     ['table', ['table']],
                     ['insert', ['link', 'picture', 'video']],
                     ['undo', ['undo', 'redo']],
-                    // ['clear', ['clear']],
+                    ['clear', ['clear']],
                     // ['view', ['fullscreen']],
                     // ['help', ['codeview', 'help']]
                 ];

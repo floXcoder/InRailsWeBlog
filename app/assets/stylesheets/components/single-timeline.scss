@@ -23,7 +23,7 @@
     position: relative;
     left: -54px;
     padding: 3px 0;
-    width: auto;
+    width: 120%;
     background: $primary-color;
     text-align: center;
     border: 4px solid #fff;
@@ -33,7 +33,7 @@
   .timeline-item {
     position: relative;
     min-height: 36px;
-    padding: 5px 0;
+    padding: 0 0 8px;
     list-style: none;
 
     .timeline-icon {

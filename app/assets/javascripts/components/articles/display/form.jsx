@@ -22,6 +22,12 @@ import {
 } from 'react-sticky';
 
 import {
+    headerHeight,
+    appBarZIndex,
+    articleWidth
+} from '../../../../jss/theme';
+
+import {
     fetchTags
 } from '../../../actions';
 
@@ -163,9 +169,9 @@ class ArticleFormDisplay extends React.Component {
                             <div style={{
                                 position: style.position,
                                 transform: style.transform,
-                                top: style.top || 64,
-                                zIndex: 1100,
-                                maxWidth: 740,
+                                top: style.top || headerHeight,
+                                zIndex: appBarZIndex,
+                                maxWidth: articleWidth,
                                 width: '100%'
                             }}>
                                 <ArticleFormStepper tabIndex={this.state.tabIndex}

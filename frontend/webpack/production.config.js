@@ -67,19 +67,27 @@ webPackConfig.optimization = {
         name: 'runtime'
     },
     splitChunks: {
-        name: true,
+        chunks: 'async',
+        minSize: 30000,
+        maxSize: 0,
         minChunks: 2,
-        maxAsyncRequests: 8,
-        maxInitialRequests: 5
-        // JS not working if cacheGroups
-        // cacheGroups: {
-        //     styles: {
-        //         name: 'styles',
-        //         test: /\.css$/,
-        //         chunks: 'all',
-        //         enforce: true
-        //     }
-        // }
+        maxAsyncRequests: 7,
+        maxInitialRequests: 4,
+        name: true,
+        cacheGroups: {
+            default: false,
+            commons: {
+                name: 'commons',
+                chunks: 'initial',
+                minChunks: 2,
+                reuseExistingChunk: true,
+                test: function (module) {
+                    if (module.resource) {
+                        return !module.resource.includes('/admin/');
+                    }
+                }
+            }
+        }
     },
     minimizer: [
         new TerserPlugin({
@@ -130,12 +138,12 @@ webPackConfig.plugins.push(
     }),
     new CopyWebpackPlugin([{
         from: config.translations,
-        to: 'translations/' + config.production.filename + '.[ext]',
+        to: 'translations/' + config.production.filenameData + '.[ext]',
         toType: 'template'
     }]),
     new CopyWebpackPlugin(_.map(config.images, (image) => ({
         from: image.from,
-        to: image.to + '/' + config.production.filename + '.[ext]',
+        to: image.to + '/' + config.production.filenameData + '.[ext]',
         toType: 'template'
     }))),
     new webpack.HashedModuleIdsPlugin(),

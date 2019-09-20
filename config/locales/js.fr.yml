@@ -516,7 +516,7 @@ fr:
         button: "Partager par un lien"
         cancel: "Annuler"
       sort:
-        title: "Tirer par"
+        title: "Trier par"
         order:
           priority_desc: "Priorité"
           tag_asc: "Label"

@@ -261,14 +261,6 @@ module Api::V1
       else
         respond_to do |format|
           flash.now[:error] = t('views.article.flash.not_found')
-          # format.html do
-          #   # set_meta_tags title:       titleize(I18n.t('views.article.edit.title')),
-          #   #               description: I18n.t('views.article.edit.description'),
-          #   #               canonical:   article_canonical_url("#{article.id}/edit")
-          #   render json:         {},
-          #          formats:      :json,
-          #          content_type: 'application/json'
-          # end
           format.json do
             render json:   {},
                    status: :not_found

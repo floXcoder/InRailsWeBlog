@@ -1797,7 +1797,10 @@
     function wrap(node, wrapperName) {
         var parent = node.parentNode;
         var wrapper = $$1('<' + wrapperName + '>')[0];
-        parent.insertBefore(wrapper, node);
+        // ### : Check parent presence
+        if(parent) {
+            parent.insertBefore(wrapper, node);
+        }
         wrapper.appendChild(node);
         return wrapper;
     }

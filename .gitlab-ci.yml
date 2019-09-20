@@ -5,7 +5,7 @@ stages:
   - check
 
 .default-cache: &default-cache
-  key: "ruby-2.6.3-debian-stretch-with-yarn"
+  key: "ruby-2.6.3-inrailsweblog"
   paths:
     - .bundle
     - vendor/bundle
@@ -57,7 +57,7 @@ audit:
   <<: *pull-cache
   script:
     - gem install bundler-audit
-    - bundle audit check --update
+    - bundle audit check --update --ignore CVE-2015-9284
   allow_failure: true
   only:
     - develop
@@ -133,7 +133,7 @@ check:deploy:
   stage: check
   cache: {}
   script:
-    - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
-    - sh -c '[ $(curl -o -I -L -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
+    - sh -c '[ $(curl -o -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
+    - sh -c '[ $(curl -o -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
   only:
     - master

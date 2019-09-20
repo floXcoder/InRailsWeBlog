@@ -1,6 +1,0 @@
-- stylesheet 'users/profile'
-
-- javascript "users/profile-#{I18n.locale}"
-- javascript_defer 'commons', 'users/profile'
-
-= content_tag :div, '', id: 'user-profile-component', class: 'react-root', data: { user: User.as_json(user, current_user: current_user) }

@@ -105,8 +105,6 @@ RSpec.describe Picture, type: :model, basic: true do
   end
 
   context 'Properties' do
-    it { is_expected.to have_uploader(:image) }
-
     it { is_expected.to have_strip_attributes([:description, :copyright]) }
 
     it { is_expected.to act_as_paranoid(Picture) }

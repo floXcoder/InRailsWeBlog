@@ -33,14 +33,18 @@ class AssetManifest
   def self.image_path(url)
     return unless url
 
-    if !url.start_with?('/uploads/')
+    if url.start_with?('/uploads/')
+      if Rails.env.development?
+        url
+      else
+        AssetManifest.root_url + url
+      end
+    else
       if AssetManifest.manifest
         AssetManifest.manifest[url] || url
       else
         AssetManifest.root_url + 'assets/' + url
       end
-    else
-      url
     end
   end
 

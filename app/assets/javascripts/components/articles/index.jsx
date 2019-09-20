@@ -99,7 +99,6 @@ class ArticleIndex extends React.Component {
     constructor(props) {
         super(props);
 
-        this._parseQuery = parse(props.routeHash);
         this._request = null;
         this._isFetchingNext = false;
         this._articles = React.createRef();
@@ -114,15 +113,12 @@ class ArticleIndex extends React.Component {
     componentDidUpdate(prevProps) {
         // Manage articles order or sort display
         if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.routeHash !== prevProps.routeHash) {
-            const nextParseQuery = parse(this.props.routeHash);
 
-            if (this._parseQuery.order !== nextParseQuery.order) {
-                if (nextParseQuery.order) {
-                    this.props.updateArticleOrderDisplay(nextParseQuery.order);
+            if (prevProps.routeParams.order !== this.props.routeParams.order) {
+                if (this.props.routeParams.order) {
+                    this.props.updateArticleOrderDisplay(this.props.routeParams.order);
                 }
             }
-
-            this._parseQuery = nextParseQuery;
 
             this._fetchArticles();
         } else if (this.props.articleDisplayMode !== prevProps.articleDisplayMode || this.props.articlesLoaderMode !== prevProps.articlesLoaderMode) {
@@ -171,7 +167,6 @@ class ArticleIndex extends React.Component {
         this._request = this.props.fetchArticles({
             userId: this.props.userId,
             ...this._formatParams(),
-            ...this._parseQuery
         }, options);
 
         this._request.fetch.then(() => this.props.routeParams.tagSlug && this.props.setCurrentTags([this.props.routeParams.tagSlug, this.props.routeParams.childTagSlug]));
@@ -179,7 +174,7 @@ class ArticleIndex extends React.Component {
 
     _fetchNextArticles = (params = {}) => {
         if (this.props.articlePagination && this.props.articlePagination.currentPage <= this.props.articlePagination.totalPages) {
-            const queryParams = parse(this.props.routeHash);
+            const queryParams = parse(this.props.routeHash.replace(/^\?/, ''));
             const options = {
                 page: (params.selected || this.props.articlePagination.currentPage) + 1
             };

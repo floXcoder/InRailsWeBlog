@@ -147,6 +147,7 @@ $.extend($.summernote.options.keyMap.pc, {
     'CTRL+NUM6': 'formatH4',
     'CTRL+L': 'insertUnorderedList',
     'CTRL+K': 'linkDialog.show',
+    // 'CTRL+NUM0': 'removeFormat',
     'CTRL+ENTER': 'Save'
 });
 
@@ -159,7 +160,8 @@ $.extend($.summernote.options.keyMap.mac, {
     'CMD+NUM6': 'formatH4',
     'CMD+L': 'insertUnorderedList',
     'CMD+K': 'linkDialog.show',
-    'CMD+ENTER': 'Save'
+    // 'CMD+NUM0': 'removeFormat',
+    'CMD+ENTER': 'Save',
 });
 
 const ui = $.summernote.ui;

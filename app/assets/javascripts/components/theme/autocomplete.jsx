@@ -24,6 +24,10 @@ export default class Autocomplete extends React.Component {
             key: PropTypes.string.isRequired,
             value: PropTypes.string.isRequired
         })),
+        initialSuggestions: PropTypes.arrayOf(PropTypes.shape({
+            key: PropTypes.string,
+            value: PropTypes.string
+        })),
         inputVariant: PropTypes.string,
         helperText: PropTypes.string,
         error: PropTypes.bool,
@@ -59,7 +63,9 @@ export default class Autocomplete extends React.Component {
     };
 
     _getValueFromKey = (key) => {
-        const keyValue = this.props.suggestions.filter((suggestion) => suggestion.key === key)[0];
+        const allSuggestions = this.props.initialSuggestions ? this.props.initialSuggestions.concat(this.props.suggestions) : this.props.suggestions;
+
+        const keyValue = allSuggestions.filter((suggestion) => suggestion.key === key)[0];
 
         return keyValue ? keyValue.value : key;
     };

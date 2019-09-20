@@ -59,6 +59,7 @@ class ArticleSidebar extends React.Component {
     }
 
     _handleOrderChange = (order) => {
+        // Articles updated when order params added to URL
         this.props.updateUserSettings(this.props.currentUserId, {
             articleOrder: order
         }, {
@@ -82,7 +83,6 @@ class ArticleSidebar extends React.Component {
                         :
                         <>
                             <ArticleOrderDisplay classes={this.props.classes}
-                                                 currentUserId={this.props.currentUserId}
                                                  currentUserSlug={this.props.currentUserSlug}
                                                  currentUserTopicSlug={this.props.currentUserTopicSlug}
                                                  articleOrderMode={this.props.articleOrderMode}

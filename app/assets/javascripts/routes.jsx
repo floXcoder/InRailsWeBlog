@@ -49,13 +49,13 @@ export default {
                 exact: false,
                 component: () => RouteComponents.ArticleIndex
             },
-            // user: topics
+            // user: articles topic
             {
                 path: '/users/:userSlug/topics/:topicSlug',
                 exact: true,
                 component: () => RouteComponents.ArticleIndex
             },
-            // user : tags
+            // user : tags topic
             {
                 path: '/users/:userSlug/topics/:topicSlug/tags',
                 exact: true,
@@ -169,6 +169,12 @@ export default {
                 exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TopicEditInventories
+            },
+            {
+                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug/order/:order',
+                exact: true,
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
             },
             {
                 path: '/users/:userSlug/(topics|shared-topics)/:topicSlug',
