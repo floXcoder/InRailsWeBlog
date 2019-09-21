@@ -133,7 +133,7 @@ check:deploy:
   stage: check
   cache: {}
   script:
-    - sh -c '[ $(curl -o -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
-    - sh -c '[ $(curl -o -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
+    - sh -c '[ $(curl -s -o /dev/null -I -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
+    - sh -c '[ $(curl -s -o /dev/null -I -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
   only:
     - master
