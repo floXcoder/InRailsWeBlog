@@ -283,7 +283,7 @@ export default function articleMutationManager(mode, formId) {
                     currentMode = 'story';
                 }
 
-                const isDraft = this.props.routeState ? this.props.routeState.isDraft : false;
+                const pasteContent = this.props.routeState ? this.props.routeState.pasteContent : undefined;
 
                 // Ensure current article is correct (do not use previous edited article)
                 let article = this.state.article;
@@ -299,7 +299,7 @@ export default function articleMutationManager(mode, formId) {
                     onSubmit: this._handleSubmit,
                     article: article,
                     currentMode: currentMode,
-                    isDraft: isDraft,
+                    pasteContent: pasteContent,
                     articleErrors: this.props.articleErrors
                 };
 

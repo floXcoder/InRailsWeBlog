@@ -10,7 +10,7 @@ import {
     loadAutocomplete
 } from '../../actions';
 
-import EditorLoader from '../../loaders/editor';
+import '../../modules/summernote';
 import SanitizePaste from '../../modules/sanitizePaste';
 
 export const EditorMode = {
@@ -27,6 +27,7 @@ class Editor extends React.Component {
         mode: PropTypes.number,
         id: PropTypes.string,
         className: PropTypes.string,
+        isPaste: PropTypes.bool,
         placeholder: PropTypes.string,
         children: PropTypes.string,
         isDisabled: PropTypes.bool,
@@ -63,7 +64,7 @@ class Editor extends React.Component {
     }
 
     componentDidMount() {
-        EditorLoader(() => {
+        // EditorLoader(() => {
             const $editor = $(this._editorRef.current);
 
             const defaultOptions = {
@@ -215,7 +216,7 @@ class Editor extends React.Component {
             if (this.props.onLoaded) {
                 this.props.onLoaded(this);
             }
-        });
+        // });
     }
 
     shouldComponentUpdate(nextProps) {
@@ -315,7 +316,13 @@ class Editor extends React.Component {
     };
 
     _formatContent = (content) => {
-        return content && content.replace(/ data-src=/g, ' src=');
+        if(content) {
+            if(this.props.isPaste) {
+                return SanitizePaste.parse(content);
+            } else {
+                return content.replace(/ data-src=/g, ' src=');
+            }
+        }
     };
 
     _displayCurrentElement = () => {

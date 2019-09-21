@@ -21,8 +21,8 @@ const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false, r
 
         const newParams = reuseExistingParams ? {...currentUrlParams, ...paramsToUrl} : paramsToUrl;
 
-        if (!Utils.isEmpty($.param(paramsToUrl))) {
-            newPath += '?' + $.param(newParams);
+        if (!Utils.isEmpty(Utils.toParams(paramsToUrl))) {
+            newPath += '?' + Utils.toParams(newParams);
         }
 
         if (replaceOnly) {

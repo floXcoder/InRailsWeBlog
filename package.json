@@ -5,7 +5,14 @@
   "private": true,
   "author": "Flo",
   "license": "ISC",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.scss",
+    "*.css",
+    "*-fr.js",
+    "*-en.js",
+    "*polyfills.js",
+    "*summernote*"
+  ],
   "homepage": "https://www.inrailsweblog.com",
   "bugs": {
     "email": "contact@inrailsweblog.com",
@@ -102,7 +109,6 @@
     "redux-form": "8.2.6",
     "redux-immutable": "4.0.0",
     "redux-thunk": "2.3.0",
-    "regenerator-runtime": "0.13.3",
     "reselect": "4.0.0",
     "sane": "4.1.0",
     "sass-loader": "8.0.0",
@@ -126,7 +132,7 @@
     "jest": "24.9.0",
     "react-test-renderer": "16.9.0",
     "redux-devtools-extension": "2.13.8",
-    "webpack-bundle-analyzer": "3.5.0",
+    "webpack-bundle-analyzer": "3.5.1",
     "webpack-dev-server": "3.8.1",
     "webpack-hot-middleware": "2.25.0"
   }

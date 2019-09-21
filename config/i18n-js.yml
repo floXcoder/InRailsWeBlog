@@ -2,8 +2,6 @@ fallbacks: true
 js_extend: false
 sort_translation_keys: false
 
-export_i18n_js: 'app/assets/javascripts/modules'
-
 translations:
 - file: 'app/assets/javascripts/translations/home-%{locale}.js'
   only: ['*.js.helpers.*', '*.js.cookies.*', '*.js.views.home.*', '*.js.views.header.*', '*.js.views.sidebar.*', '*.js.views.footer.*', '*.js.topic.*', '*.js.inventory_fields.*', '*.js.article.*', '*.js.tag.*', '*.js.user.*', '*.js.search.*', '*.js.comment.*', '*.js.bookmark.*', '*.js.checkbox.*', '*.js.languages.*']

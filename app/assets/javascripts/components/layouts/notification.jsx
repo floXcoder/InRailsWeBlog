@@ -79,7 +79,7 @@ class NotificationContent extends React.Component {
     }
 }
 
-class Notification extends React.Component {
+class NotificationComponent extends React.Component {
     constructor(props) {
         super(props);
 
@@ -172,7 +172,11 @@ class Notification extends React.Component {
     }
 }
 
-export default ReactDOM.render(
-    <Notification/>,
+const Notification = ReactDOM.render(
+    <NotificationComponent/>,
     document.getElementById('notification-component')
 );
+
+export const alert = Notification.alert;
+export const success = Notification.success;
+export const error = Notification.error;

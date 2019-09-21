@@ -48,7 +48,7 @@ export default class SearchTagModule extends React.Component {
                 !tag.topicIds.includes(this.props.currentTopicId)
             ));
         } else {
-            return null;
+            return [];
         }
     };
 

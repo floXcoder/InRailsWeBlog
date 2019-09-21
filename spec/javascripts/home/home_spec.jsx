@@ -28,9 +28,9 @@ describe('<HomePage />', () => {
     it('renders home page', () => {
         shallowWrapper = shallow(<ApplicationLayoutHome/>);
 
-        // console.log(shallowWrapper.html())
-        // console.log(shallowWrapper.render())
-        // console.log(shallowWrapper.text())
+        // shallowWrapper.html()
+        // shallowWrapper.render()
+        // shallowWrapper.text()
 
         expect(shallowWrapper.find('ThemeProvider')).toHaveLength(1);
         expect(shallowWrapper.find('Router')).toHaveLength(1);

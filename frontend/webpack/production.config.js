@@ -48,17 +48,18 @@ webPackConfig = _.merge(webPackConfig, {
 
 // Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json#L1285
 webPackConfig.optimization = {
+    nodeEnv: 'production',
     flagIncludedChunks: true,
     occurrenceOrder: true,
-    sideEffects: false, // => incompatible with I18n module
     providedExports: true,
+    sideEffects: true,
     usedExports: true,
     concatenateModules: true,
     minimize: true,
     noEmitOnErrors: true,
     namedModules: false,
     namedChunks: false,
-    nodeEnv: 'production',
+    checkWasmTypes: true,
     mangleWasmImports: true,
     removeAvailableModules: true,
     removeEmptyChunks: true,
@@ -67,6 +68,7 @@ webPackConfig.optimization = {
         name: 'runtime'
     },
     splitChunks: {
+        hidePathInfo: true,
         chunks: 'async',
         minSize: 30000,
         maxSize: 0,

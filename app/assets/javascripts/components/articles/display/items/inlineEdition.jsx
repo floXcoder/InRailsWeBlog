@@ -18,7 +18,9 @@ import {
 
 import ArticleInlineActions from '../../properties/inlineActions';
 
-import Editor, {EditorMode} from '../../../editor/editor';
+import {
+    Editor
+} from '../../../loaders/components';
 
 import styles from '../../../../../jss/article/inline';
 
@@ -95,7 +97,7 @@ class ArticleInlineEditionDisplay extends React.Component {
                     <Editor modelName="article"
                             modelId={this.props.article.id}
                             currentTopicId={this.props.currentTopicId}
-                            mode={EditorMode.INLINE_EDIT}
+                            mode={2}
                             onChange={this._handleEditorChange}
                             onSubmit={this._handleSaveClick}
                             onEditorLoaded={this._handleEditorLoaded}>

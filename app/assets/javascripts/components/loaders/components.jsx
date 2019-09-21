@@ -45,3 +45,5 @@ export const HomeSearchHeader = lazyWithPreload(() => import(/* webpackPrefetch:
 export const SearchModule = lazyWithPreload(() => import(/* webpackChunkName: "search-module" */ '../search/module'));
 export const SearchIndex = lazyWithPreload(() => import(/* webpackChunkName: "search-index" */ '../search/index'));
 export const ArticleGridModeSearch = lazyWithPreload(() => import(/* webpackChunkName: "article-search-masonry" */ '../search/index/display/grid'));
+
+export const Editor = lazyWithPreload(() => import(/* webpackChunkName: "editor-tmp" */ '../editor/editor'));

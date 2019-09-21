@@ -1,6 +1,6 @@
 'use strict';
 
-// Current version: 0.8.12
+import $ from 'jquery';
 
 import './summernote/summernote-lite';
 

@@ -1,8 +1,5 @@
 'use strict';
 
-import 'isomorphic-fetch';
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
-
 import {
     stringify
 } from 'qs';

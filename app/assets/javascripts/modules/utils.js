@@ -300,11 +300,12 @@ export const isNumber = (number) => !isNaN(parseFloat(number)) && isFinite(numbe
 
 export const isURL = (url) => /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(url);
 
-export const getUrlPaths = () => window.location.pathname.split('/');
-
-export const getUrlAnchor = () => (document.URL.split('#').length > 1) ? document.URL.split('#')[1] : null;
+export const toParams = (params) => (new URLSearchParams(Object.entries(params))).toString();
 
 // Not used
+// export const getUrlPaths = () => window.location.pathname.split('/');
+// export const getUrlAnchor = () => (document.URL.split('#').length > 1) ? document.URL.split('#')[1] : null;
+
 // // Use:
 // // decodeURIComponent(Utils.urlParam('distance_slider'))
 // // Utils.urlParam('distance_slider')

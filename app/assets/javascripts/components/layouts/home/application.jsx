@@ -21,7 +21,6 @@ import {
 import routes from '../../../routes';
 
 import browserHistory from '../../modules/browserHistory';
-import PasteManager from '../../modules/pasteManager';
 import ScrollBackManager from '../../modules/scrollBackManager';
 
 import ErrorBoundary from '../../errors/boundary';
@@ -45,25 +44,23 @@ export default class ApplicationLayoutHome extends React.Component {
                 <Provider store={configureStore}
                           context={ReactReduxContext}>
                     <Router history={browserHistory}>
-                        <PasteManager>
-                            <ScrollBackManager>
-                                <>
-                                    <ErrorBoundary errorType="text"
-                                                   errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                        <HeaderLayoutHome hashRoutes={routes.hashes}/>
-                                    </ErrorBoundary>
+                        <ScrollBackManager>
+                            <>
+                                <ErrorBoundary errorType="text"
+                                               errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                    <HeaderLayoutHome hashRoutes={routes.hashes}/>
+                                </ErrorBoundary>
 
-                                    <ErrorBoundary errorType="card">
-                                        <MainLayoutHome routes={routes.static.home}/>
-                                    </ErrorBoundary>
+                                <ErrorBoundary errorType="card">
+                                    <MainLayoutHome routes={routes.static.home}/>
+                                </ErrorBoundary>
 
-                                    <ErrorBoundary errorType="text"
-                                                   errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                        <FooterLayoutHome/>
-                                    </ErrorBoundary>
-                                </>
-                            </ScrollBackManager>
-                        </PasteManager>
+                                <ErrorBoundary errorType="text"
+                                               errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                    <FooterLayoutHome/>
+                                </ErrorBoundary>
+                            </>
+                        </ScrollBackManager>
                     </Router>
                 </Provider>
             </MuiThemeProvider>
