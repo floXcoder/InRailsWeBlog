@@ -105,6 +105,9 @@ webPackConfig = _.merge(webPackConfig, {
 });
 
 webPackConfig.optimization = {
+    // Active tree shaking
+    // sideEffects: true,
+
     namedModules: true,
     noEmitOnErrors: false,
     concatenateModules: false,

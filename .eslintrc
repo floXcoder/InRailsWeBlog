@@ -7,7 +7,6 @@
     }
   },
   "globals": {
-    "jQuery": true,
     "_": true,
     "log": true,
     "PropTypes": true,

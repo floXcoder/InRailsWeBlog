@@ -21,12 +21,14 @@ class ArticleCommonField extends React.Component {
         currentTopicId: PropTypes.number.isRequired,
         change: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        isPaste: PropTypes.bool,
         article: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };
 
     static defaultProps = {
+        isPaste: false,
         article: {}
     };
 
@@ -106,6 +108,7 @@ class ArticleCommonField extends React.Component {
                            modelName="article"
                            modelId={this.props.article.id}
                            currentTopicId={this.props.currentTopicId}
+                           isPaste={this.props.isPaste}
                            placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
                            onLoaded={this._handleEditorLoaded}
                            onImageUpload={this._handleImageUploaded}

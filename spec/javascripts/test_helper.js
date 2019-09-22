@@ -2,6 +2,9 @@
 
 // File called to set up environment before all tests
 
+// Auto polyfill
+import '../../app/assets/javascripts/polyfills';
+
 // Global variables from Webpack config
 global.$ = global.jQuery = global.jquery = require('jquery');
 global.log = require('loglevel');

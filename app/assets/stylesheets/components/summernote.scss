@@ -124,6 +124,11 @@
     word-wrap: break-word; /* Internet Explorer 5.5+ */
   }
 
+  pre > code {
+    display: block;
+    background: #fff;
+  }
+
   p > code {
     background-color: #ddd;
     border: 1px solid #ddd;

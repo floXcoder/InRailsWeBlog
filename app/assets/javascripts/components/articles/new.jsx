@@ -44,7 +44,7 @@ class ArticleNew extends React.Component {
         currentTopic: PropTypes.object,
         article: PropTypes.object,
         currentMode: PropTypes.string,
-        isDraft: PropTypes.bool,
+        pasteContent: PropTypes.string,
         articleErrors: PropTypes.array,
         onCancelClick: PropTypes.func,
         onSubmit: PropTypes.func,
@@ -82,11 +82,28 @@ class ArticleNew extends React.Component {
         const initialValues = {
             topicId: this.props.currentTopic.id,
             picture_ids: '',
-            draft: this.props.isDraft,
             visibility: this.props.inheritVisibility,
             language: getCurrentLocale(),
             allowComment: this.props.inheritVisibility !== 'only_me'
         };
+
+        let isPaste = false;
+
+        if (this.props.pasteContent) {
+            isPaste = true;
+
+            initialValues.isDraft = true;
+
+            const isURL = Utils.isURL(this.props.pasteContent.trim());
+
+            if (isURL) {
+                initialValues.mode = 'link';
+                initialValues.reference = this.props.pasteContent.trim();
+            } else {
+                initialValues.mode = 'story';
+                initialValues.content = this.props.pasteContent;
+            }
+        }
 
         let errorStep = null;
         if (this.props.articleErrors.length > 0) {
@@ -115,12 +132,12 @@ class ArticleNew extends React.Component {
 
                 <ArticleFormDisplay form={this.props.formId}
                                     initialValues={initialValues}
+                                    isPaste={isPaste}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}
                                     currentTopic={this.props.currentTopic}
                                     currentMode={this.props.currentMode}
                                     errorStep={errorStep}
-                                    isDraft={this.props.isDraft}
                                     articleErrors={this.props.articleErrors}
                                     onCancelClick={this.props.onCancelClick}
                                     onSubmit={this.props.onSubmit}>

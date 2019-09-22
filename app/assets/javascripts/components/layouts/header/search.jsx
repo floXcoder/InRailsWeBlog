@@ -162,7 +162,7 @@ class HomeSearchHeader extends React.Component {
 
         this.props.history.push({
             pathname: '/search',
-            search: $.param(Utils.compact({
+            search: Utils.toParams(Utils.compact({
                 query: this.props.query,
                 tags: this.props.selectedTags.map((tag) => tag.slug)
             }))

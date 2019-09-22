@@ -68,6 +68,7 @@ export default @reduxForm({
 class ArticleFormDisplay extends React.Component {
     static propTypes = {
         userSlug: PropTypes.string.isRequired,
+        isPaste: PropTypes.bool,
         inheritVisibility: PropTypes.string,
         isEditing: PropTypes.bool,
         currentTopic: PropTypes.object,
@@ -93,6 +94,7 @@ class ArticleFormDisplay extends React.Component {
     };
 
     static defaultProps = {
+        isPaste: false,
         isEditing: false,
         currentMode: 'note',
         children: {}
@@ -197,6 +199,7 @@ class ArticleFormDisplay extends React.Component {
                                     :
                                     <ArticleCommonField currentMode={currentMode}
                                                         currentTopicId={this.props.currentUserTopicId}
+                                                        isPaste={this.props.isPaste}
                                                         article={this.props.children}
                                                         change={this.props.change}
                                                         onSubmit={this.props.handleSubmit}/>

@@ -20,7 +20,7 @@ module.exports = {
         },
         rules: {
             javascript: {
-                include: './app/assets/javascript',
+                include: './app/assets/javascripts',
                 options: {
                     babelrc: true,
                     cacheDirectory: true
@@ -74,12 +74,15 @@ module.exports = {
             jquery: 'jquery',
             "window.$": 'jquery',
             "window.jQuery": 'jquery',
+            I18n: 'i18n-js',
             log: 'loglevel',
             React: 'react',
             ReactDOM: 'react-dom',
             PropTypes: 'prop-types',
             connect: ['react-redux', 'connect'],
-            classNames: 'classnames'
+            classNames: 'classnames',
+            Utils: 'app/assets/javascripts/modules/utils.js',
+            Notification: 'app/assets/javascripts/components/layouts/notification.jsx'
         },
         ignorePlugins: [
             /^codemirror$/

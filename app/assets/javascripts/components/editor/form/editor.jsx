@@ -1,6 +1,9 @@
 'use strict';
 
-import Editor from '../editor';
+import {
+    Editor
+} from '../../loaders/components';
+
 import ErrorForm from '../../materialize/form/error';
 
 const EditorField = ({input, meta: {touched, error}, componentContent, ...custom}) => (

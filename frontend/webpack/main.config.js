@@ -45,9 +45,7 @@ webPackConfig.resolve = {
     symlinks: false // No use of yarn link
 };
 
-_.forEach(config.alias, (value, key) => {
-    webPackConfig.resolve.alias[key] = path.resolve(value);
-});
+_.forEach(config.alias, (value, key) => webPackConfig.resolve.alias[key] = path.resolve(value));
 
 webPackConfig.module = {
     noParse: config.modules.noParse,
@@ -106,9 +104,18 @@ webPackConfig.module = {
     ]
 };
 
+webPackConfig.plugins = {};
+_.forEach(config.plugins, (value, key) => {
+    if(value.includes('.js')) {
+        return webPackConfig.plugins[key] = path.resolve(value);
+    } else {
+        return webPackConfig.plugins[key] = value;
+    }
+});
+
 webPackConfig.plugins = [
     new HappyPack(config.happyPack),
-    new webpack.ProvidePlugin(config.plugins),
+    new webpack.ProvidePlugin(webPackConfig.plugins),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin([{
         from: 'images/favicon.ico',
