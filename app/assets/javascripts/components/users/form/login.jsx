@@ -148,29 +148,29 @@ class LoginForm extends React.Component {
                     </Grid>
                 </Grid>
 
-                <div className="connection-or-separator hr-around-text">
-                    {I18n.t('js.helpers.or')}
-                </div>
+                {/*<div className="connection-or-separator hr-around-text">*/}
+                {/*    {I18n.t('js.helpers.or')}*/}
+                {/*</div>*/}
 
-                <div className="row connection-externals margin-top-20 margin-bottom-5">
-                    <div className="col s12 l6">
-                        <div className="connection-google">
-                            <a className="connection-google-button"
-                               href="/users/auth/google_oauth2">
-                                {I18n.t('js.user.login.externals.google')}
-                            </a>
-                        </div>
-                    </div>
+                {/*<div className="row connection-externals margin-top-20 margin-bottom-5">*/}
+                {/*    <div className="col s12 l6">*/}
+                {/*        <div className="connection-google">*/}
+                {/*            <a className="connection-google-button"*/}
+                {/*               href="/users/auth/google_oauth2">*/}
+                {/*                {I18n.t('js.user.login.externals.google')}*/}
+                {/*            </a>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
 
-                    <div className="col s12 l6">
-                        <div className="connection-facebook">
-                            <a className="connection-facebook-button"
-                               href="/users/auth/facebook">
-                                {I18n.t('js.user.login.externals.facebook')}
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                {/*    <div className="col s12 l6">*/}
+                {/*        <div className="connection-facebook">*/}
+                {/*            <a className="connection-facebook-button"*/}
+                {/*               href="/users/auth/facebook">*/}
+                {/*                {I18n.t('js.user.login.externals.facebook')}*/}
+                {/*            </a>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </form>
         );
     }
